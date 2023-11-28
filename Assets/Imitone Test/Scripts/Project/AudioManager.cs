@@ -13,10 +13,13 @@ public class AudioManager : MonoBehaviour
     public enum AudioManagerState
     {
         Opening,
-        VoiceElicitation1,
-        VoiceElicitationFail1,
-        VoiceElicitationPass1ThankYou,
+        SighElicitation1,
+        SighElicitationFail1,
+        QueryElicitation1,
+        QueryElicitationFail1,
+        QueryElicitationPassThankYou1,
         ThematicContent,
+        Posture,
         Orientation,
         Somatic,
         GuidedVocalization,
@@ -24,15 +27,19 @@ public class AudioManager : MonoBehaviour
         ThematicSavasana,
         SilentMeditation,
         EndingThematicSavasana,
-        VoiceElicitation2,
-        VoiceElicitationFail2,
-        VoiceElicitationPass2,
+        SighElicitation2,
+        SighElicitationFail2,
+        QueryElicitation2,
+        QueryElicitationFail2,
+        QueryElicitationPass2,
         ClosingGoodbye
     }
 
     private AudioManagerState currentState = AudioManagerState.Opening;
-    private bool CheckConditionForPass1 = false;
-    private bool CheckConditionForPass2 = false;
+    private bool SighElicitationPass1 = false;
+    private bool QueryElicitationPass1 = false;
+    private bool SighElicitationPass2 = false;
+    private bool QueryElicitationPass2 = false;
     public AudioState[] audioStates;
     public float[] delays; // Array to hold different delays for each state
     private AudioSource audioSource;
@@ -60,9 +67,15 @@ public class AudioManager : MonoBehaviour
         {
         OnAudioFinished();
         }
-        if (currentState == AudioManagerState.VoiceElicitation1 || currentState == AudioManagerState.VoiceElicitationFail1){
+        if (currentState == AudioManagerState.SighElicitation1 || currentState == AudioManagerState.SighElicitationFail1){
             if(Input.GetKeyDown(KeyCode.G)){
-                CheckConditionForPass1 = true;
+                SighElicitationPass1 = true;
+                Debug.Log("SighElicitationPass1="+SighElicitationPass1);
+            }
+        } else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1){
+            if(Input.GetKeyDown(KeyCode.H)){
+                QueryElicitationPass1 = true;
+                Debug.Log("QueryElicitationPass1="+QueryElicitationPass1);
             }
         }
     }
@@ -84,31 +97,31 @@ public class AudioManager : MonoBehaviour
     private void OnAudioFinished()
     {
         // This method is called when the audio finishes playing
-        if (currentState == AudioManagerState.VoiceElicitation1 || currentState == AudioManagerState.VoiceElicitationFail1)
+        if (currentState == AudioManagerState.SighElicitation1 || currentState == AudioManagerState.SighElicitationFail1)
         {
-            if (CheckConditionForPass1)
+            if (SighElicitationPass1)
             {
                 // If the condition is met, go to VoiceElicitationPass1
-                ChangeState(AudioManagerState.VoiceElicitationPass1ThankYou);
+                ChangeState(AudioManagerState.QueryElicitation1);
                 Debug.Log("PASSED1");
             }
             else
             {
                 // If the condition is not met, go to VoiceElicitationFail1
-                ChangeState(AudioManagerState.VoiceElicitationFail1);
+                ChangeState(AudioManagerState.SighElicitationFail1);
                 Debug.Log("FAILED1");
             }
         }
-        else if (currentState == AudioManagerState.VoiceElicitation2)
+        else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1)
         {
-            if (CheckConditionForPass2)
+            if (QueryElicitationPass1)
             {
-                ChangeState(AudioManagerState.VoiceElicitationPass2);
+                ChangeState(AudioManagerState.QueryElicitationPassThankYou1);
                 Debug.Log("PASSED2");
             } 
             else
             {
-                ChangeState(AudioManagerState.VoiceElicitationFail2);
+                ChangeState(AudioManagerState.QueryElicitationFail1);
                 Debug.Log("FAILED2");
             }
         }
