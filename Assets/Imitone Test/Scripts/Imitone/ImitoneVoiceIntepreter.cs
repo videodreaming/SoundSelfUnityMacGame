@@ -41,9 +41,6 @@ public class Threshold
     }
 }
 
-
-
-
 public class ImitoneVoiceIntepreter: MonoBehaviour
 {
     //base variables pitch and midiNote
@@ -85,7 +82,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private bool _chanting;
     private float _cChantCharge;
      private float _rmsValue;
-    private float _dbValue;
+    public float _dbValue;
     private const int SAMPLE_SIZE = 1024;
     private AudioSource _audioSource;
      private string _selectedDevice; 
@@ -204,8 +201,15 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     if (tones.list != null && tones.list.Count > 0)
                     {
                         var tone = tones[0];
+                            if(tone.HasField("sound")){
+                                var soundObject = tone.GetField("sound");
+                                if(soundObject.HasField("power"))
+                                {
+                                    float power = soundObject.GetField("power").floatValue;
+                                    _dbValue = (float)(10.0 * Math.Log10(power));
+                                }
+                            }
                         if (!tone.isObject) throw new ArgumentException("imitone tone is not an object");
-
                         if (tone["frequency_hz"] == null) throw new ArgumentException("imitone tone does not have frequency_hz");
                         pitch_hz = tone["frequency_hz"].floatValue;
                     }
@@ -244,10 +248,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
     }
 
-
      private void CheckToning(){
-        //if(_dbValue > _noiseLevel.Upper)
-        if(pitch_hz > 0)
+        if(_dbValue > _noiseLevel.Upper)
         {
             if (!Active)
             {
@@ -268,8 +270,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 OnNewTone?.Invoke(_semitone);
             }
         }
-        else if (pitch_hz == 0) 
-        //(_dbValue < _noiseLevel.Lower)
+        else if (_dbValue < _noiseLevel.Lower)
         {
             if (Active)
             {

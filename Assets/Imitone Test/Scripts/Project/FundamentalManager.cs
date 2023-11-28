@@ -30,7 +30,6 @@ public class FundamentalManager : MonoBehaviour
     private float normalized_frequency;
     private void Awake()
     {
-        Debug.Log("happening");
         _voiceInterpreter = GetComponent<ImitoneVoiceIntepreter>();
         //_voiceInterpreter = GetComponent<ExampleImitoneBehavior>();
         _harmonyManager = GetComponent<HarmonyManager>();
