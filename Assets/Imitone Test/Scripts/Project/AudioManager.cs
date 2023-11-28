@@ -31,7 +31,8 @@ public class AudioManager : MonoBehaviour
     }
 
     private AudioManagerState currentState = AudioManagerState.Opening;
-    
+    private bool CheckConditionForPass1 = false;
+    private bool CheckConditionForPass2 = false;
     public AudioState[] audioStates;
     public float[] delays; // Array to hold different delays for each state
     private AudioSource audioSource;
@@ -59,6 +60,11 @@ public class AudioManager : MonoBehaviour
         {
         OnAudioFinished();
         }
+        if (currentState == AudioManagerState.VoiceElicitation1 || currentState == AudioManagerState.VoiceElicitationFail1){
+            if(Input.GetKeyDown(KeyCode.G)){
+                CheckConditionForPass1 = true;
+            }
+        }
     }
 
     private void PlayRandomAudio()
@@ -78,10 +84,9 @@ public class AudioManager : MonoBehaviour
     private void OnAudioFinished()
     {
         // This method is called when the audio finishes playing
-        if (currentState == AudioManagerState.VoiceElicitation1)
+        if (currentState == AudioManagerState.VoiceElicitation1 || currentState == AudioManagerState.VoiceElicitationFail1)
         {
-            // Check condition from another script
-            if (CheckConditionForPass1())
+            if (CheckConditionForPass1)
             {
                 // If the condition is met, go to VoiceElicitationPass1
                 ChangeState(AudioManagerState.VoiceElicitationPass1ThankYou);
@@ -96,12 +101,12 @@ public class AudioManager : MonoBehaviour
         }
         else if (currentState == AudioManagerState.VoiceElicitation2)
         {
-            if (CheckConditionForPass2())
+            if (CheckConditionForPass2)
             {
                 ChangeState(AudioManagerState.VoiceElicitationPass2);
                 Debug.Log("PASSED2");
             } 
-            else 
+            else
             {
                 ChangeState(AudioManagerState.VoiceElicitationFail2);
                 Debug.Log("FAILED2");
@@ -115,7 +120,6 @@ public class AudioManager : MonoBehaviour
         {
             // For other states, simply change to the next state
             ChangeToNextState();
-            Debug.Log(currentState);
         }
     }
 
@@ -152,25 +156,5 @@ public class AudioManager : MonoBehaviour
 
         // Return an empty state if the current state is not recognized
         return new AudioState { state = currentState, audioClips = new AudioClip[0] };
-    }
-
-    // Example condition check method (replace with your actual condition check logic)
-    private bool CheckConditionForPass1()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-        return true;
-        }
-        // Add a return statement for the case where the condition is not met
-        return false;
-    }
-    private bool CheckConditionForPass2()
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-        return true;
-        }
-        // Add a return statement for the case where the condition is not met
-        return false;
     }
 }
