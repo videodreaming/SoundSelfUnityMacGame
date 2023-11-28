@@ -103,13 +103,13 @@ public class AudioManager : MonoBehaviour
             {
                 // If the condition is met, go to VoiceElicitationPass1
                 ChangeState(AudioManagerState.QueryElicitation1);
-                Debug.Log("PASSED1");
+                Debug.Log("Sigh1Pass");
             }
             else
             {
                 // If the condition is not met, go to VoiceElicitationFail1
                 ChangeState(AudioManagerState.SighElicitationFail1);
-                Debug.Log("FAILED1");
+                Debug.Log("Sigh1Fail");
             }
         }
         else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1)
@@ -117,18 +117,42 @@ public class AudioManager : MonoBehaviour
             if (QueryElicitationPass1)
             {
                 ChangeState(AudioManagerState.QueryElicitationPassThankYou1);
-                Debug.Log("PASSED2");
+                Debug.Log("Query1Pass");
             } 
             else
             {
                 ChangeState(AudioManagerState.QueryElicitationFail1);
-                Debug.Log("FAILED2");
+                Debug.Log("Query1Fail");
+            }
+        } 
+        else if (currentState == AudioManagerState.SighElicitation2 || currentState == AudioManagerState.SighElicitationFail2)
+        {
+            if (SighElicitationPass2)
+            {
+                // If the condition is met, go to VoiceElicitationPass1
+                ChangeState(AudioManagerState.QueryElicitation2);
+                Debug.Log("Sigh2Pass");
+            }
+            else
+            {
+                // If the condition is not met, go to VoiceElicitationFail1
+                ChangeState(AudioManagerState.SighElicitationFail2);
+                Debug.Log("Sigh2Fail");
             }
         }
-        //else if (currentState == AudioManagerState.Somatic)
-        //{
-    
-        //}
+        else if (currentState == AudioManagerState.QueryElicitation2 || currentState == AudioManagerState.QueryElicitationFail2)
+        {
+            if (QueryElicitationPass2)
+            {
+                ChangeState(AudioManagerState.QueryElicitationPassThankYou2);
+                Debug.Log("Query2Pass");
+            } 
+            else
+            {
+                ChangeState(AudioManagerState.QueryElicitationFail2);
+                Debug.Log("Query2Fail");
+            }
+        }
         else
         {
             // For other states, simply change to the next state
