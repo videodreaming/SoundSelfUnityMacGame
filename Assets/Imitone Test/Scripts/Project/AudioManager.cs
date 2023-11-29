@@ -26,7 +26,8 @@ public class AudioManager : MonoBehaviour
         UnGuidedVocalization,
         ThematicSavasana,
         SilentMeditation,
-        EndingThematicSavasana,
+        WakeUp,
+        EndingSoon,
         SighElicitation2,
         SighElicitationFail2,
         QueryElicitation2,
@@ -144,7 +145,7 @@ public class AudioManager : MonoBehaviour
         {
             if (QueryElicitationPass2)
             {
-                ChangeState(AudioManagerState.QueryElicitationPassThankYou2);
+                ChangeState(AudioManagerState.QueryElicitationPass2);
                 Debug.Log("Query2Pass");
             } 
             else

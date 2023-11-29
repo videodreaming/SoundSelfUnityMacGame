@@ -164,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 47830409}
   - component: {fileID: 47830408}
-  - component: {fileID: 47830407}
+  - component: {fileID: 47830410}
   m_Layer: 0
   m_Name: VOManager
   m_TagString: Untagged
@@ -172,62 +172,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &47830407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 47830406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3894a994e21b84efc9214fd0bb73dfab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioStates:
-  - state: 0
-    audioClips:
-    - {fileID: 8300000, guid: cea18eb635a034fac94b625ad0b62748, type: 3}
-  - state: 1
-    audioClips:
-    - {fileID: 8300000, guid: c4e25034819744a8685ca45dcd88ed26, type: 3}
-  - state: 2
-    audioClips:
-    - {fileID: 8300000, guid: 91e642487f5254321969bd945f451350, type: 3}
-    - {fileID: 8300000, guid: 0931a52b11a3649cd89c203ae0b731cc, type: 3}
-    - {fileID: 8300000, guid: cea18eb635a034fac94b625ad0b62748, type: 3}
-  - state: 3
-    audioClips:
-    - {fileID: 8300000, guid: 5b68a7738d02e43438c86d359f042184, type: 3}
-  - state: 4
-    audioClips:
-    - {fileID: 8300000, guid: e2b4d22b27f0f46cd9e2daa358cd1b61, type: 3}
-  - state: 5
-    audioClips: []
-  - state: 6
-    audioClips: []
-  - state: 7
-    audioClips: []
-  - state: 8
-    audioClips: []
-  - state: 9
-    audioClips: []
-  - state: 1
-    audioClips: []
-  - state: 10
-    audioClips: []
-  - state: 11
-    audioClips: []
-  - state: 12
-    audioClips: []
-  - state: 13
-    audioClips: []
-  - state: 14
-    audioClips: []
-  - state: 15
-    audioClips: []
-  delays:
-  - 2
 --- !u!82 &47830408
 AudioSource:
   m_ObjectHideFlags: 0
@@ -339,6 +283,113 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &47830410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47830406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3894a994e21b84efc9214fd0bb73dfab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioStates:
+  - state: 0
+    audioClips:
+    - {fileID: 8300000, guid: a5894c1d3aa2e431594ddaa1f2bca369, type: 3}
+    - {fileID: 8300000, guid: 4c8632969dbb947d394249d2476d8667, type: 3}
+  - state: 1
+    audioClips:
+    - {fileID: 8300000, guid: 73ae05cae7b094a548f53e70bf8453d8, type: 3}
+  - state: 2
+    audioClips:
+    - {fileID: 8300000, guid: 2b9c045975b5045ad8b6b49be41b749d, type: 3}
+    - {fileID: 8300000, guid: d9cedc18807344ad6bd6b2db713b76d6, type: 3}
+  - state: 3
+    audioClips:
+    - {fileID: 8300000, guid: 8ed6f3a6fd7374523b84f910dfaa4517, type: 3}
+  - state: 4
+    audioClips:
+    - {fileID: 8300000, guid: 309f1afe23d8848f8badbf5500c574f2, type: 3}
+    - {fileID: 8300000, guid: d1a1a70848020453c812019a56dfe37b, type: 3}
+    - {fileID: 8300000, guid: a1f934f239d444b5aa597ba7e4e7b6a2, type: 3}
+    - {fileID: 8300000, guid: 601fb58c3cf2d43d2be022cada07c002, type: 3}
+  - state: 5
+    audioClips:
+    - {fileID: 8300000, guid: 0abfc21e58277454e8f84ea29da2ebb8, type: 3}
+  - state: 6
+    audioClips:
+    - {fileID: 8300000, guid: 727b90cde08834f368f6baccfc31cea2, type: 3}
+  - state: 7
+    audioClips:
+    - {fileID: 8300000, guid: 0abfc21e58277454e8f84ea29da2ebb8, type: 3}
+    - {fileID: 8300000, guid: fd3b321767f6c4f0a86a7b51b3053465, type: 3}
+  - state: 8
+    audioClips:
+    - {fileID: 8300000, guid: 3b3d92bf9891147bcb42140723d7847c, type: 3}
+  - state: 9
+    audioClips:
+    - {fileID: 8300000, guid: d7b04da90e7e44a759d9fe14f0ec9245, type: 3}
+    - {fileID: 8300000, guid: c9471918e22784ad78f0474d353d178a, type: 3}
+  - state: 10
+    audioClips:
+    - {fileID: 8300000, guid: c8653d578360c46f3b716ecb848a9a70, type: 3}
+    - {fileID: 8300000, guid: 03e9f80468758461698cd6ba2382673f, type: 3}
+    - {fileID: 8300000, guid: 293a99d7464ed434c8fe192e7c1833a7, type: 3}
+    - {fileID: 8300000, guid: 6d416edafb55340d2b38238a477af387, type: 3}
+    - {fileID: 8300000, guid: 36d0c965db1e14bc3994cc9d813e121b, type: 3}
+    - {fileID: 8300000, guid: d17eb0e83212b414aa2a140f548279a9, type: 3}
+    - {fileID: 8300000, guid: 3516296cf03c14aaeaf235fb0b9e2412, type: 3}
+    - {fileID: 8300000, guid: 1d6e14ada251446879ff58f5ec6fdfc1, type: 3}
+    - {fileID: 8300000, guid: 19bfd120d66f04c34849ca9f2838555a, type: 3}
+    - {fileID: 8300000, guid: 84935e446d3a14feda4273720d00fcdc, type: 3}
+    - {fileID: 8300000, guid: 8728b054693b64dc08ff0b5824ff75ce, type: 3}
+    - {fileID: 8300000, guid: 6ab47e7958b544006a2d7e5a3b2f9ec9, type: 3}
+    - {fileID: 8300000, guid: 9ff36502b25c54d129d4ca6f51a938dd, type: 3}
+    - {fileID: 8300000, guid: 767faf0ee97c740beb6258952762d56f, type: 3}
+    - {fileID: 8300000, guid: 855c278a96d0e45f886629d0d9b6317f, type: 3}
+    - {fileID: 8300000, guid: d066c31eca08e40a1ada74facab892cc, type: 3}
+    - {fileID: 8300000, guid: 53453a3b3cde647ceabab15b30faadbe, type: 3}
+    - {fileID: 8300000, guid: 245807d40ccb441eb9a2459a8a27b755, type: 3}
+    - {fileID: 8300000, guid: 9f34fc67e4e614e8593387925f890b23, type: 3}
+    - {fileID: 8300000, guid: 2c349879e7c834d63a0534cfb8e9b273, type: 3}
+  - state: 11
+    audioClips: []
+  - state: 12
+    audioClips:
+    - {fileID: 8300000, guid: 8dc94b77f134e42b285850370e10cd55, type: 3}
+    - {fileID: 8300000, guid: e265d94e3f3ed4bdebf5091583100ae3, type: 3}
+    - {fileID: 8300000, guid: 4462ad7d06f3944ad941eb8831fa3dbc, type: 3}
+    - {fileID: 8300000, guid: b415df5116f1e49f2a9a83d3ffce3ff4, type: 3}
+  - state: 13
+    audioClips: []
+  - state: 14
+    audioClips:
+    - {fileID: 8300000, guid: 84b764fa688b74c328ce62610262f37d, type: 3}
+  - state: 15
+    audioClips:
+    - {fileID: 8300000, guid: 92bbe8c9ec9da4e55bb0d6841bb58f6a, type: 3}
+  - state: 16
+    audioClips:
+    - {fileID: 8300000, guid: 764bdf531e620410b8400bfa14e72d7c, type: 3}
+  - state: 17
+    audioClips:
+    - {fileID: 8300000, guid: d9cedc18807344ad6bd6b2db713b76d6, type: 3}
+  - state: 18
+    audioClips:
+    - {fileID: 8300000, guid: 14a1a933de51443a99260583d61d3768, type: 3}
+  - state: 19
+    audioClips:
+    - {fileID: 8300000, guid: 7f889539bf2a84c1c986498d1796cf04, type: 3}
+    - {fileID: 8300000, guid: 601fb58c3cf2d43d2be022cada07c002, type: 3}
+  - state: 20
+    audioClips: []
+  - state: 21
+    audioClips:
+    - {fileID: 8300000, guid: 2f306350a66764184822e8389a219472, type: 3}
+  delays: []
 --- !u!1 &115557690
 GameObject:
   m_ObjectHideFlags: 0
