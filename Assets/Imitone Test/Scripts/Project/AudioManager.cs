@@ -36,7 +36,9 @@ public class AudioManager : MonoBehaviour
         ClosingGoodbye
     }
 
-    private AudioManagerState currentState = AudioManagerState.Opening;
+    public ImitoneVoiceIntepreter ImitoneVoiceInterpreter; //reference to ImitoneVoiceInterpreter
+
+    private AudioManagerState currentState = AudioManagerState.SighElicitation1;
     private bool SighElicitationPass1 = false;
     private bool QueryElicitationPass1 = false;
     private bool SighElicitationPass2 = false;
@@ -44,6 +46,7 @@ public class AudioManager : MonoBehaviour
     public AudioState[] audioStates;
     public float[] delays; // Array to hold different delays for each state
     private AudioSource audioSource;
+    private float sighElicitationTimer = 6f;
 
     private void Start()
     {
@@ -62,25 +65,41 @@ public class AudioManager : MonoBehaviour
         audioSource.Play(); // Resume normal playback
         PlayRandomAudio();
     }
-    void Update()
+    private void Update()
     {
         if (!audioSource.isPlaying)
         {
         OnAudioFinished();
         }
         if (currentState == AudioManagerState.SighElicitation1 || currentState == AudioManagerState.SighElicitationFail1){
-            if(Input.GetKeyDown(KeyCode.G)){
-                SighElicitationPass1 = true;
-                Debug.Log("SighElicitationPass1="+SighElicitationPass1);
+        // Start the timer
+        // Check if ImitoneVoiceInterpreter.toneActive is true for at least 0.75 seconds during the 6-second timer
+        if (ImitoneVoiceInterpreter.Active)
+            { 
+            // Decrease the timer for toneActive
+                sighElicitationTimer -= Time.deltaTime;
+            // Check if the tone has been active for at least 0.75 seconds
+                if (sighElicitationTimer <= 5.25f)
+                {
+                SighElicitationPass1 = true;    
+                // Reset the timer for the next state
+                sighElicitationTimer = 6f;
+                }
             }
-        } else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1){
-            if(Input.GetKeyDown(KeyCode.H)){
-                QueryElicitationPass1 = true;
-                Debug.Log("QueryElicitationPass1="+QueryElicitationPass1);
+    // Check if the timer has reached 0
+            if (sighElicitationTimer <= 0)
+            {
+            // Reset the timer for the next state
+            sighElicitationTimer = 6f;
+            // Set SighElicitationPass1 to false if the condition is not met within the 6 seconds
+            SighElicitationPass1 = false;   
             }
         }
+         else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1)
+        {
+            //Logic For QueryElicitationPass2
+        }
     }
-
     private void PlayRandomAudio()
     {
         // Select a random audio clip based on the current state
@@ -104,13 +123,11 @@ public class AudioManager : MonoBehaviour
             {
                 // If the condition is met, go to VoiceElicitationPass1
                 ChangeState(AudioManagerState.QueryElicitation1);
-                Debug.Log("Sigh1Pass");
             }
             else
             {
                 // If the condition is not met, go to VoiceElicitationFail1
                 ChangeState(AudioManagerState.SighElicitationFail1);
-                Debug.Log("Sigh1Fail");
             }
         }
         else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1)
@@ -118,12 +135,10 @@ public class AudioManager : MonoBehaviour
             if (QueryElicitationPass1)
             {
                 ChangeState(AudioManagerState.QueryElicitationPassThankYou1);
-                Debug.Log("Query1Pass");
             } 
             else
             {
                 ChangeState(AudioManagerState.QueryElicitationFail1);
-                Debug.Log("Query1Fail");
             }
         } 
         else if (currentState == AudioManagerState.SighElicitation2 || currentState == AudioManagerState.SighElicitationFail2)
@@ -132,13 +147,11 @@ public class AudioManager : MonoBehaviour
             {
                 // If the condition is met, go to VoiceElicitationPass1
                 ChangeState(AudioManagerState.QueryElicitation2);
-                Debug.Log("Sigh2Pass");
             }
             else
             {
                 // If the condition is not met, go to VoiceElicitationFail1
                 ChangeState(AudioManagerState.SighElicitationFail2);
-                Debug.Log("Sigh2Fail");
             }
         }
         else if (currentState == AudioManagerState.QueryElicitation2 || currentState == AudioManagerState.QueryElicitationFail2)
@@ -146,12 +159,10 @@ public class AudioManager : MonoBehaviour
             if (QueryElicitationPass2)
             {
                 ChangeState(AudioManagerState.QueryElicitationPass2);
-                Debug.Log("Query2Pass");
             } 
             else
             {
                 ChangeState(AudioManagerState.QueryElicitationFail2);
-                Debug.Log("Query2Fail");
             }
         }
         else

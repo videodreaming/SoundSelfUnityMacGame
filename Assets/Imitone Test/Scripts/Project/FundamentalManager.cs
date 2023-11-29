@@ -68,13 +68,10 @@ public class FundamentalManager : MonoBehaviour
         {
             if (_voiceInterpreter.Active)
             {
-                Debug.Log("active and filling");
-                Debug.Log($"filling note at {fillTime}");
                 fillTime += (_fillRate) * Time.deltaTime;
             }
             else
             {
-                Debug.Log($"unfilling note at {fillTime}");
                 fillTime = Math.Max(0, fillTime - (_fillRate * 0.5f) * Time.deltaTime);
             }
             yield return null;

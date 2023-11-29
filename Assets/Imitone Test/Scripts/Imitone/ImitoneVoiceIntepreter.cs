@@ -55,17 +55,40 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [Tooltip("Active when toning.")]
     public bool Active { get; private set; }
     
+
+    [Tooltip("Toning With False Positive Logic")]
+    public bool toneActive { get; private set; }
+    
+    [Tooltip("Confident Toning")]
+    public bool toneActiveConfident { get; private set; }
+
+    [SerializeField] private float positiveActiveThreshold1 = 0.05f;
+    [SerializeField] private float positiveActiveThreshold2 = 0.45f;
+    [SerializeField] private float negativeActiveThreshold = 0.1f;  // Added missing semicolon
+    private float activeTimer = 0f;
+    private float inactiveTimer = 0f;
+
+
     //TODO: using these vars
     public float ssVolume { get; private set; }
     public float cChantCharge => _cChantCharge;
     
-    public float Cadence => _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
+    //public float Cadence => _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
     [SerializeField] private float _cadence;
-    private float _lengthOfTonesSinceBreath;
-    private float _lengthOfLastBreath;
     private float _lengthOfTones;
     private float _lengthOfBreath;
-    
+    private float _tThisTone;
+    private float _tThisRest;
+    private float _durLastTone;    
+
+
+    [SerializeField] private float _breathHoldTimeBeforeInhale;
+    public float _inhaleDuration;
+    //Both Above is the duration of breath 
+    private float _breathVolume;
+    private bool isResettingTone = false;
+    public float _breathVolumeTotal = 0f;
+
     public int MostRecentSemitone => _semitone;
     public string MostRecentSemitoneNote => _semitoneNote;
     private int _semitone;
@@ -78,15 +101,22 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [SerializeField] private Threshold _noiseLevel;
     public Threshold NoiseLevel => _noiseLevel;
     
+    [Header("DampingValues")]
+    [SerializeField]float velocity = 0.0f;
+    [SerializeField]float damp = 0.1f;
+
+    private float _elapsedTimeWithoutTone = 0.0f;
     private int _midiNote;
     private bool _chanting;
     private float _cChantCharge;
-     private float _rmsValue;
+    private float _cChantLerpFast;
+    private float _cChartLerpSlow;
+    private float _rmsValue;
     public float _dbValue;
     private const int SAMPLE_SIZE = 1024;
     private AudioSource _audioSource;
-     private string _selectedDevice; 
-     private int _sampleRate;
+    private string _selectedDevice; 
+    private int _sampleRate;
     private readonly float _referenceAmplitude = 20.0f * Mathf.Pow(10.0f, -6.0f);
     [SerializeField] private AudioClip _audioClip;
     /*[Header("audio analysis")]
@@ -116,13 +146,13 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         foreach (var device in Microphone.devices)
             {microphoneName = device; break;}
             
-            if (microphoneName.Length == 0)
+        if (microphoneName.Length == 0)
         {
             Debug.Log("No microphone was available for pitch tracking.");
             return;
         }
         Debug.Log("Chose microphone: " + microphoneName);
-        
+        Debug.Log(Microphone.devices);
         // NOTE: Unity doesn't give us a way to query native samplerate.
         //  Converting to 48khz may degrade audio quality slightly.
         sampleRate = 48000;
@@ -160,13 +190,13 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         {
             Debug.Log("imitone was null after creation.");
         }
-        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        _cadence = _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
+        Debug.Log("inhale Durection" + _inhaleDuration +"           BreathVol" + _breathVolumeTotal + "          ToneActive" + toneActive);
+        //_cadence = _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
         CheckToning();
         if (!inputBuffer) return;
         
@@ -217,14 +247,11 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     {
                         pitch_hz = 0f;
                     }
-
                     if (notes.list != null && notes.list.Count > 0)
                     {
                         var note = notes[0];
                         if (!note.isObject) throw new ArgumentException("imitone note is not an object");
-
                         if (note["pitch"] == null) throw new ArgumentException("imitone note does not have frequency_hz");
-
                         // Convert from imitone's wacky pitch value to MIDI frequency format
                         note_st = note["pitch"].floatValue / 100f - 36.3763165623f;
                     }
@@ -246,15 +273,46 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 //Debug.Log("No imitone voice to analyze audio.");
             }
         }
+        if(toneActive)
+        {
+            _tThisTone += Time.deltaTime;
+            _inhaleDuration = _tThisTone * 0.41f;
+            ChantEvent?.Invoke();
+            _cChantCharge += Time.deltaTime; 
+        } 
+        else
+        {
+            StoppedToning();
+            
+            BreathEvent?.Invoke();
+            _cChantCharge = CurveUtility.Damp(_cChantCharge, 0, ref velocity, damp);
+        }
     }
 
      private void CheckToning(){
-        if(_dbValue > _noiseLevel.Upper)
+        if(_dbValue != 0.0f && _dbValue >= -35.0f )
         {
+            Active = true;
             if (!Active)
             {
-                Active = true;
-                OnActiveInactive();
+                inactiveTimer += Time.deltaTime;
+                activeTimer = 0f;
+
+                if(inactiveTimer > negativeActiveThreshold)
+                {
+                    toneActive = false;
+                }
+            } 
+            else
+            {
+                activeTimer += Time.deltaTime;
+                inactiveTimer = 0f;
+
+                if (activeTimer >= positiveActiveThreshold1)
+                {
+                    toneActive = true;
+                    
+                }
             }
             _noiseLevel.Lower = Mathf.Lerp(_noiseLevel.Lower,_dbValue-10f,_thresholdLerpValue);
             _noiseLevel.MoveThreshold();
@@ -270,35 +328,70 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 OnNewTone?.Invoke(_semitone);
             }
         }
-        else if (_dbValue < _noiseLevel.Lower)
+        else if (_dbValue < -35.0f)
         {
-            if (Active)
+            Active = false;
+            if (!Active)
             {
-                Active = false;
-                OnActiveInactive();
+                inactiveTimer += Time.deltaTime;
+                activeTimer = 0f;
+                if(inactiveTimer >= negativeActiveThreshold)
+                {
+                    toneActive = false;
+                }
             }
             _noiseLevel.Lower = Mathf.Lerp(_noiseLevel.Lower,_dbValue,_thresholdLerpValue/5);
             _noiseLevel.MoveThreshold();
         }
-    }
-
-        private void OnActiveInactive()
-    {
-        if(Active)
+        if (!Active && !toneActive && !isResettingTone)
         {
-            ChantEvent?.Invoke();
-            _cChantCharge += 0.01f;
-            _lengthOfLastBreath = _lengthOfBreath;
-            _lengthOfBreath = 0;
-            _lengthOfTones += Time.deltaTime;
-        } 
-        else
+           
+            isResettingTone = true;
+            StartCoroutine(BreathVolumeCoroutine());
+        }
+        else if (Active || toneActive)
         {
-            BreathEvent?.Invoke();
-            _cChantCharge = 0;
-            _lengthOfTonesSinceBreath = _lengthOfTones;
-            _lengthOfTones = 0;
-            _lengthOfBreath += Time.deltaTime;
+            
+            isResettingTone = false;
+            StopCoroutine(BreathVolumeCoroutine());
+            _breathVolume = 0f; // Reset immediately
         }
     }
+
+private void StoppedToning()
+{
+    
+    if (_inhaleDuration < 1.76f)
+    {
+        _inhaleDuration = 1.76f;
+    }
+    else if (_inhaleDuration > 7.0f)
+    {
+        _inhaleDuration = 7.0f;
+    }
 }   
+
+private IEnumerator BreathVolumeCoroutine()
+{
+    float elapsedTime = 0f;
+
+    while (elapsedTime < _inhaleDuration)
+    {
+        float normalizedTime = elapsedTime / _inhaleDuration;
+        float localBreathVolume = (1 - ((Mathf.Cos(normalizedTime * Mathf.PI * 2) + 1) * 0.5f)) * Time.deltaTime; // Scale with Time.deltaTime
+        _breathVolumeTotal += localBreathVolume;
+
+        // Cap the _breathVolumeTotal at 1
+        if (_breathVolumeTotal > 1.0f)
+        {
+            _breathVolumeTotal = 1.0f;
+        }
+
+        elapsedTime += Time.deltaTime;
+        yield return null;
+    }
+
+    _tThisTone = 0.0f;
+}
+}
+
