@@ -117,6 +117,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float _cChartLerpSlow;
     private float _rmsValue;
     public float _dbValue;
+    public float _dbThreshold = -25.0f;
     private const int SAMPLE_SIZE = 1024;
     private AudioSource _audioSource;
     private string _selectedDevice; 
@@ -199,6 +200,14 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(Input.GetKey(KeyCode.Q)){
+            _dbThreshold++;
+            Debug.Log(_dbThreshold);
+        } 
+        if(Input.GetKey(KeyCode.W)){
+            _dbThreshold--;
+            Debug.Log(_dbThreshold);
+        }
         //_cadence = _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
         CheckToning();
         if (!inputBuffer) return;
@@ -225,12 +234,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 try
                 {
                     var data = new JSONObject(imitoneState);
-                    
                     JSONObject tones = data["tones"];
                     JSONObject notes = data["notes"];
                     if (!tones || !tones.isArray) throw new ArgumentException("imitone output did not include tones array.");
                     if (!notes || !notes.isArray) throw new ArgumentException("imitone output did not include notes array.");
-
                     if (tones.list != null && tones.list.Count > 0)
                     {
                         var tone = tones[0];

@@ -23,7 +23,10 @@ public class AudioManager : MonoBehaviour
         Posture,
         Orientation,
         Somatic,
-        GuidedVocalization,
+        GuidedVocalizationHum,
+        GuidedVocalizationAhh,
+        GuidedVocalizationOhh,
+        GuidedVocalizationAdvanced,
         UnGuidedVocalization,
         ThematicSavasana,
         SilentMeditation,
@@ -58,8 +61,6 @@ public class AudioManager : MonoBehaviour
     public AudioClip recordedAudioClip;
 
     private Dictionary<AudioManagerState, int> stateEntryCount = new Dictionary<AudioManagerState, int>();
-
-    
 
     private void Start()
     {
