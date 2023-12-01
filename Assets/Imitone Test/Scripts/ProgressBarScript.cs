@@ -26,16 +26,5 @@ public class ProgressBar : MonoBehaviour
             // Update the UI Image fill amount
             progressBar.fillAmount = fillAmount;
         }
-        else
-        {
-            // The timer has reached the total time, handle completion
-            HandleCompletion();
-        }
-    }
-
-    private void HandleCompletion()
-    {
-        // Implement any actions you want to perform when the bar is filled
-        Debug.Log("Progress bar filled!");
     }
 }

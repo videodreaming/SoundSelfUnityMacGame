@@ -67,6 +67,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [SerializeField] private float negativeActiveThreshold = 0.1f;  // Added missing semicolon
     private float activeTimer = 0f;
     private float inactiveTimer = 0f;
+    private float confidentActiveTimer = 0.0f;
+    private float confidentInactiveTimer = 0.0f;
 
     // HELLO ROBIN!!!!!
     //TODO: using these vars
@@ -88,6 +90,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float _breathVolume;
     private bool isResettingTone = false;
     public float _breathVolumeTotal = 0f;
+    public int breathStage = 0;
+    
 
     public int MostRecentSemitone => _semitone;
     public string MostRecentSemitoneNote => _semitoneNote;
@@ -126,8 +130,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     */
     [SerializeField] private float _pitchDifference = 3;
     
-
-
+    private Dictionary<int, float> _breathVolumeContributions = new Dictionary<int, float>();
+    private int _coroutineCounter = 0; // To generate unique keys
 
     [TextAreaAttribute(8,8)] public string imitoneState;
 
@@ -195,7 +199,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log("inhale Durection" + _inhaleDuration +"           BreathVol" + _breathVolumeTotal + "          ToneActive" + toneActive);
         //_cadence = _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
         CheckToning();
         if (!inputBuffer) return;
@@ -282,7 +285,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         } 
         else
         {
-            StoppedToning();
             
             BreathEvent?.Invoke();
             _cChantCharge = CurveUtility.Damp(_cChantCharge, 0, ref velocity, damp);
@@ -292,26 +294,34 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
      private void CheckToning(){
         if(_dbValue != 0.0f && _dbValue >= -35.0f )
         {
+            breathStage = 0;
             Active = true;
             if (!Active)
             {
+                confidentInactiveTimer += Time.deltaTime;
                 inactiveTimer += Time.deltaTime;
                 activeTimer = 0f;
-
+                confidentActiveTimer = 0.0f;
                 if(inactiveTimer > negativeActiveThreshold)
                 {
                     toneActive = false;
+                    toneActiveConfident = false;
                 }
             } 
             else
             {
+                confidentActiveTimer += Time.deltaTime;
                 activeTimer += Time.deltaTime;
                 inactiveTimer = 0f;
-
-                if (activeTimer >= positiveActiveThreshold1)
+                if (activeTimer >= positiveActiveThreshold1 && !toneActive)
                 {
                     toneActive = true;
-                    
+                    _inhaleDuration = 0.0f;
+                    _tThisTone = 0.0f;
+                }
+                if(activeTimer >= positiveActiveThreshold2)
+                {
+                        toneActiveConfident = true;
                 }
             }
             _noiseLevel.Lower = Mathf.Lerp(_noiseLevel.Lower,_dbValue-10f,_thresholdLerpValue);
@@ -331,12 +341,16 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         else if (_dbValue < -35.0f)
         {
             Active = false;
+            handleBreathStage();
             if (!Active)
             {
                 inactiveTimer += Time.deltaTime;
+                confidentInactiveTimer += Time.deltaTime;
                 activeTimer = 0f;
+                confidentActiveTimer = 0f;
                 if(inactiveTimer >= negativeActiveThreshold)
                 {
+                    toneActiveConfident = false;
                     toneActive = false;
                 }
             }
@@ -345,22 +359,19 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
         if (!Active && !toneActive && !isResettingTone)
         {
-           
             isResettingTone = true;
-            StartCoroutine(BreathVolumeCoroutine());
+            StoppedToning();
+            float currentInhaleDuration = _inhaleDuration;
+            StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
         }
         else if (Active || toneActive)
         {
-            
             isResettingTone = false;
-            StopCoroutine(BreathVolumeCoroutine());
-            _breathVolume = 0f; // Reset immediately
         }
     }
 
 private void StoppedToning()
 {
-    
     if (_inhaleDuration < 1.76f)
     {
         _inhaleDuration = 1.76f;
@@ -371,27 +382,56 @@ private void StoppedToning()
     }
 }   
 
-private IEnumerator BreathVolumeCoroutine()
+private void UpdateBreathVolumeTotal()
 {
+    _breathVolumeTotal = 0f;
+    foreach (var contribution in _breathVolumeContributions.Values)
+    {   
+        _breathVolumeTotal += contribution;
+    }
+    _breathVolumeTotal = Mathf.Clamp(_breathVolumeTotal, 0.0f, 1.0f);
+}
+
+private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
+    int coroutineID = _coroutineCounter++;
+    _breathVolumeContributions[coroutineID] = 0f;
+
     float elapsedTime = 0f;
 
-    while (elapsedTime < _inhaleDuration)
-    {
-        float normalizedTime = elapsedTime / _inhaleDuration;
-        float localBreathVolume = (1 - ((Mathf.Cos(normalizedTime * Mathf.PI * 2) + 1) * 0.5f)) * Time.deltaTime; // Scale with Time.deltaTime
-        _breathVolumeTotal += localBreathVolume;
+    while (elapsedTime < inhaleDuration) {
+        float normalizedTime = elapsedTime / inhaleDuration;
+        float currentBreathValue = (1 - Mathf.Cos(normalizedTime * 2 * Mathf.PI)) * 0.5f;
 
-        // Cap the _breathVolumeTotal at 1
-        if (_breathVolumeTotal > 1.0f)
-        {
-            _breathVolumeTotal = 1.0f;
-        }
+        _breathVolumeContributions[coroutineID] = currentBreathValue;
+        UpdateBreathVolumeTotal();
 
         elapsedTime += Time.deltaTime;
         yield return null;
     }
 
-    _tThisTone = 0.0f;
-}
+    _breathVolumeContributions.Remove(coroutineID);
+    UpdateBreathVolumeTotal();
 }
 
+private void handleBreathStage(){
+    if(breathStage == 0){
+        breathStage = 1;
+    } else if(breathStage == 1){
+        if(_breathVolumeTotal > 0 && 0.5f > _breathVolumeTotal){
+            breathStage = 2;
+        }
+    } else if (breathStage == 2){
+        if(_breathVolumeTotal > 0.5f){
+            breathStage = 3;
+        }
+    } else if (breathStage == 3){
+        if(_breathVolumeTotal < 0.5f && _breathVolumeTotal > 0){
+            breathStage = 4;
+        }
+    } else if (breathStage == 4 || breathStage == 3){
+        if(_breathVolumeTotal <= 0){
+            breathStage = 5;
+        }
+    }
+}
+}
