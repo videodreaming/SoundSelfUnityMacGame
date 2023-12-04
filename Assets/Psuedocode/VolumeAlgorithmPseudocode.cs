@@ -23,7 +23,7 @@ Formula Level(Input db)
 
 
 //DEFINED VARIABLES:
-harmonicityIsReasonable //we will set this when harmonicity is in a "reasonable" level, and change the way some behaviors work when it's unreasonable.
+backgroundIsNotHarmonic //we will set this when harmonicity is in a "reasonable" level, and change the way some behaviors work when it's unreasonable.
 
 //"EXPECT NOISE FLOOR"
 Variable: expectNoiseFloor (we use this when we are programatically telling the system to reset the noise floor now. This is assigned programatically, or in "manual mode", in which all the automtic functions are frozen, and the practitioner manually presses a button to turn on "expectNoiseFloor" for 1 second1.)
@@ -41,8 +41,8 @@ When "expectNoiseFloor" turns on, FIRST we raise the volume threshold until the 
 - In that one-second period, however, if the voice is detected again, we raise the threshold by 1db per second.
 
 Tolerance: (in db)
-under = 12 - 2 * harmonicityIsReasonable //if the input is this many dB below the gate, start lowering it.
-over = 6 + 6 * harmonicityIsReasonable //permit sounds this many db louder than the gate before increasing it.
+under = 12 - 2 * backgroundIsNotHarmonic //if the input is this many dB below the gate, start lowering it.
+over = 6 + 6 * backgroundIsNotHarmonic //permit sounds this many db louder than the gate before increasing it.
 
 //IMPORTANT:
 Curve: slider (in db) //(this is the curved tracking that is used for the volume threshold, or "gate")
@@ -50,51 +50,58 @@ Curve: slider (in db) //(this is the curved tracking that is used for the volume
 {
 Input:
 	(
-		the higher of (last frame's output from this curve) and (imitone.level in decib els - tolerance.over)
+		the higher of (last frame's output from this curve) and (imitone.level in decibels - tolerance.over)
 		+ 
 		(
 			(15.5 + raiseGateUntilNoVoice)
-			* expectNoiseFloor
+			* expectNoiseFloor [basically if the raiseGateUntilNoVoice behavior is going on]
 		)
 	) 
-	take the lesser value...
+	MIN [means the lesser value between before/after this operator]
 	(imitone.level in decibels + tolerance.under)
-	
-Up linear rate:
-	If the noise floor is being manually forced (and we are in manual mode), 2db per "frame" 
-	Otherwise, if expectNoiseFloor, 0.075 db per "frame" * expectNoiseFloorHoldPenalty.
-	Otherwise, 2 db per "frame"
-	
-Down linear rate:
-	If the noise floor is being manually forced (and we are in manual mode), 0.125 db per "frame"
-	Otherwise, if expectNoiseFloor, 0.125 db per "frame" * expectNoiseFloorHoldPenalty.
-	Otherwise, if harmonicityIsReasonable, 0.0009375 db/frame
-	Otherwise, 0.0003125 db/frame
-	
-Damp rates:
-	If we are in manual mode, then 0.
-	Else, if this curve is going down, then 0.005 * 2 ^ (-2.7)
+
+//Interpolation Rates if the noise floor is currently being manually set.
+Up linear rate : 2 db per "frame"
+Down linear rate: 0.125 db per "frame"
+Damp: 0
+
+
+//Interpolation Rates if we are in "manual mode" but the noise floor is NOT currently being manually set.
+Up linear rate : 0
+Down linear rate: 0
+Damp: 0
+
+//Interpolation Rates if we are in "expectNoiseFloor" mode (but not in "Manual Mode)
+Up: 0.075 db per "frame" * expectNoiseFloorHoldPenalty
+Down: 0.125 db per "frame" * expectNoiseFloorHoldPenalty
+Dammp: 0.005 * 2^ (-2.7), but only if we are going down.
+
+
+//Interpolation Rates for normal behavior
+Up: 2 db per "frame" * expectNoiseFloorHoldPenalty
+Down: if backgroundIsNotHarmonic, 0.0009375 db/frame, else 0.0003125 db/frame
+Damp: 0.005 * 2^ (-2.7), but only if we are going down.	
 }
 
 
 //DB VALUES USED FOR IMITONE INPUT
-sliderSafe				= (slider MAX -68) // keeps db in usable values. "MAX" is an operator, it means "take the maximum value of..."
+sliderSafeDB				= (slider MAX -68) // keeps db in usable values. "MAX" is an operator, it means "take the maximum value of..."
 levelReleaseTriggerDB	= 
 
 	(
-		(If harmonicityIsResonable, then sliderSafe - 1 - 34 * expectNoiseFloor)
-		Else, sliderSafe - 12
+		(If backgroundIsNotHarmonic, then sliderSafeDB - 35 + 34 * expectNoiseFloor)
+		Else, sliderSafeDB - 12
 	) * 0.334
 
 
 
 //IMITONE INPUTS FOR VOLUME:
-levelAttackTrigger = Level(sliderSafe)
+levelAttackTrigger = Level(sliderSafeDB)
 levelReleaseTrigger = Level(levelReleaseTriggerDB)
 levelAttackConfirm =
-	Level(levelReleaseTriggerDB * 0.334 + sliderSafe * 0666)
+	Level(levelReleaseTriggerDB * 0.334 + sliderSafeDB * 0666)
 levelReleaseConfirm = 
-	Level(levelReleaseTriggerDB * 0.666 + sliderSafe * 0.334)
+	Level(levelReleaseTriggerDB * 0.666 + sliderSafeDB * 0.334)
 
 //========================
 //HARMONICITY THRESHOLD BEHAVIOR
@@ -102,23 +109,23 @@ levelReleaseConfirm =
 
 //Harmonicity is a measure how much harmonic content is in the sample. Harmonicity is, perhaps appropriately, a very "noisy" value. So we are measuring the "high" end of the noise and the "low" end of the noise, and using both those values to determine how imitone should treat various harmonicity values.
 
-//note on the below:  we are making it more dynamic when "noiseFloorMove" is on to help it get un-stuck from mis-aligning the noise-floor's harmonicity to someone's voice, which can happen in a long session, and is a problem because it gives us "harmonicityIsReasonable = 0" when there's no environmental problem.
+//note on the below:  we are making it more dynamic when "noiseFloorMove" is on to help it get un-stuck from mis-aligning the noise-floor's harmonicity to someone's voice, which can happen in a long session, and is a problem because it gives us "backgroundIsNotHarmonic = 0" when there's no environmental problem.
 
 //This part is a little confusing: When I made this curve, I used the same interpolation settings for both the "high" and "low" end of the noise. To get the correct behavior using the same interpolation settings, I multiplied the "low" input by -1, and then un-inverted it later.
 
 
 //Variables that we will use in harmonicity
-quietDB		= sliderSafe - 20 + 8*harmonicityIsReasonable
+quietDB		= sliderSafeDB - 20 + 8*backgroundIsNotHarmonic
 quietLevel	= Level(quietDB)
 isQuiet		= imitone.level < quietLevel
-quietSwitch = turns on when isQuiet is TRUE. Turns off when imitone.level >= Level(sliderSafe)
+quietSwitch = turns on when isQuiet is TRUE. Turns off when imitone.level >= Level(sliderSafeDB)
 
 moveNoiseFloor = 
 (isQuiet && (switchQuiet has been TRUE for more than 1 second)) 
 || 
 (
 	expectNoiseFloor 
-	&& (Decibels(imitone.level) < (sliderSafe - 1))
+	&& (Decibels(imitone.level) < (sliderSafeDB - 1))
 )
 
 //Getting into the meat of harmonicity calculations
@@ -135,31 +142,31 @@ else if expectNoiseFloor
 else
 	0.01 * 2^ 
 	((
-		((how long quietSwitch has been TRUE) * -2 - harmonicityIsReasonable) 
+		((how long quietSwitch has been TRUE) * -2 - backgroundIsNotHarmonic) 
 		MAX
-		(-7 +2 * harmonicityIsReasonable)
+		(-7 +2 * backgroundIsNotHarmonic)
 	) - subwooferEnabled) * moveNoiseFloor
 	
 linear up =
 if noise floor is being set manually, and we are in manual mode,
-	0.02 * expectNoiseFloorPenalty * 0.5
+	0.02 * expectNoiseFloorHoldPenalty * 0.5
 else if expectNoiseFloor
 	0.5 * moveNoiseFloor
 else 
 	2^ 
 	(
 		((the amount of time quietSwitch has been TRUE) * -1
-		- harmonicityIsReasonable)
+		- backgroundIsNotHarmonic)
 		MAX 
-		(-5 + 3 * harmonicityIsReasonable)
+		(-5 + 3 * backgroundIsNotHarmonic)
 	)  * moveNoiseFloor
 	
 Low = Range.low * -1
 High = range.high
 Middle = (Low + High) / 2
 
-//Here's how we decide "HarmonicityIsReasonable"
-harmonicityIsReasonable = ((High + 2^ (-1.7)) MIN 0.97) < (0.9 - 2^ (-1.7))
+//Here's how we decide "backgroundIsNotHarmonic"
+backgroundIsNotHarmonic = ((High + 2^ (-1.7)) MIN 0.97) < (0.9 - 2^ (-1.7))
 
 
 //IMITONE VALUES TO SET
