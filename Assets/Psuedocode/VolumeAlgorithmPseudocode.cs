@@ -91,7 +91,7 @@ levelReleaseTriggerDB	=
 	(
 		(If backgroundIsNotHarmonic, then sliderSafeDB - 35 + 34 * expectNoiseFloor)
 		Else, sliderSafeDB - 12
-	) * 0.334
+	)
 
 
 
