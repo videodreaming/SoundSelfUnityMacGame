@@ -12,35 +12,6 @@ using imitone;
 //use this to translate the voice intepreter stuff into imitone
 //copy functions from voiceinterpreter to here.
 
-[Serializable]
-public class Threshold
-{
-    public float Upper { 
-        get => _upper;
-        set => _upper = value;
-    }
-    public float Lower { 
-        get => _lower;
-        set => _lower = value; }
-
-    [SerializeField] private float _upper;
-    [SerializeField] private float _lower;
-    [SerializeField] private float _interval;
-
-
-    public Threshold(float lower, float interval)
-    {
-        _upper = _lower;
-        _upper = _lower + interval;
-        _interval = interval;
-    }
-
-    public void MoveThreshold()
-    {
-        _upper = _lower + _interval;
-    }
-}
-
 public class ImitoneVoiceIntepreter: MonoBehaviour
 {
     //base variables pitch and midiNote
@@ -70,7 +41,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float confidentActiveTimer = 0.0f;
     private float confidentInactiveTimer = 0.0f;
 
-    // HELLO ROBIN!!!!!
     //TODO: using these vars
     public float ssVolume { get; private set; }
     public float cChantCharge => _cChantCharge;
@@ -102,21 +72,20 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     
     [Header("Noise")]
     [SerializeField] private float _thresholdLerpValue;
-    [SerializeField] private Threshold _noiseLevel;
-    public Threshold NoiseLevel => _noiseLevel;
     
     [Header("DampingValues")]
     [SerializeField]float velocity = 0.0f;
     [SerializeField]float damp = 0.1f;
 
+    private float _harmonicity = 0.0f;
     private float _elapsedTimeWithoutTone = 0.0f;
-    private int _midiNote;
     private bool _chanting;
     private float _cChantCharge;
     private float _cChantLerpFast;
     private float _cChartLerpSlow;
     private float _rmsValue;
-    public float _dbValue;
+    public float _dbValue = -80.0f;
+    public float _level; 
     public float _dbThreshold = -25.0f;
     private const int SAMPLE_SIZE = 1024;
     private AudioSource _audioSource;
@@ -124,17 +93,20 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private int _sampleRate;
     private readonly float _referenceAmplitude = 20.0f * Mathf.Pow(10.0f, -6.0f);
     [SerializeField] private AudioClip _audioClip;
-    /*[Header("audio analysis")]
-    
-    [SerializeField] private bool _useMicrophone = true;
-   
-    */
     [SerializeField] private float _pitchDifference = 3;
     
     private Dictionary<int, float> _breathVolumeContributions = new Dictionary<int, float>();
     private int _coroutineCounter = 0; // To generate unique keys
 
     [TextAreaAttribute(8,8)] public string imitoneState;
+
+    [Header("dbController")]
+    private bool expectNoiseFloor = false;
+    private bool manualMode = false;
+
+    private float UpperThreshold = -20.0f;
+    private float LowerThreshold = -35.0f;
+    
 
 
     int sampleRate;
@@ -150,7 +122,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     {
         foreach (var device in Microphone.devices)
             {microphoneName = device; break;}
-            
         if (microphoneName.Length == 0)
         {
             Debug.Log("No microphone was available for pitch tracking.");
@@ -200,18 +171,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.Q)){
-            _dbThreshold++;
-            Debug.Log(_dbThreshold);
-        } 
-        if(Input.GetKey(KeyCode.W)){
-            _dbThreshold--;
-            Debug.Log(_dbThreshold);
-        }
         //_cadence = _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
         CheckToning();
         if (!inputBuffer) return;
-        
+
         // The microphone's write position in the clip can wrap back around to the beginning.
         int micPosWrite = Microphone.GetPosition(microphoneName);
         Array.Resize(ref capturedInput, (inputBuffer.samples  +  micPosWrite - micPosRead) % inputBuffer.samples);
@@ -247,8 +210,17 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                 {
                                     float power = soundObject.GetField("power").floatValue;
                                     _dbValue = (float)(10.0 * Math.Log10(power));
+                                    _level = (float)Math.Pow(10,_dbValue) * 0.05f;
+                                    Debug.Log(_level);
                                 }
                             }
+                            if(tone.HasField("sahir")){
+                                var SahirObject = tone.GetField("sahir");
+                                if(SahirObject.HasField("conv"))
+                                {
+                                    _harmonicity = SahirObject.GetField("conv").floatValue;
+                                }
+                            } 
                         if (!tone.isObject) throw new ArgumentException("imitone tone is not an object");
                         if (tone["frequency_hz"] == null) throw new ArgumentException("imitone tone does not have frequency_hz");
                         pitch_hz = tone["frequency_hz"].floatValue;
@@ -331,9 +303,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                         toneActiveConfident = true;
                 }
             }
-            _noiseLevel.Lower = Mathf.Lerp(_noiseLevel.Lower,_dbValue-10f,_thresholdLerpValue);
-            _noiseLevel.MoveThreshold();
-            
             //TODO: determine when to start note
             _mostRecentSemitone = SemitoneUtility.GetSemitoneFromFrequency(pitch_hz);
             _semitone = SemitoneUtility.GetNoteFromSemitone(_mostRecentSemitone[0], _mostRecentSemitone[1]);
@@ -361,8 +330,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     toneActive = false;
                 }
             }
-            _noiseLevel.Lower = Mathf.Lerp(_noiseLevel.Lower,_dbValue,_thresholdLerpValue/5);
-            _noiseLevel.MoveThreshold();
         }
         if (!Active && !toneActive && !isResettingTone)
         {
