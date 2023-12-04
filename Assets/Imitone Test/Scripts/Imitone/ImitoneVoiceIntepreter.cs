@@ -70,6 +70,20 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private int[] _mostRecentSemitone = new []{-1,-1};
     private int[] _previousSemitone = new []{-1,-1};
     
+
+    private float maximumDBfloat = 0.0f;
+    private float minimumDBfloat = -68.0f;
+    private float UpperVoiceThresholdDB = -35.0f;
+    // we only assume a voice if it rises above upperthreshold
+    private float lowerVoiceThresholdDB = -45.0f;
+
+    //if input is is 12db higher then UpperVoiceThresholdDB then UpperVoiceThresholdDB is going to 
+    //move upwards at linear rate. If input is 10db lower than the uppervoicethresholdDB, will go down
+    // at linear and damp rate.
+
+    //
+
+
     [Header("Noise")]
     [SerializeField] private float _thresholdLerpValue;
     
@@ -104,8 +118,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private bool expectNoiseFloor = false;
     private bool manualMode = false;
 
-    private float UpperThreshold = -20.0f;
-    private float LowerThreshold = -35.0f;
     
 
 
@@ -211,7 +223,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                     float power = soundObject.GetField("power").floatValue;
                                     _dbValue = (float)(10.0 * Math.Log10(power));
                                     _level = (float)Math.Pow(10,_dbValue) * 0.05f;
-                                    Debug.Log(_level);
                                 }
                             }
                             if(tone.HasField("sahir")){
@@ -271,7 +282,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     }
 
      private void CheckToning(){
-        if(_dbValue != 0.0f && _dbValue >= -35.0f )
+        if(_dbValue > UpperVoiceThresholdDB)
         {
             breathStage = 0;
             Active = true;
