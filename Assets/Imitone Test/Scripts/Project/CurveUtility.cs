@@ -17,4 +17,9 @@ public class CurveUtility
     {
         return Mathf.Lerp(currentValue, targetValue,linear);
     }
+    
+        public static float DampAndLinear(float currentValue, float targetValue, float linear)
+    {
+        return Mathf.Lerp(currentValue, targetValue,linear);
+    }
 }

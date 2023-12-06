@@ -15,6 +15,8 @@ using imitone;
 public class ImitoneVoiceIntepreter: MonoBehaviour
 {
     //base variables pitch and midiNote
+    public AudioManager AudioManager;
+    public DevModeSettings DevModeSettings;
     public float pitch_hz = 0f;
     public float note_st = 0f;
 
@@ -43,7 +45,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
     //TODO: using these vars
     public float ssVolume { get; private set; }
-    public float cChantCharge => _cChantCharge;
     
     //public float Cadence => _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
     [SerializeField] private float _cadence;
@@ -59,7 +60,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     //Both Above is the duration of breath 
     private float _breathVolume;
     private bool isResettingTone = false;
-    public float _breathVolumeTotal = 0f;
+    public float _breathVolumeTotal = 0f; //MAKE this breatheVolume and components.
     public int breathStage = 0;
     
 
@@ -74,12 +75,30 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [SerializeField] private float _thresholdLerpValue;
     
     [Header("DampingValues")]
-    [SerializeField]float velocity = 0.0f;
-    [SerializeField]float damp = 0.1f;
+    private float damp = 0.08f;
+    private float varDamp = 0.0f;
 
     private float _harmonicity = 0.0f;
     private float _elapsedTimeWithoutTone = 0.0f;
-    private bool _chanting;
+    private float _cChanting;
+    private float _cChanting2;
+    private float _cChantingTrue = 0.2f;
+    private int _cChangtingTarget = 0;
+    private float _cChantingFalse = 0.33f;
+    private bool _cChantingUse = false;
+    private bool _cChantingFast = false;
+    private float updateInterval = 1f / 30f;
+    private float responsiveness = 0.25f; //revisit when we have absorbtion
+    private float RecentToneMeanDuration = 5.0f; //resvisit when we have cadence/respirationrate.
+    private float lerpedMemory1 = 0.0f;
+    private float lerpedMemory2 = 0.0f;
+
+    private float mean = 0.0f;
+    private float fullValue1 = 0.0f;
+    private float fullValue2 = 0.0f;
+    private float chantChargeCurve1 = 0.0f;
+    private float chantChargeCurve2 = 0.0f;
+
     private float _cChantCharge;
     private float _cChantLerpFast;
     private float _cChartLerpSlow;
@@ -173,6 +192,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     {
         //_cadence = _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
         CheckToning();
+        handlecChanting();
+        cChantingModifications();
         if (!inputBuffer) return;
 
         // The microphone's write position in the clip can wrap back around to the beginning.
@@ -209,9 +230,19 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                 if(soundObject.HasField("power"))
                                 {
                                     float power = soundObject.GetField("power").floatValue;
-                                    _dbValue = (float)(10.0 * Math.Log10(power));
+                                    if(DevModeSettings.forceToneActive == true && DevModeSettings.forceNoTone == false)
+                                    {
+                                        _dbValue = -25.0f;
+                                    }
+                                    else if (DevModeSettings.forceNoTone == true)
+                                    {
+                                        _dbValue = -75.0f;
+                                    } 
+                                    else
+                                    {
+                                        _dbValue = (float)(10.0 * Math.Log10(power));
+                                    }
                                     _level = (float)Math.Pow(10,_dbValue) * 0.05f;
-                                    Debug.Log(_level);
                                 }
                             }
                             if(tone.HasField("sahir")){
@@ -260,17 +291,16 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             _tThisTone += Time.deltaTime;
             _inhaleDuration = _tThisTone * 0.41f;
             ChantEvent?.Invoke();
-            _cChantCharge += Time.deltaTime; 
         } 
         else
         {
-            
             BreathEvent?.Invoke();
-            _cChantCharge = CurveUtility.Damp(_cChantCharge, 0, ref velocity, damp);
         }
     }
 
      private void CheckToning(){
+
+        cChantingModifications();
         if(_dbValue != 0.0f && _dbValue >= -35.0f )
         {
             breathStage = 0;
@@ -281,10 +311,15 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 inactiveTimer += Time.deltaTime;
                 activeTimer = 0f;
                 confidentActiveTimer = 0.0f;
+                _tThisTone = 0.0f; 
                 if(inactiveTimer > negativeActiveThreshold)
                 {
                     toneActive = false;
                     toneActiveConfident = false;
+                }
+                if(inactiveTimer >= 0.33)
+                {
+                    _cChangtingTarget = 0;
                 }
             } 
             else
@@ -300,7 +335,11 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 }
                 if(activeTimer >= positiveActiveThreshold2)
                 {
-                        toneActiveConfident = true;
+                    toneActiveConfident = true;
+                }
+                if(activeTimer >= 0.2f)
+                {
+                    _cChangtingTarget = 1;
                 }
             }
             //TODO: determine when to start note
@@ -320,6 +359,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             handleBreathStage();
             if (!Active)
             {
+                _tThisTone = 0.0f; 
                 inactiveTimer += Time.deltaTime;
                 confidentInactiveTimer += Time.deltaTime;
                 activeTimer = 0f;
@@ -328,6 +368,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 {
                     toneActiveConfident = false;
                     toneActive = false;
+                }
+                if(inactiveTimer >= 0.33)
+                {
+                    _cChangtingTarget = 0;
                 }
             }
         }
@@ -341,6 +385,25 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         else if (Active || toneActive)
         {
             isResettingTone = false;
+        }
+
+        // Handling _cChanting based on toneActive duration
+        if (toneActive) {
+            // When toning is active, increase the timer and reset the timer for inactive state
+            _cChantingTrue += Time.deltaTime;
+            _cChantingFalse = 0f;
+
+            if (_cChantingTrue > positiveActiveThreshold1) {
+                //_cChangtingTarget = 1;
+            }
+        } else {
+            // When toning is not active, increase the timer for inactive state and reset the timer for active state
+            _cChantingFalse += Time.deltaTime;
+            _cChantingTrue = 0f;
+
+            if (_cChantingFalse > negativeActiveThreshold) {
+                //_cChangtingTarget = 0;
+            }
         }
     }
 
@@ -408,4 +471,61 @@ private void handleBreathStage(){
         }
     }
 }
+
+    private void cChantingModifications(){
+        varDamp = 0.04f * (float)Math.Pow(2.0f, responsiveness) / Math.Min(Math.Max(RecentToneMeanDuration, 0.25f), 10.0f);
+        if(_cChantingFast == false){
+            damp = 0.08f;
+        } else if (_cChantingFast == true){
+            damp = 0.16f;
+        } 
+    }
+
+    private void handlecChanting(){
+        // Update cChanting to move towards the target
+        _cChanting = Mathf.Lerp(_cChanting, _cChangtingTarget, damp);
+        if(_cChangtingTarget == 0)
+        {
+            if(_cChantingFast == true)
+            {
+                _cChanting -= 0.16f;
+            } 
+            else 
+            {
+                _cChanting -= 0.08f;
+            }
+        }
+        if(_cChantingFast == true)
+        {
+            _cChanting2 = Mathf.Lerp(_cChanting2, _cChanting, varDamp * 2); 
+        }
+        else
+        {
+            _cChanting2 = Mathf.Lerp(_cChanting2, _cChanting, varDamp); 
+        }
+        _cChanting2 = Mathf.Clamp(_cChanting2, 0f, 1f);
+        getChantCharge();
+    }
+
+    private void getChantCharge()
+    {
+        lerpedMemory1 = Mathf.Lerp(lerpedMemory1, RecentToneMeanDuration,0.05f);
+        lerpedMemory2 = Mathf.Lerp(lerpedMemory2, lerpedMemory1, 0.01f + 0.0125f * _breathVolume);
+        if(AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced
+        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAhh
+        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh
+        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum){
+            fullValue2 = 5;
+        } else {
+            mean = (lerpedMemory2 + 10.0f) / 2.0f;
+            fullValue1 = Mathf.Lerp(fullValue1, mean, 0.05f);
+            fullValue2 = Mathf.Lerp(fullValue2, fullValue1, 0.01f + 0.0125f * _breathVolume);
+        }
+        chantChargeCurve1 = Mathf.Lerp(chantChargeCurve1, Math.Min(_tThisTone/Math.Max(fullValue2,1.0f),1.0f),0.05f);
+        chantChargeCurve2 = Mathf.Lerp(chantChargeCurve2, chantChargeCurve1, 0.01f + 0.0125f * _breathVolumeTotal);
+
+        _cChantCharge = chantChargeCurve2 * Mathf.Pow(_cChanting, 4.0f);
+        _cChantCharge = Mathf.Clamp(_cChantCharge, 0.0f, 1.0f);
+        Debug.Log("Target = " + _cChangtingTarget + "       _tThisTone =" + _tThisTone + "       _cChanting =" + _cChanting2 + "        fullvalue2 = " + fullValue2 + "         ChantChargeCurve = " + chantChargeCurve2 + "        _chantChargeFINAL = " + _cChantCharge);
+    }
 }

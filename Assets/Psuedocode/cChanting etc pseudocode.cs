@@ -26,7 +26,7 @@
 // Curve
 // Input = var
 // damp	= 0.16
-// down	= 0.16
+// linear down	= 0.16
 
 // Curve: cChantingFast
 // Input = [LAST]
@@ -35,11 +35,12 @@
 // //HOW CHANTCHARGE WORKS
 // //These three curves all have the same damp values
 
-// Curve: lerpedMemory
-// Input = RecentToneMeanDuration
+// Curve: named "lerpedMemory"
+// Input = RecentToneMeanDuration = 5 for the time being
 
 // Curve: fullValue
-// Input = If (We are in the Guided Vocalization sequence), then 5, else Mean(lerpedMemory, 10). //however, we should only be updating the input... not the lerping behavior but the input that is being lerped... when ToneActive is 0
+// Input = If (We are in the Guided Vocalization sequence), then 5, else Mean(lerpedMemory, 10). 
+//however, we should only be updating the input... not the lerping behavior but the input that is being lerped... when ToneActive is 0
 
 // Curve: chantChargeCurve
 // Input = 
@@ -50,6 +51,26 @@
 // //The lerp values:
 // damp = 0.01 + 0.0125 * breathVolume
 // damp2 = 0.05 //remember, this means that the *target* is lerped
+
+// ChantCharge is a float that is always lerping between and 0 1. Clamp this at the end of everything
+
+// There are also 3 other floats, 1 called lerped memory, full value, chantChargeCurve, and chantCharge
+// all floats are used to derive ChantCharge.
+
+// lerpedmemory1 should always be lerping from currentvalue (lerped memory initialized at 0), target value (recentToneMeanDuration) at the rate of damp2 = 0.05
+// then take lerpedmemory1 and lerping from (currentValue) to targetvalue (lerpedmemory1) at the rate of damp = 0.01 + 0.0125 * breathVolume
+
+// and then get full value1, full value is 5 if we are guided Vocalization sequence but else its is average(lerpedmemory2,10), then lerp (currentValue = 1f, targetvalue is fullvalue2)
+//at a rate of damp2 = 0.05
+// thentake full value1, and then lerp it so current value = currentValue to (fullvalue2) at the rate of damp = 0.01 + 0.0125 * breathVolume
+
+// then chantChargeCurve1 = lerp(currentValue, ((tThisTone/(fullValue2 MAX 1)) MIN 1), rate of damp2 = 0.05)
+// then chantChargeCurve2 = lerp(currentValue, chantChargeCurve1, 0.01 + 0.0125 * breathVolume) 
+
+// then ChantChargeCurve2 * cChanting^4
+
+
+
 
 // //This is the global variable for chantCharge:
 // ChantCharge = chantChargeCurve * cChanting^4
@@ -67,5 +88,6 @@
 
 // failThreshold = If this is the first consecutive failure, 15, else 20.
 
-// When (failTimer > failThreshold) AND (_tThisRest > 3) AND we haven't met the pass condition on the voice-test yet //(so you can't pass, and then fail in the few frames before breathStage ?= 2)
+// When (failTimer > failThreshold) AND (_tThisRest > 3) AND we haven't met the pass condition on the voice-test yet 
+//(so you can't pass, and then fail in the few frames before breathStage ?= 2)
 
