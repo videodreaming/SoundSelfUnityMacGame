@@ -9,6 +9,6 @@ public class InhaleBreatheVolUIScript : MonoBehaviour
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
     [SerializeField] private TextMeshProUGUI inhaleTotalText;
     public void Update(){
-        inhaleTotalText.text = ImitoneVoiceIntepreter._inhaleDuration.ToString();
+        inhaleTotalText.text = ImitoneVoiceIntepreter._tNextInhaleDuration.ToString();
     }
 }

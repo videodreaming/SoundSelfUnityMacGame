@@ -66,7 +66,7 @@ public class FundamentalManager : MonoBehaviour
         float fillTime = 0;
         while (fillTime < timeToFill)
         {
-            if (_voiceInterpreter.Active)
+            if (_voiceInterpreter.imitoneActive)
             {
                 fillTime += (_fillRate) * Time.deltaTime;
             }

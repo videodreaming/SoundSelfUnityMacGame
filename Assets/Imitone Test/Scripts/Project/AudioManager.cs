@@ -156,7 +156,7 @@ public class AudioManager : MonoBehaviour
         }
         else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1)
         {
-            if(ImitoneVoiceInterpreter.Active) {
+            if(ImitoneVoiceInterpreter.imitoneActive) {
                 if (!Query1Started) {
                     Query1Started = true;
                     QueryTimer1 = 30.0f; // Reset the timer to 30 seconds

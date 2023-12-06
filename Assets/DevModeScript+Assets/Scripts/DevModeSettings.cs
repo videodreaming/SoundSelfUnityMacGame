@@ -33,12 +33,11 @@ public class DevModeSettings : MonoBehaviour
                 forceNoTone = false;
             }
             else if(Input.GetKey(KeyCode.LeftShift)){
-                if(Input.GetKey(KeyCode.T)){
+                if(Input.GetKeyDown(KeyCode.T)){
                     forceToneActive = true;
                     forceNoTone = false;
-                } 
-                else
-                {
+                }
+                else if (Input.GetKeyUp(KeyCode.T)){
                     forceToneActive = false;
                     forceNoTone = true;
                 }
