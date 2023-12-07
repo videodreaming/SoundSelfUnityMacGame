@@ -50,8 +50,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [SerializeField] private float _cadence;
     private float _lengthOfTones;
     private float _lengthOfBreath;
-    private float _tThisTone;
-    private float _tThisRest;
+    public float _tThisTone;
+    public float _tThisRest;
     private float _durLastTone;    
 
     //BREATH
