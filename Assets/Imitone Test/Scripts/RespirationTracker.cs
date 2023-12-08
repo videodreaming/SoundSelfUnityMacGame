@@ -7,8 +7,10 @@ public class RespirationTracker : MonoBehaviour
 {
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
     public float _respirationRate = 1.0f;    
+    private float _respirationRateOngoing = 0.0f;
     private bool toneActiveForRespirationRate = false;
-    private bool coroutineGuard = false;
+    private bool frameGuardTone = false;
+    private bool frameGuardRest = false;
     private float _positiveActiveThreshold = 1.2f;
     private float _negativeActiveThreshold = 0.75f;
     private float _respirationMeasurementWindow1 = 60.0f;
@@ -36,22 +38,42 @@ public class RespirationTracker : MonoBehaviour
     void Update()
     {
         // Set toneActiveForRespirationRate
+        
+        float totalCycleCount1 = 0.0f;
+        foreach (KeyValuePair<int, BreathCycleData> entry in BreathCycleDictionary)
+        {
+            totalCycleCount1 += entry.Value._cycleCount;
+        }
+        Debug.Log("Cycle Count 1 " + totalCycleCount1);
+        totalCycleCount1    = 0.0f;
+
+
         if (ImitoneVoiceIntepreter._tThisTone > _positiveActiveThreshold)
         {
-           
+           //return the total of all the cycle counts in the dictionary:
+
             toneActiveForRespirationRate = true;
-            if (!coroutineGuard)
+            if (!frameGuardTone)
             {
                 // Start the coroutine to measure the duration of one tone/rest cycle, but do it just once per tone:
                 StartCoroutine(RespirationCycleCoroutine());
-                coroutineGuard = true;
+                frameGuardTone = true;
             }
         }
         else if (ImitoneVoiceIntepreter._tThisTone < _negativeActiveThreshold)
         {
             toneActiveForRespirationRate = false;
-            coroutineGuard = false;
+            frameGuardTone = false;
         }
+
+        
+        float totalCycleCount2 = 0.0f;
+        foreach (KeyValuePair<int, BreathCycleData> entry in BreathCycleDictionary)
+        {
+            totalCycleCount2 += entry.Value._cycleCount;
+        }
+        Debug.Log("Cycle Count 2 " + totalCycleCount1);
+        totalCycleCount1    = 0.0f;
     }
 
     private IEnumerator RespirationCycleCoroutine (){
@@ -102,6 +124,8 @@ public class RespirationTracker : MonoBehaviour
         BreathCycleData data2 = BreathCycleDictionary[id];
         data2._cycleCount = 1.0f;
         BreathCycleDictionary[id] = data2;
+        Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
+
 
         //Step 2: Measure the Rest
         while (toneActiveForRespirationRate == false)
@@ -123,6 +147,9 @@ public class RespirationTracker : MonoBehaviour
 
             yield return null;
         }
+
+        Debug.Log("RespirationCycleCoroutine moving to Step 3 <" + id + ">");
+
 
         //Step 3: Measure the time since the cycle ended, and fade it out of memory
         while (_tAfterCycle < _respirationMeasurementWindow1)
