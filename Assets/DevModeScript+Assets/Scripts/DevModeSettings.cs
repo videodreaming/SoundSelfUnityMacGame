@@ -5,7 +5,7 @@ using UnityEngine;
 public class DevModeSettings : MonoBehaviour
 {
     private bool startInDevMode = true;
-    private bool devMode;
+    public bool devMode;
     
     public bool forceToneActive = false;
     public bool forceNoTone = false;
@@ -24,20 +24,6 @@ public class DevModeSettings : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha9)){
             if(startInDevMode){
                 devMode = true;
-            }
-        }
-
-        if(devMode == true){
-            //T = FORCE TONEACTIVE 
-            if(Input.GetKeyDown(KeyCode.T)){
-                Debug.Log("Force Tone");
-                forceToneActive = true;
-                forceNoTone = false;
-            }
-            else if (Input.GetKeyUp(KeyCode.T) && forceToneActive == true){
-                Debug.Log("Force No-Tone");
-                forceToneActive = false;
-                forceNoTone = true;
             }
         }
     }
