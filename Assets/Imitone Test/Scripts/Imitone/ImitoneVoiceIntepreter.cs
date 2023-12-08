@@ -375,7 +375,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             _tThisTone += Time.deltaTime;
             _tNextInhaleDuration += (Time.deltaTime * 0.41f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
-            Debug.Log(_tThisTone);
+            //Debug.Log(_tThisTone);
             isResettingTone = false;
             //_inhaleDuration = _tThisTone * 0.41f;
         }
