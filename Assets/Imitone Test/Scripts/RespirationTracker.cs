@@ -98,7 +98,7 @@ public class RespirationTracker : MonoBehaviour
             // Put the modified object back into the dictionary
             BreathCycleDictionary[id] = newBreathCycleData;
 
-            Debug.Log("id: " + id + " toning " + "toneLength: " + _toneLength + " _respirationRate: " + _respirationRate);
+            //Debug.Log("id: " + id + " toning " + "toneLength: " + _toneLength + " _respirationRate: " + _respirationRate);
 
             yield return null;
         }
@@ -126,7 +126,7 @@ public class RespirationTracker : MonoBehaviour
             // Put the modified object back into the dictionary
             BreathCycleDictionary[id] = newBreathCycleData;
 
-            Debug.Log("id: " + id + " resting " + "restLength: " + _restLength + " _respirationRate: " + _respirationRate);
+            //Debug.Log("id: " + id + " resting " + "restLength: " + _restLength + " _respirationRate: " + _respirationRate);
 
             yield return null;
         }
@@ -148,7 +148,7 @@ public class RespirationTracker : MonoBehaviour
             // Put the modified object back into the dictionary
             BreathCycleDictionary[id] = newBreathCycleData;
 
-            Debug.Log("id: " + id + " waiting " + " cycleLength: " + _cycleLength + " _respirationRate: " + _respirationRate);
+            //Debug.Log("id: " + id + " waiting " + " cycleLength: " + _cycleLength + " _respirationRate: " + _respirationRate);
 
             yield return null;
         }

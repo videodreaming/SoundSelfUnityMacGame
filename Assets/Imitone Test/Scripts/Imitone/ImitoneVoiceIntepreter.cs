@@ -247,6 +247,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                         _dbValue = (float)(10.0 * Math.Log10(power));
                                     }
                                     _level = (float)Math.Pow(10,_dbValue) * 0.05f;
+
+                                    DevModeSettings.LogChangeBool("ForceTone = ", DevModeSettings.forceToneActive);
+                                    DevModeSettings.LogChangeFloat("dbValue = ", _dbValue);
                                 }
                             }
                             if(tone.HasField("sahir")){
