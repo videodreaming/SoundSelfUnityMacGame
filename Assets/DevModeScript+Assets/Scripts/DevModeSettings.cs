@@ -42,18 +42,20 @@ public class DevModeSettings : MonoBehaviour
         }
     }
 
+
     public void LogChangeBool(string text, bool input){
-        bool oldInput = false;
-        if(input != oldInput){
+        bool oldBoolInput = false;
+        if(input != oldBoolInput){
             Debug.Log(text + input);
-            oldInput = input;
+            oldBoolInput = input;
         }
     }
+
     public void LogChangeFloat(string text, float input){
-        float oldInput = 0.0f;
-        if(input != oldInput){
+        float oldFloatInput = 0.0f;
+        if(input != oldFloatInput){
             Debug.Log(text + input);
-            oldInput = input;
+            oldFloatInput = input;
         }
     }
 }
