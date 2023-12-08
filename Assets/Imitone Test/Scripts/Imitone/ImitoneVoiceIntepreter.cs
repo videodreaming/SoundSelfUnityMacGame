@@ -234,7 +234,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                 if(soundObject.HasField("power"))
                                 {
                                     float power = soundObject.GetField("power").floatValue;
-                                    if(DevModeSettings.forceToneActive == true && DevModeSettings.forceNoTone == false)
+                                    if(DevModeSettings.forceToneActive == true)
                                     {
                                         _dbValue = -25.0f;
                                     }

@@ -26,22 +26,20 @@ public class DevModeSettings : MonoBehaviour
                 devMode = true;
             }
         }
+
         if(devMode == true){
-            //SHIFT+T = FORCE TONEACTIVE 
-            if(Input.GetKeyUp(KeyCode.LeftShift)){ //Release Control
-                forceToneActive = false;
+            //T = FORCE TONEACTIVE 
+            if(Input.GetKeyDown(KeyCode.T)){
+                Debug.Log("Force Tone");
+                forceToneActive = true;
                 forceNoTone = false;
             }
-            else if(Input.GetKey(KeyCode.LeftShift)){
-                if(Input.GetKeyDown(KeyCode.T)){
-                    forceToneActive = true;
-                    forceNoTone = false;
-                }
-                else if (Input.GetKeyUp(KeyCode.T)){
-                    forceToneActive = false;
-                    forceNoTone = true;
-                }
+            else if (Input.GetKeyUp(KeyCode.T) && forceToneActive == true){
+                Debug.Log("Force No-Tone");
+                forceToneActive = false;
+                forceNoTone = true;
             }
         }
     }
 }
+
