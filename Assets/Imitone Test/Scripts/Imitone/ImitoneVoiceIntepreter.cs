@@ -1,4 +1,4 @@
-using System;
+System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -246,7 +246,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                     {
                                         _dbValue = (float)(10.0 * Math.Log10(power));
                                     }
-                                    _level = (float)Math.Pow(10,_dbValue) * 0.05f;
+                                    _level = (float)Math.Pow(10,_dbValue) * 0.05f; //testtest
                                 }
                             }
                             if(tone.HasField("sahir")){
