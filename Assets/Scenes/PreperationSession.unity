@@ -914,6 +914,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
+--- !u!1 &133894979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 133894980}
+  - component: {fileID: 133894981}
+  m_Layer: 0
+  m_Name: RespirationTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &133894980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133894979}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 78.858, y: -156.51442, z: 369.3202}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 740096626}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &133894981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133894979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcaa5c1f6cd78df41ad308518c56edbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImitoneVoiceIntepreter: {fileID: 740096625}
+  _respirationRate: 1
+  _respirationRateRaw: 1
 --- !u!1 &274135832
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,7 +979,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &274135833
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -6966,11 +7013,16 @@ MonoBehaviour:
   positiveActiveThreshold2: 0.45
   negativeActiveThreshold: 0.1
   _cadence: 0
+  _tThisTone: 0
+  _tThisRest: 0
   _breathHoldTimeBeforeInhale: 0
-  _inhaleDuration: 0
+  _tNextInhaleDuration: 0
   _breathVolumeTotal: 0
   breathStage: 0
   _thresholdLerpValue: 0
+  _chantLerpFast: 0
+  _chantLerpSlow: 0
+  _cChantCharge: 0
   _dbValue: 0
   _level: 0
   _dbThreshold: -25
@@ -6989,7 +7041,8 @@ Transform:
   m_LocalPosition: {x: 303.23636, y: 404.86465, z: -472.0918}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 133894980}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &844810096

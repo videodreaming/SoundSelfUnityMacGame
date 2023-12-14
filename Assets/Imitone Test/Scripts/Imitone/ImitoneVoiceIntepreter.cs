@@ -130,6 +130,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float UpperThreshold = -20.0f;
     private float LowerThreshold = -35.0f;
     
+    //DevMode
+    private bool forceToneActive = false;
+    private bool forceNoTone = false;
 
 
     int sampleRate;
@@ -234,11 +237,11 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                 if(soundObject.HasField("power"))
                                 {
                                     float power = soundObject.GetField("power").floatValue;
-                                    if(DevModeSettings.forceToneActive == true)
+                                    if(forceToneActive == true)
                                     {
                                         _dbValue = -25.0f;
                                     }
-                                    else if (DevModeSettings.forceNoTone == true)
+                                    else if (forceNoTone == true)
                                     {
                                         _dbValue = -75.0f;
                                     } 
@@ -246,7 +249,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                     {
                                         _dbValue = (float)(10.0 * Math.Log10(power));
                                     }
-                                    _level = (float)Math.Pow(10,_dbValue) * 0.05f; //testtest
+                                    _level = (float)Math.Pow(10,_dbValue) * 0.05f;
+
+                                    DevModeSettings.LogChangeBool("ForceTone = ", DevModeSettings.forceToneActive);
+                                    DevModeSettings.LogChangeFloat("dbValue = ", _dbValue);
                                 }
                             }
                             if(tone.HasField("sahir")){
@@ -288,6 +294,23 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             else
             {
                 //Debug.Log("No imitone voice to analyze audio.");
+            }
+            //Debug Beheviors
+            if(DevModeSettings.devMode == true){
+                //T = FORCE TONEACTIVE 
+                if(Input.GetKey(KeyCode.T)){
+                    if (forceToneActive == false)
+                    {
+                        Debug.Log("Force Tone");
+                        forceToneActive = true;
+                        forceNoTone = false;
+                    }
+                }
+                else if (!Input.GetKey(KeyCode.T) && forceToneActive){
+                    Debug.Log("Force No-Tone");
+                    forceToneActive = false;
+                    forceNoTone = true;
+                }
             }
         }
 
