@@ -1,4 +1,4 @@
-System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -143,9 +143,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     int                micPosRead = 0;
     float[]            capturedInput;
 
-    // Start is called before the first frame update
+   
     void Start()
     {
+        //Checking for all devices in the list of devices 
         foreach (var device in Microphone.devices)
             {microphoneName = device; break;}
         if (microphoneName.Length == 0)
@@ -170,6 +171,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
         if (inputBuffer == null)
         {
+            //If mircophone fails to start
             Debug.Log("PitchTracker failed to Start recording from Microphone!");
             return;
         }
@@ -316,13 +318,18 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
     }
 
+
+
+[Header("Active and Not Active Timers and Logic")]
      private void CheckToning(){
+        //Logic that switches between imitoneActive and !imitoneActive
         if(_dbValue != 0.0f && _dbValue >= -35.0f )
         {
             breathStage = 0;
             imitoneActive = true;
             if (!imitoneActive)
             {
+                //Logic that increments timers
                 confidentInactiveTimer += Time.deltaTime;
                 inactiveTimer += Time.deltaTime;
                 activeTimer = 0f;
@@ -330,35 +337,41 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 _tThisTone = 0.0f; 
                 if(inactiveTimer > negativeActiveThreshold)
                 {
+                    //Logic that runs if inactiveTimer is larger than negativeActiveThreshold (0.33f)
                     toneActive = false;
                     toneActiveConfident = false;
                 }
                 if(inactiveTimer >= _negativeThresholdForChantLerp)
                 {
+                    //Logic that runs if inactiveTimer is bigger than _negativethresholdforChantLerp (0.33f);
                     chantLerpTarget = 0;
                 }
             } 
-            else
+            else 
+            //if imitoneActive is true
             {
+                //Logic that runs everytime imitoneActive is true. Increments timers
                 confidentActiveTimer += Time.deltaTime;
                 activeTimer += Time.deltaTime;
                 inactiveTimer = 0f;
                 if (activeTimer >= positiveActiveThreshold1 && !toneActive)
                 {
+                    //if activeTimer is bigger than positiveActiveThreshold1 (0.05f) and toneActive is false, set toneActive to true and _thisTone is retuned to true
                     toneActive = true;
                     //_inhaleDuration = 0.0f;
                     _tThisTone = 0.0f;
                 }
-                if(activeTimer >= positiveActiveThreshold2)
+                if(activeTimer >= positiveActiveThreshold2) 
                 {
+                    //if activetimer is bigger than positiveActiveThreshold2 then toneActive is confident (0.45f)
                     toneActiveConfident = true;
                 }
                 if(activeTimer >= _positiveThresholdForChantLerp)
                 {
+                    //if activeTimer is bigger than positive Threshold For Chant Lerp (0.2f) then chantLerpTarget is set to 1.
                     chantLerpTarget = 1;
                 }
             }
-            //TODO: determine when to start note
             _mostRecentSemitone = SemitoneUtility.GetSemitoneFromFrequency(pitch_hz);
             _semitone = SemitoneUtility.GetNoteFromSemitone(_mostRecentSemitone[0], _mostRecentSemitone[1]);
             _semitoneNote = SemitoneUtility.ToString(_mostRecentSemitone);
@@ -371,10 +384,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
         else if (_dbValue < -35.0f)
         {
+            //Logic that runs everytime the player is not using a 
             imitoneActive = false;
             handleBreathStage();
             if (!imitoneActive)
             {
+                //Logic that increments timers
                 _tThisTone = 0.0f; 
                 inactiveTimer += Time.deltaTime;
                 confidentInactiveTimer += Time.deltaTime;
@@ -453,16 +468,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 //     }
 // }   
 
-private void UpdateBreathVolumeTotal()
-{
-    _breathVolumeTotal = 0f;
-    foreach (var contribution in _breathVolumeContributions.Values)
-    {   
-        _breathVolumeTotal += contribution;
-    }
-    _breathVolumeTotal = Mathf.Clamp(_breathVolumeTotal, 0.0f, 1.0f);
-}
-
+[Header("Breathe Volume Methods")]
+//Breathe Volume Coroutine
 private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
     int coroutineID = _coroutineCounter++;
     _breathVolumeContributions[coroutineID] = 0f;
@@ -484,10 +491,22 @@ private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
     //Debug.Log ("inhaleDuration = " + inhaleDuration + "   normalizedTime = " + normalizedTime + "    /_breathVolumeTotal = " + _breathVolumeTotal);
     _breathVolumeContributions.Remove(coroutineID);
     UpdateBreathVolumeTotal();
-    
-
 }
 
+//Updating Breath Volume Total
+private void UpdateBreathVolumeTotal()
+{
+    _breathVolumeTotal = 0f;
+    foreach (var contribution in _breathVolumeContributions.Values)
+    {   
+        _breathVolumeTotal += contribution;
+    }
+    _breathVolumeTotal = Mathf.Clamp(_breathVolumeTotal, 0.0f, 1.0f);
+}
+
+
+
+[Header("Breath Stage Changing")]
 private void handleBreathStage(){
     if(breathStage == 0){
         breathStage = 1;
@@ -510,6 +529,7 @@ private void handleBreathStage(){
     }
 }
     
+    [Header("Breath Stage Changing")]
     private void handlecChanting(){
 
         // Update cChanting to move towards the target
@@ -533,7 +553,7 @@ private void handleBreathStage(){
         getChantCharge();
     }
     
-
+[Header("Chant Charge Logic")]
     private void getChantCharge()
     {
         lerpedMemory1 = Mathf.Lerp(lerpedMemory1, RecentToneMeanDuration,0.05f);
@@ -560,7 +580,6 @@ private void handleBreathStage(){
 
         _cChantCharge = chantChargeCurve2 * _chantLerpSlow;
         _cChantCharge = Mathf.Clamp(_cChantCharge, 0.0f, 1.0f);
-
         //Debug.Log("Target = " + chantLerpTarget + "       _tThisTone =" + _tThisTone + "       _chantLerpSlow =" + _chantLerpSlow + "        _chantLerpFast = " + _chantLerpFast + "         ChantChargeCurve = " + chantChargeCurve2 + "        _chantChargeFINAL = " + _cChantCharge);
     }
 }
