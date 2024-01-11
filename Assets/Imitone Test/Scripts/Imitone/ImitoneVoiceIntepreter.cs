@@ -59,7 +59,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     //public float _inhaleDuration;
     //Both Above is the duration of breath 
     public float _tNextInhaleDuration = 0.0f;
-    private float _breathVolume;
+    public float _breathVolume;
     private bool isResettingTone = false;
     public float _breathVolumeTotal = 0f; //MAKE this breathVolume and components.
     public int breathStage = 0;
@@ -76,7 +76,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [SerializeField] private float _thresholdLerpValue;
     
     [Header("DampingValues")]
-    private float _harmonicity = 0.0f;
+    public float _harmonicity = 0.0f;
 
     private float responsiveness = 0.25f; //revisit when we have absorption
     
@@ -320,7 +320,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
 
 
-[Header("Active and Not Active Timers and Logic")]
      private void CheckToning(){
         //Logic that switches between imitoneActive and !imitoneActive
         if(_dbValue != 0.0f && _dbValue >= -35.0f )
@@ -468,7 +467,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 //     }
 // }   
 
-[Header("Breathe Volume Methods")]
 //Breathe Volume Coroutine
 private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
     int coroutineID = _coroutineCounter++;
@@ -504,9 +502,6 @@ private void UpdateBreathVolumeTotal()
     _breathVolumeTotal = Mathf.Clamp(_breathVolumeTotal, 0.0f, 1.0f);
 }
 
-
-
-[Header("Breath Stage Changing")]
 private void handleBreathStage(){
     if(breathStage == 0){
         breathStage = 1;
@@ -528,8 +523,6 @@ private void handleBreathStage(){
         }
     }
 }
-    
-    [Header("Breath Stage Changing")]
     private void handlecChanting(){
 
         // Update cChanting to move towards the target
@@ -553,7 +546,6 @@ private void handleBreathStage(){
         getChantCharge();
     }
     
-[Header("Chant Charge Logic")]
     private void getChantCharge()
     {
         lerpedMemory1 = Mathf.Lerp(lerpedMemory1, RecentToneMeanDuration,0.05f);

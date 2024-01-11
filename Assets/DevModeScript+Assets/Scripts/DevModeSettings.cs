@@ -32,7 +32,7 @@ public class DevModeSettings : MonoBehaviour
     public void LogChangeBool(string text, bool input){
         bool oldBoolInput = false;
         if(input != oldBoolInput){
-            Debug.Log(text + input);
+            //Debug.Log(text + input);
             oldBoolInput = input;
         }
     }
@@ -40,7 +40,7 @@ public class DevModeSettings : MonoBehaviour
     public void LogChangeFloat(string text, float input){
         float oldFloatInput = 0.0f;
         if(input != oldFloatInput){
-            Debug.Log(text + input);
+            //Debug.Log(text + input);
             oldFloatInput = input;
         }
     }
