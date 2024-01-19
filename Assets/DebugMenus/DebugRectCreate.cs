@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DebugRectCreate : MonoBehaviour
 {
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
-    public float amount = 0.0000001f;
+    public float deleteCounter = 60f;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,10 +14,11 @@ public class DebugRectCreate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.R)){
-        } else {
-
+        if(this.tag == "oldrect"){
+            deleteCounter -= Time.deltaTime;
+            if(deleteCounter <= 0f){
+                Destroy(this.gameObject);
+            }
         }
-
     }
 }

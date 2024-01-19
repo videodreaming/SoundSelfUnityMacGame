@@ -8,7 +8,6 @@ public class DebugImitoneActive : MonoBehaviour
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
     public Image fillImage;
     void Start(){
-        Debug.Log("Script is running");
         fillImage = GetComponent<Image>();
     }
     void Update()

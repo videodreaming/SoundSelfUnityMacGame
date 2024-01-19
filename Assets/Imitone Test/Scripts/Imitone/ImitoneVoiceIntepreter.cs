@@ -18,6 +18,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public AudioManager AudioManager;
     public DevModeSettings DevModeSettings;
     public float pitch_hz = 0f;
+    private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
 
     //coped variables from old Voice Intepreter
@@ -108,6 +109,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
     private float _rmsValue;
     public float _dbValue = -80.0f;
+    public float _timbre = 0.0f;
     public float _level; 
     public float _dbThreshold = -25.0f;
     private const int SAMPLE_SIZE = 1024;
@@ -155,7 +157,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             return;
         }
         Debug.Log("Chose microphone: " + microphoneName);
-        Debug.Log(Microphone.devices);
         // NOTE: Unity doesn't give us a way to query native samplerate.
         //  Converting to 48khz may degrade audio quality slightly.
         sampleRate = 48000;
@@ -256,6 +257,11 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                     DevModeSettings.LogChangeBool("ForceTone = ", DevModeSettings.forceToneActive);
                                     DevModeSettings.LogChangeFloat("dbValue = ", _dbValue);
                                 }
+                                if(soundObject.HasField("brightness"))
+                                {
+                                    float brightness = soundObject.GetField("brightness").floatValue;
+                                    _timbre = brightness;
+                                }
                             }
                             if(tone.HasField("sahir")){
                                 var SahirObject = tone.GetField("sahir");
@@ -324,6 +330,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         //Logic that switches between imitoneActive and !imitoneActive
         if(_dbValue != 0.0f && _dbValue >= -35.0f )
         {
+            
             breathStage = 0;
             imitoneActive = true;
             if (!imitoneActive)
@@ -371,15 +378,18 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     chantLerpTarget = 1;
                 }
             }
-            _mostRecentSemitone = SemitoneUtility.GetSemitoneFromFrequency(pitch_hz);
-            _semitone = SemitoneUtility.GetNoteFromSemitone(_mostRecentSemitone[0], _mostRecentSemitone[1]);
-            _semitoneNote = SemitoneUtility.ToString(_mostRecentSemitone);
-            if (!(_mostRecentSemitone[0] < 0) && (_previousSemitone[0] != _mostRecentSemitone[0] ||
-                                                  _previousSemitone[1] != _mostRecentSemitone[1]))
-            {
-                _previousSemitone = _mostRecentSemitone;
-                OnNewTone?.Invoke(_semitone);
-            }
+            int flooredSemitone = FrequencyToFlooredSemitone(pitch_hz);
+            // _mostRecentSemitone = SemitoneUtility.GetSemitoneFromFrequency(pitch_hz);
+            // _semitone = SemitoneUtility.GetNoteFromSemitone(_mostRecentSemitone[0], _mostRecentSemitone[1]);
+            // _semitoneNote = SemitoneUtility.ToString(_mostRecentSemitone);
+            // Debug.Log("Semitone = " + _semitone + "       SemitoneNote = " + _semitoneNote);
+            // if (!(_mostRecentSemitone[0] < 0) && (_previousSemitone[0] != _mostRecentSemitone[0] ||
+            //                                       _previousSemitone[1] != _mostRecentSemitone[1]))
+            // {
+            //     _previousSemitone = _mostRecentSemitone;
+            //     OnNewTone?.Invoke(_semitone);
+            // }
+            
         }
         else if (_dbValue < -35.0f)
         {
@@ -573,5 +583,12 @@ private void handleBreathStage(){
         _cChantCharge = chantChargeCurve2 * _chantLerpSlow;
         _cChantCharge = Mathf.Clamp(_cChantCharge, 0.0f, 1.0f);
         //Debug.Log("Target = " + chantLerpTarget + "       _tThisTone =" + _tThisTone + "       _chantLerpSlow =" + _chantLerpSlow + "        _chantLerpFast = " + _chantLerpFast + "         ChantChargeCurve = " + chantChargeCurve2 + "        _chantChargeFINAL = " + _cChantCharge);
+    }
+
+    public static int FrequencyToFlooredSemitone(double frequency)
+    {
+        double semitone = 12 * Math.Log(frequency / A4, 2);
+        return (int)Math.Floor(semitone);
+        Debug.Log(semitone);
     }
 }
