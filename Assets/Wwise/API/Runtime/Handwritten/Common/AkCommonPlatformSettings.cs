@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 ﻿﻿public class AkBasePlatformSettings : UnityEngine.ScriptableObject
@@ -461,6 +461,13 @@ public partial class AkCommonUserSettings
 [System.Serializable]
 public class AkCommonAdvancedSettings
 {
+	public enum MemSpanCount
+	{
+		Small = 0,
+		Medium = 1,
+		Huge = 2
+	}
+
 	[UnityEngine.Tooltip("Size of memory pool for I/O (for automatic streams). It is rounded down to a multiple of uGranularity and then passed directly to AK::MemoryMgr::CreatePool().")]
 	public uint m_IOMemorySize = 2 * 1024 * 1024;
 
@@ -530,6 +537,9 @@ public class AkCommonAdvancedSettings
 
 	[UnityEngine.Tooltip("Memory allocator debug level. For use under Audiokinetic Support supervision.")]
 	public uint m_MemoryDebugLevel = 0;
+
+	[UnityEngine.Tooltip("Controls amount of memory mapped by Wwise. Smaller values use less memory at the cost of greater CPU utilization. For more information, refer to \"Tuning Span Count\" in the Wwise SDK Documentation.")]
+	public MemSpanCount m_MemorySpanCount = MemSpanCount.Huge;
 }
 
 [System.Serializable]
@@ -609,6 +619,7 @@ public abstract class AkCommonPlatformSettings : AkBasePlatformSettings
 
 			settings.uMemAllocationSizeLimit = advancedSettings.m_MemoryAllocationSizeLimit;
 			settings.uMemDebugLevel = advancedSettings.m_MemoryDebugLevel;
+			settings.uMemSpanCount = (uint)advancedSettings.m_MemorySpanCount;
 			return settings;
 		}
 	}

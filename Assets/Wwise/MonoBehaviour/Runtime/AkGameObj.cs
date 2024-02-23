@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 [UnityEngine.AddComponentMenu("Wwise/AkGameObj")]
@@ -126,17 +126,23 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 	{
 #if UNITY_EDITOR
 		if (AkUtilities.IsMigrating)
+		{
 			return;
+		}
 
 		if (!UnityEditor.EditorApplication.isPlaying)
+		{
 			UnityEditor.EditorApplication.update += CheckStaticStatus;
+		}
 		AkSoundEngineInitialization.Instance.initializationDelegate += RegisterGameObject;
 		AkSoundEngineInitialization.Instance.terminationDelegate += UnregisterGameObject;
 #endif
 
 		// If the object was marked as static, don't update its position to save cycles.
 		if (!isStaticObject)
+		{
 			m_posData = new AkGameObjPositionData();
+		}
 
 		// Cache the bounds to avoid calls to GetComponent()
 		m_Collider = GetComponent<UnityEngine.Collider>();
@@ -159,7 +165,9 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 				m_envData = new AkGameObjEnvironmentData();
 
 				if (m_Collider)
+				{
 					m_envData.AddAkEnvironment(m_Collider, m_Collider);
+				}
 
 				m_envData.UpdateAuxSend(gameObject, transform.position);
 			}
@@ -172,7 +180,9 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 	{
 #if UNITY_EDITOR
 		if (AkUtilities.IsMigrating)
+		{
 			return;
+		}
 
 		try
 		{
@@ -193,7 +203,9 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 	{
 #if UNITY_EDITOR
 		if (AkUtilities.IsMigrating)
+		{
 			return;
+		}
 #endif
 		RegisterGameObject();
 	}
@@ -212,10 +224,14 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 	{
 #if UNITY_EDITOR
 		if (AkUtilities.IsMigrating)
+		{
 			return;
+		}
 
 		if (!UnityEditor.EditorApplication.isPlaying)
+		{
 			UnityEditor.EditorApplication.update -= CheckStaticStatus;
+		}
 
 		AkSoundEngineInitialization.Instance.initializationDelegate -= RegisterGameObject;
 		AkSoundEngineInitialization.Instance.terminationDelegate -= UnregisterGameObject;
@@ -226,20 +242,24 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 		foreach (var handler in eventHandlers)
 		{
 			if (handler.triggerList.Contains(AkTriggerHandler.DESTROY_TRIGGER_ID))
+			{
 				handler.DoDestroy();
+			}
 		}
 
 		if (AkSoundEngine.IsInitialized())
+		{
 			Unregister();
-
+		}
 	}
 
 	private void Update()
 	{
 #if UNITY_EDITOR
-		if (AkUtilities.IsMigrating ||
-		    !UnityEditor.EditorApplication.isPlaying)
+		if (AkUtilities.IsMigrating || !UnityEditor.EditorApplication.isPlaying)
+		{
 			return;
+		}
 #endif
 
 		if (!isStaticObject)
@@ -258,7 +278,9 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 	public virtual UnityEngine.Vector3 GetPosition()
 	{
 		if (m_positionOffsetData == null)
+		{
 			return transform.position;
+		}
 
 		var worldOffset = transform.rotation * m_positionOffsetData.positionOffset;
 		return transform.position + worldOffset;
@@ -282,29 +304,39 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 	{
 #if UNITY_EDITOR
 		if (AkUtilities.IsMigrating || !UnityEditor.EditorApplication.isPlaying)
+		{
 			return;
+		}
 #endif
 
 		if (isEnvironmentAware && m_envData != null)
+		{
 			m_envData.AddAkEnvironment(other, m_Collider);
+		}
 	}
 
 	private void OnTriggerExit(UnityEngine.Collider other)
 	{
 #if UNITY_EDITOR
 		if (AkUtilities.IsMigrating || !UnityEditor.EditorApplication.isPlaying)
+		{
 			return;
+		}
 #endif
 
 		if (isEnvironmentAware && m_envData != null)
+		{
 			m_envData.RemoveAkEnvironment(other, m_Collider);
+		}
 	}
 
 #if UNITY_EDITOR
 	public void OnDrawGizmosSelected()
 	{
 		if (AkUtilities.IsMigrating)
+		{
 			return;
+		}
 
 		var position = GetPosition();
 		UnityEngine.Gizmos.DrawIcon(position, "WwiseAudioSpeaker.png", false);

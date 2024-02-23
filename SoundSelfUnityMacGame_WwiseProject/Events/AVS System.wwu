@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="AVS System" ID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_AVSGenerator" ID="{00220282-804B-4918-8804-395C2EF3E676}">
+					<ChildrenList>
+						<Action Name="" ID="{7CEA9AB7-5D02-4901-B69F-9D6CC4E8E3DB}" ShortID="750788137">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BlueToneGenerator" ID="{5D7E1AD8-FC97-4D6B-9EB3-E14CCF85CA70}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{A9F2E4C6-6983-431D-827A-C00721C117F2}" ShortID="357188877">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="GreenToneGenerator" ID="{9A0E5B1F-A946-4560-9FE2-20E9F6469EAC}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{3063E940-B140-4E48-BF3F-B40E1923DD93}" ShortID="70096128">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="RedToneGenerator" ID="{8E78B50C-51DA-44E5-A34A-61125E071F00}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{D1FE611C-45B1-4420-B906-59077C384820}" ShortID="111699106">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ReferenceTone" ID="{F02A5802-B69A-4FAF-8B7E-1DB467C283AB}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

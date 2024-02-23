@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Interactive Music System" ID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_InteractiveMusicSystem_SilentLoops" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}">
+					<ChildrenList>
+						<Action Name="" ID="{8EDC4A6D-0560-4474-A49F-2CE518EFC1E9}" ShortID="599277457">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="InteractiveMusic_SilentLoops" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

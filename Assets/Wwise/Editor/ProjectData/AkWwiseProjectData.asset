@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics/Default Work Unit
     guid: 05d53899a8c68e4fb3bf417ea35907a3
     GuidInternal: 
-    m_lastTime: -8584959003642234039
+    m_lastTime: -8584929657349036963
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy/Default Work Unit.wwu
@@ -38,8 +38,22 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy/Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584959003642257650
+    m_lastTime: -8584929571384391749
     List:
+    - name: AVS System
+      guid: 5270ae016217ed4c975ab966f98065df
+      id: 65973818
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
       id: 3803692087
@@ -66,9 +80,53 @@ MonoBehaviour:
     ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584959003642241078
-    List: []
+    m_lastTime: -8584929445636896627
+    List:
+    - name: Main
+      guid: 172bdab802ba9d46857f79a5e4fce4c3
+      id: 3161908922
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: de1292387a65644aa29a0dc03049efe2
+      - ElementName: Main
+        ObjectType: 7
+        guid: 172bdab802ba9d46857f79a5e4fce4c3
+      Path: SoundBanks/Default Work Unit/Main
   EventWwu:
+  - PhysicalPath: Events/AVS System.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: AVS System
+      ObjectType: 12
+      guid: 8dda26975fba794392b0097b08fbff76
+    ParentPath: Events/AVS System
+    guid: 8dda26975fba794392b0097b08fbff76
+    GuidInternal: 
+    m_lastTime: -8584929571384161197
+    List:
+    - name: Play_AVSGenerator
+      guid: 820222004b8018498804395c2ef3e676
+      id: 2590479921
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 8dda26975fba794392b0097b08fbff76
+      - ElementName: Play_AVSGenerator
+        ObjectType: 3
+        guid: 820222004b8018498804395c2ef3e676
+      Path: Events/AVS System/Play_AVSGenerator
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
@@ -80,9 +138,108 @@ MonoBehaviour:
     ParentPath: Events/Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584959003642262166
+    m_lastTime: -8584929657349059689
     List: []
+  - PhysicalPath: Events/Interactive Music System.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Interactive Music System
+      ObjectType: 12
+      guid: e3fca33b7e95e0428b60263055648e4a
+    ParentPath: Events/Interactive Music System
+    guid: e3fca33b7e95e0428b60263055648e4a
+    GuidInternal: 
+    m_lastTime: -8584929445636968786
+    List:
+    - name: Play_InteractiveMusicSystem_SilentLoops
+      guid: 0cb89a07d3ce784183dd41e8abf2bae5
+      id: 2845481429
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: e3fca33b7e95e0428b60263055648e4a
+      - ElementName: Play_InteractiveMusicSystem_SilentLoops
+        ObjectType: 3
+        guid: 0cb89a07d3ce784183dd41e8abf2bae5
+      Path: Events/Interactive Music System/Play_InteractiveMusicSystem_SilentLoops
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
+  - PhysicalPath: Game Parameters/AVS System.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: AVS System
+      ObjectType: 12
+      guid: 33c2cba45d7021408c88e244225aa913
+    ParentPath: Game Parameters/AVS System
+    guid: 33c2cba45d7021408c88e244225aa913
+    GuidInternal: 
+    m_lastTime: -8584929571384261663
+    List:
+    - name: AVSMasterVolume
+      guid: c6000061fb2e84419e903554537a9cd3
+      id: 1426024143
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: AVSMasterVolume
+        ObjectType: 13
+        guid: c6000061fb2e84419e903554537a9cd3
+      Path: Game Parameters/AVS System/AVSMasterVolume
+    - name: BlueSineVolume
+      guid: ec41db2e57dd17438af612d63f127e77
+      id: 1417631880
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: BlueSineVolume
+        ObjectType: 13
+        guid: ec41db2e57dd17438af612d63f127e77
+      Path: Game Parameters/AVS System/BlueSineVolume
+    - name: GreenSineVolume
+      guid: 7bc7e7eaa0541a4b91ea7cdc57a11ed3
+      id: 71194751
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: GreenSineVolume
+        ObjectType: 13
+        guid: 7bc7e7eaa0541a4b91ea7cdc57a11ed3
+      Path: Game Parameters/AVS System/GreenSineVolume
+    - name: RedSineVolume
+      guid: 739d29dd1fb4f14b8a8c7af77a109afd
+      id: 1546458207
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: RedSineVolume
+        ObjectType: 13
+        guid: 739d29dd1fb4f14b8a8c7af77a109afd
+      Path: Game Parameters/AVS System/RedSineVolume
   - PhysicalPath: Game Parameters/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -94,8 +251,63 @@ MonoBehaviour:
     ParentPath: Game Parameters/Default Work Unit
     guid: 08fd3303aa3c7f468178c0764211feaf
     GuidInternal: 
-    m_lastTime: -8584959003642260727
+    m_lastTime: -8584929486491506027
     List: []
+  - PhysicalPath: Game Parameters/Interactive Music System.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Interactive Music System
+      ObjectType: 12
+      guid: 7fec9d861a0e3046bfb37d6383814ca9
+    ParentPath: Game Parameters/Interactive Music System
+    guid: 7fec9d861a0e3046bfb37d6383814ca9
+    GuidInternal: 
+    m_lastTime: -8584929461819768044
+    List:
+    - name: FundamentalSilentVolume
+      guid: f8f04df21ddf8144bd237a969d9e8269
+      id: 2144346671
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: 7fec9d861a0e3046bfb37d6383814ca9
+      - ElementName: FundamentalSilentVolume
+        ObjectType: 13
+        guid: f8f04df21ddf8144bd237a969d9e8269
+      Path: Game Parameters/Interactive Music System/FundamentalSilentVolume
+    - name: HarmonySilentVolume
+      guid: 0f42a8a8b86f1244b77a7846ace67d2d
+      id: 1111564044
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: 7fec9d861a0e3046bfb37d6383814ca9
+      - ElementName: HarmonySilentVolume
+        ObjectType: 13
+        guid: 0f42a8a8b86f1244b77a7846ace67d2d
+      Path: Game Parameters/Interactive Music System/HarmonySilentVolume
+    - name: InteractiveMusicSilentLoops
+      guid: b863849292a18647b4cfdfca0207edb5
+      id: 2108330916
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: 7fec9d861a0e3046bfb37d6383814ca9
+      - ElementName: InteractiveMusicSilentLoops
+        ObjectType: 13
+        guid: b863849292a18647b4cfdfca0207edb5
+      Path: Game Parameters/Interactive Music System/InteractiveMusicSilentLoops
   StateWwu:
   - PhysicalPath: States/Default Work Unit.wwu
     PathAndIcons:
@@ -108,7 +320,7 @@ MonoBehaviour:
     ParentPath: States/Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584959003642238024
+    m_lastTime: -8584929657349039591
     List: []
   SwitchWwu:
   - PhysicalPath: Switches/Default Work Unit.wwu
@@ -122,8 +334,103 @@ MonoBehaviour:
     ParentPath: Switches/Default Work Unit
     guid: b649101cab38b141861f0be6c57cc1d3
     GuidInternal: 
-    m_lastTime: -8584959003642236674
+    m_lastTime: -8584929657349038747
     List: []
+  - PhysicalPath: Switches/Interactive Music System.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Interactive Music System
+      ObjectType: 12
+      guid: a70b5ef296c6e5488bce779e710a3892
+    ParentPath: Switches/Interactive Music System
+    guid: a70b5ef296c6e5488bce779e710a3892
+    GuidInternal: 
+    m_lastTime: -8584929486491521310
+    List:
+    - name: InteractiveMusicSwitchGroup
+      guid: 028067d9e2606b4b89c73087a452a4a2
+      id: 2420200949
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: a70b5ef296c6e5488bce779e710a3892
+      - ElementName: InteractiveMusicSwitchGroup
+        ObjectType: 11
+        guid: 028067d9e2606b4b89c73087a452a4a2
+      Path: Switches/Interactive Music System/InteractiveMusicSwitchGroup
+      values:
+      - name: B
+        guid: e909e35dd8cad34a9c7d556dd4935594
+        id: 84696445
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: InteractiveMusicSwitchGroup
+          ObjectType: 11
+          guid: 028067d9e2606b4b89c73087a452a4a2
+        - ElementName: B
+          ObjectType: 10
+          guid: e909e35dd8cad34a9c7d556dd4935594
+      - name: C
+        guid: b36ac47f2fd3ac419e188935dda24b18
+        id: 84696444
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: InteractiveMusicSwitchGroup
+          ObjectType: 11
+          guid: 028067d9e2606b4b89c73087a452a4a2
+        - ElementName: C
+          ObjectType: 10
+          guid: b36ac47f2fd3ac419e188935dda24b18
+      - name: E
+        guid: 706e3a5bf8aa6b42b9dde72b43c98983
+        id: 84696442
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: InteractiveMusicSwitchGroup
+          ObjectType: 11
+          guid: 028067d9e2606b4b89c73087a452a4a2
+        - ElementName: E
+          ObjectType: 10
+          guid: 706e3a5bf8aa6b42b9dde72b43c98983
+      - name: G
+        guid: c2edca255c994440b4a438361f607d0f
+        id: 84696440
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: InteractiveMusicSwitchGroup
+          ObjectType: 11
+          guid: 028067d9e2606b4b89c73087a452a4a2
+        - ElementName: G
+          ObjectType: 10
+          guid: c2edca255c994440b4a438361f607d0f
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   TriggerWwu:
   - PhysicalPath: Triggers/Default Work Unit.wwu
     PathAndIcons:
@@ -136,7 +443,7 @@ MonoBehaviour:
     ParentPath: Triggers/Default Work Unit
     guid: 2e22794f9054df4dba29a333b79a5f59
     GuidInternal: 
-    m_lastTime: -8584959003642235374
+    m_lastTime: -8584929657349037790
     List: []
   ExpandedFileSystemItemIds: 
   ExpandedWaapiItemIds: 

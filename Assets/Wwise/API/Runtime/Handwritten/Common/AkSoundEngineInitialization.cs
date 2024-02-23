@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 public class AkSoundEngineInitialization
@@ -71,10 +71,6 @@ public class AkSoundEngineInitialization
 
 		var persistentDataPath = akBasePathGetterInstance.PersistentDataPath;
 		var isBasePathSameAsPersistentPath = soundBankBasePath == persistentDataPath;
-
-#if UNITY_IOS && !UNITY_EDITOR
-	ActivePlatformSettings.AkInitializationSettings.platformSettings.bVerboseSystemOutput = true;
-#endif // #if UNITY_IOS && !UNITY_EDITOR
 
 #if UNITY_ANDROID
 		var canSetBasePath = !isBasePathSameAsPersistentPath;
@@ -157,6 +153,11 @@ public class AkSoundEngineInitialization
         {
 			return false;
         }
+
+		if (UnityEngine.Application.isPlaying)
+		{
+			return true;
+		}
 		if (!UnityEngine.Application.isPlaying)
 		{
 			result = AkWwiseEditorSettings.Instance.LoadSoundEngineInEditMode;

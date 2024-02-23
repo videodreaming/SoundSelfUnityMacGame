@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 public class AkWwiseInitializationSettings : AkCommonPlatformSettings
@@ -119,7 +119,8 @@ public class AkWwiseInitializationSettings : AkCommonPlatformSettings
 		"AdvancedSettings.m_DebugOutOfRangeCheckEnabled",
 		"AdvancedSettings.m_DebugOutOfRangeLimit",
 		"AdvancedSettings.m_MemoryAllocationSizeLimit",
-		"AdvancedSettings.m_MemoryDebugLevel"
+		"AdvancedSettings.m_MemoryDebugLevel",
+		"AdvancedSettings.m_MemorySpanCount"
 	};
 
 	public abstract class PlatformSettings : AkCommonPlatformSettings

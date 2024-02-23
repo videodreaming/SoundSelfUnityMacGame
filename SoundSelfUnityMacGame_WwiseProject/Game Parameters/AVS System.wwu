@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{A4CBC233-705D-4021-8C88-E244225AA913}" SchemaVersion="119">
+	<GameParameters>
+		<WorkUnit Name="AVS System" ID="{A4CBC233-705D-4021-8C88-E244225AA913}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="BlueSineVolume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="1"/>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="RedSineVolume" ID="{DD299D73-B41F-4BF1-8A8C-7AF77A109AFD}">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="10"/>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="GreenSineVolume" ID="{EAE7C77B-54A0-4B1A-91EA-7CDC57A11ED3}">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="AVSMasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}"/>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

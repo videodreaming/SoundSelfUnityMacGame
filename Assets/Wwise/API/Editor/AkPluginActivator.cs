@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 #if UNITY_EDITOR
@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 
 [UnityEditor.InitializeOnLoad]
-public class AkPluginActivator
+public class AkPluginActivator : UnityEditor.AssetPostprocessor
 {
 	public const string ALL_PLATFORMS = "All";
 	public const string CONFIG_DEBUG = "Debug";
@@ -88,6 +88,7 @@ public class AkPluginActivator
 			{ PluginID.AkAudioInput, "AkAudioInputSource" },
 			{ PluginID.AkCompressor, "AkCompressorFX" },
 			{ PluginID.AkRouterMixer, "AkRouterMixerFX" },
+			{ PluginID.AkChannelRouter, "AkChannelRouterFX" },
 			{ PluginID.AkConvolutionReverb, "AkConvolutionReverbFX" },
 			{ PluginID.AkDelay, "AkDelayFX" },
 			{ PluginID.AkExpander, "AkExpanderFX" },
@@ -141,13 +142,18 @@ public class AkPluginActivator
 	public delegate void FilterOutPlatformDelegate(UnityEditor.BuildTarget target, UnityEditor.PluginImporter pluginImporter, string pluginPlatform);
 	public static FilterOutPlatformDelegate FilterOutPlatformIfNeeded = FilterOutPlatformIfNeeded_Default;
 
-	static AkPluginActivator()
+
+	static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths, bool didDomainReload)
 	{
 		if (UnityEditor.AssetDatabase.IsAssetImportWorkerProcess())
 		{
 			return;
 		}
-		ActivatePluginsForEditor();
+
+		if (didDomainReload)
+		{
+			ActivatePluginsForEditor();	
+		}
 	}
 
 	// Use reflection because projects that were created in Unity 4 won't have the CurrentPluginConfig field
@@ -860,12 +866,15 @@ public class AkPluginActivator
 					{
 						dll = node.GetAttribute("DLL", "");
 					}
+					
+					var staticLibName = node.GetAttribute("StaticLib", "");
 
 					AkPluginInfo newPluginInfo = new AkPluginInfo();
 					newPluginInfo.PluginID = rawPluginID;
 					newPluginInfo.DllName = dll;
+					newPluginInfo.StaticLibName = staticLibName;
 
-					if (!PluginIDToStaticLibName.TryGetValue(pluginID, out newPluginInfo.StaticLibName))
+					if (string.IsNullOrEmpty(newPluginInfo.StaticLibName) && !PluginIDToStaticLibName.TryGetValue(pluginID, out newPluginInfo.StaticLibName))
 					{
 						newPluginInfo.StaticLibName = dll;
 					}
@@ -1010,6 +1019,7 @@ public class AkPluginActivator
 		Ak3DAudioBedMixer = 0x00BE0003, // Wwise 3D Audio Bed Mixer
 		AkCompressor = 0x006C0003, //Wwise Compressor
 		AkRouterMixer = 0x00AC0006, //Wwise RouterMixer
+		AkChannelRouter = 0x00BF0003, // Wwise Channel Router
 		AkDelay = 0x006A0003, //Delay
 		AkExpander = 0x006D0003, //Wwise Expander
 		AkGain = 0x008B0003, //Gain

@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{B6CBD692-12EC-CDBA-0932-48F63C40C91F}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{23396EC0-BF95-BF30-ECE2-29CA89A844CE}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -19,9 +19,222 @@
 				</AudioDevices>
 			</Plugins>
 			<Busses>
+				<Bus Id="65973818" Name="AVS System"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
+			<GameParameters>
+				<GameParameter Id="71194751" Name="GreenSineVolume"/>
+				<GameParameter Id="1111564044" Name="HarmonySilentVolume"/>
+				<GameParameter Id="1417631880" Name="BlueSineVolume"/>
+				<GameParameter Id="1426024143" Name="AVSMasterVolume"/>
+				<GameParameter Id="1546458207" Name="RedSineVolume"/>
+				<GameParameter Id="2108330916" Name="InteractiveMusicSilentLoops"/>
+				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
+			</GameParameters>
+			<SwitchGroups>
+				<SwitchGroup Id="2420200949" Name="InteractiveMusicSwitchGroup">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{981BD4C9-EDA9-867C-1197-722BEC05B788}">
+			<ShortName>Main</ShortName>
+			<Path>Main.bnk</Path>
+			<Media>
+				<File Id="52450926" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_silent_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="91575132" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_silent_sono flore.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="130835513" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_silent_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="160721409" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_silent_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="268737309" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_silent_sono flore.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="287831762" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_silent_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="315212690" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_silent_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="348246571" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_silent_sono flore.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="348501288" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_silent_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="383782895" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_silent_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="430598173" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_silent_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="446117886" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_silent_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="533405318" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_silent_sono flore.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="555063014" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_silent_sono flore.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="666893216" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_silent_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="672564742" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_silent_sono flore.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="682265836" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_silent_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="684226770" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_silent_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="742535958" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>mindplace_reference.wav</ShortName>
+					<CachePath>SFX/mindplace_reference_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="761406240" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_silent_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="790980483" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_silent_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="882598793" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_silent_sono flore.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="924773234" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_silent_sono flore.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="943526868" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_silent_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="955040453" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="207602731" Name="Tone Generator" LibName="Wwise Tone Generator" LibId="6684674"/>
+					<Plugin Id="433732206" Name="Tone Generator" LibName="Wwise Tone Generator" LibId="6684674"/>
+					<Plugin Id="727631099" Name="Tone Generator" LibName="Wwise Tone Generator" LibId="6684674"/>
+				</Custom>
+			</Plugins>
+			<Events>
+				<Event Id="2590479921" Name="Play_AVSGenerator" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="742535958"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="207602731"/>
+							<PluginRef Id="433732206"/>
+							<PluginRef Id="727631099"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="2845481429" Name="Play_InteractiveMusicSystem_SilentLoops" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="682265836"/>
+								<MediaRef Id="684226770"/>
+								<MediaRef Id="882598793"/>
+								<MediaRef Id="943526868"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="160721409"/>
+								<MediaRef Id="348246571"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="533405318"/>
+								<MediaRef Id="666893216"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="268737309"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="52450926"/>
+								<MediaRef Id="130835513"/>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="315212690"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="924773234"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="71194751" Name="GreenSineVolume"/>
+				<GameParameter Id="1111564044" Name="HarmonySilentVolume"/>
+				<GameParameter Id="1417631880" Name="BlueSineVolume"/>
+				<GameParameter Id="1546458207" Name="RedSineVolume"/>
+				<GameParameter Id="2108330916" Name="InteractiveMusicSilentLoops"/>
+				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
+			</GameParameters>
+			<SwitchGroups>
+				<SwitchGroup Id="2420200949" Name="InteractiveMusicSwitchGroup">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{65ACD701-C344-9E7E-4B1A-A247DBAA44A3}</FileHash>
+	<FileHash>{491BEF1B-A7CE-6485-CFA0-562595DED969}</FileHash>
 </SoundBanksInfo>
