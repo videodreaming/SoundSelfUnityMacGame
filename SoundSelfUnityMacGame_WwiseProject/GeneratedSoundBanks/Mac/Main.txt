@@ -1,15 +1,24 @@
 Event	ID	Name			Wwise Object Path	Notes
+	1386597262	Play_VO_Opening			\VO\Play_VO_Opening	
 	2590479921	Play_AVSGenerator			\AVS System\Play_AVSGenerator	
+	2675524623	Play_LinearMusic_Opening			\Linear Music\Play_LinearMusic_Opening	
 	2845481429	Play_InteractiveMusicSystem_SilentLoops			\Interactive Music System\Play_InteractiveMusicSystem_SilentLoops	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
+	611900938	LinearMusic_Opening			\Linear Music\LinearMusic_Opening	
 	2420200949	InteractiveMusicSwitchGroup			\Interactive Music System\InteractiveMusicSwitchGroup	
+	4212583561	VO_Opening			\VO\VO_Opening	
 
 Switch	ID	Name	Switch Group			Notes
+	2367398737	openingLong	LinearMusic_Opening			
+	3060490183	openingShort	LinearMusic_Opening			
 	84696440	G	InteractiveMusicSwitchGroup			
 	84696442	E	InteractiveMusicSwitchGroup			
 	84696444	C	InteractiveMusicSwitchGroup			
 	84696445	B	InteractiveMusicSwitchGroup			
+	335023706	openingPassive	VO_Opening			
+	2367398737	openingLong	VO_Opening			
+	3060490183	openingShort	VO_Opening			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	71194751	GreenSineVolume			\AVS System\GreenSineVolume	
@@ -29,6 +38,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	91575132	fundamental_[G]_silent_sonoflore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\fundamental_[G]_silent_sono flore_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\fundamental_[G]_silent\fundamental_[G]_silent_sonoflore		18755356
 	130835513	fundamental_[B]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\fundamental_[B]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\fundamental_[B]_silent\fundamental_[B]_silent_gentle		8293380
 	160721409	fundamental_[C]_silent_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\fundamental_[C]_silent_shadow_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\fundamental_[C]_silent\fundamental_[C]_silent_shadow		3487048
+	206902360	music_OpeningMeditationLong_A Major	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\music_OpeningMeditationLong_A Major_FBC78EF0.wem		\Actor-Mixer Hierarchy\Linear Music\Linear Music_Opening\music_OpeningMeditationLong_A Major		40257888
 	268737309	harmony_[D]_silent_sonoflore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\harmony_[D]_silent_sono flore_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\harmony_[D]_silent\harmony_[D]_silent_sonoflore		12360480
 	287831762	fundamental_[B]_silent_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\fundamental_[B]_silent_shadow_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\fundamental_[B]_silent\fundamental_[B]_silent_shadow		5654608
 	315212690	harmony_[F]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\harmony_[F]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\harmony_[F]_silent\harmony_[F]_silent_gentle		8481864
@@ -46,8 +56,12 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	742535958	ReferenceTone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\mindplace_reference_FBC78EF0.wem		\Actor-Mixer Hierarchy\AVS System\ReferenceTone		176496
 	761406240	harmony_[D]_silent_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\harmony_[D]_silent_shadow_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\harmony_[D]_silent\harmony_[D]_silent_shadow		6502784
 	790980483	harmony_[D]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\harmony_[D]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\harmony_[D]_silent\harmony_[D]_silent_gentle		10178216
+	802065351	vo_opening_openingLong	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingLong_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Opening\vo_opening_openingLong		13369504
 	882598793	fundamental_[E]_silent_sonoflore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\fundamental_[E]_silent_sono flore_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\fundamental_[E]_silent\fundamental_[E]_silent_sonoflore		22429656
 	924773234	harmony_[F]_silent_sonoflore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\harmony_[F]_silent_sono flore_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\harmony_[F]_silent\harmony_[F]_silent_sonoflore		10888948
 	943526868	harmony_[B]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\harmony_[B]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\harmony_[B]_silent\harmony_[B]_silent_gentle		7916412
 	955040453	fundamental_[G]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\fundamental_[G]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\fundamental_[G]_silent\fundamental_[G]_silent_gentle		11120636
+	955543026	vo_opening_openingPassive	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingPassive_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Opening\vo_opening_openingPassive		7733408
+	955926001	vo_opening_openingShort	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingShort_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Opening\vo_opening_openingShort		7209120
+	1023924053	music_OpeningMeditationShort_A Major	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\music_OpeningMeditationShort_A Major_FBC78EF0.wem		\Actor-Mixer Hierarchy\Linear Music\Linear Music_Opening\music_OpeningMeditationShort_A Major		24173132
 

@@ -15,6 +15,8 @@ namespace AK
     {
         static const AkUniqueID PLAY_AVSGENERATOR = 2590479921U;
         static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 2845481429U;
+        static const AkUniqueID PLAY_LINEARMUSIC_OPENING = 2675524623U;
+        static const AkUniqueID PLAY_VO_OPENING = 1386597262U;
     } // namespace EVENTS
 
     namespace SWITCHES
@@ -31,6 +33,29 @@ namespace AK
                 static const AkUniqueID G = 84696440U;
             } // namespace SWITCH
         } // namespace INTERACTIVEMUSICSWITCHGROUP
+
+        namespace LINEARMUSIC_OPENING
+        {
+            static const AkUniqueID GROUP = 611900938U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID OPENINGLONG = 2367398737U;
+                static const AkUniqueID OPENINGSHORT = 3060490183U;
+            } // namespace SWITCH
+        } // namespace LINEARMUSIC_OPENING
+
+        namespace VO_OPENING
+        {
+            static const AkUniqueID GROUP = 4212583561U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID OPENINGLONG = 2367398737U;
+                static const AkUniqueID OPENINGPASSIVE = 335023706U;
+                static const AkUniqueID OPENINGSHORT = 3060490183U;
+            } // namespace SWITCH
+        } // namespace VO_OPENING
 
     } // namespace SWITCHES
 

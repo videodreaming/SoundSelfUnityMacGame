@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{F6FD5945-56C4-49F5-9939-33AB507A3928}" SchemaVersion="119">
+	<Switches>
+		<WorkUnit Name="Linear Music" ID="{F6FD5945-56C4-49F5-9939-33AB507A3928}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="LinearMusic_Opening" ID="{431A70AD-1432-4314-98DA-4E5C38930442}">
+					<ChildrenList>
+						<Switch Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
+						<Switch Name="openingShort" ID="{670658D4-E20A-4906-949B-B5343039C867}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</Switches>
+</WwiseDocument>

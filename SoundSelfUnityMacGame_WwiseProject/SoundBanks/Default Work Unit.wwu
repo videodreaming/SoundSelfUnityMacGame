@@ -5,7 +5,9 @@
 			<ChildrenList>
 				<SoundBank Name="Main" ID="{B8DA2B17-BA02-469D-857F-79A5E4FCE4C3}">
 					<ObjectInclusionList>
+						<ObjectRef Name="Play_LinearMusic_Opening" ID="{422C26D5-A8F6-40DB-81DF-F1EBA923BDC7}" WorkUnitID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_InteractiveMusicSystem_SilentLoops" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_Opening" ID="{A96E99EB-25CF-422C-B4A9-890C7155A065}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVSGenerator" ID="{00220282-804B-4918-8804-395C2EF3E676}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>

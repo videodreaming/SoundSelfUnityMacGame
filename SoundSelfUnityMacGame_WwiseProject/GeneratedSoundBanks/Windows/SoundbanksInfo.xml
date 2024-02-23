@@ -32,6 +32,12 @@
 				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
 			</GameParameters>
 			<SwitchGroups>
+				<SwitchGroup Id="611900938" Name="LinearMusic_Opening">
+					<Switches>
+						<Switch Id="2367398737" Name="openingLong"/>
+						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="2420200949" Name="InteractiveMusicSwitchGroup">
 					<Switches>
 						<Switch Id="84696440" Name="G"/>
@@ -40,9 +46,16 @@
 						<Switch Id="84696445" Name="B"/>
 					</Switches>
 				</SwitchGroup>
+				<SwitchGroup Id="4212583561" Name="VO_Opening">
+					<Switches>
+						<Switch Id="335023706" Name="openingPassive"/>
+						<Switch Id="2367398737" Name="openingLong"/>
+						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{981BD4C9-EDA9-867C-1197-722BEC05B788}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{80B1C919-B4E8-DF2D-A22C-B31151CAA798}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
@@ -61,6 +74,10 @@
 				<File Id="160721409" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="206902360" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>music_OpeningMeditationLong_A Major.wav</ShortName>
+					<CachePath>SFX/music_OpeningMeditationLong_A Major_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="268737309" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_sono flore.wav</ShortName>
@@ -130,6 +147,10 @@
 					<ShortName>harmony_[D]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[D]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="802065351" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_opening_openingLong.wav</ShortName>
+					<CachePath>SFX/vo_opening_openingLong_818F3B66.wem</CachePath>
+				</File>
 				<File Id="882598793" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_silent_sono flore_FBC78EF0.wem</CachePath>
@@ -145,6 +166,18 @@
 				<File Id="955040453" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="955543026" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_opening_openingPassive.wav</ShortName>
+					<CachePath>SFX/vo_opening_openingPassive_818F3B66.wem</CachePath>
+				</File>
+				<File Id="955926001" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_opening_openingShort.wav</ShortName>
+					<CachePath>SFX/vo_opening_openingShort_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1023924053" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>music_OpeningMeditationShort_A Major.wav</ShortName>
+					<CachePath>SFX/music_OpeningMeditationShort_A Major_FBC78EF0.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
@@ -215,6 +248,44 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="2675524623" Name="Play_LinearMusic_Opening" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="611900938" Id="3060490183"/>
+							<MediaRefs>
+								<MediaRef Id="1023924053"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="611900938" Id="2367398737" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="206902360"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1386597262" Name="Play_VO_Opening" DurationType="OneShot" DurationMin="37.546665" DurationMax="69.632">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="335023706"/>
+							<MediaRefs>
+								<MediaRef Id="955543026"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="3060490183"/>
+							<MediaRefs>
+								<MediaRef Id="955926001"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="2367398737" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="802065351"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="71194751" Name="GreenSineVolume"/>
@@ -225,6 +296,12 @@
 				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
 			</GameParameters>
 			<SwitchGroups>
+				<SwitchGroup Id="611900938" Name="LinearMusic_Opening">
+					<Switches>
+						<Switch Id="2367398737" Name="openingLong"/>
+						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="2420200949" Name="InteractiveMusicSwitchGroup">
 					<Switches>
 						<Switch Id="84696440" Name="G"/>
@@ -233,8 +310,15 @@
 						<Switch Id="84696445" Name="B"/>
 					</Switches>
 				</SwitchGroup>
+				<SwitchGroup Id="4212583561" Name="VO_Opening">
+					<Switches>
+						<Switch Id="335023706" Name="openingPassive"/>
+						<Switch Id="2367398737" Name="openingLong"/>
+						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{491BEF1B-A7CE-6485-CFA0-562595DED969}</FileHash>
+	<FileHash>{2205DAD3-945B-0339-1C0E-247A874F412A}</FileHash>
 </SoundBanksInfo>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}" SchemaVersion="119">
+	<AudioObjects>
+		<WorkUnit Name="Linear Music" ID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchContainer Name="Linear Music_Opening" ID="{85FF6736-E72C-4B1C-8343-BFF92011EC5A}" ShortID="33590140">
+					<PropertyList>
+						<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}" WorkUnitID="{F6FD5945-56C4-49F5-9939-33AB507A3928}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="LinearMusic_Opening" ID="{431A70AD-1432-4314-98DA-4E5C38930442}" WorkUnitID="{F6FD5945-56C4-49F5-9939-33AB507A3928}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="music_OpeningMeditationLong_A Major" ID="{5420F189-70E4-4967-A125-125C49895F1E}" ShortID="775113752">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="music_OpeningMeditationLong_A Major" ID="{7E4CB587-0F10-4952-8F45-48A06B72EF1A}">
+									<Language>SFX</Language>
+									<AudioFile>music_OpeningMeditationLong_A Major.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="206902360"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="music_OpeningMeditationLong_A Major" ID="{7E4CB587-0F10-4952-8F45-48A06B72EF1A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="music_OpeningMeditationShort_A Major" ID="{9793A5AC-EA59-4C05-AD5F-2625AF026F84}" ShortID="1066218272">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="music_OpeningMeditationShort_A Major" ID="{66E6A8ED-42F0-4C88-9729-A2DC3252DF28}">
+									<Language>SFX</Language>
+									<AudioFile>music_OpeningMeditationShort_A Major.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1023924053"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="music_OpeningMeditationShort_A Major" ID="{66E6A8ED-42F0-4C88-9729-A2DC3252DF28}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="music_OpeningMeditationLong_A Major" ID="{5420F189-70E4-4967-A125-125C49895F1E}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="music_OpeningMeditationShort_A Major" ID="{9793A5AC-EA59-4C05-AD5F-2625AF026F84}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="openingShort" ID="{670658D4-E20A-4906-949B-B5343039C867}"/>
+								<ItemList>
+									<ItemRef Name="music_OpeningMeditationShort_A Major" ID="{9793A5AC-EA59-4C05-AD5F-2625AF026F84}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
+								<ItemList>
+									<ItemRef Name="music_OpeningMeditationLong_A Major" ID="{5420F189-70E4-4967-A125-125C49895F1E}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

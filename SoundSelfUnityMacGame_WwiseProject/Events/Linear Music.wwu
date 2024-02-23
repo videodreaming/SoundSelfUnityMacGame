@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Linear Music" ID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_LinearMusic_Opening" ID="{422C26D5-A8F6-40DB-81DF-F1EBA923BDC7}">
+					<ChildrenList>
+						<Action Name="" ID="{5E972804-0F6B-4F79-BD48-705459D7FA63}" ShortID="587896971">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Linear Music_Opening" ID="{85FF6736-E72C-4B1C-8343-BFF92011EC5A}" WorkUnitID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

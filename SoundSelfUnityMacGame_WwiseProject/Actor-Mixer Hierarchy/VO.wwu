@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}" SchemaVersion="119">
+	<AudioObjects>
+		<WorkUnit Name="VO" ID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchContainer Name="VO_Opening" ID="{4718B132-AFEB-4E28-B426-B0BE23E0B023}" ShortID="927226086">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="VO_Opening" ID="{EDBA335E-9AE8-4D9E-80E5-2AD14D4EB4AB}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}" ShortID="449166939">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_opening_openingLong" ID="{C591F198-AFDB-4598-9673-F58075DE3C56}">
+									<Language>SFX</Language>
+									<AudioFile>vo_opening_openingLong.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="802065351"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_opening_openingLong" ID="{C591F198-AFDB-4598-9673-F58075DE3C56}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}" ShortID="70919819">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_opening_openingPassive" ID="{87719DD7-5FCB-4DAB-B5CB-7815D77A19FE}">
+									<Language>SFX</Language>
+									<AudioFile>vo_opening_openingPassive.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="955543026"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_opening_openingPassive" ID="{87719DD7-5FCB-4DAB-B5CB-7815D77A19FE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}" ShortID="380098871">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_opening_openingShort" ID="{37C34405-A311-4CCD-83A4-C260D36A2E79}">
+									<Language>SFX</Language>
+									<AudioFile>vo_opening_openingShort.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="955926001"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_opening_openingShort" ID="{37C34405-A311-4CCD-83A4-C260D36A2E79}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="openingPassive" ID="{BDE4C565-5CD2-4B02-831C-B9B15A8BCDD8}"/>
+								<ItemList>
+									<ItemRef Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="openingShort" ID="{16F577DE-905E-4AA3-AF73-8C2735C6EA71}"/>
+								<ItemList>
+									<ItemRef Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
+								<ItemList>
+									<ItemRef Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>
