@@ -3,13 +3,14 @@
 	<States>
 		<WorkUnit Name="Default Work Unit" ID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}" PersistMode="Standalone">
 			<ChildrenList>
-				<StateGroup Name="GameMode" ID="{C4B77AC3-0EDA-4680-9B34-2AFF7EC06532}">
+				<StateGroup Name="GameMode" ID="{7CF38BB0-3ECE-4086-8B95-C0F1B6D7C48A}">
 					<ChildrenList>
-						<State Name="None" ID="{5CB34385-51F5-4AB9-A57D-9A32B9CD705A}"/>
-						<State Name="Preparation" ID="{4EEE553A-2AA9-4444-92D9-678061F9220E}"/>
-						<State Name="Adjunct" ID="{0D832927-FEC6-4E84-A96E-92828C522821}"/>
-						<State Name="Integration" ID="{8354BC53-4BE3-4EDB-830E-DBF6FD284A92}"/>
-						<State Name="Wisdom" ID="{FFB5FB0C-9E45-44F0-881F-F91DC8325A4D}"/>
+						<State Name="None" ID="{36911D55-62DA-4F4C-9570-23B67E13A321}"/>
+						<State Name="Preparation" ID="{CA365FFE-9CD7-48C7-90BC-0DE77D519332}"/>
+						<State Name="Adjunct" ID="{9C82B7D1-A81F-4815-861A-AF9A997EC5FC}"/>
+						<State Name="Integration" ID="{F97F1859-2203-4DE8-9623-BAE3B3556B86}"/>
+						<State Name="Wisdom" ID="{DCBE8E02-E047-4A29-B8EA-B100EE392407}"/>
+						<State Name="Passive" ID="{2A5A50B5-60B1-43A2-96A7-60EF8FE50642}"/>
 					</ChildrenList>
 				</StateGroup>
 			</ChildrenList>

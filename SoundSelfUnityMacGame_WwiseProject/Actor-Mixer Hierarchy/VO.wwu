@@ -3,120 +3,6 @@
 	<AudioObjects>
 		<WorkUnit Name="VO" ID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}" PersistMode="Standalone">
 			<ChildrenList>
-				<SwitchContainer Name="VO_Opening" ID="{4718B132-AFEB-4E28-B426-B0BE23E0B023}" ShortID="927226086">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="VO Bus" ID="{8E9A8F48-BC91-4010-81BB-7534B71B3FAE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-						<Reference Name="SwitchGroupOrStateGroup">
-							<ObjectRef Name="VO_Opening" ID="{EDBA335E-9AE8-4D9E-80E5-2AD14D4EB4AB}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<Sound Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}" ShortID="449166939">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_opening_openingLong" ID="{C591F198-AFDB-4598-9673-F58075DE3C56}">
-									<Language>SFX</Language>
-									<AudioFile>vo_opening_openingLong.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="802065351"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_opening_openingLong" ID="{C591F198-AFDB-4598-9673-F58075DE3C56}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}" ShortID="70919819">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_opening_openingPassive" ID="{87719DD7-5FCB-4DAB-B5CB-7815D77A19FE}">
-									<Language>SFX</Language>
-									<AudioFile>vo_opening_openingPassive.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="955543026"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_opening_openingPassive" ID="{87719DD7-5FCB-4DAB-B5CB-7815D77A19FE}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}" ShortID="380098871">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_opening_openingShort" ID="{37C34405-A311-4CCD-83A4-C260D36A2E79}">
-									<Language>SFX</Language>
-									<AudioFile>vo_opening_openingShort.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="955926001"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_opening_openingShort" ID="{37C34405-A311-4CCD-83A4-C260D36A2E79}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-					</ChildrenList>
-					<GroupingInfo>
-						<GroupingBehaviorList>
-							<GroupingBehavior>
-								<ItemRef Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}"/>
-							</GroupingBehavior>
-							<GroupingBehavior>
-								<ItemRef Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}"/>
-							</GroupingBehavior>
-							<GroupingBehavior>
-								<ItemRef Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}"/>
-							</GroupingBehavior>
-						</GroupingBehaviorList>
-						<GroupingList>
-							<Grouping>
-								<SwitchRef Name="openingPassive" ID="{BDE4C565-5CD2-4B02-831C-B9B15A8BCDD8}"/>
-								<ItemList>
-									<ItemRef Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}"/>
-								</ItemList>
-							</Grouping>
-							<Grouping>
-								<SwitchRef Name="openingShort" ID="{16F577DE-905E-4AA3-AF73-8C2735C6EA71}"/>
-								<ItemList>
-									<ItemRef Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}"/>
-								</ItemList>
-							</Grouping>
-							<Grouping>
-								<SwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
-								<ItemList>
-									<ItemRef Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}"/>
-								</ItemList>
-							</Grouping>
-						</GroupingList>
-					</GroupingInfo>
-				</SwitchContainer>
 				<ActorMixer Name="VO_SighElicitation1" ID="{F0D5F4C8-7241-4C32-BD60-EA12D4C4E43C}" ShortID="308133052">
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -407,89 +293,6 @@
 						</Sound>
 					</ChildrenList>
 				</ActorMixer>
-				<SwitchContainer Name="VO_Posture" ID="{13BC795D-25D8-4EF7-9411-0A23C57A5DCA}" ShortID="68774807">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="VO Bus" ID="{8E9A8F48-BC91-4010-81BB-7534B71B3FAE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-						<Reference Name="SwitchGroupOrStateGroup">
-							<ObjectRef Name="VO_Posture" ID="{0F9BFBA6-9B39-48B6-BD62-2C752CD3AC34}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<Sound Name="vo_posture_liedown" ID="{5727BFBA-6D96-4055-A717-AE3CE5EC2EED}" ShortID="1039063129">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_posture_liedown" ID="{272EF8DD-3AC8-4131-8441-C2780D033319}">
-									<Language>SFX</Language>
-									<AudioFile>vo_posture_liedown.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="8095985"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_posture_liedown" ID="{272EF8DD-3AC8-4131-8441-C2780D033319}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="vo_posture_relax" ID="{1C7022EA-8541-4E00-BC1E-8E1E6C7DB370}" ShortID="156880960">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_posture_relax" ID="{0B862FC5-FFA3-4E44-B75F-2FB3F9A17D22}">
-									<Language>SFX</Language>
-									<AudioFile>vo_posture_relax.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="837873602"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_posture_relax" ID="{0B862FC5-FFA3-4E44-B75F-2FB3F9A17D22}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-					</ChildrenList>
-					<GroupingInfo>
-						<GroupingBehaviorList>
-							<GroupingBehavior>
-								<ItemRef Name="vo_posture_liedown" ID="{5727BFBA-6D96-4055-A717-AE3CE5EC2EED}"/>
-							</GroupingBehavior>
-							<GroupingBehavior>
-								<ItemRef Name="vo_posture_relax" ID="{1C7022EA-8541-4E00-BC1E-8E1E6C7DB370}"/>
-							</GroupingBehavior>
-						</GroupingBehaviorList>
-						<GroupingList>
-							<Grouping>
-								<SwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
-								<ItemList>
-									<ItemRef Name="vo_posture_liedown" ID="{5727BFBA-6D96-4055-A717-AE3CE5EC2EED}"/>
-								</ItemList>
-							</Grouping>
-							<Grouping>
-								<SwitchRef Name="Relax" ID="{F2E8A576-6D2F-424F-9658-957A81431CC3}"/>
-								<ItemList>
-									<ItemRef Name="vo_posture_relax" ID="{1C7022EA-8541-4E00-BC1E-8E1E6C7DB370}"/>
-								</ItemList>
-							</Grouping>
-						</GroupingList>
-					</GroupingInfo>
-				</SwitchContainer>
 				<ActorMixer Name="VO_Orientation" ID="{820708E8-ED01-450D-BF43-479EE8EDAAB8}" ShortID="871423682">
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -523,145 +326,40 @@
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="GameMode" ID="{7CF38BB0-3ECE-4086-8B95-C0F1B6D7C48A}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Passive" ID="{2A5A50B5-60B1-43A2-96A7-60EF8FE50642}"/>
+								<CustomState Name="" ID="{E1234073-38B4-4824-B054-6EB0922BA9E0}" ShortID="540496647">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Adjunct" ID="{9C82B7D1-A81F-4815-861A-AF9A997EC5FC}"/>
+								<CustomState Name="" ID="{C84D80D3-D6FB-402A-AE98-8610CDD6154C}" ShortID="612210305"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Preparation" ID="{CA365FFE-9CD7-48C7-90BC-0DE77D519332}"/>
+								<CustomState Name="" ID="{8C5A22FF-C16B-4880-8CF4-E766FD47F004}" ShortID="810988757"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Wisdom" ID="{DCBE8E02-E047-4A29-B8EA-B100EE392407}"/>
+								<CustomState Name="" ID="{799B8D81-2181-4540-9A44-8F8DB223C819}" ShortID="665294892"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Integration" ID="{F97F1859-2203-4DE8-9623-BAE3B3556B86}"/>
+								<CustomState Name="" ID="{D1D9E93A-0894-41CF-856F-75B0755C3294}" ShortID="581225733"/>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 				</ActorMixer>
-				<SwitchContainer Name="VO_ThematicContent" ID="{C41A2466-6A87-457B-848F-8F2ACD82436F}" ShortID="257957034">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="DefaultSwitchOrState">
-							<ObjectRef Name="Surrender" ID="{ADF19206-AF51-4A6E-8F6A-5DF211B479B3}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="VO Bus" ID="{8E9A8F48-BC91-4010-81BB-7534B71B3FAE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-						<Reference Name="SwitchGroupOrStateGroup">
-							<ObjectRef Name="VO_ThematicContent" ID="{541C3C32-4288-4EB9-8F7D-84A35876DD4A}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<Sound Name="vo_thematicOpening_surrender" ID="{4F944C52-F785-45C8-AEE9-C56359ED4271}" ShortID="966042948">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_thematicOpening_surrender" ID="{5DFC75C5-92AD-4FFA-99EC-82F2A8DE0632}">
-									<Language>SFX</Language>
-									<AudioFile>vo_thematicOpening_surrender.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="1026853668"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_thematicOpening_surrender" ID="{5DFC75C5-92AD-4FFA-99EC-82F2A8DE0632}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-					</ChildrenList>
-					<GroupingInfo>
-						<GroupingBehaviorList>
-							<GroupingBehavior>
-								<ItemRef Name="vo_thematicOpening_surrender" ID="{4F944C52-F785-45C8-AEE9-C56359ED4271}"/>
-							</GroupingBehavior>
-						</GroupingBehaviorList>
-						<GroupingList>
-							<Grouping>
-								<SwitchRef Name="Surrender" ID="{ADF19206-AF51-4A6E-8F6A-5DF211B479B3}"/>
-								<ItemList>
-									<ItemRef Name="vo_thematicOpening_surrender" ID="{4F944C52-F785-45C8-AEE9-C56359ED4271}"/>
-								</ItemList>
-							</Grouping>
-						</GroupingList>
-					</GroupingInfo>
-				</SwitchContainer>
-				<SwitchContainer Name="VO_Somatic" ID="{3D5FDA19-495C-43B3-BBBF-91C98E0E3F7F}" ShortID="687873335">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="VO Bus" ID="{8E9A8F48-BC91-4010-81BB-7534B71B3FAE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-						<Reference Name="SwitchGroupOrStateGroup">
-							<ObjectRef Name="VO_Somatic" ID="{EAAFA7D0-8FB3-43AC-9AD2-02108F5A6E74}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<Sound Name="vo_somaticMeditation_long" ID="{3E55633B-C575-41CD-8882-6CDB21C211FE}" ShortID="612158387">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_somaticMeditation_long" ID="{D620662B-5CEA-40AE-B7E6-EA5A1449B646}">
-									<Language>SFX</Language>
-									<AudioFile>vo_somaticMeditation_long.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="864683053"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_somaticMeditation_long" ID="{D620662B-5CEA-40AE-B7E6-EA5A1449B646}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="vo_somaticMeditation_short" ID="{B1488F31-23C8-41E2-B2C2-A711074B3BD1}" ShortID="704783247">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_somaticMeditation_short" ID="{CE8539C6-D0E4-4676-8914-9095F1BA08E4}">
-									<Language>SFX</Language>
-									<AudioFile>vo_somaticMeditation_short.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="1061468265"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_somaticMeditation_short" ID="{CE8539C6-D0E4-4676-8914-9095F1BA08E4}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-					</ChildrenList>
-					<GroupingInfo>
-						<GroupingBehaviorList>
-							<GroupingBehavior>
-								<ItemRef Name="vo_somaticMeditation_short" ID="{B1488F31-23C8-41E2-B2C2-A711074B3BD1}"/>
-							</GroupingBehavior>
-							<GroupingBehavior>
-								<ItemRef Name="vo_somaticMeditation_long" ID="{3E55633B-C575-41CD-8882-6CDB21C211FE}"/>
-							</GroupingBehavior>
-						</GroupingBehaviorList>
-						<GroupingList>
-							<Grouping>
-								<SwitchRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}"/>
-								<ItemList>
-									<ItemRef Name="vo_somaticMeditation_short" ID="{B1488F31-23C8-41E2-B2C2-A711074B3BD1}"/>
-								</ItemList>
-							</Grouping>
-							<Grouping>
-								<SwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
-								<ItemList>
-									<ItemRef Name="vo_somaticMeditation_long" ID="{3E55633B-C575-41CD-8882-6CDB21C211FE}"/>
-								</ItemList>
-							</Grouping>
-						</GroupingList>
-					</GroupingInfo>
-				</SwitchContainer>
 				<RandomSequenceContainer Name="VO_GuidedVocalizationHum" ID="{58E1B81C-D7CC-4F9D-A0B9-5F343B827E95}" ShortID="1048475733">
 					<PropertyList>
 						<Property Name="RandomOrSequence" Type="int16" Value="0"/>
@@ -1094,120 +792,6 @@
 						</ObjectList>
 					</ObjectLists>
 				</RandomSequenceContainer>
-				<SwitchContainer Name="VO_ThematicSavasana" ID="{F106A05D-4AF9-44CC-8B08-7D18C47F2C53}" ShortID="894367759">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="VO Bus" ID="{8E9A8F48-BC91-4010-81BB-7534B71B3FAE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-						<Reference Name="SwitchGroupOrStateGroup">
-							<ObjectRef Name="VO_ThematicSavasana" ID="{41A09902-10E9-4520-834D-12006930AB09}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<Sound Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}" ShortID="581572163">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_thematicSavasana_long" ID="{FE03CC5D-606A-46AF-83A6-EF74BA4926A6}">
-									<Language>SFX</Language>
-									<AudioFile>vo_thematicSavasana_long.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="587565267"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_thematicSavasana_long" ID="{FE03CC5D-606A-46AF-83A6-EF74BA4926A6}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}" ShortID="204580195">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_thematicSavasana_short" ID="{B6ABFAF5-1E09-4044-90AB-C369ADBA657B}">
-									<Language>SFX</Language>
-									<AudioFile>vo_thematicSavasana_short.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="655141054"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_thematicSavasana_short" ID="{B6ABFAF5-1E09-4044-90AB-C369ADBA657B}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="vo_thematicSavasana_surrender" ID="{682541C3-DA70-494B-9696-2B1C58CBEF07}" ShortID="641620778">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_thematicSavasana_surrender" ID="{BB808775-B5E6-45A8-BA56-270EDDDE9824}">
-									<Language>SFX</Language>
-									<AudioFile>vo_thematicSavasana_surrender.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="671858453"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_thematicSavasana_surrender" ID="{BB808775-B5E6-45A8-BA56-270EDDDE9824}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-					</ChildrenList>
-					<GroupingInfo>
-						<GroupingBehaviorList>
-							<GroupingBehavior>
-								<ItemRef Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}"/>
-							</GroupingBehavior>
-							<GroupingBehavior>
-								<ItemRef Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}"/>
-							</GroupingBehavior>
-							<GroupingBehavior>
-								<ItemRef Name="vo_thematicSavasana_surrender" ID="{682541C3-DA70-494B-9696-2B1C58CBEF07}"/>
-							</GroupingBehavior>
-						</GroupingBehaviorList>
-						<GroupingList>
-							<Grouping>
-								<SwitchRef Name="Short" ID="{B30A7521-D458-43AB-B33A-82A54D729AAF}"/>
-								<ItemList>
-									<ItemRef Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}"/>
-								</ItemList>
-							</Grouping>
-							<Grouping>
-								<SwitchRef Name="Surrender" ID="{403AE1A9-E8A9-4AC9-A7EB-C7700C1BF8B3}"/>
-								<ItemList>
-									<ItemRef Name="vo_thematicSavasana_surrender" ID="{682541C3-DA70-494B-9696-2B1C58CBEF07}"/>
-								</ItemList>
-							</Grouping>
-							<Grouping>
-								<SwitchRef Name="Long" ID="{D2185EBA-3FAF-4252-9C19-79C6C180C86A}"/>
-								<ItemList>
-									<ItemRef Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}"/>
-								</ItemList>
-							</Grouping>
-						</GroupingList>
-					</GroupingInfo>
-				</SwitchContainer>
 				<RandomSequenceContainer Name="VO_GuidedVocalizationOhh" ID="{1395947C-BCE9-4AA5-B082-CDE46A1C173E}" ShortID="848979322">
 					<PropertyList>
 						<Property Name="RandomOrSequence" Type="int16" Value="0"/>
@@ -1327,61 +911,6 @@
 						</ObjectList>
 					</ObjectLists>
 				</RandomSequenceContainer>
-				<SwitchContainer Name="VO_Wisdom" ID="{D8936C06-96C4-40E5-A689-EB2B35AE5BC2}" ShortID="25523217">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="DefaultSwitchOrState">
-							<ObjectRef Name="Jaguar" ID="{1322365E-57A2-4BD6-98A8-8FFED768A86D}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="VO Bus" ID="{8E9A8F48-BC91-4010-81BB-7534B71B3FAE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-						<Reference Name="SwitchGroupOrStateGroup">
-							<ObjectRef Name="VO_Wisdom" ID="{12EFD717-5901-417B-916E-BAA0F56A2A5A}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<Sound Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}" ShortID="161491456">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="vo_wisdom_jaguar" ID="{A5FADADE-F95B-43F8-8708-2397EFDDCF23}">
-									<Language>SFX</Language>
-									<AudioFile>vo_wisdom_jaguar.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="592303975"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="vo_wisdom_jaguar" ID="{A5FADADE-F95B-43F8-8708-2397EFDDCF23}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-					</ChildrenList>
-					<GroupingInfo>
-						<GroupingBehaviorList>
-							<GroupingBehavior>
-								<ItemRef Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}"/>
-							</GroupingBehavior>
-						</GroupingBehaviorList>
-						<GroupingList>
-							<Grouping>
-								<SwitchRef Name="Jaguar" ID="{1322365E-57A2-4BD6-98A8-8FFED768A86D}"/>
-								<ItemList>
-									<ItemRef Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}"/>
-								</ItemList>
-							</Grouping>
-						</GroupingList>
-					</GroupingInfo>
-				</SwitchContainer>
 				<ActorMixer Name="VO_Wakeup" ID="{6E994035-1785-4DF8-9D65-1B8363628134}" ShortID="610722363">
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -1449,6 +978,35 @@
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="GameMode" ID="{7CF38BB0-3ECE-4086-8B95-C0F1B6D7C48A}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Passive" ID="{2A5A50B5-60B1-43A2-96A7-60EF8FE50642}"/>
+								<CustomState Name="" ID="{66AF38DD-3AF5-4B6F-9DA2-B8249F2BC4B3}" ShortID="960544183"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Adjunct" ID="{9C82B7D1-A81F-4815-861A-AF9A997EC5FC}"/>
+								<CustomState Name="" ID="{A9B2611A-C2F8-4290-B5D1-EE8F10C99E0D}" ShortID="386340851"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Preparation" ID="{CA365FFE-9CD7-48C7-90BC-0DE77D519332}"/>
+								<CustomState Name="" ID="{BEF70312-7D52-4889-86D8-0B9A6F8547AA}" ShortID="1057410219"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Wisdom" ID="{DCBE8E02-E047-4A29-B8EA-B100EE392407}"/>
+								<CustomState Name="" ID="{3D3208B9-2304-4218-998D-6F5148CFEB34}" ShortID="753100177"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Integration" ID="{F97F1859-2203-4DE8-9623-BAE3B3556B86}"/>
+								<CustomState Name="" ID="{94C14F70-23C6-4ABB-A0C7-AEEF9865F6B2}" ShortID="833361274"/>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 				</ActorMixer>
 				<ActorMixer Name="VO_SighElicitation2" ID="{73C02CD9-D20A-4568-B909-D67A52F238AC}" ShortID="93328833">
 					<ReferenceList>
@@ -1637,6 +1195,522 @@
 						</ObjectList>
 					</ObjectLists>
 				</RandomSequenceContainer>
+				<SwitchContainer Name="VO_Opening" ID="{4718B132-AFEB-4E28-B426-B0BE23E0B023}" ShortID="927226086">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="openingShort" ID="{16F577DE-905E-4AA3-AF73-8C2735C6EA71}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="VO_Opening" ID="{EDBA335E-9AE8-4D9E-80E5-2AD14D4EB4AB}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}" ShortID="449166939">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_opening_openingLong" ID="{C591F198-AFDB-4598-9673-F58075DE3C56}">
+									<Language>SFX</Language>
+									<AudioFile>vo_opening_openingLong.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="802065351"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_opening_openingLong" ID="{C591F198-AFDB-4598-9673-F58075DE3C56}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}" ShortID="70919819">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_opening_openingPassive" ID="{87719DD7-5FCB-4DAB-B5CB-7815D77A19FE}">
+									<Language>SFX</Language>
+									<AudioFile>vo_opening_openingPassive.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="955543026"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_opening_openingPassive" ID="{87719DD7-5FCB-4DAB-B5CB-7815D77A19FE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}" ShortID="380098871">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_opening_openingShort" ID="{37C34405-A311-4CCD-83A4-C260D36A2E79}">
+									<Language>SFX</Language>
+									<AudioFile>vo_opening_openingShort.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="955926001"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_opening_openingShort" ID="{37C34405-A311-4CCD-83A4-C260D36A2E79}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="openingPassive" ID="{BDE4C565-5CD2-4B02-831C-B9B15A8BCDD8}"/>
+								<ItemList>
+									<ItemRef Name="vo_opening_openingPassive" ID="{926D6270-AA71-4293-8651-33184DA1EC99}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="openingShort" ID="{16F577DE-905E-4AA3-AF73-8C2735C6EA71}"/>
+								<ItemList>
+									<ItemRef Name="vo_opening_openingShort" ID="{96284260-1FD3-4F8C-9AE5-94A9F8FC9FFA}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
+								<ItemList>
+									<ItemRef Name="vo_opening_openingLong" ID="{9DB94B84-9A32-4F2E-B6DD-AE2657426941}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+				<SwitchContainer Name="VO_Posture" ID="{13BC795D-25D8-4EF7-9411-0A23C57A5DCA}" ShortID="68774807">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="VO_Posture" ID="{0F9BFBA6-9B39-48B6-BD62-2C752CD3AC34}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="vo_posture_liedown" ID="{5727BFBA-6D96-4055-A717-AE3CE5EC2EED}" ShortID="1039063129">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_posture_liedown" ID="{272EF8DD-3AC8-4131-8441-C2780D033319}">
+									<Language>SFX</Language>
+									<AudioFile>vo_posture_liedown.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="8095985"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_posture_liedown" ID="{272EF8DD-3AC8-4131-8441-C2780D033319}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_posture_relax" ID="{1C7022EA-8541-4E00-BC1E-8E1E6C7DB370}" ShortID="156880960">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_posture_relax" ID="{0B862FC5-FFA3-4E44-B75F-2FB3F9A17D22}">
+									<Language>SFX</Language>
+									<AudioFile>vo_posture_relax.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="837873602"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_posture_relax" ID="{0B862FC5-FFA3-4E44-B75F-2FB3F9A17D22}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="vo_posture_liedown" ID="{5727BFBA-6D96-4055-A717-AE3CE5EC2EED}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_posture_relax" ID="{1C7022EA-8541-4E00-BC1E-8E1E6C7DB370}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
+								<ItemList>
+									<ItemRef Name="vo_posture_liedown" ID="{5727BFBA-6D96-4055-A717-AE3CE5EC2EED}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Relax" ID="{F2E8A576-6D2F-424F-9658-957A81431CC3}"/>
+								<ItemList>
+									<ItemRef Name="vo_posture_relax" ID="{1C7022EA-8541-4E00-BC1E-8E1E6C7DB370}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+				<SwitchContainer Name="VO_ThematicContent" ID="{C41A2466-6A87-457B-848F-8F2ACD82436F}" ShortID="257957034">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="Surrender" ID="{ADF19206-AF51-4A6E-8F6A-5DF211B479B3}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="VO_ThematicContent" ID="{541C3C32-4288-4EB9-8F7D-84A35876DD4A}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="vo_thematicOpening_surrender" ID="{4F944C52-F785-45C8-AEE9-C56359ED4271}" ShortID="966042948">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicOpening_surrender" ID="{5DFC75C5-92AD-4FFA-99EC-82F2A8DE0632}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicOpening_surrender.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1026853668"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicOpening_surrender" ID="{5DFC75C5-92AD-4FFA-99EC-82F2A8DE0632}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicOpening_surrender" ID="{4F944C52-F785-45C8-AEE9-C56359ED4271}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="Surrender" ID="{ADF19206-AF51-4A6E-8F6A-5DF211B479B3}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicOpening_surrender" ID="{4F944C52-F785-45C8-AEE9-C56359ED4271}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+				<SwitchContainer Name="VO_Somatic" ID="{3D5FDA19-495C-43B3-BBBF-91C98E0E3F7F}" ShortID="687873335">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="VO_Somatic" ID="{EAAFA7D0-8FB3-43AC-9AD2-02108F5A6E74}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="vo_somaticMeditation_long" ID="{3E55633B-C575-41CD-8882-6CDB21C211FE}" ShortID="612158387">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_somaticMeditation_long" ID="{D620662B-5CEA-40AE-B7E6-EA5A1449B646}">
+									<Language>SFX</Language>
+									<AudioFile>vo_somaticMeditation_long.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="864683053"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_somaticMeditation_long" ID="{D620662B-5CEA-40AE-B7E6-EA5A1449B646}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_somaticMeditation_short" ID="{B1488F31-23C8-41E2-B2C2-A711074B3BD1}" ShortID="704783247">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_somaticMeditation_short" ID="{CE8539C6-D0E4-4676-8914-9095F1BA08E4}">
+									<Language>SFX</Language>
+									<AudioFile>vo_somaticMeditation_short.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1061468265"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_somaticMeditation_short" ID="{CE8539C6-D0E4-4676-8914-9095F1BA08E4}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="vo_somaticMeditation_short" ID="{B1488F31-23C8-41E2-B2C2-A711074B3BD1}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_somaticMeditation_long" ID="{3E55633B-C575-41CD-8882-6CDB21C211FE}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}"/>
+								<ItemList>
+									<ItemRef Name="vo_somaticMeditation_short" ID="{B1488F31-23C8-41E2-B2C2-A711074B3BD1}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
+								<ItemList>
+									<ItemRef Name="vo_somaticMeditation_long" ID="{3E55633B-C575-41CD-8882-6CDB21C211FE}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+				<SwitchContainer Name="VO_ThematicSavasana" ID="{F106A05D-4AF9-44CC-8B08-7D18C47F2C53}" ShortID="894367759">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="Short" ID="{B30A7521-D458-43AB-B33A-82A54D729AAF}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="VO_ThematicSavasana" ID="{41A09902-10E9-4520-834D-12006930AB09}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}" ShortID="581572163">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_long" ID="{FE03CC5D-606A-46AF-83A6-EF74BA4926A6}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_long.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="587565267"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_long" ID="{FE03CC5D-606A-46AF-83A6-EF74BA4926A6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}" ShortID="204580195">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_short" ID="{B6ABFAF5-1E09-4044-90AB-C369ADBA657B}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_short.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="655141054"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_short" ID="{B6ABFAF5-1E09-4044-90AB-C369ADBA657B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_surrender" ID="{682541C3-DA70-494B-9696-2B1C58CBEF07}" ShortID="641620778">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_surrender" ID="{BB808775-B5E6-45A8-BA56-270EDDDE9824}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_surrender.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="671858453"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_surrender" ID="{BB808775-B5E6-45A8-BA56-270EDDDE9824}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_surrender" ID="{682541C3-DA70-494B-9696-2B1C58CBEF07}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="Short" ID="{B30A7521-D458-43AB-B33A-82A54D729AAF}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Surrender" ID="{403AE1A9-E8A9-4AC9-A7EB-C7700C1BF8B3}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_surrender" ID="{682541C3-DA70-494B-9696-2B1C58CBEF07}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Long" ID="{D2185EBA-3FAF-4252-9C19-79C6C180C86A}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+				<SwitchContainer Name="VO_Wisdom" ID="{D8936C06-96C4-40E5-A689-EB2B35AE5BC2}" ShortID="25523217">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="Jaguar" ID="{1322365E-57A2-4BD6-98A8-8FFED768A86D}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="VO_Wisdom" ID="{12EFD717-5901-417B-916E-BAA0F56A2A5A}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}" ShortID="161491456">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_wisdom_jaguar" ID="{A5FADADE-F95B-43F8-8708-2397EFDDCF23}">
+									<Language>SFX</Language>
+									<AudioFile>vo_wisdom_jaguar.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="592303975"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_wisdom_jaguar" ID="{A5FADADE-F95B-43F8-8708-2397EFDDCF23}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="Jaguar" ID="{1322365E-57A2-4BD6-98A8-8FFED768A86D}"/>
+								<ItemList>
+									<ItemRef Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
 				<SwitchContainer Name="VO_ClosingGoodbye" ID="{E4B39BFD-A721-44DE-AD5E-083E490DEB5C}" ShortID="246925730">
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -1653,7 +1727,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="vo_goodbye" ID="{70A8F7F3-AE31-47C0-836D-3FC244B12DA8}" ShortID="507853000">
+						<Sound Name="vo_goodbye_long" ID="{70A8F7F3-AE31-47C0-836D-3FC244B12DA8}" ShortID="507853000">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1704,14 +1778,14 @@
 								<ItemRef Name="vo_goodbye_short" ID="{D2973574-9300-4B86-AF4A-B629C4F86AD5}"/>
 							</GroupingBehavior>
 							<GroupingBehavior>
-								<ItemRef Name="vo_goodbye" ID="{70A8F7F3-AE31-47C0-836D-3FC244B12DA8}"/>
+								<ItemRef Name="vo_goodbye_long" ID="{70A8F7F3-AE31-47C0-836D-3FC244B12DA8}"/>
 							</GroupingBehavior>
 						</GroupingBehaviorList>
 						<GroupingList>
 							<Grouping>
 								<SwitchRef Name="Long" ID="{844C5211-96AF-4162-9BA5-48B12E4C5DB0}"/>
 								<ItemList>
-									<ItemRef Name="vo_goodbye" ID="{70A8F7F3-AE31-47C0-836D-3FC244B12DA8}"/>
+									<ItemRef Name="vo_goodbye_long" ID="{70A8F7F3-AE31-47C0-836D-3FC244B12DA8}"/>
 								</ItemList>
 							</Grouping>
 							<Grouping>
