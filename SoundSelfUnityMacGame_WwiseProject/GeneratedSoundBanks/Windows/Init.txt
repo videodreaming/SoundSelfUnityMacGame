@@ -1,5 +1,19 @@
+State Group	ID	Name			Wwise Object Path	Notes
+	261089142	GameMode			\Default Work Unit\GameMode	
+
+State	ID	Name	State Group			Notes
+	748895195	None	GameMode			
+	2534402132	Adjunct	GameMode			
+	3147549296	Preparation	GameMode			
+	4033993124	Wisdom	GameMode			
+	4094247797	Integration	GameMode			
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	3687478936	VO_Bus_Volume			\VO\VO_Bus_Volume	
+
 Audio Bus	ID	Name			Wwise Object Path	Notes
 	65973818	AVS System			\Default Work Unit\AVS System	
+	2018813558	VO Bus			\Default Work Unit\VO Bus	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 
 Audio Devices	ID	Name	Type				Notes

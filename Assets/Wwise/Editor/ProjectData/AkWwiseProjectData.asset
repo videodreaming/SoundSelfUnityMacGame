@@ -80,7 +80,7 @@ MonoBehaviour:
     ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584929445636896627
+    m_lastTime: -8584928858560745737
     List:
     - name: Main
       guid: 172bdab802ba9d46857f79a5e4fce4c3
@@ -138,7 +138,7 @@ MonoBehaviour:
     ParentPath: Events/Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584929657349059689
+    m_lastTime: -8584928858560698012
     List: []
   - PhysicalPath: Events/Interactive Music System.wwu
     PathAndIcons:
@@ -170,6 +170,66 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+  - PhysicalPath: Events/Linear Music.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Linear Music
+      ObjectType: 12
+      guid: ae874db4035f664c8db73b3cfbfee75e
+    ParentPath: Events/Linear Music
+    guid: ae874db4035f664c8db73b3cfbfee75e
+    GuidInternal: 
+    m_lastTime: -8584928858560525550
+    List:
+    - name: Play_LinearMusic_Opening
+      guid: d5262c42f6a8db4081dff1eba923bdc7
+      id: 2675524623
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Linear Music
+        ObjectType: 12
+        guid: ae874db4035f664c8db73b3cfbfee75e
+      - ElementName: Play_LinearMusic_Opening
+        ObjectType: 3
+        guid: d5262c42f6a8db4081dff1eba923bdc7
+      Path: Events/Linear Music/Play_LinearMusic_Opening
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+  - PhysicalPath: Events/VO.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: VO
+      ObjectType: 12
+      guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
+    ParentPath: Events/VO
+    guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
+    GuidInternal: 
+    m_lastTime: -8584928858560506043
+    List:
+    - name: Play_VO_Opening
+      guid: eb996ea9cf252c42b4a9890c7155a065
+      id: 1386597262
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: VO
+        ObjectType: 12
+        guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
+      - ElementName: Play_VO_Opening
+        ObjectType: 3
+        guid: eb996ea9cf252c42b4a9890c7155a065
+      Path: Events/VO/Play_VO_Opening
+      maxAttenuation: 0
+      maxDuration: 69.632
+      minDuration: 37.546665
   RtpcWwu:
   - PhysicalPath: Game Parameters/AVS System.wwu
     PathAndIcons:
@@ -428,6 +488,148 @@ MonoBehaviour:
         - ElementName: G
           ObjectType: 10
           guid: c2edca255c994440b4a438361f607d0f
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+  - PhysicalPath: Switches/Linear Music.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Linear Music
+      ObjectType: 12
+      guid: 4559fdf6c456f549993933ab507a3928
+    ParentPath: Switches/Linear Music
+    guid: 4559fdf6c456f549993933ab507a3928
+    GuidInternal: 
+    m_lastTime: -8584928858560663468
+    List:
+    - name: LinearMusic_Opening
+      guid: ad701a433214144398da4e5c38930442
+      id: 611900938
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Linear Music
+        ObjectType: 12
+        guid: 4559fdf6c456f549993933ab507a3928
+      - ElementName: LinearMusic_Opening
+        ObjectType: 11
+        guid: ad701a433214144398da4e5c38930442
+      Path: Switches/Linear Music/LinearMusic_Opening
+      values:
+      - name: openingLong
+        guid: ecfea3f19ec20d40a517fb9aa773f657
+        id: 2367398737
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: LinearMusic_Opening
+          ObjectType: 11
+          guid: ad701a433214144398da4e5c38930442
+        - ElementName: openingLong
+          ObjectType: 10
+          guid: ecfea3f19ec20d40a517fb9aa773f657
+      - name: openingShort
+        guid: d45806670ae20649949bb5343039c867
+        id: 3060490183
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: LinearMusic_Opening
+          ObjectType: 11
+          guid: ad701a433214144398da4e5c38930442
+        - ElementName: openingShort
+          ObjectType: 10
+          guid: d45806670ae20649949bb5343039c867
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+  - PhysicalPath: Switches/VO.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: VO
+      ObjectType: 12
+      guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+    ParentPath: Switches/VO
+    guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+    GuidInternal: 
+    m_lastTime: -8584928858560570600
+    List:
+    - name: VO_Opening
+      guid: 5e33baede89a9e4d80e52ad14d4eb4ab
+      id: 4212583561
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: VO
+        ObjectType: 12
+        guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+      - ElementName: VO_Opening
+        ObjectType: 11
+        guid: 5e33baede89a9e4d80e52ad14d4eb4ab
+      Path: Switches/VO/VO_Opening
+      values:
+      - name: openingLong
+        guid: ecbc2d6cd76f6c46aaa5909eab07a054
+        id: 2367398737
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: VO
+          ObjectType: 12
+          guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+        - ElementName: VO_Opening
+          ObjectType: 11
+          guid: 5e33baede89a9e4d80e52ad14d4eb4ab
+        - ElementName: openingLong
+          ObjectType: 10
+          guid: ecbc2d6cd76f6c46aaa5909eab07a054
+      - name: openingPassive
+        guid: 65c5e4bdd25c024b831cb9b15a8bcdd8
+        id: 335023706
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: VO
+          ObjectType: 12
+          guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+        - ElementName: VO_Opening
+          ObjectType: 11
+          guid: 5e33baede89a9e4d80e52ad14d4eb4ab
+        - ElementName: openingPassive
+          ObjectType: 10
+          guid: 65c5e4bdd25c024b831cb9b15a8bcdd8
+      - name: openingShort
+        guid: de77f5165e90a34aaf738c2735c6ea71
+        id: 3060490183
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: VO
+          ObjectType: 12
+          guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+        - ElementName: VO_Opening
+          ObjectType: 11
+          guid: 5e33baede89a9e4d80e52ad14d4eb4ab
+        - ElementName: openingShort
+          ObjectType: 10
+          guid: de77f5165e90a34aaf738c2735c6ea71
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []

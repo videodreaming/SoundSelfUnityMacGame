@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{E5C992C4-B164-45C9-9CAE-B7DCB425A4D1}" SchemaVersion="119">
+	<GameParameters>
+		<WorkUnit Name="VO" ID="{E5C992C4-B164-45C9-9CAE-B7DCB425A4D1}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="VO_Bus_Volume" ID="{4CE09812-4BDE-4967-8638-B6C2E6D7A693}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

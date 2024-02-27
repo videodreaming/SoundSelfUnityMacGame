@@ -10,6 +10,58 @@
 						<Switch Name="openingPassive" ID="{BDE4C565-5CD2-4B02-831C-B9B15A8BCDD8}"/>
 					</ChildrenList>
 				</SwitchGroup>
+				<SwitchGroup Name="VO_Posture" ID="{0F9BFBA6-9B39-48B6-BD62-2C752CD3AC34}">
+					<ChildrenList>
+						<Switch Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
+						<Switch Name="Relax" ID="{F2E8A576-6D2F-424F-9658-957A81431CC3}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="VO_ThematicContent" ID="{541C3C32-4288-4EB9-8F7D-84A35876DD4A}">
+					<ChildrenList>
+						<Switch Name="Surrender" ID="{ADF19206-AF51-4A6E-8F6A-5DF211B479B3}"/>
+						<Switch Name="Narrative" ID="{F44DDA85-B305-4F40-A2E2-BDCEEB8BF0ED}"/>
+						<Switch Name="Peace" ID="{94BB8323-C29A-4FDB-8145-8499790D4345}"/>
+						<Switch Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="VO_Somatic" ID="{EAAFA7D0-8FB3-43AC-9AD2-02108F5A6E74}">
+					<ChildrenList>
+						<Switch Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}"/>
+						<Switch Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="VO_ThematicSavasana" ID="{41A09902-10E9-4520-834D-12006930AB09}">
+					<ChildrenList>
+						<Switch Name="Long" ID="{D2185EBA-3FAF-4252-9C19-79C6C180C86A}"/>
+						<Switch Name="Short" ID="{B30A7521-D458-43AB-B33A-82A54D729AAF}"/>
+						<Switch Name="Narrative" ID="{DBC655E1-D196-4AB6-A3CE-EC04B0CA2A11}"/>
+						<Switch Name="Peace" ID="{3D16539A-F80B-40BC-9B23-290799772CF5}"/>
+						<Switch Name="Surrender" ID="{403AE1A9-E8A9-4AC9-A7EB-C7700C1BF8B3}"/>
+						<Switch Name="Kindness" ID="{D4913860-034E-4188-B5C3-6598730E75EC}"/>
+						<Switch Name="Metta" ID="{E52BC81A-5B3F-4B0F-BC3E-F5C5A8B1685E}"/>
+						<Switch Name="Fireflies" ID="{0EBFAC13-8064-4B73-B4A6-C94A4A6559F1}"/>
+						<Switch Name="Silence" ID="{DC5EECA1-5882-44B3-A7BE-7E7AC1F501B1}"/>
+						<Switch Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
+						<Switch Name="Gratitude" ID="{C75E9DF6-0977-4C63-AFD5-189434D084AA}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="VO_Wisdom" ID="{12EFD717-5901-417B-916E-BAA0F56A2A5A}">
+					<ChildrenList>
+						<Switch Name="Jaguar" ID="{1322365E-57A2-4BD6-98A8-8FFED768A86D}"/>
+						<Switch Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
+						<Switch Name="NotKnowing" ID="{88F83D8E-84B3-41B0-903A-E7A5EF12156A}"/>
+						<Switch Name="Peru" ID="{AF29498A-CFE5-4678-975C-954CB630C85C}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="VO_ClosingGoodbye" ID="{47597923-66D0-4CD7-B40D-1BB0C14D37BF}">
+					<ChildrenList>
+						<Switch Name="Short" ID="{A2578252-DAED-4BB8-97CB-B95447095539}"/>
+						<Switch Name="Silence" ID="{8A3EEF8E-6217-4247-BB57-76B07B5DC625}"/>
+						<Switch Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
+						<Switch Name="Gratitude" ID="{300C374E-47C5-4CB6-BEEA-C6AD6789AB17}"/>
+						<Switch Name="Long" ID="{844C5211-96AF-4162-9BA5-48B12E4C5DB0}"/>
+					</ChildrenList>
+				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</Switches>

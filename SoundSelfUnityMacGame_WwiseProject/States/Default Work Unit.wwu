@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}" SchemaVersion="119">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="GameMode" ID="{C4B77AC3-0EDA-4680-9B34-2AFF7EC06532}">
+					<ChildrenList>
+						<State Name="None" ID="{5CB34385-51F5-4AB9-A57D-9A32B9CD705A}"/>
+						<State Name="Preparation" ID="{4EEE553A-2AA9-4444-92D9-678061F9220E}"/>
+						<State Name="Adjunct" ID="{0D832927-FEC6-4E84-A96E-92828C522821}"/>
+						<State Name="Integration" ID="{8354BC53-4BE3-4EDB-830E-DBF6FD284A92}"/>
+						<State Name="Wisdom" ID="{FFB5FB0C-9E45-44F0-881F-F91DC8325A4D}"/>
+					</ChildrenList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

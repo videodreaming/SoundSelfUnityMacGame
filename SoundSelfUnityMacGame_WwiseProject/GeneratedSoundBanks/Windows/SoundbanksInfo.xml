@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{23396EC0-BF95-BF30-ECE2-29CA89A844CE}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{5B7AFBDC-90B5-2844-4C96-A2AA3ABC24E4}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -20,6 +20,7 @@
 			</Plugins>
 			<Busses>
 				<Bus Id="65973818" Name="AVS System"/>
+				<Bus Id="2018813558" Name="VO Bus"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
 			<GameParameters>
@@ -30,12 +31,47 @@
 				<GameParameter Id="1546458207" Name="RedSineVolume"/>
 				<GameParameter Id="2108330916" Name="InteractiveMusicSilentLoops"/>
 				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
+				<GameParameter Id="3687478936" Name="VO_Bus_Volume"/>
 			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="261089142" Name="GameMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="2534402132" Name="Adjunct"/>
+						<State Id="3147549296" Name="Preparation"/>
+						<State Id="4033993124" Name="Wisdom"/>
+						<State Id="4094247797" Name="Integration"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
 			<SwitchGroups>
+				<SwitchGroup Id="184547165" Name="VO_Posture">
+					<Switches>
+						<Switch Id="3551080421" Name="Relax"/>
+						<Switch Id="3891673577" Name="LieDown"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="611900938" Name="LinearMusic_Opening">
 					<Switches>
 						<Switch Id="2367398737" Name="openingLong"/>
 						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="683317262" Name="VO_Wisdom">
+					<Switches>
+						<Switch Id="1057915111" Name="NotKnowing"/>
+						<Switch Id="1398814679" Name="Jaguar"/>
+						<Switch Id="1743886715" Name="Peru"/>
+						<Switch Id="2721896533" Name="DieWell"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1721781634" Name="Gratitude"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="3041563226" Name="Silence"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="2420200949" Name="InteractiveMusicSwitchGroup">
@@ -44,6 +80,35 @@
 						<Switch Id="84696442" Name="E"/>
 						<Switch Id="84696444" Name="C"/>
 						<Switch Id="84696445" Name="B"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3813349969" Name="VO_Somatic">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="2585211341" Name="Short"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3925841397" Name="VO_ThematicContent">
+					<Switches>
+						<Switch Id="103389341" Name="Peace"/>
+						<Switch Id="1047870521" Name="Narrative"/>
+						<Switch Id="2721896533" Name="DieWell"/>
+						<Switch Id="2965941853" Name="Surrender"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4155508698" Name="VO_ThematicSavasana">
+					<Switches>
+						<Switch Id="103389341" Name="Peace"/>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1047870521" Name="Narrative"/>
+						<Switch Id="1126065684" Name="Fireflies"/>
+						<Switch Id="1721781634" Name="Gratitude"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="2655751454" Name="Kindness"/>
+						<Switch Id="2692078280" Name="Metta"/>
+						<Switch Id="2965941853" Name="Surrender"/>
+						<Switch Id="3041563226" Name="Silence"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="4212583561" Name="VO_Opening">
@@ -55,7 +120,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{80B1C919-B4E8-DF2D-A22C-B31151CAA798}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{8998A881-30CB-4725-054B-DE4FEC3A641C}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
@@ -279,7 +344,7 @@
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="2367398737" Default="true"/>
+							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="2367398737"/>
 							<MediaRefs>
 								<MediaRef Id="802065351"/>
 							</MediaRefs>
@@ -320,5 +385,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{2205DAD3-945B-0339-1C0E-247A874F412A}</FileHash>
+	<FileHash>{3CCD26DD-5CBA-0085-1E53-EEACA1B0866E}</FileHash>
 </SoundBanksInfo>
