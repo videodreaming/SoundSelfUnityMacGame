@@ -14,7 +14,6 @@ public class DebugVolume : MonoBehaviour
     void Start(){
         minValue = -50.0f;
         maxValue = -10.0f;
-        Debug.Log("Script is running");
         fillImage = GetComponent<Image>();
         fillImage.fillAmount = 0.5f;
     }
