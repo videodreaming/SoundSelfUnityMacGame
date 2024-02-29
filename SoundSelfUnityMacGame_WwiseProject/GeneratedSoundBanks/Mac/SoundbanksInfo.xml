@@ -121,13 +121,29 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{EBDBD288-1825-EF20-F5BD-3FDA3BF4437D}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{727986B2-8DE8-9D7D-DE27-C2050A34DA12}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
+				<File Id="8095985" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_posture_liedown.wav</ShortName>
+					<CachePath>SFX/vo_posture_liedown_818F3B66.wem</CachePath>
+				</File>
+				<File Id="8786612" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test18tone.wav</ShortName>
+					<CachePath>SFX/vo_test18tone_818F3B66.wem</CachePath>
+				</File>
+				<File Id="39430341" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitQuery_closing.wav</ShortName>
+					<CachePath>SFX/vo_elicitQuery_closing_818F3B66.wem</CachePath>
+				</File>
 				<File Id="52450926" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="74052971" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_goodbye.wav</ShortName>
+					<CachePath>SFX/vo_goodbye_818F3B66.wem</CachePath>
 				</File>
 				<File Id="91575132" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_sono flore.wav</ShortName>
@@ -137,13 +153,33 @@
 					<ShortName>fundamental_[B]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="139444766" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_goodbye_short.wav</ShortName>
+					<CachePath>SFX/vo_goodbye_short_818F3B66.wem</CachePath>
+				</File>
+				<File Id="141708242" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thankYou.wav</ShortName>
+					<CachePath>SFX/vo_thankYou_818F3B66.wem</CachePath>
+				</File>
 				<File Id="160721409" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="182072962" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitQueryFail_any2.wav</ShortName>
+					<CachePath>SFX/vo_elicitQueryFail_any2_818F3B66.wem</CachePath>
+				</File>
 				<File Id="206902360" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>music_OpeningMeditationLong_A Major.wav</ShortName>
 					<CachePath>SFX/music_OpeningMeditationLong_A Major_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="221214242" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test02hum.wav</ShortName>
+					<CachePath>SFX/vo_test02hum_818F3B66.wem</CachePath>
+				</File>
+				<File Id="250697112" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test13tone.wav</ShortName>
+					<CachePath>SFX/vo_test13tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="268737309" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_sono flore.wav</ShortName>
@@ -153,9 +189,17 @@
 					<ShortName>fundamental_[B]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="295819595" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_orientation.wav</ShortName>
+					<CachePath>SFX/vo_orientation_818F3B66.wem</CachePath>
+				</File>
 				<File Id="315212690" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="335139113" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test12tone.wav</ShortName>
+					<CachePath>SFX/vo_test12tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="348246571" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_sono flore.wav</ShortName>
@@ -165,9 +209,21 @@
 					<ShortName>fundamental_[G]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="350705659" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test05tone.wav</ShortName>
+					<CachePath>SFX/vo_test05tone_818F3B66.wem</CachePath>
+				</File>
+				<File Id="369988848" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitQueryFail_opening1.wav</ShortName>
+					<CachePath>SFX/vo_elicitQueryFail_opening1_818F3B66.wem</CachePath>
+				</File>
 				<File Id="383782895" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="402014584" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test07tone.wav</ShortName>
+					<CachePath>SFX/vo_test07tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="430598173" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_gentle.wav</ShortName>
@@ -177,6 +233,18 @@
 					<ShortName>harmony_[G]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[G]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="487812902" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test10tone.wav</ShortName>
+					<CachePath>SFX/vo_test10tone_818F3B66.wem</CachePath>
+				</File>
+				<File Id="493526042" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test14tone.wav</ShortName>
+					<CachePath>SFX/vo_test14tone_818F3B66.wem</CachePath>
+				</File>
+				<File Id="494111603" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitSigh_closing.wav</ShortName>
+					<CachePath>SFX/vo_elicitSigh_closing_818F3B66.wem</CachePath>
+				</File>
 				<File Id="533405318" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_silent_sono flore_FBC78EF0.wem</CachePath>
@@ -185,13 +253,41 @@
 					<ShortName>fundamental_[B]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="581489383" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test04tone.wav</ShortName>
+					<CachePath>SFX/vo_test04tone_818F3B66.wem</CachePath>
+				</File>
+				<File Id="587565267" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_long.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_long_818F3B66.wem</CachePath>
+				</File>
+				<File Id="592303975" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_wisdom_jaguar.wav</ShortName>
+					<CachePath>SFX/vo_wisdom_jaguar_818F3B66.wem</CachePath>
+				</File>
+				<File Id="648810886" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitSighFail_opening1.wav</ShortName>
+					<CachePath>SFX/vo_elicitSighFail_opening1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="655141054" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_short.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_short_818F3B66.wem</CachePath>
+				</File>
 				<File Id="666893216" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[G]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="671858453" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_surrender.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_surrender_818F3B66.wem</CachePath>
+				</File>
 				<File Id="672564742" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="676642542" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test17tone.wav</ShortName>
+					<CachePath>SFX/vo_test17tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="682265836" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_gentle.wav</ShortName>
@@ -201,6 +297,18 @@
 					<ShortName>harmony_[B]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="711571273" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitSigh_opening.wav</ShortName>
+					<CachePath>SFX/vo_elicitSigh_opening_818F3B66.wem</CachePath>
+				</File>
+				<File Id="719008266" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitQueryFail_any3.wav</ShortName>
+					<CachePath>SFX/vo_elicitQueryFail_any3_818F3B66.wem</CachePath>
+				</File>
+				<File Id="740646625" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test06tone.wav</ShortName>
+					<CachePath>SFX/vo_test06tone_818F3B66.wem</CachePath>
+				</File>
 				<File Id="742535958" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>mindplace_reference.wav</ShortName>
 					<CachePath>SFX/mindplace_reference_FBC78EF0.wem</CachePath>
@@ -209,17 +317,53 @@
 					<ShortName>harmony_[D]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[D]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="768921853" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test03hum.wav</ShortName>
+					<CachePath>SFX/vo_test03hum_818F3B66.wem</CachePath>
+				</File>
+				<File Id="776748344" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test19tone.wav</ShortName>
+					<CachePath>SFX/vo_test19tone_818F3B66.wem</CachePath>
+				</File>
 				<File Id="790980483" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[D]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="798919832" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test15tone.wav</ShortName>
+					<CachePath>SFX/vo_test15tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="802065351" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_opening_openingLong.wav</ShortName>
 					<CachePath>SFX/vo_opening_openingLong_818F3B66.wem</CachePath>
 				</File>
+				<File Id="805005210" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test11tone.wav</ShortName>
+					<CachePath>SFX/vo_test11tone_818F3B66.wem</CachePath>
+				</File>
+				<File Id="837873602" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_posture_relax.wav</ShortName>
+					<CachePath>SFX/vo_posture_relax_818F3B66.wem</CachePath>
+				</File>
+				<File Id="838651350" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitSighFail_any.wav</ShortName>
+					<CachePath>SFX/vo_elicitSighFail_any_818F3B66.wem</CachePath>
+				</File>
+				<File Id="854984063" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test01hum.wav</ShortName>
+					<CachePath>SFX/vo_test01hum_818F3B66.wem</CachePath>
+				</File>
+				<File Id="864683053" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_somaticMeditation_long.wav</ShortName>
+					<CachePath>SFX/vo_somaticMeditation_long_818F3B66.wem</CachePath>
+				</File>
 				<File Id="882598793" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="907774068" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test16tone.wav</ShortName>
+					<CachePath>SFX/vo_test16tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="924773234" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_sono flore.wav</ShortName>
@@ -228,6 +372,10 @@
 				<File Id="943526868" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="947769936" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test09tone.wav</ShortName>
+					<CachePath>SFX/vo_test09tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="955040453" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
@@ -241,9 +389,37 @@
 					<ShortName>vo_opening_openingShort.wav</ShortName>
 					<CachePath>SFX/vo_opening_openingShort_818F3B66.wem</CachePath>
 				</File>
+				<File Id="999054356" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_wakeUp.wav</ShortName>
+					<CachePath>SFX/vo_wakeUp_818F3B66.wem</CachePath>
+				</File>
+				<File Id="999597088" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitQuery_opening.wav</ShortName>
+					<CachePath>SFX/vo_elicitQuery_opening_818F3B66.wem</CachePath>
+				</File>
 				<File Id="1023924053" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>music_OpeningMeditationShort_A Major.wav</ShortName>
 					<CachePath>SFX/music_OpeningMeditationShort_A Major_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1026853668" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicOpening_surrender.wav</ShortName>
+					<CachePath>SFX/vo_thematicOpening_surrender_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1028451859" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitQueryFail_any1.wav</ShortName>
+					<CachePath>SFX/vo_elicitQueryFail_any1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1029485998" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test08tone.wav</ShortName>
+					<CachePath>SFX/vo_test08tone_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1059101541" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_endingSoon.wav</ShortName>
+					<CachePath>SFX/vo_endingSoon_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1061468265" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_somaticMeditation_short.wav</ShortName>
+					<CachePath>SFX/vo_somaticMeditation_short_818F3B66.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
@@ -254,6 +430,18 @@
 				</Custom>
 			</Plugins>
 			<Events>
+				<Event Id="3806398564" Name="GameMode_SetSwitch_Long" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="674228435" Name="Long"/>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
+					</ActionSetSwitch>
+				</Event>
+				<Event Id="3487229100" Name="GameMode_SetSwitch_Short" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="2585211341" Name="Short"/>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
+					</ActionSetSwitch>
+				</Event>
 				<Event Id="2590479921" Name="Play_AVSGenerator" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="742535958"/>
@@ -330,6 +518,62 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="OneShot" DurationMin="6.144" DurationMax="52.565334">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
+							<MediaRefs>
+								<MediaRef Id="74052971"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="2585211341" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="139444766"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="936790198" Name="Play_VO_EndingSoon" DurationType="OneShot" DurationMin="2.7306666" DurationMax="2.7306666">
+					<MediaRefs>
+						<MediaRef Id="1059101541"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4057363449" Name="Play_VO_GuidedVocalizationAdvanced" DurationType="OneShot" DurationMin="2.7306666" DurationMax="3.4133334">
+					<MediaRefs>
+						<MediaRef Id="8786612"/>
+						<MediaRef Id="676642542"/>
+						<MediaRef Id="776748344"/>
+						<MediaRef Id="907774068"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="745351876" Name="Play_VO_GuidedVocalizationAhh" DurationType="OneShot" DurationMin="2.7306666" DurationMax="17.749332">
+					<MediaRefs>
+						<MediaRef Id="350705659"/>
+						<MediaRef Id="402014584"/>
+						<MediaRef Id="487812902"/>
+						<MediaRef Id="581489383"/>
+						<MediaRef Id="740646625"/>
+						<MediaRef Id="805005210"/>
+						<MediaRef Id="947769936"/>
+						<MediaRef Id="1029485998"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="897777483" Name="Play_VO_GuidedVocalizationHum" DurationType="OneShot" DurationMin="2.7306666" DurationMax="10.922667">
+					<MediaRefs>
+						<MediaRef Id="221214242"/>
+						<MediaRef Id="768921853"/>
+						<MediaRef Id="854984063"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1350331786" Name="Play_VO_GuidedVocalizationOhh" DurationType="OneShot" DurationMin="13.653334" DurationMax="19.114666">
+					<MediaRefs>
+						<MediaRef Id="250697112"/>
+						<MediaRef Id="335139113"/>
+						<MediaRef Id="493526042"/>
+						<MediaRef Id="798919832"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1386597262" Name="Play_VO_Opening" DurationType="OneShot" DurationMin="37.546665" DurationMax="69.632">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -352,6 +596,147 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="1854443368" Name="Play_VO_Orientation" DurationType="OneShot" DurationMin="40.96" DurationMax="40.96">
+					<MediaRefs>
+						<MediaRef Id="295819595"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3287111370" Name="Play_VO_Posture" DurationType="OneShot" DurationMin="8.192" DurationMax="11.605333">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="184547165" Id="3891673577" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="8095985"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="184547165" Id="3551080421"/>
+							<MediaRefs>
+								<MediaRef Id="837873602"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1488609146" Name="Play_VO_QueryElicitation1" DurationType="OneShot" DurationMin="53.930668" DurationMax="53.930668">
+					<MediaRefs>
+						<MediaRef Id="999597088"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1488609145" Name="Play_VO_QueryElicitation2" DurationType="OneShot" DurationMin="47.786667" DurationMax="47.786667">
+					<MediaRefs>
+						<MediaRef Id="39430341"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1422850326" Name="Play_VO_QueryElicitationFail1" DurationType="OneShot" DurationMin="10.922667" DurationMax="29">
+					<MediaRefs>
+						<MediaRef Id="182072962"/>
+						<MediaRef Id="369988848"/>
+						<MediaRef Id="719008266"/>
+						<MediaRef Id="1028451859"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1422850325" Name="Play_VO_QueryElicitationFail2" DurationType="OneShot" DurationMin="10.922667" DurationMax="47.786667">
+					<MediaRefs>
+						<MediaRef Id="39430341"/>
+						<MediaRef Id="182072962"/>
+						<MediaRef Id="719008266"/>
+						<MediaRef Id="1028451859"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1051170748" Name="Play_VO_QueryElicitationPass2" DurationType="OneShot" DurationMin="1.3653333" DurationMax="1.3653333">
+					<MediaRefs>
+						<MediaRef Id="141708242"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="186032212" Name="Play_VO_QueryElicitationPassThankYou1" DurationType="OneShot" DurationMin="1.3653333" DurationMax="1.3653333">
+					<MediaRefs>
+						<MediaRef Id="141708242"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2138093883" Name="Play_VO_SighElicitation1" DurationType="OneShot" DurationMin="34.133335" DurationMax="34.133335">
+					<MediaRefs>
+						<MediaRef Id="711571273"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2138093880" Name="Play_VO_SighElicitation2" DurationType="OneShot" DurationMin="20.48" DurationMax="20.48">
+					<MediaRefs>
+						<MediaRef Id="494111603"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1024713723" Name="Play_VO_SighElicitationFail1" DurationType="OneShot" DurationMin="21.162666" DurationMax="22.528">
+					<MediaRefs>
+						<MediaRef Id="648810886"/>
+						<MediaRef Id="838651350"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1024713720" Name="Play_VO_SighElicitationFail2" DurationType="OneShot" DurationMin="21.162666" DurationMax="21.162666">
+					<MediaRefs>
+						<MediaRef Id="838651350"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1928920978" Name="Play_VO_Somatic" DurationType="OneShot" DurationMin="112.64" DurationMax="238.93333">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="1061468265"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
+							<MediaRefs>
+								<MediaRef Id="864683053"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2088653686" Name="Play_VO_ThematicContent" DurationType="OneShot" DurationMin="146.09067" DurationMax="146.09067">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3925841397" Id="2965941853" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="1026853668"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="247426471" Name="Play_VO_ThematicSavasana" DurationType="OneShot" DurationMin="85.333336" DurationMax="132.43733">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2585211341" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="655141054"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2965941853"/>
+							<MediaRefs>
+								<MediaRef Id="671858453"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="674228435"/>
+							<MediaRefs>
+								<MediaRef Id="587565267"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="322188649" Name="Play_VO_Wakeup" DurationType="OneShot" DurationMin="38.912" DurationMax="38.912">
+					<MediaRefs>
+						<MediaRef Id="999054356"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2767686943" Name="Play_VO_Wisdom" DurationType="OneShot" DurationMin="455.33865" DurationMax="455.33865">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="683317262" Id="1398814679" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="592303975"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="71194751" Name="GreenSineVolume"/>
@@ -362,10 +747,33 @@
 				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
 			</GameParameters>
 			<SwitchGroups>
+				<SwitchGroup Id="184547165" Name="VO_Posture">
+					<Switches>
+						<Switch Id="3551080421" Name="Relax"/>
+						<Switch Id="3891673577" Name="LieDown"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="611900938" Name="LinearMusic_Opening">
 					<Switches>
 						<Switch Id="2367398737" Name="openingLong"/>
 						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="683317262" Name="VO_Wisdom">
+					<Switches>
+						<Switch Id="1057915111" Name="NotKnowing"/>
+						<Switch Id="1398814679" Name="Jaguar"/>
+						<Switch Id="1743886715" Name="Peru"/>
+						<Switch Id="2721896533" Name="DieWell"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1721781634" Name="Gratitude"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="3041563226" Name="Silence"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="2420200949" Name="InteractiveMusicSwitchGroup">
@@ -374,6 +782,35 @@
 						<Switch Id="84696442" Name="E"/>
 						<Switch Id="84696444" Name="C"/>
 						<Switch Id="84696445" Name="B"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3813349969" Name="VO_Somatic">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="2585211341" Name="Short"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3925841397" Name="VO_ThematicContent">
+					<Switches>
+						<Switch Id="103389341" Name="Peace"/>
+						<Switch Id="1047870521" Name="Narrative"/>
+						<Switch Id="2721896533" Name="DieWell"/>
+						<Switch Id="2965941853" Name="Surrender"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4155508698" Name="VO_ThematicSavasana">
+					<Switches>
+						<Switch Id="103389341" Name="Peace"/>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1047870521" Name="Narrative"/>
+						<Switch Id="1126065684" Name="Fireflies"/>
+						<Switch Id="1721781634" Name="Gratitude"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="2655751454" Name="Kindness"/>
+						<Switch Id="2692078280" Name="Metta"/>
+						<Switch Id="2965941853" Name="Surrender"/>
+						<Switch Id="3041563226" Name="Silence"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="4212583561" Name="VO_Opening">
@@ -386,5 +823,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{BE298DAF-6374-FE31-76A9-851B96B9F6C6}</FileHash>
+	<FileHash>{D32CA0B6-5347-D078-4BE7-B92725EDF5DD}</FileHash>
 </SoundBanksInfo>

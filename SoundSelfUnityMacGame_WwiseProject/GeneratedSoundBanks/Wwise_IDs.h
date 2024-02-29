@@ -13,10 +13,35 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID GAMEMODE_SETSWITCH_LONG = 3806398564U;
+        static const AkUniqueID GAMEMODE_SETSWITCH_SHORT = 3487229100U;
         static const AkUniqueID PLAY_AVSGENERATOR = 2590479921U;
         static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 2845481429U;
         static const AkUniqueID PLAY_LINEARMUSIC_OPENING = 2675524623U;
+        static const AkUniqueID PLAY_VO_CLOSINGGOODBYE = 699412784U;
+        static const AkUniqueID PLAY_VO_ENDINGSOON = 936790198U;
+        static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONADVANCED = 4057363449U;
+        static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONAHH = 745351876U;
+        static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONHUM = 897777483U;
+        static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONOHH = 1350331786U;
         static const AkUniqueID PLAY_VO_OPENING = 1386597262U;
+        static const AkUniqueID PLAY_VO_ORIENTATION = 1854443368U;
+        static const AkUniqueID PLAY_VO_POSTURE = 3287111370U;
+        static const AkUniqueID PLAY_VO_QUERYELICITATION1 = 1488609146U;
+        static const AkUniqueID PLAY_VO_QUERYELICITATION2 = 1488609145U;
+        static const AkUniqueID PLAY_VO_QUERYELICITATIONFAIL1 = 1422850326U;
+        static const AkUniqueID PLAY_VO_QUERYELICITATIONFAIL2 = 1422850325U;
+        static const AkUniqueID PLAY_VO_QUERYELICITATIONPASS2 = 1051170748U;
+        static const AkUniqueID PLAY_VO_QUERYELICITATIONPASSTHANKYOU1 = 186032212U;
+        static const AkUniqueID PLAY_VO_SIGHELICITATION1 = 2138093883U;
+        static const AkUniqueID PLAY_VO_SIGHELICITATION2 = 2138093880U;
+        static const AkUniqueID PLAY_VO_SIGHELICITATIONFAIL1 = 1024713723U;
+        static const AkUniqueID PLAY_VO_SIGHELICITATIONFAIL2 = 1024713720U;
+        static const AkUniqueID PLAY_VO_SOMATIC = 1928920978U;
+        static const AkUniqueID PLAY_VO_THEMATICCONTENT = 2088653686U;
+        static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
+        static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
+        static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
     } // namespace EVENTS
 
     namespace STATES

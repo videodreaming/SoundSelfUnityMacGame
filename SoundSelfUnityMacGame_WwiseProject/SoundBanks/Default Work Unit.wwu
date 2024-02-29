@@ -6,9 +6,34 @@
 				<SoundBank Name="Main" ID="{B8DA2B17-BA02-469D-857F-79A5E4FCE4C3}">
 					<ObjectInclusionList>
 						<ObjectRef Name="Play_LinearMusic_Opening" ID="{422C26D5-A8F6-40DB-81DF-F1EBA923BDC7}" WorkUnitID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_QueryElicitation1" ID="{3DDFBC62-EECA-414B-959A-6CD9FF50F414}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_InteractiveMusicSystem_SilentLoops" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_ClosingGoodbye" ID="{E317C9D8-FCA4-41C2-BC26-F16E968EFAE1}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_GuidedVocalizationAhh" ID="{B097EC3D-B020-41EF-AB70-7566952FCFC4}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_Opening" ID="{A96E99EB-25CF-422C-B4A9-890C7155A065}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="GameMode_SetSwitch_Long" ID="{00290282-72E1-44AE-B9E1-78AAE3F35F42}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_SighElicitationFail1" ID="{847982D6-6BD0-458E-B7EF-8583C5E6353D}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_ThematicSavasana" ID="{725978A3-4CB7-45CF-86E3-BD5BAE777DA1}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_QueryElicitation2" ID="{9C041F2C-C5FA-4650-A7FF-2589D7E2832D}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_SighElicitation1" ID="{2743CE95-A778-4676-A9E7-6E4BFF47E683}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_Wisdom" ID="{7FC7B841-292F-46E4-BB2A-7198FF57229B}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_EndingSoon" ID="{9E0D6496-82D7-4844-ACD7-8C31B52A9987}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_Wakeup" ID="{8E31B5D4-53EF-4857-93D3-635F862C3583}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_SighElicitationFail2" ID="{C24856F2-1326-487C-8349-C8A5075D0F2E}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_ThematicContent" ID="{D602521A-6FF7-48C0-9307-06656786D26D}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVSGenerator" ID="{00220282-804B-4918-8804-395C2EF3E676}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_QueryElicitationPassThankYou1" ID="{DEC1D82D-0A4E-49C3-9AE1-1D4C421710EE}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_Somatic" ID="{2A323EE3-3873-4A12-BD6B-479D1A70CA48}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_QueryElicitationFail1" ID="{0D6EC494-2781-4A56-8C83-A52071A455FA}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_GuidedVocalizationOhh" ID="{8E2E2C4B-F191-4B6C-B7F0-8643BFB84742}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_QueryElicitationPass2" ID="{89874443-E371-4BD5-833B-22293DBD6B7A}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_QueryElicitationFail2" ID="{CAAD2BB8-41FE-4CDA-9277-9A649A763E03}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="GameMode_SetSwitch_Short" ID="{7B2E7E82-55B7-4DE5-86A8-F1CC1AA19757}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_Posture" ID="{73BF54EE-18F3-4E27-A1F4-DBE4DC4DB926}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_Orientation" ID="{F33C9A15-711A-4E50-A390-0486EB1F6B3A}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_GuidedVocalizationAdvanced" ID="{CA09A92A-1919-4E7C-A1E2-A10D652F7F14}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_SighElicitation2" ID="{37DF2B27-2FC6-4EDD-8549-BE6DC8CA14AA}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_GuidedVocalizationHum" ID="{FF863BD2-6C72-4EF3-9D32-B7A302EDEECC}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
