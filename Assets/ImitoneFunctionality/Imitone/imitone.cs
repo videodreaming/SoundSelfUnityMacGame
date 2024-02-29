@@ -59,7 +59,7 @@ namespace imitone
             uint result = 200;
             if (config_changes.Length > 0)
                 imi_SetConfig(voice, config_changes);
-
+                
             if (result > 299)
                 throw new System.ArgumentException(String.Format("Could not configure voice: {0}", imi_GetError(voice)));
 

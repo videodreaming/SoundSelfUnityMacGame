@@ -26,12 +26,15 @@ public class VOManager : MonoBehaviour
 
     public void playNewVOclip()
     {
-        //AkSoundEnging.PostEvent()
+
     }
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            AkSoundEngine.PostEvent("Play_LinearMusic_Opening", gameObject);
+        }
     }
 }
 

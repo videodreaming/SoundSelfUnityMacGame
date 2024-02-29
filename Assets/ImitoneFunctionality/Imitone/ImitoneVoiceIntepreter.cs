@@ -136,7 +136,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private bool forceToneActive = false;
     private bool forceNoTone = false;
 
-
     int sampleRate;
     ImitoneVoice imitone;
 
