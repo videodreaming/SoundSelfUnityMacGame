@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RectangleManager : MonoBehaviour
 {
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public RespirationTracker respirationTracker;
     public GameObject rectanglePrefab;
     public GameObject SelectedRectangle;
     public GameObject InhaleRectangle;
@@ -23,6 +24,12 @@ public class RectangleManager : MonoBehaviour
         startingPoint = new Vector3(0, transform.position.y, transform.position.z);
     }
 
+         //@REEF: (before undoing all my changes) I made the rectangle work as a function I can access from the respiration tracker (maybe you can just have it access the library directly instead of the dumb way I did it here), because I need to be able to visualize information about each cycle which may change dynamically. Other comments on how it needs to work:
+        // 1. I need to be able to change the color of the rectangle if the state of the cycle becomes "invalid" (see code in RespirationTracker.cs). I need to see which particular rectangle (i.e. inhale or exhale) triggered the invalidation
+        // 2. The rectangle needs to shorten again as it leaves the "measurement window" (see code in RespirationTracker.cs)
+        // 3. When I changed this to a public void, I borked it, and it no longer moves to the right. That needs to be fixed.
+        // 4. I need some text right above or on top of the rectangles that just tells me both respirationtracker._respirationRate and respirationtracker._respirationRateRaw.
+   
     void FixedUpdate()
     {
     if(Input.GetKey(KeyCode.R)){

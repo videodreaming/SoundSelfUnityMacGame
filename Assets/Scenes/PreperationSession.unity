@@ -1126,53 +1126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
---- !u!1 &133894979
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 133894980}
-  - component: {fileID: 133894981}
-  m_Layer: 0
-  m_Name: RespirationTracker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &133894980
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133894979}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 78.858, y: -156.51442, z: 369.3202}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 740096626}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &133894981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133894979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcaa5c1f6cd78df41ad308518c56edbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
-  _respirationRate: 1
-  _respirationRateRaw: 1
 --- !u!1 &217078664
 GameObject:
   m_ObjectHideFlags: 0
@@ -8670,11 +8623,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 740096626}
+  - component: {fileID: 740096621}
+  - component: {fileID: 740096622}
   - component: {fileID: 740096625}
+  - component: {fileID: 740096627}
   - component: {fileID: 740096624}
   - component: {fileID: 740096623}
-  - component: {fileID: 740096622}
-  - component: {fileID: 740096621}
   m_Layer: 0
   m_Name: User
   m_TagString: Untagged
@@ -8872,10 +8826,25 @@ Transform:
   m_LocalPosition: {x: 303.23636, y: 404.86465, z: -472.0918}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 133894980}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &740096627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcaa5c1f6cd78df41ad308518c56edbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImitoneVoiceIntepreter: {fileID: 740096625}
+  _respirationRate: 1
+  _respirationRateRaw: 1
+  toneActiveForRespirationRate: 0
 --- !u!1 &775532890
 GameObject:
   m_ObjectHideFlags: 0
@@ -9152,6 +9121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceIntepreter: {fileID: 740096625}
+  respirationTracker: {fileID: 740096627}
   rectanglePrefab: {fileID: 2136379597242905194, guid: b2f7d0aeb351b4aaa81c07226898e5ab, type: 3}
   SelectedRectangle: {fileID: 0}
   InhaleRectangle: {fileID: 0}

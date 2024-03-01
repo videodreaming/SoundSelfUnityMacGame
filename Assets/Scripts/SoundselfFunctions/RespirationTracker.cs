@@ -8,13 +8,14 @@ public class RespirationTracker : MonoBehaviour
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
     public float _respirationRate = 1.0f;    
     public float _respirationRateRaw    = 1.0f;
-    private bool toneActiveForRespirationRate = false;
+    public bool toneActiveForRespirationRate = false;
     private bool frameGuardTone = false;
-    private float _positiveActiveThreshold = 1.2f;
+    private float _positiveActiveThreshold = 0.75f;
     private float _negativeActiveThreshold = 0.75f;
     private float _respirationMeasurementWindow1 = 60.0f;
     private float _respirationMeasurementWindow2 = 120.0f;
     private int idCounter = 0;
+    private bool invalidFlag = false;
     private Dictionary<int, BreathCycleData> BreathCycleDictionary = new Dictionary<int, BreathCycleData>();
 
     public struct BreathCycleData
@@ -50,7 +51,7 @@ public class RespirationTracker : MonoBehaviour
                 frameGuardTone = true;
             }
         }
-        else if (ImitoneVoiceIntepreter._tThisTone < _negativeActiveThreshold)
+        else if (ImitoneVoiceIntepreter._tThisRest > _negativeActiveThreshold)
         {
             toneActiveForRespirationRate = false;
             frameGuardTone = false;
@@ -71,13 +72,13 @@ public class RespirationTracker : MonoBehaviour
         int id = idCounter;
 
         //create a new dictionary entry for this coroutine cycle:
-        BreathCycleData newBreathCycleData = new BreathCycleData();
-        newBreathCycleData.window = 1;
-        newBreathCycleData._weight = 1f;
-        newBreathCycleData._cycleCount = 0.5f;
+        BreathCycleData thisBreathCycleData = new BreathCycleData();
+        thisBreathCycleData.window = 1;
+        thisBreathCycleData._weight = 1f;
+        thisBreathCycleData._cycleCount = 0.5f;
         
         //add the new dictionary entry to the dictionary:
-        BreathCycleDictionary.Add(id, newBreathCycleData);
+        BreathCycleDictionary.Add(id, thisBreathCycleData);
         Debug.Log("RespirationCycleCoroutine started <" + id + ">");
         UpdateRespirationRate();
 
@@ -88,24 +89,24 @@ public class RespirationTracker : MonoBehaviour
             _cycleLength += Time.deltaTime;
 
             // Get the BreathCycleData object from the dictionary
-            newBreathCycleData = BreathCycleDictionary[id];
+            thisBreathCycleData = BreathCycleDictionary[id];
 
             // Update the object
-            newBreathCycleData._toneLength = _toneLength;
-            newBreathCycleData._cycleLength = _cycleLength;
-            newBreathCycleData.invalid = _toneLength > 45.0f;
+            thisBreathCycleData._toneLength = _toneLength;
+            thisBreathCycleData._cycleLength = _cycleLength;
+            thisBreathCycleData.invalid = _toneLength > 45.0f;
 
             // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = newBreathCycleData;
+            BreathCycleDictionary[id] = thisBreathCycleData;
 
             //Debug.Log("id: " + id + " toning " + "toneLength: " + _toneLength + " _respirationRate: " + _respirationRate);
 
             yield return null;
         }
 
-        newBreathCycleData = BreathCycleDictionary[id];
-        newBreathCycleData._cycleCount = 1.0f;
-        BreathCycleDictionary[id] = newBreathCycleData;
+        thisBreathCycleData = BreathCycleDictionary[id];
+        thisBreathCycleData._cycleCount = 1.0f;
+        BreathCycleDictionary[id] = thisBreathCycleData;
         Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
         UpdateRespirationRate();
 
@@ -116,15 +117,15 @@ public class RespirationTracker : MonoBehaviour
             _cycleLength += Time.deltaTime;
 
             // Get the BreathCycleData object from the dictionary
-            newBreathCycleData = BreathCycleDictionary[id];
+            thisBreathCycleData = BreathCycleDictionary[id];
 
             // Update the object
-            newBreathCycleData._restLength = _restLength;
-            newBreathCycleData._cycleLength = _cycleLength;
-            newBreathCycleData.invalid = (_restLength > 13.0f) || (_toneLength > 45.0f);
+            thisBreathCycleData._restLength = _restLength;
+            thisBreathCycleData._cycleLength = _cycleLength;
+            thisBreathCycleData.invalid = (_restLength > 13.0f) || (_toneLength > 45.0f);
 
             // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = newBreathCycleData;
+            BreathCycleDictionary[id] = thisBreathCycleData;
 
             //Debug.Log("id: " + id + " resting " + "restLength: " + _restLength + " _respirationRate: " + _respirationRate);
 
@@ -140,13 +141,13 @@ public class RespirationTracker : MonoBehaviour
             _tAfterCycle += Time.deltaTime;
 
             // Get the BreathCycleData object from the dictionary
-            newBreathCycleData = BreathCycleDictionary[id];
+            thisBreathCycleData = BreathCycleDictionary[id];
 
             // Update the object
-            newBreathCycleData._cycleCount = Mathf.Clamp((_respirationMeasurementWindow1 - _tAfterCycle) / Mathf.Max(_cycleLength, 1.0f), 0.0f, 1.0f);
+            thisBreathCycleData._cycleCount = Mathf.Clamp((_respirationMeasurementWindow1 - _tAfterCycle) / Mathf.Max(_cycleLength, 1.0f), 0.0f, 1.0f);
 
             // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = newBreathCycleData;
+            BreathCycleDictionary[id] = thisBreathCycleData;
 
             //Debug.Log("id: " + id + " waiting " + " cycleLength: " + _cycleLength + " _respirationRate: " + _respirationRate);
 
@@ -154,9 +155,9 @@ public class RespirationTracker : MonoBehaviour
         }
 
         //Check if this dictionary entry is invalid
-        newBreathCycleData = BreathCycleDictionary[id];
+        thisBreathCycleData = BreathCycleDictionary[id];
         bool invalid = false;
-        invalid = newBreathCycleData.invalid;
+        invalid = thisBreathCycleData.invalid;
 
         //Remove the dictionary entry:
         Debug.Log("RespirationCycleCoroutine ended <" + id + ">");
@@ -165,7 +166,7 @@ public class RespirationTracker : MonoBehaviour
         //If the dictionary entry is invalid, update the respiration rate
         if (invalid)
         {
-            Debug.Log("Invalid breaty cycle ending. Updating respiration rate. <" + id + ">");
+            Debug.Log("Invalid breath cycle ending. Updating respiration rate. <" + id + ">");
             UpdateRespirationRate();
         }
     }
@@ -193,9 +194,17 @@ public class RespirationTracker : MonoBehaviour
             {
                 _respirationRateRaw += entry.Value._cycleCount;
             }
+
+            if(!invalidFlag)
+            {
+                invalidFlag = true;
+                Debug.Log("Invalid breath cycle detected. Respiration rate set to -1.0");
+            }
+
         }
         else
         {
+            invalidFlag = false;
             foreach (KeyValuePair<int, BreathCycleData> entry in BreathCycleDictionary)
             {
                 _respirationRate += entry.Value._cycleCount;
