@@ -7493,7 +7493,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -20, y: -107}
+  m_AnchoredPosition: {x: -671.5, y: 467}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &482273969
@@ -8352,7 +8352,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -109, y: -107}
+  m_AnchoredPosition: {x: -796.44, y: 467.6}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &668810479
@@ -8791,6 +8791,7 @@ MonoBehaviour:
   DevModeSettings: {fileID: 316632675}
   pitch_hz: 0
   note_st: 0
+  _dbThreshold: -25
   positiveActiveThreshold1: 0.05
   positiveActiveThreshold2: 0.45
   negativeActiveThreshold: 0.1
@@ -8810,7 +8811,6 @@ MonoBehaviour:
   _dbValue: 0
   _timbre: 0
   _level: 0
-  _dbThreshold: -25
   _audioClip: {fileID: 0}
   _pitchDifference: 3
   imitoneState: 
