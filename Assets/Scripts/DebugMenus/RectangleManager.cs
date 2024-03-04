@@ -21,18 +21,24 @@ public class RectangleManager : MonoBehaviour
         voiceOn = false;
         amountToScale = 1f;
         amountToMove = 1f;
-        startingPoint = new Vector3(0, transform.position.y, transform.position.z);
+        startingPoint = new Vector3(0, transform.position.y +500.0f, transform.position.z);
     }
 
-         //@REEF: (before undoing all my changes) I made the rectangle work as a function I can access from the respiration tracker (maybe you can just have it access the library directly instead of the dumb way I did it here), because I need to be able to visualize information about each cycle which may change dynamically. Other comments on how it needs to work:
+         //@REEF: (before undoing all my changes) I made the rectangle work as a function I can access from the respiration tracker
+         // (maybe you can just have it access the dictionary directly instead of the dumb way I did it here), because I need to be able to visualize information about each cycle which may change dynamically. Other comments on how it needs to work:
         // 1. I need to be able to change the color of the rectangle if the state of the cycle becomes "invalid" (see code in RespirationTracker.cs). I need to see which particular rectangle (i.e. inhale or exhale) triggered the invalidation
+        // IF the rectangle becomes invalid, it needs to change color to dark red if it was an inhale rectangle. if it becomes invalid and is a exhale, make it a dark blue 
         // 2. The rectangle needs to shorten again as it leaves the "measurement window" (see code in RespirationTracker.cs)
-        // 3. When I changed this to a public void, I borked it, and it no longer moves to the right. That needs to be fixed.
+        // The correspending rectangle's Y scale should be tied to respirationTracker.thisbreathecycledata._cycleCount (This rectangle is purely tied to it's respirationtrack dictionary entry counterpart)
+        // 3. When I changed this to a public void, I borked it, and it no longer moves to the right. That needs to be fixed. FIXED
         // 4. I need some text right above or on top of the rectangles that just tells me both respirationtracker._respirationRate and respirationtracker._respirationRateRaw.
+        // print these floats onto the screen as a text object.
+
+        //change colours to be green and blue instead of red and blue
    
     void FixedUpdate()
     {
-    if(Input.GetKey(KeyCode.R)){
+    /*if(Input.GetKey(KeyCode.R)){
         if(SelectedRectangle != null){
             RectTransform rectTransform = SelectedRectangle.GetComponent<RectTransform>();
             if (rectTransform != null)
@@ -74,11 +80,6 @@ public class RectangleManager : MonoBehaviour
             }
         }
     }
-        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag("oldrect");
-        // Loop through each GameObject and apply the position change
-        foreach (GameObject obj in objectsWithTag)
-        {
-            obj.transform.position = new Vector3(obj.transform.position.x + amountToMove, obj.transform.position.y, obj.transform.position.z);
-        }
-    }
+    }*/
+}
 }
