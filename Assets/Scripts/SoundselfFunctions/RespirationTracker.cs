@@ -14,17 +14,18 @@ public class RespirationTracker : MonoBehaviour
     private float _negativeActiveThreshold = 0.75f;
     private float _respirationMeasurementWindow1 = 60.0f;
     private float _respirationMeasurementWindow2 = 120.0f;
-    private float _respirationMeasured   = 0.0f;
-    private bool insufficientData = true;
     private int idCounter = 0;
     private bool invalidFlag = false;
     private Vector3 startingPoint;
     private float amountToScale;
     private float amountToMove;
+    private float debugStackY = 50f;
     public Canvas canvas;  
     public GameObject rectanglePrefab;
     public GameObject SelectedRectangle;
-    private Dictionary<int, BreathCycleData> BreathCycleDictionary = new Dictionary<int, BreathCycleData>();
+    private Dictionary<int, BreathCycleData> BreathCycleDictionary1 = new Dictionary<int, BreathCycleData>();
+    private Dictionary<int, BreathCycleData> BreathCycleDictionary2 = new Dictionary<int, BreathCycleData>();
+
 
     public struct BreathCycleData
     {
@@ -40,8 +41,8 @@ public class RespirationTracker : MonoBehaviour
     }
     void Start()
     {
-        amountToScale = 0.05f;
-        amountToMove = 0.05f;
+        amountToScale = 0.03f;
+        amountToMove = 0.03f;
         startingPoint = new Vector3(0, transform.position.y, transform.position.z);
     }
 
@@ -63,7 +64,7 @@ public class RespirationTracker : MonoBehaviour
             {
                 // Start the coroutine to measure the duration of one tone/rest cycle, but do it just once per tone:
                 Debug.Log("Start Respiration Cycle Coroutine");
-                StartCoroutine(RespirationCycleCoroutine(_respirationMeasurementWindow1, true));
+                StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary1,_respirationMeasurementWindow1, true, 0));
                 frameGuardTone = true;
             }
         }
@@ -74,7 +75,8 @@ public class RespirationTracker : MonoBehaviour
             frameGuardTone = false;
         }
 
-        UpdateRespirationRate(BreathCycleDictionary);
+        _respirationRate = GetRespirationRate(BreathCycleDictionary1, _respirationMeasurementWindow1);
+        _respirationRateRaw = GetRespirationRateRaw(BreathCycleDictionary1, _respirationMeasurementWindow1);
 
         //Debug Visualizations
         GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag("oldrect");
@@ -85,7 +87,7 @@ public class RespirationTracker : MonoBehaviour
         }
     }
 
-    private IEnumerator RespirationCycleCoroutine (float _measurementWindow = 60.0f, bool visualize = true){
+    private IEnumerator RespirationCycleCoroutine (Dictionary<int,BreathCycleData> BreathCycleDictionary, float _measurementWindow = 60.0f, bool visualize = true, int visualizeY = 0){
         // This coroutine measures the duration of one tone/rest cycle.
         // It starts when toneActiveForRespirationRate is true.
         // It measures the duration of the tone, the next rest (when toneActiveForRespirationRate is false), and the full cycle (which ends the next time toneActiveForRespirationRate is true).
@@ -107,8 +109,8 @@ public class RespirationTracker : MonoBehaviour
 
         if(visualize)
         {
-            thisBreathCycleData.inhalerectangle = Instantiate(rectanglePrefab, startingPoint - new Vector3(0.0f, 400.0f, 0.0f), Quaternion.identity, canvas.transform);
-            thisBreathCycleData.exhalerectangle = Instantiate(rectanglePrefab, startingPoint - new Vector3(0.0f, 400.0f, 0.0f), Quaternion.identity, canvas.transform);
+            thisBreathCycleData.inhalerectangle = Instantiate(rectanglePrefab, startingPoint - new Vector3(0.0f, 400.0f + debugStackY*visualizeY, 0.0f), Quaternion.identity, canvas.transform);
+            thisBreathCycleData.exhalerectangle = Instantiate(rectanglePrefab, startingPoint - new Vector3(0.0f, 400.0f+debugStackY*visualizeY, 0.0f), Quaternion.identity, canvas.transform);
         }
         
         //add the new dictionary entry to the dictionary:
@@ -130,6 +132,9 @@ public class RespirationTracker : MonoBehaviour
             thisBreathCycleData._cycleLength = _cycleLength;
             thisBreathCycleData.invalid = _toneLength > 45.0f;
 
+            // Put the modified object back into the dictionary
+            BreathCycleDictionary[id] = thisBreathCycleData;
+
             if(visualize)
             {
                 SelectedRectangle = thisBreathCycleData.inhalerectangle;
@@ -148,20 +153,18 @@ public class RespirationTracker : MonoBehaviour
                     imageComponent.color = new Color(0f, 0.3f, 0f, 1f); // R, G, B, A
                 }
             }
-            // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = thisBreathCycleData;
 
             //Debug.Log("id: " + id + " toning " + "toneLength: " + _toneLength + " _respirationRate: " + _respirationRate);
 
             yield return null;
         }
 
-        thisBreathCycleData.inhalerectangle.tag = "oldrect";
         thisBreathCycleData = BreathCycleDictionary[id];
         thisBreathCycleData._cycleCount = 1.0f;
+        if(visualize) {thisBreathCycleData.inhalerectangle.tag = "oldrect";}
         BreathCycleDictionary[id] = thisBreathCycleData;
+
         Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
-        //UpdateRespirationRate();
 
         //Step 2: Measure the Rest
         _restLength = _negativeActiveThreshold;
@@ -177,6 +180,9 @@ public class RespirationTracker : MonoBehaviour
             thisBreathCycleData._restLength = _restLength;
             thisBreathCycleData._cycleLength = _cycleLength;
             thisBreathCycleData.invalid = (_restLength > 13.0f);
+
+            // Put the modified object back into the dictionary
+            BreathCycleDictionary[id] = thisBreathCycleData;
 
             // Do debug visualizations
             if (visualize)
@@ -200,16 +206,15 @@ public class RespirationTracker : MonoBehaviour
                 }
             }
             
-            // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = thisBreathCycleData;
-            
             //Debug.Log("id: " + id + " resting " + "restLength: " + _restLength + " _respirationRate: " + _respirationRate);
 
             yield return null;
         }
 
         Debug.Log("RespirationCycleCoroutine moving to Step 3 <" + id + ">");
-        thisBreathCycleData.exhalerectangle.tag = "oldrect";
+        if(visualize){thisBreathCycleData.exhalerectangle.tag = "oldrect";}
+
+        float previousCycleCount = 1.0f;
 
         //Step 3: Measure the time since the cycle ended, and fade it out of memory
         while (thisBreathCycleData._cycleCount > 0.0f)
@@ -222,10 +227,14 @@ public class RespirationTracker : MonoBehaviour
             thisBreathCycleData = BreathCycleDictionary[id];
 
             // Update the object and fade it from memory
-            thisBreathCycleData._cycleCount = Mathf.Clamp((_measurementWindow - _age) / Mathf.Max(_cycleLength, 1.0f), 0.0f, 1.0f);
+            thisBreathCycleData._cycleCount = Mathf.Clamp((_measurementWindow - _tAfterCycle) / Mathf.Max(_cycleLength, 1.0f), 0.0f, 1.0f);
 
+            // Put the modified object back into the dictionary
+            BreathCycleDictionary[id] = thisBreathCycleData;
+            
             // Do debug visualizations
-            if(visualize)
+            if(visualize) //@REEF, for another glimpse at how this bug works, switch this if statement with the one below, and see how the rectangles behave
+            //if(false)
             {
                 RectTransform rectTransforminhale = thisBreathCycleData.inhalerectangle.GetComponent<RectTransform>();
                 RectTransform rectTransformexhale = thisBreathCycleData.exhalerectangle.GetComponent<RectTransform>();
@@ -239,126 +248,69 @@ public class RespirationTracker : MonoBehaviour
                 }
             }
 
-            // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = thisBreathCycleData;
+            if (Mathf.Floor(thisBreathCycleData._cycleCount * 10) != Mathf.Floor(previousCycleCount * 10))
+            {
+                Debug.Log("id: " + id + "_cycleCount: " + thisBreathCycleData._cycleCount);
+            }
 
-            //Debug.Log("id: " + id + " waiting " + " cycleLength: " + _cycleLength + " _respirationRate: " + _respirationRate);
-
+            // Update the previous cycle count
+            previousCycleCount = thisBreathCycleData._cycleCount;
+            
             yield return null;
         }
 
-        //Check if this dictionary entry is invalid
-        thisBreathCycleData = BreathCycleDictionary[id];
-        bool invalid = false;
-        invalid = thisBreathCycleData.invalid;
-
-        //If the dictionary entry is invalid, update the respiration rate
-        if (invalid)
+        //if we are visualizing, then destroy the created game objects
+        if(visualize)
         {
-            Debug.Log("Invalid breath cycle ending. Updating respiration rate. <" + id + ">");
-            //UpdateRespirationRate();
+            Destroy(thisBreathCycleData.inhalerectangle);
+            Destroy(thisBreathCycleData.exhalerectangle);
         }
 
         //Remove the dictionary entry:
-        Debug.Log("RespirationCycleCoroutine ended <" + id + ">");
+        Debug.Log("BBB RespirationCycleCoroutine <" + id + "> ended with cycle count: " + thisBreathCycleData._cycleCount + " and age: " + _age);
+
         BreathCycleDictionary.Remove(id);
 
     }
 
-    private void UpdateRespirationRate(Dictionary<int, BreathCycleData> breathCycleDictionary)
+    private float GetRespirationRateRaw(Dictionary<int, BreathCycleData> BreathCycleDictionary, float _window)
     {
         // Set _respirationRate to the total of all the cycle counts in the dictionary:
-        _respirationRate = 0.0f;
-        _respirationRateRaw = 0.0f;
-        _respirationMeasured = 0.0f;
+        float _respirationCount = 0.0f;
+        //_respirationRateRaw = 0.0f;
 
-        bool invalid = false;
-        foreach (KeyValuePair<int, BreathCycleData> entry in breathCycleDictionary)
-        {
-            _respirationMeasured += entry.Value._cycleLength;
-            if (entry.Value.invalid)
-            {
-                invalid = true;
-                break;
-            }
-        }
-        if (_respirationMeasured < _respirationMeasurementWindow1)
-        {
-            invalid = true;
-        }
-        if (invalid)
-        {
-            _respirationRate = -1.0f;
 
-            foreach (KeyValuePair<int, BreathCycleData> entry in breathCycleDictionary)
-            {
-                _respirationRateRaw += entry.Value._cycleCount;
-            }
-
-            if (!invalidFlag)
-            {
-                invalidFlag = true;
-                Debug.Log("Invalid breath cycle detected. Respiration rate set to -1.0");
-            }
-
-        }
-        else
-        {
-            invalidFlag = false;
-            foreach (KeyValuePair<int, BreathCycleData> entry in breathCycleDictionary)
-            {
-                _respirationRate += entry.Value._cycleCount;
-                _respirationRateRaw += entry.Value._cycleCount;
-            }
-        }
-    }
-
-/*    private void UpdateRespirationRate()
-    {
-        // Set _respirationRate to the total of all the cycle counts in the dictionary:
-        _respirationRate = 0.0f;
-        _respirationRateRaw = 0.0f;
-        _respirationMeasured = 0.0f;
-
-        bool invalid = false;
+       
         foreach (KeyValuePair<int, BreathCycleData> entry in BreathCycleDictionary)
         {
-            _respirationMeasured += entry.Value._cycleLength;
-            if (entry.Value.invalid)
-            {
-                invalid = true;
-                break;
-            }
+            _respirationCount += entry.Value._cycleCount;
         }
-        if (_respirationMeasured < _respirationMeasurementWindow1)
-        {
-            invalid = true;
-        }
-        if (invalid)
-        {
-            _respirationRate = -1.0f;
+        return _respirationCount / _window * 60.0f;
+    }
 
-            foreach (KeyValuePair<int, BreathCycleData> entry in BreathCycleDictionary)
-            {
-                _respirationRateRaw += entry.Value._cycleCount;
-            }
+        
+    private float GetRespirationRate(Dictionary<int, BreathCycleData> breathCycleDictionary, float _window)
+    {
+            //first check for invalid breath cycles
+            bool invalid = false;
+            float _respirationMeasured = 0.0f;
 
-            if(!invalidFlag)
+            foreach (KeyValuePair<int, BreathCycleData> entry in breathCycleDictionary)
             {
-                invalidFlag = true;
-                Debug.Log("Invalid breath cycle detected. Respiration rate set to -1.0");
+                _respirationMeasured += entry.Value._cycleLength;
+                if (entry.Value.invalid)
+                {
+                    return -1.0f;
+                    break;
+                }
             }
 
-        }
-        else
-        {
-            invalidFlag = false;
-            foreach (KeyValuePair<int, BreathCycleData> entry in BreathCycleDictionary)
+            if (_respirationMeasured < _window)
             {
-                _respirationRate += entry.Value._cycleCount;
-                _respirationRateRaw += entry.Value._cycleCount;
+                return -1.0f;
             }
-        }
-        Debug.Log("Updated respiration rate. Raw: " + _respirationRateRaw + " Standard: " + _respirationRate);
-    }*/
+            else
+            return GetRespirationRateRaw(breathCycleDictionary, _window);
+    }
+
 }
