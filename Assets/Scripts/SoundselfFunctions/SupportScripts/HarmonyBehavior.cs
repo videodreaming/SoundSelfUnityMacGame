@@ -1,10 +1,10 @@
 using System.Linq;
 
-public class Harmony
+public class HarmonyBehavior
 {
     private readonly Note[] _notes;
 
-    public Harmony(Note[] notes)
+    public HarmonyBehavior(Note[] notes)
     {
         _notes = notes;
     }

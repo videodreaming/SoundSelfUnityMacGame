@@ -77,7 +77,7 @@ public class Note : MonoBehaviour
         StartDespawn();
     }
 
-    public bool CheckDissonantTo(Harmony harmonyToCompare)
+    public bool CheckDissonantTo(HarmonyBehavior harmonyToCompare)
     {
         //TODO: determine when note is dissonant with other notes, note that this fundamental may be in the harmony
         return false;

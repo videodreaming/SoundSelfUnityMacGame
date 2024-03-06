@@ -7,7 +7,7 @@ using UnityEngine;
 public class HarmonyManager : MonoBehaviour
 {
     //TODO: testing
-    public Harmony Harmony { get; private set; }
+    public HarmonyBehavior Harmony { get; private set; }
     public Action OnSeriesEnd;
     
     [SerializeField] private GameObject _notePrefab;
@@ -75,7 +75,7 @@ public class HarmonyManager : MonoBehaviour
     private void CreateNewHarmony(Note[] newHarmony)
     {
         Harmony?.End(newHarmony);
-        Harmony = new Harmony(newHarmony);
+        Harmony = new HarmonyBehavior(newHarmony);
     }
     
     /// <summary>

@@ -36,8 +36,8 @@ public class RespirationTracker : MonoBehaviour
         public float _toneLength;
         public float _restLength;
         public float _cycleLength;
-        public GameObject inhalerectangle;
-        public GameObject exhalerectangle;
+        public GameObject inhaleRectangle;
+        public GameObject exhaleRectangle;
     }
     void Start()
     {
@@ -109,8 +109,8 @@ public class RespirationTracker : MonoBehaviour
 
         if(visualize)
         {
-            thisBreathCycleData.inhalerectangle = Instantiate(rectanglePrefab, startingPoint - new Vector3(0.0f, 400.0f + debugStackY*visualizeY, 0.0f), Quaternion.identity, canvas.transform);
-            thisBreathCycleData.exhalerectangle = Instantiate(rectanglePrefab, startingPoint - new Vector3(0.0f, 400.0f+debugStackY*visualizeY, 0.0f), Quaternion.identity, canvas.transform);
+            thisBreathCycleData.inhaleRectangle = Instantiate(rectanglePrefab, startingPoint - new Vector3(0.0f, 400.0f + debugStackY*visualizeY, 0.0f), Quaternion.identity, canvas.transform);
+            thisBreathCycleData.exhaleRectangle = Instantiate(rectanglePrefab, startingPoint - new Vector3(0.0f, 400.0f+debugStackY*visualizeY, 0.0f), Quaternion.identity, canvas.transform);
         }
         
         //add the new dictionary entry to the dictionary:
@@ -137,7 +137,7 @@ public class RespirationTracker : MonoBehaviour
 
             if(visualize)
             {
-                SelectedRectangle = thisBreathCycleData.inhalerectangle;
+                SelectedRectangle = thisBreathCycleData.inhaleRectangle;
                 Image imageComponent = SelectedRectangle.GetComponent<Image>(); // Get the Image component
                 if(imageComponent != null)
                 {
@@ -161,7 +161,7 @@ public class RespirationTracker : MonoBehaviour
 
         thisBreathCycleData = BreathCycleDictionary[id];
         thisBreathCycleData._cycleCount = 1.0f;
-        if(visualize) {thisBreathCycleData.inhalerectangle.tag = "oldrect";}
+        if(visualize) {thisBreathCycleData.inhaleRectangle.tag = "oldrect";}
         BreathCycleDictionary[id] = thisBreathCycleData;
 
         Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
@@ -187,7 +187,7 @@ public class RespirationTracker : MonoBehaviour
             // Do debug visualizations
             if (visualize)
             {
-                SelectedRectangle = thisBreathCycleData.exhalerectangle;
+                SelectedRectangle = thisBreathCycleData.exhaleRectangle;
                 Image imageComponent = SelectedRectangle.GetComponent<Image>(); // Get the Image component
                 if(imageComponent != null)
                 {
@@ -212,7 +212,7 @@ public class RespirationTracker : MonoBehaviour
         }
 
         Debug.Log("RespirationCycleCoroutine moving to Step 3 <" + id + ">");
-        if(visualize){thisBreathCycleData.exhalerectangle.tag = "oldrect";}
+        if(visualize){thisBreathCycleData.exhaleRectangle.tag = "oldrect";}
 
         float previousCycleCount = 1.0f;
 
@@ -236,8 +236,8 @@ public class RespirationTracker : MonoBehaviour
             if(visualize) //@REEF, for another glimpse at how this bug works, switch this if statement with the one below, and see how the rectangles behave
             //if(false)
             {
-                RectTransform rectTransforminhale = thisBreathCycleData.inhalerectangle.GetComponent<RectTransform>();
-                RectTransform rectTransformexhale = thisBreathCycleData.exhalerectangle.GetComponent<RectTransform>();
+                RectTransform rectTransforminhale = thisBreathCycleData.inhaleRectangle.GetComponent<RectTransform>();
+                RectTransform rectTransformexhale = thisBreathCycleData.exhaleRectangle.GetComponent<RectTransform>();
                 if (rectTransforminhale != null)
                 {
                     rectTransforminhale.sizeDelta = new Vector2(rectTransforminhale.sizeDelta.x, thisBreathCycleData._cycleCount*100.0f);
@@ -262,8 +262,8 @@ public class RespirationTracker : MonoBehaviour
         //if we are visualizing, then destroy the created game objects
         if(visualize)
         {
-            Destroy(thisBreathCycleData.inhalerectangle);
-            Destroy(thisBreathCycleData.exhalerectangle);
+            Destroy(thisBreathCycleData.inhaleRectangle);
+            Destroy(thisBreathCycleData.exhaleRectangle);
         }
 
         //Remove the dictionary entry:
