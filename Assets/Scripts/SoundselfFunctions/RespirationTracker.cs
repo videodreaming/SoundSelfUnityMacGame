@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 //This class is used to track the respiration rate of the user
+
+//TODO:
+// make respiration rate fade between Dictionary 1 and Dictionary 2, depending on if one is invalid (i.e. toning for a really long time or resting for a really long time should switch the respiration rate to the longer window)
+// confirm times line up for when the cycle ends per expectations of the window
+// mean tone length and mean rest length must disclude invalid cycles
 public class RespirationTracker : MonoBehaviour
 {
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
-    public float _respirationRate = 1.0f;    
+    public float _respirationRate       = 1.0f;    
     public float _respirationRateRaw    = 1.0f;
     public bool toneActiveForRespirationRate = false;
+    public float _meanToneLength = 0.0f;
+    public float _meanRestLength = 0.0f;
     private bool frameGuardTone = false;
     private float _positiveActiveThreshold = 0.75f;
     private float _negativeActiveThreshold = 0.75f;
     private float _respirationMeasurementWindow1 = 60.0f;
     private float _respirationMeasurementWindow2 = 120.0f;
     private int idCounter = 0;
-    private bool invalidFlag = false;
     private Vector3 startingPoint;
     private float amountToScale;
     private float amountToMove;
@@ -46,15 +52,14 @@ public class RespirationTracker : MonoBehaviour
         startingPoint = new Vector3(0, transform.position.y, transform.position.z);
     }
 
-    //TO DO: 
-    // 1. make the count measurements fade in, based on median tone lengths and breath lengths
-    // 2. add a dictionary for the longer measurement window.
-    // 3. fade respiration rate as used by the game between the two, depending on if one is invalid (i.e. toning for a really long time or resting for a really long time should switch the respiration rate to the longer window)
 
     // Update is called once per frame
 
     void Update()
     {
+        _meanToneLength = GetMeanLength(BreathCycleDictionary1, true);
+        _meanRestLength = GetMeanLength(BreathCycleDictionary1, false);
+
         if(Input.GetKey(KeyCode.R))
         //if (ImitoneVoiceIntepreter._tThisTone > _positiveActiveThreshold)
         {
@@ -105,7 +110,6 @@ public class RespirationTracker : MonoBehaviour
         BreathCycleData thisBreathCycleData = new BreathCycleData();
         thisBreathCycleData.window = 1;
         thisBreathCycleData._weight = 1f;
-        thisBreathCycleData._cycleCount = 0.5f;
 
         if(visualize)
         {
@@ -115,8 +119,11 @@ public class RespirationTracker : MonoBehaviour
         
         //add the new dictionary entry to the dictionary:
         BreathCycleDictionary.Add(id, thisBreathCycleData);
-        Debug.Log("RespirationCycleCoroutine started <" + id + ">");
         //UpdateRespirationRate();
+
+        float _initialMeanToneLength = _meanToneLength;
+
+        Debug.Log("RespirationCycleCoroutine started <" + id + "> (fade in time = " + _initialMeanToneLength + " seconds");
     
         //Step 1: Measure the Tone
         while (toneActiveForRespirationRate == true)
@@ -124,16 +131,22 @@ public class RespirationTracker : MonoBehaviour
             _toneLength += Time.deltaTime;
             _cycleLength += Time.deltaTime;
             _age += Time.deltaTime;
-
+            
             // Get the BreathCycleData object from the dictionary
             thisBreathCycleData = BreathCycleDictionary[id];
+            // set thisBreathCycleData._cycleCount to gradually lerp from 0 to 0.5 over _initialMeanToneLength seconds
+            if (_initialMeanToneLength > 0.0f)
+            thisBreathCycleData._cycleCount = Mathf.Clamp(_toneLength / _initialMeanToneLength, 0.0f, 1.0f) * 0.5f;
+            else
+            thisBreathCycleData._cycleCount = 0.5f;
+
+            //Debug.Log("_cycleCount for id <" + id + "> is " + thisBreathCycleData._cycleCount + " and _initialMeanToneLength is " + _initialMeanToneLength);
+
             // Update the object
             thisBreathCycleData._toneLength = _toneLength;
             thisBreathCycleData._cycleLength = _cycleLength;
-            thisBreathCycleData.invalid = _toneLength > 45.0f;
+            thisBreathCycleData.invalid = ((_toneLength > 45.0f) || (_cycleLength > (_measurementWindow / 2)));
 
-            // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = thisBreathCycleData;
 
             if(visualize)
             {
@@ -154,35 +167,52 @@ public class RespirationTracker : MonoBehaviour
                 }
             }
 
+            // Put the modified object back into the dictionary
+            BreathCycleDictionary[id] = thisBreathCycleData; 
+
             //Debug.Log("id: " + id + " toning " + "toneLength: " + _toneLength + " _respirationRate: " + _respirationRate);
 
             yield return null;
         }
 
         thisBreathCycleData = BreathCycleDictionary[id];
-        thisBreathCycleData._cycleCount = 1.0f;
-        if(visualize) {thisBreathCycleData.inhaleRectangle.tag = "oldrect";}
+
+        if(visualize) {thisBreathCycleData.inhalerectangle.tag = "oldrect";}
         BreathCycleDictionary[id] = thisBreathCycleData;
+
+        thisBreathCycleData._cycleCount = 0.5f;
+        
+        // Put the modified object back into the dictionary
+        BreathCycleDictionary[id] = thisBreathCycleData; 
 
         Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
 
         //Step 2: Measure the Rest
+        float _initialMeanRestLength = _meanRestLength;
         _restLength = _negativeActiveThreshold;
         while (toneActiveForRespirationRate == false)
         {
             _restLength += Time.deltaTime;
             _cycleLength += Time.deltaTime;
             _age += Time.deltaTime;
+
             // Get the BreathCycleData object from the dictionary
             thisBreathCycleData = BreathCycleDictionary[id];
+
+            // set thisBreathCycleData._cycleCount to gradually lerp from 0.5 to 1 over _meanRestLength seconds
+            if (_initialMeanRestLength > 0.0f)
+            thisBreathCycleData._cycleCount = 0.5f + Mathf.Clamp(_restLength / _initialMeanRestLength, 0.0f, 1.0f) * 0.5f;
+            else
+            thisBreathCycleData._cycleCount = 1.0f;
+
 
             // Update the object
             thisBreathCycleData._restLength = _restLength;
             thisBreathCycleData._cycleLength = _cycleLength;
-            thisBreathCycleData.invalid = (_restLength > 13.0f);
+            thisBreathCycleData.invalid = ((_restLength > 13.0f) || (_cycleLength > (_measurementWindow / 2)));
 
             // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = thisBreathCycleData;
+            BreathCycleDictionary[id] = thisBreathCycleData; 
 
             // Do debug visualizations
             if (visualize)
@@ -211,8 +241,16 @@ public class RespirationTracker : MonoBehaviour
             yield return null;
         }
 
+        // Get the BreathCycleData object from the dictionary
+        thisBreathCycleData = BreathCycleDictionary[id];
+
+        thisBreathCycleData._cycleCount = 1.0f;
+
         Debug.Log("RespirationCycleCoroutine moving to Step 3 <" + id + ">");
         if(visualize){thisBreathCycleData.exhaleRectangle.tag = "oldrect";}
+
+        // Put the modified object back into the dictionary
+        BreathCycleDictionary[id] = thisBreathCycleData; 
 
         float previousCycleCount = 1.0f;
 
@@ -228,9 +266,6 @@ public class RespirationTracker : MonoBehaviour
 
             // Update the object and fade it from memory
             thisBreathCycleData._cycleCount = Mathf.Clamp((_measurementWindow - _tAfterCycle) / Mathf.Max(_cycleLength, 1.0f), 0.0f, 1.0f);
-
-            // Put the modified object back into the dictionary
-            BreathCycleDictionary[id] = thisBreathCycleData;
             
             // Do debug visualizations
             if(visualize) //@REEF, for another glimpse at how this bug works, switch this if statement with the one below, and see how the rectangles behave
@@ -256,6 +291,9 @@ public class RespirationTracker : MonoBehaviour
             // Update the previous cycle count
             previousCycleCount = thisBreathCycleData._cycleCount;
             
+            // Put the modified object back into the dictionary
+            BreathCycleDictionary[id] = thisBreathCycleData; 
+            
             yield return null;
         }
 
@@ -267,7 +305,7 @@ public class RespirationTracker : MonoBehaviour
         }
 
         //Remove the dictionary entry:
-        Debug.Log("BBB RespirationCycleCoroutine <" + id + "> ended with cycle count: " + thisBreathCycleData._cycleCount + " and age: " + _age);
+        Debug.Log("RespirationCycleCoroutine <" + id + "> ended with cycle count: " + thisBreathCycleData._cycleCount + " and age: " + _age + " and cycle length: " + _cycleLength);
 
         BreathCycleDictionary.Remove(id);
 
@@ -285,6 +323,7 @@ public class RespirationTracker : MonoBehaviour
         {
             _respirationCount += entry.Value._cycleCount;
         }
+
         return _respirationCount / _window * 60.0f;
     }
 
@@ -313,4 +352,31 @@ public class RespirationTracker : MonoBehaviour
             return GetRespirationRateRaw(breathCycleDictionary, _window);
     }
 
+    private float GetMeanLength(Dictionary<int, BreathCycleData> breathCycleDictionary, bool isTone)
+    {
+        float sumLength = 0.0f;
+        int countCompletedCycles = 0;
+
+        foreach (KeyValuePair<int, BreathCycleData> entry in breathCycleDictionary)
+        {
+            if (isTone)
+            {
+                sumLength += entry.Value._toneLength;
+                if (entry.Value._cycleCount >= 0.5f)
+                {
+                    countCompletedCycles++;
+                }
+            }
+            else
+            {
+                sumLength += entry.Value._restLength;
+                if (entry.Value._cycleCount >= 1.0f)
+                {
+                    countCompletedCycles++;
+                }
+            }
+        }
+
+        return sumLength / Mathf.Max(countCompletedCycles, 1);
+    }
 }
