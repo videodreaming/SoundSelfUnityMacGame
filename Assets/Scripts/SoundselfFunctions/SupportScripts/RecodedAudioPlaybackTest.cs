@@ -27,10 +27,6 @@ public class RecodedAudioPlaybackTest : MonoBehaviour
             // Play the AudioClip
 
         }
-        else
-        {
-            Debug.LogWarning("AudioManager or recordedAudioClip is not assigned.");
-        }
     }
 
 }

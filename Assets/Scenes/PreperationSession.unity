@@ -549,7 +549,21 @@ MonoBehaviour:
   - state: 21
     audioClips:
     - {fileID: 8300000, guid: 2f306350a66764184822e8389a219472, type: 3}
+  - state: 22
+    audioClips:
+    - {fileID: 8300000, guid: 2f306350a66764184822e8389a219472, type: 3}
+  - state: 23
+    audioClips:
+    - {fileID: 8300000, guid: 2f306350a66764184822e8389a219472, type: 3}
+  - state: 24
+    audioClips:
+    - {fileID: 8300000, guid: 2f306350a66764184822e8389a219472, type: 3}
   delays: []
+  sighElicitationTimer: 6
+  wwiseGlobalManager: {fileID: 0}
+  LinearMusicManager: {fileID: 0}
+  interactiveMusicManager: {fileID: 0}
+  VOManager: {fileID: 0}
   recordedAudioClip: {fileID: 0}
 --- !u!1 &69919479
 GameObject:
@@ -2845,6 +2859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71246112b53506c41b65735e259da458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 47830410}
 --- !u!1 &488612079
 GameObject:
   m_ObjectHideFlags: 0
@@ -4092,6 +4107,8 @@ MonoBehaviour:
   _respirationRate: 1
   _respirationRateRaw: 1
   toneActiveForRespirationRate: 0
+  _meanToneLength: 0
+  _meanRestLength: 0
   canvas: {fileID: 1172631974}
   rectanglePrefab: {fileID: 2136379597242905194, guid: b2f7d0aeb351b4aaa81c07226898e5ab, type: 3}
   SelectedRectangle: {fileID: 0}
@@ -5721,7 +5738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1172190901
 RectTransform:
   m_ObjectHideFlags: 0

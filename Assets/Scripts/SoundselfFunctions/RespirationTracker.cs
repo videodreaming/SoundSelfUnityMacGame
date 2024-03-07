@@ -177,7 +177,7 @@ public class RespirationTracker : MonoBehaviour
 
         thisBreathCycleData = BreathCycleDictionary[id];
 
-        if(visualize) {thisBreathCycleData.inhalerectangle.tag = "oldrect";}
+        if(visualize) {thisBreathCycleData.inhaleRectangle.tag = "oldrect";}
         BreathCycleDictionary[id] = thisBreathCycleData;
 
         thisBreathCycleData._cycleCount = 0.5f;
@@ -308,7 +308,6 @@ public class RespirationTracker : MonoBehaviour
         Debug.Log("RespirationCycleCoroutine <" + id + "> ended with cycle count: " + thisBreathCycleData._cycleCount + " and age: " + _age + " and cycle length: " + _cycleLength);
 
         BreathCycleDictionary.Remove(id);
-
     }
 
     private float GetRespirationRateRaw(Dictionary<int, BreathCycleData> BreathCycleDictionary, float _window)

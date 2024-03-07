@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
     }
 
     public ImitoneVoiceIntepreter ImitoneVoiceInterpreter; //reference to ImitoneVoiceInterpreter
-
+    
     public AudioManagerState currentState = AudioManagerState.Opening;
     private bool SighElicitationPass1 = false;
     private bool QueryElicitationPass1 = false;
@@ -50,21 +50,25 @@ public class AudioManager : MonoBehaviour
     public AudioState[] audioStates;
     public float[] delays; // Array to hold different delays for each state
     private AudioSource audioSource;
-    private float sighElicitationTimer = 6f;
+    public float sighElicitationTimer = 6f;
     private float sighTimer = 0.0f;
     private float talkingTimer1 = 0.0f;
     private float notTalkingTimer1 = 0.0f;
     private float QueryTimer1 = 30.0f;
     private bool Query1Started = false;
 
+    public WwiseGlobalManager wwiseGlobalManager;
+    public WwiseLinearMusicManager LinearMusicManager;
+    public WwiseInteractiveMusicManager interactiveMusicManager;
+    public WwiseVOManager VOManager;
     private float audioClipStartTime = 0.0f;
     public AudioClip recordedAudioClip;
 
-    private Dictionary<AudioManagerState, int> stateEntryCount = new Dictionary<AudioManagerState, int>();
+    public Dictionary<AudioManagerState, int> stateEntryCount = new Dictionary<AudioManagerState, int>();
 
     private void Start()
     {
-        currentState = AudioManagerState.Opening;
+        currentState = AudioManagerState.SighElicitation1;
         // Get the AudioSource component attached to the GameObject
         audioSource = GetComponent<AudioSource>();
 
@@ -78,16 +82,12 @@ public class AudioManager : MonoBehaviour
         audioSource.loop = true; // Enable looping again for regular playback
         audioSource.Stop(); // Stop again to clear the OnAudioFinished event trigger
         audioSource.Play(); // Resume normal playback
-        PlaySequentialAudio();
+        PlayAudio();
     }
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.I)){
             ChangeToNextState();
-        }
-        if (!audioSource.isPlaying)
-        {
-        OnAudioFinished();
         }
 
         if (currentState == AudioManagerState.SighElicitationFail1 && audioSource.isPlaying && Time.time - audioClipStartTime >= 16.0f)
@@ -125,7 +125,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void OnAudioFinished()
+    public void OnAudioFinished()
     {
         // This method is called when the audio finishes playing
         if (currentState == AudioManagerState.SighElicitation1)
@@ -255,13 +255,14 @@ public class AudioManager : MonoBehaviour
     {
         InitializeStateEntryCount(newState); // Initialize entry count for the new state
         currentState = newState;
-        PlaySequentialAudio(); 
+        PlayAudio(); 
     }
 
-    private void PlaySequentialAudio()
+    private void PlayAudio()
     {
         InitializeStateEntryCount(currentState); // Ensure current state is initialized in the dictionary
-
+        
+        /*
         AudioState currentAudioState = GetCurrentAudioClipArray();
         AudioClip[] audioClips = currentAudioState.audioClips;
         if (audioClips.Length == 0)
@@ -269,7 +270,7 @@ public class AudioManager : MonoBehaviour
             return; // No audio clips to play
         }
 
-
+        
         // Adjust the clip index calculation
         int entryCount = stateEntryCount[currentState];
         int clipIndex = entryCount % audioClips.Length; // Use modulo to loop back to the start
@@ -285,6 +286,7 @@ public class AudioManager : MonoBehaviour
 
         // Increment the entry count after playing the audio
         stateEntryCount[currentState]++;
+        */
     }
 
     // Helper method to get the current audio clip array based on the current state

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractiveMusicManager: MonoBehaviour
+public class WwiseInteractiveMusicManager: MonoBehaviour
 {
     public string currentSwitchState = "B";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;

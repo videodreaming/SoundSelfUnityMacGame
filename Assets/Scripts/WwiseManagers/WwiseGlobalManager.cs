@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class WwiseGlobalManager : MonoBehaviour
 {
-    public InteractiveMusicManager InteractiveMusicManager;
-    public LinearMusicManager LinearMusicManager;
-    public VOManager VOManager;
+    public WwiseInteractiveMusicManager InteractiveMusicManager;
+    public WwiseLinearMusicManager LinearMusicManager;
+    public WwiseVOManager VOManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        VOManager.playOpening("openingLong");
+        VOManager.playOpening("openingShort");
     }
 
     // Update is called once per frame
