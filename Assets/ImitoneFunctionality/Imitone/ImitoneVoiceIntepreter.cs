@@ -182,15 +182,14 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             ImitoneVoice.ActivateLicense("imitone technology used under license to New Entheogen Ltd, March 2023.");
 
            // Original Settings:      (sampleRate, "{\"guide\":\"off\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":101.0}}");
-            imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-59.0}}");
+            imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-30.0}}");
 
             //THIS IS HERE TO TEST THE CONFIGURATION SETTING BEHAVIOR
-            imitone.SetConfig("{\"threshold\":-11.0}");   
+            imitone.SetConfig("{\"volume\" : {\"threshold\" : -1.0} }");   
 
              // Get the configuration of imitone
             string config = imitone.GetConfig();
 
-            
             Debug.Log("imitone configuration: " + config);
         }
         catch (System.Exception e)
