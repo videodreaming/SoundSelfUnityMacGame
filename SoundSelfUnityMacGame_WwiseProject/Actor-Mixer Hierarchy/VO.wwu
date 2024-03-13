@@ -13,7 +13,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="VO_SighElicitation1" ID="{A4D31AF5-8DAF-4D28-958F-DA3F5AC5D423}" ShortID="917956524">
+						<Sound Name="vo_elicitSigh_opening" ID="{A4D31AF5-8DAF-4D28-958F-DA3F5AC5D423}" ShortID="917956524">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -439,6 +439,28 @@
 								<ActiveSource Name="vo_test03hum" ID="{E51FDC3C-AF36-4780-97A2-40B28EF71193}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="vo_test04hum" ID="{B2681E5F-0CB5-4428-B994-289BB61EF41A}" ShortID="337939595">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_test04hum" ID="{6E01F264-0E28-46C9-AD46-2F0C23552EDC}">
+									<Language>SFX</Language>
+									<AudioFile>vo_test04hum.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="569598342"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_test04hum" ID="{6E01F264-0E28-46C9-AD46-2F0C23552EDC}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 					<ObjectLists>
 						<ObjectList Name="Playlist">
@@ -450,6 +472,9 @@
 							</Reference>
 							<Reference>
 								<ObjectRef Name="vo_test03hum" ID="{16C5423E-D334-4E0E-A2F0-A6A685E3AB32}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+							</Reference>
+							<Reference>
+								<ObjectRef Name="vo_test04hum" ID="{B2681E5F-0CB5-4428-B994-289BB61EF41A}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 							</Reference>
 						</ObjectList>
 					</ObjectLists>
@@ -1089,7 +1114,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="vo_elicitQuery_closing" ID="{5415D9F3-13E7-4CD8-B805-A898459ECC60}" ShortID="827188185">
+						<Sound Name="vo_elicitQueryFail_closing" ID="{5415D9F3-13E7-4CD8-B805-A898459ECC60}" ShortID="827188185">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1099,16 +1124,16 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<AudioFileSource Name="vo_elicitQuery_closing" ID="{3CFA8AB2-3F65-4051-A972-C79F2B56BCE8}">
+								<AudioFileSource Name="vo_elicitQueryFail_closing" ID="{7D5C0814-FCBE-495C-96D0-FFF182999DFC}">
 									<Language>SFX</Language>
-									<AudioFile>vo_elicitQuery_closing.wav</AudioFile>
+									<AudioFile>vo_elicitQueryFail_closing.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="39430341"/>
+										<MediaID ID="297480391"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="vo_elicitQuery_closing" ID="{3CFA8AB2-3F65-4051-A972-C79F2B56BCE8}" Platform="Linked"/>
+								<ActiveSource Name="vo_elicitQueryFail_closing" ID="{7D5C0814-FCBE-495C-96D0-FFF182999DFC}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="vo_elicitQueryFail_any1" ID="{3F332498-35A9-4B27-821C-468EB83EDC41}" ShortID="970381779">
@@ -1181,7 +1206,7 @@
 					<ObjectLists>
 						<ObjectList Name="Playlist">
 							<Reference>
-								<ObjectRef Name="vo_elicitQuery_closing" ID="{5415D9F3-13E7-4CD8-B805-A898459ECC60}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								<ObjectRef Name="vo_elicitQueryFail_closing" ID="{5415D9F3-13E7-4CD8-B805-A898459ECC60}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 							</Reference>
 							<Reference>
 								<ObjectRef Name="vo_elicitQueryFail_any1" ID="{3F332498-35A9-4B27-821C-468EB83EDC41}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
@@ -1436,11 +1461,86 @@
 								<ActiveSource Name="vo_thematicOpening_surrender" ID="{5DFC75C5-92AD-4FFA-99EC-82F2A8DE0632}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="vo_thematicOpening_diewell" ID="{027045A9-DFFF-4113-BCAC-6F6A8F1525C1}" ShortID="640150895">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicOpening_diewell" ID="{4E4E1017-03C7-4ED7-A648-C75059617159}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicOpening_diewell.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="365267676"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicOpening_diewell" ID="{4E4E1017-03C7-4ED7-A648-C75059617159}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicOpening_narrative" ID="{DE0B5365-5CCD-4EBB-8867-A630538855D9}" ShortID="390473215">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicOpening_narrative" ID="{ABA71F1A-1BA5-4DDE-9BA6-7CBB2C1C8C18}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicOpening_narrative.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="370694246"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicOpening_narrative" ID="{ABA71F1A-1BA5-4DDE-9BA6-7CBB2C1C8C18}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicOpening_peace" ID="{9FDD2073-50E3-4B17-8F22-E03D27F6EAFB}" ShortID="50427761">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicOpening_peace" ID="{49E27FE7-C59E-4173-B5B0-87487D626130}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicOpening_peace.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="223406767"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicOpening_peace" ID="{49E27FE7-C59E-4173-B5B0-87487D626130}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 					<GroupingInfo>
 						<GroupingBehaviorList>
 							<GroupingBehavior>
 								<ItemRef Name="vo_thematicOpening_surrender" ID="{4F944C52-F785-45C8-AEE9-C56359ED4271}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicOpening_narrative" ID="{DE0B5365-5CCD-4EBB-8867-A630538855D9}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicOpening_peace" ID="{9FDD2073-50E3-4B17-8F22-E03D27F6EAFB}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicOpening_diewell" ID="{027045A9-DFFF-4113-BCAC-6F6A8F1525C1}"/>
 							</GroupingBehavior>
 						</GroupingBehaviorList>
 						<GroupingList>
@@ -1621,24 +1721,254 @@
 								<ActiveSource Name="vo_thematicSavasana_surrender" ID="{BB808775-B5E6-45A8-BA56-270EDDDE9824}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="vo_thematicSavasana_peace" ID="{BF004B34-E3B4-4EC6-8E4D-C0A3BFA26D24}" ShortID="436740079">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_peace" ID="{B9B35E31-14AB-4E6E-8287-1FC7A5CC1A0F}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_peace.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="248401807"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_peace" ID="{B9B35E31-14AB-4E6E-8287-1FC7A5CC1A0F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_anchoring" ID="{674DFA4B-8762-4216-9636-6CF431C900EF}" ShortID="410031947">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_anchoring" ID="{453E09C9-F8E6-46B5-B1F4-992B57A1F2D0}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_anchoring.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="191501674"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_anchoring" ID="{453E09C9-F8E6-46B5-B1F4-992B57A1F2D0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_fireflies" ID="{E488745D-0A87-4B27-8443-BD83B603F24A}" ShortID="1002251218">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_fireflies" ID="{4CDDF9C0-CC67-4513-A2C3-11049DD1C2E9}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_fireflies.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="209545666"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_fireflies" ID="{4CDDF9C0-CC67-4513-A2C3-11049DD1C2E9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_kindness" ID="{FCCC3289-A58C-47C6-BEB3-4A45D4A35B25}" ShortID="961221756">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_kindness" ID="{264A4B55-6D40-4EF4-8FD6-606B579FBE2C}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_kindness.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="919567912"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_kindness" ID="{264A4B55-6D40-4EF4-8FD6-606B579FBE2C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_metta" ID="{77FD0C57-B8E5-4CD9-BA8B-200A443D2F8B}" ShortID="703696089">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_metta" ID="{F196D2A4-1855-46D5-845C-B39477BA6E2A}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_metta.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="755912331"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_metta" ID="{F196D2A4-1855-46D5-845C-B39477BA6E2A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_narrative" ID="{EF06EFAB-03A5-494C-927B-9C99ECC1D2AA}" ShortID="365779968">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_narrative" ID="{892C168A-3673-4ECE-8FD1-5C084B17A0BF}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_narrative.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="270879250"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_narrative" ID="{892C168A-3673-4ECE-8FD1-5C084B17A0BF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_gratitude" ID="{37572AF5-C52A-4FC8-8298-44BB4BE93C27}" ShortID="1036123351">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_gratitude" ID="{60C7B3DB-2904-4864-A9B8-1E51E1B4571B}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_gratitude.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="9176103"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_gratitude" ID="{60C7B3DB-2904-4864-A9B8-1E51E1B4571B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_thematicSavasana_silence" ID="{69587874-648B-4CCE-8824-10494DDA1B1D}" ShortID="386483465">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_thematicSavasana_silence" ID="{3D4DE1A4-0AE5-4BC4-A7C0-0F3E7C77E7CB}">
+									<Language>SFX</Language>
+									<AudioFile>vo_thematicSavasana_silence.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="171769046"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_thematicSavasana_silence" ID="{3D4DE1A4-0AE5-4BC4-A7C0-0F3E7C77E7CB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 					<GroupingInfo>
 						<GroupingBehaviorList>
 							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_peace" ID="{BF004B34-E3B4-4EC6-8E4D-C0A3BFA26D24}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_anchoring" ID="{674DFA4B-8762-4216-9636-6CF431C900EF}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
 								<ItemRef Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_metta" ID="{77FD0C57-B8E5-4CD9-BA8B-200A443D2F8B}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_fireflies" ID="{E488745D-0A87-4B27-8443-BD83B603F24A}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_silence" ID="{69587874-648B-4CCE-8824-10494DDA1B1D}"/>
 							</GroupingBehavior>
 							<GroupingBehavior>
 								<ItemRef Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}"/>
 							</GroupingBehavior>
 							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_kindness" ID="{FCCC3289-A58C-47C6-BEB3-4A45D4A35B25}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_narrative" ID="{EF06EFAB-03A5-494C-927B-9C99ECC1D2AA}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
 								<ItemRef Name="vo_thematicSavasana_surrender" ID="{682541C3-DA70-494B-9696-2B1C58CBEF07}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_thematicSavasana_gratitude" ID="{37572AF5-C52A-4FC8-8298-44BB4BE93C27}"/>
 							</GroupingBehavior>
 						</GroupingBehaviorList>
 						<GroupingList>
 							<Grouping>
+								<SwitchRef Name="Fireflies" ID="{0EBFAC13-8064-4B73-B4A6-C94A4A6559F1}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_fireflies" ID="{E488745D-0A87-4B27-8443-BD83B603F24A}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Metta" ID="{E52BC81A-5B3F-4B0F-BC3E-F5C5A8B1685E}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_metta" ID="{77FD0C57-B8E5-4CD9-BA8B-200A443D2F8B}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
 								<SwitchRef Name="Short" ID="{B30A7521-D458-43AB-B33A-82A54D729AAF}"/>
 								<ItemList>
 									<ItemRef Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Kindness" ID="{D4913860-034E-4188-B5C3-6598730E75EC}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_kindness" ID="{FCCC3289-A58C-47C6-BEB3-4A45D4A35B25}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Peace" ID="{3D16539A-F80B-40BC-9B23-290799772CF5}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_peace" ID="{BF004B34-E3B4-4EC6-8E4D-C0A3BFA26D24}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Silence" ID="{DC5EECA1-5882-44B3-A7BE-7E7AC1F501B1}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_silence" ID="{69587874-648B-4CCE-8824-10494DDA1B1D}"/>
 								</ItemList>
 							</Grouping>
 							<Grouping>
@@ -1651,6 +1981,24 @@
 								<SwitchRef Name="Long" ID="{D2185EBA-3FAF-4252-9C19-79C6C180C86A}"/>
 								<ItemList>
 									<ItemRef Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Narrative" ID="{DBC655E1-D196-4AB6-A3CE-EC04B0CA2A11}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_narrative" ID="{EF06EFAB-03A5-494C-927B-9C99ECC1D2AA}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_anchoring" ID="{674DFA4B-8762-4216-9636-6CF431C900EF}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Gratitude" ID="{C75E9DF6-0977-4C63-AFD5-189434D084AA}"/>
+								<ItemList>
+									<ItemRef Name="vo_thematicSavasana_gratitude" ID="{37572AF5-C52A-4FC8-8298-44BB4BE93C27}"/>
 								</ItemList>
 							</Grouping>
 						</GroupingList>
@@ -1694,11 +2042,65 @@
 								<ActiveSource Name="vo_wisdom_jaguar" ID="{A5FADADE-F95B-43F8-8708-2397EFDDCF23}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="vo_wisdom_notknowing" ID="{290799DF-519F-4272-83F3-2E6F2DE681CC}" ShortID="994956146">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_wisdom_notknowing" ID="{68F723B4-64DB-4778-8581-81327422FD82}">
+									<Language>SFX</Language>
+									<AudioFile>vo_wisdom_notknowing.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="338851527"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_wisdom_notknowing" ID="{68F723B4-64DB-4778-8581-81327422FD82}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_wisdom_peru" ID="{F7C06C34-18A6-47DA-8FD9-91A31A4101A9}" ShortID="862803412">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+						</Sound>
+						<Sound Name="vo_wisdom_diewell" ID="{E5625806-1075-4E19-9DD9-827162FBB96B}" ShortID="251985717">
+							<PropertyList>
+								<Property Name="IsVoice" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+						</Sound>
 					</ChildrenList>
 					<GroupingInfo>
 						<GroupingBehaviorList>
 							<GroupingBehavior>
 								<ItemRef Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_wisdom_diewell" ID="{E5625806-1075-4E19-9DD9-827162FBB96B}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_wisdom_peru" ID="{F7C06C34-18A6-47DA-8FD9-91A31A4101A9}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_wisdom_notknowing" ID="{290799DF-519F-4272-83F3-2E6F2DE681CC}"/>
 							</GroupingBehavior>
 						</GroupingBehaviorList>
 						<GroupingList>
@@ -1706,6 +2108,24 @@
 								<SwitchRef Name="Jaguar" ID="{1322365E-57A2-4BD6-98A8-8FFED768A86D}"/>
 								<ItemList>
 									<ItemRef Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Peru" ID="{AF29498A-CFE5-4678-975C-954CB630C85C}"/>
+								<ItemList>
+									<ItemRef Name="vo_wisdom_peru" ID="{F7C06C34-18A6-47DA-8FD9-91A31A4101A9}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="NotKnowing" ID="{88F83D8E-84B3-41B0-903A-E7A5EF12156A}"/>
+								<ItemList>
+									<ItemRef Name="vo_wisdom_notknowing" ID="{290799DF-519F-4272-83F3-2E6F2DE681CC}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
+								<ItemList>
+									<ItemRef Name="vo_wisdom_diewell" ID="{E5625806-1075-4E19-9DD9-827162FBB96B}"/>
 								</ItemList>
 							</Grouping>
 						</GroupingList>
@@ -1771,11 +2191,74 @@
 								<ActiveSource Name="vo_goodbye_short" ID="{F0C6DA1A-9122-4A59-B2EB-249D20BDFD4C}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="vo_goodbye_silence" ID="{3F314038-3E30-4CFB-9C0F-2B0CDE34E0FA}" ShortID="107887681">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_goodbye_silence" ID="{7055D847-A322-4DFD-A5EE-7718082D7B5E}">
+									<Language>SFX</Language>
+									<AudioFile>vo_goodbye_silence.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="303573823"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_goodbye_silence" ID="{7055D847-A322-4DFD-A5EE-7718082D7B5E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_goodbye_anchoring" ID="{FC3E2AE6-F60C-497F-B53C-15A199DFA485}" ShortID="73554974">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="vo_goodbye_anchoring" ID="{C24081A8-5EBF-4D6F-AF84-584BDE50A2E8}">
+									<Language>SFX</Language>
+									<AudioFile>vo_goodbye_anchoring.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="14797471"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="vo_goodbye_anchoring" ID="{C24081A8-5EBF-4D6F-AF84-584BDE50A2E8}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="vo_goodbye_gratitude" ID="{F44B9F12-CBFE-4AF3-926C-AE8CE95E77F4}" ShortID="250623774">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+						</Sound>
 					</ChildrenList>
 					<GroupingInfo>
 						<GroupingBehaviorList>
 							<GroupingBehavior>
+								<ItemRef Name="vo_goodbye_gratitude" ID="{F44B9F12-CBFE-4AF3-926C-AE8CE95E77F4}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_goodbye_silence" ID="{3F314038-3E30-4CFB-9C0F-2B0CDE34E0FA}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
 								<ItemRef Name="vo_goodbye_short" ID="{D2973574-9300-4B86-AF4A-B629C4F86AD5}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="vo_goodbye_anchoring" ID="{FC3E2AE6-F60C-497F-B53C-15A199DFA485}"/>
 							</GroupingBehavior>
 							<GroupingBehavior>
 								<ItemRef Name="vo_goodbye_long" ID="{70A8F7F3-AE31-47C0-836D-3FC244B12DA8}"/>
@@ -1789,9 +2272,27 @@
 								</ItemList>
 							</Grouping>
 							<Grouping>
+								<SwitchRef Name="Gratitude" ID="{300C374E-47C5-4CB6-BEEA-C6AD6789AB17}"/>
+								<ItemList>
+									<ItemRef Name="vo_goodbye_gratitude" ID="{F44B9F12-CBFE-4AF3-926C-AE8CE95E77F4}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
 								<SwitchRef Name="Short" ID="{A2578252-DAED-4BB8-97CB-B95447095539}"/>
 								<ItemList>
 									<ItemRef Name="vo_goodbye_short" ID="{D2973574-9300-4B86-AF4A-B629C4F86AD5}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Silence" ID="{8A3EEF8E-6217-4247-BB57-76B07B5DC625}"/>
+								<ItemList>
+									<ItemRef Name="vo_goodbye_silence" ID="{3F314038-3E30-4CFB-9C0F-2B0CDE34E0FA}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
+								<ItemList>
+									<ItemRef Name="vo_goodbye_anchoring" ID="{FC3E2AE6-F60C-497F-B53C-15A199DFA485}"/>
 								</ItemList>
 							</Grouping>
 						</GroupingList>
