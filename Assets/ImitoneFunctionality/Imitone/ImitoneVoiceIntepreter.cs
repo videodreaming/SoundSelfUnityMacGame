@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using B83.MathHelpers;
-//using System.Text.Json;        
-//using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using Defective.JSON;
 
 using imitone;
@@ -132,8 +131,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
     private float UpperThreshold = -20.0f;
     private float LowerThreshold = -35.0f;
-    
+
     //DevMode
+    public string imitoneConfig;
+
     private bool forceToneActive = false;
     private bool forceNoTone = false;
 
@@ -144,6 +145,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     AudioClip          inputBuffer;
     int                micPosRead = 0;
     float[]            capturedInput;
+
+   
 
    
     void Start()
@@ -182,15 +185,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             ImitoneVoice.ActivateLicense("imitone technology used under license to New Entheogen Ltd, March 2023.");
 
            // Original Settings:      (sampleRate, "{\"guide\":\"off\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":101.0}}");
-            imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-30.0}}");
-
-            //THIS IS HERE TO TEST THE CONFIGURATION SETTING BEHAVIOR
-            imitone.SetConfig("{\"volume\" : {\"threshold\" : -1.0} }");   
-
-             // Get the configuration of imitone
-            string config = imitone.GetConfig();
-
-            Debug.Log("imitone configuration: " + config);
+            imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-10.0}}");
         }
         catch (System.Exception e)
         {
@@ -205,11 +200,18 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     }
 
     // Update is called once per frame
+    private int frameCount = 0;
+
     void FixedUpdate()
     {
-        //_cadence = _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
+        //FOR TESTING, I am having this only happen once, on the 2nd frame. 
+        frameCount++;
+        if (frameCount == 2)
+        {
+            SetThreshold(-30.0f);
+        }
+
         GetRawVoiceData();
-        SetThreshold();
         CheckToning();
         handlecChanting();
         //cChantingModifications();
@@ -271,6 +273,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                     {
                                         _dbValue = (float)(10.0 * Math.Log10(power));
                                         imitoneActive = true;
+                                        Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
                                     }
                                     _level = (float)Math.Pow(10,_dbValue) * 0.05f;
 
@@ -345,10 +348,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
     }
 
-    private void SetThreshold(){
+    private void SetThreshold(float db = -52.5f){
         //Logic that sets the threshold for imitone's dbValue using SetConfig() to the value of dbThreshold
        
-        //imitone.SetConfig("{\"volume\":{\"threshold\":-11.0}}");        
+        imitone.SetConfig("{\"volume\" : {\"threshold\" : " + db + "} }");   
+        imitoneConfig = imitone.GetConfig();
+        //Debug.Log("imitone configuration: " + imitoneConfig);  
     }
 
      private void CheckToning(){
@@ -587,5 +592,20 @@ private void handleBreathStage(){
         double semitone = 12 * Math.Log(frequency / A4, 2);
         return (int)Math.Floor(semitone);
         Debug.Log(semitone);
+    }
+
+    public float GetVolumeThresholdFromJson()
+    {
+        var match = Regex.Match(imitoneConfig, @"""volume"":{.*""threshold"":([^,}]*)");
+
+        if (match.Success)
+        {
+            return float.Parse(match.Groups[1].Value);
+
+        }
+        else
+        {
+            throw new Exception("Could not find 'volume:threshold' in JSON string");
+        }
     }
 }
