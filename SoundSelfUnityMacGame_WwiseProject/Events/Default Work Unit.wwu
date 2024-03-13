@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" SchemaVersion="119">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_Microphone" ID="{1ADA0B75-464B-4577-9EDE-655B4F8B3C30}">
+					<ChildrenList>
+						<Action Name="" ID="{9F913A3D-E95C-4109-8436-F1C4E7ABBB90}" ShortID="607653680">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Microphone" ID="{118CDC23-C382-463D-A08D-5BF76B0B6E98}" WorkUnitID="{C069A62D-BC5F-4755-B34F-4C11B5FF37B4}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

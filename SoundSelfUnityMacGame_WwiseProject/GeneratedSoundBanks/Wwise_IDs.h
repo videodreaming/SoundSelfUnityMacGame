@@ -18,6 +18,7 @@ namespace AK
         static const AkUniqueID PLAY_AVSGENERATOR = 2590479921U;
         static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 2845481429U;
         static const AkUniqueID PLAY_LINEARMUSIC_OPENING = 2675524623U;
+        static const AkUniqueID PLAY_MICROPHONE = 1324678662U;
         static const AkUniqueID PLAY_VO_CLOSINGGOODBYE = 699412784U;
         static const AkUniqueID PLAY_VO_ENDINGSOON = 936790198U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONADVANCED = 4057363449U;

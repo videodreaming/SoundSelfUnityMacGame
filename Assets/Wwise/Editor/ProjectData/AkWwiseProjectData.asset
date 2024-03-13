@@ -94,7 +94,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584923642888810252
+    m_lastTime: -8584913293785114511
     List:
     - name: Main
       guid: 172bdab802ba9d46857f79a5e4fce4c3
@@ -152,8 +152,25 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584928929080844510
-    List: []
+    m_lastTime: -8584913293785024375
+    List:
+    - name: Play_Microphone
+      guid: 750bda1a4b4677459ede655b4f8b3c30
+      id: 1324678662
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Play_Microphone
+        ObjectType: 3
+        guid: 750bda1a4b4677459ede655b4f8b3c30
+      Path: Events\Default Work Unit\Play_Microphone
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\Interactive Music System.wwu
     PathAndIcons:
     - ElementName: Events
@@ -1784,7 +1801,7 @@ MonoBehaviour:
     m_lastTime: -8584929757175750734
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 07000000080000000a0000000b000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
