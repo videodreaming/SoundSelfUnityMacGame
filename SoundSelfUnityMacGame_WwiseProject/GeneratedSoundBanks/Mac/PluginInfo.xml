@@ -4,6 +4,7 @@
 		<PluginLib LibName="Wwise Tone Generator" LibId="6684674" Type="Source" DLL="AkToneGen" StaticLib="AkToneSource"/>
 		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
 		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
+		<PluginLib LibName="Wwise Audio Input" LibId="13107202" Type="Source" DLL="AkAudioInput" StaticLib="AkAudioInputSource"/>
 	</PluginLibs>
-	<FileHash>{18AB4052-D51E-D425-A11D-981F6019B407}</FileHash>
+	<FileHash>{EF630CAD-2DA0-A931-A894-6DCBB0FFF1D4}</FileHash>
 </PluginInfo>

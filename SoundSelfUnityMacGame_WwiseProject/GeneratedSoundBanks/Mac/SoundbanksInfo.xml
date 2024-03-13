@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{361AD302-14E0-62BD-A2E4-5D54F516CE0F}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{853C601E-0E51-2CF6-E0C3-ED946183D83F}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -121,7 +121,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{727986B2-8DE8-9D7D-DE27-C2050A34DA12}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{71645557-78BD-BE94-9ACF-CAF7569CBC28}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
@@ -424,6 +424,7 @@
 			</Media>
 			<Plugins>
 				<Custom>
+					<Plugin Id="62828566" Name="Audio Input" LibName="Wwise Audio Input" LibId="13107202"/>
 					<Plugin Id="207602731" Name="Tone Generator" LibName="Wwise Tone Generator" LibId="6684674"/>
 					<Plugin Id="433732206" Name="Tone Generator" LibName="Wwise Tone Generator" LibId="6684674"/>
 					<Plugin Id="727631099" Name="Tone Generator" LibName="Wwise Tone Generator" LibId="6684674"/>
@@ -517,6 +518,13 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
+				</Event>
+				<Event Id="1324678662" Name="Play_Microphone" DurationType="Unknown">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="62828566"/>
+						</Custom>
+					</PluginRefs>
 				</Event>
 				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="OneShot" DurationMin="6.144" DurationMax="52.565334">
 					<SwitchContainers>
@@ -823,5 +831,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D32CA0B6-5347-D078-4BE7-B92725EDF5DD}</FileHash>
+	<FileHash>{2EC356AD-9505-801C-D82A-D72CD9201819}</FileHash>
 </SoundBanksInfo>
