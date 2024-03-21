@@ -13,6 +13,18 @@
 						<State Name="Passive" ID="{2A5A50B5-60B1-43A2-96A7-60EF8FE50642}"/>
 					</ChildrenList>
 				</StateGroup>
+				<StateGroup Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}">
+					<PropertyList>
+						<Property Name="DefaultTransitionTime" Type="Real64" Value="3"/>
+					</PropertyList>
+					<ChildrenList>
+						<State Name="None" ID="{9463C806-3C7C-4455-BC97-8C40968228B0}"/>
+						<State Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+						<State Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+						<State Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+						<State Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+					</ChildrenList>
+				</StateGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</States>

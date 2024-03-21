@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}" SchemaVersion="119">
 	<Effects>
-		<WorkUnit Name="Default Work Unit" ID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}" PersistMode="Standalone">
+			<ChildrenList>
+				<Effect Name="New_iZotope_Hybrid_Reverb" ID="{3AC7544F-0E37-4C16-90CD-4F5F51CEA5C4}" PluginName="iZotope Hybrid Reverb" CompanyID="259" PluginID="2" PluginType="3">
+					<PropertyList>
+						<Property Name="DecayTime" Type="Real32" Value="2.9"/>
+						<Property Name="FrontWet" Type="Real32" Value="1.8"/>
+					</PropertyList>
+				</Effect>
+			</ChildrenList>
+		</WorkUnit>
 	</Effects>
 </WwiseDocument>
