@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
     public ImitoneVoiceIntepreter ImitoneVoiceInterpreter; //reference to ImitoneVoiceInterpreter
     
     public AudioManagerState currentState = AudioManagerState.Opening;
-    private bool SighElicitationPass1 = false;
+    public bool SighElicitationPass1 = false;
     private bool QueryElicitationPass1 = false;
     private bool SighElicitationPass2 = false;
     private bool QueryElicitationPass2 = false;
@@ -89,20 +89,12 @@ public class AudioManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I)){
             ChangeToNextState();
         }
-
-        if (currentState == AudioManagerState.SighElicitationFail1 && audioSource.isPlaying && Time.time - audioClipStartTime >= 16.0f)
+        Debug.Log(SighElicitationPass1);
+        if (currentState == AudioManagerState.SighElicitationFail1|| currentState == AudioManagerState.SighElicitation1)
         {
-        // Start the timer from 6 seconds
-        sighElicitationTimer -= Time.deltaTime;
-        if (sighElicitationTimer < 0.0f)
-            {
-                sighElicitationTimer = 6.0f;
-                ChangeState(AudioManagerState.SighElicitationFail1);
-            }
             // Check if ImitoneVoiceInterpreter.toneActive is true for at least 0.75 seconds during the 6-second timer
             if (ImitoneVoiceInterpreter.toneActiveConfident)
             {
-                Debug.Log("SighTimer : " + sighTimer); 
                 // Decrease the timer for toneActive
                 sighTimer += Time.deltaTime;
                 // Check if the tone has been active for at least 0.75 seconds
@@ -130,11 +122,14 @@ public class AudioManager : MonoBehaviour
         // This method is called when the audio finishes playing
         if (currentState == AudioManagerState.SighElicitation1)
         {
-            // Start the timer
-            sighElicitationTimer -= Time.deltaTime;
-            if (sighElicitationTimer < 0.0f)
+            if (SighElicitationPass1)
             {
-                sighElicitationTimer = 6.0f;
+                // If the condition is met, go to VoiceElicitationPass1
+                ChangeState(AudioManagerState.QueryElicitation1);
+            }
+            else
+            {
+                // If the condition is not met, go to VoiceElicitationFail1
                 ChangeState(AudioManagerState.SighElicitationFail1);
             }
             // Check if ImitoneVoiceInterpreter.toneActive is true for at least 0.75 seconds during the 6-second timer
@@ -150,6 +145,7 @@ public class AudioManager : MonoBehaviour
             }
             if (SighElicitationPass1)
             {
+                Debug.Log("Going into Qurery Elicitation 1");
                 // If the condition is met, go to VoiceElicitationPass1
                 ChangeState(AudioManagerState.QueryElicitation1);
             }            
