@@ -3,21 +3,10 @@
 	<GameParameters>
 		<WorkUnit Name="Interactive Music System" ID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}" PersistMode="Standalone">
 			<ChildrenList>
-				<GameParameter Name="InteractiveMusicSilentLoops" ID="{928463B8-A192-4786-B4CF-DFCA0207EDB5}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="FundamentalSilentVolume" ID="{F24DF0F8-DF1D-4481-BD23-7A969D9E8269}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="HarmonySilentVolume" ID="{A8A8420F-6FB8-4412-B77A-7846ACE67D2D}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
+				<GameParameter Name="FundamentalSilentVolume" ID="{F24DF0F8-DF1D-4481-BD23-7A969D9E8269}"/>
+				<GameParameter Name="HarmonySilentVolume" ID="{A8A8420F-6FB8-4412-B77A-7846ACE67D2D}"/>
+				<GameParameter Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}"/>
+				<GameParameter Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}"/>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

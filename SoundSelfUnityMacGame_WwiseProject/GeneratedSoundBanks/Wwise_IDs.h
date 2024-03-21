@@ -16,7 +16,10 @@ namespace AK
         static const AkUniqueID GAMEMODE_SETSWITCH_LONG = 3806398564U;
         static const AkUniqueID GAMEMODE_SETSWITCH_SHORT = 3487229100U;
         static const AkUniqueID PLAY_AVSGENERATOR = 2590479921U;
+        static const AkUniqueID PLAY_CRYSTALBOWL = 1556089376U;
+        static const AkUniqueID PLAY_FUNDAMENTAL__B__SILENT_GENTLE = 3354207096U;
         static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 2845481429U;
+        static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_TONING = 1724678586U;
         static const AkUniqueID PLAY_LINEARMUSIC_OPENING = 2675524623U;
         static const AkUniqueID PLAY_MICROPHONE = 1324678662U;
         static const AkUniqueID PLAY_VO_CLOSINGGOODBYE = 699412784U;
@@ -61,6 +64,20 @@ namespace AK
                 static const AkUniqueID WISDOM = 4033993124U;
             } // namespace STATE
         } // namespace GAMEMODE
+
+        namespace SOUNDWORLDMODE
+        {
+            static const AkUniqueID GROUP = 3090474987U;
+
+            namespace STATE
+            {
+                static const AkUniqueID GENTLE = 2193720742U;
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID SHADOW = 3140781661U;
+                static const AkUniqueID SHRUTI = 4267886810U;
+                static const AkUniqueID SONOFLORE = 1467691068U;
+            } // namespace STATE
+        } // namespace SOUNDWORLDMODE
 
     } // namespace STATES
 
@@ -191,9 +208,11 @@ namespace AK
         static const AkUniqueID AVSMASTERVOLUME = 1426024143U;
         static const AkUniqueID BLUESINEVOLUME = 1417631880U;
         static const AkUniqueID FUNDAMENTALSILENTVOLUME = 2144346671U;
+        static const AkUniqueID FUNDAMENTALTONINGVOLUME = 1729197293U;
         static const AkUniqueID GREENSINEVOLUME = 71194751U;
         static const AkUniqueID HARMONYSILENTVOLUME = 1111564044U;
-        static const AkUniqueID INTERACTIVEMUSICSILENTLOOPS = 2108330916U;
+        static const AkUniqueID HARMONYTONINGVOLUME = 1504547510U;
+        static const AkUniqueID INTERACTIVEMUSIC_SILENTLOOPS_VOLUME = 1423395698U;
         static const AkUniqueID REDSINEVOLUME = 1546458207U;
         static const AkUniqueID VO_BUS_VOLUME = 3687478936U;
     } // namespace GAME_PARAMETERS

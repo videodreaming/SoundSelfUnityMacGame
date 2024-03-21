@@ -14,6 +14,59 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_InteractiveMusicSystem_Toning" ID="{90843F11-6540-4A8C-B553-2767E329B988}">
+					<ChildrenList>
+						<Action Name="" ID="{12C70DAF-83EE-419C-B7DB-3206D3E84C42}" ShortID="632762800">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="InteractiveMusic_Toning_BlendContainer" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_CrystalBowl" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}">
+					<ChildrenList>
+						<Action Name="" ID="{159E6C1E-CCEA-464F-BE22-382774EBA675}" ShortID="387339877">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{7520821E-9FD7-46F7-8619-4012A2E68574}" ShortID="464801548">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{EBAE0891-0132-4C96-9A7B-EF1016907213}" ShortID="1041680366">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="12">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{568AEFC7-742A-457A-95A0-E2821F4730EA}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

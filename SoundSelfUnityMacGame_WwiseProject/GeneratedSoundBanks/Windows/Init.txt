@@ -1,5 +1,6 @@
 State Group	ID	Name			Wwise Object Path	Notes
 	261089142	GameMode			\Default Work Unit\GameMode	
+	3090474987	SoundWorldMode			\Default Work Unit\SoundWorldMode	
 
 State	ID	Name	State Group			Notes
 	748895195	None	GameMode			
@@ -8,6 +9,11 @@ State	ID	Name	State Group			Notes
 	3147549296	Preparation	GameMode			
 	4033993124	Wisdom	GameMode			
 	4094247797	Integration	GameMode			
+	748895195	None	SoundWorldMode			
+	1467691068	SonoFlore	SoundWorldMode			
+	2193720742	Gentle	SoundWorldMode			
+	3140781661	Shadow	SoundWorldMode			
+	4267886810	Shruti	SoundWorldMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	3687478936	VO_Bus_Volume			\VO\VO_Bus_Volume	

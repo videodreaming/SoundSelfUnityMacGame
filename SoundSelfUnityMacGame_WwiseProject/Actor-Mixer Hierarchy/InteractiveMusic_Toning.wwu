@@ -1,0 +1,2986 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}" SchemaVersion="119">
+	<AudioObjects>
+		<WorkUnit Name="InteractiveMusic_Toning" ID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}" PersistMode="Standalone">
+			<ChildrenList>
+				<BlendContainer Name="InteractiveMusic_Toning_BlendContainer" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" ShortID="14968488">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<SwitchContainer Name="Toning_Gentle" ID="{84DC082E-F361-4447-8BCF-79A1EC13E848}" ShortID="812386265">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="InteractiveMusicSwitchGroup" ID="{D9678002-60E2-4B6B-89C7-3087A452A4A2}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="fundamental_[B]_toning_gentle" ID="{2F7FC8E1-BF1B-4CAA-B371-043109E4F756}" ShortID="242847593">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[B]_toning_gentle" ID="{2C54A1DF-D517-45B1-99A7-8F0FC659EA6D}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[B]_toning_gentle.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="835717860"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{6FCB3D09-E868-4E92-A32B-7CD2C9D302B7}" ShortID="164461356">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{0A1460F8-6572-4CF8-85B3-1108185E9FC2}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[B]_toning_gentle" ID="{2C54A1DF-D517-45B1-99A7-8F0FC659EA6D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[C]_toning_gentle" ID="{79B8D711-77F1-444C-9006-226A072BBE0B}" ShortID="953099202">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[C]_toning_gentle" ID="{73A92639-1D15-436B-95C8-00B93FAA9A4C}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[C]_toning_gentle.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="628564443"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{E371720F-F9F9-44E5-A885-6A41B23E1FEA}" ShortID="561477659">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{C4B4E423-9B2E-4840-9829-5C714A89C401}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[C]_toning_gentle" ID="{73A92639-1D15-436B-95C8-00B93FAA9A4C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[E]_toning_gentle" ID="{F142BEE0-CF71-4E58-8C44-2FCA74859CA2}" ShortID="177059764">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[E]_toning_gentle" ID="{4BD6332D-667F-4EE3-AF79-7DBACC25B636}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[E]_toning_gentle.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="871521646"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{B6566D93-A114-43F5-828C-8B3059E29DFB}" ShortID="408988469">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{874B2B0E-F26F-4842-9E02-512D0E50E209}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[E]_toning_gentle" ID="{4BD6332D-667F-4EE3-AF79-7DBACC25B636}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[G]_toning_gentle" ID="{29E09CF0-FE79-4744-A33A-C290C05DDDFE}" ShortID="236142715">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[G]_toning_gentle" ID="{885C185D-EA4D-4D30-94F4-E9243B610A30}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[G]_toning_gentle.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1059434116"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{2B5961EB-4AA0-4BAD-A8F2-38F258A6715C}" ShortID="476513515">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{94D1877B-BEA6-44A1-809F-4C664E77CA30}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[G]_toning_gentle" ID="{885C185D-EA4D-4D30-94F4-E9243B610A30}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[B]_toning_gentle" ID="{9517ED64-2C3C-42DF-B279-D0686BE1D374}" ShortID="523805860">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[B]_toning_gentle" ID="{ADDFBBEC-B5B1-4FD3-8F52-E7E8014F675C}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[B]_toning_gentle.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="406046355"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{088F918C-5158-4034-912E-2A08C84392F9}" ShortID="508374794">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{7510369A-870F-41FA-BB7F-0D6E567057B3}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[B]_toning_gentle" ID="{ADDFBBEC-B5B1-4FD3-8F52-E7E8014F675C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[D]_toning_gentle" ID="{658C3370-504F-4572-9771-5602259B12D1}" ShortID="883189309">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[D]_toning_gentle" ID="{5B53BB88-B694-4142-A4D4-238D42B0D71D}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[D]_toning_gentle.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="328076972"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{A8150E89-8841-458C-8AC6-E920A156192F}" ShortID="82356237">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{B2489C9F-B026-4593-821F-2385BF9876C4}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[D]_toning_gentle" ID="{5B53BB88-B694-4142-A4D4-238D42B0D71D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[F]_toning_gentle" ID="{9F98DACF-0CFC-49BC-A771-740101491179}" ShortID="766638893">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[F]_toning_gentle" ID="{F4FA412D-7D9F-4A5D-B609-F15D1B166C21}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[F]_toning_gentle.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="393083644"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{BB125AB6-CAFB-48AA-8F90-A092EA08C99C}" ShortID="371396518">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{B58F3527-7A03-42D4-A0D1-9FEB5D4DF395}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[F]_toning_gentle" ID="{F4FA412D-7D9F-4A5D-B609-F15D1B166C21}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[G]_toning_gentle" ID="{80A84D5A-3238-49FF-8703-7A37676830D7}" ShortID="132808197">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[G]_toning_gentle" ID="{0A60914E-5BBE-41D2-B70B-762B8956A5FC}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[G]_toning_gentle.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="108713058"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{78A4329A-8D7E-4C66-BBFC-79F2146C6AC6}" ShortID="298041238">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{A53F4846-53A4-47A5-AD59-75AA72BB76E5}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[G]_toning_gentle" ID="{0A60914E-5BBE-41D2-B70B-762B8956A5FC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+										<CustomState Name="" ID="{A173D1E3-EFF5-4798-8E42-8DA3CC64FFD0}" ShortID="10738247"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+										<CustomState Name="" ID="{51C8D1BC-6001-4DA1-9033-E3137E2EDFC4}" ShortID="250465755">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+										<CustomState Name="" ID="{E83D9D58-315A-4B71-BD55-370795727A2E}" ShortID="412170242">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-85"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+										<CustomState Name="" ID="{FB88DD3F-556D-4A44-AEFE-BB2A0A6C3994}" ShortID="638064575">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[C]_toning_gentle" ID="{79B8D711-77F1-444C-9006-226A072BBE0B}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[G]_toning_gentle" ID="{80A84D5A-3238-49FF-8703-7A37676830D7}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[B]_toning_gentle" ID="{9517ED64-2C3C-42DF-B279-D0686BE1D374}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[D]_toning_gentle" ID="{658C3370-504F-4572-9771-5602259B12D1}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[F]_toning_gentle" ID="{9F98DACF-0CFC-49BC-A771-740101491179}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[E]_toning_gentle" ID="{F142BEE0-CF71-4E58-8C44-2FCA74859CA2}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[B]_toning_gentle" ID="{2F7FC8E1-BF1B-4CAA-B371-043109E4F756}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[G]_toning_gentle" ID="{29E09CF0-FE79-4744-A33A-C290C05DDDFE}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="E" ID="{5B3A6E70-AAF8-426B-B9DD-E72B43C98983}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[E]_toning_gentle" ID="{F142BEE0-CF71-4E58-8C44-2FCA74859CA2}"/>
+											<ItemRef Name="harmony_[B]_toning_gentle" ID="{9517ED64-2C3C-42DF-B279-D0686BE1D374}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[C]_toning_gentle" ID="{79B8D711-77F1-444C-9006-226A072BBE0B}"/>
+											<ItemRef Name="harmony_[G]_toning_gentle" ID="{80A84D5A-3238-49FF-8703-7A37676830D7}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="G" ID="{25CAEDC2-995C-4044-B4A4-38361F607D0F}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[G]_toning_gentle" ID="{29E09CF0-FE79-4744-A33A-C290C05DDDFE}"/>
+											<ItemRef Name="harmony_[D]_toning_gentle" ID="{658C3370-504F-4572-9771-5602259B12D1}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="B" ID="{5DE309E9-CAD8-4AD3-9C7D-556DD4935594}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[B]_toning_gentle" ID="{2F7FC8E1-BF1B-4CAA-B371-043109E4F756}"/>
+											<ItemRef Name="harmony_[F]_toning_gentle" ID="{9F98DACF-0CFC-49BC-A771-740101491179}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+						<SwitchContainer Name="Toning_Shruti" ID="{F8DCD57C-F97E-4BFE-BB74-B7C963EFE773}" ShortID="372044121">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="InteractiveMusicSwitchGroup" ID="{D9678002-60E2-4B6B-89C7-3087A452A4A2}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="fundamental_[C]_toning_shruti" ID="{ACADC163-757C-4008-8AF0-6A12A69877C8}" ShortID="623386575">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>26</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>24</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[C]_toning_shruti" ID="{1EDF7167-A8CB-4BBE-8525-7A3671D74A08}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[C]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="494020334"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{47D5765C-75A2-4752-B69C-645FAA33AE7D}" ShortID="773174805">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{9B93BBE3-DA25-4A51-BE4D-017CF5367950}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[C]_toning_shruti" ID="{1EDF7167-A8CB-4BBE-8525-7A3671D74A08}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[E]_toning_shruti" ID="{E2B1347B-DECD-4763-B819-35C24A3A6AA9}" ShortID="503160142">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>24</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>18</Value>
+											</ValueList>
+										</Property>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[E]_toning_shruti" ID="{A4DBB3D6-9E7D-4529-BF33-25D44757C872}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[E]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="776863379"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{2FBED582-A061-4483-B8D2-EEDB1885AE3E}" ShortID="113926441">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{500161AD-8E62-495E-900F-ABFAE26BAE6E}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[E]_toning_shruti" ID="{A4DBB3D6-9E7D-4529-BF33-25D44757C872}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[G]_toning_shruti" ID="{27D580EF-7419-48CD-AA2B-D1980348B030}" ShortID="80155980">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>14</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>29</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[G]_toning_shruti" ID="{B1082C97-D3A3-496F-B2DB-A71C68882346}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[G]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="193930001"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{2B066CEC-C4F3-4AEE-9719-2CC0D46CA0F8}" ShortID="614243520">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{777E3635-F218-4438-9675-CB761856AC2B}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[G]_toning_shruti" ID="{B1082C97-D3A3-496F-B2DB-A71C68882346}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[B]_toning_shruti" ID="{95FCCC6D-72B3-47D8-8612-36B1D5FA5019}" ShortID="697198229">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>20</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>19</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[B]_toning_shruti" ID="{CD9CEC25-E964-472B-A60F-95298B326FFF}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[B]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="95564558"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{F5B3BC3C-F382-41E1-B2C3-CC6B2BD81638}" ShortID="931062775">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{195CA63D-F2CA-41A1-A43F-E0172D146A49}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[B]_toning_shruti" ID="{CD9CEC25-E964-472B-A60F-95298B326FFF}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[G]_toning_shruti" ID="{1441EF64-6FDA-4965-A3F0-1CD2CA1DADDB}" ShortID="441670866">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>25</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[G]_toning_shruti" ID="{ED5ABE18-0C89-4338-A708-A2A914C4B0C2}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[G]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="346108750"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{48F7EF2B-E62B-47A4-A0E0-A5028F46739C}" ShortID="979624267">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{C505D5D8-9BEC-498B-83B5-78797A04E9EE}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[G]_toning_shruti" ID="{ED5ABE18-0C89-4338-A708-A2A914C4B0C2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[B]_toning_shruti" ID="{545E0239-AFB7-472E-9727-B66AC83F9FFE}" ShortID="941481638">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>34</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[B]_toning_shruti" ID="{9A2E6700-3890-4CD0-B8D9-7694BB7D9103}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[B]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="504715301"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{D4E653F5-0B97-44DE-BDD9-262F44B6BB45}" ShortID="1026146883">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{A9C680CA-A7D2-4F40-A74D-C6D04AB0D983}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[B]_toning_shruti" ID="{9A2E6700-3890-4CD0-B8D9-7694BB7D9103}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[D]_toning_shruti" ID="{76672AE7-1A81-48A5-B7C9-4C9B6D2E26C6}" ShortID="807045371">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>34</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[D]_toning_shruti" ID="{BD5C3E89-E3D9-495C-B0FD-C1E5A76B7511}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[D]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="167281688"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{16A82391-036D-409D-9094-46651D0545DE}" ShortID="698234834">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{D36B9261-3353-4C30-ACF8-A23A643750A3}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[D]_toning_shruti" ID="{BD5C3E89-E3D9-495C-B0FD-C1E5A76B7511}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[F]_toning_shruti" ID="{A56DD70D-BE25-40E8-8CCD-F00B595F54FA}" ShortID="113200654">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>32</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[F]_toning_shruti" ID="{9287F13A-885F-4B8E-BA72-EF03E1A88249}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[F]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="518293729"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{0A263717-152D-49CE-8559-29F290DB896E}" ShortID="353201029">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{CFD93470-AC93-4222-8F90-30DD0CF8DE1F}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[F]_toning_shruti" ID="{9287F13A-885F-4B8E-BA72-EF03E1A88249}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+										<CustomState Name="" ID="{ABE748C0-3C9D-469D-8B71-ACF1EFE08D72}" ShortID="890306017">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+										<CustomState Name="" ID="{CD5A7DAC-00F2-4907-B7FE-F164BFE2BE51}" ShortID="688572701">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+										<CustomState Name="" ID="{D4176288-5EC1-4259-B465-B5FB96BA6363}" ShortID="587713420">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+										<CustomState Name="" ID="{B0381C58-3A83-4C99-BC39-D5F9F73A4AD7}" ShortID="381153559">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="1"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[F]_toning_shruti" ID="{A56DD70D-BE25-40E8-8CCD-F00B595F54FA}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[B]_toning_shruti" ID="{545E0239-AFB7-472E-9727-B66AC83F9FFE}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[C]_toning_shruti" ID="{ACADC163-757C-4008-8AF0-6A12A69877C8}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[G]_toning_shruti" ID="{1441EF64-6FDA-4965-A3F0-1CD2CA1DADDB}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[B]_toning_shruti" ID="{95FCCC6D-72B3-47D8-8612-36B1D5FA5019}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[E]_toning_shruti" ID="{E2B1347B-DECD-4763-B819-35C24A3A6AA9}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[D]_toning_shruti" ID="{76672AE7-1A81-48A5-B7C9-4C9B6D2E26C6}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[G]_toning_shruti" ID="{27D580EF-7419-48CD-AA2B-D1980348B030}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="E" ID="{5B3A6E70-AAF8-426B-B9DD-E72B43C98983}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[E]_toning_shruti" ID="{E2B1347B-DECD-4763-B819-35C24A3A6AA9}"/>
+											<ItemRef Name="harmony_[B]_toning_shruti" ID="{545E0239-AFB7-472E-9727-B66AC83F9FFE}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[C]_toning_shruti" ID="{ACADC163-757C-4008-8AF0-6A12A69877C8}"/>
+											<ItemRef Name="harmony_[G]_toning_shruti" ID="{1441EF64-6FDA-4965-A3F0-1CD2CA1DADDB}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="G" ID="{25CAEDC2-995C-4044-B4A4-38361F607D0F}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[G]_toning_shruti" ID="{27D580EF-7419-48CD-AA2B-D1980348B030}"/>
+											<ItemRef Name="harmony_[D]_toning_shruti" ID="{76672AE7-1A81-48A5-B7C9-4C9B6D2E26C6}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="B" ID="{5DE309E9-CAD8-4AD3-9C7D-556DD4935594}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[B]_toning_shruti" ID="{95FCCC6D-72B3-47D8-8612-36B1D5FA5019}"/>
+											<ItemRef Name="harmony_[F]_toning_shruti" ID="{A56DD70D-BE25-40E8-8CCD-F00B595F54FA}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+						<SwitchContainer Name="Toning_Shadow" ID="{2D089E4F-408A-447D-AB82-894E9FC6AFF6}" ShortID="360859134">
+							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>24</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="InteractiveMusicSwitchGroup" ID="{D9678002-60E2-4B6B-89C7-3087A452A4A2}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="fundamental_[B]_toning_shadow" ID="{E542345B-209F-44BE-8A89-4C84CD35CA94}" ShortID="624752676">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[B]_toning_shadow" ID="{8F2290F1-A598-41F9-A9DA-5F31C8C7BD4A}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="15.4527162977867"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="20.0704225352113"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[B]_toning_shadow.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="780915843"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{887DB415-33FE-47DA-89F4-D04D58C1768C}" ShortID="207536566">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{251179F1-6FD7-4E96-894A-E6CF1908BACD}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[B]_toning_shadow" ID="{8F2290F1-A598-41F9-A9DA-5F31C8C7BD4A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[C]_toning_shadow" ID="{8CA42751-402B-482C-A340-EEDCAD44DD67}" ShortID="151977978">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[C]_toning_shadow" ID="{2964BACA-2B33-4F23-B685-8D94E6DD73D8}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="17.5050301810865"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="20.1006036217304"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[C]_toning_shadow.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="364631077"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{7832540F-217E-425F-806F-A77A1524E11E}" ShortID="22688331">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{82F83F51-8C45-4A00-938B-EE11E364517E}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[C]_toning_shadow" ID="{2964BACA-2B33-4F23-B685-8D94E6DD73D8}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[E]_toning_shadow" ID="{79927E20-B541-4EE0-8743-4AA904E9002A}" ShortID="970481655">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[E]_toning_shadow" ID="{C421E369-5D21-4575-8C1A-27FAB69833CE}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="18.9839034205231"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="20.0704225352113"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[E]_toning_shadow.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="781632256"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{A33EE744-73E8-4705-BB52-9A336A18C575}" ShortID="1043530171">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{4FB1CDE7-6AFD-4828-A67B-CA488A134801}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[E]_toning_shadow" ID="{C421E369-5D21-4575-8C1A-27FAB69833CE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[G]_toning_shadow" ID="{AD02B352-DD77-497B-90D9-D830D9E20E90}" ShortID="1063221404">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[G]_toning_shadow" ID="{E0619CC0-539A-4C92-ADDC-2426751AAEF0}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="18.8631790744467"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="20.0704225352113"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[G]_toning_shadow.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="133084729"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{27D6F472-314C-46F1-9D30-E3509E20DEC5}" ShortID="825721853">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{C68C7998-5DB3-45D0-B2BD-AD9B04DE7F24}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[G]_toning_shadow" ID="{E0619CC0-539A-4C92-ADDC-2426751AAEF0}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[B]_toning_shadow" ID="{596C89B7-229F-451D-A94F-9BBA4F5297D5}" ShortID="928532787">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>34</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[B]_toning_shadow" ID="{B0C828CF-1DF1-4A82-B747-D314CF00362B}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.181086519114688"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="9.8692152917505"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.301810865191147"/>
+												<Property Name="TrimEnd" Type="Real64" Value="10.3822937625755"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>harmony_[B]_toning_shadow.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="880603966"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{58AB5F18-4328-483E-8461-A066852FE6D0}" ShortID="620931644">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{2F86DF65-5A99-4DC0-965E-ACA2623C2A5B}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[B]_toning_shadow" ID="{B0C828CF-1DF1-4A82-B747-D314CF00362B}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[D]_toning_shadow" ID="{BF6217D8-32F0-4AEA-A8F6-D7B9A3717D28}" ShortID="730035910">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>29</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[D]_toning_shadow" ID="{4C79A5DC-2955-4B21-B4FC-D683F9E7AFAC}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.241448692152918"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="7.69617706237424"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.181086519114688"/>
+												<Property Name="TrimEnd" Type="Real64" Value="7.87726358148893"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>harmony_[D]_toning_shadow.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="262956075"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{4FC74602-2E10-46D4-8967-C72A1CF37D44}" ShortID="966237149">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{99C6A867-23A8-4C15-B6FA-934481782F25}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[D]_toning_shadow" ID="{4C79A5DC-2955-4B21-B4FC-D683F9E7AFAC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[F]_toning_shadow" ID="{8B9D332E-A79B-4FC6-A470-FCB10572B0A6}" ShortID="79758816">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>27</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[F]_toning_shadow" ID="{30FDC23E-4E75-4A43-B1A5-E3206B99CD96}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.181086519114688"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="8.84305835010061"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.120724346076459"/>
+												<Property Name="TrimEnd" Type="Real64" Value="9.98993963782696"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>harmony_[F]_toning_shadow.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="14797253"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{493918FB-CFD4-4B5E-AB9A-D140131641AA}" ShortID="89165100">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{0F792B8F-16B0-482A-AB0F-5CDF336FB542}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[F]_toning_shadow" ID="{30FDC23E-4E75-4A43-B1A5-E3206B99CD96}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[G]_toning_shadow" ID="{D7D95976-D49B-4F4B-80F1-F3A4BAAAD6D5}" ShortID="28276622">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>59</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[G]_toning_shadow" ID="{35179BF1-7206-4176-9BA6-3516948FED97}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.211267605633803"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="9.2655935613682"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0905432595573441"/>
+												<Property Name="TrimEnd" Type="Real64" Value="10.0804828973843"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>harmony_[G]_toning_shadow.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="441113636"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{F0832B8F-4F32-45B5-9AE9-11747E507F4B}" ShortID="30453561">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{7555AE22-4239-4C2A-BA9B-D05071E37B68}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[G]_toning_shadow" ID="{35179BF1-7206-4176-9BA6-3516948FED97}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+										<CustomState Name="" ID="{AE2B91B7-5546-45F2-A901-FCCFB704ADC6}" ShortID="601319914">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+										<CustomState Name="" ID="{800020D8-43AD-4057-95D7-41503F7FB64F}" ShortID="674963812">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+										<CustomState Name="" ID="{82D7EC12-DDB8-417B-8327-382F373CDDF6}" ShortID="226297819">
+											<PropertyList>
+												<Property Name="Highpass" Type="int16" Value="1"/>
+												<Property Name="Volume" Type="Real64" Value="2"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+										<CustomState Name="" ID="{D28B7894-51CB-4295-9D6D-26D47B6D4E3B}" ShortID="546023568">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[E]_toning_shadow" ID="{79927E20-B541-4EE0-8743-4AA904E9002A}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[F]_toning_shadow" ID="{8B9D332E-A79B-4FC6-A470-FCB10572B0A6}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[C]_toning_shadow" ID="{8CA42751-402B-482C-A340-EEDCAD44DD67}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[G]_toning_shadow" ID="{AD02B352-DD77-497B-90D9-D830D9E20E90}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[B]_toning_shadow" ID="{E542345B-209F-44BE-8A89-4C84CD35CA94}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[G]_toning_shadow" ID="{D7D95976-D49B-4F4B-80F1-F3A4BAAAD6D5}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[B]_toning_shadow" ID="{596C89B7-229F-451D-A94F-9BBA4F5297D5}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[D]_toning_shadow" ID="{BF6217D8-32F0-4AEA-A8F6-D7B9A3717D28}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="E" ID="{5B3A6E70-AAF8-426B-B9DD-E72B43C98983}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[E]_toning_shadow" ID="{79927E20-B541-4EE0-8743-4AA904E9002A}"/>
+											<ItemRef Name="harmony_[B]_toning_shadow" ID="{596C89B7-229F-451D-A94F-9BBA4F5297D5}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[C]_toning_shadow" ID="{8CA42751-402B-482C-A340-EEDCAD44DD67}"/>
+											<ItemRef Name="harmony_[G]_toning_shadow" ID="{D7D95976-D49B-4F4B-80F1-F3A4BAAAD6D5}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="G" ID="{25CAEDC2-995C-4044-B4A4-38361F607D0F}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[G]_toning_shadow" ID="{AD02B352-DD77-497B-90D9-D830D9E20E90}"/>
+											<ItemRef Name="harmony_[D]_toning_shadow" ID="{BF6217D8-32F0-4AEA-A8F6-D7B9A3717D28}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="B" ID="{5DE309E9-CAD8-4AD3-9C7D-556DD4935594}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[B]_toning_shadow" ID="{E542345B-209F-44BE-8A89-4C84CD35CA94}"/>
+											<ItemRef Name="harmony_[F]_toning_shadow" ID="{8B9D332E-A79B-4FC6-A470-FCB10572B0A6}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+						<SwitchContainer Name="Toning_SonoFlore" ID="{F717579E-163F-430A-9322-C8BBFA05E9AD}" ShortID="243129180">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="InteractiveMusicSwitchGroup" ID="{D9678002-60E2-4B6B-89C7-3087A452A4A2}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="fundamental_[B]_toning_sono flore" ID="{7994A59F-7065-408F-A759-927811C1BFE1}" ShortID="318917451">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[B]_toning_sono flore" ID="{6D466AEA-C840-4740-8353-B72FD7964801}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[B]_toning_sono flore.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="363146653"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{500AABEC-59A3-4063-9FB0-EED57D02CB60}" ShortID="938268159">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{4F6BBE18-455B-406F-A42A-7505BD682697}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[B]_toning_sono flore" ID="{6D466AEA-C840-4740-8353-B72FD7964801}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[C]_toning_sono flore" ID="{7D2DBA71-CAEC-434D-926E-7705658C4297}" ShortID="436083109">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[C]_toning_sono flore" ID="{AA87CBCE-EC5F-4F24-8942-94455F2EA0C3}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[C]_toning_sono flore.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1031373284"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{7CE27580-784D-4053-811E-8E763F8AB602}" ShortID="967863817">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{D9A94AAF-BD65-45F9-BD9A-3D2F63E734EC}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[C]_toning_sono flore" ID="{AA87CBCE-EC5F-4F24-8942-94455F2EA0C3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[E]_toning_sono flore" ID="{177C45F4-ADCD-4589-A709-595CB481C905}" ShortID="686839581">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[E]_toning_sono flore" ID="{52A72BB5-1B39-49A7-A71B-4B5AC6096DC2}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[E]_toning_sono flore.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="733447239"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{22E45621-1E54-4232-843D-63B4C5537E79}" ShortID="666639421">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{977458EB-19DE-4E95-9983-5E1F9A8EF410}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[E]_toning_sono flore" ID="{52A72BB5-1B39-49A7-A71B-4B5AC6096DC2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fundamental_[G]_toning_sono flore" ID="{0ACA9079-2111-4902-B5AD-1A47E780A361}" ShortID="360514239">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[G]_toning_sono flore" ID="{F38E327D-D80B-45B1-9C55-03F29D5DCB39}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[G]_toning_sono flore.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="337142600"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{91B7A620-24EE-48B1-AF04-70DFBB2479EE}" ShortID="308866586">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{8CFE913A-3847-4A6C-B2FC-98BA97ECEE1C}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="fundamental_[G]_toning_sono flore" ID="{F38E327D-D80B-45B1-9C55-03F29D5DCB39}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[B]_toning_sono flore" ID="{69DA11A7-651A-4056-9B6D-47EB5EAB6C4E}" ShortID="418528363">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>61</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[B]_toning_sono flore" ID="{E353B87D-6996-4C46-9E2E-C6BA0EB05B04}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[B]_toning_sono flore.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1073188299"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{106D1EE7-CA4B-49BF-8BB7-1C50C10D5346}" ShortID="376087302">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{6B7D426A-C0A3-4327-80FB-C2A3EDB0E9DE}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[B]_toning_sono flore" ID="{E353B87D-6996-4C46-9E2E-C6BA0EB05B04}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[D]_toning_sono flore" ID="{C0F5C368-38BB-4A34-BD62-20C0B4E8C069}" ShortID="618858230">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>46</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[D]_toning_sono flore" ID="{ABFB6F5D-3302-4BFB-B93D-3DDEAA805E3F}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[D]_toning_sono flore.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="263548589"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{00F17A2A-F704-4849-BB46-655604290EB0}" ShortID="489039305">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{D9BB8DFF-B24F-4D57-9951-3EA5E2C5A478}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[D]_toning_sono flore" ID="{ABFB6F5D-3302-4BFB-B93D-3DDEAA805E3F}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[F]_toning_sono flore" ID="{3C1648B7-2669-4A3C-AD9C-41B97CDD6B48}" ShortID="220198225">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>54</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[F]_toning_sono flore" ID="{B5C9D7A6-758D-4E1C-97B9-957D4A522190}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[F]_toning_sono flore.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="972895772"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{BB1659E3-881F-4BC0-876E-E1BA5E6CBC60}" ShortID="150559700">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{33D91635-1B4E-4C64-81BF-2E9421DBCD5E}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[F]_toning_sono flore" ID="{B5C9D7A6-758D-4E1C-97B9-957D4A522190}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="harmony_[G]_toning_sono flore" ID="{8AC79E3D-754F-4917-81EC-CBCBE4C70FCF}" ShortID="692090911">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>58</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Pitch" Type="int32">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[G]_toning_sono flore" ID="{44EEE616-E5EE-43F7-B1EA-865EFCF3F02D}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[G]_toning_sono flore.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="102762678"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{8FAA9864-C10A-4575-AC5B-24ECA4DFC0D9}" ShortID="213987500">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{565F16C2-C15C-4FF5-B0E1-2175DF068EB4}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="harmony_[G]_toning_sono flore" ID="{44EEE616-E5EE-43F7-B1EA-865EFCF3F02D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+										<CustomState Name="" ID="{CB67BC0F-CC56-43B5-B2E6-0604ED297E4A}" ShortID="811040319">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+										<CustomState Name="" ID="{9BE3C880-3211-4FCC-B470-1C234F51B475}" ShortID="88360638">
+											<PropertyList>
+												<Property Name="Highpass" Type="int16" Value="4"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+										<CustomState Name="" ID="{AB6BBC25-90D4-44A1-86A5-7AB4995AA9AB}" ShortID="321039816">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+										<CustomState Name="" ID="{E2A7AB28-1150-493B-80DD-47E75F4E4B4C}" ShortID="656131088">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[G]_toning_sono flore" ID="{8AC79E3D-754F-4917-81EC-CBCBE4C70FCF}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[D]_toning_sono flore" ID="{C0F5C368-38BB-4A34-BD62-20C0B4E8C069}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[C]_toning_sono flore" ID="{7D2DBA71-CAEC-434D-926E-7705658C4297}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[G]_toning_sono flore" ID="{0ACA9079-2111-4902-B5AD-1A47E780A361}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[B]_toning_sono flore" ID="{7994A59F-7065-408F-A759-927811C1BFE1}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[B]_toning_sono flore" ID="{69DA11A7-651A-4056-9B6D-47EB5EAB6C4E}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="harmony_[F]_toning_sono flore" ID="{3C1648B7-2669-4A3C-AD9C-41B97CDD6B48}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="fundamental_[E]_toning_sono flore" ID="{177C45F4-ADCD-4589-A709-595CB481C905}"/>
+										<PropertyList>
+											<Property Name="FadeOutTime" Type="Real64">
+												<ValueList>
+													<Value>1</Value>
+												</ValueList>
+											</Property>
+										</PropertyList>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="E" ID="{5B3A6E70-AAF8-426B-B9DD-E72B43C98983}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[E]_toning_sono flore" ID="{177C45F4-ADCD-4589-A709-595CB481C905}"/>
+											<ItemRef Name="harmony_[B]_toning_sono flore" ID="{69DA11A7-651A-4056-9B6D-47EB5EAB6C4E}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[C]_toning_sono flore" ID="{7D2DBA71-CAEC-434D-926E-7705658C4297}"/>
+											<ItemRef Name="harmony_[G]_toning_sono flore" ID="{8AC79E3D-754F-4917-81EC-CBCBE4C70FCF}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="G" ID="{25CAEDC2-995C-4044-B4A4-38361F607D0F}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[G]_toning_sono flore" ID="{0ACA9079-2111-4902-B5AD-1A47E780A361}"/>
+											<ItemRef Name="harmony_[D]_toning_sono flore" ID="{C0F5C368-38BB-4A34-BD62-20C0B4E8C069}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="B" ID="{5DE309E9-CAD8-4AD3-9C7D-556DD4935594}"/>
+										<ItemList>
+											<ItemRef Name="fundamental_[B]_toning_sono flore" ID="{7994A59F-7065-408F-A759-927811C1BFE1}"/>
+											<ItemRef Name="harmony_[F]_toning_sono flore" ID="{3C1648B7-2669-4A3C-AD9C-41B97CDD6B48}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+								<CustomState Name="" ID="{BC7DDC6A-A8E4-4F86-8F85-60F14AB90238}" ShortID="809933287">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16" Value="1"/>
+										<Property Name="MakeUpGain" Type="Real64" Value="-1"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+								<CustomState Name="" ID="{1816FF04-5D4E-429F-997A-65E9FDB76867}" ShortID="9094295"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+								<CustomState Name="" ID="{AE3EB104-4732-4130-9F87-C694B2856C69}" ShortID="1010266196">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16" Value="7"/>
+										<Property Name="MakeUpGain" Type="Real64" Value="-1"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+								<CustomState Name="" ID="{CCA3AEDE-00C7-4EFA-B0DA-916F5FD1D8D4}" ShortID="120154619">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="1"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
+					<ObjectLists>
+						<ObjectList Name="Effects">
+							<Reference>
+								<Local>
+									<EffectSlot Name="" ID="{03C78852-38C8-4D73-8D3C-897BFBA1FA4E}" ShortID="162959989">
+										<ReferenceList>
+											<Reference Name="Effect" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
+												<ObjectRef Name="_1_Second_Delay" ID="{5AAB81A5-3444-4DE7-AEB3-2DDBB33D455B}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+											</Reference>
+										</ReferenceList>
+										<StateInfo>
+											<CustomStateList>
+												<CustomState>
+													<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+													<CustomState Name="" ID="{A6865A82-BE97-420D-87E4-A52B44E20DF3}" ShortID="1043125193"/>
+												</CustomState>
+												<CustomState>
+													<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+													<CustomState Name="" ID="{43C70A9C-004C-4E3E-A12B-3152C91B4522}" ShortID="471519826"/>
+												</CustomState>
+												<CustomState>
+													<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+													<CustomState Name="" ID="{0D9B6D02-B064-4960-AAF7-CE478DA35209}" ShortID="331301000"/>
+												</CustomState>
+												<CustomState>
+													<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+													<CustomState Name="" ID="{A14F75DC-FD52-40A9-BADF-1763271B9271}" ShortID="414056236"/>
+												</CustomState>
+											</CustomStateList>
+										</StateInfo>
+									</EffectSlot>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<EffectSlot Name="" ID="{25D35872-5810-4C87-AB58-92EA25519861}" ShortID="204547826">
+										<ReferenceList>
+											<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+												<ObjectRef Name="Church_Small_Wood" ID="{940CCB47-F031-4C6A-B0E6-726CAC418C02}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+											</Reference>
+										</ReferenceList>
+										<StateInfo>
+											<CustomStateList>
+												<CustomState>
+													<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+													<CustomState Name="" ID="{120DDE78-931A-40DE-86C3-01C8919CBEFC}" ShortID="537694576"/>
+												</CustomState>
+												<CustomState>
+													<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+													<CustomState Name="" ID="{86D678F6-A384-4962-B89B-4E334ADDF627}" ShortID="475087427"/>
+												</CustomState>
+												<CustomState>
+													<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+													<CustomState Name="" ID="{20847792-4088-49A1-8716-E09886EE438D}" ShortID="886502142"/>
+												</CustomState>
+												<CustomState>
+													<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+													<CustomState Name="" ID="{61A6D16C-5DB2-48BB-837A-DEBCC76B0914}" ShortID="928154454"/>
+												</CustomState>
+											</CustomStateList>
+										</StateInfo>
+									</EffectSlot>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+				</BlendContainer>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

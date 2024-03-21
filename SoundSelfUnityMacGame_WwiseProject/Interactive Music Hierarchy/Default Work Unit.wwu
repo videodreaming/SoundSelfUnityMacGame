@@ -1,6 +1,1353 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" SchemaVersion="119">
 	<InteractiveMusic>
-		<WorkUnit Name="Default Work Unit" ID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" PersistMode="Standalone">
+			<ChildrenList>
+				<MusicSwitchContainer Name="InteractiveMusic_Loops" ID="{30EF88D2-EB7C-4B7E-B028-E4BD6526D26D}" ShortID="221404098">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{7BB3FA49-296F-4333-A67F-4736A3011AFE}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{D2082A69-3878-4D2D-A2F9-1E36F27CF8C3}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
+						</Reference>
+					</ReferenceList>
+				</MusicSwitchContainer>
+				<MusicPlaylistContainer Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" ShortID="682289842">
+					<PropertyList>
+						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="PlaylistRoot">
+							<Custom>
+								<MusicPlaylistItem Name="" ID="{61EBF8A5-DB7D-4E3B-8B59-CE837CFA876B}" ShortID="138219722">
+									<PropertyList>
+										<Property Name="PlayMode" Type="int16" Value="2"/>
+										<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="3"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicPlaylistItem Name="" ID="{C27E182C-F3B2-4FCD-A822-471CC4EEBF98}" ShortID="791312902">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="SoundCeremony_Crystal Bowl_oneshot" ID="{87A0753F-6825-4532-952D-D14C5AEDAC50}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+										<MusicPlaylistItem Name="" ID="{0A37EEB5-99DB-4722-8071-6E29C3593ECF}" ShortID="875056725">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="SoundCeremony_CrystalBowl_01" ID="{EA69713E-62ED-46BD-9F94-FD5037E00F79}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+										<MusicPlaylistItem Name="" ID="{D3BEF6CB-2F13-4441-92B7-8DA3649D0B89}" ShortID="590165176">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="SoundCeremony_CrystalBowl_02" ID="{AD472903-38F4-4DB5-86E6-3AE4DE68F00D}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+										<MusicPlaylistItem Name="" ID="{0CC5B2D3-A840-46D8-B89E-F0AAA47873A6}" ShortID="1029085693">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="SoundCeremony_CrystalBowl_03" ID="{F0E4B21A-FDE8-4A56-91FF-DD1A9294193C}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+										<MusicPlaylistItem Name="" ID="{61153776-FBF7-49F7-82E1-F1CA7080707B}" ShortID="211977249">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="SoundCeremony_CrystalBowl_11" ID="{F169CDDD-E332-4F01-BCF1-086C2F469445}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+										<MusicPlaylistItem Name="" ID="{16EC2103-BECC-4A7D-9CD7-97DC6203A96C}" ShortID="659642680">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="SoundCeremony_CrystalBowl_12" ID="{3630CC31-8EE7-46CB-9B3E-125831D268DC}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+										<MusicPlaylistItem Name="" ID="{1E75513F-F44D-459D-AD54-AA45E0AFD544}" ShortID="638099713">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="SoundCeremony_CrystalBowl_13" ID="{C7DC6D4E-1897-4B6F-AA3E-6B3C811E568D}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+									</ChildrenList>
+								</MusicPlaylistItem>
+							</Custom>
+						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{633EC4CE-D21A-4C2E-8923-C191C2CAD4E3}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{908509AB-D914-4C89-9F04-1E229E537F6C}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicSegment Name="SoundCeremony_Crystal Bowl_oneshot" ID="{87A0753F-6825-4532-952D-D14C5AEDAC50}" ShortID="32764109">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="35555.5625"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_Crystal Bowl_oneshot" ID="{0553499C-1B21-4740-A88E-3977E8F9AAEC}" ShortID="1027085900">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{7E7BDC6C-B0DE-48A8-B9B6-688FAD3FDDFF}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_Crystal Bowl_oneshot" ID="{AA8AB063-0FC4-4F14-8693-FDBF2CBBE2E3}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_Crystal Bowl_oneshot.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="125495837"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{A94BC279-700A-4447-9126-AB0A78FCF52F}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_Crystal Bowl_oneshot" ID="{DF95F578-6B54-4307-95A9-4D3B76544113}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="35555.5625"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_Crystal Bowl_oneshot" ID="{AA8AB063-0FC4-4F14-8693-FDBF2CBBE2E3}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{905063BF-92E8-493A-9CE5-852F4FDB31B7}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-29.7029702970297"/>
+										<Property Name="PanY" Type="Real64" Value="1.19378819852153E-17"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{61066075-15C4-4790-AB2C-4F8A547AAA5B}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{D4A1DD8E-7857-4991-9329-045270C997F0}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="35555.5625"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_01" ID="{EA69713E-62ED-46BD-9F94-FD5037E00F79}" ShortID="230522872">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="42000"/>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_01" ID="{5E3EA36B-07F2-478A-941D-3111B97DEB28}" ShortID="91233046">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{A7C23DE9-B78D-4888-AFFB-CFD3A6D29385}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_01" ID="{9C69A63B-4E0A-47FD-94F7-E7BF9350075F}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="687186124"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{BF9DA927-2327-4832-8758-9B6FFD826CF7}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_01" ID="{886FF23C-A7AE-4EC1-98A5-45E282468E39}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="42000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_01" ID="{9C69A63B-4E0A-47FD-94F7-E7BF9350075F}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{8C2A74CF-59E5-40B4-928A-111673CA4D2F}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="40.7920792079208"/>
+										<Property Name="PanY" Type="Real64" Value="0.430107526881708"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{5F3596FF-FAB9-47E7-BD91-37F80CC4B165}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{8B304BC0-CB58-4120-964C-F874EDBF4636}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="42000"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_02" ID="{AD472903-38F4-4DB5-86E6-3AE4DE68F00D}" ShortID="810926994">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="33500"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-10</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_02" ID="{A7E48A1A-C07D-4A86-9B0E-C13229300627}" ShortID="759614246">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{A10C7631-9D2C-43F0-B46C-61D641859289}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_02" ID="{03521454-CFC9-4E43-BC3C-1B80FEE6618D}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1005627719"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{23D7DFA2-609B-4AD9-90B0-C177A3601E4B}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_02" ID="{9C214FA5-A547-4BAC-8D57-D4A2D4E84296}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="33500"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_02" ID="{03521454-CFC9-4E43-BC3C-1B80FEE6618D}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{9BE75707-BDAA-4085-AA75-3A8EFDE841DF}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-60.5940594059406"/>
+										<Property Name="PanY" Type="Real64" Value="62.3655913978494"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{C58D3175-03E6-4C18-8026-5B2AE59BC737}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{2C6DFCCD-1DED-4D58-B599-A6E0D364C97C}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="33500"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_03" ID="{F0E4B21A-FDE8-4A56-91FF-DD1A9294193C}" ShortID="613426461">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="41670.8333333333"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_03" ID="{D0915BEA-4765-43E3-8E02-6AD4FFB5D297}" ShortID="632648088">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{AD7D4D74-8CA9-407D-AF2C-E8664BFEC62F}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_03" ID="{97C5B330-DCC7-4F3E-8E9E-958BF5C9B68C}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="518332124"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{123A4FBC-D101-495A-9419-F1ED0F9A1320}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_03" ID="{FC6B0F60-B00E-44E3-8050-D3B0E4689277}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="41670.8333333333"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_03" ID="{97C5B330-DCC7-4F3E-8E9E-958BF5C9B68C}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{573B592B-DC98-43C1-8BDE-BA406B995D2B}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="47.5247524752475"/>
+										<Property Name="PanY" Type="Real64" Value="48.6021505376344"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{951511EB-5793-429B-BE3A-686D2E5E09D3}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{230C99EC-48C1-43FE-80DC-86D75CEF5335}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="41670.8333333333"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_05" ID="{815D04E5-F7BA-4393-9B8A-596EB35443F8}" ShortID="376518127">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="79000"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_05" ID="{7B97BD1D-4780-4F71-A107-D1786AE65E72}" ShortID="829714131">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{6C9C8AF0-E606-41DF-BE6C-2ABFC1EEA3C0}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_05" ID="{24158A0F-C8B2-46FB-85A2-792DB46F4DA8}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_05.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="456722588"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{9F68312B-DDB8-431E-88ED-81A42B86585F}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_05" ID="{3E0DC693-B548-41F4-B9D5-93E79C982313}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="79000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_05" ID="{24158A0F-C8B2-46FB-85A2-792DB46F4DA8}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{B6D1BF6C-D323-4BB3-88FC-1A3CF822A238}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-90.6930693069307"/>
+										<Property Name="PanY" Type="Real64" Value="-40"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{E5A907AE-1181-46C5-B455-EF586E2416DB}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{7C4709FB-D973-4535-92F9-62C200D0F7C6}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="79000"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_07" ID="{7A790CA0-D765-4125-A2B0-1FF7FE5ED1DB}" ShortID="911640375">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="26867.7083333333"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_07" ID="{364D567C-776A-4334-97E8-1E1697249F3E}" ShortID="273084014">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{57B7DC09-03D9-4703-A180-BF95653F7BD2}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_07" ID="{068530DE-DE7C-4658-BA11-37AE6704EAA6}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_07.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="965535147"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{A9CB1AAC-2F2D-48E3-A7FA-5E75B8639CF8}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_07" ID="{1EC2FA26-2E48-4960-8AA8-54C6B3F438C8}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="26867.7083333333"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_07" ID="{068530DE-DE7C-4658-BA11-37AE6704EAA6}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{84880229-40C7-4914-8615-54D5F566EEBC}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-10.6930693069307"/>
+										<Property Name="PanY" Type="Real64" Value="58.9247311827957"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{514DF2D7-F6FA-4A51-BDC3-1A94DA47EBF7}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{AA589FE8-5DF9-4558-969B-9162A88A2871}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="26867.7083333333"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_08" ID="{F97E0543-2012-46CE-9548-5484A4803B9B}" ShortID="488666163">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="13458.3333333333"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_08" ID="{BE9A598C-526F-4EC1-B4DB-78CBD63E40AB}" ShortID="69346081">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{EE49E1AD-652C-4416-886E-D8FF4ADE2E68}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_08" ID="{1712598F-7A39-42BF-936B-97AD4412AC67}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_08.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="412214530"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{28A6A07A-089F-44B0-B688-68EAABCB807F}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_08" ID="{F8F4AAAC-0EC4-41EE-A197-2E4C10F4F0C9}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="13458.3333333333"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_08" ID="{1712598F-7A39-42BF-936B-97AD4412AC67}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{347A002C-7530-4719-B203-0CC1A8F00FAB}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="17.029702970297"/>
+										<Property Name="PanY" Type="Real64" Value="46.4516129032258"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{3554B3EF-093C-401D-BA17-C05ABF0B12AE}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{3A6E5EFD-1C7E-4A0B-B8D5-4B971FA479B7}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="13458.3333333333"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_09" ID="{23F60DDD-A0E6-47C9-9A4A-89821CF046E6}" ShortID="304155225">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="87720.3125"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_09" ID="{0DA9BD16-55FC-4755-8CA0-ED6DE45A96AD}" ShortID="456511982">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{F49DAA77-31C9-487A-8959-518954138A0D}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_09" ID="{76EFE612-167F-45B8-A1FE-6A05528F81BF}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_09.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1029397453"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{6240780E-85FC-4998-A17E-2434D79152AD}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_09" ID="{B1DE2B4A-4335-489E-97C0-E066D8EB422D}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="87720.3125"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_09" ID="{76EFE612-167F-45B8-A1FE-6A05528F81BF}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{EA11074A-B9E3-4A08-B125-D0167AA35ABD}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-19.8019801980198"/>
+										<Property Name="PanY" Type="Real64" Value="42.1505376344086"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{97F05134-C7F1-42F2-A1C3-3D43B5E603F0}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{E76C6C9B-4C1C-4187-9522-EBDA5F48E9F3}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="87720.3125"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_10" ID="{1BA5933C-D2F2-46BB-8F95-D7B7EF3E6233}" ShortID="81661174">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="48561.3333333333"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_10" ID="{300B41EB-9D46-4B14-B353-BBF052229F6B}" ShortID="191695203">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{0858D671-CDFC-4C8A-937D-CD29F9855C93}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_10" ID="{4DC35532-9A1D-4860-ACCA-541FA745B9C3}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_10.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1031434375"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{A3C27D73-BE57-4D46-BFD1-6C8CD779349B}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_10" ID="{A97D0C57-EC06-4338-9E0E-939BC5704290}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="48561.3333333333"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_10" ID="{4DC35532-9A1D-4860-ACCA-541FA745B9C3}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{B2C59CE8-052D-410F-A342-4CA20466A0F1}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="28.9108910891089"/>
+										<Property Name="PanY" Type="Real64" Value="59.3548387096774"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{63759EB3-F461-4616-B57F-A31593010183}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{FFE68731-A019-4EF0-91E9-C1EFC5514E9B}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="48561.3333333333"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_11" ID="{F169CDDD-E332-4F01-BCF1-086C2F469445}" ShortID="628113964">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="65500"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-7</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_11" ID="{91401546-F23C-4F8D-9009-631B1DF6FF91}" ShortID="878872090">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{25E64EBB-7A6B-42A9-B155-65E402C61729}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_11" ID="{F90AFCDC-DBB0-4353-AD38-F9CD2C1CC3A4}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_11.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="382946237"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{911B755E-C5C8-4C8D-A18D-9F2DAC481CA0}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_11" ID="{BAF5E11D-598E-4713-B1B5-6E36E4F1E355}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="65500"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_11" ID="{F90AFCDC-DBB0-4353-AD38-F9CD2C1CC3A4}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{68E3CCB8-1C31-47F7-AC72-B16B595F963D}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-40"/>
+										<Property Name="PanY" Type="Real64" Value="83.010752688172"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{B5111B11-A70B-40B7-8FE2-5165A5791C2B}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{5FEE5508-9254-44EC-AC8E-ABCFA9BCC174}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="65500"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_12" ID="{3630CC31-8EE7-46CB-9B3E-125831D268DC}" ShortID="910957559">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="47901.5625"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_12" ID="{9AD39176-94DF-463F-9A53-0C52153472AB}" ShortID="543940675">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{00652AF1-9538-4A3A-A145-7AEC08915754}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_12" ID="{FA579FDD-D9B2-4BD5-9CC4-0C0670050946}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_12.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="931830422"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{DC1AD853-EBE2-44FA-B959-8F08345CC250}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_12" ID="{592CDAA3-ED5E-490E-8B80-523E538D5CC6}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="47901.5625"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_12" ID="{FA579FDD-D9B2-4BD5-9CC4-0C0670050946}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{318FDD47-6BCB-417D-BA9E-F76102E6F9CD}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="41.1881188118812"/>
+										<Property Name="PanY" Type="Real64" Value="82.5806451612903"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{954B38F6-A514-42A3-9F29-1F84CD85855C}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{7F7C2766-13EB-4226-990A-A5EB8FCE684E}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="47901.5625"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+						<MusicSegment Name="SoundCeremony_CrystalBowl_13" ID="{C7DC6D4E-1897-4B6F-AA3E-6B3C811E568D}" ShortID="556048238">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="90250"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="SoundCeremony_CrystalBowl_13" ID="{6B0DAB7E-08F3-4BDA-B7B0-22A85D1935AC}" ShortID="632034345">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{1E4F5BDA-8961-4811-95AC-C608AE46F667}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SoundCeremony_CrystalBowl_13" ID="{7B4EAC64-5228-4B6B-9D9A-1F9BD6C63BBC}">
+											<Language>SFX</Language>
+											<AudioFile>SoundCeremony_CrystalBowl_13.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="936199836"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{1E30621A-8C08-414C-B0A7-9EE1015E136C}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="SoundCeremony_CrystalBowl_13" ID="{8E384E3C-3254-42E6-8AE7-0732AD70F610}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="90250"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="SoundCeremony_CrystalBowl_13" ID="{7B4EAC64-5228-4B6B-9D9A-1F9BD6C63BBC}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{83C9FE15-9FD3-4B79-BC7E-95E876100EDA}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{9E90CAD4-3635-4EF7-8763-B1D4CF18305D}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="90250"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+					</ChildrenList>
+					<PositioningInfo>
+						<Panner Name="" ID="{B3B55417-0694-4B5A-9CDC-A60B4221B793}">
+							<PropertyList>
+								<Property Name="PanX" Type="Real64" Value="2.99760216648792E-15"/>
+								<Property Name="PanY" Type="Real64" Value="-0.430107526881719"/>
+							</PropertyList>
+						</Panner>
+					</PositioningInfo>
+				</MusicPlaylistContainer>
+			</ChildrenList>
+		</WorkUnit>
 	</InteractiveMusic>
 </WwiseDocument>
