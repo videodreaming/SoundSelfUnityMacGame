@@ -19,7 +19,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
-    
     public float _dbThreshold = -59.0f;
 
     //coped variables from old Voice Intepreter
@@ -185,7 +184,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             ImitoneVoice.ActivateLicense("imitone technology used under license to New Entheogen Ltd, March 2023.");
 
            // Original Settings:      (sampleRate, "{\"guide\":\"off\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":101.0}}");
-            imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-10.0}}");
+            imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-40.0}}");
         }
         catch (System.Exception e)
         {
@@ -273,7 +272,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                     {
                                         _dbValue = (float)(10.0 * Math.Log10(power));
                                         imitoneActive = true;
-                                        Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
+                                        //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
                                     }
                                     _level = (float)Math.Pow(10,_dbValue) * 0.05f;
 
@@ -353,6 +352,16 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
        
         imitone.SetConfig("{\"volume\" : {\"threshold\" : " + db + "} }");   
         imitoneConfig = imitone.GetConfig();
+        //Debug.Log("imitone configuration: " + imitoneConfig);  
+    }
+
+    
+    public void SetMute(bool mute = false){
+      
+      Debug.Log("imitone mute should (but does not yet) become = " + mute);
+       //BELOW IS THE ORIGINAL CODE FOR SETTING MUTE, COMMENTED BECAUSE IT CAUSES A CRASH 
+        //imitone.SetConfig("{\"mute\": " + mute + "}");   
+        //imitoneConfig = imitone.GetConfig();
         //Debug.Log("imitone configuration: " + imitoneConfig);  
     }
 

@@ -11,7 +11,10 @@ public class UserControlScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (imitoneVoiceIntepreter == null)
+        {
+            Debug.LogError("Exception: ImitoneVoiceIntepreter not found");
+        }
     }
 
     // Update is called once per frame
@@ -20,7 +23,13 @@ public class UserControlScript : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Tab))
         {
             Debug.Log("Pause Placeholder Activated");
-            //Please put your pause code here @Robin
+            imitoneVoiceIntepreter.SetMute(true);
+            respirationTracker.ClearRespirationDictionaries();
+        }
+        else if(Input.GetKeyUp(KeyCode.Tab))
+        {
+            Debug.Log("Pause Placeholder Deactivated");
+            imitoneVoiceIntepreter.SetMute(false);
         }
     }
 }

@@ -60,8 +60,8 @@ public class RespirationTracker : MonoBehaviour
         _meanToneLength = GetMeanLength(BreathCycleDictionary1, true);
         _meanRestLength = GetMeanLength(BreathCycleDictionary1, false);
 
-        if(Input.GetKey(KeyCode.R))
-        //if (ImitoneVoiceIntepreter._tThisTone > _positiveActiveThreshold)
+        //if(Input.GetKey(KeyCode.R))
+        if (ImitoneVoiceIntepreter._tThisTone > _positiveActiveThreshold)
         {
            //return the total of all the cycle counts in the dictionary:
             toneActiveForRespirationRate = true;
@@ -73,8 +73,8 @@ public class RespirationTracker : MonoBehaviour
                 frameGuardTone = true;
             }
         }
-        //else if (ImitoneVoiceIntepreter._tThisRest > _negativeActiveThreshold)
-        if(!Input.GetKey(KeyCode.R))
+        else if (ImitoneVoiceIntepreter._tThisRest > _negativeActiveThreshold)
+        //if(!Input.GetKey(KeyCode.R))
         {
             toneActiveForRespirationRate = false;
             frameGuardTone = false;
@@ -377,5 +377,10 @@ public class RespirationTracker : MonoBehaviour
         }
 
         return sumLength / Mathf.Max(countCompletedCycles, 1);
+    }
+
+    public void ClearRespirationDictionaries()
+    {
+        Debug.Log("This Should (But does not) Clear the Respiration Dictionaries, and prevent new entries from being added");
     }
 }

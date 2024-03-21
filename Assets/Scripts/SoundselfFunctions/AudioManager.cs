@@ -89,7 +89,8 @@ public class AudioManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I)){
             ChangeToNextState();
         }
-        Debug.Log(SighElicitationPass1);
+        //REEF, Robin commented out the line below.
+        //Debug.Log(SighElicitationPass1);
         if (currentState == AudioManagerState.SighElicitationFail1|| currentState == AudioManagerState.SighElicitation1)
         {
             // Check if ImitoneVoiceInterpreter.toneActive is true for at least 0.75 seconds during the 6-second timer
@@ -100,7 +101,8 @@ public class AudioManager : MonoBehaviour
                 // Check if the tone has been active for at least 0.75 seconds
                 if (sighTimer >= 0.75f /*&& ImitoneVoiceInterpreter.breathStage >= 2*/)
                 {
-                    Debug.Log(SighElicitationPass1);
+                    //REEF, Robin commented out the line below.
+                    //Debug.Log(SighElicitationPass1);
                     SighElicitationPass1 = true;    
                 }
             

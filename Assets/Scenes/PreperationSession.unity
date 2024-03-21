@@ -453,6 +453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImitoneVoiceInterpreter: {fileID: 740096625}
   currentState: 3
+  SighElicitationPass1: 0
   audioStates:
   - state: 0
     audioClips:
@@ -3889,9 +3890,9 @@ GameObject:
   - component: {fileID: 740096622}
   - component: {fileID: 740096625}
   - component: {fileID: 740096627}
+  - component: {fileID: 740096628}
   - component: {fileID: 740096624}
   - component: {fileID: 740096623}
-  - component: {fileID: 740096628}
   m_Layer: 0
   m_Name: User
   m_TagString: Untagged
@@ -4077,6 +4078,7 @@ MonoBehaviour:
   _audioClip: {fileID: 0}
   _pitchDifference: 3
   imitoneState: 
+  imitoneConfig: 
 --- !u!4 &740096626
 Transform:
   m_ObjectHideFlags: 0
@@ -4126,9 +4128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 0}
-  respirationTracker: {fileID: 0}
+  respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 0}
-  imitoneVoiceIntepreter: {fileID: 0}
+  imitoneVoiceIntepreter: {fileID: 740096625}
 --- !u!1 &775532890
 GameObject:
   m_ObjectHideFlags: 0
