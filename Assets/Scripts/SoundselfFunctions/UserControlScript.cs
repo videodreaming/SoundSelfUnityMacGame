@@ -36,10 +36,16 @@ public class UserControlScript : MonoBehaviour
             "Respiration Detail: Mean Tone Length 1m, " +
             "Respiration Detail: Mean Tone Length 2m, " +
             "Respiration Detail: Mean Rest Length 1m, " +
-            "Respiration Detail: Mean Rest Length 2m, ");
+            "Respiration Detail: Mean Rest Length 2m, " +
+            "Absorption, " +
+            "Absorption Raw, " +
+            "Absorption Detail: Tone 1m, " +
+            "Absorption Detail: Tone 2m, " +
+            "Absorption Detail: Rest 1m, " +
+            "Absorption Detail: Rest 2m, ");
 
         // Invoke the WriteSessionData method every second
-        InvokeRepeating("WriteSessionData", 0f, 1f);
+        InvokeRepeating("WriteSessionData", 1f, 1f);
     }
 
     void WriteSessionData()
@@ -61,7 +67,13 @@ public class UserControlScript : MonoBehaviour
                          $"{respirationTracker._meanToneLength1min}, " +
                          $"{respirationTracker._meanToneLength2min}, " +
                          $"{respirationTracker._meanRestLength1min}, " +
-                         $"{respirationTracker._meanRestLength2min}, ");
+                         $"{respirationTracker._meanRestLength2min}, " +
+                         $"{imitoneVoiceIntepreter._absorption}, " +
+                         $"{imitoneVoiceIntepreter._absorptionRaw}, " +
+                         $"{respirationTracker._absorptionTone1min}, " +
+                         $"{respirationTracker._absorptionTone2min}, " +
+                         $"{respirationTracker._absorptionRest1min}, " +
+                         $"{respirationTracker._absorptionRest2min}, ");
     }
 
     void Update()
