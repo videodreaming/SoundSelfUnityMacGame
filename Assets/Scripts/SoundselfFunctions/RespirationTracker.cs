@@ -2,30 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 //This class is used to track the respiration rate of the user
 
 //TODO:
-// make respiration rate fade between Dictionary 1 and Dictionary 2, depending on if one is invalid (i.e. toning for a really long time or resting for a really long time should switch the respiration rate to the longer window)
-// confirm times line up for when the cycle ends per expectations of the window
-// mean tone length and mean rest length must disclude invalid cycles
+// mean tone length and mean rest length must disclude invalid cycles. They are currently behaving weirdly, see CSV.
+
 public class RespirationTracker : MonoBehaviour
 {
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
-    public float _respirationRate       = 1.0f;    
-    public float _respirationRateRaw    = 1.0f;
+    public float _respirationRate       = 1.0f;   
+    public float _respirationRateRaw        = 1.0f; //uses either the 1min or 2min version, depending on validity, preferrring 1min
+    public float _respirationRateRaw1min    = -1.0f;
+    public float _respirationRateRaw2min    = -1.0f;
+    public float _respirationRate1min       = -1.0f;
+    public float _respirationRate2min       = -1.0f;
     public bool toneActiveForRespirationRate = false;
     public float _meanToneLength = 0.0f;
+    public float _meanToneLength1min = 0.0f;
+    public float _meanToneLength2min = 0.0f;
     public float _meanRestLength = 0.0f;
+    public float _meanRestLength1min = 0.0f;
+    public float _meanRestLength2min = 0.0f;
     private bool frameGuardTone = false;
+    public bool pauseGuardTone  = false;
     private float _positiveActiveThreshold = 0.75f;
     private float _negativeActiveThreshold = 0.75f;
     private float _respirationMeasurementWindow1 = 60.0f;
     private float _respirationMeasurementWindow2 = 120.0f;
     private int idCounter = 0;
+    private int logGuard = 0;
+
     private Vector3 startingPoint;
     private float amountToScale;
     private float amountToMove;
-    private float debugStackY = 50f;
+    private float debugStackY = -100f;
     public Canvas canvas;  
     public GameObject rectanglePrefab;
     public GameObject SelectedRectangle;
@@ -57,19 +68,17 @@ public class RespirationTracker : MonoBehaviour
 
     void Update()
     {
-        _meanToneLength = GetMeanLength(BreathCycleDictionary1, true);
-        _meanRestLength = GetMeanLength(BreathCycleDictionary1, false);
-
         //if(Input.GetKey(KeyCode.R))
         if (ImitoneVoiceIntepreter._tThisTone > _positiveActiveThreshold)
         {
            //return the total of all the cycle counts in the dictionary:
             toneActiveForRespirationRate = true;
-            if (!frameGuardTone)
+            if (!frameGuardTone && !pauseGuardTone)
             {
                 // Start the coroutine to measure the duration of one tone/rest cycle, but do it just once per tone:
                 Debug.Log("Start Respiration Cycle Coroutine");
                 StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary1,_respirationMeasurementWindow1, true, 0));
+                StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary2,_respirationMeasurementWindow2, true, 1));
                 frameGuardTone = true;
             }
         }
@@ -80,9 +89,46 @@ public class RespirationTracker : MonoBehaviour
             frameGuardTone = false;
         }
 
-        _respirationRate = GetRespirationRate(BreathCycleDictionary1, _respirationMeasurementWindow1);
-        _respirationRateRaw = GetRespirationRateRaw(BreathCycleDictionary1, _respirationMeasurementWindow1);
+        //Set the respiration rate values for the 1min and 2min windows
+        _respirationRateRaw1min = GetRespirationRateRaw(BreathCycleDictionary1, _respirationMeasurementWindow1);
+        _respirationRateRaw2min = GetRespirationRateRaw(BreathCycleDictionary2, _respirationMeasurementWindow2);
 
+        _respirationRate1min = GetRespirationRate(BreathCycleDictionary1, _respirationMeasurementWindow1);
+        _respirationRate2min = GetRespirationRate(BreathCycleDictionary2, _respirationMeasurementWindow2);
+
+        //NOTE FOR ROBIN: GetMeanLength is definitely not working right
+        _meanToneLength1min = GetMeanLength(BreathCycleDictionary1, true);
+        _meanRestLength1min = GetMeanLength(BreathCycleDictionary1, false);
+        _meanToneLength2min = GetMeanLength(BreathCycleDictionary2, true);
+        _meanRestLength2min = GetMeanLength(BreathCycleDictionary2, false);
+
+        //Update the game-chosen respiration rate values based on the validity of the 1min and 2min windows
+        if ((_respirationRate1min == -1f) && (_respirationRate2min != -1f))
+        {
+            if (logGuard != 2) //this should happen once, on the first frame that the 2min window is valid
+            {
+                Debug.Log("Switching to respiration rate with a " + _respirationMeasurementWindow2 + " second window");
+                logGuard = 2;
+            }
+            _respirationRate = _respirationRate2min;
+            _respirationRateRaw = _respirationRateRaw2min;
+            _meanToneLength = _meanToneLength2min;
+            _meanRestLength = _meanRestLength2min;
+        }
+        else
+        {
+            if (logGuard != 1)//this should happen once, on the first frame that the 1min window is valid
+            {
+                Debug.Log("Switching to respiration rate with a " + _respirationMeasurementWindow1 + " second window");
+                logGuard = 1;
+            }
+    
+            _respirationRate = _respirationRate1min;
+            _respirationRateRaw = _respirationRateRaw1min;
+            _meanToneLength = _meanToneLength1min;
+            _meanRestLength = _meanRestLength1min;
+        }
+        
         //Debug Visualizations
         GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag("oldrect");
         // Loop through each GameObject and apply the position change
@@ -102,6 +148,7 @@ public class RespirationTracker : MonoBehaviour
         float _toneLength = _positiveActiveThreshold;
         float _restLength = 0.0f;
         float _cycleLength = 0.0f;
+        bool isFirstInvalidFrame = true; // turns false after the first invalid frame.
 
         idCounter++;
         int id = idCounter;
@@ -145,8 +192,21 @@ public class RespirationTracker : MonoBehaviour
             // Update the object
             thisBreathCycleData._toneLength = _toneLength;
             thisBreathCycleData._cycleLength = _cycleLength;
-            thisBreathCycleData.invalid = ((_toneLength > 45.0f) || (_cycleLength > (_measurementWindow / 2)));
+            if(!thisBreathCycleData.invalid)
+            {
+                thisBreathCycleData.invalid = pauseGuardTone || ((_toneLength > 45.0f) || (_cycleLength > (_measurementWindow / 2)));
 
+                if (thisBreathCycleData.invalid)
+                {
+                    Debug.Log("id: " + id + " is invalid");
+                }
+            }
+          
+            if (thisBreathCycleData.invalid && isFirstInvalidFrame)
+            {
+                Debug.Log("id: " + id + " is invalid");
+                isFirstInvalidFrame = false; // Set isFirstInvalidFrame to false after the first invalid frame
+            }
 
             if(visualize)
             {
@@ -209,7 +269,13 @@ public class RespirationTracker : MonoBehaviour
             // Update the object
             thisBreathCycleData._restLength = _restLength;
             thisBreathCycleData._cycleLength = _cycleLength;
-            thisBreathCycleData.invalid = ((_restLength > 13.0f) || (_cycleLength > (_measurementWindow / 2)));
+            if(!thisBreathCycleData.invalid)
+            thisBreathCycleData.invalid = pauseGuardTone || ((_restLength > 13.0f) || (_cycleLength > (_measurementWindow / 2)));
+            if (thisBreathCycleData.invalid && isFirstInvalidFrame)
+            {
+                Debug.Log("id: " + id + " is invalid");
+                isFirstInvalidFrame = false; // Set isFirstInvalidFrame to false after the first invalid frame
+            }
 
             // Put the modified object back into the dictionary
             BreathCycleDictionary[id] = thisBreathCycleData; 
@@ -377,10 +443,5 @@ public class RespirationTracker : MonoBehaviour
         }
 
         return sumLength / Mathf.Max(countCompletedCycles, 1);
-    }
-
-    public void ClearRespirationDictionaries()
-    {
-        Debug.Log("This Should (But does not) Clear the Respiration Dictionaries, and prevent new entries from being added");
     }
 }

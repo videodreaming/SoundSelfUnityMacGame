@@ -201,7 +201,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     // Update is called once per frame
     private int frameCount = 0;
 
-    void FixedUpdate()
+    //NOTE FOR REEF, I've moved a bunch of logic that isn't interpolating from FixedUpdate() into Update().
+    void Update()
     {
         //FOR TESTING, I am having this only happen once, on the 2nd frame. 
         frameCount++;
@@ -212,6 +213,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
         GetRawVoiceData();
         CheckToning();
+    }
+
+    void FixedUpdate()
+    {
         handlecChanting();
         //cChantingModifications();
     }
