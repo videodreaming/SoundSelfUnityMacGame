@@ -3968,8 +3968,10 @@ GameObject:
   - component: {fileID: 740096625}
   - component: {fileID: 740096627}
   - component: {fileID: 740096628}
+  - component: {fileID: 740096630}
   - component: {fileID: 740096624}
   - component: {fileID: 740096623}
+  - component: {fileID: 740096629}
   m_Layer: 0
   m_Name: User
   m_TagString: Untagged
@@ -4128,7 +4130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce06df8ab098394995c5c4862618d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioManager: {fileID: 47830410}
   DevModeSettings: {fileID: 316632675}
   pitch_hz: 0
   note_st: 0
@@ -4136,19 +4137,15 @@ MonoBehaviour:
   positiveActiveThreshold1: 0.05
   positiveActiveThreshold2: 0.45
   negativeActiveThreshold: 0.1
-  _cadence: 0
   _tThisTone: 0
   _tThisRest: 0
   _breathHoldTimeBeforeInhale: 0
   _tNextInhaleDuration: 0
   _breathVolume: 0
-  _breathVolumeTotal: 0
   breathStage: 0
   _thresholdLerpValue: 0
   _harmonicity: 0
-  _chantLerpFast: 0
-  _chantLerpSlow: 0
-  _cChantCharge: 0
+  chantLerpTarget: 0
   _dbValue: 0
   _timbre: 0
   _level: 0
@@ -4204,6 +4201,10 @@ MonoBehaviour:
   _standardDeviationTone2min: 0
   _standardDeviationRest1min: 0
   _standardDeviationRest2min: 0
+  _absorptionRespirationRateMultiplier1min: 0
+  _absorptionRespirationRateMultiplier2min: 0
+  _absorptionToneLengthMultiplier1min: 0
+  _absorptionToneLengthMultiplier2min: 0
   _absorption: 0
   _absorptionRaw: 0
   pauseGuardTone: 0
@@ -4226,6 +4227,39 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 0}
   imitoneVoiceIntepreter: {fileID: 740096625}
+--- !u!114 &740096629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 357af5d4da8634c4d87d7e83c01f1ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioManager: {fileID: 47830410}
+  respirationTracker: {fileID: 740096627}
+  wwiseGlobalManager: {fileID: 1229442214}
+  imitoneVoiceIntepreter: {fileID: 740096625}
+--- !u!114 &740096630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f606da8100514734b984403543e58894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioManager: {fileID: 47830410}
+  imitoneVoiceInterpreter: {fileID: 740096625}
+  _chantLerpFast: 0
+  _chantLerpSlow: 0
+  _cChantCharge: 0
 --- !u!1 &775532890
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,6 +4773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096625}
+  gameValues: {fileID: 0}
   scaleImage: {fileID: 890263218}
   minScale: {x: 0, y: 0, z: 0}
   maxScale: {x: 1, y: 1, z: 1}
@@ -5872,6 +5907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096625}
+  gameValues: {fileID: 0}
   scaleImage: {fileID: 1055396921}
   minScale: {x: 0, y: 0, z: 0}
   maxScale: {x: 1, y: 1, z: 1}
@@ -9396,6 +9432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096625}
+  gameValues: {fileID: 0}
   scaleImage: {fileID: 2120581364}
   minScale: {x: 0, y: 0, z: 0}
   maxScale: {x: 1, y: 1, z: 1}

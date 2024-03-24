@@ -7,6 +7,7 @@ public class DebugChantLerpFast : MonoBehaviour
 {
     // Start is called before the first frame update
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
+    public GameValues gameValues;
     public Image scaleImage;
     public Vector3 minScale = new Vector3(0f, 0f, 0f);
     public Vector3 maxScale = new Vector3(1f, 1f, 1f);
@@ -27,7 +28,7 @@ public class DebugChantLerpFast : MonoBehaviour
     void ScaleObjectNormalized()
     {
         // Interpolate between minScale and maxScale using normalizedValue
-        Vector3 newScale = Vector3.Lerp(minScale, maxScale, ImitoneVoiceIntepreter._chantLerpFast);
+        Vector3 newScale = Vector3.Lerp(minScale, maxScale, gameValues._chantLerpFast);
         // Apply the new scale to the object
         transform.localScale = newScale;
     }

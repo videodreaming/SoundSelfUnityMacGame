@@ -9,6 +9,6 @@ public class BreatheVolUIScript : MonoBehaviour
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
     [SerializeField] private TextMeshProUGUI breatheTotalText;
     public void Update(){
-        breatheTotalText.text = ImitoneVoiceIntepreter._breathVolumeTotal.ToString();
+        breatheTotalText.text = ImitoneVoiceIntepreter._breathVolume.ToString();
     }
 }

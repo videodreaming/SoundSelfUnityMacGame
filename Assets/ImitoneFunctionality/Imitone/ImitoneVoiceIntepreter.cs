@@ -11,10 +11,12 @@ using imitone;
 //use this to translate the voice intepreter stuff into imitone
 //copy functions from voiceinterpreter to here.
 
+//TODO
+//Why is flooredsemitone floored and not rounded?
+
 public class ImitoneVoiceIntepreter: MonoBehaviour
 {
     //base variables pitch and midiNote
-    public AudioManager AudioManager;
     public DevModeSettings DevModeSettings;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
@@ -22,9 +24,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float _dbThreshold = -59.0f;
 
     //coped variables from old Voice Intepreter
+    // Are we using this action? Robin doesn't understand how an action works.
     public Action<float> OnNewTone;
-    public Action ChantEvent;
-    public Action BreathEvent;
     
     [Tooltip("imitoneActive when toning.")]
     public bool imitoneActive { get; private set; }
@@ -45,12 +46,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float imitoneConfidentInactiveTimer = 0.0f;
 
     //TODO: using these vars
-    public float ssVolume { get; private set; }
-    
-    //public float Cadence => _lengthOfLastBreath == 0 ? 0 : (_lengthOfTonesSinceBreath / _lengthOfLastBreath);
-    [SerializeField] private float _cadence;
-    private float _lengthOfTones;
-    private float _lengthOfBreath;
+    public float ssVolume { get; private set; }    
     public float _tThisTone;
     public float _tThisRest;
     private float _durLastTone;    
@@ -62,10 +58,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float _tNextInhaleDuration = 0.0f;
     public float _breathVolume;
     private bool isResettingTone = false;
-    public float _breathVolumeTotal = 0f; //MAKE this breathVolume and components.
     public int breathStage = 0;
     
-
+    //TODO: probably MostRecentSemitone should not be an int, but a float. There can be like a "semitoneRounded" too.
     public int MostRecentSemitone => _semitone;
     public string MostRecentSemitoneNote => _semitoneNote;
     private int _semitone;
@@ -77,35 +72,15 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [SerializeField] private float _thresholdLerpValue;
     
     [Header("DampingValues")]
-    public float _harmonicity = 0.0f;
-
-    private float responsiveness = 0.25f; //revisit when we have absorption
-    
+    public float _harmonicity = 0.0f;    
     private float _timeToneActiveTrue = 0.0f;
     private float _timeToneActiveFalse = 0.0f;
    // private float _elapsedTimeWithoutTone = 0.0f;
     //CHANTLERP
     
-    private int chantLerpTarget = 0;
-    private float damp1 = 0.08f;
-    private float damp2 = 0.0f;
+    public int chantLerpTarget = 0;
     private float _negativeThresholdForChantLerp    = 0.33f;
     private float _positiveThresholdForChantLerp    = 0.2f;
-    public float _chantLerpFast = 0.0f;
-    public float _chantLerpSlow = 0.0f;
-    private float _chantLerpSlow_lerp1 = 0.0f;
-    private float _chantLerpFast_lerp1 = 0.0f;
-
-    //CHANTCHARGE
-    private float RecentToneMeanDuration = 5.0f; //resvisit when we have cadence/respirationrate.
-    private float lerpedMemory1 = 0.0f;
-    private float lerpedMemory2 = 0.0f;
-    private float mean = 0.0f;
-    private float fullValue1 = 0.0f;
-    private float fullValue2 = 0.0f;
-    private float chantChargeCurve1 = 0.0f;
-    private float chantChargeCurve2 = 0.0f;
-    public float _cChantCharge;
 
     private float _rmsValue;
     public float _dbValue = -80.0f;
@@ -215,11 +190,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         CheckToning();
     }
 
-    void FixedUpdate()
-    {
-        handlecChanting();
-        //cChantingModifications();
-    }
 
     private void GetRawVoiceData(){
         if (!inputBuffer) 
@@ -370,7 +340,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         //Debug.Log("imitone configuration: " + imitoneConfig);  
     }
 
-     private void CheckToning(){
+    private void CheckToning(){
         if(imitoneActive)
         {        
             //Logic that runs everytime imitoneActive is true. Increments timers
@@ -512,7 +482,7 @@ private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
         yield return null;
     }
     
-    //Debug.Log ("inhaleDuration = " + inhaleDuration + "   normalizedTime = " + normalizedTime + "    /_breathVolumeTotal = " + _breathVolumeTotal);
+    //Debug.Log ("inhaleDuration = " + inhaleDuration + "   normalizedTime = " + normalizedTime + "    /_breathVolume = " + _breathVolume);
     _breathVolumeContributions.Remove(coroutineID);
     UpdateBreathVolumeTotal();
 }
@@ -520,86 +490,35 @@ private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
 //Updating Breath Volume Total
 private void UpdateBreathVolumeTotal()
 {
-    _breathVolumeTotal = 0f;
+    _breathVolume = 0f;
     foreach (var contribution in _breathVolumeContributions.Values)
     {   
-        _breathVolumeTotal += contribution;
+        _breathVolume += contribution;
     }
-    _breathVolumeTotal = Mathf.Clamp(_breathVolumeTotal, 0.0f, 1.0f);
+    _breathVolume = Mathf.Clamp(_breathVolume, 0.0f, 1.0f);
 }
 
 private void handleBreathStage(){
     if(breathStage == 0){
         breathStage = 1;
     } else if(breathStage == 1){
-        if(_breathVolumeTotal > 0 && 0.5f > _breathVolumeTotal){
+        if(_breathVolume > 0 && 0.5f > _breathVolume){
             breathStage = 2;
         }
     } else if (breathStage == 2){
-        if(_breathVolumeTotal > 0.5f){
+        if(_breathVolume > 0.5f){
             breathStage = 3;
         }
     } else if (breathStage == 3){
-        if(_breathVolumeTotal < 0.5f && _breathVolumeTotal > 0){
+        if(_breathVolume < 0.5f && _breathVolume > 0){
             breathStage = 4;
         }
     } else if (breathStage == 4 || breathStage == 3){
-        if(_breathVolumeTotal <= 0){
+        if(_breathVolume <= 0){
             breathStage = 5;
         }
     }
 }
-    private void handlecChanting(){
-
-        // Update cChanting to move towards the target
-        _chantLerpSlow_lerp1 = Mathf.Lerp(_chantLerpSlow_lerp1, chantLerpTarget, damp1);
-        _chantLerpFast_lerp1 = Mathf.Lerp(_chantLerpFast_lerp1, chantLerpTarget, damp1*2.0f);
-
-        if(chantLerpTarget == 0)
-        {
-            _chantLerpSlow_lerp1 -= damp1;  
-            _chantLerpFast_lerp1 -= damp1*2.0f;
-        }
-
-        damp2 = 0.04f * (float)Math.Pow(2.0f, responsiveness) / Math.Min(Math.Max(RecentToneMeanDuration, 0.25f), 10.0f);
-
-        _chantLerpSlow = Mathf.Lerp(_chantLerpSlow, _chantLerpSlow_lerp1, damp2); 
-        _chantLerpFast = Mathf.Lerp(_chantLerpFast, _chantLerpFast_lerp1, damp2*2); 
-
-        _chantLerpSlow = Mathf.Clamp(_chantLerpSlow, 0f, 1f);
-        _chantLerpFast = Mathf.Clamp(_chantLerpFast, 0f, 1f);
-
-        getChantCharge();
-    }
-    
-    private void getChantCharge()
-    {
-        lerpedMemory1 = Mathf.Lerp(lerpedMemory1, RecentToneMeanDuration,0.05f);
-        lerpedMemory2 = Mathf.Lerp(lerpedMemory2, lerpedMemory1, 0.01f + 0.0125f * _breathVolume);
-        if(AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced
-        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAhh
-        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh
-        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum){
-            fullValue2 = 5;
-        } else {
-            mean = (lerpedMemory2 + 10.0f) / 2.0f;
-            fullValue1 = Mathf.Lerp(fullValue1, mean, 0.05f);
-            fullValue2 = Mathf.Lerp(fullValue2, fullValue1, 0.01f + 0.0125f * _breathVolume);
-        }
-
-        if(_chantLerpSlow == 0.0f){
-            chantChargeCurve1 = 0.0f;
-            chantChargeCurve2 = 0.0f;
-        }
-        else{
-            chantChargeCurve1 = Mathf.Lerp(chantChargeCurve1, Math.Min(_tThisTone/Math.Max(fullValue2,1.0f),1.0f),0.05f);
-            chantChargeCurve2 = Mathf.Lerp(chantChargeCurve2, chantChargeCurve1, 0.01f + 0.0125f * _breathVolumeTotal);
-        }
-
-        _cChantCharge = chantChargeCurve2 * _chantLerpSlow;
-        _cChantCharge = Mathf.Clamp(_cChantCharge, 0.0f, 1.0f);
-        //Debug.Log("Target = " + chantLerpTarget + "       _tThisTone =" + _tThisTone + "       _chantLerpSlow =" + _chantLerpSlow + "        _chantLerpFast = " + _chantLerpFast + "         ChantChargeCurve = " + chantChargeCurve2 + "        _chantChargeFINAL = " + _cChantCharge);
-    }
 
     public static int FrequencyToFlooredSemitone(double frequency)
     {

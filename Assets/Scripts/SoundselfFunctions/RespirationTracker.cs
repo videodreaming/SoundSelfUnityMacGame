@@ -33,6 +33,10 @@ public class RespirationTracker : MonoBehaviour
     public float _standardDeviationTone2min = 0.0f;
     public float _standardDeviationRest1min = 0.0f;
     public float _standardDeviationRest2min = 0.0f;
+    public float _absorptionRespirationRateMultiplier1min = 0.0f;
+    public float _absorptionRespirationRateMultiplier2min = 0.0f;
+    public float _absorptionToneLengthMultiplier1min = 0.0f;
+    public float _absorptionToneLengthMultiplier2min = 0.0f;
     public float _absorption = 0.0f;
     public float _absorptionRaw = 0.0f;
     private bool frameGuardTone = false;
@@ -100,7 +104,7 @@ public class RespirationTracker : MonoBehaviour
             frameGuardTone = false;
         }
 
-        //Set the respiration rate values for the 1min and 2min windows
+        //Set the various respiration rate values for the 1min and 2min windows
         _respirationRateRaw1min = GetRespirationRateRaw(BreathCycleDictionary1, _respirationMeasurementWindow1);
         _respirationRateRaw2min = GetRespirationRateRaw(BreathCycleDictionary2, _respirationMeasurementWindow2);
         _respirationRate1min = GetRespirationRate(BreathCycleDictionary1, _respirationMeasurementWindow1);
@@ -115,6 +119,10 @@ public class RespirationTracker : MonoBehaviour
         _standardDeviationRest1min = GetStandardDeviation(BreathCycleDictionary1, false);
         _standardDeviationTone2min = GetStandardDeviation(BreathCycleDictionary2, true);
         _standardDeviationRest2min = GetStandardDeviation(BreathCycleDictionary2, false);
+        _absorptionRespirationRateMultiplier1min = Mathf.Lerp(1f, 0.75f, AbsorptionRespirationRateComponent(_respirationRate1min));
+        _absorptionRespirationRateMultiplier2min = Mathf.Lerp(1f, 0.75f, AbsorptionRespirationRateComponent(_respirationRate2min));
+        _absorptionToneLengthMultiplier1min = Mathf.Lerp(0.5f, 1f, AbsorptionToneLengthComponent(_meanToneLength1min));
+        _absorptionToneLengthMultiplier2min = Mathf.Lerp(0.5f, 1f, AbsorptionToneLengthComponent(_meanToneLength2min));
 
         //Update the game-chosen respiration values based on the validity of the 1min and 2min windows
         if ((_respirationRate1min == -1f) && (_respirationRate2min != -1f))
@@ -129,7 +137,7 @@ public class RespirationTracker : MonoBehaviour
             _meanToneLength = _meanToneLength2min;
             _meanRestLength = _meanRestLength2min;
             _meanCycleLength = _meanCycleLength2min;
-            _absorptionRaw = Absorption(_respirationRateRaw2min, _standardDeviationTone2min, _standardDeviationRest2min, _meanToneLength2min, _meanRestLength2min);
+            _absorptionRaw = Absorption(_respirationRateRaw2min, _standardDeviationTone2min, _standardDeviationRest2min, _meanToneLength2min, _meanRestLength2min, _absorptionRespirationRateMultiplier2min, _absorptionToneLengthMultiplier2min);
             _absorption = _absorptionRaw; //absorptionRaw will, in this if statement, be the same as absorption
             
         }
@@ -146,10 +154,10 @@ public class RespirationTracker : MonoBehaviour
             _meanToneLength = _meanToneLength1min;
             _meanRestLength = _meanRestLength1min;
             _meanCycleLength = _meanCycleLength1min;
-            _absorptionRaw = Absorption(_respirationRateRaw1min, _standardDeviationTone1min, _standardDeviationRest1min, _meanToneLength1min, _meanRestLength1min);
+            _absorptionRaw = Absorption(_respirationRateRaw1min, _standardDeviationTone1min, _standardDeviationRest1min, _meanToneLength1min, _meanRestLength1min, _absorptionRespirationRateMultiplier1min, _absorptionToneLengthMultiplier1min);
             
             //absorption should be -1 if not valid.
-            if (_respirationRate1min == -1f)
+            if (_respirationRate == -1f)
             _absorption = -1f;
             else
             _absorption = _absorptionRaw;
@@ -494,7 +502,7 @@ public class RespirationTracker : MonoBehaviour
         return standardDeviation;
     }
 
-    private float Absorption(float respirationRate, float toneDeviation, float restDeviation, float toneMean, float restMean)
+    private float Absorption(float respirationRate, float toneDeviation, float restDeviation, float toneMean, float restMean, float respirationRateMultiplier, float toneLengthMultiplier)
     {
         //first work with standard deviations
         float value1 = toneDeviation / toneMean * 10f;
@@ -503,12 +511,22 @@ public class RespirationTracker : MonoBehaviour
         float value4 = Mathf.Clamp(Mathf.InverseLerp(3f, -2.237f, value3), 0f, 1f); //original value was 3f, -2.737
 
         //then work with respiration rate, to reduce the absorption rate if the respiration rate is too high or the tones too short
-        float value5 = Mathf.Clamp(Mathf.InverseLerp(3f, 7f, respirationRate), 0f, 1f); //respiration rate penalty
-        float value6 = Mathf.Clamp(Mathf.InverseLerp(4f, 8f, toneMean), 0f, 1f); //tone length penalty
-        float value7 = Mathf.Min(Mathf.Lerp(1f, 0.75f, value5), Mathf.Lerp(0.5f, 1f, value6));
+        float value7 = Mathf.Min(respirationRateMultiplier, toneLengthMultiplier);
 
         //return the multiple of the two values
         float absorption = value4 * value7;
         return absorption;
+    }
+
+    private float AbsorptionRespirationRateComponent(float respirationRate)
+    {
+        //as respirationRate increases, absorption will decrease. Output 0-1 value, to be applied negatively to the absorption value.
+        return Mathf.Clamp(Mathf.InverseLerp(3f, 7f, respirationRate), 0f, 1f);
+    }
+
+    private float AbsorptionToneLengthComponent(float toneMean)
+    {
+        //as tone length increases, absorption increases. Output 0-1 value.
+        return Mathf.Clamp(Mathf.InverseLerp(4f, 8f, toneMean), 0f, 1f);
     }
 }

@@ -20,60 +20,6 @@ public class UserControlScript : MonoBehaviour
         {
             Debug.LogError("Exception: ImitoneVoiceIntepreter not found");
         }
-
-        //Write Session Data
-        filePath = Path.Combine(Application.streamingAssetsPath, "SessionData.csv");
-        writer = new StreamWriter(filePath, false);
-        writer.WriteLine("Clock, " + 
-            "Run Time, " +
-            "Respiration: Rate, " +
-            "Respiration: Mean Tone Length, " +
-            "Respiration: Mean Rest Length, " +
-            "Respiration Detail: Rate 1min measurement window, " + 
-            "Respiration Detail: Rate 2min measurement window, " +
-            "Respiration Detail: Rate Raw 1m, " +
-            "Respiration Detail: Rate Raw 2m" +
-            "Respiration Detail: Mean Tone Length 1m, " +
-            "Respiration Detail: Mean Tone Length 2m, " +
-            "Respiration Detail: Mean Rest Length 1m, " +
-            "Respiration Detail: Mean Rest Length 2m, " +
-            "Absorption, " +
-            "Absorption Raw, " +
-            "Absorption Detail: Tone 1m, " +
-            "Absorption Detail: Tone 2m, " +
-            "Absorption Detail: Rest 1m, " +
-            "Absorption Detail: Rest 2m, ");
-
-        // Invoke the WriteSessionData method every second
-        InvokeRepeating("WriteSessionData", 1f, 1f);
-    }
-
-    void WriteSessionData()
-    {
-        // Write Session Data
-        // get the OS's current time
-        DateTime timeNow = DateTime.Now;
-        float timeSinceLaunch = Time.time;
-
-        writer.WriteLine($"{DateTime.Now}, " +
-                         $"{Time.time}, " +
-                         $"{respirationTracker._respirationRate}, " +
-                         $"{respirationTracker._meanToneLength}, " +
-                         $"{respirationTracker._meanRestLength}, " +
-                         $"{respirationTracker._respirationRate1min}, " +
-                         $"{respirationTracker._respirationRate2min}, " +
-                         $"{respirationTracker._respirationRateRaw1min}, " +
-                         $"{respirationTracker._respirationRateRaw2min}" +
-                         $"{respirationTracker._meanToneLength1min}, " +
-                         $"{respirationTracker._meanToneLength2min}, " +
-                         $"{respirationTracker._meanRestLength1min}, " +
-                         $"{respirationTracker._meanRestLength2min}, " +
-                         $"{imitoneVoiceIntepreter._absorption}, " +
-                         $"{imitoneVoiceIntepreter._absorptionRaw}, " +
-                         $"{respirationTracker._absorptionTone1min}, " +
-                         $"{respirationTracker._absorptionTone2min}, " +
-                         $"{respirationTracker._absorptionRest1min}, " +
-                         $"{respirationTracker._absorptionRest2min}, ");
     }
 
     void Update()
@@ -91,13 +37,4 @@ public class UserControlScript : MonoBehaviour
             respirationTracker.pauseGuardTone = false;
         }
     }
-
-    void OnDisable()
-    {
-        if (writer != null)
-        {
-            writer.Close();
-        }
-    }
-
 }
