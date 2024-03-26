@@ -29,7 +29,7 @@ public class ParticleSystemController : MonoBehaviour
 
             // Set the start speed of the particles based on _chantCharge
             var main = ps.main;
-            main.startSpeed = 5f * Mathf.Pow(2f, gameValues._cChantCharge * 2f);
+            main.startSpeed = 5f * Mathf.Pow(2f, gameValues._chantCharge * 2f);
             main.startSize = 2f * Mathf.Pow(2f, gameValues._chantLerpSlow * 2f);
         }
     }

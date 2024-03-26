@@ -28,7 +28,7 @@ public class DebugCircleScale : MonoBehaviour
     void ScaleObjectNormalized()
     {
         // Interpolate between minScale and maxScale using normalizedValue
-        Vector3 newScale = Vector3.Lerp(minScale, maxScale, gameValues._cChantCharge);
+        Vector3 newScale = Vector3.Lerp(minScale, maxScale, gameValues._chantCharge);
         // Apply the new scale to the object
         transform.localScale = newScale;
     }

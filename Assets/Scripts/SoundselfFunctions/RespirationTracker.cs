@@ -127,6 +127,7 @@ public class RespirationTracker : MonoBehaviour
         //Update the game-chosen respiration values based on the validity of the 1min and 2min windows
         if ((_respirationRate1min == -1f) && (_respirationRate2min != -1f))
         {
+            //THIS WILL ONLY HAPPEN IF AT LEAST ONE OF THE WINDOWS IS VALID
             if (logGuard != 2) //this should happen once, on the first frame that the 2min window is valid
             {
                 Debug.Log("Switching to respiration rate with a " + _respirationMeasurementWindow2 + " second window");
@@ -138,8 +139,7 @@ public class RespirationTracker : MonoBehaviour
             _meanRestLength = _meanRestLength2min;
             _meanCycleLength = _meanCycleLength2min;
             _absorptionRaw = Absorption(_respirationRateRaw2min, _standardDeviationTone2min, _standardDeviationRest2min, _meanToneLength2min, _meanRestLength2min, _absorptionRespirationRateMultiplier2min, _absorptionToneLengthMultiplier2min);
-            _absorption = _absorptionRaw; //absorptionRaw will, in this if statement, be the same as absorption
-            
+            _absorption = _absorptionRaw; //absorptionRaw will, in this if statement, be the same as absorption            
         }
         else
         {
@@ -151,16 +151,20 @@ public class RespirationTracker : MonoBehaviour
     
             _respirationRate = _respirationRate1min;
             _respirationRateRaw = _respirationRateRaw1min;
-            _meanToneLength = _meanToneLength1min;
-            _meanRestLength = _meanRestLength1min;
-            _meanCycleLength = _meanCycleLength1min;
             _absorptionRaw = Absorption(_respirationRateRaw1min, _standardDeviationTone1min, _standardDeviationRest1min, _meanToneLength1min, _meanRestLength1min, _absorptionRespirationRateMultiplier1min, _absorptionToneLengthMultiplier1min);
             
             //absorption should be -1 if not valid.
             if (_respirationRate == -1f)
             _absorption = -1f;
             else
-            _absorption = _absorptionRaw;
+            {
+                _absorption = _absorptionRaw;
+                
+                //variables that should only change if they are valid
+                _meanToneLength = _meanToneLength1min;
+                _meanRestLength = _meanRestLength1min;
+                _meanCycleLength = _meanCycleLength1min;
+            }
         }
         
         //Debug Visualizations

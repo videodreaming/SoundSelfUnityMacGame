@@ -17,6 +17,7 @@ public class GameValues: MonoBehaviour
 {
     public AudioManager AudioManager;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
+    public RespirationTracker respirationTracker;
 
     //Are we using these actions?
     public Action ChantEvent;
@@ -35,14 +36,14 @@ public class GameValues: MonoBehaviour
 
     //CHANTCHARGE
     private float RecentToneMeanDuration = 5.0f; //resvisit when we have cadence/respirationrate.
-    private float lerpedMemory1 = 0.0f;
-    private float lerpedMemory2 = 0.0f;
-    private float mean = 0.0f;
-    private float fullValue1 = 0.0f;
-    private float fullValue2 = 0.0f;
-    private float chantChargeCurve1 = 0.0f;
-    private float chantChargeCurve2 = 0.0f;
-    public float _cChantCharge;   
+    private float _chantChargeDamp1 = 0.2f;
+    private float _chantChargeDamp2 = 0.1f;
+    private float _chantChargeLinear = 0.001f;
+    private bool chantChargeToneGuard   = false;
+    public float _chantCharge;   
+    
+    private Dictionary<int, float> _chantChargeContributions = new Dictionary<int, float>();
+    private int chantChargeCoroutineCounter = 0;
 
    
     void Start()
@@ -53,7 +54,23 @@ public class GameValues: MonoBehaviour
     void FixedUpdate()
     {
         handlecChanting();
-        //cChantingModifications();
+
+        //HANDLE "CHANT CHARGE"
+        //if we are in a guided vocalization state, set the full value to 5, otherwise it sets dynamically.
+        float _durationToFill = 0f;
+        if (imitoneVoiceInterpreter._tThisTone > 0 && !chantChargeToneGuard)
+        {
+            chantChargeToneGuard = true;
+            if(AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced
+            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAhh
+            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh
+            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum)
+            {
+                _durationToFill = 5.0f;
+            }
+            StartCoroutine(ChantChargeMemberCoroutine(_durationToFill));
+        }
+        _chantCharge = _chantChargeContributions.Values.Sum();
     }
 
     private void handlecChanting(){
@@ -75,36 +92,42 @@ public class GameValues: MonoBehaviour
 
         _chantLerpSlow = Mathf.Clamp(_chantLerpSlow, 0f, 1f);
         _chantLerpFast = Mathf.Clamp(_chantLerpFast, 0f, 1f);
-
-        getChantCharge();
     }
-    
-    private void getChantCharge()
-    {
-        lerpedMemory1 = Mathf.Lerp(lerpedMemory1, RecentToneMeanDuration,0.05f);
-        lerpedMemory2 = Mathf.Lerp(lerpedMemory2, lerpedMemory1, 0.01f + 0.0125f * imitoneVoiceInterpreter._breathVolume);
-        if(AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced
-        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAhh
-        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh
-        ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum){
-            fullValue2 = 5;
-        } else {
-            mean = (lerpedMemory2 + 10.0f) / 2.0f;
-            fullValue1 = Mathf.Lerp(fullValue1, mean, 0.05f);
-            fullValue2 = Mathf.Lerp(fullValue2, fullValue1, 0.01f + 0.0125f * imitoneVoiceInterpreter._breathVolume);
+
+    private IEnumerator ChantChargeMemberCoroutine(float _forceDurationToFill= 0f) {
+        int chantChargeCoroutineID = chantChargeCoroutineCounter++;
+        float _meanToneAtStart = respirationTracker._meanToneLength;
+        float _normalizedToneTime = 0f;
+        float _lerpTarget1        = 0f;
+        float _lerpTarget2      = 0f;
+
+        _chantChargeContributions[chantChargeCoroutineID] = 0f;
+
+        //lerp up to 1 over the course of the tone
+        while (imitoneVoiceInterpreter._tThisTone > 0f) 
+        {
+            if(_forceDurationToFill != 0f)
+            _normalizedToneTime = Mathf.Clamp(imitoneVoiceInterpreter._tThisTone / _forceDurationToFill, 0f, 1f);
+            else
+            _normalizedToneTime = Mathf.Clamp(imitoneVoiceInterpreter._tThisTone / Mathf.Clamp((_meanToneAtStart * 0.8f), 5f, 20f), 0f, 1f);
+
+            //damp, then damp, then linear
+            _lerpTarget1 = Mathf.Lerp(_lerpTarget1, _normalizedToneTime, _chantChargeDamp1);
+            _lerpTarget2 = Mathf.Lerp(_lerpTarget2, _lerpTarget1, _chantChargeDamp2);
+            _chantChargeContributions[chantChargeCoroutineID] = Mathf.Min(_lerpTarget2 + _chantChargeLinear, _normalizedToneTime);
+
+            yield return null;
         }
 
-        if(_chantLerpSlow == 0.0f){
-            chantChargeCurve1 = 0.0f;
-            chantChargeCurve2 = 0.0f;
+        //lerp down to 0 after the tone ends
+        while (_chantChargeContributions[chantChargeCoroutineID] > 0f) 
+        {
+            _lerpTarget1 = Mathf.Lerp(_lerpTarget1, 0f, _chantChargeDamp1);
+            _lerpTarget2 = Mathf.Lerp(_lerpTarget2, _lerpTarget1, _chantChargeDamp2);
+            _chantChargeContributions[chantChargeCoroutineID] = Mathf.Max(0f, _lerpTarget2 - _chantChargeLinear);
+            yield return null;
         }
-        else{
-            chantChargeCurve1 = Mathf.Lerp(chantChargeCurve1, Math.Min(imitoneVoiceInterpreter._tThisTone/Math.Max(fullValue2,1.0f),1.0f),0.05f);
-            chantChargeCurve2 = Mathf.Lerp(chantChargeCurve2, chantChargeCurve1, 0.01f + 0.0125f * imitoneVoiceInterpreter._breathVolume);
-        }
-
-        _cChantCharge = chantChargeCurve2 * _chantLerpSlow;
-        _cChantCharge = Mathf.Clamp(_cChantCharge, 0.0f, 1.0f);
-        //Debug.Log("Target = " + imitoneVoiceInterpreter.chantLerpTarget + "       _tThisTone =" + _tThisTone + "       _chantLerpSlow =" + _chantLerpSlow + "        _chantLerpFast = " + _chantLerpFast + "         ChantChargeCurve = " + chantChargeCurve2 + "        _chantChargeFINAL = " + _cChantCharge);
+        _chantChargeContributions.Remove(chantChargeCoroutineID);
     }
+
 }

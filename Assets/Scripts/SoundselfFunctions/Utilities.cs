@@ -39,4 +39,8 @@ public static class Utilities
         return false;
     }
     */
+
+    //a float function for the double-lerp + linear behavior we use in, i.e., chantLerp
+    
+    //a float function that combines Lerp with InverseLerp, like in Respiration Tracker's "Absorption" function. Parameters should be: input, inputa, inputb, outputa, outputb. The logic should be, that as the input is proportionally between inputa and inputb, it should be output proportionately between outputa and outputb.
 }
