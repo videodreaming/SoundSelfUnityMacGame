@@ -4223,9 +4223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a354a5c4b7b78f54081df115d9ae3152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
+  audioManager: {fileID: 47830410}
   respirationTracker: {fileID: 740096627}
-  wwiseGlobalManager: {fileID: 0}
+  wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceIntepreter: {fileID: 740096625}
 --- !u!114 &740096629
 MonoBehaviour:
@@ -4773,7 +4773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096625}
-  gameValues: {fileID: 0}
+  gameValues: {fileID: 740096630}
   scaleImage: {fileID: 890263218}
   minScale: {x: 0, y: 0, z: 0}
   maxScale: {x: 1, y: 1, z: 1}
@@ -5907,7 +5907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096625}
-  gameValues: {fileID: 0}
+  gameValues: {fileID: 740096630}
   scaleImage: {fileID: 1055396921}
   minScale: {x: 0, y: 0, z: 0}
   maxScale: {x: 1, y: 1, z: 1}
@@ -9432,7 +9432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096625}
-  gameValues: {fileID: 0}
+  gameValues: {fileID: 740096630}
   scaleImage: {fileID: 2120581364}
   minScale: {x: 0, y: 0, z: 0}
   maxScale: {x: 1, y: 1, z: 1}
