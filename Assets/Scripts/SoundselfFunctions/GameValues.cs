@@ -36,9 +36,9 @@ public class GameValues: MonoBehaviour
 
     //CHANTCHARGE
     private float RecentToneMeanDuration = 5.0f; //resvisit when we have cadence/respirationrate.
-    private float _chantChargeDamp1 = 0.2f;
-    private float _chantChargeDamp2 = 0.1f;
-    private float _chantChargeLinear = 0.001f;
+    [SerializeField] private float _chantChargeDamp1 = 0.01f;
+    [SerializeField] private float _chantChargeDamp2 = 0.005f;
+    [SerializeField] private float _chantChargeLinear = 0.00005f;
     private bool chantChargeToneGuard   = false;
     public float _chantCharge;   
     
@@ -58,7 +58,11 @@ public class GameValues: MonoBehaviour
         //HANDLE "CHANT CHARGE"
         //if we are in a guided vocalization state, set the full value to 5, otherwise it sets dynamically.
         float _durationToFill = 0f;
-        if (imitoneVoiceInterpreter._tThisTone > 0 && !chantChargeToneGuard)
+        if (imitoneVoiceInterpreter._tThisTone == 0)
+        {
+            chantChargeToneGuard = false;
+        }
+        else if (!chantChargeToneGuard)
         {
             chantChargeToneGuard = true;
             if(AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced
@@ -100,34 +104,45 @@ public class GameValues: MonoBehaviour
         float _normalizedToneTime = 0f;
         float _lerpTarget1        = 0f;
         float _lerpTarget2      = 0f;
+        float _forceDurationToFillAtStart = _forceDurationToFill;
 
         _chantChargeContributions[chantChargeCoroutineID] = 0f;
+
+        Debug.Log("ChantCharge " + chantChargeCoroutineID + " Begin, mean tone is: " + _meanToneAtStart);
 
         //lerp up to 1 over the course of the tone
         while (imitoneVoiceInterpreter._tThisTone > 0f) 
         {
-            if(_forceDurationToFill != 0f)
+            if(_forceDurationToFillAtStart != 0f)
             _normalizedToneTime = Mathf.Clamp(imitoneVoiceInterpreter._tThisTone / _forceDurationToFill, 0f, 1f);
             else
             _normalizedToneTime = Mathf.Clamp(imitoneVoiceInterpreter._tThisTone / Mathf.Clamp((_meanToneAtStart * 0.8f), 5f, 20f), 0f, 1f);
 
             //damp, then damp, then linear
             _lerpTarget1 = Mathf.Lerp(_lerpTarget1, _normalizedToneTime, _chantChargeDamp1);
-            _lerpTarget2 = Mathf.Lerp(_lerpTarget2, _lerpTarget1, _chantChargeDamp2);
+            _lerpTarget2 = Mathf.Lerp(_chantChargeContributions[chantChargeCoroutineID], _lerpTarget1, _chantChargeDamp2);
             _chantChargeContributions[chantChargeCoroutineID] = Mathf.Min(_lerpTarget2 + _chantChargeLinear, _normalizedToneTime);
+
+            Debug.Log("ChantCharge " + chantChargeCoroutineCounter + "toneActive: " + imitoneVoiceInterpreter.toneActive + "_tThisTone: " + imitoneVoiceInterpreter._tThisTone + " _lerpTarget1: " + _lerpTarget1 + " _lerpTarget2: " + _lerpTarget2 + "outcome: " + _chantChargeContributions[chantChargeCoroutineID]);
 
             yield return null;
         }
+
+        Debug.Log("ChantCharge " + chantChargeCoroutineCounter + " Fade Out from " + _chantChargeContributions[chantChargeCoroutineID] + " _lerpTarget1: " + _lerpTarget1 + " _lerpTarget2: " + _lerpTarget2);
 
         //lerp down to 0 after the tone ends
         while (_chantChargeContributions[chantChargeCoroutineID] > 0f) 
         {
             _lerpTarget1 = Mathf.Lerp(_lerpTarget1, 0f, _chantChargeDamp1);
-            _lerpTarget2 = Mathf.Lerp(_lerpTarget2, _lerpTarget1, _chantChargeDamp2);
+            _lerpTarget2 = Mathf.Lerp(_chantChargeContributions[chantChargeCoroutineID], _lerpTarget1, _chantChargeDamp2);
             _chantChargeContributions[chantChargeCoroutineID] = Mathf.Max(0f, _lerpTarget2 - _chantChargeLinear);
             yield return null;
+
+            Debug.Log("ChantCharge " + chantChargeCoroutineCounter + "toneActive: " + imitoneVoiceInterpreter.toneActive + "_tThisTone: " + imitoneVoiceInterpreter._tThisTone + " _lerpTarget1: " + _lerpTarget1 + " _lerpTarget2: " + _lerpTarget2 + "outcome: " + _chantChargeContributions[chantChargeCoroutineID]);
         }
         _chantChargeContributions.Remove(chantChargeCoroutineID);
+        
+        Debug.Log("ChantCharge " + chantChargeCoroutineCounter + " End");
     }
 
 }

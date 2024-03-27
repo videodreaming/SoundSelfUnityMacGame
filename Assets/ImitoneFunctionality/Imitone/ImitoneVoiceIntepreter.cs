@@ -352,7 +352,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 //if imitoneActiveTimer is bigger than positiveActiveThreshold1 (0.05f) and toneActive is false, set toneActive to true and _thisTone is retuned to true
                 toneActive = true;
                 //_inhaleDuration = 0.0f;
-                _tThisTone = 0.0f;
+                //_tThisTone = 0.0f;
             }
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
@@ -383,7 +383,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             //Logic that runs everytime !imitoneActive
             {
                 //Logic that increments timers
-                _tThisTone = 0.0f; 
+                //_tThisTone = 0.0f; 
                 imitoneInactiveTimer += Time.deltaTime;
                 imitoneConfidentInactiveTimer += Time.deltaTime;
                 imitoneActiveTimer = 0f;
@@ -405,6 +405,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         {
             breathStage = 0;
             _tThisTone += Time.deltaTime;
+            
             _tNextInhaleDuration += (Time.deltaTime * 0.41f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
             //Debug.Log(_tThisTone);

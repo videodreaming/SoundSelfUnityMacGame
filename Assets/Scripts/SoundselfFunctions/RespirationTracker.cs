@@ -159,7 +159,7 @@ public class RespirationTracker : MonoBehaviour
             else
             {
                 _absorption = _absorptionRaw;
-                
+
                 //variables that should only change if they are valid
                 _meanToneLength = _meanToneLength1min;
                 _meanRestLength = _meanRestLength1min;
@@ -208,7 +208,7 @@ public class RespirationTracker : MonoBehaviour
 
         float _initialMeanToneLength = _meanToneLength;
 
-        Debug.Log("RespirationCycleCoroutine started <" + id + "> (fade in time = " + _initialMeanToneLength + " seconds");
+        Debug.Log("RespirationCycleCoroutine started <"+ visualizeY + ":" + id + "> (fade in time = " + _initialMeanToneLength + " seconds");
     
         //Step 1: Measure the Tone
         while (toneActiveForRespirationRate == true)
