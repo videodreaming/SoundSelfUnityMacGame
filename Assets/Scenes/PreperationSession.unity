@@ -1124,6 +1124,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
+--- !u!1 &203103203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 203103205}
+  - component: {fileID: 203103204}
+  m_Layer: 0
+  m_Name: VariableTrackerExample
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &203103204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203103203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b29eaa8addf420b89fa02c57bc602d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &203103205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203103203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 756.931, y: 396.0994, z: -5.226767}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &217078664
 GameObject:
   m_ObjectHideFlags: 0
@@ -4382,12 +4426,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AudioManager: {fileID: 47830410}
   imitoneVoiceInterpreter: {fileID: 740096625}
+<<<<<<< HEAD
   respirationTracker: {fileID: 740096627}
   _chantLerpFast: 0
   _chantLerpSlow: 0
   _chantChargeDamp1: 0.015
   _chantChargeDamp2: 0.005
   _chantChargeLinear: 0.0002
+=======
+  respirationTracker: {fileID: 0}
+  _chantLerpFast: 0
+  _chantLerpSlow: 0
+>>>>>>> c7b4bacb19eb4a0821a8bdfd8bda40dde7be6b47
   _chantCharge: 0
 --- !u!1 &775532890
 GameObject:
@@ -9951,3 +10001,4 @@ SceneRoots:
   - {fileID: 740096626}
   - {fileID: 1859086000}
   - {fileID: 883443120}
+  - {fileID: 203103205}

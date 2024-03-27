@@ -22,4 +22,6 @@ public class CurveUtility
     {
         return Mathf.Lerp(currentValue, targetValue,linear);
     }
+
+    
 }
