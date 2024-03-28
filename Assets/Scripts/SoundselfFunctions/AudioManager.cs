@@ -155,15 +155,8 @@ public class AudioManager : MonoBehaviour
         else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1)
         {
             if(ImitoneVoiceInterpreter.imitoneActive) {
-                if (!Query1Started) {
-                    Query1Started = true;
-                    QueryTimer1 = 30.0f; // Reset the timer to 30 seconds
-                    talkingTimer1 = 0.0f; // Reset talking timer
-                    notTalkingTimer1 = 0.0f; // Reset not talking timer
-                    recordedAudioClip = Microphone.Start(null, false, (int)QueryTimer1, 44100);
-                }
                 talkingTimer1 += Time.deltaTime; // Increment talking timer
-            } else if (Query1Started) {
+            } else {
                 notTalkingTimer1 += Time.deltaTime; // Increment not talking timer
             }
             if(Query1Started) {

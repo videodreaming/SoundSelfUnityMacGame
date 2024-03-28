@@ -162,8 +162,8 @@ public class WwiseVOManager : MonoBehaviour
                 } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitation1)
                 {
                     pause = true;
-                    //NOTE FROM ROBIN - I COMMENTED THE LINE BELOW AS IT WAS CAUSING A COMPILER ERROR
-                    //Start
+                    StartCoroutine(StartQueryElicitationTimer());
+                    resetFlags();
                 }
                 else
                 {

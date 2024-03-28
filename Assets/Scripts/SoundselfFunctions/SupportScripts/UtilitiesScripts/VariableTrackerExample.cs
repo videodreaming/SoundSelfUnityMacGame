@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-public class ExampleUsage : MonoBehaviour
+public class VariableTrackerExample : MonoBehaviour
 {
     private int exampleInt = 0;
 
