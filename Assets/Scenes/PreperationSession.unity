@@ -4906,7 +4906,7 @@ GameObject:
   - component: {fileID: 890263216}
   - component: {fileID: 890263219}
   - component: {fileID: 890263218}
-  - component: {fileID: 890263217}
+  - component: {fileID: 890263220}
   m_Layer: 5
   m_Name: ChantLerpFastFill
   m_TagString: Untagged
@@ -4933,24 +4933,6 @@ RectTransform:
   m_AnchoredPosition: {x: 705, y: 0}
   m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &890263217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890263215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 640b5f52ac7a84da789a918bdd7fe576, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
-  gameValues: {fileID: 740096630}
-  scaleImage: {fileID: 890263218}
-  minScale: {x: 0, y: 0, z: 0}
-  maxScale: {x: 1, y: 1, z: 1}
-  normalizedValue: 0
 --- !u!114 &890263218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4989,6 +4971,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 890263215}
   m_CullTransparentMesh: 1
+--- !u!114 &890263220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890263215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 560a41b32ace8ec42b0a5940166f3c73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImitoneVoiceIntepreter: {fileID: 740096625}
+  gameValues: {fileID: 740096630}
+  scaleImage: {fileID: 890263218}
+  minScale: {x: 0, y: 0, z: 0}
+  maxScale: {x: 1, y: 1, z: 1}
+  normalizedValue: 0
 --- !u!1 &891118006
 GameObject:
   m_ObjectHideFlags: 0
@@ -6627,11 +6627,7 @@ PrefabInstance:
       propertyPath: m_text
       value: 'Chant
 
-        Lerp
-
-        Slow
-
-'
+        Lerp'
       objectReference: {fileID: 0}
     - target: {fileID: 533070576940809277, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_fontSize
@@ -9809,7 +9805,7 @@ GameObject:
   - component: {fileID: 2120581362}
   - component: {fileID: 2120581365}
   - component: {fileID: 2120581364}
-  - component: {fileID: 2120581363}
+  - component: {fileID: 2120581366}
   m_Layer: 5
   m_Name: ChantLerpSlowFill
   m_TagString: Untagged
@@ -9836,24 +9832,6 @@ RectTransform:
   m_AnchoredPosition: {x: 539, y: 0}
   m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2120581363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2120581361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 640b5f52ac7a84da789a918bdd7fe576, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
-  gameValues: {fileID: 740096630}
-  scaleImage: {fileID: 2120581364}
-  minScale: {x: 0, y: 0, z: 0}
-  maxScale: {x: 1, y: 1, z: 1}
-  normalizedValue: 0
 --- !u!114 &2120581364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9892,6 +9870,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2120581361}
   m_CullTransparentMesh: 1
+--- !u!114 &2120581366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120581361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a982917b2201d2419469b8676c47c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImitoneVoiceIntepreter: {fileID: 740096625}
+  gameValues: {fileID: 740096630}
+  scaleImage: {fileID: 2120581364}
+  minScale: {x: 0, y: 0, z: 0}
+  maxScale: {x: 1, y: 1, z: 1}
+  normalizedValue: 0
 --- !u!1 &2121823746
 GameObject:
   m_ObjectHideFlags: 0

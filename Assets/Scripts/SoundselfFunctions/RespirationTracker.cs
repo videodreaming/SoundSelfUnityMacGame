@@ -13,36 +13,36 @@ using UnityEngine.UI;
 public class RespirationTracker : MonoBehaviour
 {
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
-    public float _respirationRate       = 1.0f;   
-    public float _respirationRateRaw        = 1.0f; //uses either the 1min or 2min version, depending on validity, preferrring 1min
-    public float _respirationRateRaw1min    = -1.0f;
-    public float _respirationRateRaw2min    = -1.0f;
-    public float _respirationRate1min       = -1.0f;
-    public float _respirationRate2min       = -1.0f;
-    public bool toneActiveForRespirationRate = false;
-    public float _meanToneLength = 0.0f;
-    public float _meanToneLength1min = 0.0f;
-    public float _meanToneLength2min = 0.0f;
-    public float _meanRestLength = 0.0f;
-    public float _meanRestLength1min = 0.0f;
-    public float _meanRestLength2min = 0.0f;
-    public float _meanCycleLength = 0.0f;
-    public float _meanCycleLength1min = 0.0f;
-    public float _meanCycleLength2min = 0.0f;
-    public float _standardDeviationTone1min = 0.0f;
-    public float _standardDeviationTone2min = 0.0f;
-    public float _standardDeviationRest1min = 0.0f;
-    public float _standardDeviationRest2min = 0.0f;
-    public float _absorptionRespirationRateMultiplier1min = 0.0f;
-    public float _absorptionRespirationRateMultiplier2min = 0.0f;
-    public float _absorptionToneLengthMultiplier1min = 0.0f;
-    public float _absorptionToneLengthMultiplier2min = 0.0f;
-    public float _absorption = 0.0f;
-    public float _absorptionRaw = 0.0f;
+    public float _respirationRate       {get; private set;} = 1.0f;   
+    public float _respirationRateRaw        {get; private set;} = 1.0f; //uses either the 1min or 2min version, depending on validity, preferrring 1min
+    public float _respirationRateMostRecentValid {get; private set;} = 1.0f; //this only updates if it is valid
+    public float _respirationRateRaw1min    {get; private set;} = -1.0f;
+    public float _respirationRateRaw2min    {get; private set;} = -1.0f;
+    public float _respirationRate1min       {get; private set;} = -1.0f;
+    public float _respirationRate2min       {get; private set;} = -1.0f;
+    public bool toneActiveForRespirationRate {get; private set;} = false;
+    public float _meanToneLength {get; private set;} = 0.0f;    //this only updates if it is valid
+    public float _meanToneLength1min {get; private set;} = 0.0f;
+    public float _meanToneLength2min {get; private set;} = 0.0f;
+    public float _meanRestLength {get; private set;} = 0.0f;    //this only updates if it is valid
+    public float _meanRestLength1min {get; private set;} = 0.0f;
+    public float _meanRestLength2min {get; private set;} = 0.0f;
+    public float _meanCycleLength {get; private set;} = 0.0f;       //this only updates if it is valid
+    public float _meanCycleLength1min {get; private set;} = 0.0f;
+    public float _meanCycleLength2min {get; private set;} = 0.0f;
+    public float _standardDeviationTone1min {get; private set;} = 0.0f;
+    public float _standardDeviationTone2min {get; private set;} = 0.0f;
+    public float _standardDeviationRest1min {get; private set;} = 0.0f;
+    public float _standardDeviationRest2min {get; private set;} = 0.0f;
+    public float _absorptionRespirationRateMultiplier1min {get; private set;} = 0.0f;
+    public float _absorptionRespirationRateMultiplier2min {get; private set;} = 0.0f;
+    public float _absorptionToneLengthMultiplier1min {get; private set;} = 0.0f;
+    public float _absorptionToneLengthMultiplier2min {get; private set;} = 0.0f;
+    public float _absorption {get; private set;} = 0.0f;
+    public float _absorptionRaw {get; private set;} = 0.0f;
+    public float _absorptionMostRecentValid {get; private set;} = 0.0f; //this only updates if it is valid
     private bool frameGuardTone = false;
     public bool pauseGuardTone  = false;
-    private float _positiveActiveThreshold = 0.75f;
-    private float _negativeActiveThreshold = 0.75f;
     private float _respirationMeasurementWindow1 = 60.0f;
     private float _respirationMeasurementWindow2 = 120.0f;
     private int idCounter = 0;
@@ -83,8 +83,7 @@ public class RespirationTracker : MonoBehaviour
 
     void Update()
     {
-        //if(Input.GetKey(KeyCode.R))
-        if (ImitoneVoiceIntepreter._tThisTone > _positiveActiveThreshold)
+        if (ImitoneVoiceIntepreter.toneActiveVeryConfident)
         {
            //return the total of all the cycle counts in the dictionary:
             toneActiveForRespirationRate = true;
@@ -97,8 +96,7 @@ public class RespirationTracker : MonoBehaviour
                 frameGuardTone = true;
             }
         }
-        else if (ImitoneVoiceIntepreter._tThisRest > _negativeActiveThreshold)
-        //if(!Input.GetKey(KeyCode.R))
+        else
         {
             toneActiveForRespirationRate = false;
             frameGuardTone = false;
@@ -166,6 +164,12 @@ public class RespirationTracker : MonoBehaviour
                 _meanCycleLength = _meanCycleLength1min;
             }
         }
+
+        if (_respirationRate != -1f)            
+        _respirationRateMostRecentValid = _respirationRate;
+        if (_absorption != -1f)
+        _absorptionMostRecentValid = _absorption;
+        
         
         //Debug Visualizations
         GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag("oldrect");
@@ -183,7 +187,7 @@ public class RespirationTracker : MonoBehaviour
         // The measurements are stored in a dictionary, and cleared after the cycle exits the measurement window entirely.
         float _age = 0.0f;
         float _tAfterCycle = 0.0f;
-        float _toneLength = _positiveActiveThreshold;
+        float _toneLength = ImitoneVoiceIntepreter._activeThreshold3;
         float _restLength = 0.0f;
         float _cycleLength = 0.0f;
         bool isFirstInvalidFrame = true; // turns false after the first invalid frame.
@@ -287,7 +291,8 @@ public class RespirationTracker : MonoBehaviour
 
         //Step 2: Measure the Rest
         float _initialMeanRestLength = _meanRestLength;
-        _restLength = _negativeActiveThreshold;
+        _restLength = ImitoneVoiceIntepreter._activeThreshold3;
+
         while (toneActiveForRespirationRate == false)
         {
             _restLength += Time.deltaTime;

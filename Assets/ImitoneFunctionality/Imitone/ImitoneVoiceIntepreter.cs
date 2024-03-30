@@ -28,27 +28,35 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public Action<float> OnNewTone;
     
     [Tooltip("imitoneActive when toning.")]
-    public bool imitoneActive { get; private set; }
-    
+    public bool imitoneActive { get; private set; } = false;
 
     [Tooltip("Toning With False Positive Logic")]
-    public bool toneActive { get; private set; }
+    public bool toneActive { get; private set; } = false;   
     
-    [Tooltip("Confident Toning")]
-    public bool toneActiveConfident { get; private set; }
-
-    [SerializeField] private float positiveActiveThreshold1 = 0.05f;
-    [SerializeField] private float positiveActiveThreshold2 = 0.45f;
-    [SerializeField] private float negativeActiveThreshold = 0.1f;
+    [Tooltip("Confident Toning, used for... nothing yet")]
+    public bool toneActiveConfident { get; private set; } = false;
+    public bool toneActiveBiasTrue { get; private set; } = false;   //combines toneActive & toneActiveConfident
+    public bool toneActiveBiasFalse { get; private set; } = false;  //combines toneActive & toneActiveVeryConfident
+    [Tooltip("Very Confident Toning, used for respiration")]
+    public bool toneActiveVeryConfident { get; private set; } = false;
+    public float positiveActiveThreshold1 {get; private set;} = 0.05f;
+    public float positiveActiveThreshold2 {get; private set;}  = 0.2f;
+    public float negativeActiveThreshold1 {get; private set;}  = 0.1f;
+    public float negativeActiveThreshold2 {get; private set;}  = 0.33f;
+    public float _activeThreshold3 {get; private set;}  = 0.75f; //used for respiration rate.
     private float imitoneActiveTimer = 0f;
     private float imitoneInactiveTimer = 0f;
     private float imitoneConfidentActiveTimer = 0.0f;
     private float imitoneConfidentInactiveTimer = 0.0f;
 
     //TODO: using these vars
-    public float ssVolume { get; private set; }    
+    public float ssVolume { get; private set; }     //WORK ON THIS ONE IN GAMEVALUES
     public float _tThisTone;
+    public float _tThisToneConfident;
+    public float _tThisToneBiasTrue;
     public float _tThisRest;
+    public float _tThisRestConfident;
+    public float _tThisRestBiasTrue;
     private float _durLastTone;    
 
     //BREATH
@@ -73,19 +81,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     
     [Header("DampingValues")]
     public float _harmonicity = 0.0f;    
-    private float _timeToneActiveTrue = 0.0f;
-    private float _timeToneActiveFalse = 0.0f;
-   // private float _elapsedTimeWithoutTone = 0.0f;
-    //CHANTLERP
-    
-    public int chantLerpTarget = 0;
-    private float _negativeThresholdForChantLerp    = 0.33f;
-    private float _positiveThresholdForChantLerp    = 0.2f;
-
     private float _rmsValue;
-    public float _dbValue = -80.0f;
-    public float _timbre = 0.0f;
-    public float _level; 
+    [SerializeField] public float _dbValue = -80.0f;
+    [SerializeField] public float _timbre = 0.0f;
+    [SerializeField] public float _level; 
     private const int SAMPLE_SIZE = 1024;
     private AudioSource _audioSource;
     private string _selectedDevice; 
@@ -159,7 +158,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             ImitoneVoice.ActivateLicense("imitone technology used under license to New Entheogen Ltd, March 2023.");
 
            // Original Settings:      (sampleRate, "{\"guide\":\"off\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":101.0}}");
-            imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-40.0}}");
+            imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-52.0}}"); //threshold of -52 is ideal for Corsair HS80
         }
         catch (System.Exception e)
         {
@@ -349,20 +348,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             imitoneInactiveTimer = 0f;
             if (imitoneActiveTimer >= positiveActiveThreshold1 && !toneActive)
             {
-                //if imitoneActiveTimer is bigger than positiveActiveThreshold1 (0.05f) and toneActive is false, set toneActive to true and _thisTone is retuned to true
                 toneActive = true;
-                //_inhaleDuration = 0.0f;
-                //_tThisTone = 0.0f;
+                toneActiveBiasTrue = true;
             }
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
-                //if activetimer is bigger than positiveActiveThreshold2 then toneActive is confident (0.45f)
                 toneActiveConfident = true;
-            }
-            if(imitoneActiveTimer >= _positiveThresholdForChantLerp)
-            {
-                //if imitoneActiveTimer is bigger than positive Threshold For Chant Lerp (0.2f) then chantLerpTarget is set to 1.
-                chantLerpTarget = 1;
             }
         
             int flooredSemitone = FrequencyToFlooredSemitone(pitch_hz);
@@ -383,19 +374,18 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             //Logic that runs everytime !imitoneActive
             {
                 //Logic that increments timers
-                //_tThisTone = 0.0f; 
                 imitoneInactiveTimer += Time.deltaTime;
                 imitoneConfidentInactiveTimer += Time.deltaTime;
                 imitoneActiveTimer = 0f;
                 imitoneConfidentActiveTimer = 0f;
-                if(imitoneInactiveTimer >= negativeActiveThreshold)
+                if(imitoneInactiveTimer >= negativeActiveThreshold1)
                 {
-                    toneActiveConfident = false;
                     toneActive = false;
                 }
-                if(imitoneInactiveTimer >= 0.33)
+                if(imitoneInactiveTimer >= negativeActiveThreshold2)
                 {
-                    chantLerpTarget = 0;
+                    toneActiveConfident = false;
+                    toneActiveBiasTrue = false;
                 }
             }
         }
@@ -405,12 +395,13 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         {
             breathStage = 0;
             _tThisTone += Time.deltaTime;
-            
             _tNextInhaleDuration += (Time.deltaTime * 0.41f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
-            //Debug.Log(_tThisTone);
             isResettingTone = false;
-            //_inhaleDuration = _tThisTone * 0.41f;
+
+            if (_tThisTone > _activeThreshold3)
+            toneActiveVeryConfident = true;
+            toneActiveBiasFalse = true;
         }
         else
         {
@@ -419,6 +410,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             _tThisTone  = 0.0f;
             if(imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
             {
+                
+                toneActiveBiasFalse = false;
                 _tNextInhaleDuration += (Time.deltaTime * 0.41f); //magic number only used here and immedidately above
             }
             else if (!isResettingTone) //TRIGGER INHALE aka BREATHVOLUME
@@ -429,27 +422,32 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 Debug.Log("InhaleCoroutineStarted");
                 _tNextInhaleDuration = 0.0f;
             }
+
+            if (_tThisRest > _activeThreshold3)
+            toneActiveVeryConfident = false;
         }
 
-
-        // Handling _chantLerpSlow_lerp1 based on toneActive duration
-        if (toneActive) {
-            // When toning is active, increase the timer and reset the timer for inactive state
-            _timeToneActiveTrue += Time.deltaTime;
-            _timeToneActiveFalse = 0f;
-
-            if (_timeToneActiveTrue > positiveActiveThreshold1) {
-                //chantLerpTarget = 1;
-            }
-        } else {
-            // When toning is not active, increase the timer for inactive state and reset the timer for active state
-            _timeToneActiveFalse += Time.deltaTime;
-            _timeToneActiveTrue = 0f;
-
-            if (_timeToneActiveFalse > negativeActiveThreshold) {
-                //chantLerpTarget = 0;
-            }
+        if(toneActiveConfident)
+        {
+            _tThisToneConfident += Time.deltaTime;
+            _tThisRestConfident = 0.0f;
         }
+        else
+        {
+            _tThisToneConfident = 0.0f;
+            _tThisRestConfident += Time.deltaTime;
+        }
+
+        if(toneActiveBiasTrue)
+        _tThisToneBiasTrue += Time.deltaTime;
+        else
+        _tThisToneBiasTrue = 0.0f;
+
+        if(toneActiveBiasFalse)
+        _tThisRestBiasTrue = 0.0f;
+        else
+        _tThisRestBiasTrue += Time.deltaTime;
+
     }
 
 // private void StoppedToning()

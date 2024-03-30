@@ -1,5 +1,7 @@
 using UnityEngine;
 
+//THIS IS ARCHIVED, WE DON'T USE THESE ANY MORE.
+
 public class CurveUtility
 {
     public static float Damp(float currentValue, float targetValue, ref float velocity, float damp)
@@ -18,7 +20,7 @@ public class CurveUtility
         return Mathf.Lerp(currentValue, targetValue,linear);
     }
     
-        public static float DampAndLinear(float currentValue, float targetValue, float linear)
+    public static float DampAndLinear(float currentValue, float targetValue, float linear)
     {
         return Mathf.Lerp(currentValue, targetValue,linear);
     }

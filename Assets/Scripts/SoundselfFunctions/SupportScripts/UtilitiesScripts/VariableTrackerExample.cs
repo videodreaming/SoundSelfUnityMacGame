@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+
+/*
 public class VariableTrackerExample : MonoBehaviour
 {
     private int exampleInt = 0;
@@ -18,3 +20,4 @@ public class VariableTrackerExample : MonoBehaviour
         }
     }
 }
+*/
