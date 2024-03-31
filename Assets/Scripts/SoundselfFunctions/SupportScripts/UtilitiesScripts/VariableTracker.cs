@@ -27,9 +27,6 @@ public static class VariableChangeTracker
             previousValues[uniqueKey] = currentValue;
             return true;
         }
-
         return false; // No change detected.
-    }
-
-    
+    }    
 }
