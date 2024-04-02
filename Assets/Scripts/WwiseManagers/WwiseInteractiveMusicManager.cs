@@ -17,6 +17,33 @@ public class WwiseInteractiveMusicManager: MonoBehaviour
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
         AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_SilentLoops", gameObject);
     }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha7)) 
+        {
+            currentSwitchState = "C";
+            ChangeSwitchState();
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha8)) 
+        {
+            currentSwitchState = "G";
+            ChangeSwitchState();
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha9)) 
+        {
+            currentSwitchState = "B";
+            ChangeSwitchState();
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha0)) 
+        {
+            currentSwitchState = "A";
+            ChangeSwitchState();
+        }
+    }
+
+
+
     
     public void ChangeSwitchState()
     {

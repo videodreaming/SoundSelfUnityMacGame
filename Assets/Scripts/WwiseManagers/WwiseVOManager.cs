@@ -36,7 +36,6 @@ public class WwiseVOManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     public void playOpening(string length)
@@ -51,10 +50,6 @@ public class WwiseVOManager : MonoBehaviour
         }
     }
 
-    public void playNewVOclip()
-    {
-
-    }
     // Update is called once per frame
     void Update()
     {
@@ -82,6 +77,7 @@ public class WwiseVOManager : MonoBehaviour
                     AkSoundEngine.PostEvent("Play_VO_QueryElicitationFail1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
                 } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitationPassThankYou1 && !QueryElicitationPassThankYou1Played)
                 {
+                    Debug.LogWarning("QueryElicitationPassThankYou1Played");
                     QueryElicitationPassThankYou1Played = true;
                     AkSoundEngine.PostEvent("Play_VO_QueryElicitationPassThankYou1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
                 } else if (audioManager.currentState == AudioManager.AudioManagerState.ThematicContent && !ThematicContentPlayed)
@@ -161,7 +157,6 @@ public class WwiseVOManager : MonoBehaviour
                     resetFlags();
                 } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitation1)
                 {
-                    pause = true;
                     StartCoroutine(StartQueryElicitationTimer());
                     resetFlags();
                 }
@@ -207,6 +202,8 @@ public class WwiseVOManager : MonoBehaviour
             }
             IEnumerator StartQueryElicitationTimer()
             {
+                pause = true;
+                audioManager.Query1CheckStarted = true;
                 yield return new WaitForSeconds(30.0f); // Wait for the audio event to finish playing
                 audioManager.OnAudioFinished();
                 pause = false;

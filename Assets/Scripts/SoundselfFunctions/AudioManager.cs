@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
     public ImitoneVoiceIntepreter ImitoneVoiceInterpreter; //reference to ImitoneVoiceInterpreter
     
     public AudioManagerState currentState = AudioManagerState.Opening;
-    public bool SighElicitationPass1 = false;
+    public bool SighElicitationPass1 = true;
     private bool QueryElicitationPass1 = false;
     private bool SighElicitationPass2 = false;
     private bool QueryElicitationPass2 = false;
@@ -55,7 +55,7 @@ public class AudioManager : MonoBehaviour
     private float talkingTimer1 = 0.0f;
     private float notTalkingTimer1 = 0.0f;
     private float QueryTimer1 = 30.0f;
-    private bool Query1Started = false;
+    public bool Query1CheckStarted = false;
 
     public WwiseGlobalManager wwiseGlobalManager;
     public WwiseLinearMusicManager LinearMusicManager;
@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        currentState = AudioManagerState.SighElicitation1;
+        currentState = AudioManagerState.SighElicitationFail1;
         // Get the AudioSource component attached to the GameObject
         audioSource = GetComponent<AudioSource>();
 
@@ -89,8 +89,6 @@ public class AudioManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I)){
             ChangeToNextState();
         }
-        //REEF, Robin commented out the line below.
-        //Debug.Log(SighElicitationPass1);
         if (currentState == AudioManagerState.SighElicitationFail1|| currentState == AudioManagerState.SighElicitation1)
         {
             // Check if ImitoneVoiceInterpreter.toneActive is true for at least 0.75 seconds during the 6-second timer
@@ -101,13 +99,28 @@ public class AudioManager : MonoBehaviour
                 // Check if the tone has been active for at least 0.75 seconds
                 if (sighTimer >= 0.75f /*&& ImitoneVoiceInterpreter.breathStage >= 2*/)
                 {
-                    //REEF, Robin commented out the line below.
-                    //Debug.Log(SighElicitationPass1);
                     SighElicitationPass1 = true;    
                 }
             
-        }
-    }
+            }
+        } else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1)
+        {
+            if(Query1CheckStarted){
+                if(ImitoneVoiceInterpreter.imitoneActive) {
+                    talkingTimer1 += Time.deltaTime; // Increment talking timer
+                    notTalkingTimer1 = 0.0f; // Reset not talking timer
+                } else {
+                notTalkingTimer1 += Time.deltaTime; // Increment not talking timer
+                }
+                if(notTalkingTimer1 >= 8.0f && talkingTimer1 < 5.0f) {
+                    Query1CheckStarted = false;
+                    QueryElicitationPass1 = false;
+                } else if(talkingTimer1 >= 10.0f) {
+                    Query1CheckStarted = false;
+                    QueryElicitationPass1 = true;
+                }
+            }
+        } 
     }
 
 
@@ -152,31 +165,18 @@ public class AudioManager : MonoBehaviour
                 ChangeState(AudioManagerState.QueryElicitation1);
             }            
         }
-        else if (currentState == AudioManagerState.QueryElicitation1 || currentState == AudioManagerState.QueryElicitationFail1)
+        if (currentState == AudioManagerState.QueryElicitation1|| currentState == AudioManagerState.QueryElicitationFail1)
         {
-            if(ImitoneVoiceInterpreter.imitoneActive) {
-                talkingTimer1 += Time.deltaTime; // Increment talking timer
-            } else {
-                notTalkingTimer1 += Time.deltaTime; // Increment not talking timer
+            if (QueryElicitationPass1)
+            {
+                ChangeState(AudioManagerState.QueryElicitationPassThankYou1);
+            } 
+            else
+            {
+                ChangeState(AudioManagerState.QueryElicitationFail1);
             }
-            if(Query1Started) {
-                QueryTimer1 -= Time.deltaTime; // Decrement query timer
-                if(QueryTimer1 <= 0.0f) {
-                    if (notTalkingTimer1 >= 8.0f && talkingTimer1 < 5.0f) {
-                       ChangeState(AudioManagerState.QueryElicitationFail1);
-                       Microphone.End(null);
-                       recordedAudioClip = null;
-                    } else {
-                        ChangeState(AudioManagerState.QueryElicitationPassThankYou1);
-                    }
-                // Reset for next query
-                Query1Started = false;
-                talkingTimer1 = 0.0f;
-                notTalkingTimer1 = 0.0f;
-                QueryTimer1 = 30.0f;
-                }
-            }
-        } 
+        }
+
         else if (currentState == AudioManagerState.SighElicitation2 || currentState == AudioManagerState.SighElicitationFail2)
         {
             if (SighElicitationPass2)
@@ -201,11 +201,11 @@ public class AudioManager : MonoBehaviour
                 ChangeState(AudioManagerState.QueryElicitationFail2);
             }
         }
-        else if (currentState == AudioManagerState.QueryElicitationPassThankYou1){
-            if(recordedAudioClip != null){
-                ChangeToNextState();
-            }
-        }
+        // else if (currentState == AudioManagerState.QueryElicitationPassThankYou1){
+        //     if(recordedAudioClip != null){
+        //         ChangeToNextState();
+        //     }
+        // }
         else if (currentState == AudioManagerState.SighElicitationFail1)
         {  
             if (SighElicitationPass1)
