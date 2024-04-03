@@ -15,6 +15,17 @@
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_fundamental__B__silent_gentle" ID="{276FE729-B982-4BAD-9E9D-4D8BB058E355}"/>
+				<Event Name="Test_Play_SynthOne" ID="{9CECDAFE-DF75-4B2D-923E-2F77D419B69A}">
+					<ChildrenList>
+						<Action Name="" ID="{4935F95E-E285-4554-AB6B-29953E7CB296}" ShortID="38785753">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Test_SynthOne" ID="{B6119C27-E54B-43CE-96EF-D25E7A7508E7}" WorkUnitID="{C069A62D-BC5F-4755-B34F-4C11B5FF37B4}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
