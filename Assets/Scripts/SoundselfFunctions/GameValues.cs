@@ -163,7 +163,7 @@ public class GameValues: MonoBehaviour
         if (_dbLowest!=null && _dbHighest!=null && _dbValidValue!=null)
         _loudnessRelative = Mathf.Clamp(Mathf.InverseLerp(_dbLowest, _dbHighest, _dbValidValue), 0, 1);
 
-        Debug.Log("Time = " + Time.time + ", DB Valid: " + _dbValidValue + ", Loudness Relative: " + _loudnessRelative + ", DB  Range: " + _dbLowest + ", " + _dbHighest);
+        //Debug.Log("Time = " + Time.time + ", DB Valid: " + _dbValidValue + ", Loudness Relative: " + _loudnessRelative + ", DB  Range: " + _dbLowest + ", " + _dbHighest);
         //Debug.Log("Time.FrameCount = " + Time.frameCount + ", Time = " + Time.time);
     }
 
