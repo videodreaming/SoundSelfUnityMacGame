@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{9ECBF1D8-141B-13B2-25F2-8CAC102DA1F0}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{C1FEFF60-5324-B7B4-ADDA-D9874843E62B}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -132,9 +132,9 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="English(US)" Hash="{B31D4362-A1D3-BBD1-3B19-A64EDA926DA3}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{7E4C764C-9868-67A2-7A95-1B7EF193F5E7}">
 			<ShortName>Main</ShortName>
-			<Path>English(US)/Main.bnk</Path>
+			<Path>Main.bnk</Path>
 			<Media>
 				<File Id="8095985" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_posture_liedown.wav</ShortName>
@@ -150,7 +150,7 @@
 				</File>
 				<File Id="14797253" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/harmony_[F]_toning_shadow_E91C7912.wem</CachePath>
+					<CachePath>SFX/harmony_[F]_toning_shadow_2ED93278.wem</CachePath>
 				</File>
 				<File Id="14797471" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_anchoring.wav</ShortName>
@@ -198,7 +198,7 @@
 				</File>
 				<File Id="133084729" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/fundamental_[G]_toning_shadow_51FAA923.wem</CachePath>
+					<CachePath>SFX/fundamental_[G]_toning_shadow_2055BF02.wem</CachePath>
 				</File>
 				<File Id="139444766" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_short.wav</ShortName>
@@ -254,7 +254,7 @@
 				</File>
 				<File Id="262956075" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/harmony_[D]_toning_shadow_1646630C.wem</CachePath>
+					<CachePath>SFX/harmony_[D]_toning_shadow_A2489F21.wem</CachePath>
 				</File>
 				<File Id="263548589" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_sono flore.wav</ShortName>
@@ -326,7 +326,7 @@
 				</File>
 				<File Id="364631077" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/fundamental_[C]_toning_shadow_E3EF137C.wem</CachePath>
+					<CachePath>SFX/fundamental_[C]_toning_shadow_34AFA910.wem</CachePath>
 				</File>
 				<File Id="369988848" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitQueryFail_opening1.wav</ShortName>
@@ -362,7 +362,7 @@
 				</File>
 				<File Id="441113636" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/harmony_[G]_toning_shadow_8033A7B4.wem</CachePath>
+					<CachePath>SFX/harmony_[G]_toning_shadow_D53141D6.wem</CachePath>
 				</File>
 				<File Id="446117886" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_gentle.wav</ShortName>
@@ -530,11 +530,11 @@
 				</File>
 				<File Id="780915843" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/fundamental_[B]_toning_shadow_FBA93D3F.wem</CachePath>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_1C6A29FD.wem</CachePath>
 				</File>
 				<File Id="781632256" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/fundamental_[E]_toning_shadow_A926B793.wem</CachePath>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_52384C28.wem</CachePath>
 				</File>
 				<File Id="790980483" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_gentle.wav</ShortName>
@@ -582,7 +582,7 @@
 				</File>
 				<File Id="880603966" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/harmony_[B]_toning_shadow_DBBA6E78.wem</CachePath>
+					<CachePath>SFX/harmony_[B]_toning_shadow_E650EBC9.wem</CachePath>
 				</File>
 				<File Id="882598793" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_sono flore.wav</ShortName>
@@ -699,6 +699,7 @@
 			</Media>
 			<Plugins>
 				<Custom>
+					<Plugin Id="7574863" Name="Synth One" LibName="Wwise Synth One" LibId="9699330"/>
 					<Plugin Id="62828566" Name="Audio Input" LibName="Wwise Audio Input" LibId="13107202"/>
 					<Plugin Id="207602731" Name="Tone Generator" LibName="Wwise Tone Generator" LibId="6684674"/>
 					<Plugin Id="433732206" Name="Tone Generator" LibName="Wwise Tone Generator" LibId="6684674"/>
@@ -751,7 +752,6 @@
 						<MediaRef Id="1031434375"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3354207096" Name="Play_fundamental__B__silent_gentle" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2845481429" Name="Play_InteractiveMusicSystem_SilentLoops" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -1333,7 +1333,7 @@
 						<MediaRef Id="999054356"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2767686943" Name="Play_VO_Wisdom" DurationType="OneShot" DurationMin="0" DurationMax="664.9247">
+				<Event Id="2767686943" Name="Play_VO_Wisdom" DurationType="OneShot" DurationMin="453.298" DurationMax="664.9247">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="683317262" Id="1398814679" Default="true"/>
@@ -1354,6 +1354,14 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
+				</Event>
+				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="887323979" Name="Test_Play_SynthOne" DurationType="Unknown">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="7574863"/>
+						</Custom>
+					</PluginRefs>
 				</Event>
 			</Events>
 			<GameParameters>
@@ -1443,5 +1451,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{A4B8E01C-EF5A-B08A-23FD-D7E61C90E0F2}</FileHash>
+	<FileHash>{BD757CB9-8454-62C3-A5A1-7F099FBEB4C5}</FileHash>
 </SoundBanksInfo>

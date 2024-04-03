@@ -2137,27 +2137,11 @@
 								<ActiveSource Name="vo_wisdom_peru" ID="{0B06CAD1-6766-4B65-9AB2-EDEA2870D465}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="vo_wisdom_diewell" ID="{E5625806-1075-4E19-9DD9-827162FBB96B}" ShortID="251985717">
-							<PropertyList>
-								<Property Name="IsVoice" Type="bool" Value="True"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-						</Sound>
 					</ChildrenList>
 					<GroupingInfo>
 						<GroupingBehaviorList>
 							<GroupingBehavior>
 								<ItemRef Name="vo_wisdom_jaguar" ID="{96AE4906-5FB1-48E6-A772-F46097E0758E}"/>
-							</GroupingBehavior>
-							<GroupingBehavior>
-								<ItemRef Name="vo_wisdom_diewell" ID="{E5625806-1075-4E19-9DD9-827162FBB96B}"/>
 							</GroupingBehavior>
 							<GroupingBehavior>
 								<ItemRef Name="vo_wisdom_peru" ID="{F7C06C34-18A6-47DA-8FD9-91A31A4101A9}"/>
@@ -2183,12 +2167,6 @@
 								<SwitchRef Name="NotKnowing" ID="{88F83D8E-84B3-41B0-903A-E7A5EF12156A}"/>
 								<ItemList>
 									<ItemRef Name="vo_wisdom_notknowing" ID="{290799DF-519F-4272-83F3-2E6F2DE681CC}"/>
-								</ItemList>
-							</Grouping>
-							<Grouping>
-								<SwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
-								<ItemList>
-									<ItemRef Name="vo_wisdom_diewell" ID="{E5625806-1075-4E19-9DD9-827162FBB96B}"/>
 								</ItemList>
 							</Grouping>
 						</GroupingList>
