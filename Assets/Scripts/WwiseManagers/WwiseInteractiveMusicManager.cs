@@ -5,6 +5,7 @@ using UnityEngine;
 public class WwiseInteractiveMusicManager: MonoBehaviour
 {
     public string currentSwitchState = "B";
+    public string currentToningState = "None";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
     public float HarmonySilentVolumeRTPC = 0.0f;
     public float FundamentalSilentVolumeRTPC = 0.0f;
@@ -16,35 +17,13 @@ public class WwiseInteractiveMusicManager: MonoBehaviour
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
         AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_SilentLoops", gameObject);
+        AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_Toning", gameObject);
     }
-
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha7)) 
-        {
-            currentSwitchState = "C";
-            ChangeSwitchState();
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha8)) 
-        {
-            currentSwitchState = "G";
-            ChangeSwitchState();
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha9)) 
-        {
-            currentSwitchState = "B";
-            ChangeSwitchState();
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha0)) 
-        {
-            currentSwitchState = "A";
-            ChangeSwitchState();
-        }
-    }
-
-
-
     
+    public void ChangeToningState()
+    {
+        AkSoundEngine.SetState("SoundWorldMode", currentToningState);
+    }
     public void ChangeSwitchState()
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
