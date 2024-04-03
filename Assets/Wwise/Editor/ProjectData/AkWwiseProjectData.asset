@@ -152,7 +152,7 @@ MonoBehaviour:
     ParentPath: Events/Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584902077198299585
+    m_lastTime: -8584894455469315840
     List:
     - name: Play_fundamental__B__silent_gentle
       guid: 29e76f2782b9ad4b9e9d4d8bb058e355
@@ -185,6 +185,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: 750bda1a4b4677459ede655b4f8b3c30
       Path: Events/Default Work Unit/Play_Microphone
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Test_Play_SynthOne
+      guid: fedaec9c75df2d4b923e2f77d419b69a
+      id: 887323979
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Test_Play_SynthOne
+        ObjectType: 3
+        guid: fedaec9c75df2d4b923e2f77d419b69a
+      Path: Events/Default Work Unit/Test_Play_SynthOne
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
