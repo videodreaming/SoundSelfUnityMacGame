@@ -94,7 +94,7 @@ MonoBehaviour:
     ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584902077193106115
+    m_lastTime: -8584894395981945560
     List:
     - name: Main
       guid: 172bdab802ba9d46857f79a5e4fce4c3
@@ -152,25 +152,8 @@ MonoBehaviour:
     ParentPath: Events/Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584894455469315840
+    m_lastTime: -8584894395981998456
     List:
-    - name: Play_fundamental__B__silent_gentle
-      guid: 29e76f2782b9ad4b9e9d4d8bb058e355
-      id: 3354207096
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_fundamental__B__silent_gentle
-        ObjectType: 3
-        guid: 29e76f2782b9ad4b9e9d4d8bb058e355
-      Path: Events/Default Work Unit/Play_fundamental__B__silent_gentle
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
     - name: Play_Microphone
       guid: 750bda1a4b4677459ede655b4f8b3c30
       id: 1324678662
@@ -188,6 +171,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Stop_All
+      guid: 911e8239f431d347b1afe42968aa6d28
+      id: 452547817
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Stop_All
+        ObjectType: 3
+        guid: 911e8239f431d347b1afe42968aa6d28
+      Path: Events/Default Work Unit/Stop_All
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
     - name: Test_Play_SynthOne
       guid: fedaec9c75df2d4b923e2f77d419b69a
       id: 887323979
@@ -753,7 +753,7 @@ MonoBehaviour:
       Path: Events/VO/Play_VO_Wisdom
       maxAttenuation: 0
       maxDuration: 664.9247
-      minDuration: 0
+      minDuration: 453.298
   RtpcWwu:
   - PhysicalPath: Game Parameters/AVS System.wwu
     PathAndIcons:
