@@ -17,7 +17,6 @@ namespace AK
         static const AkUniqueID GAMEMODE_SETSWITCH_SHORT = 3487229100U;
         static const AkUniqueID PLAY_AVSGENERATOR = 2590479921U;
         static const AkUniqueID PLAY_CRYSTALBOWL = 1556089376U;
-        static const AkUniqueID PLAY_FUNDAMENTAL__B__SILENT_GENTLE = 3354207096U;
         static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 2845481429U;
         static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_TONING = 1724678586U;
         static const AkUniqueID PLAY_LINEARMUSIC_OPENING = 2675524623U;
@@ -46,6 +45,8 @@ namespace AK
         static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
+        static const AkUniqueID STOP_ALL = 452547817U;
+        static const AkUniqueID TEST_PLAY_SYNTHONE = 887323979U;
     } // namespace EVENTS
 
     namespace STATES

@@ -18,6 +18,7 @@
 						<ObjectRef Name="Play_VO_QueryElicitation2" ID="{9C041F2C-C5FA-4650-A7FF-2589D7E2832D}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_SighElicitation1" ID="{2743CE95-A778-4676-A9E7-6E4BFF47E683}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_Wisdom" ID="{7FC7B841-292F-46E4-BB2A-7198FF57229B}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_All" ID="{39821E91-31F4-47D3-B1AF-E42968AA6D28}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_EndingSoon" ID="{9E0D6496-82D7-4844-ACD7-8C31B52A9987}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_Wakeup" ID="{8E31B5D4-53EF-4857-93D3-635F862C3583}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_SighElicitationFail2" ID="{C24856F2-1326-487C-8349-C8A5075D0F2E}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
@@ -27,8 +28,8 @@
 						<ObjectRef Name="Play_VO_Somatic" ID="{2A323EE3-3873-4A12-BD6B-479D1A70CA48}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_QueryElicitationFail1" ID="{0D6EC494-2781-4A56-8C83-A52071A455FA}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_InteractiveMusicSystem_Toning" ID="{90843F11-6540-4A8C-B553-2767E329B988}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Test_Play_SynthOne" ID="{9CECDAFE-DF75-4B2D-923E-2F77D419B69A}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_GuidedVocalizationOhh" ID="{8E2E2C4B-F191-4B6C-B7F0-8643BFB84742}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
-						<ObjectRef Name="Play_fundamental__B__silent_gentle" ID="{276FE729-B982-4BAD-9E9D-4D8BB058E355}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_QueryElicitationPass2" ID="{89874443-E371-4BD5-833B-22293DBD6B7A}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_QueryElicitationFail2" ID="{CAAD2BB8-41FE-4CDA-9277-9A649A763E03}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="GameMode_SetSwitch_Short" ID="{7B2E7E82-55B7-4DE5-86A8-F1CC1AA19757}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
