@@ -17,7 +17,6 @@ public class WwiseInteractiveMusicManager: MonoBehaviour
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
         AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_SilentLoops", gameObject);
-        //AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_Toning", gameObject);
     }
     
     public void ChangeToningState()
