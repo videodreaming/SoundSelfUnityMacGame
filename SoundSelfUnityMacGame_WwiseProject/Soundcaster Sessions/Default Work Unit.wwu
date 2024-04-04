@@ -33,7 +33,7 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="Env1_PWM_DutyCycle" ID="{136F8D0A-A934-4382-918F-90ADD3BDA73B}"/>
-							<Value>50</Value>
+							<Value>49.6774193548387</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="LinearMusic_Volume" ID="{F8011BC7-3969-43A0-A957-462CB30F8477}"/>
@@ -53,7 +53,7 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="Env1_Depth" ID="{E2E158A5-5D29-453B-9529-25AB5B4E1A76}"/>
-							<Value>0</Value>
+							<Value>64.1322314049587</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="Env1_Smoothing" ID="{63C2990A-09D4-4591-8C2A-DE60A4517E8C}"/>
@@ -92,6 +92,10 @@
 							<Value>50</Value>
 						</RTPCValue>
 						<RTPCValue>
+							<GameParameterRef Name="Env2_Smoothing" ID="{A15AE763-3565-4A77-BC4A-F30D9D3F5A3F}"/>
+							<Value>0</Value>
+						</RTPCValue>
+						<RTPCValue>
 							<GameParameterRef Name="Env1_Waveform" ID="{FD42C024-8A83-4BF6-86BC-0B00E33B4922}"/>
 							<Value>0</Value>
 						</RTPCValue>
@@ -117,7 +121,7 @@
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
-						<CurrentSwitchRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}"/>
+						<CurrentSwitchRef Name="B" ID="{5DE309E9-CAD8-4AD3-9C7D-556DD4935594}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
