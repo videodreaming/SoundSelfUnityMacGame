@@ -31,7 +31,7 @@ public class WwiseVOManager : MonoBehaviour
     private bool SighElicitationFail2Played = false;
     private bool QueryElicitationPass2Played = false;
     private bool ClosingGoodbyePlayed = false;
-    private bool pause = false;
+    private bool pause = true;
 
     // Start is called before the first frame update
     void Start()

@@ -11,11 +11,11 @@ public class StopAllClick : MonoBehaviour
 
     public void Toning()
     {
-        Debug.Log("PlayToning");
+        AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_Toning", gameObject);
     }
 
     public void SilentLoops()
     {
-        Debug.Log("PlaySilentLoops");
+        AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_SilentLoops", gameObject);
     }
 }
