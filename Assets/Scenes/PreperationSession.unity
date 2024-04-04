@@ -985,6 +985,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RespirationTracker: {fileID: 740096627}
   noteText: {fileID: 93136638}
+--- !u!1 &107391160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 107391162}
+  - component: {fileID: 107391161}
+  - component: {fileID: 107391163}
+  m_Layer: 0
+  m_Name: UserOutput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &107391161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107391160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c240a24b08d9545e5b34ae66f4e30308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respirationRate: 0
+  averageVolume: 0
+  averagePitch: 0
+--- !u!4 &107391162
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107391160}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1071.5669, y: 372.71994, z: -4.1591287}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &107391163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107391160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7973d1713d2f7411e9698ef3b54dc05a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &112933602
 GameObject:
   m_ObjectHideFlags: 0
@@ -7172,6 +7232,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 662335748}
+  - component: {fileID: 662335749}
   m_Layer: 0
   m_Name: HummingBirdCommunicator
   m_TagString: Untagged
@@ -7194,6 +7255,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &662335749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662335747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0d83be497ca4c6794203ac07ea4a2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerOutput: {fileID: 107391161}
 --- !u!1 &667645122
 GameObject:
   m_ObjectHideFlags: 0
@@ -21048,3 +21122,4 @@ SceneRoots:
   - {fileID: 213016423}
   - {fileID: 808198322}
   - {fileID: 662335748}
+  - {fileID: 107391162}
