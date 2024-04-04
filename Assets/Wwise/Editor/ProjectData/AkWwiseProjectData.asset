@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy/Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584894351774251414
+    m_lastTime: -8584893561292254148
     List:
     - name: AVS System
       guid: 5270ae016217ed4c975ab966f98065df
@@ -54,6 +54,58 @@ MonoBehaviour:
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
       Path: Master-Mixer Hierarchy/Default Work Unit/AVS System
+    - name: Environment
+      guid: cc9861012f87bb48bf2cbe4d71ebc0a8
+      id: 1229948536
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Environment
+        ObjectType: 2
+        guid: cc9861012f87bb48bf2cbe4d71ebc0a8
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Environment
+    - name: Interactive Music
+      guid: d7f3b8d95706aa49b9923ca016dd8b63
+      id: 3167255554
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Interactive Music
+        ObjectType: 2
+        guid: d7f3b8d95706aa49b9923ca016dd8b63
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Interactive
+        Music
+    - name: Linear Music
+      guid: 7e5d0b5a78c09d42a5b584220695d9a4
+      id: 3985839647
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Linear Music
+        ObjectType: 2
+        guid: 7e5d0b5a78c09d42a5b584220695d9a4
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Linear Music
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
       id: 3803692087
@@ -68,9 +120,9 @@ MonoBehaviour:
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
       Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus
-    - name: VO Bus
-      guid: 488f9a8e91bc104081bb7534b71b3fae
-      id: 2018813558
+    - name: SFX
+      guid: 1edb51b30c2f2542a2704a80342102ae
+      id: 393239870
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -78,10 +130,30 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: dd3e190cfb4d16499f593fc858e3694d
-      - ElementName: VO Bus
+      - ElementName: Master Audio Bus
         ObjectType: 2
-        guid: 488f9a8e91bc104081bb7534b71b3fae
-      Path: Master-Mixer Hierarchy/Default Work Unit/VO Bus
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 2
+        guid: 1edb51b30c2f2542a2704a80342102ae
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/SFX
+    - name: VO
+      guid: 9f6752ecd2bf674fb0abfce686ef8905
+      id: 1534528548
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: VO
+        ObjectType: 2
+        guid: 9f6752ecd2bf674fb0abfce686ef8905
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/VO
   BankWwu:
   - PhysicalPath: SoundBanks/Default Work Unit.wwu
     PathAndIcons:
@@ -362,7 +434,7 @@ MonoBehaviour:
       Path: Events/VO/Play_VO_ClosingGoodbye
       maxAttenuation: 0
       maxDuration: 52.572666
-      minDuration: 0
+      minDuration: 6.1513333
     - name: Play_VO_EndingSoon
       guid: 96640d9ed7824448acd78c31b52a9987
       id: 936790198
@@ -766,7 +838,7 @@ MonoBehaviour:
     ParentPath: Game Parameters/AVS System
     guid: 33c2cba45d7021408c88e244225aa913
     GuidInternal: 
-    m_lastTime: -8584894351774260347
+    m_lastTime: -8584893561293662339
     List:
     - name: AVSMasterVolume
       guid: c6000061fb2e84419e903554537a9cd3
@@ -796,6 +868,146 @@ MonoBehaviour:
         ObjectType: 13
         guid: ec41db2e57dd17438af612d63f127e77
       Path: Game Parameters/AVS System/BlueSineVolume
+    - name: Env1_Depth
+      guid: a558e1e2295d3b45952925ab5b4e1a76
+      id: 2235242937
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env1_Depth
+        ObjectType: 13
+        guid: a558e1e2295d3b45952925ab5b4e1a76
+      Path: Game Parameters/AVS System/Env1_Depth
+    - name: Env1_PWM_DutyCycle
+      guid: 0a8d6f1334a98243918f90add3bda73b
+      id: 644608889
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env1_PWM_DutyCycle
+        ObjectType: 13
+        guid: 0a8d6f1334a98243918f90add3bda73b
+      Path: Game Parameters/AVS System/Env1_PWM_DutyCycle
+    - name: Env1_Rate
+      guid: f638769c6ea35846bb092617d9fa0c35
+      id: 2687859792
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env1_Rate
+        ObjectType: 13
+        guid: f638769c6ea35846bb092617d9fa0c35
+      Path: Game Parameters/AVS System/Env1_Rate
+    - name: Env1_Smoothing
+      guid: 0a99c263d40991458c2ade60a4517e8c
+      id: 970945156
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env1_Smoothing
+        ObjectType: 13
+        guid: 0a99c263d40991458c2ade60a4517e8c
+      Path: Game Parameters/AVS System/Env1_Smoothing
+    - name: Env1_Waveform
+      guid: 24c042fd838af64b86bc0b00e33b4922
+      id: 3005694859
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env1_Waveform
+        ObjectType: 13
+        guid: 24c042fd838af64b86bc0b00e33b4922
+      Path: Game Parameters/AVS System/Env1_Waveform
+    - name: Env2_Depth
+      guid: a8487d95cbbe3548ae189a4de23a6eed
+      id: 2502993270
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env2_Depth
+        ObjectType: 13
+        guid: a8487d95cbbe3548ae189a4de23a6eed
+      Path: Game Parameters/AVS System/Env2_Depth
+    - name: Env2_PWM_DutyCycle
+      guid: 66bfb7381f578d479aab1cf207b1ac94
+      id: 1186192526
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env2_PWM_DutyCycle
+        ObjectType: 13
+        guid: 66bfb7381f578d479aab1cf207b1ac94
+      Path: Game Parameters/AVS System/Env2_PWM_DutyCycle
+    - name: Env2_Rate
+      guid: 84ddf5875c13d94cb17f6ef77b741f35
+      id: 3301429285
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env2_Rate
+        ObjectType: 13
+        guid: 84ddf5875c13d94cb17f6ef77b741f35
+      Path: Game Parameters/AVS System/Env2_Rate
+    - name: Env2_Smoothing
+      guid: 63e75aa16535774abc4af30d9d3f5a3f
+      id: 557596075
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env2_Smoothing
+        ObjectType: 13
+        guid: 63e75aa16535774abc4af30d9d3f5a3f
+      Path: Game Parameters/AVS System/Env2_Smoothing
+    - name: Env2_Waveform
+      guid: 2df3253d9a66f340965b388d29f6cb5b
+      id: 2154063598
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: Env2_Waveform
+        ObjectType: 13
+        guid: 2df3253d9a66f340965b388d29f6cb5b
+      Path: Game Parameters/AVS System/Env2_Waveform
     - name: GreenSineVolume
       guid: 7bc7e7eaa0541a4b91ea7cdc57a11ed3
       id: 71194751
@@ -835,11 +1047,11 @@ MonoBehaviour:
     ParentPath: Game Parameters/Default Work Unit
     guid: 08fd3303aa3c7f468178c0764211feaf
     GuidInternal: 
-    m_lastTime: -8584894351774258951
+    m_lastTime: -8584893561293658270
     List:
-    - name: InteractiveMusic_SilentLoops_Volume
-      guid: 018bf2e720ec3d4d9f97424152248062
-      id: 1423395698
+    - name: Test_Waveform
+      guid: 5ca4ca8fc24cbb4488d19f4ee8741d90
+      id: 4148411917
       PathAndIcons:
       - ElementName: Game Parameters
         ObjectType: 5
@@ -847,10 +1059,10 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: 08fd3303aa3c7f468178c0764211feaf
-      - ElementName: InteractiveMusic_SilentLoops_Volume
+      - ElementName: Test_Waveform
         ObjectType: 13
-        guid: 018bf2e720ec3d4d9f97424152248062
-      Path: Game Parameters/Default Work Unit/InteractiveMusic_SilentLoops_Volume
+        guid: 5ca4ca8fc24cbb4488d19f4ee8741d90
+      Path: Game Parameters/Default Work Unit/Test_Waveform
   - PhysicalPath: Game Parameters/Interactive Music System.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -920,19 +1132,89 @@ MonoBehaviour:
         ObjectType: 13
         guid: 32295aff637cb649bd96abbda509ee7d
       Path: Game Parameters/Interactive Music System/HarmonyToningVolume
-  - PhysicalPath: Game Parameters/VO.wwu
+  - PhysicalPath: Game Parameters/Master Mixer.wwu
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
       guid: 00000000000000000000000000000000
-    - ElementName: VO
+    - ElementName: Master Mixer
       ObjectType: 12
-      guid: c492c9e564b1c9459caeb7dcb425a4d1
-    ParentPath: Game Parameters/VO
-    guid: c492c9e564b1c9459caeb7dcb425a4d1
+      guid: 5920b64a742d1a4e8cff8cefde2685e4
+    ParentPath: Game Parameters/Master Mixer
+    guid: 5920b64a742d1a4e8cff8cefde2685e4
     GuidInternal: 
-    m_lastTime: -8584894351774256444
+    m_lastTime: -8584893561293656505
     List:
+    - name: Environment_Bus_Volume
+      guid: 4424087537c1de4ebc46a819cbb95c6e
+      id: 2456559820
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Master Mixer
+        ObjectType: 12
+        guid: 5920b64a742d1a4e8cff8cefde2685e4
+      - ElementName: Environment_Bus_Volume
+        ObjectType: 13
+        guid: 4424087537c1de4ebc46a819cbb95c6e
+      Path: Game Parameters/Master Mixer/Environment_Bus_Volume
+    - name: InteractiveMusic_Bus_Volume
+      guid: 575b55d52729ba4d8cf6892c63cd23a5
+      id: 609474916
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Master Mixer
+        ObjectType: 12
+        guid: 5920b64a742d1a4e8cff8cefde2685e4
+      - ElementName: InteractiveMusic_Bus_Volume
+        ObjectType: 13
+        guid: 575b55d52729ba4d8cf6892c63cd23a5
+      Path: Game Parameters/Master Mixer/InteractiveMusic_Bus_Volume
+    - name: LinearMusic_Volume
+      guid: c71b01f86939a043a957462cb30f8477
+      id: 2590911748
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Master Mixer
+        ObjectType: 12
+        guid: 5920b64a742d1a4e8cff8cefde2685e4
+      - ElementName: LinearMusic_Volume
+        ObjectType: 13
+        guid: c71b01f86939a043a957462cb30f8477
+      Path: Game Parameters/Master Mixer/LinearMusic_Volume
+    - name: Master_Volume
+      guid: 04c9625a073bab468226655481b0f80e
+      id: 4179668880
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Master Mixer
+        ObjectType: 12
+        guid: 5920b64a742d1a4e8cff8cefde2685e4
+      - ElementName: Master_Volume
+        ObjectType: 13
+        guid: 04c9625a073bab468226655481b0f80e
+      Path: Game Parameters/Master Mixer/Master_Volume
+    - name: SFX_Bus_Volume
+      guid: 56995eed68cb3847ac5ba953c216ce6d
+      id: 1050949862
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Master Mixer
+        ObjectType: 12
+        guid: 5920b64a742d1a4e8cff8cefde2685e4
+      - ElementName: SFX_Bus_Volume
+        ObjectType: 13
+        guid: 56995eed68cb3847ac5ba953c216ce6d
+      Path: Game Parameters/Master Mixer/SFX_Bus_Volume
     - name: VO_Bus_Volume
       guid: 1298e04cde4b67498638b6c2e6d7a693
       id: 3687478936
@@ -940,13 +1222,13 @@ MonoBehaviour:
       - ElementName: Game Parameters
         ObjectType: 5
         guid: 00000000000000000000000000000000
-      - ElementName: VO
+      - ElementName: Master Mixer
         ObjectType: 12
-        guid: c492c9e564b1c9459caeb7dcb425a4d1
+        guid: 5920b64a742d1a4e8cff8cefde2685e4
       - ElementName: VO_Bus_Volume
         ObjectType: 13
         guid: 1298e04cde4b67498638b6c2e6d7a693
-      Path: Game Parameters/VO/VO_Bus_Volume
+      Path: Game Parameters/Master Mixer/VO_Bus_Volume
   StateWwu:
   - PhysicalPath: States/Default Work Unit.wwu
     PathAndIcons:

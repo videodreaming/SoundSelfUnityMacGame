@@ -5095,13 +5095,13 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 965362885}
+        m_TargetAssemblyTypeName: SliderControllers, Assembly-CSharp
+        m_MethodName: VoBusSlider
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10105,6 +10105,8 @@ MonoBehaviour:
   toningHarmonyText: {fileID: 130261164}
   silentLoopsFundamentalText: {fileID: 459298498}
   silentLoopsHarmonyText: {fileID: 961883392}
+  VOBusText: {fileID: 1161948707}
+  silentInteractiveBusText: {fileID: 1957665522}
 --- !u!4 &965362886
 Transform:
   m_ObjectHideFlags: 0
@@ -16399,7 +16401,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 965362885}
         m_TargetAssemblyTypeName: SliderControllers, Assembly-CSharp
-        m_MethodName: SliderChange
+        m_MethodName: MasterVolumeSlider
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18048,7 +18050,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Sum/Bus
+  m_text: 'Sum/Bus VO
 
 '
   m_isRightToLeft: 0
@@ -20009,13 +20011,13 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 965362885}
+        m_TargetAssemblyTypeName: SliderControllers, Assembly-CSharp
+        m_MethodName: InteractiveBusSlider
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

@@ -10,6 +10,8 @@ public class SliderControllers : MonoBehaviour
     [SerializeField] private TextMeshProUGUI toningHarmonyText = null;
     [SerializeField] private TextMeshProUGUI silentLoopsFundamentalText = null;
     [SerializeField] private TextMeshProUGUI silentLoopsHarmonyText = null;
+    [SerializeField] private TextMeshProUGUI VOBusText = null;
+    [SerializeField] private TextMeshProUGUI silentInteractiveBusText = null;
 
     // Update is called once per frame
     public void SliderChange(float value)
@@ -46,6 +48,26 @@ public class SliderControllers : MonoBehaviour
         silentLoopsHarmonyText.text = localValue.ToString("0");
     }
 
+     public void VoBusSlider(float value)
+    {
+        float localValue = value;
+        AkSoundEngine.SetRTPCValue("VO_Bus_Volume", localValue);
+        VOBusText.text = localValue.ToString("0");
+    }
+
+     public void InteractiveBusSlider(float value)
+    {
+        float localValue = value;
+        AkSoundEngine.SetRTPCValue("InteractiveMusic_Bus_Volume", localValue);
+        silentInteractiveBusText.text = localValue.ToString("0");
+    }
+
+    public void MasterVolumeSlider(float value)
+    {
+        float localValue = value;
+        AkSoundEngine.SetRTPCValue("Master_Volume", localValue);
+        masterSliderText.text = localValue.ToString("0");
+    }
 
 
 }
