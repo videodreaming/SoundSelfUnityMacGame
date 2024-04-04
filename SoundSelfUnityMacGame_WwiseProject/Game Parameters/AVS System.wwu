@@ -25,6 +25,50 @@
 					</PropertyList>
 				</GameParameter>
 				<GameParameter Name="AVSMasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}"/>
+				<GameParameter Name="Env1_Rate" ID="{9C7638F6-A36E-4658-BB09-2617D9FA0C35}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0.1"/>
+						<Property Name="Min" Type="Real64" Value="0.1"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Env1_Depth" ID="{E2E158A5-5D29-453B-9529-25AB5B4E1A76}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Env2_Rate" ID="{87F5DD84-135C-4CD9-B17F-6EF77B741F35}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0.1"/>
+						<Property Name="Min" Type="Real64" Value="0.1"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Env2_Depth" ID="{957D48A8-BECB-4835-AE18-9A4DE23A6EED}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Env1_PWM_DutyCycle" ID="{136F8D0A-A934-4382-918F-90ADD3BDA73B}"/>
+				<GameParameter Name="Env2_PWM_DutyCycle" ID="{38B7BF66-571F-478D-9AAB-1CF207B1AC94}"/>
+				<GameParameter Name="Env1_Waveform" ID="{FD42C024-8A83-4BF6-86BC-0B00E33B4922}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Env2_Waveform" ID="{3D25F32D-669A-40F3-965B-388D29F6CB5B}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Env1_Smoothing" ID="{63C2990A-09D4-4591-8C2A-DE60A4517E8C}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Env2_Smoothing" ID="{A15AE763-3565-4A77-BC4A-F30D9D3F5A3F}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

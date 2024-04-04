@@ -16,12 +16,21 @@ State	ID	Name	State Group			Notes
 	4267886810	Shruti	SoundWorldMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
-	3687478936	VO_Bus_Volume			\VO\VO_Bus_Volume	
+	609474916	InteractiveMusic_Bus_Volume			\Master Mixer\InteractiveMusic_Bus_Volume	
+	1050949862	SFX_Bus_Volume			\Master Mixer\SFX_Bus_Volume	
+	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
+	2590911748	LinearMusic_Volume			\Master Mixer\LinearMusic_Volume	
+	3687478936	VO_Bus_Volume			\Master Mixer\VO_Bus_Volume	
+	4179668880	Master_Volume			\Master Mixer\Master_Volume	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
 	65973818	AVS System			\Default Work Unit\AVS System	
-	2018813558	VO Bus			\Default Work Unit\VO Bus	
+	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
+	1229948536	Environment			\Default Work Unit\Master Audio Bus\Environment	
+	1534528548	VO			\Default Work Unit\Master Audio Bus\VO	
+	3167255554	Interactive Music			\Default Work Unit\Master Audio Bus\Interactive Music	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
+	3985839647	Linear Music			\Default Work Unit\Master Audio Bus\Linear Music	
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

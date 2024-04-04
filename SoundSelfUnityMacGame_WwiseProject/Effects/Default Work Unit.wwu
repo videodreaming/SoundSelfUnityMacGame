@@ -9,6 +9,413 @@
 						<Property Name="FrontWet" Type="Real32" Value="1.8"/>
 					</PropertyList>
 				</Effect>
+				<Effect Name="AVS_Modulation1" ID="{84315F11-7E74-464A-8F39-9D060D047943}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
+					<PropertyList>
+						<Property Name="ModFrequency" Type="Real32" Value="4.58"/>
+						<Property Name="ModSmoothing" Type="Real32" Value="19"/>
+						<Property Name="ModWaveform" Type="int32" Value="2"/>
+					</PropertyList>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{3A3C2BA6-C6AB-4167-8248-70B6EE8018ED}" ShortID="253308871">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModDepth"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env1_Depth" ID="{E2E158A5-5D29-453B-9529-25AB5B4E1A76}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{ECC93B2B-1D53-4DD8-B985-E356DE3EA706}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{7F3C5FE1-DC07-44AB-B824-8DF16FA5B1C6}" ShortID="15452441">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModFrequency"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env1_Rate" ID="{9C7638F6-A36E-4658-BB09-2617D9FA0C35}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{C7A53B0E-D1DE-43E4-B682-E8232209BDE5}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="5"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0.1</XPos>
+																<YPos>0.10069</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{860E2CB4-7E9E-406B-8D2E-9F4C3CE23A1D}" ShortID="664765842">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModPWM"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env1_PWM_DutyCycle" ID="{136F8D0A-A934-4382-918F-90ADD3BDA73B}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{9A4C7D37-92EB-4E21-BCF5-C49CF2B97FA1}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{E3AD1E8F-6132-4701-826F-F53A8D49BAE1}" ShortID="451454560">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModWaveform"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env1_Waveform" ID="{FD42C024-8A83-4BF6-86BC-0B00E33B4922}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{4BE776F0-0344-4E84-8AEC-07F5D52C37DB}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="65537"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>30.02844</XPos>
+																<YPos>0</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>30.02944</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>59.9607458292444</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>59.96175</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>2</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{0BAB0880-0438-4B29-9585-F0C3C1412DA2}" ShortID="962653969">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModSmoothing"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env1_Smoothing" ID="{63C2990A-09D4-4591-8C2A-DE60A4517E8C}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{EDE72044-6D29-4571-86FC-4ABF6BD2E274}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+				</Effect>
+				<Effect Name="AVS_Modulation2" ID="{A06F7E3C-66B0-4524-9E21-C55A7B40A7B9}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{B9EC7FED-4ABA-4807-8F3D-EB37E5D1D3FB}" ShortID="885062853">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModDepth"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env2_Depth" ID="{957D48A8-BECB-4835-AE18-9A4DE23A6EED}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{8EF9627D-24AF-45D3-A002-9BFE221CADE4}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{0EE75D50-B5FD-4480-9A28-F646FC62F01E}" ShortID="641638207">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModFrequency"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env2_Rate" ID="{87F5DD84-135C-4CD9-B17F-6EF77B741F35}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{0C438619-12CF-498D-840E-C6B2D3576A03}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="5"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0.1</XPos>
+																<YPos>0.1</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{4E8A22F3-52BF-4CD7-8301-C4ADA2886BDB}" ShortID="559028272">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModPWM"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env2_PWM_DutyCycle" ID="{38B7BF66-571F-478D-9AAB-1CF207B1AC94}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{152565FC-1C68-428F-9279-C663630B556F}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{7BD91DBE-769B-4657-ABDD-7162590F79A0}" ShortID="705158314">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModWaveform"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env2_Waveform" ID="{3D25F32D-669A-40F3-965B-388D29F6CB5B}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{66872B01-D4ED-44FD-9A5B-950DB8CD1061}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="65537"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>29.87268</XPos>
+																<YPos>0</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>29.97062</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>60.0391772771792</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>60.04018</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>2</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{10686AA3-6B3C-40B3-A5E2-C3E8B380F93F}" ShortID="364465237">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModSmoothing"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Env2_Smoothing" ID="{A15AE763-3565-4A77-BC4A-F30D9D3F5A3F}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{D3C06BF8-7C90-4D24-A7BD-3E159B9B874B}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+				</Effect>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>

@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{C1FEFF60-5324-B7B4-ADDA-D9874843E62B}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{386A4076-F017-AD16-3E30-A651AB7DD578}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -20,20 +20,39 @@
 			</Plugins>
 			<Busses>
 				<Bus Id="65973818" Name="AVS System"/>
-				<Bus Id="2018813558" Name="VO Bus"/>
+				<Bus Id="393239870" Name="SFX"/>
+				<Bus Id="1229948536" Name="Environment"/>
+				<Bus Id="1534528548" Name="VO"/>
+				<Bus Id="3167255554" Name="Interactive Music"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="3985839647" Name="Linear Music"/>
 			</Busses>
 			<GameParameters>
 				<GameParameter Id="71194751" Name="GreenSineVolume"/>
+				<GameParameter Id="557596075" Name="Env2_Smoothing"/>
+				<GameParameter Id="609474916" Name="InteractiveMusic_Bus_Volume"/>
+				<GameParameter Id="644608889" Name="Env1_PWM_DutyCycle"/>
+				<GameParameter Id="970945156" Name="Env1_Smoothing"/>
+				<GameParameter Id="1050949862" Name="SFX_Bus_Volume"/>
 				<GameParameter Id="1111564044" Name="HarmonySilentVolume"/>
+				<GameParameter Id="1186192526" Name="Env2_PWM_DutyCycle"/>
 				<GameParameter Id="1417631880" Name="BlueSineVolume"/>
-				<GameParameter Id="1423395698" Name="InteractiveMusic_SilentLoops_Volume"/>
 				<GameParameter Id="1426024143" Name="AVSMasterVolume"/>
 				<GameParameter Id="1504547510" Name="HarmonyToningVolume"/>
 				<GameParameter Id="1546458207" Name="RedSineVolume"/>
 				<GameParameter Id="1729197293" Name="FundamentalToningVolume"/>
 				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
+				<GameParameter Id="2154063598" Name="Env2_Waveform"/>
+				<GameParameter Id="2235242937" Name="Env1_Depth"/>
+				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
+				<GameParameter Id="2502993270" Name="Env2_Depth"/>
+				<GameParameter Id="2590911748" Name="LinearMusic_Volume"/>
+				<GameParameter Id="2687859792" Name="Env1_Rate"/>
+				<GameParameter Id="3005694859" Name="Env1_Waveform"/>
+				<GameParameter Id="3301429285" Name="Env2_Rate"/>
 				<GameParameter Id="3687478936" Name="VO_Bus_Volume"/>
+				<GameParameter Id="4148411917" Name="Test_Waveform"/>
+				<GameParameter Id="4179668880" Name="Master_Volume"/>
 			</GameParameters>
 			<StateGroups>
 				<StateGroup Id="261089142" Name="GameMode">
@@ -132,7 +151,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{7E4C764C-9868-67A2-7A95-1B7EF193F5E7}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{B73A609F-CB15-0F7D-F390-D2B71730A4DB}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
@@ -709,6 +728,8 @@
 					<Plugin Id="484890516" Name="Church_Small_Wood" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="1144018367" Name="Plate_Large" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="1443902288" Name="_1_Second_Delay" LibName="Wwise Stereo Delay" LibId="8847363"/>
+					<Plugin Id="3385674561" Name="AVS_Modulation1" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="3385674562" Name="AVS_Modulation2" LibName="Wwise Tremolo" LibId="8585219"/>
 				</ShareSets>
 			</Plugins>
 			<Events>
@@ -734,6 +755,10 @@
 							<PluginRef Id="433732206"/>
 							<PluginRef Id="727631099"/>
 						</Custom>
+						<ShareSets>
+							<PluginRef Id="3385674561"/>
+							<PluginRef Id="3385674562"/>
+						</ShareSets>
 					</PluginRefs>
 				</Event>
 				<Event Id="1556089376" Name="Play_CrystalBowl" DurationType="OneShot" DurationMin="368.37796" DurationMax="398.37796">
@@ -1063,7 +1088,7 @@
 						</Custom>
 					</PluginRefs>
 				</Event>
-				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="OneShot" DurationMin="0" DurationMax="52.572666">
+				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="OneShot" DurationMin="6.1513333" DurationMax="52.572666">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
@@ -1366,13 +1391,22 @@
 			</Events>
 			<GameParameters>
 				<GameParameter Id="71194751" Name="GreenSineVolume"/>
+				<GameParameter Id="557596075" Name="Env2_Smoothing"/>
+				<GameParameter Id="644608889" Name="Env1_PWM_DutyCycle"/>
+				<GameParameter Id="970945156" Name="Env1_Smoothing"/>
 				<GameParameter Id="1111564044" Name="HarmonySilentVolume"/>
+				<GameParameter Id="1186192526" Name="Env2_PWM_DutyCycle"/>
 				<GameParameter Id="1417631880" Name="BlueSineVolume"/>
-				<GameParameter Id="1423395698" Name="InteractiveMusic_SilentLoops_Volume"/>
 				<GameParameter Id="1504547510" Name="HarmonyToningVolume"/>
 				<GameParameter Id="1546458207" Name="RedSineVolume"/>
 				<GameParameter Id="1729197293" Name="FundamentalToningVolume"/>
 				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
+				<GameParameter Id="2154063598" Name="Env2_Waveform"/>
+				<GameParameter Id="2235242937" Name="Env1_Depth"/>
+				<GameParameter Id="2502993270" Name="Env2_Depth"/>
+				<GameParameter Id="2687859792" Name="Env1_Rate"/>
+				<GameParameter Id="3005694859" Name="Env1_Waveform"/>
+				<GameParameter Id="3301429285" Name="Env2_Rate"/>
 			</GameParameters>
 			<SwitchGroups>
 				<SwitchGroup Id="184547165" Name="VO_Posture">
@@ -1451,5 +1485,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{BD757CB9-8454-62C3-A5A1-7F099FBEB4C5}</FileHash>
+	<FileHash>{BC56CE92-469A-D59C-8467-451ED3115994}</FileHash>
 </SoundBanksInfo>

@@ -3,31 +3,6 @@
 	<InteractiveMusic>
 		<WorkUnit Name="Default Work Unit" ID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" PersistMode="Standalone">
 			<ChildrenList>
-				<MusicSwitchContainer Name="InteractiveMusic_Loops" ID="{30EF88D2-EB7C-4B7E-B028-E4BD6526D26D}" ShortID="221404098">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-						<Reference Name="TransitionRoot">
-							<Custom>
-								<MusicTransition Name="Root" ID="{7BB3FA49-296F-4333-A67F-4736A3011AFE}">
-									<PropertyList>
-										<Property Name="IsFolder" Type="bool" Value="True"/>
-									</PropertyList>
-									<ChildrenList>
-										<MusicTransition Name="Transition" ID="{D2082A69-3878-4D2D-A2F9-1E36F27CF8C3}">
-											<TransitionInfo/>
-										</MusicTransition>
-									</ChildrenList>
-									<TransitionInfo/>
-								</MusicTransition>
-							</Custom>
-						</Reference>
-					</ReferenceList>
-				</MusicSwitchContainer>
 				<MusicPlaylistContainer Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" ShortID="682289842">
 					<PropertyList>
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
@@ -37,7 +12,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="Interactive Music" ID="{D9B8F3D7-0657-49AA-B992-3CA016DD8B63}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 						<Reference Name="PlaylistRoot">
 							<Custom>

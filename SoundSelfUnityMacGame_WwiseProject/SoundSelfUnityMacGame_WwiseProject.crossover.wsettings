@@ -4,6 +4,7 @@
 		<UserProjectSettings Name="" ID="{43424377-3214-4D16-B7F8-3FDF5DC54013}">
 			<PropertyList>
 				<Property Name="AudioFilesImporter\Path" Type="string" Value="Z:\Volumes\LORNIE\Dropbox\SOUNDSELF\SOUNDSELF_UNITY\_SOUND BANKS\_SFX\CRYSTAL BOWLS_PITCH\"/>
+				<Property Name="EffectsView\MeteringObject\{84315F11-7E74-464A-8F39-9D060D047943}" Type="string" Value="{2E1A80E5-F62F-4337-A21A-C15DDFD93874}"/>
 				<Property Name="EffectsView\MeteringObject\{940CCB47-F031-4C6A-B0E6-726CAC418C02}" Type="string" Value="{4872EF82-C20E-408B-8D4D-EB1903F7300C}"/>
 				<Property Name="Event Action List\{00220282-804B-4918-8804-395C2EF3E676}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{00290282-72E1-44AE-B9E1-78AAE3F35F42}\x64_Expand States" Type="string" Value=""/>
@@ -113,20 +114,26 @@
 				<Property Name="ObjectTabPanel\x64_CurrentObjects_{618C1FF9-37D4-45A7-AF0A-E2D511E44707}" Type="string" Value=""/>
 				<Property Name="ObjectTabPanel\x64_CurrentObjects_{826CEF9F-ACB3-45D2-8319-9C9994E4CA5C}" Type="string" Value=""/>
 				<Property Name="ObjectTabPanel\x64_CurrentObjects_{A45AAC64-78D1-46A7-88FA-F242B38651B4}" Type="string" Value=""/>
-				<Property Name="ObjectTabPanel\x64_CurrentObjects_{D5805147-985E-4C5B-B817-369AF1B7184D}" Type="string" Value="ewBBADAAOAA4AEQAMQAxADAALQAwAEUAMwAwAC0ANAAyADQANQAtADgAOQBBADgALQAzAEYAMQBBADQARgAzADEANAAyADQARQB9AAAAAAE="/>
+				<Property Name="ObjectTabPanel\x64_CurrentObjects_{D5805147-985E-4C5B-B817-369AF1B7184D}" Type="string" Value="ewAxADUAMQA0AEEANABEADgALQAxAEQAQQA2AC0ANAAxADIAQQAtAEEAMQA3AEUALQA3ADUAQwBBADAAQwAyADEANAA5AEYAMwB9AAAAAAE="/>
 				<Property Name="ObjectTabPanel\x64_CurrentObjects_{FB6925F8-3EDD-42F1-B446-654A30D756CF}" Type="string" Value=""/>
 				<Property Name="OverrideCacheFolder\Active" Type="bool" Value="False"/>
 				<Property Name="OverrideCacheFolder\Path" Type="string" Value=".cache"/>
 				<Property Name="OverrideOriginalFolder\Active" Type="bool" Value="False"/>
 				<Property Name="OverrideOriginalFolder\Path" Type="string" Value="Originals"/>
+				<Property Name="Paste Objects\Filter Mode" Type="bool" Value="True"/>
+				<Property Name="Paste Objects\Last Source" Type="string" Value="{84315F11-7E74-464A-8F39-9D060D047943}"/>
+				<Property Name="Paste Objects\Paste Mode" Type="int32" Value="1"/>
+				<Property Name="Paste Objects\Sync Source Mode" Type="bool" Value="True"/>
+				<Property Name="Paste Objects\Sync Target Mode" Type="bool" Value="True"/>
+				<Property Name="Paste Objects\x64_Last Targets" Type="string" Value="33xqnPkeUUiE2c7g9IDSQw=="/>
 				<Property Name="PluginUserAcknowledge\iZotope Hybrid Reverb" Type="bool" Value="True"/>
 				<Property Name="ProjectExplorer\AudioSelectionChannel1\ProjectExplorer2LastScrollState" Type="int32" Value="0"/>
-				<Property Name="ProjectExplorer\AudioSelectionChannel1\x64_ProjectExplorer2LastExpandedState" Type="string" Value="iC8JJ1oiVBFnJcijTz1EguraiCN1l8ZGou3FIio5d1bdPhkM+00WSZ9ZP8hY42lN+LunXsBkUEqIIaB+i+IdaCRa6drlwZhMqOkBYWQ6nzWnnAGBdXwPRaN7FJpb4GzKs7ZQFDT9C02WRhhEH9ukFYLvckgOwotAjU3rGQP3MAzFt4GXkEwWTZQ25pq7y9UdWEoKmbLfV0SDsvMXWa8re2bT/kkwtahCmTuSSHOqtwfbE6NbCcJCRJjnDanWxxux"/>
-				<Property Name="ProjectExplorer\AudioSelectionChannel2\ProjectExplorer2LastScrollState" Type="int32" Value="10"/>
+				<Property Name="ProjectExplorer\AudioSelectionChannel1\x64_ProjectExplorer2LastExpandedState" Type="string" Value="iC8JJ1oiVBFnJcijTz1Egt0+GQz7TRZJn1k/yFjjaU34u6dewGRQSoghoH6L4h1ogu9ySA7Ci0CNTesZA/cwDFhKCpmy31dEg7LzF1mvK3tm0/5JMLWoQpk7kkhzqrcH2xOjWwnCQkSY5w2p1scbsQ=="/>
+				<Property Name="ProjectExplorer\AudioSelectionChannel2\ProjectExplorer2LastScrollState" Type="int32" Value="7"/>
 				<Property Name="ProjectExplorer\AudioSelectionChannel2\x64_ProjectExplorer2LastExpandedState" Type="string" Value="iC8JJ1oiVBFnJcijTz1EguraiCN1l8ZGou3FIio5d1bdPhkM+00WSZ9ZP8hY42lN+LunXsBkUEqIIaB+i+IdaP+k/M3FsaFNgKkO/TJaj3oGbJPYxJblQKaJ6ys1rlvCZtP+STC1qEKZO5JIc6q3Bw=="/>
 				<Property Name="ProjectExplorer\EventsSelectionChannel1\ProjectExplorer2LastScrollState" Type="int32" Value="0"/>
 				<Property Name="ProjectExplorer\EventsSelectionChannel1\x64_ProjectExplorer2LastExpandedState" Type="string" Value="/PCbpkrYfEir3Vb3HLKhJral6K1JXKdNuL0n1D7dnZrj/KM7fpXgQotgJjBVZI5KrodNtANfZkyNtzs8+/7nXt71mjAfA+BMm5vApTYnU0M="/>
-				<Property Name="ProjectExplorer\EventsSelectionChannel2\ProjectExplorer2LastScrollState" Type="int32" Value="6"/>
+				<Property Name="ProjectExplorer\EventsSelectionChannel2\ProjectExplorer2LastScrollState" Type="int32" Value="3"/>
 				<Property Name="ProjectExplorer\EventsSelectionChannel2\x64_ProjectExplorer2LastExpandedState" Type="string" Value="/PCbpkrYfEir3Vb3HLKhJuP8ozt+leBCi2AmMFVkjkrlvPol2fybR6xGtMspPw8Y3vWaMB8D4Eybm8ClNidTQw=="/>
 				<Property Name="ProjectExplorer\Game SyncsSelectionChannel1\ProjectExplorer2LastScrollState" Type="int32" Value="0"/>
 				<Property Name="ProjectExplorer\Game SyncsSelectionChannel1\x64_ProjectExplorer2LastExpandedState" Type="string" Value="8XVhy4BgI0qS7wgH4wTQwacLXvKWxuVIi853nnEKOJICgGfZ4mBrS4nHMIekUqSiRVn99sRW9UmZOTOrUHo5KK1wGkMyFBRDmNpOXDiTBEJk0LCsip4IQKP2WAqGMcZtF9fvEgFZe0GRbrqg9WoqWrnnqVnJYRpGqW9Jl7VBpZx84TK2oAIvQoSC88jpfQC+ENGIoDAORUKJqD8aTzFCTo6BJUB/CXJKtpK4ouJmPcv8V3ZsWEdBTb1MaLCfkdsp"/>
@@ -137,7 +144,7 @@
 				<Property Name="ProjectExplorer\QueriesSelectionChannel2\ProjectExplorer2LastScrollState" Type="int32" Value="0"/>
 				<Property Name="ProjectExplorer\QueriesSelectionChannel2\x64_ProjectExplorer2LastExpandedState" Type="string" Value="4y3sI9g+gkusmZLiXy5Maw=="/>
 				<Property Name="ProjectExplorer\SelectionChannel1\CurrentSearch" Type="string" Value=""/>
-				<Property Name="ProjectExplorer\SelectionChannel1\CurrentTab" Type="int32" Value="3"/>
+				<Property Name="ProjectExplorer\SelectionChannel1\CurrentTab" Type="int32" Value="0"/>
 				<Property Name="ProjectExplorer\SelectionChannel2\CurrentSearch" Type="string" Value=""/>
 				<Property Name="ProjectExplorer\SelectionChannel2\CurrentTab" Type="int32" Value="3"/>
 				<Property Name="ProjectExplorer\SessionsSelectionChannel1\ProjectExplorer2LastScrollState" Type="int32" Value="0"/>

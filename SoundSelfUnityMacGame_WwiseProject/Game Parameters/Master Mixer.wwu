@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}" SchemaVersion="119">
+	<GameParameters>
+		<WorkUnit Name="Master Mixer" ID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="VO_Bus_Volume" ID="{4CE09812-4BDE-4967-8638-B6C2E6D7A693}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Master_Volume" ID="{5A62C904-3B07-46AB-8226-655481B0F80E}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="InteractiveMusic_Bus_Volume" ID="{D5555B57-2927-4DBA-8CF6-892C63CD23A5}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="SFX_Bus_Volume" ID="{ED5E9956-CB68-4738-AC5B-A953C216CE6D}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="LinearMusic_Volume" ID="{F8011BC7-3969-43A0-A957-462CB30F8477}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Environment_Bus_Volume" ID="{75082444-C137-4EDE-BC46-A819CBB95C6E}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

@@ -103,13 +103,22 @@ State	ID	Name	State Group			Notes
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	71194751	GreenSineVolume			\AVS System\GreenSineVolume	
+	557596075	Env2_Smoothing			\AVS System\Env2_Smoothing	
+	644608889	Env1_PWM_DutyCycle			\AVS System\Env1_PWM_DutyCycle	
+	970945156	Env1_Smoothing			\AVS System\Env1_Smoothing	
 	1111564044	HarmonySilentVolume			\Interactive Music System\HarmonySilentVolume	
+	1186192526	Env2_PWM_DutyCycle			\AVS System\Env2_PWM_DutyCycle	
 	1417631880	BlueSineVolume			\AVS System\BlueSineVolume	
-	1423395698	InteractiveMusic_SilentLoops_Volume			\Default Work Unit\InteractiveMusic_SilentLoops_Volume	
 	1504547510	HarmonyToningVolume			\Interactive Music System\HarmonyToningVolume	
 	1546458207	RedSineVolume			\AVS System\RedSineVolume	
 	1729197293	FundamentalToningVolume			\Interactive Music System\FundamentalToningVolume	
 	2144346671	FundamentalSilentVolume			\Interactive Music System\FundamentalSilentVolume	
+	2154063598	Env2_Waveform			\AVS System\Env2_Waveform	
+	2235242937	Env1_Depth			\AVS System\Env1_Depth	
+	2502993270	Env2_Depth			\AVS System\Env2_Depth	
+	2687859792	Env1_Rate			\AVS System\Env1_Rate	
+	3005694859	Env1_Waveform			\AVS System\Env1_Waveform	
+	3301429285	Env2_Rate			\AVS System\Env2_Rate	
 
 Modulator LFO	ID	Name			Wwise Object Path	Notes
 	1017970488	Modulator LFO (Custom)				
@@ -122,13 +131,15 @@ Effect plug-ins	ID	Name	Type				Notes
 	484890516	Church_Small_Wood	Wwise RoomVerb			
 	1144018367	Plate_Large	Wwise RoomVerb			
 	1443902288	_1_Second_Delay	Wwise Stereo Delay			
+	3385674561	AVS_Modulation1	Wwise Tremolo			
+	3385674562	AVS_Modulation2	Wwise Tremolo			
 
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	7574863	Synth One	Wwise Synth One		\Actor-Mixer Hierarchy\Default Work Unit\Test_SynthOne\Synth One	
 	62828566	Audio Input	Wwise Audio Input		\Actor-Mixer Hierarchy\Default Work Unit\Microphone\Audio Input	
-	207602731	Tone Generator	Wwise Tone Generator		\Actor-Mixer Hierarchy\AVS System\GreenToneGenerator\Tone Generator	
-	433732206	Tone Generator	Wwise Tone Generator		\Actor-Mixer Hierarchy\AVS System\BlueToneGenerator\Tone Generator	
-	727631099	Tone Generator	Wwise Tone Generator		\Actor-Mixer Hierarchy\AVS System\RedToneGenerator\Tone Generator	
+	207602731	Tone Generator	Wwise Tone Generator		\Actor-Mixer Hierarchy\AVS System\AVS System_Blend Container\GreenToneGenerator\Tone Generator	
+	433732206	Tone Generator	Wwise Tone Generator		\Actor-Mixer Hierarchy\AVS System\AVS System_Blend Container\BlueToneGenerator\Tone Generator	
+	727631099	Tone Generator	Wwise Tone Generator		\Actor-Mixer Hierarchy\AVS System\AVS System_Blend Container\RedToneGenerator\Tone Generator	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	8095985	vo_posture_liedown	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_posture_liedown_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Posture\vo_posture_liedown		1574432
@@ -223,7 +234,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	719008266	vo_elicitQueryFail_any3	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any3_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_QueryElicitationFail1\vo_elicitQueryFail_any3		2098720
 	733447239	fundamental_[E]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\fundamental_[E]_toning_sono flore_818F3B66.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_BlendContainer\Toning_SonoFlore\fundamental_[E]_toning_sono flore		5760096
 	740646625	vo_test06tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test06tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_GuidedVocalizationAhh\vo_test06tone		525856
-	742535958	ReferenceTone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\mindplace_reference_FBC78EF0.wem		\Actor-Mixer Hierarchy\AVS System\ReferenceTone		176496
+	742535958	ReferenceTone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\mindplace_reference_FBC78EF0.wem		\Actor-Mixer Hierarchy\AVS System\AVS System_Blend Container\ReferenceTone		176496
 	755912331	vo_thematicSavasana_metta	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_metta_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\vo_thematicSavasana_metta		64440960
 	761406240	harmony_[D]_silent_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\harmony_[D]_silent_shadow_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops\harmony_[D]_silent_shadow		6502784
 	768921853	vo_test03hum	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test03hum_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_GuidedVocalizationHum\vo_test03hum		1443360

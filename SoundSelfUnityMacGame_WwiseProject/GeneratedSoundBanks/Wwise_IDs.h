@@ -208,13 +208,28 @@ namespace AK
     {
         static const AkUniqueID AVSMASTERVOLUME = 1426024143U;
         static const AkUniqueID BLUESINEVOLUME = 1417631880U;
+        static const AkUniqueID ENV1_DEPTH = 2235242937U;
+        static const AkUniqueID ENV1_PWM_DUTYCYCLE = 644608889U;
+        static const AkUniqueID ENV1_RATE = 2687859792U;
+        static const AkUniqueID ENV1_SMOOTHING = 970945156U;
+        static const AkUniqueID ENV1_WAVEFORM = 3005694859U;
+        static const AkUniqueID ENV2_DEPTH = 2502993270U;
+        static const AkUniqueID ENV2_PWM_DUTYCYCLE = 1186192526U;
+        static const AkUniqueID ENV2_RATE = 3301429285U;
+        static const AkUniqueID ENV2_SMOOTHING = 557596075U;
+        static const AkUniqueID ENV2_WAVEFORM = 2154063598U;
+        static const AkUniqueID ENVIRONMENT_BUS_VOLUME = 2456559820U;
         static const AkUniqueID FUNDAMENTALSILENTVOLUME = 2144346671U;
         static const AkUniqueID FUNDAMENTALTONINGVOLUME = 1729197293U;
         static const AkUniqueID GREENSINEVOLUME = 71194751U;
         static const AkUniqueID HARMONYSILENTVOLUME = 1111564044U;
         static const AkUniqueID HARMONYTONINGVOLUME = 1504547510U;
-        static const AkUniqueID INTERACTIVEMUSIC_SILENTLOOPS_VOLUME = 1423395698U;
+        static const AkUniqueID INTERACTIVEMUSIC_BUS_VOLUME = 609474916U;
+        static const AkUniqueID LINEARMUSIC_VOLUME = 2590911748U;
+        static const AkUniqueID MASTER_VOLUME = 4179668880U;
         static const AkUniqueID REDSINEVOLUME = 1546458207U;
+        static const AkUniqueID SFX_BUS_VOLUME = 1050949862U;
+        static const AkUniqueID TEST_WAVEFORM = 4148411917U;
         static const AkUniqueID VO_BUS_VOLUME = 3687478936U;
     } // namespace GAME_PARAMETERS
 
@@ -227,8 +242,12 @@ namespace AK
     namespace BUSSES
     {
         static const AkUniqueID AVS_SYSTEM = 65973818U;
+        static const AkUniqueID ENVIRONMENT = 1229948536U;
+        static const AkUniqueID INTERACTIVE_MUSIC = 3167255554U;
+        static const AkUniqueID LINEAR_MUSIC = 3985839647U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
-        static const AkUniqueID VO_BUS = 2018813558U;
+        static const AkUniqueID SFX = 393239870U;
+        static const AkUniqueID VO = 1534528548U;
     } // namespace BUSSES
 
     namespace AUDIO_DEVICES

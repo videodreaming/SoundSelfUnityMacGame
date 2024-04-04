@@ -85,7 +85,7 @@
 					<ChildrenList>
 						<SourcePlugin Name="Synth One" ID="{DFFCC144-1E01-4CE5-9692-C922AF0AEACA}" ShortID="7574863" PluginName="Wwise Synth One" CompanyID="0" PluginID="148">
 							<PropertyList>
-								<Property Name="BaseFrequency" Type="Real32" Value="111"/>
+								<Property Name="BaseFrequency" Type="Real32" Value="200"/>
 							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
@@ -148,7 +148,14 @@
 												<Custom>
 													<ModulatorLfo Name="Modulator LFO (Custom)" ID="{CAA88E53-6B01-4778-930F-30AA5736E4EB}" ShortID="1067988263">
 														<PropertyList>
-															<Property Name="LfoDepth" Type="Real64" Value="0"/>
+															<Property Name="LfoDepth" Type="Real64" Value="45.3"/>
+															<Property Name="LfoFrequency" Type="Real64" Value="4">
+																<ModifierList>
+																	<ModifierInfo>
+																		<Modifier Name="" ID="{AD674D4C-F34B-47C0-8E88-66341BA840EE}"/>
+																	</ModifierInfo>
+																</ModifierList>
+															</Property>
 														</PropertyList>
 													</ModulatorLfo>
 												</Custom>

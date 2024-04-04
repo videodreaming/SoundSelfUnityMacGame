@@ -15,7 +15,7 @@
 							<ObjectRef Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="Interactive Music" ID="{D9B8F3D7-0657-49AA-B992-3CA016DD8B63}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 						<Reference Name="SwitchGroupOrStateGroup">
 							<ObjectRef Name="InteractiveMusicSwitchGroup" ID="{D9678002-60E2-4B6B-89C7-3087A452A4A2}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
@@ -3614,43 +3614,6 @@
 											</Reference>
 										</ReferenceList>
 									</EffectSlot>
-								</Local>
-							</Reference>
-						</ObjectList>
-						<ObjectList Name="RTPC">
-							<Reference>
-								<Local>
-									<RTPC Name="" ID="{2F63A549-B08D-4108-A31C-0C2F6C08F9A5}" ShortID="986131200">
-										<PropertyList>
-											<Property Name="PropertyName" Type="string" Value="Volume"/>
-										</PropertyList>
-										<ReferenceList>
-											<Reference Name="ControlInput">
-												<ObjectRef Name="InteractiveMusic_SilentLoops_Volume" ID="{E7F28B01-EC20-4D3D-9F97-424152248062}" WorkUnitID="{0333FD08-3CAA-467F-8178-C0764211FEAF}"/>
-											</Reference>
-											<Reference Name="Curve">
-												<Custom>
-													<Curve Name="" ID="{F41017C2-AA71-4E5C-A2EE-EE66A6E28608}">
-														<PropertyList>
-															<Property Name="Flags" Type="int32" Value="3"/>
-														</PropertyList>
-														<PointList>
-															<Point>
-																<XPos>0</XPos>
-																<YPos>-200</YPos>
-																<Flags>5</Flags>
-															</Point>
-															<Point>
-																<XPos>100</XPos>
-																<YPos>0</YPos>
-																<Flags>37</Flags>
-															</Point>
-														</PointList>
-													</Curve>
-												</Custom>
-											</Reference>
-										</ReferenceList>
-									</RTPC>
 								</Local>
 							</Reference>
 						</ObjectList>
