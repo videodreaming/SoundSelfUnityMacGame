@@ -33,9 +33,32 @@ public class WwiseVOManager : MonoBehaviour
     private bool ClosingGoodbyePlayed = false;
     private bool pause = true;
 
+    public CSVReaderSub csvReaderSub;
+
     // Start is called before the first frame update
     void Start()
     {
+        assignVOs();
+    }
+    
+    void assignVOs()
+    {
+        if(csvReaderSub.GameSettings.GameMode == "Preperation")
+        {
+            Debug.Log("Preperation");
+            if(csvReaderSub.GameSettings.SubGameMode == "Metta")
+            {
+                Debug.Log("Metta");
+            }
+        } 
+        if(csvReaderSub.GameSettings.GameMode == "Integration")
+        {
+            Debug.Log("Integration");
+            if(csvReaderSub.GameSettings.SubGameMode == "Metta")
+            {
+                Debug.Log("Metta");
+            }
+        }
     }
 
     public void playOpening(string length)
