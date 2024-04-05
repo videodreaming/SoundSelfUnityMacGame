@@ -40,9 +40,10 @@ public class CSVReaderSub : MonoBehaviour
             if (data.Length >= 4)
             {
                 GameSettings.GameMode = data[3];
+                Debug.Log("GameMode: " + GameSettings.GameMode);
                 GameSettings.SubGameMode = data[4];
+                Debug.Log("SubGameMode: " + GameSettings.SubGameMode);
             }
-            tmpText.text = GameSettings.SubGameMode;
         }
         else
         {
