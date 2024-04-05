@@ -33,6 +33,10 @@ public class WwiseVOManager : MonoBehaviour
     private bool ClosingGoodbyePlayed = false;
     private bool pause = true;
 
+    public string ThematicContent = null;
+    public string ThematicSavasana = null;
+    public string VO_ClosingGoodbye = null;
+
     public CSVReaderSub csvReaderSub;
 
     // Start is called before the first frame update
@@ -46,17 +50,43 @@ public class WwiseVOManager : MonoBehaviour
         if(csvReaderSub.GameSettings.GameMode == "Preperation")
         {
             Debug.Log("Preperation");
-            if(csvReaderSub.GameSettings.SubGameMode == "Metta")
+            if(csvReaderSub.GameSettings.SubGameMode == "Narrative")
             {
                 Debug.Log("Metta");
+            } else if (csvReaderSub.GameSettings.SubGameMode == "Peace")
+            {
+                Debug.Log("Guided");
+            } else if (csvReaderSub.GameSettings.SubGameMode == "Surrender")
+            {
+                Debug.Log("Silent");
             }
         } 
         if(csvReaderSub.GameSettings.GameMode == "Integration")
         {
             Debug.Log("Integration");
-            if(csvReaderSub.GameSettings.SubGameMode == "Metta")
+            if(csvReaderSub.GameSettings.SubGameMode == "Kindness")
+            {
+                Debug.Log("Kindness");
+            } else if (csvReaderSub.GameSettings.SubGameMode == "Metta")
             {
                 Debug.Log("Metta");
+            } else if (csvReaderSub.GameSettings.SubGameMode == "Fireflies")
+            {
+                Debug.Log("Fireflies");
+            }
+        }
+        if(csvReaderSub.GameSettings.GameMode == "Adjunctive")
+        {
+            Debug.Log("Adjunctive");
+            if(csvReaderSub.GameSettings.SubGameMode == "Anchoring")
+            {
+                Debug.Log("Anchoring");
+            } else if (csvReaderSub.GameSettings.SubGameMode == "Meditation")
+            {
+                Debug.Log("Meditation");
+            } else if (csvReaderSub.GameSettings.SubGameMode == "Gratitude")
+            {
+                Debug.Log("Gratitude");
             }
         }
     }

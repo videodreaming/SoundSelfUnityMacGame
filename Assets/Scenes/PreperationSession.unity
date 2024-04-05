@@ -6948,6 +6948,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
+  ThematicContent: 
+  ThematicSavasana: 
+  VO_ClosingGoodbye: 
+  csvReaderSub: {fileID: 1958140518}
 --- !u!1 &488612079
 GameObject:
   m_ObjectHideFlags: 0
@@ -13058,16 +13062,16 @@ MonoBehaviour:
   silentLoopsHarmonyText: {fileID: 961883392}
   VOBusText: {fileID: 1161948707}
   silentInteractiveBusText: {fileID: 1957665522}
-  env1WaveformText: {fileID: 0}
-  env1RateText: {fileID: 0}
-  env1PWMDutyCycleText: {fileID: 0}
-  env1SmoothingText: {fileID: 0}
-  env1DepthText: {fileID: 0}
-  env2WaveformText: {fileID: 0}
-  env2RateText: {fileID: 0}
-  env2PWMDutyCycleText: {fileID: 0}
-  env2SmoothingText: {fileID: 0}
-  env2DepthText: {fileID: 0}
+  env1WaveformText: {fileID: 1667094799}
+  env1RateText: {fileID: 1985733026}
+  env1PWMDutyCycleText: {fileID: 900712539}
+  env1SmoothingText: {fileID: 1991973486}
+  env1DepthText: {fileID: 822699553}
+  env2WaveformText: {fileID: 1795564578}
+  env2RateText: {fileID: 1832272672}
+  env2PWMDutyCycleText: {fileID: 1161609190}
+  env2SmoothingText: {fileID: 292963904}
+  env2DepthText: {fileID: 1395107157}
 --- !u!4 &965362886
 Transform:
   m_ObjectHideFlags: 0
