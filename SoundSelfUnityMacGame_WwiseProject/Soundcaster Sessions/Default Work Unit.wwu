@@ -21,19 +21,27 @@
 							<ObjectRef Name="Play_VO_GuidedVocalizationHum" ID="{FF863BD2-6C72-4EF3-9D32-B7A302EDEECC}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
 							<Position X="1" Y="1"/>
 						</Module>
+						<Module>
+							<ObjectRef Name="Play_AVS_Generator_SwitchContainer" ID="{00220282-804B-4918-8804-395C2EF3E676}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+							<Position X="2" Y="0"/>
+						</Module>
 					</ModuleList>
 					<RTPCValueList ShowAll="true">
 						<RTPCValue>
-							<GameParameterRef Name="Env2_Waveform" ID="{3D25F32D-669A-40F3-965B-388D29F6CB5B}"/>
-							<Value>0</Value>
+							<GameParameterRef Name="AVSMasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}"/>
+							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
-							<GameParameterRef Name="BlueSineVolume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}"/>
-							<Value>0</Value>
+							<GameParameterRef Name="Yellow_Volume" ID="{B51B2FB4-487C-41F8-B957-E3F52A30E101}"/>
+							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
-							<GameParameterRef Name="Env1_PWM_DutyCycle" ID="{136F8D0A-A934-4382-918F-90ADD3BDA73B}"/>
-							<Value>49.6774193548387</Value>
+							<GameParameterRef Name="White_Volume" ID="{26745E5A-AAF6-42C8-A779-4A5E6C13859A}"/>
+							<Value>100</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="Blue_Volume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}"/>
+							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="LinearMusic_Volume" ID="{F8011BC7-3969-43A0-A957-462CB30F8477}"/>
@@ -44,23 +52,15 @@
 							<Value>80</Value>
 						</RTPCValue>
 						<RTPCValue>
+							<GameParameterRef Name="Magenta_Volume" ID="{967331CB-84F1-447F-81B6-E0EC3FF6FDD2}"/>
+							<Value>100</Value>
+						</RTPCValue>
+						<RTPCValue>
 							<GameParameterRef Name="FundamentalSilentVolume" ID="{F24DF0F8-DF1D-4481-BD23-7A969D9E8269}"/>
 							<Value>79</Value>
 						</RTPCValue>
 						<RTPCValue>
-							<GameParameterRef Name="Test_Waveform" ID="{8FCAA45C-4CC2-44BB-88D1-9F4EE8741D90}"/>
-							<Value>0</Value>
-						</RTPCValue>
-						<RTPCValue>
-							<GameParameterRef Name="Env1_Depth" ID="{E2E158A5-5D29-453B-9529-25AB5B4E1A76}"/>
-							<Value>64.1322314049587</Value>
-						</RTPCValue>
-						<RTPCValue>
-							<GameParameterRef Name="Env1_Smoothing" ID="{63C2990A-09D4-4591-8C2A-DE60A4517E8C}"/>
-							<Value>0</Value>
-						</RTPCValue>
-						<RTPCValue>
-							<GameParameterRef Name="Env1_Rate" ID="{9C7638F6-A36E-4658-BB09-2617D9FA0C35}"/>
+							<GameParameterRef Name="Cyan_Volume" ID="{7B2294FD-6947-45EC-A532-03BD10E87BD6}"/>
 							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
@@ -69,19 +69,11 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}"/>
-							<Value>50</Value>
+							<Value>20.6493506493506</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="SFX_Bus_Volume" ID="{ED5E9956-CB68-4738-AC5B-A953C216CE6D}"/>
 							<Value>100</Value>
-						</RTPCValue>
-						<RTPCValue>
-							<GameParameterRef Name="Env2_PWM_DutyCycle" ID="{38B7BF66-571F-478D-9AAB-1CF207B1AC94}"/>
-							<Value>50</Value>
-						</RTPCValue>
-						<RTPCValue>
-							<GameParameterRef Name="Env2_Depth" ID="{957D48A8-BECB-4835-AE18-9A4DE23A6EED}"/>
-							<Value>0.829383886255926</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="VO_Bus_Volume" ID="{4CE09812-4BDE-4967-8638-B6C2E6D7A693}"/>
@@ -92,16 +84,12 @@
 							<Value>50</Value>
 						</RTPCValue>
 						<RTPCValue>
-							<GameParameterRef Name="Env2_Smoothing" ID="{A15AE763-3565-4A77-BC4A-F30D9D3F5A3F}"/>
-							<Value>0</Value>
+							<GameParameterRef Name="Green_Volume" ID="{EAE7C77B-54A0-4B1A-91EA-7CDC57A11ED3}"/>
+							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
-							<GameParameterRef Name="Env1_Waveform" ID="{FD42C024-8A83-4BF6-86BC-0B00E33B4922}"/>
-							<Value>0</Value>
-						</RTPCValue>
-						<RTPCValue>
-							<GameParameterRef Name="Env2_Rate" ID="{87F5DD84-135C-4CD9-B17F-6EF77B741F35}"/>
-							<Value>1.72207189546842E-315</Value>
+							<GameParameterRef Name="Red_Volume" ID="{DD299D73-B41F-4BF1-8A8C-7AF77A109AFD}"/>
+							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="InteractiveMusic_Bus_Volume" ID="{D5555B57-2927-4DBA-8CF6-892C63CD23A5}"/>
@@ -119,6 +107,7 @@
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
+						<CurrentSwitchRef Name="Blue" ID="{54E4E728-45D8-4BEB-91C9-6A3215709700}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
 						<CurrentSwitchRef Name="B" ID="{5DE309E9-CAD8-4AD3-9C7D-556DD4935594}"/>

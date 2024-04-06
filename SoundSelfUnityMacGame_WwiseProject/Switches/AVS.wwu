@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}" SchemaVersion="119">
+	<Switches>
+		<WorkUnit Name="AVS" ID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="AVSSystemSwitchGroup" ID="{5859C129-0C1A-4429-8F42-257BBDE0FE95}">
+					<ChildrenList>
+						<Switch Name="Blue" ID="{54E4E728-45D8-4BEB-91C9-6A3215709700}"/>
+						<Switch Name="Cyan" ID="{37A0D14E-F024-46D2-8CD7-FECE735A4F60}"/>
+						<Switch Name="Green" ID="{870EA346-4320-433D-9FDD-D5DB6C6C4287}"/>
+						<Switch Name="Yellow" ID="{0FD459C1-8EB0-4259-AA98-F39929349DFC}"/>
+						<Switch Name="Red" ID="{DB8D7A55-1706-468E-B676-69DFF21C36A1}"/>
+						<Switch Name="Magenta" ID="{C914CFAB-5E6A-4276-BBAF-6CC8DDE4965B}"/>
+						<Switch Name="White" ID="{010B368D-D383-4C5A-B686-0F4D91BC258C}"/>
+						<Switch Name="Dark" ID="{50F6F5D3-7075-4115-A280-D55BCE8717CA}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</Switches>
+</WwiseDocument>

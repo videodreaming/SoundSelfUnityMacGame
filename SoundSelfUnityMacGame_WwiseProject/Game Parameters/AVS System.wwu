@@ -3,70 +3,58 @@
 	<GameParameters>
 		<WorkUnit Name="AVS System" ID="{A4CBC233-705D-4021-8C88-E244225AA913}" PersistMode="Standalone">
 			<ChildrenList>
-				<GameParameter Name="BlueSineVolume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}">
+				<GameParameter Name="Blue_Volume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}">
 					<PropertyList>
 						<Property Name="Color" Type="int16" Value="1"/>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="RedSineVolume" ID="{DD299D73-B41F-4BF1-8A8C-7AF77A109AFD}">
+				<GameParameter Name="Red_Volume" ID="{DD299D73-B41F-4BF1-8A8C-7AF77A109AFD}">
 					<PropertyList>
 						<Property Name="Color" Type="int16" Value="10"/>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="GreenSineVolume" ID="{EAE7C77B-54A0-4B1A-91EA-7CDC57A11ED3}">
+				<GameParameter Name="Green_Volume" ID="{EAE7C77B-54A0-4B1A-91EA-7CDC57A11ED3}">
 					<PropertyList>
 						<Property Name="Color" Type="int16" Value="4"/>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="AVSMasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}"/>
-				<GameParameter Name="Env1_Rate" ID="{9C7638F6-A36E-4658-BB09-2617D9FA0C35}">
+				<GameParameter Name="AVSMasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}">
 					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0.1"/>
-						<Property Name="Min" Type="Real64" Value="0.1"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="Env1_Depth" ID="{E2E158A5-5D29-453B-9529-25AB5B4E1A76}">
+				<GameParameter Name="White_Volume" ID="{26745E5A-AAF6-42C8-A779-4A5E6C13859A}">
 					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="Color" Type="int16" Value="27"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="Env2_Rate" ID="{87F5DD84-135C-4CD9-B17F-6EF77B741F35}">
+				<GameParameter Name="Magenta_Volume" ID="{967331CB-84F1-447F-81B6-E0EC3FF6FDD2}">
 					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0.1"/>
-						<Property Name="Min" Type="Real64" Value="0.1"/>
+						<Property Name="Color" Type="int16" Value="24"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="Env2_Depth" ID="{957D48A8-BECB-4835-AE18-9A4DE23A6EED}">
+				<GameParameter Name="Cyan_Volume" ID="{7B2294FD-6947-45EC-A532-03BD10E87BD6}">
 					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="Color" Type="int16" Value="16"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="Env1_PWM_DutyCycle" ID="{136F8D0A-A934-4382-918F-90ADD3BDA73B}"/>
-				<GameParameter Name="Env2_PWM_DutyCycle" ID="{38B7BF66-571F-478D-9AAB-1CF207B1AC94}"/>
-				<GameParameter Name="Env1_Waveform" ID="{FD42C024-8A83-4BF6-86BC-0B00E33B4922}">
+				<GameParameter Name="Yellow_Volume" ID="{B51B2FB4-487C-41F8-B957-E3F52A30E101}">
 					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Env2_Waveform" ID="{3D25F32D-669A-40F3-965B-388D29F6CB5B}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Env1_Smoothing" ID="{63C2990A-09D4-4591-8C2A-DE60A4517E8C}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Env2_Smoothing" ID="{A15AE763-3565-4A77-BC4A-F30D9D3F5A3F}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
+						<Property Name="Color" Type="int16" Value="19"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 				</GameParameter>
 			</ChildrenList>

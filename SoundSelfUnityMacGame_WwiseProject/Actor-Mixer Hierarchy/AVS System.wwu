@@ -3,287 +3,2168 @@
 	<AudioObjects>
 		<WorkUnit Name="AVS System" ID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}" PersistMode="Standalone">
 			<ChildrenList>
-				<BlendContainer Name="AVS System_Blend Container" ID="{2E1A80E5-F62F-4337-A21A-C15DDFD93874}" ShortID="248889601">
+				<SwitchContainer Name="AVS System_ToneGenerators" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" ShortID="278948007">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="27"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="Dark" ID="{50F6F5D3-7075-4115-A280-D55BCE8717CA}" WorkUnitID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}"/>
+						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="AVSSystemSwitchGroup" ID="{5859C129-0C1A-4429-8F42-257BBDE0FE95}" WorkUnitID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}"/>
+						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Sound Name="BlueToneGenerator" ID="{5D7E1AD8-FC97-4D6B-9EB3-E14CCF85CA70}" ShortID="269727612">
+						<Sound Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}" ShortID="926597878">
 							<PropertyList>
-								<Property Name="Color" Type="int16" Value="1"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="OverrideColor" Type="bool" Value="True"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-12</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<SourcePlugin Name="Tone Generator" ID="{615F6A77-4603-46F6-8A54-97A177888ED2}" ShortID="433732206" PluginName="Wwise Tone Generator" CompanyID="0" PluginID="102">
-									<PropertyList>
-										<Property Name="FixDur" Type="Real32" Value="10"/>
-										<Property Name="StartFreq" Type="Real32" Value="19700"/>
-										<Property Name="WaveGain" Type="Real32" Value="0"/>
-									</PropertyList>
+								<AudioFileSource Name="01-mindplace_reference-consolidated" ID="{FC4E5971-5E06-43A9-9875-D99A5217F6B5}">
 									<Language>SFX</Language>
-								</SourcePlugin>
-							</ChildrenList>
-							<ObjectLists>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{416657CD-57BF-424C-989C-6409501B775B}" ShortID="594712298">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="Volume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="BlueSineVolume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{39716B31-0EB6-4297-8E68-37807BB26418}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
-							<ActiveSourceList>
-								<ActiveSource Name="Tone Generator" ID="{615F6A77-4603-46F6-8A54-97A177888ED2}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="GreenToneGenerator" ID="{9A0E5B1F-A946-4560-9FE2-20E9F6469EAC}" ShortID="925450984">
-							<PropertyList>
-								<Property Name="Color" Type="int16" Value="4"/>
-								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="OverrideColor" Type="bool" Value="True"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-12</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<SourcePlugin Name="Tone Generator" ID="{63562EB3-6AA8-4ECD-8D6B-BF6228F5F543}" ShortID="207602731" PluginName="Wwise Tone Generator" CompanyID="0" PluginID="102">
-									<PropertyList>
-										<Property Name="FixDur" Type="Real32" Value="10"/>
-										<Property Name="StartFreq" Type="Real32" Value="19200"/>
-										<Property Name="WaveGain" Type="Real32" Value="0"/>
-									</PropertyList>
-									<Language>SFX</Language>
-								</SourcePlugin>
-							</ChildrenList>
-							<ObjectLists>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{7ECB8F2E-5311-4509-9ED6-F5794F71DABE}" ShortID="433154035">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="Volume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="GreenSineVolume" ID="{EAE7C77B-54A0-4B1A-91EA-7CDC57A11ED3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{E7E1A419-CB26-4A0B-AA74-5CE1D74F40ED}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
-							<ActiveSourceList>
-								<ActiveSource Name="Tone Generator" ID="{63562EB3-6AA8-4ECD-8D6B-BF6228F5F543}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="RedToneGenerator" ID="{8E78B50C-51DA-44E5-A34A-61125E071F00}" ShortID="488834113">
-							<PropertyList>
-								<Property Name="Color" Type="int16" Value="10"/>
-								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="OverrideColor" Type="bool" Value="True"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-12</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<SourcePlugin Name="Tone Generator" ID="{E2944FDD-CF6F-4857-BEDD-5F63D87143C1}" ShortID="727631099" PluginName="Wwise Tone Generator" CompanyID="0" PluginID="102">
-									<PropertyList>
-										<Property Name="FixDur" Type="Real32" Value="10"/>
-										<Property Name="StartFreq" Type="Real32" Value="18700"/>
-										<Property Name="WaveGain" Type="Real32" Value="0"/>
-									</PropertyList>
-									<Language>SFX</Language>
-								</SourcePlugin>
-							</ChildrenList>
-							<ObjectLists>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{0C92D13F-3412-465B-BCC0-62FE855A5F49}" ShortID="979003330">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="Volume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="RedSineVolume" ID="{DD299D73-B41F-4BF1-8A8C-7AF77A109AFD}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{0F7C2A6D-6606-4D43-BE0E-B8E96E28FA0C}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
-							<ActiveSourceList>
-								<ActiveSource Name="Tone Generator" ID="{E2944FDD-CF6F-4857-BEDD-5F63D87143C1}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="ReferenceTone" ID="{F02A5802-B69A-4FAF-8B7E-1DB467C283AB}" ShortID="51538592">
-							<PropertyList>
-								<Property Name="Color" Type="int16" Value="25"/>
-								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="OverrideColor" Type="bool" Value="True"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="mindplace_reference" ID="{69DE4D54-45DC-49B6-94B1-75DB0C0DF9D0}">
-									<Language>SFX</Language>
-									<AudioFile>mindplace_reference.wav</AudioFile>
+									<AudioFile>01-mindplace_reference-consolidated.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="742535958"/>
+										<MediaID ID="320830160"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="mindplace_reference" ID="{69DE4D54-45DC-49B6-94B1-75DB0C0DF9D0}" Platform="Linked"/>
+								<ActiveSource Name="01-mindplace_reference-consolidated" ID="{FC4E5971-5E06-43A9-9875-D99A5217F6B5}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="RED" ID="{B2CD6E4D-DAB1-4BB2-AB6C-D395E4462166}" ShortID="484346908">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="10"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="Sine" ID="{BC069DE8-4CFD-442B-85A6-3475BBE41BCA}" ShortID="528898275" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+									<PropertyList>
+										<Property Name="SineFrequency" Type="Real32" Value="18700"/>
+										<Property Name="SineGain" Type="Real32" Value="-10"/>
+									</PropertyList>
+									<Language>SFX</Language>
+								</SourcePlugin>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{2255018F-3410-43AC-8D4B-A16EB27B86D8}" ShortID="107535952">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Red_Volume" ID="{DD299D73-B41F-4BF1-8A8C-7AF77A109AFD}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{E741DA76-4871-4892-9EA0-E0C28B63CB00}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Sine" ID="{BC069DE8-4CFD-442B-85A6-3475BBE41BCA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="BLUE" ID="{22C86544-F6F8-4834-9E67-DB4DD33D2596}" ShortID="1041717148">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="1"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="Sine" ID="{BB69EF03-B14F-4F96-8EC3-F930AA9B5971}" ShortID="677203049" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+									<PropertyList>
+										<Property Name="SineFrequency" Type="Real32" Value="19700"/>
+										<Property Name="SineGain" Type="Real32" Value="-8"/>
+									</PropertyList>
+									<Language>SFX</Language>
+								</SourcePlugin>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{A7F8EFC4-6E9D-4905-ABD5-8D7D4238B417}" ShortID="283219673">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Blue_Volume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{431540F2-4913-463B-84AA-09D86BB9D96C}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Sine" ID="{BB69EF03-B14F-4F96-8EC3-F930AA9B5971}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="GREEN" ID="{7B5331D8-55F1-4419-8179-6F213432AEAA}" ShortID="1018739132">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="Sine" ID="{67825064-66AD-42FF-B575-D84224FA67C0}" ShortID="160636894" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+									<PropertyList>
+										<Property Name="SineFrequency" Type="Real32" Value="19200"/>
+										<Property Name="SineGain" Type="Real32" Value="-9"/>
+									</PropertyList>
+									<Language>SFX</Language>
+								</SourcePlugin>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{18AF7571-BB7F-436F-9933-9E14040CAB6F}" ShortID="674663405">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Green_Volume" ID="{EAE7C77B-54A0-4B1A-91EA-7CDC57A11ED3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{E3AC5493-3DD2-46AB-9F69-72B052924F8D}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Sine" ID="{67825064-66AD-42FF-B575-D84224FA67C0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<BlendContainer Name="CYAN" ID="{ECFDD09B-0B94-40AC-9261-65AF54558654}" ShortID="954868383">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+								<Property Name="Color" Type="int16" Value="16"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="BLUE" ID="{D97F9AF6-BCDB-49A4-87B1-5B4F84F6EC78}" ShortID="895862979">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="1"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{5746A5AF-FF8D-4AAE-B1E9-070709A81ADD}" ShortID="160592719" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="19700"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{5746A5AF-FF8D-4AAE-B1E9-070709A81ADD}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="GREEN" ID="{EF768B45-E6C6-42C6-9337-49FA3360A2D8}" ShortID="379790201">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{14F78CEC-82FC-48DC-B0B5-192F553EC19D}" ShortID="391698222" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="19200"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{14F78CEC-82FC-48DC-B0B5-192F553EC19D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{F9E4F975-1CE5-460C-8923-A0D043DE50C2}" ShortID="747504519">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Cyan_Volume" ID="{7B2294FD-6947-45EC-A532-03BD10E87BD6}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{AFB0C6F2-AE0D-4C6B-9C1D-C2820C95768A}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="MAGENTA" ID="{55E6F235-9DFE-47EA-8E64-13ABDD11D626}" ShortID="798441853">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+								<Property Name="Color" Type="int16" Value="24"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="RED" ID="{AF3E5746-B2C3-4F27-A13E-09C64AD2D75C}" ShortID="224614380">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="10"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{A3D4F1B8-F71E-46E0-A50B-F2793CDAAC90}" ShortID="304266702" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="18700"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{A3D4F1B8-F71E-46E0-A50B-F2793CDAAC90}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="BLUE" ID="{689B8010-2B46-4540-950F-12F6FE3EA2C8}" ShortID="955977569">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="1"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{C987426E-0618-4F62-A9E2-2E7FFEA6E59D}" ShortID="80541619" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="19700"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{C987426E-0618-4F62-A9E2-2E7FFEA6E59D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{104D4E49-ED0F-4AFF-BD69-00D248B8AF2F}" ShortID="157598907">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Magenta_Volume" ID="{967331CB-84F1-447F-81B6-E0EC3FF6FDD2}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{DEEFC65D-28E2-4DBC-8CBB-6625C1AEF47F}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="WHITE" ID="{7A38FEFF-63E1-4048-95CF-A4477C03F441}" ShortID="590508013">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="BLUE" ID="{FE440152-57A4-4DF0-843E-D95EFB14B025}" ShortID="289054183">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="1"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{5113C4D2-44AA-4274-8102-C9FF322E9800}" ShortID="38068822" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="19700"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{5113C4D2-44AA-4274-8102-C9FF322E9800}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="RED" ID="{56B71CC8-1DFA-4280-81B7-A22E69018991}" ShortID="720693133">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="10"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{5B0300A8-F237-4EAD-BD36-8CF655E54B0C}" ShortID="878941346" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="18700"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{5B0300A8-F237-4EAD-BD36-8CF655E54B0C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="GREEN" ID="{AE2F9589-D04E-42E6-BC5C-73EB5963A228}" ShortID="7592305">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{F9176BF9-5CAA-4DCE-83A8-B8CAD34E4965}" ShortID="963296999" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="19200"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{F9176BF9-5CAA-4DCE-83A8-B8CAD34E4965}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{FFBC96DA-88C1-4459-B877-B747E022FEE5}" ShortID="535228408">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="White_Volume" ID="{26745E5A-AAF6-42C8-A779-4A5E6C13859A}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{E6FBAC26-CEE6-4EEA-8E6C-CA5DA366139E}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="YELLOW" ID="{CE2C95A9-A235-46A2-BA17-B6D0584703DF}" ShortID="1051552906">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="19"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="GREEN" ID="{25813450-A05C-47F6-BA23-C34C12891687}" ShortID="212219663">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="4"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{A40455C2-8A1C-49ED-9086-DFC0DD5EB029}" ShortID="911761452" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="19200"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{A40455C2-8A1C-49ED-9086-DFC0DD5EB029}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="RED" ID="{438771FF-D047-4843-B2A8-978090EFF903}" ShortID="563541592">
+									<PropertyList>
+										<Property Name="Color" Type="int16" Value="10"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideColor" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<SourcePlugin Name="Sine" ID="{BCEC49F7-AAFE-4360-9EFB-9E05B6D6AF47}" ShortID="774812603" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+											<PropertyList>
+												<Property Name="SineFrequency" Type="Real32" Value="18700"/>
+											</PropertyList>
+											<Language>SFX</Language>
+										</SourcePlugin>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Sine" ID="{BCEC49F7-AAFE-4360-9EFB-9E05B6D6AF47}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{051E3C37-44A2-4113-9008-4CEE63C12267}" ShortID="466616886">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Yellow_Volume" ID="{B51B2FB4-487C-41F8-B957-E3F52A30E101}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{654F82EE-0422-4203-8399-11E2EBDA682E}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
 					</ChildrenList>
 					<ObjectLists>
-						<ObjectList Name="Effects">
+						<ObjectList Name="RTPC">
 							<Reference>
 								<Local>
-									<EffectSlot Name="" ID="{5C084E6B-1F8B-4F65-ADA0-AF98AAC77B35}" ShortID="363560635">
+									<RTPC Name="" ID="{61C0C95B-7304-4AB2-A613-EDD809031CDA}" ShortID="307580564">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Volume"/>
+										</PropertyList>
 										<ReferenceList>
-											<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-												<ObjectRef Name="AVS_Modulation1" ID="{84315F11-7E74-464A-8F39-9D060D047943}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVSMasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{E231EFCA-9992-47B8-8586-09A1BB38F646}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
 											</Reference>
 										</ReferenceList>
-									</EffectSlot>
-								</Local>
-							</Reference>
-							<Reference>
-								<Local>
-									<EffectSlot Name="" ID="{E4A64059-18CB-4CE3-BBEA-4C7D07B088E9}" ShortID="356520178">
-										<ReferenceList>
-											<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-												<ObjectRef Name="AVS_Modulation2" ID="{A06F7E3C-66B0-4524-9E21-C55A7B40A7B9}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-											</Reference>
-										</ReferenceList>
-									</EffectSlot>
+									</RTPC>
 								</Local>
 							</Reference>
 						</ObjectList>
 					</ObjectLists>
-				</BlendContainer>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="MAGENTA" ID="{55E6F235-9DFE-47EA-8E64-13ABDD11D626}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="BLUE" ID="{22C86544-F6F8-4834-9E67-DB4DD33D2596}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="RED" ID="{B2CD6E4D-DAB1-4BB2-AB6C-D395E4462166}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="CYAN" ID="{ECFDD09B-0B94-40AC-9261-65AF54558654}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="YELLOW" ID="{CE2C95A9-A235-46A2-BA17-B6D0584703DF}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}"/>
+								<PropertyList>
+									<Property Name="ContinuePlay" Type="bool" Value="True"/>
+								</PropertyList>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="GREEN" ID="{7B5331D8-55F1-4419-8179-6F213432AEAA}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="WHITE" ID="{7A38FEFF-63E1-4048-95CF-A4477C03F441}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="Blue" ID="{54E4E728-45D8-4BEB-91C9-6A3215709700}"/>
+								<ItemList>
+									<ItemRef Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}"/>
+									<ItemRef Name="BLUE" ID="{22C86544-F6F8-4834-9E67-DB4DD33D2596}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Green" ID="{870EA346-4320-433D-9FDD-D5DB6C6C4287}"/>
+								<ItemList>
+									<ItemRef Name="GREEN" ID="{7B5331D8-55F1-4419-8179-6F213432AEAA}"/>
+									<ItemRef Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Cyan" ID="{37A0D14E-F024-46D2-8CD7-FECE735A4F60}"/>
+								<ItemList>
+									<ItemRef Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}"/>
+									<ItemRef Name="CYAN" ID="{ECFDD09B-0B94-40AC-9261-65AF54558654}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Red" ID="{DB8D7A55-1706-468E-B676-69DFF21C36A1}"/>
+								<ItemList>
+									<ItemRef Name="RED" ID="{B2CD6E4D-DAB1-4BB2-AB6C-D395E4462166}"/>
+									<ItemRef Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="White" ID="{010B368D-D383-4C5A-B686-0F4D91BC258C}"/>
+								<ItemList>
+									<ItemRef Name="WHITE" ID="{7A38FEFF-63E1-4048-95CF-A4477C03F441}"/>
+									<ItemRef Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Magenta" ID="{C914CFAB-5E6A-4276-BBAF-6CC8DDE4965B}"/>
+								<ItemList>
+									<ItemRef Name="MAGENTA" ID="{55E6F235-9DFE-47EA-8E64-13ABDD11D626}"/>
+									<ItemRef Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Yellow" ID="{0FD459C1-8EB0-4259-AA98-F39929349DFC}"/>
+								<ItemList>
+									<ItemRef Name="YELLOW" ID="{CE2C95A9-A235-46A2-BA17-B6D0584703DF}"/>
+									<ItemRef Name="01-mindplace_reference_6s" ID="{75A082C6-88D3-4254-8BE4-34E358745B1D}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
+				<SwitchContainer Name="AVS System_AudioSamples" ID="{9AAEAD60-FC30-4518-81FF-14551B96A4A1}" ShortID="405357419">
+					<PropertyList>
+						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+						<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="Dark" ID="{50F6F5D3-7075-4115-A280-D55BCE8717CA}" WorkUnitID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="SwitchGroupOrStateGroup">
+							<ObjectRef Name="AVSSystemSwitchGroup" ID="{5859C129-0C1A-4429-8F42-257BBDE0FE95}" WorkUnitID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<BlendContainer Name="BLUE" ID="{80328695-538B-4497-8963-C86B6772D1CC}" ShortID="423762367">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+								<Property Name="Color" Type="int16" Value="1"/>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="New Attenuation" ID="{E1F78578-5C8C-4F02-B8BC-A49937FF89E0}" WorkUnitID="{CEF1AFF5-B927-4549-B160-B32996F48B24}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="04-mindplace_blue-consolidated" ID="{6F495FC6-F2D5-490E-874B-B141450B75FB}" ShortID="97708746">
+									<PropertyList>
+										<Property Name="3DPosition" Type="int16" Value="2"/>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Attenuation">
+											<Custom>
+												<Attenuation Name="Attenuation (Custom)" ID="{AE206A41-D78D-4636-B653-527F848A6AFA}" ShortID="543712785">
+													<CurveUsageInfoList>
+														<VolumeDryUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="Custom">
+																<Curve Name="VolumeDry" ID="{8EF059AC-78D7-4D5F-8968-F58345016C03}">
+																	<PropertyList>
+																		<Property Name="Flags" Type="int32" Value="3"/>
+																	</PropertyList>
+																	<PointList>
+																		<Point>
+																			<XPos>0</XPos>
+																			<YPos>0</YPos>
+																			<Flags>5</Flags>
+																		</Point>
+																		<Point>
+																			<XPos>100</XPos>
+																			<YPos>-200</YPos>
+																			<Flags>37</Flags>
+																		</Point>
+																	</PointList>
+																</Curve>
+															</CurveUsageInfo>
+														</VolumeDryUsage>
+														<VolumeWetGameUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry"/>
+														</VolumeWetGameUsage>
+														<VolumeWetUserUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseVolumeDry"/>
+														</VolumeWetUserUsage>
+														<LowPassFilterUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+														</LowPassFilterUsage>
+														<HighPassFilterUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+														</HighPassFilterUsage>
+														<SpreadUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+														</SpreadUsage>
+														<FocusUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="None"/>
+														</FocusUsage>
+														<ObstructionVolumeUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</ObstructionVolumeUsage>
+														<ObstructionLPFUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</ObstructionLPFUsage>
+														<ObstructionHPFUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</ObstructionHPFUsage>
+														<OcclusionVolumeUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</OcclusionVolumeUsage>
+														<OcclusionLPFUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</OcclusionLPFUsage>
+														<OcclusionHPFUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</OcclusionHPFUsage>
+														<DiffractionVolumeUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</DiffractionVolumeUsage>
+														<DiffractionLPFUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</DiffractionLPFUsage>
+														<DiffractionHPFUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</DiffractionHPFUsage>
+														<TransmissionVolumeUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</TransmissionVolumeUsage>
+														<TransmissionLPFUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</TransmissionLPFUsage>
+														<TransmissionHPFUsage>
+															<CurveUsageInfo Platform="Linked" CurveToUse="UseProject"/>
+														</TransmissionHPFUsage>
+													</CurveUsageInfoList>
+												</Attenuation>
+											</Custom>
+										</Reference>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="04-mindplace_blue-consolidated" ID="{734FD8E3-64D9-4710-9A19-564542024E79}">
+											<Language>SFX</Language>
+											<AudioFile>04-mindplace_blue-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="132462253"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<PositioningInfo>
+										<Panner Name="" ID="{580B6885-2774-4871-A663-A565C0D701CC}">
+											<PropertyList>
+												<Property Name="PanY" Type="Real64" Value="4.9960036108132E-16"/>
+											</PropertyList>
+										</Panner>
+										<Position Name="" ID="{989BD9BA-805D-49BA-A791-83A5CB1109AD}">
+											<PropertyList>
+												<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+												<Property Name="PlayMechanismTransitionTime" Type="Real64" Value="0"/>
+											</PropertyList>
+											<ChildrenList>
+												<Path2D Name="04-mindplace_blue-consolidated_Path" ID="{852D6A9F-00A1-461C-84A6-1E1B4EC7FA47}">
+													<PropertyList>
+														<Property Name="Duration" Type="Uint32" Value="500"/>
+														<Property Name="RandomX" Type="Real64" Value="42"/>
+													</PropertyList>
+													<PointList>
+														<Point>
+															<XPos>-100</XPos>
+															<YPos>1.97741</YPos>
+															<Flags>12</Flags>
+															<Time>0</Time>
+														</Point>
+													</PointList>
+												</Path2D>
+												<Path2D Name="04-mindplace_blue-consolidated_Path_01" ID="{186938A1-85C7-42B7-B343-82BF7B0650A0}">
+													<PropertyList>
+														<Property Name="Duration" Type="Uint32" Value="1000"/>
+													</PropertyList>
+													<PointList>
+														<Point>
+															<XPos>100</XPos>
+															<YPos>0.84746</YPos>
+															<Flags>12</Flags>
+															<Time>0</Time>
+														</Point>
+													</PointList>
+												</Path2D>
+											</ChildrenList>
+										</Position>
+									</PositioningInfo>
+									<ActiveSourceList>
+										<ActiveSource Name="04-mindplace_blue-consolidated" ID="{734FD8E3-64D9-4710-9A19-564542024E79}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="01-mindplace_reference-consolidated" ID="{0D99B768-1F8D-4577-9EAD-FC86C98D2F14}" ShortID="794933714">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="01-mindplace_reference-consolidated" ID="{5A17417B-4150-42A6-B6B8-4451FF52B9EB}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>01-mindplace_reference-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767632438"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="01-mindplace_reference-consolidated" ID="{5A17417B-4150-42A6-B6B8-4451FF52B9EB}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{039099E7-2F1C-43F5-A75C-98CAC1C9ADA1}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-3.77475828372553E-15"/>
+									</PropertyList>
+								</Panner>
+								<Position Name="" ID="{F0469EBF-5FC2-476C-A222-AA0F724FFB5A}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{FED3C4A4-4A6D-4097-8EF0-DEA2FB79146F}" ShortID="528480307">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Blue_Volume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{26C6118C-4EF3-4E53-BB47-9C8045E16CE1}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="CYAN" ID="{34BC9C14-129C-4D12-ABAC-9BE928AE68C7}" ShortID="242350369">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+								<Property Name="Color" Type="int16" Value="16"/>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="New Attenuation" ID="{E1F78578-5C8C-4F02-B8BC-A49937FF89E0}" WorkUnitID="{CEF1AFF5-B927-4549-B160-B32996F48B24}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="01-mindplace_reference-consolidated" ID="{E8465027-2EA8-4110-A637-AEEBCEAEB269}" ShortID="218977654">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="01-mindplace_reference-consolidated" ID="{731FDED5-16B2-4D54-BAE2-CD589411704A}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>01-mindplace_reference-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767632438"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="01-mindplace_reference-consolidated" ID="{731FDED5-16B2-4D54-BAE2-CD589411704A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="02-mindplace_green-consolidated" ID="{31E5A166-DDDA-4171-9487-04EA2770B815}" ShortID="523640358">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="02-mindplace_green-consolidated" ID="{A73E98F7-B2E9-4955-8488-7B2DF0FB3F95}">
+											<Language>SFX</Language>
+											<AudioFile>02-mindplace_green-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="369092288"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="02-mindplace_green-consolidated" ID="{A73E98F7-B2E9-4955-8488-7B2DF0FB3F95}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="04-mindplace_blue-consolidated" ID="{41621454-2D9E-4CDE-AA70-3C2D3EBF7B09}" ShortID="744120396">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="04-mindplace_blue-consolidated" ID="{0D1DA66B-E41E-496C-A398-35F54E448F7A}">
+											<Language>SFX</Language>
+											<AudioFile>04-mindplace_blue-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="132462253"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="04-mindplace_blue-consolidated" ID="{0D1DA66B-E41E-496C-A398-35F54E448F7A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{062788CB-840E-422C-BCFD-8780B13F368C}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-3.77475828372553E-15"/>
+									</PropertyList>
+								</Panner>
+								<Position Name="" ID="{B1AD0B0F-0240-4621-AAA9-D61350DBC21E}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{B7F97969-1802-4937-A1C7-5DA3FF1DA430}" ShortID="734333604">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Cyan_Volume" ID="{7B2294FD-6947-45EC-A532-03BD10E87BD6}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{F33B2064-E236-40E5-94F9-8FF9C3DE10CA}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="GREEN" ID="{47746AC8-C355-4938-8A3A-63226F2EB403}" ShortID="265348243">
+							<PropertyList>
+								<Property Name="Color" Type="int16" Value="4"/>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="New Attenuation" ID="{E1F78578-5C8C-4F02-B8BC-A49937FF89E0}" WorkUnitID="{CEF1AFF5-B927-4549-B160-B32996F48B24}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="01-mindplace_reference-consolidated" ID="{D2D2AD10-8DF9-40A9-9F5E-B0237AD374AD}" ShortID="870926943">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="01-mindplace_reference-consolidated" ID="{4A8AD6DB-A7D7-4551-95B2-301E0EED9D20}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>01-mindplace_reference-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767632438"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="01-mindplace_reference-consolidated" ID="{4A8AD6DB-A7D7-4551-95B2-301E0EED9D20}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="02-mindplace_green-consolidated" ID="{3A365EF0-53EF-410F-AD30-2ABB2DCBD8BC}" ShortID="321325012">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>4</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="02-mindplace_green-consolidated" ID="{186E2286-6A00-4241-9DB6-3C3094889DAD}">
+											<Language>SFX</Language>
+											<AudioFile>02-mindplace_green-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="369092288"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="02-mindplace_green-consolidated" ID="{186E2286-6A00-4241-9DB6-3C3094889DAD}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{BC400447-D2B4-415B-B3B8-3274A6268489}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-3.77475828372553E-15"/>
+									</PropertyList>
+								</Panner>
+								<Position Name="" ID="{C7DDE7FF-7AC6-43CC-A06E-86708963CF93}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{A60EB262-0E8D-444C-A877-F3D51FB1045D}" ShortID="887629206">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Green_Volume" ID="{EAE7C77B-54A0-4B1A-91EA-7CDC57A11ED3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{102932D9-08E0-484D-B586-585EC11C9B2C}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="MAGENTA" ID="{44ECC0B3-615C-4B5E-BDA4-BB33370B69CD}" ShortID="417397530">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+								<Property Name="Color" Type="int16" Value="24"/>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="New Attenuation" ID="{E1F78578-5C8C-4F02-B8BC-A49937FF89E0}" WorkUnitID="{CEF1AFF5-B927-4549-B160-B32996F48B24}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="04-mindplace_blue-consolidated" ID="{3DFCFE17-9ADD-437F-A343-1A1E151C72F6}" ShortID="783056377">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="04-mindplace_blue-consolidated" ID="{2FDAA725-10CF-4AFF-AF29-731C0C7261A9}">
+											<Language>SFX</Language>
+											<AudioFile>04-mindplace_blue-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="132462253"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="04-mindplace_blue-consolidated" ID="{2FDAA725-10CF-4AFF-AF29-731C0C7261A9}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="01-mindplace_reference-consolidated" ID="{69802893-9C43-4119-BC1A-6B9F1189B715}" ShortID="669047733">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="01-mindplace_reference-consolidated" ID="{2301B190-538E-4319-AB07-FB9DB5021534}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>01-mindplace_reference-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767632438"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="01-mindplace_reference-consolidated" ID="{2301B190-538E-4319-AB07-FB9DB5021534}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="03-mindplace_red-consolidated" ID="{2CC390F2-6556-464A-A47E-31FB1B4603F5}" ShortID="323359714">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="03-mindplace_red-consolidated" ID="{28AFBC17-BB4F-4FEF-8126-012CB0B8E56E}">
+											<Language>SFX</Language>
+											<AudioFile>03-mindplace_red-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="926410557"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="03-mindplace_red-consolidated" ID="{28AFBC17-BB4F-4FEF-8126-012CB0B8E56E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{351C419B-01A6-45C3-8699-700020962D96}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-3.77475828372553E-15"/>
+									</PropertyList>
+								</Panner>
+								<Position Name="" ID="{4FDDBD99-9CD6-42D4-AD57-0992C05C9BF4}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{32365F97-CBA2-412A-AF2C-F0563CD49934}" ShortID="874527144">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Magenta_Volume" ID="{967331CB-84F1-447F-81B6-E0EC3FF6FDD2}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{9F56CE4D-941C-4D60-A30C-B9639D476D3C}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="RED" ID="{D78584C3-46A9-4C65-AB24-6467667FA854}" ShortID="416181272">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+								<Property Name="Color" Type="int16" Value="10"/>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="New Attenuation" ID="{E1F78578-5C8C-4F02-B8BC-A49937FF89E0}" WorkUnitID="{CEF1AFF5-B927-4549-B160-B32996F48B24}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="03-mindplace_red-consolidated" ID="{EC526E17-8493-40BE-99B1-D837483BF78A}" ShortID="659028980">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="03-mindplace_red-consolidated" ID="{2B137218-1B77-42D3-B7B4-BF8A81869A3B}">
+											<Language>SFX</Language>
+											<AudioFile>03-mindplace_red-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="926410557"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="03-mindplace_red-consolidated" ID="{2B137218-1B77-42D3-B7B4-BF8A81869A3B}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="01-mindplace_reference-consolidated" ID="{290973EA-69F0-4192-9A38-879EE22A4BFC}" ShortID="444510120">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="01-mindplace_reference-consolidated" ID="{B9050265-82C3-427E-918B-36F54D3D8A6E}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>01-mindplace_reference-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767632438"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="01-mindplace_reference-consolidated" ID="{B9050265-82C3-427E-918B-36F54D3D8A6E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{C229B4CC-D6AB-4853-9BA8-4A905C3B7844}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-3.77475828372553E-15"/>
+									</PropertyList>
+								</Panner>
+								<Position Name="" ID="{09B8102F-C960-43EF-909E-999F976CE23D}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{241EAB54-62E9-433B-9E1E-CA7A85B3D169}" ShortID="801852331">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Red_Volume" ID="{DD299D73-B41F-4BF1-8A8C-7AF77A109AFD}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{27C11B87-9917-4B28-A796-2B0C588DC1A8}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="WHITE" ID="{CBE50F73-B30F-418F-9010-8928D91235CA}" ShortID="1064880846">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+								<Property Name="Color" Type="int16" Value="27"/>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
+								<Property Name="OverrideColor" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="New Attenuation" ID="{E1F78578-5C8C-4F02-B8BC-A49937FF89E0}" WorkUnitID="{CEF1AFF5-B927-4549-B160-B32996F48B24}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="03-mindplace_red-consolidated" ID="{90DD1B82-A203-4D0C-876D-CACD759D1749}" ShortID="1035171088">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="03-mindplace_red-consolidated" ID="{2D90FB72-3AEC-4E47-8615-96359B5D0746}">
+											<Language>SFX</Language>
+											<AudioFile>03-mindplace_red-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="926410557"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="03-mindplace_red-consolidated" ID="{2D90FB72-3AEC-4E47-8615-96359B5D0746}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="01-mindplace_reference-consolidated" ID="{69634919-0A50-4B46-83B6-8B0BCC63CEB4}" ShortID="978700601">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="01-mindplace_reference-consolidated" ID="{7613D24E-7D4E-42F1-B0DB-E0360FE580F1}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>01-mindplace_reference-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767632438"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="01-mindplace_reference-consolidated" ID="{7613D24E-7D4E-42F1-B0DB-E0360FE580F1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="02-mindplace_green-consolidated" ID="{40FAC7B6-E8F9-4CC9-AA90-E55B1C786CAC}" ShortID="763587896">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="02-mindplace_green-consolidated" ID="{0D38E7BF-212D-49F4-855F-C8173143A7C2}">
+											<Language>SFX</Language>
+											<AudioFile>02-mindplace_green-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="369092288"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="02-mindplace_green-consolidated" ID="{0D38E7BF-212D-49F4-855F-C8173143A7C2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="04-mindplace_blue-consolidated" ID="{1798B946-1E9B-416A-B193-73C345C7C808}" ShortID="364918264">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="04-mindplace_blue-consolidated" ID="{F4EA3879-9426-4743-9964-5008744B1D5F}">
+											<Language>SFX</Language>
+											<AudioFile>04-mindplace_blue-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="132462253"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="04-mindplace_blue-consolidated" ID="{F4EA3879-9426-4743-9964-5008744B1D5F}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{6593C27D-F7FA-4BA9-B016-E912F9106746}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-3.77475828372553E-15"/>
+									</PropertyList>
+								</Panner>
+								<Position Name="" ID="{20E13095-B328-4AD9-9DC1-5E953AFF2555}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{06EAB6DB-1B95-49AC-87F8-ADA9A993C4FB}" ShortID="41813659">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="White_Volume" ID="{26745E5A-AAF6-42C8-A779-4A5E6C13859A}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{3B5C6F32-0C8F-4F99-B088-9DE63CB00B52}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+						<BlendContainer Name="YELLOW" ID="{F09A21EE-6DD6-4700-80ED-BF6A89BA1A93}" ShortID="141589209">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+								<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+								<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="New Attenuation" ID="{E1F78578-5C8C-4F02-B8BC-A49937FF89E0}" WorkUnitID="{CEF1AFF5-B927-4549-B160-B32996F48B24}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="03-mindplace_red-consolidated" ID="{571136A4-2533-4746-AE8B-00F98D051FF7}" ShortID="370722180">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="03-mindplace_red-consolidated" ID="{EADC05A2-4243-4A1C-AEDD-AD7A90DC375C}">
+											<Language>SFX</Language>
+											<AudioFile>03-mindplace_red-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="926410557"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="03-mindplace_red-consolidated" ID="{EADC05A2-4243-4A1C-AEDD-AD7A90DC375C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="01-mindplace_reference-consolidated" ID="{AD9C571A-C975-4950-9655-F21D89651EDF}" ShortID="313228348">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="01-mindplace_reference-consolidated" ID="{DB98CEFE-3B9F-47EC-BD00-EA007D5626C3}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>01-mindplace_reference-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767632438"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="01-mindplace_reference-consolidated" ID="{DB98CEFE-3B9F-47EC-BD00-EA007D5626C3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="02-mindplace_green-consolidated" ID="{24F6B2C8-677B-4503-8E76-F7351CCC7FF4}" ShortID="756142744">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="02-mindplace_green-consolidated" ID="{C92806F5-E11E-4586-BD4F-13B1471E6C26}">
+											<Language>SFX</Language>
+											<AudioFile>02-mindplace_green-consolidated.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="369092288"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="02-mindplace_green-consolidated" ID="{C92806F5-E11E-4586-BD4F-13B1471E6C26}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{EAD9B603-7CCB-4AE9-9E10-5542182DCB37}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-3.77475828372553E-15"/>
+									</PropertyList>
+								</Panner>
+								<Position Name="" ID="{8561DFB2-8000-4564-A3F0-721C1F3D5668}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{FDED6122-5697-4031-BB07-30A022C8FA6C}" ShortID="266918146">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Yellow_Volume" ID="{B51B2FB4-487C-41F8-B957-E3F52A30E101}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{13D87324-33B9-4FCC-9418-A15A568445C9}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</BlendContainer>
+					</ChildrenList>
+					<PositioningInfo>
+						<Panner Name="" ID="{77396DD7-C2FD-4134-B8EA-4DB679B22C79}">
+							<PropertyList>
+								<Property Name="PanY" Type="Real64" Value="1.33226762955019E-15"/>
+							</PropertyList>
+						</Panner>
+					</PositioningInfo>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{BB23825E-00EE-4F3F-8AAD-23EDC4D78352}" ShortID="973554601">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Volume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVSMasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{AFF8A999-BE2C-4B93-AAAB-D42A6C19AB2A}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+					<GroupingInfo>
+						<GroupingBehaviorList>
+							<GroupingBehavior>
+								<ItemRef Name="CYAN" ID="{34BC9C14-129C-4D12-ABAC-9BE928AE68C7}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="WHITE" ID="{CBE50F73-B30F-418F-9010-8928D91235CA}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="BLUE" ID="{80328695-538B-4497-8963-C86B6772D1CC}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="MAGENTA" ID="{44ECC0B3-615C-4B5E-BDA4-BB33370B69CD}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="RED" ID="{D78584C3-46A9-4C65-AB24-6467667FA854}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="GREEN" ID="{47746AC8-C355-4938-8A3A-63226F2EB403}"/>
+							</GroupingBehavior>
+							<GroupingBehavior>
+								<ItemRef Name="YELLOW" ID="{F09A21EE-6DD6-4700-80ED-BF6A89BA1A93}"/>
+							</GroupingBehavior>
+						</GroupingBehaviorList>
+						<GroupingList>
+							<Grouping>
+								<SwitchRef Name="Blue" ID="{54E4E728-45D8-4BEB-91C9-6A3215709700}"/>
+								<ItemList>
+									<ItemRef Name="BLUE" ID="{80328695-538B-4497-8963-C86B6772D1CC}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Green" ID="{870EA346-4320-433D-9FDD-D5DB6C6C4287}"/>
+								<ItemList>
+									<ItemRef Name="GREEN" ID="{47746AC8-C355-4938-8A3A-63226F2EB403}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Cyan" ID="{37A0D14E-F024-46D2-8CD7-FECE735A4F60}"/>
+								<ItemList>
+									<ItemRef Name="CYAN" ID="{34BC9C14-129C-4D12-ABAC-9BE928AE68C7}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Red" ID="{DB8D7A55-1706-468E-B676-69DFF21C36A1}"/>
+								<ItemList>
+									<ItemRef Name="RED" ID="{D78584C3-46A9-4C65-AB24-6467667FA854}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="White" ID="{010B368D-D383-4C5A-B686-0F4D91BC258C}"/>
+								<ItemList>
+									<ItemRef Name="WHITE" ID="{CBE50F73-B30F-418F-9010-8928D91235CA}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Magenta" ID="{C914CFAB-5E6A-4276-BBAF-6CC8DDE4965B}"/>
+								<ItemList>
+									<ItemRef Name="MAGENTA" ID="{44ECC0B3-615C-4B5E-BDA4-BB33370B69CD}"/>
+								</ItemList>
+							</Grouping>
+							<Grouping>
+								<SwitchRef Name="Yellow" ID="{0FD459C1-8EB0-4259-AA98-F39929349DFC}"/>
+								<ItemList>
+									<ItemRef Name="YELLOW" ID="{F09A21EE-6DD6-4700-80ED-BF6A89BA1A93}"/>
+								</ItemList>
+							</Grouping>
+						</GroupingList>
+					</GroupingInfo>
+				</SwitchContainer>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>
