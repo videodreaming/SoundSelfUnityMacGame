@@ -57,6 +57,20 @@
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
 				</GameParameter>
+				<GameParameter Name="Orange_Volume" ID="{3A0543D3-57F4-4FF6-B526-AA9622ECC949}">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="21"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="Indigo_Volume" ID="{98EEA7B6-90B0-4140-AA61-E2C853AB5696}">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="13"/>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

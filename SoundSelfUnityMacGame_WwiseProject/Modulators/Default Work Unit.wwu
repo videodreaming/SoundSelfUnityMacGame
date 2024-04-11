@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{B47702D1-19CF-4E70-B148-BA1D92505899}" SchemaVersion="119">
 	<Modulators>
-		<WorkUnit Name="Default Work Unit" ID="{B47702D1-19CF-4E70-B148-BA1D92505899}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{B47702D1-19CF-4E70-B148-BA1D92505899}" PersistMode="Standalone">
+			<ChildrenList>
+				<ModulatorLfo Name="Binaural_LFO" ID="{957E714B-ABFF-4A52-B161-B06A3F0A4ED2}" ShortID="690210361">
+					<PropertyList>
+						<Property Name="LfoDepth" Type="Real64" Value="0"/>
+						<Property Name="LfoFrequency" Type="Real64" Value="2.02"/>
+					</PropertyList>
+				</ModulatorLfo>
+				<ModulatorTime Name="New Modulator Time" ID="{D5D4C91A-1E5F-4417-80AD-52D75F42C22F}" ShortID="538079419">
+					<PropertyList>
+						<Property Name="TimeModDuration" Type="Real64" Value="10"/>
+						<Property Name="TimeModPlaybackRate" Type="Real64" Value="2.5"/>
+					</PropertyList>
+				</ModulatorTime>
+			</ChildrenList>
+		</WorkUnit>
 	</Modulators>
 </WwiseDocument>

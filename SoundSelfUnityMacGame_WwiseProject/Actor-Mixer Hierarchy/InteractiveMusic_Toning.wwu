@@ -30,6 +30,15 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="fundamental_[B]_toning_gentle" ID="{2F7FC8E1-BF1B-4CAA-B371-043109E4F756}" ShortID="242847593">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{265018D9-A737-4801-83F1-75985241B57D}"/>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>

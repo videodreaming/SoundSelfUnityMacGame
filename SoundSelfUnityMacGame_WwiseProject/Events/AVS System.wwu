@@ -3,18 +3,18 @@
 	<Events>
 		<WorkUnit Name="AVS System" ID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Play_AVS_Generator_SwitchContainer" ID="{00220282-804B-4918-8804-395C2EF3E676}">
+				<Event Name="Play_AVS_Switch_ToneGenerator" ID="{00220282-804B-4918-8804-395C2EF3E676}">
 					<ChildrenList>
 						<Action Name="" ID="{BB272041-6818-4C29-A57B-5211DC4644F2}" ShortID="394581980">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS System_ToneGenerators" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS System_Switch_ToneGenerator" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_AVS_AudioSamples_SwitchContainer" ID="{7F3FB78B-9C5B-4F1F-9609-DD77D7607143}">
+				<Event Name="Play_AVS_Switch_AudioSamples" ID="{7F3FB78B-9C5B-4F1F-9609-DD77D7607143}">
 					<ChildrenList>
 						<Action Name="" ID="{70E0255E-2580-4ABF-8847-047E1A6E687C}" ShortID="328494103">
 							<ReferenceList>
@@ -25,6 +25,18 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_AVS_Sequence_ToneGenerator" ID="{B528215A-1D41-402A-AA82-E87F1A7901EF}">
+					<ChildrenList>
+						<Action Name="" ID="{9FFA40A0-3A51-45F7-ACF2-23E37B931641}" ShortID="618779799">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS System_Sequence_ToneGenerator" ID="{42691E52-432F-4326-ABD8-733748322106}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_BreathCycle" ID="{846F2141-A906-4B8F-8C97-637A227867FA}"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

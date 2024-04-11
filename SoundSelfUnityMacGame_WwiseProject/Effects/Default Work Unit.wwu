@@ -11,9 +11,12 @@
 				</Effect>
 				<Effect Name="AVS_Modulation1" ID="{84315F11-7E74-464A-8F39-9D060D047943}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
-						<Property Name="ModDepth" Type="Real32" Value="0"/>
+						<Property Name="ModDepth" Type="Real32" Value="20"/>
 						<Property Name="ModFrequency" Type="Real32" Value="0.02"/>
-						<Property Name="ModPWM" Type="Real32" Value="0"/>
+						<Property Name="ModPWM" Type="Real32" Value="12.5"/>
+						<Property Name="ModPhaseMode" Type="int32" Value="2"/>
+						<Property Name="ModPhaseSpread" Type="Real32" Value="180"/>
+						<Property Name="ModWaveform" Type="int32" Value="2"/>
 					</PropertyList>
 				</Effect>
 				<Effect Name="AVS_Modulation2" ID="{A06F7E3C-66B0-4524-9E21-C55A7B40A7B9}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
@@ -47,6 +50,13 @@
 					</PropertyList>
 				</Effect>
 				<Effect Name="New_3D_Audio_Bed_Mixer" ID="{99AB6519-070E-436E-822E-94A69C3FD9D3}" PluginName="Wwise 3D Audio Bed Mixer" CompanyID="0" PluginID="190" PluginType="3"/>
+				<Effect Name="New_Peak_Limiter" ID="{A982D78B-5D04-401E-B509-CE6A101EE68B}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
+					<PropertyList>
+						<Property Name="LookAhead" Type="Real32" Value="0.002"/>
+						<Property Name="Ratio" Type="Real32" Value="10.1"/>
+						<Property Name="Threshold" Type="Real32" Value="-12"/>
+					</PropertyList>
+				</Effect>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>

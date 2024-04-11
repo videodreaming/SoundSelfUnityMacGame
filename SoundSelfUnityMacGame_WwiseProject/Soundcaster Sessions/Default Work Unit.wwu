@@ -6,23 +6,11 @@
 				<SoundcasterSession Name="New Soundcaster Session" ID="{C98BF2FC-7F9A-45DD-A22E-E8585E5262A3}">
 					<ModuleList>
 						<Module>
-							<ObjectRef Name="Play_InteractiveMusicSystem_SilentLoops" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
+							<ObjectRef Name="Play_AVS_Switch_ToneGenerator" ID="{00220282-804B-4918-8804-395C2EF3E676}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
 							<Position X="0" Y="0"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Play_VO_Opening" ID="{A96E99EB-25CF-422C-B4A9-890C7155A065}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
-							<Position X="0" Y="1"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_InteractiveMusicSystem_Toning" ID="{90843F11-6540-4A8C-B553-2767E329B988}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
-							<Position X="1" Y="0"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_VO_GuidedVocalizationHum" ID="{FF863BD2-6C72-4EF3-9D32-B7A302EDEECC}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
-							<Position X="1" Y="1"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_AVS_Generator_SwitchContainer" ID="{00220282-804B-4918-8804-395C2EF3E676}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+							<ObjectRef Name="Play_AVS_BreathCycle" ID="{846F2141-A906-4B8F-8C97-637A227867FA}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
 							<Position X="2" Y="0"/>
 						</Module>
 					</ModuleList>
@@ -102,6 +90,7 @@
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
 						<CurrentStateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+						<CurrentStateRef Name="OceanWaves" ID="{5A0069D0-47DD-43EB-8123-86B7C9E3E6E4}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
@@ -110,7 +99,7 @@
 						<CurrentSwitchRef Name="Blue" ID="{54E4E728-45D8-4BEB-91C9-6A3215709700}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
-						<CurrentSwitchRef Name="B" ID="{5DE309E9-CAD8-4AD3-9C7D-556DD4935594}"/>
+						<CurrentSwitchRef Name="G" ID="{25CAEDC2-995C-4044-B4A4-38361F607D0F}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
