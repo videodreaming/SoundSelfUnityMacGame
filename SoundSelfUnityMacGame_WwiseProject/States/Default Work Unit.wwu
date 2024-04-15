@@ -25,10 +25,11 @@
 						<State Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
 					</ChildrenList>
 				</StateGroup>
-				<StateGroup Name="AVSMode" ID="{A608B53C-6F90-44D6-8791-6F169283074C}">
+				<StateGroup Name="AVSModulationMode" ID="{A608B53C-6F90-44D6-8791-6F169283074C}">
 					<ChildrenList>
 						<State Name="None" ID="{0885D28C-8CAF-442F-87ED-AAD7C2BA7A91}"/>
 						<State Name="OceanWaves" ID="{5A0069D0-47DD-43EB-8123-86B7C9E3E6E4}"/>
+						<State Name="Learning" ID="{1C92116B-56D1-470D-8598-576B5048E13D}"/>
 					</ChildrenList>
 				</StateGroup>
 			</ChildrenList>

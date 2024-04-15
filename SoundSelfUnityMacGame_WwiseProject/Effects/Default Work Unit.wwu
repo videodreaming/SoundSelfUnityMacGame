@@ -53,10 +53,59 @@
 				<Effect Name="New_Peak_Limiter" ID="{A982D78B-5D04-401E-B509-CE6A101EE68B}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
 					<PropertyList>
 						<Property Name="LookAhead" Type="Real32" Value="0.002"/>
-						<Property Name="Ratio" Type="Real32" Value="10.1"/>
+						<Property Name="OutputGain" Type="Real32" Value="24"/>
 						<Property Name="Threshold" Type="Real32" Value="-12"/>
 					</PropertyList>
 				</Effect>
+				<Effect Name="New_AK_Convolution_Reverb" ID="{EF04B53E-32E2-41C1-81DD-1D0CE112DDDA}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">					<PluginData>
+	<ConvolutionData>
+		<CurveList Version="1">
+			<CurveInfo Name="IRGraphicEQ">
+				<Curve Name="">
+					<PropertyList>
+						<Property Name="Flags" Type="int32" Value="19"/>
+					</PropertyList>
+					<PointList>
+						<Point>
+							<XPos>20</XPos>
+							<YPos>0</YPos>
+							<Flags>5</Flags>
+						</Point>
+						<Point>
+							<XPos>20000</XPos>
+							<YPos>0</YPos>
+							<Flags>37</Flags>
+						</Point>
+					</PointList>
+				</Curve>
+			</CurveInfo>
+		</CurveList>
+	</ConvolutionData>
+</PluginData>
+				</Effect>
+				<Effect Name="New_Pitch_Shifter" ID="{6890CD9A-71F3-49D2-B4F1-76C0836DACA8}" PluginName="Wwise Pitch Shifter" CompanyID="0" PluginID="136" PluginType="3">
+					<PropertyList>
+						<Property Name="DryLevel" Type="Real32" Value="-3"/>
+					</PropertyList>
+				</Effect>
+				<Effect Name="New_Time_Stretch" ID="{62A6607D-D22A-41C0-8039-BDCC7EC5AB8D}" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
+					<PropertyList>
+						<Property Name="TimeStretch" Type="Real32" Value="1600"/>
+					</PropertyList>
+				</Effect>
+				<Effect Name="New_Stereo_Delay" ID="{C991DD10-25FB-4935-B205-9DC03906DDD8}" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
+					<PropertyList>
+						<Property Name="DryLevel" Type="Real32" Value="-78"/>
+						<Property Name="FilterFrequency" Type="Real32" Value="12982"/>
+						<Property Name="FilterType" Type="int32" Value="5"/>
+						<Property Name="FrontRearBalance" Type="Real32" Value="0"/>
+						<Property Name="LeftDelayTime" Type="Real32" Value="0.2"/>
+						<Property Name="LeftFeedback" Type="Real32" Value="-5.3"/>
+						<Property Name="RightDelayTime" Type="Real32" Value="0.5"/>
+						<Property Name="RightFeedback" Type="Real32" Value="-6.4"/>
+					</PropertyList>
+				</Effect>
+				<Effect Name="New_Recorder" ID="{0CB42924-75CB-46AD-9F80-DE5629FA6552}" PluginName="Wwise Recorder" CompanyID="0" PluginID="132" PluginType="3"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>

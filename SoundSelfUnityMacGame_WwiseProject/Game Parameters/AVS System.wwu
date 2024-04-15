@@ -3,72 +3,18 @@
 	<GameParameters>
 		<WorkUnit Name="AVS System" ID="{A4CBC233-705D-4021-8C88-E244225AA913}" PersistMode="Standalone">
 			<ChildrenList>
-				<GameParameter Name="Blue_Volume" ID="{2EDB41EC-DD57-4317-8AF6-12D63F127E77}">
-					<PropertyList>
-						<Property Name="Color" Type="int16" Value="1"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Red_Volume" ID="{DD299D73-B41F-4BF1-8A8C-7AF77A109AFD}">
-					<PropertyList>
-						<Property Name="Color" Type="int16" Value="10"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Green_Volume" ID="{EAE7C77B-54A0-4B1A-91EA-7CDC57A11ED3}">
-					<PropertyList>
-						<Property Name="Color" Type="int16" Value="4"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-					</PropertyList>
-				</GameParameter>
 				<GameParameter Name="AVSMasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}">
 					<PropertyList>
 						<Property Name="InitialValue" Type="Real64" Value="100"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="White_Volume" ID="{26745E5A-AAF6-42C8-A779-4A5E6C13859A}">
+				<GameParameter Name="AVSInteractiveModulations_TEST" ID="{40030F12-5713-49E2-80F2-0EFD5477AC50}"/>
+				<GameParameter Name="AVSPlayBackRate" ID="{FA28D264-FA5F-4E89-9333-247AF12E5E1F}">
 					<PropertyList>
-						<Property Name="Color" Type="int16" Value="27"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Magenta_Volume" ID="{967331CB-84F1-447F-81B6-E0EC3FF6FDD2}">
-					<PropertyList>
-						<Property Name="Color" Type="int16" Value="24"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Cyan_Volume" ID="{7B2294FD-6947-45EC-A532-03BD10E87BD6}">
-					<PropertyList>
-						<Property Name="Color" Type="int16" Value="16"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Yellow_Volume" ID="{B51B2FB4-487C-41F8-B957-E3F52A30E101}">
-					<PropertyList>
-						<Property Name="Color" Type="int16" Value="19"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Orange_Volume" ID="{3A0543D3-57F4-4FF6-B526-AA9622ECC949}">
-					<PropertyList>
-						<Property Name="Color" Type="int16" Value="21"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="Indigo_Volume" ID="{98EEA7B6-90B0-4140-AA61-E2C853AB5696}">
-					<PropertyList>
-						<Property Name="Color" Type="int16" Value="13"/>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-						<Property Name="OverrideColor" Type="bool" Value="True"/>
+						<Property Name="InitialValue" Type="Real64" Value="1"/>
+						<Property Name="Max" Type="Real64" Value="4"/>
+						<Property Name="Min" Type="Real64" Value="0.25"/>
+						<Property Name="RTPCRamping" Type="int16" Value="1"/>
 					</PropertyList>
 				</GameParameter>
 			</ChildrenList>

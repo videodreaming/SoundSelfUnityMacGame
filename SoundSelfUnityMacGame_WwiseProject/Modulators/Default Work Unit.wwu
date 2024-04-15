@@ -3,18 +3,81 @@
 	<Modulators>
 		<WorkUnit Name="Default Work Unit" ID="{B47702D1-19CF-4E70-B148-BA1D92505899}" PersistMode="Standalone">
 			<ChildrenList>
-				<ModulatorLfo Name="Binaural_LFO" ID="{957E714B-ABFF-4A52-B161-B06A3F0A4ED2}" ShortID="690210361">
-					<PropertyList>
-						<Property Name="LfoDepth" Type="Real64" Value="0"/>
-						<Property Name="LfoFrequency" Type="Real64" Value="2.02"/>
-					</PropertyList>
-				</ModulatorLfo>
-				<ModulatorTime Name="New Modulator Time" ID="{D5D4C91A-1E5F-4417-80AD-52D75F42C22F}" ShortID="538079419">
+				<ModulatorTime Name="Modulator_Time_PlaybackRate" ID="{D5D4C91A-1E5F-4417-80AD-52D75F42C22F}" ShortID="538079419">
 					<PropertyList>
 						<Property Name="TimeModDuration" Type="Real64" Value="10"/>
-						<Property Name="TimeModPlaybackRate" Type="Real64" Value="2.5"/>
 					</PropertyList>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{1AD41D23-7A11-49C3-8D49-2A254CA0AD02}" ShortID="225019034">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="TimeModPlaybackRate"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVSPlayBackRate" ID="{FA28D264-FA5F-4E89-9333-247AF12E5E1F}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{55B3F143-ECF5-4AC6-B467-0DDD5C09BEDA}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0.25</XPos>
+																<YPos>0.25</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>4</XPos>
+																<YPos>4</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
 				</ModulatorTime>
+				<ModulatorEnvelope Name="New Modulator Envelope" ID="{12BE3EDF-05A0-4C0B-84AD-0E75422A8B7D}" ShortID="850414921">
+					<PropertyList>
+						<Property Name="EnvelopeAttackCurve" Type="Real64" Value="0"/>
+						<Property Name="EnvelopeAttackTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeAutoRelease" Type="bool" Value="True"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeStopPlayback" Type="bool" Value="False"/>
+						<Property Name="EnvelopeSustainLevel" Type="Real64" Value="75.9"/>
+						<Property Name="EnvelopeSustainTime" Type="Real64" Value="1"/>
+					</PropertyList>
+				</ModulatorEnvelope>
+				<ModulatorLfo Name="New Modulator LFO" ID="{663082C2-4F7F-4EE0-A03E-D5440038FE54}" ShortID="55068381"/>
+				<ModulatorEnvelope Name="New Modulator Envelope_01" ID="{11A3BAAE-2B4E-4F6C-B4FC-BD0278E023D2}" ShortID="943122060">
+					<PropertyList>
+						<Property Name="EnvelopeAttackCurve" Type="Real64" Value="0"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="0"/>
+						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="0.137"/>
+						<Property Name="EnvelopeSustainLevel" Type="Real64" Value="4.2"/>
+					</PropertyList>
+				</ModulatorEnvelope>
+				<ModulatorEnvelope Name="ModulatorEnvelope_ToningLength" ID="{03B7D55F-F670-43B8-B406-26CF9E2D626D}" ShortID="345465289">
+					<PropertyList>
+						<Property Name="EnvelopeAttackCurve" Type="Real64" Value="100"/>
+						<Property Name="EnvelopeAttackTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeSustainTime" Type="Real64" Value="1"/>
+						<Property Name="ModulatorScope" Type="int32" Value="0"/>
+					</PropertyList>
+				</ModulatorEnvelope>
 			</ChildrenList>
 		</WorkUnit>
 	</Modulators>

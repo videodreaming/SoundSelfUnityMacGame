@@ -1949,11 +1949,13 @@
 						</Effect>
 						<Effect Name="Fast_LF_Tremolo_No_Smoothing" ID="{D972718E-231C-4DBF-9288-FCAF4BF47B50}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 							<PropertyList>
-								<Property Name="ModFrequency" Type="Real32" Value="19.84"/>
-								<Property Name="ModPWM" Type="Real32" Value="4"/>
-								<Property Name="ModPhaseOffset" Type="Real32" Value="-180"/>
+								<Property Name="ModDepth" Type="Real32" Value="0"/>
+								<Property Name="ModPWM" Type="Real32" Value="0"/>
 								<Property Name="ModPhaseSpread" Type="Real32" Value="180"/>
-								<Property Name="ModWaveform" Type="int32" Value="3"/>
+								<Property Name="ModSmoothing" Type="Real32" Value="100"/>
+								<Property Name="OutputGain" Type="Real32" Value="-24"/>
+								<Property Name="ProcessCenter" Type="bool" Value="False"/>
+								<Property Name="ProcessLFE" Type="bool" Value="False"/>
 							</PropertyList>
 						</Effect>
 					</ChildrenList>
