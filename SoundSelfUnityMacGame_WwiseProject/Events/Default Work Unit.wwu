@@ -35,6 +35,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_AVS_ModulationThemes_Ideas" ID="{6E5A486E-B2F7-4827-A9F0-35AA4FF188B1}">
+					<ChildrenList>
+						<Action Name="" ID="{5A05011A-0D96-4DBA-8AF5-C28C571661D1}" ShortID="884007185">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_ModulationThemes_Ideas" ID="{22657883-8B80-426D-A4A8-C079D3780982}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

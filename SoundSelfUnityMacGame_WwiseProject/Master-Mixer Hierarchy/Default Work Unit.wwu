@@ -51,217 +51,86 @@
 								</ObjectList>
 							</ObjectLists>
 						</Bus>
-						<Bus Name="SFX" ID="{B351DB1E-2F0C-4225-A270-4A80342102AE}">
-							<ObjectLists>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{B67C9957-0E5F-4A95-8031-0D473AC82698}" ShortID="413306526">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="BusVolume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="SFX_Bus_Volume" ID="{ED5E9956-CB68-4738-AC5B-A953C216CE6D}" WorkUnitID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{243B43E4-FD60-4394-8CD8-F33E1C8D008B}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
-						</Bus>
-						<Bus Name="Interactive Music" ID="{D9B8F3D7-0657-49AA-B992-3CA016DD8B63}">
-							<ObjectLists>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{988838C3-2F79-4EE2-A98A-D86DF8442814}" ShortID="1024044029">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="BusVolume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="InteractiveMusic_Bus_Volume" ID="{D5555B57-2927-4DBA-8CF6-892C63CD23A5}" WorkUnitID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{3BC77DE0-64B7-4BE2-BAA3-FE108A46E25B}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
-						</Bus>
-						<Bus Name="Linear Music" ID="{5A0B5D7E-C078-429D-A5B5-84220695D9A4}">
-							<ObjectLists>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{D5E8475B-B6CF-4A1A-99F8-941491EB48DC}" ShortID="863682685">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="BusVolume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="LinearMusic_Volume" ID="{F8011BC7-3969-43A0-A957-462CB30F8477}" WorkUnitID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{2E5172BC-0DFA-4E85-96E1-5B2B75839D2E}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
-						</Bus>
-						<Bus Name="Environment" ID="{016198CC-872F-48BB-BF2C-BE4D71EBC0A8}">
-							<ObjectLists>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{9A3DC386-C424-4AE5-A8BE-AB7D698A5EF3}" ShortID="111950842">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="BusVolume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="Environment_Bus_Volume" ID="{75082444-C137-4EDE-BC46-A819CBB95C6E}" WorkUnitID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{48A47033-84D3-456B-AE23-A74069AAC70F}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
+						<Bus Name="Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}"/>
+						<Bus Name="Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}">
+							<DuckingList>
+								<DuckItem>
+									<BusRef Name="Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}"/>
+									<DuckingParam>
+										<Volume>-6</Volume>
+										<FadeInTime>0.5</FadeInTime>
+										<FadeOutTime>5</FadeOutTime>
+										<FadeCurve>FadeLog2</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+							</DuckingList>
 						</Bus>
 					</ChildrenList>
-					<ObjectLists>
-						<ObjectList Name="RTPC">
-							<Reference>
-								<Local>
-									<RTPC Name="" ID="{847AFC69-E206-4FE6-B296-69563A583B70}" ShortID="190916230">
-										<PropertyList>
-											<Property Name="PropertyName" Type="string" Value="BusVolume"/>
-										</PropertyList>
-										<ReferenceList>
-											<Reference Name="ControlInput">
-												<ObjectRef Name="Master_Volume" ID="{5A62C904-3B07-46AB-8226-655481B0F80E}" WorkUnitID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}"/>
-											</Reference>
-											<Reference Name="Curve">
-												<Custom>
-													<Curve Name="" ID="{F6030BC2-F347-4935-9307-2971EB6481D6}">
-														<PropertyList>
-															<Property Name="Flags" Type="int32" Value="3"/>
-														</PropertyList>
-														<PointList>
-															<Point>
-																<XPos>0</XPos>
-																<YPos>-200</YPos>
-																<Flags>5</Flags>
-															</Point>
-															<Point>
-																<XPos>100</XPos>
-																<YPos>0</YPos>
-																<Flags>37</Flags>
-															</Point>
-														</PointList>
-													</Curve>
-												</Custom>
-											</Reference>
-										</ReferenceList>
-									</RTPC>
-								</Local>
-							</Reference>
-						</ObjectList>
-					</ObjectLists>
 				</Bus>
 				<Bus Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}">
+					<PropertyList>
+						<Property Name="Highpass" Type="int16">
+							<ValueList>
+								<Value>95</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Lowpass" Type="int16">
+							<ValueList>
+								<Value>5</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{69D60C99-E104-4F92-81B8-1C890CC95B06}" WorkUnitID="{20E15702-9916-45CB-8BCD-D7E3AE92AAE9}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}">
+							<PropertyList>
+								<Property Name="RecoveryTime" Type="Real64" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<DuckingList>
+								<DuckItem>
+									<BusRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}"/>
+									<DuckingParam>
+										<Volume>-62</Volume>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLog2</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+							</DuckingList>
+						</Bus>
+						<Bus Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}">
+							<PropertyList>
+								<Property Name="RecoveryTime" Type="Real64" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+						</Bus>
+						<Bus Name="AVS_Modulations" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}">
+							<DuckingList>
+								<DuckItem>
+									<BusRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}"/>
+									<DuckingParam>
+										<Volume>-50</Volume>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLog2</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+							</DuckingList>
+						</Bus>
+					</ChildrenList>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

@@ -6,9 +6,24 @@
 				<Event Name="Play_InteractiveMusicSystem_SilentLoops" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}">
 					<ChildrenList>
 						<Action Name="" ID="{8EDC4A6D-0560-4474-A49F-2CE518EFC1E9}" ShortID="599277457">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_SilentLoops" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{BE9E8D19-3456-4629-9863-F1F83FA0AA08}" ShortID="609594745">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_SilentLoops" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -17,15 +32,30 @@
 				<Event Name="Play_InteractiveMusicSystem_Toning" ID="{90843F11-6540-4A8C-B553-2767E329B988}">
 					<ChildrenList>
 						<Action Name="" ID="{12C70DAF-83EE-419C-B7DB-3206D3E84C42}" ShortID="632762800">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_Toning_BlendContainer" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{DACA4861-244B-4F71-9C3B-31D3612DC7B5}" ShortID="1020329135">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_Toning_Sequence" ID="{42691E52-432F-4326-ABD8-733748322106}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_CrystalBowl" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}">
+				<Event Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}">
 					<ChildrenList>
 						<Action Name="" ID="{159E6C1E-CCEA-464F-BE22-382774EBA675}" ShortID="387339877">
 							<ReferenceList>
@@ -62,6 +92,88 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{08C461E2-FE91-413B-B08C-26D413252D5C}" ShortID="480931363">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS System_Modulation_Learning" ID="{70B88FBB-7623-4DFE-B413-5555BFBC5C4E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_InteractiveMusicSystem" ID="{11D2DC73-E209-45B4-89FD-F87C94F55B6D}">
+					<ChildrenList>
+						<Action Name="" ID="{3CDA193E-20E4-4C66-AC4F-43B6EE862635}" ShortID="394729532">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="InteractiveMusic_Toning_BlendContainer" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{14EF1F01-AEAA-4E3C-B0AB-476C5FEC94A0}" ShortID="118479163">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="InteractiveMusic_SilentLoops" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_InteractiveMusicSystem_Toning" ID="{BC9DBC95-1FEC-4024-9149-47E42F23D96E}">
+					<ChildrenList>
+						<Action Name="" ID="{92806E84-DC7C-4DEC-8E02-86B660B08153}" ShortID="126282825">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="InteractiveMusic_Toning_BlendContainer" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{958B0798-DD3D-4A85-98A4-FE785D56156C}" ShortID="678983999">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_Toning_Sequence" ID="{42691E52-432F-4326-ABD8-733748322106}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_InteractiveMusicSystem_SilentLoops" ID="{37C30047-AF5A-43B9-896D-68E3F2AA7D3A}">
+					<ChildrenList>
+						<Action Name="" ID="{58BDAF0F-F07C-4A20-93EB-FFA5A99DBDC4}" ShortID="222677706">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="InteractiveMusic_SilentLoops" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{75F276A6-47A0-480F-A07F-4E76ABB1F544}" ShortID="934269283">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_SilentLoops" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
