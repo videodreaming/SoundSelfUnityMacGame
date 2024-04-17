@@ -65,7 +65,7 @@ public class CSVWriter : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             writeCSV();
-            Debug.Log(Application.streamingAssetsPath);
+           // Debug.Log(Application.streamingAssetsPath);
         }
     }
 
