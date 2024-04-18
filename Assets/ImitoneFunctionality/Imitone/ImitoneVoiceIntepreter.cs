@@ -184,18 +184,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     //NOTE FOR REEF, I've moved a bunch of logic that isn't interpolating from FixedUpdate() into Update().
     void Update()
     {
-        if(!inputBuffer){
-            Debug.Log("No Input Buffer");
-            return;
-        }
-        int micPosWrite = Microphone.GetPosition(microphoneName);
-        int dataLength = (inputBuffer.samples + micPosWrite - micPosRead) % inputBuffer.samples;
-        if(dataLength > 0)
-        {
-            float[] data = new float [dataLength];
-            inputBuffer.GetData(data, micPosRead);
-            micPosRead = (micPosRead + dataLength) % inputBuffer.samples;
-        }
         //FOR TESTING, I am having this only happen once, on the 2nd frame. 
         frameCount++;
         if (frameCount == 2)
