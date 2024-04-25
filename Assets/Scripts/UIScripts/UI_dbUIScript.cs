@@ -7,6 +7,6 @@ public class dbUIScript : MonoBehaviour
     public ImitoneVoiceIntepreter mainImitone;
     [SerializeField] private TextMeshProUGUI noteText;
     public void Update(){
-        noteText.text = mainImitone._dbValue.ToString();
+        noteText.text = mainImitone._dbValue.ToString() + " ~ " + mainImitone._dbMicrophone.ToString();
     }
 }
