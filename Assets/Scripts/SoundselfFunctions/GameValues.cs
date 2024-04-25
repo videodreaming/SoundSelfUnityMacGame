@@ -152,7 +152,7 @@ public class GameValues: MonoBehaviour
                 }
             }
             
-            Debug.Log("Set DB Highest: " + _dbHighest + " DB Lowest: " + _dbLowest);
+            //Debug.Log("Set DB Highest: " + _dbHighest + " DB Lowest: " + _dbLowest);
         }
 
         if (imitoneVoiceInterpreter.toneActive)

@@ -68,16 +68,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private bool isResettingTone = false;
     public int breathStage = 0;
     
-    //TODO: probably MostRecentSemitone should not be an int, but a float. There can be like a "semitoneRounded" too.
-    public int MostRecentSemitone => _semitone;
-    public string MostRecentSemitoneNote => _semitoneNote;
-    private int _semitone;
-    private string _semitoneNote;
-    private int[] _mostRecentSemitone = new []{-1,-1};
-    private int[] _previousSemitone = new []{-1,-1};
-    
-    [Header("Noise")]
-    [SerializeField] private float _thresholdLerpValue;
+    //public int MostRecentSemitone => _semitone;
+    //public string MostRecentSemitoneNote => _semitoneNote;
+    //private int _semitone;
+    //private string _semitoneNote;
+    //private int[] _mostRecentSemitone = new []{-1,-1};
+    //private int[] _previousSemitone = new []{-1,-1};
     
     [Header("DampingValues")]
     public float _harmonicity = 0.0f;    
@@ -102,19 +98,23 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [Header("dbController")]
 
     //NoiseFloor
+    [Header("Noise Floor")]
     //A dictionary that stores a float for the dbValue each frame, and the time that frame was recorded.
     private Dictionary<int, (float, float)> rawMic = new Dictionary<int, (float, float)>();
     private Dictionary<int, (float, float)> noiseMeasurements = new Dictionary<int, (float, float)>();
     private bool expectNoiseFloor = false; //NOT YET IMPLEMENTED, use this when the system is programmatically expecting noise.
     private bool noiseFloorFlag = false;
-    [SerializeField] private float _volumeChangeMeasurementWindow   = 0.2f;
-    [SerializeField] private float _volumeDropTriggerThresholdDB = 12f;
+    [SerializeField] private float _volumeChangeMeasurementWindow   = 0.3f;
+    [SerializeField] private float _volumeDropTriggerThresholdDB = 7f;
     [SerializeField] private float _volumeJumpTriggerThresholdDB = 12f;
     [SerializeField] private float _afterDropWaitTime           = 0.5f;
     private float _afterDropWaitTimer                           = 0f;
-    [SerializeField] private float _noiseFloorMeasurementTime    = 2f;
-    [SerializeField] private int noiseFloorMeasurementMaxAge          = 0;
+    [SerializeField] private float _noiseFloorMeasurementTime    = 1.5f;
+    [SerializeField] private int noiseFloorMeasurementMaxAge    = 120;
     private int uniqueKey                                       = 0;
+    [SerializeField] private float _thresholdAboveNoiseFloor    = 8f;
+
+    public float _imitoneVolumeThreshold { get; private set; } = 0f;
     
     private Coroutine currentNoiseFloorCoroutine;
 
@@ -244,6 +244,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private IEnumerator MeasureNoiseFloorCoroutine(){
         float _noiseFloorMeasurementSum                     = 0f;
         float _noiseFloorMeasurementCount                   = 0f;
+        Debug.Log("Preparing to Measure Noise Floor...");
 
         //First wait for the levels to drop an appropriate amount
         while (_dbMicrophone >= (rawMic.Values.Max(x => x.Item2) - _volumeDropTriggerThresholdDB))
@@ -272,8 +273,11 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         List<int> keysToRemove = new List<int>();
         foreach (var entry in noiseMeasurements)
         {
-            if (Time.time - entry.Value.Item1 > noiseFloorMeasurementMaxAge)            
-            keysToRemove.Add(entry.Key);
+            if ((Time.time - entry.Value.Item1) > noiseFloorMeasurementMaxAge)     
+            {       
+                keysToRemove.Add(entry.Key);
+                Debug.Log("Removing Noise Key " + entry.Key + " with value " + entry.Value.Item2 + " from time " + entry.Value.Item1 + " because it is older than " + noiseFloorMeasurementMaxAge + " seconds.");
+            }
         }
 
         foreach (var key in keysToRemove)
@@ -281,9 +285,17 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             noiseMeasurements.Remove(key);
         }
 
-        SetThreshold(noiseMeasurements.Values.Average(x => x.Item2) + 8);
+        //Calculate the median noise floor from the noiseMeasurements dictionary:
+        List<float> values = noiseMeasurements.Values.Select(x => x.Item2).OrderBy(x => x).ToList();
+        float _medianNoiseFloor = (values.Count % 2 != 0) ? 
+        values[values.Count / 2] : 
+        (values[(values.Count - 1) / 2] + values[values.Count / 2]) / 2.0f;
+
+        _imitoneVolumeThreshold = _medianNoiseFloor + _thresholdAboveNoiseFloor;
+
+        SetThreshold(_imitoneVolumeThreshold);
         
-        Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Avg: " + noiseMeasurements.Values.Average(x => x.Item2) + " of " + noiseMeasurements.Count + " measurements.");
+        Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _imitoneVolumeThreshold + " from " + noiseMeasurements.Count + " measurements.");
 
         yield return null;
     }
