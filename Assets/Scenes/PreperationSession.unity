@@ -10414,7 +10414,6 @@ MonoBehaviour:
   _tNextInhaleDuration: 0
   _breathVolume: 0
   breathStage: 0
-  _thresholdLerpValue: 0
   _harmonicity: 0
   _dbValue: 0
   _dbMicrophone: -999
@@ -10429,6 +10428,7 @@ MonoBehaviour:
   _afterDropWaitTime: 0.5
   _noiseFloorMeasurementTime: 2
   noiseFloorMeasurementMaxAge: 0
+  _thresholdAboveNoiseFloor: 8
   imitoneConfig: 
 --- !u!4 &740096626
 Transform:
@@ -21161,6 +21161,8 @@ MonoBehaviour:
   InteractiveMusicSilentLoopsRTPC: 0
   HarmonySilentVolumeRTPC: 0
   FundamentalSilentVolumeRTPC: 0
+  imitoneVoiceIntepreter: {fileID: 740096625}
+  playingId: 0
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
