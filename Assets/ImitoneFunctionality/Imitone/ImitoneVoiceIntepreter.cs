@@ -68,21 +68,18 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private bool isResettingTone = false;
     public int breathStage = 0;
     
-    //TODO: probably MostRecentSemitone should not be an int, but a float. There can be like a "semitoneRounded" too.
-    public int MostRecentSemitone => _semitone;
-    public string MostRecentSemitoneNote => _semitoneNote;
-    private int _semitone;
-    private string _semitoneNote;
-    private int[] _mostRecentSemitone = new []{-1,-1};
-    private int[] _previousSemitone = new []{-1,-1};
-    
-    [Header("Noise")]
-    [SerializeField] private float _thresholdLerpValue;
+    //public int MostRecentSemitone => _semitone;
+    //public string MostRecentSemitoneNote => _semitoneNote;
+    //private int _semitone;
+    //private string _semitoneNote;
+    //private int[] _mostRecentSemitone = new []{-1,-1};
+    //private int[] _previousSemitone = new []{-1,-1};
     
     [Header("DampingValues")]
     public float _harmonicity = 0.0f;    
     private float _rmsValue;
     [SerializeField] public float _dbValue = -80.0f;
+    [SerializeField] public float _dbMicrophone = -999.0f;
     [SerializeField] public float _timbre = 0.0f;
     [SerializeField] public float _level; 
     private const int SAMPLE_SIZE = 1024;
@@ -99,8 +96,29 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [TextAreaAttribute(8,8)] public string imitoneState;
 
     [Header("dbController")]
-    private bool expectNoiseFloor = false;
-    private bool manualMode = false;
+
+    //NoiseFloor
+    [Header("Noise Floor")]
+    //A dictionary that stores a float for the dbValue each frame, and the time that frame was recorded.
+    private Dictionary<int, (float, float)> rawMic = new Dictionary<int, (float, float)>();
+    private Dictionary<int, (float, float)> noiseMeasurements = new Dictionary<int, (float, float)>();
+    private bool expectNoiseFloor = false; //NOT YET IMPLEMENTED, use this when the system is programmatically expecting noise.
+    private bool noiseFloorFlag = false;
+    [SerializeField] private float _volumeChangeMeasurementWindow   = 0.3f;
+    [SerializeField] private float _volumeDropTriggerThresholdDB = 7f;
+    [SerializeField] private float _volumeJumpTriggerThresholdDB = 12f;
+    [SerializeField] private float _afterDropWaitTime           = 0.5f;
+    private float _afterDropWaitTimer                           = 0f;
+    [SerializeField] private float _noiseFloorMeasurementTime    = 1.5f;
+    [SerializeField] private int noiseFloorMeasurementMaxAge    = 120;
+    private int uniqueKey                                       = 0;
+    [SerializeField] private float _thresholdAboveNoiseFloor    = 8f;
+
+    public float _imitoneVolumeThreshold { get; private set; } = 0f;
+    
+    private Coroutine currentNoiseFloorCoroutine;
+
+    //private bool manualMode = false;
 
     private float UpperThreshold = -20.0f;
     private float LowerThreshold = -35.0f;
@@ -186,15 +204,101 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     {
         //FOR TESTING, I am having this only happen once, on the 2nd frame. 
         frameCount++;
-        if (frameCount == 2)
-        {
-            SetThreshold(-30.0f);
-        }
+        //if (frameCount == 2)
+        //{
+        //    SetThreshold(-30.0f);
+        //}
 
+        SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
     }
 
+    private void SetNoiseFloorThreshold()
+    {
+        rawMic.Add(uniqueKey++, (Time.time, _dbMicrophone));
+        //Remove any entries more than noiseDropMeasurmentWindow frames old.
+        List<int> keysToRemove = new List<int>();
+        foreach (var entry in rawMic)
+        {
+            if (Time.time - entry.Value.Item1 > _volumeChangeMeasurementWindow)
+                keysToRemove.Add(entry.Key);
+        }
+        foreach (var key in keysToRemove)
+        {
+            rawMic.Remove(key);
+        }
+
+        //when _dbMicrophone > (rawMic.Values.Min() + _volumeJumpTriggerThresholdDB), begin the MeasureNoiseFloor coroutine. If there is already an instance of the coroutine running, stop it and start a new one.
+        if (_dbMicrophone > (rawMic.Values.Min(x => x.Item2) + _volumeJumpTriggerThresholdDB))
+        {
+            if (currentNoiseFloorCoroutine != null)
+            StopCoroutine(currentNoiseFloorCoroutine);
+
+            currentNoiseFloorCoroutine = StartCoroutine(MeasureNoiseFloorCoroutine());
+        }
+        
+    }
+
+        
+    private IEnumerator MeasureNoiseFloorCoroutine(){
+        float _noiseFloorMeasurementSum                     = 0f;
+        float _noiseFloorMeasurementCount                   = 0f;
+        Debug.Log("Preparing to Measure Noise Floor...");
+
+        //First wait for the levels to drop an appropriate amount
+        while (_dbMicrophone >= (rawMic.Values.Max(x => x.Item2) - _volumeDropTriggerThresholdDB))
+        {
+            yield return null;
+        }
+        //Then, wait a little longer before starting to measure the noise floor.
+        float _measuredPeak = rawMic.Values.Max(x => x.Item2);
+        yield return new WaitForSeconds(_afterDropWaitTime);
+
+        //Now we can measure the noise floor
+        float _measuredTime                                 = 0f;
+        while (_measuredTime < _noiseFloorMeasurementTime)
+        {
+            _noiseFloorMeasurementSum += _dbMicrophone;
+            _noiseFloorMeasurementCount++;
+            _measuredTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        //Once the noise floor has been measured, add the average to the noiseMeasurements dictionary, using the time as the key.
+        float _noiseFloorMeasurementAverage                = _noiseFloorMeasurementSum / _noiseFloorMeasurementCount;
+
+        noiseMeasurements.Add(uniqueKey++, (Time.time, _noiseFloorMeasurementAverage));
+        //Then, if there are entries that are older than noiseFloorMeasurementMaxAge, remove them
+        List<int> keysToRemove = new List<int>();
+        foreach (var entry in noiseMeasurements)
+        {
+            if ((Time.time - entry.Value.Item1) > noiseFloorMeasurementMaxAge)     
+            {       
+                keysToRemove.Add(entry.Key);
+                Debug.Log("Removing Noise Key " + entry.Key + " with value " + entry.Value.Item2 + " from time " + entry.Value.Item1 + " because it is older than " + noiseFloorMeasurementMaxAge + " seconds.");
+            }
+        }
+
+        foreach (var key in keysToRemove)
+        {
+            noiseMeasurements.Remove(key);
+        }
+
+        //Calculate the median noise floor from the noiseMeasurements dictionary:
+        List<float> values = noiseMeasurements.Values.Select(x => x.Item2).OrderBy(x => x).ToList();
+        float _medianNoiseFloor = (values.Count % 2 != 0) ? 
+        values[values.Count / 2] : 
+        (values[(values.Count - 1) / 2] + values[values.Count / 2]) / 2.0f;
+
+        _imitoneVolumeThreshold = _medianNoiseFloor + _thresholdAboveNoiseFloor;
+
+        SetThreshold(_imitoneVolumeThreshold);
+        
+        Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _imitoneVolumeThreshold + " from " + noiseMeasurements.Count + " measurements.");
+
+        yield return null;
+    }
 
     private void GetRawVoiceData(){
         if (!inputBuffer) 
@@ -216,10 +320,20 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             if (imitone != null)
             {
                 float peakAmplitude = 0f;
+                float meanAmplitude = 0f;
                 foreach (float sample in capturedInput)
+                {
                     if (Math.Abs(sample) > peakAmplitude)
+                    {
                         peakAmplitude = Math.Abs(sample);
+                    }
+                    meanAmplitude += Math.Abs(sample);
+                }
+                meanAmplitude /= capturedInput.Length;
+            
                 //Debug.Log(String.Format("Analyzing mic samples x {0}, peak amplitude {1}", capturedInput.Length, peakAmplitude));
+                _dbMicrophone = (float)(10.0 * Math.Log10(meanAmplitude*meanAmplitude));
+
                 imitone.InputAudio(capturedInput);
                 imitoneState = imitone.GetState();
                 try
@@ -279,7 +393,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     else
                     {
                         pitch_hz = 0f;
-                        _dbValue = -999f;
+                        //_dbValue = (float)(10.0 * Math.Log10(soundObject.GetField("power").floatValue));
+                        //_dbValue = -999f;
                         imitoneActive = false;
                     }
                     if (notes.list != null && notes.list.Count > 0)
@@ -335,6 +450,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         //Debug.Log("imitone configuration: " + imitoneConfig);  
     }
 
+    private void CaptureNoiseFloorData(float imitoneVolume)
+    {
+    
+    }
     
     public void SetMute(bool mute = false){
       
@@ -456,6 +575,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
     }
 
+
 // private void StoppedToning()
 // {
 //     if (_inhaleDuration < 1.76f)
@@ -525,25 +645,25 @@ private void handleBreathStage(){
     }
 }
 
-    public static int FrequencyToFlooredSemitone(double frequency)
+public static int FrequencyToFlooredSemitone(double frequency)
+{
+    double semitone = 12 * Math.Log(frequency / A4, 2);
+    return (int)Math.Floor(semitone);
+    Debug.Log(semitone);
+}
+
+public float GetVolumeThresholdFromJson()
+{
+    var match = Regex.Match(imitoneConfig, @"""volume"":{.*""threshold"":([^,}]*)");
+
+    if (match.Success)
     {
-        double semitone = 12 * Math.Log(frequency / A4, 2);
-        return (int)Math.Floor(semitone);
-        Debug.Log(semitone);
-    }
+        return float.Parse(match.Groups[1].Value);
 
-    public float GetVolumeThresholdFromJson()
+    }
+    else
     {
-        var match = Regex.Match(imitoneConfig, @"""volume"":{.*""threshold"":([^,}]*)");
-
-        if (match.Success)
-        {
-            return float.Parse(match.Groups[1].Value);
-
-        }
-        else
-        {
-            throw new Exception("Could not find 'volume:threshold' in JSON string");
-        }
+        throw new Exception("Could not find 'volume:threshold' in JSON string");
     }
+}
 }

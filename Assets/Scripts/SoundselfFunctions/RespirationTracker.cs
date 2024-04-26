@@ -90,7 +90,7 @@ public class RespirationTracker : MonoBehaviour
             if (!frameGuardTone && !pauseGuardTone)
             {
                 // Start the coroutine to measure the duration of one tone/rest cycle, but do it just once per tone:
-                Debug.Log("Start Respiration Cycle Coroutine");
+                //Debug.Log("Start Respiration Cycle Coroutine");
                 StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary1,_respirationMeasurementWindow1, true, 0));
                 StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary2,_respirationMeasurementWindow2, true, 1));
                 frameGuardTone = true;
@@ -212,7 +212,7 @@ public class RespirationTracker : MonoBehaviour
 
         float _initialMeanToneLength = _meanToneLength;
 
-        Debug.Log("RespirationCycleCoroutine started <"+ visualizeY + ":" + id + "> (fade in time = " + _initialMeanToneLength + " seconds");
+        //Debug.Log("RespirationCycleCoroutine started <"+ visualizeY + ":" + id + "> (fade in time = " + _initialMeanToneLength + " seconds");
     
         //Step 1: Measure the Tone
         while (toneActiveForRespirationRate == true)
@@ -240,13 +240,13 @@ public class RespirationTracker : MonoBehaviour
 
                 if (thisBreathCycleData.invalid)
                 {
-                    Debug.Log("id: " + id + " is invalid");
+                    //Debug.Log("id: " + id + " is invalid");
                 }
             }
           
             if (thisBreathCycleData.invalid && isFirstInvalidFrame)
             {
-                Debug.Log("id: " + id + " is invalid");
+                //Debug.Log("id: " + id + " is invalid");
                 isFirstInvalidFrame = false; // Set isFirstInvalidFrame to false after the first invalid frame
             }
 
@@ -287,7 +287,7 @@ public class RespirationTracker : MonoBehaviour
         // Put the modified object back into the dictionary
         BreathCycleDictionary[id] = thisBreathCycleData; 
 
-        Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
+        //Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
 
         //Step 2: Measure the Rest
         float _initialMeanRestLength = _meanRestLength;
@@ -316,7 +316,7 @@ public class RespirationTracker : MonoBehaviour
             thisBreathCycleData.invalid = pauseGuardTone || ((_restLength > 13.0f) || (_cycleLength > (_measurementWindow / 2)));
             if (thisBreathCycleData.invalid && isFirstInvalidFrame)
             {
-                Debug.Log("id: " + id + " is invalid");
+                //Debug.Log("id: " + id + " is invalid");
                 isFirstInvalidFrame = false; // Set isFirstInvalidFrame to false after the first invalid frame
             }
 
@@ -355,7 +355,7 @@ public class RespirationTracker : MonoBehaviour
 
         thisBreathCycleData._cycleCount = 1.0f;
 
-        Debug.Log("RespirationCycleCoroutine moving to Step 3 <" + id + ">");
+        //Debug.Log("RespirationCycleCoroutine moving to Step 3 <" + id + ">");
         if(visualize){thisBreathCycleData.exhaleRectangle.tag = "oldrect";}
 
         // Put the modified object back into the dictionary
@@ -395,7 +395,7 @@ public class RespirationTracker : MonoBehaviour
 
             if (Mathf.Floor(thisBreathCycleData._cycleCount * 10) != Mathf.Floor(previousCycleCount * 10))
             {
-                Debug.Log("id: " + id + "_cycleCount: " + thisBreathCycleData._cycleCount);
+                //Debug.Log("id: " + id + "_cycleCount: " + thisBreathCycleData._cycleCount);
             }
 
             // Update the previous cycle count
@@ -415,7 +415,7 @@ public class RespirationTracker : MonoBehaviour
         }
 
         //Remove the dictionary entry:
-        Debug.Log("RespirationCycleCoroutine <" + id + "> ended with cycle count: " + thisBreathCycleData._cycleCount + " and age: " + _age + " and cycle length: " + _cycleLength);
+        //Debug.Log("RespirationCycleCoroutine <" + id + "> ended with cycle count: " + thisBreathCycleData._cycleCount + " and age: " + _age + " and cycle length: " + _cycleLength);
 
         BreathCycleDictionary.Remove(id);
     }
