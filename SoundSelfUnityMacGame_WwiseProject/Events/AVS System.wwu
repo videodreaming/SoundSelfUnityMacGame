@@ -33,17 +33,30 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_AVS_BreathCycle" ID="{846F2141-A906-4B8F-8C97-637A227867FA}"/>
-				<Event Name="Play_AVS_Audacity_Modulations" ID="{843303D8-04BA-4F2E-BEAF-B6E9BE5EFC2D}">
+				<Event Name="Play_AVS_BreathCycle" ID="{846F2141-A906-4B8F-8C97-637A227867FA}">
 					<ChildrenList>
-						<Action Name="" ID="{8950BA86-5596-403B-89BB-01FA3C204AA9}" ShortID="634222036">
-							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
-							</PropertyList>
+						<Action Name="" ID="{97088E59-7B30-499F-B0AF-C334C1C71971}" ShortID="759763486">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_Audacity_Modulations_Switch" ID="{3EB853BB-EABB-4C8A-AC04-3B8A956ACCF5}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_Audacity_Modulations" ID="{843303D8-04BA-4F2E-BEAF-B6E9BE5EFC2D}">
+					<ChildrenList>
+						<Action Name="" ID="{64ECC307-7D6D-464C-8013-5092DCFB6457}" ShortID="34392694">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_Audactiy_Modulations" ID="{37D2ACB5-3B7B-41F0-BF09-AFF63A6E5896}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{A0A06FED-A51D-4AA5-9A59-AC28C5B1320C}" ShortID="652858247">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="REFERENCE" ID="{6FC17E7F-F097-4B9A-B915-2EC0A3D499FE}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -66,15 +79,13 @@
 				</Event>
 				<Event Name="Stop_AVS_Audacity_Modulations" ID="{49D78BB1-F676-4CAD-A2EA-8AD1059E91F6}">
 					<ChildrenList>
-						<Action Name="" ID="{3EB792E4-C655-4485-B9F0-A9F725803DDE}" ShortID="343459328">
+						<Action Name="" ID="{EF68D366-D54C-47C4-AA01-C64756E9ABB8}" ShortID="404426318">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeInCurve" Type="int16" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_Audacity_Modulations_Switch" ID="{3EB853BB-EABB-4C8A-AC04-3B8A956ACCF5}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_Audactiy_Modulations" ID="{37D2ACB5-3B7B-41F0-BF09-AFF63A6E5896}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -90,6 +101,17 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AVS_SineGenerators_SilentLoops" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_Reference" ID="{034311C0-8D0E-4A3A-827D-C311E731D967}">
+					<ChildrenList>
+						<Action Name="" ID="{BC566837-333C-4E9F-904A-DE88A07E5612}" ShortID="482306951">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="REFERENCE" ID="{D59B5851-132D-4244-9AE9-C3B7348FD216}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

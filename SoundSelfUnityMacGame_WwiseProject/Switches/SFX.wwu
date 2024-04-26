@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}" SchemaVersion="119">
+	<Switches>
+		<WorkUnit Name="SFX" ID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="SFX_SwitchGroup" ID="{D06D0B28-0FDA-4BE5-BFAB-80F14FC670EB}">
+					<ChildrenList>
+						<Switch Name="Container1" ID="{A05477F0-003B-405D-B527-3F7AEF48AF66}"/>
+						<Switch Name="Container2" ID="{49D4B8D8-7977-4020-BB4F-3F9C87DD7E6E}"/>
+						<Switch Name="Container3" ID="{173D213F-FA07-485D-A171-856463ACC928}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</Switches>
+</WwiseDocument>

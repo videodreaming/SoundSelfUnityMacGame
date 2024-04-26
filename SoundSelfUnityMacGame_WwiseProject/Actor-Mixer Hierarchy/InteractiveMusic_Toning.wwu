@@ -4,19 +4,12 @@
 		<WorkUnit Name="InteractiveMusic_Toning" ID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}" PersistMode="Standalone">
 			<ChildrenList>
 				<BlendContainer Name="InteractiveMusic_Toning_BlendContainer" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" ShortID="14968488">
-					<PropertyList>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>6</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -599,6 +592,10 @@
 									<CustomState>
 										<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
 										<CustomState Name="" ID="{A173D1E3-EFF5-4798-8E42-8DA3CC64FFD0}" ShortID="10738247"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<CustomState Name="" ID="{640CE73A-0FC2-41FC-934F-CAAB7740272B}" ShortID="510814023"/>
 									</CustomState>
 									<CustomState>
 										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -1346,6 +1343,10 @@
 												<Property Name="Volume" Type="Real64" Value="-108"/>
 											</PropertyList>
 										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<CustomState Name="" ID="{21382F45-7CCB-4374-BE15-FACE5EFCA4AA}" ShortID="364641095"/>
 									</CustomState>
 									<CustomState>
 										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -2099,6 +2100,10 @@
 												<Property Name="Volume" Type="Real64" Value="-108"/>
 											</PropertyList>
 										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<CustomState Name="" ID="{32512FCC-BF4D-48DD-AD92-CF7A3506B269}" ShortID="1038681275"/>
 									</CustomState>
 									<CustomState>
 										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -2859,6 +2864,10 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
+										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<CustomState Name="" ID="{9AFF9E7F-DD2B-4E52-B7D6-938373F20CBE}" ShortID="311555387"/>
+									</CustomState>
+									<CustomState>
 										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
 										<CustomState Name="" ID="{9BE3C880-3211-4FCC-B470-1C234F51B475}" ShortID="88360638">
 											<PropertyList>
@@ -3018,6 +3027,10 @@
 								</CustomState>
 							</CustomState>
 							<CustomState>
+								<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+								<CustomState Name="" ID="{4DE7C041-6F27-4A6A-87F4-A5ADA7D5CDDD}" ShortID="5990686"/>
+							</CustomState>
+							<CustomState>
 								<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
 								<CustomState Name="" ID="{1816FF04-5D4E-429F-997A-65E9FDB76867}" ShortID="9094295">
 									<PropertyList>
@@ -3062,6 +3075,10 @@
 													<CustomState Name="" ID="{A6865A82-BE97-420D-87E4-A52B44E20DF3}" ShortID="1043125193"/>
 												</CustomState>
 												<CustomState>
+													<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+													<CustomState Name="" ID="{ECB25F13-59F8-42FC-A2E2-55CB936F64B9}" ShortID="106068658"/>
+												</CustomState>
+												<CustomState>
 													<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
 													<CustomState Name="" ID="{43C70A9C-004C-4E3E-A12B-3152C91B4522}" ShortID="471519826"/>
 												</CustomState>
@@ -3091,6 +3108,10 @@
 												<CustomState>
 													<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
 													<CustomState Name="" ID="{120DDE78-931A-40DE-86C3-01C8919CBEFC}" ShortID="537694576"/>
+												</CustomState>
+												<CustomState>
+													<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+													<CustomState Name="" ID="{727C8ECB-22C7-4E6D-99F9-27239FE8C23F}" ShortID="843150470"/>
 												</CustomState>
 												<CustomState>
 													<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>

@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy/Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584882647640983840
+    m_lastTime: -8584881254937518383
     List:
     - name: AVS System
       guid: 5270ae016217ed4c975ab966f98065df
@@ -105,6 +105,91 @@ MonoBehaviour:
         ObjectType: 2
         guid: 8c2be1a9aa9b404bb8ec0e821d2c0b79
       Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Toning
+    - name: Environment
+      guid: 33c5be8c13440144925c5a5bca9f83ca
+      id: 1229948536
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Environment
+        ObjectType: 2
+        guid: 33c5be8c13440144925c5a5bca9f83ca
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Environment
+    - name: Impacts
+      guid: 48bce6258a14f149b210e7f7814d3c29
+      id: 1316910230
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: SubAcoustics
+        ObjectType: 2
+        guid: 90d3d2bccc30ed48b79b32d1aa9f85aa
+      - ElementName: Impacts
+        ObjectType: 2
+        guid: 48bce6258a14f149b210e7f7814d3c29
+      Path: Master-Mixer Hierarchy/Default Work Unit/SubAcoustics/Impacts
+    - name: InteractiveMusic_Vocal_Silent
+      guid: 29c924b1c4b1334cabd2695febf6f2ef
+      id: 2579128390
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: InteractiveMusic_Vocal_Silent
+        ObjectType: 2
+        guid: 29c924b1c4b1334cabd2695febf6f2ef
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/InteractiveMusic_Vocal_Silent
+    - name: InteractiveMusic_Vocal_Toning
+      guid: 6bbe72bee3fbc44b90f584df890b98fa
+      id: 2479991680
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: InteractiveMusic_Vocal_Toning
+        ObjectType: 2
+        guid: 6bbe72bee3fbc44b90f584df890b98fa
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/InteractiveMusic_Vocal_Toning
+    - name: LinearMusic
+      guid: 73438df47fe6f64a8cd31cd46406f853
+      id: 1089785595
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: LinearMusic
+        ObjectType: 2
+        guid: 73438df47fe6f64a8cd31cd46406f853
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/LinearMusic
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
       id: 3803692087
@@ -119,6 +204,37 @@ MonoBehaviour:
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
       Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus
+    - name: SFX
+      guid: e4e1fde827d06d4b903a2e8e41698e0e
+      id: 393239870
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX
+        ObjectType: 2
+        guid: e4e1fde827d06d4b903a2e8e41698e0e
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/SFX
+    - name: SubAcoustics
+      guid: 90d3d2bccc30ed48b79b32d1aa9f85aa
+      id: 2218314507
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: SubAcoustics
+        ObjectType: 2
+        guid: 90d3d2bccc30ed48b79b32d1aa9f85aa
+      Path: Master-Mixer Hierarchy/Default Work Unit/SubAcoustics
     - name: VO
       guid: 9f6752ecd2bf674fb0abfce686ef8905
       id: 1534528548
@@ -136,40 +252,6 @@ MonoBehaviour:
         ObjectType: 2
         guid: 9f6752ecd2bf674fb0abfce686ef8905
       Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/VO
-    - name: Vocal_Silent
-      guid: 29c924b1c4b1334cabd2695febf6f2ef
-      id: 3200767228
-      PathAndIcons:
-      - ElementName: Master-Mixer Hierarchy
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: dd3e190cfb4d16499f593fc858e3694d
-      - ElementName: Master Audio Bus
-        ObjectType: 2
-        guid: d8a41415a61d2a41a17e75ca0c2149f3
-      - ElementName: Vocal_Silent
-        ObjectType: 2
-        guid: 29c924b1c4b1334cabd2695febf6f2ef
-      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Vocal_Silent
-    - name: Vocal_Toning
-      guid: 6bbe72bee3fbc44b90f584df890b98fa
-      id: 2528870038
-      PathAndIcons:
-      - ElementName: Master-Mixer Hierarchy
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: dd3e190cfb4d16499f593fc858e3694d
-      - ElementName: Master Audio Bus
-        ObjectType: 2
-        guid: d8a41415a61d2a41a17e75ca0c2149f3
-      - ElementName: Vocal_Toning
-        ObjectType: 2
-        guid: 6bbe72bee3fbc44b90f584df890b98fa
-      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Vocal_Toning
   BankWwu:
   - PhysicalPath: SoundBanks/Default Work Unit.wwu
     PathAndIcons:
@@ -182,7 +264,7 @@ MonoBehaviour:
     ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584882647640429295
+    m_lastTime: -8584877060650434593
     List:
     - name: Main
       guid: 172bdab802ba9d46857f79a5e4fce4c3
@@ -210,7 +292,7 @@ MonoBehaviour:
     ParentPath: Events/AVS System
     guid: 8dda26975fba794392b0097b08fbff76
     GuidInternal: 
-    m_lastTime: -8584882647641003182
+    m_lastTime: -8584877060650509975
     List:
     - name: Play_AVS_Audacity_Modulations
       guid: d8033384ba042e4fbeafb6e9be5efc2d
@@ -243,6 +325,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: 41216f8406a98f4b8c97637a227867fa
       Path: Events/AVS System/Play_AVS_BreathCycle
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_AVS_Reference
+      guid: c01143030e8d3a4a827dc311e731d967
+      id: 3013892040
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 8dda26975fba794392b0097b08fbff76
+      - ElementName: Play_AVS_Reference
+        ObjectType: 3
+        guid: c01143030e8d3a4a827dc311e731d967
+      Path: Events/AVS System/Play_AVS_Reference
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -342,42 +441,8 @@ MonoBehaviour:
     ParentPath: Events/Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584882647641001741
+    m_lastTime: -8584877060650485296
     List:
-    - name: Play_AVS_ModulationThemes_Ideas
-      guid: 6e485a6ef7b22748a9f035aa4ff188b1
-      id: 931637380
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_AVS_ModulationThemes_Ideas
-        ObjectType: 3
-        guid: 6e485a6ef7b22748a9f035aa4ff188b1
-      Path: Events/Default Work Unit/Play_AVS_ModulationThemes_Ideas
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_Microphone
-      guid: 750bda1a4b4677459ede655b4f8b3c30
-      id: 1324678662
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_Microphone
-        ObjectType: 3
-        guid: 750bda1a4b4677459ede655b4f8b3c30
-      Path: Events/Default Work Unit/Play_Microphone
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
     - name: Stop_All
       guid: 911e8239f431d347b1afe42968aa6d28
       id: 452547817
@@ -395,20 +460,152 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-    - name: Test_Play_SynthOne
-      guid: fedaec9c75df2d4b923e2f77d419b69a
-      id: 887323979
+  - PhysicalPath: Events/Environment.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Environment
+      ObjectType: 12
+      guid: 3ffbeff2adf5b844b3827d55048249ec
+    ParentPath: Events/Environment
+    guid: 3ffbeff2adf5b844b3827d55048249ec
+    GuidInternal: 
+    m_lastTime: -8584881339894228791
+    List:
+    - name: Play_environment_anyQueryRepeat1
+      guid: 78543b158da14a44a12803d2d86547b2
+      id: 3724822780
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
         guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
+      - ElementName: Environment
         ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Test_Play_SynthOne
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_environment_anyQueryRepeat1
         ObjectType: 3
-        guid: fedaec9c75df2d4b923e2f77d419b69a
-      Path: Events/Default Work Unit/Test_Play_SynthOne
+        guid: 78543b158da14a44a12803d2d86547b2
+      Path: Events/Environment/Play_environment_anyQueryRepeat1
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_environment_anyQueryRepeat2
+      guid: a74a78625487754c83e189f38e1542e0
+      id: 3724822783
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_environment_anyQueryRepeat2
+        ObjectType: 3
+        guid: a74a78625487754c83e189f38e1542e0
+      Path: Events/Environment/Play_environment_anyQueryRepeat2
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_environment_crickets
+      guid: caf9ad289544634ebabb04d4ee579e24
+      id: 3451051880
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_environment_crickets
+        ObjectType: 3
+        guid: caf9ad289544634ebabb04d4ee579e24
+      Path: Events/Environment/Play_environment_crickets
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_environment_openingMeditation
+      guid: 326bdc957a16b444aef6e72e76569a47
+      id: 362704004
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_environment_openingMeditation
+        ObjectType: 3
+        guid: 326bdc957a16b444aef6e72e76569a47
+      Path: Events/Environment/Play_environment_openingMeditation
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_environment_openingQuery
+      guid: fcf464f8792826429786dc66a59cb755
+      id: 2987132208
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_environment_openingQuery
+        ObjectType: 3
+        guid: fcf464f8792826429786dc66a59cb755
+      Path: Events/Environment/Play_environment_openingQuery
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_environment_openingQueryRepeat1
+      guid: b3f21f69d3cfc943b7c1cdc5db950be5
+      id: 772188046
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_environment_openingQueryRepeat1
+        ObjectType: 3
+        guid: b3f21f69d3cfc943b7c1cdc5db950be5
+      Path: Events/Environment/Play_environment_openingQueryRepeat1
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_environment_openingWelcome
+      guid: 060e8d2d615c0d4c9dad742d0c446dcb
+      id: 2849654864
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_environment_openingWelcome
+        ObjectType: 3
+        guid: 060e8d2d615c0d4c9dad742d0c446dcb
+      Path: Events/Environment/Play_environment_openingWelcome
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_environment_wind
+      guid: c2a27769525b9b4986ec4482937d7ab0
+      id: 2929327982
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_environment_wind
+        ObjectType: 3
+        guid: c2a27769525b9b4986ec4482937d7ab0
+      Path: Events/Environment/Play_environment_wind
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -423,7 +620,7 @@ MonoBehaviour:
     ParentPath: Events/Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584882647641000576
+    m_lastTime: -8584877060650459214
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -557,6 +754,104 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+  - PhysicalPath: Events/SFX.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: SFX
+      ObjectType: 12
+      guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+    ParentPath: Events/SFX
+    guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+    GuidInternal: 
+    m_lastTime: -8584877053962266454
+    List:
+    - name: Play_sfx_breathein
+      guid: 3bb9951731f13247805529bc37e9b579
+      id: 3830600368
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_breathein
+        ObjectType: 3
+        guid: 3bb9951731f13247805529bc37e9b579
+      Path: Events/SFX/Play_sfx_breathein
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_sfx_breatheout
+      guid: 45fd7e94e476614f88550a00fe87bc89
+      id: 77468567
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_breatheout
+        ObjectType: 3
+        guid: 45fd7e94e476614f88550a00fe87bc89
+      Path: Events/SFX/Play_sfx_breatheout
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_sfx_Impact
+      guid: 32835a0a9f382e45b07c318cd4f7edd5
+      id: 2908297336
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_Impact
+        ObjectType: 3
+        guid: 32835a0a9f382e45b07c318cd4f7edd5
+      Path: Events/SFX/Play_sfx_Impact
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_sfx_SoundSeed_BreathCycle
+      guid: 99106bfe1545de45801f62326cc3385b
+      id: 3431547933
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_SoundSeed_BreathCycle
+        ObjectType: 3
+        guid: 99106bfe1545de45801f62326cc3385b
+      Path: Events/SFX/Play_sfx_SoundSeed_BreathCycle
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_sfx_SoundSeed_BreathCycleWind
+      guid: 4ed7691a4216e14ab637480e5631f78d
+      id: 603425291
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_SoundSeed_BreathCycleWind
+        ObjectType: 3
+        guid: 4ed7691a4216e14ab637480e5631f78d
+      Path: Events/SFX/Play_sfx_SoundSeed_BreathCycleWind
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events/VO.wwu
     PathAndIcons:
     - ElementName: Events
@@ -568,7 +863,7 @@ MonoBehaviour:
     ParentPath: Events/VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584888363777859854
+    m_lastTime: -8584881339894001460
     List:
     - name: GameMode_SetSwitch_Long
       guid: 82022900e172ae44b9e178aae3f35f42
@@ -1079,7 +1374,20 @@ MonoBehaviour:
     ParentPath: Game Parameters/Default Work Unit
     guid: 08fd3303aa3c7f468178c0764211feaf
     GuidInternal: 
-    m_lastTime: -8584888363777857639
+    m_lastTime: -8584881339893982298
+    List: []
+  - PhysicalPath: Game Parameters/Environment.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Environment
+      ObjectType: 12
+      guid: 68706b1d86fc5f4cab899effe052e5a3
+    ParentPath: Game Parameters/Environment
+    guid: 68706b1d86fc5f4cab899effe052e5a3
+    GuidInternal: 
+    m_lastTime: -8584881339893636655
     List: []
   - PhysicalPath: Game Parameters/Interactive Music System.wwu
     PathAndIcons:
@@ -1189,10 +1497,10 @@ MonoBehaviour:
     ParentPath: Game Parameters/Master Mixer
     guid: 5920b64a742d1a4e8cff8cefde2685e4
     GuidInternal: 
-    m_lastTime: -8584888363777855891
+    m_lastTime: -8584881339893955051
     List:
     - name: Environment_Bus_Volume
-      guid: 4424087537c1de4ebc46a819cbb95c6e
+      guid: 00e9241d6ffb984998eae0bfa9b073c4
       id: 2456559820
       PathAndIcons:
       - ElementName: Game Parameters
@@ -1203,7 +1511,7 @@ MonoBehaviour:
         guid: 5920b64a742d1a4e8cff8cefde2685e4
       - ElementName: Environment_Bus_Volume
         ObjectType: 13
-        guid: 4424087537c1de4ebc46a819cbb95c6e
+        guid: 00e9241d6ffb984998eae0bfa9b073c4
       Path: Game Parameters/Master Mixer/Environment_Bus_Volume
     - name: InteractiveMusic_Bus_Volume
       guid: 575b55d52729ba4d8cf6892c63cd23a5
@@ -1275,6 +1583,75 @@ MonoBehaviour:
         ObjectType: 13
         guid: 1298e04cde4b67498638b6c2e6d7a693
       Path: Game Parameters/Master Mixer/VO_Bus_Volume
+  - PhysicalPath: Game Parameters/SFX.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: SFX
+      ObjectType: 12
+      guid: 22725a575c2b944694ea3cb75aedb4cc
+    ParentPath: Game Parameters/SFX
+    guid: 22725a575c2b944694ea3cb75aedb4cc
+    GuidInternal: 
+    m_lastTime: -8584881339893794814
+    List:
+    - name: BreathCycle_PlaybackRate
+      guid: 6d7af0ec39bb0a45be91aeb4ed817de1
+      id: 158808291
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 22725a575c2b944694ea3cb75aedb4cc
+      - ElementName: BreathCycle_PlaybackRate
+        ObjectType: 13
+        guid: 6d7af0ec39bb0a45be91aeb4ed817de1
+      Path: Game Parameters/SFX/BreathCycle_PlaybackRate
+    - name: BreatheCycle_Volume
+      guid: 44b8546045cb594c9436ecb992881033
+      id: 1662384195
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 22725a575c2b944694ea3cb75aedb4cc
+      - ElementName: BreatheCycle_Volume
+        ObjectType: 13
+        guid: 44b8546045cb594c9436ecb992881033
+      Path: Game Parameters/SFX/BreatheCycle_Volume
+    - name: CrystalBowlGenerator_Volume
+      guid: 341c0f297cf98643b9440cc0d9101d56
+      id: 3761161481
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 22725a575c2b944694ea3cb75aedb4cc
+      - ElementName: CrystalBowlGenerator_Volume
+        ObjectType: 13
+        guid: 341c0f297cf98643b9440cc0d9101d56
+      Path: Game Parameters/SFX/CrystalBowlGenerator_Volume
+    - name: Impacts_Volume
+      guid: 8d7e7c171e16194aafa65e7e47e603e8
+      id: 1710998699
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 22725a575c2b944694ea3cb75aedb4cc
+      - ElementName: Impacts_Volume
+        ObjectType: 13
+        guid: 8d7e7c171e16194aafa65e7e47e603e8
+      Path: Game Parameters/SFX/Impacts_Volume
   StateWwu:
   - PhysicalPath: States/Default Work Unit.wwu
     PathAndIcons:
@@ -1287,10 +1664,10 @@ MonoBehaviour:
     ParentPath: States/Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584882647640419062
+    m_lastTime: -8584882197793375231
     List:
     - name: AVSModulationMode
-      guid: 3cb508a6906fd64487916f169283074c
+      guid: e47132e1c5e7394f9059bb30eef1e5e9
       id: 4128979292
       PathAndIcons:
       - ElementName: States
@@ -1301,12 +1678,12 @@ MonoBehaviour:
         guid: 7ce132b6a0022f428482f3c8e97d00be
       - ElementName: AVSModulationMode
         ObjectType: 9
-        guid: 3cb508a6906fd64487916f169283074c
+        guid: e47132e1c5e7394f9059bb30eef1e5e9
       Path: States/Default Work Unit/AVSModulationMode
       values:
-      - name: Learning
-        guid: 6b11921cd1560d478598576b5048e13d
-        id: 1639299567
+      - name: Binaural
+        guid: bcf52e96672ce743829951ad1e0e6cd9
+        id: 52442795
         PathAndIcons:
         - ElementName: States
           ObjectType: 5
@@ -1316,12 +1693,28 @@ MonoBehaviour:
           guid: 7ce132b6a0022f428482f3c8e97d00be
         - ElementName: AVSModulationMode
           ObjectType: 9
-          guid: 3cb508a6906fd64487916f169283074c
-        - ElementName: Learning
+          guid: e47132e1c5e7394f9059bb30eef1e5e9
+        - ElementName: Binaural
           ObjectType: 8
-          guid: 6b11921cd1560d478598576b5048e13d
+          guid: bcf52e96672ce743829951ad1e0e6cd9
+      - name: Isochronic
+        guid: 1f27257ed906ec4a978149c787ac0b87
+        id: 254705482
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AVSModulationMode
+          ObjectType: 9
+          guid: e47132e1c5e7394f9059bb30eef1e5e9
+        - ElementName: Isochronic
+          ObjectType: 8
+          guid: 1f27257ed906ec4a978149c787ac0b87
       - name: None
-        guid: 8cd28508af8c2f4487edaad7c2ba7a91
+        guid: d040fb1ab9a4fc4f9e474cd29bf52e3d
         id: 748895195
         PathAndIcons:
         - ElementName: States
@@ -1332,13 +1725,13 @@ MonoBehaviour:
           guid: 7ce132b6a0022f428482f3c8e97d00be
         - ElementName: AVSModulationMode
           ObjectType: 9
-          guid: 3cb508a6906fd64487916f169283074c
+          guid: e47132e1c5e7394f9059bb30eef1e5e9
         - ElementName: None
           ObjectType: 8
-          guid: 8cd28508af8c2f4487edaad7c2ba7a91
-      - name: OceanWaves
-        guid: d069005add47eb43812386b7c9e3e6e4
-        id: 3350388417
+          guid: d040fb1ab9a4fc4f9e474cd29bf52e3d
+      - name: Solid
+        guid: 1c8d1410684ed0419af956ab1ae289d9
+        id: 744619566
         PathAndIcons:
         - ElementName: States
           ObjectType: 5
@@ -1348,10 +1741,108 @@ MonoBehaviour:
           guid: 7ce132b6a0022f428482f3c8e97d00be
         - ElementName: AVSModulationMode
           ObjectType: 9
-          guid: 3cb508a6906fd64487916f169283074c
-        - ElementName: OceanWaves
+          guid: e47132e1c5e7394f9059bb30eef1e5e9
+        - ElementName: Solid
           ObjectType: 8
-          guid: d069005add47eb43812386b7c9e3e6e4
+          guid: 1c8d1410684ed0419af956ab1ae289d9
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: AVSModulationRate
+      guid: 3cb508a6906fd64487916f169283074c
+      id: 700230891
+      PathAndIcons:
+      - ElementName: States
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7ce132b6a0022f428482f3c8e97d00be
+      - ElementName: AVSModulationRate
+        ObjectType: 9
+        guid: 3cb508a6906fd64487916f169283074c
+      Path: States/Default Work Unit/AVSModulationRate
+      values:
+      - name: None
+        guid: 8cd28508af8c2f4487edaad7c2ba7a91
+        id: 748895195
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AVSModulationRate
+          ObjectType: 9
+          guid: 3cb508a6906fd64487916f169283074c
+        - ElementName: None
+          ObjectType: 8
+          guid: 8cd28508af8c2f4487edaad7c2ba7a91
+      - name: TRI_10Hz
+        guid: 6edd96b9922211478d02f9b530a32a71
+        id: 3821228550
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AVSModulationRate
+          ObjectType: 9
+          guid: 3cb508a6906fd64487916f169283074c
+        - ElementName: TRI_10Hz
+          ObjectType: 8
+          guid: 6edd96b9922211478d02f9b530a32a71
+      - name: TRI_1Hz
+        guid: 4a70f3b5c2a33a42ad1ed7c7fc30cbdd
+        id: 4038867422
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AVSModulationRate
+          ObjectType: 9
+          guid: 3cb508a6906fd64487916f169283074c
+        - ElementName: TRI_1Hz
+          ObjectType: 8
+          guid: 4a70f3b5c2a33a42ad1ed7c7fc30cbdd
+      - name: TRI_20Hz
+        guid: c03f91c198b9f245be32ae06397b4c4d
+        id: 818413719
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AVSModulationRate
+          ObjectType: 9
+          guid: 3cb508a6906fd64487916f169283074c
+        - ElementName: TRI_20Hz
+          ObjectType: 8
+          guid: c03f91c198b9f245be32ae06397b4c4d
+      - name: TRI_5Hz
+        guid: d78be9a30ad3db4d8ac0f1f1c5b333db
+        id: 145871466
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AVSModulationRate
+          ObjectType: 9
+          guid: 3cb508a6906fd64487916f169283074c
+        - ElementName: TRI_5Hz
+          ObjectType: 8
+          guid: d78be9a30ad3db4d8ac0f1f1c5b333db
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -1484,6 +1975,22 @@ MonoBehaviour:
         guid: 10d188a0300e454289a83f1a4f31424e
       Path: States/Default Work Unit/SoundWorldMode
       values:
+      - name: Environment1
+        guid: fea5057a30bf7749a834d8d99dd21194
+        id: 3761286873
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: SoundWorldMode
+          ObjectType: 9
+          guid: 10d188a0300e454289a83f1a4f31424e
+        - ElementName: Environment1
+          ObjectType: 8
+          guid: fea5057a30bf7749a834d8d99dd21194
       - name: Gentle
         guid: f718d58ea3ad3243b9c4ae56a295a9d1
         id: 2193720742
@@ -1579,11 +2086,11 @@ MonoBehaviour:
     ParentPath: Switches/AVS
     guid: 77a4ddce2990b345b04090db07cd3c46
     GuidInternal: 
-    m_lastTime: -8584882647640409946
+    m_lastTime: -8584882197793392648
     List:
-    - name: AVSSystem_GREEN
-      guid: 29e7c053a63dee4c9f74feb901398b64
-      id: 1345033688
+    - name: AVSSystem_ModulationColor
+      guid: 863efc1a5f60f74f870657ab4436b10a
+      id: 1359639962
       PathAndIcons:
       - ElementName: Switches
         ObjectType: 5
@@ -1591,14 +2098,14 @@ MonoBehaviour:
       - ElementName: AVS
         ObjectType: 12
         guid: 77a4ddce2990b345b04090db07cd3c46
-      - ElementName: AVSSystem_GREEN
+      - ElementName: AVSSystem_ModulationColor
         ObjectType: 11
-        guid: 29e7c053a63dee4c9f74feb901398b64
-      Path: Switches/AVS/AVSSystem_GREEN
+        guid: 863efc1a5f60f74f870657ab4436b10a
+      Path: Switches/AVS/AVSSystem_ModulationColor
       values:
-      - name: BINAURAL_SAW_10HZ
-        guid: 06cf27d51fbcfa458cb17e150cfe30be
-        id: 1822985501
+      - name: BLUE
+        guid: 54d3f3ffee92204eab76972ed0fb31f4
+        id: 1325827433
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
@@ -1606,15 +2113,15 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
+        - ElementName: AVSSystem_ModulationColor
           ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: BINAURAL_SAW_10HZ
+          guid: 863efc1a5f60f74f870657ab4436b10a
+        - ElementName: BLUE
           ObjectType: 10
-          guid: 06cf27d51fbcfa458cb17e150cfe30be
-      - name: BINAURAL_TRISINE_10HZ
-        guid: 8fea16a333c4fd4492dcaa8576ad677b
-        id: 4263429700
+          guid: 54d3f3ffee92204eab76972ed0fb31f4
+      - name: GREEN
+        guid: ff38392cc0bd1a4c81ae31c4676b9e97
+        id: 4147287986
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
@@ -1622,15 +2129,15 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
+        - ElementName: AVSSystem_ModulationColor
           ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: BINAURAL_TRISINE_10HZ
+          guid: 863efc1a5f60f74f870657ab4436b10a
+        - ElementName: GREEN
           ObjectType: 10
-          guid: 8fea16a333c4fd4492dcaa8576ad677b
-      - name: PULSE_PWM_1HZ
-        guid: 1f782beedf31bb4d9cbeeb8298e17ca0
-        id: 2848387291
+          guid: ff38392cc0bd1a4c81ae31c4676b9e97
+      - name: RED
+        guid: 62b608a9c7cc63489fda5ae6b36f1a9f
+        id: 980603538
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
@@ -1638,15 +2145,15 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
+        - ElementName: AVSSystem_ModulationColor
           ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: PULSE_PWM_1HZ
+          guid: 863efc1a5f60f74f870657ab4436b10a
+        - ElementName: RED
           ObjectType: 10
-          guid: 1f782beedf31bb4d9cbeeb8298e17ca0
-      - name: PULSE_RAMP_10HZ
-        guid: 901f9483857d3841821c057f136a33dc
-        id: 912996739
+          guid: 62b608a9c7cc63489fda5ae6b36f1a9f
+      - name: WHITE
+        guid: b6ceccc4104b3e4cb69b980b9e965f8c
+        id: 3178740632
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
@@ -1654,114 +2161,18 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
+        - ElementName: AVSSystem_ModulationColor
           ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: PULSE_RAMP_10HZ
+          guid: 863efc1a5f60f74f870657ab4436b10a
+        - ElementName: WHITE
           ObjectType: 10
-          guid: 901f9483857d3841821c057f136a33dc
-      - name: PULSE_SINE_10HZ
-        guid: 7f3cc37cc833b04fa19828ff6d5bb172
-        id: 1256032942
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: AVS
-          ObjectType: 12
-          guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
-          ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: PULSE_SINE_10HZ
-          ObjectType: 10
-          guid: 7f3cc37cc833b04fa19828ff6d5bb172
-      - name: PULSE_SINE_1HZ
-        guid: a390748304e0284f81f21911ac33b49a
-        id: 1379062742
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: AVS
-          ObjectType: 12
-          guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
-          ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: PULSE_SINE_1HZ
-          ObjectType: 10
-          guid: a390748304e0284f81f21911ac33b49a
-      - name: PULSE_SQ_1HZ
-        guid: a611dc17076c1f4786fa7960ab92b761
-        id: 3125529689
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: AVS
-          ObjectType: 12
-          guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
-          ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: PULSE_SQ_1HZ
-          ObjectType: 10
-          guid: a611dc17076c1f4786fa7960ab92b761
-      - name: PULSE_TRI_10HZ
-        guid: a62551a4d6577d419c96b9e92eb36e5c
-        id: 2616603124
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: AVS
-          ObjectType: 12
-          guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
-          ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: PULSE_TRI_10HZ
-          ObjectType: 10
-          guid: a62551a4d6577d419c96b9e92eb36e5c
-      - name: PULSE_TRI_1HZ
-        guid: 79dc545f9884724f89054059c3fd2cf3
-        id: 1136753120
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: AVS
-          ObjectType: 12
-          guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
-          ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: PULSE_TRI_1HZ
-          ObjectType: 10
-          guid: 79dc545f9884724f89054059c3fd2cf3
-      - name: SOLID
-        guid: 94f912b2485eaf4da6f12a97428cd228
-        id: 744619566
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: AVS
-          ObjectType: 12
-          guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystem_GREEN
-          ObjectType: 11
-          guid: 29e7c053a63dee4c9f74feb901398b64
-        - ElementName: SOLID
-          ObjectType: 10
-          guid: 94f912b2485eaf4da6f12a97428cd228
+          guid: b6ceccc4104b3e4cb69b980b9e965f8c
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: AVSSystemSwitchGroup
+    - name: AVSSystem_SolidColor
       guid: 29c159581a0c29448f42257bbde0fe95
-      id: 2394623865
+      id: 1609954357
       PathAndIcons:
       - ElementName: Switches
         ObjectType: 5
@@ -1769,10 +2180,10 @@ MonoBehaviour:
       - ElementName: AVS
         ObjectType: 12
         guid: 77a4ddce2990b345b04090db07cd3c46
-      - ElementName: AVSSystemSwitchGroup
+      - ElementName: AVSSystem_SolidColor
         ObjectType: 11
         guid: 29c159581a0c29448f42257bbde0fe95
-      Path: Switches/AVS/AVSSystemSwitchGroup
+      Path: Switches/AVS/AVSSystem_SolidColor
       values:
       - name: Blue
         guid: 28e7e454d845eb4b91c96a3215709700
@@ -1784,7 +2195,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Blue
@@ -1800,7 +2211,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Cyan
@@ -1816,7 +2227,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Dark
@@ -1832,7 +2243,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Green
@@ -1848,7 +2259,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Indigo
@@ -1864,7 +2275,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Magenta
@@ -1880,7 +2291,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Orange
@@ -1896,7 +2307,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Red
@@ -1912,7 +2323,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: White
@@ -1928,7 +2339,7 @@ MonoBehaviour:
         - ElementName: AVS
           ObjectType: 12
           guid: 77a4ddce2990b345b04090db07cd3c46
-        - ElementName: AVSSystemSwitchGroup
+        - ElementName: AVSSystem_SolidColor
           ObjectType: 11
           guid: 29c159581a0c29448f42257bbde0fe95
         - ElementName: Yellow
@@ -1961,7 +2372,7 @@ MonoBehaviour:
     ParentPath: Switches/Interactive Music System
     guid: a70b5ef296c6e5488bce779e710a3892
     GuidInternal: 
-    m_lastTime: -8584888363777537865
+    m_lastTime: -8584883102937203865
     List:
     - name: InteractiveMusicSwitchGroup
       guid: 028067d9e2606b4b89c73087a452a4a2
@@ -1978,6 +2389,22 @@ MonoBehaviour:
         guid: 028067d9e2606b4b89c73087a452a4a2
       Path: Switches/Interactive Music System/InteractiveMusicSwitchGroup
       values:
+      - name: A
+        guid: b98ba9bc1fd9804681f8b1a108a2132f
+        id: 84696446
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: InteractiveMusicSwitchGroup
+          ObjectType: 11
+          guid: 028067d9e2606b4b89c73087a452a4a2
+        - ElementName: A
+          ObjectType: 10
+          guid: b98ba9bc1fd9804681f8b1a108a2132f
       - name: B
         guid: e909e35dd8cad34a9c7d556dd4935594
         id: 84696445
@@ -2010,6 +2437,22 @@ MonoBehaviour:
         - ElementName: C
           ObjectType: 10
           guid: b36ac47f2fd3ac419e188935dda24b18
+      - name: D
+        guid: d28272d6198ddf4788e34a72816e38d3
+        id: 84696443
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: InteractiveMusicSwitchGroup
+          ObjectType: 11
+          guid: 028067d9e2606b4b89c73087a452a4a2
+        - ElementName: D
+          ObjectType: 10
+          guid: d28272d6198ddf4788e34a72816e38d3
       - name: E
         guid: 706e3a5bf8aa6b42b9dde72b43c98983
         id: 84696442
@@ -2026,6 +2469,22 @@ MonoBehaviour:
         - ElementName: E
           ObjectType: 10
           guid: 706e3a5bf8aa6b42b9dde72b43c98983
+      - name: F
+        guid: de04fde6228151479f2e5bf973766d5a
+        id: 84696441
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: InteractiveMusicSwitchGroup
+          ObjectType: 11
+          guid: 028067d9e2606b4b89c73087a452a4a2
+        - ElementName: F
+          ObjectType: 10
+          guid: de04fde6228151479f2e5bf973766d5a
       - name: G
         guid: c2edca255c994440b4a438361f607d0f
         id: 84696440
@@ -2105,6 +2564,85 @@ MonoBehaviour:
         - ElementName: openingShort
           ObjectType: 10
           guid: d45806670ae20649949bb5343039c867
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+  - PhysicalPath: Switches/SFX.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: SFX
+      ObjectType: 12
+      guid: 632f13f35b1c6e4caf89d68030a98081
+    ParentPath: Switches/SFX
+    guid: 632f13f35b1c6e4caf89d68030a98081
+    GuidInternal: 
+    m_lastTime: -8584881339893738782
+    List:
+    - name: SFX_SwitchGroup
+      guid: 280b6dd0da0fe54bbfab80f14fc670eb
+      id: 3844207618
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 632f13f35b1c6e4caf89d68030a98081
+      - ElementName: SFX_SwitchGroup
+        ObjectType: 11
+        guid: 280b6dd0da0fe54bbfab80f14fc670eb
+      Path: Switches/SFX/SFX_SwitchGroup
+      values:
+      - name: Container1
+        guid: f07754a03b005d40b5273f7aef48af66
+        id: 319140555
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: SFX
+          ObjectType: 12
+          guid: 632f13f35b1c6e4caf89d68030a98081
+        - ElementName: SFX_SwitchGroup
+          ObjectType: 11
+          guid: 280b6dd0da0fe54bbfab80f14fc670eb
+        - ElementName: Container1
+          ObjectType: 10
+          guid: f07754a03b005d40b5273f7aef48af66
+      - name: Container2
+        guid: d8b8d44977792040bb4f3f9c87dd7e6e
+        id: 319140552
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: SFX
+          ObjectType: 12
+          guid: 632f13f35b1c6e4caf89d68030a98081
+        - ElementName: SFX_SwitchGroup
+          ObjectType: 11
+          guid: 280b6dd0da0fe54bbfab80f14fc670eb
+        - ElementName: Container2
+          ObjectType: 10
+          guid: d8b8d44977792040bb4f3f9c87dd7e6e
+      - name: Container3
+        guid: 3f213d1707fa5d48a171856463acc928
+        id: 319140553
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: SFX
+          ObjectType: 12
+          guid: 632f13f35b1c6e4caf89d68030a98081
+        - ElementName: SFX_SwitchGroup
+          ObjectType: 11
+          guid: 280b6dd0da0fe54bbfab80f14fc670eb
+        - ElementName: Container3
+          ObjectType: 10
+          guid: 3f213d1707fa5d48a171856463acc928
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -2755,7 +3293,7 @@ MonoBehaviour:
     ParentPath: Triggers/Default Work Unit
     guid: 2e22794f9054df4dba29a333b79a5f59
     GuidInternal: 
-    m_lastTime: -8584888363777535478
+    m_lastTime: -8584883102937166978
     List: []
   ExpandedFileSystemItemIds: 
   ExpandedWaapiItemIds: 

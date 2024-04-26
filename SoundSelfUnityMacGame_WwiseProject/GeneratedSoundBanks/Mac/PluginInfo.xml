@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PluginInfo Platform="Mac" BasePlatform="Mac">
 	<PluginLibs>
-		<PluginLib LibName="Wwise Tone Generator" LibId="6684674" Type="Source" DLL="AkToneGen" StaticLib="AkToneSource"/>
+		<PluginLib LibName="Wwise Sine" LibId="6553602" Type="Source" DLL="AkSineTone" StaticLib="AkSineSource"/>
 		<PluginLib LibName="Wwise RoomVerb" LibId="7733251" Type="Effect" DLL="AkRoomVerb" StaticLib="AkRoomVerbFX"/>
-		<PluginLib LibName="Wwise Tremolo" LibId="8585219" Type="Effect" DLL="AkTremolo" StaticLib="AkTremoloFX"/>
 		<PluginLib LibName="Wwise Stereo Delay" LibId="8847363" Type="Effect" DLL="AkStereoDelay" StaticLib="AkStereoDelayFX"/>
-		<PluginLib LibName="Wwise Synth One" LibId="9699330" Type="Source" DLL="AkSynthOne" StaticLib="AkSynthOneSource"/>
 		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
 		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
-		<PluginLib LibName="Wwise Audio Input" LibId="13107202" Type="Source" DLL="AkAudioInput" StaticLib="AkAudioInputSource"/>
 	</PluginLibs>
-	<FileHash>{421A37EF-9CDC-3376-C3E1-F083773B0E5D}</FileHash>
+	<FileHash>{DB85CAF4-C360-D886-EAB9-819E0E871219}</FileHash>
 </PluginInfo>

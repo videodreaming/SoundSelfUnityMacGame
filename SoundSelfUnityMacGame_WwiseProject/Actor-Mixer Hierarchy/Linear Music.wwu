@@ -25,6 +25,11 @@
 						<Sound Name="music_OpeningMeditationLong_A Major" ID="{5420F189-70E4-4967-A125-125C49895F1E}" ShortID="775113752">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -73,6 +78,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="music_OpeningMeditationLong_C Major" ID="{F517469F-4996-4719-AB2B-8645CD1130F7}" ShortID="844457826">
+							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>

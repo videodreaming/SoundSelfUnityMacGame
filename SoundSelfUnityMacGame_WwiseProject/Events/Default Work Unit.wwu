@@ -3,28 +3,6 @@
 	<Events>
 		<WorkUnit Name="Default Work Unit" ID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Play_Microphone" ID="{1ADA0B75-464B-4577-9EDE-655B4F8B3C30}">
-					<ChildrenList>
-						<Action Name="" ID="{9F913A3D-E95C-4109-8436-F1C4E7ABBB90}" ShortID="607653680">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Microphone" ID="{118CDC23-C382-463D-A08D-5BF76B0B6E98}" WorkUnitID="{C069A62D-BC5F-4755-B34F-4C11B5FF37B4}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Test_Play_SynthOne" ID="{9CECDAFE-DF75-4B2D-923E-2F77D419B69A}">
-					<ChildrenList>
-						<Action Name="" ID="{4935F95E-E285-4554-AB6B-29953E7CB296}" ShortID="38785753">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Test_SynthOne" ID="{B6119C27-E54B-43CE-96EF-D25E7A7508E7}" WorkUnitID="{C069A62D-BC5F-4755-B34F-4C11B5FF37B4}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="Stop_All" ID="{39821E91-31F4-47D3-B1AF-E42968AA6D28}">
 					<ChildrenList>
 						<Action Name="" ID="{2A038C84-D110-441D-84AF-876683510159}" ShortID="112105144">
@@ -32,17 +10,6 @@
 								<Property Name="ActionType" Type="int16" Value="3"/>
 							</PropertyList>
 							<ReferenceList/>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Play_AVS_ModulationThemes_Ideas" ID="{6E5A486E-B2F7-4827-A9F0-35AA4FF188B1}">
-					<ChildrenList>
-						<Action Name="" ID="{5A05011A-0D96-4DBA-8AF5-C28C571661D1}" ShortID="884007185">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_ModulationThemes_Ideas" ID="{22657883-8B80-426D-A4A8-C079D3780982}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>

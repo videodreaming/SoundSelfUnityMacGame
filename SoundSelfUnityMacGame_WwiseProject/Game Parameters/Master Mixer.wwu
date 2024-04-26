@@ -28,11 +28,7 @@
 						<Property Name="InitialValue" Type="Real64" Value="100"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="Environment_Bus_Volume" ID="{75082444-C137-4EDE-BC46-A819CBB95C6E}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-					</PropertyList>
-				</GameParameter>
+				<GameParameter Name="Environment_Bus_Volume" ID="{1D24E900-FB6F-4998-98EA-E0BFA9B073C4}"/>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

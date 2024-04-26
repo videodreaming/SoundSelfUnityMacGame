@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="SFX" ID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_sfx_SoundSeed_BreathCycle" ID="{FE6B1099-4515-45DE-801F-62326CC3385B}">
+					<ChildrenList>
+						<Action Name="" ID="{DC657F66-09B1-4044-BD7C-282EF89FB734}" ShortID="673990019">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}">
+					<ChildrenList>
+						<Action Name="" ID="{0FB154FA-8BFA-4296-8110-27788749740D}" ShortID="881688338">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_breatheout" ID="{947EFD45-76E4-4F61-8855-0A00FE87BC89}">
+					<ChildrenList>
+						<Action Name="" ID="{F2898BC6-0146-48E5-A2FC-6497B781550E}" ShortID="569718791">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath out" ID="{AFA1D476-C82D-45BF-B001-DF5BD24B1A76}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}">
+					<ChildrenList>
+						<Action Name="" ID="{653D3851-E418-452A-9E2F-741DB896EE87}" ShortID="873658869">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{E9D45B82-09A2-4209-9EFC-EC06B9301AEA}" ShortID="1013802003">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_Impact" ID="{0A5A8332-389F-452E-B07C-318CD4F7EDD5}">
+					<ChildrenList>
+						<Action Name="" ID="{B543CB52-D697-48AD-9736-F32EBEE434D1}" ShortID="825059182">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Impacts_Sequence" ID="{284B4166-15FA-4248-9C6C-BFED6EF1B1A2}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

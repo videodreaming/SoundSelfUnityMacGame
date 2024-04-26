@@ -15,12 +15,28 @@ namespace AK
     {
         static const AkUniqueID GAMEMODE_SETSWITCH_LONG = 3806398564U;
         static const AkUniqueID GAMEMODE_SETSWITCH_SHORT = 3487229100U;
-        static const AkUniqueID PLAY_AVSGENERATOR = 2590479921U;
-        static const AkUniqueID PLAY_CRYSTALBOWL = 1556089376U;
+        static const AkUniqueID PLAY_AVS_AUDACITY_MODULATIONS = 4056060051U;
+        static const AkUniqueID PLAY_AVS_BREATHCYCLE = 260368867U;
+        static const AkUniqueID PLAY_AVS_REFERENCE = 3013892040U;
+        static const AkUniqueID PLAY_AVS_SINEGENERATORS_SEQUENCE = 3723400384U;
+        static const AkUniqueID PLAY_AVS_SINEGENERATORS_SWITCH = 2892901283U;
+        static const AkUniqueID PLAY_CRYSTALBOWLGENERATOR = 2917442959U;
+        static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT1 = 3724822780U;
+        static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT2 = 3724822783U;
+        static const AkUniqueID PLAY_ENVIRONMENT_CRICKETS = 3451051880U;
+        static const AkUniqueID PLAY_ENVIRONMENT_OPENINGMEDITATION = 362704004U;
+        static const AkUniqueID PLAY_ENVIRONMENT_OPENINGQUERY = 2987132208U;
+        static const AkUniqueID PLAY_ENVIRONMENT_OPENINGQUERYREPEAT1 = 772188046U;
+        static const AkUniqueID PLAY_ENVIRONMENT_OPENINGWELCOME = 2849654864U;
+        static const AkUniqueID PLAY_ENVIRONMENT_WIND = 2929327982U;
         static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 2845481429U;
         static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_TONING = 1724678586U;
         static const AkUniqueID PLAY_LINEARMUSIC_OPENING = 2675524623U;
-        static const AkUniqueID PLAY_MICROPHONE = 1324678662U;
+        static const AkUniqueID PLAY_SFX_BREATHEIN = 3830600368U;
+        static const AkUniqueID PLAY_SFX_BREATHEOUT = 77468567U;
+        static const AkUniqueID PLAY_SFX_IMPACT = 2908297336U;
+        static const AkUniqueID PLAY_SFX_SOUNDSEED_BREATHCYCLE = 3431547933U;
+        static const AkUniqueID PLAY_SFX_SOUNDSEED_BREATHCYCLEWIND = 603425291U;
         static const AkUniqueID PLAY_VO_CLOSINGGOODBYE = 699412784U;
         static const AkUniqueID PLAY_VO_ENDINGSOON = 936790198U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONADVANCED = 4057363449U;
@@ -46,11 +62,43 @@ namespace AK
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
         static const AkUniqueID STOP_ALL = 452547817U;
-        static const AkUniqueID TEST_PLAY_SYNTHONE = 887323979U;
+        static const AkUniqueID STOP_AVS_AUDACITY_MODULATIONS = 4080430605U;
+        static const AkUniqueID STOP_AVS_SINEGENERATORS_SEQUENCE = 2188221646U;
+        static const AkUniqueID STOP_AVS_SINEGENERATORS_SWITCH = 630856697U;
+        static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
+        static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 1113777563U;
+        static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM_TONING = 2321356008U;
     } // namespace EVENTS
 
     namespace STATES
     {
+        namespace AVSMODULATIONMODE
+        {
+            static const AkUniqueID GROUP = 4128979292U;
+
+            namespace STATE
+            {
+                static const AkUniqueID BINAURAL = 52442795U;
+                static const AkUniqueID ISOCHRONIC = 254705482U;
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID SOLID = 744619566U;
+            } // namespace STATE
+        } // namespace AVSMODULATIONMODE
+
+        namespace AVSMODULATIONRATE
+        {
+            static const AkUniqueID GROUP = 700230891U;
+
+            namespace STATE
+            {
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID TRI_1HZ = 4038867422U;
+                static const AkUniqueID TRI_5HZ = 145871466U;
+                static const AkUniqueID TRI_10HZ = 3821228550U;
+                static const AkUniqueID TRI_20HZ = 818413719U;
+            } // namespace STATE
+        } // namespace AVSMODULATIONRATE
+
         namespace GAMEMODE
         {
             static const AkUniqueID GROUP = 261089142U;
@@ -72,6 +120,7 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID ENVIRONMENT1 = 3761286873U;
                 static const AkUniqueID GENTLE = 2193720742U;
                 static const AkUniqueID NONE = 748895195U;
                 static const AkUniqueID SHADOW = 3140781661U;
@@ -84,15 +133,50 @@ namespace AK
 
     namespace SWITCHES
     {
+        namespace AVSSYSTEM_MODULATIONCOLOR
+        {
+            static const AkUniqueID GROUP = 1359639962U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID BLUE = 1325827433U;
+                static const AkUniqueID GREEN = 4147287986U;
+                static const AkUniqueID RED = 980603538U;
+                static const AkUniqueID WHITE = 3178740632U;
+            } // namespace SWITCH
+        } // namespace AVSSYSTEM_MODULATIONCOLOR
+
+        namespace AVSSYSTEM_SOLIDCOLOR
+        {
+            static const AkUniqueID GROUP = 1609954357U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID BLUE = 1325827433U;
+                static const AkUniqueID CYAN = 4205001740U;
+                static const AkUniqueID DARK = 1925914845U;
+                static const AkUniqueID GREEN = 4147287986U;
+                static const AkUniqueID INDIGO = 4231717707U;
+                static const AkUniqueID MAGENTA = 3987849186U;
+                static const AkUniqueID ORANGE = 1362796839U;
+                static const AkUniqueID RED = 980603538U;
+                static const AkUniqueID WHITE = 3178740632U;
+                static const AkUniqueID YELLOW = 2774173721U;
+            } // namespace SWITCH
+        } // namespace AVSSYSTEM_SOLIDCOLOR
+
         namespace INTERACTIVEMUSICSWITCHGROUP
         {
             static const AkUniqueID GROUP = 2420200949U;
 
             namespace SWITCH
             {
+                static const AkUniqueID A = 84696446U;
                 static const AkUniqueID B = 84696445U;
                 static const AkUniqueID C = 84696444U;
+                static const AkUniqueID D = 84696443U;
                 static const AkUniqueID E = 84696442U;
+                static const AkUniqueID F = 84696441U;
                 static const AkUniqueID G = 84696440U;
             } // namespace SWITCH
         } // namespace INTERACTIVEMUSICSWITCHGROUP
@@ -107,6 +191,18 @@ namespace AK
                 static const AkUniqueID OPENINGSHORT = 3060490183U;
             } // namespace SWITCH
         } // namespace LINEARMUSIC_OPENING
+
+        namespace SFX_SWITCHGROUP
+        {
+            static const AkUniqueID GROUP = 3844207618U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID CONTAINER1 = 319140555U;
+                static const AkUniqueID CONTAINER2 = 319140552U;
+                static const AkUniqueID CONTAINER3 = 319140553U;
+            } // namespace SWITCH
+        } // namespace SFX_SWITCHGROUP
 
         namespace VO_CLOSINGGOODBYE
         {
@@ -206,30 +302,24 @@ namespace AK
 
     namespace GAME_PARAMETERS
     {
+        static const AkUniqueID AVSINTERACTIVEMODULATIONS_TEST = 3101711377U;
         static const AkUniqueID AVSMASTERVOLUME = 1426024143U;
-        static const AkUniqueID BLUESINEVOLUME = 1417631880U;
-        static const AkUniqueID ENV1_DEPTH = 2235242937U;
-        static const AkUniqueID ENV1_PWM_DUTYCYCLE = 644608889U;
-        static const AkUniqueID ENV1_RATE = 2687859792U;
-        static const AkUniqueID ENV1_SMOOTHING = 970945156U;
-        static const AkUniqueID ENV1_WAVEFORM = 3005694859U;
-        static const AkUniqueID ENV2_DEPTH = 2502993270U;
-        static const AkUniqueID ENV2_PWM_DUTYCYCLE = 1186192526U;
-        static const AkUniqueID ENV2_RATE = 3301429285U;
-        static const AkUniqueID ENV2_SMOOTHING = 557596075U;
-        static const AkUniqueID ENV2_WAVEFORM = 2154063598U;
+        static const AkUniqueID AVSPLAYBACKRATE = 2590793210U;
+        static const AkUniqueID BREATHCYCLE_PLAYBACKRATE = 158808291U;
+        static const AkUniqueID BREATHECYCLE_VOLUME = 1662384195U;
+        static const AkUniqueID CRYSTALBOWLGENERATOR_VOLUME = 3761161481U;
         static const AkUniqueID ENVIRONMENT_BUS_VOLUME = 2456559820U;
         static const AkUniqueID FUNDAMENTALSILENTVOLUME = 2144346671U;
         static const AkUniqueID FUNDAMENTALTONINGVOLUME = 1729197293U;
-        static const AkUniqueID GREENSINEVOLUME = 71194751U;
         static const AkUniqueID HARMONYSILENTVOLUME = 1111564044U;
         static const AkUniqueID HARMONYTONINGVOLUME = 1504547510U;
+        static const AkUniqueID IMPACTS_VOLUME = 1710998699U;
         static const AkUniqueID INTERACTIVEMUSIC_BUS_VOLUME = 609474916U;
         static const AkUniqueID LINEARMUSIC_VOLUME = 2590911748U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
-        static const AkUniqueID REDSINEVOLUME = 1546458207U;
         static const AkUniqueID SFX_BUS_VOLUME = 1050949862U;
-        static const AkUniqueID TEST_WAVEFORM = 4148411917U;
+        static const AkUniqueID SILENT_VOLUME = 3070055575U;
+        static const AkUniqueID TONING_VOLUME = 1765174721U;
         static const AkUniqueID VO_BUS_VOLUME = 3687478936U;
     } // namespace GAME_PARAMETERS
 
@@ -242,11 +332,17 @@ namespace AK
     namespace BUSSES
     {
         static const AkUniqueID AVS_SYSTEM = 65973818U;
+        static const AkUniqueID AVS_MODULATIONS = 3385674499U;
+        static const AkUniqueID AVS_SILENT = 493151109U;
+        static const AkUniqueID AVS_TONING = 2286170043U;
         static const AkUniqueID ENVIRONMENT = 1229948536U;
-        static const AkUniqueID INTERACTIVE_MUSIC = 3167255554U;
-        static const AkUniqueID LINEAR_MUSIC = 3985839647U;
+        static const AkUniqueID IMPACTS = 1316910230U;
+        static const AkUniqueID INTERACTIVEMUSIC_VOCAL_SILENT = 2579128390U;
+        static const AkUniqueID INTERACTIVEMUSIC_VOCAL_TONING = 2479991680U;
+        static const AkUniqueID LINEARMUSIC = 1089785595U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID SFX = 393239870U;
+        static const AkUniqueID SUBACOUSTICS = 2218314507U;
         static const AkUniqueID VO = 1534528548U;
     } // namespace BUSSES
 

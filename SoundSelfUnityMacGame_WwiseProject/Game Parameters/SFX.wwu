@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}" SchemaVersion="119">
+	<GameParameters>
+		<WorkUnit Name="SFX" ID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="BreathCycle_PlaybackRate" ID="{ECF07A6D-BB39-450A-BE91-AEB4ED817DE1}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="1"/>
+						<Property Name="Max" Type="Real64" Value="4"/>
+						<Property Name="Min" Type="Real64" Value="0.1"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="BreatheCycle_Volume" ID="{6054B844-CB45-4C59-9436-ECB992881033}"/>
+				<GameParameter Name="CrystalBowlGenerator_Volume" ID="{290F1C34-F97C-4386-B944-0CC0D9101D56}"/>
+				<GameParameter Name="Impacts_Volume" ID="{177C7E8D-161E-4A19-AFA6-5E7E47E603E8}"/>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

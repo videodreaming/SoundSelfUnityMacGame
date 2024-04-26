@@ -16,17 +16,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{BE9E8D19-3456-4629-9863-F1F83FA0AA08}" ShortID="609594745">
-							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_SilentLoops" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_InteractiveMusicSystem_Toning" ID="{90843F11-6540-4A8C-B553-2767E329B988}">
@@ -42,17 +31,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{DACA4861-244B-4F71-9C3B-31D3612DC7B5}" ShortID="1020329135">
-							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_Toning_Sequence" ID="{42691E52-432F-4326-ABD8-733748322106}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}">
@@ -60,7 +38,7 @@
 						<Action Name="" ID="{159E6C1E-CCEA-464F-BE22-382774EBA675}" ShortID="387339877">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -70,7 +48,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -91,7 +69,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="CrystalBowlPlaylist" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -143,19 +121,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{958B0798-DD3D-4A85-98A4-FE785D56156C}" ShortID="678983999">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeInCurve" Type="int16" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_Toning_Sequence" ID="{42691E52-432F-4326-ABD8-733748322106}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Stop_InteractiveMusicSystem_SilentLoops" ID="{37C30047-AF5A-43B9-896D-68E3F2AA7D3A}">
@@ -167,13 +132,6 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_SilentLoops" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{75F276A6-47A0-480F-A07F-4E76ABB1F544}" ShortID="934269283">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_SilentLoops" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

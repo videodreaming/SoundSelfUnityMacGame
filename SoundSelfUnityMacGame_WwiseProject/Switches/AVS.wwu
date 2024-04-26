@@ -3,7 +3,7 @@
 	<Switches>
 		<WorkUnit Name="AVS" ID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}" PersistMode="Standalone">
 			<ChildrenList>
-				<SwitchGroup Name="AVSSystemSwitchGroup" ID="{5859C129-0C1A-4429-8F42-257BBDE0FE95}">
+				<SwitchGroup Name="AVSSystem_SolidColor" ID="{5859C129-0C1A-4429-8F42-257BBDE0FE95}">
 					<ChildrenList>
 						<Switch Name="Blue" ID="{54E4E728-45D8-4BEB-91C9-6A3215709700}"/>
 						<Switch Name="Cyan" ID="{37A0D14E-F024-46D2-8CD7-FECE735A4F60}"/>
@@ -17,18 +17,12 @@
 						<Switch Name="Indigo" ID="{E058C79F-5A5B-4E72-9E42-18F98B774474}"/>
 					</ChildrenList>
 				</SwitchGroup>
-				<SwitchGroup Name="AVSSystem_GREEN" ID="{53C0E729-3DA6-4CEE-9F74-FEB901398B64}">
+				<SwitchGroup Name="AVSSystem_ModulationColor" ID="{1AFC3E86-605F-4FF7-8706-57AB4436B10A}">
 					<ChildrenList>
-						<Switch Name="SOLID" ID="{B212F994-5E48-4DAF-A6F1-2A97428CD228}"/>
-						<Switch Name="PULSE_PWM_1HZ" ID="{EE2B781F-31DF-4DBB-9CBE-EB8298E17CA0}"/>
-						<Switch Name="BINAURAL_TRISINE_10HZ" ID="{A316EA8F-C433-44FD-92DC-AA8576AD677B}"/>
-						<Switch Name="BINAURAL_SAW_10HZ" ID="{D527CF06-BC1F-45FA-8CB1-7E150CFE30BE}"/>
-						<Switch Name="PULSE_RAMP_10HZ" ID="{83941F90-7D85-4138-821C-057F136A33DC}"/>
-						<Switch Name="PULSE_SINE_1HZ" ID="{837490A3-E004-4F28-81F2-1911AC33B49A}"/>
-						<Switch Name="PULSE_SINE_10HZ" ID="{7CC33C7F-33C8-4FB0-A198-28FF6D5BB172}"/>
-						<Switch Name="PULSE_SQ_1HZ" ID="{17DC11A6-6C07-471F-86FA-7960AB92B761}"/>
-						<Switch Name="PULSE_TRI_1HZ" ID="{5F54DC79-8498-4F72-8905-4059C3FD2CF3}"/>
-						<Switch Name="PULSE_TRI_10HZ" ID="{A45125A6-57D6-417D-9C96-B9E92EB36E5C}"/>
+						<Switch Name="RED" ID="{A908B662-CCC7-4863-9FDA-5AE6B36F1A9F}"/>
+						<Switch Name="GREEN" ID="{2C3938FF-BDC0-4C1A-81AE-31C4676B9E97}"/>
+						<Switch Name="BLUE" ID="{FFF3D354-92EE-4E20-AB76-972ED0FB31F4}"/>
+						<Switch Name="WHITE" ID="{C4CCCEB6-4B10-4C3E-B69B-980B9E965F8C}"/>
 					</ChildrenList>
 				</SwitchGroup>
 			</ChildrenList>

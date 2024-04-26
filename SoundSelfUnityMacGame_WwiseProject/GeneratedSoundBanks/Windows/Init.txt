@@ -1,6 +1,8 @@
 State Group	ID	Name			Wwise Object Path	Notes
 	261089142	GameMode			\Default Work Unit\GameMode	
+	700230891	AVSModulationRate			\Default Work Unit\AVSModulationRate	
 	3090474987	SoundWorldMode			\Default Work Unit\SoundWorldMode	
+	4128979292	AVSModulationMode			\Default Work Unit\AVSModulationMode	
 
 State	ID	Name	State Group			Notes
 	748895195	None	GameMode			
@@ -9,28 +11,40 @@ State	ID	Name	State Group			Notes
 	3147549296	Preparation	GameMode			
 	4033993124	Wisdom	GameMode			
 	4094247797	Integration	GameMode			
+	145871466	TRI_5Hz	AVSModulationRate			
+	748895195	None	AVSModulationRate			
+	818413719	TRI_20Hz	AVSModulationRate			
+	3821228550	TRI_10Hz	AVSModulationRate			
+	4038867422	TRI_1Hz	AVSModulationRate			
 	748895195	None	SoundWorldMode			
 	1467691068	SonoFlore	SoundWorldMode			
 	2193720742	Gentle	SoundWorldMode			
 	3140781661	Shadow	SoundWorldMode			
+	3761286873	Environment1	SoundWorldMode			
 	4267886810	Shruti	SoundWorldMode			
+	52442795	Binaural	AVSModulationMode			
+	254705482	Isochronic	AVSModulationMode			
+	744619566	Solid	AVSModulationMode			
+	748895195	None	AVSModulationMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
-	609474916	InteractiveMusic_Bus_Volume			\Master Mixer\InteractiveMusic_Bus_Volume	
-	1050949862	SFX_Bus_Volume			\Master Mixer\SFX_Bus_Volume	
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
-	2590911748	LinearMusic_Volume			\Master Mixer\LinearMusic_Volume	
 	3687478936	VO_Bus_Volume			\Master Mixer\VO_Bus_Volume	
-	4179668880	Master_Volume			\Master Mixer\Master_Volume	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
 	65973818	AVS System			\Default Work Unit\AVS System	
 	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
+	493151109	AVS_Silent			\Default Work Unit\AVS System\AVS_Silent	
+	1089785595	LinearMusic			\Default Work Unit\Master Audio Bus\LinearMusic	
 	1229948536	Environment			\Default Work Unit\Master Audio Bus\Environment	
+	1316910230	Impacts			\Default Work Unit\SubAcoustics\Impacts	
 	1534528548	VO			\Default Work Unit\Master Audio Bus\VO	
-	3167255554	Interactive Music			\Default Work Unit\Master Audio Bus\Interactive Music	
+	2218314507	SubAcoustics			\Default Work Unit\SubAcoustics	
+	2286170043	AVS_Toning			\Default Work Unit\AVS System\AVS_Toning	
+	2479991680	InteractiveMusic_Vocal_Toning			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Toning	
+	2579128390	InteractiveMusic_Vocal_Silent			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Silent	
+	3385674499	AVS_Modulations			\Default Work Unit\AVS System\AVS_Modulations	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
-	3985839647	Linear Music			\Default Work Unit\Master Audio Bus\Linear Music	
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

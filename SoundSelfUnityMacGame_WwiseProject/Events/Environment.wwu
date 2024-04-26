@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Environment" ID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_environment_openingQueryRepeat1" ID="{691FF2B3-CFD3-43C9-B7C1-CDC5DB950BE5}">
+					<ChildrenList>
+						<Action Name="" ID="{66FC6AAF-A443-4C10-99A9-3942C69283C5}" ShortID="486675718">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_openingQueryRepeat1" ID="{B0AE1FF7-E153-4E94-8CD5-419471774C6C}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_environment_openingWelcome" ID="{2D8D0E06-5C61-4C0D-9DAD-742D0C446DCB}">
+					<ChildrenList>
+						<Action Name="" ID="{D2BF1309-D4B5-4AE2-B9DA-C1D000C66421}" ShortID="306259014">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_openingWelcome" ID="{76B88064-8483-45F9-964C-594B5621285F}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_environment_openingQuery" ID="{F864F4FC-2879-4226-9786-DC66A59CB755}">
+					<ChildrenList>
+						<Action Name="" ID="{BC7CCF7B-E064-4739-8F8E-544BECFEF91F}" ShortID="16078938">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_openingQuery" ID="{B22B2EEF-0C68-42EC-97B2-483B4DF0F568}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_environment_openingMeditation" ID="{95DC6B32-167A-44B4-AEF6-E72E76569A47}">
+					<ChildrenList>
+						<Action Name="" ID="{CC5E3DDB-164D-45DB-80F1-7DF03733A5E6}" ShortID="1012867844">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_openingMeditation" ID="{E10B9D3D-5F4A-4367-BC97-FF6B13F7153D}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_environment_anyQueryRepeat2" ID="{62784AA7-8754-4C75-83E1-89F38E1542E0}">
+					<ChildrenList>
+						<Action Name="" ID="{D4335C6D-B8E5-4ABE-917A-A11322A20C54}" ShortID="789332088">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_anyQueryRepeat2" ID="{015FE28E-EEF9-4E58-808B-DF902CBA7230}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_environment_wind" ID="{6977A2C2-5B52-499B-86EC-4482937D7AB0}">
+					<ChildrenList>
+						<Action Name="" ID="{2BF2B9FE-A93B-4631-8AB3-21E5144024C5}" ShortID="909047442">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_environment_crickets" ID="{28ADF9CA-4495-4E63-BABB-04D4EE579E24}">
+					<ChildrenList>
+						<Action Name="" ID="{BA57A282-A193-4456-9057-82CBB3D28874}" ShortID="372975100">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_crickets" ID="{45E1A457-7423-4EAA-A64A-7F5C16961E9C}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_environment_anyQueryRepeat1" ID="{153B5478-A18D-444A-A128-03D2D86547B2}">
+					<ChildrenList>
+						<Action Name="" ID="{D6491B63-29D8-43B3-A6C7-E7F55D799ACD}" ShortID="984670523">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_anyQueryRepeat1" ID="{7C0DCEC0-1458-40F1-97B3-715AB5FE2925}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
