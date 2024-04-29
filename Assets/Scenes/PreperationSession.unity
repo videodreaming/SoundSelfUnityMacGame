@@ -8269,6 +8269,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 607315439}
   m_CullTransparentMesh: 1
+--- !u!1 &619104373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 619104375}
+  - component: {fileID: 619104374}
+  m_Layer: 0
+  m_Name: MusicSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &619104374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619104373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a12f047d29ba3a47b11145e10d490f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imitoneVoiceInterpreter: {fileID: 740096625}
+--- !u!4 &619104375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619104373}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1094.2838, y: 471.31854, z: -8.140039}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &623094271
 GameObject:
   m_ObjectHideFlags: 0
@@ -10242,6 +10287,7 @@ GameObject:
   - component: {fileID: 740096624}
   - component: {fileID: 740096623}
   - component: {fileID: 740096629}
+  - component: {fileID: 740096631}
   m_Layer: 0
   m_Name: User
   m_TagString: Untagged
@@ -10513,6 +10559,29 @@ MonoBehaviour:
   _chantLerpSlowDamp2: 0
   _chantLerpFastDamp1: 0
   _chantLerpFastDamp2: 0
+--- !u!164 &740096631
+AudioReverbFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_DryLevel: 0
+  m_Room: 0
+  m_RoomHF: 0
+  m_DecayTime: 1
+  m_DecayHFRatio: 0.5
+  m_ReflectionsLevel: -10000
+  m_ReverbLevel: 0
+  m_ReverbDelay: 0.04
+  m_Diffusion: 100
+  m_Density: 100
+  m_HFReference: 5000
+  m_RoomLF: 0
+  m_LFReference: 250
+  m_ReflectionsDelay: 0
+  m_ReverbPreset: 27
 --- !u!1 &768435245
 GameObject:
   m_ObjectHideFlags: 0
@@ -18900,11 +18969,17 @@ MonoBehaviour:
     m_Options:
     - m_Text: C
       m_Image: {fileID: 0}
+    - m_Text: D
+      m_Image: {fileID: 0}
     - m_Text: E
       m_Image: {fileID: 0}
-    - m_Text: B
+    - m_Text: F
       m_Image: {fileID: 0}
     - m_Text: G
+      m_Image: {fileID: 0}
+    - m_Text: A
+      m_Image: {fileID: 0}
+    - m_Text: B
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -28225,3 +28300,4 @@ SceneRoots:
   - {fileID: 662335748}
   - {fileID: 107391162}
   - {fileID: 1958140517}
+  - {fileID: 619104375}

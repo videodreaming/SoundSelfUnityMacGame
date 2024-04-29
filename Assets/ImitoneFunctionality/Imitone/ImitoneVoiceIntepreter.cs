@@ -244,7 +244,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private IEnumerator MeasureNoiseFloorCoroutine(){
         float _noiseFloorMeasurementSum                     = 0f;
         float _noiseFloorMeasurementCount                   = 0f;
-        Debug.Log("Preparing to Measure Noise Floor...");
+        //Debug.Log("Preparing to Measure Noise Floor...");
 
         //First wait for the levels to drop an appropriate amount
         while (_dbMicrophone >= (rawMic.Values.Max(x => x.Item2) - _volumeDropTriggerThresholdDB))

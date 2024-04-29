@@ -16,16 +16,31 @@ public class InteractiveMusicGroupSwitcher : MonoBehaviour
                 wwiseInteractiveMusicManager.ChangeSwitchState();
                 break;
             case 1:
+                wwiseInteractiveMusicManager.currentSwitchState = "D";
+                Debug.Log("Switching to D");
+                wwiseInteractiveMusicManager.ChangeSwitchState();
+                break;
+            case 2:
                 wwiseInteractiveMusicManager.currentSwitchState = "E";
                 Debug.Log("Switching to E");
                 wwiseInteractiveMusicManager.ChangeSwitchState();
                 break;
-            case 2:
-                wwiseInteractiveMusicManager.currentSwitchState = "G";
-                Debug.Log("Switching to G");
+            case 3:
+                wwiseInteractiveMusicManager.currentSwitchState = "F";
+                Debug.Log("Switching to F");
                 wwiseInteractiveMusicManager.ChangeSwitchState();
                 break;
-            case 3:
+            case 4:
+                wwiseInteractiveMusicManager.currentSwitchState = "G";
+                Debug.Log("Switching to F");
+                wwiseInteractiveMusicManager.ChangeSwitchState();
+                break;
+            case 5:
+                wwiseInteractiveMusicManager.currentSwitchState = "A";
+                Debug.Log("Switching to A");
+                wwiseInteractiveMusicManager.ChangeSwitchState();
+                break;
+            case 6:
                 wwiseInteractiveMusicManager.currentSwitchState = "B";
                 Debug.Log("Switching to B");
                 wwiseInteractiveMusicManager.ChangeSwitchState();

@@ -45,7 +45,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
 
     void toning()
     {
-        playingId = AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_Toning", gameObject);
+        //playingId = AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_Toning", gameObject);
     }
 
     public void ChangeToningState()
