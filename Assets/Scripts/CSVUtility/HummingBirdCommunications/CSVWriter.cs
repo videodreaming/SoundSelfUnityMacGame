@@ -12,6 +12,7 @@ public class CSVWriter : MonoBehaviour
     string session_paramsPath = "";
     string session_resultsPath = "";
     string session_statusPath = "";
+    string sessionGameModePath = "";
     string wavFilesPath = "";
     int currentSessionNumber = 0;
     public UserOutput playerOutput;
@@ -76,6 +77,8 @@ public class CSVWriter : MonoBehaviour
 
         TextWriter tw4 = new StreamWriter(session_statusPath, false);
         tw4.Close();
+
+
     }
 
     // Update is called once per frame

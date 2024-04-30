@@ -27,7 +27,7 @@ public class CSVReader : MonoBehaviour
 
     void ReadCSV()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "resources", "hardware_config.csv");
+        string filePath = Path.Combine(Application.persistentDataPath,"ReadCSV.csv");
         Debug.Log(filePath);
         if (File.Exists(filePath))
         {
@@ -41,7 +41,6 @@ public class CSVReader : MonoBehaviour
             {
                 GameSettings.GameMode = data[2];
                 GameSettings.SubGameMode = data[3];
-               // Debug.Log("Sub Game Mode: " + GameSettings.SubGameMode);
             }
         }
         else
