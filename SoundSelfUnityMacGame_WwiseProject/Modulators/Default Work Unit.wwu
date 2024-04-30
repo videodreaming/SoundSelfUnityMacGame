@@ -78,6 +78,11 @@
 						<Property Name="ModulatorScope" Type="int32" Value="0"/>
 					</PropertyList>
 				</ModulatorEnvelope>
+				<ModulatorTime Name="Toning_HPF_Env" ID="{4F5AB42A-C412-4DC8-A887-8E8A430FE016}" ShortID="384369097">
+					<PropertyList>
+						<Property Name="TimeModDuration" Type="Real64" Value="30"/>
+					</PropertyList>
+				</ModulatorTime>
 			</ChildrenList>
 		</WorkUnit>
 	</Modulators>

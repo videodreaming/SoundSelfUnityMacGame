@@ -120,7 +120,7 @@ namespace AK
 
             namespace STATE
             {
-                static const AkUniqueID ENVIRONMENT1 = 3761286873U;
+                static const AkUniqueID ENVIRONMENT = 1229948536U;
                 static const AkUniqueID GENTLE = 2193720742U;
                 static const AkUniqueID NONE = 748895195U;
                 static const AkUniqueID SHADOW = 3140781661U;
@@ -336,13 +336,12 @@ namespace AK
         static const AkUniqueID AVS_SILENT = 493151109U;
         static const AkUniqueID AVS_TONING = 2286170043U;
         static const AkUniqueID ENVIRONMENT = 1229948536U;
-        static const AkUniqueID IMPACTS = 1316910230U;
+        static const AkUniqueID IMPACTS__SUBACOUSTIC = 2670023165U;
         static const AkUniqueID INTERACTIVEMUSIC_VOCAL_SILENT = 2579128390U;
         static const AkUniqueID INTERACTIVEMUSIC_VOCAL_TONING = 2479991680U;
         static const AkUniqueID LINEARMUSIC = 1089785595U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID SFX = 393239870U;
-        static const AkUniqueID SUBACOUSTICS = 2218314507U;
         static const AkUniqueID VO = 1534528548U;
     } // namespace BUSSES
 

@@ -10,57 +10,32 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Bus Name="VO" ID="{EC52679F-BFD2-4F67-B0AB-FCE686EF8905}">
-							<ObjectLists>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{17BBFF3D-32AF-419A-90EF-77CBFE8D4671}" ShortID="261844825">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="BusVolume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="VO_Bus_Volume" ID="{4CE09812-4BDE-4967-8638-B6C2E6D7A693}" WorkUnitID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{2BF360B4-CCDC-4DCA-B815-0D0F8785A723}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
-						</Bus>
-						<Bus Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}"/>
-						<Bus Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}">
+						<Bus Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}">
 							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>-2</Value>
-									</ValueList>
-								</Property>
+								<Property Name="MaxDuckVolume" Type="Real64" Value="-4"/>
 							</PropertyList>
+							<DuckingList>
+								<DuckItem>
+									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
+									<DuckingParam>
+										<Volume>-1</Volume>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLog2</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+								<DuckItem>
+									<BusRef Name="Environment" ID="{8CBEC533-4413-4401-925C-5A5BCA9F83CA}"/>
+									<DuckingParam>
+										<Volume>-2</Volume>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLinear</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+							</DuckingList>
 						</Bus>
+						<Bus Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 						<Bus Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}"/>
 						<Bus Name="LinearMusic" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}"/>
 						<Bus Name="Environment" ID="{8CBEC533-4413-4401-925C-5A5BCA9F83CA}">
@@ -104,6 +79,41 @@
 								</ObjectList>
 							</ObjectLists>
 						</Bus>
+						<Bus Name="Impacts, SubAcoustic" ID="{9D8CD6C9-CA7C-4961-BD11-AF2A2C52A1F4}">
+							<PropertyList>
+								<Property Name="MaxDuckVolume" Type="Real64" Value="-4"/>
+							</PropertyList>
+							<DuckingList>
+								<DuckItem>
+									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
+									<DuckingParam>
+										<Volume>-1</Volume>
+										<FadeInTime>0.5</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLinear</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+								<DuckItem>
+									<BusRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}"/>
+									<DuckingParam>
+										<Volume>-10</Volume>
+										<FadeInTime>0.5</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLinear</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+								<DuckItem>
+									<BusRef Name="Environment" ID="{8CBEC533-4413-4401-925C-5A5BCA9F83CA}"/>
+									<DuckingParam>
+										<Volume>-2</Volume>
+										<FadeInTime>0.5</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLinear</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+							</DuckingList>
+						</Bus>
+						<Bus Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}"/>
 					</ChildrenList>
 				</Bus>
 				<Bus Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}">
@@ -164,53 +174,6 @@
 										<Volume>-50</Volume>
 										<FadeInTime>1</FadeInTime>
 										<FadeOutTime>1</FadeOutTime>
-										<FadeCurve>FadeLog2</FadeCurve>
-									</DuckingParam>
-								</DuckItem>
-							</DuckingList>
-						</Bus>
-					</ChildrenList>
-				</Bus>
-				<Bus Name="SubAcoustics" ID="{BCD2D390-30CC-48ED-B79B-32D1AA9F85AA}">
-					<PropertyList>
-						<Property Name="BusVolume" Type="Real64">
-							<ValueList>
-								<Value>-6</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
-							<ObjectRef Name="System" ID="{69D60C99-E104-4F92-81B8-1C890CC95B06}" WorkUnitID="{20E15702-9916-45CB-8BCD-D7E3AE92AAE9}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<Bus Name="Impacts" ID="{25E6BC48-148A-49F1-B210-E7F7814D3C29}">
-							<DuckingList>
-								<DuckItem>
-									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
-									<DuckingParam>
-										<Volume>-35</Volume>
-										<FadeInTime>0.5</FadeInTime>
-										<FadeOutTime>0.200000002980232</FadeOutTime>
-										<FadeCurve>FadeLog2</FadeCurve>
-									</DuckingParam>
-								</DuckItem>
-								<DuckItem>
-									<BusRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}"/>
-									<DuckingParam>
-										<Volume>-12</Volume>
-										<FadeInTime>0.5</FadeInTime>
-										<FadeOutTime>0.200000002980232</FadeOutTime>
-										<FadeCurve>FadeLog2</FadeCurve>
-									</DuckingParam>
-								</DuckItem>
-								<DuckItem>
-									<BusRef Name="Environment" ID="{8CBEC533-4413-4401-925C-5A5BCA9F83CA}"/>
-									<DuckingParam>
-										<Volume>-12</Volume>
-										<FadeInTime>0.5</FadeInTime>
-										<FadeOutTime>0.200000002980232</FadeOutTime>
 										<FadeCurve>FadeLog2</FadeCurve>
 									</DuckingParam>
 								</DuckItem>
