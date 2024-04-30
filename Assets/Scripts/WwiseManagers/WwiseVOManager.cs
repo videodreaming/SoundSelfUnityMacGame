@@ -37,7 +37,7 @@ public class WwiseVOManager : MonoBehaviour
     public string ThematicSavasana = null;
     public string VO_ClosingGoodbye = null;
 
-    public CSVReaderSub csvReaderSub;
+    public CSVReader csvReader;
 
     // Start is called before the first frame update
     void Start()
@@ -47,44 +47,44 @@ public class WwiseVOManager : MonoBehaviour
     
     void assignVOs()
     {
-        if(csvReaderSub.GameSettings.GameMode == "Preperation")
+        if(csvReader.GameSettings.GameMode == "Preperation")
         {
             Debug.Log("Preperation");
-            if(csvReaderSub.GameSettings.SubGameMode == "Narrative")
+            if(csvReader.GameSettings.SubGameMode == "Narrative")
             {
                 Debug.Log("Metta");
-            } else if (csvReaderSub.GameSettings.SubGameMode == "Peace")
+            } else if (csvReader.GameSettings.SubGameMode == "Peace")
             {
                 Debug.Log("Guided");
-            } else if (csvReaderSub.GameSettings.SubGameMode == "Surrender")
+            } else if (csvReader.GameSettings.SubGameMode == "Surrender")
             {
                 Debug.Log("Silent");
             }
         } 
-        if(csvReaderSub.GameSettings.GameMode == "Integration")
+        if(csvReader.GameSettings.GameMode == "Integration")
         {
             Debug.Log("Integration");
-            if(csvReaderSub.GameSettings.SubGameMode == "Kindness")
+            if(csvReader.GameSettings.SubGameMode == "Kindness")
             {
                 Debug.Log("Kindness");
-            } else if (csvReaderSub.GameSettings.SubGameMode == "Metta")
+            } else if (csvReader.GameSettings.SubGameMode == "Metta")
             {
                 Debug.Log("Metta");
-            } else if (csvReaderSub.GameSettings.SubGameMode == "Fireflies")
+            } else if (csvReader.GameSettings.SubGameMode == "Fireflies")
             {
                 Debug.Log("Fireflies");
             }
         }
-        if(csvReaderSub.GameSettings.GameMode == "Adjunctive")
+        if(csvReader.GameSettings.GameMode == "Adjunctive")
         {
             Debug.Log("Adjunctive");
-            if(csvReaderSub.GameSettings.SubGameMode == "Anchoring")
+            if(csvReader.GameSettings.SubGameMode == "Anchoring")
             {
                 Debug.Log("Anchoring");
-            } else if (csvReaderSub.GameSettings.SubGameMode == "Meditation")
+            } else if (csvReader.GameSettings.SubGameMode == "Meditation")
             {
                 Debug.Log("Meditation");
-            } else if (csvReaderSub.GameSettings.SubGameMode == "Gratitude")
+            } else if (csvReader.GameSettings.SubGameMode == "Gratitude")
             {
                 Debug.Log("Gratitude");
             }

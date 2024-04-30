@@ -5,6 +5,8 @@ using UnityEngine;
 public class PitchMusicSystem : MonoBehaviour
 {
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
+    public WwiseGlobalManager wwiseGlobalManager;
 
     // Define a list of tuples representing note ranges and corresponding note names
     private List<(float minFreq, float maxFreq, string noteName)> noteRanges = new List<(float, float, string)>()
@@ -84,6 +86,35 @@ public class PitchMusicSystem : MonoBehaviour
                 if (currentPitch >= range.minFreq && currentPitch <= range.maxFreq)
                 {
                     Debug.Log("noteName" + range.noteName + "   frequency" + currentPitch);
+                    if(range.noteName == "A2" || range.noteName == "A3" || range.noteName == "A4" ) 
+                    {
+                        wwiseInteractiveMusicManager.currentSwitchState = "A";
+                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                    } else if(range.noteName == "B2" || range.noteName == "B3" || range.noteName == "B4" ) 
+                    {
+                        wwiseInteractiveMusicManager.currentSwitchState = "B";
+                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                    } else if(range.noteName == "C3" || range.noteName == "C4" || range.noteName == "C5" ) 
+                    {
+                        wwiseInteractiveMusicManager.currentSwitchState = "C";
+                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                    } else if(range.noteName == "D3" || range.noteName == "D4" ) 
+                    {
+                        wwiseInteractiveMusicManager.currentSwitchState = "D";
+                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                    } else if(range.noteName == "E3" || range.noteName == "E4" ) 
+                    {
+                        wwiseInteractiveMusicManager.currentSwitchState = "E";
+                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                    } else if(range.noteName == "F3" || range.noteName == "F4" ) 
+                    {
+                        wwiseInteractiveMusicManager.currentSwitchState = "F";
+                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                    } else if(range.noteName == "G3" || range.noteName == "G4" ) 
+                    {
+                        wwiseInteractiveMusicManager.currentSwitchState = "G";
+                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                    }
                     break; // Stop checking once the correct range is found
                 }
             }

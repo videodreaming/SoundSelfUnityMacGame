@@ -8,6 +8,7 @@ public class canvasSwitcher : MonoBehaviour
 {
     public Canvas canvas1;
     public Canvas canvas2;
+    public Canvas canvas3;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,11 +24,20 @@ public class canvasSwitcher : MonoBehaviour
         {
             canvas1.enabled = true;
             canvas2.enabled = false;
+            canvas3.enabled = false;
         } 
         if(Input.GetKeyDown(KeyCode.Alpha2))
         {
             canvas1.enabled = false;
             canvas2.enabled = true;
+            canvas3.enabled = false;
         }
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            canvas1.enabled = false;
+            canvas2.enabled = false;
+            canvas3.enabled = true;
+        }
+
     }
 }
