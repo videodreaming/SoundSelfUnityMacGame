@@ -27,7 +27,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -63,7 +63,7 @@
 										<CustomState Name="" ID="{996A4CF5-760A-489D-8350-97C2734CA551}" ShortID="1069356522"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{27A8F8FC-3324-4AB6-8B53-332ED8459D47}" ShortID="940273013">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -154,7 +154,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -191,7 +191,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{26CD6C09-E4D3-4675-A2BE-C1196052BD42}" ShortID="573767964">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -276,6 +276,11 @@
 										<Value>2</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -313,7 +318,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{2188D413-1D0C-4E6D-A40A-3E93E67FAE5E}" ShortID="690501757">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -388,14 +393,9 @@
 						<Sound Name="fundamental_[C]_silent_gentle" ID="{5B2CF9F9-64DB-4360-97D0-48B53220A8AA}" ShortID="978608370">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Lowpass" Type="int16">
-									<ValueList>
-										<Value>24</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -428,7 +428,7 @@
 										<CustomState Name="" ID="{8401BE20-7FED-46C3-9B1D-4788D583E9C6}" ShortID="521008912"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{5B4C95E4-6A05-449A-ADF8-3BA078FECFC5}" ShortID="1012143306">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -514,7 +514,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>3</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -551,7 +551,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{05F8F5AD-2132-4958-9F9E-E1A6B18803C3}" ShortID="392648097">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -632,6 +632,9 @@
 								</Property>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>35</Value>
+									</ValueList>
 									<ModifierList>
 										<ModifierInfo>
 											<Modifier Name="" ID="{D2CD0395-2281-49E3-B031-B3C6E7EAB0D3}"/>
@@ -640,7 +643,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -673,7 +676,7 @@
 										<CustomState Name="" ID="{A2DCA898-0C1D-44FE-B305-0EFCD0B66E16}" ShortID="882989026"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{012B9DCC-BC52-490D-8645-6E2F7DB649B4}" ShortID="917532866">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -754,7 +757,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -791,7 +794,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{E2849B40-7828-4937-8620-0E8CDC614294}" ShortID="493505640">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -878,7 +881,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>6</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -915,7 +918,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{92E0728D-1A5D-40EE-86FD-6F6B5590DFD2}" ShortID="102604469">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -992,7 +995,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1029,7 +1032,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{5E5A31B0-4488-4844-A419-D7B67C8208FC}" ShortID="1067314201">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -1104,14 +1107,9 @@
 						<Sound Name="fundamental_[G]_silent_gentle" ID="{676899D5-7F8B-4A5D-B633-1DE9354CC1B7}" ShortID="272979156">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-								<Property Name="Lowpass" Type="int16">
-									<ValueList>
-										<Value>13</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-3</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1144,7 +1142,7 @@
 										<CustomState Name="" ID="{4338A576-5D9E-46A6-AAB6-B8912B492C6A}" ShortID="1031562946"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{226C016A-25DE-4D5F-A070-538A2106A9B6}" ShortID="146380361">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -1225,12 +1223,17 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>6</Value>
+										<Value>14</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Pitch" Type="int32">
 									<ValueList>
 										<Value>10</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1267,7 +1270,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{0372DA28-B103-42D0-B607-DB073685DAAA}" ShortID="373200797">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -1349,7 +1352,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>4</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1386,7 +1389,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{FF25780B-A19C-479D-9DAA-EE68E7ED7E4A}" ShortID="280534314">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -1468,12 +1471,12 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>38</Value>
+										<Value>15</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-3</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1506,7 +1509,7 @@
 										<CustomState Name="" ID="{D9872213-DE52-4C47-8D57-6DA1A63F1E25}" ShortID="617741690"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{7B81DC5D-F94F-484C-B6CC-0E83EB629D7A}" ShortID="153786349"/>
 									</CustomState>
 									<CustomState>
@@ -1583,7 +1586,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1620,7 +1623,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{CE6A81FF-BCF7-4784-8096-8625CE635FA1}" ShortID="1071507153"/>
 									</CustomState>
 									<CustomState>
@@ -1735,7 +1738,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{9C54D593-CC35-489C-BA33-213A27CED5CC}" ShortID="1018119101">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -1812,7 +1815,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1849,7 +1852,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{FF2E23AB-E0BD-4F4D-9A3C-4FD960C9CCBA}" ShortID="384143635"/>
 									</CustomState>
 									<CustomState>
@@ -1927,12 +1930,12 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>38</Value>
+										<Value>25</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-9</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1965,7 +1968,7 @@
 										<CustomState Name="" ID="{135364DE-6B2C-4711-8CD1-96C52519C148}" ShortID="397188267"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{60FEA0F7-E038-454A-B738-140961EA96DD}" ShortID="90255859">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -2051,7 +2054,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2088,7 +2091,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{354C14CC-1D6F-4EFC-B3E3-6A5AF3429EDE}" ShortID="634380492">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -2175,7 +2178,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2212,7 +2215,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{4144B78E-CAA2-4243-ABCA-B12D18EE2F48}" ShortID="955312860">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -2287,6 +2290,11 @@
 						<Sound Name="harmony_[D]_silent_shruti" ID="{CAED2CBE-DCF4-4C6C-A351-64E38C31A6BF}" ShortID="249884194">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2321,7 +2329,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{D5E055A0-E651-4ABB-870F-3E192F404EA6}" ShortID="1024017917"/>
 									</CustomState>
 									<CustomState>
@@ -2399,12 +2407,12 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>26</Value>
+										<Value>23</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2437,7 +2445,7 @@
 										<CustomState Name="" ID="{122D5E4C-CD4D-4DF1-964A-CF0286D6B93D}" ShortID="594649730"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{03A73CA4-D1BE-4C33-A733-20AE3D40C1D5}" ShortID="857653442">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -2523,7 +2531,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2560,7 +2568,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{A7BD4799-3B48-43B8-BE14-6718A1F16590}" ShortID="152905562">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -2647,7 +2655,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2684,7 +2692,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{2DC347B4-5419-46F1-A17F-B3783B091B20}" ShortID="146395665">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -2761,7 +2769,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>3</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2798,7 +2806,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{9A59604B-59C3-46BD-AD4A-B887ACB7BA73}" ShortID="70978106">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -2880,12 +2888,12 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>37</Value>
+										<Value>24</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2918,7 +2926,7 @@
 										<CustomState Name="" ID="{D23D9797-AB35-486A-A52D-E45525AD0B2C}" ShortID="144953505"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{D31D6A38-DD78-427D-9871-8162199FD883}" ShortID="57708212">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -3009,7 +3017,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3046,7 +3054,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{51320D72-907B-4A7D-9085-FC582F5E50EC}" ShortID="184479846">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -3128,7 +3136,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>3</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3165,7 +3173,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{553091EC-AC51-4ECF-B251-3BB37144BF68}" ShortID="448725017">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -3284,7 +3292,7 @@
 										<CustomState Name="" ID="{C752D7FD-86A0-49A7-B64B-89A5FE036855}" ShortID="977601580"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{30F226E5-A426-4345-90A7-101A07406969}" ShortID="258156244">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -3380,7 +3388,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3413,7 +3421,7 @@
 										<CustomState Name="" ID="{D7CECB07-6398-4898-932B-DADB0013693C}" ShortID="269043561"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{D0FA7D62-ADA8-4F97-8618-E5206447729C}" ShortID="514072776">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -3499,7 +3507,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>38</Value>
+										<Value>26</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Pitch" Type="int32">
@@ -3509,7 +3517,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-3</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3542,7 +3550,7 @@
 										<CustomState Name="" ID="{6BE8BDA8-335D-4C54-B22A-73D267645BBE}" ShortID="951013223"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{E99DC673-71DF-4044-9545-B79CB8FD8266}" ShortID="52045131">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -3628,7 +3636,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>37</Value>
+										<Value>14</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Pitch" Type="int32">
@@ -3638,7 +3646,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-6</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3671,7 +3679,7 @@
 										<CustomState Name="" ID="{E2D2E24E-5EC9-4BBC-8479-BEFA314554A2}" ShortID="518297390"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{02D6D015-E74F-4123-A3DA-9DFC78404C22}" ShortID="110492228"/>
 									</CustomState>
 									<CustomState>
@@ -3753,7 +3761,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>38</Value>
+										<Value>24</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Pitch" Type="int32">
@@ -3796,7 +3804,7 @@
 										<CustomState Name="" ID="{C91BE54A-DDD9-4A1D-B1AC-5791F683811B}" ShortID="1030426120"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{B5B707B2-F362-4190-B9CA-CD42A8AC3BB6}" ShortID="737384895">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -3882,7 +3890,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>65</Value>
+										<Value>23</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Pitch" Type="int32">
@@ -3892,7 +3900,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-3</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3929,7 +3937,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{7FA2BB9E-409B-42F3-95CF-B9D01F4FDB8F}" ShortID="570597345">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -4002,6 +4010,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<BlendContainer Name="fundamental_[A]_silent_shadow" ID="{89630551-2691-4130-B5D3-A37F47784FD8}" ShortID="1026783897">
+							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>14</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -4113,7 +4128,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{9E0E145A-1C18-4CF6-85E7-95CFA341EF36}" ShortID="516659564">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -4184,6 +4199,11 @@
 						</BlendContainer>
 						<BlendContainer Name="fundamental_[B]_silent_shadow" ID="{E109FF3B-0904-44F0-86C1-4093B572DE49}" ShortID="965188049">
 							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>27</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Pitch" Type="int32">
 									<ValueList>
 										<Value>10</Value>
@@ -4330,7 +4350,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{AFEABBAF-D010-44E6-9F09-DC3EC651EB01}" ShortID="354294558">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -4401,6 +4421,11 @@
 						</BlendContainer>
 						<BlendContainer Name="fundamental_[C]_silent_shadow" ID="{94653CFD-6E68-4CE8-A7DC-A50E85A11404}" ShortID="441458490">
 							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>14</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Pitch" Type="int32">
 									<ValueList>
 										<Value>10</Value>
@@ -4508,7 +4533,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{C028AF9F-C3E2-41F2-830C-490A5A65E6A6}" ShortID="872116765">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -4579,6 +4604,11 @@
 						</BlendContainer>
 						<BlendContainer Name="fundamental_[D]_silent_shadow" ID="{3E5952FD-7711-45D0-9E64-44AF9D8ECEAE}" ShortID="229409771">
 							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>19</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Pitch" Type="int32">
 									<ValueList>
 										<Value>20</Value>
@@ -4696,7 +4726,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{724F1080-6420-4D5D-ABB4-95372B519059}" ShortID="537540650">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -4766,6 +4796,18 @@
 							</ObjectLists>
 						</BlendContainer>
 						<BlendContainer Name="fundamental_[E]_silent_shadow" ID="{CB8E952D-05C7-4885-8245-7D0070178AC2}" ShortID="569679735">
+							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>18</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -4872,7 +4914,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{B79CEC95-C215-4104-AE50-0183AD3F7F80}" ShortID="152324186">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -4993,7 +5035,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{87CD6535-D29C-46E6-A2E6-558A25212E28}" ShortID="674171726">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -5080,7 +5122,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5117,7 +5159,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{87F9E509-EBED-4626-85FC-091CF1B04303}" ShortID="1028505731"/>
 									</CustomState>
 									<CustomState>
@@ -5193,6 +5235,11 @@
 										<Value>-200</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -5227,7 +5274,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{3EC7EDFC-9065-4D8C-AF76-889184AF5D82}" ShortID="1056600743">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -5359,7 +5406,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{0A337CCC-C702-4BD4-8398-121C5F23F923}" ShortID="309438194">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -5446,7 +5493,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>3</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5483,7 +5530,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{457CDF32-A95F-43C9-A276-408C55F24C81}" ShortID="806316038">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -5570,7 +5617,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>4</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5607,7 +5654,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{BD9DD760-9F7A-4C3E-BF4E-A13878A361DC}" ShortID="204537988">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -5689,7 +5736,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5726,7 +5773,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{9DFFC772-240C-404A-BC03-66BE7705FDE4}" ShortID="536908133"/>
 									</CustomState>
 									<CustomState>
@@ -5802,6 +5849,11 @@
 										<Value>-200</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -5836,7 +5888,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{B3DE5273-FEA6-478B-8B1F-3D1AECA78C06}" ShortID="328363885">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -5912,7 +5964,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -6090,7 +6142,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{6EE30959-5EA4-48F0-8FD5-541CBEFC2A82}" ShortID="179764692">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -6164,7 +6216,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>13</Value>
+										<Value>3</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Pitch" Type="int32">
@@ -6174,7 +6226,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-3</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -6207,7 +6259,7 @@
 										<CustomState Name="" ID="{E9922C2C-9229-429A-81D7-86C1C3E0B48E}" ShortID="192386883"/>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{B277E48B-5022-44FA-8014-47A80BC95331}" ShortID="1042133724">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -6298,7 +6350,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -6335,7 +6387,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{EE18CB1A-CEFE-4858-BC21-A112F93360BC}" ShortID="430536832">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -6411,7 +6463,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -6476,7 +6528,7 @@
 												</CustomState>
 											</CustomState>
 											<CustomState>
-												<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+												<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 												<CustomState Name="" ID="{AE9E6DDF-2D55-452F-8569-7090F9B9E9C3}" ShortID="470692743">
 													<PropertyList>
 														<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -6556,7 +6608,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{9B79AF6D-BD16-46E6-A718-149AF7E9217B}" ShortID="227643373">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -6629,7 +6681,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -6734,7 +6786,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{A70E7BF0-AEA5-408C-9A14-3DD7FE284E64}" ShortID="180027393">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -6807,7 +6859,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -6867,7 +6919,7 @@
 												</CustomState>
 											</CustomState>
 											<CustomState>
-												<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+												<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 												<CustomState Name="" ID="{5E59C0A2-3B32-4F7B-BE2F-74EACC97FFE7}" ShortID="351013723">
 													<PropertyList>
 														<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -6991,7 +7043,7 @@
 												</CustomState>
 											</CustomState>
 											<CustomState>
-												<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+												<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 												<CustomState Name="" ID="{F7C28B58-62A9-463C-B797-BE2FB29F0A18}" ShortID="762324435">
 													<PropertyList>
 														<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -7080,7 +7132,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{7FAF5D8C-61A3-47F1-A660-839C065325A5}" ShortID="875949760">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -7159,7 +7211,7 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>26</Value>
+										<Value>22</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Pitch" Type="int32">
@@ -7206,7 +7258,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{37D666E3-F888-48F5-AE92-DEF0FD317084}" ShortID="762523797"/>
 									</CustomState>
 									<CustomState>
@@ -7326,7 +7378,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{D21B9D49-5ED9-439E-860A-30E6BF312106}" ShortID="683742054">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -7413,7 +7465,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-6</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -7450,7 +7502,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{864561AE-2B15-4312-92A1-981C55D8945B}" ShortID="179856998">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -7529,6 +7581,11 @@
 										<Value>16</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -7591,7 +7648,7 @@
 												</CustomState>
 											</CustomState>
 											<CustomState>
-												<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+												<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 												<CustomState Name="" ID="{55751366-9FF7-4FBE-A42F-A0CD458D9FD9}" ShortID="143574896">
 													<PropertyList>
 														<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -7671,7 +7728,7 @@
 												</CustomState>
 											</CustomState>
 											<CustomState>
-												<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+												<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 												<CustomState Name="" ID="{C8183BE3-094C-43F9-A5D6-48DAFA6D2D5D}" ShortID="524298274">
 													<PropertyList>
 														<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -7721,7 +7778,7 @@
 										</CustomState>
 									</CustomState>
 									<CustomState>
-										<StateRef Name="Environment1" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
+										<StateRef Name="Environment" ID="{7A05A5FE-BF30-4977-A834-D8D99DD21194}"/>
 										<CustomState Name="" ID="{37660164-271D-4771-B398-D03306AE69B1}" ShortID="1063916985">
 											<PropertyList>
 												<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -7856,12 +7913,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7871,12 +7928,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7886,12 +7943,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7901,12 +7958,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7921,7 +7978,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7931,12 +7988,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7946,12 +8003,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7961,12 +8018,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7976,12 +8033,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -7991,12 +8048,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8006,12 +8063,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8051,12 +8108,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8161,7 +8218,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8191,7 +8248,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8206,7 +8263,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8221,7 +8278,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8231,12 +8288,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8251,7 +8308,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8336,12 +8393,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8371,7 +8428,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8381,12 +8438,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8396,12 +8453,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8411,12 +8468,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8456,12 +8513,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8501,12 +8558,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8516,12 +8573,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8561,12 +8618,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8591,12 +8648,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -8606,12 +8663,12 @@
 								<PropertyList>
 									<Property Name="FadeInTime" Type="Real64">
 										<ValueList>
-											<Value>1</Value>
+											<Value>0.5</Value>
 										</ValueList>
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>2</Value>
+											<Value>1</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
