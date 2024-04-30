@@ -6,13 +6,14 @@ using System.Linq;
 
 public class CSVWriter : MonoBehaviour
 {
+    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     string sessionsPath = "";
     string hardware_configPath = "";
     string session_paramsPath = "";
     string session_resultsPath = "";
     string session_statusPath = "";
     string wavFilesPath = "";
-     int currentSessionNumber = 0;
+    int currentSessionNumber = 0;
     public UserOutput playerOutput;
 
     [System.Serializable]
@@ -37,7 +38,6 @@ public class CSVWriter : MonoBehaviour
         List<int> sessionNumbers = new List<int>();
         foreach (string sessionDir in existingSessionDirectories)
         {
-            // Extract the part of the directory name that should be a number
             string numberPart = sessionDir.Replace("session", "");
             if (int.TryParse(numberPart, out int sessionNumber))
             {
@@ -53,34 +53,20 @@ public class CSVWriter : MonoBehaviour
         string sessionsFolder = Path.Combine(baseSessionsFolderPath, $"session{currentSessionNumber}");
         Directory.CreateDirectory(sessionsFolder);
 
-        sessionsPath = Path.Combine(baseSessionsFolderPath, "sessions.csv"); // Assuming this is intended to be at base level
-        hardware_configPath = Path.Combine(baseSessionsFolderPath, "hardware_config.csv"); // Assuming base level too
+        sessionsPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
+        hardware_configPath = Path.Combine(baseSessionsFolderPath, "hardware_config.csv");
         session_paramsPath = Path.Combine(sessionsFolder, "session_params.csv");
         session_resultsPath = Path.Combine(sessionsFolder, "session_results.csv");
         session_statusPath = Path.Combine(sessionsFolder, "session_status.csv");
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            writeCSV();
-           // Debug.Log(Application.streamingAssetsPath);
-        }
-    }
 
-    public void writeCSV()
-    {
         TextWriter tw = new StreamWriter(sessionsPath, false);
         tw.Close();
-
+        
         if (!File.Exists(hardware_configPath))
         {
             TextWriter tw1 = new StreamWriter(hardware_configPath, false);
             tw1.Close();
         }
-
-
 
         TextWriter tw2 = new StreamWriter(session_paramsPath, false);
         tw2.Close();
@@ -90,9 +76,29 @@ public class CSVWriter : MonoBehaviour
 
         TextWriter tw4 = new StreamWriter(session_statusPath, false);
         tw4.Close();
+    }
 
-        tw = new StreamWriter(session_resultsPath, true);
-        tw.WriteLine(playerOutput.respirationRate + "," + playerOutput.averageVolume + "," + playerOutput.averagePitch);
-        tw.Close();
+    // Update is called once per frame
+    void Update()
+    {
+        writeCSV();
+    }
+
+    public void writeCSV()
+    {
+        // Ensure the session results file is created if it does not exist
+        if (!File.Exists(session_resultsPath))
+        {
+            using (TextWriter tw = new StreamWriter(session_resultsPath, false))
+            {
+                tw.Close();
+            }
+        }
+
+        // Append new data to the session results file
+        using (TextWriter tw = new StreamWriter(session_resultsPath, true))
+        {
+            tw.WriteLine(imitoneVoiceIntepreter.pitch_hz + "," + imitoneVoiceIntepreter._dbValue);
+        }
     }
 }
