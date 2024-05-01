@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584874479640187399
+    m_lastTime: -8584870996773183535
     List:
     - name: AVS System
       guid: 5270ae016217ed4c975ab966f98065df
@@ -122,9 +122,9 @@ MonoBehaviour:
         ObjectType: 2
         guid: 33c5be8c13440144925c5a5bca9f83ca
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Environment
-    - name: Impacts
-      guid: 48bce6258a14f149b210e7f7814d3c29
-      id: 1316910230
+    - name: Impacts, SubAcoustic
+      guid: c9d68c9d7cca6149bd11af2a2c52a1f4
+      id: 2670023165
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -132,13 +132,13 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: dd3e190cfb4d16499f593fc858e3694d
-      - ElementName: SubAcoustics
+      - ElementName: Master Audio Bus
         ObjectType: 2
-        guid: 90d3d2bccc30ed48b79b32d1aa9f85aa
-      - ElementName: Impacts
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Impacts, SubAcoustic
         ObjectType: 2
-        guid: 48bce6258a14f149b210e7f7814d3c29
-      Path: Master-Mixer Hierarchy\Default Work Unit\SubAcoustics\Impacts
+        guid: c9d68c9d7cca6149bd11af2a2c52a1f4
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Impacts, SubAcoustic
     - name: InteractiveMusic_Vocal_Silent
       guid: 29c924b1c4b1334cabd2695febf6f2ef
       id: 2579128390
@@ -221,22 +221,8 @@ MonoBehaviour:
         ObjectType: 2
         guid: e4e1fde827d06d4b903a2e8e41698e0e
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX
-    - name: SubAcoustics
-      guid: 90d3d2bccc30ed48b79b32d1aa9f85aa
-      id: 2218314507
-      PathAndIcons:
-      - ElementName: Master-Mixer Hierarchy
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: dd3e190cfb4d16499f593fc858e3694d
-      - ElementName: SubAcoustics
-        ObjectType: 2
-        guid: 90d3d2bccc30ed48b79b32d1aa9f85aa
-      Path: Master-Mixer Hierarchy\Default Work Unit\SubAcoustics
     - name: VO
-      guid: 9f6752ecd2bf674fb0abfce686ef8905
+      guid: 564b83fb29cadf4682248dc300a1905b
       id: 1534528548
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
@@ -250,7 +236,7 @@ MonoBehaviour:
         guid: d8a41415a61d2a41a17e75ca0c2149f3
       - ElementName: VO
         ObjectType: 2
-        guid: 9f6752ecd2bf674fb0abfce686ef8905
+        guid: 564b83fb29cadf4682248dc300a1905b
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\VO
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
@@ -620,7 +606,7 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584874479641197462
+    m_lastTime: -8584870996773203538
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1664,7 +1650,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584874479639435460
+    m_lastTime: -8584870996769370356
     List:
     - name: AVSModulationMode
       guid: e47132e1c5e7394f9059bb30eef1e5e9
@@ -1975,9 +1961,9 @@ MonoBehaviour:
         guid: 10d188a0300e454289a83f1a4f31424e
       Path: States\Default Work Unit\SoundWorldMode
       values:
-      - name: Environment1
+      - name: Environment
         guid: fea5057a30bf7749a834d8d99dd21194
-        id: 3761286873
+        id: 1229948536
         PathAndIcons:
         - ElementName: States
           ObjectType: 5
@@ -1988,7 +1974,7 @@ MonoBehaviour:
         - ElementName: SoundWorldMode
           ObjectType: 9
           guid: 10d188a0300e454289a83f1a4f31424e
-        - ElementName: Environment1
+        - ElementName: Environment
           ObjectType: 8
           guid: fea5057a30bf7749a834d8d99dd21194
       - name: Gentle

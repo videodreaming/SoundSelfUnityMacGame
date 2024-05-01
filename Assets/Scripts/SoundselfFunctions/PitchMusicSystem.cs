@@ -7,6 +7,8 @@ public class PitchMusicSystem : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
     public WwiseGlobalManager wwiseGlobalManager;
+    public DebugKeyBoardIlluminator debugKeyBoardIlluminator;
+    public string currentNote = "";
 
     // Define a list of tuples representing note ranges and corresponding note names
     private List<(float minFreq, float maxFreq, string noteName)> noteRanges = new List<(float, float, string)>()
@@ -85,6 +87,7 @@ public class PitchMusicSystem : MonoBehaviour
             {
                 if (currentPitch >= range.minFreq && currentPitch <= range.maxFreq)
                 {
+                    currentNote = range.noteName;
                     Debug.Log("noteName" + range.noteName + "   frequency" + currentPitch);
                     if(range.noteName == "A2" || range.noteName == "A3" || range.noteName == "A4" ) 
                     {
