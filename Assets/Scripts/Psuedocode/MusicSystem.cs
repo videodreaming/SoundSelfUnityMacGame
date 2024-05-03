@@ -1,7 +1,7 @@
 //THIS IS PSUEDOCODE FOR THE MUSIC SYSTEM
 
 //COMMENT BELOW LINE TO SEE PSEUDOCODE
-/*
+//*
 //Ultimately we are going to be controlling Fundamentals and Harmonies. I think that we should send WWise simple note on and note off commands, for each of the twelve notes in the octave, and for both the fundamental and the harmony.
 
 private int fundamentalNote; //this is for influencing logic of the currently sung tone, as we are biasing towards tones that are harmonious with the fundamental
@@ -65,14 +65,14 @@ Update()
                 if (NoteTracker[Note].ActivateTimer >= _noteTrackerThreshold)
                 {
                     //get in there early, before the tone is active, to predict the first note.
-                    if(thisIsTheHighestActivateTimer)
-                    nextNote = Note;
+                    if(thisIsTheHighestActivateTimer) //REEF - meaning "this note's timer is higher than any of the other notes' timers"
+                    nextNote = Note; //REEF - because the purpose of this is to identify a note, even if toneActive hasn't switched on yet, this is "nextNote". If toneActive hasn't switched on yet, we want to be ready with a note as soon as it does switch on. So before toneActive switches on, nextNote identifies the note that will be used as soon as it does. If toneActive is already on, then nextNote will immediately be used as the note.
                 }
             }
             if(imitoneVoiceInterpreter.toneActive && nextNote == [NOTE])
             {
-                NoteTracker[Note].Active = true;
-                DeactivateOtherNotesInThisDictionary();
+                NoteTracker[Note].Active = true; //REEF - this means we send a note-on to WWise
+                DeactivateOtherNotesInThisDictionary(); //REEF - meaning that if the note is on in that other note, we will turn it off.
                 SetOtherActivateTimersToZero();
 
                 if(_noteTrackerThreshold[_noteTrackerThreshold].ActivateTimer >= _noteTrackerThreshold)
@@ -85,6 +85,24 @@ Update()
             NoteTracker[Note].Active = false;
         }
     }
+
+    //==== NEW NOTES FOR REEF ====//
+
+    //REEF - We have several note messages that we are sending to WWise:
+    //FOR FUNDAMENTALS -
+    //We START the fundamental LOOPING layer for the fundamental note as soon as the fundamental changes to that note
+    //We STOP the fundamental LOOPING layer for the fundamental note as soon as the fundamental changes to another note (and another note starts)
+    //We START the fundamental ONE-SHOT layer for the fundamental note when the player starts toning (toneActiveBiasTrue)
+    //We STOP the fundamental ONE-SHOT layer for the fundamental note when the player stops toning (toneActiveBiasTrue)
+    //FOR HARMONIES -
+    //We START the harmony LOOPING layer for the harmony note as soon as the harmony changes to that note
+    //We STOP the harmony LOOPING layer for the harmony note as soon as the harmony changes to another note (and another note starts)
+    //We START the harmony ONE-SHOT layer for the harmony note when the player starts toning (toneActiveBiasTrue)
+    //We STOP the harmony ONE-SHOT layer for the harmony note when the player stops toning (toneActiveBiasTrue)
+
+    //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0)
+
+    //=================================================
 
     //Now, NoteTracker should have the most likely note that the player is singing, and it should work adequately responsively. We can use this to control the music system.
 
