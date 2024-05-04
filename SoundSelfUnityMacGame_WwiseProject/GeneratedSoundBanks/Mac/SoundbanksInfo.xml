@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{74B39F5B-4C76-20F5-A045-3A18DED8CA99}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{6D6B0488-F379-F659-D489-CC4A968ABA93}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -24,12 +24,11 @@
 				<Bus Id="493151109" Name="AVS_Silent"/>
 				<Bus Id="1089785595" Name="LinearMusic"/>
 				<Bus Id="1229948536" Name="Environment"/>
-				<Bus Id="1316910230" Name="Impacts"/>
 				<Bus Id="1534528548" Name="VO"/>
-				<Bus Id="2218314507" Name="SubAcoustics"/>
 				<Bus Id="2286170043" Name="AVS_Toning"/>
 				<Bus Id="2479991680" Name="InteractiveMusic_Vocal_Toning"/>
 				<Bus Id="2579128390" Name="InteractiveMusic_Vocal_Silent"/>
+				<Bus Id="2670023165" Name="Impacts, SubAcoustic"/>
 				<Bus Id="3385674499" Name="AVS_Modulations"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
@@ -80,7 +79,6 @@
 						<State Id="1467691068" Name="SonoFlore"/>
 						<State Id="2193720742" Name="Gentle"/>
 						<State Id="3140781661" Name="Shadow"/>
-						<State Id="3761286873" Name="Environment1"/>
 						<State Id="4267886810" Name="Shruti"/>
 					</States>
 				</StateGroup>
@@ -145,7 +143,7 @@
 						<Switch Id="3041563226" Name="Silence"/>
 					</Switches>
 				</SwitchGroup>
-				<SwitchGroup Id="2420200949" Name="InteractiveMusicSwitchGroup">
+				<SwitchGroup Id="2195370387" Name="InteractiveMusicSwitchGroup2_12Pitches_Linked5ths">
 					<Switches>
 						<Switch Id="84696440" Name="G"/>
 						<Switch Id="84696441" Name="F"/>
@@ -154,6 +152,54 @@
 						<Switch Id="84696444" Name="C"/>
 						<Switch Id="84696445" Name="B"/>
 						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="2905423286" Name="InteractiveMusicSwitchGroup1_7Pitches_Linked5ths">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3505294094" Name="InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3514265297" Name="InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="3813349969" Name="VO_Somatic">
@@ -201,10 +247,14 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{85DA43C2-A727-4F50-F7DD-EF9A32009D9E}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{28FB5BBA-6B89-3E88-2E1F-4AD9DDE878EF}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
+				<File Id="1226163" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
+					<CachePath>SFX/Pigments_Ambient_C Maj Scale_74C2D65B.wem</CachePath>
+				</File>
 				<File Id="4756377" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>EXPORT 4.17.24\GREEN_Iso_TRI_20Hz.wav</ShortName>
 					<CachePath>SFX/EXPORT 4.17.24/GREEN_Iso_TRI_20Hz_FBC78EF0.wem</CachePath>
@@ -253,6 +303,10 @@
 					<ShortName>WHITE_Binaural_TRI_20Hz.wav</ShortName>
 					<CachePath>SFX/WHITE_Binaural_TRI_20Hz_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="66126426" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
+					<CachePath>SFX/Pigments_Ambient_C Maj Scale_F2BA6C14.wem</CachePath>
+				</File>
 				<File Id="74052971" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye.wav</ShortName>
 					<CachePath>SFX/vo_goodbye_818F3B66.wem</CachePath>
@@ -271,7 +325,11 @@
 				</File>
 				<File Id="108713058" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
-					<CachePath>SFX/harmony_[G]_toning_gentle_DEF9DD4C.wem</CachePath>
+					<CachePath>SFX/harmony_[G]_toning_gentle_0ADC2F43.wem</CachePath>
+				</File>
+				<File Id="116838749" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_844889DB.wem</CachePath>
 				</File>
 				<File Id="119872313" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_shruti_loop.wav</ShortName>
@@ -287,7 +345,7 @@
 				</File>
 				<File Id="133084729" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/fundamental_[G]_toning_shadow_23B3D2AE.wem</CachePath>
+					<CachePath>SFX/fundamental_[G]_toning_shadow_BE2AC651.wem</CachePath>
 				</File>
 				<File Id="139444766" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_short.wav</ShortName>
@@ -300,6 +358,10 @@
 				<File Id="147201971" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>environment_openingQuery.wav</ShortName>
 					<CachePath>SFX/environment_openingQuery_818F3B66.wem</CachePath>
+				</File>
+				<File Id="151307626" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_gentle_B8CD30AA.wem</CachePath>
 				</File>
 				<File Id="152119684" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>EXPORT 4.17.24\RED_Binaural_TRI_10Hz.wav</ShortName>
@@ -357,6 +419,10 @@
 					<ShortName>WHITE_Iso_TRI_1Hz.wav</ShortName>
 					<CachePath>SFX/WHITE_Iso_TRI_1Hz_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="240795686" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_shruti.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_shruti_6263EC42.wem</CachePath>
+				</File>
 				<File Id="248401807" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_thematicSavasana_peace.wav</ShortName>
 					<CachePath>SFX/vo_thematicSavasana_peace_818F3B66.wem</CachePath>
@@ -371,7 +437,7 @@
 				</File>
 				<File Id="262956075" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/harmony_[D]_toning_shadow_33CE7CC8.wem</CachePath>
+					<CachePath>SFX/harmony_[D]_toning_shadow_1D36B044.wem</CachePath>
 				</File>
 				<File Id="263548589" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_sono flore.wav</ShortName>
@@ -405,6 +471,10 @@
 					<ShortName>vo_elicitQueryFail_closing.wav</ShortName>
 					<CachePath>SFX/vo_elicitQueryFail_closing_818F3B66.wem</CachePath>
 				</File>
+				<File Id="301605077" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_gentle_AC1F407A.wem</CachePath>
+				</File>
 				<File Id="303573823" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_silence.wav</ShortName>
 					<CachePath>SFX/vo_goodbye_silence_818F3B66.wem</CachePath>
@@ -417,9 +487,13 @@
 					<ShortName>01-mindplace_reference-consolidated.wav</ShortName>
 					<CachePath>SFX/01-mindplace_reference-consolidated_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="321295864" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_D575A6E8.wem</CachePath>
+				</File>
 				<File Id="328076972" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
-					<CachePath>SFX/harmony_[D]_toning_gentle_466B9597.wem</CachePath>
+					<CachePath>SFX/harmony_[D]_toning_gentle_AC0DABBE.wem</CachePath>
 				</File>
 				<File Id="334730074" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>REFERENCE.wav</ShortName>
@@ -465,6 +539,10 @@
 					<ShortName>sfx_drum_cowhide_binaural.wav</ShortName>
 					<CachePath>SFX/sfx_drum_cowhide_binaural_818F3B66.wem</CachePath>
 				</File>
+				<File Id="363805056" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
+					<CachePath>SFX/Pigments_Ambient_C Maj Scale_16779D97.wem</CachePath>
+				</File>
 				<File Id="364631077" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_toning_shadow_511B6177.wem</CachePath>
@@ -476,6 +554,10 @@
 				<File Id="369988848" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitQueryFail_opening1.wav</ShortName>
 					<CachePath>SFX/vo_elicitQueryFail_opening1_818F3B66.wem</CachePath>
+				</File>
+				<File Id="370281401" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_3E06637A.wem</CachePath>
 				</File>
 				<File Id="382946237" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SoundCeremony_CrystalBowl_11.wav</ShortName>
@@ -491,15 +573,23 @@
 				</File>
 				<File Id="393083644" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
-					<CachePath>SFX/harmony_[F]_toning_gentle_B593AF95.wem</CachePath>
+					<CachePath>SFX/harmony_[F]_toning_gentle_18C84DD0.wem</CachePath>
+				</File>
+				<File Id="396023275" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_1DDCAD57.wem</CachePath>
 				</File>
 				<File Id="402014584" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test07tone.wav</ShortName>
 					<CachePath>SFX/vo_test07tone_818F3B66.wem</CachePath>
 				</File>
+				<File Id="402283812" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_24AB9D2B.wem</CachePath>
+				</File>
 				<File Id="406046355" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
-					<CachePath>SFX/harmony_[B]_toning_gentle_54AAC050.wem</CachePath>
+					<CachePath>SFX/harmony_[B]_toning_gentle_E9291FEB.wem</CachePath>
 				</File>
 				<File Id="410218140" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>EXPORT 4.17.24\GREEN_Iso_TRI_5Hz.wav</ShortName>
@@ -517,9 +607,13 @@
 					<ShortName>sfx_breath in.wav</ShortName>
 					<CachePath>SFX/sfx_breath in_818F3B66.wem</CachePath>
 				</File>
+				<File Id="433824871" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_shadow_36F47997.wem</CachePath>
+				</File>
 				<File Id="441113636" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/harmony_[G]_toning_shadow_6B6C813B.wem</CachePath>
+					<CachePath>SFX/harmony_[G]_toning_shadow_F177E9BA.wem</CachePath>
 				</File>
 				<File Id="446117886" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_gentle.wav</ShortName>
@@ -537,6 +631,10 @@
 					<ShortName>EXPORT 4.17.24\GREEN_Binaural_TRI_10Hz.wav</ShortName>
 					<CachePath>SFX/EXPORT 4.17.24/GREEN_Binaural_TRI_10Hz_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="465792322" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
+					<CachePath>SFX/Pigments_Ambient_C Maj Scale_A7ED6E33.wem</CachePath>
+				</File>
 				<File Id="475045371" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>EXPORT 4.17.24\RED_Solid.wav</ShortName>
 					<CachePath>SFX/EXPORT 4.17.24/RED_Solid_FBC78EF0.wem</CachePath>
@@ -551,7 +649,7 @@
 				</File>
 				<File Id="494020334" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shruti.wav</ShortName>
-					<CachePath>SFX/fundamental_[C]_toning_shruti_818F3B66.wem</CachePath>
+					<CachePath>SFX/fundamental_[C]_toning_shruti_2E59B1D2.wem</CachePath>
 				</File>
 				<File Id="494111603" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitSigh_closing.wav</ShortName>
@@ -597,6 +695,10 @@
 					<ShortName>harmony_[B]_silent_shruti_loop.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="551054839" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_gentle_1A99679E.wem</CachePath>
+				</File>
 				<File Id="553839132" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_shruti_loop.wav</ShortName>
 					<CachePath>SFX/harmony_[G]_silent_shruti_loop_FBC78EF0.wem</CachePath>
@@ -641,9 +743,13 @@
 					<ShortName>fundamental_[C]_silent_shruti_loop.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="616627912" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_gentle_397F1954.wem</CachePath>
+				</File>
 				<File Id="628564443" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
-					<CachePath>SFX/fundamental_[C]_toning_gentle_257D46C8.wem</CachePath>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_51A81178.wem</CachePath>
 				</File>
 				<File Id="648810886" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitSighFail_opening1.wav</ShortName>
@@ -656,6 +762,10 @@
 				<File Id="656133757" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_wisdom_peru.wav</ShortName>
 					<CachePath>SFX/vo_wisdom_peru_818F3B66.wem</CachePath>
+				</File>
+				<File Id="663876511" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shruti.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shruti_267A08E3.wem</CachePath>
 				</File>
 				<File Id="666893216" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_shadow.wav</ShortName>
@@ -689,6 +799,10 @@
 					<ShortName>EXPORT 4.17.24\RED_Binaural_TRI_1Hz.wav</ShortName>
 					<CachePath>SFX/EXPORT 4.17.24/RED_Binaural_TRI_1Hz_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="701069308" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_66A1C141.wem</CachePath>
+				</File>
 				<File Id="707978221" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>WHITE_Iso_TRI_20Hz.wav</ShortName>
 					<CachePath>SFX/WHITE_Iso_TRI_20Hz_FBC78EF0.wem</CachePath>
@@ -697,6 +811,10 @@
 					<ShortName>vo_elicitSigh_opening.wav</ShortName>
 					<CachePath>SFX/vo_elicitSigh_opening_818F3B66.wem</CachePath>
 				</File>
+				<File Id="712224403" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_gentle_39164C03.wem</CachePath>
+				</File>
 				<File Id="716549201" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>WHITE_Binaural_TRI_1Hz.wav</ShortName>
 					<CachePath>SFX/WHITE_Binaural_TRI_1Hz_FBC78EF0.wem</CachePath>
@@ -704,6 +822,10 @@
 				<File Id="719008266" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitQueryFail_any3.wav</ShortName>
 					<CachePath>SFX/vo_elicitQueryFail_any3_818F3B66.wem</CachePath>
+				</File>
+				<File Id="723019569" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_1B663CB4.wem</CachePath>
 				</File>
 				<File Id="733447239" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_sono flore.wav</ShortName>
@@ -721,9 +843,21 @@
 					<ShortName>EXPORT 4.17.24\BLUE_Iso_TRI_1Hz.wav</ShortName>
 					<CachePath>SFX/EXPORT 4.17.24/BLUE_Iso_TRI_1Hz_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="759272252" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
+					<CachePath>SFX/Pigments_Ambient_C Maj Scale_51CB044E.wem</CachePath>
+				</File>
 				<File Id="761406240" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[D]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="765066058" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_shadow_C1AF4686.wem</CachePath>
+				</File>
+				<File Id="767921191" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_E736172A.wem</CachePath>
 				</File>
 				<File Id="768921853" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test03hum.wav</ShortName>
@@ -743,7 +877,7 @@
 				</File>
 				<File Id="780915843" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/fundamental_[B]_toning_shadow_E1EDE08E.wem</CachePath>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_478DD053.wem</CachePath>
 				</File>
 				<File Id="781632256" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
@@ -777,13 +911,17 @@
 					<ShortName>EXPORT 4.17.24\GREEN_Iso_TRI_10HZ.wav</ShortName>
 					<CachePath>SFX/EXPORT 4.17.24/GREEN_Iso_TRI_10HZ_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="822956135" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
+					<CachePath>SFX/Pigments_Ambient_C Maj Scale_F7D2C1C5.wem</CachePath>
+				</File>
 				<File Id="829702409" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>EXPORT 4.17.24\BLUE_Iso_TRI_20Hz.wav</ShortName>
 					<CachePath>SFX/EXPORT 4.17.24/BLUE_Iso_TRI_20Hz_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="835717860" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_gentle.wav</ShortName>
-					<CachePath>SFX/fundamental_[B]_toning_gentle_C60B57DE.wem</CachePath>
+					<CachePath>SFX/fundamental_[B]_toning_gentle_BA16EE5F.wem</CachePath>
 				</File>
 				<File Id="837873602" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_posture_relax.wav</ShortName>
@@ -805,9 +943,13 @@
 					<ShortName>vo_somaticMeditation_long.wav</ShortName>
 					<CachePath>SFX/vo_somaticMeditation_long_818F3B66.wem</CachePath>
 				</File>
+				<File Id="865483723" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_gentle_928AAB31.wem</CachePath>
+				</File>
 				<File Id="871521646" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
-					<CachePath>SFX/fundamental_[E]_toning_gentle_B5A34A8C.wem</CachePath>
+					<CachePath>SFX/fundamental_[E]_toning_gentle_E0A154C0.wem</CachePath>
 				</File>
 				<File Id="878755514" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_shruti_loop.wav</ShortName>
@@ -819,7 +961,7 @@
 				</File>
 				<File Id="880603966" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
-					<CachePath>SFX/harmony_[B]_toning_shadow_E3AB6B51.wem</CachePath>
+					<CachePath>SFX/harmony_[B]_toning_shadow_11D892D0.wem</CachePath>
 				</File>
 				<File Id="882598793" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_sono flore.wav</ShortName>
@@ -837,9 +979,17 @@
 					<ShortName>Before learning.wav</ShortName>
 					<CachePath>SFX/Before learning_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="904046582" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_gentle_4C71C49F.wem</CachePath>
+				</File>
 				<File Id="907774068" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test16tone.wav</ShortName>
 					<CachePath>SFX/vo_test16tone_818F3B66.wem</CachePath>
+				</File>
+				<File Id="907899839" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
+					<CachePath>SFX/Pigments_Ambient_C Maj Scale_AA54145C.wem</CachePath>
 				</File>
 				<File Id="919567912" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_thematicSavasana_kindness.wav</ShortName>
@@ -852,6 +1002,10 @@
 				<File Id="931830422" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SoundCeremony_CrystalBowl_12.wav</ShortName>
 					<CachePath>SFX/SoundCeremony_CrystalBowl_12_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="934723135" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_F133989B.wem</CachePath>
 				</File>
 				<File Id="936199836" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SoundCeremony_CrystalBowl_13.wav</ShortName>
@@ -884,6 +1038,10 @@
 				<File Id="955926001" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_opening_openingShort.wav</ShortName>
 					<CachePath>SFX/vo_opening_openingShort_818F3B66.wem</CachePath>
+				</File>
+				<File Id="964479379" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_gentle_E43BDEA4.wem</CachePath>
 				</File>
 				<File Id="965535147" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SoundCeremony_CrystalBowl_07.wav</ShortName>
@@ -969,6 +1127,10 @@
 					<ShortName>PLX_ALFTT_impact_bull.wav</ShortName>
 					<CachePath>SFX/PLX_ALFTT_impact_bull_818F3B66.wem</CachePath>
 				</File>
+				<File Id="1056640681" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_86925835.wem</CachePath>
+				</File>
 				<File Id="1059101541" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_endingSoon.wav</ShortName>
 					<CachePath>SFX/vo_endingSoon_818F3B66.wem</CachePath>
@@ -1016,6 +1178,7 @@
 					<Plugin Id="546043706" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="624592046" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="653847137" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
 					<Plugin Id="677203049" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="725676306" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="774812603" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
@@ -1114,6 +1277,9 @@
 				</Event>
 				<Event Id="260368867" Name="Play_AVS_BreathCycle" DurationType="Infinite">
 					<PluginRefs>
+						<Custom>
+							<PluginRef Id="670553737"/>
+						</Custom>
 						<ShareSets>
 							<PluginRef Id="176439046"/>
 						</ShareSets>
@@ -1322,357 +1488,6 @@
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2845481429" Name="Play_InteractiveMusicSystem_SilentLoops" DurationType="Infinite">
-					<SwitchContainers>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696442"/>
-							<MediaRefs>
-								<MediaRef Id="119872313"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="383782895"/>
-								<MediaRef Id="548918255"/>
-								<MediaRef Id="672564742"/>
-								<MediaRef Id="682265836"/>
-								<MediaRef Id="684226770"/>
-								<MediaRef Id="882598793"/>
-								<MediaRef Id="943526868"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696444" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="160721409"/>
-								<MediaRef Id="348246571"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="430598173"/>
-								<MediaRef Id="446117886"/>
-								<MediaRef Id="533405318"/>
-								<MediaRef Id="553839132"/>
-								<MediaRef Id="555063014"/>
-								<MediaRef Id="612543880"/>
-								<MediaRef Id="666893216"/>
-								<MediaRef Id="924773234"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696446"/>
-							<MediaRefs>
-								<MediaRef Id="287831762"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="349667166"/>
-								<MediaRef Id="555063014"/>
-								<MediaRef Id="597643613"/>
-								<MediaRef Id="761406240"/>
-								<MediaRef Id="790980483"/>
-								<MediaRef Id="878755514"/>
-								<MediaRef Id="924773234"/>
-								<MediaRef Id="974874525"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696440"/>
-							<MediaRefs>
-								<MediaRef Id="91575132"/>
-								<MediaRef Id="268737309"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="600400528"/>
-								<MediaRef Id="761406240"/>
-								<MediaRef Id="790980483"/>
-								<MediaRef Id="878755514"/>
-								<MediaRef Id="955040453"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696443"/>
-							<MediaRefs>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="383782895"/>
-								<MediaRef Id="430598173"/>
-								<MediaRef Id="446117886"/>
-								<MediaRef Id="548918255"/>
-								<MediaRef Id="612543880"/>
-								<MediaRef Id="666893216"/>
-								<MediaRef Id="672564742"/>
-								<MediaRef Id="882598793"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696441"/>
-							<MediaRefs>
-								<MediaRef Id="91575132"/>
-								<MediaRef Id="268737309"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="600400528"/>
-								<MediaRef Id="761406240"/>
-								<MediaRef Id="878755514"/>
-								<MediaRef Id="882598793"/>
-								<MediaRef Id="943526868"/>
-								<MediaRef Id="955040453"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696445"/>
-							<MediaRefs>
-								<MediaRef Id="52450926"/>
-								<MediaRef Id="130835513"/>
-								<MediaRef Id="287831762"/>
-								<MediaRef Id="315212690"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="555063014"/>
-								<MediaRef Id="597643613"/>
-								<MediaRef Id="924773234"/>
-								<MediaRef Id="974874525"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-					</SwitchContainers>
-				</Event>
-				<Event Id="1724678586" Name="Play_InteractiveMusicSystem_Toning" DurationType="OneShot" DurationMin="16.810345" DurationMax="19.849138">
-					<SwitchContainers>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696442"/>
-							<MediaRefs>
-								<MediaRef Id="406046355"/>
-								<MediaRef Id="871521646"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696444" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="108713058"/>
-								<MediaRef Id="628564443"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696440"/>
-							<MediaRefs>
-								<MediaRef Id="328076972"/>
-								<MediaRef Id="1059434116"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696445"/>
-							<MediaRefs>
-								<MediaRef Id="393083644"/>
-								<MediaRef Id="835717860"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696442"/>
-							<MediaRefs>
-								<MediaRef Id="504715301"/>
-								<MediaRef Id="776863379"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696444" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="346108750"/>
-								<MediaRef Id="494020334"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696440"/>
-							<MediaRefs>
-								<MediaRef Id="167281688"/>
-								<MediaRef Id="193930001"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696445"/>
-							<MediaRefs>
-								<MediaRef Id="95564558"/>
-								<MediaRef Id="518293729"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696442"/>
-							<MediaRefs>
-								<MediaRef Id="781632256"/>
-								<MediaRef Id="880603966"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696444" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="364631077"/>
-								<MediaRef Id="441113636"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696440"/>
-							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="262956075"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696445"/>
-							<MediaRefs>
-								<MediaRef Id="14797253"/>
-								<MediaRef Id="780915843"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696442"/>
-							<MediaRefs>
-								<MediaRef Id="733447239"/>
-								<MediaRef Id="1073188299"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696444" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="102762678"/>
-								<MediaRef Id="1031373284"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696440"/>
-							<MediaRefs>
-								<MediaRef Id="263548589"/>
-								<MediaRef Id="337142600"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696445"/>
-							<MediaRefs>
-								<MediaRef Id="363146653"/>
-								<MediaRef Id="972895772"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="484890516"/>
-									<PluginRef Id="1443902288"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-					</SwitchContainers>
-				</Event>
 				<Event Id="2675524623" Name="Play_LinearMusic_Opening" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -1709,6 +1524,9 @@
 				</Event>
 				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite">
 					<PluginRefs>
+						<Custom>
+							<PluginRef Id="670553737"/>
+						</Custom>
 						<ShareSets>
 							<PluginRef Id="176439046"/>
 						</ShareSets>
@@ -1719,10 +1537,3023 @@
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
 					<PluginRefs>
+						<Custom>
+							<PluginRef Id="670553737"/>
+						</Custom>
 						<ShareSets>
 							<PluginRef Id="176439046"/>
 						</ShareSets>
 					</PluginRefs>
+				</Event>
+				<Event Id="1859227922" Name="Play_SilentLoops2_12Pitch_LinkedHarmony" DurationType="Infinite">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1144018367"/>
+						</ShareSets>
+					</PluginRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="349667166"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="268737309"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="600400528"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="119872313"/>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="682265836"/>
+								<MediaRef Id="882598793"/>
+								<MediaRef Id="943526868"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="160721409"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="882598793"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="600400528"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="882598793"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="882598793"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="268737309"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="600400528"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="882598793"/>
+								<MediaRef Id="943526868"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="52450926"/>
+								<MediaRef Id="130835513"/>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="315212690"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="52450926"/>
+								<MediaRef Id="130835513"/>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="315212690"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="160721409"/>
+								<MediaRef Id="348246571"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="533405318"/>
+								<MediaRef Id="553839132"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="924773234"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="682265836"/>
+								<MediaRef Id="684226770"/>
+								<MediaRef Id="882598793"/>
+								<MediaRef Id="943526868"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="349667166"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="839166479" Name="Play_SilentLoops3_FundamentalOnly" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="119872313"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="682265836"/>
+								<MediaRef Id="882598793"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="130835513"/>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="349667166"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="349667166"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="160721409"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="533405318"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="612543880"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="600400528"/>
+								<MediaRef Id="882598793"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="882598793"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="600400528"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="160721409"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="882598793"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="130835513"/>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="600400528"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="682265836"/>
+								<MediaRef Id="882598793"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3586388444" Name="Play_SilentLoops3_HarmonyOnly" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="684226770"/>
+								<MediaRef Id="943526868"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="348246571"/>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="553839132"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="924773234"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="268737309"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="268737309"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="943526868"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="52450926"/>
+								<MediaRef Id="315212690"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="52450926"/>
+								<MediaRef Id="315212690"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="684226770"/>
+								<MediaRef Id="943526868"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="672564742"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="268737309"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="672564742"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2734250860" Name="Play_SilentLoops_7Pitch_LinkedHarmony" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="119872313"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="682265836"/>
+								<MediaRef Id="684226770"/>
+								<MediaRef Id="882598793"/>
+								<MediaRef Id="943526868"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="160721409"/>
+								<MediaRef Id="348246571"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="533405318"/>
+								<MediaRef Id="553839132"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="924773234"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="349667166"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="268737309"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="600400528"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="790980483"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="383782895"/>
+								<MediaRef Id="430598173"/>
+								<MediaRef Id="446117886"/>
+								<MediaRef Id="548918255"/>
+								<MediaRef Id="612543880"/>
+								<MediaRef Id="666893216"/>
+								<MediaRef Id="672564742"/>
+								<MediaRef Id="882598793"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="91575132"/>
+								<MediaRef Id="268737309"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="600400528"/>
+								<MediaRef Id="761406240"/>
+								<MediaRef Id="878755514"/>
+								<MediaRef Id="882598793"/>
+								<MediaRef Id="943526868"/>
+								<MediaRef Id="955040453"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="52450926"/>
+								<MediaRef Id="130835513"/>
+								<MediaRef Id="287831762"/>
+								<MediaRef Id="315212690"/>
+								<MediaRef Id="348501288"/>
+								<MediaRef Id="555063014"/>
+								<MediaRef Id="597643613"/>
+								<MediaRef Id="924773234"/>
+								<MediaRef Id="974874525"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="1144018367"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3272531366" Name="Play_Toning1_7Pitch_LinkedHarmony" DurationType="OneShot" DurationMin="15.866851" DurationMax="35.676212">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="301605077"/>
+								<MediaRef Id="628564443"/>
+								<MediaRef Id="865483723"/>
+								<MediaRef Id="871521646"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="108713058"/>
+								<MediaRef Id="402283812"/>
+								<MediaRef Id="904046582"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="616627912"/>
+								<MediaRef Id="701069308"/>
+								<MediaRef Id="1056640681"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="328076972"/>
+								<MediaRef Id="1059434116"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="151307626"/>
+								<MediaRef Id="321295864"/>
+								<MediaRef Id="406046355"/>
+								<MediaRef Id="551054839"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="116838749"/>
+								<MediaRef Id="301605077"/>
+								<MediaRef Id="712224403"/>
+								<MediaRef Id="723019569"/>
+								<MediaRef Id="964479379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="393083644"/>
+								<MediaRef Id="835717860"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="346108750"/>
+								<MediaRef Id="494020334"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+								<MediaRef Id="240795686"/>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="167281688"/>
+								<MediaRef Id="193930001"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="494020334"/>
+								<MediaRef Id="504715301"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+								<MediaRef Id="663876511"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="363805056"/>
+								<MediaRef Id="396023275"/>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="1226163"/>
+								<MediaRef Id="441113636"/>
+								<MediaRef Id="765066058"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="370281401"/>
+								<MediaRef Id="433824871"/>
+								<MediaRef Id="822956135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="780915843"/>
+								<MediaRef Id="907899839"/>
+								<MediaRef Id="934723135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="364631077"/>
+								<MediaRef Id="441113636"/>
+								<MediaRef Id="759272252"/>
+								<MediaRef Id="781632256"/>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="465792322"/>
+								<MediaRef Id="767921191"/>
+								<MediaRef Id="934723135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="14797253"/>
+								<MediaRef Id="66126426"/>
+								<MediaRef Id="370281401"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="102762678"/>
+								<MediaRef Id="1031373284"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+								<MediaRef Id="337142600"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+								<MediaRef Id="733447239"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2128235345" Name="Play_Toning2_12Pitch_LinkedHarmony" DurationType="OneShot" DurationMin="15.866851" DurationMax="37.79763">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="484890516"/>
+							<PluginRef Id="1443902288"/>
+						</ShareSets>
+					</PluginRefs>
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="616627912"/>
+								<MediaRef Id="701069308"/>
+								<MediaRef Id="1056640681"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="328076972"/>
+								<MediaRef Id="1059434116"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="301605077"/>
+								<MediaRef Id="628564443"/>
+								<MediaRef Id="865483723"/>
+								<MediaRef Id="871521646"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="151307626"/>
+								<MediaRef Id="321295864"/>
+								<MediaRef Id="406046355"/>
+								<MediaRef Id="551054839"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="328076972"/>
+								<MediaRef Id="1059434116"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="151307626"/>
+								<MediaRef Id="321295864"/>
+								<MediaRef Id="406046355"/>
+								<MediaRef Id="551054839"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="116838749"/>
+								<MediaRef Id="301605077"/>
+								<MediaRef Id="712224403"/>
+								<MediaRef Id="723019569"/>
+								<MediaRef Id="964479379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="393083644"/>
+								<MediaRef Id="835717860"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="393083644"/>
+								<MediaRef Id="835717860"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="108713058"/>
+								<MediaRef Id="402283812"/>
+								<MediaRef Id="904046582"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="301605077"/>
+								<MediaRef Id="628564443"/>
+								<MediaRef Id="865483723"/>
+								<MediaRef Id="871521646"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="616627912"/>
+								<MediaRef Id="701069308"/>
+								<MediaRef Id="1056640681"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+								<MediaRef Id="240795686"/>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="167281688"/>
+								<MediaRef Id="193930001"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="494020334"/>
+								<MediaRef Id="504715301"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="167281688"/>
+								<MediaRef Id="193930001"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="494020334"/>
+								<MediaRef Id="504715301"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+								<MediaRef Id="663876511"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="346108750"/>
+								<MediaRef Id="494020334"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+								<MediaRef Id="240795686"/>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="370281401"/>
+								<MediaRef Id="433824871"/>
+								<MediaRef Id="822956135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="780915843"/>
+								<MediaRef Id="907899839"/>
+								<MediaRef Id="934723135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="363805056"/>
+								<MediaRef Id="396023275"/>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="364631077"/>
+								<MediaRef Id="441113636"/>
+								<MediaRef Id="759272252"/>
+								<MediaRef Id="781632256"/>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="780915843"/>
+								<MediaRef Id="907899839"/>
+								<MediaRef Id="934723135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="364631077"/>
+								<MediaRef Id="441113636"/>
+								<MediaRef Id="759272252"/>
+								<MediaRef Id="781632256"/>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="465792322"/>
+								<MediaRef Id="767921191"/>
+								<MediaRef Id="934723135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="14797253"/>
+								<MediaRef Id="66126426"/>
+								<MediaRef Id="370281401"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="14797253"/>
+								<MediaRef Id="66126426"/>
+								<MediaRef Id="370281401"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="1226163"/>
+								<MediaRef Id="441113636"/>
+								<MediaRef Id="765066058"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="363805056"/>
+								<MediaRef Id="396023275"/>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="370281401"/>
+								<MediaRef Id="433824871"/>
+								<MediaRef Id="822956135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+								<MediaRef Id="337142600"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+								<MediaRef Id="337142600"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+								<MediaRef Id="733447239"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="102762678"/>
+								<MediaRef Id="1031373284"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="2195370387" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+								<MediaRef Id="363146653"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1473350480" Name="Play_Toning3_FundamentalOnly" DurationType="OneShot" DurationMin="16.673853" DurationMax="37.79763">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="301605077"/>
+								<MediaRef Id="628564443"/>
+								<MediaRef Id="871521646"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="835717860"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="616627912"/>
+								<MediaRef Id="1056640681"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="616627912"/>
+								<MediaRef Id="1056640681"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="402283812"/>
+								<MediaRef Id="904046582"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="116838749"/>
+								<MediaRef Id="301605077"/>
+								<MediaRef Id="712224403"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="151307626"/>
+								<MediaRef Id="321295864"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="1059434116"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="151307626"/>
+								<MediaRef Id="321295864"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="835717860"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="1059434116"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="301605077"/>
+								<MediaRef Id="628564443"/>
+								<MediaRef Id="871521646"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+								<MediaRef Id="240795686"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+								<MediaRef Id="240795686"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="494020334"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="663876511"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="494020334"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="193930001"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="494020334"/>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="95564558"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="193930001"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="776863379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="363805056"/>
+								<MediaRef Id="396023275"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="66126426"/>
+								<MediaRef Id="370281401"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="370281401"/>
+								<MediaRef Id="822956135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="370281401"/>
+								<MediaRef Id="822956135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="1226163"/>
+								<MediaRef Id="765066058"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="465792322"/>
+								<MediaRef Id="767921191"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="364631077"/>
+								<MediaRef Id="759272252"/>
+								<MediaRef Id="781632256"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="780915843"/>
+								<MediaRef Id="907899839"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="364631077"/>
+								<MediaRef Id="759272252"/>
+								<MediaRef Id="781632256"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="66126426"/>
+								<MediaRef Id="370281401"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="133084729"/>
+								<MediaRef Id="780915843"/>
+								<MediaRef Id="907899839"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="363805056"/>
+								<MediaRef Id="396023275"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="1031373284"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="337142600"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="363146653"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="337142600"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="733447239"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3237067595" Name="Play_Toning3_HarmonyOnly" DurationType="OneShot" DurationMin="27.349138" DurationMax="35.522434">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="865483723"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="108713058"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="701069308"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="328076972"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="723019569"/>
+								<MediaRef Id="964479379"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="393083644"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="701069308"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="393083644"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="865483723"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="406046355"/>
+								<MediaRef Id="551054839"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="328076972"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="406046355"/>
+								<MediaRef Id="551054839"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="346108750"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="167281688"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="518293729"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="167281688"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="504715301"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="441113636"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="433824871"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="934723135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="934723135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="14797253"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="433824871"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="14797253"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="441113636"/>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="262956075"/>
+								<MediaRef Id="934723135"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="441113636"/>
+								<MediaRef Id="880603966"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
+							<MediaRefs>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
+							<MediaRefs>
+								<MediaRef Id="102762678"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
+							<MediaRefs>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
+							<MediaRefs>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
+							<MediaRefs>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
+							<MediaRefs>
+								<MediaRef Id="972895772"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
+							<MediaRefs>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
+							<MediaRefs>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
+							<MediaRefs>
+								<MediaRef Id="263548589"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446"/>
+							<MediaRefs>
+								<MediaRef Id="1073188299"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="484890516"/>
+									<PluginRef Id="1443902288"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+					</SwitchContainers>
 				</Event>
 				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="OneShot" DurationMin="6.1513333" DurationMax="52.572666">
 					<SwitchContainers>
@@ -2024,146 +4855,8 @@
 				<Event Id="2188221646" Name="Stop_AVS_SineGenerators_Sequence" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="630856697" Name="Stop_AVS_SineGenerators_Switch" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="114893642" Name="Stop_InteractiveMusicSystem" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="1113777563" Name="Stop_InteractiveMusicSystem_SilentLoops" DurationType="Infinite">
-					<SwitchContainers>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696442"/>
-							<MediaRefs>
-								<MediaRef Id="119872313"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="383782895"/>
-								<MediaRef Id="548918255"/>
-								<MediaRef Id="672564742"/>
-								<MediaRef Id="682265836"/>
-								<MediaRef Id="684226770"/>
-								<MediaRef Id="882598793"/>
-								<MediaRef Id="943526868"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696444" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="160721409"/>
-								<MediaRef Id="348246571"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="430598173"/>
-								<MediaRef Id="446117886"/>
-								<MediaRef Id="533405318"/>
-								<MediaRef Id="553839132"/>
-								<MediaRef Id="555063014"/>
-								<MediaRef Id="612543880"/>
-								<MediaRef Id="666893216"/>
-								<MediaRef Id="924773234"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696446"/>
-							<MediaRefs>
-								<MediaRef Id="287831762"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="349667166"/>
-								<MediaRef Id="555063014"/>
-								<MediaRef Id="597643613"/>
-								<MediaRef Id="761406240"/>
-								<MediaRef Id="790980483"/>
-								<MediaRef Id="878755514"/>
-								<MediaRef Id="924773234"/>
-								<MediaRef Id="974874525"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696440"/>
-							<MediaRefs>
-								<MediaRef Id="91575132"/>
-								<MediaRef Id="268737309"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="600400528"/>
-								<MediaRef Id="761406240"/>
-								<MediaRef Id="790980483"/>
-								<MediaRef Id="878755514"/>
-								<MediaRef Id="955040453"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696443"/>
-							<MediaRefs>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="383782895"/>
-								<MediaRef Id="430598173"/>
-								<MediaRef Id="446117886"/>
-								<MediaRef Id="548918255"/>
-								<MediaRef Id="612543880"/>
-								<MediaRef Id="666893216"/>
-								<MediaRef Id="672564742"/>
-								<MediaRef Id="882598793"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696441"/>
-							<MediaRefs>
-								<MediaRef Id="91575132"/>
-								<MediaRef Id="268737309"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="600400528"/>
-								<MediaRef Id="761406240"/>
-								<MediaRef Id="878755514"/>
-								<MediaRef Id="882598793"/>
-								<MediaRef Id="943526868"/>
-								<MediaRef Id="955040453"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="2420200949" Id="84696445"/>
-							<MediaRefs>
-								<MediaRef Id="52450926"/>
-								<MediaRef Id="130835513"/>
-								<MediaRef Id="287831762"/>
-								<MediaRef Id="315212690"/>
-								<MediaRef Id="348501288"/>
-								<MediaRef Id="555063014"/>
-								<MediaRef Id="597643613"/>
-								<MediaRef Id="924773234"/>
-								<MediaRef Id="974874525"/>
-							</MediaRefs>
-							<PluginRefs>
-								<ShareSets>
-									<PluginRef Id="1144018367"/>
-								</ShareSets>
-							</PluginRefs>
-						</SwitchContainer>
-					</SwitchContainers>
-				</Event>
-				<Event Id="2321356008" Name="Stop_InteractiveMusicSystem_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2822016348" Name="Stop_SilentLoops" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="955662865" Name="Stop_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="158808291" Name="BreathCycle_PlaybackRate"/>
@@ -2242,7 +4935,7 @@
 						<Switch Id="3041563226" Name="Silence"/>
 					</Switches>
 				</SwitchGroup>
-				<SwitchGroup Id="2420200949" Name="InteractiveMusicSwitchGroup">
+				<SwitchGroup Id="2195370387" Name="InteractiveMusicSwitchGroup2_12Pitches_Linked5ths">
 					<Switches>
 						<Switch Id="84696440" Name="G"/>
 						<Switch Id="84696441" Name="F"/>
@@ -2251,6 +4944,54 @@
 						<Switch Id="84696444" Name="C"/>
 						<Switch Id="84696445" Name="B"/>
 						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="2905423286" Name="InteractiveMusicSwitchGroup1_7Pitches_Linked5ths">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3505294094" Name="InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3514265297" Name="InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly">
+					<Switches>
+						<Switch Id="84696440" Name="G"/>
+						<Switch Id="84696441" Name="F"/>
+						<Switch Id="84696442" Name="E"/>
+						<Switch Id="84696443" Name="D"/>
+						<Switch Id="84696444" Name="C"/>
+						<Switch Id="84696445" Name="B"/>
+						<Switch Id="84696446" Name="A"/>
+						<Switch Id="156517199" Name="FsharpGflat"/>
+						<Switch Id="791737535" Name="DsharpEflat"/>
+						<Switch Id="3050272541" Name="AsharpBflat"/>
+						<Switch Id="3573977648" Name="GsharpAflat"/>
+						<Switch Id="3800083777" Name="CsharpDflat"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="3813349969" Name="VO_Somatic">
@@ -2292,5 +5033,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{0CD40771-F603-C441-B025-4213AEE9766C}</FileHash>
+	<FileHash>{865DDD68-A0B0-D227-563F-AC4DEA28196B}</FileHash>
 </SoundBanksInfo>

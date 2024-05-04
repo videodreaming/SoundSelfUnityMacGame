@@ -3,9 +3,10 @@
 	<PluginLibs>
 		<PluginLib LibName="Wwise Sine" LibId="6553602" Type="Source" DLL="AkSineTone" StaticLib="AkSineSource"/>
 		<PluginLib LibName="Wwise RoomVerb" LibId="7733251" Type="Effect" DLL="AkRoomVerb" StaticLib="AkRoomVerbFX"/>
+		<PluginLib LibName="SoundSeed Air Woosh" LibId="7864322" Type="Source" DLL="AkSoundSeedAir" StaticLib="AkSoundSeedWooshSource"/>
 		<PluginLib LibName="Wwise Stereo Delay" LibId="8847363" Type="Effect" DLL="AkStereoDelay" StaticLib="AkStereoDelayFX"/>
 		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
 		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
 	</PluginLibs>
-	<FileHash>{DB85CAF4-C360-D886-EAB9-819E0E871219}</FileHash>
+	<FileHash>{10BEAAB3-3622-EA56-3E34-82F6F8A29FFB}</FileHash>
 </PluginInfo>

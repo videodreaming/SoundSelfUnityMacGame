@@ -25,6 +25,7 @@
 						<Value Platform="Mac">GeneratedSoundBanks\Mac</Value>
 					</ValueList>
 				</Property>
+				<Property Name="LicenseKey" Type="string" Value="PHByb2plY3QgaWQ9IjE2Njc0IiBtYXNrPSJWSlRVNjczMiIgZW5jPSIwIj48bGljZW5zZSBpZD0iMSIgbmFtZT0iV3dpc2UiIHR5cGU9IjEiIHBsYXRmb3Jtcz0iNCwxMCIgZXhwaXJlcz0iMjAyNC0wOC0zMSIgIC8+PGxpY2Vuc2UgaWQ9IjIxIiBuYW1lPSJNYWludGVuYW5jZSIgdHlwZT0iMSIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI0LTA4LTMxIiAgLz48bGljZW5zZSBpZD0iNTAiIG5hbWU9IkxvY2F0aW9uLWJhc2VkIEVudGVydGFpbm1lbnQgTGljZW5zZSIgdHlwZT0iMSIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI0LTA4LTMxIiAgLz48bGljZW5zZSBpZD0iMjIiIG5hbWU9IkxldmVsIEEgTGljZW5zZSIgdHlwZT0iMSIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI0LTA4LTMxIiAgLz48bGljZW5zZSBpZD0iNjMiIG5hbWU9Ik1hc3RlcmluZyBTdWl0ZSIgdHlwZT0iMSIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI0LTA4LTMxIiAgLz48bGljZW5zZSBpZD0iMzEiIG5hbWU9IlNvdW5kU2VlZCBBaXIiIHR5cGU9IjEiIHBsYXRmb3Jtcz0iNCwxMCIgZXhwaXJlcz0iMjAyNC0wOC0zMSIgIC8+PHBsdWdpbiBpZD0iMTIxODk2OTkiIG5hbWU9Ik1hc3RlcmluZyBTdWl0ZSIgbGljZW5zZT0iNjMiIC8+PC9wcm9qZWN0Pg==|WbFsKaewtZSw+ZqY81Xo7icov2+mDI4ADuou1t4QNQfuem0jww5ZHaiNfIR8h0xWiX0O8J0dqhXE9gsFrveQKO9lQYYRoPM6SrySpStLN8ACW9kk6SxBu2iYjaGvUQnL27l0eoKroYIqZGxkM2MJ+aT1CbNPnsKz/gcom705J+Lto9tNYp43tHoGtxrcjn7G+rvF9MWpKdcueCqMpOvizCmpOEbZbUkUZSfkNH7DwnIdcTTCcaKdAhu2KAW8Qf0DIkNz+3nHC7XSDWlEHU7y5DEuBDIvOPWZk0GZYu7Y/sFnkUXtzDOA3TMNK/8QZ00f4OR1F3XdUiT51wRbP6VvZg=="/>
 				<Property Name="SoundBankGenerateEstimatedDuration" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateHeaderFile" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateMaxAttenuationInfo" Type="bool" Value="True"/>
@@ -9529,7 +9530,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="0" PluginID="127">
+				<SharedPropertyList ClassName="Wwise Convolution Reverb" PluginType="3" CompanyID="0" PluginID="127">
 					<PropertyList>
 						<Property Name="AlgoTypeSelect" Type="int32">
 							<ValueList>

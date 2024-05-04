@@ -20,7 +20,6 @@ State	ID	Name	State Group			Notes
 	1467691068	SonoFlore	SoundWorldMode			
 	2193720742	Gentle	SoundWorldMode			
 	3140781661	Shadow	SoundWorldMode			
-	3761286873	Environment1	SoundWorldMode			
 	4267886810	Shruti	SoundWorldMode			
 	52442795	Binaural	AVSModulationMode			
 	254705482	Isochronic	AVSModulationMode			
@@ -29,7 +28,6 @@ State	ID	Name	State Group			Notes
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
-	3687478936	VO_Bus_Volume			\Master Mixer\VO_Bus_Volume	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
 	65973818	AVS System			\Default Work Unit\AVS System	
@@ -37,12 +35,11 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	493151109	AVS_Silent			\Default Work Unit\AVS System\AVS_Silent	
 	1089785595	LinearMusic			\Default Work Unit\Master Audio Bus\LinearMusic	
 	1229948536	Environment			\Default Work Unit\Master Audio Bus\Environment	
-	1316910230	Impacts			\Default Work Unit\SubAcoustics\Impacts	
 	1534528548	VO			\Default Work Unit\Master Audio Bus\VO	
-	2218314507	SubAcoustics			\Default Work Unit\SubAcoustics	
 	2286170043	AVS_Toning			\Default Work Unit\AVS System\AVS_Toning	
 	2479991680	InteractiveMusic_Vocal_Toning			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Toning	
 	2579128390	InteractiveMusic_Vocal_Silent			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Silent	
+	2670023165	Impacts, SubAcoustic			\Default Work Unit\Master Audio Bus\Impacts, SubAcoustic	
 	3385674499	AVS_Modulations			\Default Work Unit\AVS System\AVS_Modulations	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 

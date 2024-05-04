@@ -29,14 +29,20 @@ namespace AK
         static const AkUniqueID PLAY_ENVIRONMENT_OPENINGQUERYREPEAT1 = 772188046U;
         static const AkUniqueID PLAY_ENVIRONMENT_OPENINGWELCOME = 2849654864U;
         static const AkUniqueID PLAY_ENVIRONMENT_WIND = 2929327982U;
-        static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 2845481429U;
-        static const AkUniqueID PLAY_INTERACTIVEMUSICSYSTEM_TONING = 1724678586U;
         static const AkUniqueID PLAY_LINEARMUSIC_OPENING = 2675524623U;
         static const AkUniqueID PLAY_SFX_BREATHEIN = 3830600368U;
         static const AkUniqueID PLAY_SFX_BREATHEOUT = 77468567U;
         static const AkUniqueID PLAY_SFX_IMPACT = 2908297336U;
         static const AkUniqueID PLAY_SFX_SOUNDSEED_BREATHCYCLE = 3431547933U;
         static const AkUniqueID PLAY_SFX_SOUNDSEED_BREATHCYCLEWIND = 603425291U;
+        static const AkUniqueID PLAY_SILENTLOOPS2_12PITCH_LINKEDHARMONY = 1859227922U;
+        static const AkUniqueID PLAY_SILENTLOOPS3_FUNDAMENTALONLY = 839166479U;
+        static const AkUniqueID PLAY_SILENTLOOPS3_HARMONYONLY = 3586388444U;
+        static const AkUniqueID PLAY_SILENTLOOPS_7PITCH_LINKEDHARMONY = 2734250860U;
+        static const AkUniqueID PLAY_TONING1_7PITCH_LINKEDHARMONY = 3272531366U;
+        static const AkUniqueID PLAY_TONING2_12PITCH_LINKEDHARMONY = 2128235345U;
+        static const AkUniqueID PLAY_TONING3_FUNDAMENTALONLY = 1473350480U;
+        static const AkUniqueID PLAY_TONING3_HARMONYONLY = 3237067595U;
         static const AkUniqueID PLAY_VO_CLOSINGGOODBYE = 699412784U;
         static const AkUniqueID PLAY_VO_ENDINGSOON = 936790198U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONADVANCED = 4057363449U;
@@ -66,8 +72,8 @@ namespace AK
         static const AkUniqueID STOP_AVS_SINEGENERATORS_SEQUENCE = 2188221646U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_SWITCH = 630856697U;
         static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
-        static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM_SILENTLOOPS = 1113777563U;
-        static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM_TONING = 2321356008U;
+        static const AkUniqueID STOP_SILENTLOOPS = 2822016348U;
+        static const AkUniqueID STOP_TONING = 955662865U;
     } // namespace EVENTS
 
     namespace STATES
@@ -120,7 +126,6 @@ namespace AK
 
             namespace STATE
             {
-                static const AkUniqueID ENVIRONMENT = 1229948536U;
                 static const AkUniqueID GENTLE = 2193720742U;
                 static const AkUniqueID NONE = 748895195U;
                 static const AkUniqueID SHADOW = 3140781661U;
@@ -165,9 +170,9 @@ namespace AK
             } // namespace SWITCH
         } // namespace AVSSYSTEM_SOLIDCOLOR
 
-        namespace INTERACTIVEMUSICSWITCHGROUP
+        namespace INTERACTIVEMUSICSWITCHGROUP1_7PITCHES_LINKED5THS
         {
-            static const AkUniqueID GROUP = 2420200949U;
+            static const AkUniqueID GROUP = 2905423286U;
 
             namespace SWITCH
             {
@@ -179,7 +184,70 @@ namespace AK
                 static const AkUniqueID F = 84696441U;
                 static const AkUniqueID G = 84696440U;
             } // namespace SWITCH
-        } // namespace INTERACTIVEMUSICSWITCHGROUP
+        } // namespace INTERACTIVEMUSICSWITCHGROUP1_7PITCHES_LINKED5THS
+
+        namespace INTERACTIVEMUSICSWITCHGROUP2_12PITCHES_LINKED5THS
+        {
+            static const AkUniqueID GROUP = 2195370387U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID A = 84696446U;
+                static const AkUniqueID ASHARPBFLAT = 3050272541U;
+                static const AkUniqueID B = 84696445U;
+                static const AkUniqueID C = 84696444U;
+                static const AkUniqueID CSHARPDFLAT = 3800083777U;
+                static const AkUniqueID D = 84696443U;
+                static const AkUniqueID DSHARPEFLAT = 791737535U;
+                static const AkUniqueID E = 84696442U;
+                static const AkUniqueID F = 84696441U;
+                static const AkUniqueID FSHARPGFLAT = 156517199U;
+                static const AkUniqueID G = 84696440U;
+                static const AkUniqueID GSHARPAFLAT = 3573977648U;
+            } // namespace SWITCH
+        } // namespace INTERACTIVEMUSICSWITCHGROUP2_12PITCHES_LINKED5THS
+
+        namespace INTERACTIVEMUSICSWITCHGROUP3_12PITCHES_FUNDAMENTALONLY
+        {
+            static const AkUniqueID GROUP = 3505294094U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID A = 84696446U;
+                static const AkUniqueID ASHARPBFLAT = 3050272541U;
+                static const AkUniqueID B = 84696445U;
+                static const AkUniqueID C = 84696444U;
+                static const AkUniqueID CSHARPDFLAT = 3800083777U;
+                static const AkUniqueID D = 84696443U;
+                static const AkUniqueID DSHARPEFLAT = 791737535U;
+                static const AkUniqueID E = 84696442U;
+                static const AkUniqueID F = 84696441U;
+                static const AkUniqueID FSHARPGFLAT = 156517199U;
+                static const AkUniqueID G = 84696440U;
+                static const AkUniqueID GSHARPAFLAT = 3573977648U;
+            } // namespace SWITCH
+        } // namespace INTERACTIVEMUSICSWITCHGROUP3_12PITCHES_FUNDAMENTALONLY
+
+        namespace INTERACTIVEMUSICSWITCHGROUP3_12PITCHES_HARMONYONLY
+        {
+            static const AkUniqueID GROUP = 3514265297U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID A = 84696446U;
+                static const AkUniqueID ASHARPBFLAT = 3050272541U;
+                static const AkUniqueID B = 84696445U;
+                static const AkUniqueID C = 84696444U;
+                static const AkUniqueID CSHARPDFLAT = 3800083777U;
+                static const AkUniqueID D = 84696443U;
+                static const AkUniqueID DSHARPEFLAT = 791737535U;
+                static const AkUniqueID E = 84696442U;
+                static const AkUniqueID F = 84696441U;
+                static const AkUniqueID FSHARPGFLAT = 156517199U;
+                static const AkUniqueID G = 84696440U;
+                static const AkUniqueID GSHARPAFLAT = 3573977648U;
+            } // namespace SWITCH
+        } // namespace INTERACTIVEMUSICSWITCHGROUP3_12PITCHES_HARMONYONLY
 
         namespace LINEARMUSIC_OPENING
         {
