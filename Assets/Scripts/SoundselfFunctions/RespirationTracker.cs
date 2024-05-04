@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class RespirationTracker : MonoBehaviour
 {
-    private bool debugAllowLogs = true;
+    private bool debugAllowLogs = false;
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
     public float _respirationRate       {get; private set;} = 1.0f;   
     public float _respirationRateRaw        {get; private set;} = 1.0f; //uses either the 1min or 2min version, depending on validity, preferrring 1min

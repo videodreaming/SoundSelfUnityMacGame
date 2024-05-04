@@ -25,7 +25,7 @@ public class MusicSystem1 : MonoBehaviour
     
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
-    private int nextNote = 0; // Next note to activate
+    private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
 
     void Start()
@@ -43,6 +43,11 @@ public class MusicSystem1 : MonoBehaviour
         {
             debugAllowLogs = !debugAllowLogs;
         }
+
+        // ========================================================
+        // CONVERTS RAW IMITONE INTO DATA USABLE BY OUR MUSIC SYSTEM
+        // ========================================================
+        
         // Modulo 12 on the interpreted note to get the position within an octave
         musicNoteInputRaw = imitoneVoiceInterpreter.note_st % 12;
 
@@ -102,31 +107,29 @@ public class MusicSystem1 : MonoBehaviour
                 {
                     if(debugAllowLogs && (newActivationTimer == 0 || (Time.frameCount % 30 == 0)))
                     {
-                        Debug.Log(note.Key + ": from musicNoteInputRaw: " + musicNoteInputRaw);
+                        Debug.Log("LOG 1: [COMPARE TONES] Key(" + note.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + newActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
                     }
                     newActivationTimer += Time.deltaTime;
-                    if (newActivationTimer >= highestActivationTimer && highestActivationTimer != 0.0f)
+                        
+                    if (newActivationTimer >= highestActivationTimer && newActivationTimer != 0.0f)
                     {
+                        //Debug.Log(newActivationTimer + " >= " + highestActivationTimer + " && " + newActivationTimer + " != 0.0f");
                         highestActivationTimer = newActivationTimer;
-                        if(debugAllowLogs && isHighestActivationTimer)
-                        {
-                            Debug.Log(note.Key + ": Activation Timer (" + highestActivationTimer + ") is the highest");
-                        }
                         isHighestActivationTimer = true;
                     }
                     
                     if (newActivationTimer >= noteTrackerThreshold && isHighestActivationTimer)
                     {
-                        nextNote = note.Key;
-                        if (debugAllowLogs)
+                        if (debugAllowLogs && nextNote != note.Key)
                         {
-                            Debug.Log(note.Key + ": sets nextNote. Activation (" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
+                            Debug.Log("LOG 2: nextNote changed to (" + note.Key + ") Activation Timer(" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
                         }
+                        nextNote = note.Key;
                         if (imitoneVoiceInterpreter.toneActive) //now we change the actual tone!
                         {
                             if(debugAllowLogs && !isActive)
                             {
-                                Debug.Log(note.Key + ": IS NOW ACTIVE!");
+                                Debug.Log("LOG 3: Key(" + note.Key + ") IS ACTIVATED!");
                             }
                             
                             isActive = true;
@@ -140,7 +143,6 @@ public class MusicSystem1 : MonoBehaviour
                     updates[note.Key] = (0, false, note.Value.ChangeFundamentalTimer);
                 }
             }
-
             // Apply the accumulated updates to the NoteTracker
             foreach (var update in updates)
             {
@@ -166,17 +168,30 @@ public class MusicSystem1 : MonoBehaviour
                 NoteTracker[note.Key] = (0.0f, false, currentValue.ChangeFundamentalTimer);
                 if(debugAllowLogs)
                 {
-                    Debug.Log(note.Key + ": deactivated");
+                    Debug.Log("LOG 4: Key(" + note.Key + ": deactivated (and highestActivationTimer reset)");
                 }
             }
         }
         highestActivationTimer = 0.0f;
-        if(debugAllowLogs)
-        {
-            Debug.Log("highestActivationTimer reset to 0.0f");
-        }
     }
+
+    // Reef needs to know what note should be playing back at all times, fundamental and harmony wise, at any given time. Needs to know what Midi Note we should be on. (Robin will be able to give Reef midi note values)
 }
+
+//REFERENCE FOR MIDI NOTES
+//C = 0
+//C# = 1
+//D = 2
+//D# = 3
+//E = 4
+//F = 5
+//F# = 6
+//G = 7
+//G# = 8
+//A = 9
+//A# = 10
+//B = 11
+
 
 //GAME CALLS FOR WWISE THAT WE MIGHT WANT TO USE
 // Game Call for Playing (turns on fundamental): AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
@@ -201,3 +216,4 @@ public class MusicSystem1 : MonoBehaviour
     //We STOP the harmony ONE-SHOT layer for the harmony note when the player stops toning (toneActiveBiasTrue)
 
     //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0)
+

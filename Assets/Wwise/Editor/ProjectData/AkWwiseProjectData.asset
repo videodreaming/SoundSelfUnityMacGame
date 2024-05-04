@@ -708,8 +708,8 @@ MonoBehaviour:
         guid: 113f849040658c4ab5532767e329b988
       Path: Events\Interactive Music System\Play_Toning1_7Pitch_LinkedHarmony
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 35.676212
+      minDuration: 15.866851
     - name: Play_Toning2_12Pitch_LinkedHarmony
       guid: 3edf4117d250ee4fbf9b528e101620d8
       id: 2128235345
@@ -725,8 +725,8 @@ MonoBehaviour:
         guid: 3edf4117d250ee4fbf9b528e101620d8
       Path: Events\Interactive Music System\Play_Toning2_12Pitch_LinkedHarmony
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 37.79763
+      minDuration: 15.866851
     - name: Play_Toning3_FundamentalOnly
       guid: efb100dad61d484fad925da76bc5f7c1
       id: 1473350480
@@ -742,8 +742,8 @@ MonoBehaviour:
         guid: efb100dad61d484fad925da76bc5f7c1
       Path: Events\Interactive Music System\Play_Toning3_FundamentalOnly
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 37.79763
+      minDuration: 16.673853
     - name: Play_Toning3_HarmonyOnly
       guid: 17c68e7fe73ec14ab11d03973b8fdda8
       id: 3237067595
@@ -759,8 +759,8 @@ MonoBehaviour:
         guid: 17c68e7fe73ec14ab11d03973b8fdda8
       Path: Events\Interactive Music System\Play_Toning3_HarmonyOnly
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 35.522434
+      minDuration: 27.349138
     - name: Stop_InteractiveMusicSystem
       guid: 73dcd21109e2b44589fdf87c94f55b6d
       id: 114893642
