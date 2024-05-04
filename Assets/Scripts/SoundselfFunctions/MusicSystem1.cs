@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class MusicSystem1 : MonoBehaviour
 {
+    private bool debugAllowLogs = true;
     // Variables
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private int fundamentalNote; // Base note around which other notes are calculated
@@ -37,12 +39,14 @@ public class MusicSystem1 : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            debugAllowLogs = !debugAllowLogs;
+        }
         // Modulo 12 on the interpreted note to get the position within an octave
         musicNoteInputRaw = imitoneVoiceInterpreter.note_st % 12;
 
         // IN CASE OF DISHARMONIC RELATIONSHIP, REPLACE WITH HARMONIC RELATIONSHIP
-        Debug.Log("musicNoteInputRaw: " + musicNoteInputRaw);
-
         if (Mathf.Abs(musicNoteInputRaw - fundamentalNote) < _constWiggleRoomUnison) //CLOSE TO UNISON
         {
             musicNoteInput = fundamentalNote;
@@ -96,24 +100,36 @@ public class MusicSystem1 : MonoBehaviour
                 // Increment active timer if current note input matches the tracker note
                 if (Mathf.Round(musicNoteInput) == note.Key)
                 {
+                    if(debugAllowLogs && (newActivationTimer == 0 || (Time.frameCount % 30 == 0)))
+                    {
+                        Debug.Log(note.Key + ": from musicNoteInputRaw: " + musicNoteInputRaw);
+                    }
                     newActivationTimer += Time.deltaTime;
-                    if (newActivationTimer >= highestActivationTimer)
+                    if (newActivationTimer >= highestActivationTimer && highestActivationTimer != 0.0f)
                     {
                         highestActivationTimer = newActivationTimer;
+                        if(debugAllowLogs && isHighestActivationTimer)
+                        {
+                            Debug.Log(note.Key + ": Activation Timer (" + highestActivationTimer + ") is the highest");
+                        }
                         isHighestActivationTimer = true;
-                    }
-                    else
-                    {
-                        isHighestActivationTimer = false;
                     }
                     
                     if (newActivationTimer >= noteTrackerThreshold && isHighestActivationTimer)
                     {
                         nextNote = note.Key;
+                        if (debugAllowLogs)
+                        {
+                            Debug.Log(note.Key + ": sets nextNote. Activation (" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
+                        }
                         if (imitoneVoiceInterpreter.toneActive) //now we change the actual tone!
                         {
+                            if(debugAllowLogs && !isActive)
+                            {
+                                Debug.Log(note.Key + ": IS NOW ACTIVE!");
+                            }
+                            
                             isActive = true;
-                            Debug.Log("Note " + note.Key + " is now active!");
                             activations[note.Key] = isActive;
                         }
                     }
@@ -148,9 +164,17 @@ public class MusicSystem1 : MonoBehaviour
             {
                 var currentValue = NoteTracker[note.Key];
                 NoteTracker[note.Key] = (0.0f, false, currentValue.ChangeFundamentalTimer);
+                if(debugAllowLogs)
+                {
+                    Debug.Log(note.Key + ": deactivated");
+                }
             }
         }
         highestActivationTimer = 0.0f;
+        if(debugAllowLogs)
+        {
+            Debug.Log("highestActivationTimer reset to 0.0f");
+        }
     }
 }
 

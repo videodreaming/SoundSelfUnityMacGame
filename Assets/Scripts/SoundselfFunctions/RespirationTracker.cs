@@ -12,6 +12,7 @@ using UnityEngine.UI;
 
 public class RespirationTracker : MonoBehaviour
 {
+    private bool debugAllowLogs = true;
     public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
     public float _respirationRate       {get; private set;} = 1.0f;   
     public float _respirationRateRaw        {get; private set;} = 1.0f; //uses either the 1min or 2min version, depending on validity, preferrring 1min
@@ -83,6 +84,10 @@ public class RespirationTracker : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            debugAllowLogs = !debugAllowLogs;
+        }
         if (ImitoneVoiceIntepreter.toneActiveVeryConfident)
         {
            //return the total of all the cycle counts in the dictionary:
@@ -128,7 +133,10 @@ public class RespirationTracker : MonoBehaviour
             //THIS WILL ONLY HAPPEN IF AT LEAST ONE OF THE WINDOWS IS VALID
             if (logGuard != 2) //this should happen once, on the first frame that the 2min window is valid
             {
-                Debug.Log("Switching to respiration rate with a " + _respirationMeasurementWindow2 + " second window");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("Switching to respiration rate with a " + _respirationMeasurementWindow2 + " second window");
+                }
                 logGuard = 2;
             }
             _respirationRate = _respirationRate2min;
@@ -143,7 +151,10 @@ public class RespirationTracker : MonoBehaviour
         {
             if (logGuard != 1)//this should happen once, on the first frame that the 1min window is valid
             {
-                Debug.Log("Switching to respiration rate with a " + _respirationMeasurementWindow1 + " second window");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("Switching to respiration rate with a " + _respirationMeasurementWindow1 + " second window");
+                }
                 logGuard = 1;
             }
     
@@ -212,7 +223,11 @@ public class RespirationTracker : MonoBehaviour
 
         float _initialMeanToneLength = _meanToneLength;
 
-        //Debug.Log("RespirationCycleCoroutine started <"+ visualizeY + ":" + id + "> (fade in time = " + _initialMeanToneLength + " seconds");
+        if(debugAllowLogs)
+        {
+            Debug.Log("RespirationCycleCoroutine started <"+ visualizeY + ":" + id + "> (fade in time = " + _initialMeanToneLength + " seconds");
+        }
+
     
         //Step 1: Measure the Tone
         while (toneActiveForRespirationRate == true)
@@ -229,7 +244,11 @@ public class RespirationTracker : MonoBehaviour
             else
             thisBreathCycleData._cycleCount = 0.5f;
 
-            //Debug.Log("_cycleCount for id <" + id + "> is " + thisBreathCycleData._cycleCount + " and _initialMeanToneLength is " + _initialMeanToneLength);
+            if(debugAllowLogs)
+            {
+                Debug.Log("_cycleCount for id <" + id + "> is " + thisBreathCycleData._cycleCount + " and _initialMeanToneLength is " + _initialMeanToneLength);
+            }
+
 
             // Update the object
             thisBreathCycleData._toneLength = _toneLength;
@@ -240,13 +259,19 @@ public class RespirationTracker : MonoBehaviour
 
                 if (thisBreathCycleData.invalid)
                 {
-                    //Debug.Log("id: " + id + " is invalid");
+                    if(debugAllowLogs)
+                    {
+                        Debug.Log("id: " + id + " is invalid");
+                    }
                 }
             }
           
             if (thisBreathCycleData.invalid && isFirstInvalidFrame)
             {
-                //Debug.Log("id: " + id + " is invalid");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("id: " + id + " is invalid");
+                }
                 isFirstInvalidFrame = false; // Set isFirstInvalidFrame to false after the first invalid frame
             }
 
@@ -272,7 +297,11 @@ public class RespirationTracker : MonoBehaviour
             // Put the modified object back into the dictionary
             BreathCycleDictionary[id] = thisBreathCycleData; 
 
-            //Debug.Log("id: " + id + " toning " + "toneLength: " + _toneLength + " _respirationRate: " + _respirationRate);
+            if(debugAllowLogs)
+            {
+                Debug.Log("id: " + id + " toning " + "toneLength: " + _toneLength + " _respirationRate: " + _respirationRate);
+            }
+
 
             yield return null;
         }
@@ -287,7 +316,10 @@ public class RespirationTracker : MonoBehaviour
         // Put the modified object back into the dictionary
         BreathCycleDictionary[id] = thisBreathCycleData; 
 
-        //Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
+        if(debugAllowLogs)
+        {
+            Debug.Log("RespirationCycleCoroutine moving to Step 2 <" + id + ">");
+        }
 
         //Step 2: Measure the Rest
         float _initialMeanRestLength = _meanRestLength;
@@ -316,7 +348,10 @@ public class RespirationTracker : MonoBehaviour
             thisBreathCycleData.invalid = pauseGuardTone || ((_restLength > 13.0f) || (_cycleLength > (_measurementWindow / 2)));
             if (thisBreathCycleData.invalid && isFirstInvalidFrame)
             {
-                //Debug.Log("id: " + id + " is invalid");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("id: " + id + " is invalid");
+                }
                 isFirstInvalidFrame = false; // Set isFirstInvalidFrame to false after the first invalid frame
             }
 
@@ -345,8 +380,10 @@ public class RespirationTracker : MonoBehaviour
                 }
             }
             
-            //Debug.Log("id: " + id + " resting " + "restLength: " + _restLength + " _respirationRate: " + _respirationRate);
-
+            if(debugAllowLogs)
+            {
+                Debug.Log("id: " + id + " resting " + "restLength: " + _restLength + " _respirationRate: " + _respirationRate);
+            }
             yield return null;
         }
 
@@ -355,7 +392,11 @@ public class RespirationTracker : MonoBehaviour
 
         thisBreathCycleData._cycleCount = 1.0f;
 
-        //Debug.Log("RespirationCycleCoroutine moving to Step 3 <" + id + ">");
+        if(debugAllowLogs)
+        {
+            Debug.Log("RespirationCycleCoroutine moving to Step 3 <" + id + ">");
+        }
+
         if(visualize){thisBreathCycleData.exhaleRectangle.tag = "oldrect";}
 
         // Put the modified object back into the dictionary
@@ -395,7 +436,10 @@ public class RespirationTracker : MonoBehaviour
 
             if (Mathf.Floor(thisBreathCycleData._cycleCount * 10) != Mathf.Floor(previousCycleCount * 10))
             {
-                //Debug.Log("id: " + id + "_cycleCount: " + thisBreathCycleData._cycleCount);
+                if(debugAllowLogs)
+                {
+                    Debug.Log("id: " + id + "_cycleCount: " + thisBreathCycleData._cycleCount);
+                }
             }
 
             // Update the previous cycle count
@@ -415,7 +459,11 @@ public class RespirationTracker : MonoBehaviour
         }
 
         //Remove the dictionary entry:
-        //Debug.Log("RespirationCycleCoroutine <" + id + "> ended with cycle count: " + thisBreathCycleData._cycleCount + " and age: " + _age + " and cycle length: " + _cycleLength);
+        if(debugAllowLogs)
+        {
+            Debug.Log("RespirationCycleCoroutine <" + id + "> ended with cycle count: " + thisBreathCycleData._cycleCount + " and age: " + _age + " and cycle length: " + _cycleLength);
+        }
+       
 
         BreathCycleDictionary.Remove(id);
     }
