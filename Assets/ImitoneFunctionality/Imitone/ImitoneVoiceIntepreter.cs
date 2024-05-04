@@ -39,11 +39,11 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public bool toneActiveBiasFalse { get; private set; } = false;  //combines toneActive & toneActiveVeryConfident
     [Tooltip("Very Confident Toning, used for respiration")]
     public bool toneActiveVeryConfident { get; private set; } = false;
-    public float positiveActiveThreshold1 {get; private set;} = 0.05f;
-    public float positiveActiveThreshold2 {get; private set;}  = 0.2f;
-    public float negativeActiveThreshold1 {get; private set;}  = 0.1f;
-    public float negativeActiveThreshold2 {get; private set;}  = 0.33f;
-    public float _activeThreshold3 {get; private set;}  = 0.75f; //used for respiration rate.
+    public float positiveActiveThreshold1 {get; private set;} = 0.05f; //for toneActive
+    public float positiveActiveThreshold2 {get; private set;}  = 0.2f; //for toneActiveConfident
+    public float negativeActiveThreshold1 {get; private set;}  = 0.1f; //for toneActive
+    public float negativeActiveThreshold2 {get; private set;}  = 0.33f; //for toneActiveConfident
+    public float _activeThreshold3 {get; private set;}  = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     private float imitoneActiveTimer = 0f;
     private float imitoneInactiveTimer = 0f;
     private float imitoneConfidentActiveTimer = 0.0f;

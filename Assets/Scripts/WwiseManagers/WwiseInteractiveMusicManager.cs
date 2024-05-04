@@ -19,7 +19,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
-        AkSoundEngine.PostEvent("Play_InteractiveMusicSystem_SilentLoops", gameObject);
+        AkSoundEngine.PostEvent("Play_SilentLoops_7Pitch_LinkedHarmony", gameObject);
     }
 
     // Update is called once per frame
