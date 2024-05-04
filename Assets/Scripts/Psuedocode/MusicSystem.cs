@@ -4,38 +4,38 @@
 //*
 //Ultimately we are going to be controlling Fundamentals and Harmonies. I think that we should send WWise simple note on and note off commands, for each of the twelve notes in the octave, and for both the fundamental and the harmony.
 
-private int fundamentalNote; //this is for influencing logic of the currently sung tone, as we are biasing towards tones that are harmonious with the fundamental
-private Dictionary<int, (float ActivateTimer, bool Active, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float ActivateTimer, bool Active, float ChangeFundamentalTimer)>(); //this is for tracking the inputs and controlling the fundamental
-private Dictionary<int, bool> Fundamentals = new Dictionary<int, bool>(); //these will control WWise
-private Dictionary<int, bool> Harmonies = new Dictionary<int, bool>(); //these will control WWise
+//private int fundamentalNote; //this is for influencing logic of the currently sung tone, as we are biasing towards tones that are harmonious with the fundamental
+//private Dictionary<int, (float ActivateTimer, bool Active, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float ActivateTimer, bool Active, float ChangeFundamentalTimer)>(); //this is for tracking the inputs and controlling the fundamental
+//private Dictionary<int, bool> Fundamentals = new Dictionary<int, bool>(); //these will control WWise
+//private Dictionary<int, bool> Harmonies = new Dictionary<int, bool>(); //these will control WWise
 
 //==== DETECTING THE CURRENT TONE====//
 //We need to balance responsiveness on the one hand, with consistency on the other, as we don’t want lots of rapid changes, but we do want the music system to respond as close to immediately when a tone begins as possible.
 
 //This will require some experimentation, but the way I would implement it at first is this:
 
-private bool musicToneActive;
+//private bool musicToneActive;
 
-private float musicNoteInputRaw;
-private float musicNoteInput;
+//private float musicNoteInputRaw;
+//private float musicNoteInput;
 
-Update()
-{
-    _musicNoteInputRaw = imitoneVoiceInterpreter.note MOD 12; //you’ll have to do something more complex than this to accommodate for the wrap-around behavior, but this will do for explanatory purposes. Also, note that imitone outputs various values for the note / tone. We want the one that is smoothest / least-chaotic. Also, I know imitone discerns between "note" and "tone" but I don't understand how that works, so I am using arbitrary terminology
+//Update()
+//{
+  //  _musicNoteInputRaw = imitoneVoiceInterpreter.note MOD 12; //you’ll have to do something more complex than this to accommodate for the wrap-around behavior, but this will do for explanatory purposes. Also, note that imitone outputs various values for the note / tone. We want the one that is smoothest / least-chaotic. Also, I know imitone discerns between "note" and "tone" but I don't understand how that works, so I am using arbitrary terminology
 
     //there will need to be logic for handling the sudden changes of tone at the beginning and end of a sustained vocalization, as there can be some chaos in those moments that we don’t want to interfere with the system.
 
     //logic that will convert the raw stream of notes into something musically usable:
 
     //first, filter out disharmonious tones
-    if  (Difference(_musicNoteInputRaw, fundamentalNote) < 1.5)
-    musicNoteInput = fundamentalNote //half-step (one semitone) is interpreted as being on the fundamental
+    //if  (Difference(_musicNoteInputRaw, fundamentalNote) < 1.5)
+    //musicNoteInput = fundamentalNote //half-step (one semitone) is interpreted as being on the fundamental
 
-    else if (Difference(_musicNoteInputRaw, fundamentalNote + 6)) //tritone
-    musicNoteInput = fundamentalNote + 5; //or +7, whichever is closer. this will additionally bias the music system TOWARD the perfect 5th which is the most beautiful harmony. 
+    //else if (Difference(_musicNoteInputRaw, fundamentalNote + 6)) //tritone
+    //musicNoteInput = fundamentalNote + 5; //or +7, whichever is closer. this will additionally bias the music system TOWARD the perfect 5th which is the most beautiful harmony. 
 
-    else
-    musicNoteInput = musicNoteInputRaw;
+    //else
+    //musicNoteInput = musicNoteInputRaw;
     //we will have logic for setting the fundamental to the disharmonious note if the player realllllly sustains on those disharmonious notes.
 
     //so by now, unless we have "filtered out" ugly tones and rounded them to pretty tones, we will still have a float value.
@@ -43,48 +43,48 @@ Update()
     //Now let's turn this into usable note controls, starting by evening out the chaoatic input stream.
     //First, set the threshold used below. The intention of this is to make sure that as soon as toneActive becomes true, we have a note that we can use.
 
-    float _noteTrackerThreshold;
-    int nextNote;
+    //float _noteTrackerThreshold;
+    //int nextNote;
     
-    if (imitoneVoiceInterpreter.toneActive)
-    {
-        _noteTrackerThreshold = imitoneVoiceInterpreter.toneActiveThreshold2;
-    }
-    else
-    {
-        _noteTrackerThreshold = imitoneVoiceInterpreter.toneActiveThreshold / 4; //this number was arbitrary
-    }
+    //if (imitoneVoiceInterpreter.toneActive)
+    //{
+     //   _noteTrackerThreshold = imitoneVoiceInterpreter.toneActiveThreshold2;
+    //}
+    //else
+    //{
+      //  _noteTrackerThreshold = imitoneVoiceInterpreter.toneActiveThreshold / 4; //this number was arbitrary
+    //}
     
-    if(imitoneActive)
-    {
-        for (each of the 12 notes in the NoteTracker dictionary)
-        {
-            if (Round(musicNoteInput) = [Note]) //the Dictionary key, i.e. one of the 12 notes
-            {
-                NoteTracker[Note].ActivateTimer += Time.deltaTime;
-                if (NoteTracker[Note].ActivateTimer >= _noteTrackerThreshold)
-                {
+    //if(imitoneActive)
+    //{
+      //  for (each of the 12 notes in the NoteTracker dictionary)
+        //{
+          //  if (Round(musicNoteInput) = [Note]) //the Dictionary key, i.e. one of the 12 notes
+            //{
+              //  NoteTracker[Note].ActivateTimer += Time.deltaTime;
+                //if (NoteTracker[Note].ActivateTimer >= _noteTrackerThreshold)
+                //{
                     //get in there early, before the tone is active, to predict the first note.
-                    if(thisIsTheHighestActivateTimer) //REEF - meaning "this note's timer is higher than any of the other notes' timers"
-                    nextNote = Note; //REEF - because the purpose of this is to identify a note, even if toneActive hasn't switched on yet, this is "nextNote". If toneActive hasn't switched on yet, we want to be ready with a note as soon as it does switch on. So before toneActive switches on, nextNote identifies the note that will be used as soon as it does. If toneActive is already on, then nextNote will immediately be used as the note.
-                }
-            }
-            if(imitoneVoiceInterpreter.toneActive && nextNote == [NOTE])
-            {
-                NoteTracker[Note].Active = true; //REEF - this means we send a note-on to WWise
-                DeactivateOtherNotesInThisDictionary(); //REEF - meaning that if the note is on in that other note, we will turn it off.
-                SetOtherActivateTimersToZero();
+                  //  if(thisIsTheHighestActivateTimer) //REEF - meaning "this note's timer is higher than any of the other notes' timers"
+                    //nextNote = Note; //REEF - because the purpose of this is to identify a note, even if toneActive hasn't switched on yet, this is "nextNote". If toneActive hasn't switched on yet, we want to be ready with a note as soon as it does switch on. So before toneActive switches on, nextNote identifies the note that will be used as soon as it does. If toneActive is already on, then nextNote will immediately be used as the note.
+                //}
+            //}
+            //if(imitoneVoiceInterpreter.toneActive && nextNote == [NOTE])
+            //{
+              //  NoteTracker[Note].Active = true; //REEF - this means we send a note-on to WWise
+                //DeactivateOtherNotesInThisDictionary(); //REEF - meaning that if the note is on in that other note, we will turn it off.
+                //SetOtherActivateTimersToZero();
 
-                if(_noteTrackerThreshold[_noteTrackerThreshold].ActivateTimer >= _noteTrackerThreshold)
-                NoteTracker[Note].ChangeFundamentalTimer += Time.deltaTime; 
-            }
-        }
-        else if(!toneActiveConfident)
-        {
-            NoteTracker[Note].ActivateTimer = 0;
-            NoteTracker[Note].Active = false;
-        }
-    }
+                //if(_noteTrackerThreshold[_noteTrackerThreshold].ActivateTimer >= _noteTrackerThreshold)
+                //NoteTracker[Note].ChangeFundamentalTimer += Time.deltaTime; 
+            //}
+        //}
+        //else if(!toneActiveConfident)
+        //{
+          //  NoteTracker[Note].ActivateTimer = 0;
+            //NoteTracker[Note].Active = false;
+        //}
+    //}
 
     //==== NEW NOTES FOR REEF ====//
 
@@ -127,22 +127,22 @@ Update()
 
     //==== STUFF FROM OZONE!!!! ====//
     //Harmonize Rule
-    Input +cycle.two= 	harmonyInput.countNew MOD 2; //so each consecutive tone produces a different harmony.
+    //Input +cycle.two= 	harmonyInput.countNew MOD 2; //so each consecutive tone produces a different harmony.
     //          TrackedNote - Fundamental    |   Harmony Played
-    HarmonizeRule 		("zero",	0, .cycle.two, 5, 7); //
-    HarmonizeRule 		("one", 	1, .cycle.two, 5, 7); 
-    HarmonizeRule 		("two", 	2, .cycle.two, 5, 7);
-    HarmonizeRule 		("three",	3, .cycle.two, 5, 7);
-    HarmonizeRule 		("four", 	4, .cycle.two, 7, 9);
-    HarmonizeRule 		("five", 	5, .cycle.two, 9, 12);
-    HarmonizeRule 		("six", 	6, .cycle.two, 9, 12);
-    HarmonizeRule 		("seven",	7, .cycle.two, 4, 12);
-    HarmonizeRule 		("eight",	8, .cycle.two, 4, 5);
-    HarmonizeRule 		("nine", 	9, .cycle.two, 4, 5);
-    HarmonizeRule 		("ten", 	10,.cycle.two, 7, 12);
-    HarmonizeRule 		("eleven",	11,.cycle.two, 5, 7);
+    //HarmonizeRule 		("zero",	0, .cycle.two, 5, 7); //
+    //HarmonizeRule 		("one", 	1, .cycle.two, 5, 7); 
+    //HarmonizeRule 		("two", 	2, .cycle.two, 5, 7);
+    //HarmonizeRule 		("three",	3, .cycle.two, 5, 7);
+    //HarmonizeRule 		("four", 	4, .cycle.two, 7, 9);
+    //HarmonizeRule 		("five", 	5, .cycle.two, 9, 12);
+    //HarmonizeRule 		("six", 	6, .cycle.two, 9, 12);
+    //HarmonizeRule 		("seven",	7, .cycle.two, 4, 12);
+    //HarmonizeRule 		("eight",	8, .cycle.two, 4, 5);
+    //HarmonizeRule 		("nine", 	9, .cycle.two, 4, 5);
+    //HarmonizeRule 		("ten", 	10,.cycle.two, 7, 12);
+    //HarmonizeRule 		("eleven",	11,.cycle.two, 5, 7);
     //FOR EXAMPLE, if I am toning two semitones above the fundamental, the note that will be played for the harmony will either be a perfect fifth or a perfect seventh, and they will consecutively change back and forth
 
-}
+//}
 
-*/
+
