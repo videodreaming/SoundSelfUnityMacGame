@@ -88,7 +88,7 @@ public class PitchMusicSystem : MonoBehaviour
                 if (currentPitch >= range.minFreq && currentPitch <= range.maxFreq)
                 {
                     currentNote = range.noteName;
-                    Debug.Log("noteName" + range.noteName + "   frequency" + currentPitch);
+                   // Debug.Log("noteName" + range.noteName + "   frequency" + currentPitch);
                     if(range.noteName == "A2" || range.noteName == "A3" || range.noteName == "A4" ) 
                     {
                         wwiseInteractiveMusicManager.currentSwitchState = "A";

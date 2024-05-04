@@ -73,6 +73,7 @@ public class MusicSystem1 : MonoBehaviour
                     }
                     updates[note.Key] = (newActiveTimer, isActive, note.Value.ChangeFundamentalTimer);
                     activations[note.Key] = isActive;
+                    // Send command to Wwise to play note
                 }
                 else if (!imitoneVoiceInterpreter.toneActiveConfident)
                 {
@@ -103,6 +104,7 @@ public class MusicSystem1 : MonoBehaviour
                 var currentValue = NoteTracker[note.Key];
                 Debug.Log(currentValue);
                 NoteTracker[note.Key] = (currentValue.ActiveTimer, false, currentValue.ChangeFundamentalTimer);
+                //stop all of the notes.
             }
         }
     }

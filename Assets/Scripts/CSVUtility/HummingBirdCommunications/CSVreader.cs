@@ -28,7 +28,6 @@ public class CSVReader : MonoBehaviour
     void ReadCSV()
     {
         string filePath = Path.Combine(Application.persistentDataPath,"ReadCSV.csv");
-        Debug.Log(filePath);
         if (File.Exists(filePath))
         {
             string[] data = File.ReadAllText(filePath).Split(new string[] { ",", "\n" }, StringSplitOptions.None);

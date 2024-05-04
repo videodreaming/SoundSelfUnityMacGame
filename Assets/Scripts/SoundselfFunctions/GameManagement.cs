@@ -1,22 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System;
 
 public class GameManagement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+public CSVWriter CSVWriter;
     void Update()
     {
-        
+        // Quit the game if the player presses the Escape key
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CSVWriter.writeCSV();
+            EndGame();
+        }
     }
-
-
     void EndGame()
     {
         
