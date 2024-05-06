@@ -145,9 +145,11 @@ public class MusicSystem1 : MonoBehaviour
 
                             // ===== FUNDAMENTAL CHANGING LOGIC =====
                             //REEF - in here we should add a += for ChangeFundamentalTimer (unless the fundamental note is the same as the note we are currently on)
+                
                             //if ChangeFundamentalTimer >= _changeFundamentalThreshold, then we
                             // - change the fundamental note in WWise to this one
                             // - reset ChangeFundamentalTimer to 0 for all notes.
+                            // - There is an exception to this behavior described in "LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD below.
 
                            
                         }
@@ -200,8 +202,16 @@ public class MusicSystem1 : MonoBehaviour
     // ===== REWARD THUMPS =====
     //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0 due to inerpolation rules)
 
-    // ===== WHEN TO ACTUALLY TURN ON THE FUNDAMENTAL AND THE HARMONY =====
-    //REEF, I am opening a conversation in #soundselfv1inunity about this
+    // ===== WHEN TO ACTUALLY TURN ON (AND OFF) THE FUNDAMENTAL AND THE HARMONY =====
+    //REEF, I am opening a conversation in #soundselfv1inunity about this. Basically, unless Lorna says otherwise, you should turn ON the fundamental and harmony both when the tutorial sequence starts listening for player vocalization. Not the query or the sigh, but actually listening for an "ahh", at the end of the voice and breath meditation. 
+    //Likewise, it should turn off a little before the savasana sequence begins, when Lorna's closing track plays.
+
+    // ===== LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD =====
+    //REEF, we need to have a way of setting the fundamental from your audio manager, to limit the behavior during the training period.
+    //It should be set, initially, to match the tone of Jaya's vocalizations. Lorna can tell you what that is.
+    //We should not allow the fundamentla to change, until we have reached the last "test" (vo_test14tone, I think, but please verify) that includes one of Jaya's tones in it. 
+    //At that point, the fundamental should change to whatever tone has the highest ChangeFundamentalTimer at that time (and all timers reset)
+    //I think it's okay for us to disregard, for this behavior, the possibility of needing to enter a repair cycle, where Jaya does indeed tone... but if you want to be thorough, you can switch back to Jaya's fundamental, temporarily, for the repair sequence.
 
 
 }
