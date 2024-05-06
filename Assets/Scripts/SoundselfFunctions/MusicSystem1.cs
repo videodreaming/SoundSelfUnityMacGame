@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class MusicSystem1 : MonoBehaviour
 {
-    private bool debugAllowLogs = true;
+    private bool debugAllowLogs = false;
     // Variables
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private int fundamentalNote; // Base note around which other notes are calculated

@@ -8,16 +8,23 @@ using UnityEngine.Android;
 
 public class CSVWriter : MonoBehaviour
 {
+    bool wasPaused = false; 
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     string sessionStatusPath = "";
     string session_resultsPath = "";
     string wavFilesPath = "";
-    int currentSessionNumber = 0;
+    public int currentSessionNumber = 0;
     string baseSessionsFolderPath = "";
     bool paused = false;
     public UserOutput playerOutput;
     private List<string> frameDataList = new List<string>();
     public RespirationTracker respirationTracker;
+
+
+    public string GameMode;
+    public string SubGameMode;
+
+
 
 
     // Start is called before the first frame update
@@ -26,33 +33,36 @@ public class CSVWriter : MonoBehaviour
         baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
 
-        // Retrieve all directories in the base session folder that start with "session_"
-        string[] sessionDirectories = Directory.GetDirectories(baseSessionsFolderPath)
-            .Where(dir => Path.GetFileName(dir).StartsWith("session_"))
-            .ToArray();
+        // Path to the sessions.csv file
+        string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
 
-        foreach (string sessionDir in sessionDirectories)
+        // Check if sessions.csv exists
+        if (File.Exists(sessionsCsvPath))
         {
-            sessionStatusPath = Path.Combine(sessionDir, "session_status.csv");
-            if (File.Exists(sessionStatusPath))
+            using (StreamReader reader = new StreamReader(sessionsCsvPath))
             {
-                // Read the first line of the file and check if the status is "ready"
-                using (StreamReader sr = new StreamReader(sessionStatusPath))
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    string firstLine = sr.ReadLine();
-                    if (firstLine != null && firstLine.Split(',').First().Trim().ToLower() == "ready")
+                    string[] columns = line.Split(',');
+                    if (columns.Length >= 2 && columns[1].Trim().ToLower() == "ready")
                     {
-                        string sessionNumberPart = Path.GetFileName(sessionDir).Replace("session_", "");
-                        if (int.TryParse(sessionNumberPart, out int sessionNumber))
+                        if (int.TryParse(columns[0].Trim(), out int sessionNumber))
                         {
                             currentSessionNumber = sessionNumber;
+                            sessionStatusPath = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_status.csv");
+                            break; // Stop reading once the ready session is found
                         }
                     }
                 }
             }
         }
+        else
+        {
+            Debug.LogError("sessions.csv not found.");
+        }
+        ReadCSV();
     }
-
     void GetData()
     {
                 string data = $"{Time.time}," +
@@ -81,12 +91,40 @@ public class CSVWriter : MonoBehaviour
         frameDataList.Add(data);
     }
 
+    void ReadCSV()
+    {
+        if(currentSessionNumber != 0)
+        {
+            string sessionsParams = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_params.csv");
+            if(File.Exists(sessionsParams))
+            {
+                string[] data = File.ReadAllText(sessionsParams).Split(new string[] {",","\n"}, StringSplitOptions.None);
+                GameMode = data[0];
+                SubGameMode = data[1];
+            }
+            else 
+            {
+                Debug.LogError("CSV file not found at: " + sessionsParams);
+            }
+        }
+
+    }
     void Update()
     {
         CheckPauseStatus();
         if (!paused)
         {
+            if(wasPaused)
+            {
+                LogMessage("Resumed");
+                wasPaused = false;
+            }
             GetData();
+        }
+        else if(!wasPaused)
+        {
+            LogMessage("Paused");
+            wasPaused = true;
         }
     }
 
@@ -100,27 +138,20 @@ public class CSVWriter : MonoBehaviour
                 if (!string.IsNullOrEmpty(statusLine))
                 {
                     string[] statusParts = statusLine.Split(',');
-                    if (statusParts.Length > 1) // Check if the second part exists
+                    if (statusParts.Length > 0) // ensure the line is not empty
                     {
-                        string controlStatus = statusParts[1].Trim().ToLower();
-                        paused = controlStatus != "resume";
+                        string controlStatus = statusParts[0].Trim().ToLower();
+                        paused = controlStatus == "paused";
                     }
                 }
             }
         }
     }
 
-    float GetData1()
+    void LogMessage(string message)
     {
-        return imitoneVoiceIntepreter.pitch_hz;
-    }
-    float GetData2()
-    {
-        return imitoneVoiceIntepreter._dbValue;
-    }
-    float GetData3()
-    {
-        return imitoneVoiceIntepreter._harmonicity;
+        string data = $"{Time.time}, {message}";
+        frameDataList.Add(data);
     }
 
     public void writeCSV()
