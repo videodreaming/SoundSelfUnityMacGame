@@ -25,6 +25,7 @@ public class MusicSystem1 : MonoBehaviour
     
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
+    private float _changeFundamentalThreshold = 120f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
 
@@ -125,7 +126,7 @@ public class MusicSystem1 : MonoBehaviour
                             Debug.Log("LOG 2: nextNote changed to (" + note.Key + ") Activation Timer(" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
                         }
                         nextNote = note.Key;
-                        if (imitoneVoiceInterpreter.toneActive) //now we change the actual tone!
+                        if (imitoneVoiceInterpreter.toneActiveBiasTrue) //now we change the actual tone!
                         {
                             if(debugAllowLogs && !isActive)
                             {
@@ -134,11 +135,26 @@ public class MusicSystem1 : MonoBehaviour
                             
                             isActive = true;
                             activations[note.Key] = isActive;
+                            
+                            // ===== HARMONY CHANGING LOGIC =====
+                            //REEF - in here, we should change the harmony whenever this block (the if statement) is activated.
+                            // this will be either (the fundamental + 5 semitones), or (the fundamental + 7 semitones) (Modulo 12)
+                            // each activation of this block will switch between the +5 and +7 variety, back and forth, so if you tone the same note again and again, you will get a different harmony, back and forth forever
+                            // We send that note to WWise to switch the harmony note in this fashion
+                            // this logic needs to work with the possibility of the fundamental changing mid-tone, so that the harmony is always in tune with the fundamental, even if the fundamental changes
+
+                            // ===== FUNDAMENTAL CHANGING LOGIC =====
+                            //REEF - in here we should add a += for ChangeFundamentalTimer (unless the fundamental note is the same as the note we are currently on)
+                            //if ChangeFundamentalTimer >= _changeFundamentalThreshold, then we
+                            // - change the fundamental note in WWise to this one
+                            // - reset ChangeFundamentalTimer to 0 for all notes.
+
+                           
                         }
                     }
                     updates[note.Key] = (newActivationTimer, isActive, note.Value.ChangeFundamentalTimer);
                 }
-                else if (!imitoneVoiceInterpreter.toneActiveConfident)
+                else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
                 {
                     updates[note.Key] = (0, false, note.Value.ChangeFundamentalTimer);
                 }
@@ -175,7 +191,19 @@ public class MusicSystem1 : MonoBehaviour
         highestActivationTimer = 0.0f;
     }
 
-    // Reef needs to know what note should be playing back at all times, fundamental and harmony wise, at any given time. Needs to know what Midi Note we should be on. (Robin will be able to give Reef midi note values)
+    // Reef needs to know what note should be playing back at all times, fundamental and harmony wise, at any given time. Needs to know what Midi Note we should be on. (Robin will be able to give Reef midi note values) [REEF- THIS SHOULD BE ACCOMPLISHED BY THE NOTES IN THIS DOCUMENT]
+
+     // ===== TRIGGERING ONE-SHOTS =====
+    //REEF - the one-shot sounds in WWise should be triggered by toneActiveBiasTrue. Whenever toneActiveBiasTrue comes on, it triggers a one-shot (in the fundamental and harmony).
+    //Lorna may want to have some logic in place for NOT triggering a one shot if it's only been a short period of time since the last one-shot of this tone was triggered. This is a decision up to her, but I'd be grateful if you'd make it clear to her that she might want to do that, once you talk through this implementation with her, because we could be triggering a one-shot on the fundamental again and again and again, only every few seconds, if the player is pumping a few short tones, for example. 
+    
+    // ===== REWARD THUMPS =====
+    //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0 due to inerpolation rules)
+
+    // ===== WHEN TO ACTUALLY TURN ON THE FUNDAMENTAL AND THE HARMONY =====
+    //REEF, I am opening a conversation in #soundselfv1inunity about this
+
+
 }
 
 //REFERENCE FOR MIDI NOTES
@@ -199,21 +227,4 @@ public class MusicSystem1 : MonoBehaviour
 
 // Game Call for changing the Fundamental: AkSoundEngine.SetState("SoundWorldMode", currentToningState);
 // Game Call for changing the Switch: AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState (This takes in an arguement the form of "A" or "B"), gameObject);
-
-
-    //==== NEW NOTES FOR REEF ====//
-
-    //REEF - We have several note messages that we are sending to WWise:
-    //FOR FUNDAMENTALS -
-    //We START the fundamental LOOPING layer for the fundamental note as soon as the fundamental changes to that note  : 
-    //We STOP the fundamental LOOPING layer for the fundamental note as soon as the fundamental changes to another note (and another note starts)
-    //We START the fundamental ONE-SHOT layer for the fundamental note when the player starts toning (toneActiveBiasTrue)
-    //We STOP the fundamental ONE-SHOT layer for the fundamental note when the player stops toning (toneActiveBiasTrue)
-    //FOR HARMONIES -
-    //We START the harmony LOOPING layer for the harmony note as soon as the harmony changes to that note
-    //We STOP the harmony LOOPING layer for the harmony note as soon as the harmony changes to another note (and another note starts)
-    //We START the harmony ONE-SHOT layer for the harmony note when the player starts toning (toneActiveBiasTrue)
-    //We STOP the harmony ONE-SHOT layer for the harmony note when the player stops toning (toneActiveBiasTrue)
-
-    //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0)
 
