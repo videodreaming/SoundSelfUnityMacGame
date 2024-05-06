@@ -147,8 +147,8 @@ public class MusicSystem1 : MonoBehaviour
                             //REEF - in here we should add a += for ChangeFundamentalTimer (unless the fundamental note is the same as the note we are currently on)
                 
                             //if ChangeFundamentalTimer >= _changeFundamentalThreshold, then we
-                            // - change the fundamental note in WWise to this one
-                            // - reset ChangeFundamentalTimer to 0 for all notes.
+                            // - turn on a flag. We won't change the fundamental right NOW, however, we will change the fundamental note in WWise to this one AS SOON AS the player activates this note again.
+                            // - Once that happens, reset ChangeFundamentalTimer to 0 for all notes.
                             // - There is an exception to this behavior described in "LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD below.
 
                            
