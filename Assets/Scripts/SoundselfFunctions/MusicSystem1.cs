@@ -37,6 +37,14 @@ public class MusicSystem1 : MonoBehaviour
         {
             NoteTracker.Add(i, (0f, false, 0f));
         }
+
+        //SET THE FUNDAMENTAL NOTE TO A AND THE HARMONY TO E
+        AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
+        AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
+        AkSoundEngine.SetState("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", "A");
+        AkSoundEngine.SetState("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "E");
+        Debug.Log("MUSIC: Fundamental and Harmony set to A and E, respectively. THIS SHOULD BE PERFORMED IN THE AUDIO MANAGER, NOT HERE. PLEASE EDIT THE CODE IN START() IN MUSICSYSTEM1.CS WHEN IT'S PROPERLY IMPLEMENTED");
+        
     }
 
     void Update()
@@ -110,7 +118,7 @@ public class MusicSystem1 : MonoBehaviour
                 {
                     if(debugAllowLogs && (newActivationTimer == 0 || (Time.frameCount % 30 == 0)))
                     {
-                        Debug.Log("LOG 1: [COMPARE TONES] Key(" + note.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + newActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
+                        Debug.Log("MUSIC LOG 1: [COMPARE TONES] Key(" + note.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + newActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
                     }
                     newActivationTimer += Time.deltaTime;
                         
@@ -125,14 +133,14 @@ public class MusicSystem1 : MonoBehaviour
                     {
                         if (debugAllowLogs && nextNote != note.Key)
                         {
-                            Debug.Log("LOG 2: nextNote changed to (" + note.Key + ") Activation Timer(" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
+                            Debug.Log("MUSIC LOG 2: nextNote changed to (" + note.Key + ") Activation Timer(" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
                         }
                         nextNote = note.Key;
                         if (imitoneVoiceInterpreter.toneActiveBiasTrue) //now we change the actual tone!
                         {
                             if(debugAllowLogs && !isActive)
                             {
-                                Debug.Log("LOG 3: Key(" + note.Key + ") IS ACTIVATED!");
+                                Debug.Log("MUSIC LOG 3: Key(" + note.Key + ") IS ACTIVATED!");
                             }
                             bool firstFrame = !isActive; //this will only be true on the first frame that the note is activated
                             isActive = true;
@@ -147,6 +155,7 @@ public class MusicSystem1 : MonoBehaviour
                             // - There is an exception to this behavior described in "LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD below.
                             
                             //PSEUDOCODE:
+                            /*
                             note.Value.ChangeFundamentalTimer += Time.deltaTime;
 
                             if(!frozenFundamentalBecauseWereInTutorial)
@@ -174,6 +183,8 @@ public class MusicSystem1 : MonoBehaviour
                             } else {
                                 A; //but we shouldn't set this here. This should really be set by the audio manager.
                             }
+                            */
+
                             // ===== HARMONY CHANGING LOGIC =====
                             //REEF - in here, we should change the harmony whenever this block (the if statement) is activated.
                             // this will be either (the fundamental + 5 semitones), or (the fundamental + 7 semitones) (Modulo 12)
@@ -221,7 +232,7 @@ public class MusicSystem1 : MonoBehaviour
                 NoteTracker[note.Key] = (0.0f, false, currentValue.ChangeFundamentalTimer);
                 if(debugAllowLogs)
                 {
-                    Debug.Log("LOG 4: Key(" + note.Key + ": deactivated (and highestActivationTimer reset)");
+                    Debug.Log("MUSIC LOG 4: Key(" + note.Key + ": deactivated (and highestActivationTimer reset)");
                 }
             }
         }
@@ -243,8 +254,8 @@ public class MusicSystem1 : MonoBehaviour
 
     // ===== LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD =====
     //REEF, we need to have a way of setting the fundamental from your audio manager, to limit the behavior during the training period.
-    //It should be set, initially, to match the tone of Jaya's vocalizations. Lorna can tell you what that is. (A, which is 9 which is Key.[9])
-    //We should not allow the fundamental to change, until we have reached the last "test" (vo_test14tone, I think, but please verify) that includes one of Jaya's tones in it. 
+    //It should be set, initially, to match the tone of Jaya's vocalizations. Lorna can tell you what that is. (update: A, which is 9, from Slack)
+    //We should not allow the fundamentla to change, until we have reached the last "test" (vo_test14tone, I think, but please verify) that includes one of Jaya's tones in it. 
     //At that point, the fundamental should change to whatever tone has the highest ChangeFundamentalTimer at that time (and all timers reset)
     //I think it's okay for us to disregard, for this behavior, the possibility of needing to enter a repair cycle, where Jaya does indeed tone... but if you want to be thorough, you can switch back to Jaya's fundamental (A = Key.[9]), temporarily, for the repair sequence.
  
