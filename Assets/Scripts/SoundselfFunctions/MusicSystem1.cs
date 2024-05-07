@@ -6,10 +6,11 @@ using UnityEngine.UIElements;
 
 public class MusicSystem1 : MonoBehaviour
 {
-    private bool debugAllowLogs = false;
+    private bool debugAllowLogs = true;
     // Variables
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private int fundamentalNote; // Base note around which other notes are calculated
+
     private Dictionary<int, (float ActivationTimer, bool Active, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, float)>();
     // Tracks information for each musical note:
     // ActivationTimer: Time duration the note has been active
@@ -101,6 +102,7 @@ public class MusicSystem1 : MonoBehaviour
                 float newActivationTimer = note.Value.ActivationTimer;
                 bool isActive = note.Value.Active;
                 bool isHighestActivationTimer = false;
+            
                 //THERE HAS TO BE SOME WAY TO SET HIGHESTActivationTimer DOWN TO ZERO AGAIN, OR EVEN JUST LOWER IT=
 
                 // Increment active timer if current note input matches the tracker note
@@ -132,10 +134,46 @@ public class MusicSystem1 : MonoBehaviour
                             {
                                 Debug.Log("LOG 3: Key(" + note.Key + ") IS ACTIVATED!");
                             }
-                            
+                            bool firstFrame = !isActive; //this will only be true on the first frame that the note is activated
                             isActive = true;
                             activations[note.Key] = isActive;
+
+                            // ===== FUNDAMENTAL CHANGING LOGIC =====
+                            //REEF - in here we should add a += for ChangeFundamentalTimer (unless the fundamental note is the same as the note we are currently on)
+                                
+                            //if ChangeFundamentalTimer >= _changeFundamentalThreshold, then we
+                            // - turn on a flag. We won't change the fundamental right NOW, however, we will change the fundamental note in WWise to this one AS SOON AS the player activates this note again.
+                            // - Once that happens, reset ChangeFundamentalTimer to 0 for all notes.
+                            // - There is an exception to this behavior described in "LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD below.
                             
+                            //PSEUDOCODE:
+                            note.Value.ChangeFundamentalTimer += Time.deltaTime;
+
+                            if(!frozenFundamentalBecauseWereInTutorial)
+                            {
+                                if (Current Notes ChangeFundamentalTimer >= _changeFundamentalThreshold)
+                                {
+                                    if (thisIsOurFirstTimeOutOfTutorial && (note.Value.ChangeFundamentalTimer is the highest of any ChangeFundamentalTimer))
+                                    {
+                                        if(firstFrame)
+                                        {
+                                            //excecuteFundamentalChange
+                                            ResetAllChangeFundamentalTimersToZero();
+                                        }
+                                        //The behavior that is incrementing the ChangeFundamentalTimer is 
+                                    }
+                                    else
+                                    {
+                                        if(firstFrame)
+                                        {
+                                            fundamentalNote = note.Key;
+                                            ResetAllChangeFundamentalTimersToZero();
+                                        }
+                                    }
+                                }
+                            } else {
+                                A; //but we shouldn't set this here. This should really be set by the audio manager.
+                            }
                             // ===== HARMONY CHANGING LOGIC =====
                             //REEF - in here, we should change the harmony whenever this block (the if statement) is activated.
                             // this will be either (the fundamental + 5 semitones), or (the fundamental + 7 semitones) (Modulo 12)
@@ -143,15 +181,12 @@ public class MusicSystem1 : MonoBehaviour
                             // We send that note to WWise to switch the harmony note in this fashion
                             // this logic needs to work with the possibility of the fundamental changing mid-tone, so that the harmony is always in tune with the fundamental, even if the fundamental changes
 
-                            // ===== FUNDAMENTAL CHANGING LOGIC =====
-                            //REEF - in here we should add a += for ChangeFundamentalTimer (unless the fundamental note is the same as the note we are currently on)
-                
-                            //if ChangeFundamentalTimer >= _changeFundamentalThreshold, then we
-                            // - turn on a flag. We won't change the fundamental right NOW, however, we will change the fundamental note in WWise to this one AS SOON AS the player activates this note again.
-                            // - Once that happens, reset ChangeFundamentalTimer to 0 for all notes.
-                            // - There is an exception to this behavior described in "LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD below.
+                            // Game Call for Playing (turns on fundamental): AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
+                            // Game Call for Playing (turns on harmony): AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
+                            // Game Call for changing the Harmony: AkSoundEngine.SetState("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", currentToningState (aruement is "A" or "B" etc. or "AsharpBflat" or "FsharpGflat" "GsharpAflat"));
+                            // Game Call for changing the Fundamental : AkSoundEngine.SetState("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", currentToningState (argument is "A" or "B" etc.));
 
-                           
+
                         }
                     }
                     updates[note.Key] = (newActivationTimer, isActive, note.Value.ChangeFundamentalTimer);
@@ -208,11 +243,11 @@ public class MusicSystem1 : MonoBehaviour
 
     // ===== LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD =====
     //REEF, we need to have a way of setting the fundamental from your audio manager, to limit the behavior during the training period.
-    //It should be set, initially, to match the tone of Jaya's vocalizations. Lorna can tell you what that is.
-    //We should not allow the fundamentla to change, until we have reached the last "test" (vo_test14tone, I think, but please verify) that includes one of Jaya's tones in it. 
+    //It should be set, initially, to match the tone of Jaya's vocalizations. Lorna can tell you what that is. (A, which is 9 which is Key.[9])
+    //We should not allow the fundamental to change, until we have reached the last "test" (vo_test14tone, I think, but please verify) that includes one of Jaya's tones in it. 
     //At that point, the fundamental should change to whatever tone has the highest ChangeFundamentalTimer at that time (and all timers reset)
-    //I think it's okay for us to disregard, for this behavior, the possibility of needing to enter a repair cycle, where Jaya does indeed tone... but if you want to be thorough, you can switch back to Jaya's fundamental, temporarily, for the repair sequence.
-
+    //I think it's okay for us to disregard, for this behavior, the possibility of needing to enter a repair cycle, where Jaya does indeed tone... but if you want to be thorough, you can switch back to Jaya's fundamental (A = Key.[9]), temporarily, for the repair sequence.
+ 
 
 }
 
@@ -236,5 +271,6 @@ public class MusicSystem1 : MonoBehaviour
 // Game Call for Playing (turns on harmony): AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
 
 // Game Call for changing the Fundamental: AkSoundEngine.SetState("SoundWorldMode", currentToningState);
+// Game Call for changing the Harmony: AkSoundEngine.SetState("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", currentToningState);
 // Game Call for changing the Switch: AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState (This takes in an arguement the form of "A" or "B"), gameObject);
 
