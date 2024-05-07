@@ -37,7 +37,7 @@ public class WwiseVOManager : MonoBehaviour
     public string ThematicSavasana = null;
     public string VO_ClosingGoodbye = null;
 
-    public CSVReader csvReader;
+    public CSVWriter csvWriter;
 
     // Start is called before the first frame update
     void Start()
@@ -47,44 +47,44 @@ public class WwiseVOManager : MonoBehaviour
     
     void assignVOs()
     {
-        if(csvReader.GameSettings.GameMode == "Preperation")
+        if(csvWriter.GameMode == "Preperation")
         {
             Debug.Log("Preperation");
-            if(csvReader.GameSettings.SubGameMode == "Narrative")
+            if(csvWriter.SubGameMode == "Narrative")
             {
                 Debug.Log("Metta");
-            } else if (csvReader.GameSettings.SubGameMode == "Peace")
+            } else if (csvWriter.SubGameMode == "Peace")
             {
                 Debug.Log("Guided");
-            } else if (csvReader.GameSettings.SubGameMode == "Surrender")
+            } else if (csvWriter.SubGameMode == "Surrender")
             {
                 Debug.Log("Silent");
             }
         } 
-        if(csvReader.GameSettings.GameMode == "Integration")
+        if(csvWriter.GameMode == "Integration")
         {
             Debug.Log("Integration");
-            if(csvReader.GameSettings.SubGameMode == "Kindness")
+            if(csvWriter.SubGameMode == "Kindness")
             {
                 Debug.Log("Kindness");
-            } else if (csvReader.GameSettings.SubGameMode == "Metta")
+            } else if (csvWriter.SubGameMode == "Metta")
             {
                 Debug.Log("Metta");
-            } else if (csvReader.GameSettings.SubGameMode == "Fireflies")
+            } else if (csvWriter.SubGameMode == "Fireflies")
             {
                 Debug.Log("Fireflies");
             }
         }
-        if(csvReader.GameSettings.GameMode == "Adjunctive")
+        if(csvWriter.GameMode == "Adjunctive")
         {
             Debug.Log("Adjunctive");
-            if(csvReader.GameSettings.SubGameMode == "Anchoring")
+            if(csvWriter.SubGameMode == "Anchoring")
             {
                 Debug.Log("Anchoring");
-            } else if (csvReader.GameSettings.SubGameMode == "Meditation")
+            } else if (csvWriter.SubGameMode == "Meditation")
             {
                 Debug.Log("Meditation");
-            } else if (csvReader.GameSettings.SubGameMode == "Gratitude")
+            } else if (csvWriter.SubGameMode == "Gratitude")
             {
                 Debug.Log("Gratitude");
             }

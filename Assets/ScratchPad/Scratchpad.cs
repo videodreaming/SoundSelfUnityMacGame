@@ -1,4 +1,4 @@
-LOG 1: [COMPARE TONES] Key(0) from musicNoteInputRaw (11.06281) ~~~~~ isActive(False) ActivationTimer(0) isHighestActivationTimer (False)
+/*LOG 1: [COMPARE TONES] Key(0) from musicNoteInputRaw (11.06281) ~~~~~ isActive(False) ActivationTimer(0) isHighestActivationTimer (False)
 UnityEngine.Debug:Log (object)
 MusicSystem1:Update () (at Assets/Scripts/SoundselfFunctions/MusicSystem1.cs:105)
 
@@ -6557,3 +6557,4 @@ UnityEngine.Debug:Log (object)
 ImitoneVoiceIntepreter:CheckToning () (at Assets/ImitoneFunctionality/Imitone/ImitoneVoiceIntepreter.cs:547)
 ImitoneVoiceIntepreter:Update () (at Assets/ImitoneFunctionality/Imitone/ImitoneVoiceIntepreter.cs:214)
 
+*/

@@ -5,7 +5,7 @@ using TMPro;
 
 public class GameModeValue : MonoBehaviour
 {
-    public CSVReader csvReader;
+    public CSVWriter csvWriter;
     private TMP_Text tmpText; // TMP component
     // Start is called before the first frame update
     void Start()
@@ -16,6 +16,6 @@ public class GameModeValue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tmpText.text = csvReader.GameSettings.GameMode;
+        tmpText.text = csvWriter.GameMode;
     }
 }
