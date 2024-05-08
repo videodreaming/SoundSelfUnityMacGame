@@ -57,7 +57,7 @@ public class MusicSystem1 : MonoBehaviour
     List<int> harmonySequence1 = new List<int> {5, 7, 5, 7, 5, 7, 5, 7};
     List<int> harmonySequence2 = new List<int> {5, 5, 5, 5};
     List<int> harmonySequence3 = new List<int> {7, 7, 7, 7};
-    List<int> harmonySequence4 = new List<int> {5, 7, 12, 5, 7, 12, 5, 7, 12};
+    List<int> harmonySequence4 = new List<int> {5, 7, 12, 5, 7, 12, 5, 7, 12, 5, 7, 12};
 
     List<List<int>> sequences;
 
