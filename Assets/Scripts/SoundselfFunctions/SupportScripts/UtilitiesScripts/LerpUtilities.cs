@@ -43,7 +43,7 @@ public class LerpUtilities
             if (!dampedTargets.ContainsKey(key))
             {
                 dampedTargets[key] = initialValue;
-                Debug.Log($"Added new key {key} to dampedTargets dictionary");
+                //Debug.Log($"Added new key {key} to dampedTargets dictionary");
             }
 
             if (damp1 != 0f)

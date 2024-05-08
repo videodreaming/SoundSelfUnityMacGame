@@ -225,7 +225,7 @@ public class GameValues: MonoBehaviour
         _chantChargeContributions[chantChargeCoroutineID] = 0f;
         string localID = $"{nameof(_chantChargeContributions)}.{chantChargeCoroutineID}";
 
-        Debug.Log("ChantCharge " + chantChargeCoroutineID + " Begin, mean tone is: " + _meanToneAtStart);
+        //Debug.Log("ChantCharge " + chantChargeCoroutineID + " Begin, mean tone is: " + _meanToneAtStart);
 
         //lerp up to 1 over the course of the tone
         while (imitoneVoiceInterpreter._tThisToneBiasTrue > 0f) 

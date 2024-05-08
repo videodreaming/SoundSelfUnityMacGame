@@ -5,17 +5,21 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 //REEF TO-DO
-// change the logic for initializing the system from happening in Start() to happening in the Audio Manager, as soon as we start listening for a tone.
+// the Audio Manager should set enableMusicSystem to false at first, and then true as soon as we switch to the first "test" of the player's voice, which I believe is a hum. This should co-incide with the non-interactive music fading out. At the same time, the Audio Manager should set the fundamentalNote to 9 (A).
 // change "allowFundamentalChange" to false during the part of the training period where Jaya is toning, and then back to true afterwards. I think this is vo_test14tone, I think, but please verify first.
+// FIX: "InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly" is producing an error: "Invalid State Group ID". As a result (I believe), harmonies are not playing.
+// FIX: Make sure the WWise commands are actually working correctly per changing the notes. I'm not hearing the fundamental change when the command goes out. You can temporarily reduce the value of _changeFundamentalThreshold to test this.
+//UI: Make the piano button turn green (or really just do anything) for the note matching musicNoteActivated.
+//UI: Make the piano button indicate the fundamental note with fundamentalNote.
+//UI: Make the piano button indicate the harmony note with harmonyNote.
 
 public class MusicSystem1 : MonoBehaviour
 {
     private bool debugAllowLogs = true;
     // Variables
-    public bool allowFundamentalChange = true; 
+    public bool allowFundamentalChange = true;
+    public bool enableMusicSystem = true;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
-    private int fundamentalNote; // Base note around which other notes are calculated
-    private int fundamentalNoteOld = -1;
 
     private Dictionary<int, (float ActivationTimer, bool Active, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, float)>();
     // Tracks information for each musical note:
@@ -26,15 +30,41 @@ public class MusicSystem1 : MonoBehaviour
     private Dictionary<int, bool> Fundamentals = new Dictionary<int, bool>(); // Tracks if a note is a fundamental tone
     private Dictionary<int, bool> Harmonies = new Dictionary<int, bool>(); // Tracks if a note is a harmony
     
-    private bool musicToneActive; // Indicates if a music tone is currently active
+    // IMITONE INTERPRETATION
     private float musicNoteInputRaw; // The raw note input from voice interpretation
     private float musicNoteInput; // Adjusted musical note input after processing
+    public int musicNoteActivated; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated
     
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
-    private float _changeFundamentalThreshold = 12f;
+    [SerializeField] private float _changeFundamentalThreshold = 60f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
+
+    // FUNDAMENTAL AND HARMONY CONTROL
+    private bool musicToneActiveFrame; // Turns on the frame that a vocalization is interpreted by the music system.
+    private bool musicToneActiveFrameGuard  = false; 
+    private int musicToneActivationCount = 0; // Number of times we have tracked a vocalization
+    public int fundamentalNote; // Base note around which other notes are calculated
+    private int fundamentalNoteCompare = -1; //this is used to catch changes that are not triggered in this script.
+    public int harmonyNote; // Note that plays in harmony with the fundamental note
+    private float fundamentalTimeSinceLastTrigger   = 0f;
+    private float harmonyTimeSinceLastTrigger = 0f;
+    private float fundamentalRetriggerThreshold = 6f; // minimum time between fundamental retriggering
+    private float harmonyRetriggerThreshold = 6f; // minimum time between harmony retriggering
+
+    //HARMONY SEQUENCES
+    List<int> harmonySequence1 = new List<int> {5, 7, 5, 7, 5, 7, 5, 7};
+    List<int> harmonySequence2 = new List<int> {5, 5, 5, 5};
+    List<int> harmonySequence3 = new List<int> {7, 7, 7, 7};
+    List<int> harmonySequence4 = new List<int> {5, 7, 12, 5, 7, 12, 5, 7, 12};
+
+    List<List<int>> sequences;
+
+    System.Random random = new System.Random();
+        
+    int currentSequenceIndex;
+    int currentHarmonyIndex = 0;
 
     void Start()
     {
@@ -44,27 +74,100 @@ public class MusicSystem1 : MonoBehaviour
             NoteTracker.Add(i, (0f, false, 0f));
         }
 
-        //SET THE FUNDAMENTAL NOTE TO A AND THE HARMONY TO E. All of this should be done in Audio Manager
-        AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
-        AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
+        //SET THE FUNDAMENTAL NOTE TO A... this should be done in Audio Manager
         fundamentalNote = 9;
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "E", gameObject);
-        Debug.Log("MUSIC: Fundamental and Harmony set to A and E, respectively. THIS SHOULD BE PERFORMED IN THE AUDIO MANAGER, NOT HERE. PLEASE EDIT THE CODE IN START() IN MUSICSYSTEM1.CS WHEN IT'S PROPERLY IMPLEMENTED");
+        Debug.Log("MUSIC: Fundamental set to A. THIS SHOULD BE PERFORMED IN THE AUDIO MANAGER, NOT HERE. PLEASE EDIT THE CODE IN START() IN MUSICSYSTEM1.CS WHEN IT'S PROPERLY IMPLEMENTED");
+
+        //Set these so they can be triggered right away
+        fundamentalTimeSinceLastTrigger = fundamentalRetriggerThreshold;
+        harmonyTimeSinceLastTrigger = harmonyRetriggerThreshold;
         
+        //Initialize harmony sequences
+        sequences = new List<List<int>>
+        {
+            harmonySequence1,
+            harmonySequence2,
+            harmonySequence3,
+            harmonySequence4
+        };
+
+        currentSequenceIndex = random.Next(sequences.Count);
     }
 
     void Update()
     {
-        InterpretImitone();
-
-        //Change Fundamental 
-        if (fundamentalNoteOld != fundamentalNote)
+        if(enableMusicSystem)
         {
-            AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote),gameObject);
-            fundamentalNoteOld = fundamentalNote;
-            Debug.Log("MUSIC: WWise Fundamental: " + ConvertIntToNote(fundamentalNote));
-        }
+            InterpretImitone();
 
+            //set musicToneActiveFrame to true for the first frame that toneActiveBiasTrue is true, and false for all other frames.
+            if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
+            {
+                musicToneActiveFrame = false;
+                musicToneActiveFrameGuard = false;
+            }
+            else if (imitoneVoiceInterpreter.toneActiveBiasTrue && !musicToneActiveFrameGuard)
+            {
+                musicToneActiveFrame = true;
+                musicToneActiveFrameGuard = true;
+                musicToneActivationCount++;
+            }
+            else
+            {
+                musicToneActiveFrame = false;
+            }
+    
+
+
+            //FUNDAMENTAL
+            //Send commands to WWise to play the fundamental, either on new tone, or on fundamental change
+            fundamentalTimeSinceLastTrigger += Time.deltaTime;
+            harmonyTimeSinceLastTrigger += Time.deltaTime;
+
+            bool fundamentalTimeTest    = fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold;
+            bool fundamentalRetriggerTest = (musicToneActiveFrame && fundamentalTimeTest);
+            bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
+            if (fundamentalRetriggerTest || fundamentalChangeTest)
+            {
+                AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote),gameObject);
+                AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
+
+                fundamentalNoteCompare = fundamentalNote;
+                if (debugAllowLogs)
+                {
+                    Debug.Log("MUSIC: Fundamental Played: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
+                }
+                fundamentalTimeSinceLastTrigger = 0f;
+            }
+
+            //HARMONY
+            if(musicToneActiveFrame)
+            {
+                //Choose a tone based on a sequence
+                List<int> currentSequence = sequences[currentSequenceIndex];
+                int harmonization = currentSequence[currentHarmonyIndex];
+
+                // Move to the next note in the sequence
+                currentHarmonyIndex++;
+
+                // If we've reached the end of the sequence, select a new sequence
+                if (currentHarmonyIndex >= currentSequence.Count)
+                {
+                    currentSequenceIndex = random.Next(sequences.Count);
+                    currentHarmonyIndex = 0;
+                }
+
+                //Now play the tone
+                harmonyNote = ((fundamentalNote + harmonization) % 12);
+                AkSoundEngine.SetState("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(harmonyNote));
+                AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
+                if (debugAllowLogs)
+                {
+                    Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
+                }
+            }
+        }
     }
 
     private void InterpretImitone()
@@ -128,7 +231,6 @@ public class MusicSystem1 : MonoBehaviour
                 bool isActive = note.Value.Active;
                 bool isHighestActivationTimer = false;
             
-                //THERE HAS TO BE SOME WAY TO SET HIGHESTActivationTimer DOWN TO ZERO AGAIN, OR EVEN JUST LOWER IT=
 
                 // Increment active timer if current note input matches the tracker note
                 if (Mathf.Round(musicNoteInput) == note.Key)
@@ -155,12 +257,13 @@ public class MusicSystem1 : MonoBehaviour
                         nextNote = note.Key;
                         if (imitoneVoiceInterpreter.toneActiveBiasTrue) //now we change the actual tone!
                         {
-                            if(debugAllowLogs && !isActive)
-                            {
-                                Debug.Log("MUSIC: Voice Input Key (" + note.Key + ")!");
-                            }
+                            //if(debugAllowLogs && !isActive)
+                            //{
+                            //    Debug.Log("MUSIC: Voice Input Key (" + note.Key + ")!");
+                            //}
                             bool firstFrameActive = !isActive; //this will only be true on the first frame that the note is activated
                             isActive = true;
+                            musicNoteActivated = note.Key;
                             activations[note.Key] = isActive;
 
                             // ===== FUNDAMENTAL CHANGING LOGIC =====
@@ -169,7 +272,7 @@ public class MusicSystem1 : MonoBehaviour
                                 newChangeFundamentalTimer += Time.deltaTime;
                                 if(debugAllowLogs && firstFrameActive)
                                 {
-                                    Debug.Log("MUSIC: Change Fundamental Timer for " + ConvertIntToNote(note.Key) + ": " + newChangeFundamentalTimer);
+                                    Debug.Log("MUSIC 1: Change Fundamental Timer for " + ConvertIntToNote(note.Key) + ": " + newChangeFundamentalTimer);
                                 }
 
                                 if(allowFundamentalChange)
@@ -180,32 +283,15 @@ public class MusicSystem1 : MonoBehaviour
                                         {
                                             fundamentalNote = note.Key;
                                             fundamentalChanges[note.Key] = true;
+
                                             if(debugAllowLogs)
                                             {
-                                                Debug.Log("MUSIC: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
+                                                Debug.Log("MUSIC 2: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
                                             }
                                         }
                                     }
                                 }
                             }
-
-                            
-
-
-
-                            // ===== HARMONY CHANGING LOGIC =====
-                            //REEF - in here, we should change the harmony whenever this block (the if statement) is activated.
-                            // this will be either (the fundamental + 5 semitones), or (the fundamental + 7 semitones) (Modulo 12)
-                            // each activation of this block will switch between the +5 and +7 variety, back and forth, so if you tone the same note again and again, you will get a different harmony, back and forth forever
-                            // We send that note to WWise to switch the harmony note in this fashion
-                            // this logic needs to work with the possibility of the fundamental changing mid-tone, so that the harmony is always in tune with the fundamental, even if the fundamental changes
-
-                            // Game Call for Playing (turns on fundamental): AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
-                            // Game Call for Playing (turns on harmony): AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
-                            // Game Call for changing the Harmony: AkSoundEngine.SetState("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", currentToningState (aruement is "A" or "B" etc. or "AsharpBflat" or "FsharpGflat" "GsharpAflat"));
-                            // Game Call for changing the Fundamental : AkSoundEngine.SetState("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", currentToningState (argument is "A" or "B" etc.));
-
-
                         }
                     }
                     updates[note.Key] = (newActivationTimer, isActive, newChangeFundamentalTimer);
@@ -239,19 +325,26 @@ public class MusicSystem1 : MonoBehaviour
                 }
                 highestActivationTimer = 0.0f;
             }
+            else
+            {
+                musicNoteActivated = -1;
+            }
 
-            // Resets all ChangeFundamentalTimers to 0 if a fundamental change has been made
+            // Resets all ChangeFundamentalTimers in the NoteTracker dictionary to 0 if a fundamental change has been made
             if (fundamentalChanges.ContainsValue(true))
             {
-                foreach (var note in fundamentalChanges)
-                {   
-                    var currentValue = NoteTracker[note.Key];
-                    NoteTracker[note.Key] = (currentValue.ActivationTimer, currentValue.Active, 0.0f);
+                var keys = new List<int>(NoteTracker.Keys);
+
+                foreach (var key in keys)
+                {
+                    var currentValue = NoteTracker[key];
+                    NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, 0.0f);
                     if(debugAllowLogs)
                     {
-                        Debug.Log("MUSIC: Key(" + note.Key + ": ChangeFundamentalTimer reset");
+                        Debug.Log("MUSIC 3: Key(" + key + ": ChangeFundamentalTimer reset");
                     }
                 }
+                
             }
         }
     }
@@ -285,19 +378,9 @@ public class MusicSystem1 : MonoBehaviour
             throw new ArgumentException("Invalid noteNumber value");
         }
     }
-
-    // Reef needs to know what note should be playing back at all times, fundamental and harmony wise, at any given time. Needs to know what Midi Note we should be on. (Robin will be able to give Reef midi note values) [REEF- THIS SHOULD BE ACCOMPLISHED BY THE NOTES IN THIS DOCUMENT]
-
-     // ===== TRIGGERING ONE-SHOTS =====
-    //REEF - the one-shot sounds in WWise should be triggered by toneActiveBiasTrue. Whenever toneActiveBiasTrue comes on, it triggers a one-shot (in the fundamental and harmony).
-    //Lorna may want to have some logic in place for NOT triggering a one shot if it's only been a short period of time since the last one-shot of this tone was triggered. This is a decision up to her, but I'd be grateful if you'd make it clear to her that she might want to do that, once you talk through this implementation with her, because we could be triggering a one-shot on the fundamental again and again and again, only every few seconds, if the player is pumping a few short tones, for example. 
     
     // ===== REWARD THUMPS =====
     //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0 due to inerpolation rules)
-
-    // ===== WHEN TO ACTUALLY TURN ON (AND OFF) THE FUNDAMENTAL AND THE HARMONY =====
-    //REEF, I am opening a conversation in #soundselfv1inunity about this. Basically, unless Lorna says otherwise, you should turn ON the fundamental and harmony both when the tutorial sequence starts listening for player vocalization. Not the query or the sigh, but actually listening for an "ahh", at the end of the voice and breath meditation. 
-    //Likewise, it should turn off a little before the savasana sequence begins, when Lorna's closing track plays.
 
     // ===== LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD =====
     //REEF, we need to have a way of setting the fundamental from your audio manager, to limit the behavior during the training period.
