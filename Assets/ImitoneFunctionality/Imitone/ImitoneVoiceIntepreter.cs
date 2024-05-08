@@ -276,7 +276,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             if ((Time.time - entry.Value.Item1) > noiseFloorMeasurementMaxAge)     
             {       
                 keysToRemove.Add(entry.Key);
-                Debug.Log("Removing Noise Key " + entry.Key + " with value " + entry.Value.Item2 + " from time " + entry.Value.Item1 + " because it is older than " + noiseFloorMeasurementMaxAge + " seconds.");
+                //Debug.Log("Removing Noise Key " + entry.Key + " with value " + entry.Value.Item2 + " from time " + entry.Value.Item1 + " because it is older than " + noiseFloorMeasurementMaxAge + " seconds.");
             }
         }
 
@@ -295,7 +295,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
         SetThreshold(_imitoneVolumeThreshold);
         
-        Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _imitoneVolumeThreshold + " from " + noiseMeasurements.Count + " measurements.");
+        //Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _imitoneVolumeThreshold + " from " + noiseMeasurements.Count + " measurements.");
 
         yield return null;
     }
@@ -544,7 +544,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 isResettingTone = true;
                 float currentInhaleDuration = Math.Clamp(_tNextInhaleDuration, 1.76f, 7.0f);
                 StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
-                Debug.Log("InhaleCoroutineStarted");
+                //Debug.Log("InhaleCoroutineStarted");
                 _tNextInhaleDuration = 0.0f;
             }
 
@@ -649,7 +649,7 @@ public static int FrequencyToFlooredSemitone(double frequency)
 {
     double semitone = 12 * Math.Log(frequency / A4, 2);
     return (int)Math.Floor(semitone);
-    Debug.Log(semitone);
+    //Debug.Log(semitone);
 }
 
 public float GetVolumeThresholdFromJson()
