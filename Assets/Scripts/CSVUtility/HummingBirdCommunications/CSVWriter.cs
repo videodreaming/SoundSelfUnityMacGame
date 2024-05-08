@@ -15,10 +15,10 @@ public class CSVWriter : MonoBehaviour
     string wavFilesPath = "";
     public int currentSessionNumber = 0;
     string baseSessionsFolderPath = "";
-    bool paused = false;
     public UserOutput playerOutput;
     private List<string> frameDataList = new List<string>();
     public RespirationTracker respirationTracker;
+    public GameManagement gameManagement;
 
 
     public string GameMode;
@@ -112,7 +112,7 @@ public class CSVWriter : MonoBehaviour
     void Update()
     {
         CheckPauseStatus();
-        if (!paused)
+        if (gameManagement.controlStatus == "resumed")
         {
             if(wasPaused)
             {
@@ -121,13 +121,22 @@ public class CSVWriter : MonoBehaviour
             }
             GetData();
         }
-        else if(!wasPaused)
+        else if(wasPaused == false)
         {
             LogMessage("Paused");
             wasPaused = true;
         }
     }
-
+    public void changeSessionStatus(string status)
+    {
+        if (currentSessionNumber != 0)
+        {
+            using (StreamWriter sw = new StreamWriter(sessionStatusPath))
+            {
+                sw.WriteLine(status);
+            }
+        }
+    }
      void CheckPauseStatus()
     {
         if (File.Exists(sessionStatusPath))
@@ -141,7 +150,7 @@ public class CSVWriter : MonoBehaviour
                     if (statusParts.Length > 0) // ensure the line is not empty
                     {
                         string controlStatus = statusParts[0].Trim().ToLower();
-                        paused = controlStatus == "paused";
+                        Debug.Log(controlStatus);   
                     }
                 }
             }

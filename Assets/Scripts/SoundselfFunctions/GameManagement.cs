@@ -6,10 +6,22 @@ using System;
 
 public class GameManagement : MonoBehaviour
 {
-
-public CSVWriter CSVWriter;
+    public string controlStatus = "resumed";
+    public CSVWriter CSVWriter;
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if(controlStatus == "resumed")
+            {
+                controlStatus = "paused";
+            }
+            else
+            {
+                controlStatus = "resumed";
+            }
+            CSVWriter.changeSessionStatus(controlStatus);
+        }
         // Quit the game if the player presses the Escape key
         if (Input.GetKeyDown(KeyCode.Escape))
         {
