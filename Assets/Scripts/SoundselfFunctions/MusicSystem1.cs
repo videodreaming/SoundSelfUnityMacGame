@@ -48,7 +48,7 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
         AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
         fundamentalNote = 9;
-        AkSoundEngine.SetState("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "E");
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "E", gameObject);
         Debug.Log("MUSIC: Fundamental and Harmony set to A and E, respectively. THIS SHOULD BE PERFORMED IN THE AUDIO MANAGER, NOT HERE. PLEASE EDIT THE CODE IN START() IN MUSICSYSTEM1.CS WHEN IT'S PROPERLY IMPLEMENTED");
         
     }
@@ -60,7 +60,7 @@ public class MusicSystem1 : MonoBehaviour
         //Change Fundamental 
         if (fundamentalNoteOld != fundamentalNote)
         {
-            AkSoundEngine.SetState("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote));
+            AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote),gameObject);
             fundamentalNoteOld = fundamentalNote;
             Debug.Log("MUSIC: WWise Fundamental: " + ConvertIntToNote(fundamentalNote));
         }
