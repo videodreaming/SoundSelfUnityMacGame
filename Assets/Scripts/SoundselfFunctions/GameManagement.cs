@@ -10,18 +10,6 @@ public class GameManagement : MonoBehaviour
     public CSVWriter CSVWriter;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if(controlStatus == "resumed")
-            {
-                controlStatus = "paused";
-            }
-            else
-            {
-                controlStatus = "resumed";
-            }
-            CSVWriter.changeSessionStatus(controlStatus);
-        }
         // Quit the game if the player presses the Escape key
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -29,9 +17,8 @@ public class GameManagement : MonoBehaviour
             EndGame();
         }
     }
-    void EndGame()
+    public void EndGame()
     {
-        
         // End the game
         Application.Quit();
     }

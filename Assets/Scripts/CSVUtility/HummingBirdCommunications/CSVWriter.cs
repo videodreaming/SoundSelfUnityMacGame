@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using UnityEngine.Android;
+using UnityEngine.Rendering;
 
 public class CSVWriter : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class CSVWriter : MonoBehaviour
     string sessionStatusPath = "";
     string session_resultsPath = "";
     string wavFilesPath = "";
+    public bool paused = false;
     public int currentSessionNumber = 0;
     string baseSessionsFolderPath = "";
     public UserOutput playerOutput;
@@ -112,7 +114,7 @@ public class CSVWriter : MonoBehaviour
     void Update()
     {
         CheckPauseStatus();
-        if (gameManagement.controlStatus == "resumed")
+        if (!paused)
         {
             if(wasPaused)
             {
@@ -121,22 +123,14 @@ public class CSVWriter : MonoBehaviour
             }
             GetData();
         }
-        else if(wasPaused == false)
+        else if(paused)
         {
             LogMessage("Paused");
             wasPaused = true;
         }
     }
-    public void changeSessionStatus(string status)
-    {
-        if (currentSessionNumber != 0)
-        {
-            using (StreamWriter sw = new StreamWriter(sessionStatusPath))
-            {
-                sw.WriteLine(status);
-            }
-        }
-    }
+
+
      void CheckPauseStatus()
     {
         if (File.Exists(sessionStatusPath))
@@ -150,7 +144,19 @@ public class CSVWriter : MonoBehaviour
                     if (statusParts.Length > 0) // ensure the line is not empty
                     {
                         string controlStatus = statusParts[0].Trim().ToLower();
-                        Debug.Log(controlStatus);   
+                        if(controlStatus == "paused")
+                        {
+                            paused = true;
+                        }
+                        else if(controlStatus == "resumed")
+                        {
+                            paused = false;
+                        }
+                        else if( controlStatus == "terminated")
+                        {
+                            writeCSV();
+                            gameManagement.EndGame();
+                        }
                     }
                 }
             }
@@ -191,7 +197,6 @@ public class CSVWriter : MonoBehaviour
                 tw.WriteLine(frameData);
             }
         }
-
         // Optionally, clear the list after writing to prevent duplicate entries in subsequent writes
         frameDataList.Clear();
     }

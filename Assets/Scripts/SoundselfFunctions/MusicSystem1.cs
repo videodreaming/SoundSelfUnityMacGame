@@ -15,6 +15,7 @@ using UnityEngine.UIElements;
 
 public class MusicSystem1 : MonoBehaviour
 {
+    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
     private bool debugAllowLogs = true;
     // Variables
     public bool allowFundamentalChange = true;
@@ -37,7 +38,7 @@ public class MusicSystem1 : MonoBehaviour
     
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
-    [SerializeField] private float _changeFundamentalThreshold = 60f;
+    [SerializeField] private float _changeFundamentalThreshold = 4f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
 
@@ -73,12 +74,6 @@ public class MusicSystem1 : MonoBehaviour
         {
             NoteTracker.Add(i, (0f, false, 0f));
         }
-
-        //SET THE FUNDAMENTAL NOTE TO A... this should be done in Audio Manager
-        fundamentalNote = 9;
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "E", gameObject);
-        Debug.Log("MUSIC: Fundamental set to A. THIS SHOULD BE PERFORMED IN THE AUDIO MANAGER, NOT HERE. PLEASE EDIT THE CODE IN START() IN MUSICSYSTEM1.CS WHEN IT'S PROPERLY IMPLEMENTED");
-
         //Set these so they can be triggered right away
         fundamentalTimeSinceLastTrigger = fundamentalRetriggerThreshold;
         harmonyTimeSinceLastTrigger = harmonyRetriggerThreshold;
@@ -130,13 +125,13 @@ public class MusicSystem1 : MonoBehaviour
             bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
             if (fundamentalRetriggerTest || fundamentalChangeTest)
             {
-                AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote),gameObject);
-                AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
-
+                wwiseInteractiveMusicManager.userToningToChangeFundamental();
+                //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote),gameObject);
+                //AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
                 fundamentalNoteCompare = fundamentalNote;
                 if (debugAllowLogs)
                 {
-                    Debug.Log("MUSIC: Fundamental Played: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
+                    //Debug.Log("MUSIC: Fundamental Played: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
                 }
                 fundamentalTimeSinceLastTrigger = 0f;
             }
@@ -160,11 +155,12 @@ public class MusicSystem1 : MonoBehaviour
 
                 //Now play the tone
                 harmonyNote = ((fundamentalNote + harmonization) % 12);
-                AkSoundEngine.SetState("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(harmonyNote));
-                AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
+                wwiseInteractiveMusicManager.changeHarmony();
+                //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(harmonyNote),gameObject);
+                //AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
                 if (debugAllowLogs)
                 {
-                    Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
+                    //Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
                 }
             }
         }
@@ -230,8 +226,6 @@ public class MusicSystem1 : MonoBehaviour
                 float newChangeFundamentalTimer = note.Value.ChangeFundamentalTimer;
                 bool isActive = note.Value.Active;
                 bool isHighestActivationTimer = false;
-            
-
                 // Increment active timer if current note input matches the tracker note
                 if (Mathf.Round(musicNoteInput) == note.Key)
                 {
@@ -265,7 +259,7 @@ public class MusicSystem1 : MonoBehaviour
                             isActive = true;
                             musicNoteActivated = note.Key;
                             activations[note.Key] = isActive;
-
+                
                             // ===== FUNDAMENTAL CHANGING LOGIC =====
                             if (note.Key != fundamentalNote)
                             {
@@ -349,8 +343,6 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-  
-
     public enum NoteName
     {
         C,
@@ -378,6 +370,10 @@ public class MusicSystem1 : MonoBehaviour
             throw new ArgumentException("Invalid noteNumber value");
         }
     }
+
+  
+
+
     
     // ===== REWARD THUMPS =====
     //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0 due to inerpolation rules)

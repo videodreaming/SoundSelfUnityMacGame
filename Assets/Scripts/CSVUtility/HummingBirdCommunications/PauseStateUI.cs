@@ -5,17 +5,23 @@ using TMPro;
 
 public class PauseStateUI : MonoBehaviour
 {
-    public GameManagement gameManagement;
+    public CSVWriter csvWriter;
     private TMP_Text tmpText; // TMP component
     // Start is called before the first frame update
     void Start()
     {
         tmpText = GetComponent<TMP_Text>();
     }
-
     // Update is called once per frame
     void Update()
     {
-        tmpText.text = gameManagement.controlStatus;
+        if(csvWriter.paused)
+        {
+            tmpText.text = "Paused";
+        }
+        else
+        {
+            tmpText.text = "Resumed";
+        }
     }
 }
