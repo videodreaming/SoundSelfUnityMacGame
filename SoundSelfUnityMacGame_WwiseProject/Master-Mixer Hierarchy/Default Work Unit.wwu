@@ -21,7 +21,7 @@
 										<Volume>-1</Volume>
 										<FadeInTime>1</FadeInTime>
 										<FadeOutTime>1</FadeOutTime>
-										<FadeCurve>FadeLog2</FadeCurve>
+										<FadeCurve>FadeLinear</FadeCurve>
 									</DuckingParam>
 								</DuckItem>
 								<DuckItem>
@@ -37,7 +37,7 @@
 						</Bus>
 						<Bus Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 						<Bus Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}"/>
-						<Bus Name="LinearMusic" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}"/>
+						<Bus Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}"/>
 						<Bus Name="Environment" ID="{8CBEC533-4413-4401-925C-5A5BCA9F83CA}">
 							<ObjectLists>
 								<ObjectList Name="RTPC">
@@ -96,7 +96,7 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}"/>
 									<DuckingParam>
-										<Volume>-10</Volume>
+										<Volume>-6</Volume>
 										<FadeInTime>0.5</FadeInTime>
 										<FadeOutTime>1</FadeOutTime>
 										<FadeCurve>FadeLinear</FadeCurve>
@@ -113,7 +113,19 @@
 								</DuckItem>
 							</DuckingList>
 						</Bus>
-						<Bus Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}"/>
+						<Bus Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}">
+							<DuckingList>
+								<DuckItem>
+									<BusRef Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}"/>
+									<DuckingParam>
+										<Volume>-2</Volume>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>1</FadeOutTime>
+										<FadeCurve>FadeLinear</FadeCurve>
+									</DuckingParam>
+								</DuckItem>
+							</DuckingList>
+						</Bus>
 					</ChildrenList>
 				</Bus>
 				<Bus Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}">

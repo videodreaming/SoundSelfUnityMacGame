@@ -3,7 +3,7 @@
 	<Events>
 		<WorkUnit Name="Interactive Music System" ID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Play_SilentLoops_7Pitch_LinkedHarmony" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}">
+				<Event Name="Play_SilentLoops_v1_7Pitch_Linked" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}">
 					<ChildrenList>
 						<Action Name="" ID="{8EDC4A6D-0560-4474-A49F-2CE518EFC1E9}" ShortID="599277457">
 							<PropertyList>
@@ -12,13 +12,13 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops1_7_Linked5ths" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v1_7_Linked" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_Toning1_7Pitch_LinkedHarmony" ID="{90843F11-6540-4A8C-B553-2767E329B988}">
+				<Event Name="Play_Toning_v1_7Pitch_Linked" ID="{90843F11-6540-4A8C-B553-2767E329B988}">
 					<ChildrenList>
 						<Action Name="" ID="{12C70DAF-83EE-419C-B7DB-3206D3E84C42}" ShortID="632762800">
 							<PropertyList>
@@ -27,7 +27,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning1_7_Linked5ths" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v1_7_Linked" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -90,7 +90,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning1_7_Linked5ths" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v1_7_Linked" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -100,7 +100,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops1_7_Linked5ths" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v1_7_Linked" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -110,7 +110,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning2_12_Linked5ths" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v2_12_Linked" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -120,7 +120,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops2_12_Linked5ths" ID="{F3EF0664-E768-4112-A031-62FF827076CA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v2_12_Linked" ID="{F3EF0664-E768-4112-A031-62FF827076CA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -130,7 +130,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning3_12_Fundamental" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -140,7 +140,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning3_12_Harmony" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -150,7 +150,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops3_12_Fundamentalonly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v3_12_FundamentalOnly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -160,7 +160,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops3_12_Harmonyonly" ID="{7BB210F7-2DC1-4EA8-9966-75666822B3E1}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v3_12_HarmonyOnly" ID="{7BB210F7-2DC1-4EA8-9966-75666822B3E1}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -177,7 +177,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning1_7_Linked5ths" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v1_7_Linked" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -189,7 +189,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning2_12_Linked5ths" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v2_12_Linked" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -201,7 +201,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning3_12_Fundamental" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -213,7 +213,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning3_12_Harmony" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -228,7 +228,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops1_7_Linked5ths" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v1_7_Linked" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -238,7 +238,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops2_12_Linked5ths" ID="{F3EF0664-E768-4112-A031-62FF827076CA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v2_12_Linked" ID="{F3EF0664-E768-4112-A031-62FF827076CA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -248,7 +248,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops3_12_Fundamentalonly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v3_12_FundamentalOnly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -258,73 +258,73 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops3_12_Harmonyonly" ID="{7BB210F7-2DC1-4EA8-9966-75666822B3E1}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v3_12_HarmonyOnly" ID="{7BB210F7-2DC1-4EA8-9966-75666822B3E1}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_SilentLoops2_12Pitch_LinkedHarmony" ID="{6E799669-D000-4409-AA90-F73B8ECF6353}">
+				<Event Name="Play_SilentLoops_v2_12Pitch_Linked" ID="{6E799669-D000-4409-AA90-F73B8ECF6353}">
 					<ChildrenList>
 						<Action Name="" ID="{758CBBD1-F0D7-4EBB-98FC-EF161F74DF55}" ShortID="100107249">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops2_12_Linked5ths" ID="{F3EF0664-E768-4112-A031-62FF827076CA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v2_12_Linked" ID="{F3EF0664-E768-4112-A031-62FF827076CA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_Toning2_12Pitch_LinkedHarmony" ID="{1741DF3E-50D2-4FEE-BF9B-528E101620D8}">
+				<Event Name="Play_Toning_v2_12Pitch_Linked" ID="{1741DF3E-50D2-4FEE-BF9B-528E101620D8}">
 					<ChildrenList>
 						<Action Name="" ID="{84A3965D-A594-457C-A509-442D92DBCCF0}" ShortID="762547860">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning2_12_Linked5ths" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v2_12_Linked" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_SilentLoops3_HarmonyOnly" ID="{E0155711-5C38-463B-876E-4DCB38A63217}">
+				<Event Name="Play_SilentLoops_v3_HarmonyOnly" ID="{E0155711-5C38-463B-876E-4DCB38A63217}">
 					<ChildrenList>
 						<Action Name="" ID="{B61D7E25-2A31-47FB-B8C7-AB49B795574A}" ShortID="486013034">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops3_12_Harmonyonly" ID="{7BB210F7-2DC1-4EA8-9966-75666822B3E1}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v3_12_HarmonyOnly" ID="{7BB210F7-2DC1-4EA8-9966-75666822B3E1}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_SilentLoops3_FundamentalOnly" ID="{497F127A-A5CC-4CF0-85D2-F5B56677900E}">
+				<Event Name="Play_SilentLoops_v3_FundamentalOnly" ID="{497F127A-A5CC-4CF0-85D2-F5B56677900E}">
 					<ChildrenList>
 						<Action Name="" ID="{5F316888-1B3E-4249-AEAD-007EAC0DE30F}" ShortID="103481146">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops3_12_Fundamentalonly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
+									<ObjectRef Name="InteractiveMusic_SilentLoops_v3_12_FundamentalOnly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_Toning3_FundamentalOnly" ID="{DA00B1EF-1DD6-4F48-AD92-5DA76BC5F7C1}">
+				<Event Name="Play_Toning_v3_FundamentalOnly" ID="{DA00B1EF-1DD6-4F48-AD92-5DA76BC5F7C1}">
 					<ChildrenList>
 						<Action Name="" ID="{F83D477B-26D2-4802-812D-2636C06FB10E}" ShortID="669783303">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning3_12_Fundamental" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_Toning3_HarmonyOnly" ID="{7F8EC617-3EE7-4AC1-B11D-03973B8FDDA8}">
+				<Event Name="Play_Toning_v3_HarmonyOnly" ID="{7F8EC617-3EE7-4AC1-B11D-03973B8FDDA8}">
 					<ChildrenList>
 						<Action Name="" ID="{6F9ADCF7-569F-4510-BB84-1FCE6315607D}" ShortID="331643023">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning3_12_Harmony" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+									<ObjectRef Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

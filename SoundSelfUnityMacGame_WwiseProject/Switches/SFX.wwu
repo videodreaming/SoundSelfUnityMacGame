@@ -10,6 +10,12 @@
 						<Switch Name="Container3" ID="{173D213F-FA07-485D-A171-856463ACC928}"/>
 					</ChildrenList>
 				</SwitchGroup>
+				<SwitchGroup Name="SFX_BREATHLOOP" ID="{78B01A8B-D0B6-4FDA-B8A1-AC67ED01C447}">
+					<ChildrenList>
+						<Switch Name="SHORT" ID="{326D193E-9063-4168-96F1-887103960679}"/>
+						<Switch Name="LONG" ID="{B6D6EEAA-7A41-412C-BB75-CF22CCB8A41F}"/>
+					</ChildrenList>
+				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</Switches>

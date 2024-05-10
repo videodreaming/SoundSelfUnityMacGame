@@ -13,6 +13,126 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_OPENING_SEQUENCE_ADJUNCT_SHORT" ID="{51F4E23F-90F7-404F-8149-CAF1EBD9CBC5}">
+					<ChildrenList>
+						<Action Name="" ID="{36311C4C-AECB-49CA-B36F-D6F318C02271}" ShortID="1056769711">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="openingShort" ID="{16F577DE-905E-4AA3-AF73-8C2735C6EA71}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{5C193BFD-789D-469A-9476-C5EFCC7868AB}" ShortID="702477502">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ADJUNCT_OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C879452B-FC6E-423E-8783-AC23E4732B01}" ShortID="358786315">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="75"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_POSTURE_SWITCH" ID="{24CCB1DE-04B5-49A6-AABB-C1FE8A0103A6}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{FE0C66FA-0EE9-48C5-A636-E0E77759027C}" ShortID="975575648">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="148"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{C7789B8F-0EED-48B6-AE27-DD0FBC34129F}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{3F15C86D-467B-4243-AF67-6287A39EF890}" ShortID="1050603808">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SOMATIC_SEQUENCE" ID="{2E6030F4-1D2E-4169-9928-E3B4DB9CFFE4}">
+					<ChildrenList>
+						<Action Name="" ID="{38015F24-C18E-4790-AA10-02CEE2B4096B}" ShortID="668514012">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C53C60B4-C84D-4630-A8FD-372BF7A57061}" ShortID="78722735">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SOMATIC_SWITCH" ID="{29EC6BD4-AA95-44B6-9259-B9DE29F21203}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_OPENING_SEQUENCE_ADJUNCT_LONG" ID="{928329A8-BF9B-46C7-A5D8-DEFD50EE76E9}">
+					<ChildrenList>
+						<Action Name="" ID="{9ACAE4F3-88DC-4C5E-849B-8B5D5372D1EF}" ShortID="585621029">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{2698546B-D775-496E-9A7D-59BFEEA2AADB}" ShortID="851110569">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ADJUNCT_OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{B1B3BCE9-4D9B-4BDB-88F6-E36816AB33F3}" ShortID="195197597">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="110"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_POSTURE_SWITCH" ID="{24CCB1DE-04B5-49A6-AABB-C1FE8A0103A6}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{71194137-E8AC-42EB-89A4-C1F48E978C57}" ShortID="453299417">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="184"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{C7789B8F-0EED-48B6-AE27-DD0FBC34129F}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{BCCB121B-ACA5-4B8A-8A21-82B81B6BEE32}" ShortID="296187087">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

@@ -1,16 +1,9 @@
 State Group	ID	Name			Wwise Object Path	Notes
-	261089142	GameMode			\Default Work Unit\GameMode	
 	700230891	AVSModulationRate			\Default Work Unit\AVSModulationRate	
 	3090474987	SoundWorldMode			\Default Work Unit\SoundWorldMode	
 	4128979292	AVSModulationMode			\Default Work Unit\AVSModulationMode	
 
 State	ID	Name	State Group			Notes
-	748895195	None	GameMode			
-	2534402132	Adjunct	GameMode			
-	2595709632	Passive	GameMode			
-	3147549296	Preparation	GameMode			
-	4033993124	Wisdom	GameMode			
-	4094247797	Integration	GameMode			
 	145871466	TRI_5Hz	AVSModulationRate			
 	748895195	None	AVSModulationRate			
 	818413719	TRI_20Hz	AVSModulationRate			
@@ -33,7 +26,6 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	65973818	AVS System			\Default Work Unit\AVS System	
 	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
 	493151109	AVS_Silent			\Default Work Unit\AVS System\AVS_Silent	
-	1089785595	LinearMusic			\Default Work Unit\Master Audio Bus\LinearMusic	
 	1229948536	Environment			\Default Work Unit\Master Audio Bus\Environment	
 	1534528548	VO			\Default Work Unit\Master Audio Bus\VO	
 	2286170043	AVS_Toning			\Default Work Unit\AVS System\AVS_Toning	
@@ -42,6 +34,7 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	2670023165	Impacts, SubAcoustic			\Default Work Unit\Master Audio Bus\Impacts, SubAcoustic	
 	3385674499	AVS_Modulations			\Default Work Unit\AVS System\AVS_Modulations	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
+	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

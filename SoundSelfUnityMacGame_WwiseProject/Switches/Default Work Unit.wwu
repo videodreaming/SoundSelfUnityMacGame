@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}" SchemaVersion="119">
 	<Switches>
-		<WorkUnit Name="Default Work Unit" ID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="MENU_SESSIONMODE" ID="{2E1B53B9-C5F2-459A-A67F-8FEFF77EABC7}">
+					<ChildrenList>
+						<Switch Name="Preparation" ID="{ACC0C5B6-BF2F-4593-A6A0-17A99FE8BAE5}"/>
+						<Switch Name="Adjunct" ID="{0126A9C1-6FFA-4A43-9581-09218884C0A2}"/>
+						<Switch Name="Integration" ID="{1E4D13BB-2E20-43AF-89BC-640691F68896}"/>
+						<Switch Name="Wisdom" ID="{8801CB1D-E3DF-45DB-B23F-DC1073AEA7BD}"/>
+						<Switch Name="Passive" ID="{9EB99DDD-5D47-44F0-8344-ACFBFBBC62AA}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</Switches>
 </WwiseDocument>

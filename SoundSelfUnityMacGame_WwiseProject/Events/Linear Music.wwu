@@ -3,12 +3,12 @@
 	<Events>
 		<WorkUnit Name="Linear Music" ID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Play_LinearMusic_Opening" ID="{422C26D5-A8F6-40DB-81DF-F1EBA923BDC7}">
+				<Event Name="Play_MenuMusic" ID="{E4E9F51D-81DC-41C8-BA5D-AA250A570B32}">
 					<ChildrenList>
-						<Action Name="" ID="{5E972804-0F6B-4F79-BD48-705459D7FA63}" ShortID="587896971">
+						<Action Name="" ID="{0B504F76-2839-4CC8-BF98-6242EAD39831}" ShortID="106424597">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Linear Music_Opening" ID="{85FF6736-E72C-4B1C-8343-BFF92011EC5A}" WorkUnitID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}"/>
+									<ObjectRef Name="menu_music_C Major" ID="{326F167E-A33B-47E3-BE45-F0E0B149F187}" WorkUnitID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
