@@ -9,12 +9,13 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{6D6B0488-F379-F659-D489-CC4A968ABA93}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{A807D355-6E45-A042-58E1-47CFBA3B8F68}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="2719312584" Name="System_01" LibName="System" LibId="11403271"/>
 					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
 				</AudioDevices>
 			</Plugins>
@@ -5033,5 +5034,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{865DDD68-A0B0-D227-563F-AC4DEA28196B}</FileHash>
+	<FileHash>{9F05C67A-0F81-87D2-8333-D107133703B7}</FileHash>
 </SoundBanksInfo>

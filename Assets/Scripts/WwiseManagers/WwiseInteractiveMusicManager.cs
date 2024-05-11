@@ -25,10 +25,30 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
-        AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
-        AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);
+        //AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
+        //AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);
+        PlaySoundOnSpecificBus("Play_SilentLoops3_Fundamentalonly", "AVS System");
+        PlaySoundOnSpecificBus("Play_SilentLoops3_Harmonyonly", "Master Audio Bus");
     }
 
+    void PlaySoundOnSpecificBus(string eventName, string busName)
+    {
+        uint eventID = AkSoundEngine.PostEvent(eventName, gameObject);
+
+    // Get the bus ID using the bus name
+        uint busID = AkSoundEngine.GetIDFromString(busName);
+    // Ensure the bus ID is correctly retrieved and used
+    if (busID != AkSoundEngine.AK_INVALID_UNIQUE_ID)
+    {
+        Debug.Log("Bus ID retrieved for bus name: " + busName);
+    }
+    else
+    {
+        Debug.LogError("Invalid bus ID retrieved for bus name: " + busName);
+    }
+    // Set the output bus for the playing event
+        AkSoundEngine.SetBusDevice(eventID, busID);
+    }
 
     public void userToningToChangeFundamental()
     {
