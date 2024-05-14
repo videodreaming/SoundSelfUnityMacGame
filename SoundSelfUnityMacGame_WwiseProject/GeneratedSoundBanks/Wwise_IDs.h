@@ -433,6 +433,7 @@ namespace AK
     {
         static const AkUniqueID NO_OUTPUT = 2317455096U;
         static const AkUniqueID SYSTEM = 3859886410U;
+        static const AkUniqueID SYSTEM_01 = 2719312584U;
     } // namespace AUDIO_DEVICES
 
 }// namespace AK
