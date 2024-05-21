@@ -32,12 +32,22 @@ public class CSVWriter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
-        Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
 
+        #if UNITY_STANDALONE_OSX
+                string userFolder = "/Users/harithliew/AppData/Roaming/Hummingbird";
+                baseSessionsFolderPath = userFolder;
+        #elif UNITY_STANDALONE_WIN
+                baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
+        #else
+                Debug.LogError("Unsupported platform");
+                return;
+        #endif
+
+        Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
+        Debug.Log(baseSessionsFolderPath);
         // Path to the sessions.csv file
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
-
+        Debug.Log(sessionsCsvPath);
         // Check if sessions.csv exists
         if (File.Exists(sessionsCsvPath))
         {
@@ -61,7 +71,7 @@ public class CSVWriter : MonoBehaviour
         }
         else
         {
-            Debug.LogError("sessions.csv not found.");
+           // Debug.LogError("sessions.csv not found.");
         }
         ReadCSV();
     }
@@ -135,6 +145,7 @@ public class CSVWriter : MonoBehaviour
     {
         if (File.Exists(sessionStatusPath))
         {
+            Debug.Log(sessionStatusPath);
             using (StreamReader sr = new StreamReader(sessionStatusPath))
             {
                 string statusLine = sr.ReadLine();
