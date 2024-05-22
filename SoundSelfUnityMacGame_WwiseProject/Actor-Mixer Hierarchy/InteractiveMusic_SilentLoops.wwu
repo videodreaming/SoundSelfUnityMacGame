@@ -4,6 +4,13 @@
 		<WorkUnit Name="InteractiveMusic_SilentLoops" ID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}" PersistMode="Standalone">
 			<ChildrenList>
 				<ActorMixer Name="InteractiveMusic_SilentLoops_v1_7_Linked" ID="{10A3D690-8A71-41EF-9D63-8ACCB86CABAC}" ShortID="699131506">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -381,7 +388,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -602,9 +609,6 @@
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Lowpass" Type="int16">
-											<ValueList>
-												<Value>35</Value>
-											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{D2CD0395-2281-49E3-B031-B3C6E7EAB0D3}"/>
@@ -613,7 +617,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1163,7 +1167,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1496,7 +1500,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1940,7 +1944,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2056,7 +2060,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2389,7 +2393,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2505,7 +2509,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2843,7 +2847,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3178,11 +3182,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="Lowpass" Type="int16">
-											<ValueList>
-												<Value>17</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>200</Value>
@@ -3190,7 +3189,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3674,7 +3673,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3777,9 +3776,9 @@
 								</Sound>
 								<BlendContainer Name="fundamental_[A]_silent_shadow" ID="{89630551-2691-4130-B5D3-A37F47784FD8}" ShortID="1026783897">
 									<PropertyList>
-										<Property Name="Lowpass" Type="int16">
+										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>14</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3957,14 +3956,14 @@
 								</BlendContainer>
 								<BlendContainer Name="fundamental_[B]_silent_shadow" ID="{E109FF3B-0904-44F0-86C1-4093B572DE49}" ShortID="965188049">
 									<PropertyList>
-										<Property Name="Lowpass" Type="int16">
-											<ValueList>
-												<Value>27</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>10</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -4181,6 +4180,11 @@
 												<Value>10</Value>
 											</ValueList>
 										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -4354,6 +4358,11 @@
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>20</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -4724,7 +4733,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -4840,7 +4849,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -4951,7 +4960,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -6481,7 +6490,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -6819,7 +6828,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -7051,7 +7060,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -7161,7 +7170,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -10352,7 +10361,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -10811,7 +10820,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -12095,7 +12104,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -12285,7 +12294,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -12504,7 +12513,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -12869,7 +12878,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -14822,7 +14831,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -15392,7 +15401,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -15502,7 +15511,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -15756,7 +15765,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -15975,7 +15984,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -16815,7 +16824,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -18137,7 +18146,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -19083,6 +19092,82 @@
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
+									<StateInfo>
+										<StateGroupList>
+											<StateGroupInfo>
+												<StateGroupRef Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}"/>
+											</StateGroupInfo>
+										</StateGroupList>
+										<CustomStateList>
+											<CustomState>
+												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+												<CustomState Name="" ID="{53A71DB0-F0D8-4B3F-A9FF-AAC2E857EE2E}" ShortID="108198569">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-108"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+												<CustomState Name="" ID="{1AB94175-CB69-4BEF-8A42-6A8C7E4AA422}" ShortID="1029665393">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-108"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+												<CustomState Name="" ID="{F23F7FF1-039C-41E2-A7BF-213A9EF9D284}" ShortID="541154892"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+												<CustomState Name="" ID="{09FA6274-4F31-4892-A264-D01C0AABC0C1}" ShortID="158609147">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-108"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+										</CustomStateList>
+									</StateInfo>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{4C1C7ECA-44B6-4E0B-84A3-DACBA9F68E32}" ShortID="925422825">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="SILENT_Volume" ID="{3B8E3436-642E-42DD-B54A-B5F158016E34}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{C06502CA-48B9-4A49-AC10-807304C4B215}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
 								</BlendContainer>
 								<Sound Name="fundamental_[F#Gb]_silent_gentle" ID="{FD270E94-EE16-4D7B-8CBB-16630E9B9C16}" ShortID="732834171">
 									<PropertyList>
@@ -20671,7 +20756,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -20792,7 +20877,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -23303,7 +23388,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -23535,7 +23620,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -23974,7 +24059,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-5</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24306,7 +24391,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24427,7 +24512,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-5</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24663,7 +24748,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24853,7 +24938,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -25072,7 +25157,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -25252,7 +25337,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -25437,7 +25522,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -25984,7 +26069,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26577,7 +26662,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26909,7 +26994,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27128,7 +27213,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27303,7 +27388,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27605,7 +27690,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-5</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27968,7 +28053,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28158,7 +28243,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28805,7 +28890,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-5</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28931,7 +29016,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-5</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -29570,7 +29655,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31166,7 +31251,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31625,7 +31710,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -33608,7 +33693,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -33718,7 +33803,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -34458,7 +34543,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -35404,6 +35489,82 @@
 											</ActiveSourceList>
 										</Sound>
 									</ChildrenList>
+									<StateInfo>
+										<StateGroupList>
+											<StateGroupInfo>
+												<StateGroupRef Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}"/>
+											</StateGroupInfo>
+										</StateGroupList>
+										<CustomStateList>
+											<CustomState>
+												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+												<CustomState Name="" ID="{00D9DC44-4EED-4B62-BECD-AE2A07BC24D2}" ShortID="560203729">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-108"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+												<CustomState Name="" ID="{05B9F45C-07B3-4243-8DC2-98348E1A8526}" ShortID="128728301">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-108"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+												<CustomState Name="" ID="{0183F1AD-1BE8-424A-8C19-59FC5D58D957}" ShortID="953365065"/>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+												<CustomState Name="" ID="{7EF35598-03E9-4FF4-A8EE-67CD5FA71830}" ShortID="69685048">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-85"/>
+													</PropertyList>
+												</CustomState>
+											</CustomState>
+										</CustomStateList>
+									</StateInfo>
+									<ObjectLists>
+										<ObjectList Name="RTPC">
+											<Reference>
+												<Local>
+													<RTPC Name="" ID="{413774C2-C2D1-455A-AD5F-8B45C56EA8CF}" ShortID="742524401">
+														<PropertyList>
+															<Property Name="PropertyName" Type="string" Value="Volume"/>
+														</PropertyList>
+														<ReferenceList>
+															<Reference Name="ControlInput">
+																<ObjectRef Name="SILENT_Volume" ID="{3B8E3436-642E-42DD-B54A-B5F158016E34}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+															</Reference>
+															<Reference Name="Curve">
+																<Custom>
+																	<Curve Name="" ID="{0498D531-DCE5-45C9-B7DA-9E4B30B9CAAD}">
+																		<PropertyList>
+																			<Property Name="Flags" Type="int32" Value="3"/>
+																		</PropertyList>
+																		<PointList>
+																			<Point>
+																				<XPos>0</XPos>
+																				<YPos>-200</YPos>
+																				<Flags>5</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>100</XPos>
+																				<YPos>0</YPos>
+																				<Flags>37</Flags>
+																			</Point>
+																		</PointList>
+																	</Curve>
+																</Custom>
+															</Reference>
+														</ReferenceList>
+													</RTPC>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
 								</BlendContainer>
 								<Sound Name="harmony_[C#Db]_silent_gentle" ID="{D581E96F-E11B-4708-B347-651ACE9BD37A}" ShortID="271837206">
 									<PropertyList>
@@ -36232,7 +36393,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -36762,7 +36923,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36777,7 +36938,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36792,7 +36953,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36807,7 +36968,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36822,7 +36983,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36837,7 +36998,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36852,7 +37013,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36867,7 +37028,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36882,7 +37043,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36897,7 +37058,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36912,7 +37073,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36927,7 +37088,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36942,7 +37103,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36957,7 +37118,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36972,7 +37133,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -36987,7 +37148,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37002,7 +37163,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37017,7 +37178,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37032,7 +37193,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37047,7 +37208,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37062,7 +37223,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37077,7 +37238,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37092,7 +37253,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37107,7 +37268,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37122,7 +37283,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37137,7 +37298,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37152,7 +37313,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37167,7 +37328,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37182,7 +37343,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37197,7 +37358,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37212,7 +37373,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37227,7 +37388,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37242,7 +37403,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37257,7 +37418,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37272,7 +37433,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37287,7 +37448,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37302,7 +37463,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37317,7 +37478,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37332,7 +37493,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37347,7 +37508,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37362,7 +37523,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37377,7 +37538,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37392,7 +37553,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37407,7 +37568,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37422,7 +37583,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37437,7 +37598,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37452,7 +37613,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>
@@ -37467,7 +37628,7 @@
 											</Property>
 											<Property Name="FadeOutTime" Type="Real64">
 												<ValueList>
-													<Value>1</Value>
+													<Value>2</Value>
 												</ValueList>
 											</Property>
 										</PropertyList>

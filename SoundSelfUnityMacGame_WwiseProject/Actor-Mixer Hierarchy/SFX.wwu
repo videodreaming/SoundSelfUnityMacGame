@@ -844,6 +844,11 @@
 						<RandomSequenceContainer Name="SFX_Impacts_Sequence" ID="{284B4166-15FA-4248-9C6C-BFED6EF1B1A2}" ShortID="844985352">
 							<PropertyList>
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1048,6 +1053,13 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="SFX_SoundSeed_BreathCycle" ID="{77A1D13E-4F48-4191-99C3-50A34F8045CB}" ShortID="417822653">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-8</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1062,7 +1074,7 @@
 								<Property Name="BlendBehavior" Type="int16" Value="1"/>
 								<Property Name="Highpass" Type="int16">
 									<ValueList>
-										<Value>23</Value>
+										<Value>29</Value>
 									</ValueList>
 									<ModifierList>
 										<ModifierInfo>
@@ -1070,7 +1082,7 @@
 												<PropertyList>
 													<Property Name="Enabled" Type="bool" Value="True"/>
 													<Property Name="Max" Type="Real64" Value="11"/>
-													<Property Name="Min" Type="Real64" Value="-22"/>
+													<Property Name="Min" Type="Real64" Value="-10"/>
 												</PropertyList>
 											</Modifier>
 										</ModifierInfo>
@@ -1078,7 +1090,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1112,7 +1124,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>10</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1258,8 +1270,8 @@
 				</PropertyList>
 				<PointList>
 					<Point>
-						<XPos>-2.07792</XPos>
-						<YPos>-42.89855</YPos>
+						<XPos>0.51948</XPos>
+						<YPos>-2.31884</YPos>
 						<Flags>12</Flags>
 						<Time>0</Time>
 					</Point>
@@ -1272,9 +1284,9 @@
 												<List Name="Deflectors">
 													<PluginInnerObject Name="" ID="{DA07FA99-E069-4724-96E9-8FF9155E26A6}" PluginName="Deflector" CompanyID="0" PluginID="122">
 														<PropertyList>
-															<Property Name="Frequency" Type="Real32" Value="840"/>
-															<Property Name="Gain" Type="Real32" Value="-2"/>
-															<Property Name="QFactor" Type="Real32" Value="0.1"/>
+															<Property Name="Frequency" Type="Real32" Value="3851"/>
+															<Property Name="Gain" Type="Real32" Value="-4"/>
+															<Property Name="QFactor" Type="Real32" Value="0.4"/>
 														</PropertyList>
 													</PluginInnerObject>
 												</List>
@@ -1300,6 +1312,144 @@
 										<ActiveSource Name="Soundseed Air Woosh" ID="{C4DABB8C-CEA3-4F9A-A88B-B5D5400ADB25}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<Sound Name="REFERENCE" ID="{8BF5903E-7D80-4297-B5F8-017F83FD1765}" ShortID="14403677">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="REFERENCE" ID="{10E3AA76-3432-4430-9BD4-74FEBED11B41}">
+											<Language>SFX</Language>
+											<AudioFile>REFERENCE.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="334730074"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="REFERENCE" ID="{10E3AA76-3432-4430-9BD4-74FEBED11B41}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<RandomSequenceContainer Name="BreathCycle Sequence" ID="{64B99C3C-69DC-4469-8FB8-E45765E51F78}" ShortID="943816297">
+									<PropertyList>
+										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismResetPlaylistEachPlay" Type="bool" Value="False"/>
+										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="WHITE_Binaural_TRI_1Hz" ID="{09A508AF-2E9C-4925-A517-E4876551C979}" ShortID="731399012">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="WHITE_Binaural_TRI_1Hz" ID="{CF2DC49C-0A2E-4538-8588-14B16A5FD6CA}">
+													<PropertyList>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>WHITE_Binaural_TRI_1Hz.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="1052592774"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="WHITE_Binaural_TRI_1Hz" ID="{CF2DC49C-0A2E-4538-8588-14B16A5FD6CA}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="WHITE_Iso_TRI_20Hz" ID="{A3182CC2-AE02-4AFC-BF0E-D6BD807D0374}" ShortID="933053756">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="WHITE_Iso_TRI_20Hz" ID="{4D7A5181-ABD8-4B6A-9109-023D3CE43753}">
+													<Language>SFX</Language>
+													<AudioFile>WHITE_Iso_TRI_20Hz.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="960855950"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="WHITE_Iso_TRI_20Hz" ID="{4D7A5181-ABD8-4B6A-9109-023D3CE43753}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="WHITE_SOLID" ID="{406A9A25-0CA6-4F7E-BF49-053DEEFC3616}" ShortID="630506107">
+											<PropertyList>
+												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="WHITE_SOLID" ID="{6EE1FCDB-F393-464B-8105-57F68B9277C8}">
+													<PropertyList>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>WHITE_SOLID.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="883512318"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="WHITE_SOLID" ID="{6EE1FCDB-F393-464B-8105-57F68B9277C8}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Playlist">
+											<Reference>
+												<ObjectRef Name="WHITE_Iso_TRI_20Hz" ID="{A3182CC2-AE02-4AFC-BF0E-D6BD807D0374}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="WHITE_SOLID" ID="{406A9A25-0CA6-4F7E-BF49-053DEEFC3616}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="WHITE_Binaural_TRI_1Hz" ID="{09A508AF-2E9C-4925-A517-E4876551C979}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</RandomSequenceContainer>
 							</ChildrenList>
 							<ObjectLists>
 								<ObjectList Name="Effects">
@@ -1367,6 +1517,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<SwitchContainer Name="SFX_BreathLoop_Switch" ID="{4E0D938D-5F60-45C8-8604-A70307119183}" ShortID="252413653">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>6</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>

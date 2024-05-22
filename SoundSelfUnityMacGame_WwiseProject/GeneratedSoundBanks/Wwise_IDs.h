@@ -15,10 +15,11 @@ namespace AK
     {
         static const AkUniqueID MENU_SETSWITCH_LONG = 243401070U;
         static const AkUniqueID MENU_SETSWITCH_SHORT = 1972773362U;
+        static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_AUDACITY_MODULATIONS = 4056060051U;
-        static const AkUniqueID PLAY_AVS_BREATHCYCLE = 260368867U;
-        static const AkUniqueID PLAY_AVS_REFERENCE = 3013892040U;
-        static const AkUniqueID PLAY_AVS_SINEGENERATORS_SEQUENCE = 3723400384U;
+        static const AkUniqueID PLAY_AVS_INHALE = 3623330672U;
+        static const AkUniqueID PLAY_AVS_SCENE1_RED_40HZ = 3071164181U;
+        static const AkUniqueID PLAY_AVS_SINEGENERATORS = 1989542112U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_SWITCH = 2892901283U;
         static const AkUniqueID PLAY_CRYSTALBOWLGENERATOR = 2917442959U;
         static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT1 = 3724822780U;
@@ -69,11 +70,18 @@ namespace AK
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
         static const AkUniqueID STOP_ALL = 452547817U;
+        static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
         static const AkUniqueID STOP_AVS_AUDACITY_MODULATIONS = 4080430605U;
-        static const AkUniqueID STOP_AVS_SINEGENERATORS_SEQUENCE = 2188221646U;
+        static const AkUniqueID STOP_AVS_INHALE = 2750727230U;
+        static const AkUniqueID STOP_AVS_SILENT = 2638034312U;
+        static const AkUniqueID STOP_AVS_SINEGENERATORS = 2181803410U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_SWITCH = 630856697U;
+        static const AkUniqueID STOP_AVS_TONING = 1422491290U;
+        static const AkUniqueID STOP_ENVIRONMENT_WIND = 333136496U;
         static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
+        static const AkUniqueID STOP_OPENING_SEQUENCE = 670049528U;
         static const AkUniqueID STOP_SILENTLOOPS = 2822016348U;
+        static const AkUniqueID STOP_SOMATIC_SEQUENCE = 1747587664U;
         static const AkUniqueID STOP_TONING = 955662865U;
     } // namespace EVENTS
 
@@ -124,22 +132,9 @@ namespace AK
 
     namespace SWITCHES
     {
-        namespace AVSSYSTEM_MODULATIONCOLOR
+        namespace AVS_SILENT_COLOR
         {
-            static const AkUniqueID GROUP = 1359639962U;
-
-            namespace SWITCH
-            {
-                static const AkUniqueID BLUE = 1325827433U;
-                static const AkUniqueID GREEN = 4147287986U;
-                static const AkUniqueID RED = 980603538U;
-                static const AkUniqueID WHITE = 3178740632U;
-            } // namespace SWITCH
-        } // namespace AVSSYSTEM_MODULATIONCOLOR
-
-        namespace AVSSYSTEM_SOLIDCOLOR
-        {
-            static const AkUniqueID GROUP = 1609954357U;
+            static const AkUniqueID GROUP = 3109662061U;
 
             namespace SWITCH
             {
@@ -154,7 +149,39 @@ namespace AK
                 static const AkUniqueID WHITE = 3178740632U;
                 static const AkUniqueID YELLOW = 2774173721U;
             } // namespace SWITCH
-        } // namespace AVSSYSTEM_SOLIDCOLOR
+        } // namespace AVS_SILENT_COLOR
+
+        namespace AVS_TONING_COLOR
+        {
+            static const AkUniqueID GROUP = 807793791U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID BLUE = 1325827433U;
+                static const AkUniqueID CYAN = 4205001740U;
+                static const AkUniqueID DARK = 1925914845U;
+                static const AkUniqueID GREEN = 4147287986U;
+                static const AkUniqueID INDIGO = 4231717707U;
+                static const AkUniqueID MAGENTA = 3987849186U;
+                static const AkUniqueID ORANGE = 1362796839U;
+                static const AkUniqueID RED = 980603538U;
+                static const AkUniqueID WHITE = 3178740632U;
+                static const AkUniqueID YELLOW = 2774173721U;
+            } // namespace SWITCH
+        } // namespace AVS_TONING_COLOR
+
+        namespace AVSSYSTEM_MODULATIONCOLOR
+        {
+            static const AkUniqueID GROUP = 1359639962U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID BLUE = 1325827433U;
+                static const AkUniqueID GREEN = 4147287986U;
+                static const AkUniqueID RED = 980603538U;
+                static const AkUniqueID WHITE = 3178740632U;
+            } // namespace SWITCH
+        } // namespace AVSSYSTEM_MODULATIONCOLOR
 
         namespace INTERACTIVEMUSICSWITCHGROUP1_7PITCHES_LINKED5THS
         {
@@ -272,18 +299,6 @@ namespace AK
             } // namespace SWITCH
         } // namespace SFX_BREATHLOOP
 
-        namespace SFX_SWITCHGROUP
-        {
-            static const AkUniqueID GROUP = 3844207618U;
-
-            namespace SWITCH
-            {
-                static const AkUniqueID CONTAINER1 = 319140555U;
-                static const AkUniqueID CONTAINER2 = 319140552U;
-                static const AkUniqueID CONTAINER3 = 319140553U;
-            } // namespace SWITCH
-        } // namespace SFX_SWITCHGROUP
-
         namespace VO_CLOSINGGOODBYE
         {
             static const AkUniqueID GROUP = 1815817025U;
@@ -381,9 +396,18 @@ namespace AK
 
     namespace GAME_PARAMETERS
     {
-        static const AkUniqueID AVSINTERACTIVEMODULATIONS_TEST = 3101711377U;
-        static const AkUniqueID AVSMASTERVOLUME = 1426024143U;
-        static const AkUniqueID AVSPLAYBACKRATE = 2590793210U;
+        static const AkUniqueID AVS_BLUE_VOLUME = 3528652903U;
+        static const AkUniqueID AVS_GREEN_VOLUME = 929094444U;
+        static const AkUniqueID AVS_MASTERVOLUME = 104519394U;
+        static const AkUniqueID AVS_MODULATION_BYPASSEFFECT = 1798772172U;
+        static const AkUniqueID AVS_MODULATION_DEPTH = 3359525622U;
+        static const AkUniqueID AVS_MODULATION_FREQUENCY = 2616006771U;
+        static const AkUniqueID AVS_MODULATION_MONOSTEREO = 2012193942U;
+        static const AkUniqueID AVS_MODULATION_PWM = 2161810157U;
+        static const AkUniqueID AVS_MODULATION_SMOOTHING = 1390328619U;
+        static const AkUniqueID AVS_MODULATION_WAVEFORM = 2971427694U;
+        static const AkUniqueID AVS_RED_VOLUME = 29438400U;
+        static const AkUniqueID AVS_YELLOW_VOLUME = 1772343239U;
         static const AkUniqueID BREATHCYCLE_PLAYBACKRATE = 158808291U;
         static const AkUniqueID BREATHECYCLE_VOLUME = 1662384195U;
         static const AkUniqueID CRYSTALBOWLGENERATOR_VOLUME = 3761161481U;
@@ -393,6 +417,7 @@ namespace AK
         static const AkUniqueID HARMONYSILENTVOLUME = 1111564044U;
         static const AkUniqueID HARMONYTONINGVOLUME = 1504547510U;
         static const AkUniqueID IMPACTS_VOLUME = 1710998699U;
+        static const AkUniqueID IMPACTSSUB_BUS_VOLUME = 767906964U;
         static const AkUniqueID INTERACTIVEMUSIC_BUS_VOLUME = 609474916U;
         static const AkUniqueID LINEARMUSIC_VOLUME = 2590911748U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
@@ -416,7 +441,7 @@ namespace AK
     namespace BUSSES
     {
         static const AkUniqueID AVS_SYSTEM = 65973818U;
-        static const AkUniqueID AVS_MODULATIONS = 3385674499U;
+        static const AkUniqueID AVS_BREATH = 3239584272U;
         static const AkUniqueID AVS_SILENT = 493151109U;
         static const AkUniqueID AVS_TONING = 2286170043U;
         static const AkUniqueID ENVIRONMENT = 1229948536U;
