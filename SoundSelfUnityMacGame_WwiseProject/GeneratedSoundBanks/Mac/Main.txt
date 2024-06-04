@@ -56,7 +56,6 @@ Event	ID	Name			Wwise Object Path	Notes
 	2917442959	Play_CrystalBowlGenerator			\Interactive Music System\Play_CrystalBowlGenerator	
 	2929327982	Play_environment_wind			\Environment\Play_environment_wind	
 	2987132208	Play_environment_openingQuery			\Environment\Play_environment_openingQuery	
-	3071164181	Play_AVS_Scene1_RED_40Hz			\AVS System\Play_AVS_Scene1_RED_40Hz	
 	3415983401	Play_Toning_v1_7Pitch_Linked			\Interactive Music System\Play_Toning_v1_7Pitch_Linked	
 	3427313557	Play_Toning_v3_FundamentalOnly			\Interactive Music System\Play_Toning_v3_FundamentalOnly	
 	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
@@ -212,7 +211,6 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	1662384195	BreatheCycle_Volume			\SFX\BreatheCycle_Volume	
 	1729197293	FundamentalToningVolume			\Interactive Music System\FundamentalToningVolume	
 	1765174721	TONING_Volume			\Interactive Music System\TONING_Volume	
-	1772343239	AVS_YELLOW_Volume			\AVS System\AVS_YELLOW_Volume	
 	1798772172	AVS_Modulation_BypassEffect			\AVS System\AVS_Modulation_BypassEffect	
 	2012193942	AVS_Modulation_MonoStereo			\AVS System\AVS_Modulation_MonoStereo	
 	2144346671	FundamentalSilentVolume			\Interactive Music System\FundamentalSilentVolume	
@@ -236,36 +234,32 @@ Effect plug-ins	ID	Name	Type				Notes
 
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	8178491	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\INDIGO\MAGENTA_01\RED\Sine	
-	56179526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\Reference_SignalGenerator\Reference_SignalGenerator_R\Sine	
+	56179526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\Reference_SignalGenerator\Reference_SignalGenerator_R\Sine	
 	80541619	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\MAGENTA\BLUE\Sine	
 	160592719	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\CYAN\BLUE\Sine	
 	160636894	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\GREEN\GREEN\Sine	
 	163796347	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\WHITE\RED\Sine	
-	178915186	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_RIGHT\GREEN\GREEN\Sine	
+	178915186	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_RIGHT\GREEN\GREEN\Sine	
 	245552439	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\WHITE\BLUE\Sine	
-	254353838	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_RIGHT\YELLOW\YELLOW\RED\Sine	
 	304266702	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\MAGENTA\RED\Sine	
 	391698222	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\CYAN\GREEN\Sine	
-	418097311	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_LEFT\RED\RED\Sine	
+	418097311	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_LEFT\RED\RED\Sine	
 	436245402	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\ORANGE\YELLOW\RED\Sine	
-	500654447	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_RIGHT\YELLOW\YELLOW\GREEN\Sine	
 	528898275	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\RED\RED\Sine	
-	561927987	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_RIGHT\BLUE\BLUE\Sine	
-	632030569	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_LEFT\YELLOW\YELLOW\RED\Sine	
-	632779657	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\Reference_SignalGenerator\Reference_SignalGenerator_L\Sine	
-	635802060	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_LEFT\BLUE\BLUE\Sine	
+	561927987	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_RIGHT\BLUE\BLUE\Sine	
+	632779657	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\Reference_SignalGenerator\Reference_SignalGenerator_L\Sine	
+	635802060	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_LEFT\BLUE\BLUE\Sine	
 	653847137	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\INDIGO\MAGENTA_01\BLUE\Sine	
-	661931200	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_LEFT\GREEN\GREEN\Sine	
+	661931200	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_LEFT\GREEN\GREEN\Sine	
 	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
 	677203049	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\BLUE\BLUE\Sine	
-	703323918	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_RIGHT\RED\RED\Sine	
+	703323918	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_RIGHT\RED\RED\Sine	
 	774812603	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\YELLOW\RED\Sine	
 	790607854	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\INDIGO\BLUE_01\Sine	
 	855815296	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\ORANGE\YELLOW\GREEN\Sine	
 	885445859	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\WHITE\GREEN\Sine	
 	900708034	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\ORANGE\RED\Sine	
 	911761452	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\AVS_SineGenerators_SilentLoops\YELLOW\GREEN\Sine	
-	986331147	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RYGB\AVS_SineGenerators_RYGB_Stereo\AVS_SineGenerators_RYGB_LEFT\YELLOW\YELLOW\GREEN\Sine	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1226163	Pigments_Ambient_C Maj Scale	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Pigments_Ambient_C Maj Scale_74C2D65B.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Shadow\fundamental_[C]_toning_shadow\Pigments_Ambient_C Maj Scale		2592284
