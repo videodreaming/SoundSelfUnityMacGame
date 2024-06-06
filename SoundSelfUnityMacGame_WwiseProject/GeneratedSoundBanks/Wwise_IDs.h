@@ -13,6 +13,8 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID MENU_SETSWITCH_LONG = 243401070U;
+        static const AkUniqueID MENU_SETSWITCH_SHORT = 1972773362U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_INHALE = 3623330672U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS = 1989542112U;

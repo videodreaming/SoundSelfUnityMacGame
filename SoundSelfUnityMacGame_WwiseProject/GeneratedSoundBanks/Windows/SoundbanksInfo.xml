@@ -9,6 +9,41 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
+		<SoundBank Id="243401070" Type="Event" Language="SFX" Hash="{1B71A4B4-C5DE-BD59-3B9C-FAC7EA2335F9}">
+			<ShortName>MENU_SetSwitch_LONG</ShortName>
+			<Path>Event/24/MENU_SetSwitch_LONG.bnk</Path>
+			<Events>
+				<Event Id="243401070" Name="MENU_SetSwitch_LONG" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="674228435" Name="Long"/>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
+					</ActionSetSwitch>
+				</Event>
+			</Events>
+			<SwitchGroups>
+				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="3041563226" Name="Silence"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3813349969" Name="VO_Somatic">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="2585211341" Name="Short"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4212583561" Name="VO_Opening">
+					<Switches>
+						<Switch Id="335023706" Name="openingPassive"/>
+						<Switch Id="2367398737" Name="openingLong"/>
+						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
 		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{194CF705-9693-430E-2E7E-C807ADD73489}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -863,6 +898,41 @@
 						<Switch Id="2692078280" Name="Metta"/>
 						<Switch Id="2965941853" Name="Surrender"/>
 						<Switch Id="3041563226" Name="Silence"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4212583561" Name="VO_Opening">
+					<Switches>
+						<Switch Id="335023706" Name="openingPassive"/>
+						<Switch Id="2367398737" Name="openingLong"/>
+						<Switch Id="3060490183" Name="openingShort"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+		<SoundBank Id="1972773362" Type="Event" Language="SFX" Hash="{A9C7425E-D1D4-BA14-E837-4849C216F1E9}">
+			<ShortName>MENU_SetSwitch_SHORT</ShortName>
+			<Path>Event/19/MENU_SetSwitch_SHORT.bnk</Path>
+			<Events>
+				<Event Id="1972773362" Name="MENU_SetSwitch_SHORT" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="2585211341" Name="Short"/>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
+					</ActionSetSwitch>
+				</Event>
+			</Events>
+			<SwitchGroups>
+				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="3041563226" Name="Silence"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="3813349969" Name="VO_Somatic">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="2585211341" Name="Short"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="4212583561" Name="VO_Opening">
@@ -3853,5 +3923,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{E63FFF03-07C4-F2AD-3038-B11CEFEED35C}</FileHash>
+	<FileHash>{B2D7C45A-E6FE-803C-79AA-1FCE50DA55B4}</FileHash>
 </SoundBanksInfo>
