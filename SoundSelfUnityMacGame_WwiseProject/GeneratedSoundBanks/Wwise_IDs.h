@@ -13,12 +13,8 @@ namespace AK
 {
     namespace EVENTS
     {
-        static const AkUniqueID MENU_SETSWITCH_LONG = 243401070U;
-        static const AkUniqueID MENU_SETSWITCH_SHORT = 1972773362U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
-        static const AkUniqueID PLAY_AVS_AUDACITY_MODULATIONS = 4056060051U;
         static const AkUniqueID PLAY_AVS_INHALE = 3623330672U;
-        static const AkUniqueID PLAY_AVS_SCENE1_RED_40HZ = 3071164181U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS = 1989542112U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_SWITCH = 2892901283U;
         static const AkUniqueID PLAY_CRYSTALBOWLGENERATOR = 2917442959U;
@@ -71,12 +67,10 @@ namespace AK
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
-        static const AkUniqueID STOP_AVS_AUDACITY_MODULATIONS = 4080430605U;
         static const AkUniqueID STOP_AVS_INHALE = 2750727230U;
         static const AkUniqueID STOP_AVS_SILENT = 2638034312U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS = 2181803410U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_SWITCH = 630856697U;
-        static const AkUniqueID STOP_AVS_TONING = 1422491290U;
         static const AkUniqueID STOP_ENVIRONMENT_WIND = 333136496U;
         static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
         static const AkUniqueID STOP_OPENING_SEQUENCE = 670049528U;
@@ -436,6 +430,7 @@ namespace AK
     {
         static const AkUniqueID INIT = 1355168291U;
         static const AkUniqueID MAIN = 3161908922U;
+        static const AkUniqueID VO = 1534528548U;
     } // namespace BANKS
 
     namespace BUSSES
