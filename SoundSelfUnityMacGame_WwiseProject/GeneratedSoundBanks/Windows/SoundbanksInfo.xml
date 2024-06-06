@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{60FDD7BD-8894-EE11-C6BE-A2E555D3D94C}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{194CF705-9693-430E-2E7E-C807ADD73489}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -21,41 +21,18 @@
 			</Plugins>
 			<Busses>
 				<Bus Id="65973818" Name="AVS System"/>
-				<Bus Id="393239870" Name="SFX">
-					<AuxBusRefs>
-						<AuxBusRef Id="2120769309" Name="AVS_SubAcoustic"/>
-					</AuxBusRefs>
-				</Bus>
+				<Bus Id="393239870" Name="SFX"/>
 				<Bus Id="493151109" Name="AVS_Silent"/>
 				<Bus Id="1229948536" Name="Environment"/>
 				<Bus Id="1534528548" Name="VO"/>
 				<Bus Id="2286170043" Name="AVS_Toning"/>
-				<Bus Id="2479991680" Name="InteractiveMusic_Vocal_Toning">
-					<AuxBusRefs>
-						<AuxBusRef Id="2120769309" Name="AVS_SubAcoustic"/>
-					</AuxBusRefs>
-				</Bus>
-				<Bus Id="2579128390" Name="InteractiveMusic_Vocal_Silent">
-					<AuxBusRefs>
-						<AuxBusRef Id="2120769309" Name="AVS_SubAcoustic"/>
-					</AuxBusRefs>
-				</Bus>
-				<Bus Id="2670023165" Name="Impacts, SubAcoustic">
-					<AuxBusRefs>
-						<AuxBusRef Id="2120769309" Name="AVS_SubAcoustic"/>
-					</AuxBusRefs>
-				</Bus>
+				<Bus Id="2479991680" Name="InteractiveMusic_Vocal_Toning"/>
+				<Bus Id="2579128390" Name="InteractiveMusic_Vocal_Silent"/>
+				<Bus Id="2670023165" Name="Impacts, SubAcoustic"/>
 				<Bus Id="3239584272" Name="AVS_Breath"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
-				<Bus Id="3991942870" Name="Music">
-					<AuxBusRefs>
-						<AuxBusRef Id="2120769309" Name="AVS_SubAcoustic"/>
-					</AuxBusRefs>
-				</Bus>
+				<Bus Id="3991942870" Name="Music"/>
 			</Busses>
-			<AuxBusses>
-				<AuxBus Id="2120769309" Name="AVS_SubAcoustic"/>
-			</AuxBusses>
 			<GameParameters>
 				<GameParameter Id="29438400" Name="AVS_RED_Volume"/>
 				<GameParameter Id="104519394" Name="AVS_MasterVolume"/>
@@ -293,7 +270,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{F4213186-0E87-8BE0-DA23-AF7433A50382}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{7424C21F-9BEB-FD05-C747-06A46BA6B956}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
@@ -1284,12 +1261,15 @@
 					<Plugin Id="163796347" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="178915186" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="245552439" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="254353838" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="304266702" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="391698222" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="418097311" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="436245402" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="500654447" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="528898275" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="561927987" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="632030569" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="632779657" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="635802060" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="653847137" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
@@ -1303,6 +1283,7 @@
 					<Plugin Id="885445859" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="900708034" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="911761452" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="986331147" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 				</Custom>
 				<ShareSets>
 					<Plugin Id="28907203" Name="AVS_Tremolo_Reference_R" LibName="Wwise Tremolo" LibId="8585219"/>
@@ -1467,17 +1448,45 @@
 						<ActionSetSwitchEntry GroupId="1359639962" Id="3178740632" Name="WHITE"/>
 					</ActionSetSwitch>
 				</Event>
+				<Event Id="3071164181" Name="Play_AVS_Scene1_RED_40Hz" DurationType="Infinite">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="56179526"/>
+							<PluginRef Id="178915186"/>
+							<PluginRef Id="254353838"/>
+							<PluginRef Id="418097311"/>
+							<PluginRef Id="500654447"/>
+							<PluginRef Id="561927987"/>
+							<PluginRef Id="632030569"/>
+							<PluginRef Id="632779657"/>
+							<PluginRef Id="635802060"/>
+							<PluginRef Id="661931200"/>
+							<PluginRef Id="703323918"/>
+							<PluginRef Id="986331147"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="28907203"/>
+							<PluginRef Id="28907229"/>
+							<PluginRef Id="1786344077"/>
+							<PluginRef Id="3385674561"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
 				<Event Id="1989542112" Name="Play_AVS_SineGenerators" DurationType="Infinite">
 					<PluginRefs>
 						<Custom>
 							<PluginRef Id="56179526"/>
 							<PluginRef Id="178915186"/>
+							<PluginRef Id="254353838"/>
 							<PluginRef Id="418097311"/>
+							<PluginRef Id="500654447"/>
 							<PluginRef Id="561927987"/>
+							<PluginRef Id="632030569"/>
 							<PluginRef Id="632779657"/>
 							<PluginRef Id="635802060"/>
 							<PluginRef Id="661931200"/>
 							<PluginRef Id="703323918"/>
+							<PluginRef Id="986331147"/>
 						</Custom>
 						<ShareSets>
 							<PluginRef Id="28907203"/>
@@ -3974,6 +3983,7 @@
 				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
 				<GameParameter Id="1729197293" Name="FundamentalToningVolume"/>
 				<GameParameter Id="1765174721" Name="TONING_Volume"/>
+				<GameParameter Id="1772343239" Name="AVS_YELLOW_Volume"/>
 				<GameParameter Id="1798772172" Name="AVS_Modulation_BypassEffect"/>
 				<GameParameter Id="2012193942" Name="AVS_Modulation_MonoStereo"/>
 				<GameParameter Id="2144346671" Name="FundamentalSilentVolume"/>
@@ -4157,5 +4167,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{A02B17CF-FD06-BC6A-4A86-A5C515966169}</FileHash>
+	<FileHash>{32BD7989-D123-7DAF-C6DC-B0AC845F3225}</FileHash>
 </SoundBanksInfo>
