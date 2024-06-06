@@ -25,8 +25,8 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
-        AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
-        AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);
+        //AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
+        //AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);
         //PlaySoundOnSpecificBus("Play_SilentLoops3_Fundamentalonly", "AVS System");
         //PlaySoundOnSpecificBus("Play_SilentLoops3_Harmonyonly", "Master Audio Bus");
     }

@@ -1,15 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using System.IO;
-using System.Linq;
-using UnityEngine.Android;
-using UnityEngine.Rendering;
+using System;
 
 public class CSVWriter : MonoBehaviour
 {
-    bool wasPaused = false; 
+    bool wasPaused = false;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     string sessionStatusPath = "";
     string session_resultsPath = "";
@@ -18,18 +15,16 @@ public class CSVWriter : MonoBehaviour
     public int currentSessionNumber = 0;
     string baseSessionsFolderPath = "";
     public UserOutput playerOutput;
-    private List<string> frameDataList = new List<string>();
+    private string encryptedSessionNumber;
+    private List<List<string>> frameDataList = new List<List<string>>();
     public RespirationTracker respirationTracker;
     public GameManagement gameManagement;
-
-
+    public string encryptedReadyCheck;
+    public string decryptedReadyCheck;
+    public int sessionNumer;
     public string GameMode;
     public string SubGameMode;
 
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
 
@@ -44,7 +39,6 @@ public class CSVWriter : MonoBehaviour
         #endif
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
-        Debug.Log(baseSessionsFolderPath);
         // Path to the sessions.csv file
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
         Debug.Log(sessionsCsvPath);
@@ -57,13 +51,19 @@ public class CSVWriter : MonoBehaviour
                 while ((line = reader.ReadLine()) != null)
                 {
                     string[] columns = line.Split(',');
-                    if (columns.Length >= 2 && columns[1].Trim().ToLower() == "ready")
+                    if (columns.Length >= 2)
                     {
-                        if (int.TryParse(columns[0].Trim(), out int sessionNumber))
+                        encryptedReadyCheck = columns[1].Trim();
+                        decryptedReadyCheck = EncryptionHelper.Decrypt(encryptedReadyCheck);
+                        if(decryptedReadyCheck == "ready")
                         {
-                            currentSessionNumber = sessionNumber;
-                            sessionStatusPath = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_status.csv");
-                            break; // Stop reading once the ready session is found
+                            encryptedSessionNumber = columns[0].Trim();
+                            if (int.TryParse(EncryptionHelper.Decrypt(encryptedSessionNumber), out int sessionNumber)) //if decrypted session number is an integer
+                            {
+                                currentSessionNumber = sessionNumber;
+                                sessionStatusPath = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_status.csv");
+                                break;
+                            }
                         }
                     }
                 }
@@ -75,32 +75,36 @@ public class CSVWriter : MonoBehaviour
         }
         ReadCSV();
     }
+
     void GetData()
     {
-                string data = $"{Time.time}," +
-                      $"{respirationTracker._respirationRate}," +
-                      $"{respirationTracker._meanToneLength}," +
-                      $"{respirationTracker._meanRestLength}," +
-                      $"{respirationTracker._respirationRate1min}," +
-                      $"{respirationTracker._respirationRate2min}," +
-                      $"{respirationTracker._respirationRateRaw1min}," +
-                      $"{respirationTracker._respirationRateRaw2min}," +
-                      $"{respirationTracker._meanToneLength1min}," +
-                      $"{respirationTracker._meanToneLength2min}," +
-                      $"{respirationTracker._meanRestLength1min}," +
-                      $"{respirationTracker._meanRestLength2min}," +
-                      $"{respirationTracker._absorption}," +
-                      $"{respirationTracker._absorptionRaw}," +
-                      $"{respirationTracker._standardDeviationTone1min}," +
-                      $"{respirationTracker._standardDeviationTone2min}," +
-                      $"{respirationTracker._standardDeviationRest1min}," +
-                      $"{respirationTracker._standardDeviationRest2min}," +
-                      $"{respirationTracker._absorptionRespirationRateMultiplier1min}," +
-                      $"{respirationTracker._absorptionRespirationRateMultiplier2min}," +
-                      $"{respirationTracker._absorptionToneLengthMultiplier1min}," +
-                      $"{respirationTracker._absorptionToneLengthMultiplier2min}";
-        // Log data by adding to the list
-        frameDataList.Add(data);
+        var dataList = new List<string>
+        {
+            EncryptionHelper.Encrypt($"{Time.time}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._respirationRate}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._meanToneLength}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._meanRestLength}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._respirationRate1min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._respirationRate2min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._respirationRateRaw1min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._respirationRateRaw2min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._meanToneLength1min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._meanToneLength2min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._meanRestLength1min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._meanRestLength2min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._absorption}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._absorptionRaw}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._standardDeviationTone1min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._standardDeviationTone2min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._standardDeviationRest1min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._standardDeviationRest2min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._absorptionRespirationRateMultiplier1min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._absorptionRespirationRateMultiplier2min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._absorptionToneLengthMultiplier1min}"),
+            EncryptionHelper.Encrypt($"{respirationTracker._absorptionToneLengthMultiplier2min}")
+        };
+
+        frameDataList.Add(dataList);
     }
 
     void ReadCSV()
@@ -119,8 +123,8 @@ public class CSVWriter : MonoBehaviour
                 Debug.LogError("CSV file not found at: " + sessionsParams);
             }
         }
-
     }
+
     void Update()
     {
         CheckPauseStatus();
@@ -140,8 +144,7 @@ public class CSVWriter : MonoBehaviour
         }
     }
 
-
-     void CheckPauseStatus()
+    void CheckPauseStatus()
     {
         if (File.Exists(sessionStatusPath))
         {
@@ -163,7 +166,7 @@ public class CSVWriter : MonoBehaviour
                         {
                             paused = false;
                         }
-                        else if( controlStatus == "terminated")
+                        else if(controlStatus == "terminated")
                         {
                             writeCSV();
                             gameManagement.EndGame();
@@ -176,18 +179,16 @@ public class CSVWriter : MonoBehaviour
 
     void LogMessage(string message)
     {
-        string data = $"{Time.time}, {message}";
-        frameDataList.Add(data);
+        var dataList = new List<string> { EncryptionHelper.Encrypt($"{Time.time}"), EncryptionHelper.Encrypt(message) };
+        frameDataList.Add(dataList);
     }
 
     public void writeCSV()
     {
-
         string sessionsFolder = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}");
-        Directory.CreateDirectory(sessionsFolder);
+        Directory.CreateDirectory(sessionsFolder); // Ensure session folder exists
         session_resultsPath = Path.Combine(sessionsFolder, "session_results.csv");
         Debug.Log(baseSessionsFolderPath + session_resultsPath);
-    // Ensure the session results file is created if it does not exist
         if (!File.Exists(session_resultsPath))
         {
             Debug.Log("created new file at: " + session_resultsPath);
@@ -195,20 +196,18 @@ public class CSVWriter : MonoBehaviour
             {
                 tw.Close();
             }
-        } else {
+        }
+        else
+        {
             Debug.Log("file already exists at: " + session_resultsPath);
         }
-
-        // Append new data to the session results file
         using (TextWriter tw = new StreamWriter(session_resultsPath, true))
         {
-            foreach (var frameData in frameDataList)
+            foreach (var dataList in frameDataList)
             {
-                // Writing each tuple's data as a new line in the CSV
-                tw.WriteLine(frameData);
+                tw.WriteLine(string.Join(",", dataList));
             }
         }
-        // Optionally, clear the list after writing to prevent duplicate entries in subsequent writes
         frameDataList.Clear();
     }
 }
