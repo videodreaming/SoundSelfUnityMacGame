@@ -12,7 +12,7 @@
 					<ChildrenList>
 						<Bus Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}">
 							<PropertyList>
-								<Property Name="MaxDuckVolume" Type="Real64" Value="-4"/>
+								<Property Name="MaxDuckVolume" Type="Real64" Value="-12"/>
 							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
@@ -92,9 +92,9 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 									<DuckingParam>
-										<Volume>-1</Volume>
-										<FadeInTime>1</FadeInTime>
-										<FadeOutTime>1</FadeOutTime>
+										<Volume>-4</Volume>
+										<FadeInTime>0.5</FadeInTime>
+										<FadeOutTime>2</FadeOutTime>
 										<FadeCurve>FadeLinear</FadeCurve>
 									</DuckingParam>
 								</DuckItem>
@@ -102,7 +102,7 @@
 									<BusRef Name="Environment" ID="{8CBEC533-4413-4401-925C-5A5BCA9F83CA}"/>
 									<DuckingParam>
 										<Volume>-2</Volume>
-										<FadeInTime>1</FadeInTime>
+										<FadeInTime>0.5</FadeInTime>
 										<FadeOutTime>1</FadeOutTime>
 										<FadeCurve>FadeLinear</FadeCurve>
 									</DuckingParam>
@@ -456,18 +456,13 @@
 					<ChildrenList>
 						<Bus Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}">
 							<PropertyList>
-								<Property Name="MaxDuckVolume" Type="Real64" Value="-4"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
+								<Property Name="MaxDuckVolume" Type="Real64" Value="-6"/>
 							</PropertyList>
 							<DuckingList>
 								<DuckItem>
 									<BusRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}"/>
 									<DuckingParam>
-										<Volume>-10</Volume>
+										<Volume>-12</Volume>
 										<FadeInTime>1</FadeInTime>
 										<FadeOutTime>1</FadeOutTime>
 										<FadeCurve>FadeLinear</FadeCurve>
@@ -487,11 +482,6 @@
 						<Bus Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}">
 							<PropertyList>
 								<Property Name="RecoveryTime" Type="Real64" Value="0"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 						</Bus>
 						<Bus Name="AVS_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}">
