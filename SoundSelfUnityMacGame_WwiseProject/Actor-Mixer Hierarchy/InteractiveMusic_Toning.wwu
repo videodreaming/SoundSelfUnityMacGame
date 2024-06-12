@@ -30,11 +30,6 @@
 												<Value>2</Value>
 											</ValueList>
 										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>2</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2352,7 +2347,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -4274,17 +4269,17 @@
 																		<PointList>
 																			<Point>
 																				<XPos>0</XPos>
-																				<YPos>35</YPos>
+																				<YPos>11</YPos>
 																				<Flags>5</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>0.39573</XPos>
-																				<YPos>-10</YPos>
+																				<XPos>0.3298</XPos>
+																				<YPos>-6</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>1.85936</XPos>
-																				<YPos>0</YPos>
+																				<XPos>1.59562</XPos>
+																				<YPos>-1</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
@@ -4298,13 +4293,13 @@
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>9.89594</XPos>
-																				<YPos>-23</YPos>
+																				<XPos>9.83001</XPos>
+																				<YPos>-17</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>13.39229</XPos>
-																				<YPos>-29</YPos>
+																				<XPos>13.45822</XPos>
+																				<YPos>-8</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
@@ -4528,6 +4523,11 @@
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>17</Value>
+											</ValueList>
+										</Property>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Pitch" Type="int32">
@@ -6777,8 +6777,8 @@
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>1.34235</XPos>
-																				<YPos>2</YPos>
+																				<XPos>1.17751</XPos>
+																				<YPos>7</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
@@ -6787,18 +6787,18 @@
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>6.30594</XPos>
-																				<YPos>-5</YPos>
+																				<XPos>6.20704</XPos>
+																				<YPos>-2</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
 																				<XPos>10.89492</XPos>
-																				<YPos>-22</YPos>
+																				<YPos>-11</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
 																				<XPos>17.6691</XPos>
-																				<YPos>-8</YPos>
+																				<YPos>-6</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
@@ -7017,6 +7017,11 @@
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>20</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -8390,37 +8395,37 @@
 																		<PointList>
 																			<Point>
 																				<XPos>0</XPos>
-																				<YPos>29</YPos>
+																				<YPos>13</YPos>
 																				<Flags>5</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>0.28096</XPos>
-																				<YPos>-20</YPos>
+																				<XPos>0.21503</XPos>
+																				<YPos>-7</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>1.71697</XPos>
-																				<YPos>-6</YPos>
+																				<XPos>1.684</XPos>
+																				<YPos>4</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>5.08845</XPos>
-																				<YPos>2</YPos>
+																				<XPos>4.89065</XPos>
+																				<YPos>8</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>8.86576</XPos>
-																				<YPos>-8</YPos>
+																				<XPos>9.36026</XPos>
+																				<YPos>-1</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>11.83142</XPos>
-																				<YPos>3</YPos>
+																				<XPos>14.96329</XPos>
+																				<YPos>5</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
 																				<XPos>30</XPos>
-																				<YPos>33</YPos>
+																				<YPos>28</YPos>
 																				<Flags>37</Flags>
 																			</Point>
 																		</PointList>
@@ -8798,6 +8803,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<BlendContainer Name="InteractiveMusic_Toning_v2_12_Linked" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" ShortID="416059797">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -8809,14 +8821,20 @@
 							<ChildrenList>
 								<SwitchContainer Name="Toning_Gentle" ID="{AA2314B2-59E0-4637-82A6-2F8267FB7A13}" ShortID="161934649">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>14</Value>
+											</ValueList>
+										</Property>
+										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
 											</ValueList>
 										</Property>
-										<Property Name="Lowpass" Type="int16">
+										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>13</Value>
+												<Value>3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -12363,7 +12381,7 @@
 																		<PointList>
 																			<Point>
 																				<XPos>0</XPos>
-																				<YPos>17</YPos>
+																				<YPos>-4</YPos>
 																				<Flags>5</Flags>
 																			</Point>
 																			<Point>
@@ -12393,7 +12411,7 @@
 																			</Point>
 																			<Point>
 																				<XPos>30</XPos>
-																				<YPos>51</YPos>
+																				<YPos>21</YPos>
 																				<Flags>37</Flags>
 																			</Point>
 																		</PointList>
@@ -12411,6 +12429,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F]_toning_gentle" ID="{74D20806-CF93-4019-AA80-6D5CF13D1947}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12421,6 +12444,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_gentle" ID="{305B450C-3AE9-4B44-B7AE-9D89EE087EB6}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12431,6 +12459,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C#Db]_toning_gentle" ID="{2C45DA0E-3E0F-4E97-9D1B-30A2481E1146}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12441,6 +12474,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C]_toning_gentle" ID="{CA58311F-3D3D-4784-A6C2-C645D3087FFE}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12451,6 +12489,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D]_toning_gentle" ID="{65DABE26-88F8-4C92-B9AA-07BFE0624D40}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12461,6 +12504,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F#Gb]_toning_gentle" ID="{61A3F626-B23A-4F35-A1CE-24F346BE96CC}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12471,6 +12519,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[E]_toning_gentle" ID="{32426B28-D16B-4C56-B39D-D2EF60740787}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12481,6 +12534,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G]_toning_gentle" ID="{3BABEF2B-8258-4EF5-91F7-60FCC609E887}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12491,6 +12549,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A#Bb]_toning_gentle" ID="{CBDCCA32-A603-4D3F-88AF-FF8418D80ED7}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12501,6 +12564,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C#Db]_toning_gentle" ID="{A8A30852-89DF-411A-A664-681B445DB628}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12511,6 +12579,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[B]_toning_gentle" ID="{35CAB260-D8DF-4C62-AE86-A101CCF018AE}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12521,6 +12594,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_gentle" ID="{5993EB71-918E-49F7-B3C6-6F600FD0FEF9}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12531,6 +12609,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G#Ab]_toning_gentle" ID="{233A2681-6369-4ADA-BFEE-A71D855A68FD}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12541,6 +12624,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_gentle" ID="{19B97D8F-E9A6-473A-BDA8-35B198CD83AB}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12551,6 +12639,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D#Eb]_toning_gentle" ID="{CEAFB68F-E341-4D2A-9D59-A2B1F3B25ECE}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12561,6 +12654,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_gentle" ID="{181A9493-EA96-448C-B8AB-C315FC1D7963}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12571,6 +12669,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_gentle" ID="{C8EA8894-48AB-4418-B3F5-21034E6AD817}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12581,6 +12684,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A]_toning_gentle" ID="{033A8899-74F2-4038-B2A9-E8E4286601DA}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12591,6 +12699,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_gentle" ID="{ECEF8FA8-1B6A-40BE-B11C-5FB44469B444}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12601,6 +12714,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F#Gb]_toning_gentle" ID="{150F6EBA-C928-44D0-A944-17CB284235BB}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12611,6 +12729,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_gentle" ID="{897CD5D0-195B-4F76-A4DF-C2D67E28072A}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12621,6 +12744,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A#Bb]_toning_gentle" ID="{47BBFBE1-843B-4E55-BBF4-C8B1BF16A7C3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12631,6 +12759,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D#Eb]_toning_gentle" ID="{E5C4C8E6-5E03-468C-896B-306057C585A7}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12641,6 +12774,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G#Ab]_toning_gentle" ID="{817D9EF3-B217-435E-A65C-AE8F61201D3E}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -12739,16 +12877,17 @@
 								</SwitchContainer>
 								<SwitchContainer Name="Toning_Shruti" ID="{E72961CA-087E-46CC-A821-66E0EF7F7F21}" ShortID="311374088">
 									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>16</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>8</Value>
+												<Value>6</Value>
 											</ValueList>
 										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-1</Value>
-											</ValueList>
-										</Property>
+										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -16061,37 +16200,37 @@
 																		<PointList>
 																			<Point>
 																				<XPos>0</XPos>
-																				<YPos>3</YPos>
+																				<YPos>-13</YPos>
 																				<Flags>5</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>0.39573</XPos>
-																				<YPos>-10</YPos>
+																				<XPos>0.85085</XPos>
+																				<YPos>-11</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>1.85936</XPos>
-																				<YPos>0</YPos>
-																				<Flags>0</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>4.4641</XPos>
-																				<YPos>-2</YPos>
-																				<Flags>0</Flags>
-																			</Point>
-																			<Point>
-																				<XPos>6.74902</XPos>
+																				<XPos>1.97314</XPos>
 																				<YPos>-12</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>9.89594</XPos>
-																				<YPos>-23</YPos>
+																				<XPos>5.07093</XPos>
+																				<YPos>-8</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>13.39229</XPos>
-																				<YPos>-29</YPos>
+																				<XPos>7.12828</XPos>
+																				<YPos>-10</YPos>
+																				<Flags>0</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>9.74424</XPos>
+																				<YPos>-16</YPos>
+																				<Flags>0</Flags>
+																			</Point>
+																			<Point>
+																				<XPos>13.43022</XPos>
+																				<YPos>-17</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
@@ -16119,6 +16258,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[B]_toning_shruti" ID="{DEB81607-AF1A-4BE9-BE1F-552C493E5E85}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16129,6 +16273,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Bb]_toning_shruti" ID="{7336DC09-CFCA-4A91-A6DB-AFF006CFDC2F}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16139,6 +16288,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F]_toning_shruti" ID="{F03DAB0B-AD49-4055-A946-C58130512457}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16149,6 +16303,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D]_toning_shruti" ID="{A0F5610E-51CF-424E-99AA-F446F58F91F0}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16159,6 +16318,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Db]_toning_shruti" ID="{74F11F14-2B1B-4DBC-B6F7-F6232B2699F7}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16169,6 +16333,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_shruti" ID="{EDDC4F16-B54A-4473-932A-36FF2F8CC7B3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16179,6 +16348,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Gb]_toning_shruti" ID="{4FB55131-A67D-485D-8B96-E4B9E87A4847}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16189,6 +16363,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C#Db]_toning_shruti" ID="{63562F37-CFC5-4FBE-8D0C-0F461D2345F1}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16199,6 +16378,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_shruti" ID="{3464F448-893F-4298-803F-F83AF4671AA0}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16209,6 +16393,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A#Bb]_toning_shruti" ID="{EAF7184D-AF0F-4B24-917F-08B87644BA05}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16219,6 +16408,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D#Eb]_toning_shruti" ID="{A3726460-7534-4C1A-BA92-270ABA4E5C3F}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16229,6 +16423,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_shruti" ID="{6AA74462-58AC-4A0B-A6CC-4095A10AF6F2}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16239,6 +16438,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_shruti" ID="{1C73967C-1457-4F59-BC40-285AA6F849AB}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16249,6 +16453,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G]_toning_shruti" ID="{048FAB81-DE52-47B2-AFAF-704DB57D5634}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16259,6 +16468,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_shruti" ID="{AD0AC881-74A1-494F-B39E-586A3D6E570C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16269,6 +16483,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Eb]_toning_shruti" ID="{4EA7FB84-5D08-4385-A752-58CBF41723D2}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16279,6 +16498,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_shruti" ID="{E8EAE28D-AA9E-4871-961A-9B1388AB2726}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16289,6 +16513,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A]_toning_shruti" ID="{3A310E9B-4F0D-4048-8722-B3901D8E5E1F}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16299,6 +16528,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[E]_toning_shruti" ID="{D22A1A9B-DE42-40FB-8411-CD3B65429655}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16309,6 +16543,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Ab]_toning_shruti" ID="{3857EEC5-57EB-4A5D-97D4-CADB450E088F}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16319,6 +16558,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_shruti" ID="{168844D1-14E5-4108-9011-8679B4A6953C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16329,6 +16573,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C]_toning_shruti" ID="{37526AE5-7072-440C-A759-337F045CB439}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16339,6 +16588,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F#Gb]_toning_shruti" ID="{7DD56FF2-2525-42EC-86AB-1CFAEFE2105C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16349,6 +16603,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G#Ab]_toning_shruti" ID="{ECE1D6F2-1C3D-4965-B610-C408BD3B241C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -16453,6 +16712,12 @@
 											</ValueList>
 										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
+										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-1</Value>
 											</ValueList>
@@ -20669,7 +20934,7 @@
 																		<PointList>
 																			<Point>
 																				<XPos>0</XPos>
-																				<YPos>8</YPos>
+																				<YPos>2</YPos>
 																				<Flags>5</Flags>
 																			</Point>
 																			<Point>
@@ -20688,13 +20953,13 @@
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>7.5966</XPos>
-																				<YPos>-20</YPos>
+																				<XPos>7.63453</XPos>
+																				<YPos>-12</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
 																				<XPos>11.71339</XPos>
-																				<YPos>-18</YPos>
+																				<YPos>-11</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
@@ -20704,7 +20969,7 @@
 																			</Point>
 																			<Point>
 																				<XPos>30</XPos>
-																				<YPos>47</YPos>
+																				<YPos>32</YPos>
 																				<Flags>37</Flags>
 																			</Point>
 																		</PointList>
@@ -20722,6 +20987,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Eb]_toning_shadow" ID="{4253960A-1334-4132-AC1A-CD850CF79EB1}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20732,6 +21002,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C]_toning_shadow" ID="{F1E1C513-BBEE-4514-B43C-7E421B4CD13A}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20742,6 +21017,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D]_toning_shadow" ID="{B240BC1A-0103-4005-BA47-6F8262260084}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20752,6 +21032,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[B]_toning_shadow" ID="{FD858630-105D-4473-B2F0-14EB765DCEEE}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20762,6 +21047,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_shadow" ID="{6D373C3C-9192-41D0-A8F0-270E32BD9D4E}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20772,6 +21062,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_shadow" ID="{1679DC3C-EF31-4780-90F5-87D29E11857B}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20782,6 +21077,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_shadow" ID="{F0CCFF48-D36C-4D5F-8A2C-626D3038E669}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20792,6 +21092,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_shadow" ID="{EB45AB54-6057-43AA-A6B6-9D081EB8450B}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20802,6 +21107,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_shadow" ID="{87A9925D-2993-43C6-97B9-65BFE63871A2}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20812,6 +21122,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_A#[Bb]_toning_shadow" ID="{FD2A0F5E-9D13-492F-AE0C-070D2746151A}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20822,6 +21137,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F]_toning_shadow" ID="{B3DD4373-F300-40F9-8376-A375F99FACB4}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20832,6 +21152,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A]_toning_shadow" ID="{88A07D7E-056D-4CF4-ABB4-4ADD4936C97D}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20842,6 +21167,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_shadow" ID="{74C9128A-AC7D-43A6-9110-A7278BBDFAEC}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20852,6 +21182,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F#Gb]_toning_shadow" ID="{A99D958B-AF53-4D71-8EF3-6C12CBD8D145}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20862,6 +21197,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C#Db]_toning_shadow" ID="{CB930290-70FD-4F2E-A822-3A860CD9A921}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20872,6 +21212,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Bb]_toning_shadow" ID="{F89B7E98-C129-43E4-8C21-992763017AE9}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20882,6 +21227,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Gb]_toning_shadow" ID="{23CE8D99-22A2-465C-BBD6-2D2AB14C1B88}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20892,6 +21242,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Ab]_toning_shadow" ID="{B593599C-EEC6-4840-85C3-C4E342515845}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20902,6 +21257,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D#Eb]_toning_shadow" ID="{CFDB5EA7-8580-4BAB-8D1F-1565F13E3D0C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20912,6 +21272,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G#Ab]_toning_shadow" ID="{31DB53AD-D47E-4EB7-A44E-6CF0C7017123}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20922,6 +21287,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[Db]_toning_shadow" ID="{BD06ABB2-7E9B-40DB-B624-352E7CCF4A2F}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20932,6 +21302,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G]_toning_shadow" ID="{674709B3-9B93-4AE0-8A92-8E567F6AB7DE}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20942,6 +21317,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_shadow" ID="{084F91B3-66D6-45D5-99BC-13C8D62288F9}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -20952,6 +21332,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[E]_toning_shadow" ID="{C8E59AFE-BB0E-4C89-96EB-668DA85F7BC0}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -21052,9 +21437,10 @@
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>20</Value>
+												<Value>28</Value>
 											</ValueList>
 										</Property>
+										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -23405,22 +23791,22 @@
 																		<PointList>
 																			<Point>
 																				<XPos>0</XPos>
-																				<YPos>-2</YPos>
+																				<YPos>-9</YPos>
 																				<Flags>5</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>0.34392</XPos>
-																				<YPos>-7</YPos>
+																				<XPos>0.57148</XPos>
+																				<YPos>-8</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>1.24478</XPos>
-																				<YPos>0</YPos>
+																				<XPos>1.54819</XPos>
+																				<YPos>-5</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
-																				<XPos>2.57009</XPos>
-																				<YPos>8</YPos>
+																				<XPos>2.75972</XPos>
+																				<YPos>-5</YPos>
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
@@ -23434,8 +23820,13 @@
 																				<Flags>0</Flags>
 																			</Point>
 																			<Point>
+																				<XPos>17.44627</XPos>
+																				<YPos>-7</YPos>
+																				<Flags>0</Flags>
+																			</Point>
+																			<Point>
 																				<XPos>30</XPos>
-																				<YPos>33</YPos>
+																				<YPos>-1</YPos>
 																				<Flags>37</Flags>
 																			</Point>
 																		</PointList>
@@ -23453,6 +23844,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F]_toning_sono flore" ID="{521BCC0E-5DD5-4D9A-AACA-377607E6AFF8}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23463,6 +23859,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D#Eb]_toning_sono flore" ID="{E5787849-0849-4DDD-ACE9-0558C98B89A3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23473,6 +23874,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F#Gb]_toning_sono flore" ID="{A4AE854F-D79A-435A-86A1-6B077CCC4006}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23483,6 +23889,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G]_toning_sono flore" ID="{06E92B64-2CA1-4BE1-AE03-CE20224FAC44}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23493,6 +23904,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C]_toning_sono flore" ID="{5FD19D6D-D32A-4E66-A488-CBBF9E7FD793}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23503,6 +23919,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[E]_toning_sono flore" ID="{24992E7A-5403-4E75-B866-911EFBE40D79}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23513,6 +23934,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_sono flore" ID="{2B7ED883-BF7C-40DB-B0B2-0B2A4B2344B3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23523,6 +23949,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A]_toning_sono flore" ID="{11B5DA92-0CD2-431F-9553-39EB2C35584E}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23533,6 +23964,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D#Eb]_toning_sono flore" ID="{69748F93-CF50-468B-A85A-1246E03CF097}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23543,6 +23979,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_sono flore" ID="{8520E09C-08E0-489E-BB6E-A927B2C68198}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23553,6 +23994,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_sono flore" ID="{D0AA91B0-75A4-40B9-9530-03926ED587AB}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23563,6 +24009,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_sono flore" ID="{0F1A0BB3-27A5-43FF-9BAC-1465B3BE8E17}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23573,6 +24024,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G#Ab]_toning_sono flore" ID="{1B3B67BA-8B67-4DFC-BFC6-7A8A94E5E7D1}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23583,6 +24039,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_sono flore" ID="{81C2ACCB-663F-4826-888C-F1CD069ED11B}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23593,6 +24054,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F#Gb]_toning_sono flore" ID="{575DF8CE-48C6-4F3D-8EFC-199254BFD80C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23603,6 +24069,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[B]_toning_sono flore" ID="{3978A5D0-F694-4696-8620-C9CBD91DA57D}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23613,6 +24084,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A#Bb]_toning_sono flore" ID="{FD105DD1-581E-4897-BC45-C8BEC395B313}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23623,6 +24099,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D]_toning_sono flore" ID="{71FC8DD1-273D-43A2-844C-6E4AA245661F}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23633,6 +24114,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_sono flore" ID="{DB6C7ED8-7A86-4CE2-9141-77FB578A0CFA}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23643,6 +24129,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_sono flore" ID="{1CACC5DB-3B64-4F16-8D2C-82EFBB122BC3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23653,6 +24144,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A#Bb]_toning_sono flore" ID="{144AA8E0-BCE2-4423-B842-8CAA1C68F3FC}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23663,6 +24159,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C#Db]_toning_sono flore" ID="{6B5E41E1-059D-4295-99A3-41DA727013D2}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23673,6 +24174,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G#Ab]_toning_sono flore" ID="{1B686AE3-CD25-4750-8E7A-7FD443649B6B}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23683,6 +24189,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C#Db]_toning_sono flore" ID="{2837E5E4-F3F9-4057-8776-FE9FE8502CC7}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -23967,6 +24478,11 @@
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>13</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26134,6 +26650,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D#Eb]_toning_gentle" ID="{1EECE700-0F9B-4D54-A19E-823BC92C1D08}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26144,6 +26665,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[E]_toning_gentle" ID="{258D111C-1039-4910-982E-E17EA26EBAB8}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26154,6 +26680,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D]_toning_gentle" ID="{1AA3BD2C-18A4-4D0A-9693-D27978B656C8}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26164,6 +26695,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C#Db]_toning_gentle" ID="{A9CA9745-AF33-42C6-A5B0-9411FE175C24}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26174,6 +26710,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G]_toning_gentle" ID="{414DBA46-F736-4616-B1A7-4FEB730DA152}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26184,6 +26725,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G#Ab]_toning_gentle" ID="{C0B7364B-1038-4A52-8260-54157666BC9C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26194,6 +26740,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F#Gb]_toning_gentle" ID="{55789A80-66EB-4427-BD10-34D62CDD2AA5}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26204,6 +26755,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A]_toning_gentle" ID="{119E31D9-0A95-4939-8732-DC1513E7E05D}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26214,6 +26770,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A#Bb]_toning_gentle" ID="{8B224CE1-4447-4B9E-BFFB-8FDD243AA2A4}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26224,6 +26785,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[B]_toning_gentle" ID="{C340A2F1-9206-4A96-9780-9728BB8E4845}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26234,6 +26800,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C]_toning_gentle" ID="{EEDCFDF4-B065-4CA6-91CD-6DC4F9F4717A}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26244,6 +26815,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F]_toning_gentle" ID="{6ABA9AF8-7BD1-4ED0-8E43-D1EB71F2FD44}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -26333,6 +26909,11 @@
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>8</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28521,6 +29102,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A#Bb]_toning_shruti" ID="{29FEBF18-820D-4345-9A05-2284EC9A5453}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28531,6 +29117,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C]_toning_shruti" ID="{E8B6A41A-7C4D-45D5-8023-198D0B50A9F3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28541,6 +29132,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G#Ab]_toning_shruti" ID="{22C52F2F-04E2-4368-BE81-07B3253FA28B}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28551,6 +29147,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D]_toning_shruti" ID="{AEB0755D-23DA-41DA-9468-3BC6E4D2FE53}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28561,6 +29162,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G]_toning_shruti" ID="{8D06C995-3E46-4424-A0B6-9E059BAC3399}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28571,6 +29177,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F]_toning_shruti" ID="{25E3DDB1-733D-4B0E-B029-F8961DF1CB9C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28581,6 +29192,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[B]_toning_shruti" ID="{F14D26B8-776C-421D-91A7-1B168B10AA32}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28591,6 +29207,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F#Gb]_toning_shruti" ID="{351DE7BA-F559-4862-A79E-997EE2D5174A}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28601,6 +29222,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A]_toning_shruti" ID="{BB6D5DC5-CA97-4CFF-82D7-A8283CC96D8E}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28611,6 +29237,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[E]_toning_shruti" ID="{9C5700D2-7809-4C0E-BDF9-E8896C538F7A}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28621,6 +29252,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D#Eb]_toning_shruti" ID="{BC4602D2-332C-4933-96BC-255B2B271BBC}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28631,6 +29267,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C#Db]_toning_shruti" ID="{FAEA23E6-28B0-4DD6-8A5A-9CDD708343C8}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -28758,11 +29399,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -28995,11 +29631,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -29237,11 +29868,6 @@
 														<Value>20</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -29392,11 +30018,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -29639,11 +30260,6 @@
 														<Value>20</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -29786,11 +30402,6 @@
 														<Value>20</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -29931,11 +30542,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -30090,11 +30696,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -30337,11 +30938,6 @@
 														<Value>-80</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -30482,11 +31078,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -30716,11 +31307,6 @@
 														<Value>-80</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -30868,11 +31454,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -31122,7 +31703,6 @@
 												<CustomState Name="" ID="{1FF4D6DD-DA97-46E5-B3F8-AFAD1FE4EA68}" ShortID="690981898">
 													<PropertyList>
 														<Property Name="Highpass" Type="int16" Value="1"/>
-														<Property Name="Volume" Type="Real64" Value="2"/>
 													</PropertyList>
 												</CustomState>
 											</CustomState>
@@ -31210,6 +31790,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G]_toning_shadow" ID="{8FAB4531-8419-4007-9880-89CAB6208035}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31220,6 +31805,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[E]_toning_shadow" ID="{0894BC36-A74B-42FF-8959-010D9D371FD5}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31230,6 +31820,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F#Gb]_toning_shadow" ID="{FF06433B-84FE-476D-B0D0-9E17912A4721}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31240,6 +31835,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[B]_toning_shadow" ID="{35A9DB41-13BD-423E-A33B-5C912048C49F}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31250,6 +31850,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C]_toning_shadow" ID="{A9B9E087-EA69-47EF-A00C-03F3090FB5D8}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31260,6 +31865,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A]_toning_shadow" ID="{4E7B7392-04EB-429B-B9AF-6A7EA39E537D}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31270,6 +31880,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C#Db]_toning_shadow" ID="{AB2EEAB2-7A16-4E1F-96B1-560A1ED8AD91}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31280,6 +31895,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A#Bb]_toning_shadow" ID="{76F728C6-A7AD-4114-8D08-0DD7420303F5}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31290,6 +31910,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G#Ab]_toning_shadow" ID="{CADA55CF-94B4-4280-8A47-BBD22AA1178C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31300,6 +31925,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D#Eb]_toning_shadow" ID="{7D9E6ECF-327D-4DB5-982E-3EE8B6561BFB}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31310,6 +31940,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D]_toning_shadow" ID="{AB8F47FB-0A25-419D-8454-6243A885899E}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31320,6 +31955,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F]_toning_shadow" ID="{D2248FFB-67AE-464E-9322-5D5972EB25A4}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -31409,6 +32049,11 @@
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>20</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32544,6 +33189,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C]_toning_sono flore" ID="{31424802-1C19-4F44-AD2F-E79151954BC2}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32554,6 +33204,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[C#Db]_toning_sono flore" ID="{5FE67D14-CAF5-469A-A398-086A627B1572}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32564,6 +33219,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G]_toning_sono flore" ID="{1375A829-EB02-4734-A2D5-4E71CDCC1E11}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32574,6 +33234,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A#Bb]_toning_sono flore" ID="{DC912437-7CCA-4D6A-A842-EC877F9AFC87}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32584,6 +33249,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F]_toning_sono flore" ID="{7B08C858-8058-4B57-8E8D-2732196F2981}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32594,6 +33264,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D]_toning_sono flore" ID="{D50A4587-CFDD-4C11-9F8C-74B5D72B1615}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32604,6 +33279,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[D#Eb]_toning_sono flore" ID="{26B4BC9D-0E40-4A96-A073-D8D54F69E86E}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32614,6 +33294,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[A]_toning_sono flore" ID="{72556CBC-EC9E-4D3F-8F3A-60369DD9A364}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32624,6 +33309,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[E]_toning_sono flore" ID="{859E7CE8-DFCD-4A56-B4B2-774A0B7D207E}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32634,6 +33324,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[B]_toning_sono flore" ID="{4206E3EB-390F-41D4-8635-497D4EB96149}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32644,6 +33339,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[G#Ab]_toning_sono flore" ID="{68770EF4-4607-48CC-9C98-CBC0B90BE637}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32654,6 +33354,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="fundamental_[F#Gb]_toning_sono flore" ID="{DFCA3CF8-D47E-477C-9D09-204E4BE23FBF}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -32760,7 +33465,7 @@
 										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
 										<CustomState Name="" ID="{1993B8DC-06F4-41BA-B7B0-C4B9FC003607}" ShortID="87278145">
 											<PropertyList>
-												<Property Name="Volume" Type="Real64" Value="1"/>
+												<Property Name="Volume" Type="Real64" Value="-1"/>
 											</PropertyList>
 										</CustomState>
 									</CustomState>
@@ -32768,9 +33473,9 @@
 										<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
 										<CustomState Name="" ID="{CA54A2EE-446E-4984-88AF-C3DE2FAAE560}" ShortID="810118878">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16" Value="7"/>
+												<Property Name="Highpass" Type="int16" Value="12"/>
 												<Property Name="MakeUpGain" Type="Real64" Value="-1"/>
-												<Property Name="Volume" Type="Real64" Value="1"/>
+												<Property Name="Volume" Type="Real64" Value="-2"/>
 											</PropertyList>
 										</CustomState>
 									</CustomState>
@@ -32778,7 +33483,7 @@
 										<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
 										<CustomState Name="" ID="{9C2F2BF0-24EB-42A2-B2CC-95A4F9623DB7}" ShortID="726658410">
 											<PropertyList>
-												<Property Name="Volume" Type="Real64" Value="2"/>
+												<Property Name="Volume" Type="Real64" Value="1"/>
 											</PropertyList>
 										</CustomState>
 									</CustomState>
@@ -32926,6 +33631,11 @@
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>13</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -34478,6 +35188,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F#Gb]_toning_gentle" ID="{D7C3612D-85BF-4838-87B6-A28EA6F1F0F7}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34488,6 +35203,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C#Db]_toning_gentle" ID="{653BF148-4ECE-4785-923B-42A95D3AFE95}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34498,6 +35218,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A#Bb]_toning_gentle" ID="{EC04C56A-44BF-4A08-A9B0-AE3DE9D7F97A}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34508,6 +35233,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_gentle" ID="{EC32937C-FE5D-4C11-9CF9-3331DBBDD0EB}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34518,6 +35248,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D#Eb]_toning_gentle" ID="{2B0AC880-B9E8-4E6D-AE28-F1A9863B3EC8}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34528,6 +35263,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_gentle" ID="{D1249695-23F3-45FD-87C5-C6ECEF4512BE}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34538,6 +35278,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_gentle" ID="{B272659C-9E9C-4B78-9B76-80B282F31161}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34548,6 +35293,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_gentle" ID="{E2FADAA4-1DD0-4E2F-A586-1762C569A996}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34558,6 +35308,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_gentle" ID="{CBD00BA6-12B9-49E7-91A7-2B7263405E47}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34568,6 +35323,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G#Ab]_toning_gentle" ID="{8D87C5A9-7263-4E09-BF76-ACE5B61B6FF3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34578,6 +35338,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_gentle" ID="{55F064B0-4B92-49FA-BB43-7A0323274A98}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34588,6 +35353,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_gentle" ID="{852F34ED-C454-48B3-B625-CEDB5953BEB8}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -34677,6 +35447,11 @@
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>8</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -36000,6 +36775,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A#Bb]_toning_shruti" ID="{2136B204-FFC6-40FB-8E1E-8F221F04353D}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36010,6 +36790,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D#Eb]_toning_shruti" ID="{E4BC7209-4CFC-49B8-9DA3-1E30AFC1CA00}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36020,6 +36805,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_shruti" ID="{1E1BF510-37FA-4074-8631-E1A9C0ED5DD6}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36030,6 +36820,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_shruti" ID="{65B64F35-2E78-4A2B-B91B-F2374B7CF5EF}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36040,6 +36835,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G#Ab]_toning_shruti" ID="{5A055838-DD80-422D-A633-290B4C5CD1B9}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36050,6 +36850,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_shruti" ID="{F7D38E74-D1F0-4817-9A5B-876FCCF341C6}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36060,6 +36865,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_shruti" ID="{41BA0D86-D9C7-4550-8F80-2E88EBAB1537}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36070,6 +36880,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_shruti" ID="{9B882B89-5469-4FBB-9418-15017E668C15}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36080,6 +36895,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F#Gb]_toning_shruti" ID="{E609778D-E0CC-4F20-9EDE-B0736F0E0D40}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36090,6 +36910,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C#Db]_toning_shruti" ID="{8329EAA4-05BD-470B-BCA0-1C2B31320EB7}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36100,6 +36925,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_shruti" ID="{652E78ED-2EA7-4174-B7E6-3EC93C5ACA9D}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36110,6 +36940,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_shruti" ID="{A2DA3CF7-BCF5-4C09-A8A8-4ADA97CAC334}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -36234,11 +37069,6 @@
 														<Value>20</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -36335,11 +37165,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -36529,11 +37354,6 @@
 														<Value>20</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -36631,11 +37451,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -36736,11 +37551,6 @@
 														<Value>20</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -36837,11 +37647,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -37036,11 +37841,6 @@
 														<Value>20</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -37226,11 +38026,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -37420,11 +38215,6 @@
 														<Value>-80</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -37521,11 +38311,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -37713,11 +38498,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -37912,11 +38692,6 @@
 														<Value>-80</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -38033,7 +38808,6 @@
 												<CustomState Name="" ID="{99FB9A0E-4451-41DE-98C6-80E73DEB720E}" ShortID="337338231">
 													<PropertyList>
 														<Property Name="Highpass" Type="int16" Value="1"/>
-														<Property Name="Volume" Type="Real64" Value="2"/>
 													</PropertyList>
 												</CustomState>
 											</CustomState>
@@ -38121,6 +38895,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G#Ab]_toning_shadow" ID="{0FFB5F01-D529-4812-BC13-E1503BA4FDD1}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38131,6 +38910,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_shadow" ID="{FFDBD111-B535-4577-8640-B6F95169BEEC}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38141,6 +38925,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D#Eb]_toning_shadow" ID="{9EEFBE19-6DCE-4262-BBF6-4DE57EE862ED}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38151,6 +38940,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_shadow" ID="{F35C5052-DF60-4B8E-A998-3F64FF245ABF}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38161,6 +38955,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_shadow" ID="{A132BE73-BE22-414A-AE61-5C36EF4699EE}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38171,6 +38970,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_shadow" ID="{C354BF7F-CC7C-44D1-B75F-43413DEFEBEA}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38181,6 +38985,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A#Bb]_toning_shadow" ID="{47903784-1340-4B99-B106-280D00A37665}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38191,6 +39000,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_shadow" ID="{BBCA7EAC-2225-49BB-AA31-D3F3E298C853}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38201,6 +39015,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_shadow" ID="{5512DBC2-8427-43AB-AD7C-FE2FC95E280B}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38211,6 +39030,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C#Db]_toning_shadow" ID="{25243DCA-8365-452E-A149-2935BAC1C1E6}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38221,6 +39045,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_shadow" ID="{1338D8F2-47E3-46C0-B4DE-6E356DDCA389}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -38231,6 +39060,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F#Gb]_toning_shadow" ID="{1CB466FE-7BD4-4BF4-ADF0-20647CFE2F6D}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39719,6 +40553,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_sono flore" ID="{65E53328-C885-4DB1-93E6-A32D2E4AA830}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39729,6 +40568,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A#Bb]_toning_sono flore" ID="{15DCB53E-6708-491E-A5B6-F4ACF4BF3C1C}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39739,6 +40583,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_sono flore" ID="{884B9148-1207-45AE-B664-5CD1B7A5AD02}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39749,6 +40598,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C#Db]_toning_sono flore" ID="{3B522151-FA13-4DA1-B4C1-CB6DA87ED5B7}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39759,6 +40613,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_sono flore" ID="{E0ED7263-1221-44F0-940B-C8C5DFB9C7A3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39769,6 +40628,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_sono flore" ID="{61335765-7063-4AB2-8B69-E6129289AEF8}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39779,6 +40643,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G#Ab]_toning_sono flore" ID="{8CE1497A-F0D3-4C8A-AC86-FC841EF998F3}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39789,6 +40658,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_sono flore" ID="{7B5EAC8A-D389-4EF0-B0F4-B71A7F441224}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39799,6 +40673,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_sono flore" ID="{2F297495-7634-4DD6-9DCC-EF44D3B61C9B}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39809,6 +40688,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F#Gb]_toning_sono flore" ID="{59D1EFC1-2A46-4D15-8907-F5415522E68E}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39819,6 +40703,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D#Eb]_toning_sono flore" ID="{C6F970D6-44BE-411D-9976-6647A2A74102}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39829,6 +40718,11 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_sono flore" ID="{D333C5D7-AED6-402F-A3E1-ADC3A26FAED7}"/>
 												<PropertyList>
+													<Property Name="FadeInTime" Type="Real64">
+														<ValueList>
+															<Value>0.5</Value>
+														</ValueList>
+													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
@@ -39935,7 +40829,7 @@
 										<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
 										<CustomState Name="" ID="{817D0396-A352-4E71-834B-7AE0B66AEC77}" ShortID="223139332">
 											<PropertyList>
-												<Property Name="Volume" Type="Real64" Value="1"/>
+												<Property Name="Volume" Type="Real64" Value="-1"/>
 											</PropertyList>
 										</CustomState>
 									</CustomState>
@@ -39945,7 +40839,7 @@
 											<PropertyList>
 												<Property Name="Highpass" Type="int16" Value="7"/>
 												<Property Name="MakeUpGain" Type="Real64" Value="-1"/>
-												<Property Name="Volume" Type="Real64" Value="1"/>
+												<Property Name="Volume" Type="Real64" Value="-2"/>
 											</PropertyList>
 										</CustomState>
 									</CustomState>
@@ -39953,7 +40847,7 @@
 										<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
 										<CustomState Name="" ID="{AA01E611-AE65-4DFC-9267-E8A6D59AB3ED}" ShortID="258094738">
 											<PropertyList>
-												<Property Name="Volume" Type="Real64" Value="2"/>
+												<Property Name="Volume" Type="Real64" Value="1"/>
 											</PropertyList>
 										</CustomState>
 									</CustomState>

@@ -3,8 +3,9 @@
 	<PluginLibs>
 		<PluginLib LibName="Wwise Sine" LibId="6553602" Type="Source" DLL="AkSineTone" StaticLib="AkSineSource"/>
 		<PluginLib LibName="SoundSeed Air Woosh" LibId="7864322" Type="Source" DLL="AkSoundSeedAir" StaticLib="AkSoundSeedWooshSource"/>
+		<PluginLib LibName="Wwise Tremolo" LibId="8585219" Type="Effect" DLL="AkTremolo" StaticLib="AkTremoloFX"/>
 		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
 		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
 	</PluginLibs>
-	<FileHash>{D0F1C529-733C-CFF2-0960-2F431CA351C0}</FileHash>
+	<FileHash>{C96FF775-048C-535F-51C2-AB9E5C5B370A}</FileHash>
 </PluginInfo>

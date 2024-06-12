@@ -6,6 +6,13 @@
 				<Folder Name="VO" ID="{C52964B9-DD92-4A94-A3A2-98897754193E}" ShortID="293066687">
 					<ChildrenList>
 						<ActorMixer Name="VO_EndingSoon" ID="{6D1FD17F-6306-4EBA-9DFA-3C2A83266FC0}" ShortID="406519866">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -40,6 +47,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_Orientation" ID="{820708E8-ED01-450D-BF43-479EE8EDAAB8}" ShortID="871423682">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -50,6 +64,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_orientation" ID="{A2A73575-D43D-4F99-A67D-BC52DA430FBB}" ShortID="994186271">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -74,6 +95,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_QueryElicitation1" ID="{22530E38-8B66-4B53-82BF-CA11EC1C9613}" ShortID="986105147">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -84,6 +112,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_elicitQuery_opening" ID="{C7B57A6D-736E-4C74-956B-77021ED73901}" ShortID="782934172">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -108,6 +143,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_QueryElicitation2" ID="{C0F336E1-6223-4992-AE83-3DD690131658}" ShortID="443665975">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -118,6 +160,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_elicitQuery_closing" ID="{BD2C286C-1478-451A-B953-B7BAB4E61591}" ShortID="717880222">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -142,6 +191,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_QueryElicitationPassThankYou1" ID="{74AFBE04-B50B-47B2-8FA4-83DA2CF60510}" ShortID="839142301">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -152,6 +208,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_thankYou" ID="{EFEE0386-C0CB-4348-ABE7-ACD5252F2046}" ShortID="654063754">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -176,6 +239,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_SighElicitation1" ID="{F0D5F4C8-7241-4C32-BD60-EA12D4C4E43C}" ShortID="308133052">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -186,6 +256,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_elicitSigh_opening" ID="{B898CA1F-0AD7-4604-A86A-5372BD2BCCA4}" ShortID="902896712">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -210,6 +287,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_SighElicitation2" ID="{73C02CD9-D20A-4568-B909-D67A52F238AC}" ShortID="93328833">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -244,6 +328,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_Wakeup" ID="{6E994035-1785-4DF8-9D65-1B8363628134}" ShortID="610722363">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -254,6 +345,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_wakeUp" ID="{5E8C30DE-AAAB-425A-9686-C50D7E07AF38}" ShortID="283792055">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -278,6 +376,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_GuidedVocalizationAdvanced" ID="{BFD9878B-7057-4AEB-A22F-058CAB9B18AB}" ShortID="345025091">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -290,6 +395,11 @@
 								<RandomSequenceContainer Name="VO_GuidedVocalizationAdvanced" ID="{802D3E96-3600-4DD9-9AE7-4968C6214E23}" ShortID="341740841">
 									<PropertyList>
 										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -409,6 +519,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_GuidedVocalizationAhh" ID="{36CFC459-E44C-4608-8EA9-B2EF5E5CB689}" ShortID="565084292">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -421,6 +538,11 @@
 								<RandomSequenceContainer Name="VO_GuidedVocalizationAhh" ID="{C13E4891-5439-456E-80B6-4B20540BD734}" ShortID="514152434">
 									<PropertyList>
 										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -637,6 +759,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_GuidedVocalizationHum" ID="{4FDCDA23-6D70-46EE-A156-5CBFB10E2F25}" ShortID="780716783">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -649,6 +778,11 @@
 								<RandomSequenceContainer Name="VO_GuidedVocalizationHum" ID="{58E1B81C-D7CC-4F9D-A0B9-5F343B827E95}" ShortID="1048475733">
 									<PropertyList>
 										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -768,6 +902,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_GuidedVocalizationOhh" ID="{0A01DFE9-458F-4BAE-ACCD-8AE3283DBE9E}" ShortID="280232741">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -780,6 +921,11 @@
 								<RandomSequenceContainer Name="VO_GuidedVocalizationOhh" ID="{1395947C-BCE9-4AA5-B082-CDE46A1C173E}" ShortID="848979322">
 									<PropertyList>
 										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -899,6 +1045,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_QueryElicitationFail1" ID="{92A5580C-CEE9-4842-ABAF-2DF5DD3802C3}" ShortID="285838801">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -911,6 +1064,11 @@
 								<RandomSequenceContainer Name="VO_QueryElicitationFail1" ID="{433F04E3-C32C-4A8B-A68E-DE58C1950D19}" ShortID="716894507">
 									<PropertyList>
 										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1030,6 +1188,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_QueryElicitationFail2" ID="{C07D63B5-14D6-4DF0-9C0F-90EF0FBB77DD}" ShortID="501064384">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1042,6 +1207,11 @@
 								<RandomSequenceContainer Name="VO_QueryElicitationFail2" ID="{65CB6280-D992-408E-9AE0-215B63EA69E6}" ShortID="130879726">
 									<PropertyList>
 										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1161,6 +1331,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_SighElicitationFail1" ID="{1049A35A-9B3A-45A6-9950-C50C8F252115}" ShortID="500175563">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1173,6 +1350,11 @@
 								<RandomSequenceContainer Name="VO_SighElicitationFail1" ID="{C8221D4F-F9CA-42E7-9AB9-EE8B3880B8C8}" ShortID="622062201">
 									<PropertyList>
 										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1242,6 +1424,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_ClosingGoodbye" ID="{B9B7BA61-E96A-408B-9008-C6FA82D5544F}" ShortID="840784374">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1252,6 +1441,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<SwitchContainer Name="VO_ClosingGoodbye" ID="{E4B39BFD-A721-44DE-AD5E-083E490DEB5C}" ShortID="246925730">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1402,6 +1598,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_THEMATIC CONTENT_SWITCH" ID="{6D76CE4D-968B-44D4-967B-75BA7E2E2D72}" ShortID="405339247">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1412,6 +1615,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<SwitchContainer Name="VO_THEMATIC CONTENT_SWITCH" ID="{63984121-BA3F-4D1F-87C9-BBF3782D85A4}" ShortID="839785930">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>6</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1575,6 +1785,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_ThematicSavasana" ID="{5E4CADE9-A29E-4ECA-AA5E-BD90448C60A8}" ShortID="342264785">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1585,6 +1802,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<SwitchContainer Name="VO_ThematicSavasana" ID="{F106A05D-4AF9-44CC-8B08-7D18C47F2C53}" ShortID="894367759">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1952,6 +2176,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_Wisdom" ID="{AAD761AB-B34D-4292-A39A-9AE3F16FA4B9}" ShortID="731799624">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1962,6 +2193,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<SwitchContainer Name="VO_Wisdom" ID="{D8936C06-96C4-40E5-A689-EB2B35AE5BC2}" ShortID="25523217">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2135,6 +2373,11 @@
 							<PropertyList>
 								<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2773,6 +3016,13 @@
 							</ObjectLists>
 						</RandomSequenceContainer>
 						<ActorMixer Name="VO_elicitQuery_opening" ID="{DE57C8A3-08CD-45F9-BA32-394B9A9B70D7}" ShortID="811170652">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2783,6 +3033,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_elicitQuery_opening" ID="{8B525864-1210-494D-AD2E-9B68775245E6}" ShortID="184707716">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2807,6 +3064,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_thankyou" ID="{4DA692FB-C5A8-4FFF-A0A9-FA648D387E5E}" ShortID="392288972">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2817,6 +3081,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_thankYou" ID="{BC9042D3-3DD5-4A0D-A366-56CE31FB14DF}" ShortID="236031364">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2841,6 +3112,13 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_Somatic" ID="{E8658E84-F73E-49E4-81A6-6622C37147EB}" ShortID="379416175">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2851,6 +3129,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<SwitchContainer Name="VO_Somatic" ID="{EDB9FC8B-D05E-46C4-9C60-22556527DC84}" ShortID="685523862">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
