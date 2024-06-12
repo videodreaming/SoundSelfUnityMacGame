@@ -16,7 +16,7 @@ public class CSVWriter : MonoBehaviour
     string baseSessionsFolderPath = "";
     public UserOutput playerOutput;
     private string encryptedSessionNumber;
-    private List<List<string>> frameDataList = new List<List<string>>();
+    private string combinedData = ""; // Store all data in a single string
     public RespirationTracker respirationTracker;
     public GameManagement gameManagement;
     public string encryptedReadyCheck;
@@ -27,15 +27,14 @@ public class CSVWriter : MonoBehaviour
 
     void Start()
     {
-
         #if UNITY_STANDALONE_OSX
-                string userFolder = "/Users/harithliew/AppData/Roaming/Hummingbird";
-                baseSessionsFolderPath = userFolder;
+            string userFolder = "/Users/harithliew/AppData/Roaming/Hummingbird";
+            baseSessionsFolderPath = userFolder;
         #elif UNITY_STANDALONE_WIN
-                baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
+            baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
         #else
-                Debug.LogError("Unsupported platform");
-                return;
+            Debug.LogError("Unsupported platform");
+            return;
         #endif
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
@@ -61,6 +60,7 @@ public class CSVWriter : MonoBehaviour
                             if (int.TryParse(EncryptionHelper.Decrypt(encryptedSessionNumber), out int sessionNumber)) //if decrypted session number is an integer
                             {
                                 currentSessionNumber = sessionNumber;
+                                Debug.Log(currentSessionNumber);
                                 sessionStatusPath = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_status.csv");
                                 break;
                             }
@@ -78,33 +78,34 @@ public class CSVWriter : MonoBehaviour
 
     void GetData()
     {
-        var dataList = new List<string>
-        {
-            EncryptionHelper.Encrypt($"{Time.time}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._respirationRate}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._meanToneLength}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._meanRestLength}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._respirationRate1min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._respirationRate2min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._respirationRateRaw1min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._respirationRateRaw2min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._meanToneLength1min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._meanToneLength2min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._meanRestLength1min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._meanRestLength2min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._absorption}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._absorptionRaw}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._standardDeviationTone1min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._standardDeviationTone2min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._standardDeviationRest1min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._standardDeviationRest2min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._absorptionRespirationRateMultiplier1min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._absorptionRespirationRateMultiplier2min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._absorptionToneLengthMultiplier1min}"),
-            EncryptionHelper.Encrypt($"{respirationTracker._absorptionToneLengthMultiplier2min}")
-        };
+        string data = string.Join(";",
+            $"{Time.time}",
+            $"{respirationTracker._respirationRate}",
+            $"{respirationTracker._meanToneLength}",
+            $"{respirationTracker._meanRestLength}",
+            $"{respirationTracker._respirationRate1min}",
+            $"{respirationTracker._respirationRate2min}",
+            $"{respirationTracker._respirationRateRaw1min}",
+            $"{respirationTracker._respirationRateRaw2min}",
+            $"{respirationTracker._meanToneLength1min}",
+            $"{respirationTracker._meanToneLength2min}",
+            $"{respirationTracker._meanRestLength1min}",
+            $"{respirationTracker._meanRestLength2min}",
+            $"{respirationTracker._absorption}",
+            $"{respirationTracker._absorptionRaw}",
+            $"{respirationTracker._standardDeviationTone1min}",
+            $"{respirationTracker._standardDeviationTone2min}",
+            $"{respirationTracker._standardDeviationRest1min}",
+            $"{respirationTracker._standardDeviationRest2min}",
+            $"{respirationTracker._absorptionRespirationRateMultiplier1min}",
+            $"{respirationTracker._absorptionRespirationRateMultiplier2min}",
+            $"{respirationTracker._absorptionToneLengthMultiplier1min}",
+            $"{respirationTracker._absorptionToneLengthMultiplier2min}"
+        );
 
-        frameDataList.Add(dataList);
+        string encryptedData = EncryptionHelper.Encrypt(data);
+        combinedData += encryptedData + " "; // Append encrypted data with a space as a separator
+        Debug.Log(combinedData);
     }
 
     void ReadCSV()
@@ -148,7 +149,7 @@ public class CSVWriter : MonoBehaviour
     {
         if (File.Exists(sessionStatusPath))
         {
-            Debug.Log(sessionStatusPath);
+
             using (StreamReader sr = new StreamReader(sessionStatusPath))
             {
                 string statusLine = sr.ReadLine();
@@ -157,7 +158,8 @@ public class CSVWriter : MonoBehaviour
                     string[] statusParts = statusLine.Split(',');
                     if (statusParts.Length > 0) // ensure the line is not empty
                     {
-                        string controlStatus = statusParts[0].Trim().ToLower();
+                        string EnctyptedcontrolStatus = statusParts[0].Trim().ToLower();
+                        string controlStatus = EncryptionHelper.Decrypt(EnctyptedcontrolStatus);
                         if(controlStatus == "paused")
                         {
                             paused = true;
@@ -179,8 +181,13 @@ public class CSVWriter : MonoBehaviour
 
     void LogMessage(string message)
     {
-        var dataList = new List<string> { EncryptionHelper.Encrypt($"{Time.time}"), EncryptionHelper.Encrypt(message) };
-        frameDataList.Add(dataList);
+        string data = string.Join(";",
+            $"{Time.time}",
+            message
+        );
+
+        string encryptedData = EncryptionHelper.Encrypt(data);
+        combinedData += encryptedData + " "; // Append encrypted data with a space as a separator
     }
 
     public void writeCSV()
@@ -203,11 +210,8 @@ public class CSVWriter : MonoBehaviour
         }
         using (TextWriter tw = new StreamWriter(session_resultsPath, true))
         {
-            foreach (var dataList in frameDataList)
-            {
-                tw.WriteLine(string.Join(",", dataList));
-            }
+            tw.WriteLine(combinedData); // Write all combined data in one cell
         }
-        frameDataList.Clear();
+        combinedData = ""; // Clear the combined data after writing to CSV
     }
 }
