@@ -83,7 +83,7 @@
 						<Action Name="" ID="{2BF2B9FE-A93B-4631-8AB3-21E5144024C5}" ShortID="909047442">
 							<PropertyList>
 								<Property Name="FadeInCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -117,6 +117,22 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="environment_anyQueryRepeat1" ID="{7C0DCEC0-1458-40F1-97B3-715AB5FE2925}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_environment_wind" ID="{DE407A5E-C0C1-47D0-8434-C812B73B3DA0}">
+					<ChildrenList>
+						<Action Name="" ID="{EB64EFAE-036A-4714-B90A-B7E38BC706D4}" ShortID="741622263">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

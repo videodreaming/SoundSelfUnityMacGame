@@ -3,16 +3,6 @@
 	<States>
 		<WorkUnit Name="Default Work Unit" ID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}" PersistMode="Standalone">
 			<ChildrenList>
-				<StateGroup Name="GameMode" ID="{7CF38BB0-3ECE-4086-8B95-C0F1B6D7C48A}">
-					<ChildrenList>
-						<State Name="None" ID="{36911D55-62DA-4F4C-9570-23B67E13A321}"/>
-						<State Name="Preparation" ID="{CA365FFE-9CD7-48C7-90BC-0DE77D519332}"/>
-						<State Name="Adjunct" ID="{9C82B7D1-A81F-4815-861A-AF9A997EC5FC}"/>
-						<State Name="Integration" ID="{F97F1859-2203-4DE8-9623-BAE3B3556B86}"/>
-						<State Name="Wisdom" ID="{DCBE8E02-E047-4A29-B8EA-B100EE392407}"/>
-						<State Name="Passive" ID="{2A5A50B5-60B1-43A2-96A7-60EF8FE50642}"/>
-					</ChildrenList>
-				</StateGroup>
 				<StateGroup Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}">
 					<PropertyList>
 						<Property Name="DefaultTransitionTime" Type="Real64" Value="3"/>

@@ -11,20 +11,349 @@
 				</Effect>
 				<Effect Name="AVS_Modulation1" ID="{84315F11-7E74-464A-8F39-9D060D047943}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
-						<Property Name="ModDepth" Type="Real32" Value="20"/>
-						<Property Name="ModFrequency" Type="Real32" Value="0.02"/>
-						<Property Name="ModPWM" Type="Real32" Value="12.5"/>
-						<Property Name="ModPhaseMode" Type="int32" Value="2"/>
-						<Property Name="ModPhaseSpread" Type="Real32" Value="180"/>
-						<Property Name="ModWaveform" Type="int32" Value="2"/>
+						<Property Name="ModFrequency" Type="Real32" Value="40"/>
+						<Property Name="ModPWM" Type="Real32" Value="9"/>
+						<Property Name="ModSmoothing" Type="Real32" Value="50"/>
+						<Property Name="OutputGain" Type="Real32" Value="-12"/>
+						<Property Name="ProcessCenter" Type="bool" Value="False"/>
+						<Property Name="ProcessLFE" Type="bool" Value="False"/>
 					</PropertyList>
-				</Effect>
-				<Effect Name="AVS_Modulation2" ID="{A06F7E3C-66B0-4524-9E21-C55A7B40A7B9}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-					<PropertyList>
-						<Property Name="ModDepth" Type="Real32" Value="32.1"/>
-						<Property Name="ModPWM" Type="Real32" Value="0"/>
-						<Property Name="ModSmoothing" Type="Real32" Value="77"/>
-					</PropertyList>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{0F334598-3401-4B16-8E05-2F570155E16E}" ShortID="265990365">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModWaveform"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_Waveform" ID="{243818D7-F083-4DDA-A64C-0FE11BD9D652}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{D7BE2297-616E-4D16-AF55-7334277E4FAC}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="65537"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>0.99642431466031</XPos>
+																<YPos>0</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>1.99761620977354</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>2</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>2.98927294398093</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>3</XPos>
+																<YPos>3</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>4</XPos>
+																<YPos>4</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{0A67AD17-AC42-43FD-AFB4-F40E34022087}" ShortID="418207148">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModFrequency"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_Frequency" ID="{2A4181C9-D813-4592-B49B-FE706DCA83DC}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{76564A04-1B78-4954-8347-10E623F94623}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="5"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0.1</XPos>
+																<YPos>0.1</YPos>
+																<Flags>5</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>0.5</XPos>
+																<YPos>0.5</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>2</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>3</XPos>
+																<YPos>3</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>4</XPos>
+																<YPos>4</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>5</XPos>
+																<YPos>5</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>6</XPos>
+																<YPos>6</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>7</XPos>
+																<YPos>7</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>7.99993</XPos>
+																<YPos>8</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>9</XPos>
+																<YPos>9</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>10</XPos>
+																<YPos>10</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>11</XPos>
+																<YPos>11</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log2</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>12</XPos>
+																<YPos>12</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>13</XPos>
+																<YPos>13</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>14</XPos>
+																<YPos>14</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>15</XPos>
+																<YPos>15</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>20</XPos>
+																<YPos>20</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>30</XPos>
+																<YPos>30</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>40</XPos>
+																<YPos>40</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log2</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>50</XPos>
+																<YPos>50</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>75</XPos>
+																<YPos>75</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{1DAAEBCC-1D06-4CCF-9B28-4B6D7C5D92D3}" ShortID="423344049">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModPWM"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_PWM" ID="{AFD08726-0F14-452C-9DF7-918098047F10}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{3A247AB3-8C01-4A1F-BDB8-A69F6F8AF37A}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{D6226EEE-AAA0-4891-98C2-8CB1E8758FD3}" ShortID="150596738">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModSmoothing"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_Smoothing" ID="{6569D1F3-4C52-405A-9FB4-C72A6EDAB006}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{7128DA76-245B-4780-BBE2-815D604151D6}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{8638BD94-D8CF-4831-B12E-9AA25978D46D}" ShortID="471104978">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModDepth"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_Depth" ID="{FEDA3481-89C4-43AC-B1F0-A8B9AB552820}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{1A2436E4-6CD4-46EA-B921-195915043131}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
 				</Effect>
 				<Effect Name="New_Gain" ID="{258CE2F8-0C79-4795-BD5A-A8FBEB71ACC1}" PluginName="Wwise Gain" CompanyID="0" PluginID="139" PluginType="3">
 					<PropertyList>
@@ -34,16 +363,16 @@
 				</Effect>
 				<Effect Name="PanningPhaseShift_180degrees" ID="{7C76F7E4-55FC-4581-A076-7224D9A83DCE}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
-						<Property Name="ModFrequency" Type="Real32" Value="20"/>
+						<Property Name="ModDepth" Type="Real32" Value="0"/>
+						<Property Name="ModFrequency" Type="Real32" Value="0.02"/>
 						<Property Name="ModPWM" Type="Real32" Value="12.5"/>
-						<Property Name="ModPhaseOffset" Type="Real32" Value="180"/>
-						<Property Name="ModPhaseSpread" Type="Real32" Value="180"/>
+						<Property Name="ModPhaseOffset" Type="Real32" Value="-180"/>
 						<Property Name="ModWaveform" Type="int32" Value="2"/>
 					</PropertyList>
 				</Effect>
 				<Effect Name="New_Tremolo" ID="{65E6B9F9-81EC-44E6-9E89-EF2F0B8629E3}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
-						<Property Name="ModFrequency" Type="Real32" Value="20"/>
+						<Property Name="ModFrequency" Type="Real32" Value="20000"/>
 						<Property Name="ModPWM" Type="Real32" Value="12.5"/>
 						<Property Name="ModPhaseOffset" Type="Real32" Value="180"/>
 						<Property Name="ModWaveform" Type="int32" Value="2"/>
@@ -106,6 +435,402 @@
 					</PropertyList>
 				</Effect>
 				<Effect Name="New_Recorder" ID="{0CB42924-75CB-46AD-9F80-DE5629FA6552}" PluginName="Wwise Recorder" CompanyID="0" PluginID="132" PluginType="3"/>
+				<Effect Name="AVS_Tremolo_Reference_R" ID="{7FDEE600-308B-4860-9149-838004F57298}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
+					<PropertyList>
+						<Property Name="ModFrequency" Type="Real32" Value="20"/>
+						<Property Name="ModPWM" Type="Real32" Value="12.5"/>
+						<Property Name="ModWaveform" Type="int32" Value="2"/>
+					</PropertyList>
+				</Effect>
+				<Effect Name="AVS_Tremolo_Reference_L" ID="{0FCB918E-40EA-45E1-80F7-B2EAEAD2A850}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
+					<PropertyList>
+						<Property Name="ModFrequency" Type="Real32" Value="20"/>
+						<Property Name="ModPWM" Type="Real32" Value="12.5"/>
+						<Property Name="ModPhaseOffset" Type="Real32" Value="180"/>
+						<Property Name="ModWaveform" Type="int32" Value="2"/>
+					</PropertyList>
+				</Effect>
+				<Effect Name="AVS_Modulation1_01" ID="{62DFE6FC-7A93-459B-A5A5-5B4B8F431A41}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
+					<PropertyList>
+						<Property Name="ModFrequency" Type="Real32" Value="40"/>
+						<Property Name="ModPWM" Type="Real32" Value="9"/>
+						<Property Name="ModSmoothing" Type="Real32" Value="50"/>
+						<Property Name="OutputGain" Type="Real32" Value="-12"/>
+						<Property Name="ProcessCenter" Type="bool" Value="False"/>
+						<Property Name="ProcessLFE" Type="bool" Value="False"/>
+					</PropertyList>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{85CD8DB2-4B93-482A-92FE-968E084F51C5}" ShortID="867168454">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModWaveform"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_Waveform" ID="{243818D7-F083-4DDA-A64C-0FE11BD9D652}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{DFBBE5E3-A48B-40D5-8A15-78F50DE0872C}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="65537"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>0.98688915375447</XPos>
+																<YPos>0</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>2.00238379022646</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>2.00338</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>2.99880810488677</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>2.99981</XPos>
+																<YPos>3</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
+																<XPos>4</XPos>
+																<YPos>4</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{FF6A3BB8-361D-4D83-898E-6D6869F5DAD5}" ShortID="972179335">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModFrequency"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_Frequency" ID="{2A4181C9-D813-4592-B49B-FE706DCA83DC}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{89B2174E-11F4-4B92-8554-57CFFD2630CC}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="5"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0.1</XPos>
+																<YPos>0.1</YPos>
+																<Flags>5</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>0.5</XPos>
+																<YPos>0.5</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>1</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>2</XPos>
+																<YPos>2</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>3</XPos>
+																<YPos>3</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>4</XPos>
+																<YPos>4</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>5</XPos>
+																<YPos>5</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>6</XPos>
+																<YPos>6</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>7</XPos>
+																<YPos>7</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>7.99993</XPos>
+																<YPos>8</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>9</XPos>
+																<YPos>9</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>10</XPos>
+																<YPos>10</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>11</XPos>
+																<YPos>11</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log2</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>12</XPos>
+																<YPos>12</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>13</XPos>
+																<YPos>13</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>14</XPos>
+																<YPos>14</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>15</XPos>
+																<YPos>15</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>20</XPos>
+																<YPos>20</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>30</XPos>
+																<YPos>30</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>40</XPos>
+																<YPos>40</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log2</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>50</XPos>
+																<YPos>50</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>75</XPos>
+																<YPos>75</YPos>
+																<Flags>0</Flags>
+																<SegmentShape>Log1</SegmentShape>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{A2179BC6-E3FA-484F-8DFD-345B582BAE6A}" ShortID="868960036">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModPWM"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_PWM" ID="{AFD08726-0F14-452C-9DF7-918098047F10}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{11974F69-B7FF-485B-AFFB-E4F82836B16F}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{2A011B7C-4B0E-454E-956E-C4649C3C429A}" ShortID="851098644">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModSmoothing"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_Smoothing" ID="{6569D1F3-4C52-405A-9FB4-C72A6EDAB006}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{FEE39CA1-ED6D-4EC9-A067-81D8457A7F2F}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{2F96AFDA-5A0E-4FEB-9B88-FE92113F957B}" ShortID="764991808">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModDepth"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_Depth" ID="{FEDA3481-89C4-43AC-B1F0-A8B9AB552820}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{BC40CBF0-F4EF-4D9D-A743-8AC6AFA95FAD}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-100</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>100</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{161D938A-F8BE-4B70-9EAB-818DB1053662}" ShortID="12180298">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="ModPhaseOffset"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="AVS_Modulation_MonoStereo" ID="{39D65ECD-0D6C-4A11-BFCC-2F0700FC642A}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{91365F52-266E-47A9-9DF8-EDE077B02B25}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="1"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>0</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>180</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+				</Effect>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>

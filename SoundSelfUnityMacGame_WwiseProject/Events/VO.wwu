@@ -12,30 +12,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{BC7ABA5B-C38C-417B-8C32-9CB04A655843}" ShortID="342749906">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="41"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{3F2B9EB6-AE40-457A-B67F-3C5FAF79C3B3}" ShortID="44416184">
-							<PropertyList>
-								<Property Name="Inclusion" Type="bool">
-									<ValueList>
-										<Value>False</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Linear Music_Opening" ID="{85FF6736-E72C-4B1C-8343-BFF92011EC5A}" WorkUnitID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_VO_SighElicitationFail1" ID="{847982D6-6BD0-458E-B7EF-8583C5E6353D}">
@@ -54,7 +30,7 @@
 						<Action Name="" ID="{468E8B11-9053-4D15-8214-702E4A895F95}" ShortID="988372931">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="vo_elicitSigh_opening" ID="{A4D31AF5-8DAF-4D28-958F-DA3F5AC5D423}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="vo_elicitSigh_opening" ID="{B898CA1F-0AD7-4604-A86A-5372BD2BCCA4}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -65,7 +41,7 @@
 						<Action Name="" ID="{EC02A0B0-C996-43DE-968A-616E298152DD}" ShortID="995062432">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="vo_elicitQuery_opening" ID="{71060A85-1E8A-45DF-A430-C7C7DC5971EA}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="vo_elicitQuery_opening" ID="{8B525864-1210-494D-AD2E-9B68775245E6}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -87,29 +63,7 @@
 						<Action Name="" ID="{1153F75D-16C6-45EE-ABC0-520AAFBFEE5D}" ShortID="645882504">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="vo_thankYou" ID="{D8706802-6D2D-4B3C-977B-605DCE038D50}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Play_VO_Posture" ID="{73BF54EE-18F3-4E27-A1F4-DBE4DC4DB926}">
-					<ChildrenList>
-						<Action Name="" ID="{16806418-A9B7-4C7B-9D5B-9E10BBA63B9B}" ShortID="298584268">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VO_Posture" ID="{13BC795D-25D8-4EF7-9411-0A23C57A5DCA}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Play_VO_Orientation" ID="{F33C9A15-711A-4E50-A390-0486EB1F6B3A}">
-					<ChildrenList>
-						<Action Name="" ID="{5EF59BE1-1B0B-41C3-97F2-0F7AACE85AD0}" ShortID="453094014">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="vo_orientation" ID="{6904E8DC-F062-4933-91D7-596EBB8DCC58}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="vo_thankYou" ID="{BC9042D3-3DD5-4A0D-A366-56CE31FB14DF}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -120,7 +74,7 @@
 						<Action Name="" ID="{72F2E681-C9B1-46EC-9E01-A172C14DCDF5}" ShortID="758099035">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="VO_ThematicContent" ID="{C41A2466-6A87-457B-848F-8F2ACD82436F}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{63984121-BA3F-4D1F-87C9-BBF3782D85A4}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -128,10 +82,10 @@
 				</Event>
 				<Event Name="Play_VO_Somatic" ID="{2A323EE3-3873-4A12-BD6B-479D1A70CA48}">
 					<ChildrenList>
-						<Action Name="" ID="{BBDBC96A-4395-4F18-B1F7-F4055708BD1E}" ShortID="376380630">
+						<Action Name="" ID="{06727E58-FAB4-47C0-B5F3-8E9EDDA10C51}" ShortID="277034948">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="VO_Somatic" ID="{3D5FDA19-495C-43B3-BBBF-91C98E0E3F7F}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="VO_Somatic" ID="{EDB9FC8B-D05E-46C4-9C60-22556527DC84}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -194,7 +148,7 @@
 				</Event>
 				<Event Name="Play_VO_Wisdom" ID="{7FC7B841-292F-46E4-BB2A-7198FF57229B}">
 					<ChildrenList>
-						<Action Name="" ID="{14F1561D-D405-4736-9BDF-78C4D14C132C}" ShortID="824584216">
+						<Action Name="" ID="{4C77AA59-1156-455F-BD27-8E9A91943DD8}" ShortID="756086599">
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="VO_Wisdom" ID="{D8936C06-96C4-40E5-A689-EB2B35AE5BC2}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
@@ -274,13 +228,13 @@
 						<Action Name="" ID="{5A02A93C-D392-4897-87BF-D19A88498CE8}" ShortID="280082052">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="vo_thankYou" ID="{D8706802-6D2D-4B3C-977B-605DCE038D50}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="vo_thankYou" ID="{BC9042D3-3DD5-4A0D-A366-56CE31FB14DF}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="GameMode_SetSwitch_Long" ID="{00290282-72E1-44AE-B9E1-78AAE3F35F42}">
+				<Event Name="MENU_SetSwitch_LONG" ID="{00290282-72E1-44AE-B9E1-78AAE3F35F42}">
 					<ChildrenList>
 						<Action Name="" ID="{E01251BE-F477-49C3-BAC8-1850DBDF310B}" ShortID="303725776">
 							<PropertyList>
@@ -302,16 +256,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{65490725-6775-431F-841F-2384E3BFFB7D}" ShortID="324215428">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="23"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Long" ID="{D2185EBA-3FAF-4252-9C19-79C6C180C86A}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{7996AE65-18CA-4330-8F66-0B5B2C45417F}" ShortID="442021749">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="23"/>
@@ -324,7 +268,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="GameMode_SetSwitch_Short" ID="{7B2E7E82-55B7-4DE5-86A8-F1CC1AA19757}">
+				<Event Name="MENU_SetSwitch_SHORT" ID="{7B2E7E82-55B7-4DE5-86A8-F1CC1AA19757}">
 					<ChildrenList>
 						<Action Name="" ID="{09AE6B8D-5022-4659-B0CF-AFEDF43D6A25}" ShortID="82402606">
 							<PropertyList>
@@ -343,16 +287,6 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{84E812DC-28CE-4623-B8A3-5EB3D67BF20D}" ShortID="688762607">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="23"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Short" ID="{B30A7521-D458-43AB-B33A-82A54D729AAF}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

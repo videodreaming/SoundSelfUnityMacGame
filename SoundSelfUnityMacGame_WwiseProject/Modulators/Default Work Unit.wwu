@@ -7,45 +7,6 @@
 					<PropertyList>
 						<Property Name="TimeModDuration" Type="Real64" Value="10"/>
 					</PropertyList>
-					<ObjectLists>
-						<ObjectList Name="RTPC">
-							<Reference>
-								<Local>
-									<RTPC Name="" ID="{1AD41D23-7A11-49C3-8D49-2A254CA0AD02}" ShortID="225019034">
-										<PropertyList>
-											<Property Name="PropertyName" Type="string" Value="TimeModPlaybackRate"/>
-										</PropertyList>
-										<ReferenceList>
-											<Reference Name="ControlInput">
-												<ObjectRef Name="AVSPlayBackRate" ID="{FA28D264-FA5F-4E89-9333-247AF12E5E1F}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
-											</Reference>
-											<Reference Name="Curve">
-												<Custom>
-													<Curve Name="" ID="{55B3F143-ECF5-4AC6-B467-0DDD5C09BEDA}">
-														<PropertyList>
-															<Property Name="Flags" Type="int32" Value="1"/>
-														</PropertyList>
-														<PointList>
-															<Point>
-																<XPos>0.25</XPos>
-																<YPos>0.25</YPos>
-																<Flags>5</Flags>
-															</Point>
-															<Point>
-																<XPos>4</XPos>
-																<YPos>4</YPos>
-																<Flags>37</Flags>
-															</Point>
-														</PointList>
-													</Curve>
-												</Custom>
-											</Reference>
-										</ReferenceList>
-									</RTPC>
-								</Local>
-							</Reference>
-						</ObjectList>
-					</ObjectLists>
 				</ModulatorTime>
 				<ModulatorEnvelope Name="New Modulator Envelope" ID="{12BE3EDF-05A0-4C0B-84AD-0E75422A8B7D}" ShortID="850414921">
 					<PropertyList>
@@ -83,6 +44,13 @@
 						<Property Name="TimeModDuration" Type="Real64" Value="30"/>
 					</PropertyList>
 				</ModulatorTime>
+				<ModulatorLfo Name="AVS_Reference_Modulator" ID="{41820A0F-2817-48DD-8585-A9C50FFB943E}" ShortID="278681479">
+					<PropertyList>
+						<Property Name="LfoFrequency" Type="Real64" Value="40"/>
+						<Property Name="LfoPWM" Type="Real64" Value="12.5"/>
+						<Property Name="LfoWaveform" Type="int32" Value="2"/>
+					</PropertyList>
+				</ModulatorLfo>
 			</ChildrenList>
 		</WorkUnit>
 	</Modulators>
