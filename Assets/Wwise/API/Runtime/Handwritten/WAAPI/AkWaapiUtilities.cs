@@ -525,11 +525,11 @@ public class AkWaapiUtilities
 	}
 
 	/// <summary>
-	/// Use this function to enqueue a command with no expected return object.
+	/// Use this function to queue a command with no expected return object.
 	/// </summary>
-	/// <param name="uri">The URI of the waapi command</param>
-	/// <param name="args">The command-specific arguments</param>
-	/// <param name="options">The command-specific options</param>
+	/// <param name="uri">The URI of the WAAPI command</param>
+	/// <param name="args">Array of command-specific arguments, or <tt>{}</tt> if there are none.</param>
+	/// <param name="options">Array of command-specific options, or <tt>{}</tt> if there are none.</param>
 	public static void QueueCommand(string uri, string args, string options)
 	{
 		waapiCommandQueue.Enqueue(new WaapiCommand(

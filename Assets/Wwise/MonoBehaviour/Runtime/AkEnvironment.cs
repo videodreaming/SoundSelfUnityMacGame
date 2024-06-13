@@ -61,6 +61,7 @@ public class AkEnvironment : UnityEngine.MonoBehaviour
 		{
 			UnityEngine.GUIUtility.hotControl = 0;
 			data.ObjectReference = reference;
+			AkWwiseTypes.DragAndDropObjectReference = null;
 		}
 #endif
 

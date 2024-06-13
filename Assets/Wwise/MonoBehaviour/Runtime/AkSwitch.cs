@@ -39,6 +39,7 @@ public class AkSwitch : AkDragDropTriggerHandler
 		{
 			UnityEngine.GUIUtility.hotControl = 0;
 			data.ObjectReference = reference;
+			AkWwiseTypes.DragAndDropObjectReference = null;
 		}
 #endif
 	}

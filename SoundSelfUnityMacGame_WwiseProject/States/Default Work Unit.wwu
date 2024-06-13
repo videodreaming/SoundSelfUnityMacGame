@@ -15,29 +15,6 @@
 						<State Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
 					</ChildrenList>
 				</StateGroup>
-				<StateGroup Name="AVSModulationRate" ID="{A608B53C-6F90-44D6-8791-6F169283074C}">
-					<PropertyList>
-						<Property Name="DefaultTransitionTime" Type="Real64" Value="0"/>
-					</PropertyList>
-					<ChildrenList>
-						<State Name="None" ID="{0885D28C-8CAF-442F-87ED-AAD7C2BA7A91}"/>
-						<State Name="TRI_1Hz" ID="{B5F3704A-A3C2-423A-AD1E-D7C7FC30CBDD}"/>
-						<State Name="TRI_5Hz" ID="{A3E98BD7-D30A-4DDB-8AC0-F1F1C5B333DB}"/>
-						<State Name="TRI_20Hz" ID="{C1913FC0-B998-45F2-BE32-AE06397B4C4D}"/>
-						<State Name="TRI_10Hz" ID="{B996DD6E-2292-4711-8D02-F9B530A32A71}"/>
-					</ChildrenList>
-				</StateGroup>
-				<StateGroup Name="AVSModulationMode" ID="{E13271E4-E7C5-4F39-9059-BB30EEF1E5E9}">
-					<PropertyList>
-						<Property Name="DefaultTransitionTime" Type="Real64" Value="0"/>
-					</PropertyList>
-					<ChildrenList>
-						<State Name="None" ID="{1AFB40D0-A4B9-4FFC-9E47-4CD29BF52E3D}"/>
-						<State Name="Solid" ID="{10148D1C-4E68-41D0-9AF9-56AB1AE289D9}"/>
-						<State Name="Binaural" ID="{962EF5BC-2C67-43E7-8299-51AD1E0E6CD9}"/>
-						<State Name="Isochronic" ID="{7E25271F-06D9-4AEC-9781-49C787AC0B87}"/>
-					</ChildrenList>
-				</StateGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</States>

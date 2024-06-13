@@ -295,9 +295,7 @@ public partial class AkUtilities
 
 			if (!AkUtilities.IsWwiseProjectAvailable)
 			{
-				var fullWwiseProjectPath = AkWwiseEditorSettings.WwiseProjectAbsolutePath;
-
-				IsWwiseProjectAvailable = System.IO.File.Exists(fullWwiseProjectPath);
+				IsWwiseProjectAvailable = System.IO.File.Exists(WwiseProjectPath);
 				if (!IsWwiseProjectAvailable)
 				{
 					return;	
