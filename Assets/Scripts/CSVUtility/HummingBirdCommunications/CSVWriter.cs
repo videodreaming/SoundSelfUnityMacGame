@@ -105,7 +105,6 @@ public class CSVWriter : MonoBehaviour
 
         string encryptedData = EncryptionHelper.Encrypt(data);
         combinedData += encryptedData + " "; // Append encrypted data with a space as a separator
-        Debug.Log(combinedData);
     }
 
     void ReadCSV()
