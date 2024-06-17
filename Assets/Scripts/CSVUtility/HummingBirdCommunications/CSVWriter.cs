@@ -148,7 +148,6 @@ public class CSVWriter : MonoBehaviour
     {
         if (File.Exists(sessionStatusPath))
         {
-
             using (StreamReader sr = new StreamReader(sessionStatusPath))
             {
                 string statusLine = sr.ReadLine();
@@ -157,8 +156,8 @@ public class CSVWriter : MonoBehaviour
                     string[] statusParts = statusLine.Split(',');
                     if (statusParts.Length > 0) // ensure the line is not empty
                     {
-                        string EnctyptedcontrolStatus = statusParts[0].Trim().ToLower();
-                        string controlStatus = EncryptionHelper.Decrypt(EnctyptedcontrolStatus);
+                        string encryptedcontrolStatus = statusParts[0].Trim();
+                        string controlStatus = EncryptionHelper.Decrypt(encryptedcontrolStatus);
                         if(controlStatus == "paused")
                         {
                             paused = true;

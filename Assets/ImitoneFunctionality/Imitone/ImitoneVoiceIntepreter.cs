@@ -136,9 +136,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     AudioClip          inputBuffer;
     int                micPosRead = 0;
     float[]            capturedInput;
-
-   
-
    
     void Start()
     {
@@ -180,7 +177,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         try
         {
             ImitoneVoice.ActivateLicense("imitone technology used under license to New Entheogen Ltd, March 2023.");
-
            // Original Settings:      (sampleRate, "{\"guide\":\"off\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":101.0}}");
             imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-52.0}}"); //threshold of -52 is ideal for Corsair HS80
         }
@@ -208,7 +204,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         //{
         //    SetThreshold(-30.0f);
         //}
-
         SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
