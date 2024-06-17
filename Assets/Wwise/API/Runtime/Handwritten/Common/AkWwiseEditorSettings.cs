@@ -42,7 +42,7 @@ public class WwiseSettings
 	public bool CreateWwiseGlobal = true;
 	public bool CreateWwiseListener = true;
 	public bool ObjectReferenceAutoCleanup = true;
-	public bool LoadSoundEngineInEditMode = false;
+	public bool LoadSoundEngineInEditMode = true;
 	public bool ShowMissingRigidBodyWarning = true;
 	public bool ShowSpatialAudioWarningMsg = true;
 	public string WwiseInstallationPathMac;

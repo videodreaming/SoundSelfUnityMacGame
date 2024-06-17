@@ -172,7 +172,7 @@ public class AkSoundEngineController
 	public void OnDisable()
 	{
 #if UNITY_EDITOR
-		if(UnityEditor.EditorApplication.isPlaying)
+		if(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
 		{
 			OnDisableEditorListener();
 		}
@@ -204,12 +204,16 @@ public class AkSoundEngineController
 	public void OnApplicationPause(bool pauseStatus) 
 	{
 		if (!UnityEngine.Debug.isDebugBuild)
+		{
 			ActivateAudio(!pauseStatus);
+		}
 	}
 	public void OnApplicationFocus(bool focus)
 	{
 		if (!UnityEngine.Debug.isDebugBuild)
+		{
 			ActivateAudio(focus, AkWwiseInitializationSettings.Instance.RenderDuringFocusLoss);
+		}
 	}
 #else
 	public void OnApplicationPause(bool pauseStatus) 
@@ -306,7 +310,9 @@ public class AkSoundEngineController
 	private void OnDisableEditorListener()
 	{
 		if (IsPlayingOrIsNotInitialized || editorListenerGameObject == null)
+		{
 			return;
+		}
 
 		UnityEditor.EditorApplication.update -= UpdateEditorListenerPosition;
 
@@ -327,23 +333,33 @@ public class AkSoundEngineController
 	private void UpdateEditorListenerPosition()
 	{
 		if (IsPlayingOrIsNotInitialized || editorListenerGameObject == null)
+		{
 			return;
+		}
 
 		if (UnityEditor.SceneView.lastActiveSceneView == null)
+		{
 			return;
+		}
 
 		var sceneViewCamera = UnityEditor.SceneView.lastActiveSceneView.camera;
 		if (sceneViewCamera == null)
+		{
 			return;
+		}
 
 		var sceneViewTransform = sceneViewCamera.transform;
 		if (sceneViewTransform == null)
+		{
 			return;
+		}
 
 		if (editorListenerPosition == sceneViewTransform.position &&
 			editorListenerForward == sceneViewTransform.forward &&
 			editorListenerUp == sceneViewTransform.up)
+		{
 			return;
+		}
 
 		AkSoundEngine.SetObjectPosition(editorListenerGameObject, sceneViewTransform);
 

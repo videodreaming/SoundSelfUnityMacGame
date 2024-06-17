@@ -12,7 +12,12 @@
 					<ChildrenList>
 						<Bus Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}">
 							<PropertyList>
-								<Property Name="MaxDuckVolume" Type="Real64" Value="-12"/>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="MaxDuckVolume" Type="Real64" Value="-4"/>
 							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
@@ -51,65 +56,39 @@
 											</RTPC>
 										</Local>
 									</Reference>
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{FD8A47EB-CB88-4B85-BC24-C31797AA9132}" ShortID="728625241">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="Volume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="TONING_Volume" ID="{9C381C54-7CB7-4027-ADB1-2E43F1FCF463}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{6BAD070B-2E51-4C26-86D3-ED4CABF131D5}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
 								</ObjectList>
 							</ObjectLists>
 							<DuckingList>
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 									<DuckingParam>
-										<Volume>-4</Volume>
-										<FadeInTime>0.5</FadeInTime>
-										<FadeOutTime>2</FadeOutTime>
-										<FadeCurve>FadeLinear</FadeCurve>
+										<Volume>-3</Volume>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>0.5</FadeOutTime>
+										<FadeCurve>FadeLog1</FadeCurve>
+										<TargetProp>BusVolume</TargetProp>
 									</DuckingParam>
 								</DuckItem>
 								<DuckItem>
 									<BusRef Name="Environment" ID="{8CBEC533-4413-4401-925C-5A5BCA9F83CA}"/>
 									<DuckingParam>
 										<Volume>-2</Volume>
-										<FadeInTime>0.5</FadeInTime>
-										<FadeOutTime>1</FadeOutTime>
-										<FadeCurve>FadeLinear</FadeCurve>
+										<FadeInTime>1</FadeInTime>
+										<FadeOutTime>0.5</FadeOutTime>
+										<FadeCurve>FadeLog1</FadeCurve>
+										<TargetProp>BusVolume</TargetProp>
 									</DuckingParam>
 								</DuckItem>
 							</DuckingList>
 						</Bus>
 						<Bus Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>
@@ -125,41 +104,6 @@
 													<Reference Name="Curve">
 														<Custom>
 															<Curve Name="" ID="{02B4759F-6495-4BE9-9F64-DBB80C0DFF4C}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{B3B68F85-261B-41F7-92C8-17B6F25FA734}" ShortID="587192108">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="Volume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="SILENT_Volume" ID="{3B8E3436-642E-42DD-B54A-B5F158016E34}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{3D165FDC-4918-4658-B7AC-72D4F86602DB}">
 																<PropertyList>
 																	<Property Name="Flags" Type="int32" Value="3"/>
 																</PropertyList>
@@ -456,25 +400,27 @@
 					<ChildrenList>
 						<Bus Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}">
 							<PropertyList>
-								<Property Name="MaxDuckVolume" Type="Real64" Value="-6"/>
+								<Property Name="RecoveryTime" Type="Real64" Value="0"/>
 							</PropertyList>
 							<DuckingList>
 								<DuckItem>
 									<BusRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}"/>
 									<DuckingParam>
 										<Volume>-12</Volume>
-										<FadeInTime>1</FadeInTime>
-										<FadeOutTime>1</FadeOutTime>
-										<FadeCurve>FadeLinear</FadeCurve>
+										<FadeInTime>0</FadeInTime>
+										<FadeOutTime>0</FadeOutTime>
+										<FadeCurve>FadeLog2</FadeCurve>
+										<TargetProp>BusVolume</TargetProp>
 									</DuckingParam>
 								</DuckItem>
 								<DuckItem>
 									<BusRef Name="AVS_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}"/>
 									<DuckingParam>
-										<Volume>-2</Volume>
-										<FadeInTime>1</FadeInTime>
-										<FadeOutTime>1</FadeOutTime>
-										<FadeCurve>FadeLinear</FadeCurve>
+										<Volume>-8</Volume>
+										<FadeInTime>0</FadeInTime>
+										<FadeOutTime>0</FadeOutTime>
+										<FadeCurve>FadeLog2</FadeCurve>
+										<TargetProp>BusVolume</TargetProp>
 									</DuckingParam>
 								</DuckItem>
 							</DuckingList>
@@ -486,61 +432,22 @@
 						</Bus>
 						<Bus Name="AVS_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}">
 							<PropertyList>
-								<Property Name="MaxDuckVolume" Type="Real64" Value="-4"/>
 								<Property Name="RecoveryTime" Type="Real64" Value="0"/>
 							</PropertyList>
 							<DuckingList>
 								<DuckItem>
 									<BusRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}"/>
 									<DuckingParam>
-										<Volume>-2</Volume>
-										<FadeInTime>1</FadeInTime>
-										<FadeOutTime>1</FadeOutTime>
+										<Volume>-6</Volume>
+										<FadeInTime>0</FadeInTime>
+										<FadeOutTime>0</FadeOutTime>
 										<FadeCurve>FadeLog2</FadeCurve>
+										<TargetProp>BusVolume</TargetProp>
 									</DuckingParam>
 								</DuckItem>
 							</DuckingList>
 						</Bus>
 					</ChildrenList>
-					<ObjectLists>
-						<ObjectList Name="RTPC">
-							<Reference>
-								<Local>
-									<RTPC Name="" ID="{5E9522A7-2CCC-4A55-A7D0-9244AEB8F903}" ShortID="723404650">
-										<PropertyList>
-											<Property Name="PropertyName" Type="string" Value="Volume"/>
-										</PropertyList>
-										<ReferenceList>
-											<Reference Name="ControlInput">
-												<ObjectRef Name="AVS_MasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
-											</Reference>
-											<Reference Name="Curve">
-												<Custom>
-													<Curve Name="" ID="{754EF734-12FC-4BC3-9154-87B8C047A40A}">
-														<PropertyList>
-															<Property Name="Flags" Type="int32" Value="3"/>
-														</PropertyList>
-														<PointList>
-															<Point>
-																<XPos>0</XPos>
-																<YPos>-200</YPos>
-																<Flags>5</Flags>
-															</Point>
-															<Point>
-																<XPos>100</XPos>
-																<YPos>0</YPos>
-																<Flags>37</Flags>
-															</Point>
-														</PointList>
-													</Curve>
-												</Custom>
-											</Reference>
-										</ReferenceList>
-									</RTPC>
-								</Local>
-							</Reference>
-						</ObjectList>
-					</ObjectLists>
 				</Bus>
 			</ChildrenList>
 		</WorkUnit>

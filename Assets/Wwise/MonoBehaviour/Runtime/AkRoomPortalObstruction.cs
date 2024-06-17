@@ -38,7 +38,7 @@ public class AkRoomPortalObstruction : AkObstructionOcclusion
 	protected override void SetObstructionOcclusion(
 		System.Collections.Generic.KeyValuePair<AkAudioListener, ObstructionOcclusionValue> ObsOccPair)
 	{
-		if (m_portal.IsValid)
+		if (m_portal.IsValid && m_portal.isSetInWwise())
 		{
 			AkSoundEngine.SetPortalObstructionAndOcclusion(m_portal.GetID(), ObsOccPair.Value.currentValue, 0.0f);
 		}

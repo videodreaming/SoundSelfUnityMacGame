@@ -180,7 +180,7 @@ public class AkWwisePostImportCallbackSetup
 	private static void RefreshPlugins()
 	{
 		if (string.IsNullOrEmpty(AkWwiseProjectInfo.GetData().CurrentPluginConfig))
-			AkWwiseProjectInfo.GetData().CurrentPluginConfig = AkPluginActivator.CONFIG_PROFILE;
+			AkWwiseProjectInfo.GetData().CurrentPluginConfig = AkPluginActivatorConstants.CONFIG_PROFILE;
 
 		AkPluginActivator.ActivatePluginsForEditor();
 	}

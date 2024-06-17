@@ -28,8 +28,11 @@ public class AkWwiseXMLBuilder : UnityEditor.AssetPostprocessor
 			return;
 		}
 
-		AkWwiseSoundbanksInfoXMLFileWatcher.Instance.PopulateXML += Populate;
-		UnityEditor.EditorApplication.playModeStateChanged += PlayModeChanged;
+		AkWwiseSoundbanksInfoXMLFileWatcher.Instance.PopulateXML = Populate;
+		if (didDomainReload)
+		{
+			UnityEditor.EditorApplication.playModeStateChanged += PlayModeChanged;
+		}
 	}
 
 	private static void PlayModeChanged(UnityEditor.PlayModeStateChange mode)

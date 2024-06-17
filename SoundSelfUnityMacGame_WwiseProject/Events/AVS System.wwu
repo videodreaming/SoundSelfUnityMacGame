@@ -32,98 +32,16 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Stop_AVS_Silent" ID="{0B908D17-3703-4C09-A069-8182E7A10D3A}">
+				<Event Name="Stop_AVS_Silent" ID="{0B908D17-3703-4C09-A069-8182E7A10D3A}"/>
+				<Event Name="Play_AVS_Wave1_Silent" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}">
 					<ChildrenList>
-						<Action Name="" ID="{D70D82E2-9A99-4AE9-ADC1-6BCE979DAA9D}" ShortID="213302886">
+						<Action Name="" ID="{DD45F328-F186-4F4B-8EDF-16FFE2787988}" ShortID="274469782">
 							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_SilentLoops" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{10A908E9-D62E-4C38-AF21-7C5B6DE99A66}" ShortID="221462875">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="REFERENCE" ID="{D59B5851-132D-4244-9AE9-C3B7348FD216}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Play_AVS_Inhale" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}">
-					<ChildrenList>
-						<Action Name="" ID="{4E95614E-AB71-44DB-83CC-BDAE2CA80154}" ShortID="281230881">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="01-mindplace_reference-consolidated" ID="{69634919-0A50-4B46-83B6-8B0BCC63CEB4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{E74DD8C4-8E57-4264-8BB3-DD5623CA2E5C}" ShortID="928009326">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_Audactiy_Modulations" ID="{37D2ACB5-3B7B-41F0-BF09-AFF63A6E5896}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{89F3155B-6BC6-4628-868F-227EADD50E62}" ShortID="401953895">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="22"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="TRI_20Hz" ID="{C1913FC0-B998-45F2-BE32-AE06397B4C4D}" WorkUnitID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{7F803563-F4EA-4926-9C07-17D8B03460C0}" ShortID="121483836">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="22"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Binaural" ID="{962EF5BC-2C67-43E7-8299-51AD1E0E6CD9}" WorkUnitID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{00E9C75F-C3EB-4968-9B93-C4B60F86DE2A}" ShortID="396638612">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="23"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="WHITE" ID="{C4CCCEB6-4B10-4C3E-B69B-980B9E965F8C}" WorkUnitID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Stop_AVS_Inhale" ID="{3BFDBA83-E275-49E9-92A6-CC1E6407A101}">
-					<ChildrenList>
-						<Action Name="" ID="{5514664A-2259-418F-88C4-80CEB22378E8}" ShortID="578057189">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="01-mindplace_reference-consolidated" ID="{69634919-0A50-4B46-83B6-8B0BCC63CEB4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{E2BFE6D4-CB12-4953-A4A2-60F0EA296203}" ShortID="947361121">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_Audactiy_Modulations" ID="{37D2ACB5-3B7B-41F0-BF09-AFF63A6E5896}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave1_Silent" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -134,7 +52,7 @@
 						<Action Name="" ID="{046682D6-E585-4835-8E04-2A67ECF003F0}" ShortID="133318411">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RYGB_Stereo" ID="{8A2B7FE9-9A8B-4656-BFAD-075F374F92B1}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo" ID="{8A2B7FE9-9A8B-4656-BFAD-075F374F92B1}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -148,7 +66,80 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RYGB_Stereo" ID="{8A2B7FE9-9A8B-4656-BFAD-075F374F92B1}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo" ID="{8A2B7FE9-9A8B-4656-BFAD-075F374F92B1}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_Wave2_Toning" ID="{C83D5655-96B0-4B45-9B0B-C43858EDCE4A}">
+					<ChildrenList>
+						<Action Name="" ID="{1D88EAFC-38B0-4E13-B550-59C6B27A7067}" ShortID="352860626">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="0"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Toning" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_Wave3_Inhale" ID="{A7049BA2-D337-45C2-A567-C1AA527339D2}">
+					<ChildrenList>
+						<Action Name="" ID="{389598CB-BDD0-4E66-ABC7-55E0FD890E17}" ShortID="427642650">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Inhale" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_AVS_Wave1_Silent" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}">
+					<ChildrenList>
+						<Action Name="" ID="{A2F4FFB9-C896-4668-92A9-4CE61AEB913D}" ShortID="93045481">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave1_Silent" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_AVS_Wave2_Toning" ID="{D6DC2C44-177F-4753-9F7A-F2C5B5F99A86}">
+					<ChildrenList>
+						<Action Name="" ID="{0E96AB03-6B20-4E81-A3EC-CDB8A0858A7C}" ShortID="707164701">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="0"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Toning" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_AVS_Wave3_Inhale" ID="{5DCA70C8-A708-4EF9-9D93-EE185337CFE9}">
+					<ChildrenList>
+						<Action Name="" ID="{D2F91DA8-F714-4C54-851E-B7B0DFD897EE}" ShortID="1070202169">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Inhale" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

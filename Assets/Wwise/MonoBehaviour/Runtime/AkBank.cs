@@ -55,6 +55,7 @@ public class AkBank : AkTriggerHandler
 		{
 			UnityEngine.GUIUtility.hotControl = 0;
 			data.ObjectReference = reference;
+			AkWwiseTypes.DragAndDropObjectReference = null;
 		}
 		AkSoundEngineInitialization.Instance.initializationDelegate += HandleEvent;
 #endif

@@ -853,7 +853,9 @@ class AkSoundEnginePINVOKE {
   [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_LoadBankMemoryView__SWIG_3")]
   public static extern int CSharp_LoadBankMemoryView__SWIG_3(global::System.IntPtr jarg1, uint jarg2, global::System.IntPtr jarg3, global::System.IntPtr jarg4, out uint jarg5, out uint jarg6);
   [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_LoadBankMemoryCopy__SWIG_2")]
-  public static extern int CSharp_LoadBankMemoryCopy__SWIG_2(global::System.IntPtr jarg1, uint jarg2, global::System.IntPtr jarg3, global::System.IntPtr jarg4, out uint jarg5, out uint jarg6);
+  public static extern int CSharp_LoadBankMemoryCopy__SWIG_2(global::System.IntPtr jarg1, uint jarg2, global::System.IntPtr jarg3, global::System.IntPtr jarg4, out uint jarg5);
+  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_LoadBankMemoryCopy__SWIG_3")]
+  public static extern int CSharp_LoadBankMemoryCopy__SWIG_3(global::System.IntPtr jarg1, uint jarg2, global::System.IntPtr jarg3, global::System.IntPtr jarg4, out uint jarg5, out uint jarg6);
   [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_UnloadBank__SWIG_0")]
   public static extern int CSharp_UnloadBank__SWIG_0([global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg1, global::System.IntPtr jarg2, uint jarg3);
   [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_UnloadBank__SWIG_1")]
@@ -1624,22 +1626,14 @@ class AkSoundEnginePINVOKE {
   public static extern void CSharp_MonitorStreamingDeviceDestroyed(uint jarg1);
   [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_MonitorStreamMgrTerm")]
   public static extern void CSharp_MonitorStreamMgrTerm();
+  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_AkMemCpy")]
+  public static extern void CSharp_AkMemCpy(global::System.IntPtr jarg1, global::System.IntPtr jarg2, uint jarg3);
+  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_AkMemMove")]
+  public static extern void CSharp_AkMemMove(global::System.IntPtr jarg1, global::System.IntPtr jarg2, uint jarg3);
+  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_AkMemSet")]
+  public static extern void CSharp_AkMemSet(global::System.IntPtr jarg1, int jarg2, uint jarg3);
   [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_AkGetDefaultHighPriorityThreadProperties")]
   public static extern void CSharp_AkGetDefaultHighPriorityThreadProperties(global::System.IntPtr jarg1);
-  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_AkPopCount")]
-  public static extern uint CSharp_AkPopCount(uint jarg1);
-  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_AkBitScanReverse64")]
-  public static extern uint CSharp_AkBitScanReverse64(ulong jarg1);
-  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_AkBitScanReverse")]
-  public static extern uint CSharp_AkBitScanReverse(uint jarg1);
-  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_GetNumNonZeroBits")]
-  public static extern uint CSharp_GetNumNonZeroBits(uint jarg1);
-  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_GetNextPowerOfTwo")]
-  public static extern uint CSharp_GetNextPowerOfTwo(uint jarg1);
-  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_ROTL32")]
-  public static extern uint CSharp_ROTL32(uint jarg1, uint jarg2);
-  [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_ROTL64")]
-  public static extern ulong CSharp_ROTL64(ulong jarg1, ulong jarg2);
   [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_ResolveDialogueEvent__SWIG_0")]
   public static extern uint CSharp_ResolveDialogueEvent__SWIG_0(uint jarg1, [global::System.Runtime.InteropServices.In, global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPArray)]uint[] jarg2, uint jarg3, uint jarg4);
   [global::System.Runtime.InteropServices.DllImport("AkSoundEngine", EntryPoint="CSharp_ResolveDialogueEvent__SWIG_1")]

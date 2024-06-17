@@ -66,6 +66,8 @@ public class AkRoomPortal : AkTriggerHandler
 	public AkRoom frontRoom { get { return rooms[1]; } }
 	public AkRoom backRoom { get { return rooms[0]; } }
 
+	public bool isSetInWwise() { return portalSet; }
+
 	private AkTransform portalTransform;
 	private UnityEngine.BoxCollider portalCollider;
 	private bool portalSet = false;

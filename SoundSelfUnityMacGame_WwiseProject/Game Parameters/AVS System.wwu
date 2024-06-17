@@ -3,70 +3,195 @@
 	<GameParameters>
 		<WorkUnit Name="AVS System" ID="{A4CBC233-705D-4021-8C88-E244225AA913}" PersistMode="Standalone">
 			<ChildrenList>
-				<GameParameter Name="AVS_MasterVolume" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_RED_Volume" ID="{B3F2C2AA-E626-4A82-8484-48F42E99BD97}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_GREEN_Volume" ID="{02B13127-2685-47F0-8836-D47E996419F2}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_BLUE_Volume" ID="{5672B67B-51F9-4373-8484-0F7D6CC7FD2E}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_YELLOW_Volume" ID="{50CB90EE-0012-4F03-AFDF-E2F42FF3C248}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_Modulation_Waveform" ID="{243818D7-F083-4DDA-A64C-0FE11BD9D652}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-						<Property Name="Max" Type="Real64" Value="4"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_Modulation_Frequency" ID="{2A4181C9-D813-4592-B49B-FE706DCA83DC}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="1"/>
-						<Property Name="Min" Type="Real64" Value="0.1"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_Modulation_PWM" ID="{AFD08726-0F14-452C-9DF7-918098047F10}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="100"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_Modulation_Smoothing" ID="{6569D1F3-4C52-405A-9FB4-C72A6EDAB006}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_Modulation_BypassEffect" ID="{CC43E7B2-EB76-4B3B-87AB-0667E6ACED47}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-						<Property Name="Max" Type="Real64" Value="1"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_Modulation_Depth" ID="{FEDA3481-89C4-43AC-B1F0-A8B9AB552820}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-					</PropertyList>
-				</GameParameter>
-				<GameParameter Name="AVS_Modulation_MonoStereo" ID="{39D65ECD-0D6C-4A11-BFCC-2F0700FC642A}">
-					<PropertyList>
-						<Property Name="InitialValue" Type="Real64" Value="0"/>
-						<Property Name="Max" Type="Real64" Value="1"/>
-					</PropertyList>
-				</GameParameter>
+				<Folder Name="WAVE 1" ID="{247CE37C-B4F0-4BED-9DBE-A11FE8A88A26}" ShortID="817736947">
+					<ChildrenList>
+						<GameParameter Name="AVS_MasterVolume_Wave1" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_RED_Volume_Wave1" ID="{B3F2C2AA-E626-4A82-8484-48F42E99BD97}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_GREEN_Volume_Wave1" ID="{02B13127-2685-47F0-8836-D47E996419F2}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_BLUE_Volume_Wave1" ID="{5672B67B-51F9-4373-8484-0F7D6CC7FD2E}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Waveform_Wave1" ID="{243818D7-F083-4DDA-A64C-0FE11BD9D652}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="4"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Frequency_Wave1" ID="{2A4181C9-D813-4592-B49B-FE706DCA83DC}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="1"/>
+								<Property Name="Min" Type="Real64" Value="0.1"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_PWM_Wave1" ID="{AFD08726-0F14-452C-9DF7-918098047F10}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Smoothing_Wave1" ID="{6569D1F3-4C52-405A-9FB4-C72A6EDAB006}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_BypassEffect_Wave1" ID="{CC43E7B2-EB76-4B3B-87AB-0667E6ACED47}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="1"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Depth_Wave1" ID="{FEDA3481-89C4-43AC-B1F0-A8B9AB552820}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_MonoStereo_Wave1" ID="{39D65ECD-0D6C-4A11-BFCC-2F0700FC642A}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="1"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="WAVE 2" ID="{7BBA0C37-72B9-4221-8E3F-B3BAD18C5209}" ShortID="167159669">
+					<ChildrenList>
+						<GameParameter Name="AVS_MasterVolume_Wave2" ID="{5183B639-6BF6-4EBC-8DC9-CB8C7A1318FA}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_RED_Volume_Wave2" ID="{D9919365-BB44-4723-8AA6-A7A386F5464B}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_GREEN_Volume_Wave2" ID="{FE6FE12F-5023-403D-8404-B296CAAB678D}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_BLUE_Volume_Wave2" ID="{1D5D43B9-BD5D-461A-9C31-6A9E8CF6D920}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Waveform_Wave2" ID="{5670CB5E-AA37-407A-9F22-61541495672A}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="4"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Frequency_Wave2" ID="{0B0D5E78-2D81-4925-8938-2D61600EC511}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="1"/>
+								<Property Name="Min" Type="Real64" Value="0.1"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_PWM_Wave2" ID="{308BD057-A118-495D-8107-054DA12AF64C}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Smoothing_Wave2" ID="{8A5CACB5-F357-46C2-9DE4-EA03D7F43621}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_BypassEffect_Wave2" ID="{58CAC602-0FCE-41E5-9DFD-6C398D99E0F8}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="1"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Depth_Wave2" ID="{2907F9C2-5840-421B-919C-15862F120BF1}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_MonoStereo_Wave2" ID="{CFD7AD6D-0ABB-43DC-81BD-ACEBA122E1FD}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="1"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="WAVE 3" ID="{ADFCD5BB-4D74-41D7-97CD-9234624492D1}" ShortID="1020316133">
+					<ChildrenList>
+						<GameParameter Name="AVS_MasterVolume_Wave3" ID="{007BAC2C-11FC-41A6-959D-D6242397F2BF}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_RED_Volume_Wave3" ID="{C29BD76E-D465-4AA6-A1F6-9097EBB49BB8}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_GREEN_Volume_Wave3" ID="{61CB1537-1578-482B-A0F4-1E17347CDD82}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_BLUE_Volume_Wave3" ID="{C5AF3D91-3265-4605-AE3F-74CE948B2852}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Waveform_Wave3" ID="{E6967317-D6C4-4A28-8156-4A69389DD267}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="4"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Frequency_Wave3" ID="{A0705DE3-17AF-41DF-9FBE-572F59284C20}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="1"/>
+								<Property Name="Min" Type="Real64" Value="0.1"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_PWM_Wave3" ID="{96A530E8-8FAC-476F-A6ED-BA17AB4D36CE}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="100"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Smoothing_Wave3" ID="{CCF267CB-CFB1-41FE-A9DE-175F55A8DC99}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_BypassEffect_Wave3" ID="{7EA06B92-BE99-4FF4-962B-A0980DF75A92}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="1"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_Depth_Wave3" ID="{1A5D72CD-9CD0-44C7-BB55-C07F08439A84}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+							</PropertyList>
+						</GameParameter>
+						<GameParameter Name="AVS_Modulation_MonoStereo_Wave3" ID="{453AD9FF-E729-4DD9-9F30-A8A7DD3EAC03}">
+							<PropertyList>
+								<Property Name="InitialValue" Type="Real64" Value="0"/>
+								<Property Name="Max" Type="Real64" Value="1"/>
+							</PropertyList>
+						</GameParameter>
+					</ChildrenList>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

@@ -1,45 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}" SchemaVersion="119">
 	<Switches>
-		<WorkUnit Name="AVS" ID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}" PersistMode="Standalone">
-			<ChildrenList>
-				<SwitchGroup Name="AVS_Silent_Color" ID="{5859C129-0C1A-4429-8F42-257BBDE0FE95}">
-					<ChildrenList>
-						<Switch Name="Blue" ID="{54E4E728-45D8-4BEB-91C9-6A3215709700}"/>
-						<Switch Name="Cyan" ID="{37A0D14E-F024-46D2-8CD7-FECE735A4F60}"/>
-						<Switch Name="Green" ID="{870EA346-4320-433D-9FDD-D5DB6C6C4287}"/>
-						<Switch Name="Yellow" ID="{0FD459C1-8EB0-4259-AA98-F39929349DFC}"/>
-						<Switch Name="Red" ID="{DB8D7A55-1706-468E-B676-69DFF21C36A1}"/>
-						<Switch Name="Magenta" ID="{C914CFAB-5E6A-4276-BBAF-6CC8DDE4965B}"/>
-						<Switch Name="White" ID="{010B368D-D383-4C5A-B686-0F4D91BC258C}"/>
-						<Switch Name="Dark" ID="{50F6F5D3-7075-4115-A280-D55BCE8717CA}"/>
-						<Switch Name="Orange" ID="{A2C8CDEC-758B-4121-80D3-B987FE953181}"/>
-						<Switch Name="Indigo" ID="{E058C79F-5A5B-4E72-9E42-18F98B774474}"/>
-					</ChildrenList>
-				</SwitchGroup>
-				<SwitchGroup Name="AVSSystem_ModulationColor" ID="{1AFC3E86-605F-4FF7-8706-57AB4436B10A}">
-					<ChildrenList>
-						<Switch Name="RED" ID="{A908B662-CCC7-4863-9FDA-5AE6B36F1A9F}"/>
-						<Switch Name="GREEN" ID="{2C3938FF-BDC0-4C1A-81AE-31C4676B9E97}"/>
-						<Switch Name="BLUE" ID="{FFF3D354-92EE-4E20-AB76-972ED0FB31F4}"/>
-						<Switch Name="WHITE" ID="{C4CCCEB6-4B10-4C3E-B69B-980B9E965F8C}"/>
-					</ChildrenList>
-				</SwitchGroup>
-				<SwitchGroup Name="AVS_Toning_Color" ID="{FC84BC69-8542-48C4-9E5E-6B60466FEDBA}">
-					<ChildrenList>
-						<Switch Name="Blue" ID="{8E8070F0-7A78-4F1A-B689-5799CDEC072B}"/>
-						<Switch Name="Cyan" ID="{C1A24B00-9302-442B-ACB8-1E7BF26A12B3}"/>
-						<Switch Name="Green" ID="{8FDC055A-B22A-4642-AB5C-28A418C58280}"/>
-						<Switch Name="Yellow" ID="{BF11909D-F5E6-4A56-A84B-6AD988F22D49}"/>
-						<Switch Name="Red" ID="{635368F0-4618-426B-B417-B5DF2EC6B413}"/>
-						<Switch Name="Magenta" ID="{D00E2BA3-D4EC-47FF-93D9-48E92EFC68BF}"/>
-						<Switch Name="White" ID="{B8326D65-6942-45CB-99EB-CCB18E779ED5}"/>
-						<Switch Name="Dark" ID="{79E179D4-9F44-47FD-A353-3DF6F84F0A79}"/>
-						<Switch Name="Orange" ID="{719523F9-1C50-4F74-88F7-45C883F0B532}"/>
-						<Switch Name="Indigo" ID="{B723A9ED-2363-4E9F-84CC-5193C210489D}"/>
-					</ChildrenList>
-				</SwitchGroup>
-			</ChildrenList>
-		</WorkUnit>
+		<WorkUnit Name="AVS" ID="{CEDDA477-9029-45B3-B040-90DB07CD3C46}" PersistMode="Standalone"/>
 	</Switches>
 </WwiseDocument>
