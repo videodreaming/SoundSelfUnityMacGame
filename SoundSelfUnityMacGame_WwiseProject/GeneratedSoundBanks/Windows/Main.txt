@@ -2,12 +2,13 @@ Event	ID	Name			Wwise Object Path	Notes
 	32253738	Play_Toning_v3_HarmonyOnly			\Interactive Music System\Play_Toning_v3_HarmonyOnly	
 	77468567	Play_sfx_breatheout			\SFX\Play_sfx_breatheout	
 	114893642	Stop_InteractiveMusicSystem			\Interactive Music System\Stop_InteractiveMusicSystem	
+	243401070	MENU_SetSwitch_LONG			\VO\MENU_SetSwitch_LONG	
 	296236610	Play_Toning_v2_12Pitch_Linked			\Interactive Music System\Play_Toning_v2_12Pitch_Linked	
 	333136496	Stop_environment_wind			\Environment\Stop_environment_wind	
 	362704004	Play_environment_openingMeditation			\Environment\Play_environment_openingMeditation	
 	452547817	Stop_All			\Default Work Unit\Stop_All	
+	528568497	Play_VO_POSTURE_SWITCH			\Default Work Unit\Play_VO_POSTURE_SWITCH	
 	603425291	Play_sfx_SoundSeed_BreathCycleWind			\SFX\Play_sfx_SoundSeed_BreathCycleWind	
-	630856697	Stop_AVS_SineGenerators_Switch			\AVS System\Stop_AVS_SineGenerators_Switch	
 	670049528	Stop_OPENING_SEQUENCE			\Default Work Unit\Stop_OPENING_SEQUENCE	
 	742624799	Play_OPENING_SEQUENCE_ADJUNCT_SHORT			\Default Work Unit\Play_OPENING_SEQUENCE_ADJUNCT_SHORT	
 	761343465	Play_SilentLoops_v3_HarmonyOnly			\Interactive Music System\Play_SilentLoops_v3_HarmonyOnly	
@@ -24,6 +25,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1486999246	Play_SilentLoops_v1_7Pitch_Linked			\Interactive Music System\Play_SilentLoops_v1_7Pitch_Linked	
 	1511441763	Play_Toning			\Interactive Music System\Play_Toning	
 	1747587664	Stop_SOMATIC_SEQUENCE			\Default Work Unit\Stop_SOMATIC_SEQUENCE	
+	1972773362	MENU_SetSwitch_SHORT			\VO\MENU_SetSwitch_SHORT	
 	1989542112	Play_AVS_SineGenerators			\AVS System\Play_AVS_SineGenerators	
 	2061683806	Play_SOMATIC_SEQUENCE			\Default Work Unit\Play_SOMATIC_SEQUENCE	
 	2181803410	Stop_AVS_SineGenerators			\AVS System\Stop_AVS_SineGenerators	
@@ -32,12 +34,12 @@ Event	ID	Name			Wwise Object Path	Notes
 	2638034312	Stop_AVS_Silent			\AVS System\Stop_AVS_Silent	
 	2822016348	Stop_SilentLoops			\Interactive Music System\Stop_SilentLoops	
 	2849654864	Play_environment_openingWelcome			\Environment\Play_environment_openingWelcome	
-	2892901283	Play_AVS_SineGenerators_Switch			\AVS System\Play_AVS_SineGenerators_Switch	
 	2908297336	Play_sfx_Impact			\SFX\Play_sfx_Impact	
 	2917442959	Play_CrystalBowlGenerator			\Interactive Music System\Play_CrystalBowlGenerator	
 	2929327982	Play_environment_wind			\Environment\Play_environment_wind	
 	2987132208	Play_environment_openingQuery			\Environment\Play_environment_openingQuery	
 	3415983401	Play_Toning_v1_7Pitch_Linked			\Interactive Music System\Play_Toning_v1_7Pitch_Linked	
+	3418740755	Play_VO_OPENING_THEMATIC_SWITCH			\Default Work Unit\Play_VO_OPENING_THEMATIC_SWITCH	
 	3427313557	Play_Toning_v3_FundamentalOnly			\Interactive Music System\Play_Toning_v3_FundamentalOnly	
 	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
 	3451051880	Play_environment_crickets			\Environment\Play_environment_crickets	

@@ -3,35 +3,6 @@
 	<Events>
 		<WorkUnit Name="AVS System" ID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Play_AVS_SineGenerators_Switch" ID="{00220282-804B-4918-8804-395C2EF3E676}">
-					<ChildrenList>
-						<Action Name="" ID="{BB272041-6818-4C29-A57B-5211DC4644F2}" ShortID="394581980">
-							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_SilentLoops" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Stop_AVS_SineGenerators_Switch" ID="{4D8100F4-6F68-40F5-98FC-B7A450C26CFF}">
-					<ChildrenList>
-						<Action Name="" ID="{3D1E19C6-1C96-4591-A974-F35B5A56E718}" ShortID="194482570">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_SilentLoops" ID="{D6F53F37-F37E-4C7E-97FD-F5B062598488}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="Stop_AVS_Silent" ID="{0B908D17-3703-4C09-A069-8182E7A10D3A}"/>
 				<Event Name="Play_AVS_Wave1_Silent" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}">
 					<ChildrenList>

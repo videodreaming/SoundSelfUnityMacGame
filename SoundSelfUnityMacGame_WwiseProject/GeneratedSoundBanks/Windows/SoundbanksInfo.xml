@@ -9,41 +9,6 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="243401070" Type="Event" Language="SFX" Hash="{1B71A4B4-C5DE-BD59-3B9C-FAC7EA2335F9}">
-			<ShortName>MENU_SetSwitch_LONG</ShortName>
-			<Path>Event/24/MENU_SetSwitch_LONG.bnk</Path>
-			<Events>
-				<Event Id="243401070" Name="MENU_SetSwitch_LONG" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
-					<ActionSetSwitch>
-						<ActionSetSwitchEntry GroupId="3813349969" Id="674228435" Name="Long"/>
-						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
-					</ActionSetSwitch>
-				</Event>
-			</Events>
-			<SwitchGroups>
-				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
-					<Switches>
-						<Switch Id="674228435" Name="Long"/>
-						<Switch Id="1927133646" Name="Anchoring"/>
-						<Switch Id="2585211341" Name="Short"/>
-						<Switch Id="3041563226" Name="Silence"/>
-					</Switches>
-				</SwitchGroup>
-				<SwitchGroup Id="3813349969" Name="VO_Somatic">
-					<Switches>
-						<Switch Id="674228435" Name="Long"/>
-						<Switch Id="2585211341" Name="Short"/>
-					</Switches>
-				</SwitchGroup>
-				<SwitchGroup Id="4212583561" Name="VO_Opening">
-					<Switches>
-						<Switch Id="335023706" Name="openingPassive"/>
-						<Switch Id="2367398737" Name="openingLong"/>
-						<Switch Id="3060490183" Name="openingShort"/>
-					</Switches>
-				</SwitchGroup>
-			</SwitchGroups>
-		</SoundBank>
 		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{F8096441-13C2-0B2C-28F5-D53552372473}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -273,7 +238,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1534528548" Type="User" Language="SFX" Hash="{DBE2B6D8-E61E-080B-9281-9E3425E0E909}">
+		<SoundBank Id="1534528548" Type="User" Language="SFX" Hash="{0477A7E8-6822-BAB5-F79C-63C5BF5A02C1}">
 			<ShortName>VO</ShortName>
 			<Path>VO.bnk</Path>
 			<Media>
@@ -289,6 +254,10 @@
 					<ShortName>vo_goodbye_anchoring.wav</ShortName>
 					<CachePath>SFX/vo_goodbye_anchoring_818F3B66.wem</CachePath>
 				</File>
+				<File Id="39113922" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicOpening_surrender.wav</ShortName>
+					<CachePath>SFX/vo_thematicOpening_surrender_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="39430341" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitQuery_closing.wav</ShortName>
 					<CachePath>SFX/vo_elicitQuery_closing_818F3B66.wem</CachePath>
@@ -296,6 +265,10 @@
 				<File Id="74052971" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye.wav</ShortName>
 					<CachePath>SFX/vo_goodbye_818F3B66.wem</CachePath>
+				</File>
+				<File Id="90271403" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicOpening_peace.wav</ShortName>
+					<CachePath>SFX/vo_thematicOpening_peace_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="139444766" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_short.wav</ShortName>
@@ -345,6 +318,10 @@
 					<ShortName>vo_elicitQueryFail_closing.wav</ShortName>
 					<CachePath>SFX/vo_elicitQueryFail_closing_818F3B66.wem</CachePath>
 				</File>
+				<File Id="301782202" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicOpening_diewell.wav</ShortName>
+					<CachePath>SFX/vo_thematicOpening_diewell_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="303573823" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_silence.wav</ShortName>
 					<CachePath>SFX/vo_goodbye_silence_818F3B66.wem</CachePath>
@@ -372,6 +349,10 @@
 				<File Id="370694246" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_thematicOpening_narrative.wav</ShortName>
 					<CachePath>SFX/vo_thematicOpening_narrative_818F3B66.wem</CachePath>
+				</File>
+				<File Id="400971119" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicOpening_narrative.wav</ShortName>
+					<CachePath>SFX/vo_thematicOpening_narrative_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="402014584" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test07tone.wav</ShortName>
@@ -477,6 +458,10 @@
 					<ShortName>vo_test16tone.wav</ShortName>
 					<CachePath>SFX/vo_test16tone_818F3B66.wem</CachePath>
 				</File>
+				<File Id="919460175" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_posture_liedown.wav</ShortName>
+					<CachePath>SFX/vo_posture_liedown_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="919567912" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_thematicSavasana_kindness.wav</ShortName>
 					<CachePath>SFX/vo_thematicSavasana_kindness_818F3B66.wem</CachePath>
@@ -492,6 +477,10 @@
 				<File Id="955926001" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_opening_openingShort.wav</ShortName>
 					<CachePath>SFX/vo_opening_openingShort_818F3B66.wem</CachePath>
+				</File>
+				<File Id="962245820" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_posture_relax.wav</ShortName>
+					<CachePath>SFX/vo_posture_relax_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="999054356" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_wakeUp.wav</ShortName>
@@ -523,6 +512,18 @@
 				</File>
 			</Media>
 			<Events>
+				<Event Id="243401070" Name="MENU_SetSwitch_LONG" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="674228435" Name="Long"/>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
+					</ActionSetSwitch>
+				</Event>
+				<Event Id="1972773362" Name="MENU_SetSwitch_SHORT" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="2585211341" Name="Short"/>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
+					</ActionSetSwitch>
+				</Event>
 				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="OneShot" DurationMin="6.1513333" DurationMax="52.572666">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -610,6 +611,50 @@
 							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="2367398737" Default="true"/>
 							<MediaRefs>
 								<MediaRef Id="802065351"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3418740755" Name="Play_VO_OPENING_THEMATIC_SWITCH" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3925841397" Id="2721896533"/>
+							<MediaRefs>
+								<MediaRef Id="301782202"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3925841397" Id="1047870521"/>
+							<MediaRefs>
+								<MediaRef Id="400971119"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3925841397" Id="103389341"/>
+							<MediaRefs>
+								<MediaRef Id="90271403"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="3925841397" Id="2965941853"/>
+							<MediaRefs>
+								<MediaRef Id="39113922"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="528568497" Name="Play_VO_POSTURE_SWITCH" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="184547165" Id="3891673577"/>
+							<MediaRefs>
+								<MediaRef Id="919460175"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="184547165" Id="3551080421"/>
+							<MediaRefs>
+								<MediaRef Id="962245820"/>
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
@@ -814,6 +859,12 @@
 				</Event>
 			</Events>
 			<SwitchGroups>
+				<SwitchGroup Id="184547165" Name="VO_Posture">
+					<Switches>
+						<Switch Id="3551080421" Name="Relax"/>
+						<Switch Id="3891673577" Name="LieDown"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="683317262" Name="VO_Wisdom">
 					<Switches>
 						<Switch Id="1057915111" Name="NotKnowing"/>
@@ -877,42 +928,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1972773362" Type="Event" Language="SFX" Hash="{A9C7425E-D1D4-BA14-E837-4849C216F1E9}">
-			<ShortName>MENU_SetSwitch_SHORT</ShortName>
-			<Path>Event/19/MENU_SetSwitch_SHORT.bnk</Path>
-			<Events>
-				<Event Id="1972773362" Name="MENU_SetSwitch_SHORT" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
-					<ActionSetSwitch>
-						<ActionSetSwitchEntry GroupId="3813349969" Id="2585211341" Name="Short"/>
-						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
-					</ActionSetSwitch>
-				</Event>
-			</Events>
-			<SwitchGroups>
-				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
-					<Switches>
-						<Switch Id="674228435" Name="Long"/>
-						<Switch Id="1927133646" Name="Anchoring"/>
-						<Switch Id="2585211341" Name="Short"/>
-						<Switch Id="3041563226" Name="Silence"/>
-					</Switches>
-				</SwitchGroup>
-				<SwitchGroup Id="3813349969" Name="VO_Somatic">
-					<Switches>
-						<Switch Id="674228435" Name="Long"/>
-						<Switch Id="2585211341" Name="Short"/>
-					</Switches>
-				</SwitchGroup>
-				<SwitchGroup Id="4212583561" Name="VO_Opening">
-					<Switches>
-						<Switch Id="335023706" Name="openingPassive"/>
-						<Switch Id="2367398737" Name="openingLong"/>
-						<Switch Id="3060490183" Name="openingShort"/>
-					</Switches>
-				</SwitchGroup>
-			</SwitchGroups>
-		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{E18C581A-61A7-04E3-E940-2CE1B5F06665}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{214A674F-578C-356C-07CE-289A27C40C58}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
@@ -1493,6 +1509,18 @@
 				</ShareSets>
 			</Plugins>
 			<Events>
+				<Event Id="243401070" Name="MENU_SetSwitch_LONG" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="674228435" Name="Long"/>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
+					</ActionSetSwitch>
+				</Event>
+				<Event Id="1972773362" Name="MENU_SetSwitch_SHORT" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="2585211341" Name="Short"/>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
+					</ActionSetSwitch>
+				</Event>
 				<Event Id="3981260521" Name="Play_AMBIENT_ENVIRONMENT_LOOP" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
@@ -1523,7 +1551,6 @@
 						</ShareSets>
 					</PluginRefs>
 				</Event>
-				<Event Id="2892901283" Name="Play_AVS_SineGenerators_Switch" DurationType="Infinite"/>
 				<Event Id="1358859793" Name="Play_AVS_Wave1_Silent" DurationType="Infinite">
 					<PluginRefs>
 						<Custom>
@@ -1647,12 +1674,20 @@
 					</MediaRefs>
 				</Event>
 				<Event Id="1486205449" Name="Play_OPENING_SEQUENCE_ADJUNCT_LONG" DurationType="Infinite">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="528568497" Name="Play_VO_POSTURE_SWITCH"/>
+						<ActionPostEventEntry Id="3418740755" Name="Play_VO_OPENING_THEMATIC_SWITCH"/>
+					</ActionPostEvent>
 					<ActionSetSwitch>
 						<ActionSetSwitchEntry GroupId="3813349969" Id="674228435" Name="Long"/>
 						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
 					</ActionSetSwitch>
 				</Event>
 				<Event Id="742624799" Name="Play_OPENING_SEQUENCE_ADJUNCT_SHORT" DurationType="Infinite">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="528568497" Name="Play_VO_POSTURE_SWITCH"/>
+						<ActionPostEventEntry Id="3418740755" Name="Play_VO_OPENING_THEMATIC_SWITCH"/>
+					</ActionPostEvent>
 					<ActionSetSwitch>
 						<ActionSetSwitchEntry GroupId="3813349969" Id="2585211341" Name="Short"/>
 						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
@@ -4328,11 +4363,12 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="3418740755" Name="Play_VO_OPENING_THEMATIC_SWITCH" DurationType="Infinite"/>
+				<Event Id="528568497" Name="Play_VO_POSTURE_SWITCH" DurationType="Infinite"/>
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2638034312" Name="Stop_AVS_Silent" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2181803410" Name="Stop_AVS_SineGenerators" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="630856697" Name="Stop_AVS_SineGenerators_Switch" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="1208070559" Name="Stop_AVS_Wave1_Silent" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="3951624080" Name="Stop_AVS_Wave2_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="896604455" Name="Stop_AVS_Wave3_Inhale" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -4393,6 +4429,14 @@
 					<Switches>
 						<Switch Id="3551080421" Name="Relax"/>
 						<Switch Id="3891673577" Name="LieDown"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="3041563226" Name="Silence"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="2195370387" Name="InteractiveMusicSwitchGroup2_12Pitches_Linked5ths">
@@ -4478,5 +4522,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{8CA534A1-B471-8277-52EF-A8C0C6967941}</FileHash>
+	<FileHash>{98136399-05E8-46C1-F0F6-2ECDCE4A7C62}</FileHash>
 </SoundBanksInfo>

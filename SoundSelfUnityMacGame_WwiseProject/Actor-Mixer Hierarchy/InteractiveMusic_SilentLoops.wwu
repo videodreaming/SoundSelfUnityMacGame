@@ -23082,6 +23082,11 @@
 						<SwitchContainer Name="InteractiveMusic_SilentLoops_v3_12_FundamentalOnly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" ShortID="753489320">
 							<PropertyList>
 								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -30673,11 +30678,6 @@
 						<SwitchContainer Name="InteractiveMusic_SilentLoops_v3_12_HarmonyOnly" ID="{7BB210F7-2DC1-4EA8-9966-75666822B3E1}" ShortID="455553095">
 							<PropertyList>
 								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-3</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">

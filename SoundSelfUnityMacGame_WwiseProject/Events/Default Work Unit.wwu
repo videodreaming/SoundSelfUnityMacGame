@@ -32,26 +32,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{C879452B-FC6E-423E-8783-AC23E4732B01}" ShortID="358786315">
-							<PropertyList>
-								<Property Name="Delay" Type="Real64" Value="75"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VO_POSTURE_SWITCH" ID="{24CCB1DE-04B5-49A6-AABB-C1FE8A0103A6}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{FE0C66FA-0EE9-48C5-A636-E0E77759027C}" ShortID="975575648">
-							<PropertyList>
-								<Property Name="Delay" Type="Real64" Value="148"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{C7789B8F-0EED-48B6-AE27-DD0FBC34129F}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{3F15C86D-467B-4243-AF67-6287A39EF890}" ShortID="1050603808">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="23"/>
@@ -59,6 +39,28 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F89940CE-B607-41A3-A48C-BD11DCDA8C60}" ShortID="935032121">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="148"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{E5797245-3254-4B1E-9BC7-18D3D9721C9B}" ShortID="737319215">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="75"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -101,26 +103,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{B1B3BCE9-4D9B-4BDB-88F6-E36816AB33F3}" ShortID="195197597">
-							<PropertyList>
-								<Property Name="Delay" Type="Real64" Value="110"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VO_POSTURE_SWITCH" ID="{24CCB1DE-04B5-49A6-AABB-C1FE8A0103A6}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{71194137-E8AC-42EB-89A4-C1F48E978C57}" ShortID="453299417">
-							<PropertyList>
-								<Property Name="Delay" Type="Real64" Value="184"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{C7789B8F-0EED-48B6-AE27-DD0FBC34129F}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{BCCB121B-ACA5-4B8A-8A21-82B81B6BEE32}" ShortID="296187087">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="23"/>
@@ -128,6 +110,28 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{5B57195C-7FE1-4933-AD5A-F5DC8D850B7B}" ShortID="1013714942">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="184"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{DF018ED2-9518-4F5B-BC0E-DC3215E8BF4A}" ShortID="857322554">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="110"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -239,6 +243,28 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="SoundSeed_Airwoosh_BreathCycle" ID="{8086FD72-E046-429E-9FCF-EBD0DCE02668}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}">
+					<ChildrenList>
+						<Action Name="" ID="{B1B3BCE9-4D9B-4BDB-88F6-E36816AB33F3}" ShortID="195197597">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_POSTURE_SWITCH" ID="{24CCB1DE-04B5-49A6-AABB-C1FE8A0103A6}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}">
+					<ChildrenList>
+						<Action Name="" ID="{71194137-E8AC-42EB-89A4-C1F48E978C57}" ShortID="453299417">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{C7789B8F-0EED-48B6-AE27-DD0FBC34129F}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

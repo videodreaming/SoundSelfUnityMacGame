@@ -2766,43 +2766,6 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="Before learning" ID="{A168D3E4-940D-40EC-8F93-7CFB8F297812}" ShortID="825909859">
-											<PropertyList>
-												<Property Name="Color" Type="int16" Value="19"/>
-												<Property Name="Highpass" Type="int16">
-													<ValueList>
-														<Value>82</Value>
-													</ValueList>
-												</Property>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-12</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="Before learning" ID="{17823FB4-E6F1-4103-A67E-949021570AFA}">
-													<Language>SFX</Language>
-													<AudioFile>Before learning.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="897459153"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="Before learning" ID="{17823FB4-E6F1-4103-A67E-949021570AFA}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="Rain" ID="{580D6C31-008A-4F49-A37F-A008B69D9852}" ShortID="368170330">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>

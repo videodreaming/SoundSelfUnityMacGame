@@ -17,7 +17,6 @@ namespace AK
         static const AkUniqueID MENU_SETSWITCH_SHORT = 1972773362U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS = 1989542112U;
-        static const AkUniqueID PLAY_AVS_SINEGENERATORS_SWITCH = 2892901283U;
         static const AkUniqueID PLAY_AVS_WAVE1_SILENT = 1358859793U;
         static const AkUniqueID PLAY_AVS_WAVE2_TONING = 841212430U;
         static const AkUniqueID PLAY_AVS_WAVE3_INHALE = 1328263081U;
@@ -56,6 +55,8 @@ namespace AK
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONHUM = 897777483U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONOHH = 1350331786U;
         static const AkUniqueID PLAY_VO_OPENING = 1386597262U;
+        static const AkUniqueID PLAY_VO_OPENING_THEMATIC_SWITCH = 3418740755U;
+        static const AkUniqueID PLAY_VO_POSTURE_SWITCH = 528568497U;
         static const AkUniqueID PLAY_VO_QUERYELICITATION1 = 1488609146U;
         static const AkUniqueID PLAY_VO_QUERYELICITATION2 = 1488609145U;
         static const AkUniqueID PLAY_VO_QUERYELICITATIONFAIL1 = 1422850326U;
@@ -75,7 +76,6 @@ namespace AK
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
         static const AkUniqueID STOP_AVS_SILENT = 2638034312U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS = 2181803410U;
-        static const AkUniqueID STOP_AVS_SINEGENERATORS_SWITCH = 630856697U;
         static const AkUniqueID STOP_AVS_WAVE1_SILENT = 1208070559U;
         static const AkUniqueID STOP_AVS_WAVE2_TONING = 3951624080U;
         static const AkUniqueID STOP_AVS_WAVE3_INHALE = 896604455U;

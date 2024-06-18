@@ -1725,16 +1725,6 @@
 												<ActiveSource Name="vo_thematicOpening_surrender" ID="{BBD7C033-E7FC-471D-8663-C97DE6B40C37}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<BlendContainer Name="New Blend Container" ID="{1B3E3BB5-417E-48DA-88DA-0BE8C90B3E9B}" ShortID="522055754">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-										</BlendContainer>
 									</ChildrenList>
 									<GroupingInfo>
 										<GroupingBehaviorList>
@@ -1746,9 +1736,6 @@
 											</GroupingBehavior>
 											<GroupingBehavior>
 												<ItemRef Name="vo_thematicOpening_narrative" ID="{5D39569D-BFD3-4C36-8542-DD1D7F93D333}"/>
-											</GroupingBehavior>
-											<GroupingBehavior>
-												<ItemRef Name="New Blend Container" ID="{1B3E3BB5-417E-48DA-88DA-0BE8C90B3E9B}"/>
 											</GroupingBehavior>
 											<GroupingBehavior>
 												<ItemRef Name="vo_thematicOpening_diewell" ID="{30FA54FD-D5A9-466B-AF06-C959445CE44D}"/>
