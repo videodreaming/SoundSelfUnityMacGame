@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        currentState = AudioManagerState.SighElicitationFail1;
+        currentState = AudioManagerState.Opening;
         // Get the AudioSource component attached to the GameObject
         audioSource = GetComponent<AudioSource>();
 
@@ -134,8 +134,10 @@ public class AudioManager : MonoBehaviour
 
     public void OnAudioFinished()
     {
+        ChangeToNextState();
+        
         // This method is called when the audio finishes playing
-        if (currentState == AudioManagerState.SighElicitation1)
+        /*if (currentState == AudioManagerState.SighElicitation1)
         {
             if (SighElicitationPass1)
             {
@@ -153,7 +155,7 @@ public class AudioManager : MonoBehaviour
             // Decrease the timer for toneActive
             sighTimer += Time.deltaTime;
             // Check if the tone has been active for at least 0.75 seconds
-            if (sighTimer >= 0.75f /*&& ImitoneVoiceInterpreter.breathStage >= 2*/)
+            if (sighTimer >= 0.75f)
             {
                 SighElicitationPass1 = true;    
             }
@@ -225,7 +227,7 @@ public class AudioManager : MonoBehaviour
         {
             // For other states, simply change to the next state
             ChangeToNextState();
-        }
+        }*/
     }
 
     private void ChangeToNextState()

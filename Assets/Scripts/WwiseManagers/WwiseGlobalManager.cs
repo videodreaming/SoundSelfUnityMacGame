@@ -11,7 +11,6 @@ public class WwiseGlobalManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        VOManager.playOpening("openingShort");
     }
 
     // Update is called once per frame

@@ -36,6 +36,8 @@ public class WwiseVOManager : MonoBehaviour
     public string ThematicContent = null;
     public string ThematicSavasana = null;
     public string VO_ClosingGoodbye = null;
+    public bool firstTimeUser = true;
+    public string currentlyPlaying;
 
     public CSVWriter csvWriter;
 
@@ -43,159 +45,84 @@ public class WwiseVOManager : MonoBehaviour
     void Start()
     {
         assignVOs();
+        playOpening();
+        currentlyPlaying = "VO_OPENING_SEQUENCE";
+        AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_LONG", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
+
     }
     
     void assignVOs()
     {
+        if(firstTimeUser == true)
+        {
+            AkSoundEngine.SetSwitch("VO_Opening", "openingLong", gameObject);
+            AkSoundEngine.SetSwitch("VO_Somatic", "long", gameObject);
+        } else if (firstTimeUser == false)
+        {
+            AkSoundEngine.SetSwitch("VO_Opening", "openingShort", gameObject);
+            AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
+        } else 
+        {
+            AkSoundEngine.SetSwitch("VO_Opening", "openingPassive", gameObject);
+            AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
+        }
+
+        if(csvWriter.SubGameMode == "DieWell")
+        {
+            AkSoundEngine.SetSwitch("VO_ThematicContent", "DieWell", gameObject);
+        } else if (csvWriter.SubGameMode == "Narrative")
+        {
+           AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
+        } else if (csvWriter.SubGameMode == "Peace")
+        {
+            AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);
+        } else if (csvWriter.SubGameMode == "Surrender")
+        {
+            AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
+        }
+
         if(csvWriter.GameMode == "Preperation")
         {
-            Debug.Log("Preperation");
-            if(csvWriter.SubGameMode == "Narrative")
-            {
-                Debug.Log("Metta");
-            } else if (csvWriter.SubGameMode == "Peace")
-            {
-                Debug.Log("Guided");
-            } else if (csvWriter.SubGameMode == "Surrender")
-            {
-                Debug.Log("Silent");
-            }
+
         } 
         if(csvWriter.GameMode == "Integration")
         {
-            Debug.Log("Integration");
-            if(csvWriter.SubGameMode == "Kindness")
-            {
-                Debug.Log("Kindness");
-            } else if (csvWriter.SubGameMode == "Metta")
-            {
-                Debug.Log("Metta");
-            } else if (csvWriter.SubGameMode == "Fireflies")
-            {
-                Debug.Log("Fireflies");
-            }
+
         }
         if(csvWriter.GameMode == "Adjunctive")
         {
-            Debug.Log("Adjunctive");
-            if(csvWriter.SubGameMode == "Anchoring")
-            {
-                Debug.Log("Anchoring");
-            } else if (csvWriter.SubGameMode == "Meditation")
-            {
-                Debug.Log("Meditation");
-            } else if (csvWriter.SubGameMode == "Gratitude")
-            {
-                Debug.Log("Gratitude");
-            }
+
         }
     }
 
-    public void playOpening(string length)
+    public void playOpening()
     {
-        if(length=="openingLong")
+        if(firstTimeUser == true)
         {
-            AkSoundEngine.SetSwitch("VO_Opening", length, gameObject);
-        } else if(length=="openingShort") {
-            AkSoundEngine.SetSwitch("VO_Opening", length, gameObject);
-        } else if(length=="openingPassive"){
-            AkSoundEngine.SetSwitch("VO_Opening", length, gameObject);
+            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_LONG", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
+        } else 
+        {
+            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_SHORT", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!pause)
+ 
+    }
+
+    void PlayNext()
+    {
+        if(csvWriter.GameMode == "Adjunctive")
         {
-            if(audioManager.currentState == AudioManager.AudioManagerState.Opening && !voOpeningEventPlayed)
-                {
-                    voOpeningEventPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_Opening", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.SighElicitation1 && !voSighElicitation1Played)
-                {
-                    voSighElicitation1Played = true;
-                    AkSoundEngine.PostEvent("Play_VO_SighElicitation1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.SighElicitationFail1 && !voSighElicitationfail1Played && audioManager.SighElicitationPass1 == false)
-                {
-                    voSighElicitationfail1Played = true;
-                    AkSoundEngine.PostEvent("Play_VO_SighElicitationFail1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitation1 && !QueryElicitation1Played && audioManager.SighElicitationPass1 == true)
-                {
-                    QueryElicitation1Played = true;
-                    AkSoundEngine.PostEvent("Play_VO_QueryElicitation1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitationFail1 && !QueryElicitationFail1Played)
-                {
-                    QueryElicitationFail1Played = true;
-                    AkSoundEngine.PostEvent("Play_VO_QueryElicitationFail1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitationPassThankYou1 && !QueryElicitationPassThankYou1Played)
-                {
-                    Debug.LogWarning("QueryElicitationPassThankYou1Played");
-                    QueryElicitationPassThankYou1Played = true;
-                    AkSoundEngine.PostEvent("Play_VO_QueryElicitationPassThankYou1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.ThematicContent && !ThematicContentPlayed)
-                {
-                    ThematicContentPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_ThematicContent", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.Posture && !PosturePlayed)
-                {
-                    PosturePlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_Posture", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.Orientation && !OrientationPlayed)
-                {
-                    OrientationPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_Orientation", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.Somatic && !SomaticPlayed)
-                {
-                    SomaticPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_Somatic", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum && !GuidededVocalizationHumPlayed)
-                {
-                    GuidededVocalizationHumPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAhh && !GuidededVocalizationAhhPlayed)
-                {
-                    GuidededVocalizationAhhPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh && !GuidededVocalizationOhhPlayed)
-                {
-                    GuidededVocalizationOhhPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced && !GuidededVocalizationAdvancedPlayed)
-                {
-                    GuidededVocalizationAdvancedPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.UnGuidedVocalization && !UnGuidedVocalizationPlayed)
-                {
-                    UnGuidedVocalizationPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_UnGuidedVocalization", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.ThematicSavasana && !ThematicSavasanaPlayed)
-                {
-                    ThematicSavasanaPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_ThematicSavasana", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);  
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.SilentMeditation && !SilentMeditationPlayed){
-                    SilentMeditationPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_SilentMeditation", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);  
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.WakeUp && !WakeUpPlayed){
-                    WakeUpPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_WakeUp", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);  
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.EndingSoon && !EndingSoonPlayed){
-                    EndingSoonPlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_EndingSoon", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);  
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.SighElicitation2 && !SighElicitation2Played){
-                    SighElicitation2Played = true;
-                    AkSoundEngine.PostEvent("Play_VO_SighElicitation2", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);  
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.SighElicitationFail2 && !SighElicitationFail2Played){
-                    SighElicitationFail2Played = true;
-                    AkSoundEngine.PostEvent("Play_VO_SighElicitationFail2", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);  
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitationPass2 && !QueryElicitationPass2Played){
-                    QueryElicitationPass2Played = true;
-                    AkSoundEngine.PostEvent("Play_VO_QueryElicitationPass2", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);  
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.ClosingGoodbye && !ClosingGoodbyePlayed){
-                    ClosingGoodbyePlayed = true;
-                    AkSoundEngine.PostEvent("Play_VO_ClosingGoodbye", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);  
-                }
+            if(currentlyPlaying == "VO_OPENING_SEQUENCE")
+            {
+                AkSoundEngine.PostEvent("Play_SOMATIC_SEQUENCE", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
+                currentlyPlaying ="Play_SOMATIC_SEQUENCE";
+            }
         }
+
     }
 
         void MyCallbackFunction(object in_cookie, AkCallbackType in_type, object in_info)
@@ -216,9 +143,10 @@ public class WwiseVOManager : MonoBehaviour
                 else
                 {
                     audioManager.OnAudioFinished();
+                    PlayNext();
                     resetFlags();
                 }
-            }
+            }  
         }
         void resetFlags()
         {
