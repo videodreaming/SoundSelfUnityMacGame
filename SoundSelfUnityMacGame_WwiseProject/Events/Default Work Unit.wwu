@@ -32,27 +32,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{3F15C86D-467B-4243-AF67-6287A39EF890}" ShortID="1050603808">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="23"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{F89940CE-B607-41A3-A48C-BD11DCDA8C60}" ShortID="935032121">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="41"/>
-								<Property Name="Delay" Type="Real64" Value="148"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{E5797245-3254-4B1E-9BC7-18D3D9721C9B}" ShortID="737319215">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="41"/>
@@ -100,27 +79,6 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="ADJUNCT_OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{BCCB121B-ACA5-4B8A-8A21-82B81B6BEE32}" ShortID="296187087">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="23"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{5B57195C-7FE1-4933-AD5A-F5DC8D850B7B}" ShortID="1013714942">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="41"/>
-								<Property Name="Delay" Type="Real64" Value="184"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -227,7 +185,6 @@
 						<Action Name="" ID="{C3BE4DF3-FD54-488B-8577-450FED4C52BC}" ShortID="60376929">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">

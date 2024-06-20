@@ -39,7 +39,6 @@ Event	ID	Name			Wwise Object Path	Notes
 	2929327982	Play_environment_wind			\Environment\Play_environment_wind	
 	2987132208	Play_environment_openingQuery			\Environment\Play_environment_openingQuery	
 	3415983401	Play_Toning_v1_7Pitch_Linked			\Interactive Music System\Play_Toning_v1_7Pitch_Linked	
-	3418740755	Play_VO_OPENING_THEMATIC_SWITCH			\Default Work Unit\Play_VO_OPENING_THEMATIC_SWITCH	
 	3427313557	Play_Toning_v3_FundamentalOnly			\Interactive Music System\Play_Toning_v3_FundamentalOnly	
 	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
 	3451051880	Play_environment_crickets			\Environment\Play_environment_crickets	
@@ -57,7 +56,6 @@ Switch Group	ID	Name			Wwise Object Path	Notes
 	3505294094	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly	
 	3514265297	InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly			\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly	
 	3813349969	VO_Somatic			\VO\VO_Somatic	
-	3925841397	VO_ThematicContent			\VO\VO_ThematicContent	
 	4212583561	VO_Opening			\VO\VO_Opening	
 
 Switch	ID	Name	Switch Group			Notes
@@ -108,10 +106,6 @@ Switch	ID	Name	Switch Group			Notes
 	3800083777	CsharpDflat	InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly			
 	674228435	Long	VO_Somatic			
 	2585211341	Short	VO_Somatic			
-	103389341	Peace	VO_ThematicContent			
-	1047870521	Narrative	VO_ThematicContent			
-	2721896533	DieWell	VO_ThematicContent			
-	2965941853	Surrender	VO_ThematicContent			
 	335023706	openingPassive	VO_Opening			
 	2367398737	openingLong	VO_Opening			
 	3060490183	openingShort	VO_Opening			
