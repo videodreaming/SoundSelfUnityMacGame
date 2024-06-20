@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using UnityEngine;
+using AK.Wwise;
 
 
 
@@ -37,7 +38,9 @@ public class WwiseVOManager : MonoBehaviour
     public string ThematicSavasana = null;
     public string VO_ClosingGoodbye = null;
     public bool firstTimeUser = true;
+    public bool layingDown = true;
     public string currentlyPlaying;
+
 
     public CSVWriter csvWriter;
 
@@ -47,24 +50,34 @@ public class WwiseVOManager : MonoBehaviour
         assignVOs();
         playOpening();
         currentlyPlaying = "VO_OPENING_SEQUENCE";
-        AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_LONG", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-
+        AkSoundEngine.PostEvent("Play_Somatic_Sequence", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
+        Debug.Log("playing");
     }
     
     void assignVOs()
     {
+        //Set VO_Posture
+        if(layingDown)
+        {
+            AkSoundEngine.SetSwitch("VO_Posture","LieDown",gameObject);
+        } else 
+        {
+            AkSoundEngine.SetSwitch("VO_Posture","Relax",gameObject);
+        }
+
+
         if(firstTimeUser == true)
         {
             AkSoundEngine.SetSwitch("VO_Opening", "openingLong", gameObject);
-            AkSoundEngine.SetSwitch("VO_Somatic", "long", gameObject);
+            //AkSoundEngine.SetSwitch("VO_Somatic", "long", gameObject);
         } else if (firstTimeUser == false)
         {
             AkSoundEngine.SetSwitch("VO_Opening", "openingShort", gameObject);
-            AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
+           // AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
         } else 
         {
             AkSoundEngine.SetSwitch("VO_Opening", "openingPassive", gameObject);
-            AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
+            //AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
         }
 
         if(csvWriter.SubGameMode == "DieWell")
@@ -80,7 +93,7 @@ public class WwiseVOManager : MonoBehaviour
         {
             AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
         }
-
+    
         if(csvWriter.GameMode == "Preperation")
         {
 
