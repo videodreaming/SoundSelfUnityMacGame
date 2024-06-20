@@ -28,8 +28,9 @@ public class CSVWriter : MonoBehaviour
     void Start()
     {
         #if UNITY_STANDALONE_OSX
-            string userFolder = "/Users/harithliew/AppData/Roaming/Hummingbird";
-            baseSessionsFolderPath = userFolder;
+            string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+            string baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Hummingbird");
+            Debug.Log("Base sessions folder path: " + baseSessionsFolderPath);
         #elif UNITY_STANDALONE_WIN
             baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
         #else
