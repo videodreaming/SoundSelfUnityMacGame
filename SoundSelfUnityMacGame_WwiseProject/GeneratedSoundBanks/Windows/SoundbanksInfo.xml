@@ -928,7 +928,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{5BCED1B1-8595-78F1-7D5C-3AA6A4A75755}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{E79EF87F-B2D1-FB71-DBC5-6E2620A0DFD4}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
@@ -1676,8 +1676,10 @@
 				<Event Id="1486205449" Name="Play_OPENING_SEQUENCE_ADJUNCT_LONG" DurationType="Infinite">
 					<ActionPostEvent>
 						<ActionPostEventEntry Id="528568497" Name="Play_VO_POSTURE_SWITCH"/>
+						<ActionPostEventEntry Id="3418740755" Name="Play_VO_OPENING_THEMATIC_SWITCH"/>
 					</ActionPostEvent>
 					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="3813349969" Id="674228435" Name="Long"/>
 						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
 					</ActionSetSwitch>
 				</Event>
@@ -4359,6 +4361,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="3418740755" Name="Play_VO_OPENING_THEMATIC_SWITCH" DurationType="Infinite"/>
 				<Event Id="528568497" Name="Play_VO_POSTURE_SWITCH" DurationType="Infinite"/>
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -4499,6 +4502,14 @@
 						<Switch Id="2585211341" Name="Short"/>
 					</Switches>
 				</SwitchGroup>
+				<SwitchGroup Id="3925841397" Name="VO_ThematicContent">
+					<Switches>
+						<Switch Id="103389341" Name="Peace"/>
+						<Switch Id="1047870521" Name="Narrative"/>
+						<Switch Id="2721896533" Name="DieWell"/>
+						<Switch Id="2965941853" Name="Surrender"/>
+					</Switches>
+				</SwitchGroup>
 				<SwitchGroup Id="4212583561" Name="VO_Opening">
 					<Switches>
 						<Switch Id="335023706" Name="openingPassive"/>
@@ -4509,5 +4520,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{1F532204-1613-9E2D-61B1-21E3A998EC9A}</FileHash>
+	<FileHash>{D17C5D7F-EB42-9A6A-A4B9-D487F61D5D39}</FileHash>
 </SoundBanksInfo>
