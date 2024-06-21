@@ -1,0 +1,79 @@
+Event	ID	Name			Wwise Object Path	Notes
+	247426471	Play_VO_ThematicSavasana			\VO\Play_VO_ThematicSavasana	
+	528568497	Play_VO_POSTURE_SWITCH			\Default Work Unit\Play_VO_POSTURE_SWITCH	
+	742624799	Play_OPENING_SEQUENCE_ADJUNCT_SHORT			\Default Work Unit\Play_OPENING_SEQUENCE_ADJUNCT_SHORT	
+	773450844	Play_ADJUNCT_OPENING_LONG_MUSICSEGMENT			\Default Work Unit\Play_ADJUNCT_OPENING_LONG_MUSICSEGMENT	
+	1486205449	Play_OPENING_SEQUENCE_ADJUNCT_LONG			\Default Work Unit\Play_OPENING_SEQUENCE_ADJUNCT_LONG	
+	1928920978	Play_VO_Somatic			\VO\Play_VO_Somatic	
+	2088653686	Play_VO_ThematicContent			\VO\Play_VO_ThematicContent	
+	3418740755	Play_VO_OPENING_THEMATIC_SWITCH			\Default Work Unit\Play_VO_OPENING_THEMATIC_SWITCH	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	184547165	VO_Posture			\VO\VO_Posture	
+	3813349969	VO_Somatic			\VO\VO_Somatic	
+	3925841397	VO_ThematicContent			\VO\VO_ThematicContent	
+	4155508698	VO_ThematicSavasana			\VO\VO_ThematicSavasana	
+	4212583561	VO_Opening			\VO\VO_Opening	
+
+Switch	ID	Name	Switch Group			Notes
+	3551080421	Relax	VO_Posture			
+	3891673577	LieDown	VO_Posture			
+	674228435	Long	VO_Somatic			
+	2585211341	Short	VO_Somatic			
+	103389341	Peace	VO_ThematicContent			
+	1047870521	Narrative	VO_ThematicContent			
+	2721896533	DieWell	VO_ThematicContent			
+	2965941853	Surrender	VO_ThematicContent			
+	103389341	Peace	VO_ThematicSavasana			
+	674228435	Long	VO_ThematicSavasana			
+	1047870521	Narrative	VO_ThematicSavasana			
+	1126065684	Fireflies	VO_ThematicSavasana			
+	1721781634	Gratitude	VO_ThematicSavasana			
+	1927133646	Anchoring	VO_ThematicSavasana			
+	2585211341	Short	VO_ThematicSavasana			
+	2655751454	Kindness	VO_ThematicSavasana			
+	2692078280	Metta	VO_ThematicSavasana			
+	2965941853	Surrender	VO_ThematicSavasana			
+	3041563226	Silence	VO_ThematicSavasana			
+	335023706	openingPassive	VO_Opening			
+	2367398737	openingLong	VO_Opening			
+	3060490183	openingShort	VO_Opening			
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	9176103	vo_thematicSavasana_gratitude	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_gratitude_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_gratitude		18942436
+	39113922	vo_thematicOpening_surrender	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicOpening_surrender_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_surrender\vo_thematicOpening_surrender		29754912
+	56144728	SFX_BreathLoop_Reaper	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SFX_BreathLoop_Reaper_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\SFX_BreathLoop_Reaper		5760096
+	90271403	vo_thematicOpening_peace	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicOpening_peace_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_peace\vo_thematicOpening_peace		9831968
+	137392073	ThematicSavasana_MUSIC_METTA	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\ThematicSavasana_MUSIC_METTA_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\ThematicSavasana_MUSIC_METTA		62865096
+	146493863	vo_opening_openingShort	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_opening_openingShort_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\vo_opening_openingShort		7210528
+	171769046	vo_thematicSavasana_silence	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_silence_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_silence		30410272
+	191501674	vo_thematicSavasana_anchoring	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_anchoring_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_anchoring		10752080
+	209545666	vo_thematicSavasana_fireflies	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_fireflies_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_fireflies		29376160
+	223406767	vo_thematicOpening_peace	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicOpening_peace_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_peace		9831968
+	235195281	WHITE_Iso_TRI_1Hz	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\WHITE_Iso_TRI_1Hz_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\WHITE_Iso_TRI_1Hz		192096
+	248401807	vo_thematicSavasana_peace	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_peace_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_peace		44041760
+	270879250	vo_thematicSavasana_narrative	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_narrative_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_narrative		16516640
+	288516378	WHITE_SOLID	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\WHITE_SOLID_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\WHITE_SOLID		192096
+	301782202	vo_thematicOpening_diewell	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicOpening_diewell_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_diewell\vo_thematicOpening_diewell		4589088
+	334730074	REFERENCE	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\REFERENCE_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\REFERENCE		176496
+	365267676	vo_thematicOpening_diewell	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicOpening_diewell_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_diewell		4589088
+	370694246	vo_thematicOpening_narrative	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicOpening_narrative_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_narrative		12846624
+	397051634	vo_opening_openingLong	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_opening_openingLong_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\vo_opening_openingLong		13370912
+	400971119	vo_thematicOpening_narrative	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicOpening_narrative_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_narrative\vo_thematicOpening_narrative		12846624
+	517296307	environment_openingWelcome	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_openingWelcome_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\environment_openingWelcome		9918616
+	587565267	vo_thematicSavasana_long	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_long_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_long		25429536
+	650293573	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\sfx_breath in		612056
+	655141054	vo_thematicSavasana_short	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_short_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_short		16254496
+	671858453	vo_thematicSavasana_surrender	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_surrender_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_surrender		21991132
+	685689043	STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12.21.23 [2024-05-06 214206]_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]_01		33408096
+	707978221	WHITE_Iso_TRI_20Hz	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\WHITE_Iso_TRI_20Hz_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\WHITE_Iso_TRI_20Hz		192096
+	755912331	vo_thematicSavasana_metta	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_metta_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_metta		64440960
+	864683053	vo_somaticMeditation_long	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_somaticMeditation_long_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Somatic\VO_Somatic\vo_somaticMeditation_long		45483552
+	919460175	vo_posture_liedown	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_posture_liedown_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_POSTURE_SWITCH\vo_posture_liedown\vo_posture_liedown		1560096
+	919567912	vo_thematicSavasana_kindness	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_kindness_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_kindness		16633340
+	962245820	vo_posture_relax	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_posture_relax_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_POSTURE_SWITCH\vo_posture_relax\vo_posture_relax		1560096
+	977341665	sfx_breath out	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath out_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\sfx_breath out		768096
+	1026853668	vo_thematicOpening_surrender	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicOpening_surrender_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_surrender		29754912
+	1051969831	vo_orientation	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_orientation_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\vo_orientation		8914464
+	1061468265	vo_somaticMeditation_short	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_somaticMeditation_short_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Somatic\VO_Somatic\vo_somaticMeditation_short		18613792
+

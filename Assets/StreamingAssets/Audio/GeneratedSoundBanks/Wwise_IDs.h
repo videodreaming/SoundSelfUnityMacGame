@@ -15,6 +15,7 @@ namespace AK
     {
         static const AkUniqueID MENU_SETSWITCH_LONG = 243401070U;
         static const AkUniqueID MENU_SETSWITCH_SHORT = 1972773362U;
+        static const AkUniqueID PLAY_ADJUNCT_OPENING_LONG_MUSICSEGMENT = 773450844U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS = 1989542112U;
         static const AkUniqueID PLAY_AVS_WAVE1_SILENT = 1358859793U;
@@ -381,6 +382,7 @@ namespace AK
     {
         static const AkUniqueID INIT = 1355168291U;
         static const AkUniqueID MAIN = 3161908922U;
+        static const AkUniqueID OPENING = 1831982039U;
         static const AkUniqueID VO = 1534528548U;
     } // namespace BANKS
 
