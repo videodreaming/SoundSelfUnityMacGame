@@ -6,7 +6,6 @@ using System;
 
 public class GameManagement : MonoBehaviour
 {
-    public string controlStatus = "resumed";
     public CSVWriter CSVWriter;
     void Update()
     {
