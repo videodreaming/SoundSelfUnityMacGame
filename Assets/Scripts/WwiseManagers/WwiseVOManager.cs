@@ -44,12 +44,18 @@ public class WwiseVOManager : MonoBehaviour
 
     public CSVWriter csvWriter;
 
+
+    void Awake()
+    {
+
+    }
     // Start is called before the first frame update
     void Start()
     {
+        AkSoundEngine.SetSwitch("VO_ThematicContent","DieWell", gameObject);
         assignVOs();
         playOpening();
-        
+        AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_LONG", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
     }
     
     void assignVOs()
@@ -65,19 +71,19 @@ public class WwiseVOManager : MonoBehaviour
         }
 
 
-        /*if(firstTimeUser == true)
+        if(firstTimeUser == true)
         {
-            AkSoundEngine.SetSwitch("VO_Opening", "openingLong", gameObject);
+           // AkSoundEngine.SetSwitch("VO_Opening", "openingLong", gameObject);
             //AkSoundEngine.SetSwitch("VO_Somatic", "long", gameObject);
         } else if (firstTimeUser == false)
         {
-            AkSoundEngine.SetSwitch("VO_Opening", "openingShort", gameObject);
+           // AkSoundEngine.SetSwitch("VO_Opening", "openingShort", gameObject);
            // AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
         } else 
         {
-            AkSoundEngine.SetSwitch("VO_Opening", "openingPassive", gameObject);
+            //AkSoundEngine.SetSwitch("VO_Opening", "openingPassive", gameObject);
             //AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
-        }*/
+        }
 
         if(csvWriter.SubGameMode == "DieWell")
         {
@@ -111,7 +117,7 @@ public class WwiseVOManager : MonoBehaviour
     {
         if(firstTimeUser == true)
         {
-            AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
+            //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_LONG", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
         } else 
         {
             AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_SHORT", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
