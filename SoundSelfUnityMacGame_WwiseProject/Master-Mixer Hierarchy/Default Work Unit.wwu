@@ -4,6 +4,13 @@
 		<WorkUnit Name="Default Work Unit" ID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}" PersistMode="Standalone">
 			<ChildrenList>
 				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+					<PropertyList>
+						<Property Name="BusVolume" Type="Real64">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{69D60C99-E104-4F92-81B8-1C890CC95B06}" WorkUnitID="{20E15702-9916-45CB-8BCD-D7E3AE92AAE9}"/>
@@ -373,6 +380,13 @@
 							</DuckingList>
 						</Bus>
 						<Bus Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>
@@ -428,6 +442,11 @@
 				</Bus>
 				<Bus Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}">
 					<PropertyList>
+						<Property Name="BusVolume" Type="Real64">
+							<ValueList>
+								<Value>-96</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Highpass" Type="int16">
 							<ValueList>
 								<Value>95</Value>
