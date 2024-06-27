@@ -1618,7 +1618,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>6</Value>
+												<Value>7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1627,7 +1627,7 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 										</Reference>
 										<Reference Name="DefaultSwitchOrState">
-											<ObjectRef Name="Surrender" ID="{ADF19206-AF51-4A6E-8F6A-5DF211B479B3}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+											<ObjectRef Name="Peace" ID="{94BB8323-C29A-4FDB-8145-8499790D4345}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
 										</Reference>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2617,6 +2617,11 @@
 													</ValueList>
 												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-8</Value>
+													</ValueList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -2641,11 +2646,6 @@
 										</Sound>
 										<Sound Name="vo_elicitQuery_opening" ID="{8EF8C6A2-6D71-4ED2-A73F-781E50A09BF3}" ShortID="175295818">
 											<PropertyList>
-												<Property Name="InitialDelay" Type="Real64">
-													<ValueList>
-														<Value>21</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>3</Value>
@@ -2662,6 +2662,9 @@
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="vo_elicitQuery_opening" ID="{FC45B563-7D5B-44E4-830E-9A24A3676B24}">
+													<PropertyList>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>vo_elicitQuery_opening.wav</AudioFile>
 													<MediaIDList>
@@ -2681,6 +2684,11 @@
 													</ValueList>
 												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-2</Value>
+													</ValueList>
+												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -2733,41 +2741,13 @@
 												<ActiveSource Name="sfx_stop" ID="{CE4E0C8C-124E-4BF6-B935-8885207DF2CE}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="vo_elicitSigh_opening_01" ID="{3C4A7EEE-36DD-4C64-8344-6164AE5A5321}" ShortID="732487230">
-											<PropertyList>
-												<Property Name="OverrideOutput" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>3</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="vo_elicitSigh_opening" ID="{A1F85499-DE01-4338-9645-F24267DEDFE4}">
-													<Language>SFX</Language>
-													<AudioFile>vo_elicitSigh_opening.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="711571273"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="vo_elicitSigh_opening" ID="{A1F85499-DE01-4338-9645-F24267DEDFE4}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 								</BlendContainer>
 								<RandomSequenceContainer Name="SFX_OPENING QUERY" ID="{25C147EA-B504-490E-BDB6-107158078466}" ShortID="853167238">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
+										<Property Name="PlayMechanismSpecialTransitionsValue" Type="Real64" Value="2"/>
 										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 										<Property Name="Volume" Type="Real64">
@@ -2788,11 +2768,6 @@
 										<Sound Name="environment_openingQuery" ID="{11161C99-5D48-4B7E-A789-20BBF58FE1AA}" ShortID="302599741">
 											<PropertyList>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-7</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -2805,14 +2780,12 @@
 											<ChildrenList>
 												<AudioFileSource Name="environment_openingQuery" ID="{A0BA259A-62DD-4057-9A3F-5273DB76D902}">
 													<PropertyList>
-														<Property Name="FadeInDuration" Type="Real64" Value="2.32779200739875"/>
-														<Property Name="FadeOutDuration" Type="Real64" Value="3.35564821845794"/>
 														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 													</PropertyList>
 													<Language>SFX</Language>
 													<AudioFile>environment_openingQuery.wav</AudioFile>
 													<MediaIDList>
-														<MediaID ID="1006284074"/>
+														<MediaID ID="147201971"/>
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
@@ -2856,6 +2829,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="sfx_start" ID="{F5A0F897-51B5-4D4E-88D6-45D17A8F741C}" ShortID="314835402">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>2</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2886,7 +2866,7 @@
 											<PropertyList>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-5</Value>
+														<Value>-3</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -2912,6 +2892,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="sfx_stop" ID="{933635C9-E362-4DA7-A9D0-BD42E82C5FB7}" ShortID="818743040">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>3</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2933,6 +2920,27 @@
 												<ActiveSource Name="sfx_stop" ID="{726AE7CC-88C0-48C8-BF13-194A8114B69A}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
+										<Sound Name="Silence_2s" ID="{9BDEDF8C-CD20-4895-B336-4107DD732CA0}" ShortID="1020067488">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<SourcePlugin Name="Silence" ID="{93671EC1-06F7-4D8A-9E21-F2A366B96F19}" ShortID="96965579" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<PropertyList>
+														<Property Name="Length" Type="Real32" Value="2"/>
+													</PropertyList>
+													<Language>SFX</Language>
+												</SourcePlugin>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="Silence" ID="{93671EC1-06F7-4D8A-9E21-F2A366B96F19}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
 									</ChildrenList>
 									<ObjectLists>
 										<ObjectList Name="Playlist">
@@ -2943,6 +2951,9 @@
 												<ObjectRef Name="environment_openingQuery" ID="{11161C99-5D48-4B7E-A789-20BBF58FE1AA}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 											</Reference>
 											<Reference>
+												<ObjectRef Name="Silence_2s" ID="{9BDEDF8C-CD20-4895-B336-4107DD732CA0}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+											</Reference>
+											<Reference>
 												<ObjectRef Name="sfx_stop" ID="{933635C9-E362-4DA7-A9D0-BD42E82C5FB7}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 											</Reference>
 											<Reference>
@@ -2951,45 +2962,9 @@
 										</ObjectList>
 									</ObjectLists>
 								</RandomSequenceContainer>
-								<Sound Name="vo_elicitSigh_opening_01" ID="{FF5EDFC8-AB25-43EA-9D98-FDAC86F534D6}" ShortID="216999179">
-									<PropertyList>
-										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>3</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="vo_elicitSigh_opening" ID="{3EC12D1F-1521-4362-95FF-D5EC6B07D78B}">
-											<Language>SFX</Language>
-											<AudioFile>vo_elicitSigh_opening.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="711571273"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="vo_elicitSigh_opening" ID="{3EC12D1F-1521-4362-95FF-D5EC6B07D78B}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 							</ChildrenList>
 							<ObjectLists>
 								<ObjectList Name="Playlist">
-									<Reference>
-										<ObjectRef Name="vo_elicitSigh_opening_01" ID="{FF5EDFC8-AB25-43EA-9D98-FDAC86F534D6}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
-									</Reference>
-									<Reference>
-										<ObjectRef Name="Silence_6s" ID="{1255F21A-C402-4D9C-B162-FB03BA2603C2}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
-									</Reference>
 									<Reference>
 										<ObjectRef Name="QUERY 1_VO+SFX" ID="{821DE589-1719-4E89-BC83-1B597604D417}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 									</Reference>
@@ -5538,7 +5513,7 @@
 																</Property>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
-																		<Value>-5</Value>
+																		<Value>-4</Value>
 																	</ValueList>
 																</Property>
 															</PropertyList>
@@ -5579,7 +5554,7 @@
 																</Property>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
-																		<Value>-5</Value>
+																		<Value>-4</Value>
 																	</ValueList>
 																</Property>
 															</PropertyList>
@@ -5613,7 +5588,7 @@
 																</Property>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
-																		<Value>-6</Value>
+																		<Value>-4</Value>
 																	</ValueList>
 																</Property>
 															</PropertyList>
@@ -5652,7 +5627,7 @@
 																</Property>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
-																		<Value>-6</Value>
+																		<Value>-4</Value>
 																	</ValueList>
 																</Property>
 															</PropertyList>

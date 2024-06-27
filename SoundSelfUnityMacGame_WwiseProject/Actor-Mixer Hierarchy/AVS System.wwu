@@ -56,6 +56,158 @@
 										<Panner Name="" ID="{EC41E4B7-1B31-456F-8706-C107BA6FB917}"/>
 									</PositioningInfo>
 								</ActorMixer>
+								<BlendContainer Name="Kasina test audio" ID="{EC374CE2-8FB1-4827-9CF8-5EFE42522758}" ShortID="441328563">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="mindplace_blue" ID="{E8061D9A-D6B9-4759-A0BD-C057BA40517A}" ShortID="799528507">
+											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="mindplace_blue" ID="{838D5066-7C43-4547-8D65-91FEB27775C3}">
+													<Language>SFX</Language>
+													<AudioFile>mindplace_blue.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="920598785"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="mindplace_blue" ID="{838D5066-7C43-4547-8D65-91FEB27775C3}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="mindplace_green" ID="{CC052F9B-9D5F-4026-AF91-B881BC558D73}" ShortID="729391344">
+											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="mindplace_green" ID="{A3344211-439A-4B09-9AA5-9252006EBFEC}">
+													<Language>SFX</Language>
+													<AudioFile>mindplace_green.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="163519585"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="mindplace_green" ID="{A3344211-439A-4B09-9AA5-9252006EBFEC}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="mindplace_red" ID="{593064E2-CF9B-427D-8E7E-0631D3C904BB}" ShortID="447835458">
+											<PropertyList>
+												<Property Name="Inclusion" Type="bool">
+													<ValueList>
+														<Value>False</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="mindplace_red" ID="{A7EE6573-56ED-4B7B-9CF6-C0BFE01B8E22}">
+													<Language>SFX</Language>
+													<AudioFile>mindplace_red.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="158475346"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="mindplace_red" ID="{A7EE6573-56ED-4B7B-9CF6-C0BFE01B8E22}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="mindplace_reference" ID="{BD2B086E-BC61-4768-AC9B-C8611E2CBB8E}" ShortID="416391326">
+											<PropertyList>
+												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="mindplace_reference" ID="{9FAA6523-8C2D-4D58-806E-B528E6E647D4}">
+													<Language>SFX</Language>
+													<AudioFile>mindplace_reference.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="475927870"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="mindplace_reference" ID="{9FAA6523-8C2D-4D58-806E-B528E6E647D4}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</BlendContainer>
+								<Sound Name="REF_10s_16bitPCM" ID="{836A518E-AC18-462E-A98F-6C4BF77C7F05}" ShortID="390996360">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="REFERENCE_16bitPCM" ID="{B3F12CB3-671C-48E0-92E6-3AC95C25422E}">
+											<Language>SFX</Language>
+											<AudioFile>REFERENCE_16bitPCM.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="14111297"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="REFERENCE_16bitPCM" ID="{B3F12CB3-671C-48E0-92E6-3AC95C25422E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 						</ActorMixer>
 						<SwitchContainer Name="AVS_LoopedAudioSample_6s" ID="{9AAEAD60-FC30-4518-81FF-14551B96A4A1}" ShortID="405357419">
@@ -10826,6 +10978,40 @@
 										</Panner>
 									</PositioningInfo>
 								</BlendContainer>
+								<Sound Name="REFERENCE_16bitPCM" ID="{C38F03B2-FBD5-4671-990F-53D89C2AB597}" ShortID="435864068">
+									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="REFERENCE_16bitPCM" ID="{221EC03E-ABB0-49FE-9CF8-F07B4A73F433}">
+											<Language>SFX</Language>
+											<AudioFile>REFERENCE_16bitPCM.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="14111297"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<PositioningInfo>
+										<Panner Name="" ID="{43A5F081-4857-4892-883F-A57A5E310E24}"/>
+									</PositioningInfo>
+									<ActiveSourceList>
+										<ActiveSource Name="REFERENCE_16bitPCM" ID="{221EC03E-ABB0-49FE-9CF8-F07B4A73F433}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
 							</ChildrenList>
 							<PositioningInfo>
 								<Panner Name="" ID="{D35B6333-38CC-47EB-93CB-D4853058BC3E}"/>

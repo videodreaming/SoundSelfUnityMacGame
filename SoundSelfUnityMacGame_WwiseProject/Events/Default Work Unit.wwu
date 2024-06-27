@@ -13,7 +13,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_OPENING_SEQUENCE_ADJUNCT_SHORT" ID="{51F4E23F-90F7-404F-8149-CAF1EBD9CBC5}">
+				<Event Name="Play_OPENING_SEQUENCE_SHORT" ID="{51F4E23F-90F7-404F-8149-CAF1EBD9CBC5}">
 					<ChildrenList>
 						<Action Name="" ID="{36311C4C-AECB-49CA-B36F-D6F318C02271}" ShortID="1056769711">
 							<PropertyList>
@@ -28,7 +28,7 @@
 						<Action Name="" ID="{5C193BFD-789D-469A-9476-C5EFCC7868AB}" ShortID="702477502">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="ADJUNCT_OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+									<ObjectRef Name="OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -61,9 +61,21 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{65843693-4EF3-4D4F-89B9-5A2F6FDF5635}" ShortID="143371981">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VOICE ELICITATION 1" ID="{A1D919FC-9ABF-433D-AFF9-685F083283BF}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_OPENING_SEQUENCE_ADJUNCT_LONG" ID="{928329A8-BF9B-46C7-A5D8-DEFD50EE76E9}">
+				<Event Name="Play_OPENING_SEQUENCE_LONG" ID="{928329A8-BF9B-46C7-A5D8-DEFD50EE76E9}">
 					<ChildrenList>
 						<Action Name="" ID="{9ACAE4F3-88DC-4C5E-849B-8B5D5372D1EF}" ShortID="585621029">
 							<PropertyList>
@@ -78,7 +90,7 @@
 						<Action Name="" ID="{2698546B-D775-496E-9A7D-59BFEEA2AADB}" ShortID="851110569">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="ADJUNCT_OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+									<ObjectRef Name="OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -90,16 +102,6 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{DEF658AE-31D9-4EE4-A99E-33EE83753FF6}" ShortID="163355218">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="23"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -121,17 +123,20 @@
 						<Action Name="" ID="{FFA216D0-16B0-4978-A89E-29736386C0DF}" ShortID="865790192">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="ADJUNCT_OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+									<ObjectRef Name="OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 						<Action Name="" ID="{6B893991-CF14-4CFD-95AD-DCA2FB2738E2}" ShortID="668302388">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -248,12 +253,61 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_ADJUNCT_OPENING_LONG_MUSICSEGMENT" ID="{F9438089-DEE2-468A-B23C-7D672B0A46DE}">
+				<Event Name="Play_SIGH_QUERY_SEQUENCE_1" ID="{79E8399A-5E4C-4461-A5A4-926F23585C1C}">
 					<ChildrenList>
-						<Action Name="" ID="{11B2FAA3-8145-477D-8B45-43B31EFCD782}" ShortID="1027885012">
+						<Action Name="" ID="{5417E5F4-6DBB-441D-8606-985E3F3AFE92}" ShortID="838633734">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="0"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="ADJUNCT_OPENING_LONG" ID="{310110A1-3242-49F7-AD77-BBB98D5335D8}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+									<ObjectRef Name="VOICE ELICITATION 1" ID="{A1D919FC-9ABF-433D-AFF9-685F083283BF}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{BF0E8153-B851-41C1-B40D-2D9019661F04}" ShortID="750907810">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_VO_OPENING_THEMATIC_SWITCH" ID="{D2D5BC84-EB38-4A13-BA70-53F1CFAC8075}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{03C31827-782C-475C-86EB-0D650FCDE71F}" ShortID="488596720">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_OPENING_SEQUENCE" ID="{43D88038-3410-4E89-BD1D-D4D496C2A6B3}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_SIGH_QUERY_SEQUENCE_1" ID="{FF59C7B5-8DA4-48D2-9EEF-82EE9D58D6D9}">
+					<ChildrenList>
+						<Action Name="" ID="{ECF18793-7E04-4EFE-9AB5-B270EB0B589D}" ShortID="275967640">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VOICE ELICITATION 1" ID="{A1D919FC-9ABF-433D-AFF9-685F083283BF}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_VO_OPENING_THEMATIC_SWITCH" ID="{D2D5BC84-EB38-4A13-BA70-53F1CFAC8075}">
+					<ChildrenList>
+						<Action Name="" ID="{7D6B4654-6E9A-48B9-A7E7-14922BAE9141}" ShortID="2942376">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{C7789B8F-0EED-48B6-AE27-DD0FBC34129F}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

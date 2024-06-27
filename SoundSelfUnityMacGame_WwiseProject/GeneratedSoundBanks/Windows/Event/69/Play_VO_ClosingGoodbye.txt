@@ -1,0 +1,12 @@
+Event	ID	Name			Wwise Object Path	Notes
+	699412784	Play_VO_ClosingGoodbye			\VO\Play_VO_ClosingGoodbye	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	1815817025	VO_ClosingGoodbye			\VO\VO_ClosingGoodbye	
+
+Switch	ID	Name	Switch Group			Notes
+	674228435	Long	VO_ClosingGoodbye			
+	1927133646	Anchoring	VO_ClosingGoodbye			
+	2585211341	Short	VO_ClosingGoodbye			
+	3041563226	Silence	VO_ClosingGoodbye			
+
