@@ -1,0 +1,158 @@
+Event	ID	Name			Wwise Object Path	Notes
+	186032212	Play_VO_QueryElicitationPassThankYou1			\VO\Play_VO_QueryElicitationPassThankYou1	
+	247426471	Play_VO_ThematicSavasana			\VO\Play_VO_ThematicSavasana	
+	322188649	Play_VO_Wakeup			\VO\Play_VO_Wakeup	
+	528568497	Play_VO_POSTURE_SWITCH			\Default Work Unit\Play_VO_POSTURE_SWITCH	
+	699412784	Play_VO_ClosingGoodbye			\VO\Play_VO_ClosingGoodbye	
+	742624799	Play_OPENING_SEQUENCE_ADJUNCT_SHORT			\Default Work Unit\Play_OPENING_SEQUENCE_ADJUNCT_SHORT	
+	745351876	Play_VO_GuidedVocalizationAhh			\VO\Play_VO_GuidedVocalizationAhh	
+	773450844	Play_ADJUNCT_OPENING_LONG_MUSICSEGMENT			\Default Work Unit\Play_ADJUNCT_OPENING_LONG_MUSICSEGMENT	
+	897777483	Play_VO_GuidedVocalizationHum			\VO\Play_VO_GuidedVocalizationHum	
+	936790198	Play_VO_EndingSoon			\VO\Play_VO_EndingSoon	
+	1024713720	Play_VO_SighElicitationFail2			\VO\Play_VO_SighElicitationFail2	
+	1024713723	Play_VO_SighElicitationFail1			\VO\Play_VO_SighElicitationFail1	
+	1051170748	Play_VO_QueryElicitationPass2			\VO\Play_VO_QueryElicitationPass2	
+	1350331786	Play_VO_GuidedVocalizationOhh			\VO\Play_VO_GuidedVocalizationOhh	
+	1386597262	Play_VO_Opening			\VO\Play_VO_Opening	
+	1422850325	Play_VO_QueryElicitationFail2			\VO\Play_VO_QueryElicitationFail2	
+	1422850326	Play_VO_QueryElicitationFail1			\VO\Play_VO_QueryElicitationFail1	
+	1486205449	Play_OPENING_SEQUENCE_ADJUNCT_LONG			\Default Work Unit\Play_OPENING_SEQUENCE_ADJUNCT_LONG	
+	1488609145	Play_VO_QueryElicitation2			\VO\Play_VO_QueryElicitation2	
+	1488609146	Play_VO_QueryElicitation1			\VO\Play_VO_QueryElicitation1	
+	1928920978	Play_VO_Somatic			\VO\Play_VO_Somatic	
+	2088653686	Play_VO_ThematicContent			\VO\Play_VO_ThematicContent	
+	2138093880	Play_VO_SighElicitation2			\VO\Play_VO_SighElicitation2	
+	2138093883	Play_VO_SighElicitation1			\VO\Play_VO_SighElicitation1	
+	2767686943	Play_VO_Wisdom			\VO\Play_VO_Wisdom	
+	3418740755	Play_VO_OPENING_THEMATIC_SWITCH			\Default Work Unit\Play_VO_OPENING_THEMATIC_SWITCH	
+	4057363449	Play_VO_GuidedVocalizationAdvanced			\VO\Play_VO_GuidedVocalizationAdvanced	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	184547165	VO_Posture			\VO\VO_Posture	
+	683317262	VO_Wisdom			\VO\VO_Wisdom	
+	1815817025	VO_ClosingGoodbye			\VO\VO_ClosingGoodbye	
+	2585035832	MENU_SESSIONMODE			\Default Work Unit\MENU_SESSIONMODE	
+	3813349969	VO_Somatic			\VO\VO_Somatic	
+	3925841397	VO_ThematicContent			\VO\VO_ThematicContent	
+	4155508698	VO_ThematicSavasana			\VO\VO_ThematicSavasana	
+	4212583561	VO_Opening			\VO\VO_Opening	
+
+Switch	ID	Name	Switch Group			Notes
+	3551080421	Relax	VO_Posture			
+	3891673577	LieDown	VO_Posture			
+	1057915111	NotKnowing	VO_Wisdom			
+	1398814679	Jaguar	VO_Wisdom			
+	1743886715	Peru	VO_Wisdom			
+	2721896533	DieWell	VO_Wisdom			
+	674228435	Long	VO_ClosingGoodbye			
+	1927133646	Anchoring	VO_ClosingGoodbye			
+	2585211341	Short	VO_ClosingGoodbye			
+	3041563226	Silence	VO_ClosingGoodbye			
+	2534402132	Adjunct	MENU_SESSIONMODE			
+	2595709632	Passive	MENU_SESSIONMODE			
+	3147549296	Preparation	MENU_SESSIONMODE			
+	4033993124	Wisdom	MENU_SESSIONMODE			
+	4094247797	Integration	MENU_SESSIONMODE			
+	674228435	Long	VO_Somatic			
+	2585211341	Short	VO_Somatic			
+	103389341	Peace	VO_ThematicContent			
+	1047870521	Narrative	VO_ThematicContent			
+	2721896533	DieWell	VO_ThematicContent			
+	2965941853	Surrender	VO_ThematicContent			
+	103389341	Peace	VO_ThematicSavasana			
+	674228435	Long	VO_ThematicSavasana			
+	1047870521	Narrative	VO_ThematicSavasana			
+	1126065684	Fireflies	VO_ThematicSavasana			
+	1721781634	Gratitude	VO_ThematicSavasana			
+	1927133646	Anchoring	VO_ThematicSavasana			
+	2585211341	Short	VO_ThematicSavasana			
+	2655751454	Kindness	VO_ThematicSavasana			
+	2692078280	Metta	VO_ThematicSavasana			
+	2965941853	Surrender	VO_ThematicSavasana			
+	3041563226	Silence	VO_ThematicSavasana			
+	335023706	openingPassive	VO_Opening			
+	2367398737	openingLong	VO_Opening			
+	3060490183	openingShort	VO_Opening			
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	8786612	vo_test18tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test18tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAdvanced\VO_GuidedVocalizationAdvanced\vo_test18tone		525856
+	9176103	vo_thematicSavasana_gratitude	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_gratitude_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_gratitude		18942436
+	14797471	vo_goodbye_anchoring	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_anchoring_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ClosingGoodbye\VO_ClosingGoodbye\vo_goodbye_anchoring		3278368
+	39113922	vo_thematicOpening_surrender	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_surrender_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_surrender\vo_thematicOpening_surrender		29754912
+	39430341	vo_elicitQuery_closing	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQuery_closing_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitation2\vo_elicitQuery_closing		9176608
+	56144728	SFX_BreathLoop_Reaper	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SFX_BreathLoop_Reaper_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\SFX_BreathLoop_Reaper		5760096
+	74052971	vo_goodbye_long	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ClosingGoodbye\VO_ClosingGoodbye\vo_goodbye_long		10094112
+	90271403	vo_thematicOpening_peace	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_peace_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_peace\vo_thematicOpening_peace		9831968
+	137392073	ThematicSavasana_MUSIC_METTA	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\ThematicSavasana_MUSIC_METTA_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\ThematicSavasana_MUSIC_METTA		62865096
+	139444766	vo_goodbye_short	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_short_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ClosingGoodbye\VO_ClosingGoodbye\vo_goodbye_short		1181216
+	141708242	vo_thankYou	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thankYou_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_thankyou\vo_thankYou		132640
+	146493863	vo_opening_openingShort	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingShort_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\vo_opening_openingShort		7210528
+	171769046	vo_thematicSavasana_silence	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_silence_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_silence		30410272
+	182072962	vo_elicitQueryFail_any2	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any2_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_any2		3933728
+	191501674	vo_thematicSavasana_anchoring	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_anchoring_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_anchoring		10752080
+	209545666	vo_thematicSavasana_fireflies	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_fireflies_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_fireflies		29376160
+	221214242	vo_test02hum	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test02hum_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationHum\VO_GuidedVocalizationHum\vo_test02hum		525856
+	223406767	vo_thematicOpening_peace	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_peace_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_peace		9831968
+	235195281	WHITE_Iso_TRI_1Hz	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\WHITE_Iso_TRI_1Hz_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\WHITE_Iso_TRI_1Hz		192096
+	248401807	vo_thematicSavasana_peace	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_peace_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_peace		44041760
+	250697112	vo_test13tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test13tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationOhh\VO_GuidedVocalizationOhh\vo_test13tone		3072160
+	270879250	vo_thematicSavasana_narrative	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_narrative_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_narrative		16516640
+	288516378	WHITE_SOLID	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\WHITE_SOLID_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\WHITE_SOLID		192096
+	297480391	vo_elicitQueryFail_closing	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_closing_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitationFail2\VO_QueryElicitationFail2\vo_elicitQueryFail_closing		3540512
+	301782202	vo_thematicOpening_diewell	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_diewell_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_diewell\vo_thematicOpening_diewell		4589088
+	303573823	vo_goodbye_silence	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_silence_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ClosingGoodbye\VO_ClosingGoodbye\vo_goodbye_silence		3933728
+	334730074	REFERENCE	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\REFERENCE_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\REFERENCE		176496
+	335139113	vo_test12tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test12tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationOhh\VO_GuidedVocalizationOhh\vo_test12tone		2885152
+	338851527	vo_wisdom_notknowing	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wisdom_notknowing_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Wisdom\VO_Wisdom\vo_wisdom_notknowing		119015072
+	350705659	vo_test05tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test05tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test05tone		1574432
+	365267676	vo_thematicOpening_diewell	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_diewell_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_diewell		4589088
+	369988848	vo_elicitQueryFail_opening1	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_opening1_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_opening1		4851232
+	370694246	vo_thematicOpening_narrative	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_narrative_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_narrative		12846624
+	397051634	vo_opening_openingLong	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingLong_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\vo_opening_openingLong		13370912
+	400971119	vo_thematicOpening_narrative	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_narrative_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_narrative\vo_thematicOpening_narrative		12846624
+	402014584	vo_test07tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test07tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test07tone		1705504
+	487812902	vo_test10tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test10tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test10tone		2623008
+	493526042	vo_test14tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test14tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationOhh\VO_GuidedVocalizationOhh\vo_test14tone		3671584
+	494111603	vo_elicitSigh_closing	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSigh_closing_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitation2\vo_elicitSigh_closing		3933728
+	517296307	environment_openingWelcome	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingWelcome_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\environment_openingWelcome		9918616
+	569598342	vo_test04hum	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test04hum_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationHum\VO_GuidedVocalizationHum\vo_test04hum		1836576
+	581489383	vo_test04tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test04tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test04tone		2623008
+	587565267	vo_thematicSavasana_long	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_long_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_long		25429536
+	592303975	vo_wisdom_jaguar	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wisdom_jaguar_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Wisdom\VO_Wisdom\vo_wisdom_jaguar		87033376
+	648810886	vo_elicitSighFail_opening1	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSighFail_opening1_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitationFail1\VO_SighElicitationFail1\vo_elicitSighFail_opening1		4326944
+	650293573	sfx_breath in	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\sfx_breath in		612056
+	655141054	vo_thematicSavasana_short	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_short_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_short		16254496
+	656133757	vo_wisdom_peru	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wisdom_peru_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Wisdom\VO_Wisdom\vo_wisdom_peru		127665696
+	671858453	vo_thematicSavasana_surrender	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_surrender_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_surrender		21991132
+	676642542	vo_test17tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test17tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAdvanced\VO_GuidedVocalizationAdvanced\vo_test17tone		525856
+	685689043	STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12.21.23 [2024-05-06 214206]_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]		33408096
+	707978221	WHITE_Iso_TRI_20Hz	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\WHITE_Iso_TRI_20Hz_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\WHITE_Iso_TRI_20Hz		192096
+	711571273	vo_elicitSigh_opening	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSigh_opening_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitation1\vo_elicitSigh_opening		6599904
+	719008266	vo_elicitQueryFail_any3	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any3_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_any3		2098720
+	740646625	vo_test06tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test06tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test06tone		525856
+	755912331	vo_thematicSavasana_metta	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_metta_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_metta		64440960
+	768921853	vo_test03hum	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test03hum_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationHum\VO_GuidedVocalizationHum\vo_test03hum		1443360
+	776748344	vo_test19tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test19tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAdvanced\VO_GuidedVocalizationAdvanced\vo_test19tone		394784
+	798919832	vo_test15tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test15tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationOhh\VO_GuidedVocalizationOhh\vo_test15tone		3016224
+	802065351	vo_opening_openingLong	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingLong_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Opening_SEQUENCE_Archive\VO_OPENING_COMPLETE\OPENING SEQUENCE_ADJUNCT\OPENING_SEQUENCE\VO_OPENING\VO_Opening\vo_opening_openingLong		13370912
+	805005210	vo_test11tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test11tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test11tone		2754080
+	838651350	vo_elicitSighFail_any	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSighFail_any_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitationFail1\VO_SighElicitationFail1\vo_elicitSighFail_any		4064800
+	854984063	vo_test01hum	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test01hum_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationHum\VO_GuidedVocalizationHum\vo_test01hum		2098720
+	864683053	vo_somaticMeditation_long	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_somaticMeditation_long_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Somatic\VO_Somatic\vo_somaticMeditation_long		45483552
+	907774068	vo_test16tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test16tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAdvanced\VO_GuidedVocalizationAdvanced\vo_test16tone		656928
+	919460175	vo_posture_liedown	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_posture_liedown_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_POSTURE_SWITCH\vo_posture_liedown\vo_posture_liedown		1560096
+	919567912	vo_thematicSavasana_kindness	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_kindness_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_kindness		16633340
+	947769936	vo_test09tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test09tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test09tone		2623008
+	955543026	vo_opening_openingPassive	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingPassive_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Opening_SEQUENCE_Archive\VO_OPENING_COMPLETE\OPENING SEQUENCE_ADJUNCT\OPENING_SEQUENCE\VO_OPENING\VO_Opening\vo_opening_openingPassive		7734816
+	955926001	vo_opening_openingShort	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingShort_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Opening_SEQUENCE_Archive\VO_OPENING_COMPLETE\OPENING SEQUENCE_ADJUNCT\OPENING_SEQUENCE\VO_OPENING\VO_Opening\vo_opening_openingShort		7210528
+	962245820	vo_posture_relax	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_posture_relax_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\VO_POSTURE_SWITCH\vo_posture_relax\vo_posture_relax		1560096
+	977341665	sfx_breath out	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath out_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_SHORT\sfx_breath out		768096
+	999054356	vo_wakeUp	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wakeUp_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Wakeup\vo_wakeUp		7472672
+	999597088	vo_elicitQuery_opening	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQuery_opening_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_elicitQuery_opening\vo_elicitQuery_opening		10356256
+	1026853668	vo_thematicOpening_surrender	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_surrender_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_surrender		29754912
+	1028451859	vo_elicitQueryFail_any1	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any1_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_any1		5637664
+	1029485998	vo_test08tone	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_test08tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test08tone		3409440
+	1051969831	vo_orientation	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_orientation_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING_ADJUNCT\ADJUNCT_OPENING_SWITCH\ADJUNCT_OPENING_LONG\vo_orientation		8914464
+	1059101541	vo_endingSoon	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_endingSoon_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_EndingSoon\vo_endingSoon		525856
+	1061468265	vo_somaticMeditation_short	C:\Users\deyin\Desktop\everything\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_somaticMeditation_short_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Somatic\VO_Somatic\vo_somaticMeditation_short		18613792
+
