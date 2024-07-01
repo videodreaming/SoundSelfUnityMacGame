@@ -3,7 +3,6 @@
 	<Events>
 		<WorkUnit Name="AVS System" ID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Stop_AVS_Silent" ID="{0B908D17-3703-4C09-A069-8182E7A10D3A}"/>
 				<Event Name="Play_AVS_Wave1_Silent" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}">
 					<ChildrenList>
 						<Action Name="" ID="{DD45F328-F186-4F4B-8EDF-16FFE2787988}" ShortID="274469782">
@@ -18,7 +17,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_AVS_SineGenerators" ID="{24F05E84-F57C-4783-A960-C9AD235EE132}">
+				<Event Name="Play_AVS_SineGenerators_RGB" ID="{24F05E84-F57C-4783-A960-C9AD235EE132}">
 					<ChildrenList>
 						<Action Name="" ID="{046682D6-E585-4835-8E04-2A67ECF003F0}" ShortID="133318411">
 							<ReferenceList>
@@ -29,7 +28,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Stop_AVS_SineGenerators" ID="{DBF088F3-43DB-4347-834F-146A8207FBD0}">
+				<Event Name="Stop_AVS_SineGenerators_RGB" ID="{DBF088F3-43DB-4347-834F-146A8207FBD0}">
 					<ChildrenList>
 						<Action Name="" ID="{CA28DE75-526D-4FE8-A6E6-FB07EA28427B}" ShortID="1053853485">
 							<PropertyList>
@@ -111,6 +110,31 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Inhale" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}">
+					<ChildrenList>
+						<Action Name="" ID="{381A31F6-E48F-486A-BC38-7A369D731812}" ShortID="266220056">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}">
+					<ChildrenList>
+						<Action Name="" ID="{6885CB1D-C36D-4514-9118-0A4BDBAC4FD0}" ShortID="750303105">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

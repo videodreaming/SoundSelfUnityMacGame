@@ -138,6 +138,21 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Stop_environment_crickets" ID="{E4E6841F-48D9-4F6D-A3EB-FE8D13C58924}">
+					<ChildrenList>
+						<Action Name="" ID="{3E4F4C81-054E-46BE-8331-9DB68CB84FAF}" ShortID="500817902">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_crickets" ID="{45E1A457-7423-4EAA-A64A-7F5C16961E9C}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
