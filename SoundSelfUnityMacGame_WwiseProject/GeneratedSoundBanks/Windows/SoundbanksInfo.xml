@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{BEA5D7C4-C65E-F4BE-E827-EFB584C3CB22}">
+		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{0D22EA6B-8AB0-0457-DCFE-E314368F6E90}">
 			<ShortName>Aux_Toning</ShortName>
 			<Path>Bus/18/Aux_Toning.bnk</Path>
 			<AuxBusses>
@@ -275,7 +275,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{1B5453B2-3673-2CB5-1D79-1CC777756895}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{31600753-408E-8A70-14F9-48FD2E58FC5E}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -350,6 +350,7 @@
 				<GameParameter Id="2189202577" Name="AVS_Modulation_Frequency_Wave2"/>
 				<GameParameter Id="2189202578" Name="AVS_Modulation_Frequency_Wave1"/>
 				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
+				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
 				<GameParameter Id="2590911748" Name="LinearMusic_Volume"/>
 				<GameParameter Id="2591147252" Name="AVS_Modulation_Waveform_Wave2"/>
 				<GameParameter Id="2591147253" Name="AVS_Modulation_Waveform_Wave3"/>
@@ -530,7 +531,14 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{C9AFF5E3-77D6-88B7-61A5-6329BBB23941}">
+		<SoundBank Id="1774847782" Type="Event" Language="SFX" Hash="{07393C24-6D48-34D6-DC2E-808F83A3E842}">
+			<ShortName>Stop_environment_crickets</ShortName>
+			<Path>Event/17/Stop_environment_crickets.bnk</Path>
+			<Events>
+				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+			</Events>
+		</SoundBank>
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{F4396AD3-7EFB-C266-CB79-E571EB0BBD0F}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -1320,7 +1328,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1959646260" Type="Bus" Language="SFX" Hash="{E74FE4AD-D751-66A6-D436-9F0DC5D0F373}">
+		<SoundBank Id="1959646260" Type="Bus" Language="SFX" Hash="{321839EC-172E-EA3A-FE9C-5843747CDE35}">
 			<ShortName>Aux_SilentLoops</ShortName>
 			<Path>Bus/19/Aux_SilentLoops.bnk</Path>
 			<AuxBusses>
@@ -1482,14 +1490,14 @@
 				<AuxBus Id="3329123393" Name="Aux_Impacts"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3331583377" Type="Bus" Language="SFX" Hash="{9C5F277C-223B-541B-EDCA-1612CBBB0D4E}">
+		<SoundBank Id="3331583377" Type="Bus" Language="SFX" Hash="{12395396-4730-B49C-98F5-00C67E4317B4}">
 			<ShortName>Aux_Music</ShortName>
 			<Path>Bus/33/Aux_Music.bnk</Path>
 			<AuxBusses>
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{AEAD3B8F-02A6-730D-AB39-5B7D4A8EC126}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{733C56E4-3BF2-F152-0D7A-42D72D2A306D}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -1994,23 +2002,17 @@
 					<Plugin Id="418097311" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="434151753" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="469381759" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
-					<Plugin Id="500419605" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="559173273" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="561927987" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="572865908" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="599365106" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="609153636" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
-					<Plugin Id="609173386" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="632779657" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="635802060" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="661931200" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
-					<Plugin Id="686262180" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="703323918" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="725142564" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
-					<Plugin Id="731774281" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
-					<Plugin Id="738960700" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
-					<Plugin Id="818072833" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="879675526" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="1006973361" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 				</Custom>
@@ -2036,21 +2038,29 @@
 						</Custom>
 					</PluginRefs>
 				</Event>
-				<Event Id="1989542112" Name="Play_AVS_SineGenerators" DurationType="Infinite">
+				<Event Id="3449237142" Name="Play_AVS_SineGenerators_REFERENCE" DurationType="Infinite">
 					<PluginRefs>
 						<Custom>
 							<PluginRef Id="56179526"/>
+							<PluginRef Id="632779657"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="28907203"/>
+							<PluginRef Id="28907229"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="2424845564" Name="Play_AVS_SineGenerators_RGB" DurationType="Infinite">
+					<PluginRefs>
+						<Custom>
 							<PluginRef Id="178915186"/>
 							<PluginRef Id="418097311"/>
 							<PluginRef Id="561927987"/>
-							<PluginRef Id="632779657"/>
 							<PluginRef Id="635802060"/>
 							<PluginRef Id="661931200"/>
 							<PluginRef Id="703323918"/>
 						</Custom>
 						<ShareSets>
-							<PluginRef Id="28907203"/>
-							<PluginRef Id="28907229"/>
 							<PluginRef Id="1506222489"/>
 							<PluginRef Id="1506222490"/>
 						</ShareSets>
@@ -2064,13 +2074,9 @@
 							<PluginRef Id="393190976"/>
 							<PluginRef Id="409478190"/>
 							<PluginRef Id="559173273"/>
-							<PluginRef Id="686262180"/>
 							<PluginRef Id="725142564"/>
-							<PluginRef Id="738960700"/>
 						</Custom>
 						<ShareSets>
-							<PluginRef Id="28907203"/>
-							<PluginRef Id="28907229"/>
 							<PluginRef Id="1506222489"/>
 							<PluginRef Id="1506222490"/>
 						</ShareSets>
@@ -2082,15 +2088,11 @@
 							<PluginRef Id="294071551"/>
 							<PluginRef Id="396058618"/>
 							<PluginRef Id="434151753"/>
-							<PluginRef Id="500419605"/>
 							<PluginRef Id="572865908"/>
-							<PluginRef Id="818072833"/>
 							<PluginRef Id="879675526"/>
 							<PluginRef Id="1006973361"/>
 						</Custom>
 						<ShareSets>
-							<PluginRef Id="28907203"/>
-							<PluginRef Id="28907229"/>
 							<PluginRef Id="3561977548"/>
 							<PluginRef Id="3561977551"/>
 						</ShareSets>
@@ -2105,12 +2107,8 @@
 							<PluginRef Id="469381759"/>
 							<PluginRef Id="599365106"/>
 							<PluginRef Id="609153636"/>
-							<PluginRef Id="609173386"/>
-							<PluginRef Id="731774281"/>
 						</Custom>
 						<ShareSets>
-							<PluginRef Id="28907203"/>
-							<PluginRef Id="28907229"/>
 							<PluginRef Id="2943759360"/>
 							<PluginRef Id="2943759363"/>
 						</ShareSets>
@@ -4799,8 +4797,8 @@
 				</Event>
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="2638034312" Name="Stop_AVS_Silent" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="2181803410" Name="Stop_AVS_SineGenerators" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="767717232" Name="Stop_AVS_SineGenerators_REFERENCE" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="1101274838" Name="Stop_AVS_SineGenerators_RGB" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="1208070559" Name="Stop_AVS_Wave1_Silent" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="3951624080" Name="Stop_AVS_Wave2_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="896604455" Name="Stop_AVS_Wave3_Inhale" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -4829,6 +4827,7 @@
 				<GameParameter Id="2189202577" Name="AVS_Modulation_Frequency_Wave2"/>
 				<GameParameter Id="2189202578" Name="AVS_Modulation_Frequency_Wave1"/>
 				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
+				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
 				<GameParameter Id="2591147252" Name="AVS_Modulation_Waveform_Wave2"/>
 				<GameParameter Id="2591147253" Name="AVS_Modulation_Waveform_Wave3"/>
 				<GameParameter Id="2591147255" Name="AVS_Modulation_Waveform_Wave1"/>
@@ -4915,5 +4914,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{F83A8680-4CFB-53FF-A889-DFC12E56145C}</FileHash>
+	<FileHash>{5AE28CAB-BFF7-0896-4701-9B9F70647D27}</FileHash>
 </SoundBanksInfo>
