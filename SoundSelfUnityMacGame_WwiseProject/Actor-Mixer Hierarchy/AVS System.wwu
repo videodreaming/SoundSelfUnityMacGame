@@ -183,31 +183,6 @@
 										</Sound>
 									</ChildrenList>
 								</BlendContainer>
-								<Sound Name="REF_10s_16bitPCM" ID="{836A518E-AC18-462E-A98F-6C4BF77C7F05}" ShortID="390996360">
-									<PropertyList>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="REFERENCE_16bitPCM" ID="{B3F12CB3-671C-48E0-92E6-3AC95C25422E}">
-											<Language>SFX</Language>
-											<AudioFile>REFERENCE_16bitPCM.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="14111297"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="REFERENCE_16bitPCM" ID="{B3F12CB3-671C-48E0-92E6-3AC95C25422E}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 							</ChildrenList>
 						</ActorMixer>
 						<SwitchContainer Name="AVS_LoopedAudioSample_6s" ID="{9AAEAD60-FC30-4518-81FF-14551B96A4A1}" ShortID="405357419">
@@ -8101,123 +8076,6 @@
 										</ObjectList>
 									</ObjectLists>
 								</BlendContainer>
-								<BlendContainer Name="Reference_SignalGenerator" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" ShortID="497095248">
-									<PropertyList>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-36</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<Sound Name="Reference_SignalGenerator_L" ID="{B6CCDE0A-5E11-4AFB-8AFD-CF9054B0778A}" ShortID="45073625">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Sine" ID="{BB9659D5-25E9-4306-B41E-05A07C7E29E1}" ShortID="632779657" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-													<PropertyList>
-														<Property Name="SineFrequency" Type="Real32" Value="18200"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<PositioningInfo>
-												<Panner Name="" ID="{0922AF6D-7F90-4D7B-8C50-3C48A17B5122}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64" Value="-100"/>
-													</PropertyList>
-												</Panner>
-											</PositioningInfo>
-											<ObjectLists>
-												<ObjectList Name="Effects">
-													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{7465FA47-E331-4D74-876A-0D204A4F1CCF}" ShortID="947833435">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-																		<ObjectRef Name="AVS_Tremolo_Reference_L" ID="{0FCB918E-40EA-45E1-80F7-B2EAEAD2A850}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="Sine" ID="{BB9659D5-25E9-4306-B41E-05A07C7E29E1}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="Reference_SignalGenerator_R" ID="{53F0E5AD-5D40-436D-BB53-72E753CACFE9}" ShortID="176841522">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Sine" ID="{69C9420D-0A5B-483F-A0C1-221CD13C3A76}" ShortID="56179526" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-													<PropertyList>
-														<Property Name="SineFrequency" Type="Real32" Value="18200"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<PositioningInfo>
-												<Panner Name="" ID="{28E7CF97-6F89-4B2F-80C6-906C60183F05}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64" Value="100"/>
-													</PropertyList>
-												</Panner>
-											</PositioningInfo>
-											<ObjectLists>
-												<ObjectList Name="Effects">
-													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{B58F3940-BC58-4AE2-8856-2AF3D364A935}" ShortID="448564428">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-																		<ObjectRef Name="AVS_Tremolo_Reference_R" ID="{7FDEE600-308B-4860-9149-838004F57298}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="Sine" ID="{69C9420D-0A5B-483F-A0C1-221CD13C3A76}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-									</ChildrenList>
-								</BlendContainer>
 							</ChildrenList>
 							<PositioningInfo>
 								<Panner Name="" ID="{32C089B8-7794-444F-9CBF-16C714BDD6F2}"/>
@@ -8251,6 +8109,11 @@
 					<PropertyList>
 						<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>4</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -8281,11 +8144,6 @@
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-4</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -8300,11 +8158,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="10"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-8</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -8333,7 +8186,7 @@
 														<SourcePlugin Name="Sine" ID="{0CEDB6AB-1049-41D4-AA2F-E4ACA66608A2}" ShortID="572865908" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="18700"/>
-																<Property Name="SineGain" Type="Real32" Value="-10"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -8361,6 +8214,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -8387,11 +8241,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="1"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -8420,7 +8269,7 @@
 														<SourcePlugin Name="Sine" ID="{D0703CBC-612B-4E7F-9AEA-31B60B2EC851}" ShortID="434151753" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19700"/>
-																<Property Name="SineGain" Type="Real32" Value="-8"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -8448,6 +8297,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -8475,11 +8325,6 @@
 												<Property Name="Color" Type="int16" Value="4"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
 												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -8508,7 +8353,7 @@
 														<SourcePlugin Name="Sine" ID="{65D11D26-331A-40EE-B639-4392EEB8FB85}" ShortID="1006973361" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19200"/>
-																<Property Name="SineGain" Type="Real32" Value="-9"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -8536,6 +8381,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -8640,11 +8486,6 @@
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-4</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -8659,11 +8500,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="4"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -8692,7 +8528,7 @@
 														<SourcePlugin Name="Sine" ID="{2B9F1B67-A976-4CA2-A099-34A0B05F1C27}" ShortID="879675526" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19200"/>
-																<Property Name="SineGain" Type="Real32" Value="-9"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -8720,6 +8556,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -8746,11 +8583,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="10"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-8</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -8779,7 +8611,7 @@
 														<SourcePlugin Name="Sine" ID="{D1786518-43D7-4BA2-BD63-36AD0AC23892}" ShortID="396058618" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="18700"/>
-																<Property Name="SineGain" Type="Real32" Value="-10"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -8807,6 +8639,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -8833,11 +8666,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="1"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -8866,7 +8694,7 @@
 														<SourcePlugin Name="Sine" ID="{A5BC3487-DE98-45B6-9674-322B7F69AADD}" ShortID="294071551" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19700"/>
-																<Property Name="SineGain" Type="Real32" Value="-8"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -8894,6 +8722,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -8989,132 +8818,6 @@
 										</ObjectList>
 									</ObjectLists>
 								</BlendContainer>
-								<BlendContainer Name="Reference_SignalGenerator_Toning" ID="{7938AD01-F821-425A-BBED-C5576C6C0D6A}" ShortID="840227097">
-									<PropertyList>
-										<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
-										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-32</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<Sound Name="Reference_SignalGenerator_L" ID="{EB0FDAD4-62AC-448E-8370-A7127EF82B91}" ShortID="815141535">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Sine" ID="{76A30123-C337-45FE-B797-4C37D0C5FD8D}" ShortID="500419605" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-													<PropertyList>
-														<Property Name="SineFrequency" Type="Real32" Value="18200"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<PositioningInfo>
-												<Panner Name="" ID="{0AE3E196-8ED9-4ECC-8ADA-AA0933F1794B}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64" Value="-100"/>
-													</PropertyList>
-												</Panner>
-											</PositioningInfo>
-											<ObjectLists>
-												<ObjectList Name="Effects">
-													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{EF12F94D-8C4D-47FA-AF30-E9192CD10788}" ShortID="739734911">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-																		<ObjectRef Name="AVS_Tremolo_Reference_L" ID="{0FCB918E-40EA-45E1-80F7-B2EAEAD2A850}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="Sine" ID="{76A30123-C337-45FE-B797-4C37D0C5FD8D}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="Reference_SignalGenerator_R" ID="{04A30F54-196D-4B4D-98C5-B247842D2CB1}" ShortID="250350506">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Sine" ID="{F846601B-249B-4C44-B5D7-2FD8255B760F}" ShortID="818072833" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-													<PropertyList>
-														<Property Name="SineFrequency" Type="Real32" Value="18200"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<PositioningInfo>
-												<Panner Name="" ID="{DCF0BE77-0CC4-4F25-9B3A-F08CBAA546D2}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64" Value="100"/>
-													</PropertyList>
-												</Panner>
-											</PositioningInfo>
-											<ObjectLists>
-												<ObjectList Name="Effects">
-													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{BE0C8392-2A79-41FC-BF5D-620FCC8007BD}" ShortID="1042140434">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-																		<ObjectRef Name="AVS_Tremolo_Reference_R" ID="{7FDEE600-308B-4860-9149-838004F57298}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="Sine" ID="{F846601B-249B-4C44-B5D7-2FD8255B760F}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-									</ChildrenList>
-									<PositioningInfo>
-										<Panner Name="" ID="{349E254A-E785-4346-8A00-F986E1FB1B84}">
-											<PropertyList>
-												<Property Name="PanX" Type="Real64" Value="-100"/>
-											</PropertyList>
-										</Panner>
-									</PositioningInfo>
-								</BlendContainer>
 							</ChildrenList>
 							<PositioningInfo>
 								<Panner Name="" ID="{2FA13055-9321-4BA2-928E-C13206149407}"/>
@@ -9133,6 +8836,44 @@
 										</Local>
 									</Reference>
 								</ObjectList>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{17D3D5DF-37CE-4E39-9082-9B5233B97449}" ShortID="4539114">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="AVS_MasterVolume_Wave2" ID="{5183B639-6BF6-4EBC-8DC9-CB8C7A1318FA}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{C46D4F25-AD7F-4979-9300-7647EAFC8A3D}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																		<SegmentShape>Exp3</SegmentShape>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
 							</ObjectLists>
 						</BlendContainer>
 					</ChildrenList>
@@ -9143,50 +8884,16 @@
 							</PropertyList>
 						</Panner>
 					</PositioningInfo>
-					<ObjectLists>
-						<ObjectList Name="RTPC">
-							<Reference>
-								<Local>
-									<RTPC Name="" ID="{740A88D6-B66A-4BCC-BA92-A835C8A54A97}" ShortID="792864434">
-										<PropertyList>
-											<Property Name="PropertyName" Type="string" Value="Volume"/>
-										</PropertyList>
-										<ReferenceList>
-											<Reference Name="ControlInput">
-												<ObjectRef Name="AVS_MasterVolume_Wave2" ID="{5183B639-6BF6-4EBC-8DC9-CB8C7A1318FA}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
-											</Reference>
-											<Reference Name="Curve">
-												<Custom>
-													<Curve Name="" ID="{F5F29746-5233-473F-ABDB-83981BF9EAE6}">
-														<PropertyList>
-															<Property Name="Flags" Type="int32" Value="3"/>
-														</PropertyList>
-														<PointList>
-															<Point>
-																<XPos>0</XPos>
-																<YPos>-200</YPos>
-																<Flags>5</Flags>
-															</Point>
-															<Point>
-																<XPos>100</XPos>
-																<YPos>0</YPos>
-																<Flags>37</Flags>
-															</Point>
-														</PointList>
-													</Curve>
-												</Custom>
-											</Reference>
-										</ReferenceList>
-									</RTPC>
-								</Local>
-							</Reference>
-						</ObjectList>
-					</ObjectLists>
 				</ActorMixer>
 				<ActorMixer Name="AVS_SineGenerators_RGB_Wave3_Inhale" ID="{D35C5224-6001-4C7F-85E0-97BAB6B6FACB}" ShortID="401891143">
 					<PropertyList>
 						<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>4</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -9217,11 +8924,6 @@
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-4</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -9236,11 +8938,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="10"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-4</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9269,7 +8966,7 @@
 														<SourcePlugin Name="Sine" ID="{07970722-542C-45B1-AB78-74C32B5EEE35}" ShortID="609153636" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="18700"/>
-																<Property Name="SineGain" Type="Real32" Value="-10"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -9297,6 +8994,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -9323,11 +9021,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="1"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-4</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9356,7 +9049,7 @@
 														<SourcePlugin Name="Sine" ID="{69BD3913-A859-4CC5-9004-FCE02E517B19}" ShortID="599365106" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19700"/>
-																<Property Name="SineGain" Type="Real32" Value="-8"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -9384,6 +9077,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -9411,11 +9105,6 @@
 												<Property Name="Color" Type="int16" Value="4"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
 												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-4</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9444,7 +9133,7 @@
 														<SourcePlugin Name="Sine" ID="{CB1ACC37-69C3-4AA7-8E36-A0A8A113BB01}" ShortID="53771986" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19200"/>
-																<Property Name="SineGain" Type="Real32" Value="-9"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -9472,6 +9161,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -9570,134 +9260,12 @@
 										</ObjectList>
 									</ObjectLists>
 								</BlendContainer>
-								<BlendContainer Name="Reference_SignalGenerator" ID="{8BEB1A92-55E8-4E6E-988C-F401456559FF}" ShortID="194282692">
-									<PropertyList>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-36</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<Sound Name="Reference_SignalGenerator_L" ID="{CE933FE6-4CEC-43B4-9A25-4657EF7056E1}" ShortID="984948480">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Sine" ID="{BBDB2FD8-24B9-4AC8-B48F-C7852B4C29A4}" ShortID="609173386" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-													<PropertyList>
-														<Property Name="SineFrequency" Type="Real32" Value="18200"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<PositioningInfo>
-												<Panner Name="" ID="{ACF80524-2162-4413-9D78-84B2B45BF5DF}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64" Value="-100"/>
-													</PropertyList>
-												</Panner>
-											</PositioningInfo>
-											<ObjectLists>
-												<ObjectList Name="Effects">
-													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{2ECC7E54-5791-46B4-A30F-85798C693036}" ShortID="1032285918">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-																		<ObjectRef Name="AVS_Tremolo_Reference_L" ID="{0FCB918E-40EA-45E1-80F7-B2EAEAD2A850}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="Sine" ID="{BBDB2FD8-24B9-4AC8-B48F-C7852B4C29A4}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="Reference_SignalGenerator_R" ID="{DB11D929-0243-497A-9644-7DD7FBB8841C}" ShortID="176799887">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Sine" ID="{CA21E1F4-C787-433A-8557-EA988B33013F}" ShortID="731774281" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-													<PropertyList>
-														<Property Name="SineFrequency" Type="Real32" Value="18200"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<PositioningInfo>
-												<Panner Name="" ID="{2C743D94-A1A3-4E07-AB41-D88A3A0D9E9F}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64" Value="100"/>
-													</PropertyList>
-												</Panner>
-											</PositioningInfo>
-											<ObjectLists>
-												<ObjectList Name="Effects">
-													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{A63224EB-07AB-4110-BB6A-0CBC84046AF7}" ShortID="169197201">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-																		<ObjectRef Name="AVS_Tremolo_Reference_R" ID="{7FDEE600-308B-4860-9149-838004F57298}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="Sine" ID="{CA21E1F4-C787-433A-8557-EA988B33013F}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-									</ChildrenList>
-								</BlendContainer>
 								<BlendContainer Name="AVS_SineGenerators_RGB_RIGHT_Inhale" ID="{A8B36972-A6CF-4D4A-AFCA-5D3C159BEC2A}" ShortID="613103215">
 									<PropertyList>
 										<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-4</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -9712,11 +9280,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="4"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-4</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9745,7 +9308,7 @@
 														<SourcePlugin Name="Sine" ID="{E84D9768-00C8-4B4D-A933-1BBF69264F97}" ShortID="282040115" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19200"/>
-																<Property Name="SineGain" Type="Real32" Value="-9"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -9773,6 +9336,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -9799,11 +9363,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="10"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-4</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9832,7 +9391,7 @@
 														<SourcePlugin Name="Sine" ID="{FB7003AC-9899-46AB-A973-4E592B57A71A}" ShortID="99381280" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="18700"/>
-																<Property Name="SineGain" Type="Real32" Value="-10"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -9860,6 +9419,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -9886,11 +9446,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="1"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-4</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -9919,7 +9474,7 @@
 														<SourcePlugin Name="Sine" ID="{9A6F225F-406F-400F-8ECA-64C50C1D3008}" ShortID="469381759" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19700"/>
-																<Property Name="SineGain" Type="Real32" Value="-8"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -9947,6 +9502,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -10060,6 +9616,44 @@
 										</Local>
 									</Reference>
 								</ObjectList>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{647044F9-2874-4048-93C6-01A457F4B9EB}" ShortID="728681275">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="AVS_MasterVolume_Wave3" ID="{007BAC2C-11FC-41A6-959D-D6242397F2BF}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{0F92CF29-BEAC-452B-B91C-B5FD16C3C1E8}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																		<SegmentShape>Exp3</SegmentShape>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
 							</ObjectLists>
 						</BlendContainer>
 					</ChildrenList>
@@ -10070,50 +9664,16 @@
 							</PropertyList>
 						</Panner>
 					</PositioningInfo>
-					<ObjectLists>
-						<ObjectList Name="RTPC">
-							<Reference>
-								<Local>
-									<RTPC Name="" ID="{3BCDC962-0280-4744-A309-8720C42EDE47}" ShortID="236409607">
-										<PropertyList>
-											<Property Name="PropertyName" Type="string" Value="Volume"/>
-										</PropertyList>
-										<ReferenceList>
-											<Reference Name="ControlInput">
-												<ObjectRef Name="AVS_MasterVolume_Wave3" ID="{007BAC2C-11FC-41A6-959D-D6242397F2BF}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
-											</Reference>
-											<Reference Name="Curve">
-												<Custom>
-													<Curve Name="" ID="{2CA6B20C-5EB2-47A9-988D-4143EF725B16}">
-														<PropertyList>
-															<Property Name="Flags" Type="int32" Value="3"/>
-														</PropertyList>
-														<PointList>
-															<Point>
-																<XPos>0</XPos>
-																<YPos>-200</YPos>
-																<Flags>5</Flags>
-															</Point>
-															<Point>
-																<XPos>100</XPos>
-																<YPos>0</YPos>
-																<Flags>37</Flags>
-															</Point>
-														</PointList>
-													</Curve>
-												</Custom>
-											</Reference>
-										</ReferenceList>
-									</RTPC>
-								</Local>
-							</Reference>
-						</ObjectList>
-					</ObjectLists>
 				</ActorMixer>
 				<ActorMixer Name="AVS_SineGenerators_RGB_Wave1_Silent" ID="{BC2415D2-D7B3-4381-92CA-DE56DD5EACD7}" ShortID="273074107">
 					<PropertyList>
 						<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>4</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -10144,11 +9704,6 @@
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-4</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -10163,11 +9718,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="4"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -10196,7 +9746,7 @@
 														<SourcePlugin Name="Sine" ID="{99756C21-F3FC-45A5-B897-3A4632279B23}" ShortID="559173273" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19200"/>
-																<Property Name="SineGain" Type="Real32" Value="-9"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -10224,6 +9774,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -10250,11 +9801,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="10"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-8</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -10283,7 +9829,7 @@
 														<SourcePlugin Name="Sine" ID="{12A0CD15-8440-42A4-A133-1105F4AC3241}" ShortID="21278335" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="18700"/>
-																<Property Name="SineGain" Type="Real32" Value="-10"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -10311,6 +9857,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -10337,11 +9884,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="1"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -10370,7 +9912,7 @@
 														<SourcePlugin Name="Sine" ID="{CB33C8E6-4E1D-44C2-AF1B-7D113B38B8E6}" ShortID="409478190" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19700"/>
-																<Property Name="SineGain" Type="Real32" Value="-8"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -10398,6 +9940,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -10499,11 +10042,6 @@
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverridePositioning" Type="bool" Value="True"/>
 										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-4</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -10518,11 +10056,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="10"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-8</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -10551,7 +10084,7 @@
 														<SourcePlugin Name="Sine" ID="{76815510-D583-47C2-89EB-9BE0097EBCC6}" ShortID="725142564" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="18700"/>
-																<Property Name="SineGain" Type="Real32" Value="-10"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -10579,6 +10112,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -10605,11 +10139,6 @@
 											<PropertyList>
 												<Property Name="Color" Type="int16" Value="1"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -10638,7 +10167,7 @@
 														<SourcePlugin Name="Sine" ID="{D0C29EE6-4136-4198-B2A7-BB659C964047}" ShortID="145712967" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19700"/>
-																<Property Name="SineGain" Type="Real32" Value="-8"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -10666,6 +10195,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -10693,11 +10223,6 @@
 												<Property Name="Color" Type="int16" Value="4"/>
 												<Property Name="OverrideColor" Type="bool" Value="True"/>
 												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-6</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -10726,7 +10251,7 @@
 														<SourcePlugin Name="Sine" ID="{C2EE6275-DF2C-440D-8E63-DA232EB598D1}" ShortID="393190976" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
 															<PropertyList>
 																<Property Name="SineFrequency" Type="Real32" Value="19200"/>
-																<Property Name="SineGain" Type="Real32" Value="-9"/>
+																<Property Name="SineGain" Type="Real32" Value="0"/>
 															</PropertyList>
 															<Language>SFX</Language>
 														</SourcePlugin>
@@ -10754,6 +10279,7 @@
 																								<XPos>0</XPos>
 																								<YPos>-200</YPos>
 																								<Flags>5</Flags>
+																								<SegmentShape>Exp3</SegmentShape>
 																							</Point>
 																							<Point>
 																								<XPos>100</XPos>
@@ -10852,166 +10378,6 @@
 										</ObjectList>
 									</ObjectLists>
 								</BlendContainer>
-								<BlendContainer Name="Reference_SignalGenerator_Silent" ID="{6C550E94-5773-4835-9CAB-5FCBF00B2B5E}" ShortID="322352700">
-									<PropertyList>
-										<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
-										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-32</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<Sound Name="Reference_SignalGenerator_L" ID="{7D98AC73-C78D-4B2A-94D3-548DD2DF1EEF}" ShortID="638293038">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Sine" ID="{86388C2C-F6B6-476E-8278-72304570C006}" ShortID="686262180" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-													<PropertyList>
-														<Property Name="SineFrequency" Type="Real32" Value="18200"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<PositioningInfo>
-												<Panner Name="" ID="{F1609CFE-E9ED-4B6E-88BE-71BCFC5018DE}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64" Value="-100"/>
-													</PropertyList>
-												</Panner>
-											</PositioningInfo>
-											<ObjectLists>
-												<ObjectList Name="Effects">
-													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{1FF22D9D-B412-48E1-B8E6-ABA8FB0A6C20}" ShortID="1070716460">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-																		<ObjectRef Name="AVS_Tremolo_Reference_L" ID="{0FCB918E-40EA-45E1-80F7-B2EAEAD2A850}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="Sine" ID="{86388C2C-F6B6-476E-8278-72304570C006}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="Reference_SignalGenerator_R" ID="{1FB076E3-2811-40E0-AD0D-0BA381D5B883}" ShortID="515887924">
-											<PropertyList>
-												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="OverridePositioning" Type="bool" Value="True"/>
-												<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Sine" ID="{664544D6-6DE9-4CB6-A5F3-4D6119B45A23}" ShortID="738960700" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
-													<PropertyList>
-														<Property Name="SineFrequency" Type="Real32" Value="18200"/>
-													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<PositioningInfo>
-												<Panner Name="" ID="{7A108C0C-E91A-47C2-A929-ADF4E5EEC52D}">
-													<PropertyList>
-														<Property Name="PanX" Type="Real64" Value="100"/>
-													</PropertyList>
-												</Panner>
-											</PositioningInfo>
-											<ObjectLists>
-												<ObjectList Name="Effects">
-													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{F8EF8FD4-1E48-44D2-B3C8-9BFC7FAF1380}" ShortID="137402103">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
-																		<ObjectRef Name="AVS_Tremolo_Reference_R" ID="{7FDEE600-308B-4860-9149-838004F57298}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="Sine" ID="{664544D6-6DE9-4CB6-A5F3-4D6119B45A23}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-									</ChildrenList>
-									<PositioningInfo>
-										<Panner Name="" ID="{59379626-0992-4AAE-8A6F-D761705FA220}">
-											<PropertyList>
-												<Property Name="PanX" Type="Real64" Value="-100"/>
-											</PropertyList>
-										</Panner>
-									</PositioningInfo>
-								</BlendContainer>
-								<Sound Name="REFERENCE_16bitPCM" ID="{C38F03B2-FBD5-4671-990F-53D89C2AB597}" ShortID="435864068">
-									<PropertyList>
-										<Property Name="Inclusion" Type="bool">
-											<ValueList>
-												<Value>False</Value>
-											</ValueList>
-										</Property>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="REFERENCE_16bitPCM" ID="{221EC03E-ABB0-49FE-9CF8-F07B4A73F433}">
-											<Language>SFX</Language>
-											<AudioFile>REFERENCE_16bitPCM.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="14111297"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<PositioningInfo>
-										<Panner Name="" ID="{43A5F081-4857-4892-883F-A57A5E310E24}"/>
-									</PositioningInfo>
-									<ActiveSourceList>
-										<ActiveSource Name="REFERENCE_16bitPCM" ID="{221EC03E-ABB0-49FE-9CF8-F07B4A73F433}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
 							</ChildrenList>
 							<PositioningInfo>
 								<Panner Name="" ID="{D35B6333-38CC-47EB-93CB-D4853058BC3E}"/>
@@ -11030,6 +10396,44 @@
 										</Local>
 									</Reference>
 								</ObjectList>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{5BDDA1DE-4BD8-4A3F-9934-1F9684E207BC}" ShortID="892701448">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="AVS_MasterVolume_Wave1" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{531D8A3D-32E4-40D2-A74E-31E6B5D458C0}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																		<SegmentShape>Exp2</SegmentShape>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
 							</ObjectLists>
 						</BlendContainer>
 					</ChildrenList>
@@ -11040,21 +10444,139 @@
 							</PropertyList>
 						</Panner>
 					</PositioningInfo>
+				</ActorMixer>
+				<BlendContainer Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" ShortID="497095248">
+					<PropertyList>
+						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="Reference_SignalGenerator_L" ID="{B6CCDE0A-5E11-4AFB-8AFD-CF9054B0778A}" ShortID="45073625">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideEffect" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="Sine" ID="{BB9659D5-25E9-4306-B41E-05A07C7E29E1}" ShortID="632779657" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+									<PropertyList>
+										<Property Name="SineFrequency" Type="Real32" Value="18200"/>
+										<Property Name="SineGain" Type="Real32" Value="0"/>
+									</PropertyList>
+									<Language>SFX</Language>
+								</SourcePlugin>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{0922AF6D-7F90-4D7B-8C50-3C48A17B5122}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-100"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{7465FA47-E331-4D74-876A-0D204A4F1CCF}" ShortID="947833435">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
+														<ObjectRef Name="AVS_Tremolo_Reference_L" ID="{0FCB918E-40EA-45E1-80F7-B2EAEAD2A850}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Sine" ID="{BB9659D5-25E9-4306-B41E-05A07C7E29E1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Reference_SignalGenerator_R" ID="{53F0E5AD-5D40-436D-BB53-72E753CACFE9}" ShortID="176841522">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverrideEffect" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<SourcePlugin Name="Sine" ID="{69C9420D-0A5B-483F-A0C1-221CD13C3A76}" ShortID="56179526" PluginName="Wwise Sine" CompanyID="0" PluginID="100">
+									<PropertyList>
+										<Property Name="SineFrequency" Type="Real32" Value="18200"/>
+										<Property Name="SineGain" Type="Real32" Value="0"/>
+									</PropertyList>
+									<Language>SFX</Language>
+								</SourcePlugin>
+							</ChildrenList>
+							<PositioningInfo>
+								<Panner Name="" ID="{28E7CF97-6F89-4B2F-80C6-906C60183F05}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="100"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{B58F3940-BC58-4AE2-8856-2AF3D364A935}" ShortID="448564428">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
+														<ObjectRef Name="AVS_Tremolo_Reference_R" ID="{7FDEE600-308B-4860-9149-838004F57298}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Sine" ID="{69C9420D-0A5B-483F-A0C1-221CD13C3A76}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+					<PositioningInfo>
+						<Panner Name="" ID="{5F84653D-00FD-40E7-B2B5-9B46DF5C1295}"/>
+					</PositioningInfo>
 					<ObjectLists>
 						<ObjectList Name="RTPC">
 							<Reference>
 								<Local>
-									<RTPC Name="" ID="{B330420C-57DA-4B69-9F2F-632D72130062}" ShortID="613105740">
+									<RTPC Name="" ID="{C1D92463-2C52-46C1-8945-FB1100C54829}" ShortID="1027148543">
 										<PropertyList>
 											<Property Name="PropertyName" Type="string" Value="Volume"/>
 										</PropertyList>
 										<ReferenceList>
 											<Reference Name="ControlInput">
-												<ObjectRef Name="AVS_MasterVolume_Wave1" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+												<ObjectRef Name="AVS_REFERENCE_Volume" ID="{A08B1B20-A881-4DE6-8A49-B6DCA4AC8FFD}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
 											</Reference>
 											<Reference Name="Curve">
 												<Custom>
-													<Curve Name="" ID="{7B6DC3A7-3B67-401E-AC60-1035DE5B97DC}">
+													<Curve Name="" ID="{653018CE-5F21-468C-BA5A-1897AE91F7D0}">
 														<PropertyList>
 															<Property Name="Flags" Type="int32" Value="3"/>
 														</PropertyList>
@@ -11063,6 +10585,7 @@
 																<XPos>0</XPos>
 																<YPos>-200</YPos>
 																<Flags>5</Flags>
+																<SegmentShape>Exp3</SegmentShape>
 															</Point>
 															<Point>
 																<XPos>100</XPos>
@@ -11079,7 +10602,7 @@
 							</Reference>
 						</ObjectList>
 					</ObjectLists>
-				</ActorMixer>
+				</BlendContainer>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

@@ -16,7 +16,8 @@ namespace AK
         static const AkUniqueID MENU_SETSWITCH_LONG = 243401070U;
         static const AkUniqueID MENU_SETSWITCH_SHORT = 1972773362U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
-        static const AkUniqueID PLAY_AVS_SINEGENERATORS = 1989542112U;
+        static const AkUniqueID PLAY_AVS_SINEGENERATORS_REFERENCE = 3449237142U;
+        static const AkUniqueID PLAY_AVS_SINEGENERATORS_RGB = 2424845564U;
         static const AkUniqueID PLAY_AVS_WAVE1_SILENT = 1358859793U;
         static const AkUniqueID PLAY_AVS_WAVE2_TONING = 841212430U;
         static const AkUniqueID PLAY_AVS_WAVE3_INHALE = 1328263081U;
@@ -75,11 +76,12 @@ namespace AK
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
-        static const AkUniqueID STOP_AVS_SILENT = 2638034312U;
-        static const AkUniqueID STOP_AVS_SINEGENERATORS = 2181803410U;
+        static const AkUniqueID STOP_AVS_SINEGENERATORS_REFERENCE = 767717232U;
+        static const AkUniqueID STOP_AVS_SINEGENERATORS_RGB = 1101274838U;
         static const AkUniqueID STOP_AVS_WAVE1_SILENT = 1208070559U;
         static const AkUniqueID STOP_AVS_WAVE2_TONING = 3951624080U;
         static const AkUniqueID STOP_AVS_WAVE3_INHALE = 896604455U;
+        static const AkUniqueID STOP_ENVIRONMENT_CRICKETS = 1774847782U;
         static const AkUniqueID STOP_ENVIRONMENT_WIND = 333136496U;
         static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
         static const AkUniqueID STOP_OPENING_SEQUENCE = 670049528U;
@@ -356,6 +358,7 @@ namespace AK
         static const AkUniqueID AVS_RED_VOLUME_WAVE1 = 3922087661U;
         static const AkUniqueID AVS_RED_VOLUME_WAVE2 = 3922087662U;
         static const AkUniqueID AVS_RED_VOLUME_WAVE3 = 3922087663U;
+        static const AkUniqueID AVS_REFERENCE_VOLUME = 2523786154U;
         static const AkUniqueID BREATHCYCLE_PLAYBACKRATE = 158808291U;
         static const AkUniqueID BREATHECYCLE_VOLUME = 1662384195U;
         static const AkUniqueID CRYSTALBOWLGENERATOR_VOLUME = 3761161481U;
