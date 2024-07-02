@@ -275,7 +275,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{EF1C91F6-7F3C-0028-0BF0-F32E4C8AE3B5}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{0C0C0F56-BF0E-384A-7199-307DECB0AFA1}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{F4396AD3-7EFB-C266-CB79-E571EB0BBD0F}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{00586558-A2E6-0EBC-48B0-6A20BF9216CC}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -915,10 +915,6 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
-					<ActionPostEvent>
-						<ActionPostEventEntry Id="528568497" Name="Play_VO_POSTURE_SWITCH"/>
-						<ActionPostEventEntry Id="3418740755" Name="Play_VO_OPENING_THEMATIC_SWITCH"/>
-					</ActionPostEvent>
 					<ActionSetSwitch>
 						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
 					</ActionSetSwitch>
@@ -1259,20 +1255,7 @@
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="670049528" Name="Stop_OPENING_SEQUENCE" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="2071903768" Name="Stop_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="280.34586" DurationMax="280.34586">
-					<MediaRefs>
-						<MediaRef Id="163565718"/>
-						<MediaRef Id="480920717"/>
-						<MediaRef Id="579672527"/>
-						<MediaRef Id="625014998"/>
-						<MediaRef Id="650293573"/>
-						<MediaRef Id="665576698"/>
-						<MediaRef Id="883996255"/>
-						<MediaRef Id="977341665"/>
-						<MediaRef Id="997677863"/>
-						<MediaRef Id="1006284074"/>
-					</MediaRefs>
-				</Event>
+				<Event Id="2071903768" Name="Stop_SIGH_QUERY_SEQUENCE_1" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="1747587664" Name="Stop_SOMATIC_SEQUENCE" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2715963629" Name="Stop_VO_OPENING_THEMATIC_SWITCH" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
@@ -4914,5 +4897,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{01C0C9A8-3372-C6B5-40D6-4DC56E28AAAB}</FileHash>
+	<FileHash>{AB999A66-71EB-8699-C3DE-9C8F4AD00CE0}</FileHash>
 </SoundBanksInfo>

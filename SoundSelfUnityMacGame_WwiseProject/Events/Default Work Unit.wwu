@@ -94,26 +94,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{DF018ED2-9518-4F5B-BC0E-DC3215E8BF4A}" ShortID="857322554">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="41"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{86B3AD14-0AF3-46C6-BDAC-582E2563F665}" ShortID="287142047">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="41"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Stop_OPENING_SEQUENCE" ID="{43D88038-3410-4E89-BD1D-D4D496C2A6B3}">
@@ -288,6 +268,9 @@
 				<Event Name="Stop_SIGH_QUERY_SEQUENCE_1" ID="{FF59C7B5-8DA4-48D2-9EEF-82EE9D58D6D9}">
 					<ChildrenList>
 						<Action Name="" ID="{ECF18793-7E04-4EFE-9AB5-B270EB0B589D}" ShortID="275967640">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="VOICE ELICITATION 1" ID="{A1D919FC-9ABF-433D-AFF9-685F083283BF}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
