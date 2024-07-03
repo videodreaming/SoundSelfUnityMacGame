@@ -16,11 +16,28 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="sfx_breath in" ID="{6FA8E62E-2ED4-4329-9B31-75505A8EC08C}">
+									<PropertyList>
+										<Property Name="MarkerInputMode" Type="int16" Value="2"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>sfx_breath in.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="432259444"/>
+										<MediaID ID="466210932"/>
 									</MediaIDList>
+									<ObjectLists>
+										<ObjectList Name="Markers">
+											<Reference>
+												<Local>
+													<Marker Name="" ID="{54A5246A-56D7-49A0-AC4B-03143FB80BED}">
+														<PropertyList>
+															<Property Name="Label" Type="string" Value="TEST MARKER"/>
+															<Property Name="Time" Type="Real64" Value="2.00484814704717"/>
+														</PropertyList>
+													</Marker>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>

@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{00586558-A2E6-0EBC-48B0-6A20BF9216CC}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{23B4DE2C-159A-55F6-8EF4-1CDEE2E2179A}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -654,13 +654,13 @@
 					<ShortName>vo_thematicOpening_narrative.wav</ShortName>
 					<CachePath>SFX/vo_thematicOpening_narrative_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="432259444" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_breath in.wav</ShortName>
-					<CachePath>SFX/sfx_breath in_818F3B66.wem</CachePath>
-				</File>
 				<File Id="464203531" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_breath out.wav</ShortName>
 					<CachePath>SFX/sfx_breath out_818F3B66.wem</CachePath>
+				</File>
+				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<CachePath>SFX/sfx_breath in_CFA87F25.wem</CachePath>
 				</File>
 				<File Id="480920717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitSigh_opening.wav</ShortName>
@@ -725,6 +725,10 @@
 				<File Id="771986202" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>WHITE_Binaural_TRI_5Hz.wav</ShortName>
 					<CachePath>SFX/WHITE_Binaural_TRI_5Hz_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="789751157" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_wind.wav</ShortName>
+					<CachePath>SFX/environment_wind_FD032056.wem</CachePath>
 				</File>
 				<File Id="793736320" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Gong,Rainstick_Oneshot.wav</ShortName>
@@ -954,16 +958,13 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
-					<ActionPostEvent>
-						<ActionPostEventEntry Id="528568497" Name="Play_VO_POSTURE_SWITCH"/>
-					</ActionPostEvent>
 					<ActionSetSwitch>
 						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
 					</ActionSetSwitch>
 				</Event>
 				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
 					<MediaRefs>
-						<MediaRef Id="432259444"/>
+						<MediaRef Id="466210932"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
@@ -1004,7 +1005,7 @@
 						<MediaRef Id="625014998"/>
 						<MediaRef Id="650293573"/>
 						<MediaRef Id="665576698"/>
-						<MediaRef Id="883996255"/>
+						<MediaRef Id="789751157"/>
 						<MediaRef Id="977341665"/>
 						<MediaRef Id="997677863"/>
 						<MediaRef Id="1006284074"/>
@@ -1480,7 +1481,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{733C56E4-3BF2-F152-0D7A-42D72D2A306D}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{E1F32DC8-FD61-69E5-018F-6F09F9380395}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -1676,10 +1677,6 @@
 					<ShortName>fundamental_[C]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="432259444" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_breath in.wav</ShortName>
-					<CachePath>SFX/sfx_breath in_818F3B66.wem</CachePath>
-				</File>
 				<File Id="433824871" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_toning_shadow_36F47997.wem</CachePath>
@@ -1699,6 +1696,10 @@
 				<File Id="465792322" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_A7ED6E33.wem</CachePath>
+				</File>
+				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<CachePath>SFX/sfx_breath in_CFA87F25.wem</CachePath>
 				</File>
 				<File Id="487812902" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test10tone.wav</ShortName>
@@ -2099,7 +2100,7 @@
 				</Event>
 				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
 					<MediaRefs>
-						<MediaRef Id="432259444"/>
+						<MediaRef Id="466210932"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
@@ -4897,5 +4898,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{AB999A66-71EB-8699-C3DE-9C8F4AD00CE0}</FileHash>
+	<FileHash>{7E8B261E-0281-D4E2-342D-5FBC487E44E4}</FileHash>
 </SoundBanksInfo>
