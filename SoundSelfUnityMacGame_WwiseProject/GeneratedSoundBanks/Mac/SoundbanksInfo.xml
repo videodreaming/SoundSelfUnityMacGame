@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{02EA45BB-2A95-CABD-7231-32684C441A1C}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{3C63F784-C327-5C51-FB27-BC24B0EF8766}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -997,7 +997,7 @@
 						</Custom>
 					</PluginRefs>
 				</Event>
-				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="134.94151" DurationMax="134.94151">
+				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="135.44684" DurationMax="135.44684">
 					<MediaRefs>
 						<MediaRef Id="480920717"/>
 						<MediaRef Id="625014998"/>
@@ -1087,6 +1087,7 @@
 					</SwitchContainers>
 					<ActionPostEvent>
 						<ActionPostEventEntry Id="2071903768" Name="Stop_SIGH_QUERY_SEQUENCE_1"/>
+						<ActionPostEventEntry Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle"/>
 					</ActionPostEvent>
 				</Event>
 				<Event Id="1386597262" Name="Play_VO_Opening" DurationType="OneShot" DurationMin="37.554" DurationMax="69.639336">
@@ -4901,5 +4902,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{77D31C7F-1481-25F2-E9CA-63B4C2FA57A8}</FileHash>
+	<FileHash>{0A666E5E-7881-BD51-2EE7-D8814B34E0DF}</FileHash>
 </SoundBanksInfo>
