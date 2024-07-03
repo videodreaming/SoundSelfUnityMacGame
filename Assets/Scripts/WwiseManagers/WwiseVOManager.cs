@@ -40,18 +40,24 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.SetSwitch("VO_ThematicContent","DieWell", gameObject);
         assignVOs();
         playOpening();
+        AkSoundEngine.PostEvent("Play_SIGH_QUERY_SEQUENCE_1", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, MyCallbackFunction, null);
+
         if(firstTimeUser)
         {
             ThematicContentCountDown = 184.0f;
             postureSwitchCountDown = 110.0f;
-            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject);  
+        //    AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject);  
         } else {
             ThematicContentCountDown = 110.0f;
             postureSwitchCountDown = 75.0f;
-            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+          //  AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
         }
         ThematicandPostureCountdown = true;
-              
+    }
+    
+    void CueTest()
+    {
+        Debug.Log("CueTest");
     }
 
     void Update()
@@ -165,7 +171,7 @@ public class WwiseVOManager : MonoBehaviour
         {
             if(currentlyPlaying == "VO_OPENING_SEQUENCE")
             {
-                AkSoundEngine.PostEvent("Play_SIGH_QUERY_SEQUENCE_1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
+                //AkSoundEngine.PostEvent("Play_SIGH_QUERY_SEQUENCE_1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
                 currentlyPlaying ="Play_SIGH_QUERY";
             } else if (currentlyPlaying == "Play_SIGH_QUERY")
             {
@@ -176,6 +182,11 @@ public class WwiseVOManager : MonoBehaviour
 
         void MyCallbackFunction(object in_cookie, AkCallbackType in_type, object in_info)
         {
+            if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+            {
+            AkCallbackManager.AkMusicSyncCallbackInfo musicInfo = (AkCallbackManager.AkMusicSyncCallbackInfo)in_info;
+            Debug.Log("MUSICCUEHIT");
+            }
             if (in_type == AkCallbackType.AK_EndOfEvent)
             {
                 // Call OnAudioFinished only if the AudioManager state is not SighElicitation1
