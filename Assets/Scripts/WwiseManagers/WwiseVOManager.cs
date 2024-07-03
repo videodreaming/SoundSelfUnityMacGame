@@ -3,36 +3,20 @@ using System.Collections.Generic;
 using System.Data.Common;
 using UnityEngine;
 using AK.Wwise;
+using Unity.VisualScripting;
 
 
 
 public class WwiseVOManager : MonoBehaviour
 {
     public AudioManager audioManager;
-    private bool voOpeningEventPlayed = false;
-    private bool voSighElicitation1Played = false;
-    private bool voSighElicitationfail1Played = false;
-    private bool QueryElicitation1Played = false;
-    private bool QueryElicitationFail1Played = false;
-    private bool QueryElicitationPassThankYou1Played = false;
-    private bool ThematicContentPlayed = false;
-    private bool PosturePlayed = false;
-    private bool OrientationPlayed = false;
-    private bool SomaticPlayed = false;
-    private bool GuidededVocalizationHumPlayed = false;
-    private bool GuidededVocalizationAhhPlayed = false;
-    private bool GuidededVocalizationOhhPlayed = false;
-    private bool GuidededVocalizationAdvancedPlayed = false;
-    private bool UnGuidedVocalizationPlayed = false;
-    private bool ThematicSavasanaPlayed= false;
-    private bool SilentMeditationPlayed = false;
-    private bool WakeUpPlayed = false;
-    private bool EndingSoonPlayed = false;
-    private bool SighElicitation2Played = false;
-    private bool SighElicitationFail2Played = false;
-    private bool QueryElicitationPass2Played = false;
-    private bool ClosingGoodbyePlayed = false;
+
     private bool pause = true;
+    private float postureSwitchCountDown = 110.0f;
+    private bool postureSwitchPlayed = false;
+    private float ThematicContentCountDown = 184.0f;
+    private bool ThematicContentPlayed = false;
+    private bool ThematicandPostureCountdown = false;
 
     public string ThematicContent = null;
     public string ThematicSavasana = null;
@@ -49,13 +33,62 @@ public class WwiseVOManager : MonoBehaviour
     {
 
     }
-    // Start is called before the first frame update
+
+
     void Start()
     {
         AkSoundEngine.SetSwitch("VO_ThematicContent","DieWell", gameObject);
         assignVOs();
         playOpening();
-        AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_LONG", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
+        if(firstTimeUser)
+        {
+            ThematicContentCountDown = 184.0f;
+            postureSwitchCountDown = 110.0f;
+            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject);  
+        } else {
+            ThematicContentCountDown = 110.0f;
+            postureSwitchCountDown = 75.0f;
+            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+        }
+        ThematicandPostureCountdown = true;
+              
+    }
+
+    void Update()
+    {
+        if(ThematicandPostureCountdown)
+        {
+            if(postureSwitchCountDown > 0.0f)
+            {
+                postureSwitchCountDown -= Time.deltaTime;
+            }
+            if(ThematicContentCountDown > 0.0f)
+            {
+                ThematicContentCountDown -= Time.deltaTime;
+            }
+
+        }
+        if(postureSwitchCountDown <= 0.0f )
+        {
+            if(!postureSwitchPlayed)
+            {
+                postureSwitchPlayed = true;
+                AkSoundEngine.PostEvent("Play_VO_POSTURE_SWITCH",gameObject);
+            }
+
+        }
+        if(ThematicContentCountDown <= 0.0f)
+        {
+            if(!ThematicContentPlayed)
+            {
+                Debug.Log("In Thamtic Switch");
+                ThematicContentPlayed = true;
+                currentlyPlaying = "VO_OPENING_SEQUENCE";
+                //AkSoundEngine.PostEvent("Play_VO_OPENING_THEMATIC_SWITCH", gameObject,(uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null );
+                
+            }
+            
+        }
     }
     
     void assignVOs()
@@ -124,11 +157,7 @@ public class WwiseVOManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
- 
-    }
+
 
     void PlayNext()
     {
@@ -136,8 +165,10 @@ public class WwiseVOManager : MonoBehaviour
         {
             if(currentlyPlaying == "VO_OPENING_SEQUENCE")
             {
-                AkSoundEngine.PostEvent("Play_SOMATIC_SEQUENCE", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                currentlyPlaying ="Play_SOMATIC_SEQUENCE";
+                AkSoundEngine.PostEvent("Play_SIGH_QUERY_SEQUENCE_1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
+                currentlyPlaying ="Play_SIGH_QUERY";
+            } else if (currentlyPlaying == "Play_SIGH_QUERY")
+            {
             }
         }
 
@@ -152,46 +183,18 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     pause = true;
                     StartCoroutine(StartSighElicitationTimer());
-                    resetFlags();
                 } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitation1)
                 {
                     StartCoroutine(StartQueryElicitationTimer());
-                    resetFlags();
                 }
                 else
                 {
                     audioManager.OnAudioFinished();
                     PlayNext();
-                    resetFlags();
                 }
             }  
         }
-        void resetFlags()
-        {
-            voOpeningEventPlayed = false;
-            voSighElicitation1Played = false;
-            voSighElicitationfail1Played = false;
-            QueryElicitation1Played = false;
-            QueryElicitationFail1Played = false;
-            QueryElicitationPassThankYou1Played = false;
-            ThematicContentPlayed = false;
-            PosturePlayed = false;
-            OrientationPlayed = false;
-            SomaticPlayed = false;
-            GuidededVocalizationHumPlayed = false;
-            GuidededVocalizationAhhPlayed = false;
-            GuidededVocalizationOhhPlayed = false;
-            GuidededVocalizationAdvancedPlayed = false;
-            UnGuidedVocalizationPlayed = false;
-            ThematicSavasanaPlayed= false;
-            SilentMeditationPlayed = false;
-            WakeUpPlayed = false;
-            EndingSoonPlayed = false;
-            SighElicitation2Played = false;
-            SighElicitationFail2Played = false;
-            QueryElicitationPass2Played = false;
-            ClosingGoodbyePlayed = false;
-        }
+
         
             IEnumerator StartSighElicitationTimer()
             {
