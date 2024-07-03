@@ -38,8 +38,76 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584822629310152113
+    m_lastTime: -8584816472353729368
     List:
+    - name: Aux_Impacts
+      guid: 63f7c0bf69d9f048aaab0642bcb3f556
+      id: 3329123393
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Aux_Impacts
+        ObjectType: 1
+        guid: 63f7c0bf69d9f048aaab0642bcb3f556
+      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_Impacts
+    - name: Aux_Music
+      guid: 9a033c4bc05c9647acd0a8d86ec1b749
+      id: 3331583377
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Aux_Music
+        ObjectType: 1
+        guid: 9a033c4bc05c9647acd0a8d86ec1b749
+      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_Music
+    - name: Aux_SilentLoops
+      guid: be8434bfd554ae4d88a34836f1b18d20
+      id: 1959646260
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Aux_SilentLoops
+        ObjectType: 1
+        guid: be8434bfd554ae4d88a34836f1b18d20
+      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_SilentLoops
+    - name: Aux_Toning
+      guid: 957d9f61f478a54aaec9ab6251e1bf93
+      id: 183653145
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Aux_Toning
+        ObjectType: 1
+        guid: 957d9f61f478a54aaec9ab6251e1bf93
+      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_Toning
     - name: AVS System
       guid: 5270ae016217ed4c975ab966f98065df
       id: 65973818
@@ -250,11 +318,11 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584822629310072435
+    m_lastTime: -8584815785695261356
     List:
-    - name: Main
-      guid: 172bdab802ba9d46857f79a5e4fce4c3
-      id: 3161908922
+    - name: INTERACTIVE
+      guid: 9882f34365e8da4b8507fc6343628d07
+      id: 3481447043
       PathAndIcons:
       - ElementName: SoundBanks
         ObjectType: 5
@@ -262,10 +330,10 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: de1292387a65644aa29a0dc03049efe2
-      - ElementName: Main
+      - ElementName: INTERACTIVE
         ObjectType: 7
-        guid: 172bdab802ba9d46857f79a5e4fce4c3
-      Path: SoundBanks\Default Work Unit\Main
+        guid: 9882f34365e8da4b8507fc6343628d07
+      Path: SoundBanks\Default Work Unit\INTERACTIVE
     - name: OPENING
       guid: f62aed69a816044db9b19ed9530c9ad4
       id: 1831982039
@@ -280,20 +348,6 @@ MonoBehaviour:
         ObjectType: 7
         guid: f62aed69a816044db9b19ed9530c9ad4
       Path: SoundBanks\Default Work Unit\OPENING
-    - name: VO
-      guid: 4a761e53d742c54785c346b5cb788f22
-      id: 1534528548
-      PathAndIcons:
-      - ElementName: SoundBanks
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: de1292387a65644aa29a0dc03049efe2
-      - ElementName: VO
-        ObjectType: 7
-        guid: 4a761e53d742c54785c346b5cb788f22
-      Path: SoundBanks\Default Work Unit\VO
   EventWwu:
   - PhysicalPath: Events\AVS System.wwu
     PathAndIcons:
@@ -306,11 +360,11 @@ MonoBehaviour:
     ParentPath: Events\AVS System
     guid: 8dda26975fba794392b0097b08fbff76
     GuidInternal: 
-    m_lastTime: -8584827858374610819
+    m_lastTime: -8584817378589032366
     List:
-    - name: Play_AVS_SineGenerators
-      guid: 845ef0247cf58347a960c9ad235ee132
-      id: 1989542112
+    - name: Play_AVS_SineGenerators_REFERENCE
+      guid: 2241cc075f82884483bb65d548a393f8
+      id: 3449237142
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -318,10 +372,27 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Play_AVS_SineGenerators
+      - ElementName: Play_AVS_SineGenerators_REFERENCE
+        ObjectType: 3
+        guid: 2241cc075f82884483bb65d548a393f8
+      Path: Events\AVS System\Play_AVS_SineGenerators_REFERENCE
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_AVS_SineGenerators_RGB
+      guid: 845ef0247cf58347a960c9ad235ee132
+      id: 2424845564
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 8dda26975fba794392b0097b08fbff76
+      - ElementName: Play_AVS_SineGenerators_RGB
         ObjectType: 3
         guid: 845ef0247cf58347a960c9ad235ee132
-      Path: Events\AVS System\Play_AVS_SineGenerators
+      Path: Events\AVS System\Play_AVS_SineGenerators_RGB
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -376,9 +447,9 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Stop_AVS_Silent
-      guid: 178d900b0337094ca0698182e7a10d3a
-      id: 2638034312
+    - name: Stop_AVS_SineGenerators_REFERENCE
+      guid: eb9cfe70966be6408a80ddaa41ffd559
+      id: 767717232
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -386,16 +457,16 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Stop_AVS_Silent
+      - ElementName: Stop_AVS_SineGenerators_REFERENCE
         ObjectType: 3
-        guid: 178d900b0337094ca0698182e7a10d3a
-      Path: Events\AVS System\Stop_AVS_Silent
+        guid: eb9cfe70966be6408a80ddaa41ffd559
+      Path: Events\AVS System\Stop_AVS_SineGenerators_REFERENCE
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-    - name: Stop_AVS_SineGenerators
+    - name: Stop_AVS_SineGenerators_RGB
       guid: f388f0dbdb434743834f146a8207fbd0
-      id: 2181803410
+      id: 1101274838
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -403,10 +474,10 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Stop_AVS_SineGenerators
+      - ElementName: Stop_AVS_SineGenerators_RGB
         ObjectType: 3
         guid: f388f0dbdb434743834f146a8207fbd0
-      Path: Events\AVS System\Stop_AVS_SineGenerators
+      Path: Events\AVS System\Stop_AVS_SineGenerators_RGB
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -472,25 +543,8 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584822609135472265
+    m_lastTime: -8584815785700606284
     List:
-    - name: Play_ADJUNCT_OPENING_LONG_MUSICSEGMENT
-      guid: 898043f9e2de8a46b23c7d672b0a46de
-      id: 773450844
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_ADJUNCT_OPENING_LONG_MUSICSEGMENT
-        ObjectType: 3
-        guid: 898043f9e2de8a46b23c7d672b0a46de
-      Path: Events\Default Work Unit\Play_ADJUNCT_OPENING_LONG_MUSICSEGMENT
-      maxAttenuation: 0
-      maxDuration: 471.42188
-      minDuration: 471.42188
     - name: Play_AMBIENT_ENVIRONMENT_LOOP
       guid: cb6fb65d1c06e543880d2c319ad8a094
       id: 3981260521
@@ -508,9 +562,9 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_OPENING_SEQUENCE_ADJUNCT_LONG
+    - name: Play_OPENING_SEQUENCE_LONG
       guid: a82983929bbfc746a5d8defd50ee76e9
-      id: 1486205449
+      id: 4109731399
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -518,16 +572,16 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_OPENING_SEQUENCE_ADJUNCT_LONG
+      - ElementName: Play_OPENING_SEQUENCE_LONG
         ObjectType: 3
         guid: a82983929bbfc746a5d8defd50ee76e9
-      Path: Events\Default Work Unit\Play_OPENING_SEQUENCE_ADJUNCT_LONG
+      Path: Events\Default Work Unit\Play_OPENING_SEQUENCE_LONG
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_OPENING_SEQUENCE_ADJUNCT_SHORT
+    - name: Play_OPENING_SEQUENCE_SHORT
       guid: 3fe2f451f7904f408149caf1ebd9cbc5
-      id: 742624799
+      id: 3973502489
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -535,13 +589,47 @@ MonoBehaviour:
       - ElementName: Default Work Unit
         ObjectType: 12
         guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_OPENING_SEQUENCE_ADJUNCT_SHORT
+      - ElementName: Play_OPENING_SEQUENCE_SHORT
         ObjectType: 3
         guid: 3fe2f451f7904f408149caf1ebd9cbc5
-      Path: Events\Default Work Unit\Play_OPENING_SEQUENCE_ADJUNCT_SHORT
+      Path: Events\Default Work Unit\Play_OPENING_SEQUENCE_SHORT
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_SIGH_QUERY_SEQUENCE_1
+      guid: 9a39e8794c5e6144a5a4926f23585c1c
+      id: 410054882
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Play_SIGH_QUERY_SEQUENCE_1
+        ObjectType: 3
+        guid: 9a39e8794c5e6144a5a4926f23585c1c
+      Path: Events\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_1
+      maxAttenuation: 0
+      maxDuration: 134.94151
+      minDuration: 134.94151
+    - name: Play_SIGH_QUERY_SEQUENCE_1_SFX
+      guid: 5ebe68a7067fc640a73db7af457511b8
+      id: 1989355586
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Play_SIGH_QUERY_SEQUENCE_1_SFX
+        ObjectType: 3
+        guid: 5ebe68a7067fc640a73db7af457511b8
+      Path: Events\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_1_SFX
+      maxAttenuation: 0
+      maxDuration: 214.70941
+      minDuration: 214.70941
     - name: Play_SOMATIC_SEQUENCE
       guid: f430602e2e1d69419928e3b4db9cffe4
       id: 2061683806
@@ -644,6 +732,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_SIGH_QUERY_SEQUENCE_1
+      guid: b5c759ffa48dd2489eef82ee9d58d6d9
+      id: 2071903768
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Stop_SIGH_QUERY_SEQUENCE_1
+        ObjectType: 3
+        guid: b5c759ffa48dd2489eef82ee9d58d6d9
+      Path: Events\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_1
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_SOMATIC_SEQUENCE
       guid: 0bad97d50b3f0b4b98eb3f63a16acdff
       id: 1747587664
@@ -661,6 +766,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_VO_OPENING_THEMATIC_SWITCH
+      guid: 84bcd5d238eb134aba7053f1cfac8075
+      id: 2715963629
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Stop_VO_OPENING_THEMATIC_SWITCH
+        ObjectType: 3
+        guid: 84bcd5d238eb134aba7053f1cfac8075
+      Path: Events\Default Work Unit\Stop_VO_OPENING_THEMATIC_SWITCH
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
   - PhysicalPath: Events\Environment.wwu
     PathAndIcons:
     - ElementName: Events
@@ -672,7 +794,7 @@ MonoBehaviour:
     ParentPath: Events\Environment
     guid: 3ffbeff2adf5b844b3827d55048249ec
     GuidInternal: 
-    m_lastTime: -8584833953546394958
+    m_lastTime: -8584817378589022361
     List:
     - name: Play_environment_anyQueryRepeat1
       guid: 78543b158da14a44a12803d2d86547b2
@@ -810,6 +932,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Stop_environment_crickets
+      guid: 1f84e6e4d9486d4fa3ebfe8d13c58924
+      id: 1774847782
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Stop_environment_crickets
+        ObjectType: 3
+        guid: 1f84e6e4d9486d4fa3ebfe8d13c58924
+      Path: Events\Environment\Stop_environment_crickets
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_environment_wind
       guid: 5e7a40dec1c0d0478434c812b73b3da0
       id: 333136496
@@ -1639,7 +1778,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\AVS System
     guid: 33c2cba45d7021408c88e244225aa913
     GuidInternal: 
-    m_lastTime: -8584829689800055248
+    m_lastTime: -8584817378588962310
     List:
     - name: AVS_BLUE_Volume_Wave1
       guid: 7bb67256f951734384840f7d6cc7fd2e
@@ -2202,6 +2341,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: 6ed79bc265d4a64aa1f69097ebb49bb8
       Path: Game Parameters\AVS System\WAVE 3\AVS_RED_Volume_Wave3
+    - name: AVS_REFERENCE_Volume
+      guid: 201b8ba081a8e64d8a49b6dca4ac8ffd
+      id: 2523786154
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 33c2cba45d7021408c88e244225aa913
+      - ElementName: AVS_REFERENCE_Volume
+        ObjectType: 13
+        guid: 201b8ba081a8e64d8a49b6dca4ac8ffd
+      Path: Game Parameters\AVS System\AVS_REFERENCE_Volume
     - name: WAVE 1
       guid: 7ce37c24f0b4ed4b9dbea11fe8a88a26
       id: 2208685651
@@ -4347,7 +4500,7 @@ MonoBehaviour:
         guid: c760786d07938d41a39c332de5c52dab
       Path: Triggers\Default Work Unit\Test
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 020000000600000007000000080000000d00000011000000120000002800000037000000380000003d0000003e000000590000005a000000
+  ExpandedWaapiItemIds: 020000000600000007000000080000000d00000011000000120000002800000037000000380000003d0000003e000000590000005a0000005f00000060000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

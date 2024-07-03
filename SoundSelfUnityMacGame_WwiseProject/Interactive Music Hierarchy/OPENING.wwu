@@ -5292,7 +5292,7 @@
 						</MusicSegment>
 						<MusicSegment Name="vo_thematicOpening_peace" ID="{98BA6984-F452-44AF-9F8E-C16AFCB9BEAD}" ShortID="337960274">
 							<PropertyList>
-								<Property Name="EndPosition" Type="Real64" Value="51207.3333333333"/>
+								<Property Name="EndPosition" Type="Real64" Value="53655.8767570281"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -5368,7 +5368,17 @@
 											<MusicCue Name="Exit Cue" ID="{DE13DF28-A348-4680-AD9F-0CBC4D7D4EF8}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="51207.3333333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="51188.0534638554"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="End_Of_Thamatic_Opening_Event" ID="{DFE307FC-BAFA-4713-AF1D-A64AA9D1EE69}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="51168.7735943775"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
