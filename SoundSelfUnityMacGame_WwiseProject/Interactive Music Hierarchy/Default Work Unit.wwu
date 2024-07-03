@@ -9791,7 +9791,7 @@
 				</MusicSwitchContainer>
 				<MusicSegment Name="VOICE ELICITATION 1" ID="{A1D919FC-9ABF-433D-AFF9-685F083283BF}" ShortID="38452716">
 					<PropertyList>
-						<Property Name="EndPosition" Type="Real64" Value="280345.858451849"/>
+						<Property Name="EndPosition" Type="Real64" Value="214709.403307815"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>2</Value>
@@ -10428,7 +10428,7 @@
 															<Local>
 																<MusicClip Name="environment_wind" ID="{9CC4CFDF-4AAA-4803-8D27-DC03F2B7FF87}">
 																	<PropertyList>
-																		<Property Name="EndTrimOffset" Type="Real64" Value="252411.823205806"/>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="202856.661970691"/>
 																		<Property Name="FadeInDuration" Type="Real64" Value="13561.028478593"/>
 																		<Property Name="FadeOutDuration" Type="Real64" Value="142548.485402884"/>
 																		<Property Name="PlayAt" Type="Real64" Value="11852.741337124"/>
@@ -10447,7 +10447,7 @@
 																						<Flags>5</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>252.41182</XPos>
+																						<XPos>202.85666</XPos>
 																						<YPos>0</YPos>
 																						<Flags>37</Flags>
 																					</Point>
@@ -10466,7 +10466,7 @@
 																						<Flags>5</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>252.41182</XPos>
+																						<XPos>202.85666</XPos>
 																						<YPos>0</YPos>
 																						<Flags>37</Flags>
 																					</Point>
@@ -10575,8 +10575,8 @@
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>252.41182</XPos>
-																						<YPos>-4.36458</YPos>
+																						<XPos>202.85666</XPos>
+																						<YPos>-96.3</YPos>
 																						<Flags>37</Flags>
 																					</Point>
 																				</PointList>
@@ -10584,6 +10584,34 @@
 																		</PropertyCurve>
 																	</PropertyCurveList>
 																</MusicClip>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{4A74DE89-FB98-4686-B8EE-9E97FFD9CAA7}" ShortID="716625470">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="135156.102263405"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_SOMATIC_SEQUENCE" ID="{2E6030F4-1D2E-4169-9928-E3B4DB9CFFE4}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{B5061B41-5BB3-4F8B-8F9C-1EBED3B08010}" ShortID="17221497">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="135133.107406784"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_SOMATIC_SEQUENCE" ID="{2E6030F4-1D2E-4169-9928-E3B4DB9CFFE4}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
 															</Local>
 														</Reference>
 													</ObjectList>
@@ -11011,7 +11039,7 @@
 									<MusicCue Name="Exit Cue" ID="{6FFCC05A-3DD9-4B64-938D-17F76C8A25A6}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="1"/>
-											<Property Name="TimeMs" Type="Real64" Value="280345.858451849"/>
+											<Property Name="TimeMs" Type="Real64" Value="214709.403307815"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>

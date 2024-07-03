@@ -15,6 +15,7 @@ namespace AK
     {
         static const AkUniqueID MENU_SETSWITCH_LONG = 243401070U;
         static const AkUniqueID MENU_SETSWITCH_SHORT = 1972773362U;
+        static const AkUniqueID NEW_EVENT = 3050945240U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_REFERENCE = 3449237142U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_RGB = 2424845564U;

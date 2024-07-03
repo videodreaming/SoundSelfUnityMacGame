@@ -36,29 +36,10 @@
 				</Event>
 				<Event Name="Play_SOMATIC_SEQUENCE" ID="{2E6030F4-1D2E-4169-9928-E3B4DB9CFFE4}">
 					<ChildrenList>
-						<Action Name="" ID="{38015F24-C18E-4790-AA10-02CEE2B4096B}" ShortID="668514012">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{C53C60B4-C84D-4630-A8FD-372BF7A57061}" ShortID="78722735">
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="SOMATIC_SWITCH" ID="{29EC6BD4-AA95-44B6-9259-B9DE29F21203}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{65843693-4EF3-4D4F-89B9-5A2F6FDF5635}" ShortID="143371981">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="20"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VOICE ELICITATION 1" ID="{A1D919FC-9ABF-433D-AFF9-685F083283BF}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -283,6 +264,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="New_Event" ID="{5CF91771-E986-4CFF-8EBF-A275A4FB1412}"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{23B4DE2C-159A-55F6-8EF4-1CDEE2E2179A}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D057C257-42B9-D1E1-2E7D-2B7D2B90F2D5}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -660,7 +660,7 @@
 				</File>
 				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_breath in.wav</ShortName>
-					<CachePath>SFX/sfx_breath in_CFA87F25.wem</CachePath>
+					<CachePath>SFX/sfx_breath in_484E83A4.wem</CachePath>
 				</File>
 				<File Id="480920717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitSigh_opening.wav</ShortName>
@@ -997,7 +997,7 @@
 						</Custom>
 					</PluginRefs>
 				</Event>
-				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="280.34586" DurationMax="280.34586">
+				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="214.70941" DurationMax="214.70941">
 					<MediaRefs>
 						<MediaRef Id="163565718"/>
 						<MediaRef Id="480920717"/>
@@ -1016,11 +1016,6 @@
 					</ActionPostEvent>
 				</Event>
 				<Event Id="2061683806" Name="Play_SOMATIC_SEQUENCE" DurationType="Infinite">
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -1467,6 +1462,13 @@
 				<GameParameter Id="3761161481" Name="CrystalBowlGenerator_Volume"/>
 			</GameParameters>
 		</SoundBank>
+		<SoundBank Id="3050945240" Type="Event" Language="SFX" Hash="{CD177F2B-366B-F407-6879-9ADE6499E0E1}">
+			<ShortName>New_Event</ShortName>
+			<Path>Event/30/New_Event.bnk</Path>
+			<Events>
+				<Event Id="3050945240" Name="New_Event" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+			</Events>
+		</SoundBank>
 		<SoundBank Id="3329123393" Type="Bus" Language="SFX" Hash="{C26FF76F-38F1-2B16-A7E8-4A3D3AC8CF63}">
 			<ShortName>Aux_Impacts</ShortName>
 			<Path>Bus/33/Aux_Impacts.bnk</Path>
@@ -1481,7 +1483,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{E1F32DC8-FD61-69E5-018F-6F09F9380395}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{30FF2235-ECCE-2FA1-4830-7B050EF0DBFF}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -1699,7 +1701,7 @@
 				</File>
 				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_breath in.wav</ShortName>
-					<CachePath>SFX/sfx_breath in_CFA87F25.wem</CachePath>
+					<CachePath>SFX/sfx_breath in_484E83A4.wem</CachePath>
 				</File>
 				<File Id="487812902" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test10tone.wav</ShortName>
@@ -4898,5 +4900,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{32C04858-0477-4149-443D-2FC1B3D1351F}</FileHash>
+	<FileHash>{0D64BB39-E5ED-6CE7-F2D8-3FE69D24AF31}</FileHash>
 </SoundBanksInfo>
