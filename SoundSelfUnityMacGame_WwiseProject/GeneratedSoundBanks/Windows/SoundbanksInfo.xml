@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D057C257-42B9-D1E1-2E7D-2B7D2B90F2D5}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{02EA45BB-2A95-CABD-7231-32684C441A1C}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -997,23 +997,28 @@
 						</Custom>
 					</PluginRefs>
 				</Event>
-				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="214.70941" DurationMax="214.70941">
+				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="134.94151" DurationMax="134.94151">
+					<MediaRefs>
+						<MediaRef Id="480920717"/>
+						<MediaRef Id="625014998"/>
+						<MediaRef Id="997677863"/>
+					</MediaRefs>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="670049528" Name="Stop_OPENING_SEQUENCE"/>
+						<ActionPostEventEntry Id="1989355586" Name="Play_SIGH_QUERY_SEQUENCE_1_SFX"/>
+						<ActionPostEventEntry Id="2715963629" Name="Stop_VO_OPENING_THEMATIC_SWITCH"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="1989355586" Name="Play_SIGH_QUERY_SEQUENCE_1_SFX" DurationType="OneShot" DurationMin="214.70941" DurationMax="214.70941">
 					<MediaRefs>
 						<MediaRef Id="163565718"/>
-						<MediaRef Id="480920717"/>
 						<MediaRef Id="579672527"/>
-						<MediaRef Id="625014998"/>
 						<MediaRef Id="650293573"/>
 						<MediaRef Id="665576698"/>
 						<MediaRef Id="789751157"/>
 						<MediaRef Id="977341665"/>
-						<MediaRef Id="997677863"/>
 						<MediaRef Id="1006284074"/>
 					</MediaRefs>
-					<ActionPostEvent>
-						<ActionPostEventEntry Id="670049528" Name="Stop_OPENING_SEQUENCE"/>
-						<ActionPostEventEntry Id="2715963629" Name="Stop_VO_OPENING_THEMATIC_SWITCH"/>
-					</ActionPostEvent>
 				</Event>
 				<Event Id="2061683806" Name="Play_SOMATIC_SEQUENCE" DurationType="Infinite">
 					<SwitchContainers>
@@ -1080,6 +1085,9 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="2071903768" Name="Stop_SIGH_QUERY_SEQUENCE_1"/>
+					</ActionPostEvent>
 				</Event>
 				<Event Id="1386597262" Name="Play_VO_Opening" DurationType="OneShot" DurationMin="37.554" DurationMax="69.639336">
 					<SwitchContainers>
@@ -1461,13 +1469,6 @@
 			<GameParameters>
 				<GameParameter Id="3761161481" Name="CrystalBowlGenerator_Volume"/>
 			</GameParameters>
-		</SoundBank>
-		<SoundBank Id="3050945240" Type="Event" Language="SFX" Hash="{CD177F2B-366B-F407-6879-9ADE6499E0E1}">
-			<ShortName>New_Event</ShortName>
-			<Path>Event/30/New_Event.bnk</Path>
-			<Events>
-				<Event Id="3050945240" Name="New_Event" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-			</Events>
 		</SoundBank>
 		<SoundBank Id="3329123393" Type="Bus" Language="SFX" Hash="{C26FF76F-38F1-2B16-A7E8-4A3D3AC8CF63}">
 			<ShortName>Aux_Impacts</ShortName>
@@ -4900,5 +4901,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{0D64BB39-E5ED-6CE7-F2D8-3FE69D24AF31}</FileHash>
+	<FileHash>{713827E8-312D-3902-AC96-EE372E808536}</FileHash>
 </SoundBanksInfo>

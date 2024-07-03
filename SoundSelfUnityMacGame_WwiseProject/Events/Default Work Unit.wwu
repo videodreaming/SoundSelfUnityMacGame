@@ -43,6 +43,16 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{27CC9E2C-D241-4AD3-B10B-BF83CDEE611E}" ShortID="152854041">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_SIGH_QUERY_SEQUENCE_1" ID="{FF59C7B5-8DA4-48D2-9EEF-82EE9D58D6D9}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_OPENING_SEQUENCE_LONG" ID="{928329A8-BF9B-46C7-A5D8-DEFD50EE76E9}">
@@ -233,6 +243,16 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{BC0A557A-81A5-45B9-AF4B-1DAC52796848}" ShortID="861955678">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_SIGH_QUERY_SEQUENCE_1_SFX" ID="{A768BE5E-7F06-40C6-A73D-B7AF457511B8}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Stop_SIGH_QUERY_SEQUENCE_1" ID="{FF59C7B5-8DA4-48D2-9EEF-82EE9D58D6D9}">
@@ -244,6 +264,18 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="VOICE ELICITATION 1" ID="{A1D919FC-9ABF-433D-AFF9-685F083283BF}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{6CC0A6BD-EC73-44E8-98DF-C3ACCBCA5413}" ShortID="699551713">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VOICE ELICITATION 1_SFX" ID="{CEBEAF61-B033-45EF-A437-5ABDBC25FF34}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -264,7 +296,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="New_Event" ID="{5CF91771-E986-4CFF-8EBF-A275A4FB1412}"/>
+				<Event Name="Play_SIGH_QUERY_SEQUENCE_1_SFX" ID="{A768BE5E-7F06-40C6-A73D-B7AF457511B8}">
+					<ChildrenList>
+						<Action Name="" ID="{B33FB1F1-2250-487B-A399-F35ADF9CE4E1}" ShortID="12912850">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VOICE ELICITATION 1_SFX" ID="{CEBEAF61-B033-45EF-A437-5ABDBC25FF34}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
