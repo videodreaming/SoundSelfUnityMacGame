@@ -32,6 +32,28 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{26E63584-15D9-4573-A418-92277904F18B}" ShortID="221135084">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="75"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{D81CD8F6-272E-4D16-AD33-FC9E5E4B45D9}" ShortID="866996958">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="148"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_VO_OPENING_THEMATIC_SWITCH" ID="{D2D5BC84-EB38-4A13-BA70-53F1CFAC8075}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_SOMATIC_SEQUENCE" ID="{2E6030F4-1D2E-4169-9928-E3B4DB9CFFE4}">
@@ -81,6 +103,28 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C040FB87-7306-4412-ADC1-61F659BFB700}" ShortID="251629006">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="110"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{CE9F0789-014F-4798-A29B-DC887B5690DF}" ShortID="999166789">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="184"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -277,18 +321,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{6CC0A6BD-EC73-44E8-98DF-C3ACCBCA5413}" ShortID="699551713">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VOICE ELICITATION 1_SFX" ID="{CEBEAF61-B033-45EF-A437-5ABDBC25FF34}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Stop_VO_OPENING_THEMATIC_SWITCH" ID="{D2D5BC84-EB38-4A13-BA70-53F1CFAC8075}">
@@ -301,17 +333,6 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{C7789B8F-0EED-48B6-AE27-DD0FBC34129F}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Play_SIGH_QUERY_SEQUENCE_1_SFX" ID="{A768BE5E-7F06-40C6-A73D-B7AF457511B8}">
-					<ChildrenList>
-						<Action Name="" ID="{B33FB1F1-2250-487B-A399-F35ADF9CE4E1}" ShortID="12912850">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VOICE ELICITATION 1_SFX" ID="{CEBEAF61-B033-45EF-A437-5ABDBC25FF34}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

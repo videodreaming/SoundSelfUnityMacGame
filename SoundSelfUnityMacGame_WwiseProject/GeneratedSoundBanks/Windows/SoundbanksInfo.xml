@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{3C63F784-C327-5C51-FB27-BC24B0EF8766}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{E8ECD281-3B47-129D-F456-178C1E568DC4}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -817,18 +817,6 @@
 				</Custom>
 			</Plugins>
 			<Events>
-				<Event Id="243401070" Name="MENU_SetSwitch_LONG" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
-					<ActionSetSwitch>
-						<ActionSetSwitchEntry GroupId="3813349969" Id="674228435" Name="Long"/>
-						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
-					</ActionSetSwitch>
-				</Event>
-				<Event Id="1972773362" Name="MENU_SetSwitch_SHORT" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
-					<ActionSetSwitch>
-						<ActionSetSwitchEntry GroupId="3813349969" Id="2585211341" Name="Short"/>
-						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
-					</ActionSetSwitch>
-				</Event>
 				<Event Id="3981260521" Name="Play_AMBIENT_ENVIRONMENT_LOOP" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
@@ -919,6 +907,10 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="528568497" Name="Play_VO_POSTURE_SWITCH"/>
+						<ActionPostEventEntry Id="3418740755" Name="Play_VO_OPENING_THEMATIC_SWITCH"/>
+					</ActionPostEvent>
 					<ActionSetSwitch>
 						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
 					</ActionSetSwitch>
@@ -958,6 +950,10 @@
 							</MediaRefs>
 						</SwitchContainer>
 					</SwitchContainers>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="528568497" Name="Play_VO_POSTURE_SWITCH"/>
+						<ActionPostEventEntry Id="2715963629" Name="Stop_VO_OPENING_THEMATIC_SWITCH"/>
+					</ActionPostEvent>
 					<ActionSetSwitch>
 						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
 					</ActionSetSwitch>
@@ -997,28 +993,23 @@
 						</Custom>
 					</PluginRefs>
 				</Event>
-				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="135.44684" DurationMax="135.44684">
-					<MediaRefs>
-						<MediaRef Id="480920717"/>
-						<MediaRef Id="625014998"/>
-						<MediaRef Id="997677863"/>
-					</MediaRefs>
-					<ActionPostEvent>
-						<ActionPostEventEntry Id="670049528" Name="Stop_OPENING_SEQUENCE"/>
-						<ActionPostEventEntry Id="1989355586" Name="Play_SIGH_QUERY_SEQUENCE_1_SFX"/>
-						<ActionPostEventEntry Id="2715963629" Name="Stop_VO_OPENING_THEMATIC_SWITCH"/>
-					</ActionPostEvent>
-				</Event>
-				<Event Id="1989355586" Name="Play_SIGH_QUERY_SEQUENCE_1_SFX" DurationType="OneShot" DurationMin="214.70941" DurationMax="214.70941">
+				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="214.70941" DurationMax="214.70941">
 					<MediaRefs>
 						<MediaRef Id="163565718"/>
+						<MediaRef Id="480920717"/>
 						<MediaRef Id="579672527"/>
+						<MediaRef Id="625014998"/>
 						<MediaRef Id="650293573"/>
 						<MediaRef Id="665576698"/>
 						<MediaRef Id="789751157"/>
 						<MediaRef Id="977341665"/>
+						<MediaRef Id="997677863"/>
 						<MediaRef Id="1006284074"/>
 					</MediaRefs>
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="670049528" Name="Stop_OPENING_SEQUENCE"/>
+						<ActionPostEventEntry Id="2715963629" Name="Stop_VO_OPENING_THEMATIC_SWITCH"/>
+					</ActionPostEvent>
 				</Event>
 				<Event Id="2061683806" Name="Play_SOMATIC_SEQUENCE" DurationType="Infinite">
 					<SwitchContainers>
@@ -1274,14 +1265,6 @@
 					<Switches>
 						<Switch Id="3551080421" Name="Relax"/>
 						<Switch Id="3891673577" Name="LieDown"/>
-					</Switches>
-				</SwitchGroup>
-				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
-					<Switches>
-						<Switch Id="674228435" Name="Long"/>
-						<Switch Id="1927133646" Name="Anchoring"/>
-						<Switch Id="2585211341" Name="Short"/>
-						<Switch Id="3041563226" Name="Silence"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="2585035832" Name="MENU_SESSIONMODE">
@@ -4902,5 +4885,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{5E4DD512-AB00-5449-E489-BFA18BA52B79}</FileHash>
+	<FileHash>{AEA57E40-6F4E-7210-8E8A-8C86985DF377}</FileHash>
 </SoundBanksInfo>

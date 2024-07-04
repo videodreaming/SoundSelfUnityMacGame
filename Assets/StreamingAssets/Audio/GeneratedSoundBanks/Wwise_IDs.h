@@ -13,8 +13,6 @@ namespace AK
 {
     namespace EVENTS
     {
-        static const AkUniqueID MENU_SETSWITCH_LONG = 243401070U;
-        static const AkUniqueID MENU_SETSWITCH_SHORT = 1972773362U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_REFERENCE = 3449237142U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_RGB = 2424845564U;
@@ -39,7 +37,6 @@ namespace AK
         static const AkUniqueID PLAY_SFX_SOUNDSEED_BREATHCYCLE = 3431547933U;
         static const AkUniqueID PLAY_SFX_SOUNDSEED_BREATHCYCLEWIND = 603425291U;
         static const AkUniqueID PLAY_SIGH_QUERY_SEQUENCE_1 = 410054882U;
-        static const AkUniqueID PLAY_SIGH_QUERY_SEQUENCE_1_SFX = 1989355586U;
         static const AkUniqueID PLAY_SILENTLOOPS = 4004321118U;
         static const AkUniqueID PLAY_SILENTLOOPS_V1_7PITCH_LINKED = 1486999246U;
         static const AkUniqueID PLAY_SILENTLOOPS_V2_12PITCH_LINKED = 835136671U;
