@@ -259,6 +259,20 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{B6482DF0-C0D3-43CF-9327-0683C4230786}" ShortID="799117372">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="75013.0807303967"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -450,6 +464,20 @@
 																				</PropertyCurve>
 																			</PropertyCurveList>
 																		</MusicClip>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{3F292B78-150C-4615-BDF9-895037E67AC9}" ShortID="35453732">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="148006.254332102"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
 																	</Local>
 																</Reference>
 															</ObjectList>
@@ -2663,22 +2691,22 @@
 																							</Point>
 																							<Point>
 																								<XPos>84.89091</XPos>
-																								<YPos>0</YPos>
+																								<YPos>-0.79884</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>102.290909090907</XPos>
-																								<YPos>0</YPos>
+																								<XPos>101.6142</XPos>
+																								<YPos>-1.45021</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>106.86061</XPos>
-																								<YPos>-0.30662</YPos>
+																								<XPos>107.38694</XPos>
+																								<YPos>-2.54935</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>117.97172</XPos>
-																								<YPos>-2.40158</YPos>
+																								<XPos>117.89653</XPos>
+																								<YPos>-2.15358</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -2736,7 +2764,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2928,6 +2956,34 @@
 																				</PropertyCurve>
 																			</PropertyCurveList>
 																		</MusicClip>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{9A91B18C-0EE0-46E6-A6AB-4D7275DDE576}" ShortID="637734438">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="110004.773311959"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{7B1315F3-88A7-4A72-A2DF-46D3BF947E76}" ShortID="821212853">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="184087.894261774"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
 																	</Local>
 																</Reference>
 															</ObjectList>
