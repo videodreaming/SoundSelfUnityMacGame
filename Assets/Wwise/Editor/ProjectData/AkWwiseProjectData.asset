@@ -318,7 +318,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584815785695261356
+    m_lastTime: -8584814921500659904
     List:
     - name: INTERACTIVE
       guid: 9882f34365e8da4b8507fc6343628d07
@@ -543,7 +543,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584815785700606284
+    m_lastTime: -8584814921506178104
     List:
     - name: Play_AMBIENT_ENVIRONMENT_LOOP
       guid: cb6fb65d1c06e543880d2c319ad8a094
@@ -610,23 +610,6 @@ MonoBehaviour:
         ObjectType: 3
         guid: 9a39e8794c5e6144a5a4926f23585c1c
       Path: Events\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_1
-      maxAttenuation: 0
-      maxDuration: 134.94151
-      minDuration: 134.94151
-    - name: Play_SIGH_QUERY_SEQUENCE_1_SFX
-      guid: 5ebe68a7067fc640a73db7af457511b8
-      id: 1989355586
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_SIGH_QUERY_SEQUENCE_1_SFX
-        ObjectType: 3
-        guid: 5ebe68a7067fc640a73db7af457511b8
-      Path: Events\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_1_SFX
       maxAttenuation: 0
       maxDuration: 214.70941
       minDuration: 214.70941
@@ -1356,42 +1339,8 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584826122848056379
+    m_lastTime: -8584814921506118350
     List:
-    - name: MENU_SetSwitch_LONG
-      guid: 82022900e172ae44b9e178aae3f35f42
-      id: 243401070
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: VO
-        ObjectType: 12
-        guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
-      - ElementName: MENU_SetSwitch_LONG
-        ObjectType: 3
-        guid: 82022900e172ae44b9e178aae3f35f42
-      Path: Events\VO\MENU_SetSwitch_LONG
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: MENU_SetSwitch_SHORT
-      guid: 827e2e7bb755e54d86a8f1cc1aa19757
-      id: 1972773362
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: VO
-        ObjectType: 12
-        guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
-      - ElementName: MENU_SetSwitch_SHORT
-        ObjectType: 3
-        guid: 827e2e7bb755e54d86a8f1cc1aa19757
-      Path: Events\VO\MENU_SetSwitch_SHORT
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
     - name: Play_VO_ClosingGoodbye
       guid: d8c917e3a4fcc241bc26f16e968efae1
       id: 699412784

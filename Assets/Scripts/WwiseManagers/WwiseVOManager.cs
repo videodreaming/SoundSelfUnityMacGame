@@ -45,23 +45,32 @@ public class WwiseVOManager : MonoBehaviour
         {
             ThematicContentCountDown = 184.0f;
             postureSwitchCountDown = 110.0f;
-            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject);  
+            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
         } else {
             ThematicContentCountDown = 110.0f;
             postureSwitchCountDown = 75.0f;
             AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
         }
-        ThematicandPostureCountdown = true;
+        //ThematicandPostureCountdown = true;
     }
     
-    void CueTest()
-    {
-        Debug.Log("CueTest");
-    }
 
+    void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
+    {
+         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+            {
+                Debug.Log("Hit posture");
+                AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+                if (musicSyncInfo.userCueName == "Cue_Posture_Start")
+                {
+                    Debug.Log("okkk");
+                // Execute the specific action for this cue
+                }
+            }   
+    }
     void Update()
     {
-        if(ThematicandPostureCountdown)
+        /*if(ThematicandPostureCountdown)
         {
             if(postureSwitchCountDown > 0.0f)
             {
@@ -92,7 +101,7 @@ public class WwiseVOManager : MonoBehaviour
                 AkSoundEngine.PostEvent("Play_VO_OPENING_THEMATIC_SWITCH", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, MyCallbackFunction, null);
             }
             
-        }
+        }*/
     }
     
     void assignVOs()
