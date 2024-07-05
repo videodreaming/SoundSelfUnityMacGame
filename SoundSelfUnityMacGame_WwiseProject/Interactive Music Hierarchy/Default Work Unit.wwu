@@ -10351,7 +10351,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>5</Value>
+										<Value>3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -10581,6 +10581,34 @@
 																</MusicClip>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{FDF8800F-7252-4626-AFFB-87D45D33EA21}" ShortID="922001576">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="134014.96369796"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_SOMATIC_SEQUENCE" ID="{2E6030F4-1D2E-4169-9928-E3B4DB9CFFE4}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{1825CD06-34C1-4E2A-983A-848EFE3D1C42}" ShortID="782110005">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="134014.96369796"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_sfx_SoundSeed_BreathCycle" ID="{FE6B1099-4515-45DE-801F-62326CC3385B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -10593,7 +10621,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>4</Value>
+										<Value>2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -10793,13 +10821,6 @@
 							</ObjectLists>
 						</MusicTrack>
 						<MusicTrack Name="vo_thankYou" ID="{A6043B44-2221-465C-9CBA-FBF057CBE61E}" ShortID="388858847">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -10838,7 +10859,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="690"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="129273.851761432"/>
+																		<Property Name="PlayAt" Type="Real64" Value="131177.584667617"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_thankYou" ID="{630EE4E8-F66A-4D4D-AC69-B41A05D41F00}"/>
 																</MusicClip>
@@ -11696,7 +11717,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="7418.02083333333"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="123101.758137514"/>
+																		<Property Name="PlayAt" Type="Real64" Value="125192.913418578"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="sfx_stop" ID="{7BD7DFD1-A5BC-44C9-9ABF-9DD5D2145F23}"/>
 																</MusicClip>
@@ -11733,7 +11754,7 @@
 									<MusicCue Name="Cue_VoiceElicitation1_End" ID="{9F5D025C-EBB6-416A-9FC1-921850DAB2CB}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
-											<Property Name="TimeMs" Type="Real64" Value="133969.94450792"/>
+											<Property Name="TimeMs" Type="Real64" Value="134014.96369796"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>
