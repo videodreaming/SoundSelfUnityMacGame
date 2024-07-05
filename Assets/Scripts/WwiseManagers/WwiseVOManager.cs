@@ -12,18 +12,16 @@ public class WwiseVOManager : MonoBehaviour
     public AudioManager audioManager;
 
     private bool pause = true;
-    private float postureSwitchCountDown = 110.0f;
-    private bool postureSwitchPlayed = false;
-    private float ThematicContentCountDown = 184.0f;
-    private bool ThematicContentPlayed = false;
-    private bool ThematicandPostureCountdown = false;
+
+    public User userObject;
+    public AudioSource userAudioSource;
+    
 
     public string ThematicContent = null;
     public string ThematicSavasana = null;
     public string VO_ClosingGoodbye = null;
     public bool firstTimeUser = true;
     public bool layingDown = true;
-    public string currentlyPlaying;
 
 
     public CSVWriter csvWriter;
@@ -37,21 +35,21 @@ public class WwiseVOManager : MonoBehaviour
 
     void Start()
     {
+        if(userObject != null)
+        {
+            userAudioSource = userObject.GetComponent<AudioSource>();
+            userAudioSource.volume = 0.0f;
+        }
+
         AkSoundEngine.SetSwitch("VO_ThematicContent","Peace", gameObject);
         assignVOs();
-        playOpening();
-        currentlyPlaying ="VO_OPENING_SEQUENCE";
         if(firstTimeUser)
         {
-            ThematicContentCountDown = 184.0f;
-            postureSwitchCountDown = 110.0f;
             AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
         } else {
-            ThematicContentCountDown = 110.0f;
-            postureSwitchCountDown = 75.0f;
             AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
         }
-        //ThematicandPostureCountdown = true;
+
     }
     
 
@@ -59,50 +57,96 @@ public class WwiseVOManager : MonoBehaviour
     {
          if (in_type == AkCallbackType.AK_MusicSyncUserCue)
             {
-                Debug.Log("Hit posture");
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
                 if (musicSyncInfo.userCueName == "Cue_Posture_Start")
                 {
-                    Debug.Log("okkk");
-                // Execute the specific action for this cue
+                    Debug.Log("Cue_Posture_Start");
+                } else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
+                {
+                    Debug.Log("Cue_ThematicOpening_Start");
+                } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
+                 {
+                    Debug.Log("Stopping Openign Seq, play sigh Query Seq");
+                    AkSoundEngine.PostEvent("Stop_OPENING_SEQUENCE",gameObject);
+                }
+                else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
+                {
+                    userAudioSource.volume = 1.0f;
+                    Debug.Log("Cue Mic On");
+                } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
+                {
+                    Debug.Log("Cue BreathIn Start");
+                } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
+                {
+                    Debug.Log("Cue Sigh Start");
+                } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
+                {
+                    Debug.Log("Cue BreatheInStart");
+                } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
+                {
+                    Debug.Log("Cue Sigh Start");
+                } else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
+                {
+                    userAudioSource.volume = 0.0f;
+                     Debug.Log("Cue Mic OFF");
+                } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
+                {
+                    Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
                 }
             }   
     }
+    
+
+    void ThematicCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
+    {
+        if(in_type == AkCallbackType.AK_MusicSyncUserCue)
+        {
+            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+            // if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
+            // {
+            //     Debug.Log("Stopping Openign Seq, play sigh Query Seq");
+            //     AkSoundEngine.PostEvent("Stop_OPENING_SEQUENCE",gameObject);
+            //     AkSoundEngine.PostEvent("Play_SIGH_QUERY_SEQUENCE_1",gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, SighQueryFunction ,null);
+            // }
+        }
+    }
+    
+    void SighQueryFunction(object in_cookie, AkCallbackType in_type, object in_info)
+    {
+         if(in_type == AkCallbackType.AK_MusicSyncUserCue)
+        {
+            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+            // if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
+            // {
+            //     Debug.Log("Cue Mic On");
+            // } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
+            // {
+            //     Debug.Log("Cue BreathIn Start");
+            // } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
+            // {
+            //     Debug.Log("Cue Sigh Start");
+            // } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
+            // {
+            //     Debug.Log("Cue BreatheInStart");
+            // } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
+            // {
+            //     Debug.Log("Cue Sigh Start");
+            // } else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
+            // {
+            //     Debug.Log("Cue Mic OFF");
+            // } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
+            // {
+            //     Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
+            //     AkSoundEngine.PostEvent("Play_sfx_SoundSeed_BreathCycle",gameObject);
+            //     AkSoundEngine.PostEvent("Play_SOMATIC_SEQUENCE",gameObject);
+            // }
+        }
+    }
     void Update()
     {
-        /*if(ThematicandPostureCountdown)
-        {
-            if(postureSwitchCountDown > 0.0f)
-            {
-                postureSwitchCountDown -= Time.deltaTime;
-            }
-            if(ThematicContentCountDown > 0.0f)
-            {
-                ThematicContentCountDown -= Time.deltaTime;
-            }
-
-        }
-        if(postureSwitchCountDown <= 0.0f )
-        {
-            if(!postureSwitchPlayed)
-            {
-                postureSwitchPlayed = true;
-                AkSoundEngine.PostEvent("Play_VO_POSTURE_SWITCH",gameObject);
-            }
-
-        }
-        if(ThematicContentCountDown <= 0.0f)
-        {
-            if(!ThematicContentPlayed)
-            {
-                Debug.Log("In Thamtic Switch");
-                ThematicContentPlayed = true;
-                currentlyPlaying = "VO_OPENING_SEQUENCE";
-                AkSoundEngine.PostEvent("Play_VO_OPENING_THEMATIC_SWITCH", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, MyCallbackFunction, null);
-            }
-            
-        }*/
+      
     }
+
     
     void assignVOs()
     {
@@ -159,32 +203,11 @@ public class WwiseVOManager : MonoBehaviour
         }
     }
 
-    public void playOpening()
-    {
-        if(firstTimeUser == true)
-        {
-            //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_LONG", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-        } else 
-        {
-            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_ADJUNCT_SHORT", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-        }
-    }
+
 
     void PlayNext()
     {
-        Debug.Log("PlaynextRAN");
-            if(currentlyPlaying == "VO_OPENING_SEQUENCE")
-            {
-                Debug.Log("fdsasdfas");
-                AkSoundEngine.PostEvent("Play_SIGH_QUERY_SEQUENCE_1", gameObject, (uint)AkCallbackType.AK_EndOfEvent, MyCallbackFunction, null);
-                AkSoundEngine.PostEvent("Play_SIGH_QUERY_SEQUENCE_1_SFX", gameObject);
-                currentlyPlaying ="Play_SIGH_QUERY";
-            } else if (currentlyPlaying == "Play_SIGH_QUERY")
-            {
-                Debug.Log("FinishedupSIGHQUERY");
-                AkSoundEngine.PostEvent("Play_SOMATIC_SEQUENCE",gameObject);
-                currentlyPlaying = "SOMATICSEQUENCE";
-            }
+
 
     }
 
@@ -197,21 +220,8 @@ public class WwiseVOManager : MonoBehaviour
             }   
             if (in_type == AkCallbackType.AK_EndOfEvent)
             {
-                // Call OnAudioFinished only if the AudioManager state is not SighElicitation1
-                if (audioManager.currentState == AudioManager.AudioManagerState.SighElicitation1 || audioManager.currentState == AudioManager.AudioManagerState.SighElicitationFail1)
-                {
-                    pause = true;
-                    StartCoroutine(StartSighElicitationTimer());
-                } else if (audioManager.currentState == AudioManager.AudioManagerState.QueryElicitation1)
-                {
-                    StartCoroutine(StartQueryElicitationTimer());
-                }
-                else
-                {
-                    Debug.Log("callback ran");
-                    audioManager.OnAudioFinished();
-                    PlayNext();
-                }
+                Debug.Log("callback ran");
+                audioManager.OnAudioFinished();
             }  
         }
 
