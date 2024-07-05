@@ -13,6 +13,8 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_LONG = 640169525U;
+        static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_SHORT = 593266067U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_REFERENCE = 3449237142U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_RGB = 2424845564U;

@@ -30,6 +30,14 @@
 							<Position X="1" Y="0"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="Play_ADJUNCT_OPENING_SEQUENCE_LONG" ID="{20E409A7-44B7-4CD4-B9C2-DE5361AC7FFC}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="1" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_ADJUNCT_OPENING_SEQUENCE_SHORT" ID="{A6A5CB72-5E40-4741-B9F6-D419E13D55C5}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="1" Y="2"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
 							<Position X="1" Y="3"/>
 						</Module>
@@ -188,7 +196,7 @@
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
-						<CurrentSwitchRef Name="Peace" ID="{94BB8323-C29A-4FDB-8145-8499790D4345}"/>
+						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
 						<CurrentSwitchRef Name="LONG" ID="{B6D6EEAA-7A41-412C-BB75-CF22CCB8A41F}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>

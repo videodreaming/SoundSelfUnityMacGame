@@ -25,6 +25,7 @@
 						<ObjectRef Name="Play_OPENING_SEQUENCE_LONG" ID="{928329A8-BF9B-46C7-A5D8-DEFD50EE76E9}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_OPENING_THEMATIC_SWITCH" ID="{07B5C1B5-F3CA-4717-990F-8136A1E1B9EA}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_ADJUNCT_OPENING_SEQUENCE_SHORT" ID="{A6A5CB72-5E40-4741-B9F6-D419E13D55C5}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_All" ID="{39821E91-31F4-47D3-B1AF-E42968AA6D28}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_SighElicitationFail2" ID="{C24856F2-1326-487C-8349-C8A5075D0F2E}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_ThematicContent" ID="{D602521A-6FF7-48C0-9307-06656786D26D}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
@@ -40,6 +41,7 @@
 						<ObjectRef Name="Play_environment_openingWelcome" ID="{2D8D0E06-5C61-4C0D-9DAD-742D0C446DCB}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_environment_anyQueryRepeat2" ID="{62784AA7-8754-4C75-83E1-89F38E1542E0}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_AMBIENT_ENVIRONMENT_LOOP" ID="{6FE1E0EE-3BD4-4C96-A0CD-0085351BA02B}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_ADJUNCT_OPENING_SEQUENCE_LONG" ID="{20E409A7-44B7-4CD4-B9C2-DE5361AC7FFC}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_QueryElicitationFail2" ID="{CAAD2BB8-41FE-4CDA-9277-9A649A763E03}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_environment_crickets" ID="{28ADF9CA-4495-4E63-BABB-04D4EE579E24}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_OPENING_SEQUENCE" ID="{43D88038-3410-4E89-BD1D-D4D496C2A6B3}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>

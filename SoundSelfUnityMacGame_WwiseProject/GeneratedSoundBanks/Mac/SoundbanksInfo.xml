@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{BCD1CE73-27DA-9D76-BE3C-12B59E745919}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{4E313F58-29DF-5B3B-B4B7-E56732D06938}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -817,6 +817,412 @@
 				</Custom>
 			</Plugins>
 			<Events>
+				<Event Id="640169525" Name="Play_ADJUNCT_OPENING_SEQUENCE_LONG" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="2367398737"/>
+							<MediaRefs>
+								<MediaRef Id="56144728"/>
+								<MediaRef Id="137392073"/>
+								<MediaRef Id="235195281"/>
+								<MediaRef Id="288516378"/>
+								<MediaRef Id="334730074"/>
+								<MediaRef Id="397051634"/>
+								<MediaRef Id="517296307"/>
+								<MediaRef Id="685689043"/>
+								<MediaRef Id="707978221"/>
+								<MediaRef Id="883996255"/>
+								<MediaRef Id="977341665"/>
+								<MediaRef Id="1051969831"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="670553737"/>
+								</Custom>
+							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="184547165" Id="3891673577"/>
+									<MediaRefs>
+										<MediaRef Id="919460175"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="184547165" Id="3551080421"/>
+									<MediaRefs>
+										<MediaRef Id="962245820"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
+									<MediaRefs>
+										<MediaRef Id="206902360"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="516326041"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="883996255"/>
+										<MediaRef Id="977341665"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="3060490183"/>
+							<MediaRefs>
+								<MediaRef Id="137392073"/>
+								<MediaRef Id="146493863"/>
+								<MediaRef Id="235195281"/>
+								<MediaRef Id="288516378"/>
+								<MediaRef Id="334730074"/>
+								<MediaRef Id="517296307"/>
+								<MediaRef Id="650293573"/>
+								<MediaRef Id="685689043"/>
+								<MediaRef Id="707978221"/>
+								<MediaRef Id="883996255"/>
+								<MediaRef Id="977341665"/>
+								<MediaRef Id="1051969831"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="670553737"/>
+								</Custom>
+							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="184547165" Id="3891673577"/>
+									<MediaRefs>
+										<MediaRef Id="919460175"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="184547165" Id="3551080421"/>
+									<MediaRefs>
+										<MediaRef Id="962245820"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
+									<MediaRefs>
+										<MediaRef Id="206902360"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="516326041"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="883996255"/>
+										<MediaRef Id="977341665"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+					</SwitchContainers>
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="2367398737" Name="openingLong"/>
+					</ActionSetSwitch>
+				</Event>
+				<Event Id="593266067" Name="Play_ADJUNCT_OPENING_SEQUENCE_SHORT" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="2367398737"/>
+							<MediaRefs>
+								<MediaRef Id="56144728"/>
+								<MediaRef Id="137392073"/>
+								<MediaRef Id="235195281"/>
+								<MediaRef Id="288516378"/>
+								<MediaRef Id="334730074"/>
+								<MediaRef Id="397051634"/>
+								<MediaRef Id="517296307"/>
+								<MediaRef Id="685689043"/>
+								<MediaRef Id="707978221"/>
+								<MediaRef Id="883996255"/>
+								<MediaRef Id="977341665"/>
+								<MediaRef Id="1051969831"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="670553737"/>
+								</Custom>
+							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="184547165" Id="3891673577"/>
+									<MediaRefs>
+										<MediaRef Id="919460175"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="184547165" Id="3551080421"/>
+									<MediaRefs>
+										<MediaRef Id="962245820"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
+									<MediaRefs>
+										<MediaRef Id="206902360"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="516326041"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="883996255"/>
+										<MediaRef Id="977341665"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4212583561" Id="3060490183"/>
+							<MediaRefs>
+								<MediaRef Id="137392073"/>
+								<MediaRef Id="146493863"/>
+								<MediaRef Id="235195281"/>
+								<MediaRef Id="288516378"/>
+								<MediaRef Id="334730074"/>
+								<MediaRef Id="517296307"/>
+								<MediaRef Id="650293573"/>
+								<MediaRef Id="685689043"/>
+								<MediaRef Id="707978221"/>
+								<MediaRef Id="883996255"/>
+								<MediaRef Id="977341665"/>
+								<MediaRef Id="1051969831"/>
+							</MediaRefs>
+							<PluginRefs>
+								<Custom>
+									<PluginRef Id="670553737"/>
+								</Custom>
+							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="184547165" Id="3891673577"/>
+									<MediaRefs>
+										<MediaRef Id="919460175"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="184547165" Id="3551080421"/>
+									<MediaRefs>
+										<MediaRef Id="962245820"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
+									<MediaRefs>
+										<MediaRef Id="206902360"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="516326041"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="883996255"/>
+										<MediaRef Id="977341665"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="234819779"/>
+										<MediaRef Id="235195281"/>
+										<MediaRef Id="288516378"/>
+										<MediaRef Id="334730074"/>
+										<MediaRef Id="335419804"/>
+										<MediaRef Id="650293573"/>
+										<MediaRef Id="707978221"/>
+										<MediaRef Id="771986202"/>
+										<MediaRef Id="812400488"/>
+										<MediaRef Id="977341665"/>
+										<MediaRef Id="1023924053"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
+						</SwitchContainer>
+					</SwitchContainers>
+					<ActionSetSwitch>
+						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
+					</ActionSetSwitch>
+				</Event>
 				<Event Id="3981260521" Name="Play_AMBIENT_ENVIRONMENT_LOOP" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
@@ -6601,5 +7007,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{C2B857CA-F694-6B60-79F2-50A3D5B76F2B}</FileHash>
+	<FileHash>{D026D4E3-9CB7-B468-48FE-27A01158A758}</FileHash>
 </SoundBanksInfo>
