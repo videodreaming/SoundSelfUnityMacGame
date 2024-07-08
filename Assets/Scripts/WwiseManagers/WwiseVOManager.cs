@@ -16,10 +16,6 @@ public class WwiseVOManager : MonoBehaviour
     public User userObject;
     public AudioSource userAudioSource;
     
-
-    public string ThematicContent = null;
-    public string ThematicSavasana = null;
-    public string VO_ClosingGoodbye = null;
     public bool firstTimeUser = true;
     public bool layingDown = true;
 
@@ -96,52 +92,7 @@ public class WwiseVOManager : MonoBehaviour
             }   
     }
     
-
-    void ThematicCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
-    {
-        if(in_type == AkCallbackType.AK_MusicSyncUserCue)
-        {
-            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-            // if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
-            // {
-            //     Debug.Log("Stopping Openign Seq, play sigh Query Seq");
-            //     AkSoundEngine.PostEvent("Stop_OPENING_SEQUENCE",gameObject);
-            //     AkSoundEngine.PostEvent("Play_SIGH_QUERY_SEQUENCE_1",gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, SighQueryFunction ,null);
-            // }
-        }
-    }
     
-    void SighQueryFunction(object in_cookie, AkCallbackType in_type, object in_info)
-    {
-         if(in_type == AkCallbackType.AK_MusicSyncUserCue)
-        {
-            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-            // if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
-            // {
-            //     Debug.Log("Cue Mic On");
-            // } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
-            // {
-            //     Debug.Log("Cue BreathIn Start");
-            // } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
-            // {
-            //     Debug.Log("Cue Sigh Start");
-            // } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
-            // {
-            //     Debug.Log("Cue BreatheInStart");
-            // } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
-            // {
-            //     Debug.Log("Cue Sigh Start");
-            // } else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
-            // {
-            //     Debug.Log("Cue Mic OFF");
-            // } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
-            // {
-            //     Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
-            //     AkSoundEngine.PostEvent("Play_sfx_SoundSeed_BreathCycle",gameObject);
-            //     AkSoundEngine.PostEvent("Play_SOMATIC_SEQUENCE",gameObject);
-            // }
-        }
-    }
     void Update()
     {
       
@@ -204,26 +155,6 @@ public class WwiseVOManager : MonoBehaviour
     }
 
 
-
-    void PlayNext()
-    {
-
-
-    }
-
-        void MyCallbackFunction(object in_cookie, AkCallbackType in_type, object in_info)
-        {
-            if (in_type == AkCallbackType.AK_MusicSyncUserCue)
-            {
-                Debug.Log("cue hit");
-                PlayNext();
-            }   
-            if (in_type == AkCallbackType.AK_EndOfEvent)
-            {
-                Debug.Log("callback ran");
-                audioManager.OnAudioFinished();
-            }  
-        }
 
         
             IEnumerator StartSighElicitationTimer()

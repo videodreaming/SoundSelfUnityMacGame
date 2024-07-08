@@ -7805,12 +7805,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
+  userObject: {fileID: 740096621}
+  userAudioSource: {fileID: 0}
   ThematicContent: 
   ThematicSavasana: 
   VO_ClosingGoodbye: 
   firstTimeUser: 1
   layingDown: 1
-  currentlyPlaying: 
   csvWriter: {fileID: 662335749}
 --- !u!1 &488612079
 GameObject:

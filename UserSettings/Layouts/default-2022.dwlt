@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -127,8 +127,8 @@ MonoBehaviour:
   - {fileID: 13}
   - {fileID: 12}
   - {fileID: 18}
-  m_Selected: 2
-  m_LastSelected: 1
+  m_Selected: 0
+  m_LastSelected: 2
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -368,7 +368,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_SearchFilter:
-    m_NameFilter: VO mana
+    m_NameFilter: csv
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -380,7 +380,7 @@ MonoBehaviour:
     m_Folders:
     - Assets/Scripts/WwiseManagers
     m_Globs: []
-    m_OriginalText: VO mana
+    m_OriginalText: csv
     m_ImportLogFlags: 0
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
