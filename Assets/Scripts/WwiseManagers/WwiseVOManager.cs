@@ -12,6 +12,7 @@ public class WwiseVOManager : MonoBehaviour
     public AudioManager audioManager;
 
     private bool pause = true;
+    public CSVWriter CSVWriter;
 
     public User userObject;
     public AudioSource userAudioSource;
@@ -42,6 +43,7 @@ public class WwiseVOManager : MonoBehaviour
         if(firstTimeUser)
         {
             AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
+            AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
         } else {
             AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
         }
@@ -59,6 +61,7 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("Cue_Posture_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
                 {
+                    //Wwise will Automatically play : AkSoundEngine.PostEvent("Play_VO_THEMATIC_CONTENT);
                     Debug.Log("Cue_ThematicOpening_Start");
                 } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
                  {
@@ -67,22 +70,29 @@ public class WwiseVOManager : MonoBehaviour
                 }
                 else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
                 {
+                    csvWriter.microphoneMonitoring = true;
                     userAudioSource.volume = 1.0f;
                     Debug.Log("Cue Mic On");
                 } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
+                    //Robin to do AVS Stuff here
                     Debug.Log("Cue BreathIn Start");
                 } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
                 {
+                    //Robin to do AVS Stuff here
                     Debug.Log("Cue Sigh Start");
                 } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
+                    //Robin to do AVS Stuff heres
                     Debug.Log("Cue BreatheInStart");
                 } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
                 {
+                    //Robin to do AVS Stuff here
                     Debug.Log("Cue Sigh Start");
                 } else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
                 {
+                    //Robin to do AVS Stuff here
+                    csvWriter.microphoneMonitoring = false;
                     userAudioSource.volume = 0.0f;
                      Debug.Log("Cue Mic OFF");
                 } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")

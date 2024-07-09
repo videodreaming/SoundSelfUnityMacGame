@@ -878,12 +878,6 @@ public partial class AkSoundEngine {
 
   public static void MonitorStreamMgrTerm() { AkSoundEnginePINVOKE.CSharp_MonitorStreamMgrTerm(); }
 
-  public static void AkMemCpy(global::System.IntPtr pDest, global::System.IntPtr pSrc, uint uSize) { AkSoundEnginePINVOKE.CSharp_AkMemCpy(pDest, pSrc, uSize); }
-
-  public static void AkMemMove(global::System.IntPtr pDest, global::System.IntPtr pSrc, uint uSize) { AkSoundEnginePINVOKE.CSharp_AkMemMove(pDest, pSrc, uSize); }
-
-  public static void AkMemSet(global::System.IntPtr pDest, int iVal, uint uSize) { AkSoundEnginePINVOKE.CSharp_AkMemSet(pDest, iVal, uSize); }
-
   public static void AkGetDefaultHighPriorityThreadProperties(AkThreadProperties out_threadProperties) { AkSoundEnginePINVOKE.CSharp_AkGetDefaultHighPriorityThreadProperties(AkThreadProperties.getCPtr(out_threadProperties)); }
 
   public static uint ResolveDialogueEvent(uint in_eventID, uint[] in_aArgumentValues, uint in_uNumArguments, uint in_idSequence) { return AkSoundEnginePINVOKE.CSharp_ResolveDialogueEvent__SWIG_0(in_eventID, in_aArgumentValues, in_uNumArguments, in_idSequence); }
@@ -1102,6 +1096,8 @@ public partial class AkSoundEngine {
   public static AKRESULT SetListeners(ulong in_emitterGameObj, ulong[] in_pListenerGameObjs, uint in_uNumListeners) { return (AKRESULT)AkSoundEnginePINVOKE.CSharp_SetListeners(in_emitterGameObj, in_pListenerGameObjs, in_uNumListeners); }
 
   public static AKRESULT SetDefaultListeners(ulong[] in_pListenerObjs, uint in_uNumListeners) { return (AKRESULT)AkSoundEnginePINVOKE.CSharp_SetDefaultListeners(in_pListenerObjs, in_uNumListeners); }
+
+  public static uint GetNumOutputDevices(uint in_AudioDeviceShareSetID) { return AkSoundEnginePINVOKE.CSharp_GetNumOutputDevices(in_AudioDeviceShareSetID); }
 
   public static AKRESULT AddOutput(AkOutputSettings in_Settings, out ulong out_pDeviceID, ulong[] in_pListenerIDs, uint in_uNumListeners) { return (AKRESULT)AkSoundEnginePINVOKE.CSharp_AddOutput__SWIG_0(AkOutputSettings.getCPtr(in_Settings), out out_pDeviceID, in_pListenerIDs, in_uNumListeners); }
 
