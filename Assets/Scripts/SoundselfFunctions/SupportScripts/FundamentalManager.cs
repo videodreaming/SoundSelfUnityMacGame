@@ -127,7 +127,6 @@ public class FundamentalManager : MonoBehaviour
             fillTime += Time.deltaTime;
             yield return null;
         }
-        
         _offeredFundamental.End();
         _fundamentalFillRoutine = null;
     }

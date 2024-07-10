@@ -16,10 +16,16 @@ public class WwiseVOManager : MonoBehaviour
 
     public User userObject;
     public AudioSource userAudioSource;
+    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public MusicSystem1 musicSystem1;
     
+    public float fadeDuration = 54.0f;
+    public float targetValue = 80.0f;
+    public RTPC silentrtpcvolume;
+    public RTPC toningrtpcvolume;
     public bool firstTimeUser = true;
     public bool layingDown = true;
-
+    public bool interactive = false;
 
     public CSVWriter csvWriter;
 
@@ -32,6 +38,7 @@ public class WwiseVOManager : MonoBehaviour
 
     void Start()
     {
+        AkSoundEngine.SetSwitch("SoundWorldMode","SonoFlore",gameObject);
         if(userObject != null)
         {
             userAudioSource = userObject.GetComponent<AudioSource>();
@@ -98,14 +105,47 @@ public class WwiseVOManager : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
                 {
                     Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
-                }
+                } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
+                {
+                    StartCoroutine (InteractiveMusicSystemFade());
+                    AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+                    AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+
+                } 
             }   
     }
     
+    private IEnumerator InteractiveMusicSystemFade()
+    {
+        float initialValue = 0.0f;
+        float startTime = Time.time;
+
+        while(Time.time - startTime <fadeDuration)
+        {
+            float elapsed = (Time.time - startTime)/fadeDuration;
+            float currentValue = Mathf.Lerp(initialValue, targetValue, elapsed);
+            silentrtpcvolume.SetGlobalValue(currentValue);
+            toningrtpcvolume.SetGlobalValue(currentValue);
+            yield return null;
+        }
+
+        silentrtpcvolume.SetGlobalValue(targetValue);
+        toningrtpcvolume.SetGlobalValue(targetValue);
+        yield break;
+    }
     
     void Update()
     {
-        if()
+        if(interactive)
+        {
+            if(imitoneVoiceIntepreter.toneActiveConfident)
+            {
+                AkSoundEngine.PostEvent("play_Toning",gameObject);
+            } else if (!imitoneVoiceIntepreter.toneActiveConfident)
+            {
+                AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+            }
+        }
     }
 
     
