@@ -275,7 +275,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{D71E1C9B-06A5-3119-EE45-77E17EDF2AAD}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{8A44EB91-F2AF-2956-6590-80EB3E252291}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{895E75EA-42DC-7A9A-DD18-56BF332EAB2D}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{B5BB4B66-2CA7-DE5C-B5D9-5B87ADA05999}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -3590,7 +3590,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{1BD1716F-8D8B-6198-5C84-52404CEDD4C4}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{D31D9BF0-8BA7-CA47-8F5F-C3F0A5964269}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -7018,5 +7018,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{02F7986A-2411-9B58-871D-C861C0235184}</FileHash>
+	<FileHash>{98C56DC0-72FA-5319-3800-B7FAC4290BE4}</FileHash>
 </SoundBanksInfo>

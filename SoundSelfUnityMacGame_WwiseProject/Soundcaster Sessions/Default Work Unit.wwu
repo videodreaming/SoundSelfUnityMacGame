@@ -125,11 +125,11 @@
 					<RTPCValueList ShowAll="true">
 						<RTPCValue>
 							<GameParameterRef Name="TONING_Volume" ID="{9C381C54-7CB7-4027-ADB1-2E43F1FCF463}"/>
-							<Value>80</Value>
+							<Value>0</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="SILENT_Volume" ID="{3B8E3436-642E-42DD-B54A-B5F158016E34}"/>
-							<Value>80</Value>
+							<Value>0</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="AVS_BLUE_Volume_Wave1" ID="{5672B67B-51F9-4373-8484-0F7D6CC7FD2E}"/>
@@ -185,7 +185,7 @@
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+						<CurrentStateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
