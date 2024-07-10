@@ -306,6 +306,9 @@
 				<Event Name="Play_SilentLoops_v3_FundamentalOnly" ID="{497F127A-A5CC-4CF0-85D2-F5B56677900E}">
 					<ChildrenList>
 						<Action Name="" ID="{5F316888-1B3E-4249-AEAD-007EAC0DE30F}" ShortID="103481146">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_SilentLoops_v3_12_FundamentalOnly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
@@ -317,6 +320,10 @@
 				<Event Name="Play_Toning_v3_FundamentalOnly" ID="{DA00B1EF-1DD6-4F48-AD92-5DA76BC5F7C1}">
 					<ChildrenList>
 						<Action Name="" ID="{F83D477B-26D2-4802-812D-2636C06FB10E}" ShortID="669783303">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="0"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
@@ -328,6 +335,10 @@
 				<Event Name="Play_Toning_v3_HarmonyOnly" ID="{7F8EC617-3EE7-4AC1-B11D-03973B8FDDA8}">
 					<ChildrenList>
 						<Action Name="" ID="{6F9ADCF7-569F-4510-BB84-1FCE6315607D}" ShortID="331643023">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="0"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>

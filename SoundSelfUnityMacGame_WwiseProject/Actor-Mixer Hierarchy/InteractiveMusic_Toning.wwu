@@ -24459,13 +24459,6 @@
 					</ReferenceList>
 					<ChildrenList>
 						<BlendContainer Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" ShortID="487420332">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -24489,7 +24482,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26918,11 +26911,6 @@
 												<Value>8</Value>
 											</ValueList>
 										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>1</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -26966,11 +26954,6 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>20</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>19</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27038,14 +27021,9 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[C]_toning_shruti" ID="{E8B6A41A-7C4D-45D5-8023-198D0B50A9F3}" ShortID="339789602">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>7</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-3</Value>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -27063,11 +27041,6 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>24</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27140,11 +27113,6 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[E]_toning_shruti" ID="{9C5700D2-7809-4C0E-BDF9-E8896C538F7A}" ShortID="274591484">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>9</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-3</Value>
@@ -27237,11 +27205,7 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[G]_toning_shruti" ID="{8D06C995-3E46-4424-A0B6-9E059BAC3399}" ShortID="1070752638">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>9</Value>
-													</ValueList>
-												</Property>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-2</Value>
@@ -27266,12 +27230,7 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>23</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Volume" Type="Real64">
-															<ValueList>
-																<Value>-1</Value>
+																<Value>1</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27335,90 +27294,33 @@
 														<ActiveSource Name="fundamental_[G]_toning_shruti" ID="{2E6DD017-F7AF-4139-8726-C5C241B6891D}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
-												<Sound Name="fundamental_[G]_toning_shruti_01" ID="{00E6B13C-B932-4350-A588-92819C29A763}" ShortID="680417794">
-													<PropertyList>
-														<Property Name="Highpass" Type="int16">
-															<ValueList>
-																<Value>14</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>43</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Pitch" Type="int32">
-															<ValueList>
-																<Value>1200</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Volume" Type="Real64">
-															<ValueList>
-																<Value>-11</Value>
-															</ValueList>
-														</Property>
-													</PropertyList>
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="fundamental_[G]_toning_shruti" ID="{6B397C24-9B62-49C4-A136-BD3BE42E21EF}">
-															<Language>SFX</Language>
-															<AudioFile>fundamental_[G]_toning_shruti.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="193930001"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ObjectLists>
-														<ObjectList Name="RTPC">
-															<Reference>
-																<Local>
-																	<RTPC Name="" ID="{12CADFF5-0BC2-4235-9128-6AD2C3F90A74}" ShortID="264256626">
-																		<PropertyList>
-																			<Property Name="PropertyName" Type="string" Value="Volume"/>
-																		</PropertyList>
-																		<ReferenceList>
-																			<Reference Name="ControlInput">
-																				<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
-																			</Reference>
-																			<Reference Name="Curve">
-																				<Custom>
-																					<Curve Name="" ID="{855BBAAA-1C11-4EC2-9144-546C6265E8E0}">
-																						<PropertyList>
-																							<Property Name="Flags" Type="int32" Value="3"/>
-																						</PropertyList>
-																						<PointList>
-																							<Point>
-																								<XPos>0</XPos>
-																								<YPos>-200</YPos>
-																								<Flags>5</Flags>
-																							</Point>
-																							<Point>
-																								<XPos>100</XPos>
-																								<YPos>0</YPos>
-																								<Flags>37</Flags>
-																							</Point>
-																						</PointList>
-																					</Curve>
-																				</Custom>
-																			</Reference>
-																		</ReferenceList>
-																	</RTPC>
-																</Local>
-															</Reference>
-														</ObjectList>
-													</ObjectLists>
-													<ActiveSourceList>
-														<ActiveSource Name="fundamental_[G]_toning_shruti" ID="{6B397C24-9B62-49C4-A136-BD3BE42E21EF}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
 											</ChildrenList>
+											<ObjectLists>
+												<ObjectList Name="Effects">
+													<Reference>
+														<Local>
+															<EffectSlot Name="" ID="{7E8ECCE6-5881-4AB5-9DAE-48D239B9CE34}" ShortID="332046613">
+																<ReferenceList>
+																	<Reference Name="Effect" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
+																		<ObjectRef Name="Gentle_Program_Compressor_Minus_14dB_RMS" ID="{1595E6B0-DD58-4363-A3F0-DF0C96EC7C17}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</Local>
+													</Reference>
+													<Reference>
+														<Local>
+															<EffectSlot Name="" ID="{3ED57C60-26E6-41F9-95FA-8937EBD4A543}" ShortID="821954037">
+																<ReferenceList>
+																	<Reference Name="Effect" PluginName="iZotope Hybrid Reverb" CompanyID="259" PluginID="2" PluginType="3">
+																		<ObjectRef Name="New_iZotope_Hybrid_Reverb" ID="{3AC7544F-0E37-4C16-90CD-4F5F51CEA5C4}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
+																	</Reference>
+																</ReferenceList>
+															</EffectSlot>
+														</Local>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[A]_toning_shruti" ID="{BB6D5DC5-CA97-4CFF-82D7-A8283CC96D8E}" ShortID="244329850">
 											<PropertyList>
@@ -27454,14 +27356,14 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>19</Value>
-															</ValueList>
-														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>1</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27544,7 +27446,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-6</Value>
+																<Value>-96</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27613,11 +27515,6 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>47</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -27701,11 +27598,6 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[D]_toning_shruti" ID="{AEB0755D-23DA-41DA-9468-3BC6E4D2FE53}" ShortID="302876987">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>12</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-3</Value>
@@ -27728,11 +27620,6 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>30</Value>
-															</ValueList>
-														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -27745,7 +27632,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-2</Value>
+																<Value>-4</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27816,11 +27703,6 @@
 																<Value>26</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>16</Value>
-															</ValueList>
-														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -27828,7 +27710,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-2</Value>
+																<Value>-4</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27901,11 +27783,6 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[F]_toning_shruti" ID="{25E3DDB1-733D-4B0E-B029-F8961DF1CB9C}" ShortID="658544395">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>6</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-1</Value>
@@ -27930,7 +27807,7 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>21</Value>
+																<Value>1</Value>
 															</ValueList>
 														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
@@ -27945,7 +27822,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-4</Value>
+																<Value>-2</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -28016,11 +27893,6 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>56</Value>
-															</ValueList>
-														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -28033,7 +27905,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-6</Value>
+																<Value>-15</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -28146,7 +28018,7 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>19</Value>
+																<Value>1</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -28222,11 +28094,6 @@
 																<Value>61</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>25</Value>
-															</ValueList>
-														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>1000</Value>
@@ -28234,7 +28101,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-6</Value>
+																<Value>-8</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -28305,11 +28172,6 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>47</Value>
-															</ValueList>
-														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-1000</Value>
@@ -28317,7 +28179,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-10</Value>
+																<Value>-16</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -28493,11 +28355,6 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[C#Db]_toning_shruti" ID="{FAEA23E6-28B0-4DD6-8A5A-9CDD708343C8}" ShortID="1033739881">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>12</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
@@ -28505,7 +28362,7 @@
 												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-3</Value>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -28523,11 +28380,6 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>24</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>30</Value>
 															</ValueList>
 														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
@@ -28613,11 +28465,6 @@
 																<Value>26</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>16</Value>
-															</ValueList>
-														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -28625,7 +28472,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-2</Value>
+																<Value>-4</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -28698,11 +28545,6 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[D#Eb]_toning_shruti" ID="{BC4602D2-332C-4933-96BC-255B2B271BBC}" ShortID="818601369">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>9</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
@@ -28800,11 +28642,6 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[F#Gb]_toning_shruti" ID="{351DE7BA-F559-4862-A79E-997EE2D5174A}" ShortID="350538347">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>9</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
@@ -28830,16 +28667,6 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>23</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Volume" Type="Real64">
-															<ValueList>
-																<Value>-1</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -28901,89 +28728,6 @@
 													</ObjectLists>
 													<ActiveSourceList>
 														<ActiveSource Name="fundamental_[G]_toning_shruti" ID="{10F70950-C26C-4707-AC6E-E161C394D7C1}" Platform="Linked"/>
-													</ActiveSourceList>
-												</Sound>
-												<Sound Name="fundamental_[G]_toning_shruti_01" ID="{CE5B3F1E-FE78-45AD-8E78-B64E9CD32620}" ShortID="208392665">
-													<PropertyList>
-														<Property Name="Highpass" Type="int16">
-															<ValueList>
-																<Value>14</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>43</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Pitch" Type="int32">
-															<ValueList>
-																<Value>1200</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Volume" Type="Real64">
-															<ValueList>
-																<Value>-11</Value>
-															</ValueList>
-														</Property>
-													</PropertyList>
-													<ReferenceList>
-														<Reference Name="Conversion">
-															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-														</Reference>
-														<Reference Name="OutputBus">
-															<ObjectRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-														</Reference>
-													</ReferenceList>
-													<ChildrenList>
-														<AudioFileSource Name="fundamental_[G]_toning_shruti" ID="{8C9EB628-FFBD-4D34-AF4F-A7C09D3CABA8}">
-															<Language>SFX</Language>
-															<AudioFile>fundamental_[G]_toning_shruti.wav</AudioFile>
-															<MediaIDList>
-																<MediaID ID="193930001"/>
-															</MediaIDList>
-														</AudioFileSource>
-													</ChildrenList>
-													<ObjectLists>
-														<ObjectList Name="RTPC">
-															<Reference>
-																<Local>
-																	<RTPC Name="" ID="{7F2BF159-6913-4B93-B303-C9CD4ABCC90E}" ShortID="1025495178">
-																		<PropertyList>
-																			<Property Name="PropertyName" Type="string" Value="Volume"/>
-																		</PropertyList>
-																		<ReferenceList>
-																			<Reference Name="ControlInput">
-																				<ObjectRef Name="FundamentalToningVolume" ID="{8E698399-0597-46CE-84BC-695C0CEC302F}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
-																			</Reference>
-																			<Reference Name="Curve">
-																				<Custom>
-																					<Curve Name="" ID="{780192DC-4196-43E3-B1A8-686777BC8E20}">
-																						<PropertyList>
-																							<Property Name="Flags" Type="int32" Value="3"/>
-																						</PropertyList>
-																						<PointList>
-																							<Point>
-																								<XPos>0</XPos>
-																								<YPos>-200</YPos>
-																								<Flags>5</Flags>
-																							</Point>
-																							<Point>
-																								<XPos>100</XPos>
-																								<YPos>0</YPos>
-																								<Flags>37</Flags>
-																							</Point>
-																						</PointList>
-																					</Curve>
-																				</Custom>
-																			</Reference>
-																		</ReferenceList>
-																	</RTPC>
-																</Local>
-															</Reference>
-														</ObjectList>
-													</ObjectLists>
-													<ActiveSourceList>
-														<ActiveSource Name="fundamental_[G]_toning_shruti" ID="{8C9EB628-FFBD-4D34-AF4F-A7C09D3CABA8}" Platform="Linked"/>
 													</ActiveSourceList>
 												</Sound>
 											</ChildrenList>
@@ -29364,18 +29108,6 @@
 									</GroupingInfo>
 								</SwitchContainer>
 								<SwitchContainer Name="Toning_Shadow" ID="{B6839E0F-E4B4-41F5-AB02-2F50206730D0}" ShortID="683450744">
-									<PropertyList>
-										<Property Name="Highpass" Type="int16">
-											<ValueList>
-												<Value>17</Value>
-											</ValueList>
-										</Property>
-										<Property Name="MakeUpGain" Type="Real64">
-											<ValueList>
-												<Value>-1</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -29396,11 +29128,6 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>7</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
 													</ValueList>
 												</Property>
 												<Property Name="Pitch" Type="int32">
@@ -29623,11 +29350,6 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
 													</ValueList>
 												</Property>
 												<Property Name="MakeUpGain" Type="Real64">
@@ -29865,11 +29587,6 @@
 														<Value>5</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
@@ -30012,11 +29729,6 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[G]_toning_shadow" ID="{8FAB4531-8419-4007-9880-89CAB6208035}" ShortID="688437456">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
-													</ValueList>
-												</Property>
 												<Property Name="MakeUpGain" Type="Real64">
 													<ValueList>
 														<Value>2</Value>
@@ -30252,11 +29964,6 @@
 														<Value>18</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
-													</ValueList>
-												</Property>
 												<Property Name="MakeUpGain" Type="Real64">
 													<ValueList>
 														<Value>3</Value>
@@ -30399,11 +30106,6 @@
 														<Value>8</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
@@ -30539,11 +30241,6 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>5</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
 													</ValueList>
 												</Property>
 												<Property Name="Pitch" Type="int32">
@@ -30688,11 +30385,6 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
 													</ValueList>
 												</Property>
 												<Property Name="MakeUpGain" Type="Real64">
@@ -30930,11 +30622,6 @@
 														<Value>18</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
-													</ValueList>
-												</Property>
 												<Property Name="MakeUpGain" Type="Real64">
 													<ValueList>
 														<Value>3</Value>
@@ -31075,11 +30762,6 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>7</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
 													</ValueList>
 												</Property>
 												<Property Name="Pitch" Type="int32">
@@ -31304,11 +30986,6 @@
 														<Value>5</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
@@ -31448,11 +31125,6 @@
 										</BlendContainer>
 										<BlendContainer Name="fundamental_[F#Gb]_toning_shadow" ID="{FF06433B-84FE-476D-B0D0-9E17912A4721}" ShortID="248165926">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>20</Value>
-													</ValueList>
-												</Property>
 												<Property Name="MakeUpGain" Type="Real64">
 													<ValueList>
 														<Value>2</Value>
@@ -35486,19 +35158,9 @@
 									<ChildrenList>
 										<BlendContainer Name="harmony_[B]_toning_shruti" ID="{41BA0D86-D9C7-4550-8F80-2E88EBAB1537}" ShortID="858725139">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
+												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>4</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>31</Value>
-													</ValueList>
-												</Property>
-												<Property Name="MakeUpGain" Type="Real64">
-													<ValueList>
-														<Value>1</Value>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -35583,14 +35245,9 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[D]_toning_shruti" ID="{A2DA3CF7-BCF5-4C09-A8A8-4ADA97CAC334}" ShortID="80421550">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
+												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>5</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>32</Value>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -35675,14 +35332,9 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[F#Gb]_toning_shruti" ID="{E609778D-E0CC-4F20-9EDE-B0736F0E0D40}" ShortID="735513839">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
+												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>2</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>21</Value>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -35767,19 +35419,9 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[G]_toning_shruti" ID="{65B64F35-2E78-4A2B-B91B-F2374B7CF5EF}" ShortID="273119544">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
-													<ValueList>
-														<Value>8</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>22</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-1</Value>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -35866,12 +35508,17 @@
 											<PropertyList>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
-														<Value>27</Value>
+														<Value>1</Value>
 													</ValueList>
 												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -35956,14 +35603,9 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[E]_toning_shruti" ID="{F7D38E74-D1F0-4817-9A5B-876FCCF341C6}" ShortID="792539334">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
+												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>3</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>25</Value>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -36053,19 +35695,9 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[A]_toning_shruti" ID="{9B882B89-5469-4FBB-9418-15017E668C15}" ShortID="425653708">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
+												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>8</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>16</Value>
-													</ValueList>
-												</Property>
-												<Property Name="MakeUpGain" Type="Real64">
-													<ValueList>
-														<Value>1</Value>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -36083,11 +35715,6 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>37</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -36160,24 +35787,14 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[G#Ab]_toning_shruti" ID="{5A055838-DD80-422D-A633-290B4C5CD1B9}" ShortID="666256553">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
-													<ValueList>
-														<Value>8</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>16</Value>
-													</ValueList>
-												</Property>
-												<Property Name="MakeUpGain" Type="Real64">
-													<ValueList>
-														<Value>1</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -36277,11 +35894,6 @@
 														<Value>4</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>31</Value>
-													</ValueList>
-												</Property>
 												<Property Name="MakeUpGain" Type="Real64">
 													<ValueList>
 														<Value>1</Value>
@@ -36290,6 +35902,11 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-5</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -36376,17 +35993,17 @@
 											<PropertyList>
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
-														<Value>5</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>32</Value>
+														<Value>1</Value>
 													</ValueList>
 												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -36471,19 +36088,14 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[D#Eb]_toning_shruti" ID="{E4BC7209-4CFC-49B8-9DA3-1E30AFC1CA00}" ShortID="172256501">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
-													<ValueList>
-														<Value>3</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>25</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -36573,19 +36185,14 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[F]_toning_shruti" ID="{1E1BF510-37FA-4074-8631-E1A9C0ED5DD6}" ShortID="262167128">
 											<PropertyList>
-												<Property Name="Highpass" Type="int16">
-													<ValueList>
-														<Value>2</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>21</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -37045,11 +36652,6 @@
 								</SwitchContainer>
 								<SwitchContainer Name="Toning_Shadow" ID="{0B83BB64-DCBD-4811-834F-47FEDEA3980C}" ShortID="526604604">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
-											<ValueList>
-												<Value>17</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>-1</Value>
@@ -37075,7 +36677,7 @@
 											<PropertyList>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
-														<Value>40</Value>
+														<Value>1</Value>
 													</ValueList>
 												</Property>
 												<Property Name="Pitch" Type="int32">
@@ -37171,11 +36773,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[D]_toning_shadow" ID="{1338D8F2-47E3-46C0-B4DE-6E356DDCA389}" ShortID="925608968">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
@@ -37358,11 +36955,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[F#Gb]_toning_shadow" ID="{1CB466FE-7BD4-4BF4-ADF0-20647CFE2F6D}" ShortID="457837705">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
@@ -37457,11 +37049,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[G]_toning_shadow" ID="{BBCA7EAC-2225-49BB-AA31-D3F3E298C853}" ShortID="400152684">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
@@ -37555,11 +37142,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[C]_toning_shadow" ID="{F35C5052-DF60-4B8E-A998-3F64FF245ABF}" ShortID="303602098">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
@@ -37653,11 +37235,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[E]_toning_shadow" ID="{FFDBD111-B535-4577-8640-B6F95169BEEC}" ShortID="505576200">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
@@ -37845,11 +37422,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[A]_toning_shadow" ID="{A132BE73-BE22-414A-AE61-5C36EF4699EE}" ShortID="775968675">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>20</Value>
@@ -38032,11 +37604,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[G#Ab]_toning_shadow" ID="{0FFB5F01-D529-4812-BC13-E1503BA4FDD1}" ShortID="230313315">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
@@ -38219,11 +37786,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[A#Bb]_toning_shadow" ID="{47903784-1340-4B99-B106-280D00A37665}" ShortID="685486561">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
@@ -38317,11 +37879,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[C#Db]_toning_shadow" ID="{25243DCA-8365-452E-A149-2935BAC1C1E6}" ShortID="440768166">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
@@ -38504,11 +38061,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[D#Eb]_toning_shadow" ID="{9EEFBE19-6DCE-4262-BBF6-4DE57EE862ED}" ShortID="835692005">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
@@ -38696,11 +38248,6 @@
 										</BlendContainer>
 										<BlendContainer Name="harmony_[F]_toning_shadow" ID="{5512DBC2-8427-43AB-AD7C-FE2FC95E280B}" ShortID="872721590">
 											<PropertyList>
-												<Property Name="Lowpass" Type="int16">
-													<ValueList>
-														<Value>40</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-80</Value>
@@ -39165,14 +38712,9 @@
 								</SwitchContainer>
 								<SwitchContainer Name="Toning_SonoFlore" ID="{78A730C2-62EB-4BDC-ACC4-DD243D5363B7}" ShortID="515473982">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
+										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>20</Value>
-											</ValueList>
-										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-2</Value>
+												<Value>15</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -39196,11 +38738,6 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>8</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -39300,11 +38837,6 @@
 														<Value>8</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -39400,11 +38932,6 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>8</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -39504,11 +39031,6 @@
 														<Value>8</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -39605,11 +39127,6 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>8</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -39714,11 +39231,6 @@
 														<Value>8</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -39821,11 +39333,6 @@
 														<Value>8</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -39926,11 +39433,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -40040,11 +39542,6 @@
 														<Value>-100</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -40145,11 +39642,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -40254,11 +39746,6 @@
 														<Value>-100</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -40359,11 +39846,6 @@
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-100</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>

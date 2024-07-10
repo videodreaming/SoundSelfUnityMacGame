@@ -275,7 +275,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{0C0C0F56-BF0E-384A-7199-307DECB0AFA1}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{D71E1C9B-06A5-3119-EE45-77E17EDF2AAD}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -538,7 +538,7 @@
 				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{4E313F58-29DF-5B3B-B4B7-E56732D06938}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{895E75EA-42DC-7A9A-DD18-56BF332EAB2D}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -3590,7 +3590,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{4EF8A662-0425-1347-F73C-3EFF870C859D}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{1BD1716F-8D8B-6198-5C84-52404CEDD4C4}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -4112,6 +4112,7 @@
 				<ShareSets>
 					<Plugin Id="28907203" Name="AVS_Tremolo_Reference_R" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="28907229" Name="AVS_Tremolo_Reference_L" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="1506222489" Name="AVS_Modulation_Wave1_01" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="1506222490" Name="AVS_Modulation_Wave1_02" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2943759360" Name="AVS_Modulation_Wave3_02" LibName="Wwise Tremolo" LibId="8585219"/>
@@ -5149,6 +5150,11 @@
 							<MediaRefs>
 								<MediaRef Id="193930001"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="418265525"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
@@ -6380,6 +6386,11 @@
 							<MediaRefs>
 								<MediaRef Id="193930001"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="418265525"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
@@ -7007,5 +7018,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D026D4E3-9CB7-B468-48FE-27A01158A758}</FileHash>
+	<FileHash>{02F7986A-2411-9B58-871D-C861C0235184}</FileHash>
 </SoundBanksInfo>

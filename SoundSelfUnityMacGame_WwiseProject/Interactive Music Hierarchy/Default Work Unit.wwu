@@ -1506,11 +1506,6 @@
 								<MusicTrack Name="vo_somaticMeditation_long" ID="{4BF9C317-17CB-42E0-A9EA-EC43E947F023}" ShortID="584729478">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>1</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
@@ -6410,6 +6405,16 @@
 											</MusicCue>
 										</Local>
 									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_InteractiveMusicSystem_Start" ID="{D973C3BF-8D7B-42A7-82C0-AD10B2C22E77}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="180000.002361021"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
 								</ObjectList>
 							</ObjectLists>
 						</MusicSegment>
@@ -6659,11 +6664,6 @@
 								<MusicTrack Name="vo_somaticMeditation_short" ID="{1746164E-2B6C-43AE-AF95-2FE0D6A1619E}" ShortID="905545993">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>2</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
@@ -10244,6 +10244,16 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="95253.9831248509"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_InteractiveMusicSystem_Start" ID="{76599C37-61C7-4747-8A97-DD6C94EC1E69}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="59955.1736245714"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

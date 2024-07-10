@@ -5,8 +5,10 @@
 			<ChildrenList>
 				<Effect Name="New_iZotope_Hybrid_Reverb" ID="{3AC7544F-0E37-4C16-90CD-4F5F51CEA5C4}" PluginName="iZotope Hybrid Reverb" CompanyID="259" PluginID="2" PluginType="3">
 					<PropertyList>
-						<Property Name="DecayTime" Type="Real32" Value="2.9"/>
-						<Property Name="FrontWet" Type="Real32" Value="1.8"/>
+						<Property Name="DecayTime" Type="Real32" Value="4.2"/>
+						<Property Name="EarlyGain" Type="Real32" Value="1.6"/>
+						<Property Name="FrontWet" Type="Real32" Value="11.9"/>
+						<Property Name="RearWet" Type="Real32" Value="10.4"/>
 					</PropertyList>
 				</Effect>
 				<Effect Name="AVS_Modulation_Wave1_01" ID="{84315F11-7E74-464A-8F39-9D060D047943}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
