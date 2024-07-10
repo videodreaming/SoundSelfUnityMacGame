@@ -24,6 +24,7 @@ public class CSVWriter : MonoBehaviour
     public int sessionNumer;
     public string GameMode;
     public string SubGameMode;
+    public bool microphoneMonitoring = false;
 
     void Start()
     {
@@ -79,7 +80,8 @@ public class CSVWriter : MonoBehaviour
 
     void GetData()
     {
-        string data = string.Join(";",
+
+             string data = string.Join(";",
             $"{Time.time}",
             $"{respirationTracker._respirationRate}",
             $"{respirationTracker._meanToneLength}",
@@ -103,9 +105,10 @@ public class CSVWriter : MonoBehaviour
             $"{respirationTracker._absorptionToneLengthMultiplier1min}",
             $"{respirationTracker._absorptionToneLengthMultiplier2min}"
         );
-
         string encryptedData = EncryptionHelper.Encrypt(data);
         combinedData += encryptedData + " "; // Append encrypted data with a space as a separator
+        
+       
     }
 
     void ReadCSV()
