@@ -15,6 +15,7 @@ using UnityEngine.UIElements;
 
 public class MusicSystem1 : MonoBehaviour
 {
+    public WwiseVOManager wwiseVOManager;
     public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
     private bool debugAllowLogs = false;
     // Variables
@@ -155,8 +156,6 @@ public class MusicSystem1 : MonoBehaviour
                 //Now play the tone
                 harmonyNote = ((fundamentalNote + harmonization) % 12);
                 wwiseInteractiveMusicManager.changeHarmony();
-                //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(harmonyNote),gameObject);
-                //AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
                 if (debugAllowLogs)
                 {
                     //Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
@@ -193,7 +192,7 @@ public class MusicSystem1 : MonoBehaviour
         }
 
         // Determine threshold for active note detection based on whether the tone is actively interpreted as being sung/spoken
-        //MORE CONFIDENT TONING MAKES THE SYSTEM SLOWER TO RESPOND TO TONE CHANGES
+        // MORE CONFIDENT TONING MAKES THE SYSTEM SLOWER TO RESPOND TO TONE CHANGES
         float noteTrackerThreshold;
         if (imitoneVoiceInterpreter.toneActiveVeryConfident)
         {
@@ -275,6 +274,9 @@ public class MusicSystem1 : MonoBehaviour
                                         if (firstFrameActive)
                                         {
                                             fundamentalNote = note.Key;
+                                            string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);
+                                            string harmonyInttoNote = ConvertIntToNote(fundamentalNote +7);
+                                            wwiseVOManager.fundamentalChanged(fundamentalInttoNote, harmonyInttoNote);
                                             fundamentalChanges[note.Key] = true;
                                             if(debugAllowLogs)
                                             {

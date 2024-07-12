@@ -148,14 +148,23 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out value, ref valueType);
         return value;
     }
-
+    
+    public void fundamentalChanged(string FundamentalnoteReceived, string HarmonynoteRecieved)
+    {
+        Debug.Log("Fundamental Note = " + FundamentalnoteReceived);
+        Debug.Log("Harmony Note = " + HarmonynoteRecieved);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", FundamentalnoteReceived, gameObject);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", HarmonynoteRecieved, gameObject);
+    }
     void Update()
     {
         if(interactive)
         {
             if(silentPlaying == false)
             {
-                StartCoroutine (InteractiveMusicSystemFade());
+                silentrtpcvolume.SetGlobalValue(targetValue);
+                toningrtpcvolume.SetGlobalValue(targetValue);
+                //StartCoroutine (InteractiveMusicSystemFade());
                 AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
                 AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
                 silentPlaying = true;
