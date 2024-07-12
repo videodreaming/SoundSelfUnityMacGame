@@ -10,7 +10,7 @@ public class WwiseAVSMusicManager : MonoBehaviour
     void Start()
     {
         // We first enumerate all Devices from the System shareset to have all available devices on Windows.
-        uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
+       /*uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
         uint deviceCount = AkSoundEngine.GetNumOutputDevices(sharesetIdSystem);
         AkDeviceDescriptionArray devices = new AkDeviceDescriptionArray((int)deviceCount);
         AkSoundEngine.GetDeviceList(sharesetIdSystem, out deviceCount, devices);
@@ -96,6 +96,6 @@ public class WwiseAVSMusicManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             printDevicesList();
-        }
+        }*/
     }
 }

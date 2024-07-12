@@ -39,6 +39,10 @@
 				<Event Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}">
 					<ChildrenList>
 						<Action Name="" ID="{653D3851-E418-452A-9E2F-741DB896EE87}" ShortID="873658869">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
@@ -46,6 +50,10 @@
 							</ReferenceList>
 						</Action>
 						<Action Name="" ID="{E9D45B82-09A2-4209-9EFC-EC06B9301AEA}" ShortID="1013802003">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="8"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
@@ -60,6 +68,177 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="SFX_Impacts_Sequence" ID="{284B4166-15FA-4248-9C6C-BFED6EF1B1A2}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}">
+					<ChildrenList>
+						<Action Name="" ID="{159E6C1E-CCEA-464F-BE22-382774EBA675}" ShortID="387339877">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{7520821E-9FD7-46F7-8619-4012A2E68574}" ShortID="464801548">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{EBAE0891-0132-4C96-9A7B-EF1016907213}" ShortID="1041680366">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="12">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{568AEFC7-742A-457A-95A0-E2821F4730EA}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{2A599627-120F-48BB-8A65-EA29B17708F7}" ShortID="883068406">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="30">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{F6B1F966-5093-48A9-A7E8-84BC1C7E2B6C}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}">
+					<ChildrenList>
+						<Action Name="" ID="{46B78FF4-FDE3-4A01-B21D-3169B456BFD2}" ShortID="203972915">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{875CD99C-B8EF-4104-8F37-C1016E53CC47}" ShortID="534528042">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F2027554-0F82-4770-9AC7-CFFA7544821A}" ShortID="160949399">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{6B27E4BC-62CE-447C-9BA3-0DA6C56F87FB}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{2AF0767C-6A39-4940-903B-F22FDEDF0476}" ShortID="277484690">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{9662F4D3-B4AE-4D78-A486-EE79BFCB6E8F}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}">
+					<ChildrenList>
+						<Action Name="" ID="{0253F643-8408-4A8D-A7AE-B6A8F933CAAC}" ShortID="1058149397">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{3D59C8E2-B286-421C-B5A4-6AC3B5C6C122}" ShortID="297607345">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="40"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

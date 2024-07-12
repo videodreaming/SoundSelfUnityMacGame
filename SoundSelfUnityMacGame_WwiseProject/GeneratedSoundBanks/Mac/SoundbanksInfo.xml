@@ -16,265 +16,6 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="247426471" Type="Event" Language="SFX" Hash="{C5DD9810-4511-0218-20E6-43826AE116C9}">
-			<ShortName>Play_VO_ThematicSavasana</ShortName>
-			<Path>Event/24/Play_VO_ThematicSavasana.bnk</Path>
-			<Media>
-				<File Id="9176103" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_gratitude.wav</ShortName>
-					<Path>Media/91/9176103.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_gratitude_818F3B66.wem</CachePath>
-				</File>
-				<File Id="171769046" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_silence.wav</ShortName>
-					<Path>Media/17/171769046.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_silence_818F3B66.wem</CachePath>
-				</File>
-				<File Id="191501674" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_anchoring.wav</ShortName>
-					<Path>Media/19/191501674.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_anchoring_818F3B66.wem</CachePath>
-				</File>
-				<File Id="209545666" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_fireflies.wav</ShortName>
-					<Path>Media/20/209545666.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_fireflies_818F3B66.wem</CachePath>
-				</File>
-				<File Id="248401807" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_peace.wav</ShortName>
-					<Path>Media/24/248401807.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_peace_818F3B66.wem</CachePath>
-				</File>
-				<File Id="270879250" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_narrative.wav</ShortName>
-					<Path>Media/27/270879250.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_narrative_818F3B66.wem</CachePath>
-				</File>
-				<File Id="587565267" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_long.wav</ShortName>
-					<Path>Media/58/587565267.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_long_818F3B66.wem</CachePath>
-				</File>
-				<File Id="655141054" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_short.wav</ShortName>
-					<Path>Media/65/655141054.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_short_818F3B66.wem</CachePath>
-				</File>
-				<File Id="671858453" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_surrender.wav</ShortName>
-					<Path>Media/67/671858453.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_surrender_818F3B66.wem</CachePath>
-				</File>
-				<File Id="755912331" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_metta.wav</ShortName>
-					<Path>Media/75/755912331.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_metta_818F3B66.wem</CachePath>
-				</File>
-				<File Id="919567912" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_thematicSavasana_kindness.wav</ShortName>
-					<Path>Media/91/919567912.wem</Path>
-					<CachePath>SFX/vo_thematicSavasana_kindness_818F3B66.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="247426471" Name="Play_VO_ThematicSavasana" DurationType="OneShot" DurationMin="55.999584" DurationMax="335.62918">
-					<SwitchContainers>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1126065684"/>
-							<MediaRefs>
-								<MediaRef Id="209545666"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2692078280"/>
-							<MediaRefs>
-								<MediaRef Id="755912331"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2585211341"/>
-							<MediaRefs>
-								<MediaRef Id="655141054"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2655751454"/>
-							<MediaRefs>
-								<MediaRef Id="919567912"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="103389341"/>
-							<MediaRefs>
-								<MediaRef Id="248401807"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="3041563226"/>
-							<MediaRefs>
-								<MediaRef Id="171769046"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2965941853"/>
-							<MediaRefs>
-								<MediaRef Id="671858453"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="674228435" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="587565267"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1047870521"/>
-							<MediaRefs>
-								<MediaRef Id="270879250"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1927133646"/>
-							<MediaRefs>
-								<MediaRef Id="191501674"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1721781634"/>
-							<MediaRefs>
-								<MediaRef Id="9176103"/>
-							</MediaRefs>
-						</SwitchContainer>
-					</SwitchContainers>
-				</Event>
-			</Events>
-			<SwitchGroups>
-				<SwitchGroup Id="4155508698" Name="VO_ThematicSavasana">
-					<Switches>
-						<Switch Id="103389341" Name="Peace"/>
-						<Switch Id="674228435" Name="Long"/>
-						<Switch Id="1047870521" Name="Narrative"/>
-						<Switch Id="1126065684" Name="Fireflies"/>
-						<Switch Id="1721781634" Name="Gratitude"/>
-						<Switch Id="1927133646" Name="Anchoring"/>
-						<Switch Id="2585211341" Name="Short"/>
-						<Switch Id="2655751454" Name="Kindness"/>
-						<Switch Id="2692078280" Name="Metta"/>
-						<Switch Id="2965941853" Name="Surrender"/>
-						<Switch Id="3041563226" Name="Silence"/>
-					</Switches>
-				</SwitchGroup>
-			</SwitchGroups>
-		</SoundBank>
-		<SoundBank Id="322188649" Type="Event" Language="SFX" Hash="{5A16E77C-4399-BC72-5112-F77F9E9065C9}">
-			<ShortName>Play_VO_Wakeup</ShortName>
-			<Path>Event/32/Play_VO_Wakeup.bnk</Path>
-			<Media>
-				<File Id="999054356" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_wakeUp.wav</ShortName>
-					<Path>Media/99/999054356.wem</Path>
-					<CachePath>SFX/vo_wakeUp_818F3B66.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="322188649" Name="Play_VO_Wakeup" DurationType="OneShot" DurationMin="38.919334" DurationMax="38.919334">
-					<MediaRefs>
-						<MediaRef Id="999054356"/>
-					</MediaRefs>
-				</Event>
-			</Events>
-		</SoundBank>
-		<SoundBank Id="333136496" Type="Event" Language="SFX" Hash="{D4119BC9-5CD2-C0F0-ADE2-05C0CFF04F99}">
-			<ShortName>Stop_environment_wind</ShortName>
-			<Path>Event/33/Stop_environment_wind.bnk</Path>
-			<Events>
-				<Event Id="333136496" Name="Stop_environment_wind" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-			</Events>
-		</SoundBank>
-		<SoundBank Id="699412784" Type="Event" Language="SFX" Hash="{C7617847-5D6B-10B9-D4D4-EB857D29D68C}">
-			<ShortName>Play_VO_ClosingGoodbye</ShortName>
-			<Path>Event/69/Play_VO_ClosingGoodbye.bnk</Path>
-			<Media>
-				<File Id="14797471" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_goodbye_anchoring.wav</ShortName>
-					<Path>Media/14/14797471.wem</Path>
-					<CachePath>SFX/vo_goodbye_anchoring_818F3B66.wem</CachePath>
-				</File>
-				<File Id="74052971" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_goodbye.wav</ShortName>
-					<Path>Media/74/74052971.wem</Path>
-					<CachePath>SFX/vo_goodbye_818F3B66.wem</CachePath>
-				</File>
-				<File Id="139444766" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_goodbye_short.wav</ShortName>
-					<Path>Media/13/139444766.wem</Path>
-					<CachePath>SFX/vo_goodbye_short_818F3B66.wem</CachePath>
-				</File>
-				<File Id="303573823" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_goodbye_silence.wav</ShortName>
-					<Path>Media/30/303573823.wem</Path>
-					<CachePath>SFX/vo_goodbye_silence_818F3B66.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="OneShot" DurationMin="6.1513333" DurationMax="52.572666">
-					<SwitchContainers>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
-							<MediaRefs>
-								<MediaRef Id="74052971"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="2585211341" Default="true"/>
-							<MediaRefs>
-								<MediaRef Id="139444766"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="3041563226"/>
-							<MediaRefs>
-								<MediaRef Id="303573823"/>
-							</MediaRefs>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="1927133646"/>
-							<MediaRefs>
-								<MediaRef Id="14797471"/>
-							</MediaRefs>
-						</SwitchContainer>
-					</SwitchContainers>
-				</Event>
-			</Events>
-			<SwitchGroups>
-				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
-					<Switches>
-						<Switch Id="674228435" Name="Long"/>
-						<Switch Id="1927133646" Name="Anchoring"/>
-						<Switch Id="2585211341" Name="Short"/>
-						<Switch Id="3041563226" Name="Silence"/>
-					</Switches>
-				</SwitchGroup>
-			</SwitchGroups>
-		</SoundBank>
-		<SoundBank Id="936790198" Type="Event" Language="SFX" Hash="{3A2F0CC4-23BC-EE4C-08B7-CB567066853B}">
-			<ShortName>Play_VO_EndingSoon</ShortName>
-			<Path>Event/93/Play_VO_EndingSoon.bnk</Path>
-			<Media>
-				<File Id="1059101541" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_endingSoon.wav</ShortName>
-					<Path>Media/10/1059101541.wem</Path>
-					<CachePath>SFX/vo_endingSoon_818F3B66.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="936790198" Name="Play_VO_EndingSoon" DurationType="OneShot" DurationMin="2.738" DurationMax="2.738">
-					<MediaRefs>
-						<MediaRef Id="1059101541"/>
-					</MediaRefs>
-				</Event>
-			</Events>
-		</SoundBank>
 		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{8A44EB91-F2AF-2956-6590-80EB3E252291}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -531,14 +272,25 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1774847782" Type="Event" Language="SFX" Hash="{07393C24-6D48-34D6-DC2E-808F83A3E842}">
-			<ShortName>Stop_environment_crickets</ShortName>
-			<Path>Event/17/Stop_environment_crickets.bnk</Path>
+		<SoundBank Id="1488609145" Type="Event" Language="SFX" Hash="{53773445-563C-70E2-CB0B-795C104D11A0}">
+			<ShortName>Play_VO_QueryElicitation2</ShortName>
+			<Path>Event/14/Play_VO_QueryElicitation2.bnk</Path>
+			<Media>
+				<File Id="39430341" Language="SFX" Streaming="false" Location="Loose">
+					<ShortName>vo_elicitQuery_closing.wav</ShortName>
+					<Path>Media/39/39430341.wem</Path>
+					<CachePath>SFX/vo_elicitQuery_closing_818F3B66.wem</CachePath>
+				</File>
+			</Media>
 			<Events>
-				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="1488609145" Name="Play_VO_QueryElicitation2" DurationType="OneShot" DurationMin="47.794" DurationMax="47.794">
+					<MediaRefs>
+						<MediaRef Id="39430341"/>
+					</MediaRefs>
+				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{B5BB4B66-2CA7-DE5C-B5D9-5B87ADA05999}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{43CFB049-B5D9-C426-FECE-F86B013BE1DD}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -549,10 +301,6 @@
 				<File Id="39113922" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_thematicOpening_surrender.wav</ShortName>
 					<CachePath>SFX/vo_thematicOpening_surrender_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="39430341" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_elicitQuery_closing.wav</ShortName>
-					<CachePath>SFX/vo_elicitQuery_closing_818F3B66.wem</CachePath>
 				</File>
 				<File Id="56144728" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SFX_BreathLoop_Reaper.wav</ShortName>
@@ -665,10 +413,6 @@
 				<File Id="480920717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitSigh_opening.wav</ShortName>
 					<CachePath>SFX/vo_elicitSigh_opening_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="494111603" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_elicitSigh_closing.wav</ShortName>
-					<CachePath>SFX/vo_elicitSigh_closing_818F3B66.wem</CachePath>
 				</File>
 				<File Id="515336261" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>environment_openingQueryRepeat1.wav</ShortName>
@@ -3274,11 +3018,6 @@
 						<MediaRef Id="999597088"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1488609145" Name="Play_VO_QueryElicitation2" DurationType="OneShot" DurationMin="47.794" DurationMax="47.794">
-					<MediaRefs>
-						<MediaRef Id="39430341"/>
-					</MediaRefs>
-				</Event>
 				<Event Id="1422850326" Name="Play_VO_QueryElicitationFail1" DurationType="OneShot" DurationMin="10.93" DurationMax="29.362">
 					<MediaRefs>
 						<MediaRef Id="182072962"/>
@@ -3308,11 +3047,6 @@
 				<Event Id="2138093883" Name="Play_VO_SighElicitation1" DurationType="OneShot" DurationMin="34.374" DurationMax="34.374">
 					<MediaRefs>
 						<MediaRef Id="711571273"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="2138093880" Name="Play_VO_SighElicitation2" DurationType="OneShot" DurationMin="20.487333" DurationMax="20.487333">
-					<MediaRefs>
-						<MediaRef Id="494111603"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1024713723" Name="Play_VO_SighElicitationFail1" DurationType="OneShot" DurationMin="21.17" DurationMax="22.535334">
@@ -3428,27 +3162,547 @@
 				<AuxBus Id="1959646260" Name="Aux_SilentLoops"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2767686943" Type="Event" Language="SFX" Hash="{93067DC4-56C3-1865-2D50-59F9F792F314}">
-			<ShortName>Play_VO_Wisdom</ShortName>
-			<Path>Event/27/Play_VO_Wisdom.bnk</Path>
+		<SoundBank Id="2138093880" Type="Event" Language="SFX" Hash="{669B9045-1361-3B32-7E87-E3D2276458E0}">
+			<ShortName>Play_VO_SighElicitation2</ShortName>
+			<Path>Event/21/Play_VO_SighElicitation2.bnk</Path>
 			<Media>
-				<File Id="338851527" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_wisdom_notknowing.wav</ShortName>
-					<Path>Media/33/338851527.wem</Path>
-					<CachePath>SFX/vo_wisdom_notknowing_818F3B66.wem</CachePath>
-				</File>
-				<File Id="592303975" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_wisdom_jaguar.wav</ShortName>
-					<Path>Media/59/592303975.wem</Path>
-					<CachePath>SFX/vo_wisdom_jaguar_818F3B66.wem</CachePath>
-				</File>
-				<File Id="656133757" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_wisdom_peru.wav</ShortName>
-					<Path>Media/65/656133757.wem</Path>
-					<CachePath>SFX/vo_wisdom_peru_818F3B66.wem</CachePath>
+				<File Id="494111603" Language="SFX" Streaming="false" Location="Loose">
+					<ShortName>vo_elicitSigh_closing.wav</ShortName>
+					<Path>Media/49/494111603.wem</Path>
+					<CachePath>SFX/vo_elicitSigh_closing_818F3B66.wem</CachePath>
 				</File>
 			</Media>
 			<Events>
+				<Event Id="2138093880" Name="Play_VO_SighElicitation2" DurationType="OneShot" DurationMin="20.487333" DurationMax="20.487333">
+					<MediaRefs>
+						<MediaRef Id="494111603"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{A8D72FAE-44CE-1A39-B43E-91A42DD5FC90}">
+			<ShortName>CLOSING</ShortName>
+			<Path>CLOSING.bnk</Path>
+			<Media>
+				<File Id="9176103" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_gratitude.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_gratitude_818F3B66.wem</CachePath>
+				</File>
+				<File Id="54796230" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_goodbye_short.wav</ShortName>
+					<CachePath>SFX/vo_goodbye_short_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="80906255" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_surrender.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_surrender_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="125495837" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_Crystal Bowl_oneshot.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_Crystal Bowl_oneshot_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="147201971" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_openingQuery.wav</ShortName>
+					<CachePath>SFX/environment_openingQuery_818F3B66.wem</CachePath>
+				</File>
+				<File Id="163565718" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_crickets.wav</ShortName>
+					<CachePath>SFX/environment_crickets_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="171769046" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_silence.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_silence_818F3B66.wem</CachePath>
+				</File>
+				<File Id="172072923" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_short.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_short_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="184811278" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_metta.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_metta_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="191501674" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_anchoring.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_anchoring_818F3B66.wem</CachePath>
+				</File>
+				<File Id="209545666" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_fireflies.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_fireflies_818F3B66.wem</CachePath>
+				</File>
+				<File Id="234819779" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_openingMeditation.wav</ShortName>
+					<CachePath>SFX/environment_openingMeditation_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="248401807" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_peace.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_peace_818F3B66.wem</CachePath>
+				</File>
+				<File Id="248741514" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_goodbye_anchoring.wav</ShortName>
+					<CachePath>SFX/vo_goodbye_anchoring_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="251627468" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_peace.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_peace_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="270879250" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_narrative.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_narrative_818F3B66.wem</CachePath>
+				</File>
+				<File Id="338851527" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_wisdom_notknowing.wav</ShortName>
+					<CachePath>SFX/vo_wisdom_notknowing_818F3B66.wem</CachePath>
+				</File>
+				<File Id="351785776" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_goodbye_silence.wav</ShortName>
+					<CachePath>SFX/vo_goodbye_silence_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="366636977" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_anyQueryRepeat2.wav</ShortName>
+					<CachePath>SFX/environment_anyQueryRepeat2_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="382946237" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_11.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_11_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="412214530" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_08.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_08_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="425147260" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_fireflies.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_fireflies_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="456722588" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_05.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_05_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="464203531" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath out.wav</ShortName>
+					<CachePath>SFX/sfx_breath out_818F3B66.wem</CachePath>
+				</File>
+				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<CachePath>SFX/sfx_breath in_484E83A4.wem</CachePath>
+				</File>
+				<File Id="473964817" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_goodbye_long.wav</ShortName>
+					<CachePath>SFX/vo_goodbye_long_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="515336261" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_openingQueryRepeat1.wav</ShortName>
+					<CachePath>SFX/environment_openingQueryRepeat1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="517296307" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_openingWelcome.wav</ShortName>
+					<CachePath>SFX/environment_openingWelcome_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="518332124" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_03.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_03_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="541654321" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_anchoring.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_anchoring_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="543585764" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitSigh_closing.wav</ShortName>
+					<CachePath>SFX/vo_elicitSigh_closing_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="570701755" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_anyQueryRepeat1.wav</ShortName>
+					<CachePath>SFX/environment_anyQueryRepeat1_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="579672527" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_start.wav</ShortName>
+					<CachePath>SFX/sfx_start_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="587565267" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_long.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_long_818F3B66.wem</CachePath>
+				</File>
+				<File Id="592303975" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_wisdom_jaguar.wav</ShortName>
+					<CachePath>SFX/vo_wisdom_jaguar_818F3B66.wem</CachePath>
+				</File>
+				<File Id="618347590" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_gratitude.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_gratitude_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="650293573" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<CachePath>SFX/sfx_breath in_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="655141054" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_short.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_short_818F3B66.wem</CachePath>
+				</File>
+				<File Id="656133757" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_wisdom_peru.wav</ShortName>
+					<CachePath>SFX/vo_wisdom_peru_818F3B66.wem</CachePath>
+				</File>
+				<File Id="658131175" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_silence.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_silence_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="665576698" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_stop.wav</ShortName>
+					<CachePath>SFX/sfx_stop_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="671858453" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_surrender.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_surrender_818F3B66.wem</CachePath>
+				</File>
+				<File Id="687186124" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_01.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_01_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="745939041" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>menu_music_C Major.wav</ShortName>
+					<CachePath>SFX/menu_music_C Major_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="755912331" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_metta.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_metta_818F3B66.wem</CachePath>
+				</File>
+				<File Id="756450229" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24.wav</ShortName>
+					<CachePath>SFX/ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="789751157" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_wind.wav</ShortName>
+					<CachePath>SFX/environment_wind_FD032056.wem</CachePath>
+				</File>
+				<File Id="870294765" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_long.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_long_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="883996255" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_wind.wav</ShortName>
+					<CachePath>SFX/environment_wind_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="901997753" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>music_duet_D Major.wav</ShortName>
+					<CachePath>SFX/music_duet_D Major_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="919567912" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_kindness.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_kindness_818F3B66.wem</CachePath>
+				</File>
+				<File Id="931830422" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_12.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_12_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="936199836" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_13.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_13_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="965535147" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_07.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_07_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="973516209" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_narrative.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_narrative_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="977341665" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath out.wav</ShortName>
+					<CachePath>SFX/sfx_breath out_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="997677863" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thankYou.wav</ShortName>
+					<CachePath>SFX/vo_thankYou_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="999054356" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_wakeUp.wav</ShortName>
+					<CachePath>SFX/vo_wakeUp_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1005627719" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_02.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_02_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1006284074" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>environment_openingQuery.wav</ShortName>
+					<CachePath>SFX/environment_openingQuery_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1026406862" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_kindness.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_kindness_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1029397453" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_09.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_09_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1031434375" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SoundCeremony_CrystalBowl_10.wav</ShortName>
+					<CachePath>SFX/SoundCeremony_CrystalBowl_10_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1050281884" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>music_meditationSilent_E Major.wav</ShortName>
+					<CachePath>SFX/music_meditationSilent_E Major_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1059101541" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_endingSoon.wav</ShortName>
+					<CachePath>SFX/vo_endingSoon_818F3B66.wem</CachePath>
+				</File>
+				<File Id="1070561637" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitQuery_closing.wav</ShortName>
+					<CachePath>SFX/vo_elicitQuery_closing_FBC78EF0.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
+				</Custom>
+			</Plugins>
+			<Events>
+				<Event Id="3981260521" Name="Play_AMBIENT_ENVIRONMENT_LOOP" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="883996255"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="670553737"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="2917442959" Name="Play_CrystalBowlGenerator" DurationType="OneShot" DurationMin="385.44745" DurationMax="415.44745">
+					<MediaRefs>
+						<MediaRef Id="125495837"/>
+						<MediaRef Id="382946237"/>
+						<MediaRef Id="412214530"/>
+						<MediaRef Id="456722588"/>
+						<MediaRef Id="518332124"/>
+						<MediaRef Id="687186124"/>
+						<MediaRef Id="931830422"/>
+						<MediaRef Id="936199836"/>
+						<MediaRef Id="965535147"/>
+						<MediaRef Id="1005627719"/>
+						<MediaRef Id="1029397453"/>
+						<MediaRef Id="1031434375"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3724822780" Name="Play_environment_anyQueryRepeat1" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="570701755"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3724822783" Name="Play_environment_anyQueryRepeat2" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="366636977"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3451051880" Name="Play_environment_crickets" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="163565718"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="362704004" Name="Play_environment_openingMeditation" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="234819779"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2987132208" Name="Play_environment_openingQuery" DurationType="OneShot" DurationMin="12.938896" DurationMax="12.938896">
+					<MediaRefs>
+						<MediaRef Id="147201971"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="772188046" Name="Play_environment_openingQueryRepeat1" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="515336261"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2849654864" Name="Play_environment_openingWelcome" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="517296307"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2929327982" Name="Play_environment_wind" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="883996255"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3484562951" Name="Play_EXIT_MUSIC_PLAYLIST" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="745939041"/>
+						<MediaRef Id="901997753"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1226520867" Name="Play_music_Duet_D_Major" DurationType="OneShot" DurationMin="290.57904" DurationMax="290.57904">
+					<MediaRefs>
+						<MediaRef Id="901997753"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3359246268" Name="Play_music_meditationSilent_E_Major_LOOP" DurationType="OneShot" DurationMin="117.802315" DurationMax="117.802315">
+					<MediaRefs>
+						<MediaRef Id="1050281884"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
+					<MediaRefs>
+						<MediaRef Id="464203531"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="603425291" Name="Play_sfx_SoundSeed_BreathCycleWind" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="883996255"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="670553737"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="410054881" Name="Play_SIGH_QUERY_SEQUENCE_2" DurationType="OneShot" DurationMin="214.70941" DurationMax="214.70941">
+					<MediaRefs>
+						<MediaRef Id="163565718"/>
+						<MediaRef Id="543585764"/>
+						<MediaRef Id="579672527"/>
+						<MediaRef Id="650293573"/>
+						<MediaRef Id="665576698"/>
+						<MediaRef Id="789751157"/>
+						<MediaRef Id="977341665"/>
+						<MediaRef Id="997677863"/>
+						<MediaRef Id="1006284074"/>
+						<MediaRef Id="1070561637"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1088180278" Name="Play_THEMATIC_SAVASANA_SEQUENCE" DurationType="OneShot" DurationMin="406.875" DurationMax="406.875">
+					<MediaRefs>
+						<MediaRef Id="80906255"/>
+						<MediaRef Id="172072923"/>
+						<MediaRef Id="184811278"/>
+						<MediaRef Id="251627468"/>
+						<MediaRef Id="425147260"/>
+						<MediaRef Id="541654321"/>
+						<MediaRef Id="618347590"/>
+						<MediaRef Id="658131175"/>
+						<MediaRef Id="756450229"/>
+						<MediaRef Id="870294765"/>
+						<MediaRef Id="973516209"/>
+						<MediaRef Id="1026406862"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="1927133646"/>
+							<MediaRefs>
+								<MediaRef Id="248741514"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
+							<MediaRefs>
+								<MediaRef Id="473964817"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="2585211341"/>
+							<MediaRefs>
+								<MediaRef Id="54796230"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="3041563226"/>
+							<MediaRefs>
+								<MediaRef Id="351785776"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="936790198" Name="Play_VO_EndingSoon" DurationType="OneShot" DurationMin="2.738" DurationMax="2.738">
+					<MediaRefs>
+						<MediaRef Id="1059101541"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="247426471" Name="Play_VO_ThematicSavasana" DurationType="OneShot" DurationMin="55.999584" DurationMax="335.62918">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1126065684"/>
+							<MediaRefs>
+								<MediaRef Id="209545666"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2692078280"/>
+							<MediaRefs>
+								<MediaRef Id="755912331"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2585211341"/>
+							<MediaRefs>
+								<MediaRef Id="655141054"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2655751454"/>
+							<MediaRefs>
+								<MediaRef Id="919567912"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="103389341"/>
+							<MediaRefs>
+								<MediaRef Id="248401807"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="3041563226"/>
+							<MediaRefs>
+								<MediaRef Id="171769046"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2965941853"/>
+							<MediaRefs>
+								<MediaRef Id="671858453"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="674228435" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="587565267"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1047870521"/>
+							<MediaRefs>
+								<MediaRef Id="270879250"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1927133646"/>
+							<MediaRefs>
+								<MediaRef Id="191501674"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1721781634"/>
+							<MediaRefs>
+								<MediaRef Id="9176103"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="322188649" Name="Play_VO_Wakeup" DurationType="OneShot" DurationMin="38.919334" DurationMax="38.919334">
+					<MediaRefs>
+						<MediaRef Id="999054356"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="2767686943" Name="Play_VO_Wisdom" DurationType="OneShot" DurationMin="453.298" DurationMax="664.9247">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -3471,7 +3725,66 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="4041758113" Name="Stop_CrystalBowlGenerator" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="1774847782" Name="Stop_environment_crickets" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="333136496" Name="Stop_environment_wind" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2938179890" Name="Stop_music_meditationSilent_E_Major_LOOP" DurationType="OneShot" DurationMin="117.802315" DurationMax="117.802315">
+					<MediaRefs>
+						<MediaRef Id="1050281884"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="674892661" Name="Stop_sfx_SoundSeed_BreathCycleWind" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2071903771" Name="Stop_SIGH_QUERY_SEQUENCE_2" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2811342292" Name="Stop_THEMATIC_SAVASANA_SEQUENCE" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="674892661" Name="Stop_sfx_SoundSeed_BreathCycleWind"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="3042067738" Name="Stop_VO_ClosingGoodbye" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="1927133646"/>
+							<MediaRefs>
+								<MediaRef Id="248741514"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
+							<MediaRefs>
+								<MediaRef Id="473964817"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="2585211341"/>
+							<MediaRefs>
+								<MediaRef Id="54796230"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="3041563226"/>
+							<MediaRefs>
+								<MediaRef Id="351785776"/>
+								<MediaRef Id="745939041"/>
+								<MediaRef Id="901997753"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
 			</Events>
+			<GameParameters>
+				<GameParameter Id="158808291" Name="BreathCycle_PlaybackRate"/>
+				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
+				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
+				<GameParameter Id="3761161481" Name="CrystalBowlGenerator_Volume"/>
+			</GameParameters>
 			<SwitchGroups>
 				<SwitchGroup Id="683317262" Name="VO_Wisdom">
 					<Switches>
@@ -3481,100 +3794,30 @@
 						<Switch Id="2721896533" Name="DieWell"/>
 					</Switches>
 				</SwitchGroup>
+				<SwitchGroup Id="1815817025" Name="VO_ClosingGoodbye">
+					<Switches>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="3041563226" Name="Silence"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4155508698" Name="VO_ThematicSavasana">
+					<Switches>
+						<Switch Id="103389341" Name="Peace"/>
+						<Switch Id="674228435" Name="Long"/>
+						<Switch Id="1047870521" Name="Narrative"/>
+						<Switch Id="1126065684" Name="Fireflies"/>
+						<Switch Id="1721781634" Name="Gratitude"/>
+						<Switch Id="1927133646" Name="Anchoring"/>
+						<Switch Id="2585211341" Name="Short"/>
+						<Switch Id="2655751454" Name="Kindness"/>
+						<Switch Id="2692078280" Name="Metta"/>
+						<Switch Id="2965941853" Name="Surrender"/>
+						<Switch Id="3041563226" Name="Silence"/>
+					</Switches>
+				</SwitchGroup>
 			</SwitchGroups>
-		</SoundBank>
-		<SoundBank Id="2917442959" Type="Event" Language="SFX" Hash="{E556EFE0-9B77-3C76-76AF-18D5972E1FB5}">
-			<ShortName>Play_CrystalBowlGenerator</ShortName>
-			<Path>Event/29/Play_CrystalBowlGenerator.bnk</Path>
-			<Media>
-				<File Id="125495837" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_Crystal Bowl_oneshot.wav</ShortName>
-					<Path>Media/12/125495837.wem</Path>
-					<CachePath>SFX/SoundCeremony_Crystal Bowl_oneshot_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="382946237" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_11.wav</ShortName>
-					<Path>Media/38/382946237.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_11_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="412214530" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_08.wav</ShortName>
-					<Path>Media/41/412214530.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_08_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="456722588" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_05.wav</ShortName>
-					<Path>Media/45/456722588.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_05_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="518332124" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_03.wav</ShortName>
-					<Path>Media/51/518332124.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_03_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="687186124" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_01.wav</ShortName>
-					<Path>Media/68/687186124.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_01_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="853459113" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>Rain_10.wav</ShortName>
-					<Path>Media/85/853459113.wem</Path>
-					<CachePath>SFX/Rain_10_96186400.wem</CachePath>
-				</File>
-				<File Id="931830422" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_12.wav</ShortName>
-					<Path>Media/93/931830422.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_12_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="936199836" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_13.wav</ShortName>
-					<Path>Media/93/936199836.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_13_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="965535147" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_07.wav</ShortName>
-					<Path>Media/96/965535147.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_07_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="1005627719" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_02.wav</ShortName>
-					<Path>Media/10/1005627719.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_02_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="1029397453" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_09.wav</ShortName>
-					<Path>Media/10/1029397453.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_09_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="1031434375" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>SoundCeremony_CrystalBowl_10.wav</ShortName>
-					<Path>Media/10/1031434375.wem</Path>
-					<CachePath>SFX/SoundCeremony_CrystalBowl_10_FBC78EF0.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="2917442959" Name="Play_CrystalBowlGenerator" DurationType="Infinite">
-					<MediaRefs>
-						<MediaRef Id="125495837"/>
-						<MediaRef Id="382946237"/>
-						<MediaRef Id="412214530"/>
-						<MediaRef Id="456722588"/>
-						<MediaRef Id="518332124"/>
-						<MediaRef Id="687186124"/>
-						<MediaRef Id="853459113"/>
-						<MediaRef Id="931830422"/>
-						<MediaRef Id="936199836"/>
-						<MediaRef Id="965535147"/>
-						<MediaRef Id="1005627719"/>
-						<MediaRef Id="1029397453"/>
-						<MediaRef Id="1031434375"/>
-					</MediaRefs>
-				</Event>
-			</Events>
-			<GameParameters>
-				<GameParameter Id="3761161481" Name="CrystalBowlGenerator_Volume"/>
-			</GameParameters>
 		</SoundBank>
 		<SoundBank Id="3329123393" Type="Bus" Language="SFX" Hash="{C26FF76F-38F1-2B16-A7E8-4A3D3AC8CF63}">
 			<ShortName>Aux_Impacts</ShortName>
@@ -3590,7 +3833,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{D31D9BF0-8BA7-CA47-8F5F-C3F0A5964269}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{9EC2D426-11A9-0535-7102-E4097D82A597}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -7018,5 +7261,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{98C56DC0-72FA-5319-3800-B7FAC4290BE4}</FileHash>
+	<FileHash>{F90C022A-AAAA-32E6-1EC9-A0F9B3DE8B81}</FileHash>
 </SoundBanksInfo>

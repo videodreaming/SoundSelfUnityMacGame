@@ -236,10 +236,21 @@
 				</Event>
 				<Event Name="Play_VO_ClosingGoodbye" ID="{E317C9D8-FCA4-41C2-BC26-F16E968EFAE1}">
 					<ChildrenList>
-						<Action Name="" ID="{BE4F7563-A38E-405F-861C-0AEAB510C6D5}" ShortID="447052215">
+						<Action Name="" ID="{736D7638-991E-46A5-9B7E-06048AA9F894}" ShortID="877815523">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="VO_ClosingGoodbye" ID="{E4B39BFD-A721-44DE-AD5E-083E490DEB5C}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="VO_CLOSING_GOODBYE" ID="{8FB1D877-44D3-49AA-8EE3-10978E8749BB}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_VO_ClosingGoodbye" ID="{FC7E96EA-253A-45DA-860C-6D159A29245C}">
+					<ChildrenList>
+						<Action Name="" ID="{7541DAB8-EB82-4CB5-8204-95D9F1887078}" ShortID="141252374">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_CLOSING_GOODBYE" ID="{8FB1D877-44D3-49AA-8EE3-10978E8749BB}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

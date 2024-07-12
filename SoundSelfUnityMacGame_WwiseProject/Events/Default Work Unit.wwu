@@ -286,6 +286,95 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_THEMATIC_SAVASANA_SEQUENCE" ID="{8187A024-A1D1-4DC7-9027-969C6840ADE5}">
+					<ChildrenList>
+						<Action Name="" ID="{10B38F1D-77CD-4EF4-9637-DBB780779B71}" ShortID="88338812">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="THEMATIC SAVASANA" ID="{4F892BE2-11F6-4BE3-9124-6DFE970D4D32}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_THEMATIC_SAVASANA_SEQUENCE" ID="{44AA32BB-F188-42B8-BB5E-BF7E9FAC8450}">
+					<ChildrenList>
+						<Action Name="" ID="{33A3913C-0744-44D3-946C-FCED7E2DD41A}" ShortID="314276233">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="THEMATIC SAVASANA" ID="{4F892BE2-11F6-4BE3-9124-6DFE970D4D32}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{0ED03E6C-7C8C-4B9E-9E96-4959A27567B9}" ShortID="132916084">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_EXIT_MUSIC_PLAYLIST" ID="{493910F3-5E57-4570-B6D2-1ABEA929D925}">
+					<ChildrenList>
+						<Action Name="" ID="{AFA7307C-943E-40F2-8BB1-3F3BC7CF184B}" ShortID="693300437">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="EXIT MUSIC PLAYLIST" ID="{B98AB060-5042-49AE-9622-EC090CC2E8D1}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{7D978FF7-4CEE-4BE0-9BE5-43D61321EFB3}" ShortID="967742831">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_SIGH_QUERY_SEQUENCE_2" ID="{200A1DEF-E711-4697-A515-2AF0F737BF26}">
+					<ChildrenList>
+						<Action Name="" ID="{5559DFCE-1093-41EC-BACD-00411DD2EDF4}" ShortID="516039745">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VOICE ELICITATION 2" ID="{2C852D0F-ADB1-4222-B893-7A9D086BB8E7}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_SIGH_QUERY_SEQUENCE_2" ID="{2A229617-0B99-404F-877F-837CFA0E1607}">
+					<ChildrenList>
+						<Action Name="" ID="{B9ABE318-F976-4875-AF32-3656D3C07EF7}" ShortID="525572766">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VOICE ELICITATION 2" ID="{2C852D0F-ADB1-4222-B893-7A9D086BB8E7}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

@@ -38,7 +38,7 @@
 							<Position X="1" Y="2"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
+							<ObjectRef Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 							<Position X="1" Y="3"/>
 						</Module>
 						<Module>
@@ -192,14 +192,14 @@
 						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
-						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
+						<CurrentSwitchRef Name="Narrative" ID="{DBC655E1-D196-4AB6-A3CE-EC04B0CA2A11}"/>
 						<CurrentSwitchRef Name="Adjunct" ID="{0126A9C1-6FFA-4A43-9581-09218884C0A2}"/>
 						<CurrentSwitchRef Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
 						<CurrentSwitchRef Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
-						<CurrentSwitchRef Name="E" ID="{2EF39E0C-E918-4DB4-9C57-CC6AFED08210}"/>
+						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
 						<CurrentSwitchRef Name="LONG" ID="{B6D6EEAA-7A41-412C-BB75-CF22CCB8A41F}"/>
 					</CurrentSwitchList>
@@ -515,6 +515,61 @@
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
 						<CurrentSwitchRef Name="LONG" ID="{B6D6EEAA-7A41-412C-BB75-CF22CCB8A41F}"/>
+					</CurrentSwitchList>
+				</SoundcasterSession>
+				<SoundcasterSession Name="New Soundcaster Session" ID="{7FC382B4-EB8D-4B07-92BB-DBF6698B1317}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="Play_THEMATIC_SAVASANA_SEQUENCE" ID="{8187A024-A1D1-4DC7-9027-969C6840ADE5}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="0" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_VO_Wakeup" ID="{8E31B5D4-53EF-4857-93D3-635F862C3583}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
+							<Position X="1" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+							<Position X="1" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_VO_EndingSoon" ID="{9E0D6496-82D7-4844-ACD7-8C31B52A9987}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
+							<Position X="2" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_THEMATIC_SAVASANA_SEQUENCE" ID="{44AA32BB-F188-42B8-BB5E-BF7E9FAC8450}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="2" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_SIGH_QUERY_SEQUENCE_2" ID="{200A1DEF-E711-4697-A515-2AF0F737BF26}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="3" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_music_meditationSilent_E_Major_LOOP" ID="{CE09BEF8-2A60-4152-BE19-73FF50191240}" WorkUnitID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}"/>
+							<Position X="4" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_music_meditationSilent_E_Major_LOOP" ID="{7F68A849-DF59-4501-90DB-9BB1A586EB46}" WorkUnitID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}"/>
+							<Position X="4" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_EXIT_MUSIC_PLAYLIST" ID="{493910F3-5E57-4570-B6D2-1ABEA929D925}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="5" Y="0"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="CrystalBowlGenerator_Volume" ID="{290F1C34-F97C-4386-B944-0CC0D9101D56}"/>
+							<Value>60</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="Environment_Bus_Volume" ID="{1D24E900-FB6F-4998-98EA-E0BFA9B073C4}"/>
+							<Value>60</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true">
+						<CurrentSwitchRef Name="Surrender" ID="{403AE1A9-E8A9-4AC9-A7EB-C7700C1BF8B3}"/>
+						<CurrentSwitchRef Name="Long" ID="{844C5211-96AF-4162-9BA5-48B12E4C5DB0}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>
 			</ChildrenList>

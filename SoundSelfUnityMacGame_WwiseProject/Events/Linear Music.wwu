@@ -14,6 +14,47 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_music_meditationSilent_E_Major_LOOP" ID="{CE09BEF8-2A60-4152-BE19-73FF50191240}">
+					<ChildrenList>
+						<Action Name="" ID="{23A4DEDC-BD0D-4B39-B138-7ADDFA249C8F}" ShortID="504608479">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_music_Duet_D_Major" ID="{81A8BE50-7F04-4DFC-BCBA-00A442A5995B}">
+					<ChildrenList>
+						<Action Name="" ID="{04606787-D794-4B4A-A599-978E625FA992}" ShortID="813354783">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="music_duet_D Major" ID="{91933EC4-8A47-4961-92DD-9DCB27CCFDC4}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_music_meditationSilent_E_Major_LOOP" ID="{7F68A849-DF59-4501-90DB-9BB1A586EB46}">
+					<ChildrenList>
+						<Action Name="" ID="{DE3625EF-3482-42FD-B027-621B4701CA55}" ShortID="699348260">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

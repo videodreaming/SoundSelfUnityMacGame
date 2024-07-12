@@ -33,55 +33,6 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}">
-					<ChildrenList>
-						<Action Name="" ID="{159E6C1E-CCEA-464F-BE22-382774EBA675}" ShortID="387339877">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{7520821E-9FD7-46F7-8619-4012A2E68574}" ShortID="464801548">
-							<PropertyList>
-								<Property Name="Delay" Type="Real64" Value="6"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{EBAE0891-0132-4C96-9A7B-EF1016907213}" ShortID="1041680366">
-							<PropertyList>
-								<Property Name="Delay" Type="Real64" Value="12">
-									<ModifierList>
-										<ModifierInfo>
-											<Modifier Name="" ID="{568AEFC7-742A-457A-95A0-E2821F4730EA}">
-												<PropertyList>
-													<Property Name="Enabled" Type="bool" Value="True"/>
-													<Property Name="Max" Type="Real64" Value="30"/>
-												</PropertyList>
-											</Modifier>
-										</ModifierInfo>
-									</ModifierList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{08C461E2-FE91-413B-B08C-26D413252D5C}" ShortID="480931363">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS System_Modulation_Learning" ID="{70B88FBB-7623-4DFE-B413-5555BFBC5C4E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="Stop_InteractiveMusicSystem" ID="{11D2DC73-E209-45B4-89FD-F87C94F55B6D}">
 					<ChildrenList>
 						<Action Name="" ID="{3CDA193E-20E4-4C66-AC4F-43B6EE862635}" ShortID="394729532">
@@ -196,6 +147,7 @@
 						<Action Name="" ID="{66107550-3E37-49C6-86BA-77B088C99950}" ShortID="203503832">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
 								<Property Name="FadeTime" Type="Real64" Value="4"/>
 							</PropertyList>
@@ -208,6 +160,7 @@
 						<Action Name="" ID="{0551BB31-209E-49DA-8D1D-BC4D0490AD20}" ShortID="438085709">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
 								<Property Name="FadeTime" Type="Real64" Value="4"/>
 							</PropertyList>
