@@ -23,13 +23,17 @@ public class WwiseVOManager : MonoBehaviour
     public float targetValue = 80.0f;
     public RTPC silentrtpcvolume;
     public RTPC toningrtpcvolume;
+    public RTPC silentFundamentalrtpcvolume;
+    public RTPC toningFundamentalrtpcvolume;
+    public RTPC silentHarmonyrtpcvolume;
+    public RTPC toningHarmonyrtpcvolume;
     public bool firstTimeUser = true;
     public bool layingDown = true;
     public bool interactive = true;
 
     public CSVWriter csvWriter;
 
-
+    private bool silentPlaying = false;
     private bool previousToneActiveConfident = false;
     void Awake()
     {
@@ -39,7 +43,7 @@ public class WwiseVOManager : MonoBehaviour
 
     void Start()
     {
-        AkSoundEngine.SetSwitch("SoundWorldMode","SonoFlore",gameObject);
+        AkSoundEngine.SetSwitch("SoundWorldMode","SonoFlore", gameObject);
         if(userObject != null)
         {
             userAudioSource = userObject.GetComponent<AudioSource>();
@@ -108,7 +112,8 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
-                    StartCoroutine (InteractiveMusicSystemFade());
+                    //StartCoroutine (InteractiveMusicSystemFade());
+                    //interactive = true;
                     AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
                     AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
 
@@ -129,25 +134,41 @@ public class WwiseVOManager : MonoBehaviour
             toningrtpcvolume.SetGlobalValue(currentValue);
             yield return null;
         }
-
         silentrtpcvolume.SetGlobalValue(targetValue);
         toningrtpcvolume.SetGlobalValue(targetValue);
         yield break;
     }
     
+    private float GetRTPCValue(RTPC rtpc)
+    {
+        uint rtpcID = AkSoundEngine.GetIDFromString(rtpc.Name);
+        int valueType = 1; // AkRTPCValue_type type, 0 for game object, 1 for global RTPC
+        float value;
+        AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out value, ref valueType);
+        return value;
+    }
+
     void Update()
     {
         if(interactive)
         {
+            if(silentPlaying == false)
+            {
+                StartCoroutine (InteractiveMusicSystemFade());
+                AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+                AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+                silentPlaying = true;
+            }
+            
             bool currentToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
             if(currentToneActiveConfident && !previousToneActiveConfident)
             {
-                AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-                AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+                AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
+                AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
                 Debug.Log("PlayingToning");
             } else if (!currentToneActiveConfident && previousToneActiveConfident)
             {
-
+                
             }
             previousToneActiveConfident = currentToneActiveConfident;
         }

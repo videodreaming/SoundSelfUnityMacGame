@@ -265,7 +265,7 @@ public class MusicSystem1 : MonoBehaviour
                                 newChangeFundamentalTimer += Time.deltaTime;
                                 if(debugAllowLogs && firstFrameActive)
                                 {
-                                    Debug.Log("MUSIC 1: Change Fundamental Timer for " + ConvertIntToNote(note.Key) + ": " + newChangeFundamentalTimer);
+                                    //Debug.Log("MUSIC 1: Change Fundamental Timer for " + ConvertIntToNote(note.Key) + ": " + newChangeFundamentalTimer);
                                 }
 
                                 if(allowFundamentalChange)
@@ -276,7 +276,6 @@ public class MusicSystem1 : MonoBehaviour
                                         {
                                             fundamentalNote = note.Key;
                                             fundamentalChanges[note.Key] = true;
-
                                             if(debugAllowLogs)
                                             {
                                                 Debug.Log("MUSIC 2: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));

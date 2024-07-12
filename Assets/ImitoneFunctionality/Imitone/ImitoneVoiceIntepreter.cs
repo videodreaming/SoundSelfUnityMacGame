@@ -39,7 +39,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public bool toneActiveBiasFalse { get; private set; } = false;  //combines toneActive & toneActiveVeryConfident
     [Tooltip("Very Confident Toning, used for respiration")]
     public bool toneActiveVeryConfident { get; private set; } = false;
-    public float positiveActiveThreshold1 {get; private set;} = 0.05f; //for toneActive
+    public float positiveActiveThreshold1 {get; private set;} = 0.05f; //for toneActive 
     public float positiveActiveThreshold2 {get; private set;}  = 0.2f; //for toneActiveConfident
     public float negativeActiveThreshold1 {get; private set;}  = 0.1f; //for toneActive
     public float negativeActiveThreshold2 {get; private set;}  = 0.33f; //for toneActiveConfident
@@ -474,7 +474,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
                 toneActiveConfident = true;
-                
             }
             int flooredSemitone = FrequencyToFlooredSemitone(pitch_hz);
         }
