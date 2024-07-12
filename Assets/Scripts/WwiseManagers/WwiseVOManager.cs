@@ -25,11 +25,12 @@ public class WwiseVOManager : MonoBehaviour
     public RTPC toningrtpcvolume;
     public bool firstTimeUser = true;
     public bool layingDown = true;
-    public bool interactive = false;
+    public bool interactive = true;
 
     public CSVWriter csvWriter;
 
 
+    private bool previousToneActiveConfident = false;
     void Awake()
     {
 
@@ -138,13 +139,17 @@ public class WwiseVOManager : MonoBehaviour
     {
         if(interactive)
         {
-            if(imitoneVoiceIntepreter.toneActiveConfident)
+            bool currentToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
+            if(currentToneActiveConfident && !previousToneActiveConfident)
             {
-                AkSoundEngine.PostEvent("play_Toning",gameObject);
-            } else if (!imitoneVoiceIntepreter.toneActiveConfident)
+                AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+                AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+                Debug.Log("PlayingToning");
+            } else if (!currentToneActiveConfident && previousToneActiveConfident)
             {
-                AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+
             }
+            previousToneActiveConfident = currentToneActiveConfident;
         }
     }
 

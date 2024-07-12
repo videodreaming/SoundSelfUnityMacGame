@@ -474,20 +474,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
                 toneActiveConfident = true;
+                
             }
-        
             int flooredSemitone = FrequencyToFlooredSemitone(pitch_hz);
-            // _mostRecentSemitone = SemitoneUtility.GetSemitoneFromFrequency(pitch_hz);
-            // _semitone = SemitoneUtility.GetNoteFromSemitone(_mostRecentSemitone[0], _mostRecentSemitone[1]);
-            // _semitoneNote = SemitoneUtility.ToString(_mostRecentSemitone);
-            // Debug.Log("Semitone = " + _semitone + "       SemitoneNote = " + _semitoneNote);
-            // if (!(_mostRecentSemitone[0] < 0) && (_previousSemitone[0] != _mostRecentSemitone[0] ||
-            //                                       _previousSemitone[1] != _mostRecentSemitone[1]))
-            // {
-            //     _previousSemitone = _mostRecentSemitone;
-            //     OnNewTone?.Invoke(_semitone);
-            // }
-            
         }
         else
         {

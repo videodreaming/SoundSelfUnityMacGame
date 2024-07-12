@@ -16,7 +16,7 @@ using UnityEngine.UIElements;
 public class MusicSystem1 : MonoBehaviour
 {
     public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
-    private bool debugAllowLogs = true;
+    private bool debugAllowLogs = false;
     // Variables
     public bool allowFundamentalChange = true;
     public bool enableMusicSystem = true;
@@ -95,7 +95,6 @@ public class MusicSystem1 : MonoBehaviour
         if(enableMusicSystem)
         {
             InterpretImitone();
-
             //set musicToneActiveFrame to true for the first frame that toneActiveBiasTrue is true, and false for all other frames.
             if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
             {

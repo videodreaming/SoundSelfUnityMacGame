@@ -16,6 +16,7 @@ public class GameModeValue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tmpText.text = csvWriter.GameMode;
+        string decryptedReadyCheck = EncryptionHelper.Decrypt(csvWriter.GameMode);
+        tmpText.text = decryptedReadyCheck;
     }
 }
