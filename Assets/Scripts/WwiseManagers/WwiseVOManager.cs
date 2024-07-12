@@ -43,13 +43,14 @@ public class WwiseVOManager : MonoBehaviour
 
     void Start()
     {
-        AkSoundEngine.SetSwitch("SoundWorldMode","SonoFlore", gameObject);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
+        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
         if(userObject != null)
         {
             userAudioSource = userObject.GetComponent<AudioSource>();
             userAudioSource.volume = 0.0f;
         }
-
         AkSoundEngine.SetSwitch("VO_ThematicContent","Peace", gameObject);
         assignVOs();
         if(firstTimeUser)
@@ -168,7 +169,7 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("PlayingToning");
             } else if (!currentToneActiveConfident && previousToneActiveConfident)
             {
-                
+                AkSoundEngine.PostEvent("Stop_Toning",gameObject);
             }
             previousToneActiveConfident = currentToneActiveConfident;
         }
