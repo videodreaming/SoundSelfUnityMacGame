@@ -30,10 +30,12 @@ Event	ID	Name			Wwise Object Path	Notes
 	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
 	3449237142	Play_AVS_SineGenerators_REFERENCE			\AVS System\Play_AVS_SineGenerators_REFERENCE	
 	3830600368	Play_sfx_breathein			\SFX\Play_sfx_breathein	
+	3911137305	StateChange_InteractiveMusicSystem_SILENT_to_TONING			\Default Work Unit\StateChange_InteractiveMusicSystem_SILENT_to_TONING	
 	3951624080	Stop_AVS_Wave2_Toning			\AVS System\Stop_AVS_Wave2_Toning	
 	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP	
 	4004321118	Play_SilentLoops			\Interactive Music System\Play_SilentLoops	
 	4057363449	Play_VO_GuidedVocalizationAdvanced			\VO\Play_VO_GuidedVocalizationAdvanced	
+	4212381101	StateChange_InteractiveMusicSystem_TONING_to_SILENT			\Default Work Unit\StateChange_InteractiveMusicSystem_TONING_to_SILENT	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
 	2195370387	InteractiveMusicSwitchGroup2_12Pitches_Linked5ths			\Interactive Music System\InteractiveMusicSwitchGroup2_12Pitches_Linked5ths	
@@ -87,9 +89,13 @@ Switch	ID	Name	Switch Group			Notes
 	3800083777	CsharpDflat	InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly			
 
 State Group	ID	Name			Wwise Object Path	Notes
+	361224273	InteractiveMusicMode			\Default Work Unit\InteractiveMusicMode	
 	3090474987	SoundWorldMode			\Default Work Unit\SoundWorldMode	
 
 State	ID	Name	State Group			Notes
+	748895195	None	InteractiveMusicMode			
+	1718895636	Toning	InteractiveMusicMode			
+	3160623154	Silent	InteractiveMusicMode			
 	748895195	None	SoundWorldMode			
 	1467691068	SonoFlore	SoundWorldMode			
 	2193720742	Gentle	SoundWorldMode			
@@ -300,6 +306,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	964479379	harmony_[D]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_gentle_E43BDEA4.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Gentle\harmony_[C]_toning_gentle\harmony_[D]_toning_gentle		5760096
 	972895772	harmony_[F#]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_toning_sono flore_730006A8.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_SonoFlore\harmony_[F#Gb]_toning_sono flore\harmony_[F#]_toning_sono flore		3655956
 	974874525	harmony_[F#]_silent_shruti_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_silent_shruti_loop_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v2_12_Linked\InteractiveMusic_SilentLoops_v2_12_Linked\harmony_[E]_silent_shruti\harmony_[F#]_silent_shruti_01		9792096
+	978918934	menu_ambient loop_extra_C Major	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\menu_ambient loop_extra_C Major_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST\menu_ambient loop_extra_C Major\menu_ambient loop_extra_C Major		43194068
 	1029485998	vo_test08tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test08tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test08tone		3409440
 	1031373284	fundamental_[C]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_sono flore_D8247245.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_SonoFlore\fundamental_[C]_toning_sono flore\fundamental_[C]_toning_sono flore		3308372
 	1046552367	SFX_Impact_Thud	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\PLX_ALFTT_impact_bull_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence\SFX_Impact_Thud		933120

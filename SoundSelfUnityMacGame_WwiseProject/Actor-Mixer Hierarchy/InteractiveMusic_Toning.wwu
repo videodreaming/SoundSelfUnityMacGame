@@ -33279,6 +33279,27 @@
 							</ObjectLists>
 						</BlendContainer>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Silent" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+								<CustomState Name="" ID="{2CE38792-C61A-477C-A6C4-A2CE626B01B5}" ShortID="488668226">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Toning" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+								<CustomState Name="" ID="{071E20DF-251A-4819-9356-EC6DA66E32B7}" ShortID="107289862"/>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 				</ActorMixer>
 				<ActorMixer Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{128C7A9D-1145-4CED-A8C2-2065EFDECDBF}" ShortID="16965110">
 					<ReferenceList>
@@ -40453,6 +40474,27 @@
 							</ObjectLists>
 						</BlendContainer>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Silent" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+								<CustomState Name="" ID="{719B814E-85E1-4318-BEEF-4B656D9E7ED5}" ShortID="288203216">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Toning" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+								<CustomState Name="" ID="{E7A9D0D1-C7A7-4C3F-93EE-C5E79E45C5EF}" ShortID="429569439"/>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>

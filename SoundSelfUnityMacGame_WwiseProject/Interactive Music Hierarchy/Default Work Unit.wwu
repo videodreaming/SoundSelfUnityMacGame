@@ -286,6 +286,16 @@
 						<MusicSegment Name="menu_ambient loop_extra_C Major" ID="{6456DA9D-A808-4A62-87CC-146A062C9F1D}" ShortID="578934315">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="224968.604166667"/>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>17</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -297,6 +307,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="menu_ambient loop_extra_C Major" ID="{0FAA0EAC-F601-4042-BAA4-03E9696C963F}" ShortID="924699273">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -337,6 +354,27 @@
 																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="menu_ambient loop_extra_C Major" ID="{60A8488B-96CB-418C-B667-1E070AB90881}"/>
+																			<PropertyCurveList>
+																				<PropertyCurve PropertyName="Volume">
+																					<Curve Name="" ID="{FD424EEE-7503-41E6-86E0-3E196ECCD707}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>224.968604166667</XPos>
+																								<YPos>-0.17216</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																			</PropertyCurveList>
 																		</MusicClip>
 																	</Local>
 																</Reference>
@@ -349,6 +387,27 @@
 									</ObjectLists>
 								</MusicTrack>
 							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="Silent" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+										<CustomState Name="" ID="{6EF4E3AD-C654-483D-BDE7-730D1488CDBF}" ShortID="49970451"/>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="Toning" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+										<CustomState Name="" ID="{3A8A0F45-C255-46D6-809C-40AE16F12210}" ShortID="454910830">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-108"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
 							<ObjectLists>
 								<ObjectList Name="Cues">
 									<Reference>
@@ -621,7 +680,7 @@
 																							</Point>
 																							<Point>
 																								<XPos>30.50484</XPos>
-																								<YPos>-0</YPos>
+																								<YPos>0</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -12882,7 +12941,7 @@
 																					</Point>
 																					<Point>
 																						<XPos>19.82588</XPos>
-																						<YPos>-0</YPos>
+																						<YPos>0</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>

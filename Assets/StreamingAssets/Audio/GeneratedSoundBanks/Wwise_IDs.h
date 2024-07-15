@@ -79,6 +79,8 @@ namespace AK
         static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
+        static const AkUniqueID STATECHANGE_INTERACTIVEMUSICSYSTEM_SILENT_TO_TONING = 3911137305U;
+        static const AkUniqueID STATECHANGE_INTERACTIVEMUSICSYSTEM_TONING_TO_SILENT = 4212381101U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_REFERENCE = 767717232U;
@@ -105,6 +107,18 @@ namespace AK
 
     namespace STATES
     {
+        namespace INTERACTIVEMUSICMODE
+        {
+            static const AkUniqueID GROUP = 361224273U;
+
+            namespace STATE
+            {
+                static const AkUniqueID NONE = 748895195U;
+                static const AkUniqueID SILENT = 3160623154U;
+                static const AkUniqueID TONING = 1718895636U;
+            } // namespace STATE
+        } // namespace INTERACTIVEMUSICMODE
+
         namespace SOUNDWORLDMODE
         {
             static const AkUniqueID GROUP = 3090474987U;

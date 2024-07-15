@@ -14,8 +14,6 @@
 				<Effect Name="AVS_Modulation_Wave1_01" ID="{84315F11-7E74-464A-8F39-9D060D047943}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
 						<Property Name="ModFrequency" Type="Real32" Value="40"/>
-						<Property Name="ModPWM" Type="Real32" Value="9"/>
-						<Property Name="ModSmoothing" Type="Real32" Value="50"/>
 						<Property Name="OutputGain" Type="Real32" Value="-6"/>
 						<Property Name="ProcessCenter" Type="bool" Value="False"/>
 						<Property Name="ProcessLFE" Type="bool" Value="False"/>
@@ -268,12 +266,12 @@
 														<PointList>
 															<Point>
 																<XPos>0</XPos>
-																<YPos>-100</YPos>
+																<YPos>-50</YPos>
 																<Flags>5</Flags>
 															</Point>
 															<Point>
 																<XPos>100</XPos>
-																<YPos>100</YPos>
+																<YPos>50</YPos>
 																<Flags>37</Flags>
 															</Point>
 														</PointList>
@@ -455,8 +453,6 @@
 				<Effect Name="AVS_Modulation_Wave1_02" ID="{62DFE6FC-7A93-459B-A5A5-5B4B8F431A41}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
 						<Property Name="ModFrequency" Type="Real32" Value="40"/>
-						<Property Name="ModPWM" Type="Real32" Value="9"/>
-						<Property Name="ModSmoothing" Type="Real32" Value="50"/>
 						<Property Name="OutputGain" Type="Real32" Value="-6"/>
 						<Property Name="ProcessCenter" Type="bool" Value="False"/>
 						<Property Name="ProcessLFE" Type="bool" Value="False"/>
@@ -709,12 +705,17 @@
 														<PointList>
 															<Point>
 																<XPos>0</XPos>
-																<YPos>-100</YPos>
+																<YPos>-50</YPos>
 																<Flags>5</Flags>
 															</Point>
 															<Point>
+																<XPos>50</XPos>
+																<YPos>-0</YPos>
+																<Flags>0</Flags>
+															</Point>
+															<Point>
 																<XPos>100</XPos>
-																<YPos>100</YPos>
+																<YPos>50</YPos>
 																<Flags>37</Flags>
 															</Point>
 														</PointList>
@@ -836,8 +837,6 @@
 				<Effect Name="AVS_Modulation_Wave2_01" ID="{D776C65A-337F-4BE5-BC84-E8D6E967D534}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
 						<Property Name="ModFrequency" Type="Real32" Value="40"/>
-						<Property Name="ModPWM" Type="Real32" Value="9"/>
-						<Property Name="ModSmoothing" Type="Real32" Value="50"/>
 						<Property Name="OutputGain" Type="Real32" Value="-6"/>
 						<Property Name="ProcessCenter" Type="bool" Value="False"/>
 						<Property Name="ProcessLFE" Type="bool" Value="False"/>
@@ -1090,12 +1089,12 @@
 														<PointList>
 															<Point>
 																<XPos>0</XPos>
-																<YPos>0</YPos>
+																<YPos>-50</YPos>
 																<Flags>5</Flags>
 															</Point>
 															<Point>
 																<XPos>100</XPos>
-																<YPos>100</YPos>
+																<YPos>50</YPos>
 																<Flags>37</Flags>
 															</Point>
 														</PointList>
@@ -1182,8 +1181,6 @@
 				<Effect Name="AVS_Modulation_Wave2_02" ID="{1A0230FD-E732-433C-B899-0EB49B29DCA1}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
 						<Property Name="ModFrequency" Type="Real32" Value="40"/>
-						<Property Name="ModPWM" Type="Real32" Value="9"/>
-						<Property Name="ModSmoothing" Type="Real32" Value="50"/>
 						<Property Name="OutputGain" Type="Real32" Value="-6"/>
 						<Property Name="ProcessCenter" Type="bool" Value="False"/>
 						<Property Name="ProcessLFE" Type="bool" Value="False"/>
@@ -1436,12 +1433,12 @@
 														<PointList>
 															<Point>
 																<XPos>0</XPos>
-																<YPos>0</YPos>
+																<YPos>-50</YPos>
 																<Flags>5</Flags>
 															</Point>
 															<Point>
 																<XPos>100</XPos>
-																<YPos>100</YPos>
+																<YPos>50</YPos>
 																<Flags>37</Flags>
 															</Point>
 														</PointList>
@@ -1563,8 +1560,6 @@
 				<Effect Name="AVS_Modulation_Wave3_01" ID="{BCDA1F72-52FD-40B2-A8BF-EDC995524B55}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
 						<Property Name="ModFrequency" Type="Real32" Value="40"/>
-						<Property Name="ModPWM" Type="Real32" Value="9"/>
-						<Property Name="ModSmoothing" Type="Real32" Value="50"/>
 						<Property Name="OutputGain" Type="Real32" Value="-6"/>
 						<Property Name="ProcessCenter" Type="bool" Value="False"/>
 						<Property Name="ProcessLFE" Type="bool" Value="False"/>
@@ -1887,12 +1882,12 @@
 														<PointList>
 															<Point>
 																<XPos>0</XPos>
-																<YPos>-100</YPos>
+																<YPos>-50</YPos>
 																<Flags>5</Flags>
 															</Point>
 															<Point>
 																<XPos>100</XPos>
-																<YPos>100</YPos>
+																<YPos>50</YPos>
 																<Flags>37</Flags>
 															</Point>
 														</PointList>
@@ -1909,8 +1904,6 @@
 				<Effect Name="AVS_Modulation_Wave3_02" ID="{26026754-9164-4FA9-A261-1FE076A49D48}" PluginName="Wwise Tremolo" CompanyID="0" PluginID="131" PluginType="3">
 					<PropertyList>
 						<Property Name="ModFrequency" Type="Real32" Value="40"/>
-						<Property Name="ModPWM" Type="Real32" Value="9"/>
-						<Property Name="ModSmoothing" Type="Real32" Value="50"/>
 						<Property Name="OutputGain" Type="Real32" Value="-6"/>
 						<Property Name="ProcessCenter" Type="bool" Value="False"/>
 						<Property Name="ProcessLFE" Type="bool" Value="False"/>
@@ -2233,12 +2226,12 @@
 														<PointList>
 															<Point>
 																<XPos>0</XPos>
-																<YPos>-100</YPos>
+																<YPos>-50</YPos>
 																<Flags>5</Flags>
 															</Point>
 															<Point>
 																<XPos>100</XPos>
-																<YPos>100</YPos>
+																<YPos>50</YPos>
 																<Flags>37</Flags>
 															</Point>
 														</PointList>

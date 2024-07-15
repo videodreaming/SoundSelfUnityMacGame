@@ -59,6 +59,14 @@ Switch	ID	Name	Switch Group			Notes
 	2965941853	Surrender	VO_ThematicSavasana			
 	3041563226	Silence	VO_ThematicSavasana			
 
+State Group	ID	Name			Wwise Object Path	Notes
+	361224273	InteractiveMusicMode			\Default Work Unit\InteractiveMusicMode	
+
+State	ID	Name	State Group			Notes
+	748895195	None	InteractiveMusicMode			
+	1718895636	Toning	InteractiveMusicMode			
+	3160623154	Silent	InteractiveMusicMode			
+
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	158808291	BreathCycle_PlaybackRate			\SFX\BreathCycle_PlaybackRate	
 	1662384195	BreatheCycle_Volume			\SFX\BreatheCycle_Volume	

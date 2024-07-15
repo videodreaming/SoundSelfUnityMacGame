@@ -1,7 +1,11 @@
 State Group	ID	Name			Wwise Object Path	Notes
+	361224273	InteractiveMusicMode			\Default Work Unit\InteractiveMusicMode	
 	3090474987	SoundWorldMode			\Default Work Unit\SoundWorldMode	
 
 State	ID	Name	State Group			Notes
+	748895195	None	InteractiveMusicMode			
+	1718895636	Toning	InteractiveMusicMode			
+	3160623154	Silent	InteractiveMusicMode			
 	748895195	None	SoundWorldMode			
 	1467691068	SonoFlore	SoundWorldMode			
 	2193720742	Gentle	SoundWorldMode			

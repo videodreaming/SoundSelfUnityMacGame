@@ -16,7 +16,7 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{8A44EB91-F2AF-2956-6590-80EB3E252291}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{5759EC16-6739-C877-DC29-376D68E7EBE0}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -120,6 +120,13 @@
 				<GameParameter Id="4221340219" Name="AVS_GREEN_Volume_Wave3"/>
 			</GameParameters>
 			<StateGroups>
+				<StateGroup Id="361224273" Name="InteractiveMusicMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1718895636" Name="Toning"/>
+						<State Id="3160623154" Name="Silent"/>
+					</States>
+				</StateGroup>
 				<StateGroup Id="3090474987" Name="SoundWorldMode">
 					<States>
 						<State Id="748895195" Name="None"/>
@@ -290,7 +297,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{43CFB049-B5D9-C426-FECE-F86B013BE1DD}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D97AE729-6B5F-BBE9-E6A8-22C4D522AC54}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -3180,7 +3187,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{A8D72FAE-44CE-1A39-B43E-91A42DD5FC90}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{5DDCDABA-9D64-9C84-7ADF-B11A97154868}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -3833,7 +3840,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{9EC2D426-11A9-0535-7102-E4097D82A597}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{05637CB2-2372-8240-5E0E-19EAEC46A096}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -4296,6 +4303,10 @@
 				<File Id="974874525" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_shruti_loop.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_shruti_loop_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="978918934" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>menu_ambient loop_extra_C Major.wav</ShortName>
+					<CachePath>SFX/menu_ambient loop_extra_C Major_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="1029485998" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test08tone.wav</ShortName>
@@ -7142,6 +7153,24 @@
 						<MediaRef Id="798919832"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="3911137305" Name="StateChange_InteractiveMusicSystem_SILENT_to_TONING" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="761343465" Name="Play_SilentLoops_v3_HarmonyOnly"/>
+						<ActionPostEventEntry Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP"/>
+						<ActionPostEventEntry Id="2185482934" Name="Play_SilentLoops_v3_FundamentalOnly"/>
+					</ActionPostEvent>
+				</Event>
+				<Event Id="4212381101" Name="StateChange_InteractiveMusicSystem_TONING_to_SILENT" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="883996255"/>
+						<MediaRef Id="978918934"/>
+					</MediaRefs>
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="670553737"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="767717232" Name="Stop_AVS_SineGenerators_REFERENCE" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -7261,5 +7290,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{F90C022A-AAAA-32E6-1EC9-A0F9B3DE8B81}</FileHash>
+	<FileHash>{8AD8D2B6-3138-20C1-D515-D00CEDA3B3C4}</FileHash>
 </SoundBanksInfo>
