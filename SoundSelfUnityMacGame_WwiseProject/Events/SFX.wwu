@@ -40,8 +40,12 @@
 					<ChildrenList>
 						<Action Name="" ID="{653D3851-E418-452A-9E2F-741DB896EE87}" ShortID="873658869">
 							<PropertyList>
+<<<<<<< Updated upstream
 								<Property Name="FadeInCurve" Type="int16" Value="1"/>
 								<Property Name="FadeTime" Type="Real64" Value="6"/>
+=======
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
+>>>>>>> Stashed changes
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -51,8 +55,12 @@
 						</Action>
 						<Action Name="" ID="{E9D45B82-09A2-4209-9EFC-EC06B9301AEA}" ShortID="1013802003">
 							<PropertyList>
+<<<<<<< Updated upstream
 								<Property Name="FadeInCurve" Type="int16" Value="1"/>
 								<Property Name="FadeTime" Type="Real64" Value="8"/>
+=======
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+>>>>>>> Stashed changes
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">

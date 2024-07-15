@@ -14,6 +14,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+<<<<<<< Updated upstream
 				<Event Name="Play_music_meditationSilent_E_Major_LOOP" ID="{CE09BEF8-2A60-4152-BE19-73FF50191240}">
 					<ChildrenList>
 						<Action Name="" ID="{23A4DEDC-BD0D-4B39-B138-7ADDFA249C8F}" ShortID="504608479">
@@ -45,6 +46,29 @@
 						<Action Name="" ID="{DE3625EF-3482-42FD-B027-621B4701CA55}" ShortID="699348260">
 							<PropertyList>
 								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+=======
+				<Event Name="Play_MusicMeditation_EMajor_Loop" ID="{EC32D6BC-1BE5-4687-B134-2D8EC3F3F0B0}">
+					<ChildrenList>
+						<Action Name="" ID="{94C3832E-C8E5-4AEC-921A-5C758EAE6C11}" ShortID="414115186">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_MusicMeditation_EMajor_Loop" ID="{5564D63D-64C6-46AC-BA73-3EC00DC2893C}">
+					<ChildrenList>
+						<Action Name="" ID="{CB046C6E-56C3-4BFF-8E5E-28A919D5D190}" ShortID="480889141">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+>>>>>>> Stashed changes
 								<Property Name="FadeTime" Type="Real64" Value="6"/>
 							</PropertyList>
 							<ReferenceList>

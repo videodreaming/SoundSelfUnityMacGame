@@ -543,6 +543,187 @@
 						</SwitchContainer>
 					</ChildrenList>
 				</ActorMixer>
+				<ActorMixer Name="CLOSING SEQENCE_MUSIC" ID="{9A80373E-99A9-4463-B251-C1DAE3675C6A}" ShortID="932093508">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<SwitchContainer Name="CLOSING SEQUENCE_MUSIC" ID="{5C7C4D51-8597-4C2D-8986-DDBEBC7370FB}" ShortID="587721334">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="music_duet_D Major" ID="{33CBD891-04E6-4ECA-8A3B-9EC80992927E}" ShortID="757646463">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="music_duet_D Major" ID="{C2BB17CE-C4C5-4147-B12B-7A12010B4640}">
+											<Language>SFX</Language>
+											<AudioFile>music_duet_D Major.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="325820389"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="music_duet_D Major" ID="{C2BB17CE-C4C5-4147-B12B-7A12010B4640}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="music_meditationSilent_E Major_loop" ID="{5AE93AF3-4456-4C7C-AA50-E54798FC9F79}" ShortID="906822109">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="music_meditationSilent_E Major" ID="{5E3C30A0-0B79-409F-87F6-6498D94248C8}">
+											<Language>SFX</Language>
+											<AudioFile>music_meditationSilent_E Major.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1050281884"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="music_meditationSilent_E Major" ID="{5E3C30A0-0B79-409F-87F6-6498D94248C8}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="MusicArrangement_Radiance_9_6_23" ID="{1EA622EE-EBA6-4BD9-B03B-5DE22A487B97}" ShortID="68628874">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MusicArrangement_Radiance_9_6_23" ID="{B2E97EEF-43C9-42BD-B81C-698E66508FF1}">
+											<Language>SFX</Language>
+											<AudioFile>MusicArrangement_Radiance_9.6.23.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="570507642"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MusicArrangement_Radiance_9_6_23" ID="{B2E97EEF-43C9-42BD-B81C-698E66508FF1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Opening_Bowls, Nature, BinauralBeats_4_24_24" ID="{BC3A731E-3FD2-4722-87D6-2F868C1EC532}" ShortID="428409973">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Opening_Bowls, Nature, BinauralBeats_4_24_24" ID="{24DA32C5-035D-4078-A7C8-CC5896178EA0}">
+											<Language>SFX</Language>
+											<AudioFile>Opening_Bowls, Nature, BinauralBeats_4.24.24.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="111987504"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Opening_Bowls, Nature, BinauralBeats_4_24_24" ID="{24DA32C5-035D-4078-A7C8-CC5896178EA0}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="ThematicSavasana_Metta_MusicDemo_5_2_24" ID="{9CF663CE-2DEA-45C6-80B9-903310B7F9AE}" ShortID="795086110">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ThematicSavasana_Metta_MusicDemo_5_2_24" ID="{791023BF-9A60-4AA8-B854-FD950DCCD644}">
+											<Language>SFX</Language>
+											<AudioFile>ThematicSavasana_Metta_MusicDemo_5.2.24.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="634664090"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="ThematicSavasana_Metta_MusicDemo_5_2_24" ID="{791023BF-9A60-4AA8-B854-FD950DCCD644}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24" ID="{7B283857-8EA7-4034-943A-1A6A981B2494}" ShortID="54205978">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24" ID="{85493EE0-44A8-4055-95E8-F2D48DF86F61}">
+											<Language>SFX</Language>
+											<AudioFile>ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="69631285"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24" ID="{85493EE0-44A8-4055-95E8-F2D48DF86F61}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="Opening_Bowls, Nature, BinauralBeats_4_24_24" ID="{BC3A731E-3FD2-4722-87D6-2F868C1EC532}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24" ID="{7B283857-8EA7-4034-943A-1A6A981B2494}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="music_duet_D Major" ID="{33CBD891-04E6-4ECA-8A3B-9EC80992927E}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="ThematicSavasana_Metta_MusicDemo_5_2_24" ID="{9CF663CE-2DEA-45C6-80B9-903310B7F9AE}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="MusicArrangement_Radiance_9_6_23" ID="{1EA622EE-EBA6-4BD9-B03B-5DE22A487B97}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="music_meditationSilent_E Major_loop" ID="{5AE93AF3-4456-4C7C-AA50-E54798FC9F79}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+							</GroupingInfo>
+						</SwitchContainer>
+					</ChildrenList>
+				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

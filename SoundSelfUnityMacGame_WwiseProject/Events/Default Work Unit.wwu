@@ -286,17 +286,27 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+<<<<<<< Updated upstream
 				<Event Name="Play_THEMATIC_SAVASANA_SEQUENCE" ID="{8187A024-A1D1-4DC7-9027-969C6840ADE5}">
 					<ChildrenList>
 						<Action Name="" ID="{10B38F1D-77CD-4EF4-9637-DBB780779B71}" ShortID="88338812">
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="THEMATIC SAVASANA" ID="{4F892BE2-11F6-4BE3-9124-6DFE970D4D32}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+=======
+				<Event Name="Play_SIGH_QUERY_SEQUENCE_2" ID="{6AA381BE-7448-4A57-BB80-8CFF5AD4CF70}">
+					<ChildrenList>
+						<Action Name="" ID="{8868ABA7-4F32-4FA6-8000-966FE84E9544}" ShortID="8267477">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VOICE ELICITATION 2" ID="{9120750E-FE18-4C7D-88E2-34DC9B82AB53}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+>>>>>>> Stashed changes
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
+<<<<<<< Updated upstream
 				<Event Name="Stop_THEMATIC_SAVASANA_SEQUENCE" ID="{44AA32BB-F188-42B8-BB5E-BF7E9FAC8450}">
 					<ChildrenList>
 						<Action Name="" ID="{33A3913C-0744-44D3-946C-FCED7E2DD41A}" ShortID="314276233">
@@ -318,11 +328,23 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+=======
+				<Event Name="Stop_SIGH_QUERY_SEQUENCE_2" ID="{B566625B-F77D-49E4-980B-49764FB5B3FB}">
+					<ChildrenList>
+						<Action Name="" ID="{01B55229-C576-4E51-8AD6-7C71E3C7776F}" ShortID="45533750">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VOICE ELICITATION 2" ID="{9120750E-FE18-4C7D-88E2-34DC9B82AB53}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+>>>>>>> Stashed changes
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
+<<<<<<< Updated upstream
 				<Event Name="Play_EXIT_MUSIC_PLAYLIST" ID="{493910F3-5E57-4570-B6D2-1ABEA929D925}">
 					<ChildrenList>
 						<Action Name="" ID="{AFA7307C-943E-40F2-8BB1-3F3BC7CF184B}" ShortID="693300437">
@@ -343,11 +365,20 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+=======
+				<Event Name="Play_THEMATIC_SAVASANA_SEQUENCE" ID="{7AD086AD-02AC-433C-9180-CA143EAE3E67}">
+					<ChildrenList>
+						<Action Name="" ID="{618A1CF0-E446-40E0-9A7C-57ED3884EC9B}" ShortID="778777337">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="THEMATIC SAVASANA_SWITCH" ID="{C91AF48A-1616-4DB2-A272-50BE6190E8D1}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+>>>>>>> Stashed changes
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
+<<<<<<< Updated upstream
 				<Event Name="Play_SIGH_QUERY_SEQUENCE_2" ID="{200A1DEF-E711-4697-A515-2AF0F737BF26}">
 					<ChildrenList>
 						<Action Name="" ID="{5559DFCE-1093-41EC-BACD-00411DD2EDF4}" ShortID="516039745">
@@ -518,10 +549,19 @@
 						<Action Name="" ID="{AA62EE28-0040-4766-93EB-BDC949032633}" ShortID="465134092">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+=======
+				<Event Name="Stop_VO_CLOSING_THEMATIC_SWITCH" ID="{D703D448-8EE9-4891-BB59-058EB5914E0F}">
+					<ChildrenList>
+						<Action Name="" ID="{1AFDF671-95CC-49E8-B2DC-00085F260C29}" ShortID="954885941">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+>>>>>>> Stashed changes
 								<Property Name="FadeTime" Type="Real64" Value="6"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
+<<<<<<< Updated upstream
 									<ObjectRef Name="menu_ambient loop_extra_C Major" ID="{6456DA9D-A808-4A62-87CC-146A062C9F1D}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
 								</Reference>
 							</ReferenceList>
@@ -535,6 +575,9 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="TONING_Volume" ID="{9C381C54-7CB7-4027-ADB1-2E43F1FCF463}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+=======
+									<ObjectRef Name="THEMATIC SAVASANA_SWITCH" ID="{C91AF48A-1616-4DB2-A272-50BE6190E8D1}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+>>>>>>> Stashed changes
 								</Reference>
 							</ReferenceList>
 						</Action>
