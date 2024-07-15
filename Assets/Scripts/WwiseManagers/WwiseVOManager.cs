@@ -175,7 +175,6 @@ public class WwiseVOManager : MonoBehaviour
             {
                 AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
                 AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
-                Debug.Log("PlayingToning");
             } else if (!currentToneActiveConfident && previousToneActiveConfident)
             {
                 AkSoundEngine.PostEvent("Stop_Toning",gameObject);
