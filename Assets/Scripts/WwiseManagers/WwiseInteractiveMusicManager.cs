@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using AK.Wwise;
 
 public class WwiseInteractiveMusicManager : MonoBehaviour
 {
@@ -15,43 +16,23 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public uint playingId;
     private bool toneActiveTriggered = false; // Flag to control the event triggering
+    public bool interactive = false;
+    
+    private bool silentPlaying = false;
+    private bool previousToneActiveConfident = false;
+
+    public float fadeDuration = 54.0f;
+    public float targetValue = 80.0f;
+    public RTPC silentrtpcvolume;
+    public RTPC toningrtpcvolume;
+    public RTPC silentFundamentalrtpcvolume;
+    public RTPC toningFundamentalrtpcvolume;
+    public RTPC silentHarmonyrtpcvolume;
+    public RTPC toningHarmonyrtpcvolume;
 
     // Start is called before the first frame update
     void Start()
     {
-        /*// We first enumerate all Devices from the System shareset to have all available devices on Windows.
-        uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
-        uint deviceCount = 0;
-        // Change the name for the name of the Device as written in the Authoring Audio Preference list.
-        uint deviceId = AkSoundEngine.GetDeviceIDFromName("VS24A (NVIDIA High Definition Audio)");
-
-        // We create the Second Audio Device Listener GameObject and find the System_01 ShareSetID.
-        AkSoundEngine.RegisterGameObj(gameObject, "System2Listener");
-        uint sharesetIdSystem2 = AkSoundEngine.GetIDFromString("System_01");
-        // Creation of the Output Settings for the second Audio Device. Which will be another device on the machine different from the main Default Device (e.g a Focusrite).
-        AkOutputSettings outputSettings2 = new AkOutputSettings();
-        outputSettings2.audioDeviceShareset = sharesetIdSystem2;
-        // In my case, on my machine, I output to my monitor speaker in HDMI which is different from the default audio device (Realtek audio).
-        if (devices.Count() == 0)
-        {
-            print("No Devices found");
-            return;
-        }
-        outputSettings2.idDevice = deviceId;
-        // We call the AddOutput with the newly created OutputSetting2 for the System_01 and for the system2Listener.
-        ulong outDeviceId = 0;
-        ulong[] ListenerIds = { AkSoundEngine.GetAkGameObjectID(gameObject) };
-        AkSoundEngine.AddOutput(outputSettings2, out outDeviceId, ListenerIds, 1);
-        // We Set the listener of Game_Object_System2 to be listened by system2Listener. Set will clear all Emitter-Listener already there, 
-        // so the default listener will not be associated anymore.
-        AkSoundEngine.RegisterGameObj(gameObject, "System2Go");
-        AkSoundEngine.SetListeners(AkSoundEngine.GetAkGameObjectID(gameObject), ListenerIds, 1);
-
-        AkSoundEngine.PostEvent("Play_Sound2", gameObject);*/
-    
-
-
-        musicSystem1.fundamentalNote = 9;
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "E", gameObject);
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", "A", gameObject);
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
@@ -82,22 +63,70 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         AkSoundEngine.SetBusDevice(eventID, busID);
     }
 
-    public void userToningToChangeFundamental()
+    public void userToningToChangeFundamental(string FundamentalnoteReceived)
     {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(musicSystem1.fundamentalNote),gameObject);
-        //AkSoundEngine.PostEvent("Play_Toning3_Fundamentalonly", gameObject);
-        Debug.Log("Fundamental Note: " + ConvertIntToNote(musicSystem1.fundamentalNote));
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", FundamentalnoteReceived, gameObject);
     }
-    public void changeHarmony()
+    public void changeHarmony(string HarmonynoteRecieved)
     {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(musicSystem1.harmonyNote), gameObject);
-        //AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
-        Debug.Log("Harmony Note: " + ConvertIntToNote(musicSystem1.harmonyNote));
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", HarmonynoteRecieved, gameObject);
     }
 
     // Update is called once per frame
+
+        public IEnumerator InteractiveMusicSystemFade()
+    {
+        float initialValue = 0.0f;
+        float startTime = Time.time;
+
+        while(Time.time - startTime <fadeDuration)
+        {
+            float elapsed = (Time.time - startTime)/fadeDuration;
+            float currentValue = Mathf.Lerp(initialValue, targetValue, elapsed);
+            silentrtpcvolume.SetGlobalValue(currentValue);
+            toningrtpcvolume.SetGlobalValue(currentValue);
+            yield return null;
+        }
+        silentrtpcvolume.SetGlobalValue(targetValue);
+        toningrtpcvolume.SetGlobalValue(targetValue);
+        yield break;
+    }
+    
+    private float GetRTPCValue(RTPC rtpc)
+    {
+        uint rtpcID = AkSoundEngine.GetIDFromString(rtpc.Name);
+        int valueType = 1; // AkRTPCValue_type type, 0 for game object, 1 for global RTPC
+        float value;
+        AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out value, ref valueType);
+        return value;
+    }
     void Update()
     {
+         if(interactive)
+        {
+            if(silentPlaying == false)
+            {
+                silentrtpcvolume.SetGlobalValue(targetValue);
+                toningrtpcvolume.SetGlobalValue(targetValue);
+                //StartCoroutine (InteractiveMusicSystemFade());
+                AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+                AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+                silentPlaying = true;
+            }
+            
+            bool currentToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
+            if(currentToneActiveConfident && !previousToneActiveConfident)
+            {
+                AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
+                AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
+            } else if (!currentToneActiveConfident && previousToneActiveConfident)
+            {
+                AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+            }
+            previousToneActiveConfident = currentToneActiveConfident;
+        }
+
+
         if(Input.GetKeyDown(KeyCode.F))
         {
             musicSystem1.fundamentalNote = 6;

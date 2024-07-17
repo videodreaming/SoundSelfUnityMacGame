@@ -4,14 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-//REEF TO-DO
-// the Audio Manager should set enableMusicSystem to false at first, and then true as soon as we switch to the first "test" of the player's voice, which I believe is a hum. This should co-incide with the non-interactive music fading out. At the same time, the Audio Manager should set the fundamentalNote to 9 (A).
-// change "allowFundamentalChange" to false during the part of the training period where Jaya is toning, and then back to true afterwards. I think this is vo_test14tone, I think, but please verify first.
-// FIX: "InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly" is producing an error: "Invalid State Group ID". As a result (I believe), harmonies are not playing.
-// FIX: Make sure the WWise commands are actually working correctly per changing the notes. I'm not hearing the fundamental change when the command goes out. You can temporarily reduce the value of _changeFundamentalThreshold to test this.
-//UI: Make the piano button turn green (or really just do anything) for the note matching musicNoteActivated.
-//UI: Make the piano button indicate the fundamental note with fundamentalNote.
-//UI: Make the piano button indicate the harmony note with harmonyNote.
 
 public class MusicSystem1 : MonoBehaviour
 {
@@ -93,6 +85,7 @@ public class MusicSystem1 : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(ConvertIntToNote(fundamentalNote));
         if(enableMusicSystem)
         {
             InterpretImitone();
@@ -119,15 +112,13 @@ public class MusicSystem1 : MonoBehaviour
             //Send commands to WWise to play the fundamental, either on new tone, or on fundamental change
             fundamentalTimeSinceLastTrigger += Time.deltaTime;
             harmonyTimeSinceLastTrigger += Time.deltaTime;
-
             bool fundamentalTimeTest    = fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold;
             bool fundamentalRetriggerTest = (musicToneActiveFrame && fundamentalTimeTest);
             bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
             if (fundamentalRetriggerTest || fundamentalChangeTest)
             {
-                wwiseInteractiveMusicManager.userToningToChangeFundamental();
-                //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote),gameObject);
-                //AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
+                string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);
+                wwiseInteractiveMusicManager.userToningToChangeFundamental(fundamentalInttoNote);                                           
                 fundamentalNoteCompare = fundamentalNote;
                 if (debugAllowLogs)
                 {
@@ -154,8 +145,10 @@ public class MusicSystem1 : MonoBehaviour
                 }
 
                 //Now play the tone
+                               
                 harmonyNote = ((fundamentalNote + harmonization) % 12);
-                wwiseInteractiveMusicManager.changeHarmony();
+                string harmonyInttoNote = ConvertIntToNote(harmonyNote);
+                wwiseInteractiveMusicManager.changeHarmony(harmonyInttoNote);
                 if (debugAllowLogs)
                 {
                     //Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
@@ -274,14 +267,11 @@ public class MusicSystem1 : MonoBehaviour
                                         if (firstFrameActive)
                                         {
                                             fundamentalNote = note.Key;
-                                            string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);
-                                            string harmonyInttoNote = ConvertIntToNote(fundamentalNote +7);
-                                            wwiseVOManager.fundamentalChanged(fundamentalInttoNote, harmonyInttoNote);
                                             fundamentalChanges[note.Key] = true;
-                                            if(debugAllowLogs)
-                                            {
+                                            //if(debugAllowLogs)
+                                            //{
                                                 Debug.Log("MUSIC 2: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
-                                            }
+                                            //}
                                         }
                                     }
                                 }
@@ -367,7 +357,9 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
+            Debug.Log(noteNumber);
             throw new ArgumentException("Invalid noteNumber value");
+            
         }
     }
 

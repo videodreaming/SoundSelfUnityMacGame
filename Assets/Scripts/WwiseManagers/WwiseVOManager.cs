@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 public class WwiseVOManager : MonoBehaviour
 {
     public AudioManager audioManager;
-
+    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
     private bool pause = true;
     public CSVWriter CSVWriter;
 
@@ -19,8 +19,7 @@ public class WwiseVOManager : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public MusicSystem1 musicSystem1;
     
-    public float fadeDuration = 54.0f;
-    public float targetValue = 80.0f;
+
     public RTPC silentrtpcvolume;
     public RTPC toningrtpcvolume;
     public RTPC silentFundamentalrtpcvolume;
@@ -29,12 +28,10 @@ public class WwiseVOManager : MonoBehaviour
     public RTPC toningHarmonyrtpcvolume;
     public bool firstTimeUser = true;
     public bool layingDown = true;
-    public bool interactive = true;
+
 
     public CSVWriter csvWriter;
 
-    private bool silentPlaying = false;
-    private bool previousToneActiveConfident = false;
     void Awake()
     {
 
@@ -113,7 +110,7 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
-                    //StartCoroutine (InteractiveMusicSystemFade());
+                    StartCoroutine (wwiseInteractiveMusicManager.InteractiveMusicSystemFade());
                     //interactive = true;
                     AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
                     AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
@@ -122,66 +119,7 @@ public class WwiseVOManager : MonoBehaviour
             }   
     }
     
-    private IEnumerator InteractiveMusicSystemFade()
-    {
-        float initialValue = 0.0f;
-        float startTime = Time.time;
 
-        while(Time.time - startTime <fadeDuration)
-        {
-            float elapsed = (Time.time - startTime)/fadeDuration;
-            float currentValue = Mathf.Lerp(initialValue, targetValue, elapsed);
-            silentrtpcvolume.SetGlobalValue(currentValue);
-            toningrtpcvolume.SetGlobalValue(currentValue);
-            yield return null;
-        }
-        silentrtpcvolume.SetGlobalValue(targetValue);
-        toningrtpcvolume.SetGlobalValue(targetValue);
-        yield break;
-    }
-    
-    private float GetRTPCValue(RTPC rtpc)
-    {
-        uint rtpcID = AkSoundEngine.GetIDFromString(rtpc.Name);
-        int valueType = 1; // AkRTPCValue_type type, 0 for game object, 1 for global RTPC
-        float value;
-        AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out value, ref valueType);
-        return value;
-    }
-    
-    public void fundamentalChanged(string FundamentalnoteReceived, string HarmonynoteRecieved)
-    {
-        Debug.Log("Fundamental Note = " + FundamentalnoteReceived);
-        Debug.Log("Harmony Note = " + HarmonynoteRecieved);
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", FundamentalnoteReceived, gameObject);
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", HarmonynoteRecieved, gameObject);
-    }
-    void Update()
-    {
-        if(interactive)
-        {
-            if(silentPlaying == false)
-            {
-                silentrtpcvolume.SetGlobalValue(targetValue);
-                toningrtpcvolume.SetGlobalValue(targetValue);
-                //StartCoroutine (InteractiveMusicSystemFade());
-                AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-                AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-                silentPlaying = true;
-            }
-            
-            bool currentToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
-            if(currentToneActiveConfident && !previousToneActiveConfident)
-            {
-                AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
-                AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
-            } else if (!currentToneActiveConfident && previousToneActiveConfident)
-            {
-                AkSoundEngine.PostEvent("Stop_Toning",gameObject);
-            }
-            previousToneActiveConfident = currentToneActiveConfident;
-        }
-    }
 
     
     void assignVOs()
