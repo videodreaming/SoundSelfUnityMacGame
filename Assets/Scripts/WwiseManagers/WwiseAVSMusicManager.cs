@@ -96,6 +96,6 @@ public class WwiseAVSMusicManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             printDevicesList();
-        }*/
+        }
     }
 }
