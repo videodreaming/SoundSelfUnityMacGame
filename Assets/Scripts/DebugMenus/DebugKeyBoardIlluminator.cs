@@ -46,14 +46,18 @@ public class DebugKeyBoardIlluminator : MonoBehaviour
                                 (musicSystem1.musicNoteActivated == 10 && key.name == "A#") ||
                                 (musicSystem1.musicNoteActivated == 11 && key.name == "B");
 
-                if (isBlue) // If isBlue is true, set the color to blue
-                {
-                    keyImage.color = Color.blue;
-                }
-                else if (isYellow) // If isYellow is true, set the color to yellow
+                if (isYellow) // If isYellow is true, set the color to yellow
                 {
                     keyImage.color = Color.yellow;
                 }
+                else if (isBlue) // If isBlue is true, set the color to blue
+                {
+                    keyImage.color = Color.blue;
+                }
+                //else if (isBlue && isYellow)
+                //{
+                //    keyImage.color = Color.green;
+                //}
                 else // Otherwise, set the key to white
                 {
                     keyImage.color = Color.white;

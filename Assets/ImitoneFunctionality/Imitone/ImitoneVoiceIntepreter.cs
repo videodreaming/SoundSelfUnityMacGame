@@ -36,6 +36,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [Tooltip("Confident Toning, used for... nothing yet")]
     public bool toneActiveConfident { get; private set; } = false;
     public bool toneActiveBiasTrue { get; private set; } = false;   //combines toneActive & toneActiveConfident
+    public float toneActiveBiasTrueTimer { get; private set; } = 0f;
     public bool toneActiveBiasFalse { get; private set; } = false;  //combines toneActive & toneActiveVeryConfident
     [Tooltip("Very Confident Toning, used for respiration")]
     public bool toneActiveVeryConfident { get; private set; } = false;
@@ -470,6 +471,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             {
                 toneActive = true;
                 toneActiveBiasTrue = true;
+                toneActiveBiasTrueTimer += Time.deltaTime;
             }
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
@@ -494,6 +496,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 {
                     toneActiveConfident = false;
                     toneActiveBiasTrue = false;
+                    toneActiveBiasTrueTimer = 0f;
                 }
             }
         }

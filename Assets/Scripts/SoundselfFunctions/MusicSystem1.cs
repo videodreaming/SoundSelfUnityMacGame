@@ -4,20 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-//REEF TO-DO
-// the Audio Manager should set enableMusicSystem to false at first, and then true as soon as we switch to the first "test" of the player's voice, which I believe is a hum. This should co-incide with the non-interactive music fading out. At the same time, the Audio Manager should set the fundamentalNote to 9 (A).
-// change "allowFundamentalChange" to false during the part of the training period where Jaya is toning, and then back to true afterwards. I think this is vo_test14tone, I think, but please verify first.
-// FIX: "InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly" is producing an error: "Invalid State Group ID". As a result (I believe), harmonies are not playing.
-// FIX: Make sure the WWise commands are actually working correctly per changing the notes. I'm not hearing the fundamental change when the command goes out. You can temporarily reduce the value of _changeFundamentalThreshold to test this.
-//UI: Make the piano button turn green (or really just do anything) for the note matching musicNoteActivated.
-//UI: Make the piano button indicate the fundamental note with fundamentalNote.
-//UI: Make the piano button indicate the harmony note with harmonyNote.
 
 public class MusicSystem1 : MonoBehaviour
 {
     public WwiseVOManager wwiseVOManager;
     public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
-    private bool debugAllowLogs = false;
+    private bool debugAllowLogs = true;
     // Variables
     public bool allowFundamentalChange = true;
     public bool enableMusicSystem = true;
@@ -35,11 +27,10 @@ public class MusicSystem1 : MonoBehaviour
     // IMITONE INTERPRETATION
     private float musicNoteInputRaw; // The raw note input from voice interpretation
     private float musicNoteInput; // Adjusted musical note input after processing
-    public int musicNoteActivated; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated
-    
+    public int musicNoteActivated = -1; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated    
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
-    [SerializeField] private float _changeFundamentalThreshold = 4f;
+    private float _changeFundamentalThreshold = 35f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
 
@@ -48,7 +39,7 @@ public class MusicSystem1 : MonoBehaviour
     private bool musicToneActiveFrameGuard  = false; 
     private int musicToneActivationCount = 0; // Number of times we have tracked a vocalization
     public int fundamentalNote; // Base note around which other notes are calculated
-    private int fundamentalNoteCompare = -1; //this is used to catch changes that are not triggered in this script.
+    private int fundamentalNoteCompare = -1; //this is used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNote for the purpose of changing the fundamental
     public int harmonyNote; // Note that plays in harmony with the fundamental note
     private float fundamentalTimeSinceLastTrigger   = 0f;
     private float harmonyTimeSinceLastTrigger = 0f;
@@ -119,19 +110,17 @@ public class MusicSystem1 : MonoBehaviour
             //Send commands to WWise to play the fundamental, either on new tone, or on fundamental change
             fundamentalTimeSinceLastTrigger += Time.deltaTime;
             harmonyTimeSinceLastTrigger += Time.deltaTime;
-
             bool fundamentalTimeTest    = fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold;
             bool fundamentalRetriggerTest = (musicToneActiveFrame && fundamentalTimeTest);
             bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
             if (fundamentalRetriggerTest || fundamentalChangeTest)
             {
-                wwiseInteractiveMusicManager.userToningToChangeFundamental();
-                //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote),gameObject);
-                //AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
+                string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);
+                //wwiseInteractiveMusicManager.userToningToChangeFundamental(fundamentalInttoNote); //UNCOMMENT THIS TO CONTROL WWISE                                          
                 fundamentalNoteCompare = fundamentalNote;
                 if (debugAllowLogs)
                 {
-                    //Debug.Log("MUSIC: Fundamental Played: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
+                    Debug.Log("MUSIC: Fundamental Played: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
                 }
                 fundamentalTimeSinceLastTrigger = 0f;
             }
@@ -154,11 +143,13 @@ public class MusicSystem1 : MonoBehaviour
                 }
 
                 //Now play the tone
+                               
                 harmonyNote = ((fundamentalNote + harmonization) % 12);
-                wwiseInteractiveMusicManager.changeHarmony();
+                string harmonyInttoNote = ConvertIntToNote(harmonyNote);
+                //wwiseInteractiveMusicManager.changeHarmony(harmonyInttoNote); //UNCOMMENT THIS TO CONTROL WWISE
                 if (debugAllowLogs)
                 {
-                    //Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
+                    Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
                 }
             }
         }
@@ -218,81 +209,81 @@ public class MusicSystem1 : MonoBehaviour
         // Process each note only if the imitone system is active
         if (imitoneVoiceInterpreter.imitoneActive)
         {
-            foreach (var note in NoteTracker)
+            foreach (var scaleNote in NoteTracker)
             {
-                float newActivationTimer = note.Value.ActivationTimer;
-                float newChangeFundamentalTimer = note.Value.ChangeFundamentalTimer;
-                bool isActive = note.Value.Active;
+                float newActivationTimer = scaleNote.Value.ActivationTimer;
+                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
+                bool isActive = scaleNote.Value.Active;
                 bool isHighestActivationTimer = false;
                 // Increment active timer if current note input matches the tracker note
-                if (Mathf.Round(musicNoteInput) == note.Key)
+                if (Mathf.Round(musicNoteInput) == scaleNote.Key)
                 {
-                    //if(debugAllowLogs && (newActivationTimer == 0 || (Time.frameCount % 30 == 0)))
-                    //{
-                    //    Debug.Log("MUSIC LOG 1: [COMPARE TONES] Key(" + note.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + newActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
-                    //}
+                    if(debugAllowLogs && (newActivationTimer == 0 || (Time.frameCount % 30 == 0)))
+                    {
+                        //Debug.Log("MUSIC 1: [COMPARE TONES] Key(" + scaleNote.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + newActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
+                    }
                     newActivationTimer += Time.deltaTime;
                         
                     if (newActivationTimer >= highestActivationTimer && newActivationTimer != 0.0f)
                     {
-                        //Debug.Log(newActivationTimer + " >= " + highestActivationTimer + " && " + newActivationTimer + " != 0.0f");
+                        if(debugAllowLogs)
+                        {
+                            //Debug.Log("MUSIC 2: [ACTIVATION TIMER FOR " + ConvertIntToNote(note.Key) + "] " + newActivationTimer + " >= " + highestActivationTimer + " && " + newActivationTimer + " != 0.0f");
+                        }
                         highestActivationTimer = newActivationTimer;
                         isHighestActivationTimer = true;
                     }
                     
                     if (newActivationTimer >= noteTrackerThreshold && isHighestActivationTimer)
                     {
-                        //if (debugAllowLogs && nextNote != note.Key)
-                        //{
-                        //    Debug.Log("MUSIC LOG 2: nextNote changed to (" + note.Key + ") Activation Timer(" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
-                        //}
-                        nextNote = note.Key;
+                        if (debugAllowLogs && nextNote != scaleNote.Key)
+                        {
+                            Debug.Log("MUSIC 3: nextNote changed to (" + scaleNote.Key + ") Activation Timer(" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
+                        }
+                        nextNote = scaleNote.Key;
                         if (imitoneVoiceInterpreter.toneActiveBiasTrue) //now we change the actual tone!
                         {
-                            //if(debugAllowLogs && !isActive)
-                            //{
-                            //    Debug.Log("MUSIC: Voice Input Key (" + note.Key + ")!");
-                            //}
+                            if(debugAllowLogs && !isActive)
+                            {
+                                Debug.Log("MUSIC 4: Voice Input Key (" + scaleNote.Key + ")!");
+                            }
                             bool firstFrameActive = !isActive; //this will only be true on the first frame that the note is activated
                             isActive = true;
-                            musicNoteActivated = note.Key;
-                            activations[note.Key] = isActive;
+                            musicNoteActivated = scaleNote.Key;
+                            activations[scaleNote.Key] = isActive;
                 
                             // ===== FUNDAMENTAL CHANGING LOGIC =====
-                            if (note.Key != fundamentalNote)
+                            if (scaleNote.Key != fundamentalNote)
                             {
                                 newChangeFundamentalTimer += Time.deltaTime;
-                                if(debugAllowLogs && firstFrameActive)
-                                {
-                                    //Debug.Log("MUSIC 1: Change Fundamental Timer for " + ConvertIntToNote(note.Key) + ": " + newChangeFundamentalTimer);
-                                }
 
-                                if(allowFundamentalChange)
+                                if (firstFrameActive)
                                 {
-                                    if (newChangeFundamentalTimer >= _changeFundamentalThreshold)
+                                    if(debugAllowLogs)
                                     {
-                                        if (firstFrameActive)
+                                        Debug.Log("MUSIC 5: Change Fundamental Timer for " + ConvertIntToNote(scaleNote.Key) + ": " + newChangeFundamentalTimer);
+                                    }
+                                    bool checkForNewTone = imitoneVoiceInterpreter._tThisToneBiasTrue < 2.0f;
+                                    bool checkForThreshold = newChangeFundamentalTimer >= _changeFundamentalThreshold;
+                                    if (checkForThreshold && checkForNewTone && allowFundamentalChange)
+                                    {
+                                        fundamentalNote = scaleNote.Key;
+                                        fundamentalChanges[scaleNote.Key] = true;
+                                        if(debugAllowLogs)
                                         {
-                                            fundamentalNote = note.Key;
-                                            string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);
-                                            string harmonyInttoNote = ConvertIntToNote(fundamentalNote +7);
-                                            wwiseVOManager.fundamentalChanged(fundamentalInttoNote, harmonyInttoNote);
-                                            fundamentalChanges[note.Key] = true;
-                                            if(debugAllowLogs)
-                                            {
-                                                Debug.Log("MUSIC 2: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
-                                            }
+                                            Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
                                         }
+                                    
                                     }
                                 }
                             }
                         }
                     }
-                    updates[note.Key] = (newActivationTimer, isActive, newChangeFundamentalTimer);
+                    updates[scaleNote.Key] = (newActivationTimer, isActive, newChangeFundamentalTimer);
                 }
                 else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
                 {
-                    updates[note.Key] = (0, false, note.Value.ChangeFundamentalTimer);
+                    updates[scaleNote.Key] = (0, false, scaleNote.Value.ChangeFundamentalTimer);
                 }
             }
             // Apply the accumulated updates to the NoteTracker
@@ -304,24 +295,20 @@ public class MusicSystem1 : MonoBehaviour
             // Deactivate other notes if a new note has become active
             if (activations.ContainsValue(true))
             {
-                foreach (var note in activations)
+                foreach (var scaleNote in activations)
                 {
                     //When one note becomes active, deactivate others.
-                    if (note.Key != nextNote && note.Value == true)
+                    if (scaleNote.Key != nextNote && scaleNote.Value == true)
                     {
-                        var currentValue = NoteTracker[note.Key];
-                        NoteTracker[note.Key] = (0.0f, false, currentValue.ChangeFundamentalTimer);
-                        //if(debugAllowLogs)
-                        //{
-                        //    Debug.Log("MUSIC LOG 4: Key(" + note.Key + ": deactivated (and highestActivationTimer reset)");
-                        //}
+                        var currentValue = NoteTracker[scaleNote.Key];
+                        NoteTracker[scaleNote.Key] = (0.0f, false, currentValue.ChangeFundamentalTimer);
+                        if(debugAllowLogs)
+                        {
+                            Debug.Log("MUSIC 7: Key(" + scaleNote.Key + ": deactivated (and highestActivationTimer reset)");
+                        }
                     }
                 }
                 highestActivationTimer = 0.0f;
-            }
-            else
-            {
-                musicNoteActivated = -1;
             }
 
             // Resets all ChangeFundamentalTimers in the NoteTracker dictionary to 0 if a fundamental change has been made
@@ -335,27 +322,32 @@ public class MusicSystem1 : MonoBehaviour
                     NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, 0.0f);
                     if(debugAllowLogs)
                     {
-                        Debug.Log("MUSIC 3: Key(" + key + ": ChangeFundamentalTimer reset");
+                        Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
                     }
                 }
                 
             }
+        }
+        
+        else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
+        {
+            musicNoteActivated = -1;
         }
     }
 
     public enum NoteName
     {
         C,
-        CsharpDflat,
+        Cs,
         D,
-        DsharpEflat,
+        Ds,
         E,
         F,
-        FsharpGflat,
+        Fs,
         G,
-        GsharpAflat,
+        Gs,
         A,
-        AsharpBflat,
+        As,
         B
     }
 
@@ -367,7 +359,9 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            throw new ArgumentException("Invalid noteNumber value");
+            Debug.Log(noteNumber);
+            throw new ArgumentException("Invalid noteNumber value (MusicSystem1.cs)");
+            
         }
     }
 
