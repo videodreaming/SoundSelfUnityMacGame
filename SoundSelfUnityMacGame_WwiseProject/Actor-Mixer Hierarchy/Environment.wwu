@@ -236,11 +236,11 @@
 										</StateGroupList>
 										<CustomStateList>
 											<CustomState>
-												<StateRef Name="Silent" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+												<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
 												<CustomState Name="" ID="{9C747395-2C18-4CCF-898B-6A94274E2A2E}" ShortID="1059864338"/>
 											</CustomState>
 											<CustomState>
-												<StateRef Name="Toning" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+												<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 												<CustomState Name="" ID="{36674068-F71C-4B0E-814B-2836163CF97C}" ShortID="819966606">
 													<PropertyList>
 														<Property Name="Volume" Type="Real64" Value="-108"/>

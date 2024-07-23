@@ -3,7 +3,7 @@
 	<InteractiveMusic>
 		<WorkUnit Name="OPENING" ID="{90D952FB-C720-4B00-8ADF-CE167B473814}" OwnerID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" PersistMode="Nested">
 			<ChildrenList>
-				<MusicSwitchContainer Name="OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" ShortID="50688605">
+				<MusicSwitchContainer Name="OPENING_SWITCH_PREPARATION" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" ShortID="50688605">
 					<PropertyList>
 						<Property Name="ContinuePlay" Type="bool" Value="False"/>
 					</PropertyList>
@@ -7742,7 +7742,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>-0</XPos>
+																								<XPos>0</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -7761,7 +7761,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>-0</XPos>
+																								<XPos>0</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -7805,7 +7805,7 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>-0</XPos>
+																								<XPos>0</XPos>
 																								<YPos>-38.954</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -8227,6 +8227,16 @@
 											</MusicCue>
 										</Local>
 									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_Orientation_Start" ID="{518B4B20-1487-4918-BC58-BD167A5C1796}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="90040.8067306043"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
 								</ObjectList>
 							</ObjectLists>
 						</MusicSegment>
@@ -8339,7 +8349,7 @@
 																						<PointList>
 																							<Point>
 																								<XPos>0</XPos>
-																								<YPos>-0</YPos>
+																								<YPos>0</YPos>
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
@@ -8439,7 +8449,7 @@
 																							</Point>
 																							<Point>
 																								<XPos>134.01834</XPos>
-																								<YPos>-5.96502</YPos>
+																								<YPos>-5.21301</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -8454,7 +8464,7 @@
 																							</Point>
 																							<Point>
 																								<XPos>153.51099</XPos>
-																								<YPos>-6.96116</YPos>
+																								<YPos>-6.39285</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -9040,13 +9050,28 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>21.80709</XPos>
-																								<YPos>-0.96792</YPos>
+																								<XPos>10.36356</XPos>
+																								<YPos>-1.12374</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>13.86827</XPos>
+																								<YPos>-0.82889</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>16.31375</XPos>
+																								<YPos>-0.68513</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>21.53459</XPos>
+																								<YPos>0</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>23.96316</XPos>
-																								<YPos>-0.38155</YPos>
+																								<YPos>0</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -10451,6 +10476,16 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="186153.87499617"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_Orientation_Start" ID="{E3C75707-7184-4B4C-8FB5-5BBF09892605}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="125500"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

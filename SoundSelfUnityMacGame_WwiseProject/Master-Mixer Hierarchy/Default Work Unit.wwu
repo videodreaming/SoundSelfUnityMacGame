@@ -204,6 +204,11 @@
 						</Bus>
 						<Bus Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}">
 							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-1</Value>
+									</ValueList>
+								</Property>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
 										<Value>-2</Value>
@@ -375,13 +380,6 @@
 							</DuckingList>
 						</Bus>
 						<Bus Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}">
-							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>

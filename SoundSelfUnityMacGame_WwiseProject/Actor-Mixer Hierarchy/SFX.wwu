@@ -1323,11 +1323,11 @@
 										</StateGroupList>
 										<CustomStateList>
 											<CustomState>
-												<StateRef Name="Silent" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+												<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
 												<CustomState Name="" ID="{570E4F03-2CA5-43E4-9D23-2EDE64AC3B66}" ShortID="628428511"/>
 											</CustomState>
 											<CustomState>
-												<StateRef Name="Toning" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+												<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 												<CustomState Name="" ID="{A1C96B06-0A3A-441D-89C3-5E619AF53AEE}" ShortID="989347093">
 													<PropertyList>
 														<Property Name="Volume" Type="Real64" Value="-108"/>
@@ -1349,11 +1349,11 @@
 														<StateInfo>
 															<CustomStateList>
 																<CustomState>
-																	<StateRef Name="Silent" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+																	<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
 																	<CustomState Name="" ID="{83FB455E-166A-483F-84D6-00A0F588EBE8}" ShortID="540495000"/>
 																</CustomState>
 																<CustomState>
-																	<StateRef Name="Toning" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+																	<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 																	<CustomState Name="" ID="{58AAC385-0D2C-4384-BE90-9D40EEE13F78}" ShortID="270279250"/>
 																</CustomState>
 															</CustomStateList>

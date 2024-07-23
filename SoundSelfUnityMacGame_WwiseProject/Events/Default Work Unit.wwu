@@ -28,7 +28,7 @@
 						<Action Name="" ID="{5C193BFD-789D-469A-9476-C5EFCC7868AB}" ShortID="702477502">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+									<ObjectRef Name="OPENING_SWITCH_PREPARATION" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -60,7 +60,7 @@
 						<Action Name="" ID="{2698546B-D775-496E-9A7D-59BFEEA2AADB}" ShortID="851110569">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+									<ObjectRef Name="OPENING_SWITCH_PREPARATION" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -76,7 +76,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="OPENING_SWITCH" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+									<ObjectRef Name="OPENING_SWITCH_PREPARATION" ID="{ECDF39D7-48DC-444E-97DB-1F5CEEE924CE}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

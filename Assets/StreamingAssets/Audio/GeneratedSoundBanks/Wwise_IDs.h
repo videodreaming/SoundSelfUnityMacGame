@@ -113,9 +113,9 @@ namespace AK
 
             namespace STATE
             {
+                static const AkUniqueID ENVIRONMENT = 1229948536U;
+                static const AkUniqueID INTERACTIVEMUSICSYSTEM = 1817215723U;
                 static const AkUniqueID NONE = 748895195U;
-                static const AkUniqueID SILENT = 3160623154U;
-                static const AkUniqueID TONING = 1718895636U;
             } // namespace STATE
         } // namespace INTERACTIVEMUSICMODE
 

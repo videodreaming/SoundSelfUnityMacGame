@@ -16,7 +16,7 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{5759EC16-6739-C877-DC29-376D68E7EBE0}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{E7E8B87E-A7FD-FD03-448A-86CD6141B4EC}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -123,8 +123,8 @@
 				<StateGroup Id="361224273" Name="InteractiveMusicMode">
 					<States>
 						<State Id="748895195" Name="None"/>
-						<State Id="1718895636" Name="Toning"/>
-						<State Id="3160623154" Name="Silent"/>
+						<State Id="1229948536" Name="Environment"/>
+						<State Id="1817215723" Name="InteractiveMusicSystem"/>
 					</States>
 				</StateGroup>
 				<StateGroup Id="3090474987" Name="SoundWorldMode">
@@ -297,7 +297,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D97AE729-6B5F-BBE9-E6A8-22C4D522AC54}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{57E33D8E-3C07-C6A2-F794-EB106B219D68}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -3187,7 +3187,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{5DDCDABA-9D64-9C84-7ADF-B11A97154868}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{7B7E5B08-16FE-F19A-1C24-40C878CA6C75}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -3840,7 +3840,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{05637CB2-2372-8240-5E0E-19EAEC46A096}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{C5C7AEF1-37E3-2220-48E9-F6DFD27B9555}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -7290,5 +7290,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{8AD8D2B6-3138-20C1-D515-D00CEDA3B3C4}</FileHash>
+	<FileHash>{7AF84716-E8C3-7D4B-A934-3CFE4C60448E}</FileHash>
 </SoundBanksInfo>
