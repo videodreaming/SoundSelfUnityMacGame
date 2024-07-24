@@ -23088,15 +23088,15 @@
 							<ChildrenList>
 								<Sound Name="fundamental_[B]_silent_gentle" ID="{4C99BD44-1AAB-4700-BC07-A6478CDC9AEA}" ShortID="400576015">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>9</Value>
+												<Value>22</Value>
 											</ValueList>
 										</Property>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -23129,7 +23129,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{5245D029-B2C5-4E4C-BFD4-866476E80822}" ShortID="872843528"/>
+												<CustomState Name="" ID="{5245D029-B2C5-4E4C-BFD4-866476E80822}" ShortID="872843528">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -23215,7 +23219,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -23435,12 +23439,12 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>44</Value>
+												<Value>36</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-5</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -23470,7 +23474,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{F7F711FE-24EF-4C60-A5EC-320AB196488D}" ShortID="880407300"/>
+												<CustomState Name="" ID="{F7F711FE-24EF-4C60-A5EC-320AB196488D}" ShortID="880407300">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -23656,6 +23664,9 @@
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>26</Value>
+											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{5011FC33-223A-4B7E-9449-CE20C7747136}"/>
@@ -23694,7 +23705,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{E9FC39AD-EB9D-4EC1-A3D7-FD0F6070E1E1}" ShortID="732299921"/>
+												<CustomState Name="" ID="{E9FC39AD-EB9D-4EC1-A3D7-FD0F6070E1E1}" ShortID="732299921">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -23770,7 +23785,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -23987,7 +24002,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24091,9 +24106,14 @@
 								<Sound Name="fundamental_[G]_silent_gentle" ID="{45C0BBBF-6C7D-4445-AF22-E28090146107}" ShortID="606725284">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>29</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24123,7 +24143,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{D27FA8D2-BE91-470C-A1F2-1E62205D7849}" ShortID="90151349"/>
+												<CustomState Name="" ID="{D27FA8D2-BE91-470C-A1F2-1E62205D7849}" ShortID="90151349">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -24209,7 +24233,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24418,6 +24442,11 @@
 								</Sound>
 								<Sound Name="fundamental_[A]_silent_gentle" ID="{EDB6A3C1-C00F-4752-A928-910C76D7E12A}" ShortID="550914340">
 									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>29</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>200</Value>
@@ -24425,7 +24454,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24455,7 +24484,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{98567087-2C84-4332-ABA8-AD00FFE0148F}" ShortID="439636726"/>
+												<CustomState Name="" ID="{98567087-2C84-4332-ABA8-AD00FFE0148F}" ShortID="439636726">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -24528,12 +24561,12 @@
 								</Sound>
 								<Sound Name="fundamental_[D]_silent_gentle" ID="{CFDAA6B0-68AB-4A67-B61C-1BA5B0C26A2A}" ShortID="1025780867">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>1</Value>
+												<Value>36</Value>
 											</ValueList>
 										</Property>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>200</Value>
@@ -24541,7 +24574,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24571,7 +24604,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{51406634-0DDB-479A-AF85-2DDC09A9A463}" ShortID="141643165"/>
+												<CustomState Name="" ID="{51406634-0DDB-479A-AF85-2DDC09A9A463}" ShortID="141643165">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -24662,7 +24699,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24962,7 +24999,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -25356,7 +25393,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -25541,7 +25578,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26066,6 +26103,11 @@
 								<Sound Name="fundamental_[F]_silent_gentle" ID="{51050AD7-1AC9-44CD-AC86-D8AE04299253}" ShortID="968328950">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>23</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -26073,7 +26115,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-9</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26103,7 +26145,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{B8641601-861E-4F14-BB94-3E8928FFCA26}" ShortID="528414441"/>
+												<CustomState Name="" ID="{B8641601-861E-4F14-BB94-3E8928FFCA26}" ShortID="528414441">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -26184,7 +26230,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26289,7 +26335,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26491,7 +26537,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26661,7 +26707,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26988,7 +27034,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27202,7 +27248,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27377,7 +27423,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27563,7 +27609,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27667,6 +27713,11 @@
 								<Sound Name="fundamental_[A#Bb]_silent_gentle" ID="{F02AA447-C3D8-4237-AA5C-BC0B704615AA}" ShortID="661712702">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>24</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -27674,7 +27725,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -27707,7 +27758,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{67F7E6A2-B74E-48A1-BD7A-7444B81E92F1}" ShortID="473681309"/>
+												<CustomState Name="" ID="{67F7E6A2-B74E-48A1-BD7A-7444B81E92F1}" ShortID="473681309">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -27917,7 +27972,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28032,7 +28087,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-12</Value>
+												<Value>-13</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28210,9 +28265,9 @@
 								</BlendContainer>
 								<Sound Name="fundamental_[G#Ab]_silent_gentle" ID="{9B295EC4-F961-4311-A4DB-1CF50FD8F0E4}" ShortID="628159323">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
+										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>22</Value>
+												<Value>32</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Pitch" Type="int32">
@@ -28222,7 +28277,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28252,7 +28307,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{80A31811-68A0-423F-B57C-1D9A2FCAA019}" ShortID="645718818"/>
+												<CustomState Name="" ID="{80A31811-68A0-423F-B57C-1D9A2FCAA019}" ShortID="645718818">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -28452,7 +28511,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28562,7 +28621,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28847,6 +28906,11 @@
 								<Sound Name="fundamental_[F#Gb]_silent_gentle" ID="{99D43F57-8073-46AB-914F-9616CA92B943}" ShortID="854026507">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>29</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -28854,7 +28918,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28884,7 +28948,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{E421EE89-A356-44AE-8EF8-F71E874DC7E1}" ShortID="950056258"/>
+												<CustomState Name="" ID="{E421EE89-A356-44AE-8EF8-F71E874DC7E1}" ShortID="950056258">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -28957,15 +29025,10 @@
 								</Sound>
 								<Sound Name="fundamental_[D#Eb]_silent_gentle" ID="{ADF6B524-7C7C-4788-84D9-7FEEF7AB9C5C}" ShortID="147487256">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
-											<ValueList>
-												<Value>21</Value>
-											</ValueList>
-										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>1</Value>
+												<Value>25</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -28980,7 +29043,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -29010,7 +29073,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{0EB6D3AE-01F3-4DD9-B112-EF881FEA0D83}" ShortID="661158764"/>
+												<CustomState Name="" ID="{0EB6D3AE-01F3-4DD9-B112-EF881FEA0D83}" ShortID="661158764">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -29086,7 +29153,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>44</Value>
+												<Value>37</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Pitch" Type="int32">
@@ -29096,7 +29163,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -29126,7 +29193,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{C5B50503-E049-419E-94F6-75ED73B98EEB}" ShortID="752522729"/>
+												<CustomState Name="" ID="{C5B50503-E049-419E-94F6-75ED73B98EEB}" ShortID="752522729">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -29322,7 +29393,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -29614,7 +29685,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-8</Value>
+												<Value>-7</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -30688,7 +30759,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -30718,7 +30789,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{104931A5-E7B2-490E-8ED6-F2F60DCC36DE}" ShortID="86492515"/>
+												<CustomState Name="" ID="{104931A5-E7B2-490E-8ED6-F2F60DCC36DE}" ShortID="86492515">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -31021,7 +31096,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31051,7 +31126,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{229BF9B8-86C8-431C-BAEB-13B9AC7163A1}" ShortID="807100934"/>
+												<CustomState Name="" ID="{229BF9B8-86C8-431C-BAEB-13B9AC7163A1}" ShortID="807100934">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -31127,7 +31206,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31460,7 +31539,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31490,7 +31569,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{B1282E2C-A0C5-4C2C-B229-0F87310C476F}" ShortID="483065850"/>
+												<CustomState Name="" ID="{B1282E2C-A0C5-4C2C-B229-0F87310C476F}" ShortID="483065850">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -31581,7 +31664,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31909,7 +31992,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31939,7 +32022,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{DEA618F1-45C8-421A-A1DD-F0F577057303}" ShortID="639852952"/>
+												<CustomState Name="" ID="{DEA618F1-45C8-421A-A1DD-F0F577057303}" ShortID="639852952">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -32030,7 +32117,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32247,7 +32334,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32277,7 +32364,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{C0108132-103D-4664-BA0E-1D8DB87C8CBA}" ShortID="570740019"/>
+												<CustomState Name="" ID="{C0108132-103D-4664-BA0E-1D8DB87C8CBA}" ShortID="570740019">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -32363,7 +32454,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32393,7 +32484,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{ACD9BDD0-4D29-4D8B-B53E-AE487AE98ED8}" ShortID="701181944"/>
+												<CustomState Name="" ID="{ACD9BDD0-4D29-4D8B-B53E-AE487AE98ED8}" ShortID="701181944">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -32479,7 +32574,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32509,7 +32604,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{1A073AB5-8528-46DE-9104-082E99E2B8DA}" ShortID="777548695"/>
+												<CustomState Name="" ID="{1A073AB5-8528-46DE-9104-082E99E2B8DA}" ShortID="777548695">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -32595,7 +32694,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32716,7 +32815,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32827,7 +32926,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -34303,7 +34402,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{6E25A58E-EAAB-4691-8ABC-52E41ED2D84B}" ShortID="75157868"/>
+												<CustomState Name="" ID="{6E25A58E-EAAB-4691-8ABC-52E41ED2D84B}" ShortID="75157868">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -34389,7 +34492,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -34626,7 +34729,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -34656,7 +34759,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{AB00138D-E3E3-4554-B266-808BA4A2C935}" ShortID="873939301"/>
+												<CustomState Name="" ID="{AB00138D-E3E3-4554-B266-808BA4A2C935}" ShortID="873939301">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -34742,7 +34849,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -34858,7 +34965,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -34974,7 +35081,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -35095,7 +35202,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -35200,7 +35307,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-7</Value>
+												<Value>-9</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -35548,7 +35655,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -35578,7 +35685,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{1CA23C2C-6B26-48B0-A8AA-12BBA5399522}" ShortID="114062701"/>
+												<CustomState Name="" ID="{1CA23C2C-6B26-48B0-A8AA-12BBA5399522}" ShortID="114062701">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -35775,7 +35886,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -35805,7 +35916,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{EDD212C5-E9AD-491F-8055-E338B1CCAF7F}" ShortID="429734117"/>
+												<CustomState Name="" ID="{EDD212C5-E9AD-491F-8055-E338B1CCAF7F}" ShortID="429734117">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
@@ -35896,7 +36011,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-11</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -35926,7 +36041,11 @@
 										<CustomStateList>
 											<CustomState>
 												<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-												<CustomState Name="" ID="{E62B7F8C-0406-4260-B2F9-AF702CA905E4}" ShortID="216647420"/>
+												<CustomState Name="" ID="{E62B7F8C-0406-4260-B2F9-AF702CA905E4}" ShortID="216647420">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64" Value="-1"/>
+													</PropertyList>
+												</CustomState>
 											</CustomState>
 											<CustomState>
 												<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>

@@ -9,17 +9,21 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{0D22EA6B-8AB0-0457-DCFE-E314368F6E90}">
+		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{BEA5D7C4-C65E-F4BE-E827-EFB584C3CB22}">
 			<ShortName>Aux_Toning</ShortName>
 			<Path>Bus/18/Aux_Toning.bnk</Path>
 			<AuxBusses>
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{E7E8B87E-A7FD-FD03-448A-86CD6141B4EC}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{9F456408-8653-AF1B-BAE0-4EB6A4AAB491}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
+				<ShareSets>
+					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="1459522457" Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" LibName="Wwise Peak Limiter" LibId="7208963"/>
+				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
 					<Plugin Id="2719312584" Name="System_01" LibName="System" LibId="11403271"/>
@@ -30,7 +34,7 @@
 				<Bus Id="65973818" Name="AVS System"/>
 				<Bus Id="393239870" Name="SFX">
 					<AuxBusRefs>
-						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
+						<AuxBusRef Id="2562455749" Name="Aux_SFX"/>
 					</AuxBusRefs>
 				</Bus>
 				<Bus Id="493151109" Name="AVS_Silent"/>
@@ -53,7 +57,14 @@
 					</AuxBusRefs>
 				</Bus>
 				<Bus Id="3239584272" Name="AVS_Breath"/>
-				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="3803692087" Name="Master Audio Bus">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="418265525"/>
+							<PluginRef Id="1459522457"/>
+						</ShareSets>
+					</PluginRefs>
+				</Bus>
 				<Bus Id="3991942870" Name="Music">
 					<AuxBusRefs>
 						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
@@ -63,6 +74,7 @@
 			<AuxBusses>
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 				<AuxBus Id="1959646260" Name="Aux_SilentLoops"/>
+				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 				<AuxBus Id="3329123393" Name="Aux_Impacts"/>
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
@@ -297,7 +309,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{57E33D8E-3C07-C6A2-F794-EB106B219D68}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{E1C90503-ABF3-7375-BF29-E8AF56B4C47F}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -568,6 +580,7 @@
 				</Custom>
 			</Plugins>
 			<Events>
+				<Event Id="2146852899" Name="Mute_OPENING_MUSIC" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="640169525" Name="Play_ADJUNCT_OPENING_SEQUENCE_LONG" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
@@ -3162,7 +3175,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1959646260" Type="Bus" Language="SFX" Hash="{321839EC-172E-EA3A-FE9C-5843747CDE35}">
+		<SoundBank Id="1959646260" Type="Bus" Language="SFX" Hash="{E74FE4AD-D751-66A6-D436-9F0DC5D0F373}">
 			<ShortName>Aux_SilentLoops</ShortName>
 			<Path>Bus/19/Aux_SilentLoops.bnk</Path>
 			<AuxBusses>
@@ -3187,7 +3200,14 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{7B7E5B08-16FE-F19A-1C24-40C878CA6C75}">
+		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{0CAF9AD6-6643-DA3A-8B6D-26341FC31DEA}">
+			<ShortName>Aux_SFX</ShortName>
+			<Path>Bus/25/Aux_SFX.bnk</Path>
+			<AuxBusses>
+				<AuxBus Id="2562455749" Name="Aux_SFX"/>
+			</AuxBusses>
+		</SoundBank>
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{DD05E1D4-361F-9715-2B68-B1FCA44C71C4}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -3826,21 +3846,21 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3329123393" Type="Bus" Language="SFX" Hash="{C26FF76F-38F1-2B16-A7E8-4A3D3AC8CF63}">
+		<SoundBank Id="3329123393" Type="Bus" Language="SFX" Hash="{F1DC2735-F1E7-CEDF-0654-3005ADF9E9F0}">
 			<ShortName>Aux_Impacts</ShortName>
 			<Path>Bus/33/Aux_Impacts.bnk</Path>
 			<AuxBusses>
 				<AuxBus Id="3329123393" Name="Aux_Impacts"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3331583377" Type="Bus" Language="SFX" Hash="{12395396-4730-B49C-98F5-00C67E4317B4}">
+		<SoundBank Id="3331583377" Type="Bus" Language="SFX" Hash="{9C5F277C-223B-541B-EDCA-1612CBBB0D4E}">
 			<ShortName>Aux_Music</ShortName>
 			<Path>Bus/33/Aux_Music.bnk</Path>
 			<AuxBusses>
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{C5C7AEF1-37E3-2220-48E9-F6DFD27B9555}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{D6CCA562-0E08-E48E-B0E3-7039020BC3E9}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -4303,10 +4323,6 @@
 				<File Id="974874525" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_shruti_loop.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_shruti_loop_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="978918934" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>menu_ambient loop_extra_C Major.wav</ShortName>
-					<CachePath>SFX/menu_ambient loop_extra_C Major_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="1029485998" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test08tone.wav</ShortName>
@@ -5249,7 +5265,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="1511441763" Name="Play_Toning" DurationType="OneShot" DurationMin="27.349138" DurationMax="37.79763">
+				<Event Id="1511441763" Name="Play_Toning" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
@@ -6485,7 +6501,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="3427313557" Name="Play_Toning_v3_FundamentalOnly" DurationType="OneShot" DurationMin="16.673853" DurationMax="37.79763">
+				<Event Id="3427313557" Name="Play_Toning_v3_FundamentalOnly" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
@@ -6816,7 +6832,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="32253738" Name="Play_Toning_v3_HarmonyOnly" DurationType="OneShot" DurationMin="27.349138" DurationMax="35.522434">
+				<Event Id="32253738" Name="Play_Toning_v3_HarmonyOnly" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
@@ -7153,24 +7169,6 @@
 						<MediaRef Id="798919832"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3911137305" Name="StateChange_InteractiveMusicSystem_SILENT_to_TONING" DurationType="OneShot" DurationMin="0" DurationMax="0">
-					<ActionPostEvent>
-						<ActionPostEventEntry Id="761343465" Name="Play_SilentLoops_v3_HarmonyOnly"/>
-						<ActionPostEventEntry Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP"/>
-						<ActionPostEventEntry Id="2185482934" Name="Play_SilentLoops_v3_FundamentalOnly"/>
-					</ActionPostEvent>
-				</Event>
-				<Event Id="4212381101" Name="StateChange_InteractiveMusicSystem_TONING_to_SILENT" DurationType="Infinite">
-					<MediaRefs>
-						<MediaRef Id="883996255"/>
-						<MediaRef Id="978918934"/>
-					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
-				</Event>
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="767717232" Name="Stop_AVS_SineGenerators_REFERENCE" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -7290,5 +7288,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7AF84716-E8C3-7D4B-A934-3CFE4C60448E}</FileHash>
+	<FileHash>{5417472D-E849-DD00-DFDB-140F9B506D17}</FileHash>
 </SoundBanksInfo>

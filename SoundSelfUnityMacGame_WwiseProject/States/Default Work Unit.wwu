@@ -28,13 +28,13 @@
 						<Transition>
 							<StartState Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 							<EndState Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-							<Time>60</Time>
+							<Time>30</Time>
 							<IsShared>false</IsShared>
 						</Transition>
 						<Transition>
 							<StartState Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
 							<EndState Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-							<Time>20</Time>
+							<Time>10</Time>
 							<IsShared>false</IsShared>
 						</Transition>
 					</TransitionList>

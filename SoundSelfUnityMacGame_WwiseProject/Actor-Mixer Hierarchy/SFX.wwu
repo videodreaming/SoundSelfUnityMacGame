@@ -230,74 +230,8 @@
 						</Sound>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Samples" ID="{150E0F69-E70B-4978-8C0D-2F5073E9A8D7}" ShortID="757757495">
+				<Folder Name="Extra Samples" ID="{150E0F69-E70B-4978-8C0D-2F5073E9A8D7}" ShortID="757757495">
 					<ChildrenList>
-						<Sound Name="Circlebell_Steel_Blossom_Bell_Mallet_1_v2_medium_B3" ID="{EFE3EA12-E7A6-4321-B632-25DA4709A27E}" ShortID="1029407256">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="Circlebell_Steel_Blossom_Bell_Mallet_1_v2_medium_B3" ID="{E1B216BF-3B20-487C-BD56-4362E1EF4534}">
-									<Language>SFX</Language>
-									<AudioFile>Circlebell_Steel_Blossom_Bell_Mallet_1_v2_medium_B3.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="6186513"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="Circlebell_Steel_Blossom_Bell_Mallet_1_v2_medium_B3" ID="{E1B216BF-3B20-487C-BD56-4362E1EF4534}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="Drone_BW_586" ID="{98F45B11-7000-4A10-9F14-E35319AF78C9}" ShortID="50877075">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="Drone_BW_586" ID="{601AB49F-2E84-4302-BD5B-397765AFBF2B}">
-									<Language>SFX</Language>
-									<AudioFile>Drone_BW.586.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="512726334"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="Drone_BW_586" ID="{601AB49F-2E84-4302-BD5B-397765AFBF2B}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="Freeze WIND FX [2023-06-29 091130]" ID="{94AD6F19-4156-4F28-A326-92050B600D8F}" ShortID="1019752086">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="Freeze WIND FX [2023-06-29 091130]" ID="{679066E6-2C1F-4D32-8A9D-668271F63A5D}">
-									<Language>SFX</Language>
-									<AudioFile>Freeze WIND FX [2023-06-29 091130].wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="376852078"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="Freeze WIND FX [2023-06-29 091130]" ID="{679066E6-2C1F-4D32-8A9D-668271F63A5D}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="Glass_Crystal_Tap_5_D#4" ID="{BCBC0270-88ED-46AE-BE8D-9F5F64E62273}" ShortID="387346837">
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -604,72 +538,6 @@
 								<ActiveSource Name="LEM_singing_bowl_08_C_v2" ID="{019AB007-E9DD-445F-A500-8149B936D47C}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="RU_ADA_Synth_Chord_Tanpura_D" ID="{C0DF30F1-CF60-44B4-A77B-178FD5531002}" ShortID="733843379">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="RU_ADA_Synth_Chord_Tanpura_D" ID="{CE137170-2563-4906-9CD9-354E89897EBC}">
-									<Language>SFX</Language>
-									<AudioFile>RU_ADA_Synth_Chord_Tanpura_D.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="316712123"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="RU_ADA_Synth_Chord_Tanpura_D" ID="{CE137170-2563-4906-9CD9-354E89897EBC}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="Siren_Breath_Long" ID="{E675503A-E6CD-41A4-878F-F3676458FFCB}" ShortID="399709874">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="Siren_Breath_Long" ID="{3DAEE85C-7833-4CC1-B1D5-02B251E0B379}">
-									<Language>SFX</Language>
-									<AudioFile>Siren_Breath_Long.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="296262436"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="Siren_Breath_Long" ID="{3DAEE85C-7833-4CC1-B1D5-02B251E0B379}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="SO_AM_bells_nepenthe_bigsur" ID="{C7E59421-4197-4C8D-AA56-86E5AE018BC6}" ShortID="352623430">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="SO_AM_bells_nepenthe_bigsur" ID="{76F0CEA0-599D-47FD-AA6D-51DFB3E3B29B}">
-									<Language>SFX</Language>
-									<AudioFile>SO_AM_bells_nepenthe_bigsur.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="399084768"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="SO_AM_bells_nepenthe_bigsur" ID="{76F0CEA0-599D-47FD-AA6D-51DFB3E3B29B}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="SO_AM_bells_single_D" ID="{654587BF-683F-4EA5-BF70-08DD9109389D}" ShortID="28525066">
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -692,94 +560,6 @@
 								<ActiveSource Name="SO_AM_bells_single_D" ID="{5BBCF0CB-D9F9-40B5-985C-F96F71BB5F88}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="SO_AM_bells_three_D" ID="{6E91D072-7EA0-4DEE-96C2-28D7F321E169}" ShortID="1019978569">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="SO_AM_bells_three_D" ID="{52A92725-7B50-45DB-90DF-D6E33B1B1606}">
-									<Language>SFX</Language>
-									<AudioFile>SO_AM_bells_three_D.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="289026473"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="SO_AM_bells_three_D" ID="{52A92725-7B50-45DB-90DF-D6E33B1B1606}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="SO_IR2_102_tabla_saraswati_green_F" ID="{DFFF9792-4E53-4835-A6A2-1D7653DB1307}" ShortID="682903478">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="SO_IR2_102_tabla_saraswati_green_F" ID="{0D83A367-452B-4BF7-98D5-416A1104F3DA}">
-									<Language>SFX</Language>
-									<AudioFile>SO_IR2_102_tabla_saraswati_green_F.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="590839362"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="SO_IR2_102_tabla_saraswati_green_F" ID="{0D83A367-452B-4BF7-98D5-416A1104F3DA}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="SO_IR2_drone_chord_tanpura_mumbai_Fmaj" ID="{8D55A76A-5D76-4C94-BAAD-EEDEBBEF802A}" ShortID="749460820">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="SO_IR2_drone_chord_tanpura_mumbai_Fmaj" ID="{937446CB-A5D7-435A-BC12-54A92C6D3E1E}">
-									<Language>SFX</Language>
-									<AudioFile>SO_IR2_drone_chord_tanpura_mumbai_Fmaj.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="162224411"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="SO_IR2_drone_chord_tanpura_mumbai_Fmaj" ID="{937446CB-A5D7-435A-BC12-54A92C6D3E1E}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="Soundiron_LWF_flute_na_d#_phrase_2_08_far" ID="{7453BE94-05FC-4568-AA02-9976D1C25174}" ShortID="659782340">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="Soundiron_LWF_flute_na_d#_phrase_2_08_far" ID="{45FE3D75-E370-4C4D-9C1C-381E5F5C7FE2}">
-									<Language>SFX</Language>
-									<AudioFile>Soundiron_LWF_flute_na_d#_phrase_2_08_far.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="660075315"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="Soundiron_LWF_flute_na_d#_phrase_2_08_far" ID="{45FE3D75-E370-4C4D-9C1C-381E5F5C7FE2}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="SoundSelf_Jaya_Vocalizing_Toning_Drone" ID="{9D6349A4-29CA-4209-BDBD-B692A35E343A}" ShortID="1010085468">
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -800,50 +580,6 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="SoundSelf_Jaya_Vocalizing_Toning_Drone" ID="{E6A0B208-1FFA-45CF-A166-8025635D4060}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="TL_Tuned_Percussion_Loops_Tape_RaikoBowl_02_80_C" ID="{F3979E7E-0ED6-473C-944B-1C1EA16C4AE4}" ShortID="520844278">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="TL_Tuned_Percussion_Loops_Tape_RaikoBowl_02_80_C" ID="{1B69B076-CB16-4A74-BBAE-CF5998AF37CA}">
-									<Language>SFX</Language>
-									<AudioFile>TL_Tuned_Percussion_Loops_Tape_RaikoBowl_02_80_C.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="896905703"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="TL_Tuned_Percussion_Loops_Tape_RaikoBowl_02_80_C" ID="{1B69B076-CB16-4A74-BBAE-CF5998AF37CA}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
-						<Sound Name="TS_HANGAR_percussion_one_shot_djembe_open_big_3_knock" ID="{CEC9ED40-CFE3-457C-AD5B-FE50BE9C37EA}" ShortID="679937542">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="TS_HANGAR_percussion_one_shot_djembe_open_big_3_knock" ID="{6162CF03-466C-4F20-921B-C7B83B3A21D9}">
-									<Language>SFX</Language>
-									<AudioFile>TS_HANGAR_percussion_one_shot_djembe_open_big_3_knock.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="814563788"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="TS_HANGAR_percussion_one_shot_djembe_open_big_3_knock" ID="{6162CF03-466C-4F20-921B-C7B83B3A21D9}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
@@ -1112,7 +848,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-6</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1144,11 +880,6 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-2</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1164,7 +895,7 @@
 												<Property Name="AttenuationRollOff" Type="Real32" Value="0.7"/>
 												<Property Name="ChannelMask" Type="int32" Value="2"/>
 												<Property Name="Duration" Type="Real64" Value="10"/>
-												<Property Name="FrequencyScale" Type="Real32" Value="0.17"/>
+												<Property Name="FrequencyScale" Type="Real32" Value="0.1"/>
 												<Property Name="GainOffset" Type="Real32" Value="-2.2"/>
 												<Property Name="GainOffsetRandom" Type="Real32" Value="3.8"/>
 												<Property Name="MinDistance" Type="Real32" Value="100"/>
@@ -1315,27 +1046,6 @@
 											</PluginInnerObjectList>
 										</SourcePlugin>
 									</ChildrenList>
-									<StateInfo>
-										<StateGroupList>
-											<StateGroupInfo>
-												<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
-											</StateGroupInfo>
-										</StateGroupList>
-										<CustomStateList>
-											<CustomState>
-												<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-												<CustomState Name="" ID="{570E4F03-2CA5-43E4-9D23-2EDE64AC3B66}" ShortID="628428511"/>
-											</CustomState>
-											<CustomState>
-												<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-												<CustomState Name="" ID="{A1C96B06-0A3A-441D-89C3-5E619AF53AEE}" ShortID="989347093">
-													<PropertyList>
-														<Property Name="Volume" Type="Real64" Value="-108"/>
-													</PropertyList>
-												</CustomState>
-											</CustomState>
-										</CustomStateList>
-									</StateInfo>
 									<ObjectLists>
 										<ObjectList Name="Effects">
 											<Reference>
@@ -1346,18 +1056,6 @@
 																<ObjectRef Name="Blue_Distant_Echoes" ID="{ABFA9875-521E-451F-AAB9-AB148847B9C0}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 															</Reference>
 														</ReferenceList>
-														<StateInfo>
-															<CustomStateList>
-																<CustomState>
-																	<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-																	<CustomState Name="" ID="{83FB455E-166A-483F-84D6-00A0F588EBE8}" ShortID="540495000"/>
-																</CustomState>
-																<CustomState>
-																	<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-																	<CustomState Name="" ID="{58AAC385-0D2C-4384-BE90-9D40EEE13F78}" ShortID="270279250"/>
-																</CustomState>
-															</CustomStateList>
-														</StateInfo>
 													</EffectSlot>
 												</Local>
 											</Reference>
@@ -1368,6 +1066,31 @@
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
+							<StateInfo>
+								<StateGroupList>
+									<StateGroupInfo>
+										<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
+									</StateGroupInfo>
+								</StateGroupList>
+								<CustomStateList>
+									<CustomState>
+										<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+										<CustomState Name="" ID="{35650294-4FCD-48A4-9C3E-4653F065D37D}" ShortID="1046038147">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="3"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+										<CustomState Name="" ID="{6EACDEC7-3981-4871-BDAB-766F3979BBB4}" ShortID="748828904">
+											<PropertyList>
+												<Property Name="Volume" Type="Real64" Value="-20"/>
+											</PropertyList>
+										</CustomState>
+									</CustomState>
+								</CustomStateList>
+							</StateInfo>
 							<ObjectLists>
 								<ObjectList Name="Effects">
 									<Reference>
@@ -1378,6 +1101,18 @@
 														<ObjectRef Name="Caught_in_a_loop" ID="{8FC64215-9A75-4BE3-A33A-584C8CA49963}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 													</Reference>
 												</ReferenceList>
+												<StateInfo>
+													<CustomStateList>
+														<CustomState>
+															<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+															<CustomState Name="" ID="{A3D76CF7-1991-470F-A130-5D3392536794}" ShortID="21223921"/>
+														</CustomState>
+														<CustomState>
+															<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+															<CustomState Name="" ID="{569DE21D-89D1-4585-A7D7-898C4C15CB0D}" ShortID="529405920"/>
+														</CustomState>
+													</CustomStateList>
+												</StateInfo>
 											</EffectSlot>
 										</Local>
 									</Reference>

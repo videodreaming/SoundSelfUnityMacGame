@@ -37,8 +37,13 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	183653145	Aux_Toning			\Default Work Unit\AVS System\Aux_Toning	
 	1959646260	Aux_SilentLoops			\Default Work Unit\AVS System\Aux_SilentLoops	
+	2562455749	Aux_SFX			\Default Work Unit\AVS System\Aux_SFX	
 	3329123393	Aux_Impacts			\Default Work Unit\AVS System\Aux_Impacts	
 	3331583377	Aux_Music			\Default Work Unit\AVS System\Aux_Music	
+
+Effect plug-ins	ID	Name	Type				Notes
+	418265525	Gentle_Program_Compressor_Minus_14dB_RMS	Wwise Compressor			
+	1459522457	Brick_Wall_Minus_1dB_Peak_Fast_Release	Wwise Peak Limiter			
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

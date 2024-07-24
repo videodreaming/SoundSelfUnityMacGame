@@ -13,6 +13,7 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID MUTE_OPENING_MUSIC = 2146852899U;
         static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_LONG = 640169525U;
         static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_SHORT = 593266067U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
@@ -79,8 +80,6 @@ namespace AK
         static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
-        static const AkUniqueID STATECHANGE_INTERACTIVEMUSICSYSTEM_SILENT_TO_TONING = 3911137305U;
-        static const AkUniqueID STATECHANGE_INTERACTIVEMUSICSYSTEM_TONING_TO_SILENT = 4212381101U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_REFERENCE = 767717232U;
@@ -436,6 +435,7 @@ namespace AK
     {
         static const AkUniqueID AUX_IMPACTS = 3329123393U;
         static const AkUniqueID AUX_MUSIC = 3331583377U;
+        static const AkUniqueID AUX_SFX = 2562455749U;
         static const AkUniqueID AUX_SILENTLOOPS = 1959646260U;
         static const AkUniqueID AUX_TONING = 183653145U;
     } // namespace AUX_BUSSES
