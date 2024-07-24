@@ -30,7 +30,7 @@ public class MusicSystem1 : MonoBehaviour
     public int musicNoteActivated = -1; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated    
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
-    private float _changeFundamentalThreshold = 35f;
+    private float _changeFundamentalThreshold = 5f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
 
@@ -144,9 +144,8 @@ public class MusicSystem1 : MonoBehaviour
 
                 //Now play the tone
                                
-                harmonyNote = ((fundamentalNote + harmonization) % 12);
-                string harmonyInttoNote = ConvertIntToNote(harmonyNote);
-                //wwiseInteractiveMusicManager.changeHarmony(harmonyInttoNote); //UNCOMMENT THIS TO CONTROL WWISE
+                harmonyNote = (fundamentalNote + harmonization) % 12;
+                wwiseInteractiveMusicManager.changeHarmony(ConvertIntToNote(harmonyNote)); //UNCOMMENT THIS TO CONTROL WWISE
                 if (debugAllowLogs)
                 {
                     Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
@@ -269,6 +268,7 @@ public class MusicSystem1 : MonoBehaviour
                                     {
                                         fundamentalNote = scaleNote.Key;
                                         fundamentalChanges[scaleNote.Key] = true;
+                                        wwiseInteractiveMusicManager.userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
                                         if(debugAllowLogs)
                                         {
                                             Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));

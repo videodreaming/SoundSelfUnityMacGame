@@ -46,9 +46,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float negativeActiveThreshold2 {get; private set;}  = 0.33f; //for toneActiveConfident
     public float _activeThreshold3 {get; private set;}  = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     private float imitoneActiveTimer = 0f;
-    private float imitoneInactiveTimer = 0f;
+    public float imitoneInactiveTimer = 0f;
     private float imitoneConfidentActiveTimer = 0.0f;
-    private float imitoneConfidentInactiveTimer = 0.0f;
+    public float imitoneConfidentInactiveTimer = 0.0f;
 
     //TODO: using these vars
     public float ssVolume { get; private set; }     //WORK ON THIS ONE IN GAMEVALUES
@@ -199,6 +199,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     //NOTE FOR REEF, I've moved a bunch of logic that isn't interpolating from FixedUpdate() into Update().
     void Update()
     {
+        Debug.Log(imitoneConfidentInactiveTimer);
         //FOR TESTING, I am having this only happen once, on the 2nd frame. 
         frameCount++;
         //if (frameCount == 2)
@@ -467,6 +468,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             imitoneConfidentActiveTimer += Time.deltaTime;
             imitoneActiveTimer += Time.deltaTime;
             imitoneInactiveTimer = 0f;
+            imitoneConfidentInactiveTimer = 0f;
             if (imitoneActiveTimer >= positiveActiveThreshold1 && !toneActive)
             {
                 toneActive = true;

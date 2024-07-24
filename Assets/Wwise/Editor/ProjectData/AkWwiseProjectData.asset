@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584802617932564176
+    m_lastTime: -8584798361695561004
     List:
     - name: Aux_Impacts
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -557,7 +557,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584802617932637410
+    m_lastTime: -8584798361703076871
     List:
     - name: Play_ADJUNCT_OPENING_SEQUENCE_LONG
       guid: a709e420b744d44cb9c2de5361ac7ffc
@@ -2930,7 +2930,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584804683481562454
+    m_lastTime: -8584798361695229029
     List:
     - name: InteractiveMusicMode
       guid: ff16d21ee376594bb02f58bf638de405
@@ -2947,6 +2947,38 @@ MonoBehaviour:
         guid: ff16d21ee376594bb02f58bf638de405
       Path: States\Default Work Unit\InteractiveMusicMode
       values:
+      - name: Environment
+        guid: 15f6333e163c4a408318dd7f85cc06a8
+        id: 1229948536
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: InteractiveMusicMode
+          ObjectType: 9
+          guid: ff16d21ee376594bb02f58bf638de405
+        - ElementName: Environment
+          ObjectType: 8
+          guid: 15f6333e163c4a408318dd7f85cc06a8
+      - name: InteractiveMusicSystem
+        guid: 8fc7d2918fabdf49a9c4375b7878706c
+        id: 1817215723
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: InteractiveMusicMode
+          ObjectType: 9
+          guid: ff16d21ee376594bb02f58bf638de405
+        - ElementName: InteractiveMusicSystem
+          ObjectType: 8
+          guid: 8fc7d2918fabdf49a9c4375b7878706c
       - name: None
         guid: f7580fefd152d043b13d474f5210cc18
         id: 748895195
@@ -2963,38 +2995,6 @@ MonoBehaviour:
         - ElementName: None
           ObjectType: 8
           guid: f7580fefd152d043b13d474f5210cc18
-      - name: Silent
-        guid: 15f6333e163c4a408318dd7f85cc06a8
-        id: 3160623154
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: InteractiveMusicMode
-          ObjectType: 9
-          guid: ff16d21ee376594bb02f58bf638de405
-        - ElementName: Silent
-          ObjectType: 8
-          guid: 15f6333e163c4a408318dd7f85cc06a8
-      - name: Toning
-        guid: 8fc7d2918fabdf49a9c4375b7878706c
-        id: 1718895636
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: InteractiveMusicMode
-          ObjectType: 9
-          guid: ff16d21ee376594bb02f58bf638de405
-        - ElementName: Toning
-          ObjectType: 8
-          guid: 8fc7d2918fabdf49a9c4375b7878706c
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
