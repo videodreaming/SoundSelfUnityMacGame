@@ -24,22 +24,47 @@
 									<MediaIDList>
 										<MediaID ID="466210932"/>
 									</MediaIDList>
-									<ObjectLists>
-										<ObjectList Name="Markers">
-											<Reference>
-												<Local>
-													<Marker Name="" ID="{54A5246A-56D7-49A0-AC4B-03143FB80BED}">
-														<PropertyList>
-															<Property Name="Label" Type="string" Value="TEST MARKER"/>
-															<Property Name="Time" Type="Real64" Value="2.00484814704717"/>
-														</PropertyList>
-													</Marker>
-												</Local>
-											</Reference>
-										</ObjectList>
-									</ObjectLists>
 								</AudioFileSource>
 							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{011DF52C-5A72-467E-BE7B-679E01F21AC9}" ShortID="998494815">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="BreatheCycle_Volume" ID="{6054B844-CB45-4C59-9436-ECB992881033}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{1E19DFEB-FB10-4690-B419-B23DF7A13B61}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="sfx_breath in" ID="{6FA8E62E-2ED4-4329-9B31-75505A8EC08C}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -812,6 +837,11 @@
 								<Value>9</Value>
 							</ValueList>
 						</Property>
+						<Property Name="Lowpass" Type="int16">
+							<ValueList>
+								<Value>7</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>-10</Value>
@@ -848,7 +878,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -908,45 +938,6 @@
 												<Property Name="SpeedRandom" Type="Real32" Value="37"/>
 												<Property Name="VelocityDynamicRange" Type="Real32" Value="0.37"/>
 											</PropertyList>
-											<ObjectLists>
-												<ObjectList Name="RTPC">
-													<Reference>
-														<Local>
-															<RTPC Name="" ID="{B5EB48AD-D7D1-4766-8A38-4720D188D245}" ShortID="729443905">
-																<PropertyList>
-																	<Property Name="PropertyName" Type="string" Value="PlaybackRate"/>
-																</PropertyList>
-																<ReferenceList>
-																	<Reference Name="ControlInput">
-																		<ObjectRef Name="BreathCycle_PlaybackRate" ID="{ECF07A6D-BB39-450A-BE91-AEB4ED817DE1}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
-																	</Reference>
-																	<Reference Name="Curve">
-																		<Custom>
-																			<Curve Name="" ID="{2F078147-A28A-4A4E-B8BB-9DF9C86C7EFA}">
-																				<PropertyList>
-																					<Property Name="Flags" Type="int32" Value="1"/>
-																				</PropertyList>
-																				<PointList>
-																					<Point>
-																						<XPos>0.1</XPos>
-																						<YPos>0.1</YPos>
-																						<Flags>5</Flags>
-																					</Point>
-																					<Point>
-																						<XPos>4</XPos>
-																						<YPos>4</YPos>
-																						<Flags>37</Flags>
-																					</Point>
-																				</PointList>
-																			</Curve>
-																		</Custom>
-																	</Reference>
-																</ReferenceList>
-															</RTPC>
-														</Local>
-													</Reference>
-												</ObjectList>
-											</ObjectLists>
 											<Language>SFX</Language>
 											<PluginData>
 	<WooshData>
@@ -1180,14 +1171,8 @@
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
-								<Reference Name="DefaultSwitchOrState">
-									<ObjectRef Name="SHORT" ID="{326D193E-9063-4168-96F1-887103960679}" WorkUnitID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}"/>
-								</Reference>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-								<Reference Name="SwitchGroupOrStateGroup">
-									<ObjectRef Name="SFX_BREATHLOOP" ID="{78B01A8B-D0B6-4FDA-B8A1-AC67ED01C447}" WorkUnitID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1470,20 +1455,6 @@
 										</PropertyList>
 									</GroupingBehavior>
 								</GroupingBehaviorList>
-								<GroupingList>
-									<Grouping>
-										<SwitchRef Name="SHORT" ID="{326D193E-9063-4168-96F1-887103960679}"/>
-										<ItemList>
-											<ItemRef Name="BREATH SFX SEQUENCE_SHORT" ID="{5E68ACB9-2530-4EDB-9EB9-6B83189816BB}"/>
-										</ItemList>
-									</Grouping>
-									<Grouping>
-										<SwitchRef Name="LONG" ID="{B6D6EEAA-7A41-412C-BB75-CF22CCB8A41F}"/>
-										<ItemList>
-											<ItemRef Name="BREATH SFX SEQUENCE_LONG" ID="{67424CED-19FD-48E6-A809-F112ABC8B28A}"/>
-										</ItemList>
-									</Grouping>
-								</GroupingList>
 							</GroupingInfo>
 						</SwitchContainer>
 					</ChildrenList>

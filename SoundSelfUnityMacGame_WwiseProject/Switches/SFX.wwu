@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}" SchemaVersion="119">
 	<Switches>
-		<WorkUnit Name="SFX" ID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}" PersistMode="Standalone">
-			<ChildrenList>
-				<SwitchGroup Name="SFX_BREATHLOOP" ID="{78B01A8B-D0B6-4FDA-B8A1-AC67ED01C447}">
-					<ChildrenList>
-						<Switch Name="SHORT" ID="{326D193E-9063-4168-96F1-887103960679}"/>
-						<Switch Name="LONG" ID="{B6D6EEAA-7A41-412C-BB75-CF22CCB8A41F}"/>
-					</ChildrenList>
-				</SwitchGroup>
-			</ChildrenList>
-		</WorkUnit>
+		<WorkUnit Name="SFX" ID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}" PersistMode="Standalone"/>
 	</Switches>
 </WwiseDocument>

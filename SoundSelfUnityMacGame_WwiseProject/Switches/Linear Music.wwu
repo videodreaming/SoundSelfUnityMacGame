@@ -10,6 +10,18 @@
 						<Switch Name="openingPassive" ID="{28442BAC-A4FD-4DAB-9E46-E9136FA82350}"/>
 					</ChildrenList>
 				</SwitchGroup>
+				<SwitchGroup Name="MusicPlaylist_Switch" ID="{259F0DA4-E7C6-4F8E-A79E-52D83D1A8402}">
+					<ChildrenList>
+						<Switch Name="Metta" ID="{A3CFE507-B5FF-4357-8495-0DCD7D5BB0AC}"/>
+						<Switch Name="Shruti" ID="{00BDAB98-5B4E-46E6-9AA5-1CC2A2B9FB50}"/>
+						<Switch Name="CrystalBowls" ID="{906B380E-F7FE-436A-99FF-F5D8CF22E86D}"/>
+						<Switch Name="NatureChimes" ID="{68739C2A-05DC-4421-89AD-B5B0B1B8DC03}"/>
+						<Switch Name="Radiance" ID="{4CD46F22-9612-4CF1-99E1-6462399ED8CF}"/>
+						<Switch Name="SonoFlore" ID="{A6B4A81F-6FE1-4A81-8370-56AA6077003A}"/>
+						<Switch Name="Chakapa" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
+						<Switch Name="CosmicAir" ID="{771BC3F4-4790-497C-B7A3-C90F9A1EDB3D}"/>
+					</ChildrenList>
+				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</Switches>

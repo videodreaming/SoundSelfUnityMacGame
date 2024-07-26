@@ -13,6 +13,7 @@
 						</Effect>
 						<Effect Name="Gentle_Program_Compressor_Minus_14dB_RMS" ID="{1595E6B0-DD58-4363-A3F0-DF0C96EC7C17}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
 							<PropertyList>
+								<Property Name="OutputGain" Type="Real32" Value="2"/>
 								<Property Name="Ratio" Type="Real32" Value="3"/>
 								<Property Name="Threshold" Type="Real32" Value="-12"/>
 							</PropertyList>
@@ -195,7 +196,6 @@
 						</Effect>
 						<Effect Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" ID="{2144284E-7ADD-4341-86A4-4E468BEC9A2D}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
 							<PropertyList>
-								<Property Name="OutputGain" Type="Real32" Value="1"/>
 								<Property Name="Ratio" Type="Real32" Value="50"/>
 								<Property Name="ReleaseTime" Type="Real32" Value="0.02"/>
 								<Property Name="Threshold" Type="Real32" Value="-6"/>

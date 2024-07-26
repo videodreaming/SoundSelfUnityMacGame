@@ -4,13 +4,6 @@
 		<WorkUnit Name="Default Work Unit" ID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}" PersistMode="Standalone">
 			<ChildrenList>
 				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
-					<PropertyList>
-						<Property Name="BusVolume" Type="Real64">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{69D60C99-E104-4F92-81B8-1C890CC95B06}" WorkUnitID="{20E15702-9916-45CB-8BCD-D7E3AE92AAE9}"/>
@@ -369,6 +362,19 @@
 						</Bus>
 						<Bus Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}">
 							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{88AF2446-931C-4AB2-B11A-D9B24B2CB375}" ShortID="132029716">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
+														<ObjectRef Name="Dialog_Leveler_Soft" ID="{9C1D0FCF-896E-4739-A8E8-B1E908F51CE6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
 								<ObjectList Name="RTPC">
 									<Reference>
 										<Local>
@@ -490,7 +496,15 @@
 								</Property>
 							</PropertyList>
 						</AuxBus>
-						<AuxBus Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}"/>
+						<AuxBus Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}">
+							<PropertyList>
+								<Property Name="OutputBusLowpass" Type="int16">
+									<ValueList>
+										<Value>8</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+						</AuxBus>
 						<AuxBus Name="Aux_Toning" ID="{619F7D95-78F4-4AA5-AEC9-AB6251E1BF93}">
 							<PropertyList>
 								<Property Name="OutputBusLowpass" Type="int16">

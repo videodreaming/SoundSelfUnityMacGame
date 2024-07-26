@@ -328,13 +328,6 @@
 							</ChildrenList>
 						</ActorMixer>
 						<ActorMixer Name="VO_Wakeup" ID="{6E994035-1785-4DF8-9D65-1B8363628134}" ShortID="610722363">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -348,7 +341,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -4039,14 +4032,8 @@
 																		<Reference Name="Conversion">
 																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 																		</Reference>
-																		<Reference Name="DefaultSwitchOrState">
-																			<ObjectRef Name="SHORT" ID="{326D193E-9063-4168-96F1-887103960679}" WorkUnitID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}"/>
-																		</Reference>
 																		<Reference Name="OutputBus">
 																			<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-																		</Reference>
-																		<Reference Name="SwitchGroupOrStateGroup">
-																			<ObjectRef Name="SFX_BREATHLOOP" ID="{78B01A8B-D0B6-4FDA-B8A1-AC67ED01C447}" WorkUnitID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}"/>
 																		</Reference>
 																	</ReferenceList>
 																	<ChildrenList>
@@ -4329,20 +4316,6 @@
 																				</PropertyList>
 																			</GroupingBehavior>
 																		</GroupingBehaviorList>
-																		<GroupingList>
-																			<Grouping>
-																				<SwitchRef Name="SHORT" ID="{326D193E-9063-4168-96F1-887103960679}"/>
-																				<ItemList>
-																					<ItemRef Name="BREATH SFX SEQUENCE_SHORT" ID="{3630A7BE-4319-466D-ADBA-4F170B844068}"/>
-																				</ItemList>
-																			</Grouping>
-																			<Grouping>
-																				<SwitchRef Name="LONG" ID="{B6D6EEAA-7A41-412C-BB75-CF22CCB8A41F}"/>
-																				<ItemList>
-																					<ItemRef Name="BREATH SFX SEQUENCE_LONG" ID="{AF5CB348-F95A-4909-836C-B29BAC3E9DE7}"/>
-																				</ItemList>
-																			</Grouping>
-																		</GroupingList>
 																	</GroupingInfo>
 																</SwitchContainer>
 															</ChildrenList>

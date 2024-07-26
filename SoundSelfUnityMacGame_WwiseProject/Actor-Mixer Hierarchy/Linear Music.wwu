@@ -28,6 +28,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="music_meditationSilent_E Major" ID="{51A07E08-BDD3-44B2-AA13-33E6CC101BB7}" ShortID="537070791">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
