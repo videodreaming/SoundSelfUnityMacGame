@@ -29,20 +29,18 @@ public class WwiseVOManager : MonoBehaviour
     public RTPC toningHarmonyrtpcvolume;
     public bool firstTimeUser = true;
     public bool layingDown = true;
-    public bool interactive = true;
+    
+    public bool interactive = false;
 
     public CSVWriter csvWriter;
 
     private bool silentPlaying = false;
     private bool previousToneActiveConfident = false;
-    void Awake()
-    {
-
-    }
 
 
     void Start()
     {
+        AkSoundEngine.SetState("InteractiveMusicMode","InteractiveMusicSystem");
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
         AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
@@ -55,7 +53,7 @@ public class WwiseVOManager : MonoBehaviour
         assignVOs();
         if(firstTimeUser)
         {
-            //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
+            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
             AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
         } else {
             //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
@@ -66,6 +64,22 @@ public class WwiseVOManager : MonoBehaviour
 
     void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {
+        // Posture_Start
+        // orientation_Start
+        // thematicOpening_Start
+        // Cue_ThematicOpening_End
+        // Cue_VoiceElicitation1_Start
+        // Cue_Microphone_ON
+        // Cue_BreathIn_Start
+        // Cue_Sigh_Start
+        // Cue_Microphone_OFF
+        // Cue_VoiceElicitation1_End
+        // Cue_Somatic_Start
+        // Cue_Microphone_ON
+        //Cue_BreathIN_start
+        // BreatheOut_Start
+        // Linear 1 2 and 3
+        // Cue_InteractiveMusicSystem_Start
          if (in_type == AkCallbackType.AK_MusicSyncUserCue)
             {
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
@@ -79,17 +93,23 @@ public class WwiseVOManager : MonoBehaviour
                 } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
                  {
                     Debug.Log("Stopping Openign Seq, play sigh Query Seq");
-                    AkSoundEngine.PostEvent("Stop_OPENING_SEQUENCE",gameObject);
                 }
                 else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
                 {
                     csvWriter.microphoneMonitoring = true;
                     userAudioSource.volume = 1.0f;
                     Debug.Log("Cue Mic On");
-                } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
+                } else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
+                {
+
+                }
+                 else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
                     //Robin to do AVS Stuff here
                     Debug.Log("Cue BreathIn Start");
+                } else if(musicSyncInfo.userCueName == "Cue_Orientation_Start")
+                {
+                    Debug.Log("Cue Orientation Start");
                 } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
                 {
                     //Robin to do AVS Stuff here
@@ -111,13 +131,21 @@ public class WwiseVOManager : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
                 {
                     Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
+                } else if (musicSyncInfo.userCueName == "Cue_LinearHum1_Start")
+                {
+
+                } else if (musicSyncInfo.userCueName == "Cue_LinearHum2_Start")
+                {
+
+                } else if (musicSyncInfo.userCueName == "Cue_LinearHum3_Start")
+                {
+
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
-                    //StartCoroutine (InteractiveMusicSystemFade());
-                    //interactive = true;
+                    StartCoroutine (InteractiveMusicSystemFade());
+                    interactive = true;
                     AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
                     AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-
                 } 
             }   
     }
@@ -158,21 +186,26 @@ public class WwiseVOManager : MonoBehaviour
     }
     void Update()
     {
-        if(interactive)
+        checkInteractive();
+       
+    }
+    void checkInteractive()
+    {
+         if(interactive == true)
         {
+            Debug.Log("interactive is true");
             if(silentPlaying == false)
             {
-                silentrtpcvolume.SetGlobalValue(targetValue);
-                toningrtpcvolume.SetGlobalValue(targetValue);
-                //StartCoroutine (InteractiveMusicSystemFade());
-                AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-                AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-                silentPlaying = true;
+                // silentrtpcvolume.SetGlobalValue(targetValue);
+                // toningrtpcvolume.SetGlobalValue(targetValue);
+                // AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+                // AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+                // silentPlaying = true;
             }
-            
             bool currentToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
             if(currentToneActiveConfident && !previousToneActiveConfident)
             {
+                Debug.Log("Playing Toning");
                 AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
                 AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
             } else if (!currentToneActiveConfident && previousToneActiveConfident)
@@ -182,7 +215,6 @@ public class WwiseVOManager : MonoBehaviour
             previousToneActiveConfident = currentToneActiveConfident;
         }
     }
-
     
     void assignVOs()
     {

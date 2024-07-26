@@ -21,6 +21,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem,");
         musicSystem1.fundamentalNote = 9;
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "E", gameObject);
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", "A", gameObject);

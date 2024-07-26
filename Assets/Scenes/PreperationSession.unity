@@ -7343,6 +7343,7 @@ GameObject:
   - component: {fileID: 486583133}
   - component: {fileID: 486583131}
   - component: {fileID: 486583134}
+  - component: {fileID: 486583135}
   m_Layer: 0
   m_Name: WwiseVOManager
   m_TagString: Untagged
@@ -7445,23 +7446,36 @@ MonoBehaviour:
   silentFundamentalrtpcvolume:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: cc815dd2ed7e9e146adaf04b3aabb137, type: 2}
   toningFundamentalrtpcvolume:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: bbb93fce22082c74dbfc1956fc40f88d, type: 2}
   silentHarmonyrtpcvolume:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 08617389800d20f45a0994dab94cdf8c, type: 2}
   toningHarmonyrtpcvolume:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: bcaabec165f1c124594b1b952bff5aea, type: 2}
   firstTimeUser: 1
   layingDown: 1
-  interactive: 1
+  interactive: 0
   csvWriter: {fileID: 662335749}
+--- !u!114 &486583135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486583129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5e3a64030f34f6784e1e4efb1ea263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Collider: {fileID: 0}
 --- !u!1 &488612079
 GameObject:
   m_ObjectHideFlags: 0
@@ -9947,6 +9961,8 @@ MonoBehaviour:
   pitch_hz: 0
   note_st: 0
   _dbThreshold: -25
+  imitoneInactiveTimer: 0
+  imitoneConfidentInactiveTimer: 0
   _tThisTone: 0
   _tThisToneConfident: 0
   _tThisToneBiasTrue: 0
