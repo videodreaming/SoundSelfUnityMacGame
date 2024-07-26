@@ -14,6 +14,7 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID MUTE_OPENING_MUSIC = 2146852899U;
+        static const AkUniqueID MUTE_SILENTMEDITATION_MUSIC = 236202206U;
         static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_LONG = 640169525U;
         static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_SHORT = 593266067U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
@@ -32,11 +33,14 @@ namespace AK
         static const AkUniqueID PLAY_ENVIRONMENT_OPENINGWELCOME = 2849654864U;
         static const AkUniqueID PLAY_ENVIRONMENT_WIND = 2929327982U;
         static const AkUniqueID PLAY_EXIT_MUSIC_PLAYLIST = 3484562951U;
+        static const AkUniqueID PLAY_INTEGRATION_OPENING_SEQUENCE_SHORT = 2779598584U;
         static const AkUniqueID PLAY_MENUMUSIC = 2570041344U;
         static const AkUniqueID PLAY_MUSIC_DUET_D_MAJOR = 1226520867U;
         static const AkUniqueID PLAY_MUSIC_MEDITATIONSILENT_E_MAJOR_LOOP = 3359246268U;
-        static const AkUniqueID PLAY_OPENING_SEQUENCE_LONG = 4109731399U;
-        static const AkUniqueID PLAY_OPENING_SEQUENCE_SHORT = 3973502489U;
+        static const AkUniqueID PLAY_MUSIC_PLAYLIST_SWITCH = 711060179U;
+        static const AkUniqueID PLAY_PASSIVE_OPENING_SEQUENCE = 4125756612U;
+        static const AkUniqueID PLAY_PREPARATION_OPENING_SEQUENCE_LONG = 589034621U;
+        static const AkUniqueID PLAY_PREPARATION_OPENING_SEQUENCE_SHORT = 2916823035U;
         static const AkUniqueID PLAY_SFX_BREATHEIN = 3830600368U;
         static const AkUniqueID PLAY_SFX_BREATHEOUT = 77468567U;
         static const AkUniqueID PLAY_SFX_IMPACT = 2908297336U;
@@ -79,7 +83,11 @@ namespace AK
         static const AkUniqueID PLAY_VO_THEMATICCONTENT = 2088653686U;
         static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
+        static const AkUniqueID PLAY_VO_WAKEUP_ENDSOON = 2570903362U;
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
+        static const AkUniqueID PLAY_WAKEUPENDSOON_SEQUENCE = 4021535955U;
+        static const AkUniqueID PLAY_WISDOM_OPENING_SEQUENCE_LONG = 1410067095U;
+        static const AkUniqueID PLAY_WISDOM_OPENING_SEQUENCE_SHORT = 855517545U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_REFERENCE = 767717232U;
@@ -241,16 +249,22 @@ namespace AK
             } // namespace SWITCH
         } // namespace MENU_SESSIONMODE
 
-        namespace SFX_BREATHLOOP
+        namespace MUSICPLAYLIST_SWITCH
         {
-            static const AkUniqueID GROUP = 3314477981U;
+            static const AkUniqueID GROUP = 1496240431U;
 
             namespace SWITCH
             {
-                static const AkUniqueID LONG = 674228435U;
-                static const AkUniqueID SHORT = 2585211341U;
+                static const AkUniqueID CHAKAPA = 829625860U;
+                static const AkUniqueID COSMICAIR = 2973005081U;
+                static const AkUniqueID CRYSTALBOWLS = 3876742708U;
+                static const AkUniqueID METTA = 2692078280U;
+                static const AkUniqueID NATURECHIMES = 395563099U;
+                static const AkUniqueID RADIANCE = 3794542990U;
+                static const AkUniqueID SHRUTI = 4267886810U;
+                static const AkUniqueID SONOFLORE = 1467691068U;
             } // namespace SWITCH
-        } // namespace SFX_BREATHLOOP
+        } // namespace MUSICPLAYLIST_SWITCH
 
         namespace VO_CLOSINGGOODBYE
         {
@@ -383,7 +397,6 @@ namespace AK
         static const AkUniqueID AVS_RED_VOLUME_WAVE2 = 3922087662U;
         static const AkUniqueID AVS_RED_VOLUME_WAVE3 = 3922087663U;
         static const AkUniqueID AVS_REFERENCE_VOLUME = 2523786154U;
-        static const AkUniqueID BREATHCYCLE_PLAYBACKRATE = 158808291U;
         static const AkUniqueID BREATHECYCLE_VOLUME = 1662384195U;
         static const AkUniqueID CRYSTALBOWLGENERATOR_VOLUME = 3761161481U;
         static const AkUniqueID ENVIRONMENT_BUS_VOLUME = 2456559820U;

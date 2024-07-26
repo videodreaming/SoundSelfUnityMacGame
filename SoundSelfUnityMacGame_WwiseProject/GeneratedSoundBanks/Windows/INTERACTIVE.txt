@@ -104,7 +104,6 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	54156856	AVS_MasterVolume_Wave2			\AVS System\WAVE 2\AVS_MasterVolume_Wave2	
 	54156857	AVS_MasterVolume_Wave3			\AVS System\WAVE 3\AVS_MasterVolume_Wave3	
 	54156859	AVS_MasterVolume_Wave1			\AVS System\WAVE 1\AVS_MasterVolume_Wave1	
-	158808291	BreathCycle_PlaybackRate			\SFX\BreathCycle_PlaybackRate	
 	1111564044	HarmonySilentVolume			\Interactive Music System\HarmonySilentVolume	
 	1209148328	AVS_Modulation_PWM_Wave1			\AVS System\WAVE 1\AVS_Modulation_PWM_Wave1	
 	1209148330	AVS_Modulation_PWM_Wave3			\AVS System\WAVE 3\AVS_Modulation_PWM_Wave3	
@@ -242,7 +241,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	446117886	harmony_[G#Ab]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[G]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v2_12_Linked\InteractiveMusic_SilentLoops_v2_12_Linked\harmony_[G#Ab]_silent_gentle		10932152
 	464203531	sfx_breath out	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath out_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
 	465792322	Pigments_Ambient_C Maj Scale	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Pigments_Ambient_C Maj Scale_A7ED6E33.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[F]_toning_shadow\Pigments_Ambient_C Maj Scale		2550808
-	466210932	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_484E83A4.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612120
+	466210932	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_C3F4FBB0.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612056
 	487812902	vo_test10tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test10tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationAhh\VO_GuidedVocalizationAhh\vo_test10tone		2623008
 	493526042	vo_test14tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test14tone_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_GuidedVocalizationOhh\VO_GuidedVocalizationOhh\vo_test14tone		3671584
 	494020334	fundamental_[C]_toning_shruti	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_shruti_2E59B1D2.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shruti\fundamental_[C]_toning_shruti\fundamental_[C]_toning_shruti		2858372

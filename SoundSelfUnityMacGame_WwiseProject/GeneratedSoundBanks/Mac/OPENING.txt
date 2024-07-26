@@ -5,16 +5,20 @@ Event	ID	Name			Wwise Object Path	Notes
 	410054882	Play_SIGH_QUERY_SEQUENCE_1			\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_1	
 	452547817	Stop_All			\Default Work Unit\Stop_All	
 	528568497	Play_VO_POSTURE_SWITCH			\Default Work Unit\Play_VO_POSTURE_SWITCH	
+	589034621	Play_PREPARATION_OPENING_SEQUENCE_LONG			\Default Work Unit\Play_PREPARATION_OPENING_SEQUENCE_LONG	
 	593266067	Play_ADJUNCT_OPENING_SEQUENCE_SHORT			\Default Work Unit\Play_ADJUNCT_OPENING_SEQUENCE_SHORT	
 	603425291	Play_sfx_SoundSeed_BreathCycleWind			\SFX\Play_sfx_SoundSeed_BreathCycleWind	
 	640169525	Play_ADJUNCT_OPENING_SEQUENCE_LONG			\Default Work Unit\Play_ADJUNCT_OPENING_SEQUENCE_LONG	
 	670049528	Stop_OPENING_SEQUENCE			\Default Work Unit\Stop_OPENING_SEQUENCE	
+	711060179	Play_MUSIC_PLAYLIST_SWITCH			\Default Work Unit\Play_MUSIC_PLAYLIST_SWITCH	
 	772188046	Play_environment_openingQueryRepeat1			\Environment\Play_environment_openingQueryRepeat1	
 	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP	
+	855517545	Play_WISDOM_OPENING_SEQUENCE_SHORT			\Default Work Unit\Play_WISDOM_OPENING_SEQUENCE_SHORT	
 	1024713720	Play_VO_SighElicitationFail2			\VO\Play_VO_SighElicitationFail2	
 	1024713723	Play_VO_SighElicitationFail1			\VO\Play_VO_SighElicitationFail1	
 	1051170748	Play_VO_QueryElicitationPass2			\VO\Play_VO_QueryElicitationPass2	
 	1386597262	Play_VO_Opening			\VO\Play_VO_Opening	
+	1410067095	Play_WISDOM_OPENING_SEQUENCE_LONG			\Default Work Unit\Play_WISDOM_OPENING_SEQUENCE_LONG	
 	1422850325	Play_VO_QueryElicitationFail2			\VO\Play_VO_QueryElicitationFail2	
 	1422850326	Play_VO_QueryElicitationFail1			\VO\Play_VO_QueryElicitationFail1	
 	1488609146	Play_VO_QueryElicitation1			\VO\Play_VO_QueryElicitation1	
@@ -27,8 +31,10 @@ Event	ID	Name			Wwise Object Path	Notes
 	2146852899	Mute_OPENING_MUSIC			\Default Work Unit\Mute_OPENING_MUSIC	
 	2570041344	Play_MenuMusic			\Linear Music\Play_MenuMusic	
 	2715963629	Stop_VO_OPENING_THEMATIC_SWITCH			\Default Work Unit\Stop_VO_OPENING_THEMATIC_SWITCH	
+	2779598584	Play_INTEGRATION_OPENING_SEQUENCE_SHORT			\Default Work Unit\Play_INTEGRATION_OPENING_SEQUENCE_SHORT	
 	2849654864	Play_environment_openingWelcome			\Environment\Play_environment_openingWelcome	
 	2908297336	Play_sfx_Impact			\SFX\Play_sfx_Impact	
+	2916823035	Play_PREPARATION_OPENING_SEQUENCE_SHORT			\Default Work Unit\Play_PREPARATION_OPENING_SEQUENCE_SHORT	
 	2929327982	Play_environment_wind			\Environment\Play_environment_wind	
 	2987132208	Play_environment_openingQuery			\Environment\Play_environment_openingQuery	
 	3418740755	Play_VO_OPENING_THEMATIC_SWITCH			\Default Work Unit\Play_VO_OPENING_THEMATIC_SWITCH	
@@ -37,12 +43,12 @@ Event	ID	Name			Wwise Object Path	Notes
 	3724822780	Play_environment_anyQueryRepeat1			\Environment\Play_environment_anyQueryRepeat1	
 	3724822783	Play_environment_anyQueryRepeat2			\Environment\Play_environment_anyQueryRepeat2	
 	3830600368	Play_sfx_breathein			\SFX\Play_sfx_breathein	
-	3973502489	Play_OPENING_SEQUENCE_SHORT			\Default Work Unit\Play_OPENING_SEQUENCE_SHORT	
 	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP	
-	4109731399	Play_OPENING_SEQUENCE_LONG			\Default Work Unit\Play_OPENING_SEQUENCE_LONG	
+	4125756612	Play_PASSIVE_OPENING_SEQUENCE			\Default Work Unit\Play_PASSIVE_OPENING_SEQUENCE	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
 	184547165	VO_Posture			\VO\VO_Posture	
+	1496240431	MusicPlaylist_Switch			\Linear Music\MusicPlaylist_Switch	
 	2585035832	MENU_SESSIONMODE			\Default Work Unit\MENU_SESSIONMODE	
 	3813349969	VO_Somatic			\VO\VO_Somatic	
 	3925841397	VO_ThematicContent			\VO\VO_ThematicContent	
@@ -51,6 +57,14 @@ Switch Group	ID	Name			Wwise Object Path	Notes
 Switch	ID	Name	Switch Group			Notes
 	3551080421	Relax	VO_Posture			
 	3891673577	LieDown	VO_Posture			
+	395563099	NatureChimes	MusicPlaylist_Switch			
+	829625860	Chakapa	MusicPlaylist_Switch			
+	1467691068	SonoFlore	MusicPlaylist_Switch			
+	2692078280	Metta	MusicPlaylist_Switch			
+	2973005081	CosmicAir	MusicPlaylist_Switch			
+	3794542990	Radiance	MusicPlaylist_Switch			
+	3876742708	CrystalBowls	MusicPlaylist_Switch			
+	4267886810	Shruti	MusicPlaylist_Switch			
 	2534402132	Adjunct	MENU_SESSIONMODE			
 	2595709632	Passive	MENU_SESSIONMODE			
 	3147549296	Preparation	MENU_SESSIONMODE			
@@ -75,7 +89,6 @@ State	ID	Name	State Group			Notes
 	1817215723	InteractiveMusicSystem	InteractiveMusicMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
-	158808291	BreathCycle_PlaybackRate			\SFX\BreathCycle_PlaybackRate	
 	1662384195	BreatheCycle_Volume			\SFX\BreatheCycle_Volume	
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
 
@@ -85,8 +98,9 @@ Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	37327612	menu_music_C Major	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\menu_music_C Major_818F3B66.wem		\Actor-Mixer Hierarchy\Linear Music\Music\menu_music_C Major		43932232
 	39113922	vo_thematicOpening_surrender	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_surrender_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_surrender\vo_thematicOpening_surrender		29754912
-	56144728	SFX_BreathLoop_Reaper	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SFX_BreathLoop_Reaper_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SWITCH_PREPARATION\OPENING_LONG\SFX_BreathLoop_Reaper		5760096
+	56144728	SFX_BreathLoop_Reaper	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SFX_BreathLoop_Reaper_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_PASSIVE\SFX_BreathLoop_Reaper		5760096
 	90271403	vo_thematicOpening_peace	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_peace_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_peace\vo_thematicOpening_peace		9831968
+	103751047	MusicArrangement_Radiance_9_6_23	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\MusicArrangement_Radiance_9.6.23_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\MusicDemo_Radiance, Nature, Pipe Organ\MusicArrangement_Radiance_9_6_23		105642764
 	137392073	ThematicSavasana_MUSIC_METTA	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\ThematicSavasana_MUSIC_METTA_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SWITCH_PREPARATION\OPENING_SHORT\ThematicSavasana_MUSIC_METTA		62865096
 	141708242	vo_thankYou	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thankYou_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_thankyou\vo_thankYou		132640
 	146493863	vo_opening_openingShort	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingShort_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SWITCH_PREPARATION\OPENING_SHORT\vo_opening_openingShort		7210528
@@ -98,7 +112,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	226852051	sfx_subkick	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_subkick_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence\sfx_subkick		876456
 	234819779	environment_openingMeditation	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingMeditation_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\SOMATIC_SWITCH\SOMATIC_SHORT\environment_openingMeditation		48123800
 	235195281	WHITE_Iso_TRI_1Hz	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\WHITE_Iso_TRI_1Hz_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\SOMATIC_SWITCH\SOMATIC_SHORT\WHITE_Iso_TRI_1Hz		192096
-	288516378	WHITE_SOLID	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\WHITE_SOLID_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\SOMATIC_SWITCH\SOMATIC_LONG\WHITE_SOLID		192096
+	288516378	WHITE_SOLID	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\WHITE_SOLID_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SHORT_INTEGRATION\WHITE_SOLID		192096
 	297480391	vo_elicitQueryFail_closing	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_closing_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitationFail2\VO_QueryElicitationFail2\vo_elicitQueryFail_closing		3540512
 	301782202	vo_thematicOpening_diewell	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_diewell_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_diewell\vo_thematicOpening_diewell		4589088
 	334730074	REFERENCE	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\REFERENCE_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SWITCH_ADJUNCT\OPENING_SHORT\REFERENCE		176496
@@ -111,21 +125,25 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	397051634	vo_opening_openingLong	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingLong_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SWITCH_PREPARATION\OPENING_LONG\vo_opening_openingLong		13370912
 	400971119	vo_thematicOpening_narrative	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_narrative_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_narrative\vo_thematicOpening_narrative		12846624
 	464203531	sfx_breath out	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath out_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
-	466210932	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_484E83A4.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612120
+	466210932	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_C3F4FBB0.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612056
 	480920717	vo_elicitSigh_opening	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSigh_opening_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 1\vo_elicitSigh_opening		6599904
 	515336261	environment_openingQueryRepeat1	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingQueryRepeat1_FBC78EF0.wem		\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_openingQueryRepeat1		3258072
 	516326041	vo_somaticMeditation_long	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_somaticMeditation_long_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\SOMATIC_SWITCH\SOMATIC_LONG\vo_somaticMeditation_long		45483552
 	517296307	environment_openingWelcome	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingWelcome_FBC78EF0.wem		\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_openingWelcome		9918616
+	529751748	Opening_Bowls, Nature, BinauralBeats_4_24_24	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Opening_Bowls, Nature, BinauralBeats_4.24.24_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\MusicDemo_No Sax, Bowls, Nature\Opening_Bowls, Nature, BinauralBeats_4_24_24		69120096
 	570701755	environment_anyQueryRepeat1	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_anyQueryRepeat1_FBC78EF0.wem		\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_anyQueryRepeat1		1189728
 	579672527	sfx_start	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_start_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 1\sfx_start		1399392
+	611040035	vo_opening_openingPassive	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingPassive_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_PASSIVE\vo_opening_openingPassive		7734816
 	625014998	vo_elicitQuery_opening	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQuery_opening_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 1\vo_elicitQuery_opening		10356256
 	648810886	vo_elicitSighFail_opening1	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSighFail_opening1_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitationFail1\VO_SighElicitationFail1\vo_elicitSighFail_opening1		4326944
-	650293573	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SWITCH_ADJUNCT\OPENING_SHORT\sfx_breath in		612056
+	650293573	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SHORT_INTEGRATION\sfx_breath in		612056
 	665576698	sfx_stop	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_stop_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 1\sfx_stop		1424356
 	685689043	STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12.21.23 [2024-05-06 214206]_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SWITCH_PREPARATION\OPENING_SHORT\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]_01		33408096
 	707978221	WHITE_Iso_TRI_20Hz	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\WHITE_Iso_TRI_20Hz_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\SOMATIC_SWITCH\SOMATIC_SHORT\WHITE_Iso_TRI_20Hz		192096
 	711571273	vo_elicitSigh_opening	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSigh_opening_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitation1\vo_elicitSigh_opening		6599904
 	719008266	vo_elicitQueryFail_any3	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any3_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_any3		2098720
+	745939041	menu_music_C Major	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\menu_music_C Major_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\menu_music_C Major\menu_music_C Major		43932232
+	756450229	ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\MusicDemo_Shruti, Monochord, FemaleVox\ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24		78120096
 	771986202	WHITE_Binaural_TRI_5Hz	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\WHITE_Binaural_TRI_5Hz_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\SOMATIC_SWITCH\SOMATIC_SHORT\WHITE_Binaural_TRI_5Hz		192096
 	789751157	environment_wind	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_wind_FD032056.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 1\environment_wind		18868108
 	793736320	Gong,Rainstick_Oneshot	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Gong,Rainstick_Oneshot_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence\SFX_Gong_Rainstick_OneShot\Gong,Rainstick_Oneshot		3754236
@@ -134,6 +152,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	838651350	vo_elicitSighFail_any	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSighFail_any_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitationFail1\VO_SighElicitationFail1\vo_elicitSighFail_any		4064800
 	864683053	vo_somaticMeditation_long	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_somaticMeditation_long_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Somatic\VO_Somatic\vo_somaticMeditation_long		45483552
 	883996255	environment_wind	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_wind_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\SOMATIC_SWITCH\SOMATIC_LONG\environment_wind		18868108
+	901997753	music_duet_D Major	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\music_duet_D Major_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\music_duet_D Major\music_duet_D Major		55791272
 	919460175	vo_posture_liedown	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_posture_liedown_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\VO_POSTURE_SWITCH\vo_posture_liedown\vo_posture_liedown		1560096
 	955543026	vo_opening_openingPassive	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingPassive_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Opening_SEQUENCE_Archive\VO_OPENING_COMPLETE\OPENING SEQUENCE_ADJUNCT\OPENING_SEQUENCE\VO_OPENING\VO_Opening\vo_opening_openingPassive		7734816
 	955926001	vo_opening_openingShort	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_opening_openingShort_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO_Opening_SEQUENCE_Archive\VO_OPENING_COMPLETE\OPENING SEQUENCE_ADJUNCT\OPENING_SEQUENCE\VO_OPENING\VO_Opening\vo_opening_openingShort		7210528
@@ -146,6 +165,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1026853668	vo_thematicOpening_surrender	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_surrender_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_THEMATIC CONTENT_SWITCH\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_surrender		29754912
 	1028451859	vo_elicitQueryFail_any1	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any1_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_any1		5637664
 	1046552367	SFX_Impact_Thud	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\PLX_ALFTT_impact_bull_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence\SFX_Impact_Thud		933120
-	1051969831	vo_orientation	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_orientation_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SWITCH_PREPARATION\OPENING_LONG\vo_orientation		8914464
+	1050281884	music_meditationSilent_E Major	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\music_meditationSilent_E Major_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\CosmicAir\music_meditationSilent_E Major_LOOP\music_meditationSilent_E Major		22618140
+	1051969831	vo_orientation_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_orientation_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SHORT_INTEGRATION\vo_orientation_01		8914464
 	1061468265	vo_somaticMeditation_short	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_somaticMeditation_short_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Somatic\VO_Somatic\vo_somaticMeditation_short		18613792
 
