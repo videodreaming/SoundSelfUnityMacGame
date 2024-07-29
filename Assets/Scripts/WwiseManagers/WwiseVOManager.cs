@@ -40,10 +40,9 @@ public class WwiseVOManager : MonoBehaviour
 
     void Start()
     {
-        AkSoundEngine.SetState("InteractiveMusicMode","InteractiveMusicSystem");
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
-        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
+        
         if(userObject != null)
         {
             userAudioSource = userObject.GetComponent<AudioSource>();

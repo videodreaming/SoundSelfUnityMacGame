@@ -18,13 +18,40 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     public uint playingId;
     private bool toneActiveTriggered = false; // Flag to control the event triggering
 
+    private float interactiveMusicExperienceTotalTime;
+    private float interactiveMusicExperienceRemainingTime;
+    private float soundWorldChangeTime;
+    public CSVWriter csvWriter;
+
     // Start is called before the first frame update
     void Start()
     {
+        interactiveMusicExperienceTotalTime = 1245.0f;
+        interactiveMusicExperienceRemainingTime = interactiveMusicExperienceTotalTime;
+        soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
+        
+        //Uncomment when CSV Writer is implemented
+        /*if(csvWriter.GameMode == "Preperation")
+        {
+            if(csvWriter.SubGameMode == "Peace")
+            {   
+                interactiveMusicExpereicneTotalTime = 1245.0f;
+            } else if (csvWriter.SubGameMode == "Narrative")
+            {
+                interactiveMusicExpereicneTotalTime = 1378.0f;
+            } else if (csvWriter.SubGameMode == "Surrender")
+            {   
+                interactiveMusicExpereicneTotalTime = 1254.0f;
+            }
+            soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
+        }*/
+        
+
         AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem,");
+        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
         musicSystem1.fundamentalNote = 9;
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "E", gameObject);
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", "A", gameObject);
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
@@ -39,13 +66,11 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     public void userToningToChangeFundamental(string fundamentalNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", fundamentalNote,gameObject);
-        //AkSoundEngine.PostEvent("Play_Toning3_Fundamentalonly", gameObject);
         Debug.Log("Fundamental Note: " + ConvertIntToNote(musicSystem1.fundamentalNote));
     }
     public void changeHarmony(string harmonyNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-        //AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
         Debug.Log("Harmony Note: " + ConvertIntToNote(musicSystem1.harmonyNote));
     }
 
@@ -71,7 +96,6 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         {
             if(imitoneVoiceIntepreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
             {
-                Debug.Log("Switching to Environment");
                 AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
             }
             else
