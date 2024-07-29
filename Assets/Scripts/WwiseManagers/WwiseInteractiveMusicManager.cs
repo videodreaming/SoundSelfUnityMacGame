@@ -17,18 +17,23 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     public WwiseVOManager wwiseVOManager;
     public uint playingId;
     private bool toneActiveTriggered = false; // Flag to control the event triggering
+      private float elapsedTime = 0f; // Tracks the elapsed time since the start
+    private int currentStage = 0; // Tracks the current stage of the sound world
 
     private float interactiveMusicExperienceTotalTime;
-    private float interactiveMusicExperienceRemainingTime;
+    private float finalStagePreLogicTime;
+
     private float soundWorldChangeTime;
+    private bool finalStagePreLogicExecuted = false; 
+    public bool CFundamentalGHarmonyLock = false;
     public CSVWriter csvWriter;
 
     // Start is called before the first frame update
     void Start()
     {
         interactiveMusicExperienceTotalTime = 1245.0f;
-        interactiveMusicExperienceRemainingTime = interactiveMusicExperienceTotalTime;
         soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
+        finalStagePreLogicTime = 15f; 
         
         //Uncomment when CSV Writer is implemented
         /*if(csvWriter.GameMode == "Preperation")
@@ -36,6 +41,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
             if(csvWriter.SubGameMode == "Peace")
             {   
                 interactiveMusicExpereicneTotalTime = 1245.0f;
+                finalStagePreLogicTime = 15f; 
             } else if (csvWriter.SubGameMode == "Narrative")
             {
                 interactiveMusicExpereicneTotalTime = 1378.0f;
@@ -77,6 +83,8 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+ 
+
         if (imitoneVoiceIntepreter.toneActiveConfident)
         {
             if (!toneActiveTriggered)
@@ -94,6 +102,43 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }
         if(wwiseVOManager.interactive == true)
         {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= soundWorldChangeTime)
+            {
+                
+                elapsedTime = 0f; // Reset elapsed time
+                currentStage++; // Move to the next stage
+                
+                switch (currentStage)
+                {
+                    case 1:
+                        AkSoundEngine.SetState("SoundWorldMode", "Gentle");
+                        break;
+                    case 2:
+                        AkSoundEngine.SetState("SoundWorldMode", "Shadow");
+                        break;
+                    case 3:
+                        AkSoundEngine.SetState("SoundWorldMode", "Shruti");
+                        break;
+                    default:
+                    wwiseVOManager.interactive = false;
+                    RunFinalStageLogic();
+                    break;
+                }   
+            }
+            if (currentStage == 3 && !finalStagePreLogicExecuted)
+            {
+                // Calculate the remaining time before the final logic execution
+                float timeRemainingForFinalLogic = soundWorldChangeTime - elapsedTime;
+
+                if (timeRemainingForFinalLogic <= finalStagePreLogicTime)
+                {
+                    CFundamentalGHarmonyLock = true;
+                    finalStagePreLogicExecuted = true;
+                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", "C", gameObject);
+                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "G", gameObject);
+                }
+            }
             if(imitoneVoiceIntepreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
             {
                 AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
@@ -105,7 +150,12 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }
     }
 
+    void RunFinalStageLogic()
+    {
+        AkSoundEngine.PostEvent("Stop_InteractiveMusicSystem", gameObject);
+        AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject);
 
+    }
 
     public void ChangeToningState()
     {
