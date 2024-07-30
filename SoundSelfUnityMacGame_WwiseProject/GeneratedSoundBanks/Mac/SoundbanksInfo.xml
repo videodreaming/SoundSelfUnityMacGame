@@ -16,13 +16,12 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{627FE8D3-5A68-5079-449F-A3F7A0006370}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{CFD554EB-F86B-71D2-1B98-C11B2C7BE618}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
 				<ShareSets>
 					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" LibName="Wwise Compressor" LibId="7077891"/>
-					<Plugin Id="1459522457" Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" LibName="Wwise Peak Limiter" LibId="7208963"/>
 					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
 				</ShareSets>
 				<AudioDevices>
@@ -68,7 +67,6 @@
 					<PluginRefs>
 						<ShareSets>
 							<PluginRef Id="418265525"/>
-							<PluginRef Id="1459522457"/>
 						</ShareSets>
 					</PluginRefs>
 				</Bus>
@@ -321,7 +319,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{CC7F7C1E-CB83-FDF5-CF9A-85AFA84C96AA}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{9DC15E46-FD54-694F-F5DA-55F39CC214C6}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -5819,7 +5817,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{C5FAD17C-448C-5CA2-CA5D-6041D4814A0E}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{7F281097-6D95-4DE2-98FF-901F85186CC6}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -9132,7 +9130,11 @@
 				<Event Id="896604455" Name="Stop_AVS_Wave3_Inhale" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="114893642" Name="Stop_InteractiveMusicSystem" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2822016348" Name="Stop_SilentLoops" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="955662865" Name="Stop_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="955662865" Name="Stop_Toning" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="3830600368" Name="Play_sfx_breathein"/>
+					</ActionPostEvent>
+				</Event>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
@@ -9241,5 +9243,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{8321B180-F23C-9900-EB54-2D98ECF2E6B5}</FileHash>
+	<FileHash>{238A0653-AAC6-B056-FA76-26AE3167A8CC}</FileHash>
 </SoundBanksInfo>

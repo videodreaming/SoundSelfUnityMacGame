@@ -17,11 +17,14 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     public WwiseVOManager wwiseVOManager;
     public uint playingId;
     private bool toneActiveTriggered = false; // Flag to control the event triggering
-      private float elapsedTime = 0f; // Tracks the elapsed time since the start
+
+    [SerializeField]
+    private float elapsedTime = 0f; // Tracks the elapsed time since the start
     private int currentStage = 0; // Tracks the current stage of the sound world
 
     private float interactiveMusicExperienceTotalTime;
     private float finalStagePreLogicTime;
+
 
     private float soundWorldChangeTime;
     private bool finalStagePreLogicExecuted = false; 
@@ -57,6 +60,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
+        
         musicSystem1.fundamentalNote = 9;
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
@@ -105,19 +109,26 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= soundWorldChangeTime)
             {
-                
+                if (currentStage == 0)
+                {
+                    Debug.Log("Stage 0 SonoFlore");
+                }
+                Debug.Log("Stage 1 Gentle");
                 elapsedTime = 0f; // Reset elapsed time
                 currentStage++; // Move to the next stage
                 
                 switch (currentStage)
                 {
                     case 1:
+                        Debug.Log("Stage 1 Gentle");
                         AkSoundEngine.SetState("SoundWorldMode", "Gentle");
                         break;
                     case 2:
+                        Debug.Log("Stage 2 Shadow");
                         AkSoundEngine.SetState("SoundWorldMode", "Shadow");
                         break;
                     case 3:
+                        Debug.Log("Stage 3 Shruti");
                         AkSoundEngine.SetState("SoundWorldMode", "Shruti");
                         break;
                     default:

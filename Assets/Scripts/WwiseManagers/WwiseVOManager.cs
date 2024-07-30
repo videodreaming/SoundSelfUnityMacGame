@@ -30,6 +30,7 @@ public class WwiseVOManager : MonoBehaviour
     public bool firstTimeUser = true;
     public bool layingDown = true;
     
+    [SerializeField]
     public bool interactive = false;
 
     public CSVWriter csvWriter;
@@ -45,11 +46,13 @@ public class WwiseVOManager : MonoBehaviour
             userAudioSource = userObject.GetComponent<AudioSource>();
             userAudioSource.volume = 0.0f;
         }
+        AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
         AkSoundEngine.SetSwitch("VO_ThematicContent","Peace", gameObject);
         assignVOs();
         if(firstTimeUser)
         {
-            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
+            AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
+            //AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
             AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
         } else {
             //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
