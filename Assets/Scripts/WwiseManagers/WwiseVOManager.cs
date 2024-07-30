@@ -49,7 +49,7 @@ public class WwiseVOManager : MonoBehaviour
         assignVOs();
         if(firstTimeUser)
         {
-            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
+            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
             AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
         } else {
             //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
