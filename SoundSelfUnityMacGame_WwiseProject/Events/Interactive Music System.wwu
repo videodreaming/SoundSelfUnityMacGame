@@ -170,6 +170,17 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{126DAB9D-32F3-473F-9A08-E00278D8722C}" ShortID="467186020">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+								<Property Name="Delay" Type="Real64" Value="0.5"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Stop_SilentLoops" ID="{37C30047-AF5A-43B9-896D-68E3F2AA7D3A}">

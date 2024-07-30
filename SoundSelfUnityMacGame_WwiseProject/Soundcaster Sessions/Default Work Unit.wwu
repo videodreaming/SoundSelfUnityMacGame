@@ -14,16 +14,8 @@
 							<Position X="0" Y="1"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Play_ADJUNCT_OPENING_SEQUENCE_LONG" ID="{20E409A7-44B7-4CD4-B9C2-DE5361AC7FFC}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-							<Position X="0" Y="2"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_ADJUNCT_OPENING_SEQUENCE_SHORT" ID="{A6A5CB72-5E40-4741-B9F6-D419E13D55C5}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-							<Position X="0" Y="3"/>
-						</Module>
-						<Module>
 							<ObjectRef Name="Play_INTEGRATION_OPENING_SEQUENCE_SHORT" ID="{C738D77A-BEE4-4F80-9F36-BD97613A271A}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-							<Position X="0" Y="4"/>
+							<Position X="0" Y="2"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_WISDOM_OPENING_SEQUENCE_LONG" ID="{C2BA9284-C8AD-4BEA-8735-3EAB0982D3BB}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
@@ -100,6 +92,10 @@
 							<Value>80</Value>
 						</RTPCValue>
 						<RTPCValue>
+							<GameParameterRef Name="ImpactsSub_Bus_Volume" ID="{A53321D0-A7F3-4341-ABFB-0BBD9CEE0D2B}"/>
+							<Value>50</Value>
+						</RTPCValue>
+						<RTPCValue>
 							<GameParameterRef Name="AVS_BLUE_Volume_Wave1" ID="{5672B67B-51F9-4373-8484-0F7D6CC7FD2E}"/>
 							<Value>0</Value>
 						</RTPCValue>
@@ -132,6 +128,10 @@
 							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
+							<GameParameterRef Name="Environment_Bus_Volume" ID="{1D24E900-FB6F-4998-98EA-E0BFA9B073C4}"/>
+							<Value>80</Value>
+						</RTPCValue>
+						<RTPCValue>
 							<GameParameterRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}"/>
 							<Value>100</Value>
 						</RTPCValue>
@@ -155,15 +155,15 @@
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
 						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
-						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
+						<CurrentSwitchRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}"/>
 						<CurrentSwitchRef Name="Narrative" ID="{DBC655E1-D196-4AB6-A3CE-EC04B0CA2A11}"/>
 						<CurrentSwitchRef Name="Adjunct" ID="{0126A9C1-6FFA-4A43-9581-09218884C0A2}"/>
 						<CurrentSwitchRef Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
 						<CurrentSwitchRef Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
-						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
-						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
+						<CurrentSwitchRef Name="openingShort" ID="{16F577DE-905E-4AA3-AF73-8C2735C6EA71}"/>
+						<CurrentSwitchRef Name="E" ID="{2EF39E0C-E918-4DB4-9C57-CC6AFED08210}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>
@@ -537,11 +537,11 @@
 						</Module>
 						<Module>
 							<ObjectRef Name="VOICE ELICITATION 2" ID="{2C852D0F-ADB1-4222-B893-7A9D086BB8E7}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
-							<Position X="1" Y="2"/>
+							<Position X="2" Y="2"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="VO_WakeUp&amp;EndSoon" ID="{B42684B8-82A1-4965-A680-EE5418F465DC}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
-							<Position X="2" Y="0"/>
+							<Position X="3" Y="2"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Stop_All" ID="{39821E91-31F4-47D3-B1AF-E42968AA6D28}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
@@ -554,12 +554,24 @@
 							<Value>35</Value>
 						</RTPCValue>
 						<RTPCValue>
+							<GameParameterRef Name="LinearMusic_Volume" ID="{F8011BC7-3969-43A0-A957-462CB30F8477}"/>
+							<Value>90</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="SFX_Bus_Volume" ID="{ED5E9956-CB68-4738-AC5B-A953C216CE6D}"/>
+							<Value>100</Value>
+						</RTPCValue>
+						<RTPCValue>
 							<GameParameterRef Name="Environment_Bus_Volume" ID="{1D24E900-FB6F-4998-98EA-E0BFA9B073C4}"/>
-							<Value>50</Value>
+							<Value>90</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="Impacts_Volume" ID="{177C7E8D-161E-4A19-AFA6-5E7E47E603E8}"/>
+							<Value>60</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="BreatheCycle_Volume" ID="{6054B844-CB45-4C59-9436-ECB992881033}"/>
-							<Value>40</Value>
+							<Value>90</Value>
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true"/>
@@ -567,7 +579,7 @@
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
 						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
-						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
+						<CurrentSwitchRef Name="Fireflies" ID="{0EBFAC13-8064-4B73-B4A6-C94A4A6559F1}"/>
 						<CurrentSwitchRef Name="Adjunct" ID="{0126A9C1-6FFA-4A43-9581-09218884C0A2}"/>
 						<CurrentSwitchRef Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
