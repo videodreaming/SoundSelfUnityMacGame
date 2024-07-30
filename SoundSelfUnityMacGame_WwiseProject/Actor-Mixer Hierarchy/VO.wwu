@@ -546,28 +546,6 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="vo_test04tone" ID="{FE122C06-B148-4091-A573-59E323956393}" ShortID="43710676">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="vo_test04tone" ID="{31C33746-B450-42E6-8B75-BCD94D30228A}">
-													<Language>SFX</Language>
-													<AudioFile>vo_test04tone.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="581489383"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="vo_test04tone" ID="{31C33746-B450-42E6-8B75-BCD94D30228A}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 										<Sound Name="vo_test05tone" ID="{CDF7094A-9008-48A1-B1E5-B7536225F6E2}" ShortID="917026683">
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -700,34 +678,9 @@
 												<ActiveSource Name="vo_test10tone" ID="{4A8E2E0F-51EC-4E46-B2D8-0AD9BD7171D4}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
-										<Sound Name="vo_test11tone" ID="{AB130FD3-E5EB-4BAC-A355-7EC1B59D4D96}" ShortID="570689289">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="vo_test11tone" ID="{CC9325C6-F927-49E7-98AC-C5E2C2B28AA6}">
-													<Language>SFX</Language>
-													<AudioFile>vo_test11tone.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="805005210"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="vo_test11tone" ID="{CC9325C6-F927-49E7-98AC-C5E2C2B28AA6}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
 									</ChildrenList>
 									<ObjectLists>
 										<ObjectList Name="Playlist">
-											<Reference>
-												<ObjectRef Name="vo_test04tone" ID="{FE122C06-B148-4091-A573-59E323956393}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
-											</Reference>
 											<Reference>
 												<ObjectRef Name="vo_test05tone" ID="{CDF7094A-9008-48A1-B1E5-B7536225F6E2}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 											</Reference>
@@ -874,6 +827,28 @@
 												<ActiveSource Name="vo_test04hum" ID="{6E01F264-0E28-46C9-AD46-2F0C23552EDC}" Platform="Linked"/>
 											</ActiveSourceList>
 										</Sound>
+										<Sound Name="vo_test04tone" ID="{FE122C06-B148-4091-A573-59E323956393}" ShortID="43710676">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="vo_test04tone" ID="{31C33746-B450-42E6-8B75-BCD94D30228A}">
+													<Language>SFX</Language>
+													<AudioFile>vo_test04tone.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="581489383"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="vo_test04tone" ID="{31C33746-B450-42E6-8B75-BCD94D30228A}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
 									</ChildrenList>
 									<ObjectLists>
 										<ObjectList Name="Playlist">
@@ -888,6 +863,9 @@
 											</Reference>
 											<Reference>
 												<ObjectRef Name="vo_test04hum" ID="{B2681E5F-0CB5-4428-B994-289BB61EF41A}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+											</Reference>
+											<Reference>
+												<ObjectRef Name="vo_test04tone" ID="{FE122C06-B148-4091-A573-59E323956393}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 											</Reference>
 										</ObjectList>
 									</ObjectLists>

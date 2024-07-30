@@ -24,6 +24,7 @@ namespace AK
         static const AkUniqueID PLAY_AVS_WAVE2_TONING = 841212430U;
         static const AkUniqueID PLAY_AVS_WAVE3_INHALE = 1328263081U;
         static const AkUniqueID PLAY_CRYSTALBOWLGENERATOR = 2917442959U;
+        static const AkUniqueID PLAY_ENDSOON_SEQUENCE = 3561899656U;
         static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT1 = 3724822780U;
         static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT2 = 3724822783U;
         static const AkUniqueID PLAY_ENVIRONMENT_CRICKETS = 3451051880U;
@@ -83,7 +84,6 @@ namespace AK
         static const AkUniqueID PLAY_VO_THEMATICCONTENT = 2088653686U;
         static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
-        static const AkUniqueID PLAY_VO_WAKEUP_ENDSOON = 2570903362U;
         static const AkUniqueID PLAY_VO_WISDOM = 2767686943U;
         static const AkUniqueID PLAY_WAKEUPENDSOON_SEQUENCE = 4021535955U;
         static const AkUniqueID PLAY_WISDOM_OPENING_SEQUENCE_LONG = 1410067095U;

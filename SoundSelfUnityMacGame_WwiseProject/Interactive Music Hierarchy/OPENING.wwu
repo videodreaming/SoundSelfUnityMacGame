@@ -1927,7 +1927,7 @@
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="-27000"/>
 																				<Property Name="EndTrimOffset" Type="Real64" Value="320000"/>
 																				<Property Name="FadeInDuration" Type="Real64" Value="1729.23735402849"/>
-																				<Property Name="FadeOutDuration" Type="Real64" Value="46338.7160645306"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="93134.6664069948"/>
 																				<Property Name="PlayAt" Type="Real64" Value="150694.714008869"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="WHITE_SOLID" ID="{54B001EF-F1E9-49C3-AF95-2B68AD70DCE7}"/>
@@ -2499,7 +2499,7 @@
 											<MusicCue Name="Exit Cue" ID="{E6A8962F-F37C-434A-A837-6A80E4AF885B}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="422694.714008869"/>
+													<Property Name="TimeMs" Type="Real64" Value="471421.875000001"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

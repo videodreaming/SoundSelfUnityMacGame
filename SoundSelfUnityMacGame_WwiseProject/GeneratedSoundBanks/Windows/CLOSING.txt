@@ -18,7 +18,6 @@ Event	ID	Name			Wwise Object Path	Notes
 	1226520867	Play_music_Duet_D_Major			\Linear Music\Play_music_Duet_D_Major	
 	1774847782	Stop_environment_crickets			\Environment\Stop_environment_crickets	
 	2071903771	Stop_SIGH_QUERY_SEQUENCE_2			\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_2	
-	2570903362	Play_VO_WakeUp_EndSoon			\Default Work Unit\Play_VO_WakeUp_EndSoon	
 	2767686943	Play_VO_Wisdom			\VO\Play_VO_Wisdom	
 	2811342292	Stop_THEMATIC_SAVASANA_SEQUENCE			\Default Work Unit\Stop_THEMATIC_SAVASANA_SEQUENCE	
 	2849654864	Play_environment_openingWelcome			\Environment\Play_environment_openingWelcome	
@@ -31,6 +30,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
 	3451051880	Play_environment_crickets			\Environment\Play_environment_crickets	
 	3484562951	Play_EXIT_MUSIC_PLAYLIST			\Default Work Unit\Play_EXIT_MUSIC_PLAYLIST	
+	3561899656	Play_EndSoon_SEQUENCE			\Default Work Unit\Play_EndSoon_SEQUENCE	
 	3724822780	Play_environment_anyQueryRepeat1			\Environment\Play_environment_anyQueryRepeat1	
 	3724822783	Play_environment_anyQueryRepeat2			\Environment\Play_environment_anyQueryRepeat2	
 	3830600368	Play_sfx_breathein			\SFX\Play_sfx_breathein	
@@ -91,7 +91,7 @@ Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	9176103	vo_thematicSavasana_gratitude	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_gratitude_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_gratitude		18942436
-	30291822	vo_endingSoon	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_endingSoon_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_WakeUp&EndSoon\vo_endingSoon		525856
+	30291822	vo_endingSoon	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_endingSoon_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_EndSoon\vo_endingSoon		525856
 	54796230	vo_goodbye_short	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_goodbye_short_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_short\vo_goodbye_short		1181216
 	80906255	vo_thematicSavasana_surrender	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_surrender_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_surrender\vo_thematicSavasana_surrender		21991132
 	103751047	MusicArrangement_Radiance_9_6_23	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\MusicArrangement_Radiance_9.6.23_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\MusicDemo_Radiance, Nature, Pipe Organ\MusicArrangement_Radiance_9_6_23		105642764

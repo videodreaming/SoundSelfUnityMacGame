@@ -702,7 +702,6 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_VO_WakeUp_EndSoon" ID="{386565C2-2A3B-4A7D-8085-624C443CE9A3}"/>
 				<Event Name="Play_WakeUpEndSoon_SEQUENCE" ID="{9094666F-2F0C-486B-B702-268AE17352DD}">
 					<ChildrenList>
 						<Action Name="" ID="{2FD24C8A-4DE3-4575-BDCD-93CC9C349871}" ShortID="751161282">
@@ -719,6 +718,27 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Mute_SILENTMEDITATION_MUSIC" ID="{09DA13B4-9FE8-4A61-B8A9-84AE807A82C3}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}">
+					<ChildrenList>
+						<Action Name="" ID="{2681F180-3A39-4282-9214-B9A02EF55D00}" ShortID="704583303">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Mute_SILENTMEDITATION_MUSIC" ID="{09DA13B4-9FE8-4A61-B8A9-84AE807A82C3}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{77A9D139-619D-4972-A17F-A0F44D7456CE}" ShortID="611323938">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_EndSoon" ID="{891A873D-5D76-49C7-B874-558A99D27D12}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

@@ -539,6 +539,10 @@
 							<Position X="1" Y="0"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="VOICE ELICITATION 2" ID="{2C852D0F-ADB1-4222-B893-7A9D086BB8E7}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+							<Position X="1" Y="2"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="VO_WakeUp&amp;EndSoon" ID="{B42684B8-82A1-4965-A680-EE5418F465DC}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
 							<Position X="2" Y="0"/>
 						</Module>
@@ -567,12 +571,12 @@
 						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
-						<CurrentSwitchRef Name="Surrender" ID="{403AE1A9-E8A9-4AC9-A7EB-C7700C1BF8B3}"/>
+						<CurrentSwitchRef Name="Kindness" ID="{D4913860-034E-4188-B5C3-6598730E75EC}"/>
 						<CurrentSwitchRef Name="Adjunct" ID="{0126A9C1-6FFA-4A43-9581-09218884C0A2}"/>
 						<CurrentSwitchRef Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
 						<CurrentSwitchRef Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
-						<CurrentSwitchRef Name="Long" ID="{844C5211-96AF-4162-9BA5-48B12E4C5DB0}"/>
+						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
