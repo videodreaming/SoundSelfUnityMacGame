@@ -199,7 +199,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     //NOTE FOR REEF, I've moved a bunch of logic that isn't interpolating from FixedUpdate() into Update().
     void Update()
     {
-        Debug.Log(imitoneConfidentInactiveTimer);
         //FOR TESTING, I am having this only happen once, on the 2nd frame. 
         frameCount++;
         //if (frameCount == 2)

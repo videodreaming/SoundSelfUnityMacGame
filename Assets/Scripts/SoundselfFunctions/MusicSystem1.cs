@@ -115,8 +115,7 @@ public class MusicSystem1 : MonoBehaviour
             bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
             if (fundamentalRetriggerTest || fundamentalChangeTest)
             {
-                string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);
-                //wwiseInteractiveMusicManager.userToningToChangeFundamental(fundamentalInttoNote); //UNCOMMENT THIS TO CONTROL WWISE                                          
+                string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);                                  
                 fundamentalNoteCompare = fundamentalNote;
                 if (debugAllowLogs)
                 {
@@ -145,7 +144,10 @@ public class MusicSystem1 : MonoBehaviour
                 //Now play the tone
                                
                 harmonyNote = (fundamentalNote + harmonization) % 12;
-                wwiseInteractiveMusicManager.changeHarmony(ConvertIntToNote(harmonyNote)); //UNCOMMENT THIS TO CONTROL WWISE
+                if(wwiseInteractiveMusicManager.CFundamentalGHarmonyLock == false)
+                {
+                    wwiseInteractiveMusicManager.changeHarmony(ConvertIntToNote(harmonyNote)); //UNCOMMENT THIS TO CONTROL WWISE
+                }
                 if (debugAllowLogs)
                 {
                     Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
@@ -268,7 +270,10 @@ public class MusicSystem1 : MonoBehaviour
                                     {
                                         fundamentalNote = scaleNote.Key;
                                         fundamentalChanges[scaleNote.Key] = true;
-                                        wwiseInteractiveMusicManager.userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
+                                        if(wwiseInteractiveMusicManager.CFundamentalGHarmonyLock == false)
+                                        {
+                                            wwiseInteractiveMusicManager.userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
+                                        }
                                         if(debugAllowLogs)
                                         {
                                             Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
