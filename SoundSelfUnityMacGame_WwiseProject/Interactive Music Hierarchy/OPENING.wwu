@@ -4850,20 +4850,20 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_ThematicOpening_Start" ID="{4414D8E5-D230-4AD5-8982-435BA0F95667}">
+											<MusicCue Name="Cue_Orientation_Start" ID="{69286577-7D2C-463B-AF7E-C81F693DC128}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="184087.894261774"/>
+													<Property Name="TimeMs" Type="Real64" Value="125500"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_Orientation_Start" ID="{69286577-7D2C-463B-AF7E-C81F693DC128}">
+											<MusicCue Name="Cue_ThematicOpening_Start" ID="{4BF521A5-57F9-414D-9543-6EBAA2FDC83F}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="125500"/>
+													<Property Name="TimeMs" Type="Real64" Value="184087.894261774"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
