@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using System;
 
 public class WwiseAVSMusicManager : MonoBehaviour
 {
@@ -16,7 +17,21 @@ public class WwiseAVSMusicManager : MonoBehaviour
         AkSoundEngine.GetDeviceList(sharesetIdSystem, out deviceCount, devices);
 
         // Return the device with the specified name on the system. This is where you will either put you logic to enumarate all the Device and let the user decide, or force a specified device directly.
-        string wantedDevice = "Speakers (Kasina MMS Audio)";
+        string wantedDevice;
+
+        if (System.Environment.OSVersion.Platform == PlatformID.Win32NT)
+        {
+            wantedDevice = "Speakers (Kasina MMS Audio)";
+        }
+        else if (System.Environment.OSVersion.Platform == PlatformID.MacOSX)
+        {
+            wantedDevice = "Kasina MMS Audio";
+        }
+        else
+        {
+            Debug.LogError("Unsupported operating system");
+            return;
+        }
         uint deviceId = 0;
         for (int i = 0; i < devices.Capacity; i++)
         {

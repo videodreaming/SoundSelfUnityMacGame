@@ -49,7 +49,7 @@ public class WwiseVOManager : MonoBehaviour
         assignVOs();
         if(firstTimeUser)
         {
-            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
+            AkSoundEngine.PostEvent("Play_PREPERATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
             AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
         } else {
             //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
@@ -84,7 +84,6 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("Cue_Posture_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
                 {
-                    //Wwise will Automatically play : AkSoundEngine.PostEvent("Play_VO_THEMATIC_CONTENT);
                     Debug.Log("Cue_ThematicOpening_Start");
                 } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
                  {
@@ -97,7 +96,7 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("Cue Mic On");
                 } else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
                 {
-
+                    Debug.Log("Somatic Start");
                 }
                  else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
@@ -189,7 +188,6 @@ public class WwiseVOManager : MonoBehaviour
     {
          if(interactive == true)
         {
-            Debug.Log("interactive is true");
             if(silentPlaying == false)
             {
                 // silentrtpcvolume.SetGlobalValue(targetValue);
