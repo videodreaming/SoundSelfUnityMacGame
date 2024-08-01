@@ -8105,7 +8105,7 @@
 						</Panner>
 					</PositioningInfo>
 				</ActorMixer>
-				<ActorMixer Name="AVS_SineGenerators_RGB_Wave2_Toning" ID="{6A939D2C-EA5F-4CD1-AD31-C829A7A4BC73}" ShortID="39794451">
+				<ActorMixer Name="AVS_SineGenerators_RGB_Wave2" ID="{6A939D2C-EA5F-4CD1-AD31-C829A7A4BC73}" ShortID="39794451">
 					<PropertyList>
 						<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
@@ -8124,7 +8124,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<BlendContainer Name="AVS_SineGenerators_RGB_Stereo_Toning" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" ShortID="1040871399">
+						<BlendContainer Name="AVS_SineGenerators_RGB_Stereo_Wave2" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" ShortID="1040871399">
 							<PropertyList>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
 								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
@@ -8885,7 +8885,7 @@
 						</Panner>
 					</PositioningInfo>
 				</ActorMixer>
-				<ActorMixer Name="AVS_SineGenerators_RGB_Wave3_Inhale" ID="{D35C5224-6001-4C7F-85E0-97BAB6B6FACB}" ShortID="401891143">
+				<ActorMixer Name="AVS_SineGenerators_RGB_Wave3" ID="{D35C5224-6001-4C7F-85E0-97BAB6B6FACB}" ShortID="401891143">
 					<PropertyList>
 						<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
@@ -8904,7 +8904,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<BlendContainer Name="AVS_SineGenerators_RGB_Stereo_Inhale" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" ShortID="835395353">
+						<BlendContainer Name="AVS_SineGenerators_RGB_Stereo_Wave3" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" ShortID="835395353">
 							<PropertyList>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
 								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
@@ -9665,7 +9665,7 @@
 						</Panner>
 					</PositioningInfo>
 				</ActorMixer>
-				<ActorMixer Name="AVS_SineGenerators_RGB_Wave1_Silent" ID="{BC2415D2-D7B3-4381-92CA-DE56DD5EACD7}" ShortID="273074107">
+				<ActorMixer Name="AVS_SineGenerators_RGB_Wave1" ID="{BC2415D2-D7B3-4381-92CA-DE56DD5EACD7}" ShortID="273074107">
 					<PropertyList>
 						<Property Name="ListenerRelativeRouting" Type="bool" Value="False"/>
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
@@ -9684,7 +9684,7 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<BlendContainer Name="AVS_SineGenerators_RGB_Stereo_Wave1_Silent" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" ShortID="999036574">
+						<BlendContainer Name="AVS_SineGenerators_RGB_Stereo_Wave1" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" ShortID="999036574">
 							<PropertyList>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
 								<Property Name="SpeakerPanning" Type="int16" Value="1"/>

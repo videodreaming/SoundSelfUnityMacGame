@@ -3,7 +3,7 @@
 	<Events>
 		<WorkUnit Name="AVS System" ID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Play_AVS_Wave1_Silent" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}">
+				<Event Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}">
 					<ChildrenList>
 						<Action Name="" ID="{DD45F328-F186-4F4B-8EDF-16FFE2787988}" ShortID="274469782">
 							<PropertyList>
@@ -11,7 +11,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave1_Silent" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave1" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -42,7 +42,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_AVS_Wave2_Toning" ID="{C83D5655-96B0-4B45-9B0B-C43858EDCE4A}">
+				<Event Name="Play_AVS_Wave2" ID="{C83D5655-96B0-4B45-9B0B-C43858EDCE4A}">
 					<ChildrenList>
 						<Action Name="" ID="{1D88EAFC-38B0-4E13-B550-59C6B27A7067}" ShortID="352860626">
 							<PropertyList>
@@ -50,13 +50,13 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Toning" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave2" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_AVS_Wave3_Inhale" ID="{A7049BA2-D337-45C2-A567-C1AA527339D2}">
+				<Event Name="Play_AVS_Wave3" ID="{A7049BA2-D337-45C2-A567-C1AA527339D2}">
 					<ChildrenList>
 						<Action Name="" ID="{389598CB-BDD0-4E66-ABC7-55E0FD890E17}" ShortID="427642650">
 							<PropertyList>
@@ -64,13 +64,13 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Inhale" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave3" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Stop_AVS_Wave1_Silent" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}">
+				<Event Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}">
 					<ChildrenList>
 						<Action Name="" ID="{A2F4FFB9-C896-4668-92A9-4CE61AEB913D}" ShortID="93045481">
 							<PropertyList>
@@ -79,13 +79,13 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave1_Silent" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave1" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Stop_AVS_Wave2_Toning" ID="{D6DC2C44-177F-4753-9F7A-F2C5B5F99A86}">
+				<Event Name="Stop_AVS_Wave2" ID="{D6DC2C44-177F-4753-9F7A-F2C5B5F99A86}">
 					<ChildrenList>
 						<Action Name="" ID="{0E96AB03-6B20-4E81-A3EC-CDB8A0858A7C}" ShortID="707164701">
 							<PropertyList>
@@ -94,13 +94,13 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Toning" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave2" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Stop_AVS_Wave3_Inhale" ID="{5DCA70C8-A708-4EF9-9D93-EE185337CFE9}">
+				<Event Name="Stop_AVS_Wave3" ID="{5DCA70C8-A708-4EF9-9D93-EE185337CFE9}">
 					<ChildrenList>
 						<Action Name="" ID="{D2F91DA8-F714-4C54-851E-B7B0DFD897EE}" ShortID="1070202169">
 							<PropertyList>
@@ -109,7 +109,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Inhale" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave3" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
