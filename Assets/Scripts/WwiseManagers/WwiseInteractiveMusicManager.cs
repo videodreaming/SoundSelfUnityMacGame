@@ -25,6 +25,8 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     private float interactiveMusicExperienceTotalTime;
     private float finalStagePreLogicTime;
 
+    private float WakeUpCounter;
+
 
     private float soundWorldChangeTime;
     private bool finalStagePreLogicExecuted = false; 
@@ -34,6 +36,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        WakeUpCounter = 2280.0f;
         interactiveMusicExperienceTotalTime = 1245.0f;
         soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
         finalStagePreLogicTime = 15f; 
@@ -41,6 +44,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         //Uncomment when CSV Writer is implemented
         /*if(csvWriter.GameMode == "Preperation")
         {
+            WakeupCounter = 2280.0f;
             if(csvWriter.SubGameMode == "Peace")
             {   
                 interactiveMusicExpereicneTotalTime = 1245.0f;
@@ -87,8 +91,16 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
- 
-
+        if(WakeUpCounter > -1.0f)
+        {
+            WakeUpCounter -= Time.deltaTime;
+        } 
+        
+        if( WakeUpCounter <= 0.0f)
+        {
+            AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
+            WakeUpCounter = -1.0f;
+        }
         if (imitoneVoiceIntepreter.toneActiveConfident)
         {
             if (!toneActiveTriggered)
