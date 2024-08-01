@@ -1149,39 +1149,25 @@
 						</BlendContainer>
 					</ChildrenList>
 				</ActorMixer>
-				<ActorMixer Name="SFX_BreathLoop_Switch" ID="{E9859A25-436B-4460-9766-566C8702E5B2}" ShortID="337082909">
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-					</ReferenceList>
+				<Folder Name="Archive" ID="{1C35A8F7-D72E-4935-AACD-67D2F5ED0449}" ShortID="548759014">
 					<ChildrenList>
-						<SwitchContainer Name="SFX_BreathLoop_Switch" ID="{4E0D938D-5F60-45C8-8604-A70307119183}" ShortID="252413653">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>6</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
+						<ActorMixer Name="SFX_BreathLoop_Switch_archive" ID="{E9859A25-436B-4460-9766-566C8702E5B2}" ShortID="337082909">
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+									<ObjectRef Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<RandomSequenceContainer Name="BREATH SFX SEQUENCE_SHORT" ID="{5E68ACB9-2530-4EDB-9EB9-6B83189816BB}" ShortID="916466876">
+								<SwitchContainer Name="SFX_BreathLoop_Switch" ID="{4E0D938D-5F60-45C8-8604-A70307119183}" ShortID="252413653">
 									<PropertyList>
-										<Property Name="OverrideEffect" Type="bool" Value="True"/>
-										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
-										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
-										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>6</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1192,47 +1178,12 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<Sound Name="sfx_breath in" ID="{DF7C180A-A8D3-43A5-AC13-CCC47054C91D}" ShortID="754387493">
-											<PropertyList>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-5</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_breath in" ID="{F9BC6772-8998-4930-ACDB-942F7E037D16}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.096786867364747"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_breath in.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="701926207"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_breath in" ID="{F9BC6772-8998-4930-ACDB-942F7E037D16}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="sfx_breath out" ID="{71C27AF4-1156-4A9D-8746-DEF9E132F916}" ShortID="842147238">
+										<RandomSequenceContainer Name="BREATH SFX SEQUENCE_SHORT" ID="{5E68ACB9-2530-4EDB-9EB9-6B83189816BB}" ShortID="916466876">
 											<PropertyList>
 												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-5</Value>
-													</ValueList>
-												</Property>
+												<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+												<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -1243,162 +1194,116 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<AudioFileSource Name="sfx_breath out" ID="{DD4994C8-BA83-429F-ACF6-ACE447A39DBD}">
+												<Sound Name="sfx_breath in" ID="{DF7C180A-A8D3-43A5-AC13-CCC47054C91D}" ShortID="754387493">
 													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="1.04293193717277"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-5</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_breath out.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="796914092"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_breath out" ID="{DD4994C8-BA83-429F-ACF6-ACE447A39DBD}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="Silence_2s" ID="{F86FDA0E-AB7A-4D5D-9CC7-2DB98B42A5B2}" ShortID="649767252">
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<SourcePlugin Name="Silence" ID="{B1DB83AB-B9F3-410A-968E-B87E7D41AAA5}" ShortID="108604775" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="sfx_breath in" ID="{F9BC6772-8998-4930-ACDB-942F7E037D16}">
+															<PropertyList>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.096786867364747"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>sfx_breath in.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="701926207"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="sfx_breath in" ID="{F9BC6772-8998-4930-ACDB-942F7E037D16}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="sfx_breath out" ID="{71C27AF4-1156-4A9D-8746-DEF9E132F916}" ShortID="842147238">
 													<PropertyList>
-														<Property Name="Length" Type="Real32" Value="2"/>
+														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-5</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="Silence" ID="{B1DB83AB-B9F3-410A-968E-B87E7D41AAA5}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-									</ChildrenList>
-									<ObjectLists>
-										<ObjectList Name="Playlist">
-											<Reference>
-												<ObjectRef Name="sfx_breath in" ID="{DF7C180A-A8D3-43A5-AC13-CCC47054C91D}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
-											</Reference>
-											<Reference>
-												<ObjectRef Name="sfx_breath out" ID="{71C27AF4-1156-4A9D-8746-DEF9E132F916}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
-											</Reference>
-											<Reference>
-												<ObjectRef Name="Silence_2s" ID="{F86FDA0E-AB7A-4D5D-9CC7-2DB98B42A5B2}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
-											</Reference>
-										</ObjectList>
-									</ObjectLists>
-								</RandomSequenceContainer>
-								<RandomSequenceContainer Name="BREATH SFX SEQUENCE_LONG" ID="{67424CED-19FD-48E6-A809-F112ABC8B28A}" ShortID="475121197">
-									<PropertyList>
-										<Property Name="OverrideEffect" Type="bool" Value="True"/>
-										<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
-										<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
-										<Property Name="RandomOrSequence" Type="int16" Value="0"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<Sound Name="sfx_breath in" ID="{FB8F59E6-C3DB-4ABB-852C-917514112B8D}" ShortID="104296449">
-											<PropertyList>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-5</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_breath in" ID="{563DFCBD-D76A-49E8-8F81-BE96934A6BF4}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="0.096786867364747"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_breath in.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="701926207"/>
-													</MediaIDList>
-												</AudioFileSource>
-											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_breath in" ID="{563DFCBD-D76A-49E8-8F81-BE96934A6BF4}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="sfx_breath out" ID="{7E0F6E3A-743A-4E4B-93EE-D413B5223E6B}" ShortID="65371948">
-											<PropertyList>
-												<Property Name="InitialDelay" Type="Real64">
-													<ValueList>
-														<Value>1.4</Value>
-													</ValueList>
-												</Property>
-												<Property Name="OverrideEffect" Type="bool" Value="True"/>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-5</Value>
-													</ValueList>
-												</Property>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Conversion">
-													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-												</Reference>
-												<Reference Name="OutputBus">
-													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-												</Reference>
-											</ReferenceList>
-											<ChildrenList>
-												<AudioFileSource Name="sfx_breath out" ID="{69790D1D-CEFC-44FB-B074-614020ED1437}">
-													<PropertyList>
-														<Property Name="FadeOutDuration" Type="Real64" Value="1.04293193717277"/>
-														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-													</PropertyList>
-													<Language>SFX</Language>
-													<AudioFile>sfx_breath out.wav</AudioFile>
-													<MediaIDList>
-														<MediaID ID="796914092"/>
-													</MediaIDList>
-												</AudioFileSource>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="sfx_breath out" ID="{DD4994C8-BA83-429F-ACF6-ACE447A39DBD}">
+															<PropertyList>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1.04293193717277"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>sfx_breath out.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="796914092"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="sfx_breath out" ID="{DD4994C8-BA83-429F-ACF6-ACE447A39DBD}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Silence_2s" ID="{F86FDA0E-AB7A-4D5D-9CC7-2DB98B42A5B2}" ShortID="649767252">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{B1DB83AB-B9F3-410A-968E-B87E7D41AAA5}" ShortID="108604775" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="2"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{B1DB83AB-B9F3-410A-968E-B87E7D41AAA5}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
 											</ChildrenList>
 											<ObjectLists>
-												<ObjectList Name="Effects">
+												<ObjectList Name="Playlist">
 													<Reference>
-														<Local>
-															<EffectSlot Name="" ID="{2CC3391B-9DB4-451A-BD2D-DBF281C28770}" ShortID="393814328">
-																<ReferenceList>
-																	<Reference Name="Effect" PluginName="Wwise Delay" CompanyID="0" PluginID="106" PluginType="3">
-																		<ObjectRef Name="One_Tap_One_Second" ID="{5B5883FA-85A1-45CA-8A52-9DBBCF3B0A03}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
-																	</Reference>
-																</ReferenceList>
-															</EffectSlot>
-														</Local>
+														<ObjectRef Name="sfx_breath in" ID="{DF7C180A-A8D3-43A5-AC13-CCC47054C91D}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+													</Reference>
+													<Reference>
+														<ObjectRef Name="sfx_breath out" ID="{71C27AF4-1156-4A9D-8746-DEF9E132F916}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+													</Reference>
+													<Reference>
+														<ObjectRef Name="Silence_2s" ID="{F86FDA0E-AB7A-4D5D-9CC7-2DB98B42A5B2}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
 													</Reference>
 												</ObjectList>
 											</ObjectLists>
-											<ActiveSourceList>
-												<ActiveSource Name="sfx_breath out" ID="{69790D1D-CEFC-44FB-B074-614020ED1437}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
-										<Sound Name="Silence_250ms" ID="{F98E116F-F138-4782-BF20-F92426116116}" ShortID="464587130">
+										</RandomSequenceContainer>
+										<RandomSequenceContainer Name="BREATH SFX SEQUENCE_LONG" ID="{67424CED-19FD-48E6-A809-F112ABC8B28A}" ShortID="475121197">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+												<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1408,57 +1313,156 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
-												<SourcePlugin Name="Silence" ID="{FFC7F530-1358-4BA7-843D-6C0771961487}" ShortID="878631788" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+												<Sound Name="sfx_breath in" ID="{FB8F59E6-C3DB-4ABB-852C-917514112B8D}" ShortID="104296449">
 													<PropertyList>
-														<Property Name="Length" Type="Real32" Value="0.25"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-5</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
-													<Language>SFX</Language>
-												</SourcePlugin>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="sfx_breath in" ID="{563DFCBD-D76A-49E8-8F81-BE96934A6BF4}">
+															<PropertyList>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.096786867364747"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>sfx_breath in.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="701926207"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="sfx_breath in" ID="{563DFCBD-D76A-49E8-8F81-BE96934A6BF4}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="sfx_breath out" ID="{7E0F6E3A-743A-4E4B-93EE-D413B5223E6B}" ShortID="65371948">
+													<PropertyList>
+														<Property Name="InitialDelay" Type="Real64">
+															<ValueList>
+																<Value>1.4</Value>
+															</ValueList>
+														</Property>
+														<Property Name="OverrideEffect" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-5</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="sfx_breath out" ID="{69790D1D-CEFC-44FB-B074-614020ED1437}">
+															<PropertyList>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1.04293193717277"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>sfx_breath out.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="796914092"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists>
+														<ObjectList Name="Effects">
+															<Reference>
+																<Local>
+																	<EffectSlot Name="" ID="{2CC3391B-9DB4-451A-BD2D-DBF281C28770}" ShortID="393814328">
+																		<ReferenceList>
+																			<Reference Name="Effect" PluginName="Wwise Delay" CompanyID="0" PluginID="106" PluginType="3">
+																				<ObjectRef Name="One_Tap_One_Second" ID="{5B5883FA-85A1-45CA-8A52-9DBBCF3B0A03}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																			</Reference>
+																		</ReferenceList>
+																	</EffectSlot>
+																</Local>
+															</Reference>
+														</ObjectList>
+													</ObjectLists>
+													<ActiveSourceList>
+														<ActiveSource Name="sfx_breath out" ID="{69790D1D-CEFC-44FB-B074-614020ED1437}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="Silence_250ms" ID="{F98E116F-F138-4782-BF20-F92426116116}" ShortID="464587130">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<SourcePlugin Name="Silence" ID="{FFC7F530-1358-4BA7-843D-6C0771961487}" ShortID="878631788" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+															<PropertyList>
+																<Property Name="Length" Type="Real32" Value="0.25"/>
+															</PropertyList>
+															<Language>SFX</Language>
+														</SourcePlugin>
+													</ChildrenList>
+													<ActiveSourceList>
+														<ActiveSource Name="Silence" ID="{FFC7F530-1358-4BA7-843D-6C0771961487}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
 											</ChildrenList>
-											<ActiveSourceList>
-												<ActiveSource Name="Silence" ID="{FFC7F530-1358-4BA7-843D-6C0771961487}" Platform="Linked"/>
-											</ActiveSourceList>
-										</Sound>
+											<ObjectLists>
+												<ObjectList Name="Playlist">
+													<Reference>
+														<ObjectRef Name="sfx_breath in" ID="{FB8F59E6-C3DB-4ABB-852C-917514112B8D}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+													</Reference>
+													<Reference>
+														<ObjectRef Name="sfx_breath out" ID="{7E0F6E3A-743A-4E4B-93EE-D413B5223E6B}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+													</Reference>
+												</ObjectList>
+											</ObjectLists>
+										</RandomSequenceContainer>
 									</ChildrenList>
-									<ObjectLists>
-										<ObjectList Name="Playlist">
-											<Reference>
-												<ObjectRef Name="sfx_breath in" ID="{FB8F59E6-C3DB-4ABB-852C-917514112B8D}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
-											</Reference>
-											<Reference>
-												<ObjectRef Name="sfx_breath out" ID="{7E0F6E3A-743A-4E4B-93EE-D413B5223E6B}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
-											</Reference>
-										</ObjectList>
-									</ObjectLists>
-								</RandomSequenceContainer>
+									<GroupingInfo>
+										<GroupingBehaviorList>
+											<GroupingBehavior>
+												<ItemRef Name="BREATH SFX SEQUENCE_SHORT" ID="{5E68ACB9-2530-4EDB-9EB9-6B83189816BB}"/>
+												<PropertyList>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>2</Value>
+														</ValueList>
+													</Property>
+												</PropertyList>
+											</GroupingBehavior>
+											<GroupingBehavior>
+												<ItemRef Name="BREATH SFX SEQUENCE_LONG" ID="{67424CED-19FD-48E6-A809-F112ABC8B28A}"/>
+												<PropertyList>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>2</Value>
+														</ValueList>
+													</Property>
+												</PropertyList>
+											</GroupingBehavior>
+										</GroupingBehaviorList>
+									</GroupingInfo>
+								</SwitchContainer>
 							</ChildrenList>
-							<GroupingInfo>
-								<GroupingBehaviorList>
-									<GroupingBehavior>
-										<ItemRef Name="BREATH SFX SEQUENCE_SHORT" ID="{5E68ACB9-2530-4EDB-9EB9-6B83189816BB}"/>
-										<PropertyList>
-											<Property Name="FadeOutTime" Type="Real64">
-												<ValueList>
-													<Value>2</Value>
-												</ValueList>
-											</Property>
-										</PropertyList>
-									</GroupingBehavior>
-									<GroupingBehavior>
-										<ItemRef Name="BREATH SFX SEQUENCE_LONG" ID="{67424CED-19FD-48E6-A809-F112ABC8B28A}"/>
-										<PropertyList>
-											<Property Name="FadeOutTime" Type="Real64">
-												<ValueList>
-													<Value>2</Value>
-												</ValueList>
-											</Property>
-										</PropertyList>
-									</GroupingBehavior>
-								</GroupingBehaviorList>
-							</GroupingInfo>
-						</SwitchContainer>
+						</ActorMixer>
 					</ChildrenList>
-				</ActorMixer>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

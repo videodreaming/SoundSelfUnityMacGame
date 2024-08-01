@@ -319,7 +319,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{9DC15E46-FD54-694F-F5DA-55F39CC214C6}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{B872AA9B-A04A-6241-2328-BC931EB62657}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -438,10 +438,6 @@
 				<File Id="464203531" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_breath out.wav</ShortName>
 					<CachePath>SFX/sfx_breath out_818F3B66.wem</CachePath>
-				</File>
-				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_breath in.wav</ShortName>
-					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
 				</File>
 				<File Id="480920717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_elicitSigh_opening.wav</ShortName>
@@ -2661,9 +2657,9 @@
 						<ActionSetSwitchEntry GroupId="4212583561" Id="3060490183" Name="openingShort"/>
 					</ActionSetSwitch>
 				</Event>
-				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872919" DurationMax="3.1872919">
 					<MediaRefs>
-						<MediaRef Id="466210932"/>
+						<MediaRef Id="650293573"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
@@ -4841,7 +4837,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{66DF9D4D-DD3E-8F42-2760-B3E6A623970E}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{AD1CC4DD-2B9E-0A0E-33C5-C4CB9611FE95}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -4952,10 +4948,6 @@
 				<File Id="464203531" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_breath out.wav</ShortName>
 					<CachePath>SFX/sfx_breath out_818F3B66.wem</CachePath>
-				</File>
-				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_breath in.wav</ShortName>
-					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
 				</File>
 				<File Id="473964817" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_long.wav</ShortName>
@@ -5278,9 +5270,9 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872919" DurationMax="3.1872919">
 					<MediaRefs>
-						<MediaRef Id="466210932"/>
+						<MediaRef Id="650293573"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
@@ -5817,7 +5809,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{7F281097-6D95-4DE2-98FF-901F85186CC6}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{6F88D5C6-5F79-151D-BA5A-01ADD3535CB0}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -5873,6 +5865,10 @@
 					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_toning_shadow_BE2AC651.wem</CachePath>
 				</File>
+				<File Id="135122032" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>NewEnding_Sub.wav</ShortName>
+					<CachePath>SFX/NewEnding_Sub_818F3B66.wem</CachePath>
+				</File>
 				<File Id="151307626" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_toning_gentle_B8CD30AA.wem</CachePath>
@@ -5884,6 +5880,10 @@
 				<File Id="167281688" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_shruti.wav</ShortName>
 					<CachePath>SFX/harmony_[D]_toning_shruti_818F3B66.wem</CachePath>
+				</File>
+				<File Id="188647660" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>NewEnding_Music+SFX.wav</ShortName>
+					<CachePath>SFX/NewEnding_Music+SFX_818F3B66.wem</CachePath>
 				</File>
 				<File Id="193930001" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_shruti.wav</ShortName>
@@ -6033,10 +6033,6 @@
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_A7ED6E33.wem</CachePath>
 				</File>
-				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>sfx_breath in.wav</ShortName>
-					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
-				</File>
 				<File Id="487812902" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test10tone.wav</ShortName>
 					<CachePath>SFX/vo_test10tone_818F3B66.wem</CachePath>
@@ -6104,6 +6100,10 @@
 				<File Id="628564443" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_51A81178.wem</CachePath>
+				</File>
+				<File Id="650293573" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<CachePath>SFX/sfx_breath in_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="663876511" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shruti.wav</ShortName>
@@ -6431,9 +6431,15 @@
 						</ShareSets>
 					</PluginRefs>
 				</Event>
-				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+				<Event Id="2562807417" Name="Play_NewEnding" DurationType="OneShot" DurationMin="44.175877" DurationMax="44.175877">
 					<MediaRefs>
-						<MediaRef Id="466210932"/>
+						<MediaRef Id="135122032"/>
+						<MediaRef Id="188647660"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3830600368" Name="Play_sfx_breathein" DurationType="OneShot" DurationMin="3.1872919" DurationMax="3.1872919">
+					<MediaRefs>
+						<MediaRef Id="650293573"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
@@ -9243,5 +9249,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{238A0653-AAC6-B056-FA76-26AE3167A8CC}</FileHash>
+	<FileHash>{FEF2FD35-C833-5622-B03A-15C899BC8B00}</FileHash>
 </SoundBanksInfo>

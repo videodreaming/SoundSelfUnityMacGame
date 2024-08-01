@@ -13391,6 +13391,98 @@
 					</ObjectLists>
 				</MusicSwitchContainer>
 				<WorkUnit Name="CLOSING" ID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}" PersistMode="Reference"/>
+				<MusicSegment Name="sfx_breathin" ID="{9B327402-07A7-405F-8EAA-29EE91F703C7}" ShortID="591786206">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicTrack Name="sfx_breath in" ID="{14D843F0-59F9-43CE-8FB2-21DBD414D60E}" ShortID="394453770">
+							<ReferenceList>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+								<Reference Name="TransitionRoot">
+									<Custom>
+										<MusicTransition Name="Root" ID="{C93EED78-03CB-4C81-B52B-D8B5A6F24049}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</Custom>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_breath in" ID="{FD893769-5358-4E43-8748-FF86CC3F0A3B}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_breath in.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="650293573"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="Sequences">
+									<Reference>
+										<Local>
+											<MusicTrackSequence Name="" ID="{FCBB01C3-4CA4-4AEE-8E41-6BBFCA931149}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<Reference>
+															<Local>
+																<MusicClip Name="sfx_breath in" ID="{6A83B46A-0862-4D03-A548-3B3931115228}">
+																	<PropertyList>
+																		<Property Name="EndTrimOffset" Type="Real64" Value="3187.29166666667"/>
+																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																	</PropertyList>
+																	<AudioSourceRef Name="sfx_breath in" ID="{FD893769-5358-4E43-8748-FF86CC3F0A3B}"/>
+																</MusicClip>
+															</Local>
+														</Reference>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicTrack>
+					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="Cues">
+							<Reference>
+								<Local>
+									<MusicCue Name="Entry Cue" ID="{F5612383-D9D3-48AF-A816-368F83687BDB}"/>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Exit Cue" ID="{2D5C0F50-5A98-464A-9A03-A852C375DEFD}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="1"/>
+											<Property Name="TimeMs" Type="Real64" Value="3187.29166666667"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Cue_BreathIn_Start" ID="{8CC51CD8-F2C0-44F2-A185-5AA9B271F669}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="2"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
+				</MusicSegment>
 			</ChildrenList>
 		</WorkUnit>
 	</InteractiveMusic>

@@ -353,6 +353,24 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_NewEnding" ID="{1F4E48CE-3458-414E-9CCD-B73901FA46CF}">
+					<ChildrenList>
+						<Action Name="" ID="{A6C7D423-31BC-4DC0-B2C3-0B3F1796FA80}" ShortID="13546513">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="NewEnding_Sub" ID="{47D65248-DDDA-4DB4-A469-63E84065426E}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{6892CA3C-CE4E-4F08-A031-83E9102BC8F4}" ShortID="120536461">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="NewEnding_Music+SFX" ID="{2C6DDFAF-EEFB-4273-B6EA-CD179C888255}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
