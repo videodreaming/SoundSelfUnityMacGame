@@ -335,7 +335,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584792490119198158
+    m_lastTime: -8584790730839683140
     List:
     - name: CLOSING
       guid: 660ba7396da1574496e1fee4e15fcf1c
@@ -391,7 +391,7 @@ MonoBehaviour:
     ParentPath: Events\AVS System
     guid: 8dda26975fba794392b0097b08fbff76
     GuidInternal: 
-    m_lastTime: -8584817378589032366
+    m_lastTime: -8584790730840914522
     List:
     - name: Play_AVS_SineGenerators_REFERENCE
       guid: 2241cc075f82884483bb65d548a393f8
@@ -427,9 +427,9 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_AVS_Wave1_Silent
+    - name: Play_AVS_Wave1
       guid: 9e992e737bc4084d952ef582fd997b5c
-      id: 1358859793
+      id: 3630490451
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -437,16 +437,16 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Play_AVS_Wave1_Silent
+      - ElementName: Play_AVS_Wave1
         ObjectType: 3
         guid: 9e992e737bc4084d952ef582fd997b5c
-      Path: Events\AVS System\Play_AVS_Wave1_Silent
+      Path: Events\AVS System\Play_AVS_Wave1
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_AVS_Wave2_Toning
+    - name: Play_AVS_Wave2
       guid: 55563dc8b096454b9b0bc43858edce4a
-      id: 841212430
+      id: 3630490448
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -454,16 +454,16 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Play_AVS_Wave2_Toning
+      - ElementName: Play_AVS_Wave2
         ObjectType: 3
         guid: 55563dc8b096454b9b0bc43858edce4a
-      Path: Events\AVS System\Play_AVS_Wave2_Toning
+      Path: Events\AVS System\Play_AVS_Wave2
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_AVS_Wave3_Inhale
+    - name: Play_AVS_Wave3
       guid: a29b04a737d3c245a567c1aa527339d2
-      id: 1328263081
+      id: 3630490449
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -471,10 +471,10 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Play_AVS_Wave3_Inhale
+      - ElementName: Play_AVS_Wave3
         ObjectType: 3
         guid: a29b04a737d3c245a567c1aa527339d2
-      Path: Events\AVS System\Play_AVS_Wave3_Inhale
+      Path: Events\AVS System\Play_AVS_Wave3
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -512,9 +512,9 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-    - name: Stop_AVS_Wave1_Silent
+    - name: Stop_AVS_Wave1
       guid: 87acfa5f6c2f764c835b639293412c44
-      id: 1208070559
+      id: 4138940081
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -522,16 +522,16 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Stop_AVS_Wave1_Silent
+      - ElementName: Stop_AVS_Wave1
         ObjectType: 3
         guid: 87acfa5f6c2f764c835b639293412c44
-      Path: Events\AVS System\Stop_AVS_Wave1_Silent
+      Path: Events\AVS System\Stop_AVS_Wave1
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: Stop_AVS_Wave2_Toning
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_AVS_Wave2
       guid: 442cdcd67f1753479f7af2c5b5f99a86
-      id: 3951624080
+      id: 4138940082
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -539,16 +539,16 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Stop_AVS_Wave2_Toning
+      - ElementName: Stop_AVS_Wave2
         ObjectType: 3
         guid: 442cdcd67f1753479f7af2c5b5f99a86
-      Path: Events\AVS System\Stop_AVS_Wave2_Toning
+      Path: Events\AVS System\Stop_AVS_Wave2
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: Stop_AVS_Wave3_Inhale
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_AVS_Wave3
       guid: c870ca5d08a7f94e9d93ee185337cfe9
-      id: 896604455
+      id: 4138940083
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -556,13 +556,13 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 12
         guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Stop_AVS_Wave3_Inhale
+      - ElementName: Stop_AVS_Wave3
         ObjectType: 3
         guid: c870ca5d08a7f94e9d93ee185337cfe9
-      Path: Events\AVS System\Stop_AVS_Wave3_Inhale
+      Path: Events\AVS System\Stop_AVS_Wave3
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
@@ -1263,8 +1263,25 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584792294135378373
+    m_lastTime: -8584790730840834739
     List:
+    - name: Play_NewEnding
+      guid: ce484e1f58344e419ccdb73901fa46cf
+      id: 2562807417
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: e3fca33b7e95e0428b60263055648e4a
+      - ElementName: Play_NewEnding
+        ObjectType: 3
+        guid: ce484e1f58344e419ccdb73901fa46cf
+      Path: Events\Interactive Music System\Play_NewEnding
+      maxAttenuation: 0
+      maxDuration: 44.175877
+      minDuration: 44.175877
     - name: Play_SilentLoops
       guid: c4fdcbeb421dc146af154a03e05840a9
       id: 4004321118
@@ -1578,7 +1595,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584795888315851509
+    m_lastTime: -8584790730840729593
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1612,8 +1629,8 @@ MonoBehaviour:
         guid: 3bb9951731f13247805529bc37e9b579
       Path: Events\SFX\Play_sfx_breathein
       maxAttenuation: 0
-      maxDuration: 3.1872916
-      minDuration: 3.1872916
+      maxDuration: 3.1872919
+      minDuration: 3.1872919
     - name: Play_sfx_breatheout
       guid: 45fd7e94e476614f88550a00fe87bc89
       id: 77468567
