@@ -91,6 +91,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(WakeUpCounter > -1.0f)
         {
             WakeUpCounter -= Time.deltaTime;
