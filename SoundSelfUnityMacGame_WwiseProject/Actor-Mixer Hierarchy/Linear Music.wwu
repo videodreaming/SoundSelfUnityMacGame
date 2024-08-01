@@ -430,6 +430,13 @@
 					</ChildrenList>
 				</Folder>
 				<ActorMixer Name="OPENING SEQUENCE_MUSIC" ID="{59969AF7-568E-4A70-A9CB-34DA1421F3EF}" ShortID="262996012">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
