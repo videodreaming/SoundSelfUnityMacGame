@@ -74,7 +74,7 @@ public class WwiseAVSMusicManager : MonoBehaviour
     }
     void PlaySilentAVS()
     {
-        AkSoundEngine.PostEvent("Play_AVS_Wave1_Silent", gameObject);
+        AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
     }
     void PopulateDevicesList() 
     {
