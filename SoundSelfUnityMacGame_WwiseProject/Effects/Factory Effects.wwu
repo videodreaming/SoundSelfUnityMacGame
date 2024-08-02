@@ -14,10 +14,10 @@
 						<Effect Name="Gentle_Program_Compressor_Minus_14dB_RMS" ID="{1595E6B0-DD58-4363-A3F0-DF0C96EC7C17}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
 							<PropertyList>
 								<Property Name="AttackTime" Type="Real32" Value="0.27"/>
-								<Property Name="OutputGain" Type="Real32" Value="2"/>
+								<Property Name="OutputGain" Type="Real32" Value="1"/>
 								<Property Name="Ratio" Type="Real32" Value="3"/>
 								<Property Name="ReleaseTime" Type="Real32" Value="0.57"/>
-								<Property Name="Threshold" Type="Real32" Value="-18"/>
+								<Property Name="Threshold" Type="Real32" Value="-11"/>
 							</PropertyList>
 						</Effect>
 						<Effect Name="Hard_Knee_Minus_3dB_RMS" ID="{D083BAE5-F9EF-426B-A311-D9DF8DFE8807}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
