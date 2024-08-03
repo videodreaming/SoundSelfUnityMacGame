@@ -10,6 +10,9 @@ public class DataOutput : MonoBehaviour
     public RespirationTracker respirationTracker;
     public WwiseGlobalManager wwiseGlobalManager;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public WwiseAVSMusicManager wwiseAVSMusicManager;
+
+    string AVSColorCommand = "";
     
     private StreamWriter writer;
     private string filePath;
@@ -30,6 +33,7 @@ public class DataOutput : MonoBehaviour
         writer = new StreamWriter(filePath, false);
         writer.WriteLine("Clock," + 
             "Run Time," +
+            "Command: AVS Color," +
             "Respiration: Rate," +
             "Respiration: Mean Tone Length," +
             "Respiration: Mean Rest Length," +
@@ -63,8 +67,11 @@ public class DataOutput : MonoBehaviour
         DateTime timeNow = DateTime.Now;
         float timeSinceLaunch = Time.time;
 
+       
+
         writer.WriteLine($"{DateTime.Now}," +
                          $"{Time.time}," +
+                         $"{AVSColorCommand}," +
                          $"{respirationTracker._respirationRate}," +
                          $"{respirationTracker._meanToneLength}," +
                          $"{respirationTracker._meanRestLength}," +
@@ -90,6 +97,10 @@ public class DataOutput : MonoBehaviour
 
     void Update()
     {
+        if (!string.IsNullOrEmpty(wwiseAVSMusicManager.AVSColorCommand))
+        {
+            AVSColorCommand = wwiseAVSMusicManager.AVSColorCommand;
+        }
     }
 
     void OnDisable()

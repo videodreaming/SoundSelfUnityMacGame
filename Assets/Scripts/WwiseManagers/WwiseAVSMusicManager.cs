@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 using System;
 
 public class WwiseAVSMusicManager : MonoBehaviour
 {
-        [SerializeField] AkDeviceDescriptionArray m_devices;
+    [SerializeField] AkDeviceDescriptionArray m_devices;
     float overrideValue = 100.0f;
+    bool AVSColorSelected = false;
+    bool AVSColorSelectedLastFrame = false;
+    bool AVSColorChangeFrame = false;
+    public string AVSColorCommand  = "";
     void Start()
     {
         // We first enumerate all Devices from the System shareset to have all available devices on Windows.
@@ -66,16 +71,15 @@ public class WwiseAVSMusicManager : MonoBehaviour
         // so the default listener will not be associated anymore.
         AkSoundEngine.RegisterGameObj(gameObject, "System2Go");
         AkSoundEngine.SetListeners(AkSoundEngine.GetAkGameObjectID(gameObject), ListenerIds, 1);
-        AkSoundEngine.PostEvent("Play_AVS_SineGenerators_REFERENCE", gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Blue_Volume_Wave1",100.0f,gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Green_Volume_Wave1",50.0f,gameObject);
-        PlaySilentAVS();
+
+
+        //Play all appropriate AVS waves
+        AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
+        //AkSoundEngine.PostEvent("Play_AVS_Wave2", gameObject);
+        //AkSoundEngine.PostEvent("Play_AVS_Wave3", gameObject);
         AkSoundEngine.PostEvent("Play_AVS_SineGenerators_RGB",gameObject);
     }
-    void PlaySilentAVS()
-    {
-        AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
-    }
+
     void PopulateDevicesList() 
     {
         uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
@@ -84,6 +88,99 @@ public class WwiseAVSMusicManager : MonoBehaviour
         m_devices = new AkDeviceDescriptionArray((int)deviceCount);
         AkSoundEngine.GetDeviceList(sharesetIdSystem, out deviceCount, m_devices);
     }
+    void SetWaveColor(int wave, float _red, float _green, float _blue, int transitionTimeMS)
+    {
+        //produce error if "wave" is not between 1 and 3
+        if (wave < 1 || wave > 3)
+        {
+            Debug.LogError("AVS wave must be between 1 and 3");
+            return;
+        }
+
+        //Change a string, between AVS_Red_Volume_Wave1 and AVS_Red_Volume_Wave2 (etc.) depending on the int value of wave:
+        string stringRed = "AVS_Red_Volume_Wave" + wave;
+        string stringGreen = "AVS_Green_Volume_Wave" + wave;
+        string stringBlue = "AVS_Blue_Volume_Wave" + wave;
+
+        AkSoundEngine.SetRTPCValue(stringRed, _red, gameObject, transitionTimeMS);
+        AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObject, transitionTimeMS);
+        AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObject, transitionTimeMS);
+
+        if(_red >0 || _green > 0 || _blue > 0)
+        {
+            AVSColorSelected = true;
+            AVSColorChangeFrame = true;
+        }
+    }
+    void SetStrobeColor(float _red, float _green, float _blue, int transitionTimeMS)
+    {
+        SetWaveColor(1,     _red,   _green,   _blue,   transitionTimeMS);
+        SetWaveColor(2,     _red,   _green,   _blue,   transitionTimeMS);
+    }
+    //COLOR WORLD FUNCTIONS
+    //                  Wave  Red   Green   Blue    Transition Time in MS
+    void SetColorWorld_Dark(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   0.0f,   0.0f,   0.0f,   transitionTimeMS);      //strobe = toning
+        SetWaveColor    (3, 0.0f,   0.0f,   0.0f,   transitionTimeMS);      //wave = inhalation
+        StartCoroutine(GoDark(transitionTimeMS));
+        AVSColorCommand = "Dark - " + transitionTimeMS;
+    }
+    void SetColorWorld_Red1(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   100.0f, 0.0f,   0.0f,   transitionTimeMS);
+        SetWaveColor    (3, 72.0f,  100.0f, 100.0f, transitionTimeMS);
+        AVSColorCommand = "Red1 - " + transitionTimeMS;
+    }
+    void SetColorWorld_Red2(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   100.0f, 100.0f, 100.0f, transitionTimeMS);
+        SetWaveColor    (3, 68.0f,  100.0f, 0.0f,   transitionTimeMS);
+        AVSColorCommand = "Red2 - " + transitionTimeMS;
+    }
+    void SetColorWorld_Red3(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   100.0f, 0.0f,   100.0f, transitionTimeMS);
+        SetWaveColor    (3, 68.0f,  100.0f, 0.0f,   transitionTimeMS);
+        AVSColorCommand = "Red3 - " + transitionTimeMS;
+    }
+    void SetColorWorld_Blue1(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   0.0f,   0.0f,   100.0f, transitionTimeMS);
+        SetWaveColor    (3, 0.0f,   100.0f, 0.0f,   transitionTimeMS);
+        AVSColorCommand = "Blue1 - " + transitionTimeMS;
+    }
+    void SetColorWorld_Blue2(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   0.0f,   58.0f,  42.0f,  transitionTimeMS);
+        SetWaveColor    (3, 0.0f,   66.0f,  40.0f,  transitionTimeMS);
+        AVSColorCommand = "Blue2 - " + transitionTimeMS;
+    }
+    void SetColorWorld_Blue3(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   0.0f,   54.0f,  100.0f, transitionTimeMS);
+        SetWaveColor    (3, 46.0f,  49.0f,  0.0f,   transitionTimeMS);
+        AVSColorCommand = "Blue3 - " + transitionTimeMS;
+    }
+    void SetColorWorld_White1(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   56.0f,  67.0f,  81.0f,  transitionTimeMS);
+        SetWaveColor    (3, 40.0f,  65.0f,  66.0f,  transitionTimeMS);
+        AVSColorCommand = "White1 - " + transitionTimeMS;
+    }
+    void SetColorWorld_White2(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   56.0f,  100.0f, 80.0f,  transitionTimeMS);
+        SetWaveColor    (3, 71.0f,  0.0f,  100.0f,  transitionTimeMS);
+        AVSColorCommand = "White2 - " + transitionTimeMS;
+    }
+    void SetColorWorld_White3(int transitionTimeMS = 2000)
+    {
+        SetStrobeColor  (   68.0f,  50.0f, 50.0f,   transitionTimeMS);
+        SetWaveColor    (3, 71.0f,  0.0f,  40.0f,   transitionTimeMS);
+        AVSColorCommand = "White3 - " + transitionTimeMS;
+    }
+
     void printDevicesList() 
     {
         if(m_devices == null)
@@ -101,6 +198,34 @@ public class WwiseAVSMusicManager : MonoBehaviour
         }
     }
 
+    IEnumerator GoDark(int milliseconds = 1000)
+    {
+        float timeRemaining = (milliseconds) / 1000f;
+        if(AVSColorChangeFrame)
+        {
+            yield break;
+        }
+        Debug.Log("Going dark - " + timeRemaining);
+        yield return null;
+        while(timeRemaining > 0)
+        {
+            if(AVSColorChangeFrame)
+            {
+                yield break;
+            }
+            timeRemaining -= Time.deltaTime;
+            yield return null;
+        }
+        if(AVSColorChangeFrame)
+        {
+            yield break;
+        }
+        else
+        {
+            AVSColorSelected = false;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -112,5 +237,33 @@ public class WwiseAVSMusicManager : MonoBehaviour
         {
             printDevicesList();
         }
+
+        if(Input.GetKeyUp(KeyCode.Q))
+        {
+            SetColorWorld_Dark(2000);
+        }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            SetColorWorld_Red1(2000);
+        }
+        
+        // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
+        if (AVSColorSelected && !AVSColorSelectedLastFrame)
+        {
+            AkSoundEngine.PostEvent("Play_AVS_SineGenerators_REFERENCE", gameObject);
+            Debug.Log("AVS: Starting Reference Signal");
+        }
+        else if (!AVSColorSelected && AVSColorSelectedLastFrame)
+        {
+            AkSoundEngine.PostEvent("Stop_AVS_SineGenerators_REFERENCE", gameObject);
+            Debug.Log("AVS: Stopping Reference Signal");
+        }
+        AVSColorSelectedLastFrame = AVSColorSelected;
+    }
+
+    void LateUpdate()
+    {
+        AVSColorChangeFrame = false;
+        AVSColorCommand = "";
     }
 }
