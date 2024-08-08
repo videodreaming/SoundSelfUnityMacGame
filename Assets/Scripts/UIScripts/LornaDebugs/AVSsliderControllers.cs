@@ -19,6 +19,7 @@ public class AVSsliderControllers : MonoBehaviour
     
     //AVS Wave 1
 
+    /*
     void Start()
     {
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1",100.0f,gameObject);
@@ -93,4 +94,5 @@ public class AVSsliderControllers : MonoBehaviour
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1", localValue, gameObject);
         AVS_MasterVolume_1_Text.text = localValue.ToString("0");
     }
+    */
 }
