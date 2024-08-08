@@ -7,7 +7,8 @@
 					<ChildrenList>
 						<Action Name="" ID="{DD45F328-F186-4F4B-8EDF-16FFE2787988}" ShortID="274469782">
 							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -46,7 +47,8 @@
 					<ChildrenList>
 						<Action Name="" ID="{1D88EAFC-38B0-4E13-B550-59C6B27A7067}" ShortID="352860626">
 							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="0"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -60,7 +62,8 @@
 					<ChildrenList>
 						<Action Name="" ID="{389598CB-BDD0-4E66-ABC7-55E0FD890E17}" ShortID="427642650">
 							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="6"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -76,6 +79,7 @@
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -91,6 +95,7 @@
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="0"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -106,6 +111,7 @@
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -118,6 +124,10 @@
 				<Event Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}">
 					<ChildrenList>
 						<Action Name="" ID="{381A31F6-E48F-486A-BC38-7A369D731812}" ShortID="266220056">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
@@ -135,6 +145,30 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="TEST" ID="{12A41469-053C-4569-9D02-ED6E68048373}">
+					<ChildrenList>
+						<Action Name="" ID="{E88F8DD6-6A32-4326-9174-42C0CE6FF540}" ShortID="1004423785">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C9ABD181-BCCD-4F16-9665-E0ABD1B0F9A2}" ShortID="941697857">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_AVS_Wave2" ID="{C83D5655-96B0-4B45-9B0B-C43858EDCE4A}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

@@ -20,9 +20,9 @@ namespace AK
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_REFERENCE = 3449237142U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_RGB = 2424845564U;
-        static const AkUniqueID PLAY_AVS_WAVE1_SILENT = 1358859793U;
-        static const AkUniqueID PLAY_AVS_WAVE2_TONING = 841212430U;
-        static const AkUniqueID PLAY_AVS_WAVE3_INHALE = 1328263081U;
+        static const AkUniqueID PLAY_AVS_WAVE1 = 3630490451U;
+        static const AkUniqueID PLAY_AVS_WAVE2 = 3630490448U;
+        static const AkUniqueID PLAY_AVS_WAVE3 = 3630490449U;
         static const AkUniqueID PLAY_CRYSTALBOWLGENERATOR = 2917442959U;
         static const AkUniqueID PLAY_ENDSOON_SEQUENCE = 3561899656U;
         static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT1 = 3724822780U;
@@ -93,9 +93,9 @@ namespace AK
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_REFERENCE = 767717232U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_RGB = 1101274838U;
-        static const AkUniqueID STOP_AVS_WAVE1_SILENT = 1208070559U;
-        static const AkUniqueID STOP_AVS_WAVE2_TONING = 3951624080U;
-        static const AkUniqueID STOP_AVS_WAVE3_INHALE = 896604455U;
+        static const AkUniqueID STOP_AVS_WAVE1 = 4138940081U;
+        static const AkUniqueID STOP_AVS_WAVE2 = 4138940082U;
+        static const AkUniqueID STOP_AVS_WAVE3 = 4138940083U;
         static const AkUniqueID STOP_CRYSTALBOWLGENERATOR = 4041758113U;
         static const AkUniqueID STOP_ENVIRONMENT_CRICKETS = 1774847782U;
         static const AkUniqueID STOP_ENVIRONMENT_WIND = 333136496U;
@@ -111,6 +111,7 @@ namespace AK
         static const AkUniqueID STOP_TONING = 955662865U;
         static const AkUniqueID STOP_VO_CLOSINGGOODBYE = 3042067738U;
         static const AkUniqueID STOP_VO_OPENING_THEMATIC_SWITCH = 2715963629U;
+        static const AkUniqueID TEST = 3157003241U;
     } // namespace EVENTS
 
     namespace STATES

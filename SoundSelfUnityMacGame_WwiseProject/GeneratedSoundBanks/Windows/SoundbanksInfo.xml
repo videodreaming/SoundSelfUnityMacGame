@@ -16,7 +16,7 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{20883879-00D6-57E1-B330-4240BFCBB47A}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{44614FC7-6954-59DB-6BC3-99FB0D78F474}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -71,6 +71,11 @@
 					</PluginRefs>
 				</Bus>
 				<Bus Id="3991942870" Name="Music">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="418265525"/>
+						</ShareSets>
+					</PluginRefs>
 					<AuxBusRefs>
 						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
 					</AuxBusRefs>
@@ -319,7 +324,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{B872AA9B-A04A-6241-2328-BC931EB62657}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D0BA2004-4722-A637-21B3-B0EBD1A85397}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -4837,7 +4842,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{AD1CC4DD-2B9E-0A0E-33C5-C4CB9611FE95}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{543CD930-3CEE-92E3-989A-467D96A1F831}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5795,6 +5800,78 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
+		<SoundBank Id="3157003241" Type="Event" Language="SFX" Hash="{9990E937-2263-556A-AACC-96C943ACB56E}">
+			<ShortName>TEST</ShortName>
+			<Path>Event/31/TEST.bnk</Path>
+			<Plugins>
+				<Custom>
+					<Plugin Id="56179526" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="294071551" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="396058618" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="434151753" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="572865908" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="632779657" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="879675526" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+					<Plugin Id="1006973361" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+				</Custom>
+				<ShareSets>
+					<Plugin Id="28907203" Name="AVS_Tremolo_Reference_R" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="28907229" Name="AVS_Tremolo_Reference_L" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="3561977548" Name="AVS_Modulation_Wave2_01" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="3561977551" Name="AVS_Modulation_Wave2_02" LibName="Wwise Tremolo" LibId="8585219"/>
+				</ShareSets>
+			</Plugins>
+			<Events>
+				<Event Id="3449237142" Name="Play_AVS_SineGenerators_REFERENCE" DurationType="Infinite">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="56179526"/>
+							<PluginRef Id="632779657"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="28907203"/>
+							<PluginRef Id="28907229"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3630490448" Name="Play_AVS_Wave2" DurationType="Infinite">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="294071551"/>
+							<PluginRef Id="396058618"/>
+							<PluginRef Id="434151753"/>
+							<PluginRef Id="572865908"/>
+							<PluginRef Id="879675526"/>
+							<PluginRef Id="1006973361"/>
+						</Custom>
+						<ShareSets>
+							<PluginRef Id="3561977548"/>
+							<PluginRef Id="3561977551"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="3157003241" Name="TEST" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionPostEvent>
+						<ActionPostEventEntry Id="3449237142" Name="Play_AVS_SineGenerators_REFERENCE"/>
+						<ActionPostEventEntry Id="3630490448" Name="Play_AVS_Wave2"/>
+					</ActionPostEvent>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
+				<GameParameter Id="1209148331" Name="AVS_Modulation_PWM_Wave2"/>
+				<GameParameter Id="2075358265" Name="AVS_Modulation_Smoothing_Wave2"/>
+				<GameParameter Id="2189202577" Name="AVS_Modulation_Frequency_Wave2"/>
+				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
+				<GameParameter Id="2591147252" Name="AVS_Modulation_Waveform_Wave2"/>
+				<GameParameter Id="3000490604" Name="AVS_Modulation_MonoStereo_Wave2"/>
+				<GameParameter Id="3133219852" Name="AVS_Modulation_Depth_Wave2"/>
+				<GameParameter Id="3244028901" Name="AVS_BLUE_Volume_Wave2"/>
+				<GameParameter Id="3740547866" Name="AVS_Modulation_BypassEffect_Wave2"/>
+				<GameParameter Id="3922087662" Name="AVS_RED_Volume_Wave2"/>
+				<GameParameter Id="4221340218" Name="AVS_GREEN_Volume_Wave2"/>
+			</GameParameters>
+		</SoundBank>
 		<SoundBank Id="3329123393" Type="Bus" Language="SFX" Hash="{F1DC2735-F1E7-CEDF-0654-3005ADF9E9F0}">
 			<ShortName>Aux_Impacts</ShortName>
 			<Path>Bus/33/Aux_Impacts.bnk</Path>
@@ -5809,7 +5886,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{6F88D5C6-5F79-151D-BA5A-01ADD3535CB0}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{78004C51-CF80-118D-E8FB-73EAB2262D66}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -6383,7 +6460,7 @@
 						</ShareSets>
 					</PluginRefs>
 				</Event>
-				<Event Id="1358859793" Name="Play_AVS_Wave1_Silent" DurationType="Infinite">
+				<Event Id="3630490451" Name="Play_AVS_Wave1" DurationType="Infinite">
 					<PluginRefs>
 						<Custom>
 							<PluginRef Id="21278335"/>
@@ -6399,7 +6476,7 @@
 						</ShareSets>
 					</PluginRefs>
 				</Event>
-				<Event Id="841212430" Name="Play_AVS_Wave2_Toning" DurationType="Infinite">
+				<Event Id="3630490448" Name="Play_AVS_Wave2" DurationType="Infinite">
 					<PluginRefs>
 						<Custom>
 							<PluginRef Id="294071551"/>
@@ -6415,7 +6492,7 @@
 						</ShareSets>
 					</PluginRefs>
 				</Event>
-				<Event Id="1328263081" Name="Play_AVS_Wave3_Inhale" DurationType="Infinite">
+				<Event Id="3630490449" Name="Play_AVS_Wave3" DurationType="Infinite">
 					<PluginRefs>
 						<Custom>
 							<PluginRef Id="53771986"/>
@@ -9131,9 +9208,9 @@
 				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="767717232" Name="Stop_AVS_SineGenerators_REFERENCE" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="1101274838" Name="Stop_AVS_SineGenerators_RGB" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="1208070559" Name="Stop_AVS_Wave1_Silent" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="3951624080" Name="Stop_AVS_Wave2_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="896604455" Name="Stop_AVS_Wave3_Inhale" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="4138940081" Name="Stop_AVS_Wave1" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="4138940082" Name="Stop_AVS_Wave2" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="4138940083" Name="Stop_AVS_Wave3" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="114893642" Name="Stop_InteractiveMusicSystem" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2822016348" Name="Stop_SilentLoops" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="955662865" Name="Stop_Toning" DurationType="OneShot" DurationMin="0" DurationMax="0">
@@ -9249,5 +9326,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{BE1BE97D-A7AF-D4E1-53BE-0480E9C5A110}</FileHash>
+	<FileHash>{7065EB3C-762F-6502-0699-19A5ED48F77F}</FileHash>
 </SoundBanksInfo>
