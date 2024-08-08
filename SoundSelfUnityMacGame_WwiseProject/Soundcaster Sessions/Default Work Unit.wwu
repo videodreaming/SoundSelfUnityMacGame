@@ -184,10 +184,6 @@
 							<Position X="0" Y="1"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="TEST" ID="{12A41469-053C-4569-9D02-ED6E68048373}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-							<Position X="0" Y="2"/>
-						</Module>
-						<Module>
 							<ObjectRef Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
 							<Position X="1" Y="0"/>
 						</Module>
@@ -482,6 +478,7 @@
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
+						<CurrentSwitchRef Name="Chakapa" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>
 				<SoundcasterSession Name="New Soundcaster Session" ID="{7FC382B4-EB8D-4B07-92BB-DBF6698B1317}">

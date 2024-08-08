@@ -19,7 +19,6 @@ namespace AK
         static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_SHORT = 593266067U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_REFERENCE = 3449237142U;
-        static const AkUniqueID PLAY_AVS_SINEGENERATORS_RGB = 2424845564U;
         static const AkUniqueID PLAY_AVS_WAVE1 = 3630490451U;
         static const AkUniqueID PLAY_AVS_WAVE2 = 3630490448U;
         static const AkUniqueID PLAY_AVS_WAVE3 = 3630490449U;
@@ -92,7 +91,6 @@ namespace AK
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_REFERENCE = 767717232U;
-        static const AkUniqueID STOP_AVS_SINEGENERATORS_RGB = 1101274838U;
         static const AkUniqueID STOP_AVS_WAVE1 = 4138940081U;
         static const AkUniqueID STOP_AVS_WAVE2 = 4138940082U;
         static const AkUniqueID STOP_AVS_WAVE3 = 4138940083U;
@@ -111,7 +109,6 @@ namespace AK
         static const AkUniqueID STOP_TONING = 955662865U;
         static const AkUniqueID STOP_VO_CLOSINGGOODBYE = 3042067738U;
         static const AkUniqueID STOP_VO_OPENING_THEMATIC_SWITCH = 2715963629U;
-        static const AkUniqueID TEST = 3157003241U;
     } // namespace EVENTS
 
     namespace STATES
