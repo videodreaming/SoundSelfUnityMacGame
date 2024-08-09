@@ -13,6 +13,7 @@ public class DataOutput : MonoBehaviour
     public WwiseAVSMusicManager wwiseAVSMusicManager;
 
     string AVSColorCommand = "";
+    string AVSStrobeCommand = "";
     
     private StreamWriter writer;
     private string filePath;
@@ -33,6 +34,7 @@ public class DataOutput : MonoBehaviour
         writer = new StreamWriter(filePath, false);
         writer.WriteLine("Clock," + 
             "Run Time," +
+            "Command: AVS Strobe Rate," +
             "Command: AVS Color," +
             "Respiration: Rate," +
             "Respiration: Mean Tone Length," +
@@ -67,10 +69,9 @@ public class DataOutput : MonoBehaviour
         DateTime timeNow = DateTime.Now;
         float timeSinceLaunch = Time.time;
 
-       
-
         writer.WriteLine($"{DateTime.Now}," +
                          $"{Time.time}," +
+                         $"{AVSStrobeCommand}," +
                          $"{AVSColorCommand}," +
                          $"{respirationTracker._respirationRate}," +
                          $"{respirationTracker._meanToneLength}," +
@@ -93,13 +94,21 @@ public class DataOutput : MonoBehaviour
                          $"{respirationTracker._absorptionRespirationRateMultiplier2min}," +
                          $"{respirationTracker._absorptionToneLengthMultiplier1min}," +
                          $"{respirationTracker._absorptionToneLengthMultiplier2min},");
+
+        AVSColorCommand = "";
+        AVSStrobeCommand = "";
     }
 
     void Update()
     {
-        if (!string.IsNullOrEmpty(wwiseAVSMusicManager.AVSColorCommand))
+        // "Commands"
+        if (wwiseAVSMusicManager.AVSColorCommand != "")
         {
             AVSColorCommand = wwiseAVSMusicManager.AVSColorCommand;
+        }
+        if (wwiseAVSMusicManager.AVSStrobeCommand != "")
+        {
+            AVSStrobeCommand = wwiseAVSMusicManager.AVSStrobeCommand;
         }
     }
 

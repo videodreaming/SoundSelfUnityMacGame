@@ -6447,6 +6447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e48b2d0af0aa404c952888cbe95a612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AVSColorCommand: 
 --- !u!1 &443228039
 GameObject:
   m_ObjectHideFlags: 0
@@ -10053,6 +10054,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceIntepreter: {fileID: 740096625}
+  wwiseAVSMusicManager: {fileID: 437048159}
 --- !u!114 &740096630
 MonoBehaviour:
   m_ObjectHideFlags: 0
