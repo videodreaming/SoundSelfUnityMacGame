@@ -10,19 +10,12 @@ Event	ID	Name			Wwise Object Path	Notes
 	767717232	Stop_AVS_SineGenerators_REFERENCE			\AVS System\Stop_AVS_SineGenerators_REFERENCE	
 	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP	
 	835136671	Play_SilentLoops_v2_12Pitch_Linked			\Interactive Music System\Play_SilentLoops_v2_12Pitch_Linked	
-	841212430	Play_AVS_Wave2_Toning			\AVS System\Play_AVS_Wave2_Toning	
-	896604455	Stop_AVS_Wave3_Inhale			\AVS System\Stop_AVS_Wave3_Inhale	
 	897777483	Play_VO_GuidedVocalizationHum			\VO\Play_VO_GuidedVocalizationHum	
 	955662865	Stop_Toning			\Interactive Music System\Stop_Toning	
-	1101274838	Stop_AVS_SineGenerators_RGB			\AVS System\Stop_AVS_SineGenerators_RGB	
-	1208070559	Stop_AVS_Wave1_Silent			\AVS System\Stop_AVS_Wave1_Silent	
-	1328263081	Play_AVS_Wave3_Inhale			\AVS System\Play_AVS_Wave3_Inhale	
 	1350331786	Play_VO_GuidedVocalizationOhh			\VO\Play_VO_GuidedVocalizationOhh	
-	1358859793	Play_AVS_Wave1_Silent			\AVS System\Play_AVS_Wave1_Silent	
 	1486999246	Play_SilentLoops_v1_7Pitch_Linked			\Interactive Music System\Play_SilentLoops_v1_7Pitch_Linked	
 	1511441763	Play_Toning			\Interactive Music System\Play_Toning	
 	2185482934	Play_SilentLoops_v3_FundamentalOnly			\Interactive Music System\Play_SilentLoops_v3_FundamentalOnly	
-	2424845564	Play_AVS_SineGenerators_RGB			\AVS System\Play_AVS_SineGenerators_RGB	
 	2562807417	Play_NewEnding			\Interactive Music System\Play_NewEnding	
 	2822016348	Stop_SilentLoops			\Interactive Music System\Stop_SilentLoops	
 	2908297336	Play_sfx_Impact			\SFX\Play_sfx_Impact	
@@ -30,11 +23,16 @@ Event	ID	Name			Wwise Object Path	Notes
 	3427313557	Play_Toning_v3_FundamentalOnly			\Interactive Music System\Play_Toning_v3_FundamentalOnly	
 	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
 	3449237142	Play_AVS_SineGenerators_REFERENCE			\AVS System\Play_AVS_SineGenerators_REFERENCE	
+	3630490448	Play_AVS_Wave2			\AVS System\Play_AVS_Wave2	
+	3630490449	Play_AVS_Wave3			\AVS System\Play_AVS_Wave3	
+	3630490451	Play_AVS_Wave1			\AVS System\Play_AVS_Wave1	
 	3830600368	Play_sfx_breathein			\SFX\Play_sfx_breathein	
-	3951624080	Stop_AVS_Wave2_Toning			\AVS System\Stop_AVS_Wave2_Toning	
 	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP	
 	4004321118	Play_SilentLoops			\Interactive Music System\Play_SilentLoops	
 	4057363449	Play_VO_GuidedVocalizationAdvanced			\VO\Play_VO_GuidedVocalizationAdvanced	
+	4138940081	Stop_AVS_Wave1			\AVS System\Stop_AVS_Wave1	
+	4138940082	Stop_AVS_Wave2			\AVS System\Stop_AVS_Wave2	
+	4138940083	Stop_AVS_Wave3			\AVS System\Stop_AVS_Wave3	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
 	2195370387	InteractiveMusicSwitchGroup2_12Pitches_Linked5ths			\Interactive Music System\InteractiveMusicSwitchGroup2_12Pitches_Linked5ths	
@@ -160,33 +158,27 @@ Effect plug-ins	ID	Name	Type				Notes
 	3561977551	AVS_Modulation_Wave2_02	Wwise Tremolo			
 
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
-	21278335	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1_Silent\AVS_SineGenerators_RGB_Stereo_Wave1_Silent\AVS_SineGenerators_RGB_RIGHT_Silent\RED\RED\Sine	
-	53771986	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3_Inhale\AVS_SineGenerators_RGB_Stereo_Inhale\AVS_SineGenerators_RGB_LEFT_Inhale\GREEN\GREEN\Sine	
+	21278335	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\RED\RED\Sine	
+	53771986	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_LEFT_Inhale\GREEN\GREEN\Sine	
 	56179526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_REFERENCE\Reference_SignalGenerator_R\Sine	
-	99381280	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3_Inhale\AVS_SineGenerators_RGB_Stereo_Inhale\AVS_SineGenerators_RGB_RIGHT_Inhale\RED\RED\Sine	
-	145712967	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1_Silent\AVS_SineGenerators_RGB_Stereo_Wave1_Silent\AVS_SineGenerators_RGB_LEFT_Silent\BLUE\BLUE\Sine	
-	178915186	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_RIGHT\GREEN\GREEN\Sine	
-	282040115	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3_Inhale\AVS_SineGenerators_RGB_Stereo_Inhale\AVS_SineGenerators_RGB_RIGHT_Inhale\GREEN\GREEN\Sine	
-	294071551	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2_Toning\AVS_SineGenerators_RGB_Stereo_Toning\AVS_SineGenerators_RGB_RIGHT_Toning\BLUE\BLUE\Sine	
-	393190976	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1_Silent\AVS_SineGenerators_RGB_Stereo_Wave1_Silent\AVS_SineGenerators_RGB_LEFT_Silent\GREEN\GREEN\Sine	
-	396058618	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2_Toning\AVS_SineGenerators_RGB_Stereo_Toning\AVS_SineGenerators_RGB_RIGHT_Toning\RED\RED\Sine	
-	409478190	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1_Silent\AVS_SineGenerators_RGB_Stereo_Wave1_Silent\AVS_SineGenerators_RGB_RIGHT_Silent\BLUE\BLUE\Sine	
-	418097311	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_LEFT\RED\RED\Sine	
-	434151753	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2_Toning\AVS_SineGenerators_RGB_Stereo_Toning\AVS_SineGenerators_RGB_LEFT_Toning\BLUE\BLUE\Sine	
-	469381759	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3_Inhale\AVS_SineGenerators_RGB_Stereo_Inhale\AVS_SineGenerators_RGB_RIGHT_Inhale\BLUE\BLUE\Sine	
-	559173273	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1_Silent\AVS_SineGenerators_RGB_Stereo_Wave1_Silent\AVS_SineGenerators_RGB_RIGHT_Silent\GREEN\GREEN\Sine	
-	561927987	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_RIGHT\BLUE\BLUE\Sine	
-	572865908	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2_Toning\AVS_SineGenerators_RGB_Stereo_Toning\AVS_SineGenerators_RGB_LEFT_Toning\RED\RED\Sine	
-	599365106	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3_Inhale\AVS_SineGenerators_RGB_Stereo_Inhale\AVS_SineGenerators_RGB_LEFT_Inhale\BLUE\BLUE\Sine	
-	609153636	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3_Inhale\AVS_SineGenerators_RGB_Stereo_Inhale\AVS_SineGenerators_RGB_LEFT_Inhale\RED\RED\Sine	
+	99381280	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_RIGHT_Inhale\RED\RED\Sine	
+	145712967	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\BLUE\BLUE\Sine	
+	282040115	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_RIGHT_Inhale\GREEN\GREEN\Sine	
+	294071551	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_RIGHT_Toning\BLUE\BLUE\Sine	
+	393190976	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\GREEN\GREEN\Sine	
+	396058618	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_RIGHT_Toning\RED\RED\Sine	
+	409478190	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\BLUE\BLUE\Sine	
+	434151753	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\BLUE\BLUE\Sine	
+	469381759	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_RIGHT_Inhale\BLUE\BLUE\Sine	
+	559173273	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\GREEN\GREEN\Sine	
+	572865908	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\RED\RED\Sine	
+	599365106	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_LEFT_Inhale\BLUE\BLUE\Sine	
+	609153636	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_LEFT_Inhale\RED\RED\Sine	
 	632779657	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_REFERENCE\Reference_SignalGenerator_L\Sine	
-	635802060	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_LEFT\BLUE\BLUE\Sine	
-	661931200	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_LEFT\GREEN\GREEN\Sine	
 	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
-	703323918	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB\AVS_SineGenerators_RGB_Stereo\AVS_SineGenerators_RGB_RIGHT\RED\RED\Sine	
-	725142564	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1_Silent\AVS_SineGenerators_RGB_Stereo_Wave1_Silent\AVS_SineGenerators_RGB_LEFT_Silent\RED\RED\Sine	
-	879675526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2_Toning\AVS_SineGenerators_RGB_Stereo_Toning\AVS_SineGenerators_RGB_RIGHT_Toning\GREEN\GREEN\Sine	
-	1006973361	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2_Toning\AVS_SineGenerators_RGB_Stereo_Toning\AVS_SineGenerators_RGB_LEFT_Toning\GREEN\GREEN\Sine	
+	725142564	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\RED\RED\Sine	
+	879675526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_RIGHT_Toning\GREEN\GREEN\Sine	
+	1006973361	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\GREEN\GREEN\Sine	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1226163	Pigments_Ambient_C Maj Scale	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Pigments_Ambient_C Maj Scale_74C2D65B.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Shadow\fundamental_[C]_toning_shadow\Pigments_Ambient_C Maj Scale		2592284

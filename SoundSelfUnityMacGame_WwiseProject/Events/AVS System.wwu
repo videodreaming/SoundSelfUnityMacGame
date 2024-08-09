@@ -7,7 +7,8 @@
 					<ChildrenList>
 						<Action Name="" ID="{DD45F328-F186-4F4B-8EDF-16FFE2787988}" ShortID="274469782">
 							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -17,36 +18,12 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_AVS_SineGenerators_RGB" ID="{24F05E84-F57C-4783-A960-C9AD235EE132}">
-					<ChildrenList>
-						<Action Name="" ID="{046682D6-E585-4835-8E04-2A67ECF003F0}" ShortID="133318411">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo" ID="{8A2B7FE9-9A8B-4656-BFAD-075F374F92B1}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
-				<Event Name="Stop_AVS_SineGenerators_RGB" ID="{DBF088F3-43DB-4347-834F-146A8207FBD0}">
-					<ChildrenList>
-						<Action Name="" ID="{CA28DE75-526D-4FE8-A6E6-FB07EA28427B}" ShortID="1053853485">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo" ID="{8A2B7FE9-9A8B-4656-BFAD-075F374F92B1}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="Play_AVS_Wave2" ID="{C83D5655-96B0-4B45-9B0B-C43858EDCE4A}">
 					<ChildrenList>
 						<Action Name="" ID="{1D88EAFC-38B0-4E13-B550-59C6B27A7067}" ShortID="352860626">
 							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="0"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -60,7 +37,8 @@
 					<ChildrenList>
 						<Action Name="" ID="{389598CB-BDD0-4E66-ABC7-55E0FD890E17}" ShortID="427642650">
 							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="6"/>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -76,6 +54,7 @@
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -91,6 +70,7 @@
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="0"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -106,6 +86,7 @@
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -118,6 +99,10 @@
 				<Event Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}">
 					<ChildrenList>
 						<Action Name="" ID="{381A31F6-E48F-486A-BC38-7A369D731812}" ShortID="266220056">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
