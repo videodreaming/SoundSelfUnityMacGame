@@ -19,10 +19,15 @@ public class WwiseAVSMusicManager : MonoBehaviour
     public string AVSStrobeCommand = "";
     public float _strobePWM    = 0.0f;
     public float _strobe1Smoothing = 0.0f;
-    private bool toneResponseFlag = false;
-    private bool toneResponsePrintFlag = false;
+    public float _gammaBurstMode = 0.0f;
+    private bool toneVisualizationFlag = false;
+    private bool chargeVisualizationFlag = false;
+    private bool breathVisualizationFlag = false;
     private float _debugValue1    = 0.0f;
-    private float _debugValue2    = 0.0f;
+    private float _debugValue2    = 0.0f; //currently unused
+    private float _debugValue3    = 0.0f;
+    private float _debugValue4    = 0.0f;
+    private int Qcount              = 0;
     void Start()
     {
         // We first enumerate all Devices from the System shareset to have all available devices on Windows.
@@ -86,13 +91,14 @@ public class WwiseAVSMusicManager : MonoBehaviour
         //Play all appropriate AVS waves
         AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
         AkSoundEngine.PostEvent("Play_AVS_Wave2", gameObject);
-        //AkSoundEngine.PostEvent("Play_AVS_Wave3", gameObject);
-        AkSoundEngine.PostEvent("Play_AVS_SineGenerators_RGB",gameObject);
+        AkSoundEngine.PostEvent("Play_AVS_Wave3", gameObject);
         
         //Initialize default RTPC values
         AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave1", 1.0f, gameObject); //1 enables modulation effects
         AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave2", 1.0f, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave3", 0.0f, gameObject);
+        
+        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", 0.0f, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave1", 100.0f, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave2", 100.0f, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave1", 55.0f, gameObject);
@@ -103,21 +109,9 @@ public class WwiseAVSMusicManager : MonoBehaviour
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave2", 40.0f, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave2", 0.0f, gameObject);
 
-        //===== REEF, COULD YOU HAVE A LOOK AT THIS? =====
-        //IF THE CONNECTION BETWEEN UNITY AND WWISE IS CORRECT
-        //THEN THESE LINES SHOULD DISABLE ALL THE LIGHTS
-        //These first ones won't do anything unless Strobe_ToneResponse has its functionality commented out.
-         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1", 0.0f, gameObject);
-         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave2", 0.0f, gameObject);
-        //These ones, however, should be fatal to any AVS activity other than the reference tone.
-         AkSoundEngine.PostEvent("Stop_AVS_Wave1", gameObject);
-         AkSoundEngine.PostEvent("Stop_AVS_Wave2", gameObject);
-         AkSoundEngine.PostEvent("Stop_AVS_Wave3", gameObject);
-         //On the other hand, confusingly to me, "Play_AVS_SineGenerators_RGB" seems to be
-         //required for the lights to work, but I thought (perhaps incorrectly?) that that was retired?
         //=================================================
 
-        SetColorWorldByName("Dark", 0.0f);
+        SetColorWorldByName("White3", 0.0f);
     }
 
     void PopulateDevicesList() 
@@ -218,35 +212,59 @@ public class WwiseAVSMusicManager : MonoBehaviour
         }
     }
     // DYNAMIC AVS CONTROL SYSTEMS
-    public void Strobe_ToneResponse (float _input, float _gammaBurstMode = 0.0f)
+    public void Wwise_Strobe_ToneDisplay (float _input)
     {
         float _m2 = Mathf.Max(Mathf.Min(_gammaBurstMode, 1.0f), 0.0f);
         float _m1 = 1.0f - _m2;
         float _i = Mathf.Max(Mathf.Min(_input, 1.0f), 0.0f);
         float _strobe1Depth       = (44.0f + 56.0f * _i);
-        float _strobe1            = (50.0f + ((_m1 - _m2) * 50.0f * _i)); //gamma bursts make this go from 50 to 0, otherwise 50 to 100 
-        float _strobe2            = (_m2 * 100.0f * _i); 
+        float _strobe1            = (45.0f + (((_m1*55.0f)-(_m2*45.0f)) * _i)); //gamma bursts make this go down, otherwise up 
+        float _strobe2            = _m2 * ((70.0f * _i) + (30.0f * Mathf.Min((_i * 2), 1)));//there's a little boost at the bottom end because that works best with the glasses.
 
-        if (toneResponseFlag)
+        if (toneVisualizationFlag)
         {
-            Debug.Log("Warning: Tone Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+            Debug.Log("Warning: AVS Tone Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
         }
-        toneResponseFlag    = true;
+        toneVisualizationFlag    = true;
     
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave1", _strobe1Depth, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1", strobe1, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave2", strobe2, gameObject);
+        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1", _strobe1, gameObject);
+        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave2", _strobe2, gameObject);
+    }
 
-        //Below is only required for debugging
-        if (!toneResponseFlag  && (_i == 1.0f || _i == 0.0f))
+    public void Wwise_Strobe_ChargeDisplay (float _input)
+    {
+        float _i = Mathf.Max(Mathf.Min(_input, 1.0f), 0.0f);
+        float _strobe1Smoothing = 100.0f - _i*100.0f;
+        float _strobePWM = 25.0f + 50.0f * _i;
+
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave1", _strobePWM, gameObject);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave2", _strobePWM, gameObject);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave1", _strobe1Smoothing, gameObject);
+
+        if (chargeVisualizationFlag)
         {
-            Debug.Log("Strobe Tone-Control Input(" + _i + ") Strobe1 Depth(" + _strobe1Depth + ") Strobe1(" + _strobe1 + ") Strobe2(" + _strobe2 + ")");
-            toneResponsePrintFlag = true;
+            Debug.Log("Warning: AVS Charge Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
         }
-        else if (_i != 1.0f && _i != 0.0f)
+        chargeVisualizationFlag = true;
+    }
+
+    public void Wwise_BreathDisplay (float _input)
+    {
+        float _i = Mathf.Max(Mathf.Min(_input, 1.0f), 0.0f);
+        float _waveValue = 0.0f + 100.0f * _i;
+
+        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", _waveValue, gameObject);
+
+        if (_i != 0.0f)
+        Debug.Log("Breath Wave Value: " + _waveValue);
+
+        if(breathVisualizationFlag)
         {
-            toneResponsePrintFlag = false;
-        }   
+            Debug.Log("Warning: AVS Breath Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+        }
+        breathVisualizationFlag = true;
+
     }
 
     void printDevicesList() 
@@ -327,13 +345,49 @@ public class WwiseAVSMusicManager : MonoBehaviour
             printDevicesList();
         }
 
-        if(Input.GetKeyUp(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.C))
         {
-            SetColorWorldByName("Red2", 2.0f);
-        }
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            SetColorWorldByName("Dark", 2.0f);
+            Qcount++;
+            if(Qcount%10 == 0)
+            {
+                SetColorWorldByName("Dark", 2.0f);
+            }
+            else if(Qcount%10 == 1)
+            {
+                SetColorWorldByName("Red1", 2.0f);
+            }
+            else if(Qcount%10 == 2)
+            {
+                SetColorWorldByName("Red2", 2.0f);
+            }
+            else if(Qcount%10 == 3)
+            {
+                SetColorWorldByName("Red3", 2.0f);
+            }
+            else if(Qcount%10 == 4)
+            {
+                SetColorWorldByName("Blue1", 2.0f);
+            }
+            else if(Qcount%10 == 5)
+            {
+                SetColorWorldByName("Blue2", 2.0f);
+            }
+            else if(Qcount%10 == 6)
+            {
+                SetColorWorldByName("Blue3", 2.0f);
+            }
+            else if(Qcount%10 == 7)
+            {
+                SetColorWorldByName("White1", 2.0f);
+            }
+            else if(Qcount%10 == 8)
+            {
+                SetColorWorldByName("White2", 2.0f);
+            }
+            else if(Qcount%10 == 9)
+            {
+                SetColorWorldByName("White3", 2.0f);
+            }
         }
 
         if(Input.GetKeyDown(KeyCode.W))
@@ -344,25 +398,14 @@ public class WwiseAVSMusicManager : MonoBehaviour
         {
             SetStrobeRate(5f, 0f);
         }
-        if(Input.GetKey(KeyCode.E))
-        {
-            _debugValue1 = Mathf.Min(_debugValue1 + Time.deltaTime * 0.5f, 1.0f);
-            //Strobe_ToneResponse(_debugValue1, _debugValue2);
-        }
-        else
-        {
-            _debugValue1 = Mathf.Max(_debugValue1 - Time.deltaTime * 0.5f, 0.0f);
-            //Strobe_ToneResponse(_debugValue1, _debugValue2);
-        }
         if(Input.GetKey(KeyCode.R))
         {
-            _debugValue2 = Mathf.Min(_debugValue2 + Time.deltaTime * 0.5f, 1.0f);
+            _gammaBurstMode = Mathf.Min(_debugValue2 + Time.deltaTime * 0.5f, 1.0f);
         }
         else
         {
-            _debugValue2 = Mathf.Max(_debugValue2 - Time.deltaTime * 0.5f);
+            _gammaBurstMode = Mathf.Max(_debugValue2 - Time.deltaTime * 0.5f, 0.0f);
         }
-        
         
         // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
         if (AVSColorSelected && !AVSColorSelectedLastFrame)
@@ -383,6 +426,8 @@ public class WwiseAVSMusicManager : MonoBehaviour
         AVSColorChangeFrame = false;
         AVSColorCommand = "";
         AVSStrobeCommand = "";
-        toneResponseFlag = false;
+        toneVisualizationFlag = false;
+        chargeVisualizationFlag = false;
+        breathVisualizationFlag = false;
     }
 }
