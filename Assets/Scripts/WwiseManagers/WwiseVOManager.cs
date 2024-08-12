@@ -212,6 +212,8 @@ public class WwiseVOManager : MonoBehaviour
             previousToneActiveConfident = currentToneActiveConfident;
         }
     }
+
+
     
     void assignVOs()
     {
@@ -267,24 +269,30 @@ public class WwiseVOManager : MonoBehaviour
 
         }
     }
+    public void PassBackToVOManager()
+    {
+        Debug.Log("RanFinalStageLogic");
+       
+        AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject);
+    }
 
 
 
         
-            IEnumerator StartSighElicitationTimer()
-            {
-                yield return new WaitForSeconds(6.0f); // Wait for the audio event to finish playing
-                audioManager.OnAudioFinished();
-                pause = false;
-            }
-            IEnumerator StartQueryElicitationTimer()
-            {
-                pause = true;
-                audioManager.Query1CheckStarted = true;
-                yield return new WaitForSeconds(30.0f); // Wait for the audio event to finish playing
-                audioManager.OnAudioFinished();
-                pause = false;
-            }
+    IEnumerator StartSighElicitationTimer()
+        {
+            yield return new WaitForSeconds(6.0f); // Wait for the audio event to finish playing
+            audioManager.OnAudioFinished();
+            pause = false;
+        }
+    IEnumerator StartQueryElicitationTimer()
+        {
+            pause = true;
+            audioManager.Query1CheckStarted = true;
+            yield return new WaitForSeconds(30.0f); // Wait for the audio event to finish playing
+            audioManager.OnAudioFinished();
+            pause = false;
+        }
                     
         
 }

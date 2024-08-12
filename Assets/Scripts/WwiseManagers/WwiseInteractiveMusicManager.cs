@@ -26,6 +26,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     private float finalStagePreLogicTime;
 
     private float WakeUpCounter;
+     private bool wakeUpEndSoonTriggered = false; // Flag to control the event triggering
 
 
     private float soundWorldChangeTime;
@@ -60,7 +61,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }*/
         
 
-        AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem,");
+        AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
         AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
@@ -88,6 +89,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         Debug.Log("Harmony Note: " + ConvertIntToNote(musicSystem1.harmonyNote));
     }
 
+   
     // Update is called once per frame
     void Update()
     {
@@ -97,10 +99,11 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
             WakeUpCounter -= Time.deltaTime;
         } 
         
-        if( WakeUpCounter <= 0.0f)
+        if( WakeUpCounter <= 0.0f && !wakeUpEndSoonTriggered)
         {
             AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
             WakeUpCounter = -1.0f;
+            wakeUpEndSoonTriggered = true;
         }
         if (imitoneVoiceIntepreter.toneActiveConfident)
         {
@@ -146,7 +149,9 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
                         break;
                     default:
                     wwiseVOManager.interactive = false;
-                    RunFinalStageLogic();
+                    Debug.Log("Stage 4 Final");
+                    AkSoundEngine.PostEvent("Stop_InteractiveMusicSystem", gameObject);
+                    wwiseVOManager.PassBackToVOManager();
                     break;
                 }   
             }
@@ -174,12 +179,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }
     }
 
-    void RunFinalStageLogic()
-    {
-        AkSoundEngine.PostEvent("Stop_InteractiveMusicSystem", gameObject);
-        AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject);
 
-    }
 
     public void ChangeToningState()
     {

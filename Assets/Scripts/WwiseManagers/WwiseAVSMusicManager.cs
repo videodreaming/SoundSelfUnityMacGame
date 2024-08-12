@@ -19,19 +19,17 @@ public class WwiseAVSMusicManager : MonoBehaviour
         // Return the device with the specified name on the system. This is where you will either put you logic to enumarate all the Device and let the user decide, or force a specified device directly.
         string wantedDevice;
 
-        if (System.Environment.OSVersion.Platform == PlatformID.Win32NT)
-        {
-            wantedDevice = "Speakers (Kasina MMS Audio)";
-        }
-        else if (System.Environment.OSVersion.Platform == PlatformID.MacOSX)
-        {
+        // We set the wantedDevice to the name of the device we want to use. This is the name of the device as it appears in the Wwise Audio Device Manager.
+        #if UNITY_STANDALONE_OSX
             wantedDevice = "Kasina MMS Audio";
-        }
-        else
-        {
-            Debug.LogError("Unsupported operating system");
+        #elif UNITY_STANDALONE_WIN
+            wantedDevice = "Speakers (Kasina MMS Audio)";
+        #else
+            Debug.LogError("Unsupported platform");
             return;
-        }
+        #endif
+
+
         uint deviceId = 0;
         for (int i = 0; i < devices.Capacity; i++)
         {
@@ -50,6 +48,7 @@ public class WwiseAVSMusicManager : MonoBehaviour
             Debug.LogError("Device not found");
             return;
         }
+
 
         // We create the Second Audio Device Listener GameObject and find the System_01 ShareSetID.
         AkSoundEngine.RegisterGameObj(gameObject, "System2Listener");
@@ -70,11 +69,10 @@ public class WwiseAVSMusicManager : MonoBehaviour
         AkSoundEngine.SetRTPCValue("AVS_Blue_Volume_Wave1",100.0f,gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Green_Volume_Wave1",50.0f,gameObject);
         PlaySilentAVS();
-        AkSoundEngine.PostEvent("Play_AVS_SineGenerators_RGB",gameObject);
     }
     void PlaySilentAVS()
     {
-        AkSoundEngine.PostEvent("Play_AVS_Wave1_Silent", gameObject);
+        AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
     }
     void PopulateDevicesList() 
     {
