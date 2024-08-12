@@ -18,6 +18,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 {
     //base variables pitch and midiNote
     public DevModeSettings DevModeSettings;
+    public WwiseAVSMusicManager wwiseAVSMusicManager;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
@@ -208,6 +209,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
+        wwiseAVSMusicManager.Wwise_BreathDisplay(_breathVolume);
     }
 
     private void SetNoiseFloorThreshold()
@@ -352,17 +354,19 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                     {
                                         _dbValue = -25.0f;
                                         imitoneActive = true;
+                                        Debug.Log("Force Tone Active");
                                     }
                                     else if (forceNoTone == true)
                                     {
                                         _dbValue = -75.0f;
                                         imitoneActive = false;
+                                        Debug.Log("Force No Tone Active");
                                     } 
                                     else
                                     {
                                         _dbValue = (float)(10.0 * Math.Log10(power));
                                         imitoneActive = true;
-                                        //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
+                                        Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
                                     }
                                     _level = (float)Math.Pow(10,_dbValue) * 0.05f;
 
@@ -433,6 +437,14 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     Debug.Log("Force No-Tone");
                     forceToneActive = false;
                     forceNoTone = true;
+                }
+                if (forceToneActive)
+                {
+                    imitoneActive = true;
+                }
+                if (forceNoTone)
+                {
+                    imitoneActive = false;
                 }
             }
         }

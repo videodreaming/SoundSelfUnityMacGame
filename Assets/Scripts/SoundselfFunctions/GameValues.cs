@@ -18,6 +18,7 @@ public class GameValues: MonoBehaviour
     public AudioManager AudioManager;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public RespirationTracker respirationTracker;
+    public WwiseAVSMusicManager wwiseAVSMusicManager;
 
     
     [Header("DampingValues")]
@@ -99,6 +100,9 @@ public class GameValues: MonoBehaviour
             StartCoroutine(ChantChargeMemberCoroutine(_forceDurationToFill));
         }
         _chantCharge = Mathf.Clamp(_chantChargeContributions.Values.Sum(), 0,1);
+        wwiseAVSMusicManager.Wwise_Strobe_ChargeDisplay(_chantCharge);
+        wwiseAVSMusicManager.Wwise_Strobe_ToneDisplay(_chantLerpFast);
+        Debug.Log("imitoneActive: " + imitoneVoiceInterpreter.imitoneActive + " toneActive: " + imitoneVoiceInterpreter.toneActive + " Chant Charge: " + _chantCharge + " Chant Lerp Fast: " + _chantLerpFast);
     }
 
     private void handleVolume(){

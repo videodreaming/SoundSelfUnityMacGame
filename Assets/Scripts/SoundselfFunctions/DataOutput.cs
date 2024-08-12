@@ -10,6 +10,10 @@ public class DataOutput : MonoBehaviour
     public RespirationTracker respirationTracker;
     public WwiseGlobalManager wwiseGlobalManager;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public WwiseAVSMusicManager wwiseAVSMusicManager;
+
+    string AVSColorCommand = "";
+    string AVSStrobeCommand = "";
     
     private StreamWriter writer;
     private string filePath;
@@ -30,6 +34,8 @@ public class DataOutput : MonoBehaviour
         writer = new StreamWriter(filePath, false);
         writer.WriteLine("Clock," + 
             "Run Time," +
+            "Command: AVS Strobe Rate," +
+            "Command: AVS Color," +
             "Respiration: Rate," +
             "Respiration: Mean Tone Length," +
             "Respiration: Mean Rest Length," +
@@ -65,6 +71,8 @@ public class DataOutput : MonoBehaviour
 
         writer.WriteLine($"{DateTime.Now}," +
                          $"{Time.time}," +
+                         $"{AVSStrobeCommand}," +
+                         $"{AVSColorCommand}," +
                          $"{respirationTracker._respirationRate}," +
                          $"{respirationTracker._meanToneLength}," +
                          $"{respirationTracker._meanRestLength}," +
@@ -86,10 +94,22 @@ public class DataOutput : MonoBehaviour
                          $"{respirationTracker._absorptionRespirationRateMultiplier2min}," +
                          $"{respirationTracker._absorptionToneLengthMultiplier1min}," +
                          $"{respirationTracker._absorptionToneLengthMultiplier2min},");
+
+        AVSColorCommand = "";
+        AVSStrobeCommand = "";
     }
 
     void Update()
     {
+        // "Commands"
+        if (wwiseAVSMusicManager.AVSColorCommand != "")
+        {
+            AVSColorCommand = wwiseAVSMusicManager.AVSColorCommand;
+        }
+        if (wwiseAVSMusicManager.AVSStrobeCommand != "")
+        {
+            AVSStrobeCommand = wwiseAVSMusicManager.AVSStrobeCommand;
+        }
     }
 
     void OnDisable()

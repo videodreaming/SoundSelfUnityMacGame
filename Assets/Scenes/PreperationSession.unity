@@ -6447,6 +6447,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e48b2d0af0aa404c952888cbe95a612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AVSColorCommand: 
+  AVSStrobeCommand: 
+  _strobePWM: 0
+  _strobe1Smoothing: 0
+  _gammaBurstMode: 0
 --- !u!1 &443228039
 GameObject:
   m_ObjectHideFlags: 0
@@ -9958,6 +9963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DevModeSettings: {fileID: 316632675}
+  wwiseAVSMusicManager: {fileID: 437048159}
   pitch_hz: 0
   note_st: 0
   _dbThreshold: -25
@@ -10053,6 +10059,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceIntepreter: {fileID: 740096625}
+  wwiseAVSMusicManager: {fileID: 437048159}
 --- !u!114 &740096630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10068,6 +10075,7 @@ MonoBehaviour:
   AudioManager: {fileID: 47830410}
   imitoneVoiceInterpreter: {fileID: 740096625}
   respirationTracker: {fileID: 740096627}
+  wwiseAVSMusicManager: {fileID: 437048159}
   _chantLerpSlowDamp1: 0
   _chantLerpSlowDamp2: 0
   _chantLerpFastDamp1: 0
