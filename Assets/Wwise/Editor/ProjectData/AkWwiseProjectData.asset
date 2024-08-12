@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 05d53899a8c68e4fb3bf417ea35907a3
     GuidInternal: 
-    m_lastTime: -8584920142926651530
+    m_lastTime: -8584929757175740728
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -335,7 +335,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584791272685537111
+    m_lastTime: -8584783853539900793
     List:
     - name: CLOSING
       guid: 660ba7396da1574496e1fee4e15fcf1c
@@ -391,7 +391,7 @@ MonoBehaviour:
     ParentPath: Events\AVS System
     guid: 8dda26975fba794392b0097b08fbff76
     GuidInternal: 
-    m_lastTime: -8584790730840914522
+    m_lastTime: -8584783853546781312
     List:
     - name: Play_AVS_SineGenerators_REFERENCE
       guid: 2241cc075f82884483bb65d548a393f8
@@ -407,23 +407,6 @@ MonoBehaviour:
         ObjectType: 3
         guid: 2241cc075f82884483bb65d548a393f8
       Path: Events\AVS System\Play_AVS_SineGenerators_REFERENCE
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_AVS_SineGenerators_RGB
-      guid: 845ef0247cf58347a960c9ad235ee132
-      id: 2424845564
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: AVS System
-        ObjectType: 12
-        guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Play_AVS_SineGenerators_RGB
-        ObjectType: 3
-        guid: 845ef0247cf58347a960c9ad235ee132
-      Path: Events\AVS System\Play_AVS_SineGenerators_RGB
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -495,23 +478,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-    - name: Stop_AVS_SineGenerators_RGB
-      guid: f388f0dbdb434743834f146a8207fbd0
-      id: 1101274838
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: AVS System
-        ObjectType: 12
-        guid: 8dda26975fba794392b0097b08fbff76
-      - ElementName: Stop_AVS_SineGenerators_RGB
-        ObjectType: 3
-        guid: f388f0dbdb434743834f146a8207fbd0
-      Path: Events\AVS System\Stop_AVS_SineGenerators_RGB
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
     - name: Stop_AVS_Wave1
       guid: 87acfa5f6c2f764c835b639293412c44
       id: 4138940081
@@ -561,8 +527,8 @@ MonoBehaviour:
         guid: c870ca5d08a7f94e9d93ee185337cfe9
       Path: Events\AVS System\Stop_AVS_Wave3
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
@@ -574,7 +540,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584791272686176741
+    m_lastTime: -8584792294135388531
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -1514,7 +1480,7 @@ MonoBehaviour:
     ParentPath: Events\Linear Music
     guid: ae874db4035f664c8db73b3cfbfee75e
     GuidInternal: 
-    m_lastTime: -8584802611380315092
+    m_lastTime: -8584802617932617400
     List:
     - name: Play_MenuMusic
       guid: 1df5e9e4dc81c841ba5daa250a570b32
@@ -1595,7 +1561,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584791272686141540
+    m_lastTime: -8584790730840729593
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1744,7 +1710,7 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584791272686136322
+    m_lastTime: -8584795888315781493
     List:
     - name: Play_VO_ClosingGoodbye
       guid: d8c917e3a4fcc241bc26f16e968efae1
@@ -2149,7 +2115,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\AVS System
     guid: 33c2cba45d7021408c88e244225aa913
     GuidInternal: 
-    m_lastTime: -8584816447834893758
+    m_lastTime: -8584817378588962310
     List:
     - name: AVS_BLUE_Volume_Wave1
       guid: 7bb67256f951734384840f7d6cc7fd2e
@@ -2779,7 +2745,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 08fd3303aa3c7f468178c0764211feaf
     GuidInternal: 
-    m_lastTime: -8584877094881707230
+    m_lastTime: -8584877335249865139
     List: []
   - PhysicalPath: Game Parameters\Environment.wwu
     PathAndIcons:
@@ -2792,7 +2758,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Environment
     guid: 68706b1d86fc5f4cab899effe052e5a3
     GuidInternal: 
-    m_lastTime: -8584871039761768707
+    m_lastTime: -8584874479641167453
     List: []
   - PhysicalPath: Game Parameters\Interactive Music System.wwu
     PathAndIcons:
@@ -2805,7 +2771,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Interactive Music System
     guid: 7fec9d861a0e3046bfb37d6383814ca9
     GuidInternal: 
-    m_lastTime: -8584805367702549238
+    m_lastTime: -8584809647939091888
     List:
     - name: FundamentalSilentVolume
       guid: f8f04df21ddf8144bd237a969d9e8269
@@ -2902,7 +2868,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Master Mixer
     guid: 5920b64a742d1a4e8cff8cefde2685e4
     GuidInternal: 
-    m_lastTime: -8584832167681781662
+    m_lastTime: -8584833953546364959
     List:
     - name: Environment_Bus_Volume
       guid: 00e9241d6ffb984998eae0bfa9b073c4
@@ -3013,7 +2979,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\SFX
     guid: 22725a575c2b944694ea3cb75aedb4cc
     GuidInternal: 
-    m_lastTime: -8584791272686126250
+    m_lastTime: -8584795888315725694
     List:
     - name: BreatheCycle_Volume
       guid: 44b8546045cb594c9436ecb992881033
@@ -3069,7 +3035,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584791272685491230
+    m_lastTime: -8584798074747152540
     List:
     - name: InteractiveMusicMode
       guid: ff16d21ee376594bb02f58bf638de405
@@ -3260,7 +3226,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: b649101cab38b141861f0be6c57cc1d3
     GuidInternal: 
-    m_lastTime: -8584832167681246583
+    m_lastTime: -8584833953543978659
     List:
     - name: MENU_SESSIONMODE
       guid: b9531b2ef2c59a45a67f8feff77eabc7
@@ -3371,7 +3337,7 @@ MonoBehaviour:
     ParentPath: Switches\Interactive Music System
     guid: a70b5ef296c6e5488bce779e710a3892
     GuidInternal: 
-    m_lastTime: -8584867705459382156
+    m_lastTime: -8584867718378246673
     List:
     - name: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
       guid: 028067d9e2606b4b89c73087a452a4a2
@@ -4144,7 +4110,7 @@ MonoBehaviour:
     ParentPath: Switches\Linear Music
     guid: 4559fdf6c456f549993933ab507a3928
     GuidInternal: 
-    m_lastTime: -8584791272685491230
+    m_lastTime: -8584795888313873736
     List:
     - name: LinearMusic_Opening
       guid: ad701a433214144398da4e5c38930442
@@ -4369,7 +4335,7 @@ MonoBehaviour:
     ParentPath: Switches\SFX
     guid: 632f13f35b1c6e4caf89d68030a98081
     GuidInternal: 
-    m_lastTime: -8584791272685479907
+    m_lastTime: -8584795888313798529
     List: []
   - PhysicalPath: Switches\VO.wwu
     PathAndIcons:
@@ -5002,7 +4968,7 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 2e22794f9054df4dba29a333b79a5f59
     GuidInternal: 
-    m_lastTime: -8584832167681236350
+    m_lastTime: -8584833953543963616
     List:
     - name: Test
       guid: c760786d07938d41a39c332de5c52dab
@@ -5019,7 +4985,7 @@ MonoBehaviour:
         guid: c760786d07938d41a39c332de5c52dab
       Path: Triggers\Default Work Unit\Test
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 02000000060000000700000008000000090000000d0000001100000012000000150000002800000037000000380000003d000000590000005f0000006000000073000000740000007c000000840000008a0000008b00000092000000
+  ExpandedWaapiItemIds: 
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

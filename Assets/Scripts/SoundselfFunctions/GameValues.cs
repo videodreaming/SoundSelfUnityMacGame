@@ -100,8 +100,9 @@ public class GameValues: MonoBehaviour
             StartCoroutine(ChantChargeMemberCoroutine(_forceDurationToFill));
         }
         _chantCharge = Mathf.Clamp(_chantChargeContributions.Values.Sum(), 0,1);
-        wwiseAVSMusicManager.Wwise_Strobe_ChargeDisplay(_chantCharge);
-        wwiseAVSMusicManager.Wwise_Strobe_ToneDisplay(_chantLerpFast);
+        //RE-ADD BACK ONCE ROBIN FINISHES AVS
+        //wwiseAVSMusicManager.Wwise_Strobe_ChargeDisplay(_chantCharge);
+        //wwiseAVSMusicManager.Wwise_Strobe_ToneDisplay(_chantLerpFast);
         Debug.Log("imitoneActive: " + imitoneVoiceInterpreter.imitoneActive + " toneActive: " + imitoneVoiceInterpreter.toneActive + " Chant Charge: " + _chantCharge + " Chant Lerp Fast: " + _chantLerpFast);
     }
 

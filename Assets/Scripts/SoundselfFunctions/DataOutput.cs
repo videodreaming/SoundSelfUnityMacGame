@@ -102,14 +102,14 @@ public class DataOutput : MonoBehaviour
     void Update()
     {
         // "Commands"
-        if (wwiseAVSMusicManager.AVSColorCommand != "")
+        /*if (wwiseAVSMusicManager.AVSColorCommand != "")
         {
             AVSColorCommand = wwiseAVSMusicManager.AVSColorCommand;
         }
         if (wwiseAVSMusicManager.AVSStrobeCommand != "")
         {
             AVSStrobeCommand = wwiseAVSMusicManager.AVSStrobeCommand;
-        }
+        }*/
     }
 
     void OnDisable()

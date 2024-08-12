@@ -6363,8 +6363,9 @@ GameObject:
   - component: {fileID: 437048155}
   - component: {fileID: 437048158}
   - component: {fileID: 437048156}
+  - component: {fileID: 437048159}
   m_Layer: 0
-  m_Name: WwiseLinearManager (Add back Wwise AVS system after Robin Finishes it)
+  m_Name: WwiseLinearManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6434,6 +6435,23 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &437048159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437048154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e48b2d0af0aa404c952888cbe95a612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AVSColorCommand: 
+  AVSStrobeCommand: 
+  _strobePWM: 0
+  _strobe1Smoothing: 0
+  _gammaBurstMode: 0
 --- !u!1 &443228039
 GameObject:
   m_ObjectHideFlags: 0
@@ -9787,7 +9805,7 @@ GameObject:
   - component: {fileID: 740096629}
   - component: {fileID: 740096631}
   m_Layer: 0
-  m_Name: User (Uncomment Robin's Code once AVS system is done in game Values)
+  m_Name: User
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9945,7 +9963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DevModeSettings: {fileID: 316632675}
-  wwiseAVSMusicManager: {fileID: 0}
+  wwiseAVSMusicManager: {fileID: 437048159}
   pitch_hz: 0
   note_st: 0
   _dbThreshold: -25
@@ -10041,7 +10059,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceIntepreter: {fileID: 740096625}
-  wwiseAVSMusicManager: {fileID: 0}
+  wwiseAVSMusicManager: {fileID: 437048159}
 --- !u!114 &740096630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10057,7 +10075,7 @@ MonoBehaviour:
   AudioManager: {fileID: 47830410}
   imitoneVoiceInterpreter: {fileID: 740096625}
   respirationTracker: {fileID: 740096627}
-  wwiseAVSMusicManager: {fileID: 0}
+  wwiseAVSMusicManager: {fileID: 437048159}
   _chantLerpSlowDamp1: 0
   _chantLerpSlowDamp2: 0
   _chantLerpFastDamp1: 0

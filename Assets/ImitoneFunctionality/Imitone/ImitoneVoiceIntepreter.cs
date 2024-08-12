@@ -209,7 +209,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
-        wwiseAVSMusicManager.Wwise_BreathDisplay(_breathVolume);
+        //wwiseAVSMusicManager.Wwise_BreathDisplay(_breathVolume);
     }
 
     private void SetNoiseFloorThreshold()
