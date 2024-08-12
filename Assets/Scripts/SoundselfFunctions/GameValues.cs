@@ -74,7 +74,6 @@ public class GameValues: MonoBehaviour
     {
         handlecChanting();
         handleVolume();
-
         if (_chantLerpSlow > 0.0f)
         _tChantLerp += Time.fixedDeltaTime * _chantLerpSlow;
         if (_chantLerpSlow < 1.0f)

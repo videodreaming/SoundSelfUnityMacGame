@@ -34,6 +34,8 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     public bool CFundamentalGHarmonyLock = false;
     public CSVWriter csvWriter;
 
+    private bool thisTonesImpactPlayed = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,7 +95,10 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(imitoneVoiceIntepreter.toneActive == false)
+        {
+            thisTonesImpactPlayed = false;
+        }
         if(WakeUpCounter > -1.0f)
         {
             WakeUpCounter -= Time.deltaTime;
@@ -175,6 +180,18 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
             else
             {
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+            }
+
+            if(imitoneVoiceIntepreter._tThisTone > imitoneVoiceIntepreter._activeThreshold4)
+            {
+                Debug.Log("this tone is now longer than 8s");
+                if(!thisTonesImpactPlayed)
+                {
+                    Debug.Log("impact");
+                    AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
+                    thisTonesImpactPlayed = true;   
+                }
+
             }
         }
     }

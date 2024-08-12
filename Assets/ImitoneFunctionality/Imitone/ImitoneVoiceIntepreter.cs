@@ -46,6 +46,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float negativeActiveThreshold1 {get; private set;}  = 0.1f; //for toneActive
     public float negativeActiveThreshold2 {get; private set;}  = 0.33f; //for toneActiveConfident
     public float _activeThreshold3 {get; private set;}  = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
+    public float _activeThreshold4 {get; private set;}  = 8.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     private float imitoneActiveTimer = 0f;
     public float imitoneInactiveTimer = 0f;
     private float imitoneConfidentActiveTimer = 0.0f;
@@ -288,13 +289,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         float _medianNoiseFloor = (values.Count % 2 != 0) ? 
         values[values.Count / 2] : 
         (values[(values.Count - 1) / 2] + values[values.Count / 2]) / 2.0f;
-
         _imitoneVolumeThreshold = _medianNoiseFloor + _thresholdAboveNoiseFloor;
-
         SetThreshold(_imitoneVolumeThreshold);
-        
         //Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _imitoneVolumeThreshold + " from " + noiseMeasurements.Count + " measurements.");
-
         yield return null;
     }
 
@@ -313,7 +310,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             // Read the latest audio data, beginning from where we left off and wrapping around as needed.
             inputBuffer.GetData(capturedInput, micPosRead);
             micPosRead = (micPosRead + capturedInput.Length) % inputBuffer.samples;
-
             // Analyze the captured audio with imitone.
             if (imitone != null)
             {
@@ -532,6 +528,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             handleBreathStage();
             _tThisRest += Time.deltaTime;
             _tThisTone  = 0.0f;
+            
             if(imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
             {
                 
