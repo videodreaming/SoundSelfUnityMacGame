@@ -18,7 +18,7 @@ public class GameValuesForPlayGround : MonoBehaviour
     public AudioManager AudioManager;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public RespirationTracker respirationTracker;
-    public WwiseAVSMusicManager wwiseAVSMusicManager;
+    public WwiseAVSMusicManagerForPlayGround WwiseAVSMusicManagerForPlayGround;
 
     
     [Header("DampingValues")]

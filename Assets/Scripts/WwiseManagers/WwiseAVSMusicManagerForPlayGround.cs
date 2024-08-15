@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
+using AK.Wwise;
 using System;
 
 //TODO
@@ -28,8 +29,17 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     private float _debugValue3    = 0.0f;
     private float _debugValue4    = 0.0f;
     private int Qcount              = 0;
+
+    public uint rtpcID;
+    public float frequencyWave1Value;
     void Start()
     {
+        rtpcID = AkSoundEngine.GetIDFromString("AVS_Modulation_Frequency_Wave1");
+        AkSoundEngine.SetRTPCValue(rtpcID, 10.0f, gameObject);
+        float initialValue;
+        int type = 1;
+        AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out initialValue, ref type);
+        Debug.Log("RTPC Value after set: " + initialValue);
         // We first enumerate all Devices from the System shareset to have all available devices on Windows.
        uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
         uint deviceCount = AkSoundEngine.GetNumOutputDevices(sharesetIdSystem);
@@ -334,7 +344,6 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug Controls
         if (Input.GetKeyDown(KeyCode.K))
         {
             PopulateDevicesList();
