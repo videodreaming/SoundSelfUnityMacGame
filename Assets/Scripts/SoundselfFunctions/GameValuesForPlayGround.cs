@@ -16,9 +16,9 @@ using imitone;
 public class GameValuesForPlayGround : MonoBehaviour
 {
     public AudioManager AudioManager;
-    public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    public RespirationTracker respirationTracker;
-    public WwiseAVSMusicManagerForPlayGround WwiseAVSMusicManagerForPlayGround;
+    public ImitoneVoiceIntepreterForPlayground imitoneVoiceInterpreter;
+    public RespirationTrackerForPlayground respirationTracker;
+    public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
 
     
     [Header("DampingValues")]
@@ -99,10 +99,9 @@ public class GameValuesForPlayGround : MonoBehaviour
             StartCoroutine(ChantChargeMemberCoroutine(_forceDurationToFill));
         }
         _chantCharge = Mathf.Clamp(_chantChargeContributions.Values.Sum(), 0,1);
-        //RE-ADD BACK ONCE ROBIN FINISHES AVS
-        //wwiseAVSMusicManager.Wwise_Strobe_ChargeDisplay(_chantCharge);
-        //wwiseAVSMusicManager.Wwise_Strobe_ToneDisplay(_chantLerpFast);
-        Debug.Log("imitoneActive: " + imitoneVoiceInterpreter.imitoneActive + " toneActive: " + imitoneVoiceInterpreter.toneActive + " Chant Charge: " + _chantCharge + " Chant Lerp Fast: " + _chantLerpFast);
+        wwiseAVSMusicManager.Wwise_Strobe_ChargeDisplay(_chantCharge);
+        wwiseAVSMusicManager.Wwise_Strobe_ToneDisplay(_chantLerpFast);
+        //Debug.Log("imitoneActive: " + imitoneVoiceInterpreter.imitoneActive + " toneActive: " + imitoneVoiceInterpreter.toneActive + " Chant Charge: " + _chantCharge + " Chant Lerp Fast: " + _chantLerpFast);
     }
 
     private void handleVolume(){
@@ -217,6 +216,9 @@ public class GameValuesForPlayGround : MonoBehaviour
         _chantLerpFast = Mathf.Clamp(_chantLerpFast + _chantLerpLinear, 0, 1);
         if (_chantLerpFast > _lerpTargetFast)
         _chantLerpFast = Mathf.Clamp(_chantLerpFast - _chantLerpLinear, 0, 1);
+
+        AkSoundEngine.SetRTPCValue("Unity_ChantLerpFast", _chantLerpFast * 100.0f);
+        AkSoundEngine.SetRTPCValue("Unity_ChantLerpSlow", _chantLerpSlow * 100.0f);
     }
 
     private IEnumerator ChantChargeMemberCoroutine(float _forceDurationToFill= 0f) {

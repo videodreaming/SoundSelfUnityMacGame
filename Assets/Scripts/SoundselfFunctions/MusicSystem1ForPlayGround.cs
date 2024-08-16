@@ -13,7 +13,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
     // Variables
     public bool allowFundamentalChange = true;
     public bool enableMusicSystem = true;
-    public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
+    public ImitoneVoiceIntepreterForPlayground imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
 
     private Dictionary<int, (float ActivationTimer, bool Active, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, float)>();
     // Tracks information for each musical note:

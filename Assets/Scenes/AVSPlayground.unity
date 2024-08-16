@@ -566,7 +566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &37472003
 RectTransform:
   m_ObjectHideFlags: 0
@@ -910,7 +910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3894a994e21b84efc9214fd0bb73dfab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceInterpreter: {fileID: 740096625}
+  ImitoneVoiceInterpreter: {fileID: 0}
   currentState: 3
   SighElicitationPass1: 0
   audioStates:
@@ -1343,7 +1343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &69919480
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1376,7 +1376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0086e7d025f7a44138b0e3091865898e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   fillImage: {fileID: 69919482}
   minValue: 0
   maxValue: 1
@@ -1672,7 +1672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3a31bd69a325d46a4f367a7de87089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RespirationTracker: {fileID: 740096627}
+  RespirationTracker: {fileID: 0}
   noteText: {fileID: 93136638}
 --- !u!1 &105792031
 GameObject:
@@ -2134,7 +2134,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &115557691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2166,7 +2166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d31f52590a408744a456976055ab718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainImitone: {fileID: 740096625}
+  mainImitone: {fileID: 0}
   noteText: {fileID: 115557693}
 --- !u!114 &115557693
 MonoBehaviour:
@@ -3339,7 +3339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137b690f0578045b696cfa7fc51c6eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   fillImage: {fileID: 217078666}
 --- !u!1 &224677403
 GameObject:
@@ -3680,7 +3680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &268359545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3693,7 +3693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a82a1e9428485454b9d8f44d38ac9fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imitoneVoiceIntepreter: {fileID: 740096625}
+  imitoneVoiceIntepreter: {fileID: 0}
 --- !u!4 &268359546
 Transform:
   m_ObjectHideFlags: 0
@@ -3771,7 +3771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &268736213
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3841,7 +3841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11740f35fab6f48bb9719fe8b11bb587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
 --- !u!1 &268823131
 GameObject:
   m_ObjectHideFlags: 0
@@ -4334,7 +4334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &321106633
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4378,7 +4378,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &322514992
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4526,7 +4526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &326012190
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4558,7 +4558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd422dfe943648d3970f612892a1ea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   ToneActiveUIText: {fileID: 326012192}
 --- !u!114 &326012192
 MonoBehaviour:
@@ -4895,7 +4895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blueBar: {fileID: 336429622}
-  imitoneVoiceIntepreter: {fileID: 740096625}
+  imitoneVoiceIntepreter: {fileID: 0}
 --- !u!1 &337814107
 GameObject:
   m_ObjectHideFlags: 0
@@ -5126,7 +5126,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5527,7 +5527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &378413818
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6149,12 +6149,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425080053}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1f58e7932b817c4b8e6a5328a6c7b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RespirationTracker: {fileID: 740096627}
+  RespirationTracker: {fileID: 0}
   noteText: {fileID: 425080056}
 --- !u!114 &425080056 stripped
 MonoBehaviour:
@@ -6185,7 +6185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &428214550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6217,7 +6217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4755361489e9244ed92b7c2f49555078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   breathStage: {fileID: 428214552}
 --- !u!114 &428214552
 MonoBehaviour:
@@ -6452,6 +6452,8 @@ MonoBehaviour:
   _strobePWM: 0
   _strobe1Smoothing: 0
   _gammaBurstMode: 0
+  rtpcID: 0
+  frequencyWave1Value: 0
 --- !u!1 &443228039
 GameObject:
   m_ObjectHideFlags: 0
@@ -6638,7 +6640,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6878,7 +6880,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &476034693
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7235,7 +7237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3695aa2919159406cb061c8e17e306b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainImitone: {fileID: 740096625}
+  mainImitone: {fileID: 0}
   noteText: {fileID: 482273970}
 --- !u!114 &482273970
 MonoBehaviour:
@@ -7449,8 +7451,7 @@ MonoBehaviour:
   CSVWriter: {fileID: 662335749}
   userObject: {fileID: 740096621}
   userAudioSource: {fileID: 740096622}
-  imitoneVoiceIntepreter: {fileID: 740096625}
-  musicSystem1: {fileID: 0}
+  imitoneVoiceIntepreter: {fileID: 740096635}
   fadeDuration: 54
   targetValue: 80
   silentrtpcvolume:
@@ -7498,7 +7499,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &488612080
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7633,7 +7634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &511886543
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7762,7 +7763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4cde08912da14033afa08fad5ea0eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   inhaleTotalText: {fileID: 511886545}
 --- !u!1 &516288819
 GameObject:
@@ -8307,7 +8308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &578274037
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8359,12 +8360,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619104373}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1094.2838, y: 471.31854, z: -8.140039}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 139.3747, y: 51.78009, z: -0.79721737}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 808198322}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &619104376
 MonoBehaviour:
@@ -8382,7 +8383,7 @@ MonoBehaviour:
   wwiseInteractiveMusicManagerForPlayGround: {fileID: 1564575221}
   allowFundamentalChange: 1
   enableMusicSystem: 1
-  imitoneVoiceInterpreter: {fileID: 740096625}
+  imitoneVoiceInterpreter: {fileID: 740096635}
   musicNoteActivated: -1
   fundamentalNote: 0
   harmonyNote: 0
@@ -8737,7 +8738,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -9123,11 +9124,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0d83be497ca4c6794203ac07ea4a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imitoneVoiceIntepreter: {fileID: 740096625}
+  imitoneVoiceIntepreter: {fileID: 0}
   paused: 0
   currentSessionNumber: 0
   playerOutput: {fileID: 107391161}
-  respirationTracker: {fileID: 740096627}
+  respirationTracker: {fileID: 0}
   gameManagement: {fileID: 1060646673}
   encryptedReadyCheck: 
   decryptedReadyCheck: 
@@ -9639,7 +9640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &727778148
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9709,7 +9710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c3d7583cbe84e108e5e329c2ccfbf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
 --- !u!1 &733161922
 GameObject:
   m_ObjectHideFlags: 0
@@ -9796,11 +9797,11 @@ GameObject:
   - component: {fileID: 740096626}
   - component: {fileID: 740096621}
   - component: {fileID: 740096622}
-  - component: {fileID: 740096625}
-  - component: {fileID: 740096627}
-  - component: {fileID: 740096628}
-  - component: {fileID: 740096624}
-  - component: {fileID: 740096623}
+  - component: {fileID: 740096635}
+  - component: {fileID: 740096634}
+  - component: {fileID: 740096638}
+  - component: {fileID: 740096637}
+  - component: {fileID: 740096636}
   - component: {fileID: 740096631}
   - component: {fileID: 740096632}
   - component: {fileID: 740096633}
@@ -9919,82 +9920,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &740096623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2aba5048c9a4865a3d83e90b21f7543, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _notePrefab: {fileID: 0}
-  _harmonyProgressionTime: 10
---- !u!114 &740096624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39de57ecf03f12c418183ca3097d9ad2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fundamentalPrefab: {fileID: 4368231981953033810, guid: b3c590c4cffd54550a4d8d5237e99ebc, type: 3}
-  _voiceInterpreter: {fileID: 740096625}
-  _fundamentalMeterToFill: 5
-  _fillRate: 1
-  _offerTime: 5
---- !u!114 &740096625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ce06df8ab098394995c5c4862618d47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DevModeSettings: {fileID: 316632675}
-  wwiseAVSMusicManager: {fileID: 0}
-  pitch_hz: 0
-  note_st: 0
-  _dbThreshold: -25
-  imitoneInactiveTimer: 0
-  imitoneConfidentInactiveTimer: 0
-  _tThisTone: 0
-  _tThisToneConfident: 0
-  _tThisToneBiasTrue: 0
-  _tThisRest: 0
-  _tThisRestConfident: 0
-  _tThisRestBiasTrue: 0
-  _breathHoldTimeBeforeInhale: 0
-  _tNextInhaleDuration: 0
-  _breathVolume: 0
-  breathStage: 0
-  _harmonicity: 0
-  _dbValue: 0
-  _dbMicrophone: -999
-  _timbre: 0
-  _level: 0
-  _audioClip: {fileID: 0}
-  _pitchDifference: 3
-  imitoneState: 
-  _volumeChangeMeasurementWindow: 0.2
-  _volumeDropTriggerThresholdDB: 12
-  _volumeJumpTriggerThresholdDB: 12
-  _afterDropWaitTime: 0.5
-  _noiseFloorMeasurementTime: 2
-  noiseFloorMeasurementMaxAge: 0
-  _thresholdAboveNoiseFloor: 8
-  imitoneConfig: 
 --- !u!4 &740096626
 Transform:
   m_ObjectHideFlags: 0
@@ -10010,39 +9935,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &740096627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcaa5c1f6cd78df41ad308518c56edbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
-  pauseGuardTone: 0
-  canvas: {fileID: 1172631974}
-  rectanglePrefab: {fileID: 2136379597242905194, guid: b2f7d0aeb351b4aaa81c07226898e5ab, type: 3}
-  SelectedRectangle: {fileID: 0}
---- !u!114 &740096628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a354a5c4b7b78f54081df115d9ae3152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioManager: {fileID: 47830410}
-  respirationTracker: {fileID: 740096627}
-  wwiseGlobalManager: {fileID: 1229442214}
-  imitoneVoiceIntepreter: {fileID: 740096625}
 --- !u!164 &740096631
 AudioReverbFilter:
   m_ObjectHideFlags: 0
@@ -10079,9 +9971,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioManager: {fileID: 47830410}
-  imitoneVoiceInterpreter: {fileID: 740096625}
-  respirationTracker: {fileID: 740096627}
-  WwiseAVSMusicManagerForPlayGround: {fileID: 437048159}
+  imitoneVoiceInterpreter: {fileID: 740096635}
+  respirationTracker: {fileID: 740096634}
+  wwiseAVSMusicManager: {fileID: 437048159}
   _chantLerpSlowDamp1: 0
   _chantLerpSlowDamp2: 0
   _chantLerpFastDamp1: 0
@@ -10099,10 +9991,119 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
-  respirationTracker: {fileID: 740096627}
+  respirationTracker: {fileID: 740096634}
   wwiseGlobalManager: {fileID: 1229442214}
-  imitoneVoiceIntepreter: {fileID: 740096625}
+  imitoneVoiceIntepreter: {fileID: 740096635}
   wwiseAVSMusicManagerForPlayGround: {fileID: 437048159}
+--- !u!114 &740096634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d627d75cfd2cc438d7f1dfd5fcad6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImitoneVoiceIntepreter: {fileID: 740096635}
+  pauseGuardTone: 0
+  canvas: {fileID: 1172631974}
+  rectanglePrefab: {fileID: 2136379597242905194, guid: b2f7d0aeb351b4aaa81c07226898e5ab, type: 3}
+  SelectedRectangle: {fileID: 0}
+--- !u!114 &740096635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82e304a7fb857f408a401b69c87888e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DevModeSettings: {fileID: 316632675}
+  wwiseAVSMusicManager: {fileID: 437048159}
+  pitch_hz: 0
+  note_st: 0
+  _dbThreshold: -25
+  imitoneInactiveTimer: 0
+  imitoneConfidentInactiveTimer: 0
+  _tThisTone: 0
+  _tThisToneConfident: 0
+  _tThisToneBiasTrue: 0
+  _tThisRest: 0
+  _tThisRestConfident: 0
+  _tThisRestBiasTrue: 0
+  _breathHoldTimeBeforeInhale: 0
+  _tNextInhaleDuration: 0
+  _breathVolume: 0
+  breathStage: 0
+  _harmonicity: 0
+  _dbValue: -80
+  _dbMicrophone: -999
+  _timbre: 0
+  _level: 0
+  _audioClip: {fileID: 0}
+  _pitchDifference: 3
+  imitoneState: 
+  _volumeChangeMeasurementWindow: 0.3
+  _volumeDropTriggerThresholdDB: 7
+  _volumeJumpTriggerThresholdDB: 12
+  _afterDropWaitTime: 0.5
+  _noiseFloorMeasurementTime: 1.5
+  noiseFloorMeasurementMaxAge: 120
+  _thresholdAboveNoiseFloor: 8
+  imitoneConfig: 
+--- !u!114 &740096636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aecae83d24108da4c90946a4ff0a0c66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _notePrefab: {fileID: 0}
+  _harmonyProgressionTime: 10
+--- !u!114 &740096637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef19d41dc76d694d8556524b28f2803, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fundamentalPrefab: {fileID: 4368231981953033810, guid: b3c590c4cffd54550a4d8d5237e99ebc, type: 3}
+  _voiceInterpreter: {fileID: 740096635}
+  _fundamentalMeterToFill: 5
+  _fillRate: 1
+  _offerTime: 5
+--- !u!114 &740096638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a76991711ee48d47a088fa978016832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioManager: {fileID: 47830410}
+  respirationTracker: {fileID: 740096634}
+  wwiseGlobalManager: {fileID: 1229442214}
+  imitoneVoiceIntepreter: {fileID: 740096635}
 --- !u!1 &769324036
 GameObject:
   m_ObjectHideFlags: 0
@@ -10794,7 +10795,8 @@ Transform:
   m_LocalPosition: {x: 954.9091, y: 419.53845, z: -7.342822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 619104375}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &822699551
@@ -11199,8 +11201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28fadbedfb9934e4baf99d58067558e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imitoneVoiceIntepreter: {fileID: 740096625}
-  respirationTracker: {fileID: 740096627}
+  imitoneVoiceIntepreter: {fileID: 0}
+  respirationTracker: {fileID: 0}
   rectanglePrefab: {fileID: 2136379597242905194, guid: b2f7d0aeb351b4aaa81c07226898e5ab, type: 3}
   SelectedRectangle: {fileID: 0}
   InhaleRectangle: {fileID: 0}
@@ -11374,7 +11376,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -11496,7 +11498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a03b583fdc46904b88e8557dc9f3bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RespirationTracker: {fileID: 740096627}
+  RespirationTracker: {fileID: 0}
   noteText: {fileID: 871776635}
 --- !u!1 &883443119
 GameObject:
@@ -11619,7 +11621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 614052c9c5da2374ab890cb5d2c02b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   gameValuesForPlayGround: {fileID: 740096632}
   scaleImage: {fileID: 0}
   minScale: {x: 0, y: 0, z: 0}
@@ -11640,7 +11642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &891118007
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13042,7 +13044,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13238,7 +13240,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -14383,7 +14385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4d0f64aa80d2840a685ed7f667be67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainImitone: {fileID: 740096625}
+  mainImitone: {fileID: 0}
   pitchText: {fileID: 1036564476}
 --- !u!1 &1042336771
 GameObject:
@@ -15014,7 +15016,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -15191,7 +15193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6daeee22993074ba51667c1e704f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   gameValuesForPlayGround: {fileID: 740096632}
   scaleImage: {fileID: 0}
   minScale: {x: 0, y: 0, z: 0}
@@ -15747,7 +15749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1140083860
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15876,7 +15878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80bc80c3468d02e4c8584e4d4f8f257d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imitoneVoiceIntepreter: {fileID: 740096625}
+  imitoneVoiceIntepreter: {fileID: 0}
 --- !u!1 &1140377168
 GameObject:
   m_ObjectHideFlags: 0
@@ -16501,7 +16503,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -17971,7 +17973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f22cd6bae0441cf47a43520d5f00b3f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RespirationTracker: {fileID: 740096627}
+  RespirationTracker: {fileID: 0}
   noteText: {fileID: 1283936585}
 --- !u!114 &1283936585 stripped
 MonoBehaviour:
@@ -19028,7 +19030,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20767,7 +20769,7 @@ MonoBehaviour:
   InteractiveMusicSilentLoopsRTPC: 0
   HarmonySilentVolumeRTPC: 0
   FundamentalSilentVolumeRTPC: 0
-  imitoneVoiceIntepreter: {fileID: 740096625}
+  imitoneVoiceIntepreter: {fileID: 740096635}
   wwiseVOManagerForPlayGround: {fileID: 486583136}
   playingId: 0
   elapsedTime: 0
@@ -21405,7 +21407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1627227765
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22012,10 +22014,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RespirationRateValue
       objectReference: {fileID: 0}
+    - target: {fileID: 2064797938047016901, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -22835,7 +22841,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1733021413
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22867,7 +22873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d0a80762e3c447ea45f85338ffc495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   breatheTotalText: {fileID: 1733021415}
 --- !u!114 &1733021415
 MonoBehaviour:
@@ -23004,7 +23010,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -23343,7 +23349,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -23447,7 +23453,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1827608434
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24078,7 +24084,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -24714,7 +24720,7 @@ PrefabInstance:
     - target: {fileID: 2604024759904408404, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: mainImitone
       value: 
-      objectReference: {fileID: 740096625}
+      objectReference: {fileID: 0}
     - target: {fileID: 4220875338834257924, guid: e7dd5d8a5e5dfd2479b203cbaea669d2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -25032,7 +25038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1972900297
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25069,7 +25075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1974369288
 Transform:
   m_ObjectHideFlags: 0
@@ -25402,7 +25408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42cf30a2af80d094f90709b2fb90ab52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imitoneVoiceIntepreter: {fileID: 740096625}
+  imitoneVoiceIntepreter: {fileID: 0}
   wwiseInteractiveMusicManager: {fileID: 0}
   wwiseGlobalManager: {fileID: 1229442214}
   debugKeyBoardIlluminator: {fileID: 0}
@@ -25581,7 +25587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f58e7932b817c4b8e6a5328a6c7b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RespirationTracker: {fileID: 740096627}
+  RespirationTracker: {fileID: 0}
   noteText: {fileID: 1996165637}
 --- !u!114 &1996165637 stripped
 MonoBehaviour:
@@ -27138,7 +27144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2121823747
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27208,7 +27214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c477e1c06e6bb4c0c86a1b3847af36c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
+  ImitoneVoiceIntepreter: {fileID: 0}
   fillImage: {fileID: 2121823748}
   minValue: 0
   maxValue: 0
@@ -27315,7 +27321,6 @@ SceneRoots:
   - {fileID: 213016423}
   - {fileID: 808198322}
   - {fileID: 107391162}
-  - {fileID: 619104375}
   - {fileID: 1990219739}
   - {fileID: 1974369288}
   - {fileID: 2078893505}

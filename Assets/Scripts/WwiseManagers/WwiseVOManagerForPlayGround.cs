@@ -16,8 +16,8 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
 
     public User userObject;
     public AudioSource userAudioSource;
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
-    public MusicSystem1 musicSystem1;
+    public ImitoneVoiceIntepreterForPlayground imitoneVoiceIntepreter;
+    //public MusicSystem1 musicSystem1;
     
     public float fadeDuration = 54.0f;
     public float targetValue = 80.0f;

@@ -13,7 +13,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     public float HarmonySilentVolumeRTPC = 0.0f;
     public float FundamentalSilentVolumeRTPC = 0.0f;
     private float UserNotToningThreshold = 10.0f;
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public ImitoneVoiceIntepreterForPlayground imitoneVoiceIntepreter;
     public WwiseVOManagerForPlayGround wwiseVOManagerForPlayGround;
     public uint playingId;
     private bool toneActiveTriggered = false; // Flag to control the event triggering

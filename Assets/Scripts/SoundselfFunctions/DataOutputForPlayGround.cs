@@ -7,9 +7,9 @@ using UnityEngine;
 public class DataOutputForOutput : MonoBehaviour
 {
     public AudioManager audioManager;
-    public RespirationTracker respirationTracker;
+    public RespirationTrackerForPlayground respirationTracker;
     public WwiseGlobalManager wwiseGlobalManager;
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public ImitoneVoiceIntepreterForPlayground imitoneVoiceIntepreter;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManagerForPlayGround;
 
     string AVSColorCommand = "";
