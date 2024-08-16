@@ -545,6 +545,12 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
                 StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
                 StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
+                if(currentInhaleDuration > 6.0f)
+                AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
+                else if(currentInhaleDuration > 4.0f)
+                AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
+                else
+                AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
             }
 
             if (_tThisRest > _activeThreshold3)
@@ -603,6 +609,7 @@ private IEnumerator EndBreathVolumesOnNextTone()
     
     _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!isResettingTone) if statement above.
     endBreathVolumes = true;
+    AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
 }
 private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
     int coroutineID = _coroutineCounter++;
