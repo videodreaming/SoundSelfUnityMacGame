@@ -483,6 +483,8 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 toneActive = true;
                 toneActiveBiasTrue = true;
                 toneActiveBiasTrueTimer += Time.deltaTime;
+                AkSoundEngine.SetState("ToneActiveState", "Toning");
+                AkSoundEngine.SetSwitch("ToneActiveSwitch","Toning",gameObject);
             }
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
@@ -502,6 +504,8 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 if(imitoneInactiveTimer >= negativeActiveThreshold1)
                 {
                     toneActive = false;
+                    AkSoundEngine.SetState("ToneActiveState", "Resting");
+                    AkSoundEngine.SetSwitch("ToneActiveSwitch","Resting",gameObject);
                 }
                 if(imitoneInactiveTimer >= negativeActiveThreshold2)
                 {
