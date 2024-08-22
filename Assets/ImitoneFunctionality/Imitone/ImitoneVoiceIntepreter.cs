@@ -49,7 +49,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float _activeThreshold4 {get; private set;}  = 8.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     private float imitoneActiveTimer = 0f;
     public float imitoneInactiveTimer = 0f;
-    private float imitoneConfidentActiveTimer = 0.0f;
+    public float imitoneConfidentActiveTimer = 0.0f;
     public float imitoneConfidentInactiveTimer = 0.0f;
 
     //TODO: using these vars

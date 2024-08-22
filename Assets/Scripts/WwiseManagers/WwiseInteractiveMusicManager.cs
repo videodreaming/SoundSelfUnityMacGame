@@ -225,7 +225,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         {
             if(!isHummingSessionActive)
             {
-                akSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject);
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject);
                 guidedVocalizationPlayCount++;
                 isHummingSessionActive = true;
                 canPlayGuidedVocalization = false; // Block further plays until the next condition is met
@@ -244,7 +244,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         if (isHummingSessionActive)
         {
             // Check if the player is humming confidently for more than 3 seconds
-            if (imitoneVoiceIntepreter.toneActiveConfident > guidedVocalizationThreshold)
+            if (imitoneVoiceIntepreter.imitoneConfidentActiveTimer > guidedVocalizationThreshold)
             {
                 // Player hummed for more than 3 seconds, so allow the next play
                 isHummingSessionActive = false;
