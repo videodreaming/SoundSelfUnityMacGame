@@ -31,19 +31,22 @@ public class WwiseAVSMusicManager : MonoBehaviour
     void Start()
     {
         // We first enumerate all Devices from the System shareset to have all available devices on Windows.
-       uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
+        uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
         uint deviceCount = AkSoundEngine.GetNumOutputDevices(sharesetIdSystem);
         AkDeviceDescriptionArray devices = new AkDeviceDescriptionArray((int)deviceCount);
         AkSoundEngine.GetDeviceList(sharesetIdSystem, out deviceCount, devices);
 
         // Return the device with the specified name on the system. This is where you will either put you logic to enumarate all the Device and let the user decide, or force a specified device directly.
-        string wantedDevice;
+        string wantedDevice1;
+        string wantedDevice2;
 
         // We set the wantedDevice to the name of the device we want to use. This is the name of the device as it appears in the Wwise Audio Device Manager.
         #if UNITY_STANDALONE_OSX
-            wantedDevice = "Kasina MMS Audio";
+            wantedDevice1 = "Corsair Whatever";
+            wantedDevice2 = "Kasina MMS Audio";
         #elif UNITY_STANDALONE_WIN
-            wantedDevice = "Speakers (Kasina MMS Audio)";
+            wantedDevice1 = "Corsair Whatever";
+            wantedDevice2 = "Speakers (Kasina MMS Audio)";
         #else
             Debug.LogError("Unsupported platform");
             return;
@@ -55,7 +58,13 @@ public class WwiseAVSMusicManager : MonoBehaviour
         {
             if (devices[i].deviceStateMask == AkAudioDeviceState.AkDeviceState_Active)
             {
-                if (devices[i].deviceName == wantedDevice)
+                if (devices[i].deviceName == wantedDevice2)
+                {
+                    deviceId = devices[i].idDevice;
+                    print("Device found: " + devices[i].deviceName);
+                    break;
+                }
+                if (devices[i].deviceName == wantedDevice1)
                 {
                     deviceId = devices[i].idDevice;
                     print("Device found: " + devices[i].deviceName);

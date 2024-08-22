@@ -7,7 +7,7 @@ using System;
 public class WwiseInteractiveMusicManager : MonoBehaviour
 {
     public MusicSystem1 musicSystem1;
-    public string currentSwitchState = "B";
+    public string currentSwitchState = "B"; // Default switch state
     public string currentToningState = "None";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
     public float HarmonySilentVolumeRTPC = 0.0f;
@@ -25,16 +25,23 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     private float interactiveMusicExperienceTotalTime;
     private float finalStagePreLogicTime;
 
-    private float WakeUpCounter;
-     private bool wakeUpEndSoonTriggered = false; // Flag to control the event triggering
+    private float WakeUpCounter; // Timer for the wakeup event
+     private bool wakeUpEndSoonTriggered = false; // Flag to control the event "WakeupSoon" triggering
 
 
-    private float soundWorldChangeTime;
-    private bool finalStagePreLogicExecuted = false; 
-    public bool CFundamentalGHarmonyLock = false;
-    public CSVWriter csvWriter;
+    private float soundWorldChangeTime; //Timer that triggers the sound world change
+    private bool finalStagePreLogicExecuted = false; // Flag to control the final stage pre-logic execution
+    public bool CFundamentalGHarmonyLock = false; // Flag to lock the fundamental and harmony to C and G respectively
+    public CSVWriter csvWriter; //Reference to CSV Writer script
 
-    private bool thisTonesImpactPlayed = false;
+    private bool thisTonesImpactPlayed = false; // Tracks whether this Tone's Impact has been played
+
+
+    //Fields for Guided Interactive Music Progression
+    private int guidedVocalizationPlayCount = 0; // Tracks the number of times the sound has been played
+    private bool isHummingSessionActive = false; // Tracks if we're in the humming session
+    private bool canPlayGuidedVocalization = true; // Flag to allow or block playing the sound
+    private float guidedVocalizationThreshold = 3.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -72,10 +79,6 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
-        //AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
-        //AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);
-        //PlaySoundOnSpecificBus("Play_SilentLoops3_Fundamentalonly", "AVS System");
-        //PlaySoundOnSpecificBus("Play_SilentLoops3_Harmonyonly", "Master Audio Bus");
     }
 
 
@@ -127,6 +130,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }
         if(wwiseVOManager.interactive == true)
         {
+            HandleGuidedVocalization();
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= soundWorldChangeTime)
             {
@@ -196,6 +200,58 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }
     }
 
+    private void HandleGuidedVocalization()
+    {
+        if (guidedVocalizationPlayCount < 5 && canPlayGuidedVocalization)
+        {
+            if (!isHummingSessionActive)
+            {
+                // Play the guided vocalization sound
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject);
+                guidedVocalizationPlayCount++;
+                isHummingSessionActive = true;
+                canPlayGuidedVocalization = false; // Block further plays until the next condition is met
+            }
+        } else if (guidedVocalizationPlayCount >= 5 && guidedVocalizationPlayCount <= 11 && canPlayGuidedVocalization)
+        {
+            if(!isHummingSessionActive)
+            {
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject);
+                guidedVocalizationPlayCount++;
+                isHummingSessionActive = true;
+                canPlayGuidedVocalization = false; // Block further plays until the next condition is met
+            }
+        } else if (guidedVocalizationPlayCount >= 11 && guidedVocalizationPlayCount < 15 && canPlayGuidedVocalization)
+        {
+            if(!isHummingSessionActive)
+            {
+                akSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject);
+                guidedVocalizationPlayCount++;
+                isHummingSessionActive = true;
+                canPlayGuidedVocalization = false; // Block further plays until the next condition is met
+            }
+        } else if (guidedVocalizationPlayCount > 15 && guidedVocalizationPlayCount < 19 && canPlayGuidedVocalization )
+        {
+            if(!isHummingSessionActive)
+            {
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject);
+                guidedVocalizationPlayCount++;
+                isHummingSessionActive = true;
+                canPlayGuidedVocalization = false; // Block further plays until the next condition is met
+            }
+        }
+
+        if (isHummingSessionActive)
+        {
+            // Check if the player is humming confidently for more than 3 seconds
+            if (imitoneVoiceIntepreter.toneActiveConfident > guidedVocalizationThreshold)
+            {
+                // Player hummed for more than 3 seconds, so allow the next play
+                isHummingSessionActive = false;
+                canPlayGuidedVocalization = true; // Allow the next play
+            }
+        }
+    }
 
 
     public void ChangeToningState()

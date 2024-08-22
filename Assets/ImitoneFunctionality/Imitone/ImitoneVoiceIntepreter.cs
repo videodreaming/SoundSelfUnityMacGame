@@ -655,7 +655,6 @@ public float GetVolumeThresholdFromJson()
     if (match.Success)
     {
         return float.Parse(match.Groups[1].Value);
-
     }
     else
     {
