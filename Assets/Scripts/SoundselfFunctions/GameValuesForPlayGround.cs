@@ -19,8 +19,8 @@ public class GameValuesForPlayGround : MonoBehaviour
     public ImitoneVoiceIntepreterForPlayground imitoneVoiceInterpreter;
     public RespirationTrackerForPlayground respirationTracker;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
-
-    
+    public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManager;
+    private bool debugAllowChangeVerboseLogs = false;
     [Header("DampingValues")]
     private float responsiveness = 1.0f; //revisit when we have absorption
 
@@ -67,8 +67,11 @@ public class GameValuesForPlayGround : MonoBehaviour
     //CHANGE DETECTION
     private Dictionary<int, float> _toneDurations = new Dictionary<int, float>();
     private Dictionary<int, float> _restDurations = new Dictionary<int, float>();
+    private float timeSinceLastColorChange = 0.0f;
+    private float colorChangeMinimumTime = 35.0f;
     public bool changeDetectedToneLength = false;
     public bool changeDetectedRestLength = false;
+    private int changeCount = 0;
     private int toneRestCounterMax = 3; //not including the current one...
     private int toneDurationCounter = 0;
     private int restDurationCounter = 0;
@@ -112,11 +115,11 @@ public class GameValuesForPlayGround : MonoBehaviour
         changeDetection();
         if(changeDetectedToneLength)
         {
-            Debug.Log("===================Change Detected Tone Length=====================");
+            Debug.Log("Change Detection: Tone Length Change");
         }
         if(changeDetectedRestLength)
         {
-            Debug.Log("===================Change Detected Rest Length=====================");
+            Debug.Log("Change Detection: Breath Length Change");
         }
     }
 
@@ -241,8 +244,8 @@ public class GameValuesForPlayGround : MonoBehaviour
         if (_chantLerpSlow < 1.0f)
         _tRestLerp += Time.fixedDeltaTime * (1.0f - _chantLerpSlow);
 
-        AkSoundEngine.SetRTPCValue("Unity_ChantLerpFast", _chantLerpFast * 100.0f);
-        AkSoundEngine.SetRTPCValue("Unity_ChantLerpSlow", _chantLerpSlow * 100.0f);
+        AkSoundEngine.SetRTPCValue("Unity_ChantLerpFast", _chantLerpFast * 100.0f, gameObject);
+        AkSoundEngine.SetRTPCValue("Unity_ChantLerpSlow", _chantLerpSlow * 100.0f, gameObject);
     }
 
     private void handleChantCharge()
@@ -330,8 +333,36 @@ public class GameValuesForPlayGround : MonoBehaviour
                 restDurationGuard = true;
             }
         }
-        //if changeDetectedToneLength or changeDetectedRestLength are true, set them to false after one frame
-      
+
+        //TODO: see why changing color is awkward while toning, suspect it has to do with crossfading color values, need to do with square root curve
+        if(timeSinceLastColorChange > colorChangeMinimumTime)
+        {
+            if(changeDetectedToneLength)
+            {
+                ChangeColor(imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f);
+            }
+            else if(changeDetectedRestLength)
+            {
+                ChangeColor(5.0f);
+            }
+        }
+        
+
+        timeSinceLastColorChange += Time.deltaTime;      
+    }
+
+    private void ChangeColor(float _seconds)
+    {
+        changeCount++;
+
+        wwiseAVSMusicManager.SetColorWorldByType(wwiseInteractiveMusicManager.preferredColor, _seconds);
+
+        float _rtpcTarget = changeCount % 2 == 0 ? 100.0f : 0.0f;
+        int ms = (int)(_seconds * 1000.0f);
+        
+        AkSoundEngine.SetRTPCValue("Unity_SoundTweak", _rtpcTarget, gameObject, ms);
+
+        Debug.Log("Setting color to next " + wwiseInteractiveMusicManager.preferredColor);
     }
 
     // A coroutine that will be used to measure the duration of most recent tones or breaths
@@ -349,7 +380,7 @@ public class GameValuesForPlayGround : MonoBehaviour
         float _durationsMean = (_durations.Count > 0) ? _durations.Values.Average() : 0.0f;
         float _durationsRelativeRange = (_durations.Count > 0) ? ((_durations.Values.Max() - _durations.Values.Min()) / _durationsMean) : 0.0f;
         
-        if (true) //(isTone)
+        if (debugAllowChangeVerboseLogs) //(isTone)
         {
             if (anchored)
             {
@@ -371,7 +402,10 @@ public class GameValuesForPlayGround : MonoBehaviour
             {
                 triggeredChange = true;
                 StartCoroutine(ToneChangeEvent());
-                Debug.Log("Change Detection TONE: [CHANGE] " + id + " by exceeding upper threshold " + _anchorHigh);
+                if(debugAllowChangeVerboseLogs)
+                {
+                    Debug.Log("Change Detection TONE: [CHANGE] " + id + " by exceeding upper threshold " + _anchorHigh);
+                }
             }
 
             yield return null;
@@ -392,13 +426,15 @@ public class GameValuesForPlayGround : MonoBehaviour
                 {
                     triggeredChange = true;
                     StartCoroutine(ToneChangeEvent());
-                    Debug.Log("Change Detection TONE: [CHANGE] " + id + " by falling below lower threshold " + _anchorLow);
+                    if(debugAllowChangeVerboseLogs)
+                        Debug.Log("Change Detection TONE: [CHANGE] " + id + " by falling below lower threshold " + _anchorLow);
                 }
                 else if (!isTone && !triggeredChange && anchored && ((_duration < _anchorLow) || (_duration > _anchorHigh)))
                 {
                     triggeredChange = true;
                     StartCoroutine(RestChangeEvent());
-                    Debug.Log("Change Detection REST: [CHANGE] " + id + " by ranging out of threshold (" + _anchorLow + ")(" + _anchorHigh + ")");
+                    if(debugAllowChangeVerboseLogs)
+                        Debug.Log("Change Detection REST: [CHANGE] " + id + " by ranging out of threshold (" + _anchorLow + ")(" + _anchorHigh + ")");
                 }
                
 
@@ -434,7 +470,8 @@ public class GameValuesForPlayGround : MonoBehaviour
                         _restAnchorLow = _anchorLow;
                     }
                     
-                    Debug.Log("Change Detection" + (isTone ? " TONE: " : " REST: ") + "anchored range set to (" + _anchorLow + ")|(" + _anchorHigh + ")");
+                    if(debugAllowChangeVerboseLogs)
+                        Debug.Log("Change Detection" + (isTone ? " TONE: " : " REST: ") + "anchored range set to (" + _anchorLow + ")|(" + _anchorHigh + ")");
                 }
             }
             else //NOT ANCHORED, MIGHT SET ANCHOR
@@ -471,6 +508,7 @@ public class GameValuesForPlayGround : MonoBehaviour
                         _restWindlassSpread += _windlassSpreadGrowthPerMinute * _durationsMean * _duration / 60f;
                     }
                     
+                    if(debugAllowChangeVerboseLogs)
                     Debug.Log("Change Detection" + (isTone ? " TONE (no anchor): " : " REST (no anchor): ") + "memoryMin(" + _durations.Values.Min() + ") memoryMax(" + _durations.Values.Max() + ") range(" + _durationsRelativeRange + ") next-threshold set to ("  + _windlassSpread + ")");
                 }
                 
@@ -479,11 +517,11 @@ public class GameValuesForPlayGround : MonoBehaviour
         }
 
         
-        if(!anchored)
+        if(!anchored && debugAllowChangeVerboseLogs)
         {
             Debug.Log("Change Detection " + (isTone ? "TONE (no anchor):" : "REST (no anchor):") + " Duration Coroutine " + id + " END with duration(" + _duration + ") count(" + _durations.Count + ") range(" + _durationsRelativeRange + ")  nextRangeThreshold(" + _windlassSpread + ")");
         }
-        else
+        else if (anchored && debugAllowChangeVerboseLogs)
         {
             Debug.Log("Change Detection " + (isTone ? "TONE (anchored):" : "REST (anchored):") + " Duration Coroutine " + id + " END with duration(" + _duration + ") count(" + _durations.Count + ") anchors(" + _anchorLow + ")|(" + _anchorHigh + ")");
         }

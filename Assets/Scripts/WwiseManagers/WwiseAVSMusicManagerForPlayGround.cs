@@ -18,6 +18,10 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     bool AVSColorChangeFrame = false;
     public string AVSColorCommand  = "";
     public string AVSStrobeCommand = "";
+    private string cycleRecent = "dark";
+    private int cycleRed = 0;
+    private int cycleBlue = 0;
+    private int cycleWhite = 0;
     public float _strobePWM    = 0.0f;
     public float _strobe1Smoothing = 0.0f;
     public float _gammaBurstMode = 0.0f;
@@ -118,6 +122,11 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave2", 40.0f, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave2", 0.0f, gameObject);
 
+        //Randomize initial colors for red/blue/white
+        cycleRed = UnityEngine.Random.Range(0, 3);
+        cycleBlue = UnityEngine.Random.Range(0, 3);
+        cycleWhite = UnityEngine.Random.Range(0, 3);
+
         //=================================================
 
         SetColorWorldByName("White3", 0.0f);
@@ -160,8 +169,8 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     {
         { "Dark", ((0.0f, 0.0f, 0.0f),          (0.0f, 0.0f, 0.0f)) },
         { "Red1", ((100.0f, 0.0f, 0.0f),        (72.0f, 100.0f, 100.0f)) },
-        { "Red2", ((100.0f, 100.0f, 100.0f),    (68.0f, 100.0f, 0.0f)) },
-        { "Red3", ((100.0f, 0.0f, 100.0f),      (68.0f, 100.0f, 0.0f)) },
+        { "Red2", ((100.0f, 0.0f, 100.0f),      (68.0f, 100.0f, 0.0f)) },
+        { "Red3", ((100.0f, 100.0f, 100.0f),    (68.0f, 100.0f, 0.0f)) },
         { "Blue1", ((0.0f, 0.0f, 100.0f),       (0.0f, 100.0f, 0.0f)) },
         { "Blue2", ((0.0f, 58.0f, 42.0f),       (0.0f, 66.0f, 40.0f)) },
         { "Blue3", ((0.0f, 54.0f, 100.0f),      (46.0f, 49.0f, 0.0f)) },
@@ -178,7 +187,69 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         SetWaveColor(2, strobeColor.Item1, strobeColor.Item2, strobeColor.Item3, transitionTimeMS);
         SetWaveColor(3, waveColor.Item1, waveColor.Item2, waveColor.Item3, transitionTimeMS);
         AVSColorCommand = $"Transition to {colorName} over {transitionTimeSec} s";
+        Debug.Log(AVSColorCommand);
     }
+
+    private void CycleColor(ref int cycleCount, string colorBaseName, string colorType, float transitionTimeSec)
+    {
+        if (cycleRecent == colorType)
+        {
+            cycleCount++;
+            switch (cycleCount % 3)
+            {
+                case 1:
+                    SetColorWorldByName(colorBaseName + "1", transitionTimeSec);
+                    break;
+                case 2:
+                    SetColorWorldByName(colorBaseName + "2", transitionTimeSec);
+                    break;
+                default:
+                    SetColorWorldByName(colorBaseName + "3", transitionTimeSec);
+                    break;
+            }
+        }
+        else
+        {
+            cycleRecent = colorType;
+            switch (cycleCount % 3)
+            {
+                case 1:
+                    SetColorWorldByName(colorBaseName + "3", transitionTimeSec);
+                    break;
+                case 2:
+                    SetColorWorldByName(colorBaseName + "1", transitionTimeSec);
+                    break;
+                default:
+                    SetColorWorldByName(colorBaseName + "2", transitionTimeSec);
+                    break;
+            }
+        }
+    }
+
+    public void SetColorWorldByType(string colorType, float transitionTimeSec)
+    {
+        switch (colorType)
+        {
+            case "Red":
+                CycleColor(ref cycleRed, "Red", colorType, transitionTimeSec);
+                break;
+            case "Blue":
+                CycleColor(ref cycleBlue, "Blue", colorType, transitionTimeSec);
+                break;
+            case "White":
+                CycleColor(ref cycleWhite, "White", colorType, transitionTimeSec);
+                break;
+            case "Dark":
+                SetColorWorldByName("Dark", transitionTimeSec);
+                break;
+        }
+
+        if (colorType != "Red" && colorType != "Blue" && colorType != "White" && colorType != "Dark")
+        {
+            Debug.LogError("Color type not recognized");
+        }
+    }
+
 
     void SetColorWorldByName(string colorName, float transitionTimeSec = 2.0f)
     {
@@ -355,7 +426,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
             printDevicesList();
         }
 
-        if(Input.GetKeyDown(KeyCode.C))
+        /*if(Input.GetKeyDown(KeyCode.C))
         {
             Qcount++;
             if(Qcount%10 == 0)
@@ -399,6 +470,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
                 SetColorWorldByName("White3", 2.0f);
             }
         }
+        */
 
         if(Input.GetKeyDown(KeyCode.W))
         {

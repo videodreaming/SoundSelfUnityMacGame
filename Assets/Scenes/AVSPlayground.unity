@@ -9974,10 +9974,13 @@ MonoBehaviour:
   imitoneVoiceInterpreter: {fileID: 740096635}
   respirationTracker: {fileID: 740096634}
   wwiseAVSMusicManager: {fileID: 437048159}
+  wwiseInteractiveMusicManager: {fileID: 1564575221}
   _chantLerpSlowDamp1: 0
   _chantLerpSlowDamp2: 0
   _chantLerpFastDamp1: 0
   _chantLerpFastDamp2: 0
+  changeDetectedToneLength: 0
+  changeDetectedRestLength: 0
 --- !u!114 &740096633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10009,6 +10012,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096635}
   pauseGuardTone: 0
+  modePlayful: 1
+  modeMeditative: 0
   canvas: {fileID: 1172631974}
   rectanglePrefab: {fileID: 2136379597242905194, guid: b2f7d0aeb351b4aaa81c07226898e5ab, type: 3}
   SelectedRectangle: {fileID: 0}
@@ -10031,6 +10036,7 @@ MonoBehaviour:
   _dbThreshold: -25
   imitoneInactiveTimer: 0
   imitoneConfidentInactiveTimer: 0
+  exceptionFlag: 0
   _tThisTone: 0
   _tThisToneConfident: 0
   _tThisToneBiasTrue: 0
@@ -20766,6 +20772,7 @@ MonoBehaviour:
   musicSystem1ForPlayGround: {fileID: 619104376}
   currentSwitchState: B
   currentToningState: None
+  preferredColor: Red
   InteractiveMusicSilentLoopsRTPC: 0
   HarmonySilentVolumeRTPC: 0
   FundamentalSilentVolumeRTPC: 0

@@ -9,6 +9,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     public MusicSystem1ForPlayGround musicSystem1ForPlayGround;
     public string currentSwitchState = "B";
     public string currentToningState = "None";
+    public string preferredColor = "Red";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
     public float HarmonySilentVolumeRTPC = 0.0f;
     public float FundamentalSilentVolumeRTPC = 0.0f;
@@ -142,18 +143,22 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                     case 1:
                         Debug.Log("Stage 1 Gentle");
                         AkSoundEngine.SetState("SoundWorldMode", "Gentle");
+                        preferredColor = "Red";
                         break;
                     case 2:
                         Debug.Log("Stage 2 Shadow");
                         AkSoundEngine.SetState("SoundWorldMode", "Shadow");
+                        preferredColor = "Blue";
                         break;
                     case 3:
                         Debug.Log("Stage 3 Shruti");
                         AkSoundEngine.SetState("SoundWorldMode", "Shruti");
+                        preferredColor = "White";
                         break;
                     case 4:
                         Debug.Log("Stage 0 SonoFlore");
                         AkSoundEngine.SetState("SoundWorldMode", "SonoFlore");
+                        preferredColor = "Red";
                         currentStage = 0;
                         break;
                 }   
