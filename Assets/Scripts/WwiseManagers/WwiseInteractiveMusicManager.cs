@@ -212,10 +212,9 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
 
     private void HandleGuidedVocalization() // Robin naming convention feedback: let's call this "Tutorial"
     {
-        disableMicrophoneResponsiveness = false; // This should be set to false when we are in the beginning of the tutorial
-        // PSEUDOCODE
-        // float timeWaiting = 0f;
-        if (guidedVocalizationPlayCount < 5 && canPlayGuidedVocalization) //"hums"
+        float t = 0.0f;
+        
+        if ((guidedVocalizationPlayCount < 5) && canPlayGuidedVocalization)
         {
             // variable IsTutorialTestingMicInput should be renamed to IsTutorialTestingMicInput
             // One more thing to be slightly mindful of - I'm going to want to use this variable, elsewhere in the scripts,

@@ -17,6 +17,7 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
     public User userObject;
     public AudioSource userAudioSource;
     public ImitoneVoiceIntepreterForPlayground imitoneVoiceIntepreter;
+    public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
     //public MusicSystem1 musicSystem1;
     
     public float fadeDuration = 54.0f;
@@ -84,60 +85,61 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
                 if (musicSyncInfo.userCueName == "Cue_Posture_Start")
                 {
-                    Debug.Log("Cue_Posture_Start");
+                    Debug.Log("WWise_Cue_Posture_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
                 {
-                    Debug.Log("Cue_ThematicOpening_Start");
+                    Debug.Log("WWise_Cue_ThematicOpening_Start");
                 } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
                  {
-                    Debug.Log("Stopping Openign Seq, play sigh Query Seq");
+                    Debug.Log("WWise_VoiceElicitation1_Start: Stopping Opening Seq, play sigh Query Seq");
                 }
                 else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
                 {
                     csvWriter.microphoneMonitoring = true;
                     userAudioSource.volume = 1.0f;
-                    Debug.Log("Cue Mic On");
+                    Debug.Log("WWise_Cue Mic On");
                 } else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
                 {
-                    Debug.Log("Somatic Start");
+                    Debug.Log("WWise_Somatic Start");
                 }
                  else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
                     //Robin to do AVS Stuff here
-                    Debug.Log("Cue BreathIn Start");
+                    Debug.Log("WWise_Cue BreathIn Start");
                 } else if(musicSyncInfo.userCueName == "Cue_Orientation_Start")
                 {
-                    Debug.Log("Cue Orientation Start");
+                    Debug.Log("WWise_Cue Orientation Start");
                 } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
                 {
                     //Robin to do AVS Stuff here
-                    Debug.Log("Cue Sigh Start");
+                    Debug.Log("WWise_Cue Sigh Start");
                 } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
                     //Robin to do AVS Stuff heres
-                    Debug.Log("Cue BreatheInStart");
+                    Debug.Log("WWise_Cue BreatheInStart");
                 } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
                 {
                     //Robin to do AVS Stuff here
-                    Debug.Log("Cue Sigh Start");
+                    Debug.Log("WWise_Cue Sigh Start");
                 } else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
                 {
                     //Robin to do AVS Stuff here
                     csvWriter.microphoneMonitoring = false;
+                    wwiseAVSMusicManager.NextColorWorld(5.0f);
                     userAudioSource.volume = 0.0f;
-                     Debug.Log("Cue Mic OFF");
+                     Debug.Log("WWise_Cue Mic OFF");
                 } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
                 {
-                    Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
+                    Debug.Log("WWise_PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum1_Start")
                 {
-
+                    Debug.Log("WWise_Cue_LinearHum1_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum2_Start")
                 {
-
+                    Debug.Log("WWise_Cue_LinearHum2_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum3_Start")
                 {
-
+                    Debug.Log("WWise_Cue_LinearHum1_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
                     /*StartCoroutine (InteractiveMusicSystemFade());
@@ -188,6 +190,8 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
     void Update()
     {
         checkInteractive();
+
+       // Debug.Log("Wave 1 Red RTPC Value: " + GetRTPCValue("AVS_Red_Volume_Wave1"));
        
     }
     void checkInteractive()

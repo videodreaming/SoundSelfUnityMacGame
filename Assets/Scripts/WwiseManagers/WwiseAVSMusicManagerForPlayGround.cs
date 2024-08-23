@@ -19,6 +19,8 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     public string AVSColorCommand  = "";
     public string AVSStrobeCommand = "";
     private string cycleRecent = "dark";
+    public string preferredColor = "Red";
+    private float  _brightness = 0.8f;
     private int cycleRed = 0;
     private int cycleBlue = 0;
     private int cycleWhite = 0;
@@ -43,7 +45,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         float initialValue;
         int type = 1;
         AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out initialValue, ref type);
-        Debug.Log("RTPC Value after set: " + initialValue);
+        Debug.Log("RTPC Wave1 Frequency after initialization: " + initialValue);
         // We first enumerate all Devices from the System shareset to have all available devices on Windows.
        uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
         uint deviceCount = AkSoundEngine.GetNumOutputDevices(sharesetIdSystem);
@@ -164,7 +166,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     }
     
     //COLOR WORLD FUNCTIONS
-    //   Name        Strobe Color                Wave Color
+    //   Name        Strobe Color                Wave Color (these will be modified by _brightness in SetColorWorld)
     private static readonly Dictionary<string, ((float, float, float) strobeColor, (float, float, float) waveColor)> colorPresets = new Dictionary<string, ((float, float, float), (float, float, float))>
     {
         { "Dark", ((0.0f, 0.0f, 0.0f),          (0.0f, 0.0f, 0.0f)) },
@@ -179,65 +181,24 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         { "White3", ((68.0f, 50.0f, 50.0f),     (71.0f, 0.0f, 40.0f)) }
     };
 
-    void SetColorWorld(string colorName, (float, float, float) strobeColor, (float, float, float) waveColor, float transitionTimeSec = 2.0f)
+
+    public void NextColorWorld(float transitionTimeSec = 2.0f, float _exponent = 1.0f)
     {
-        int transitionTimeMS = (int)(transitionTimeSec * 1000);
-        
-        SetWaveColor(1, strobeColor.Item1, strobeColor.Item2, strobeColor.Item3, transitionTimeMS);
-        SetWaveColor(2, strobeColor.Item1, strobeColor.Item2, strobeColor.Item3, transitionTimeMS);
-        SetWaveColor(3, waveColor.Item1, waveColor.Item2, waveColor.Item3, transitionTimeMS);
-        AVSColorCommand = $"Transition to {colorName} over {transitionTimeSec} s";
-        Debug.Log(AVSColorCommand);
+        SetColorWorldByType(preferredColor, transitionTimeSec, _exponent);
     }
 
-    private void CycleColor(ref int cycleCount, string colorBaseName, string colorType, float transitionTimeSec)
-    {
-        if (cycleRecent == colorType)
-        {
-            cycleCount++;
-            switch (cycleCount % 3)
-            {
-                case 1:
-                    SetColorWorldByName(colorBaseName + "1", transitionTimeSec);
-                    break;
-                case 2:
-                    SetColorWorldByName(colorBaseName + "2", transitionTimeSec);
-                    break;
-                default:
-                    SetColorWorldByName(colorBaseName + "3", transitionTimeSec);
-                    break;
-            }
-        }
-        else
-        {
-            cycleRecent = colorType;
-            switch (cycleCount % 3)
-            {
-                case 1:
-                    SetColorWorldByName(colorBaseName + "3", transitionTimeSec);
-                    break;
-                case 2:
-                    SetColorWorldByName(colorBaseName + "1", transitionTimeSec);
-                    break;
-                default:
-                    SetColorWorldByName(colorBaseName + "2", transitionTimeSec);
-                    break;
-            }
-        }
-    }
-
-    public void SetColorWorldByType(string colorType, float transitionTimeSec)
+    public void SetColorWorldByType(string colorType, float transitionTimeSec = 2.0f, float _exponent = 1.0f)
     {
         switch (colorType)
         {
             case "Red":
-                CycleColor(ref cycleRed, "Red", colorType, transitionTimeSec);
+                CycleColor(ref cycleRed, "Red", colorType, transitionTimeSec, _exponent);
                 break;
             case "Blue":
-                CycleColor(ref cycleBlue, "Blue", colorType, transitionTimeSec);
+                CycleColor(ref cycleBlue, "Blue", colorType, transitionTimeSec, _exponent);
                 break;
             case "White":
-                CycleColor(ref cycleWhite, "White", colorType, transitionTimeSec);
+                CycleColor(ref cycleWhite, "White", colorType, transitionTimeSec, _exponent);
                 break;
             case "Dark":
                 SetColorWorldByName("Dark", transitionTimeSec);
@@ -249,13 +210,47 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
             Debug.LogError("Color type not recognized");
         }
     }
+    private void CycleColor(ref int cycleCount, string colorBaseName, string colorType, float transitionTimeSec = 2.0f, float _exponent = 1.0f)
+    {
+        if (cycleRecent == colorType)
+        {
+            cycleCount++;
+            switch (cycleCount % 3)
+            {
+                case 1:
+                    SetColorWorldByName(colorBaseName + "1", transitionTimeSec, _exponent);
+                    break;
+                case 2:
+                    SetColorWorldByName(colorBaseName + "2", transitionTimeSec, _exponent);
+                    break;
+                default:
+                    SetColorWorldByName(colorBaseName + "3", transitionTimeSec, _exponent);
+                    break;
+            }
+        }
+        else
+        {
+            cycleRecent = colorType;
+            switch (cycleCount % 3)
+            {
+                case 1:
+                    SetColorWorldByName(colorBaseName + "3", transitionTimeSec, _exponent);
+                    break;
+                case 2:
+                    SetColorWorldByName(colorBaseName + "1", transitionTimeSec, _exponent);
+                    break;
+                default:
+                    SetColorWorldByName(colorBaseName + "2", transitionTimeSec, _exponent);
+                    break;
+            }
+        }
+    }
 
-
-    void SetColorWorldByName(string colorName, float transitionTimeSec = 2.0f)
+    void SetColorWorldByName(string colorName, float transitionTimeSec = 2.0f, float _exponent = 1.0f)
     {
         if (colorPresets.TryGetValue(colorName, out var colors))
         {
-            SetColorWorld(colorName, colors.strobeColor, colors.waveColor, transitionTimeSec);
+            SetColorWorld(colorName, colors.strobeColor, colors.waveColor, transitionTimeSec, _exponent);
             if (colorName == "Dark")
             {
                 StartCoroutine(GoDark((int)(transitionTimeSec * 1000)));
@@ -267,7 +262,19 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         }
     }
 
-    void SetWaveColor(int wave, float _red, float _green, float _blue, int transitionTimeMS)
+    void SetColorWorld(string colorName, (float, float, float) strobeColor, (float, float, float) waveColor, float transitionTimeSec = 2.0f, float _exponent = 1.0f)
+    {
+        int transitionTimeMS = (int)(transitionTimeSec * 1000);
+        float _v = _brightness;
+        
+        SetWaveColor(1, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, _exponent);
+        SetWaveColor(2, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, _exponent);
+        SetWaveColor(3, waveColor.Item1*_v, waveColor.Item2*_v, waveColor.Item3*_v, transitionTimeMS, _exponent);
+        AVSColorCommand = $"Transition to {colorName} over {transitionTimeSec} s with exponent {_exponent}";
+        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s");
+    }
+
+    void SetWaveColor(int wave, float _red, float _green, float _blue, int transitionTimeMS, float _exponent = 1.0f)
     {
         //produce error if "wave" is not between 1 and 3
         if (wave < 1 || wave > 3)
@@ -281,15 +288,38 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         string stringGreen = "AVS_Green_Volume_Wave" + wave;
         string stringBlue = "AVS_Blue_Volume_Wave" + wave;
 
-        AkSoundEngine.SetRTPCValue(stringRed, _red, gameObject, transitionTimeMS);
-        AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObject, transitionTimeMS);
-        AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObject, transitionTimeMS);
-
+        if(true)//(_exponent == 1.0f)
+        {
+            AkSoundEngine.SetRTPCValue(stringRed, _red, gameObject, transitionTimeMS);
+            AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObject, transitionTimeMS);
+            AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObject, transitionTimeMS);
+        }
+        if (_exponent != 1.0f)
+        {
+            StartCoroutine(ExponentialRideColorRTPC(wave, stringRed, stringGreen, stringBlue, _red, _green, _blue, transitionTimeMS, _exponent));
+        }
+        
         if(_red >0 || _green > 0 || _blue > 0)
         {
             AVSColorSelected = true;
             AVSColorChangeFrame = true;
         }
+    }
+    IEnumerator ExponentialRideColorRTPC(int wave, string stringRed, string stringGreen, string stringBlue, float _red, float _green, float _blue, int transitionTimeMS = 2000, float _exponent = 1.0f)
+    {
+        uint rtpcID_red = AkSoundEngine.GetIDFromString(stringRed);
+        uint rtpcID_green = AkSoundEngine.GetIDFromString(stringGreen);
+        uint rtpcID_blue = AkSoundEngine.GetIDFromString(stringBlue);
+        float initialValueRed = -1.0f;
+        float initialValueGreen = -1.0f;
+        float initialValueBlue = -1.0f;
+        int type = 1;
+        Debug.Log("[THIS ISN'T WORKING YET] starting exponential ride color rtpc coroutine with exponent " + _exponent);
+        //AkSoundEngine.GetRTPCValue(rtpcID_red, gameObject, 0, out initialValueRed, ref type);
+        //AkSoundEngine.GetRTPCValue(rtpcID_green, gameObject, 0, out initialValueGreen, ref type);
+        //AkSoundEngine.GetRTPCValue(rtpcID_blue, gameObject, 0, out initialValueBlue, ref type);
+        yield return null;
+        //Debug.Log(stringRed + " Red is " + initialValueRed + " Green is " + initialValueGreen + " Blue is " + initialValueBlue);
     }
     // DYNAMIC AVS CONTROL SYSTEMS
     public void Wwise_Strobe_ToneDisplay (float _input)
@@ -425,7 +455,14 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         {
             printDevicesList();
         }
-
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            NextColorWorld(5f);
+        }
+        else if (Input.GetKeyUp(KeyCode.C))
+        {
+            NextColorWorld(10f, 0.5f);
+        }
         /*if(Input.GetKeyDown(KeyCode.C))
         {
             Qcount++;

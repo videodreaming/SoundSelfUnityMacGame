@@ -7,9 +7,9 @@ using System;
 public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 {
     public MusicSystem1ForPlayGround musicSystem1ForPlayGround;
+    public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
     public string currentSwitchState = "B";
     public string currentToningState = "None";
-    public string preferredColor = "Red";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
     public float HarmonySilentVolumeRTPC = 0.0f;
     public float FundamentalSilentVolumeRTPC = 0.0f;
@@ -84,12 +84,12 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     public void userToningToChangeFundamental(string fundamentalNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", fundamentalNote,gameObject);
-        //Debug.Log("Fundamental Note: " + ConvertIntToNote(musicSystem1ForPlayGround.fundamentalNote));
+        Debug.Log("Fundamental Note: " + fundamentalNote);
     }
     public void changeHarmony(string harmonyNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-        //Debug.Log("Harmony Note: " + ConvertIntToNote(musicSystem1ForPlayGround.harmonyNote));
+        Debug.Log("Harmony Note: " + harmonyNote);
     }
 
    
@@ -143,22 +143,22 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                     case 1:
                         Debug.Log("Stage 1 Gentle");
                         AkSoundEngine.SetState("SoundWorldMode", "Gentle");
-                        preferredColor = "Red";
+                        wwiseAVSMusicManager.preferredColor = "Red";
                         break;
                     case 2:
                         Debug.Log("Stage 2 Shadow");
                         AkSoundEngine.SetState("SoundWorldMode", "Shadow");
-                        preferredColor = "Blue";
+                        wwiseAVSMusicManager.preferredColor = "Blue";
                         break;
                     case 3:
                         Debug.Log("Stage 3 Shruti");
                         AkSoundEngine.SetState("SoundWorldMode", "Shruti");
-                        preferredColor = "White";
+                        wwiseAVSMusicManager.preferredColor = "White";
                         break;
                     case 4:
                         Debug.Log("Stage 0 SonoFlore");
                         AkSoundEngine.SetState("SoundWorldMode", "SonoFlore");
-                        preferredColor = "Red";
+                        wwiseAVSMusicManager.preferredColor = "Red";
                         currentStage = 0;
                         break;
                 }   
@@ -175,9 +175,10 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 
             if(imitoneVoiceIntepreter._tThisTone > imitoneVoiceIntepreter._activeThreshold4)
             {
-                //Debug.Log("this tone is now longer than 8s");
                 if(!thisTonesImpactPlayed)
                 {
+                    Debug.Log("this tone is now longer than 8s, play impact");
+
                     Debug.Log("impact");
                     AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
                     thisTonesImpactPlayed = true;   
