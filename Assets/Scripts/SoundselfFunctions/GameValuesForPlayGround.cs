@@ -335,6 +335,7 @@ public class GameValuesForPlayGround : MonoBehaviour
         }
 
         //TODO: see why changing color is awkward while toning, suspect it has to do with crossfading color values, need to do with square root curve
+
         if(timeSinceLastColorChange > colorChangeMinimumTime)
         {
             if(changeDetectedToneLength)
@@ -355,14 +356,14 @@ public class GameValuesForPlayGround : MonoBehaviour
     {
         changeCount++;
 
-        wwiseAVSMusicManager.SetColorWorldByType(wwiseInteractiveMusicManager.preferredColor, _seconds);
+        wwiseAVSMusicManager.NextColorWorld(_seconds);
 
         float _rtpcTarget = changeCount % 2 == 0 ? 100.0f : 0.0f;
         int ms = (int)(_seconds * 1000.0f);
         
         AkSoundEngine.SetRTPCValue("Unity_SoundTweak", _rtpcTarget, gameObject, ms);
 
-        Debug.Log("Setting color to next " + wwiseInteractiveMusicManager.preferredColor);
+        Debug.Log("Setting color to next " + wwiseAVSMusicManager.preferredColor);
     }
 
     // A coroutine that will be used to measure the duration of most recent tones or breaths

@@ -6449,6 +6449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AVSColorCommand: 
   AVSStrobeCommand: 
+  preferredColor: Red
   _strobePWM: 0
   _strobe1Smoothing: 0
   _gammaBurstMode: 0
@@ -7452,6 +7453,7 @@ MonoBehaviour:
   userObject: {fileID: 740096621}
   userAudioSource: {fileID: 740096622}
   imitoneVoiceIntepreter: {fileID: 740096635}
+  wwiseAVSMusicManager: {fileID: 437048159}
   fadeDuration: 54
   targetValue: 80
   silentrtpcvolume:
@@ -20770,9 +20772,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSystem1ForPlayGround: {fileID: 619104376}
+  wwiseAVSMusicManager: {fileID: 437048159}
   currentSwitchState: B
   currentToningState: None
-  preferredColor: Red
   InteractiveMusicSilentLoopsRTPC: 0
   HarmonySilentVolumeRTPC: 0
   FundamentalSilentVolumeRTPC: 0
