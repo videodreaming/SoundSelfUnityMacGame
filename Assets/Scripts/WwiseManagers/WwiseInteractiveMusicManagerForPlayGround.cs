@@ -83,12 +83,12 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     public void userToningToChangeFundamental(string fundamentalNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", fundamentalNote,gameObject);
-        Debug.Log("Fundamental Note: " + ConvertIntToNote(musicSystem1ForPlayGround.fundamentalNote));
+        //Debug.Log("Fundamental Note: " + ConvertIntToNote(musicSystem1ForPlayGround.fundamentalNote));
     }
     public void changeHarmony(string harmonyNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-        Debug.Log("Harmony Note: " + ConvertIntToNote(musicSystem1ForPlayGround.harmonyNote));
+        //Debug.Log("Harmony Note: " + ConvertIntToNote(musicSystem1ForPlayGround.harmonyNote));
     }
 
    
@@ -170,7 +170,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 
             if(imitoneVoiceIntepreter._tThisTone > imitoneVoiceIntepreter._activeThreshold4)
             {
-                Debug.Log("this tone is now longer than 8s");
+                //Debug.Log("this tone is now longer than 8s");
                 if(!thisTonesImpactPlayed)
                 {
                     Debug.Log("impact");

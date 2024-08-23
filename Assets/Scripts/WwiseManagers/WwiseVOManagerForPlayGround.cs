@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 public class WwiseVOManagerForPlayGround : MonoBehaviour
 {
     public AudioManager audioManager;
-
+    private bool debugAllowMusicLogs = false;
     private bool pause = true;
     public CSVWriter CSVWriter;
 
@@ -177,8 +177,11 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
     
     public void fundamentalChanged(string FundamentalnoteReceived, string HarmonynoteRecieved)
     {
-        Debug.Log("Fundamental Note = " + FundamentalnoteReceived);
-        Debug.Log("Harmony Note = " + HarmonynoteRecieved);
+        if(debugAllowMusicLogs)
+        {
+            Debug.Log("Fundamental Note = " + FundamentalnoteReceived);
+            Debug.Log("Harmony Note = " + HarmonynoteRecieved);
+        }
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", FundamentalnoteReceived, gameObject);
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", HarmonynoteRecieved, gameObject);
     }
@@ -202,7 +205,10 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
             bool currentToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
             if(currentToneActiveConfident && !previousToneActiveConfident)
             {
-                Debug.Log("Playing Toning");
+                if(debugAllowMusicLogs)
+                {
+                    Debug.Log("Playing Toning");
+                }
                 AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
                 AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
             } else if (!currentToneActiveConfident && previousToneActiveConfident)

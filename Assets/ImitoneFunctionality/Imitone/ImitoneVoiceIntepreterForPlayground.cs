@@ -546,7 +546,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 isResettingTone = true;
                 float currentInhaleDuration = Math.Clamp(_tNextInhaleDuration, 1.76f, 7.0f);
                 endBreathVolumes = false;
-                Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
+                //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
                 StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
                 StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
                 if(currentInhaleDuration > 6.0f)
@@ -604,12 +604,12 @@ private IEnumerator EndBreathVolumesOnNextTone()
     {
         yield return null;
     }
-    Debug.Log("EndBreathVolumesOnNextTone: waiting...");
+    //Debug.Log("EndBreathVolumesOnNextTone: waiting...");
     while (!toneActiveConfident)
     {
         yield return null;
     }
-    Debug.Log("EndBreathVolumesOnNextTone: ending breath volumes");
+    //Debug.Log("EndBreathVolumesOnNextTone: ending breath volumes");
     
     _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!isResettingTone) if statement above.
     endBreathVolumes = true;
@@ -630,7 +630,7 @@ private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
     _v         = 0.33f; // how much time do we spend in stage 1 (up), vs. stage 2 (down)
     
     
-    Debug.Log("BreathVolumeCoroutine: Starting with Inhale Duration of " + inhaleDuration + " and _v of " + _v);
+    //Debug.Log("BreathVolumeCoroutine: Starting with Inhale Duration of " + inhaleDuration + " and _v of " + _v);
     while (normalizedTime <= _v && !endBreathVolumes) { //Stage 1 - rapid increase, can be interrupted by tone
         normalizedTime += Time.deltaTime / inhaleDuration;
         float _progress = Mathf.Min(normalizedTime / _v / 2.0f, 0.5f); // will get half way through when normalizedTime = _v
@@ -638,7 +638,7 @@ private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
         //currentBreathValue = _progress * 2.0f; //linear calculation
         currentBreathValue = Mathf.Clamp(MathF.Sqrt(_progress * 2.0f), 0f, 1f); //square root calculation
         _breathVolumeContributions[coroutineID] = currentBreathValue;
-        Debug.Log("BreathVolumeCoroutine: Stage 1 Rising at nT("+normalizedTime+") p(" + _progress + ") vol(" + currentBreathValue + ")");
+        //Debug.Log("BreathVolumeCoroutine: Stage 1 Rising at nT("+normalizedTime+") p(" + _progress + ") vol(" + currentBreathValue + ")");
         UpdateBreathVolumeTotal();
 
         yield return null;
@@ -646,11 +646,11 @@ private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
     
     if(endBreathVolumes)
     {
-        Debug.Log("BreathVolumeCoroutine: Stage 1 complete EARLY at normalized time " + normalizedTime + " with volume of " + currentBreathValue);
+        //Debug.Log("BreathVolumeCoroutine: Stage 1 complete EARLY at normalized time " + normalizedTime + " with volume of " + currentBreathValue);
     }
     else
     {
-        Debug.Log("BreathVolumeCoroutine: Stage 1 Complete NORMALLY at normalized time " + normalizedTime + " with volume of " + currentBreathValue);
+        //Debug.Log("BreathVolumeCoroutine: Stage 1 Complete NORMALLY at normalized time " + normalizedTime + " with volume of " + currentBreathValue);
     }
 
     normalizedTime = _v;
@@ -666,7 +666,7 @@ private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
         yield return null;
     }
     
-    Debug.Log("BreathVolumeCoroutine: ending");
+    //Debug.Log("BreathVolumeCoroutine: ending");
     _breathVolumeContributions.Remove(coroutineID);
     UpdateBreathVolumeTotal();
 }

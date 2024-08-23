@@ -9,7 +9,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
 {
     public WwiseVOManagerForPlayGround wwiseVOManagerForPlayGround;
     public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManagerForPlayGround;
-    private bool debugAllowLogs = true;
+    private bool debugAllowLogs = false;
     // Variables
     public bool allowFundamentalChange = true;
     public bool enableMusicSystem = true;
