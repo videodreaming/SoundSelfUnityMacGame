@@ -710,7 +710,7 @@
 															</Point>
 															<Point>
 																<XPos>50</XPos>
-																<YPos>-0</YPos>
+																<YPos>0</YPos>
 																<Flags>0</Flags>
 															</Point>
 															<Point>
@@ -2280,6 +2280,7 @@
 						</ObjectList>
 					</ObjectLists>
 				</Effect>
+				<Effect Name="New_Meter" ID="{E3226E7B-A9BA-41A2-81C6-D47A6211FFB3}" PluginName="Wwise Meter" CompanyID="0" PluginID="129" PluginType="3"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>

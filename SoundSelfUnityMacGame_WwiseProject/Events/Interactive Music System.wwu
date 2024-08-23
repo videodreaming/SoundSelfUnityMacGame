@@ -119,37 +119,11 @@
 				</Event>
 				<Event Name="Stop_Toning" ID="{BC9DBC95-1FEC-4024-9149-47E42F23D96E}">
 					<ChildrenList>
-						<Action Name="" ID="{92806E84-DC7C-4DEC-8E02-86B660B08153}" ShortID="126282825">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeInCurve" Type="int16" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning_v1_7_Linked" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{A0CCA9F3-6CF7-47D4-BF1F-9B4E18CE368D}" ShortID="33182322">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="4"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning_v2_12_Linked" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{66107550-3E37-49C6-86BA-77B088C99950}" ShortID="203503832">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="3"/>
-								<Property Name="FadeTime" Type="Real64" Value="15"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="5"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -160,9 +134,8 @@
 						<Action Name="" ID="{0551BB31-209E-49DA-8D1D-BC4D0490AD20}" ShortID="438085709">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="5"/>
-								<Property Name="FadeTime" Type="Real64" Value="15"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
