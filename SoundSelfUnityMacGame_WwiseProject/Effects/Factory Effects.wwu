@@ -14,10 +14,10 @@
 						<Effect Name="Gentle_Program_Compressor_Minus_14dB_RMS" ID="{1595E6B0-DD58-4363-A3F0-DF0C96EC7C17}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
 							<PropertyList>
 								<Property Name="AttackTime" Type="Real32" Value="0.27"/>
-								<Property Name="OutputGain" Type="Real32" Value="1"/>
-								<Property Name="Ratio" Type="Real32" Value="3"/>
+								<Property Name="OutputGain" Type="Real32" Value="2"/>
+								<Property Name="Ratio" Type="Real32" Value="3.8"/>
 								<Property Name="ReleaseTime" Type="Real32" Value="0.57"/>
-								<Property Name="Threshold" Type="Real32" Value="-11"/>
+								<Property Name="Threshold" Type="Real32" Value="-12"/>
 							</PropertyList>
 						</Effect>
 						<Effect Name="Hard_Knee_Minus_3dB_RMS" ID="{D083BAE5-F9EF-426B-A311-D9DF8DFE8807}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
@@ -28,7 +28,8 @@
 						</Effect>
 						<Effect Name="Dialog_Leveler_Soft" ID="{9C1D0FCF-896E-4739-A8E8-B1E908F51CE6}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
 							<PropertyList>
-								<Property Name="Ratio" Type="Real32" Value="3"/>
+								<Property Name="OutputGain" Type="Real32" Value="1"/>
+								<Property Name="Ratio" Type="Real32" Value="4"/>
 								<Property Name="Threshold" Type="Real32" Value="-20"/>
 							</PropertyList>
 						</Effect>
@@ -198,6 +199,7 @@
 						</Effect>
 						<Effect Name="Brick_Wall_Minus_1dB_Peak_Fast_Release" ID="{2144284E-7ADD-4341-86A4-4E468BEC9A2D}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
 							<PropertyList>
+								<Property Name="OutputGain" Type="Real32" Value="2"/>
 								<Property Name="Ratio" Type="Real32" Value="50"/>
 								<Property Name="Threshold" Type="Real32" Value="-6"/>
 							</PropertyList>
@@ -217,6 +219,46 @@
 								<Property Name="ReleaseTime" Type="Real32" Value="0.071"/>
 								<Property Name="Threshold" Type="Real32" Value="-25"/>
 							</PropertyList>
+						</Effect>
+						<Effect Name="New_Mastering_Suite" ID="{76CFC61C-659F-4651-B56B-0FAD71ADB80B}" PluginName="Mastering Suite" CompanyID="0" PluginID="186" PluginType="3">
+							<PropertyList>
+								<Property Name="compressorBand1MakeupGain" Type="Real32" Value="0.1"/>
+								<Property Name="compressorBand1Ratio" Type="Real32" Value="2.66"/>
+								<Property Name="compressorBand1Threshold" Type="Real32" Value="-6"/>
+								<Property Name="limiterMode" Type="int32" Value="2"/>
+								<Property Name="limiterRelease" Type="Real32" Value="0.71"/>
+								<Property Name="limiterThreshold" Type="Real32" Value="-6"/>
+								<Property Name="masterVolumeChannel1" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel10" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel11" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel12" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel2" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel3" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel4" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel5" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel6" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel7" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel8" Type="Real32" Value="-0.2"/>
+								<Property Name="masterVolumeChannel9" Type="Real32" Value="-0.2"/>
+								<Property Name="paramBand1Frequency" Type="Real32" Value="51.42122"/>
+								<Property Name="paramBand1Gain" Type="Real32" Value="1.728395"/>
+								<Property Name="paramBand2Frequency" Type="Real32" Value="239.7075"/>
+								<Property Name="paramBand2Gain" Type="Real32" Value="-1.399177"/>
+								<Property Name="paramBand3Frequency" Type="Real32" Value="77.7889"/>
+								<Property Name="paramBand3Gain" Type="Real32" Value="-1.069959"/>
+								<Property Name="paramBand4Frequency" Type="Real32" Value="1757.318"/>
+								<Property Name="paramBand4Gain" Type="Real32" Value="3.868313"/>
+								<Property Name="paramBand5Enabled" Type="bool" Value="True"/>
+								<Property Name="paramBand5Frequency" Type="Real32" Value="192.3871"/>
+								<Property Name="paramBand5Gain" Type="Real32" Value="-2.55144"/>
+								<Property Name="paramBand5Resonance" Type="Real32" Value="3.13"/>
+								<Property Name="paramBand6Enabled" Type="bool" Value="True"/>
+								<Property Name="paramBand6Frequency" Type="Real32" Value="1007.575"/>
+								<Property Name="paramBand6Gain" Type="Real32" Value="2.716049"/>
+								<Property Name="paramBand6Resonance" Type="Real32" Value="3.69"/>
+								<Property Name="paramEqNumBands" Type="int32" Value="6"/>
+							</PropertyList>
+							<PluginData/>
 						</Effect>
 					</ChildrenList>
 				</Folder>

@@ -16,18 +16,25 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{44614FC7-6954-59DB-6BC3-99FB0D78F474}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{24B92645-7225-7361-9B9B-C60220A76329}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
 				<ShareSets>
 					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="3157974155" Name="New_Mastering_Suite" LibName="Mastering Suite" LibId="12189699"/>
 				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
 					<Plugin Id="2719312584" Name="System_01" LibName="System" LibId="11403271"/>
-					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271">
+						<PluginRefs>
+							<ShareSets>
+								<PluginRef Id="3157974155"/>
+							</ShareSets>
+						</PluginRefs>
+					</Plugin>
 				</AudioDevices>
 			</Plugins>
 			<Busses>
@@ -324,7 +331,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D0BA2004-4722-A637-21B3-B0EBD1A85397}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{0A4E080F-BEDE-C130-7DA6-AB9C00974CFF}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -4842,7 +4849,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{543CD930-3CEE-92E3-989A-467D96A1F831}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{4EDD0393-8C86-A0D3-48B9-5A1C82EF340B}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -4997,10 +5004,6 @@
 				<File Id="592303975" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_wisdom_jaguar.wav</ShortName>
 					<CachePath>SFX/vo_wisdom_jaguar_818F3B66.wem</CachePath>
-				</File>
-				<File Id="618347590" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_thematicSavasana_gratitude.wav</ShortName>
-					<CachePath>SFX/vo_thematicSavasana_gratitude_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="629816663" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_wakeUp.wav</ShortName>
@@ -5387,12 +5390,6 @@
 									</MediaRefs>
 								</SwitchContainer>
 							</Children>
-						</SwitchContainer>
-						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1721781634"/>
-							<MediaRefs>
-								<MediaRef Id="618347590"/>
-							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2655751454"/>
@@ -5814,7 +5811,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{3E9D0B93-621D-25EE-7700-8D4BDF173BF2}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{BBF54B7F-1E63-E607-5CEB-F35955750765}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -9231,5 +9228,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{67EEAB9A-1678-0A0B-F24E-A18BC8185BF9}</FileHash>
+	<FileHash>{4FB8C090-7862-6F6D-4598-DAE6DD9171C1}</FileHash>
 </SoundBanksInfo>
