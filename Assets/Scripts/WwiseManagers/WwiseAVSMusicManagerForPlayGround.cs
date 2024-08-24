@@ -16,7 +16,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     bool AVSColorSelected = false;
     bool AVSColorSelectedLastFrame = false;
     bool AVSColorChangeFrame = false;
-    bool bilateral = false;
+    public bool bilateral {get; private set;} = false; 
     public string AVSColorCommand  = "";
     public string AVSStrobeCommand = "";
     public string cycleRecent = "dark";
@@ -364,7 +364,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         }
     }
     // DYNAMIC AVS CONTROL SYSTEMS
-    public void Wwise_Strobe_MonoStereo (bool doBilateral = false)
+    public void Strobe_MonoStereo (bool doBilateral = false)
     {
         //AkSoundEngine.PostEvent("Stop_AVS_Wave1", gameObject);
         if(doBilateral == bilateral)
@@ -505,11 +505,11 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.V))
         {
-            Wwise_Strobe_MonoStereo(true);
+            Strobe_MonoStereo(true);
         }
         else if (Input.GetKeyUp(KeyCode.V))
         {
-            Wwise_Strobe_MonoStereo(false);
+            Strobe_MonoStereo(false);
         }
         /*if(Input.GetKeyDown(KeyCode.C))
         {

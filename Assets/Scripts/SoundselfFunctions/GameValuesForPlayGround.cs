@@ -327,6 +327,7 @@ public class GameValuesForPlayGround : MonoBehaviour
         //Debug.Log("ChantCharge " + chantChargeCoroutineCounter + " End");
     }
 
+    //REEF - all this "Change Detection" stuff should be put into a new director script, with all the director related things currently in the InteractiveMusicManager...
     private void changeDetection()
     {
         // Track the three most recent tone and breath durations from imitoneVoiceInterpreter using a library of the last 3 values
@@ -350,26 +351,29 @@ public class GameValuesForPlayGround : MonoBehaviour
 
         //TODO: see why changing color is awkward while toning, suspect it has to do with crossfading color values, need to do with square root curve
 
-        if(timeSinceLastColorChange > colorChangeMinimumTime)
+        timeSinceLastColorChange += Time.deltaTime;    
+        if(changeDetectedToneLength || changeDetectedRestLength)
         {
-            if(changeDetectedToneLength)
+            wwiseInteractiveMusicManager.DirectorQueueProcessAll(); //whenever there is a change detected, process any queued a/v actions
+            
+            if(timeSinceLastColorChange > colorChangeMinimumTime)
             {
-                ChangeColor(imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f);
-            }
-            else if(changeDetectedRestLength)
-            {
-                ChangeColor(5.0f);
+                if(changeDetectedToneLength)
+                {
+                    ChangeColor(imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f);
+                }
+                else if(changeDetectedRestLength)
+                {
+                    ChangeColor(5.0f);
+                }
             }
         }
-        
-
-        timeSinceLastColorChange += Time.deltaTime;      
     }
 
     private void ChangeColor(float _seconds)
     {
         changeCount++;
-
+        timeSinceLastColorChange = 0.0f;
         wwiseAVSMusicManager.NextColorWorld(_seconds);
 
         float _rtpcTarget = changeCount % 2 == 0 ? 100.0f : 0.0f;
