@@ -8,6 +8,8 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 {
     public MusicSystem1ForPlayGround musicSystem1ForPlayGround;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
+    public RespirationTrackerForPlayground respirationTracker;
+    public GameValuesForPlayGround gameValues;
     public string currentSwitchState = "B";
     public string currentToningState = "None";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
@@ -45,6 +47,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
         finalStagePreLogicTime = 15f; 
         
+        StartCoroutine(AVS_Program_DynamicDrop());
         //Uncomment when CSV Writer is implemented
         /*if(csvWriter.GameMode == "Preperation")
         {
@@ -188,7 +191,77 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         }
     }
 
+    //public void AVS_ProgramControl()
+    //{
+        //Let's do this:
 
+        //When the lights first come on, fade relatively quickly from gamma to high alpha.
+        //Then, fade relatively slowly from high alpha to 10hz.
+        //Then, once absorption falls above a certain level, begin drop to theta.
+        //Once in theta, do either gamma-bursts or bilateral, depending on absorption.
+        //In last three minutes, bilateral strobing
+        //In last 60 seconds, quickly rise back to Beta while in bilateral.
+
+        //If we get a "change" at one of our holding places, switch to bilateral until next change.
+
+    //}
+
+    IEnumerator AVS_Program_DynamicDrop()
+    {
+        yield return null;
+
+        float _absorptionThreshold = UnityEngine.Random.Range(0.8f, 3.5f);
+
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Waiting for lights. Currently:" + wwiseAVSMusicManager.cycleRecent);
+
+        if(gameValues.developmentPlayground)
+        {
+            wwiseAVSMusicManager.SetColorWorldByType("Red", 0.0f);
+        }
+
+        while((wwiseAVSMusicManager.cycleRecent == "dark") || (wwiseAVSMusicManager.cycleRecent == "Dark"))
+        {
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Lights detected, set strobe to 45hz.");
+        wwiseAVSMusicManager.SetStrobeRate(5.0f, 0.0f);
+        float _timer = 10f;
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Initializeing drop from gamma to high alpha.");
+        _timer = 30f;
+        wwiseAVSMusicManager.SetStrobeRate(2.0f, _timer);
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        _timer = 120f;
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Begining drop from high alpha to 10hz.");
+        wwiseAVSMusicManager.SetStrobeRate(1.0f, _timer);
+
+        //now we will skip ahead if the absorption threshold is met.
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            if(respirationTracker._absorption > _absorptionThreshold)
+            {
+                Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Absorption threshold met, starting Theta coroutine");
+                //StartCoroutine(AVS_Program_DynamicDrop_Theta());
+                break;
+            }
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. AT END OF PROGRAM SO FAR.");
+
+    }
+
+    //IEnumerator AVS_Program_DynamicDrop_Theta()
+    //{
+    //}
 
     public void ChangeToningState()
     {

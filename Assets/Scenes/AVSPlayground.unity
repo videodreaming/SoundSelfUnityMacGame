@@ -6449,6 +6449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AVSColorCommand: 
   AVSStrobeCommand: 
+  cycleRecent: dark
   preferredColor: Red
   _strobePWM: 0
   _strobe1Smoothing: 0
@@ -9977,6 +9978,8 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096634}
   wwiseAVSMusicManager: {fileID: 437048159}
   wwiseInteractiveMusicManager: {fileID: 1564575221}
+  developmentPlayground: 1
+  developmentMode: 1
   _chantLerpSlowDamp1: 0
   _chantLerpSlowDamp2: 0
   _chantLerpFastDamp1: 0
@@ -20773,6 +20776,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSystem1ForPlayGround: {fileID: 619104376}
   wwiseAVSMusicManager: {fileID: 437048159}
+  respirationTracker: {fileID: 740096634}
+  gameValues: {fileID: 740096632}
   currentSwitchState: B
   currentToningState: None
   InteractiveMusicSilentLoopsRTPC: 0

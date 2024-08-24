@@ -16,9 +16,10 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     bool AVSColorSelected = false;
     bool AVSColorSelectedLastFrame = false;
     bool AVSColorChangeFrame = false;
+    bool bilateral = false;
     public string AVSColorCommand  = "";
     public string AVSStrobeCommand = "";
-    private string cycleRecent = "dark";
+    public string cycleRecent = "dark";
     public string preferredColor = "Red";
     private float  _brightness = 0.8f;
     private int cycleRed = 0;
@@ -35,6 +36,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     private float _debugValue3    = 0.0f;
     private float _debugValue4    = 0.0f;
     private int Qcount              = 0;
+    uint wave1ID;
 
     public uint rtpcID;
     public float frequencyWave1Value;
@@ -104,7 +106,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
 
 
         //Play all appropriate AVS waves
-        AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
+        wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
         AkSoundEngine.PostEvent("Play_AVS_Wave2", gameObject);
         AkSoundEngine.PostEvent("Play_AVS_Wave3", gameObject);
         
@@ -142,7 +144,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         m_devices = new AkDeviceDescriptionArray((int)deviceCount);
         AkSoundEngine.GetDeviceList(sharesetIdSystem, out deviceCount, m_devices);
     }
-    void SetStrobeRate(float _rate, float transitionTimeSec = 0.0f)
+    public void SetStrobeRate(float _rate, float transitionTimeSec = 0.0f)
     {
         if (AVSStrobeCommand != "")
         {
@@ -230,7 +232,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         }
         else
         {
-            cycleRecent = colorType;
+            cycleRecent = colorType; // this should not be necessary as it's also done in SetColorWorld
             switch (cycleCount % 3)
             {
                 case 1:
@@ -266,12 +268,24 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     {
         int transitionTimeMS = (int)(transitionTimeSec * 1000);
         float _v = _brightness;
+
+        //colorName is a color ("Red" "Blue" or "White") followed by a number (1, 2, or 3)
+        //I need a variable that is the color name without the number
+
+        if (colorName.Length > 0 && char.IsDigit(colorName[colorName.Length - 1]))
+        {
+            cycleRecent = colorName.Substring(0, colorName.Length - 1);
+        }
+        else
+        {
+            cycleRecent = colorName;
+        }
         
         SetWaveColor(1, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, _exponent);
         SetWaveColor(2, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, _exponent);
         SetWaveColor(3, waveColor.Item1*_v, waveColor.Item2*_v, waveColor.Item3*_v, transitionTimeMS, _exponent);
-        AVSColorCommand = $"Transition to {colorName} over {transitionTimeSec} s with exponent {_exponent}";
-        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s");
+        AVSColorCommand = $"Transition to {colorName} over {transitionTimeSec} s";
+        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s with exponent {_exponent} (and new cycleRecent of {cycleRecent})");
     }
 
     void SetWaveColor(int wave, float _red, float _green, float _blue, int transitionTimeMS, float _exponent = 1.0f)
@@ -321,7 +335,61 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         yield return null;
         //Debug.Log(stringRed + " Red is " + initialValueRed + " Green is " + initialValueGreen + " Blue is " + initialValueBlue);
     }
+    
+    IEnumerator GoDark(int milliseconds = 1000)
+    {
+        float timeRemaining = (milliseconds) / 1000f;
+        if(AVSColorChangeFrame)
+        {
+            yield break;
+        }
+        Debug.Log("Going dark - " + timeRemaining);
+        yield return null;
+        while(timeRemaining > 0)
+        {
+            if(AVSColorChangeFrame)
+            {
+                yield break;
+            }
+            timeRemaining -= Time.deltaTime;
+            yield return null;
+        }
+        if(AVSColorChangeFrame)
+        {
+            yield break;
+        }
+        else
+        {
+            AVSColorSelected = false;
+        }
+    }
     // DYNAMIC AVS CONTROL SYSTEMS
+    public void Wwise_Strobe_MonoStereo (bool doBilateral = false)
+    {
+        //AkSoundEngine.PostEvent("Stop_AVS_Wave1", gameObject);
+        if(doBilateral == bilateral)
+        {
+            Debug.Log("AVS: Bilateral switch command changed to " + doBilateral + ", but no change in state. Ignoring.");
+        }
+        else
+        {
+            AkSoundEngine.StopPlayingID(wave1ID);
+            //yield return new WaitForSeconds(1f);
+            if(doBilateral)
+            {
+                AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 1.0f, gameObject);
+                Debug.Log("AVS: Switching to Mono");
+                bilateral = true;
+            }
+            else
+            {
+                AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 0.0f, gameObject);
+                Debug.Log("AVS: Switching to Stereo");
+                bilateral = false;
+            }
+            wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
+        }
+    }
     public void Wwise_Strobe_ToneDisplay (float _input)
     {
         float _m2 = Mathf.Max(Mathf.Min(_gammaBurstMode, 1.0f), 0.0f);
@@ -396,34 +464,6 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         }
     }
 
-    IEnumerator GoDark(int milliseconds = 1000)
-    {
-        float timeRemaining = (milliseconds) / 1000f;
-        if(AVSColorChangeFrame)
-        {
-            yield break;
-        }
-        Debug.Log("Going dark - " + timeRemaining);
-        yield return null;
-        while(timeRemaining > 0)
-        {
-            if(AVSColorChangeFrame)
-            {
-                yield break;
-            }
-            timeRemaining -= Time.deltaTime;
-            yield return null;
-        }
-        if(AVSColorChangeFrame)
-        {
-            yield break;
-        }
-        else
-        {
-            AVSColorSelected = false;
-        }
-    }
-
     IEnumerator ReportStrobeTargetMet(float targetRate, float timeToWait)
     {
         float timeRemaining = timeToWait;
@@ -462,6 +502,14 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.C))
         {
             NextColorWorld(10f, 0.5f);
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Wwise_Strobe_MonoStereo(true);
+        }
+        else if (Input.GetKeyUp(KeyCode.V))
+        {
+            Wwise_Strobe_MonoStereo(false);
         }
         /*if(Input.GetKeyDown(KeyCode.C))
         {
