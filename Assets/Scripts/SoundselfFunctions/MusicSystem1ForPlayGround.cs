@@ -502,7 +502,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
     
     // ===== REWARD THUMPS =====
     //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0 due to inerpolation rules)
-
+    
     // ===== LIMITING THE FUNDAMENTAL DURING THE TRAINING PERIOD =====
     //REEF, we need to have a way of setting the fundamental from your audio manager, to limit the behavior during the training period.
     //It should be set, initially, to match the tone of Jaya's vocalizations. Lorna can tell you what that is. (update: A, which is 9, from Slack)
