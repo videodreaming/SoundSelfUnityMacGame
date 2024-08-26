@@ -228,6 +228,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
 
                             //REEF - THE ACTUAL ISSUE IS HAPPENING IN HERE.
                             //In case of toning for a long time, immediately trigger a change from the director queue
+                            //ROBIN - IF YOU NEED TO GO BACK TO A PREVIOUS VERSION, THE ORIGINAL CODE FOR HANDLING FUNDAMENTALS IS IN INTERPRETIMITONE() AND IS COMMENTED
                             if(checkForNewTone)
                             {
                                 if (checkForThreshold2)
