@@ -34,7 +34,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
     private float _queueFundamentalChangeThreshold = 25f;
-    private float _initiateImminentFundamentalChangeThreshold = 35f;
+    private float _initiateImminentFundamentalChangeThreshold = 40f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
 
