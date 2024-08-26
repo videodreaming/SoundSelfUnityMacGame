@@ -111,13 +111,14 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
             FundamentalUpdate();
 
             //REEF, WOULD YOU HELP ME FIGURE OUT WHY THIS ISN'T WORKING?
+            //WHAT'S INTERESTING IS, IN EACH OF THESE CASES, WHEN THE TESTING CODE IS RUNNING, WE DON'T EVEN GET TO SEE THE DEBUG LOG AT THE END.
             if(Input.GetKeyDown(KeyCode.E))
             {
                 countDebug++;
-
+                Debug.Log("Debugging E, CountDebug is " + countDebug);
                 if(countDebug % 4 == 0)
                 {
-
+                    bool testForExisting = false;
                     foreach (var item in wwiseInteractiveMusicManager.directorQueue)
                     {
                         if(item.Value.Item2 == "fundamentalChange")
@@ -139,7 +140,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                 }
                 else if (countDebug % 4 == 3)
                 {
-                    //wwiseInteractiveMusicManager.DirectorQueueProcessAll();
+                    wwiseInteractiveMusicManager.DirectorQueueProcessAll();
                     Debug.Log("Director Queue Process All");
                 }
             }
