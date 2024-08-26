@@ -45,7 +45,13 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     //2. The DirectorQueueUpdate function will update the time limit and execute the action when the time limit is reached.
     //3. The DirectorQueueProcessAll function will execute all actions in the queue. This is typically done when a change is detected in the GameValues script (those parts of that script should probably also be moved into a new director script with the rest of this, so it's all in one neat and tidy place)
 
-    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool expires)> directorQueue = new Dictionary<int, (Action, string, bool, bool, float, bool)>();
+    //THIS DICTIONARY IS INTERESTING
+    //It collects actions.
+    //One of three things can happen:
+    //1. If "DirectorQueueProcessAll()" is called, all the actions execute. We do this (mostly) when the system detects a change in player behavior
+    //2. If the time limit is reached, actions with "activateAtEnd" will activate on the next tone. Otherwise, they will expire. (See "DirectorQueueUpdate()")
+    //3. The queue can also be cleared.
+    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> directorQueue = new Dictionary<int, (Action, string, bool, bool, float, bool)>();
     public int directorQueueIndex = 0;
     // Start is called before the first frame update
     void Start()
@@ -291,6 +297,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         float _newAlpha = UnityEngine.Random.Range(8.0f, 12.0f);
 
         //TODO - THIS LOOP IS NOT WORKING, REPLACE IT WITH SOME OTHER MORE INTENTIONAL BEHAVIOR. IT AIN'T WORKING ANYWAY.
+        /*
         while(true)
         {
             if(AVS_Program_ManageThetaTransition(directorQueueIndexList))
@@ -303,13 +310,13 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                {
                     foreach (int index in directorQueueIndexList)
                     {
-                        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Removing " + directorQueue[index].Item2 + "item from director queue with index: " + index);
+                        Debug.Log(WakeUpCounter + " Director Queue (AVS Program: DynamicDrop.) Removing " + directorQueue[index].Item2 + "item from director queue with index: " + index);
                         directorQueue.Remove(index);
                     }
 
-                   directorQueue.Add(directorQueueIndex++, (Action_Strobe_MonoStereo(true), "monostereo", false, true, (120.0f / d), true));
+                   directorQueue.Add(directorQueueIndex++, (Action_Strobe_MonoStereo(true), "monostereo", false, true, (120.0f / d), false));
                    directorQueueIndexList.Add(directorQueueIndex - 1);
-                   Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Added monostereo=stereo to director queue.");
+                   Debug.Log(WakeUpCounter + " Director Queue [EDIT THIS] AVS Program: DynamicDrop. Added monostereo=stereo to director queue.");
                   
                    flag1 = true;
                    flag2 = false;
@@ -322,18 +329,18 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                {    //with more time, trigger both mono and a new alpha rate
                     foreach (int index in directorQueueIndexList)
                     {
-                        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Removing " + directorQueue[index].Item2 + "item from director queue with index: " + index);
+                        Debug.Log(WakeUpCounter + " Director Queue (AVS Program: DynamicDrop): Removing " + index + " " directorQueue[index].Item2);
                         directorQueue.Remove(index);
                     }
 
                     _newAlpha = UnityEngine.Random.Range(8.0f, 12.0f);
-                   directorQueue.Add(directorQueueIndex++, (Action_Strobe_Frequency(_newAlpha, 120.0f / d), "frequency", false, false, 60.0f / d, false));
+                   directorQueue.Add(directorQueueIndex++, (Action_Strobe_Frequency(_newAlpha, 120.0f / d), "frequency", false, false, 60.0f / d, true));
                    directorQueueIndexList.Add(directorQueueIndex - 1);
 
-                   directorQueue.Add(directorQueueIndex++, (Action_Strobe_MonoStereo(false), "monostereo", false, true, (60.0f / d), false));
+                   directorQueue.Add(directorQueueIndex++, (Action_Strobe_MonoStereo(false), "monostereo", false, true, (60.0f / d), true));
                     directorQueueIndexList.Add(directorQueueIndex - 1);
 
-                   Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Added monostereo=mono and target new alpha of " + _newAlpha + " to director queue.");
+                   Debug.Log(WakeUpCounter + " Director Queue (AVS Program: DynamicDrop). Added " + (directorQueueIndex - 1) + " and " + (directorQuqueIndex -2) + " monostereo=mono and target new alpha of " + _newAlpha + " to director queue.");
 
                    flag2 = true;
                    flag1 = false;
@@ -348,6 +355,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
            Debug.Log("TIMER :" + _timer2 + " flag1: " + flag1 + " flag2: " + flag2);
            yield return null;
         }
+        */
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Exiting DynamicDrop coroutine.");
         yield return null;
     }
@@ -361,7 +369,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             // Remove all items from the director queue that were created in this coroutine
             foreach (int index in directorQueueIndexList)
             {
-                Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Removing " + directorQueue[index].Item2 + "item from director queue with index: " + index);
+                Debug.Log(WakeUpCounter + " Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + directorQueue[index].Item2);
                 directorQueue.Remove(index);
             }
 
@@ -387,9 +395,9 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 
         if(wwiseAVSMusicManager.bilateral) //DISABLE BILATERAL
         {
-            directorQueue.Add(directorQueueIndex++, (Action_Strobe_MonoStereo(), "monostereo", false, true, 60.0f, false));
+            directorQueue.Add(directorQueueIndex++, (Action_Strobe_MonoStereo(), "monostereo", false, true, 60.0f, true));
             directorQueueIndexList.Add(directorQueueIndex - 1);
-            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Added monostereo=mono to director queue.");
+            Debug.Log(WakeUpCounter + " Director Queue: (AVS Program) DynamicDrop_Theta. Added " + (directorQueueIndex - 1) + " monostereo=mono to director queue.");
         }
         //TODO - ADD BEHAVIOR FOR DROPPING DOWN INTO THETA AND DOING GAMMA-BURSTS. STOP FOR SOME BILATERAL STROBING IF THERE'S TIME.
     }
@@ -405,6 +413,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 
     //REEF, these two functions should go in another script with the director queue
     //a function to go through the director queue, update the times, and execute the actions that have run out of time
+    //TODO, update the director queue to use the ActivateOnTone
     public void DirectorQueueUpdate()
     {
         List<int> keysToRemove = new List<int>();
@@ -420,14 +429,14 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             else
             {
                 //only execute the action if its "expires" bool is false
-                if(!value.expires)
+                if(value.activateAtEnd)
                 {
                     value.action(); // Perform the action when it runs out of time.
-                    Debug.Log("Director Queue: Action " + value.type + " executed from running out of time");
+                    Debug.Log("Director Queue: Action " + key + " " + value.type + " executed from running out of time");
                 }
                 else
                 {
-                    Debug.Log("Director Queue: Action " + value.type + " expired without executing");
+                    Debug.Log("Director Queue: Action " + key + " " + value.type + " expired without executing");
                 }
                 keysToRemove.Add(key);
             }
@@ -438,12 +447,30 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         }
     }
 
+    //a function that takes an action as a parameter, and waits for the next time toneActiveConfident becomes true to execute it
+    private IEnumerator ActivateOnTone(Action action, int id, string type)
+    {
+        Debug.Log("Director Queue: Action " + id + " " + type + " will activate when next tone begins");
+        //first, if we are toning, wait for this tone to finish...
+        while (imitoneVoiceIntepreter.toneActiveConfident)
+        {
+            yield return null;
+        }
+        //then, wait for the next tone to start
+        while(!imitoneVoiceIntepreter.toneActiveConfident)
+        {
+            yield return null;
+        }
+        //then run the action
+        action();
+    }
+
     public void DirectorQueueProcessAll()
     {
         foreach (var item in directorQueue)
         {
             item.Value.action();
-            Debug.Log("Director Queue: Action " + item.Value.type + " executed from process-all");
+            Debug.Log("Director Queue: Action " + item.Key + " " + item.Value.type + " executed from process-all");
         }
         directorQueue.Clear();
     }

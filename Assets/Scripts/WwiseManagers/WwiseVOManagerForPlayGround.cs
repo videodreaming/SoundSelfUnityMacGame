@@ -125,7 +125,6 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
                 {
                     //Robin to do AVS Stuff here
                     csvWriter.microphoneMonitoring = false;
-                    wwiseAVSMusicManager.NextColorWorld(5.0f);
                     userAudioSource.volume = 0.0f;
                      Debug.Log("WWise_Cue Mic OFF");
                 } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
@@ -133,6 +132,7 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
                     Debug.Log("WWise_PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum1_Start")
                 {
+                    wwiseAVSMusicManager.NextColorWorld(5.0f);
                     Debug.Log("WWise_Cue_LinearHum1_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum2_Start")
                 {
