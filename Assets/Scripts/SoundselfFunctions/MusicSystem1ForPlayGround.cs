@@ -33,8 +33,8 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
     public int musicNoteActivated = -1; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated    
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
-    private float _queueFundamentalChangeThreshold = 5f;
-    private float _initiateImminentFundamentalChangeThreshold = 10f;
+    private float _queueFundamentalChangeThreshold = 25f;
+    private float _initiateImminentFundamentalChangeThreshold = 35f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
 
@@ -109,41 +109,6 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
             }
 
             FundamentalUpdate();
-
-            //REEF, WOULD YOU HELP ME FIGURE OUT WHY THIS ISN'T WORKING?
-            //WHAT'S INTERESTING IS, IN EACH OF THESE CASES, WHEN THE TESTING CODE IS RUNNING, WE DON'T EVEN GET TO SEE THE DEBUG LOG AT THE END.
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                countDebug++;
-                Debug.Log("Debugging E, CountDebug is " + countDebug);
-                if(countDebug % 4 == 0)
-                {
-                    bool testForExisting = false;
-                    foreach (var item in wwiseInteractiveMusicManager.directorQueue)
-                    {
-                        if(item.Value.Item2 == "fundamentalChange")
-                        {
-                            testForExisting = true;
-                        }
-                    }  
-                    Debug.Log("SearchDirectorQueueForType: " + testForExisting);
-                }
-                else if (countDebug % 4 == 1)
-                {
-                    wwiseInteractiveMusicManager.ClearActionsOfTypeFromDirectorQueue("fundamentalChange");
-                    Debug.Log("Clear Actions of Type: fundamentalChange");
-                }
-                else if (countDebug % 4 == 2)
-                {
-                    wwiseInteractiveMusicManager.AddActionToDirectorQueue(Action_ChangeFundamentalNow(0), "fundamentalChange", true, false, 0f, true);
-                    Debug.Log("Add Action to Director Queue: fundamentalChange");
-                }
-                else if (countDebug % 4 == 3)
-                {
-                    wwiseInteractiveMusicManager.DirectorQueueProcessAll();
-                    Debug.Log("Director Queue Process All");
-                }
-            }
 
             //FUNDAMENTAL
             //Send commands to WWise to play the fundamental, either on new tone, or on fundamental change
@@ -227,9 +192,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                                 Debug.Log("MUSIC 5: checkForNewTone: " + checkForNewTone + " checkForThreshold1: " + checkForThreshold1 + " checkForThreshold2: " + checkForThreshold2);
                             }
 
-                            //REEF - THE ACTUAL ISSUE IS HAPPENING IN HERE.
-                            //In case of toning for a long time, immediately trigger a change from the director queue
-                            //ROBIN - IF YOU NEED TO GO BACK TO A PREVIOUS VERSION, THE ORIGINAL CODE FOR HANDLING FUNDAMENTALS IS IN INTERPRETIMITONE() AND IS COMMENTED
+                            
                             if(checkForNewTone)
                             {
                                 if (checkForThreshold2)
@@ -241,21 +204,8 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                                 }
                                 //otherwise, add the action to the director queue and wait patiently, as long as there isn't already one there.
                                 else if (checkForThreshold1)
-                                {
-                                    Debug.Log("Hello from " + ConvertIntToNote(scaleNote.Key));
-
-                                    bool testForExisting = false;
-
-                                    //search the director queue for any items matching the type "fundamentalChange"
-                                    foreach (var item in wwiseInteractiveMusicManager.directorQueue)
-                                    {
-                                        if(item.Value.Item2 == "fundamentalChange")
-                                        {
-                                            testForExisting = true;
-                                        }
-                                    }                                    
-
-                                    if (testForExisting)
+                                {                    
+                                    if (!wwiseInteractiveMusicManager.SearchDirectorQueueForType("fundamentalChange"))
                                     {
                                         
                                         if(debugAllowLogs)

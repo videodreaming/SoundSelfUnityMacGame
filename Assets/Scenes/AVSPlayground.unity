@@ -8383,7 +8383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wwiseVOManagerForPlayGround: {fileID: 486583136}
-  wwiseInteractiveMusicManagerForPlayGround: {fileID: 1564575221}
+  wwiseInteractiveMusicManager: {fileID: 1564575221}
   allowFundamentalChange: 1
   enableMusicSystem: 1
   imitoneVoiceInterpreter: {fileID: 740096635}
@@ -20789,6 +20789,9 @@ MonoBehaviour:
   elapsedTime: 0
   CFundamentalGHarmonyLock: 0
   csvWriter: {fileID: 662335749}
+  audioTweakCounter: 0
+  imminentTransitionTime: 5
+  directorQueueIndex: 0
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
