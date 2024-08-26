@@ -87,7 +87,9 @@ public class GameValuesForPlayGround : MonoBehaviour
     //The below 4 values require tweaking from gameplay observations. Notes from changes in comments below.
     private float _toneWindlassSpreadInitialize = 0.15f;
     private float _restWindlassSpreadInitialize = 0.075f; //Needs to be lower than toneWindlassSpreadInitialize
+    private float _windlassSpreadGrowthPerMinute_Init = 0.025f; // * mean duration
     private float _windlassSpreadGrowthPerMinute = 0.025f; // * mean duration
+    private float _anchorSpreadShrinkPerMinute_Init = 0.025f; // * mean duration
     private float _anchorSpreadShrinkPerMinute = 0.025f; // * mean duration
     private float _anchorSetMult = 2.0f;
 
@@ -327,6 +329,9 @@ public class GameValuesForPlayGround : MonoBehaviour
 
     private void changeDetection()
     {
+        _windlassSpreadGrowthPerMinute = _windlassSpreadGrowthPerMinute_Init * Mathf.Pow(2, (1-Mathf.Clamp(respirationTracker._absorption, 0, 1)));
+        _anchorSpreadShrinkPerMinute = _anchorSpreadShrinkPerMinute_Init * Mathf.Pow(2,(1-Mathf.Clamp(respirationTracker._absorption, 0, 1)));
+
         // Track the three most recent tone and breath durations from imitoneVoiceInterpreter using a library of the last 3 values
         if (imitoneVoiceInterpreter.toneActiveConfident)
         {

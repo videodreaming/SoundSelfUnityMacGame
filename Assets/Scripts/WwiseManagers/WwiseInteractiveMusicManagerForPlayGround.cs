@@ -53,7 +53,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     //3. The queue can also be cleared.
     public int audioTweakCounter = 0;
     public float imminentTransitionTime = 5.0f;
-    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> directorQueue = new Dictionary<int, (Action, string, bool, bool, float, bool)>();
+    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> directorQueue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
     public int directorQueueIndex = 0;
     // Start is called before the first frame update
     void Start()
@@ -149,6 +149,10 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         }
         if(wwiseVOManagerForPlayGround.interactive == true)
         {
+            //TODO: 
+            //The original logic for timing was made before the introduction of the director.
+            //As it is, there is more variability around the actual times that the transition occurs
+            //And the last stage will get as much as 2 minutes less play time.
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= soundWorldChangeTime)
             {
@@ -162,24 +166,20 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                 switch (currentStage)
                 {
                     case 1:
-                        Debug.Log("Stage 1 Gentle");
-                        AkSoundEngine.SetState("SoundWorldMode", "Gentle");
-                        wwiseAVSMusicManager.preferredColor = "Red";
+                        Debug.Log("Stage 1 Gentle Queued");
+                        QueueNewWorld("Gentle", "Red");
                         break;
                     case 2:
-                        Debug.Log("Stage 2 Shadow");
-                        AkSoundEngine.SetState("SoundWorldMode", "Shadow");
-                        wwiseAVSMusicManager.preferredColor = "Blue";
+                        Debug.Log("Stage 2 Shadow Queued");
+                        QueueNewWorld("Shadow", "Blue");
                         break;
                     case 3:
-                        Debug.Log("Stage 3 Shruti");
-                        AkSoundEngine.SetState("SoundWorldMode", "Shruti");
-                        wwiseAVSMusicManager.preferredColor = "White";
+                        Debug.Log("Stage 3 Shruti Queued");
+                        QueueNewWorld("Shruti", "White");
                         break;
                     case 4:
-                        Debug.Log("Stage 0 SonoFlore");
-                        AkSoundEngine.SetState("SoundWorldMode", "SonoFlore");
-                        wwiseAVSMusicManager.preferredColor = "Red";
+                        Debug.Log("Stage 0 SonoFlore Queued");
+                        QueueNewWorld("SonoFlore", "Red");
                         currentStage = 0;
                         break;
                 }   
@@ -392,9 +392,40 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         //TODO - ADD BEHAVIOR FOR DROPPING DOWN INTO THETA AND DOING GAMMA-BURSTS. STOP FOR SOME BILATERAL STROBING IF THERE'S TIME.
     }
 
-    public void AddActionToDirectorQueue(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLimit, bool activateAtEnd)
+    //TODO, TEST THIS
+    public void AddActionToDirectorQueue(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLimit, bool activateAtEnd, int exclusivityBehavior = 1)
     {
+        //exclusivity behavior works like this:
+        //0: NONE - No exclusivity, just add the action to the queue
+        //1: PREFER LOWEST TIME LEFT - Check if there are any actions of the same type in the queue. If there are, only add (replace) the action if the new action has less time left than the existing action.
+        // Code below:        
+        //2: ALWAYS REPLACE - Clear all actions of the same type from the queue, then add the action
+       
+        if(exclusivityBehavior == 1)
+        {
+            if(SearchDirectorQueueForType(type))
+            {
+                foreach (var item in directorQueue)
+                {
+                    if(item.Value.type == type)
+                    {
+                        if(item.Value.timeLeft <= timeLimit)
+                        {
+                            Debug.Log("Director Queue: Action " + type + " already exists in director queue with shorter timeLeft, not adding new one per exclusivity rules.");
+                            LogDirectorQueue();
+                            return;
+                        }
+                    }
+                }
+                ClearActionsOfTypeFromDirectorQueue(type);
+            }
+        }
+        else if(exclusivityBehavior == 2)
+        {
+            ClearActionsOfTypeFromDirectorQueue(type);
+        }
         directorQueue.Add(directorQueueIndex++, (action, type, isAudioAction, isVisualAction, timeLimit, activateAtEnd));
+
         Debug.Log("Director Queue: Added " + (directorQueueIndex - 1) + " " + type + " to director queue.");
         LogDirectorQueue();
     }
@@ -409,6 +440,24 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void QueueNewWorld(string world, string color)
+    {
+        AddActionToDirectorQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, 120.0f, true, 2);
+        AddActionToDirectorQueue(Action_SetPreferredColor(color), "ColorPreference", false, true, 120.0f, true, 2);
+        AddActionToDirectorQueue(Action_NextColorWorld(120.0f), "ColorCycle", false, true, 120.0f, true, 2);
+        AddActionToDirectorQueue(Action_PlayTransitionSound(), "TransitionSound", true, false, 120.0f, true, 2);
+    }
+
+    private Action Action_DirectorTest(string print)
+    {
+        return () => DirectorTest(print);
+    }
+
+    private void DirectorTest(string print)
+    {
+        Debug.Log("Director Test: " + print);
     }
 
     public void ClearActionsOfTypeFromDirectorQueue(string type)
@@ -428,6 +477,26 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         LogDirectorQueue();
         Debug.Log("Director Queue: Removed all " + type + " items from director queue.");
         LogDirectorQueue();
+    }
+    private Action Action_SetSoundWorld(string soundWorld)
+    {
+        return () => SetSoundWorld(soundWorld);
+    }
+
+    private void SetSoundWorld(string soundWorld)
+    {
+        AkSoundEngine.SetState("SoundWorldMode", soundWorld);
+        Debug.Log("Sound World Set To: " + soundWorld);
+    }
+
+    private Action Action_SetPreferredColor(string color)
+    {
+        return () => wwiseAVSMusicManager.SetPreferredColor(color);
+    }
+
+    private Action Action_NextColorWorld(float _seconds)
+    {
+        return () => wwiseAVSMusicManager.NextColorWorld(_seconds);
     }
     
     private Action Action_Strobe_MonoStereo(bool bilateral = false)
@@ -554,9 +623,14 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         
     }
 
+    private Action Action_PlayTransitionSound()
+    {
+        return () => PlayTransitionSound();
+    }
     private void PlayTransitionSound()
     {
         AkSoundEngine.PostEvent("Unity_TransitionSFX", gameObject);
+        Debug.Log("Transition Sound Played");
     }
 
     private void TweakAudio(float _seconds)

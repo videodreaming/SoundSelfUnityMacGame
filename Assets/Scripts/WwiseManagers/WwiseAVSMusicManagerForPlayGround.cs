@@ -634,4 +634,10 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         chargeVisualizationFlag = false;
         breathVisualizationFlag = false;
     }
+
+    public void SetPreferredColor(string color)
+    {
+        preferredColor = color;
+        Debug.Log("Preferred color set to: " + color);
+    }
 }
