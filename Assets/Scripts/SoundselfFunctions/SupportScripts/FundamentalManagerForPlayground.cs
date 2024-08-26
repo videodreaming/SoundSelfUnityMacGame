@@ -105,7 +105,10 @@ public class FundamentalManagerForPlayground : MonoBehaviour
     {
         float note = ChooseOffer();
         if (_offerRoutine != null) StopCoroutine(_offerRoutine);
-        _offerRoutine = StartCoroutine(OfferFundamental(_offerTime, note));
+        {
+            _offerRoutine = StartCoroutine(OfferFundamental(_offerTime, note));
+            Debug.Log("Fundamental Manager: Offering " + note);
+        }
     }
 
     private float ChooseOffer()

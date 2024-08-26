@@ -69,11 +69,8 @@ public class GameValuesForPlayGround : MonoBehaviour
     //CHANGE DETECTION
     private Dictionary<int, float> _toneDurations = new Dictionary<int, float>();
     private Dictionary<int, float> _restDurations = new Dictionary<int, float>();
-    private float timeSinceLastColorChange = 0.0f;
-    private float colorChangeMinimumTime = 35.0f;
     public bool changeDetectedToneLength = false;
     public bool changeDetectedRestLength = false;
-    private int changeCount = 0;
     private int toneRestCounterMax = 3; //not including the current one...
     private int toneDurationCounter = 0;
     private int restDurationCounter = 0;
@@ -85,13 +82,14 @@ public class GameValuesForPlayGround : MonoBehaviour
     private float _restAnchorHigh;
     private float _restAnchorLow;
     private bool restAnchored = false;
-    private float _toneWindlassSpreadInitialize = 0.15f;
-    private float _restWindlassSpreadInitialize = 0.1f;
     private float _toneWindlassSpread;
     private float _restWindlassSpread;
-    private float _anchorSetMult = 2.0f;
+    //The below 4 values require tweaking from gameplay observations. Notes from changes in comments below.
+    private float _toneWindlassSpreadInitialize = 0.15f;
+    private float _restWindlassSpreadInitialize = 0.075f; //Needs to be lower than toneWindlassSpreadInitialize
     private float _windlassSpreadGrowthPerMinute = 0.025f; // * mean duration
     private float _anchorSpreadShrinkPerMinute = 0.025f; // * mean duration
+    private float _anchorSetMult = 2.0f;
 
     void Start()
     {
@@ -327,7 +325,6 @@ public class GameValuesForPlayGround : MonoBehaviour
         //Debug.Log("ChantCharge " + chantChargeCoroutineCounter + " End");
     }
 
-    //REEF - all this "Change Detection" stuff should be put into a new director script, with all the director related things currently in the InteractiveMusicManager...
     private void changeDetection()
     {
         // Track the three most recent tone and breath durations from imitoneVoiceInterpreter using a library of the last 3 values
@@ -349,39 +346,22 @@ public class GameValuesForPlayGround : MonoBehaviour
             }
         }
 
-        //TODO: see why changing color is awkward while toning, suspect it has to do with crossfading color values, need to do with square root curve
-
-        timeSinceLastColorChange += Time.deltaTime;    
         if(changeDetectedToneLength || changeDetectedRestLength)
-        {
-            wwiseInteractiveMusicManager.DirectorQueueProcessAll(); //whenever there is a change detected, process any queued a/v actions
-            
-            if(timeSinceLastColorChange > colorChangeMinimumTime)
+        {            
+            if(changeDetectedToneLength)
             {
-                if(changeDetectedToneLength)
-                {
-                    ChangeColor(imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f);
-                }
-                else if(changeDetectedRestLength)
-                {
-                    ChangeColor(5.0f);
-                }
+                wwiseInteractiveMusicManager.imminentTransitionTime = imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f;
+                //ChangeColor(imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f);
             }
+            else if(changeDetectedRestLength)
+            {
+                wwiseInteractiveMusicManager.imminentTransitionTime = 5.0f;
+                //ChangeColor(5.0f);
+            }
+            
+            wwiseInteractiveMusicManager.DirectorQueueProcessAll(); //whenever there is a change detected, process any queued a/v actions
+
         }
-    }
-
-    private void ChangeColor(float _seconds)
-    {
-        changeCount++;
-        timeSinceLastColorChange = 0.0f;
-        wwiseAVSMusicManager.NextColorWorld(_seconds);
-
-        float _rtpcTarget = changeCount % 2 == 0 ? 100.0f : 0.0f;
-        int ms = (int)(_seconds * 1000.0f);
-        
-        AkSoundEngine.SetRTPCValue("Unity_SoundTweak", _rtpcTarget, gameObject, ms);
-
-        Debug.Log("Setting color to next " + wwiseAVSMusicManager.preferredColor);
     }
 
     // A coroutine that will be used to measure the duration of most recent tones or breaths
