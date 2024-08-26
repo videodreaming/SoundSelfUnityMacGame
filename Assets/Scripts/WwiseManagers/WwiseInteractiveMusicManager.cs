@@ -40,10 +40,12 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     //Fields for Guided Interactive Music Progression
     private int guidedVocalizationPlayCount = 0; // Tracks the number of times the sound has been played
     public bool IsTutorialTestingMicInput = false; // Tracks if we're in the humming session // i.e. if tutorial sequence is looking for sound
+    public float IsTutorialTestingMicInputTimer = 0.0f; 
     private bool canPlayGuidedVocalization = true; // Flag to allow or block playing the sound
     private float guidedVocalizationThreshold = 3.0f;
     public bool disableMicrophoneResponsiveness = true; // Flag to disable microphone responsiveness
     private bool disableMicrophoneResponsivenessDebugFlag = false; // please keep this "false" so we get alerts if it turns off on first frame
+    private bool previousToneActiveConfident = false; // Tracks the previous state of toneActiveConfident
 
 
     // Start is called before the first frame update
@@ -101,9 +103,10 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(imitoneVoiceIntepreter.toneActive == false)
+        if(imitoneVoiceIntepreter.toneActiveConfident == false)
         {
             thisTonesImpactPlayed = false;
+           
         }
         if(WakeUpCounter > -1.0f)
         {
@@ -118,19 +121,21 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }
         if (imitoneVoiceIntepreter.toneActiveConfident)
         {
-            if (!toneActiveTriggered)
-            {
-                toneActiveTriggered = true; // Set the flag to true after the event is triggered
-            }
+            IsTutorialTestingMicInputTimer += Time.deltaTime;
         }
         else
         {
-            if (toneActiveTriggered)
+            if(previousToneActiveConfident)
             {
-                //AkSoundEngine.StopPlayingID(playingId);
-                toneActiveTriggered = false; // Reset the flag when toneActiveConfident becomes false
+                Debug.Log("Player has just stopped Toning");
+                IsTutorialTestingMicInput = false;
+                canPlayGuidedVocalization = true;
+                disableMicrophoneResponsiveness = true;
             }
+            IsTutorialTestingMicInputTimer = 0.0f;
         }
+        previousToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
+
         if(wwiseVOManager.interactive == true)
         {
             HandleGuidedVocalization();
@@ -208,15 +213,13 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
             Debug.Log("Microphone Responsiveness is now: " + disableMicrophoneResponsiveness);
             disableMicrophoneResponsivenessDebugFlag = disableMicrophoneResponsiveness;
         }
+
     }
 
     private void HandleGuidedVocalization() // Robin naming convention feedback: let's call this "Tutorial"
     {
-        float t = 0.0f;
-        
         if ((guidedVocalizationPlayCount < 5) && canPlayGuidedVocalization)
         {
-            // variable IsTutorialTestingMicInput should be renamed to IsTutorialTestingMicInput
             // One more thing to be slightly mindful of - I'm going to want to use this variable, elsewhere in the scripts,
             // to disable some of the AVS and music behaviors connected to i.e. toneActive, chantCharge, etc.
             // So this should be accessible to me in some way that I can use it in other scripts. Ideally in this format:
@@ -257,43 +260,45 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
                 guidedVocalizationPlayCount++;
                 //Instead of IsTutorialTestingMicInput = true, Make it trigger with Cue Logic from Wwise.
                 IsTutorialTestingMicInput = true;
-
                 canPlayGuidedVocalization = false; // Block further plays until the next condition is met
             }
         }
-        
+        float timeWaiting = 0.0f; 
         if (IsTutorialTestingMicInput)
         {
             //PSUEDOCODE
-            //float timeWaiting; 
-            //timeWaiting += Time.deltaTime;
+            timeWaiting += Time.deltaTime;
 
             // TO DO: Replace "imitoneVoiceInterpreter.imitoneConfidentActiveTimer" with a new timer that respects isTutorialTestingMicInput, 
             // Check if the player is humming confidently for more than 3 seconds
             if (imitoneVoiceIntepreter.imitoneConfidentActiveTimer > guidedVocalizationThreshold)
             {
-                // FIRST, play a thump on success
-                // THEN... ONCE !toneActiveConfident
-                //FINISH TESTING BLOCK
-                 //Player hummed for more than 3 seconds, so allow the next play
-                /*
-                MODIFICATION: We shouldn't make the following changes until the next frame toneActiveConfident == false
-                 
-                sIsTutorialTestingMicInput = false;
-                canPlayGuidedVocalization = true; // Allow the next play
-                disableMicrophoneResponsiveness = true; // This should be set to true when we are in the beginning of the tutorial
-               */
+                if(!thisTonesImpactPlayed)
+                {
+                    // FIRST, play a thump on success
+                    AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
+                    thisTonesImpactPlayed = true;
+                }
+                if(imitoneVoiceIntepreter.toneActiveConfident == false)// THEN... ONCE !toneActiveConfident
+                {
+                    // MODIFICATION: We shouldn't make the following changes until the next frame toneActiveConfident == false
+                    IsTutorialTestingMicInput = false;
+                    canPlayGuidedVocalization = true; // Allow the next play
+                    disableMicrophoneResponsiveness = true; // This should be set to true when we are in the beginning of the tutorial
+                    thisTonesImpactPlayed = false;
+                }
+
             }
         }
         // REEF: Look and Test this
         // PSEUDOCODE for handling "Tutorial Corrections"
-        // if (timeWaiting > 8f)
-        // {
+        if (timeWaiting > 8f)
+        {
         //     // Play the correction sound
-        //     AkSoundEngine.PosstEvent("PLAYLIST TO BE FILLED OUT", gameObject);
-        //     IsTutorialTestingMicInput = true;
-        //     canPlayGuidedVocalization = false; // Allow the next play
-        // }
+            AkSoundEngine.PostEvent("PLAYLIST TO BE FILLED OUT", gameObject);
+            IsTutorialTestingMicInput = true;
+            canPlayGuidedVocalization = false; // Allow the next play
+        }
 
         // ANOTHER THING ROBIN WOULD LIKE TO ADD, THAT WILL REQUIRE LORNA'S HELP,
         // THAT CONTROLS WHEN WE ARE LOOKING FOR A TONE FROM THE PLAYER DYNAMICALLY
