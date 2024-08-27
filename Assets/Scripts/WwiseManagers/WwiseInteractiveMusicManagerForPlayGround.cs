@@ -60,6 +60,11 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> directorQueue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
     public int directorQueueIndex = 0;
     // Start is called before the first frame update
+    void Awake()
+    {
+        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
+    }
+
     void Start()
     {
         WakeUpCounter = 2280.0f;
@@ -89,9 +94,9 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         
 
         AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
+        //AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
+        //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
+        //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
         
         musicSystem1ForPlayGround.fundamentalNote = 9;
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
