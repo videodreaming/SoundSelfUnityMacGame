@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 
 public class WwiseVOManagerForPlayGround : MonoBehaviour
 {
+    WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManagerForPlayGround;
     public DevelopmentMode  developmentMode;
     public AudioManager audioManager;
     private bool debugAllowMusicLogs = true;
@@ -236,8 +237,8 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
                 {
                     Debug.Log("Playing Toning");
                 }
-                AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
-                AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
+                //Add Function
+                wwiseInteractiveMusicManagerForPlayGround.PostTheToningEvents();
             } else if (!currentToneActiveConfident && previousToneActiveConfident)
             {
                 AkSoundEngine.PostEvent("Stop_Toning",gameObject);

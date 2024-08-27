@@ -111,7 +111,12 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         //PlaySoundOnSpecificBus("Play_SilentLoops3_Harmonyonly", "Master Audio Bus");
     }
 
-
+    public void PostTheToningEvents()
+    {
+        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
+        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
+    }
+    
 
 
     // public void userToningToChangeFundamental(string fundamentalNote)
