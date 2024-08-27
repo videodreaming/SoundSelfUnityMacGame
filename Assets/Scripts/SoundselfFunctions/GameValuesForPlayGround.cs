@@ -283,7 +283,9 @@ public class GameValuesForPlayGround : MonoBehaviour
             }
             StartCoroutine(ChantChargeMemberCoroutine(_forceDurationToFill));
         }
-        _chantCharge = Mathf.Clamp(_chantChargeContributions.Values.Sum(), 0,1);    
+        _chantCharge = Mathf.Clamp(_chantChargeContributions.Values.Sum(), 0,1);
+        
+        AkSoundEngine.SetRTPCValue("Unity_Charge", _chantCharge*100.0f, gameObject);
     }
 
     private IEnumerator ChantChargeMemberCoroutine(float _forceDurationToFill= 0f) 

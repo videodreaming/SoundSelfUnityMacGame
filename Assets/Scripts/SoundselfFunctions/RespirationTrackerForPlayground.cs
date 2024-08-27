@@ -208,6 +208,7 @@ public class RespirationTrackerForPlayground : MonoBehaviour
             AkSoundEngine.SetState("AbsorptionMode", "Playful");
             Debug.Log("Switching to Playful Mode");
         }
+        AkSoundEngine.SetRTPCValue("Unity_Absorption", Mathf.Clamp(_absorption, 0f, 1f) * 100f , gameObject);
 
     }
 

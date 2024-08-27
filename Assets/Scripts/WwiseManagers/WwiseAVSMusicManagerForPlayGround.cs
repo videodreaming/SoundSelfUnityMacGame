@@ -500,7 +500,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave1", _strobePWM, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave2", _strobePWM, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave1", _strobe1Smoothing, gameObject);
-        AkSoundEngine.SetRTPCValue("Unity_Charge", _input*100.0f, gameObject);
+        
 
         if (chargeVisualizationFlag)
         {
@@ -515,7 +515,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         float _waveValue = 0.0f + 100.0f * _i;
 
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", _waveValue, gameObject);
-        AkSoundEngine.SetRTPCValue("Unity_Inhale", _input*100.0f, gameObject);
+        AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, gameObject);
 
         if (_i != 0.0f)
         //Debug.Log("Breath Wave Value: " + _waveValue);

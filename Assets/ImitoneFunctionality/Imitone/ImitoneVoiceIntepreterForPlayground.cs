@@ -319,7 +319,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
         }
 
         if(_vol1Sec > -1000.0f)
-        AkSoundEngine.SetRTPCValue("TONING_Volume", NormalizeVolume(_vol1Sec * 100f), gameObject);
+        AkSoundEngine.SetRTPCValue("TONING_Volume", 60f + NormalizeVolume(_vol1Sec * 40f), gameObject);
     }
 
     private float NormalizeVolume(float volume)
@@ -595,8 +595,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 toneActive = true;
                 toneActiveBiasTrue = true;
                 toneActiveBiasTrueTimer += Time.deltaTime;
-                AkSoundEngine.SetState("ToneActiveState", "Toning");
-                AkSoundEngine.SetSwitch("ToneActiveSwitch","Toning",gameObject);
+                AkSoundEngine.SetSwitch("ToneActive","Toning",gameObject);
             }
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
@@ -616,8 +615,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 if(imitoneInactiveTimer >= negativeActiveThreshold1)
                 {
                     toneActive = false;
-                    AkSoundEngine.SetState("ToneActiveState", "Resting");
-                    AkSoundEngine.SetSwitch("ToneActiveSwitch","Resting",gameObject);
+                    AkSoundEngine.SetSwitch("ToneActive","Resting",gameObject);
                 }
                 if(imitoneInactiveTimer >= negativeActiveThreshold2)
                 {
@@ -662,11 +660,20 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
                 StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
                 if(currentInhaleDuration > 6.0f)
-                AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
+                {
+                    //AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
+                }
+                
                 else if(currentInhaleDuration > 4.0f)
-                AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
+                {
+                    //AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
+                }
+                
                 else
-                AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
+                {
+                     //AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
+                }
+               
             }
 
             if (_tThisRest > _activeThreshold3)
@@ -725,7 +732,7 @@ private IEnumerator EndBreathVolumesOnNextTone()
     
     _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!isResettingTone) if statement above.
     endBreathVolumes = true;
-    AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
+    //AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
 }
 private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
     int coroutineID = _coroutineCounter++;
