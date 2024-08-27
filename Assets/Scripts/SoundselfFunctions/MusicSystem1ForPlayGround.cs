@@ -91,7 +91,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
 
     void Update()
     {
-        if(enableMusicSystem)
+        if(enableMusicSystem) //REEF - should enableMusicSystem just be wwiseVOManagerForPlayGround.interactive?
         {
             InterpretImitone();
 
@@ -99,7 +99,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
             {
                 BasicToning();
             }
-            
+
             //set musicToneActiveFrame to true for the first frame that toneActiveBiasTrue is true, and false for all other frames.
             if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
             {
