@@ -80,7 +80,6 @@ public class CSVWriter : MonoBehaviour
 
     void GetData()
     {
-
              string data = string.Join(";",
             $"{Time.time}",
             $"{respirationTracker._respirationRate}",
@@ -107,8 +106,6 @@ public class CSVWriter : MonoBehaviour
         );
         string encryptedData = EncryptionHelper.Encrypt(data);
         combinedData += encryptedData + " "; // Append encrypted data with a space as a separator
-        
-       
     }
 
     void ReadCSV()
@@ -131,6 +128,10 @@ public class CSVWriter : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            writeCSV();
+        }
         CheckPauseStatus();
         if (!paused)
         {
@@ -172,7 +173,7 @@ public class CSVWriter : MonoBehaviour
                         }
                         else if(controlStatus == "terminated")
                         {
-                            writeCSV();
+                            //writeCSV();
                             gameManagement.EndGame();
                         }
                     }
@@ -198,6 +199,25 @@ public class CSVWriter : MonoBehaviour
         Directory.CreateDirectory(sessionsFolder); // Ensure session folder exists
         session_resultsPath = Path.Combine(sessionsFolder, "session_results.csv");
         Debug.Log(baseSessionsFolderPath + session_resultsPath);
+
+        Debug.Log("Encrypted Data: " + combinedData);
+
+        string[] encryptedEntries = combinedData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        Debug.Log("Decrypted Data: ");
+        foreach (string encryptedEntry in encryptedEntries)
+        {
+            string decryptedEntry = EncryptionHelper.Decrypt(encryptedEntry);
+            Debug.Log(decryptedEntry);
+        }
+
+        using (TextWriter tw = new StreamWriter(session_resultsPath, true))
+        {   
+            // Write the encrypted data on the first line
+            tw.WriteLine(combinedData);
+        }
+
+        combinedData = ""; // Clear the combined data after writing to CSV
+        
         if (!File.Exists(session_resultsPath))
         {
             Debug.Log("created new file at: " + session_resultsPath);
