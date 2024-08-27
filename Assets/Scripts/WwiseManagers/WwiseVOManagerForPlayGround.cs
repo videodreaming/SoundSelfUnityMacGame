@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 
 public class WwiseVOManagerForPlayGround : MonoBehaviour
 {
+    public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManagerForPlayGround;
     public DevelopmentMode  developmentMode;
     public AudioManager audioManager;
     private bool debugAllowMusicLogs = true;
@@ -37,7 +38,7 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
 
     public CSVWriter csvWriter;
 
-    private bool silentPlaying = false;
+    //private bool silentPlaying = false;
     private bool previousToneActiveConfident = false;
 
 
@@ -212,39 +213,41 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
     }
     void Update()
     {
-        checkInteractive();
+        //checkInteractive();
 
        // Debug.Log("Wave 1 Red RTPC Value: " + GetRTPCValue("AVS_Red_Volume_Wave1"));
        
     }
-    void checkInteractive()
-    {
-         if(interactive == true)
-        {
-            if(silentPlaying == false)
-            {
-                // silentrtpcvolume.SetGlobalValue(targetValue);
-                // toningrtpcvolume.SetGlobalValue(targetValue);
-                // AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-                // AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-                // silentPlaying = true;
-            }
-            bool currentToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
-            if(currentToneActiveConfident && !previousToneActiveConfident)
-            {
-                if(debugAllowMusicLogs)
-                {
-                    Debug.Log("Playing Toning");
-                }
-                AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
-                AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
-            } else if (!currentToneActiveConfident && previousToneActiveConfident)
-            {
-                AkSoundEngine.PostEvent("Stop_Toning",gameObject);
-            }
-            previousToneActiveConfident = currentToneActiveConfident;
-        }
-    }
+
+    
+    // void checkInteractive()
+    // {
+    //      if(interactive == true)
+    //         {
+    //         if(silentPlaying == false)
+    //         {
+    //             // silentrtpcvolume.SetGlobalValue(targetValue);
+    //             // toningrtpcvolume.SetGlobalValue(targetValue);
+    //             // AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+    //             // AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+    //             // silentPlaying = true;
+    //         }
+    //         bool currentToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
+    //         if(currentToneActiveConfident && !previousToneActiveConfident)
+    //         {
+    //             if(debugAllowMusicLogs)
+    //             {
+    //                 Debug.Log("Playing Toning");
+    //             }
+    //             //Add Function
+    //             wwiseInteractiveMusicManagerForPlayGround.PostTheToningEvents();
+    //         } else if (!currentToneActiveConfident && previousToneActiveConfident)
+    //         {
+    //             AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+    //         }
+    //         previousToneActiveConfident = currentToneActiveConfident;
+    //     }
+    // }
 
 
     
