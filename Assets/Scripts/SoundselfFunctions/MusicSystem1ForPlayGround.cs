@@ -29,7 +29,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
     private Dictionary<int, bool> Fundamentals = new Dictionary<int, bool>(); // Tracks if a note is a fundamental tone
     private Dictionary<int, bool> Harmonies = new Dictionary<int, bool>(); // Tracks if a note is a harmony
     
-    // IMITONE INTERPRETATION
+    // IMITONE INTERPRETATION AND BASIC TONES
     private float musicNoteInputRaw; // The raw note input from voice interpretation
     private float musicNoteInput; // Adjusted musical note input after processing
     public int musicNoteActivated = -1; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated    
@@ -39,6 +39,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
     private float _initiateImminentFundamentalChangeThreshold = 40f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
+    private bool previousToneActiveConfident = false;
 
     // FUNDAMENTAL AND HARMONY CONTROL
     private bool musicToneActiveFrame; // Turns on the frame that a vocalization is interpreted by the music system.
@@ -93,6 +94,12 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
         if(enableMusicSystem)
         {
             InterpretImitone();
+
+            if(wwiseVOManagerForPlayGround.interactive == true)
+            {
+                BasicToning();
+            }
+            
             //set musicToneActiveFrame to true for the first frame that toneActiveBiasTrue is true, and false for all other frames.
             if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
             {
@@ -296,6 +303,41 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                 Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
             }
         }
+    }
+
+
+    void BasicToning()
+    {       
+        //if(wwiseVOManagerForPlayGround.silentPlaying == false)
+        //{
+            // silentrtpcvolume.SetGlobalValue(targetValue);
+            // toningrtpcvolume.SetGlobalValue(targetValue);
+            // AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+            // AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+            // silentPlaying = true;
+        //}
+        
+        bool currentToneActiveConfident = imitoneVoiceInterpreter.toneActiveConfident;
+        if(currentToneActiveConfident && !previousToneActiveConfident)
+        {
+            if(true)
+            {
+                Debug.Log("Post Toning Events to Wwise");
+            }
+
+            //Add Function
+            wwiseInteractiveMusicManager.PostTheToningEvents();
+
+        } else if (!currentToneActiveConfident && previousToneActiveConfident)
+        {
+            if(true)
+            {
+                Debug.Log("Post Toning Events STOP to Wwise");
+            }
+            AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+        }
+        previousToneActiveConfident = currentToneActiveConfident;
+        
     }
 
     private void InterpretImitone()
