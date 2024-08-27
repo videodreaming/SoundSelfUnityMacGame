@@ -311,7 +311,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         SetWaveColor(2, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, exponentialCurve);
         SetWaveColor(3, waveColor.Item1*_v, waveColor.Item2*_v, waveColor.Item3*_v, transitionTimeMS, exponentialCurve);
         AVSColorCommand = $"Transition to {colorName} over {transitionTimeSec} s";
-        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s with new cycleRecent of {cycleRecent})");
+        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s with new cycleRecent of {cycleRecent}");
     }
 
     void SetWaveColor(int wave, float _red, float _green, float _blue, int transitionTimeMS, bool exponentialCurve = false)

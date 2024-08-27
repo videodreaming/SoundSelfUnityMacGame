@@ -19,6 +19,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
     //base variables pitch and midiNote
     public DevModeSettings DevModeSettings;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
+    public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManager;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
@@ -128,6 +129,17 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
     private float UpperThreshold = -20.0f;
     private float LowerThreshold = -35.0f;
 
+    //Volume Tracking
+    private List<(float, float)> volumes1s = new List<(float, float)>();
+    private List<(float, float)> anomalyBaselineVolumes = new List<(float, float)>();
+    private float _vol1Sec = 0.0f;
+    private float _anomalyBaseline = 0.0f;
+    private float _timerForAnomalyBaselines = 0.0f;
+    private bool _volFlagA = false;
+    private float _anomalyBaselineMeasurementTime = 60.0f;
+    private float _volumeAnomalyThresholdDb_init = 6.0f;
+    private float _volumeAnomalyThresholdDbDecreaseRate = 0.5f;//per minute
+    private float _volumeAnomalyThresholdDb;
     //DevMode
     public string imitoneConfig;
 
@@ -144,6 +156,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
    
     void Start()
     {
+        _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
         _audioSource = GetComponent<AudioSource>();
         //Checking for all devices in the list of devices 
         foreach (var device in Microphone.devices)
@@ -212,7 +225,103 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
         SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
+        TrackMicVolume();
         wwiseAVSMusicManager.Wwise_BreathDisplay(_breathVolume);
+    }
+
+    private void TrackMicVolume()
+    {
+
+        //We are trying to detect when the volume rises up. 
+        //This means that right now, the most recent one second has been the loudest of the last 30 seconds, AND the loudest of the last 2 minutes.
+        //It will trigger the Director Queue to process its contents.
+        //It will also not be able to trigger again for another 30 seconds.
+        //first, get the average volume of the last one second
+        
+        if(toneActive)
+        {
+            //RECORD 1S DATA
+            volumes1s.Add((Time.time, _dbMicrophone));       
+        }
+        
+        if(toneActiveConfident)
+        {
+            //LOG 1S AVERAGE
+            _vol1Sec = volumes1s.Average(x => x.Item2);
+            _volFlagA = false;
+
+            //RECORD ANOMALY BASELINE DATA
+            _timerForAnomalyBaselines += Time.deltaTime;
+            if (_timerForAnomalyBaselines >= 0.1f)
+            {
+                anomalyBaselineVolumes.Add((Time.time, _vol1Sec));
+                _timerForAnomalyBaselines = 0.0f;
+            }
+            
+        }
+        else if(!_volFlagA || !toneActive)
+        {
+            //CLEAR DATA FROM 1S
+            volumes1s.Clear();
+            _vol1Sec = -1000.0f;
+            _volFlagA = true;
+        }
+
+        //CALCULATE ANOMALY BASELINE FROM 1M AVERAGE
+        if(anomalyBaselineVolumes.Count > 0)
+        {
+            _anomalyBaseline = anomalyBaselineVolumes.Average(x => x.Item2);
+        }
+        else
+        {
+            _anomalyBaseline = 0.0f;
+        }
+        float _secsCapturedBaseline = anomalyBaselineVolumes.Count * 0.1f;
+        
+        //DETECT VOLUME ANOMALY
+        _volumeAnomalyThresholdDb -= _volumeAnomalyThresholdDbDecreaseRate * Time.deltaTime / 60.0f;
+        _volumeAnomalyThresholdDb = Mathf.Max(_volumeAnomalyThresholdDb, 2.0f);
+        bool captureThreshold = _secsCapturedBaseline > 15f;
+        if (captureThreshold && (_vol1Sec > (_anomalyBaseline + _volumeAnomalyThresholdDb)))
+        {
+            Debug.Log("Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
+            _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
+
+            wwiseInteractiveMusicManager.DirectorQueueProcessAll();
+
+            //Clear the anomaly baseline data
+            anomalyBaselineVolumes.Clear();
+            float highestVolume = volumes1s.Max(x => x.Item2);
+            //add in the equivalent of 7.5 seconds of data to the anomaly baseline, at a value equal to the highest value in volumes1s
+            for (int i = 0; i < 75; i++)
+            {
+                anomalyBaselineVolumes.Add((Time.time, highestVolume));
+            }
+        }
+
+        //CLEAR DATA THAT IS TOO OLD
+        foreach (var entry in volumes1s)
+        {
+            if (entry.Item1 < Time.time - 1.0f)
+            {
+                volumes1s.Remove(entry);
+            }
+        }
+        foreach (var entry in anomalyBaselineVolumes)
+        {
+            if (entry.Item1 < Time.time - _anomalyBaselineMeasurementTime) // 60 seconds...
+            {
+                anomalyBaselineVolumes.Remove(entry);
+            }
+        }
+
+        if(_vol1Sec > -1000.0f)
+        AkSoundEngine.SetRTPCValue("TONING_Volume", NormalizeVolume(_vol1Sec * 100f), gameObject);
+    }
+
+    private float NormalizeVolume(float volume)
+    {
+        return Mathf.Clamp(Mathf.InverseLerp(-55.0f, -29.0f, volume), 0.0f, 1.0f);
     }
 
     private void SetNoiseFloorThreshold()

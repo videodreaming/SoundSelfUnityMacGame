@@ -11,7 +11,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
     public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManager;
     
     public RespirationTrackerForPlayground respirationTracker;
-    private bool debugAllowLogs = true;
+    private bool debugAllowLogs = false;
     // Variables
     public bool allowFundamentalChange = true;
     public bool enableMusicSystem = true;
