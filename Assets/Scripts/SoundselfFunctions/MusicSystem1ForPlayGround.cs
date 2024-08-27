@@ -11,7 +11,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
     public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManager;
     
     public RespirationTrackerForPlayground respirationTracker;
-    private bool debugAllowLogs = false;
+    private bool debugAllowLogs = true;
     // Variables
     public bool allowFundamentalChange = true;
     public bool enableMusicSystem = true;
@@ -273,7 +273,6 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
         if(wwiseInteractiveMusicManager.CFundamentalGHarmonyLock == false && allowFundamentalChange)
         {
             wwiseInteractiveMusicManager.userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
-            
             if(debugAllowLogs)
             {
                 Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));

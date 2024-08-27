@@ -6,6 +6,9 @@ using System;
 
 public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 {
+    private int fundamentalCount = -1;
+    private int harmonyCount = -1;
+
     public DevelopmentMode developmentMode;
     public MusicSystem1ForPlayGround musicSystem1ForPlayGround;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
@@ -109,21 +112,72 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     }
 
 
-    public void userToningToChangeFundamental(string fundamentalNote)
-    {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote ,gameObject);
-        Debug.Log("Fundamental Note Set To: " + fundamentalNote);
-    }
-    public void changeHarmony(string harmonyNote)
-    {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-        Debug.Log("Harmony Note Set To: " + harmonyNote);
-    }
+
+
+    // public void userToningToChangeFundamental(string fundamentalNote)
+    // {
+    //     AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
+    //     Debug.Log("Fundamental Note Set To: " + fundamentalNote);
+    // }
+    // public void changeHarmony(string harmonyNote)
+    // {
+    //     AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
+    //     Debug.Log("Harmony Note Set To: " + harmonyNote);
+    // }
 
    
     // Update is called once per frame
     void Update()
     {
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            fundamentalCount++;
+            int mod = fundamentalCount % 3;
+            int note = 0;
+            
+            switch(mod)
+            {
+                case 0:
+                    note = 0;
+                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(note), gameObject);
+                    break;
+                case 1:
+                    note = 5;
+                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(note), gameObject);
+                    break;
+                case 2:
+                    note = 8;
+                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(note), gameObject);
+                    break;
+            }
+
+            Debug.Log("Fundamental Note: " + ConvertIntToNote(note));
+        }
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            harmonyCount++;
+            int mod = harmonyCount % 3;
+            int note = 0;
+
+            switch(mod)
+            {
+                case 0:
+                    note = 1;
+                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(note), gameObject);
+                    break;
+                case 1:
+                    note = 6;
+                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(note), gameObject);
+                    break;
+                case 2:
+                    note = 10;
+                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(note), gameObject);
+                    break;
+            }
+
+            Debug.Log("Harmony Note: " + ConvertIntToNote(note));
+        }
         DirectorQueueUpdate(); //TODO: put this in a separate script with director stuff
 
         if(imitoneVoiceIntepreter.toneActive == false)
