@@ -11,7 +11,7 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
 {
     public DevelopmentMode  developmentMode;
     public AudioManager audioManager;
-    private bool debugAllowMusicLogs = false;
+    private bool debugAllowMusicLogs = true;
     private bool pause = true;
     public CSVWriter CSVWriter;
 

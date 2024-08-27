@@ -399,39 +399,6 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                             isActive = true;
                             musicNoteActivated = scaleNote.Key;
                             activations[scaleNote.Key] = isActive;
-                
-                            // ===== FUNDAMENTAL CHANGING LOGIC =====
-                            // (ROBIN WOULD LIKE TO MOVE THIS AND OTHER FUNDAMENTAL BEHAVIORS INTO ANOTHER METHOD FOR CLARITY, BECAUSE THIS IS MESSY) [DONE, BUT KEEPING IT HERE COMMENTED FOR NOW]
-                            /*
-                            if (scaleNote.Key != fundamentalNote)
-                            {
-                                newChangeFundamentalTimer += Time.deltaTime;
-
-                                if (firstFrameActive)
-                                {
-                                    if(debugAllowLogs)
-                                    {
-                                        Debug.Log("MUSIC 5: Change Fundamental Timer for " + ConvertIntToNote(scaleNote.Key) + ": " + newChangeFundamentalTimer);
-                                    }
-                                    bool checkForNewTone = imitoneVoiceInterpreter._tThisToneBiasTrue < 2.0f;
-                                    bool checkForThreshold = newChangeFundamentalTimer >= _cueFundamentalChangeThreshold;
-                                    if (checkForThreshold && checkForNewTone && allowFundamentalChange)
-                                    {
-                                        fundamentalNote = scaleNote.Key;
-                                        fundamentalChanges[scaleNote.Key] = true;
-                                        if(wwiseInteractiveMusicManagerForPlayGround.CFundamentalGHarmonyLock == false)
-                                        {
-                                            wwiseInteractiveMusicManagerForPlayGround.userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
-                                        }
-                                        if(debugAllowLogs)
-                                        {
-                                            Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
-                                        }
-                                    
-                                    }
-                                }
-                            }
-                            */
                         }
                     }
                     updates[scaleNote.Key] = (newActivationTimer, isActive, firstFrameActive, scaleNote.Value.ChangeFundamentalTimer);
