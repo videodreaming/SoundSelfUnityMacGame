@@ -23,8 +23,8 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     private bool toneActiveTriggered = false; // Flag to control the event triggering
 
     [SerializeField]
-    private float elapsedTime = 0f; // Tracks the elapsed time since the start
     private int currentStage = 0; // Tracks the current stage of the sound world
+    private bool musicProgressionFlag = false;
 
     private float interactiveMusicExperienceTotalTime;
     private float finalStagePreLogicTime;
@@ -151,44 +151,16 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                 toneActiveTriggered = false; // Reset the flag when toneActiveConfident becomes false
             }
         }
-        if(wwiseVOManagerForPlayGround.interactive == true)
-        {
-            //TODO: 
-            //The original logic for timing was made before the introduction of the director.
-            //As it is, there is more variability around the actual times that the transition occurs
-            //And the last stage will get as much as 2 minutes less play time.
-            elapsedTime += Time.deltaTime;
-            if (elapsedTime >= soundWorldChangeTime)
-            {
-                if (currentStage == 0)
-                {
-                    Debug.Log("Stage 0 SonoFlore");
-                }
-                elapsedTime = 0f; // Reset elapsed time
-                currentStage++; // Move to the next stage
-                
-                switch (currentStage)
-                {
-                    case 1:
-                        Debug.Log("Stage 1 Gentle Queued");
-                        QueueNewWorld("Gentle", "Red");
-                        break;
-                    case 2:
-                        Debug.Log("Stage 2 Shadow Queued");
-                        QueueNewWorld("Shadow", "Blue");
-                        break;
-                    case 3:
-                        Debug.Log("Stage 3 Shruti Queued");
-                        QueueNewWorld("Shruti", "White");
-                        break;
-                    case 4:
-                        Debug.Log("Stage 0 SonoFlore Queued");
-                        QueueNewWorld("SonoFlore", "Red");
-                        currentStage = 0;
-                        break;
-                }   
-            }
 
+        
+        if(wwiseVOManagerForPlayGround.interactive && !musicProgressionFlag)
+        {
+            musicProgressionFlag = true;
+            StartCoroutine(StartMusicalProgression());
+        }
+
+        if(wwiseVOManagerForPlayGround.interactive)
+        {
             if(imitoneVoiceIntepreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
             {
                 AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
@@ -208,7 +180,6 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                     AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
                     thisTonesImpactPlayed = true;   
                 }
-
             }
         }
     }
@@ -227,6 +198,42 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         //If we get a "change" at one of our holding places, switch to bilateral until next change.
 
     //}
+
+    IEnumerator StartMusicalProgression()
+    {
+        float _t = WakeUpCounter;
+        float _tQueueShadow = _t * 1f/4f - 60f;
+        float _tQueueShruti = _t * 2f/4f - 60f;
+        float _tQueueSonoflore = _t * 3f/4f - 60f;
+
+        Debug.Log("Music Progression: Stage 0 SonoFlore");
+        QueueNewWorld("Gentle", "Red");
+
+        while(_t >= _tQueueShadow)
+        {
+            _t -= Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("Music Progression: Stage 1 Gentle");
+        QueueNewWorld("Shadow", "Blue");
+
+        while(_t >= _tQueueShruti)
+        {
+            _t -= Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("Music Progression: Stage 2 Shadow");
+        QueueNewWorld("Shruti", "White");
+
+        while(_t >= _tQueueSonoflore)
+        {
+            _t -= Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("Music Progression: Stage 3 Shruti");
+        QueueNewWorld("SonoFlore", "Red");
+
+    }
 
     IEnumerator AVS_Program_DynamicDrop()
     {
@@ -473,8 +480,6 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             yield return null;
         }
         
-
-
         //NEAR END (NEXT METHOD), START IN BILATERAL AND NO GAMMA, THEN COME ALL THE WAY UP TO 40HZ
     }
     
