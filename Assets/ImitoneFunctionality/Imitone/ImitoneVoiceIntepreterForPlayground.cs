@@ -278,6 +278,9 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
         }
         float _secsCapturedBaseline = anomalyBaselineVolumes.Count * 0.1f;
         
+        //Debug.Log("Volume 1s: " + _vol1Sec + " Volume 1m: " + _anomalyBaseline + " Seconds Captured 1m: " + _secsCapturedBaseline + " Anomaly Threshold: " + _volumeAnomalyThresholdDb);
+
+
         //DETECT VOLUME ANOMALY
         _volumeAnomalyThresholdDb -= _volumeAnomalyThresholdDbDecreaseRate * Time.deltaTime / 60.0f;
         _volumeAnomalyThresholdDb = Mathf.Max(_volumeAnomalyThresholdDb, 2.0f);
@@ -300,18 +303,18 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
         }
 
         //CLEAR DATA THAT IS TOO OLD
-        foreach (var entry in volumes1s)
+        for (int i = volumes1s.Count - 1; i >= 0; i--)
         {
-            if (entry.Item1 < Time.time - 1.0f)
+            if (volumes1s[i].Item1 < Time.time - 1.0f)
             {
-                volumes1s.Remove(entry);
+                volumes1s.RemoveAt(i);
             }
         }
-        foreach (var entry in anomalyBaselineVolumes)
+        for (int i = anomalyBaselineVolumes.Count - 1; i >= 0; i--)
         {
-            if (entry.Item1 < Time.time - _anomalyBaselineMeasurementTime) // 60 seconds...
+            if (anomalyBaselineVolumes[i].Item1 < Time.time - _anomalyBaselineMeasurementTime) // 60 seconds...
             {
-                anomalyBaselineVolumes.Remove(entry);
+                anomalyBaselineVolumes.RemoveAt(i);
             }
         }
 

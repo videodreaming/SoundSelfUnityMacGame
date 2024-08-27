@@ -21,7 +21,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     public string AVSStrobeCommand = "";
     public string cycleRecent = "dark";
     public string preferredColor = "Red";
-    private float  _brightness = 0.8f;
+    private float  _brightness = 0.6f;
     private int cycleRed = 0;
     private int cycleBlue = 0;
     private int cycleWhite = 0;
@@ -40,6 +40,8 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     uint wave1ID;
     public uint rtpcID;
     public float frequencyWave1Value;
+    private Coroutine sawStrobeCoroutine;
+    private Coroutine gammaCoroutine;
     public Color toneWaveColor = new Color(0.0f, 0.0f, 0.0f);
     public Color breathWaveColor = new Color(0.0f, 0.0f, 0.0f);
     
@@ -163,23 +165,66 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         AkSoundEngine.GetDeviceList(sharesetIdSystem, out deviceCount, m_devices);
     }
 
-    public void SetStrobeRate(float _rate, float transitionTimeSec = 0.0f)
+    public void SetSawStrobe(float _start, float _end, float cycleLength)
     {
+        if (sawStrobeCoroutine != null)
+        {
+            Debug.Log("Saw Strobe already running, stopping and restarting with new parameters");
+            StopCoroutine(sawStrobeCoroutine);
+        }
+        AVSStrobeCommand = "Saw Strobe: " + _start + " to " + _end + " at " + cycleLength + "s wavelength";
+        sawStrobeCoroutine = StartCoroutine(SawStrobeCoroutine(_start, _end, cycleLength));
+    }
+
+    private IEnumerator SawStrobeCoroutine(float _start, float _end, float cycleLength)
+    {
+        yield return null; //wait one frame to ensure that AVSStrobeCommand can update.
+        float _timeRemaining = cycleLength;
+        
+        SetStrobeRate(_end, cycleLength/2f, true);
+
+        while(_timeRemaining > (cycleLength/2f))
+        {
+            _timeRemaining -= Time.deltaTime;
+            yield return null;
+        }
+
+        SetStrobeRate(_start, cycleLength/2f, true);
+
+        while(_timeRemaining > 0)
+        {
+            _timeRemaining -= Time.deltaTime;
+            yield return null;
+        }
+
+        sawStrobeCoroutine = StartCoroutine(SawStrobeCoroutine(_start, _end, cycleLength));
+    }
+
+    public void SetStrobeRate(float _rate, float transitionTimeSec = 0.0f, bool partOfCoroutine = false)
+    {
+        if(!partOfCoroutine && sawStrobeCoroutine != null)
+        {
+            StopCoroutine(sawStrobeCoroutine);
+            Debug.Log("Saw Strobe Coroutine stopped");
+        }
+
         if (AVSStrobeCommand != "")
         {
-            Debug.Log("Warning: Strobe Command already made this frame, ignoring new command for " + _rate + " Hz");
-            return;
+            Debug.LogWarning("Warning: Strobe Command already made this frame, proceeding with new rate of " + _rate + " Hz, but this should really only happen once per frame");
         }
+
         int transitionTimeMS = (int)(transitionTimeSec * 1000);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave1", _rate, gameObject, transitionTimeMS);
         if(transitionTimeMS == 0)
         {
             Debug.Log("Strobe Rate set to: " + _rate + " Hz immediately");
+            if(!partOfCoroutine)
             AVSStrobeCommand = "Strobe Rate: " + _rate + " Hz immediately";
         }
         else
         {
             Debug.Log("Strobe Rate set to: " + _rate + " Hz over " + transitionTimeMS + " ms");
+            if(!partOfCoroutine)
             AVSStrobeCommand = "Strobe Rate: " + _rate + " Hz over " + transitionTimeMS + " ms";
             //StartCoroutine(ReportStrobeTargetMet(_rate, transitionTimeSec));
         }
@@ -437,7 +482,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
 
         if (toneVisualizationFlag)
         {
-            Debug.Log("Warning: AVS Tone Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+            Debug.LogWarning("Warning: AVS Tone Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
         }
         toneVisualizationFlag    = true;
     
@@ -459,7 +504,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
 
         if (chargeVisualizationFlag)
         {
-            Debug.Log("Warning: AVS Charge Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+            Debug.LogWarning("Warning: AVS Charge Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
         }
         chargeVisualizationFlag = true;
     }
@@ -477,10 +522,47 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
 
         if(breathVisualizationFlag)
         {
-            Debug.Log("Warning: AVS Breath Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+            Debug.LogWarning("Warning: AVS Breath Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
         }
         breathVisualizationFlag = true;
+    }
 
+    public void Gamma(bool gammaOn)
+    {
+        if(gammaOn)
+        {
+            if(gammaCoroutine != null)
+            {
+                StopCoroutine(gammaCoroutine);
+            }
+            gammaCoroutine = StartCoroutine(GammaCoroutine(1.0f, 2.0f));
+        }
+        else
+        {
+            if(gammaCoroutine != null)
+            {
+                StopCoroutine(gammaCoroutine);
+            }
+            gammaCoroutine = StartCoroutine(GammaCoroutine(0.0f, 2.0f));
+        }
+    }
+
+    private IEnumerator GammaCoroutine(float _target, float _duration = 2.0f)
+    {
+        float _difference = _target - _gammaBurstMode;
+        bool _up = _difference > 0;
+        float _rate = _difference / _duration;
+
+        //move to the target in the given time
+        while(_gammaBurstMode != _target)
+        {
+            _gammaBurstMode += _rate * Time.deltaTime;
+            if((_up && _gammaBurstMode > _target) || (!_up && _gammaBurstMode < _target))
+            {
+                _gammaBurstMode = _target;
+            }
+            yield return null;   
+        }
     }
 
     void printDevicesList() 
@@ -500,25 +582,6 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         }
     }
 
-    IEnumerator ReportStrobeTargetMet(float targetRate, float timeToWait)
-    {
-        float timeRemaining = timeToWait;
-        yield return null;
-        while(timeRemaining > 0)
-        {
-            if(AVSStrobeCommand != "")
-            {
-                yield break;
-            }
-            timeRemaining -= Time.deltaTime;
-            yield return null;
-        }
-        if(AVSStrobeCommand == "")
-        {
-            AVSStrobeCommand = "(Strobe Rate Settled: " + targetRate + " Hz)";
-        }
-        Debug.Log("Strobe Rate Settled: " + targetRate + " Hz");
-    }
 
     // Update is called once per frame
     void Update()
@@ -602,13 +665,13 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         {
             SetStrobeRate(5f, 0f);
         }
-        if(Input.GetKey(KeyCode.R))
+        if(Input.GetKeyDown(KeyCode.R))
         {
-            _gammaBurstMode = Mathf.Min(_debugValue2 + Time.deltaTime * 0.5f, 1.0f);
+            Gamma(true);
         }
-        else
+        if(Input.GetKeyUp(KeyCode.R))
         {
-            _gammaBurstMode = Mathf.Max(_debugValue2 - Time.deltaTime * 0.5f, 0.0f);
+            Gamma(false);
         }
         
         // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)

@@ -86,10 +86,10 @@ public class RespirationTrackerForPlayground : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            debugAllowLogs = !debugAllowLogs;
-        }
+        //if(Input.GetKeyDown(KeyCode.K))
+        //{
+        //    debugAllowLogs = !debugAllowLogs;
+        //}
         if (ImitoneVoiceIntepreter.toneActiveVeryConfident)
         {
            //return the total of all the cycle counts in the dictionary:
