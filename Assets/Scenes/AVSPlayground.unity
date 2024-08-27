@@ -7449,6 +7449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 255ab3722fed87941bf27bf98114d503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  developmentMode: {fileID: 1226455124}
   audioManager: {fileID: 47830410}
   CSVWriter: {fileID: 662335749}
   userObject: {fileID: 740096621}
@@ -20834,7 +20835,7 @@ MonoBehaviour:
   imitoneVoiceIntepreter: {fileID: 740096635}
   wwiseVOManagerForPlayGround: {fileID: 486583136}
   playingId: 0
-  elapsedTime: 0
+  currentStage: 0
   CFundamentalGHarmonyLock: 0
   csvWriter: {fileID: 662335749}
   audioTweakCounter: 0
