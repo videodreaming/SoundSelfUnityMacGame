@@ -1561,7 +1561,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584790730840729593
+    m_lastTime: -8584768300657481963
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1696,6 +1696,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: ba913102b25a9a429c53b3a0c009be7b
       Path: Events\SFX\Stop_sfx_SoundSeed_BreathCycleWind
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Unity_TransitionSFX
+      guid: 2d500e1e201d094289c0d28db3052cff
+      id: 3913696011
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Unity_TransitionSFX
+        ObjectType: 3
+        guid: 2d500e1e201d094289c0d28db3052cff
+      Path: Events\SFX\Unity_TransitionSFX
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -3023,6 +3040,131 @@ MonoBehaviour:
         ObjectType: 13
         guid: 8d7e7c171e16194aafa65e7e47e603e8
       Path: Game Parameters\SFX\Impacts_Volume
+  - PhysicalPath: Game Parameters\Unity Imitone.wwu
+    PathAndIcons:
+    - ElementName: Game Parameters
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Unity Imitone
+      ObjectType: 12
+      guid: cac749861016bd468dcac9f447d3c666
+    ParentPath: Game Parameters\Unity Imitone
+    guid: cac749861016bd468dcac9f447d3c666
+    GuidInternal: 
+    m_lastTime: -8584768300657416974
+    List:
+    - name: New_Game_Parameter
+      guid: 5a12dd1db39d5e458313043bf219d342
+      id: 3671138082
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: cac749861016bd468dcac9f447d3c666
+      - ElementName: New_Game_Parameter
+        ObjectType: 13
+        guid: 5a12dd1db39d5e458313043bf219d342
+      Path: Game Parameters\Unity Imitone\New_Game_Parameter
+    - name: TONING_Player_Volume
+      guid: 2be8aa0241c86d48a07e07b93954dbcf
+      id: 2438365033
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: cac749861016bd468dcac9f447d3c666
+      - ElementName: TONING_Player_Volume
+        ObjectType: 13
+        guid: 2be8aa0241c86d48a07e07b93954dbcf
+      Path: Game Parameters\Unity Imitone\TONING_Player_Volume
+    - name: Unity_Absorbtion
+      guid: 9036acab1b39554ab7bf30708fa595dc
+      id: 92185602
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: cac749861016bd468dcac9f447d3c666
+      - ElementName: Unity_Absorbtion
+        ObjectType: 13
+        guid: 9036acab1b39554ab7bf30708fa595dc
+      Path: Game Parameters\Unity Imitone\Unity_Absorbtion
+    - name: Unity_ChantLerpFast
+      guid: 6b2ef27527e7624594b61ad84e3d57f8
+      id: 1072896080
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: cac749861016bd468dcac9f447d3c666
+      - ElementName: Unity_ChantLerpFast
+        ObjectType: 13
+        guid: 6b2ef27527e7624594b61ad84e3d57f8
+      Path: Game Parameters\Unity Imitone\Unity_ChantLerpFast
+    - name: Unity_ChantLerpSlow
+      guid: 2fad8143fb80694599b9a06bf7d63f22
+      id: 3426469145
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: cac749861016bd468dcac9f447d3c666
+      - ElementName: Unity_ChantLerpSlow
+        ObjectType: 13
+        guid: 2fad8143fb80694599b9a06bf7d63f22
+      Path: Game Parameters\Unity Imitone\Unity_ChantLerpSlow
+    - name: Unity_Charge
+      guid: 4827963cd4912248a3b8e5787f955228
+      id: 1523152327
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: cac749861016bd468dcac9f447d3c666
+      - ElementName: Unity_Charge
+        ObjectType: 13
+        guid: 4827963cd4912248a3b8e5787f955228
+      Path: Game Parameters\Unity Imitone\Unity_Charge
+    - name: Unity_Inhale
+      guid: b96c525ec45007459b59b79faa4746bd
+      id: 3489928398
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: cac749861016bd468dcac9f447d3c666
+      - ElementName: Unity_Inhale
+        ObjectType: 13
+        guid: b96c525ec45007459b59b79faa4746bd
+      Path: Game Parameters\Unity Imitone\Unity_Inhale
+    - name: Unity_SoundTweak
+      guid: 5f8c5e55edf445409646fb1e9ab54c1a
+      id: 2462119772
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: cac749861016bd468dcac9f447d3c666
+      - ElementName: Unity_SoundTweak
+        ObjectType: 13
+        guid: 5f8c5e55edf445409646fb1e9ab54c1a
+      Path: Game Parameters\Unity Imitone\Unity_SoundTweak
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     PathAndIcons:
@@ -3035,8 +3177,74 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584798074747152540
+    m_lastTime: -8584768300651435134
     List:
+    - name: AbsorptionMode
+      guid: 56187ed435247e4fafedb57a575f601a
+      id: 1731624755
+      PathAndIcons:
+      - ElementName: States
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7ce132b6a0022f428482f3c8e97d00be
+      - ElementName: AbsorptionMode
+        ObjectType: 9
+        guid: 56187ed435247e4fafedb57a575f601a
+      Path: States\Default Work Unit\AbsorptionMode
+      values:
+      - name: Meditative
+        guid: 85cba16e674ecc41952f5d26718c2586
+        id: 4231874361
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AbsorptionMode
+          ObjectType: 9
+          guid: 56187ed435247e4fafedb57a575f601a
+        - ElementName: Meditative
+          ObjectType: 8
+          guid: 85cba16e674ecc41952f5d26718c2586
+      - name: None
+        guid: f54f2c716778af4fbf87ddab5dddbcb2
+        id: 748895195
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AbsorptionMode
+          ObjectType: 9
+          guid: 56187ed435247e4fafedb57a575f601a
+        - ElementName: None
+          ObjectType: 8
+          guid: f54f2c716778af4fbf87ddab5dddbcb2
+      - name: Playful
+        guid: a2d2047125966d48a2466b4c6af8a511
+        id: 1971384320
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: AbsorptionMode
+          ObjectType: 9
+          guid: 56187ed435247e4fafedb57a575f601a
+        - ElementName: Playful
+          ObjectType: 8
+          guid: a2d2047125966d48a2466b4c6af8a511
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
     - name: InteractiveMusicMode
       guid: ff16d21ee376594bb02f58bf638de405
       id: 361224273
@@ -4337,6 +4545,69 @@ MonoBehaviour:
     GuidInternal: 
     m_lastTime: -8584795888313798529
     List: []
+  - PhysicalPath: Switches\Unity Imitone.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Unity Imitone
+      ObjectType: 12
+      guid: 03c51979dd6dc443bbf5588afb1af394
+    ParentPath: Switches\Unity Imitone
+    guid: 03c51979dd6dc443bbf5588afb1af394
+    GuidInternal: 
+    m_lastTime: -8584768300651395194
+    List:
+    - name: ToneActive
+      guid: 3ce342ef55475f458960a54b73f37659
+      id: 2790444407
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Unity Imitone
+        ObjectType: 12
+        guid: 03c51979dd6dc443bbf5588afb1af394
+      - ElementName: ToneActive
+        ObjectType: 11
+        guid: 3ce342ef55475f458960a54b73f37659
+      Path: Switches\Unity Imitone\ToneActive
+      values:
+      - name: Resting
+        guid: 569a47fcc969204a98c2c8b295600a13
+        id: 1137673461
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Unity Imitone
+          ObjectType: 12
+          guid: 03c51979dd6dc443bbf5588afb1af394
+        - ElementName: ToneActive
+          ObjectType: 11
+          guid: 3ce342ef55475f458960a54b73f37659
+        - ElementName: Resting
+          ObjectType: 10
+          guid: 569a47fcc969204a98c2c8b295600a13
+      - name: Toning
+        guid: 38eae84928b4ff418e69a083ace6dac7
+        id: 1718895636
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Unity Imitone
+          ObjectType: 12
+          guid: 03c51979dd6dc443bbf5588afb1af394
+        - ElementName: ToneActive
+          ObjectType: 11
+          guid: 3ce342ef55475f458960a54b73f37659
+        - ElementName: Toning
+          ObjectType: 10
+          guid: 38eae84928b4ff418e69a083ace6dac7
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   - PhysicalPath: Switches\VO.wwu
     PathAndIcons:
     - ElementName: Switches

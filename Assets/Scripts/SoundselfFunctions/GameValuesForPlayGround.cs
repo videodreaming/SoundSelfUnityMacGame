@@ -15,13 +15,12 @@ using imitone;
 
 public class GameValuesForPlayGround : MonoBehaviour
 {
+    public DevelopmentMode developmentMode;
     public AudioManager AudioManager;
     public ImitoneVoiceIntepreterForPlayground imitoneVoiceInterpreter;
     public RespirationTrackerForPlayground respirationTracker;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
     public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManager;
-    public bool developmentPlayground = true;
-    public bool developmentMode = true;
     private bool debugAllowChangeVerboseLogs = false;
     [Header("DampingValues")]
     private float responsiveness = 1.0f; //revisit when we have absorption
@@ -97,19 +96,6 @@ public class GameValuesForPlayGround : MonoBehaviour
     {
         _toneWindlassSpread = _toneWindlassSpreadInitialize;
         _restWindlassSpread = _restWindlassSpreadInitialize;
-
-        //REEF -
-        //INITIALIZATIONS FOR DEVELOPMENT MODE - SHOULD GO IN THEIR OWN SCRIPT SOMEWHERE, AND SHOULD EXECUTE FIRST.
-        if(developmentMode)
-        {
-            Debug.Log("STARTED IN DEVELOPMENT MODE");
-        }
-        else
-        {
-            Debug.Log("STARTED IN PRODUCTION MODE");
-            developmentPlayground = false;
-        }
-
     }
 
     // Fixed Update is called once per frame, but it is called on a fixed time step.

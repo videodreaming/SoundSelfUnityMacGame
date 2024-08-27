@@ -6,6 +6,7 @@ using System;
 
 public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 {
+    public DevelopmentMode developmentMode;
     public MusicSystem1ForPlayGround musicSystem1ForPlayGround;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
     public RespirationTrackerForPlayground respirationTracker;
@@ -234,7 +235,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         List<int> directorQueueIndexList = new List<int>();
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Waiting for lights. Currently:" + wwiseAVSMusicManager.cycleRecent);
 
-        if(gameValues.developmentPlayground)
+        if(developmentMode.developmentPlayground)
         {
             wwiseAVSMusicManager.SetColorWorldByType("Red", 0.0f);
         }

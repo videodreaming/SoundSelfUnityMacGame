@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 
 public class WwiseVOManagerForPlayGround : MonoBehaviour
 {
+    public DevelopmentMode  developmentMode;
     public AudioManager audioManager;
     private bool debugAllowMusicLogs = false;
     private bool pause = true;
@@ -42,6 +43,10 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
 
     void Start()
     {
+        if(developmentMode.developmentPlayground)
+        {
+            InteractiveMusicInitializations();
+        }
         /*if(userObject != null)
         {
             userAudioSource = userObject.GetComponent<AudioSource>();
@@ -142,12 +147,29 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
                     Debug.Log("WWise_Cue_LinearHum1_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
-                    /*StartCoroutine (InteractiveMusicSystemFade());
-                    interactive = true;
-                    AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-                    AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);*/
+                    InteractiveMusicInitializations();
                 } 
             }   
+    }
+
+    private void InteractiveMusicInitializations()
+    {
+        
+        AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+        if(developmentMode.developmentPlayground)
+        {
+            silentrtpcvolume.SetGlobalValue(80.0f);
+            toningrtpcvolume.SetGlobalValue(80.0f);
+        }
+        else if(developmentMode.developmentPlayground==false)
+        {
+            StartCoroutine(InteractiveMusicSystemFade());
+        }
+        
+        interactive = true;
+        AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+        AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+        AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT",gameObject);
     }
     
     private IEnumerator InteractiveMusicSystemFade()
@@ -155,6 +177,7 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
         float initialValue = 0.0f;
         float startTime = Time.time;
 
+        //note: this can be cleaned up by using RTPC's transition time in ms, which Robin uses all the time
         while(Time.time - startTime <fadeDuration)
         {
             float elapsed = (Time.time - startTime)/fadeDuration;
