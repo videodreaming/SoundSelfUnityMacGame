@@ -169,7 +169,7 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
         interactive = true;
         AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
         AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-        AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT",gameObject);
+        AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);
     }
     
     private IEnumerator InteractiveMusicSystemFade()
