@@ -10,6 +10,11 @@ public class WwiseConnection : MonoBehaviour
     private int fundamentalCount = -1;
     private int harmonyCount = -1;
     private int worldCount = -1;
+
+    void Awake()
+    {
+        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
+    }
     void Start()
     {
         AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly", gameObject);
