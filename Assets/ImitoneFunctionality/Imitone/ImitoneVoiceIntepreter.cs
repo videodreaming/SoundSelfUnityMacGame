@@ -362,7 +362,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                                     {
                                         _dbValue = (float)(10.0 * Math.Log10(power));
                                         imitoneActive = true;
-                                        Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
+                                        //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
                                     }
                                     _level = (float)Math.Pow(10,_dbValue) * 0.05f;
 
@@ -585,80 +585,80 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 // }   
 
 //Breathe Volume Coroutine
-private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
-    int coroutineID = _coroutineCounter++;
-    _breathVolumeContributions[coroutineID] = 0f;
+    private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
+        int coroutineID = _coroutineCounter++;
+        _breathVolumeContributions[coroutineID] = 0f;
 
-    float elapsedTime = 0f;
-    float normalizedTime = 0f;
-    
-    while (elapsedTime < inhaleDuration) {
-        normalizedTime = elapsedTime / inhaleDuration;
-        float currentBreathValue = (1 - Mathf.Cos(normalizedTime * 2 * Mathf.PI)) * 0.5f;
+        float elapsedTime = 0f;
+        float normalizedTime = 0f;
+        
+        while (elapsedTime < inhaleDuration) {
+            normalizedTime = elapsedTime / inhaleDuration;
+            float currentBreathValue = (1 - Mathf.Cos(normalizedTime * 2 * Mathf.PI)) * 0.5f;
 
-        _breathVolumeContributions[coroutineID] = currentBreathValue;
+            _breathVolumeContributions[coroutineID] = currentBreathValue;
+            UpdateBreathVolumeTotal();
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        //Debug.Log ("inhaleDuration = " + inhaleDuration + "   normalizedTime = " + normalizedTime + "    /_breathVolume = " + _breathVolume);
+        _breathVolumeContributions.Remove(coroutineID);
         UpdateBreathVolumeTotal();
-
-        elapsedTime += Time.deltaTime;
-        yield return null;
     }
-    
-    //Debug.Log ("inhaleDuration = " + inhaleDuration + "   normalizedTime = " + normalizedTime + "    /_breathVolume = " + _breathVolume);
-    _breathVolumeContributions.Remove(coroutineID);
-    UpdateBreathVolumeTotal();
-}
 
-//Updating Breath Volume Total
-private void UpdateBreathVolumeTotal()
-{
-    _breathVolume = 0f;
-    foreach (var contribution in _breathVolumeContributions.Values)
-    {   
-        _breathVolume += contribution;
-    }
-    _breathVolume = Mathf.Clamp(_breathVolume, 0.0f, 1.0f);
-}
-
-private void handleBreathStage(){
-    if(breathStage == 0){
-        breathStage = 1;
-    } else if(breathStage == 1){
-        if(_breathVolume > 0 && 0.5f > _breathVolume){
-            breathStage = 2;
-        }
-    } else if (breathStage == 2){
-        if(_breathVolume > 0.5f){
-            breathStage = 3;
-        }
-    } else if (breathStage == 3){
-        if(_breathVolume < 0.5f && _breathVolume > 0){
-            breathStage = 4;
-        }
-    } else if (breathStage == 4 || breathStage == 3){
-        if(_breathVolume <= 0){
-            breathStage = 5;
-        }
-    }
-}
-
-public static int FrequencyToFlooredSemitone(double frequency)
-{
-    double semitone = 12 * Math.Log(frequency / A4, 2);
-    return (int)Math.Floor(semitone);
-    //Debug.Log(semitone);
-}
-
-public float GetVolumeThresholdFromJson()
-{
-    var match = Regex.Match(imitoneConfig, @"""volume"":{.*""threshold"":([^,}]*)");
-
-    if (match.Success)
+    //Updating Breath Volume Total
+    private void UpdateBreathVolumeTotal()
     {
-        return float.Parse(match.Groups[1].Value);
+        _breathVolume = 0f;
+        foreach (var contribution in _breathVolumeContributions.Values)
+        {   
+            _breathVolume += contribution;
+        }
+        _breathVolume = Mathf.Clamp(_breathVolume, 0.0f, 1.0f);
     }
-    else
+
+    private void handleBreathStage(){
+        if(breathStage == 0){
+            breathStage = 1;
+        } else if(breathStage == 1){
+            if(_breathVolume > 0 && 0.5f > _breathVolume){
+                breathStage = 2;
+            }
+        } else if (breathStage == 2){
+            if(_breathVolume > 0.5f){
+                breathStage = 3;
+            }
+        } else if (breathStage == 3){
+            if(_breathVolume < 0.5f && _breathVolume > 0){
+                breathStage = 4;
+            }
+        } else if (breathStage == 4 || breathStage == 3){
+            if(_breathVolume <= 0){
+                breathStage = 5;
+            }
+        }
+    }
+
+    public static int FrequencyToFlooredSemitone(double frequency)
     {
-        throw new Exception("Could not find 'volume:threshold' in JSON string");
+        double semitone = 12 * Math.Log(frequency / A4, 2);
+        return (int)Math.Floor(semitone);
+        //Debug.Log(semitone);
     }
-}
+
+    /*public float GetVolumeThresholdFromJson()
+    {
+        var match = Regex.Match(imitoneConfig, @"""volume"":{.*""threshold"":([^,}]*)");
+
+        if (match.Success)
+        {
+            return float.Parse(match.Groups[1].Value);
+        }
+        else
+        {
+            throw new Exception("Could not find 'volume:threshold' in JSON string");
+        }
+    }*/
 }
