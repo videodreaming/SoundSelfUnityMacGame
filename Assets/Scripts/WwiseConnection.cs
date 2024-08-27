@@ -57,6 +57,8 @@ public class WwiseConnection : MonoBehaviour
                     AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(note), gameObject);
                     break;
             }
+
+            Debug.Log("Fundamental Note: " + ConvertIntToNote(note));
         }
         if(Input.GetKeyDown(KeyCode.H))
         {
@@ -79,6 +81,8 @@ public class WwiseConnection : MonoBehaviour
                     AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(note), gameObject);
                     break;
             }
+
+            Debug.Log("Harmony Note: " + ConvertIntToNote(note));
         }
         if(Input.GetKeyDown(KeyCode.W))
         {
