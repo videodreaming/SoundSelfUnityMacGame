@@ -54,8 +54,8 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
 
     //HARMONY SEQUENCES
     List<int> harmonySequence1 = new List<int> {5, 7, 5, 7, 5, 7, 5, 7};
-    List<int> harmonySequence2 = new List<int> {5, 5, 5, 5};
-    List<int> harmonySequence3 = new List<int> {7, 7, 7, 7};
+    List<int> harmonySequence2 = new List<int> {5, 12, 5, 12};
+    List<int> harmonySequence3 = new List<int> {7, 12, 7, 12};
     List<int> harmonySequence4 = new List<int> {5, 7, 12, 5, 7, 12, 5, 7, 12, 5, 7, 12};
 
     List<List<int>> sequences;
@@ -366,6 +366,8 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
 
                 if (Mathf.Round(musicNoteInput) == scaleNote.Key)
                 {
+                    musicNoteActivated = scaleNote.Key; //here for debugging purposes.
+
                     if(debugAllowLogs && (newActivationTimer == 0 || (Time.frameCount % 30 == 0)))
                     {
                         //Debug.Log("MUSIC 1: [COMPARE TONES] Key(" + scaleNote.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + newActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
@@ -397,7 +399,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                             }
                             firstFrameActive = !isActive; //this will only be true on the first frame that the note is activated
                             isActive = true;
-                            musicNoteActivated = scaleNote.Key;
+                            musicNoteActivated = scaleNote.Key; //
                             activations[scaleNote.Key] = isActive;
                         }
                     }
@@ -453,10 +455,10 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
             */
         }
         
-        else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
-        {
-            musicNoteActivated = -1;
-        }
+        // else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
+        // {
+        //     musicNoteActivated = -1;
+        // }
     }
 
     public enum NoteName
