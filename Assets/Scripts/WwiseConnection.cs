@@ -38,8 +38,8 @@ public class WwiseConnection : MonoBehaviour
         }
         if(Input.GetKeyUp(KeyCode.T))
         {
-            AkSoundEngine.PostEvent("Stop_Toning_v3_FundamentalOnly", gameObject);
-            AkSoundEngine.PostEvent("Stop_Toning_v3_HarmonyOnly", gameObject);
+            AkSoundEngine.PostEvent("Stop_Toning", gameObject);
+            AkSoundEngine.PostEvent("Stop_Toning", gameObject);
         }
         if(Input.GetKeyDown(KeyCode.F))
         {
