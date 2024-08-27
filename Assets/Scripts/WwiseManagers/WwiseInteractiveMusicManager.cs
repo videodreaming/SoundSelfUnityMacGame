@@ -90,7 +90,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
 
     public void userToningToChangeFundamental(string fundamentalNote)
     {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup_12Pitches_FundamentalOnly", fundamentalNote,gameObject);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote,gameObject);
         Debug.Log("Fundamental Note: " + ConvertIntToNote(musicSystem1.fundamentalNote));
     }
     public void changeHarmony(string harmonyNote)

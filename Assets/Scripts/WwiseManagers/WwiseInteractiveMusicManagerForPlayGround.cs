@@ -59,7 +59,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     public float imminentTransitionTime = 5.0f;
     public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> directorQueue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
     public int directorQueueIndex = 0;
-    // Start is called before the first frame update
+
     void Awake()
     {
         AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
