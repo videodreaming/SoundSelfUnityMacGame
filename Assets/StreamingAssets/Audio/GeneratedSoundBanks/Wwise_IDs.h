@@ -81,6 +81,10 @@ namespace AK
         static const AkUniqueID PLAY_VO_SIGHELICITATIONFAIL1 = 1024713723U;
         static const AkUniqueID PLAY_VO_SIGHELICITATIONFAIL2 = 1024713720U;
         static const AkUniqueID PLAY_VO_SOMATIC = 1928920978U;
+        static const AkUniqueID PLAY_VO_TESTREPAIR_AHH = 3560104941U;
+        static const AkUniqueID PLAY_VO_TESTREPAIR_EXTENDED = 3708648383U;
+        static const AkUniqueID PLAY_VO_TESTREPAIR_HUM = 3544460158U;
+        static const AkUniqueID PLAY_VO_TESTREPAIR_OHH = 3359759171U;
         static const AkUniqueID PLAY_VO_THEMATICCONTENT = 2088653686U;
         static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
@@ -432,12 +436,10 @@ namespace AK
         static const AkUniqueID INTERACTIVEMUSIC_BUS_VOLUME = 609474916U;
         static const AkUniqueID LINEARMUSIC_VOLUME = 2590911748U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
-        static const AkUniqueID NEW_GAME_PARAMETER = 3671138082U;
         static const AkUniqueID SFX_BUS_VOLUME = 1050949862U;
         static const AkUniqueID SILENT_VOLUME = 3070055575U;
-        static const AkUniqueID TONING_PLAYER_VOLUME = 2438365033U;
         static const AkUniqueID TONING_VOLUME = 1765174721U;
-        static const AkUniqueID UNITY_ABSORBTION = 92185602U;
+        static const AkUniqueID UNITY_ABSORPTION = 3663186972U;
         static const AkUniqueID UNITY_CHANTLERPFAST = 1072896080U;
         static const AkUniqueID UNITY_CHANTLERPSLOW = 3426469145U;
         static const AkUniqueID UNITY_CHARGE = 1523152327U;

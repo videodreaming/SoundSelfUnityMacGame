@@ -3,11 +3,12 @@
 	<PluginLibs>
 		<PluginLib LibName="Wwise Sine" LibId="6553602" Type="Source" DLL="AkSineTone" StaticLib="AkSineSource"/>
 		<PluginLib LibName="Wwise Compressor" LibId="7077891" Type="Effect" DLL="AkCompressor" StaticLib="AkCompressorFX"/>
+		<PluginLib LibName="Wwise RoomVerb" LibId="7733251" Type="Effect" DLL="AkRoomVerb" StaticLib="AkRoomVerbFX"/>
 		<PluginLib LibName="SoundSeed Air Woosh" LibId="7864322" Type="Source" DLL="AkSoundSeedAir" StaticLib="AkSoundSeedWooshSource"/>
 		<PluginLib LibName="Wwise Tremolo" LibId="8585219" Type="Effect" DLL="AkTremolo" StaticLib="AkTremoloFX"/>
 		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
 		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
 		<PluginLib LibName="Mastering Suite" LibId="12189699" Type="Effect" DLL="MasteringSuite" StaticLib="MasteringSuiteFX"/>
 	</PluginLibs>
-	<FileHash>{A6D8B2C1-0F50-5AF1-A89E-B0F4CED376B3}</FileHash>
+	<FileHash>{26C80109-D00D-5EE2-E817-764B2D34FAD6}</FileHash>
 </PluginInfo>

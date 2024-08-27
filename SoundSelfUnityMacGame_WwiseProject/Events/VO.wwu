@@ -93,10 +93,10 @@
 				</Event>
 				<Event Name="Play_VO_GuidedVocalizationHum" ID="{FF863BD2-6C72-4EF3-9D32-B7A302EDEECC}">
 					<ChildrenList>
-						<Action Name="" ID="{5EFC2819-1A31-4DE1-87B1-DD2873A6817E}" ShortID="119264061">
+						<Action Name="" ID="{677191DA-B742-46EF-BF28-2695EA398238}" ShortID="411796618">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="VO_GuidedVocalizationHum" ID="{58E1B81C-D7CC-4F9D-A0B9-5F343B827E95}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="VO_GuidedVocazationHum" ID="{4D57A566-1056-43BA-9F1A-3ADF518C9DCA}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -104,10 +104,10 @@
 				</Event>
 				<Event Name="Play_VO_GuidedVocalizationAhh" ID="{B097EC3D-B020-41EF-AB70-7566952FCFC4}">
 					<ChildrenList>
-						<Action Name="" ID="{AC68AFBA-CC14-4A9C-9771-E9BE8052C7B0}" ShortID="382143612">
+						<Action Name="" ID="{427C3D09-C43E-4FA6-B17E-A95C94AE3276}" ShortID="55096404">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="VO_GuidedVocalizationAhh" ID="{C13E4891-5439-456E-80B6-4B20540BD734}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="VO_GuidedVocalizationAhh" ID="{DC9B5580-8731-4F13-854B-4E27536B4D75}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -115,10 +115,10 @@
 				</Event>
 				<Event Name="Play_VO_GuidedVocalizationOhh" ID="{8E2E2C4B-F191-4B6C-B7F0-8643BFB84742}">
 					<ChildrenList>
-						<Action Name="" ID="{9D195100-B07B-4ADB-8D0C-4E6517693940}" ShortID="662412405">
+						<Action Name="" ID="{BAED68E6-92D6-49B9-965D-F88AD4B4DB44}" ShortID="757235464">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="VO_GuidedVocalizationOhh" ID="{1395947C-BCE9-4AA5-B082-CDE46A1C173E}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="VO_GuidedVocalizationOhh" ID="{04C596E0-4692-477C-8931-F8ABECF5DE69}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -126,10 +126,10 @@
 				</Event>
 				<Event Name="Play_VO_GuidedVocalizationAdvanced" ID="{CA09A92A-1919-4E7C-A1E2-A10D652F7F14}">
 					<ChildrenList>
-						<Action Name="" ID="{199EFF36-22AB-470E-B0E3-B0D2DB020B3D}" ShortID="873202503">
+						<Action Name="" ID="{EA1FCD3C-D26F-437F-8235-6EB2CD88A323}" ShortID="878720182">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="VO_GuidedVocalizationAdvanced" ID="{802D3E96-3600-4DD9-9AE7-4968C6214E23}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+									<ObjectRef Name="VO_GuidedVocalizationsAdvanced" ID="{BB6743A7-3ABD-423C-8354-3BDADD5D2BD7}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -251,6 +251,50 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="VO_CLOSING_GOODBYE" ID="{8FB1D877-44D3-49AA-8EE3-10978E8749BB}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Ahh" ID="{904550D5-AA58-4A1F-99C1-07E70EA2BDC5}">
+					<ChildrenList>
+						<Action Name="" ID="{2703CBF1-E8B2-4934-B264-9D3B2D36A9A8}" ShortID="625594133">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_ahh" ID="{9F801837-77CC-4BFD-9B5D-C0CF9D867F59}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Ohh" ID="{09601005-811E-4071-A42C-CE34AB039B9B}">
+					<ChildrenList>
+						<Action Name="" ID="{11F51598-40DB-4894-8DFB-8EFC803B45B4}" ShortID="980565661">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_ohh" ID="{AB014D5A-1807-451D-92BE-E8B8D2444BAF}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Hum" ID="{EEDEC037-D167-4CBE-9445-20BC3BA01658}">
+					<ChildrenList>
+						<Action Name="" ID="{2E875348-D9A4-4EF9-9D99-69C8A8ADDB42}" ShortID="247808975">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_hum" ID="{60BAB97F-33A5-4B1E-BF49-DD3BC4FFA455}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Extended" ID="{387BBF71-12BB-4EB6-85DF-4141273202DE}">
+					<ChildrenList>
+						<Action Name="" ID="{165B8591-F56E-4B1F-A7AF-56ECDDAE9B51}" ShortID="68047741">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_extended" ID="{8D70A9FD-1304-4614-901B-56D7850EBDB9}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

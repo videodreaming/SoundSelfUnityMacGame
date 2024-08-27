@@ -157,13 +157,6 @@
 							</ObjectLists>
 						</Bus>
 						<Bus Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}">
-							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="UserAuxSend0">
 									<ObjectRef Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -326,6 +319,19 @@
 								</Reference>
 							</ReferenceList>
 							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{93EFC8AE-7AA7-49FA-90C1-C9B563A0F3FB}" ShortID="115183725">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+														<ObjectRef Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
 								<ObjectList Name="RTPC">
 									<Reference>
 										<Local>
@@ -399,6 +405,11 @@
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
 										<Value>4</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>15</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

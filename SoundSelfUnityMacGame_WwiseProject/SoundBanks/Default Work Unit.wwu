@@ -56,10 +56,12 @@
 				<SoundBank Name="INTERACTIVE" ID="{43F38298-E865-4BDA-8507-FC6343628D07}">
 					<ObjectInclusionList>
 						<ObjectRef Name="Stop_Toning" ID="{BC9DBC95-1FEC-4024-9149-47E42F23D96E}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_testRepair_Ohh" ID="{09601005-811E-4071-A42C-CE34AB039B9B}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_NewEnding" ID="{1F4E48CE-3458-414E-9CCD-B73901FA46CF}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_SilentLoops_v1_7Pitch_Linked" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_GuidedVocalizationAhh" ID="{B097EC3D-B020-41EF-AB70-7566952FCFC4}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Unity_TransitionSFX" ID="{1E0E502D-1D20-4209-89C0-D28DB3052CFF}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_SilentLoops" ID="{37C30047-AF5A-43B9-896D-68E3F2AA7D3A}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AMBIENT_ENVIRONMENT_LOOP" ID="{5DB66FCB-061C-43E5-880D-2C319AD8A094}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_SilentLoops_v2_12Pitch_Linked" ID="{6E799669-D000-4409-AA90-F73B8ECF6353}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
@@ -73,6 +75,7 @@
 						<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_AVS_Wave2" ID="{D6DC2C44-177F-4753-9F7A-F2C5B5F99A86}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_All" ID="{39821E91-31F4-47D3-B1AF-E42968AA6D28}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_testRepair_Ahh" ID="{904550D5-AA58-4A1F-99C1-07E70EA2BDC5}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Toning_v1_7Pitch_Linked" ID="{90843F11-6540-4A8C-B553-2767E329B988}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Toning_v3_HarmonyOnly" ID="{7F8EC617-3EE7-4AC1-B11D-03973B8FDDA8}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
@@ -81,9 +84,11 @@
 						<ObjectRef Name="Play_Toning" ID="{75280AE4-0427-4BE0-A4E1-3F0B4AD82E9B}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_AMBIENT_ENVIRONMENT_LOOP" ID="{6FE1E0EE-3BD4-4C96-A0CD-0085351BA02B}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_testRepair_Hum" ID="{EEDEC037-D167-4CBE-9445-20BC3BA01658}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_SilentLoops_v3_FundamentalOnly" ID="{497F127A-A5CC-4CF0-85D2-F5B56677900E}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_GuidedVocalizationAdvanced" ID="{CA09A92A-1919-4E7C-A1E2-A10D652F7F14}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_VO_testRepair_Extended" ID="{387BBF71-12BB-4EB6-85DF-4141273202DE}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_GuidedVocalizationHum" ID="{FF863BD2-6C72-4EF3-9D32-B7A302EDEECC}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_AVS_Wave3" ID="{5DCA70C8-A708-4EF9-9D93-EE185337CFE9}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Toning_v3_FundamentalOnly" ID="{DA00B1EF-1DD6-4F48-AD92-5DA76BC5F7C1}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>

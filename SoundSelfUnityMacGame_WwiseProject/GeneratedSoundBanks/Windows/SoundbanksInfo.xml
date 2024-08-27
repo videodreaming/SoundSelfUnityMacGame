@@ -16,7 +16,7 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{493B4BFD-00F4-DF3F-9B7A-325A570D8C99}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{F4BFE6B5-2824-5D63-240C-5DE3049A1292}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -24,6 +24,7 @@
 					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="3157974155" Name="New_Mastering_Suite" LibName="Mastering Suite" LibId="12189699"/>
+					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
 				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
@@ -65,6 +66,11 @@
 					</AuxBusRefs>
 				</Bus>
 				<Bus Id="2670023165" Name="Impacts, SubAcoustic">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
 					<AuxBusRefs>
 						<AuxBusRef Id="3329123393" Name="Aux_Impacts"/>
 					</AuxBusRefs>
@@ -99,7 +105,6 @@
 				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
 				<GameParameter Id="54156857" Name="AVS_MasterVolume_Wave3"/>
 				<GameParameter Id="54156859" Name="AVS_MasterVolume_Wave1"/>
-				<GameParameter Id="92185602" Name="Unity_Absorbtion"/>
 				<GameParameter Id="609474916" Name="InteractiveMusic_Bus_Volume"/>
 				<GameParameter Id="767906964" Name="ImpactsSub_Bus_Volume"/>
 				<GameParameter Id="1050949862" Name="SFX_Bus_Volume"/>
@@ -121,7 +126,6 @@
 				<GameParameter Id="2189202576" Name="AVS_Modulation_Frequency_Wave3"/>
 				<GameParameter Id="2189202577" Name="AVS_Modulation_Frequency_Wave2"/>
 				<GameParameter Id="2189202578" Name="AVS_Modulation_Frequency_Wave1"/>
-				<GameParameter Id="2438365033" Name="TONING_Player_Volume"/>
 				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
 				<GameParameter Id="2462119772" Name="Unity_SoundTweak"/>
 				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
@@ -141,7 +145,7 @@
 				<GameParameter Id="3244028902" Name="AVS_BLUE_Volume_Wave1"/>
 				<GameParameter Id="3426469145" Name="Unity_ChantLerpSlow"/>
 				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
-				<GameParameter Id="3671138082" Name="New_Game_Parameter"/>
+				<GameParameter Id="3663186972" Name="Unity_Absorption"/>
 				<GameParameter Id="3687478936" Name="VO_Bus_Volume"/>
 				<GameParameter Id="3740547865" Name="AVS_Modulation_BypassEffect_Wave1"/>
 				<GameParameter Id="3740547866" Name="AVS_Modulation_BypassEffect_Wave2"/>
@@ -352,7 +356,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{112C48DF-D690-0A4F-C50A-6B2826847505}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{83E438F7-A0F7-1C07-3D06-628504012FFF}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -4870,7 +4874,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{4EDD0393-8C86-A0D3-48B9-5A1C82EF340B}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{19894E23-B5FB-08D9-680F-A67CB6D1E353}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5832,7 +5836,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{BBF54B7F-1E63-E607-5CEB-F35955750765}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{401A1DE3-FB83-69BE-1178-A36C8CC7839E}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -5840,17 +5844,21 @@
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_74C2D65B.wem</CachePath>
 				</File>
-				<File Id="8786612" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test18tone.wav</ShortName>
-					<CachePath>SFX/vo_test18tone_818F3B66.wem</CachePath>
-				</File>
 				<File Id="14797253" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_toning_shadow_700893EA.wem</CachePath>
 				</File>
+				<File Id="37972462" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test18tone.wav</ShortName>
+					<CachePath>SFX/vo_test18tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="52450926" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_shadow_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="54482482" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test17tone.wav</ShortName>
+					<CachePath>SFX/vo_test17tone_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="66126426" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
@@ -5880,6 +5888,10 @@
 					<ShortName>fundamental_[E]_silent_shruti_loop.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="124129431" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test10tone.wav</ShortName>
+					<CachePath>SFX/vo_test10tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="130835513" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_silent_gentle_11A93380.wem</CachePath>
@@ -5904,6 +5916,10 @@
 					<ShortName>harmony_[D]_toning_shruti.wav</ShortName>
 					<CachePath>SFX/harmony_[D]_toning_shruti_818F3B66.wem</CachePath>
 				</File>
+				<File Id="169180974" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test16tone.wav</ShortName>
+					<CachePath>SFX/vo_test16tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="188647660" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>NewEnding_Music+SFX.wav</ShortName>
 					<CachePath>SFX/NewEnding_Music+SFX_818F3B66.wem</CachePath>
@@ -5912,21 +5928,17 @@
 					<ShortName>fundamental_[G]_toning_shruti.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_toning_shruti_818F3B66.wem</CachePath>
 				</File>
-				<File Id="221214242" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test02hum.wav</ShortName>
-					<CachePath>SFX/vo_test02hum_818F3B66.wem</CachePath>
-				</File>
 				<File Id="226852051" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_subkick.wav</ShortName>
 					<CachePath>SFX/sfx_subkick_818F3B66.wem</CachePath>
 				</File>
+				<File Id="238131971" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test15tone.wav</ShortName>
+					<CachePath>SFX/vo_test15tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="240795686" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_shruti.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_toning_shruti_6263EC42.wem</CachePath>
-				</File>
-				<File Id="250697112" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test13tone.wav</ShortName>
-					<CachePath>SFX/vo_test13tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="262956075" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_shadow.wav</ShortName>
@@ -5940,6 +5952,10 @@
 					<ShortName>harmony_[D]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/harmony_[D]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="278768154" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test13tone.wav</ShortName>
+					<CachePath>SFX/vo_test13tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="287831762" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_silent_shadow_FBC78EF0.wem</CachePath>
@@ -5952,6 +5968,10 @@
 					<ShortName>harmony_[F]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="316401243" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test19tone.wav</ShortName>
+					<CachePath>SFX/vo_test19tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="321295864" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_D575A6E8.wem</CachePath>
@@ -5960,13 +5980,13 @@
 					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[D]_toning_gentle_AC0DABBE.wem</CachePath>
 				</File>
-				<File Id="335139113" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test12tone.wav</ShortName>
-					<CachePath>SFX/vo_test12tone_818F3B66.wem</CachePath>
-				</File>
 				<File Id="337142600" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_sono flore.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_toning_sono flore_BAD2D93F.wem</CachePath>
+				</File>
+				<File Id="341913190" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_testRepair_ahh.wav</ShortName>
+					<CachePath>SFX/vo_testRepair_ahh_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="346108750" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_shruti.wav</ShortName>
@@ -5980,13 +6000,17 @@
 					<ShortName>fundamental_[G]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="349189626" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test09tone.wav</ShortName>
+					<CachePath>SFX/vo_test09tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="349667166" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_silent_gentle_818F3B66.wem</CachePath>
 				</File>
-				<File Id="350705659" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test05tone.wav</ShortName>
-					<CachePath>SFX/vo_test05tone_818F3B66.wem</CachePath>
+				<File Id="356008410" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test12tone.wav</ShortName>
+					<CachePath>SFX/vo_test12tone_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="363146653" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_sono flore.wav</ShortName>
@@ -6008,6 +6032,10 @@
 					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_toning_shadow_3E06637A.wem</CachePath>
 				</File>
+				<File Id="375667203" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test03hum.wav</ShortName>
+					<CachePath>SFX/vo_test03hum_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="383782895" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_silent_shadow_FBC78EF0.wem</CachePath>
@@ -6020,10 +6048,6 @@
 					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_toning_shadow_1DDCAD57.wem</CachePath>
 				</File>
-				<File Id="402014584" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test07tone.wav</ShortName>
-					<CachePath>SFX/vo_test07tone_818F3B66.wem</CachePath>
-				</File>
 				<File Id="402283812" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_24AB9D2B.wem</CachePath>
@@ -6032,9 +6056,21 @@
 					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_toning_gentle_E9291FEB.wem</CachePath>
 				</File>
+				<File Id="412890818" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test02hum.wav</ShortName>
+					<CachePath>SFX/vo_test02hum_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="425610473" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test04tone.wav</ShortName>
+					<CachePath>SFX/vo_test04tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="430598173" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="431345141" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test07tone.wav</ShortName>
+					<CachePath>SFX/vo_test07tone_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="433824871" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
@@ -6055,14 +6091,6 @@
 				<File Id="465792322" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_A7ED6E33.wem</CachePath>
-				</File>
-				<File Id="487812902" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test10tone.wav</ShortName>
-					<CachePath>SFX/vo_test10tone_818F3B66.wem</CachePath>
-				</File>
-				<File Id="493526042" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test14tone.wav</ShortName>
-					<CachePath>SFX/vo_test14tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="494020334" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shruti.wav</ShortName>
@@ -6096,13 +6124,13 @@
 					<ShortName>fundamental_[B]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="569598342" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test04hum.wav</ShortName>
-					<CachePath>SFX/vo_test04hum_818F3B66.wem</CachePath>
+				<File Id="560883928" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_testRepair_hum.wav</ShortName>
+					<CachePath>SFX/vo_testRepair_hum_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="581489383" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test04tone.wav</ShortName>
-					<CachePath>SFX/vo_test04tone_818F3B66.wem</CachePath>
+				<File Id="591501073" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test05tone.wav</ShortName>
+					<CachePath>SFX/vo_test05tone_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="597643613" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_silent_shruti_loop.wav</ShortName>
@@ -6124,6 +6152,10 @@
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_51A81178.wem</CachePath>
 				</File>
+				<File Id="632024458" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test06tone.wav</ShortName>
+					<CachePath>SFX/vo_test06tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="650293573" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>sfx_breath in.wav</ShortName>
 					<CachePath>SFX/sfx_breath in_FBC78EF0.wem</CachePath>
@@ -6140,10 +6172,6 @@
 					<ShortName>harmony_[B]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="676642542" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test17tone.wav</ShortName>
-					<CachePath>SFX/vo_test17tone_818F3B66.wem</CachePath>
-				</File>
 				<File Id="682265836" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_silent_gentle_FBC78EF0.wem</CachePath>
@@ -6152,9 +6180,17 @@
 					<ShortName>harmony_[B]_silent_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="700824868" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test08tone.wav</ShortName>
+					<CachePath>SFX/vo_test08tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="701069308" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_toning_gentle_66A1C141.wem</CachePath>
+				</File>
+				<File Id="702816434" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_testRepair_extended.wav</ShortName>
+					<CachePath>SFX/vo_testRepair_extended_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="712224403" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
@@ -6167,10 +6203,6 @@
 				<File Id="733447239" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_sono flore.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_toning_sono flore_654E9AAD.wem</CachePath>
-				</File>
-				<File Id="740646625" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test06tone.wav</ShortName>
-					<CachePath>SFX/vo_test06tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="759272252" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
@@ -6187,14 +6219,6 @@
 				<File Id="767921191" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[E]_toning_shadow_E736172A.wem</CachePath>
-				</File>
-				<File Id="768921853" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test03hum.wav</ShortName>
-					<CachePath>SFX/vo_test03hum_818F3B66.wem</CachePath>
-				</File>
-				<File Id="776748344" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test19tone.wav</ShortName>
-					<CachePath>SFX/vo_test19tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="776863379" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shruti.wav</ShortName>
@@ -6216,10 +6240,6 @@
 					<ShortName>Gong,Rainstick_Oneshot.wav</ShortName>
 					<CachePath>SFX/Gong,Rainstick_Oneshot_818F3B66.wem</CachePath>
 				</File>
-				<File Id="798919832" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test15tone.wav</ShortName>
-					<CachePath>SFX/vo_test15tone_818F3B66.wem</CachePath>
-				</File>
 				<File Id="822956135" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_F7D2C1C5.wem</CachePath>
@@ -6227,10 +6247,6 @@
 				<File Id="835717860" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_toning_gentle_BA16EE5F.wem</CachePath>
-				</File>
-				<File Id="854984063" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test01hum.wav</ShortName>
-					<CachePath>SFX/vo_test01hum_818F3B66.wem</CachePath>
 				</File>
 				<File Id="865483723" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
@@ -6256,13 +6272,13 @@
 					<ShortName>environment_wind.wav</ShortName>
 					<CachePath>SFX/environment_wind_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="900846903" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test14tone.wav</ShortName>
+					<CachePath>SFX/vo_test14tone_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="904046582" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_toning_gentle_4C71C49F.wem</CachePath>
-				</File>
-				<File Id="907774068" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test16tone.wav</ShortName>
-					<CachePath>SFX/vo_test16tone_818F3B66.wem</CachePath>
 				</File>
 				<File Id="907899839" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
@@ -6280,10 +6296,6 @@
 					<ShortName>harmony_[B]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="947769936" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test09tone.wav</ShortName>
-					<CachePath>SFX/vo_test09tone_818F3B66.wem</CachePath>
-				</File>
 				<File Id="955040453" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_silent_gentle_FBC78EF0.wem</CachePath>
@@ -6300,9 +6312,13 @@
 					<ShortName>harmony_[F]_silent_shruti_loop.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="1029485998" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>vo_test08tone.wav</ShortName>
-					<CachePath>SFX/vo_test08tone_818F3B66.wem</CachePath>
+				<File Id="978729283" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_testRepair_ohh.wav</ShortName>
+					<CachePath>SFX/vo_testRepair_ohh_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="1004814377" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test01hum.wav</ShortName>
+					<CachePath>SFX/vo_test01hum_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="1031373284" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_sono flore.wav</ShortName>
@@ -6319,6 +6335,10 @@
 				<File Id="1059434116" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/fundamental_[G]_toning_gentle_FC65D2AC.wem</CachePath>
+				</File>
+				<File Id="1071236301" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test04hum.wav</ShortName>
+					<CachePath>SFX/vo_test04hum_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="1073188299" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_sono flore.wav</ShortName>
@@ -9093,39 +9113,59 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="4057363449" Name="Play_VO_GuidedVocalizationAdvanced" DurationType="OneShot" DurationMin="2.0553334" DurationMax="3.4206667">
+				<Event Id="4057363449" Name="Play_VO_GuidedVocalizationAdvanced" DurationType="OneShot" DurationMin="2.0553331" DurationMax="3.4206667">
 					<MediaRefs>
-						<MediaRef Id="8786612"/>
-						<MediaRef Id="676642542"/>
-						<MediaRef Id="776748344"/>
-						<MediaRef Id="907774068"/>
+						<MediaRef Id="37972462"/>
+						<MediaRef Id="54482482"/>
+						<MediaRef Id="169180974"/>
+						<MediaRef Id="316401243"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="745351876" Name="Play_VO_GuidedVocalizationAhh" DurationType="OneShot" DurationMin="2.738" DurationMax="17.756666">
 					<MediaRefs>
-						<MediaRef Id="350705659"/>
-						<MediaRef Id="402014584"/>
-						<MediaRef Id="487812902"/>
-						<MediaRef Id="740646625"/>
-						<MediaRef Id="947769936"/>
-						<MediaRef Id="1029485998"/>
+						<MediaRef Id="124129431"/>
+						<MediaRef Id="349189626"/>
+						<MediaRef Id="431345141"/>
+						<MediaRef Id="591501073"/>
+						<MediaRef Id="632024458"/>
+						<MediaRef Id="700824868"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="897777483" Name="Play_VO_GuidedVocalizationHum" DurationType="OneShot" DurationMin="2.738" DurationMax="13.660666">
+				<Event Id="897777483" Name="Play_VO_GuidedVocalizationHum" DurationType="OneShot" DurationMin="2.738" DurationMax="13.660667">
 					<MediaRefs>
-						<MediaRef Id="221214242"/>
-						<MediaRef Id="569598342"/>
-						<MediaRef Id="581489383"/>
-						<MediaRef Id="768921853"/>
-						<MediaRef Id="854984063"/>
+						<MediaRef Id="375667203"/>
+						<MediaRef Id="412890818"/>
+						<MediaRef Id="425610473"/>
+						<MediaRef Id="1004814377"/>
+						<MediaRef Id="1071236301"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1350331786" Name="Play_VO_GuidedVocalizationOhh" DurationType="OneShot" DurationMin="15.026" DurationMax="19.122">
 					<MediaRefs>
-						<MediaRef Id="250697112"/>
-						<MediaRef Id="335139113"/>
-						<MediaRef Id="493526042"/>
-						<MediaRef Id="798919832"/>
+						<MediaRef Id="238131971"/>
+						<MediaRef Id="278768154"/>
+						<MediaRef Id="356008410"/>
+						<MediaRef Id="900846903"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3560104941" Name="Play_VO_testRepair_Ahh" DurationType="OneShot" DurationMin="27.314" DurationMax="27.314">
+					<MediaRefs>
+						<MediaRef Id="341913190"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3708648383" Name="Play_VO_testRepair_Extended" DurationType="OneShot" DurationMin="27.314" DurationMax="27.314">
+					<MediaRefs>
+						<MediaRef Id="702816434"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3544460158" Name="Play_VO_testRepair_Hum" DurationType="OneShot" DurationMin="28.679335" DurationMax="28.679335">
+					<MediaRefs>
+						<MediaRef Id="560883928"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3359759171" Name="Play_VO_testRepair_Ohh" DurationType="OneShot" DurationMin="29.362" DurationMax="29.362">
+					<MediaRefs>
+						<MediaRef Id="978729283"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -9141,6 +9181,7 @@
 						<ActionPostEventEntry Id="3830600368" Name="Play_sfx_breathein"/>
 					</ActionPostEvent>
 				</Event>
+				<Event Id="3913696011" Name="Unity_TransitionSFX" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
@@ -9248,13 +9289,6 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3913696011" Type="Event" Language="SFX" Hash="{9132386C-2D84-2B87-3B5A-C85003665E28}">
-			<ShortName>Unity_TransitionSFX</ShortName>
-			<Path>Event/39/Unity_TransitionSFX.bnk</Path>
-			<Events>
-				<Event Id="3913696011" Name="Unity_TransitionSFX" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-			</Events>
-		</SoundBank>
 	</SoundBanks>
-	<FileHash>{8046AFC4-92BD-DD47-47DC-092743A1096A}</FileHash>
+	<FileHash>{ADE09DC9-B6D3-10F6-4379-E6D7F51FD186}</FileHash>
 </SoundBanksInfo>

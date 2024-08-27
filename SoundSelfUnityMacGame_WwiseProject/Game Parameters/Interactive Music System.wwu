@@ -23,8 +23,16 @@
 						<Property Name="InitialValue" Type="Real64" Value="80"/>
 					</PropertyList>
 				</GameParameter>
-				<GameParameter Name="TONING_Volume" ID="{9C381C54-7CB7-4027-ADB1-2E43F1FCF463}"/>
-				<GameParameter Name="SILENT_Volume" ID="{3B8E3436-642E-42DD-B54A-B5F158016E34}"/>
+				<GameParameter Name="TONING_Volume" ID="{9C381C54-7CB7-4027-ADB1-2E43F1FCF463}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="80"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="SILENT_Volume" ID="{3B8E3436-642E-42DD-B54A-B5F158016E34}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="80"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>
