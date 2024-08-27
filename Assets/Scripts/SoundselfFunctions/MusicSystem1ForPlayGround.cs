@@ -9,7 +9,9 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
 {
     public WwiseVOManagerForPlayGround wwiseVOManagerForPlayGround;
     public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManager;
-    private bool debugAllowLogs = true;
+    
+    public RespirationTrackerForPlayground respirationTracker;
+    private bool debugAllowLogs = false;
     // Variables
     public bool allowFundamentalChange = true;
     public bool enableMusicSystem = true;
@@ -124,9 +126,9 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                 if (debugAllowLogs)
                 {
                     if (fundamentalChangeTest)
-                    Debug.Log("MUSIC: New Fundamental Triggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
+                    Debug.Log("MUSIC 9: New Fundamental Triggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
                     else if (fundamentalRetriggerTest)
-                    Debug.Log("MUSIC: Old Fundamental Retriggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
+                    Debug.Log("MUSIC 9: Old Fundamental Retriggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
                 }
                 fundamentalTimeSinceLastTrigger = 0f;
             }
@@ -198,7 +200,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                                 if (checkForThreshold2)
                                 {
                                     wwiseInteractiveMusicManager.ClearActionsOfTypeFromDirectorQueue("fundamentalChange");
-                                    wwiseInteractiveMusicManager.AddActionToDirectorQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 0f, true);
+                                    wwiseInteractiveMusicManager.AddActionToDirectorQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 0f, true, 2);
                                     wwiseInteractiveMusicManager.DirectorQueueProcessAll();
 
                                 }
@@ -212,7 +214,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                                         {
                                             Debug.Log("Adding fundamental change to director queue for " + ConvertIntToNote(scaleNote.Key));
                                         }
-                                        wwiseInteractiveMusicManager.AddActionToDirectorQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 45f, true);
+                                        wwiseInteractiveMusicManager.AddActionToDirectorQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 45f, true, 1);
                                     }
                                     else
                                     {
@@ -225,6 +227,30 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                             }
                         }
                     }
+                    else
+                    {
+                        //if we are on the fundamental, lower the newChangeFundamentalTimer on all other notes in the dictionary by Time.DeltaTime * 0.1
+                        foreach (var note in NoteTracker)
+                        {
+                            if (note.Key != scaleNote.Key)
+                            {
+                                float newChangeFundamentalTimerOtherStart = note.Value.ChangeFundamentalTimer;
+                                float newChangeFundamentalTimerOther = newChangeFundamentalTimerOtherStart;
+                                newChangeFundamentalTimerOther -= Time.deltaTime * 0.1f * Mathf.Pow(2, Mathf.Clamp(1-respirationTracker._absorption, 0, 1));
+                                if (newChangeFundamentalTimerOther < 0)
+                                {
+                                    newChangeFundamentalTimerOther = 0;
+                                }
+                                if(debugAllowLogs && (newChangeFundamentalTimerOtherStart > 0) &&(newChangeFundamentalTimerOther == 0))
+                                {
+                                    Debug.Log("MUSIC 5B: Fundamental Timer for " + ConvertIntToNote(note.Key) + ": is now zero, because we've been chanting in unsion with the fundamental");
+                                }
+                                updates[note.Key] = (note.Value.ActivationTimer, note.Value.Active, note.Value.FirstFrameActive, newChangeFundamentalTimerOther);
+                            }
+                        }
+                        
+                    }
+
                 }
                 updates[scaleNote.Key] = (scaleNote.Value.ActivationTimer, scaleNote.Value.Active, scaleNote.Value.FirstFrameActive, newChangeFundamentalTimer);
             }

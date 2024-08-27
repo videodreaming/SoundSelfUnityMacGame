@@ -8384,6 +8384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wwiseVOManagerForPlayGround: {fileID: 486583136}
   wwiseInteractiveMusicManager: {fileID: 1564575221}
+  respirationTracker: {fileID: 740096634}
   allowFundamentalChange: 1
   enableMusicSystem: 1
   imitoneVoiceInterpreter: {fileID: 740096635}
@@ -10036,6 +10037,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DevModeSettings: {fileID: 316632675}
   wwiseAVSMusicManager: {fileID: 437048159}
+  wwiseInteractiveMusicManager: {fileID: 1564575221}
   pitch_hz: 0
   note_st: 0
   _dbThreshold: -25
