@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{7919C503-6DDD-43C4-BBF5-588AFB1AF394}" SchemaVersion="119">
+	<Switches>
+		<WorkUnit Name="Unity Imitone" ID="{7919C503-6DDD-43C4-BBF5-588AFB1AF394}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="ToneActive" ID="{EF42E33C-4755-455F-8960-A54B73F37659}">
+					<ChildrenList>
+						<Switch Name="Toning" ID="{49E8EA38-B428-41FF-8E69-A083ACE6DAC7}"/>
+						<Switch Name="Resting" ID="{FC479A56-69C9-4A20-98C2-C8B295600A13}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</Switches>
+</WwiseDocument>

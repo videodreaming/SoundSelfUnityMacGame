@@ -116,6 +116,10 @@
 							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
+							<GameParameterRef Name="New_Game_Parameter" ID="{1DDD125A-9DB3-455E-8313-043BF219D342}"/>
+							<Value>50</Value>
+						</RTPCValue>
+						<RTPCValue>
 							<GameParameterRef Name="Master_Volume" ID="{5A62C904-3B07-46AB-8226-655481B0F80E}"/>
 							<Value>100</Value>
 						</RTPCValue>
@@ -128,6 +132,14 @@
 							<Value>80</Value>
 						</RTPCValue>
 						<RTPCValue>
+							<GameParameterRef Name="Unity_Charge" ID="{3C962748-91D4-4822-A3B8-E5787F955228}"/>
+							<Value>50</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="TONING_Player_Volume" ID="{02AAE82B-C841-486D-A07E-07B93954DBCF}"/>
+							<Value>50</Value>
+						</RTPCValue>
+						<RTPCValue>
 							<GameParameterRef Name="VO_Bus_Volume" ID="{4CE09812-4BDE-4967-8638-B6C2E6D7A693}"/>
 							<Value>100</Value>
 						</RTPCValue>
@@ -138,6 +150,10 @@
 						<RTPCValue>
 							<GameParameterRef Name="HarmonyToningVolume" ID="{FF5A2932-7C63-49B6-BD96-ABBDA509EE7D}"/>
 							<Value>100</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="Unity_Absorbtion" ID="{ABAC3690-391B-4A55-B7BF-30708FA595DC}"/>
+							<Value>50</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="BreatheCycle_Volume" ID="{6054B844-CB45-4C59-9436-ECB992881033}"/>
@@ -158,7 +174,7 @@
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
-						<CurrentSwitchRef Name="C" ID="{C3284F5C-2FBA-4D95-AF46-52056CD77674}"/>
+						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
@@ -168,7 +184,7 @@
 						<CurrentSwitchRef Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
-						<CurrentSwitchRef Name="G" ID="{AD9B330B-4EAC-4426-884C-553F83E48724}"/>
+						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
 						<CurrentSwitchRef Name="Chakapa" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>

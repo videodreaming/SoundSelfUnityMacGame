@@ -39,6 +39,13 @@
 						</Transition>
 					</TransitionList>
 				</StateGroup>
+				<StateGroup Name="AbsorptionMode" ID="{D47E1856-2435-4F7E-AFED-B57A575F601A}">
+					<ChildrenList>
+						<State Name="None" ID="{712C4FF5-7867-4FAF-BF87-DDAB5DDDBCB2}"/>
+						<State Name="Meditative" ID="{6EA1CB85-4E67-41CC-952F-5D26718C2586}"/>
+						<State Name="Playful" ID="{7104D2A2-9625-486D-A246-6B4C6AF8A511}"/>
+					</ChildrenList>
+				</StateGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</States>

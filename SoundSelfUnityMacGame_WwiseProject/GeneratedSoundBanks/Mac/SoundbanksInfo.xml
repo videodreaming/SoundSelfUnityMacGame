@@ -16,7 +16,7 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{02DF5010-F874-91E1-CA00-6BF5A850DE85}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{F1C2485C-C6A7-CF20-5EA9-63736140C43C}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -99,14 +99,17 @@
 				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
 				<GameParameter Id="54156857" Name="AVS_MasterVolume_Wave3"/>
 				<GameParameter Id="54156859" Name="AVS_MasterVolume_Wave1"/>
+				<GameParameter Id="92185602" Name="Unity_Absorbtion"/>
 				<GameParameter Id="609474916" Name="InteractiveMusic_Bus_Volume"/>
 				<GameParameter Id="767906964" Name="ImpactsSub_Bus_Volume"/>
 				<GameParameter Id="1050949862" Name="SFX_Bus_Volume"/>
+				<GameParameter Id="1072896080" Name="Unity_ChantLerpFast"/>
 				<GameParameter Id="1111564044" Name="HarmonySilentVolume"/>
 				<GameParameter Id="1209148328" Name="AVS_Modulation_PWM_Wave1"/>
 				<GameParameter Id="1209148330" Name="AVS_Modulation_PWM_Wave3"/>
 				<GameParameter Id="1209148331" Name="AVS_Modulation_PWM_Wave2"/>
 				<GameParameter Id="1504547510" Name="HarmonyToningVolume"/>
+				<GameParameter Id="1523152327" Name="Unity_Charge"/>
 				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
 				<GameParameter Id="1710998699" Name="Impacts_Volume"/>
 				<GameParameter Id="1729197293" Name="FundamentalToningVolume"/>
@@ -118,7 +121,9 @@
 				<GameParameter Id="2189202576" Name="AVS_Modulation_Frequency_Wave3"/>
 				<GameParameter Id="2189202577" Name="AVS_Modulation_Frequency_Wave2"/>
 				<GameParameter Id="2189202578" Name="AVS_Modulation_Frequency_Wave1"/>
+				<GameParameter Id="2438365033" Name="TONING_Player_Volume"/>
 				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
+				<GameParameter Id="2462119772" Name="Unity_SoundTweak"/>
 				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
 				<GameParameter Id="2590911748" Name="LinearMusic_Volume"/>
 				<GameParameter Id="2591147252" Name="AVS_Modulation_Waveform_Wave2"/>
@@ -134,6 +139,9 @@
 				<GameParameter Id="3244028900" Name="AVS_BLUE_Volume_Wave3"/>
 				<GameParameter Id="3244028901" Name="AVS_BLUE_Volume_Wave2"/>
 				<GameParameter Id="3244028902" Name="AVS_BLUE_Volume_Wave1"/>
+				<GameParameter Id="3426469145" Name="Unity_ChantLerpSlow"/>
+				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
+				<GameParameter Id="3671138082" Name="New_Game_Parameter"/>
 				<GameParameter Id="3687478936" Name="VO_Bus_Volume"/>
 				<GameParameter Id="3740547865" Name="AVS_Modulation_BypassEffect_Wave1"/>
 				<GameParameter Id="3740547866" Name="AVS_Modulation_BypassEffect_Wave2"/>
@@ -153,6 +161,13 @@
 						<State Id="748895195" Name="None"/>
 						<State Id="1229948536" Name="Environment"/>
 						<State Id="1817215723" Name="InteractiveMusicSystem"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="1731624755" Name="AbsorptionMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1971384320" Name="Playful"/>
+						<State Id="4231874361" Name="Meditative"/>
 					</States>
 				</StateGroup>
 				<StateGroup Id="3090474987" Name="SoundWorldMode">
@@ -230,6 +245,12 @@
 						<Switch Id="3147549296" Name="Preparation"/>
 						<Switch Id="4033993124" Name="Wisdom"/>
 						<Switch Id="4094247797" Name="Integration"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="2790444407" Name="ToneActive">
+					<Switches>
+						<Switch Id="1137673461" Name="Resting"/>
+						<Switch Id="1718895636" Name="Toning"/>
 					</Switches>
 				</SwitchGroup>
 				<SwitchGroup Id="2905423286" Name="InteractiveMusicSwitchGroup1_7Pitches_Linked5ths">
@@ -331,7 +352,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{0A4E080F-BEDE-C130-7DA6-AB9C00974CFF}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{112C48DF-D690-0A4F-C50A-6B2826847505}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -9227,6 +9248,13 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
+		<SoundBank Id="3913696011" Type="Event" Language="SFX" Hash="{9132386C-2D84-2B87-3B5A-C85003665E28}">
+			<ShortName>Unity_TransitionSFX</ShortName>
+			<Path>Event/39/Unity_TransitionSFX.bnk</Path>
+			<Events>
+				<Event Id="3913696011" Name="Unity_TransitionSFX" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+			</Events>
+		</SoundBank>
 	</SoundBanks>
-	<FileHash>{4DF71E84-00C6-EBA3-3100-4897EF686F38}</FileHash>
+	<FileHash>{77879013-E252-5AC3-DF56-26DE313FAFC1}</FileHash>
 </SoundBanksInfo>
