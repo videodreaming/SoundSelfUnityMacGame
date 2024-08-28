@@ -6,6 +6,13 @@
 				<Folder Name="Ozone SFX" ID="{7A75CF4C-FE97-4CF1-8DE1-4A3BF10EAC2C}" ShortID="213532620">
 					<ChildrenList>
 						<Sound Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" ShortID="27299914">
+							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>11</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -27,6 +34,19 @@
 								</AudioFileSource>
 							</ChildrenList>
 							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{9AB0E93A-0F52-4DBF-B2F0-178A343268E9}" ShortID="1068371778">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+														<ObjectRef Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
 								<ObjectList Name="RTPC">
 									<Reference>
 										<Local>
@@ -48,6 +68,76 @@
 																	<Point>
 																		<XPos>0</XPos>
 																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{9FEF33FB-5365-4154-AD34-4A5D28FDA898}" ShortID="486074404">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{E9B95977-0A35-4E4B-ABD6-660B627BD342}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-400</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>1059</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{DEEFF446-7EF6-4899-B419-2DF495CCE320}" ShortID="34752661">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Unity_Inhale" ID="{5E526CB9-50C4-4507-9B59-B79FAA4746BD}" WorkUnitID="{8649C7CA-1610-46BD-8DCA-C9F447D3C666}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{100CA40A-7EBB-4634-9FBF-709DD7F034BB}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-7.47509</YPos>
 																		<Flags>5</Flags>
 																	</Point>
 																	<Point>

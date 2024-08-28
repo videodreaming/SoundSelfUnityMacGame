@@ -245,6 +245,87 @@
 					</ChildrenList>
 				</Event>
 				<Event Name="Unity_TransitionSFX" ID="{1E0E502D-1D20-4209-89C0-D28DB3052CFF}"/>
+				<Event Name="Play_Inhale_Short" ID="{9ACF354A-3E4F-4249-89C4-8C49B0DFF12B}">
+					<ChildrenList>
+						<Action Name="" ID="{1703D022-8713-44A2-ABDA-5478E080110B}" ShortID="1036759606">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{6B73A636-CC17-4256-8140-2C0932FAA4D6}" ShortID="190652236">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="100"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Inhale_Medium" ID="{BB3BA8BB-FC94-42FB-8E1B-11EFB7F9EC68}">
+					<ChildrenList>
+						<Action Name="" ID="{CC962CD6-8C04-4D9F-B597-C654E3F5E7D4}" ShortID="971459319">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="50"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C7E1AADA-0D42-45A9-896E-1B37ACFC0C02}" ShortID="15386780">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Inhale_Long" ID="{4B9F2ACC-55FD-4285-952B-9206B5585121}">
+					<ChildrenList>
+						<Action Name="" ID="{C17BD1C8-3657-4AFD-936C-C07849C003C7}" ShortID="962445261">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{5572FB72-98FD-4A0A-BBFC-E0FB3FCC8C93}" ShortID="165365458">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_Inhales" ID="{465AF465-834E-49F5-80D0-AA1071BDB9E2}">
+					<ChildrenList>
+						<Action Name="" ID="{E657B100-4995-4DC9-A3B1-E5309CA2BE6B}" ShortID="121802071">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
