@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}" SchemaVersion="119" RootDocumentID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" ParentDocumentID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}">
+<WwiseDocument Type="WorkUnit" ID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}" SchemaVersion="119">
 	<InteractiveMusic>
-		<WorkUnit Name="VO_TestRepair" ID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}" OwnerID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" PersistMode="Nested">
+		<WorkUnit Name="VO_TestRepair" ID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}" PersistMode="Standalone">
 			<ChildrenList>
 				<MusicSegment Name="vo_testRepair_ahh" ID="{9F801837-77CC-4BFD-9B5D-C0CF9D867F59}" ShortID="656056642">
 					<PropertyList>

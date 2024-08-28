@@ -6,7 +6,11 @@
 				<GameParameter Name="Unity_Charge" ID="{3C962748-91D4-4822-A3B8-E5787F955228}"/>
 				<GameParameter Name="Unity_ChantLerpSlow" ID="{4381AD2F-80FB-4569-99B9-A06BF7D63F22}"/>
 				<GameParameter Name="Unity_ChantLerpFast" ID="{75F22E6B-E727-4562-94B6-1AD84E3D57F8}"/>
-				<GameParameter Name="Unity_Inhale" ID="{5E526CB9-50C4-4507-9B59-B79FAA4746BD}"/>
+				<GameParameter Name="Unity_Inhale" ID="{5E526CB9-50C4-4507-9B59-B79FAA4746BD}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="80"/>
+					</PropertyList>
+				</GameParameter>
 				<GameParameter Name="Unity_SoundTweak" ID="{555E8C5F-F4ED-4045-9646-FB1E9AB54C1A}"/>
 				<GameParameter Name="New_Game_Parameter" ID="{1DDD125A-9DB3-455E-8313-043BF219D342}"/>
 				<GameParameter Name="TONING_Player_Volume" ID="{02AAE82B-C841-486D-A07E-07B93954DBCF}"/>

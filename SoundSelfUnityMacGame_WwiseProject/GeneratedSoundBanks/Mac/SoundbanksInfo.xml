@@ -16,7 +16,80 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{F7B91320-7757-CB47-DF4F-9FB3BE0D3895}">
+		<SoundBank Id="237216068" Type="Event" Language="SFX" Hash="{C0B91557-2D56-44AB-8829-AFF3F7DCD631}">
+			<ShortName>Stop_Inhales</ShortName>
+			<Path>Event/23/Stop_Inhales.bnk</Path>
+			<Events>
+				<Event Id="237216068" Name="Stop_Inhales" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+			</Events>
+		</SoundBank>
+		<SoundBank Id="769398012" Type="Event" Language="SFX" Hash="{723B467E-FD4C-6436-B0AA-9214D07BD625}">
+			<ShortName>Play_Inhale_Long</ShortName>
+			<Path>Event/76/Play_Inhale_Long.bnk</Path>
+			<Media>
+				<File Id="466210932" Language="SFX" Streaming="false" Location="Loose">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<Path>Media/46/466210932.wem</Path>
+					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
+				</ShareSets>
+			</Plugins>
+			<Events>
+				<Event Id="769398012" Name="Play_Inhale_Long" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
+				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
+				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
+			</GameParameters>
+		</SoundBank>
+		<SoundBank Id="1252315619" Type="Event" Language="SFX" Hash="{CEDAB849-CEEC-6892-4B1F-5D125F1F418E}">
+			<ShortName>Play_Inhale_Medium</ShortName>
+			<Path>Event/12/Play_Inhale_Medium.bnk</Path>
+			<Media>
+				<File Id="466210932" Language="SFX" Streaming="false" Location="Loose">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<Path>Media/46/466210932.wem</Path>
+					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
+				</ShareSets>
+			</Plugins>
+			<Events>
+				<Event Id="1252315619" Name="Play_Inhale_Medium" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
+				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
+				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
+			</GameParameters>
+		</SoundBank>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{A4471EF7-4E28-04FA-D02E-CE6FBE613A09}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -105,6 +178,7 @@
 				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
 				<GameParameter Id="54156857" Name="AVS_MasterVolume_Wave3"/>
 				<GameParameter Id="54156859" Name="AVS_MasterVolume_Wave1"/>
+				<GameParameter Id="92185602" Name="Unity_Absorbtion"/>
 				<GameParameter Id="609474916" Name="InteractiveMusic_Bus_Volume"/>
 				<GameParameter Id="767906964" Name="ImpactsSub_Bus_Volume"/>
 				<GameParameter Id="1050949862" Name="SFX_Bus_Volume"/>
@@ -126,6 +200,7 @@
 				<GameParameter Id="2189202576" Name="AVS_Modulation_Frequency_Wave3"/>
 				<GameParameter Id="2189202577" Name="AVS_Modulation_Frequency_Wave2"/>
 				<GameParameter Id="2189202578" Name="AVS_Modulation_Frequency_Wave1"/>
+				<GameParameter Id="2438365033" Name="TONING_Player_Volume"/>
 				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
 				<GameParameter Id="2462119772" Name="Unity_SoundTweak"/>
 				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
@@ -145,7 +220,7 @@
 				<GameParameter Id="3244028902" Name="AVS_BLUE_Volume_Wave1"/>
 				<GameParameter Id="3426469145" Name="Unity_ChantLerpSlow"/>
 				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
-				<GameParameter Id="3663186972" Name="Unity_Absorption"/>
+				<GameParameter Id="3671138082" Name="New_Game_Parameter"/>
 				<GameParameter Id="3687478936" Name="VO_Bus_Volume"/>
 				<GameParameter Id="3740547865" Name="AVS_Modulation_BypassEffect_Wave1"/>
 				<GameParameter Id="3740547866" Name="AVS_Modulation_BypassEffect_Wave2"/>
@@ -155,6 +230,7 @@
 				<GameParameter Id="3922087662" Name="AVS_RED_Volume_Wave2"/>
 				<GameParameter Id="3922087663" Name="AVS_RED_Volume_Wave3"/>
 				<GameParameter Id="4179668880" Name="Master_Volume"/>
+				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
 				<GameParameter Id="4221340217" Name="AVS_GREEN_Volume_Wave1"/>
 				<GameParameter Id="4221340218" Name="AVS_GREEN_Volume_Wave2"/>
 				<GameParameter Id="4221340219" Name="AVS_GREEN_Volume_Wave3"/>
@@ -356,7 +432,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{83E438F7-A0F7-1C07-3D06-628504012FFF}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{112C48DF-D690-0A4F-C50A-6B2826847505}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -4849,6 +4925,39 @@
 				<AuxBus Id="1959646260" Name="Aux_SilentLoops"/>
 			</AuxBusses>
 		</SoundBank>
+		<SoundBank Id="2110561540" Type="Event" Language="SFX" Hash="{3028CD73-1F27-A9E3-0E59-C37F7B439C9B}">
+			<ShortName>Play_Inhale_Short</ShortName>
+			<Path>Event/21/Play_Inhale_Short.bnk</Path>
+			<Media>
+				<File Id="466210932" Language="SFX" Streaming="false" Location="Loose">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<Path>Media/46/466210932.wem</Path>
+					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
+				</ShareSets>
+			</Plugins>
+			<Events>
+				<Event Id="2110561540" Name="Play_Inhale_Short" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+			</Events>
+			<GameParameters>
+				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
+				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
+				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
+			</GameParameters>
+		</SoundBank>
 		<SoundBank Id="2138093880" Type="Event" Language="SFX" Hash="{669B9045-1361-3B32-7E87-E3D2276458E0}">
 			<ShortName>Play_VO_SighElicitation2</ShortName>
 			<Path>Event/21/Play_VO_SighElicitation2.bnk</Path>
@@ -4874,7 +4983,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{19894E23-B5FB-08D9-680F-A67CB6D1E353}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{4EDD0393-8C86-A0D3-48B9-5A1C82EF340B}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5836,7 +5945,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{401A1DE3-FB83-69BE-1178-A36C8CC7839E}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{BC39D104-59C9-D192-6E1B-11E83C49C301}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -5875,6 +5984,10 @@
 				<File Id="102762678" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_sono flore.wav</ShortName>
 					<CachePath>SFX/harmony_[G]_toning_sono flore_252A4D6D.wem</CachePath>
+				</File>
+				<File Id="105163780" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Wind - cold - short - looping.wav</ShortName>
+					<CachePath>SFX/Wind - cold - short - looping_85315AB2.wem</CachePath>
 				</File>
 				<File Id="108713058" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
@@ -6092,6 +6205,10 @@
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_A7ED6E33.wem</CachePath>
 				</File>
+				<File Id="493065678" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SO_AM_90_ambience_rain_muladhara.wav</ShortName>
+					<CachePath>SFX/SO_AM_90_ambience_rain_muladhara_A9C1662C.wem</CachePath>
+				</File>
 				<File Id="494020334" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shruti.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_toning_shruti_2E59B1D2.wem</CachePath>
@@ -6288,6 +6405,10 @@
 					<ShortName>harmony_[F]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="928485249" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>OceanWavesSlowSurf_BWU.685.wav</ShortName>
+					<CachePath>SFX/OceanWavesSlowSurf_BWU.685_D0AF3C00.wem</CachePath>
+				</File>
 				<File Id="934723135" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_toning_shadow_F133989B.wem</CachePath>
@@ -6295,6 +6416,10 @@
 				<File Id="943526868" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="948390285" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj.wav</ShortName>
+					<CachePath>SFX/SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_E0F51DE2.wem</CachePath>
 				</File>
 				<File Id="955040453" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
@@ -6315,6 +6440,10 @@
 				<File Id="978729283" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_testRepair_ohh.wav</ShortName>
 					<CachePath>SFX/vo_testRepair_ohh_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="987362858" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SO_AM_80_ambience_birds_creek_ashby.wav</ShortName>
+					<CachePath>SFX/SO_AM_80_ambience_birds_creek_ashby_71613975.wem</CachePath>
 				</File>
 				<File Id="1004814377" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test01hum.wav</ShortName>
@@ -6373,10 +6502,12 @@
 					<Plugin Id="28907203" Name="AVS_Tremolo_Reference_R" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="28907229" Name="AVS_Tremolo_Reference_L" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="1443902288" Name="_1_Second_Delay" LibName="Wwise Stereo Delay" LibId="8847363"/>
 					<Plugin Id="1506222489" Name="AVS_Modulation_Wave1_01" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="1506222490" Name="AVS_Modulation_Wave1_02" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2943759360" Name="AVS_Modulation_Wave3_02" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2943759363" Name="AVS_Modulation_Wave3_01" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="3216246379" Name="Space_Dreaming" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="3561977548" Name="AVS_Modulation_Wave2_01" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="3561977551" Name="AVS_Modulation_Wave2_02" LibName="Wwise Tremolo" LibId="8585219"/>
 				</ShareSets>
@@ -9176,12 +9307,22 @@
 				<Event Id="4138940083" Name="Stop_AVS_Wave3" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="114893642" Name="Stop_InteractiveMusicSystem" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2822016348" Name="Stop_SilentLoops" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="955662865" Name="Stop_Toning" DurationType="OneShot" DurationMin="0" DurationMax="0">
-					<ActionPostEvent>
-						<ActionPostEventEntry Id="3830600368" Name="Play_sfx_breathein"/>
-					</ActionPostEvent>
+				<Event Id="955662865" Name="Stop_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3913696011" Name="Unity_TransitionSFX" DurationType="OneShot" DurationMin="4.9054503" DurationMax="13.185377">
+					<MediaRefs>
+						<MediaRef Id="105163780"/>
+						<MediaRef Id="493065678"/>
+						<MediaRef Id="928485249"/>
+						<MediaRef Id="948390285"/>
+						<MediaRef Id="987362858"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1443902288"/>
+							<PluginRef Id="3216246379"/>
+						</ShareSets>
+					</PluginRefs>
 				</Event>
-				<Event Id="3913696011" Name="Unity_TransitionSFX" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
@@ -9290,5 +9431,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{9B9573AB-6F9B-2595-BA8E-F6AC0BB3BF73}</FileHash>
+	<FileHash>{4ADF652F-A11D-556E-D902-E22776455EE8}</FileHash>
 </SoundBanksInfo>
