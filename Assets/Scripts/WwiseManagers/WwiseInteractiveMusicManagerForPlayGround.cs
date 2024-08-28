@@ -70,6 +70,11 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     void Awake()
     {
         AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
+
+        if(developmentMode.developmentMode)
+        {
+            d = 1f;
+        }
     }
 
     void Start()
@@ -525,7 +530,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             {
                 directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 30.0f, true, 2));
             }
-            if(wwiseAVSMusicManager.gammaBurstMode != 0.0f)
+            if(wwiseAVSMusicManager._gammaBurstMode != 0.0f)
             {
                 directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 30.0f, true, 2));
             }
@@ -546,7 +551,6 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 
             while(WakeUpCounter > 0f)
             {
-                _timer -= Time.deltaTime;
                 yield return null;
             }
             Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. End of AVS Program. Goodnight!");
