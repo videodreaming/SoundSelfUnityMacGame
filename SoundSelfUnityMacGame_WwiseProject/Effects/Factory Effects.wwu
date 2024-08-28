@@ -1526,9 +1526,10 @@
 										<Property Name="DecayTime" Type="Real32" Value="5.8"/>
 										<Property Name="Density" Type="Real32" Value="100"/>
 										<Property Name="Diffusion" Type="Real32" Value="53"/>
-										<Property Name="DryLevel" Type="Real32" Value="-96"/>
-										<Property Name="ERLevel" Type="Real32" Value="-6"/>
-										<Property Name="ERPattern" Type="int32" Value="29"/>
+										<Property Name="DryLevel" Type="Real32" Value="-4"/>
+										<Property Name="ERFrontBackDelay" Type="Real32" Value="79"/>
+										<Property Name="ERLevel" Type="Real32" Value="-3"/>
+										<Property Name="ERPattern" Type="int32" Value="28"/>
 										<Property Name="Filter1Freq" Type="Real32" Value="490"/>
 										<Property Name="Filter1Gain" Type="Real32" Value="-11"/>
 										<Property Name="Filter2Freq" Type="Real32" Value="1250"/>
@@ -1539,10 +1540,10 @@
 										<Property Name="HFDamping" Type="Real32" Value="7.05"/>
 										<Property Name="PreDelay" Type="Real32" Value="200"/>
 										<Property Name="Quality" Type="int32" Value="6"/>
-										<Property Name="ReverbLevel" Type="Real32" Value="-19"/>
+										<Property Name="ReverbLevel" Type="Real32" Value="-9"/>
 										<Property Name="RoomShape" Type="Real32" Value="81"/>
 										<Property Name="RoomSize" Type="Real32" Value="100"/>
-										<Property Name="StereoWidth" Type="Real32" Value="120"/>
+										<Property Name="StereoWidth" Type="Real32" Value="145"/>
 									</PropertyList>
 								</Effect>
 								<Effect Name="Space_Garage" ID="{1AF92D84-49DD-4BBC-8F29-6C6D10082B6E}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
@@ -1799,21 +1800,23 @@
 					<ChildrenList>
 						<Effect Name="_1_Frame_Delay" ID="{B8CCC284-212D-4ADF-B8E4-BC724B40D8BD}" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
 							<PropertyList>
+								<Property Name="DryLevel" Type="Real32" Value="-15"/>
 								<Property Name="FilterFrequency" Type="Real32" Value="261"/>
 								<Property Name="FilterGain" Type="Real32" Value="10.5"/>
 								<Property Name="LeftDelayTime" Type="Real32" Value="0.03"/>
 								<Property Name="RightDelayTime" Type="Real32" Value="0.03"/>
+								<Property Name="WetLevel" Type="Real32" Value="7"/>
 							</PropertyList>
 						</Effect>
 						<Effect Name="_1_Second_Delay" ID="{5AAB81A5-3444-4DE7-AEB3-2DDBB33D455B}" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
 							<PropertyList>
-								<Property Name="FilterFrequency" Type="Real32" Value="218"/>
+								<Property Name="FilterFrequency" Type="Real32" Value="8539"/>
 								<Property Name="FilterGain" Type="Real32" Value="10.5"/>
 								<Property Name="FilterType" Type="int32" Value="5"/>
 								<Property Name="FrontRearBalance" Type="Real32" Value="0"/>
 								<Property Name="LeftDelayTime" Type="Real32" Value="1"/>
 								<Property Name="RightDelayTime" Type="Real32" Value="1.5"/>
-								<Property Name="WetLevel" Type="Real32" Value="-1"/>
+								<Property Name="WetLevel" Type="Real32" Value="3"/>
 							</PropertyList>
 						</Effect>
 						<Effect Name="LR_Slap_with_CrossFeed" ID="{30319A92-C5AC-437A-9864-430059762933}" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">

@@ -89,7 +89,7 @@
 				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{5C7D7485-BC93-6558-92E5-0A5EDC4EA98B}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{A4471EF7-4E28-04FA-D02E-CE6FBE613A09}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -5945,7 +5945,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{F103FB9B-6CB4-AA73-F08F-19B392FD3B7B}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{43B0B114-E587-C332-2ED1-B5DF5D508BF2}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -5984,6 +5984,10 @@
 				<File Id="102762678" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_sono flore.wav</ShortName>
 					<CachePath>SFX/harmony_[G]_toning_sono flore_252A4D6D.wem</CachePath>
+				</File>
+				<File Id="105163780" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Wind - cold - short - looping.wav</ShortName>
+					<CachePath>SFX/Wind - cold - short - looping_93AE0C54.wem</CachePath>
 				</File>
 				<File Id="108713058" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
@@ -6201,6 +6205,10 @@
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_A7ED6E33.wem</CachePath>
 				</File>
+				<File Id="493065678" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SO_AM_90_ambience_rain_muladhara.wav</ShortName>
+					<CachePath>SFX/SO_AM_90_ambience_rain_muladhara_EB9AFDE2.wem</CachePath>
+				</File>
 				<File Id="494020334" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shruti.wav</ShortName>
 					<CachePath>SFX/fundamental_[C]_toning_shruti_2E59B1D2.wem</CachePath>
@@ -6397,6 +6405,10 @@
 					<ShortName>harmony_[F]_silent_sono flore.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="928485249" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>OceanWavesSlowSurf_BWU.685.wav</ShortName>
+					<CachePath>SFX/OceanWavesSlowSurf_BWU.685_166B8F1C.wem</CachePath>
+				</File>
 				<File Id="934723135" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_toning_shadow_F133989B.wem</CachePath>
@@ -6404,6 +6416,10 @@
 				<File Id="943526868" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_silent_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="948390285" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj.wav</ShortName>
+					<CachePath>SFX/SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_A20C02F7.wem</CachePath>
 				</File>
 				<File Id="955040453" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
@@ -6424,6 +6440,10 @@
 				<File Id="978729283" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_testRepair_ohh.wav</ShortName>
 					<CachePath>SFX/vo_testRepair_ohh_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="987362858" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>SO_AM_80_ambience_birds_creek_ashby.wav</ShortName>
+					<CachePath>SFX/SO_AM_80_ambience_birds_creek_ashby_1967914F.wem</CachePath>
 				</File>
 				<File Id="1004814377" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test01hum.wav</ShortName>
@@ -6482,10 +6502,12 @@
 					<Plugin Id="28907203" Name="AVS_Tremolo_Reference_R" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="28907229" Name="AVS_Tremolo_Reference_L" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="1443902288" Name="_1_Second_Delay" LibName="Wwise Stereo Delay" LibId="8847363"/>
 					<Plugin Id="1506222489" Name="AVS_Modulation_Wave1_01" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="1506222490" Name="AVS_Modulation_Wave1_02" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2943759360" Name="AVS_Modulation_Wave3_02" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2943759363" Name="AVS_Modulation_Wave3_01" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="3216246379" Name="Space_Dreaming" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="3561977548" Name="AVS_Modulation_Wave2_01" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="3561977551" Name="AVS_Modulation_Wave2_02" LibName="Wwise Tremolo" LibId="8585219"/>
 				</ShareSets>
@@ -9290,7 +9312,21 @@
 						<ActionPostEventEntry Id="3830600368" Name="Play_sfx_breathein"/>
 					</ActionPostEvent>
 				</Event>
-				<Event Id="3913696011" Name="Unity_TransitionSFX" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3913696011" Name="Unity_TransitionSFX" DurationType="OneShot" DurationMin="4.9054503" DurationMax="13.185377">
+					<MediaRefs>
+						<MediaRef Id="105163780"/>
+						<MediaRef Id="493065678"/>
+						<MediaRef Id="928485249"/>
+						<MediaRef Id="948390285"/>
+						<MediaRef Id="987362858"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1443902288"/>
+							<PluginRef Id="3216246379"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
 			</Events>
 			<GameParameters>
 				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
@@ -9399,5 +9435,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{08887BA7-AC33-25DC-9A72-6BCF2E031863}</FileHash>
+	<FileHash>{80B78254-867E-3388-C36B-2F7D0AA9617C}</FileHash>
 </SoundBanksInfo>

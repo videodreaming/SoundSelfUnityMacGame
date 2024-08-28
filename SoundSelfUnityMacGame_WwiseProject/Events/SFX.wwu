@@ -244,7 +244,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Unity_TransitionSFX" ID="{1E0E502D-1D20-4209-89C0-D28DB3052CFF}"/>
+				<Event Name="Unity_TransitionSFX" ID="{1E0E502D-1D20-4209-89C0-D28DB3052CFF}">
+					<ChildrenList>
+						<Action Name="" ID="{C87FD1BF-21F3-420D-9EFF-BBF515C3ACF1}" ShortID="759242245">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Nature_Random" ID="{CAFBF820-FBEB-4826-811F-9E51CB1170A8}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 				<Event Name="Play_Inhale_Short" ID="{9ACF354A-3E4F-4249-89C4-8C49B0DFF12B}">
 					<ChildrenList>
 						<Action Name="" ID="{1703D022-8713-44A2-ABDA-5478E080110B}" ShortID="1036759606">
