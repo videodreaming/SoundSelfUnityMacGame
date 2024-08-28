@@ -16,7 +16,7 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{F4BFE6B5-2824-5D63-240C-5DE3049A1292}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{2746A6EE-ED83-1DCD-B615-2D60A90C0AA4}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -105,6 +105,7 @@
 				<GameParameter Id="54156856" Name="AVS_MasterVolume_Wave2"/>
 				<GameParameter Id="54156857" Name="AVS_MasterVolume_Wave3"/>
 				<GameParameter Id="54156859" Name="AVS_MasterVolume_Wave1"/>
+				<GameParameter Id="92185602" Name="Unity_Absorbtion"/>
 				<GameParameter Id="609474916" Name="InteractiveMusic_Bus_Volume"/>
 				<GameParameter Id="767906964" Name="ImpactsSub_Bus_Volume"/>
 				<GameParameter Id="1050949862" Name="SFX_Bus_Volume"/>
@@ -126,6 +127,7 @@
 				<GameParameter Id="2189202576" Name="AVS_Modulation_Frequency_Wave3"/>
 				<GameParameter Id="2189202577" Name="AVS_Modulation_Frequency_Wave2"/>
 				<GameParameter Id="2189202578" Name="AVS_Modulation_Frequency_Wave1"/>
+				<GameParameter Id="2438365033" Name="TONING_Player_Volume"/>
 				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
 				<GameParameter Id="2462119772" Name="Unity_SoundTweak"/>
 				<GameParameter Id="2523786154" Name="AVS_REFERENCE_Volume"/>
@@ -145,7 +147,7 @@
 				<GameParameter Id="3244028902" Name="AVS_BLUE_Volume_Wave1"/>
 				<GameParameter Id="3426469145" Name="Unity_ChantLerpSlow"/>
 				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
-				<GameParameter Id="3663186972" Name="Unity_Absorption"/>
+				<GameParameter Id="3671138082" Name="New_Game_Parameter"/>
 				<GameParameter Id="3687478936" Name="VO_Bus_Volume"/>
 				<GameParameter Id="3740547865" Name="AVS_Modulation_BypassEffect_Wave1"/>
 				<GameParameter Id="3740547866" Name="AVS_Modulation_BypassEffect_Wave2"/>
@@ -356,7 +358,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{83E438F7-A0F7-1C07-3D06-628504012FFF}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{112C48DF-D690-0A4F-C50A-6B2826847505}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -4874,7 +4876,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{19894E23-B5FB-08D9-680F-A67CB6D1E353}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{4EDD0393-8C86-A0D3-48B9-5A1C82EF340B}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5836,7 +5838,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{401A1DE3-FB83-69BE-1178-A36C8CC7839E}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{796BB7FC-A44E-79C8-94D5-BEE88BBDE5DE}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -9290,5 +9292,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{ADE09DC9-B6D3-10F6-4379-E6D7F51FD186}</FileHash>
+	<FileHash>{0835C342-EE83-3344-E1D4-436981738F38}</FileHash>
 </SoundBanksInfo>
