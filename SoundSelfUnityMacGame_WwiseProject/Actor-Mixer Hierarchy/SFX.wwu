@@ -6,6 +6,13 @@
 				<Folder Name="Ozone SFX" ID="{7A75CF4C-FE97-4CF1-8DE1-4A3BF10EAC2C}" ShortID="213532620">
 					<ChildrenList>
 						<Sound Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" ShortID="27299914">
+							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>11</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -27,6 +34,19 @@
 								</AudioFileSource>
 							</ChildrenList>
 							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{9AB0E93A-0F52-4DBF-B2F0-178A343268E9}" ShortID="1068371778">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+														<ObjectRef Name="Holy" ID="{CC7B8638-C670-4AD5-B3FB-331EA81037F6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
 								<ObjectList Name="RTPC">
 									<Reference>
 										<Local>
@@ -48,6 +68,76 @@
 																	<Point>
 																		<XPos>0</XPos>
 																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{9FEF33FB-5365-4154-AD34-4A5D28FDA898}" ShortID="486074404">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{E9B95977-0A35-4E4B-ABD6-660B627BD342}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-400</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>1059</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{DEEFF446-7EF6-4899-B419-2DF495CCE320}" ShortID="34752661">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Unity_Inhale" ID="{5E526CB9-50C4-4507-9B59-B79FAA4746BD}" WorkUnitID="{8649C7CA-1610-46BD-8DCA-C9F447D3C666}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{100CA40A-7EBB-4634-9FBF-709DD7F034BB}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-7.47509</YPos>
 																		<Flags>5</Flags>
 																	</Point>
 																	<Point>
@@ -366,6 +456,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="holyamb_glockenspiel_wave_09" ID="{9E7F9AC2-CC92-4E97-950E-441414811968}" ShortID="910722928">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-12</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -376,6 +473,12 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="holyamb_glockenspiel_wave_09" ID="{ABB0E781-D120-40CE-9450-55C0B83B4D56}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.319949811794228"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="3.29360100376412"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="3.74529485570891"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>holyamb_glockenspiel_wave_09.wav</AudioFile>
 									<MediaIDList>
@@ -1461,6 +1564,275 @@
 								</SwitchContainer>
 							</ChildrenList>
 						</ActorMixer>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="New SFX Ideas" ID="{13301C64-0FAD-4C46-9F59-EAAA8E5F1140}" ShortID="450525894">
+					<ChildrenList>
+						<RandomSequenceContainer Name="SFX_Nature_Random" ID="{CAFBF820-FBEB-4826-811F-9E51CB1170A8}" ShortID="351038336">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="OceanWavesSlowSurf_BWU_685" ID="{6F17F45A-7EF6-46A5-8A43-B326081B8B61}" ShortID="410983360">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>16</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-21</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>65</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="OceanWavesSlowSurf_BWU_685" ID="{0253E812-CF2C-497B-89F8-BD6E4C6986DA}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="1.34809910449668"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="3.4537284407677"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="65.0309610374207"/>
+												<Property Name="TrimEnd" Type="Real64" Value="78.0900416784735"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>OceanWavesSlowSurf_BWU.685.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="928485249"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="OceanWavesSlowSurf_BWU_685" ID="{0253E812-CF2C-497B-89F8-BD6E4C6986DA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SO_AM_80_ambience_birds_creek_ashby" ID="{E073EA89-9AE4-44E2-935B-928914EA9CF4}" ShortID="692132646">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>60</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>28</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-17</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SO_AM_80_ambience_birds_creek_ashby" ID="{3BB30D32-FA92-4D9F-8824-188582E99947}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="1.44542032622334"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="5.77751671125124"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="6.84384624158777"/>
+												<Property Name="TrimEnd" Type="Real64" Value="14.9454445434778"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>SO_AM_80_ambience_birds_creek_ashby.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="987362858"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SO_AM_80_ambience_birds_creek_ashby" ID="{3BB30D32-FA92-4D9F-8824-188582E99947}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SO_AM_90_ambience_rain_muladhara" ID="{2F829B30-765D-42C1-9803-A87A9DC48FF2}" ShortID="405724490">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>39</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-20</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SO_AM_90_ambience_rain_muladhara" ID="{410BAFF7-90AE-479D-952A-AF92C3B58F3B}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="1.49895441237976"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="7.4639932131243"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="1.3383521539105"/>
+												<Property Name="TrimEnd" Type="Real64" Value="14.5237295431115"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>SO_AM_90_ambience_rain_muladhara.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="493065678"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="SO_AM_90_ambience_rain_muladhara" ID="{410BAFF7-90AE-479D-952A-AF92C3B58F3B}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj" ID="{D78E8C2F-06A8-4358-99AD-98B6E5427A5D}" ShortID="724016108">
+									<PropertyList>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-10</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj" ID="{81997445-FD4D-415C-AE65-28F2786678E2}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="1.58946616706072"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="1.09446761558229"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="20.1166811768622"/>
+												<Property Name="TrimEnd" Type="Real64" Value="25.0221315914466"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="948390285"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{AF455A08-1869-4BD6-B6B0-17A365748B3A}" ShortID="880443643">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
+																<ObjectRef Name="_1_Second_Delay" ID="{5AAB81A5-3444-4DE7-AEB3-2DDBB33D455B}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+									<ActiveSourceList>
+										<ActiveSource Name="SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj" ID="{81997445-FD4D-415C-AE65-28F2786678E2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="Wind - cold - short - looping" ID="{513C963F-2A34-4501-99C7-CE31D1B1385F}" ShortID="1037526826">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>36</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>14</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-14</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Wind - cold - short - looping" ID="{9AE80CE8-5BCE-4485-B126-3832B110176D}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="1.29294814238364"/>
+												<Property Name="FadeOutDuration" Type="Real64" Value="2.42016204332894"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="1.3769887487906"/>
+												<Property Name="TrimEnd" Type="Real64" Value="9.90362178687805"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>Wind - cold - short - looping.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="105163780"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="Wind - cold - short - looping" ID="{9AE80CE8-5BCE-4485-B126-3832B110176D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{225EF34C-8749-43A4-B2D6-0CD5784CCBAF}" ShortID="689763096">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+														<ObjectRef Name="Space_Dreaming" ID="{4FF7C4B2-37B0-4DFF-8E8A-1420102AE2DD}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

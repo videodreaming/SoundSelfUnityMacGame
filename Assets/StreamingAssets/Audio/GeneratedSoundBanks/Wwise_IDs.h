@@ -33,6 +33,9 @@ namespace AK
         static const AkUniqueID PLAY_ENVIRONMENT_OPENINGWELCOME = 2849654864U;
         static const AkUniqueID PLAY_ENVIRONMENT_WIND = 2929327982U;
         static const AkUniqueID PLAY_EXIT_MUSIC_PLAYLIST = 3484562951U;
+        static const AkUniqueID PLAY_INHALE_LONG = 769398012U;
+        static const AkUniqueID PLAY_INHALE_MEDIUM = 1252315619U;
+        static const AkUniqueID PLAY_INHALE_SHORT = 2110561540U;
         static const AkUniqueID PLAY_INTEGRATION_OPENING_SEQUENCE_SHORT = 2779598584U;
         static const AkUniqueID PLAY_MENUMUSIC = 2570041344U;
         static const AkUniqueID PLAY_MUSIC_DUET_D_MAJOR = 1226520867U;
@@ -101,6 +104,7 @@ namespace AK
         static const AkUniqueID STOP_CRYSTALBOWLGENERATOR = 4041758113U;
         static const AkUniqueID STOP_ENVIRONMENT_CRICKETS = 1774847782U;
         static const AkUniqueID STOP_ENVIRONMENT_WIND = 333136496U;
+        static const AkUniqueID STOP_INHALES = 237216068U;
         static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
         static const AkUniqueID STOP_MUSIC_MEDITATIONSILENT_E_MAJOR_LOOP = 2938179890U;
         static const AkUniqueID STOP_OPENING_SEQUENCE = 670049528U;
@@ -425,6 +429,7 @@ namespace AK
         static const AkUniqueID AVS_RED_VOLUME_WAVE3 = 3922087663U;
         static const AkUniqueID AVS_REFERENCE_VOLUME = 2523786154U;
         static const AkUniqueID BREATHECYCLE_VOLUME = 1662384195U;
+        static const AkUniqueID BREATHIN_PLAYBACKRATE = 4191266472U;
         static const AkUniqueID CRYSTALBOWLGENERATOR_VOLUME = 3761161481U;
         static const AkUniqueID ENVIRONMENT_BUS_VOLUME = 2456559820U;
         static const AkUniqueID FUNDAMENTALSILENTVOLUME = 2144346671U;
@@ -436,10 +441,12 @@ namespace AK
         static const AkUniqueID INTERACTIVEMUSIC_BUS_VOLUME = 609474916U;
         static const AkUniqueID LINEARMUSIC_VOLUME = 2590911748U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
+        static const AkUniqueID NEW_GAME_PARAMETER = 3671138082U;
         static const AkUniqueID SFX_BUS_VOLUME = 1050949862U;
         static const AkUniqueID SILENT_VOLUME = 3070055575U;
+        static const AkUniqueID TONING_PLAYER_VOLUME = 2438365033U;
         static const AkUniqueID TONING_VOLUME = 1765174721U;
-        static const AkUniqueID UNITY_ABSORPTION = 3663186972U;
+        static const AkUniqueID UNITY_ABSORBTION = 92185602U;
         static const AkUniqueID UNITY_CHANTLERPFAST = 1072896080U;
         static const AkUniqueID UNITY_CHANTLERPSLOW = 3426469145U;
         static const AkUniqueID UNITY_CHARGE = 1523152327U;
