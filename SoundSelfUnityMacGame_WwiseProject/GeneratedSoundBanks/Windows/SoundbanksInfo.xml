@@ -5945,7 +5945,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{43B0B114-E587-C332-2ED1-B5DF5D508BF2}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{BC39D104-59C9-D192-6E1B-11E83C49C301}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -5987,7 +5987,7 @@
 				</File>
 				<File Id="105163780" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Wind - cold - short - looping.wav</ShortName>
-					<CachePath>SFX/Wind - cold - short - looping_93AE0C54.wem</CachePath>
+					<CachePath>SFX/Wind - cold - short - looping_85315AB2.wem</CachePath>
 				</File>
 				<File Id="108713058" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
@@ -6207,7 +6207,7 @@
 				</File>
 				<File Id="493065678" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SO_AM_90_ambience_rain_muladhara.wav</ShortName>
-					<CachePath>SFX/SO_AM_90_ambience_rain_muladhara_EB9AFDE2.wem</CachePath>
+					<CachePath>SFX/SO_AM_90_ambience_rain_muladhara_A9C1662C.wem</CachePath>
 				</File>
 				<File Id="494020334" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shruti.wav</ShortName>
@@ -6407,7 +6407,7 @@
 				</File>
 				<File Id="928485249" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>OceanWavesSlowSurf_BWU.685.wav</ShortName>
-					<CachePath>SFX/OceanWavesSlowSurf_BWU.685_166B8F1C.wem</CachePath>
+					<CachePath>SFX/OceanWavesSlowSurf_BWU.685_D0AF3C00.wem</CachePath>
 				</File>
 				<File Id="934723135" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
@@ -6419,7 +6419,7 @@
 				</File>
 				<File Id="948390285" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj.wav</ShortName>
-					<CachePath>SFX/SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_A20C02F7.wem</CachePath>
+					<CachePath>SFX/SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_E0F51DE2.wem</CachePath>
 				</File>
 				<File Id="955040453" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
@@ -6443,7 +6443,7 @@
 				</File>
 				<File Id="987362858" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SO_AM_80_ambience_birds_creek_ashby.wav</ShortName>
-					<CachePath>SFX/SO_AM_80_ambience_birds_creek_ashby_1967914F.wem</CachePath>
+					<CachePath>SFX/SO_AM_80_ambience_birds_creek_ashby_71613975.wem</CachePath>
 				</File>
 				<File Id="1004814377" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test01hum.wav</ShortName>
@@ -9307,11 +9307,7 @@
 				<Event Id="4138940083" Name="Stop_AVS_Wave3" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="114893642" Name="Stop_InteractiveMusicSystem" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2822016348" Name="Stop_SilentLoops" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="955662865" Name="Stop_Toning" DurationType="OneShot" DurationMin="0" DurationMax="0">
-					<ActionPostEvent>
-						<ActionPostEventEntry Id="3830600368" Name="Play_sfx_breathein"/>
-					</ActionPostEvent>
-				</Event>
+				<Event Id="955662865" Name="Stop_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="3913696011" Name="Unity_TransitionSFX" DurationType="OneShot" DurationMin="4.9054503" DurationMax="13.185377">
 					<MediaRefs>
 						<MediaRef Id="105163780"/>
@@ -9435,5 +9431,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{23E61534-4094-B9E0-5728-94C702A7B3E6}</FileHash>
+	<FileHash>{CEDFB98D-6CD4-A967-7F35-0CCB5B08464B}</FileHash>
 </SoundBanksInfo>
