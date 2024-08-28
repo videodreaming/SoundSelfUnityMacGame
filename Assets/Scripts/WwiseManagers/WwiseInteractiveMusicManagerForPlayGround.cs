@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 
+//THERE ARE TWO THINGS IN HERE WHICH REALLY BELONG IN ANOTHER SCRIPT
+//FIRST, THE DIRECTOR AND DIRECTOR QUEUE, WHICH SHOULD BE IN ITS OWN SCRIPT
+//SECOND, THE AVS PROGRAM, WHICH SHOULD PROBABLY BE IN VOMANAGER, OR WE SHOULD DISCUSS WHERE THAT AND SOME OTHER THINGS SHOULD GO.
+
 public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 {
     private int fundamentalCount = -1;
@@ -134,54 +138,6 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if(Input.GetKeyDown(KeyCode.F))
-        // {
-        //     fundamentalCount++;
-        //     int mod = fundamentalCount % 3;
-        //     int note = 0;
-            
-        //     switch(mod)
-        //     {
-        //         case 0:
-        //             note = 0;
-        //             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(note), gameObject);
-        //             break;
-        //         case 1:
-        //             note = 5;
-        //             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(note), gameObject);
-        //             break;
-        //         case 2:
-        //             note = 8;
-        //             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(note), gameObject);
-        //             break;
-        //     }
-
-        //     Debug.Log("Fundamental Note: " + ConvertIntToNote(note));
-        // }
-        // if(Input.GetKeyDown(KeyCode.H))
-        // {
-        //     harmonyCount++;
-        //     int mod = harmonyCount % 3;
-        //     int note = 0;
-
-        //     switch(mod)
-        //     {
-        //         case 0:
-        //             note = 1;
-        //             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(note), gameObject);
-        //             break;
-        //         case 1:
-        //             note = 6;
-        //             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(note), gameObject);
-        //             break;
-        //         case 2:
-        //             note = 10;
-        //             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", ConvertIntToNote(note), gameObject);
-        //             break;
-        //     }
-
-        //     Debug.Log("Harmony Note: " + ConvertIntToNote(note));
-        // }
         DirectorQueueUpdate(); //TODO: put this in a separate script with director stuff
 
         if(imitoneVoiceIntepreter.toneActive == false)
@@ -191,13 +147,23 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         if(WakeUpCounter > -1.0f)
         {
             WakeUpCounter -= Time.deltaTime;
-        } 
+        }
+        if(WakeUpCounter <= 180f)
+        {
+            if(AVSControlCoroutine != null)
+            {
+                StopCoroutine(AVSControlCoroutine);
+            }
+            AVSControlCoroutine = StartCoroutine(AVS_Program_DynamicDrop_End());
+        }
         
         if( WakeUpCounter <= 0.0f && !wakeUpEndSoonTriggered)
         {
             AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
             WakeUpCounter = -1.0f;
             wakeUpEndSoonTriggered = true;
+            wwiseAVSMusicManager.SetPreferredColor("Dark");
+            wwiseAVSMusicManager.NextColorWorld(10f);
         }
         if (imitoneVoiceIntepreter.toneActiveConfident)
         {
@@ -247,21 +213,6 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         }
     }
 
-    //public void AVS_ProgramControl()
-    //{
-        //Let's do this:
-
-        //When the lights first come on, fade relatively quickly from gamma to high alpha.
-        //Then, fade relatively slowly from high alpha to 10hz.
-        //Then, once absorption falls above a certain level, begin drop to theta.
-        //Once in theta, do either gamma-bursts or bilateral, depending on absorption.
-        //In last three minutes, bilateral strobing
-        //In last 60 seconds, quickly rise back to Beta while in bilateral.
-
-        //If we get a "change" at one of our holding places, switch to bilateral until next change.
-
-    //}
-
     IEnumerator StartMusicalProgression()
     {
         float _t = WakeUpCounter;
@@ -296,6 +247,8 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         Debug.Log("Music Progression: Stage 3 Shruti");
         QueueNewWorld("SonoFlore", "Red");
 
+        //LET'S PUT THE GO DARK LOGIC HERE.
+
     }
 
     IEnumerator AVS_Program_DynamicDrop()
@@ -303,95 +256,102 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         yield return null;
         //define a list of integers to hold the director queue index items that are created in this coroutine
         List<int> directorQueueIndexList = new List<int>();
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Waiting for lights. Currently:" + wwiseAVSMusicManager.cycleRecent);
+        try
+        {
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Waiting for lights. Currently:" + wwiseAVSMusicManager.cycleRecent);
 
-        if(developmentMode.developmentPlayground)
-        {
-            wwiseAVSMusicManager.SetColorWorldByType("Red", 0.0f);
-        }
-
-        while((wwiseAVSMusicManager.cycleRecent == "dark") || (wwiseAVSMusicManager.cycleRecent == "Dark"))
-        {
-            yield return null;
-        }
-        //ONCE THE LIGHTS TURN ON, START AT 45HZ
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Lights detected, set strobe to 45hz.");
-        wwiseAVSMusicManager.SetStrobeRate(45.0f, 0.0f);
-        float _timer = 10f / d;
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //AFTER 10 SECOND HOLD IS FINISHED, DROP TO 11HZ OVER 30 SECONDS
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Initializeing drop from gamma to high alpha.");
-        _timer = 30f / d;
-        wwiseAVSMusicManager.SetStrobeRate(11.0f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //NOW TAKE 120 SECONDS TO DROP TO 8.5HZ
-        //FOLLOWING THIS POINT, IF THE ABSORPTION THRESHOLD IS MET, WE WILL SKIP TO THE NEXT PROGRAM
-        _timer = 150f / d;
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Begining drop from high alpha to 10hz.");
-        wwiseAVSMusicManager.SetStrobeRate(8.5f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            if(AVS_Program_ManageThetaTransition(directorQueueIndexList))
+            if(developmentMode.developmentPlayground)
             {
-                break;
-            }
-            yield return null;
-        }
-        //NOW START A SAW STROBE COROUTINE AROUND ALPHA
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Starting Saw Strobe Coroutine.");
-        float _wavelength = 360f / d;
-        float _halfWavelength = _wavelength / 2;
-        wwiseAVSMusicManager.SetSawStrobe(8.5f, 11.5f, _wavelength);
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Waiting for absorption threshold to be met.");
-
-        _timer = _halfWavelength;
-        bool flag1 = false;
-        bool flag2 = false;
-        while(true)
-        {
-            if(AVS_Program_ManageThetaTransition(directorQueueIndexList))
-            {
-                break;
+                wwiseAVSMusicManager.SetColorWorldByType("Red", 0.0f);
             }
 
-            //ADD SOME MONO/STEREO BEHAVIOR. RHYTHMICALLY ADD MONO/STEREO COMMANDS TO DIRECTOR QUEUE
-            //MONO ACTIVATES AT END, STEREO DOES NOT. COMMANDS ARE EXCLUSIVE.
-            if (_timer > 0)
+            while((wwiseAVSMusicManager.cycleRecent == "dark") || (wwiseAVSMusicManager.cycleRecent == "Dark"))
+            {
+                yield return null;
+            }
+            //ONCE THE LIGHTS TURN ON, START AT 45HZ
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Lights detected, set strobe to 45hz.");
+            wwiseAVSMusicManager.SetStrobeRate(45.0f, 0.0f);
+            float _timer = 10f / d;
+            while(_timer > 0)
             {
                 _timer -= Time.deltaTime;
+                yield return null;
             }
-            else
+            //AFTER 10 SECOND HOLD IS FINISHED, DROP TO 11HZ OVER 30 SECONDS
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Initializeing drop from gamma to high alpha.");
+            _timer = 30f / d;
+            wwiseAVSMusicManager.SetStrobeRate(11.0f, _timer);
+            while(_timer > 0)
             {
-                _timer = _halfWavelength;
+                _timer -= Time.deltaTime;
+                yield return null;
             }
-            if(_timer > _halfWavelength*3/4)
+            //NOW TAKE 120 SECONDS TO DROP TO 8.5HZ
+            //FOLLOWING THIS POINT, IF THE ABSORPTION THRESHOLD IS MET, WE WILL SKIP TO THE NEXT PROGRAM
+            _timer = 150f / d;
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Begining drop from high alpha to 10hz.");
+            wwiseAVSMusicManager.SetStrobeRate(8.5f, _timer);
+            while(_timer > 0)
             {
-                flag2 = false;
-                if(!flag1)
+                _timer -= Time.deltaTime;
+                if(AVS_Program_ManageThetaTransition(directorQueueIndexList))
                 {
-                    directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, false, 2));
-                    flag1 = true;
+                    break;
                 }
+                yield return null;
             }
-            else if(_timer <= _halfWavelength*3/4)
+            //NOW START A SAW STROBE COROUTINE AROUND ALPHA
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Starting Saw Strobe Coroutine.");
+            float _wavelength = 360f / d;
+            float _halfWavelength = _wavelength / 2;
+            wwiseAVSMusicManager.SetSawStrobe(8.5f, 11.5f, _wavelength);
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Waiting for absorption threshold to be met.");
+
+            _timer = _halfWavelength;
+            bool flag1 = false;
+            bool flag2 = false;
+            while(true)
             {
-                flag1 = false;
-                if(!flag2)
+                if(AVS_Program_ManageThetaTransition(directorQueueIndexList))
                 {
-                    directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
-                    flag2 = true;
+                    break;
                 }
+
+                //ADD SOME MONO/STEREO BEHAVIOR. RHYTHMICALLY ADD MONO/STEREO COMMANDS TO DIRECTOR QUEUE
+                //MONO ACTIVATES AT END, STEREO DOES NOT. COMMANDS ARE EXCLUSIVE.
+                if (_timer > 0)
+                {
+                    _timer -= Time.deltaTime;
+                }
+                else
+                {
+                    _timer = _halfWavelength;
+                }
+                if(_timer > _halfWavelength*3/4)
+                {
+                    flag2 = false;
+                    if(!flag1)
+                    {
+                        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, false, 2));
+                        flag1 = true;
+                    }
+                }
+                else if(_timer <= _halfWavelength*3/4)
+                {
+                    flag1 = false;
+                    if(!flag2)
+                    {
+                        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
+                        flag2 = true;
+                    }
+                }
+                yield return null;
             }
-            yield return null;
+        }
+        finally
+        {
+            Cleanup(directorQueueIndexList);
         }
     }
 
@@ -402,12 +362,12 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop. Absorption threshold met, starting Theta coroutine");
             
             // Remove all items from the director queue that were created in this coroutine
-            foreach (int index in directorQueueIndexList)
-            {
-                Debug.Log(WakeUpCounter + " Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + directorQueue[index].Item2);
-                directorQueue.Remove(index);
-            }
-            LogDirectorQueue();
+            //foreach (int index in directorQueueIndexList)
+            //{
+            //    Debug.Log(WakeUpCounter + " Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + directorQueue[index].Item2);
+            //    directorQueue.Remove(index);
+            //}
+            //LogDirectorQueue();
 
             // Stop the current coroutine, if there is one
             if(AVSControlCoroutine != null)
@@ -424,126 +384,190 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     IEnumerator AVS_Program_DynamicDrop_Theta()
     {
         List<int> directorQueueIndexList = new List<int>();
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Starting Theta program.");
 
-        //SET CORRECT MONO/STEREO
-        ClearActionsOfTypeFromDirectorQueue("monostereo");
-        //add mono to queue, if we're in bilateral
-        if(wwiseAVSMusicManager.bilateral)
+        try
         {
-            directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
-            Debug.Log(WakeUpCounter + " Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (directorQueueIndex - 1) + " monostereo=mono to director queue, and waiting.");
-            LogDirectorQueue();
-        }
-        //and wait to enter mono...
-        while(wwiseAVSMusicManager.bilateral)
-        {
-            yield return null;
-        }
-        //DROP TO 7HZ
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 7hz.");
-        float _timer = 120f / d;
-        wwiseAVSMusicManager.SetStrobeRate(7.0f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //CYCLE THROUGH BILATERAL ONCE
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
-        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, true, 2));
-        while(!wwiseAVSMusicManager.bilateral)
-        {
-            yield return null;
-        }
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
-        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
-        while(wwiseAVSMusicManager.bilateral)
-        {
-            yield return null;
-        }
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
-        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
-        while(wwiseAVSMusicManager.bilateral)
-        {
-            yield return null;
-        }
-        //DROP TO 6HZ
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
-        _timer = 60f / d;
-        wwiseAVSMusicManager.SetStrobeRate(6.0f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //GAMMA BURSTS, THEN HANG HERE. 
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
-        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
-        _timer = 180f / d;
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
-        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 180f/d, true, 2));
-        _timer = 180f / d;
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //DROP TO 5HZ
-        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 5hz.");
-        _timer = 60f / d;
-        wwiseAVSMusicManager.SetStrobeRate(5.0f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //NOW CYCLE THROUGH GAMMA BETWEEN GAMMA AND NOT-GAMMA, AS WE WERE DOING WITH BILATERAL IN THE LAST PROGRAM
-        _timer = 300f / d;
-        float _halfWave = _timer / 2;
-        bool flag1 = false;
-        bool flag2 = false;
-        while(true)
-        {
-            if(_timer > 0)
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Starting Theta program.");
+
+            //SET CORRECT MONO/STEREO
+            ClearActionsOfTypeFromDirectorQueue("monostereo");
+            //add mono to queue, if we're in bilateral
+            if(wwiseAVSMusicManager.bilateral)
+            {
+                directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
+                Debug.Log(WakeUpCounter + " Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (directorQueueIndex - 1) + " monostereo=mono to director queue, and waiting.");
+                LogDirectorQueue();
+            }
+            //and wait to enter mono...
+            while(wwiseAVSMusicManager.bilateral)
+            {
+                yield return null;
+            }
+            //DROP TO 7HZ
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 7hz.");
+            float _timer = 120f / d;
+            wwiseAVSMusicManager.SetStrobeRate(7.0f, _timer);
+            while(_timer > 0)
             {
                 _timer -= Time.deltaTime;
+                yield return null;
             }
-            else
+            //CYCLE THROUGH BILATERAL ONCE
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
+            directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, true, 2));
+            while(!wwiseAVSMusicManager.bilateral)
             {
-                _timer = 300f / d;
+                yield return null;
             }
-            if(_timer > _halfWave)
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
+            directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
+            while(wwiseAVSMusicManager.bilateral)
             {
-                flag2 = false;
-                if(!flag1)
+                yield return null;
+            }
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
+            directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
+            while(wwiseAVSMusicManager.bilateral)
+            {
+                yield return null;
+            }
+            //DROP TO 6HZ
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
+            _timer = 60f / d;
+            wwiseAVSMusicManager.SetStrobeRate(6.0f, _timer);
+            while(_timer > 0)
+            {
+                _timer -= Time.deltaTime;
+                yield return null;
+            }
+            //GAMMA BURSTS, THEN HANG HERE. 
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
+            directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
+            _timer = 180f / d;
+            while(_timer > 0)
+            {
+                _timer -= Time.deltaTime;
+                yield return null;
+            }
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
+            directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 180f/d, true, 2));
+            _timer = 180f / d;
+            while(_timer > 0)
+            {
+                _timer -= Time.deltaTime;
+                yield return null;
+            }
+            //DROP TO 5HZ
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 5hz.");
+            _timer = 60f / d;
+            wwiseAVSMusicManager.SetStrobeRate(5.0f, _timer);
+            while(_timer > 0)
+            {
+                _timer -= Time.deltaTime;
+                yield return null;
+            }
+            //NOW CYCLE THROUGH GAMMA BETWEEN GAMMA AND NOT-GAMMA, AS WE WERE DOING WITH BILATERAL IN THE LAST PROGRAM
+            _timer = 300f / d;
+            float _halfWave = _timer / 2;
+            bool flag1 = false;
+            bool flag2 = false;
+            while(true)
+            {
+                if(_timer > 0)
                 {
-                    directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
-                    flag1 = true;
-                    Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
+                    _timer -= Time.deltaTime;
                 }
-            }
-            else if(_timer <= _halfWave)
-            {
-                flag1 = false;
-                if(!flag2)
+                else
                 {
-                    directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 60f/d, true, 2));
-                    flag2 = true;
-                    Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
+                    _timer = 300f / d;
                 }
+                if(_timer > _halfWave)
+                {
+                    flag2 = false;
+                    if(!flag1)
+                    {
+                        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
+                        flag1 = true;
+                        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
+                    }
+                }
+                else if(_timer <= _halfWave)
+                {
+                    flag1 = false;
+                    if(!flag2)
+                    {
+                        directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 60f/d, true, 2));
+                        flag2 = true;
+                        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
+                    }
+                }
+                yield return null;
             }
-            yield return null;
         }
-        
+        finally
+        {
+            Cleanup(directorQueueIndexList);
+        }
+    }
+
+    IEnumerator AVS_Program_DynamicDrop_End() //TEST THIS
+    {
+        List<int> directorQueueIndexList = new List<int>();
         //NEAR END (NEXT METHOD), START IN BILATERAL AND NO GAMMA, THEN COME ALL THE WAY UP TO 40HZ
+        try
+        {
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. Starting End Program.");
+            ClearActionsOfTypeFromDirectorQueue("gamma");
+            ClearActionsOfTypeFromDirectorQueue("monostereo");
+            if(!wwiseAVSMusicManager.bilateral)
+            {
+                directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 30.0f, true, 2));
+            }
+            if(wwiseAVSMusicManager.gammaBurstMode != 0.0f)
+            {
+                directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 30.0f, true, 2));
+            }
+
+            while(WakeUpCounter > 110f)
+            {
+                yield return null;
+            }
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. Stabilizing before dramatic rise.");
+            directorQueueIndexList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 10.0f, true, 2));
+
+            while(WakeUpCounter > 90f)
+            {
+                yield return null;
+            }
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. Starting dramatic rise to 40hz.");
+            wwiseAVSMusicManager.SetStrobeRate(40.0f, 90f);
+
+            while(WakeUpCounter > 0f)
+            {
+                _timer -= Time.deltaTime;
+                yield return null;
+            }
+            Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. End of AVS Program. Goodnight!");
+
+
+        }
+        finally
+        {
+            Cleanup(directorQueueIndexList);
+        }
+    }
+
+    private void Cleanup(List<int> directorQueueIndexList)
+    {
+        Debug.Log("Coroutine stopped. Performing cleanup.");
+        foreach (int index in directorQueueIndexList)
+        {
+            Debug.Log(WakeUpCounter + " Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + directorQueue[index].Item2);
+            directorQueue.Remove(index);
+        }
+        LogDirectorQueue();
     }
     
     private Action Action_Gamma(bool gammaOn)
