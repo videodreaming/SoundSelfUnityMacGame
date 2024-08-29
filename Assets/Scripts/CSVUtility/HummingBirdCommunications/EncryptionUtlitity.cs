@@ -40,7 +40,6 @@ public static class EncryptionHelper
                 {
                     swEncrypt.Write(plainText);
                 }
-
                 byte[] encrypted = msEncrypt.ToArray();
                 return $"{BitConverter.ToString(iv).Replace("-", "")}:{BitConverter.ToString(encrypted).Replace("-", "")}";
             }

@@ -28,6 +28,23 @@ public class WwiseAVSMusicManager : MonoBehaviour
     private float _debugValue3    = 0.0f;
     private float _debugValue4    = 0.0f;
     private int Qcount              = 0;
+
+    public static WwiseAVSMusicManager Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+            return;
+        }
+    }
+
     void Start()
     {
         // We first enumerate all Devices from the System shareset to have all available devices on Windows.

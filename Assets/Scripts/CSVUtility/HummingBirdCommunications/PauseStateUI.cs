@@ -15,7 +15,7 @@ public class PauseStateUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(csvWriter.paused)
+        if(csvWriter.decryptedstatus == "paused")
         {
             tmpText.text = "Paused";
         }

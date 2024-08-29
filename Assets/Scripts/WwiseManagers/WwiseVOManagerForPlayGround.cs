@@ -15,7 +15,6 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
     private bool debugAllowMusicLogs = true;
     private bool pause = true;
     public CSVWriter CSVWriter;
-
     public User userObject;
     public AudioSource userAudioSource;
     public ImitoneVoiceIntepreterForPlayground imitoneVoiceIntepreter;

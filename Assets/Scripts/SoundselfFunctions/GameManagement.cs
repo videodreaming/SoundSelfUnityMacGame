@@ -12,7 +12,6 @@ public class GameManagement : MonoBehaviour
         // Quit the game if the player presses the Escape key
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            CSVWriter.writeCSV();
             EndGame();
         }
     }

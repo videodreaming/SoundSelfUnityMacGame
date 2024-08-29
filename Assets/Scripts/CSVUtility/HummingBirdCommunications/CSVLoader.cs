@@ -1,50 +1,115 @@
-using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // For scene loading
+using System.IO;
+using System;
 
-public class CSVLoader : MonoBehaviour
+public class InitializationManager : MonoBehaviour
 {
-    private string filePath;
-
+    public static string GameMode;
+    public static string SubGameMode;
+    public static int currentSessionNumber = 0;
+    private string baseSessionsFolderPath = "";
+    public string encryptedReadyCheck;
+    public string decryptedReadyCheck;
+    private string encryptedSessionNumber;
+    [SerializeField] private string encryptedGameMode;
+    [SerializeField] private string encryptedSubGameMode;
+    [SerializeField] private string decryptedGameMode;
+    [SerializeField] private string decryptedSubGameMode;
+    
+    
     void Start()
     {
-        // Set the file path to the persistent data directory
-        filePath = Path.Combine(Application.persistentDataPath, "readCSV.csv");
-        // Check if the file exists in persistent data path
-        if (!File.Exists(filePath))
+        #if UNITY_STANDALONE_OSX
+            string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+            baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Hummingbird");
+            Debug.Log("Base sessions folder path: " + baseSessionsFolderPath);
+        #elif UNITY_STANDALONE_WIN
+            baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
+        #else
+            Debug.LogError("Unsupported platform");
+            return;
+        #endif
+
+        Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
+        string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
+        Debug.Log(sessionsCsvPath);
+
+        if (File.Exists(sessionsCsvPath))
         {
-            // If not, load the default file from Resources and copy it
-            TextAsset defaultCSV = Resources.Load<TextAsset>("ReadCSV");
-            File.WriteAllText(filePath, defaultCSV.text);
+            using (StreamReader reader = new StreamReader(sessionsCsvPath))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] columns = line.Split(',');
+                    if (columns.Length >= 2)
+                    {
+                        encryptedReadyCheck = columns[1].Trim();
+                        decryptedReadyCheck = EncryptionHelper.Decrypt(encryptedReadyCheck);
+                        if(decryptedReadyCheck == "ready")
+                        {
+                            encryptedSessionNumber = columns[0].Trim();
+                            if (int.TryParse(EncryptionHelper.Decrypt(encryptedSessionNumber), out int sessionNumber)) 
+                            {
+                                currentSessionNumber = sessionNumber;
+                                Debug.Log(currentSessionNumber);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        // Load and process the CSV file
-        LoadCSV();
-    }
+        ReadSessionParams();
 
-    void Update(){
-        if(Input.GetKeyDown(KeyCode.D))
+        // Load Preparation Scene if game mode is set to "preparation"
+        if (GameMode == "Preparation")
         {
-            ReloadCSV();
+            Debug.Log("Attempting to load scene: " + GameMode);
+            SceneManager.LoadScene("PreperationSession");
+        }
+        else if (GameMode == "Integration")
+        {
+            Debug.Log("Attempting to load scene: " + GameMode);
+            SceneManager.LoadScene("IntegrationSession");
+        } else if (GameMode == "Passive")
+        {
+            Debug.Log("Attempting to load scene: " + GameMode);
+            SceneManager.LoadScene("PassiveSession");
+        } else if (GameMode == "Wisdom")
+        {
+            Debug.Log("Attempting to load scene: " + GameMode);
+            SceneManager.LoadScene("WisdomSession");
+        } else if (GameMode == "Adjunctive")
+        {
+            Debug.Log("Attempting to load scene: " + GameMode);
+            SceneManager.LoadScene("AdjunctiveSession");
         }
     }
 
-
-    void LoadCSV()
+    void ReadSessionParams()
     {
-        if (File.Exists(filePath))
+        if(currentSessionNumber != 0)
         {
-            string csvData = File.ReadAllText(filePath);
-            // Process the CSV data as needed
+            string sessionsParams = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_params.csv");
+            if(File.Exists(sessionsParams))
+            {
+                string[] data = File.ReadAllText(sessionsParams).Split(new string[] {",","\n"}, StringSplitOptions.None);
+                encryptedGameMode = data[0];
+                encryptedSubGameMode = data[1];
+                decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
+                decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
+                GameMode = decryptedGameMode;
+                SubGameMode = decryptedSubGameMode;
+            }
+            else 
+            {
+                Debug.LogError("CSV file not found at: " + sessionsParams);
+            }
         }
-        else
-        {
-            Debug.LogError("Cannot find readCSV.csv at: " + filePath);
-        }
-    }
-
-    // Optionally, create a method to reload the CSV data if it changes while the application is running
-    public void ReloadCSV()
-    {
-        LoadCSV();
     }
 }
