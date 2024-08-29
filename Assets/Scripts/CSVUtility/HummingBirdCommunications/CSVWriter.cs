@@ -17,6 +17,7 @@ public class CSVWriter : MonoBehaviour
     public string SubGameMode;
     public string encryptedstatus = "";
     public string decryptedstatus = "";
+    public bool CSVDevMode = false;
 
     void Start()
     {
@@ -31,7 +32,6 @@ public class CSVWriter : MonoBehaviour
         #endif
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
-
         currentSessionNumber = InitializationManager.currentSessionNumber; // Get session number from InitializationManager
         GameMode = InitializationManager.GameMode;
         SubGameMode = InitializationManager.SubGameMode;
@@ -52,11 +52,46 @@ public class CSVWriter : MonoBehaviour
             GetData();
         } else if (decryptedstatus == "ready")
         {
+            Debug.Log("Ready");      
         }
     }
 
     void GetStatus()
     {
+        if(CSVDevMode)
+        {
+            string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
+            Debug.Log(sessionsCsvPath);
+            if (File.Exists(sessionsCsvPath))
+            {
+                using (StreamReader reader = new StreamReader(sessionsCsvPath))
+                {
+                    string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] columns = line.Split(',');
+                            if (columns.Length >= 2)
+                            {
+                                string encryptedReadyCheck;
+                                string decryptedReadyCheck;
+                                encryptedReadyCheck = columns[1].Trim();
+                                decryptedReadyCheck = EncryptionHelper.Decrypt(encryptedReadyCheck);
+                                if(decryptedReadyCheck == "ready")
+                                {
+                                    string encryptedSessionNumber;
+                                    encryptedSessionNumber = columns[0].Trim();
+                                    if (int.TryParse(EncryptionHelper.Decrypt(encryptedSessionNumber), out int sessionNumber)) 
+                                    {
+                                        currentSessionNumber = sessionNumber;
+                                        Debug.Log(currentSessionNumber);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+        }
         string sessionsStatusPath = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_status.csv");
         if(File.Exists(sessionsStatusPath))
         {
