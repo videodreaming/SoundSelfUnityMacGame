@@ -662,12 +662,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             else if (!resetToneFrame) //TRIGGER INHALE aka BREATHVOLUME
             {
                 resetToneFrame = true;
-                float currentInhaleDuration = Math.Clamp(_tNextInhaleDuration, 1.76f, 7.0f);
+                float currentInhaleDuration = Mathf.Clamp(_tNextInhaleDuration, 0f, 7.0f);
                 if(currentInhaleDuration >= 1.0f)
                 {
                     endBreathVolumes = false;
                     //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
-                    StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
+                    StartCoroutine(BreathVolumeCoroutine(Mathf.Max(1.76f,currentInhaleDuration)));
                     StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
                     if(currentInhaleDuration > 6.0f)
                     {
@@ -680,7 +680,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                         AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
                         Debug.Log("SFX: Play_Inhale_Medium");
                     }
-                    else if(currentInhaleDuration > 1.0f)
+                    else if(currentInhaleDuration >= 1.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
                         Debug.Log("SFX: Play_Inhale_Short");
@@ -747,7 +747,7 @@ private IEnumerator EndBreathVolumesOnNextTone()
     
     _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!resetToneFrame) if statement above.
     endBreathVolumes = true;
-    //AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
+    AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
 }
 private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
     int coroutineID = _coroutineCounter++;
