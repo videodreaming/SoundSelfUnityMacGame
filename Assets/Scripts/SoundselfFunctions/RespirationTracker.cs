@@ -44,6 +44,8 @@ public class RespirationTracker : MonoBehaviour
     public float _absorptionMostRecentValid {get; private set;} = 0.0f; //this only updates if it is valid
     private bool frameGuardTone = false;
     public bool pauseGuardTone  = false;
+    public bool modePlayful     = true;
+    public bool modeMeditative  = false;
     private float _respirationMeasurementWindow1 = 60.0f;
     private float _respirationMeasurementWindow2 = 120.0f;
     private int idCounter = 0;
@@ -84,10 +86,10 @@ public class RespirationTracker : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
-        {
-            debugAllowLogs = !debugAllowLogs;
-        }
+        //if(Input.GetKeyDown(KeyCode.K))
+        //{
+        //    debugAllowLogs = !debugAllowLogs;
+        //}
         if (ImitoneVoiceIntepreter.toneActiveVeryConfident)
         {
            //return the total of all the cycle counts in the dictionary:
@@ -189,6 +191,25 @@ public class RespirationTracker : MonoBehaviour
         {
             obj.transform.position = new Vector3(obj.transform.position.x + amountToMove, obj.transform.position.y, obj.transform.position.z);
         }
+
+        //Playfulness Switch
+        if (_absorption > 0.25f && modePlayful)
+        {
+            modePlayful = false;
+            modeMeditative = true;
+            AkSoundEngine.SetState("AbsorptionMode", "Meditative");
+            Debug.Log("Switching to Meditative Mode");
+
+        }
+        else if (_absorption < 0.1f && modeMeditative)
+        {
+            modePlayful = true;
+            modeMeditative = false;
+            AkSoundEngine.SetState("AbsorptionMode", "Playful");
+            Debug.Log("Switching to Playful Mode");
+        }
+        AkSoundEngine.SetRTPCValue("Unity_Absorption", Mathf.Clamp(_absorption, 0f, 1f) * 100f , gameObject);
+
     }
 
     private IEnumerator RespirationCycleCoroutine (Dictionary<int,BreathCycleData> BreathCycleDictionary, float _measurementWindow = 60.0f, bool visualize = true, int visualizeY = 0){

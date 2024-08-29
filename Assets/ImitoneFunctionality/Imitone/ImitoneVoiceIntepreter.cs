@@ -19,6 +19,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     //base variables pitch and midiNote
     public DevModeSettings DevModeSettings;
     public WwiseAVSMusicManager wwiseAVSMusicManager;
+    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
+    public Director director;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
@@ -33,6 +35,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
     [Tooltip("Toning With False Positive Logic")]
     public bool toneActive { get; private set; } = false;   
+    public bool toneActiveFrame { get; private set; } = false;
     
     [Tooltip("Confident Toning, used for... nothing yet")]
     public bool toneActiveConfident { get; private set; } = false;
@@ -49,8 +52,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float _activeThreshold4 {get; private set;}  = 8.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     private float imitoneActiveTimer = 0f;
     public float imitoneInactiveTimer = 0f;
-    public float imitoneConfidentActiveTimer = 0.0f;
+    private float imitoneConfidentActiveTimer = 0.0f;
     public float imitoneConfidentInactiveTimer = 0.0f;
+    public bool exceptionFlag   = false;
 
     //TODO: using these vars
     public float ssVolume { get; private set; }     //WORK ON THIS ONE IN GAMEVALUES
@@ -68,8 +72,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     //Both Above is the duration of breath 
     public float _tNextInhaleDuration = 0.0f;
     public float _breathVolume;
-    private bool isResettingTone = false;
-    public int breathStage = 0;
+    private bool resetToneFrame = false; //the first frame that !toneActive && !imitoneActive, before toneActive is true again.
+    public int breathStage = 0; //THIS IS NOT USED ANY MORE, REMOVE IT IN REFACTORING
+    private bool endBreathVolumes   = false; //THIS SYSTEM CAN DEFINITELY BE CLEANED UP QUITE EASILY...
     
     //public int MostRecentSemitone => _semitone;
     //public string MostRecentSemitoneNote => _semitoneNote;
@@ -126,6 +131,17 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float UpperThreshold = -20.0f;
     private float LowerThreshold = -35.0f;
 
+    //Volume Tracking
+    private List<(float, float)> volumes1s = new List<(float, float)>();
+    private List<(float, float)> anomalyBaselineVolumes = new List<(float, float)>();
+    private float _vol1Sec = 0.0f;
+    private float _anomalyBaseline = 0.0f;
+    private float _timerForAnomalyBaselines = 0.0f;
+    private bool _volFlagA = false;
+    private float _anomalyBaselineMeasurementTime = 60.0f;
+    private float _volumeAnomalyThresholdDb_init = 6.0f;
+    private float _volumeAnomalyThresholdDbDecreaseRate = 0.5f;//per minute
+    private float _volumeAnomalyThresholdDb;
     //DevMode
     public string imitoneConfig;
 
@@ -142,6 +158,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
    
     void Start()
     {
+        _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
         _audioSource = GetComponent<AudioSource>();
         //Checking for all devices in the list of devices 
         foreach (var device in Microphone.devices)
@@ -210,7 +227,106 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
-        //wwiseAVSMusicManager.Wwise_BreathDisplay(_breathVolume);
+        TrackMicVolume();
+        wwiseAVSMusicManager.Wwise_BreathDisplay(_breathVolume);
+    }
+
+    private void TrackMicVolume()
+    {
+
+        //We are trying to detect when the volume rises up. 
+        //This means that right now, the most recent one second has been the loudest of the last 30 seconds, AND the loudest of the last 2 minutes.
+        //It will trigger the Director Queue to process its contents.
+        //It will also not be able to trigger again for another 30 seconds.
+        //first, get the average volume of the last one second
+        
+        if(toneActive)
+        {
+            //RECORD 1S DATA
+            volumes1s.Add((Time.time, _dbMicrophone));       
+        }
+        
+        if(toneActiveConfident)
+        {
+            //LOG 1S AVERAGE
+            _vol1Sec = volumes1s.Average(x => x.Item2);
+            _volFlagA = false;
+
+            //RECORD ANOMALY BASELINE DATA
+            _timerForAnomalyBaselines += Time.deltaTime;
+            if (_timerForAnomalyBaselines >= 0.1f)
+            {
+                anomalyBaselineVolumes.Add((Time.time, _vol1Sec));
+                _timerForAnomalyBaselines = 0.0f;
+            }
+            
+        }
+        else if(!_volFlagA || !toneActive)
+        {
+            //CLEAR DATA FROM 1S
+            volumes1s.Clear();
+            _vol1Sec = -1000.0f;
+            _volFlagA = true;
+        }
+
+        //CALCULATE ANOMALY BASELINE FROM 1M AVERAGE
+        if(anomalyBaselineVolumes.Count > 0)
+        {
+            _anomalyBaseline = anomalyBaselineVolumes.Average(x => x.Item2);
+        }
+        else
+        {
+            _anomalyBaseline = 0.0f;
+        }
+        float _secsCapturedBaseline = anomalyBaselineVolumes.Count * 0.1f;
+        
+        //Debug.Log("Volume 1s: " + _vol1Sec + " Volume 1m: " + _anomalyBaseline + " Seconds Captured 1m: " + _secsCapturedBaseline + " Anomaly Threshold: " + _volumeAnomalyThresholdDb);
+
+
+        //DETECT VOLUME ANOMALY
+        _volumeAnomalyThresholdDb -= _volumeAnomalyThresholdDbDecreaseRate * Time.deltaTime / 60.0f;
+        _volumeAnomalyThresholdDb = Mathf.Max(_volumeAnomalyThresholdDb, 2.0f);
+        bool captureThreshold = _secsCapturedBaseline > 15f;
+        if (captureThreshold && (_vol1Sec > (_anomalyBaseline + _volumeAnomalyThresholdDb)))
+        {
+            Debug.Log("Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
+            _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
+
+            director.ActivateQueue(1.75f);
+
+            //Clear the anomaly baseline data
+            anomalyBaselineVolumes.Clear();
+            float highestVolume = volumes1s.Max(x => x.Item2);
+            //add in the equivalent of 7.5 seconds of data to the anomaly baseline, at a value equal to the highest value in volumes1s
+            for (int i = 0; i < 75; i++)
+            {
+                anomalyBaselineVolumes.Add((Time.time, highestVolume));
+            }
+        }
+
+        //CLEAR DATA THAT IS TOO OLD
+        for (int i = volumes1s.Count - 1; i >= 0; i--)
+        {
+            if (volumes1s[i].Item1 < Time.time - 1.0f)
+            {
+                volumes1s.RemoveAt(i);
+            }
+        }
+        for (int i = anomalyBaselineVolumes.Count - 1; i >= 0; i--)
+        {
+            if (anomalyBaselineVolumes[i].Item1 < Time.time - _anomalyBaselineMeasurementTime) // 60 seconds...
+            {
+                anomalyBaselineVolumes.RemoveAt(i);
+            }
+        }
+
+        if(_vol1Sec > -1000.0f)
+        AkSoundEngine.SetRTPCValue("TONING_Volume", 60f + NormalizeVolume(_vol1Sec * 40f), gameObject);
+    }
+
+    private float NormalizeVolume(float volume)
+    {
+        return Mathf.Clamp(Mathf.InverseLerp(-55.0f, -29.0f, volume), 0.0f, 1.0f);
     }
 
     private void SetNoiseFloorThreshold()
@@ -481,6 +597,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 toneActive = true;
                 toneActiveBiasTrue = true;
                 toneActiveBiasTrueTimer += Time.deltaTime;
+                AkSoundEngine.SetSwitch("ToneActive","Toning",gameObject);
             }
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
@@ -500,6 +617,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 if(imitoneInactiveTimer >= negativeActiveThreshold1)
                 {
                     toneActive = false;
+                    AkSoundEngine.SetSwitch("ToneActive","Resting",gameObject);
                 }
                 if(imitoneInactiveTimer >= negativeActiveThreshold2)
                 {
@@ -513,11 +631,17 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         //Logic that switches between toneActive and !toneActive, including setting _tThisTone and _tThisRest
         if(toneActive)
         {
-            breathStage = 0;
+            if(!toneActiveFrame)
+            {
+                toneActiveFrame = true;
+                AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
+                Debug.Log("SFX: Stop_Inhales");
+            }
             _tThisTone += Time.deltaTime;
-            _tNextInhaleDuration += (Time.deltaTime * 0.41f); //magic number only used here and immedidately below
+            _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
-            isResettingTone = false;
+            resetToneFrame = false;
+
 
             if (_tThisTone > _activeThreshold3)
             toneActiveVeryConfident = true;
@@ -525,34 +649,57 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
         else
         {
-            handleBreathStage();
             _tThisRest += Time.deltaTime;
             _tThisTone  = 0.0f;
+            toneActiveFrame = false;
             
             if(imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
             {
                 
                 toneActiveBiasFalse = false;
-                _tNextInhaleDuration += (Time.deltaTime * 0.41f); //magic number only used here and immedidately above
+                _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately above
             }
-            else if (!isResettingTone) //TRIGGER INHALE aka BREATHVOLUME
+            else if (!resetToneFrame) //TRIGGER INHALE aka BREATHVOLUME
             {
-                isResettingTone = true;
+                resetToneFrame = true;
                 float currentInhaleDuration = Math.Clamp(_tNextInhaleDuration, 1.76f, 7.0f);
-                StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
-                //Debug.Log("InhaleCoroutineStarted");
-                _tNextInhaleDuration = 0.0f;
+                if(currentInhaleDuration >= 1.0f)
+                {
+                    endBreathVolumes = false;
+                    //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
+                    StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
+                    StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
+                    if(currentInhaleDuration > 6.0f)
+                    {
+                        AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
+                        Debug.Log("SFX: Play_Inhale_Long");
+                    }
+                    
+                    else if(currentInhaleDuration > 4.0f)
+                    {
+                        AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
+                        Debug.Log("SFX: Play_Inhale_Medium");
+                    }
+                    else if(currentInhaleDuration > 1.0f)
+                    {
+                        AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
+                        Debug.Log("SFX: Play_Inhale_Short");
+                    }
+                }
             }
 
             if (_tThisRest > _activeThreshold3)
-            toneActiveVeryConfident = false;
+            {
+                toneActiveVeryConfident = false;
+                EndBreathVolumesOnNextTone();
+            }
         }
 
         if(toneActiveConfident)
         {
             _tThisToneConfident += Time.deltaTime;
             _tThisRestConfident = 0.0f;
-        }
+         }
         else
         {
             _tThisToneConfident = 0.0f;
@@ -585,80 +732,128 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 // }   
 
 //Breathe Volume Coroutine
-    private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
-        int coroutineID = _coroutineCounter++;
-        _breathVolumeContributions[coroutineID] = 0f;
+private IEnumerator EndBreathVolumesOnNextTone()
+{
+    while (toneActiveConfident) //so if we are toneActiveConfident at the start... it will wait until we are not
+    {
+        yield return null;
+    }
+    //Debug.Log("EndBreathVolumesOnNextTone: waiting...");
+    while (!toneActiveConfident)
+    {
+        yield return null;
+    }
+    //Debug.Log("EndBreathVolumesOnNextTone: ending breath volumes");
+    
+    _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!resetToneFrame) if statement above.
+    endBreathVolumes = true;
+    //AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
+}
+private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
+    int coroutineID = _coroutineCounter++;
+    _breathVolumeContributions[coroutineID] = 0f;
 
-        float elapsedTime = 0f;
-        float normalizedTime = 0f;
-        
-        while (elapsedTime < inhaleDuration) {
-            normalizedTime = elapsedTime / inhaleDuration;
-            float currentBreathValue = (1 - Mathf.Cos(normalizedTime * 2 * Mathf.PI)) * 0.5f;
+    float normalizedTime = 0f;
+    float currentBreathValue = 0f;
+    float pi2           = 2 * Mathf.PI;
+    float _v            = 0f;
 
-            _breathVolumeContributions[coroutineID] = currentBreathValue;
-            UpdateBreathVolumeTotal();
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        
-        //Debug.Log ("inhaleDuration = " + inhaleDuration + "   normalizedTime = " + normalizedTime + "    /_breathVolume = " + _breathVolume);
-        _breathVolumeContributions.Remove(coroutineID);
+    if (inhaleDuration > 3.0f)
+    _v         = 0.25f; // how much time do we spend in stage 1 (up), vs. stage 2 (down)
+    else
+    _v         = 0.33f; // how much time do we spend in stage 1 (up), vs. stage 2 (down)
+    
+    
+    //Debug.Log("BreathVolumeCoroutine: Starting with Inhale Duration of " + inhaleDuration + " and _v of " + _v);
+    while (normalizedTime <= _v && !endBreathVolumes) { //Stage 1 - rapid increase, can be interrupted by tone
+        normalizedTime += Time.deltaTime / inhaleDuration;
+        float _progress = Mathf.Min(normalizedTime / _v / 2.0f, 0.5f); // will get half way through when normalizedTime = _v
+        //currentBreathValue = (1f - Mathf.Cos(_progress * pi2)) * 0.5f; //cosine calculation
+        //currentBreathValue = _progress * 2.0f; //linear calculation
+        currentBreathValue = Mathf.Clamp(MathF.Sqrt(_progress * 2.0f), 0f, 1f); //square root calculation
+        _breathVolumeContributions[coroutineID] = currentBreathValue;
+        //Debug.Log("BreathVolumeCoroutine: Stage 1 Rising at nT("+normalizedTime+") p(" + _progress + ") vol(" + currentBreathValue + ")");
         UpdateBreathVolumeTotal();
-    }
 
-    //Updating Breath Volume Total
-    private void UpdateBreathVolumeTotal()
+        yield return null;
+    }
+    
+    normalizedTime = _v;
+    float _volumeAtBreak = currentBreathValue;
+
+    while (normalizedTime < 1.0f) { //Stage 2 - slow decrease
+        normalizedTime += Time.deltaTime / inhaleDuration;
+        float _progress = Mathf.Min(0.5f + (normalizedTime - _v)/(1f - _v) * 0.5f, 1.0f);
+        currentBreathValue = (1f - Mathf.Cos(_progress * pi2)) * 0.5f * _volumeAtBreak;
+        _breathVolumeContributions[coroutineID] = currentBreathValue;
+        UpdateBreathVolumeTotal();
+
+        yield return null;
+    }
+    
+    //Debug.Log("BreathVolumeCoroutine: ending");
+    _breathVolumeContributions.Remove(coroutineID);
+    UpdateBreathVolumeTotal();
+}
+
+
+//Updating Breath Volume Total
+private void UpdateBreathVolumeTotal()
+{
+    _breathVolume = 0f;
+    foreach (var contribution in _breathVolumeContributions.Values)
+    {   
+        _breathVolume += contribution;
+    }
+    _breathVolume = Mathf.Clamp(_breathVolume, 0.0f, 1.0f);
+}
+
+// private void handleBreathStage(){
+//     if(breathStage == 0){
+//         breathStage = 1;
+//     } else if(breathStage == 1){
+//         if(_breathVolume > 0 && 0.5f > _breathVolume){
+//             breathStage = 2;
+//         }
+//     } else if (breathStage == 2){
+//         if(_breathVolume > 0.5f){
+//             breathStage = 3;
+//         }
+//     } else if (breathStage == 3){
+//         if(_breathVolume < 0.5f && _breathVolume > 0){
+//             breathStage = 4;
+//         }
+//     } else if (breathStage == 4 || breathStage == 3){
+//         if(_breathVolume <= 0){
+//             breathStage = 5;
+//         }
+//     }
+// }
+
+public static int FrequencyToFlooredSemitone(double frequency)
+{
+    double semitone = 12 * Math.Log(frequency / A4, 2);
+    return (int)Math.Floor(semitone);
+    //Debug.Log(semitone);
+}
+
+public float GetVolumeThresholdFromJson()
+{
+    var match = Regex.Match(imitoneConfig, @"""volume"":{.*""threshold"":([^,}]*)");
+
+    if (match.Success)
     {
-        _breathVolume = 0f;
-        foreach (var contribution in _breathVolumeContributions.Values)
-        {   
-            _breathVolume += contribution;
-        }
-        _breathVolume = Mathf.Clamp(_breathVolume, 0.0f, 1.0f);
+        exceptionFlag = false;
+        return float.Parse(match.Groups[1].Value);
     }
-
-    private void handleBreathStage(){
-        if(breathStage == 0){
-            breathStage = 1;
-        } else if(breathStage == 1){
-            if(_breathVolume > 0 && 0.5f > _breathVolume){
-                breathStage = 2;
-            }
-        } else if (breathStage == 2){
-            if(_breathVolume > 0.5f){
-                breathStage = 3;
-            }
-        } else if (breathStage == 3){
-            if(_breathVolume < 0.5f && _breathVolume > 0){
-                breathStage = 4;
-            }
-        } else if (breathStage == 4 || breathStage == 3){
-            if(_breathVolume <= 0){
-                breathStage = 5;
-            }
-        }
-    }
-
-    public static int FrequencyToFlooredSemitone(double frequency)
+    else
     {
-        double semitone = 12 * Math.Log(frequency / A4, 2);
-        return (int)Math.Floor(semitone);
-        //Debug.Log(semitone);
-    }
-
-    /*public float GetVolumeThresholdFromJson()
-    {
-        var match = Regex.Match(imitoneConfig, @"""volume"":{.*""threshold"":([^,}]*)");
-
-        if (match.Success)
+        return -999f;
+        if (!exceptionFlag)
         {
-            return float.Parse(match.Groups[1].Value);
-        }
-        else
-        {
+            exceptionFlag = true;
             throw new Exception("Could not find 'volume:threshold' in JSON string");
         }
-    }*/
+    }
+}
 }

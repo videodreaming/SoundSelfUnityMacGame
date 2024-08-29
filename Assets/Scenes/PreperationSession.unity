@@ -6434,11 +6434,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e48b2d0af0aa404c952888cbe95a612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  developmentMode: {fileID: 538272586}
   AVSColorCommand: 
   AVSStrobeCommand: 
+  cycleRecent: Dark
+  preferredColor: Red
   _strobePWM: 0
   _strobe1Smoothing: 0
   _gammaBurstMode: 0
+  rtpcID: 0
+  frequencyWave1Value: 0
 --- !u!1 &443228039
 GameObject:
   m_ObjectHideFlags: 0
@@ -7389,13 +7394,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
+  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  developmentMode: {fileID: 538272586}
   CSVWriter: {fileID: 662335749}
+  wwiseAVSMusicManager: {fileID: 437048159}
   userObject: {fileID: 740096621}
-  userAudioSource: {fileID: 0}
+  userAudioSource: {fileID: 740096622}
   imitoneVoiceIntepreter: {fileID: 740096625}
-  musicSystem1: {fileID: 619104374}
-  fadeDuration: 54
-  targetValue: 80
   silentrtpcvolume:
     idInternal: 0
     valueGuidInternal: 
@@ -7420,6 +7425,8 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: bcaabec165f1c124594b1b952bff5aea, type: 2}
+  fadeDuration: 54
+  targetValue: 80
   firstTimeUser: 1
   layingDown: 1
   muteInteraction: 0
@@ -7972,6 +7979,52 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &538272585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 538272587}
+  - component: {fileID: 538272586}
+  m_Layer: 0
+  m_Name: Development
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &538272586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538272585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc54582afe4ef1941b94bcaed0fdae61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  developmentPlayground: 0
+  developmentMode: 0
+--- !u!4 &538272587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538272585}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1062.1426, y: 580.3504, z: -745.27734}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &545473363
 GameObject:
   m_ObjectHideFlags: 0
@@ -8320,8 +8373,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a12f047d29ba3a47b11145e10d490f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wwiseVOManager: {fileID: 0}
+  wwiseVOManager: {fileID: 486583134}
   wwiseInteractiveMusicManager: {fileID: 1564575221}
+  director: {fileID: 1829208165}
+  respirationTracker: {fileID: 740096627}
   allowFundamentalChange: 1
   enableMusicSystem: 1
   imitoneVoiceInterpreter: {fileID: 740096625}
@@ -9086,7 +9141,9 @@ MonoBehaviour:
   microphoneMonitoring: 0
   GameMode: 
   SubGameMode: 
-  paused: 0
+  encryptedstatus: 
+  decryptedstatus: 
+  CSVDevMode: 0
 --- !u!1 &663876140
 GameObject:
   m_ObjectHideFlags: 0
@@ -9752,8 +9809,6 @@ GameObject:
   - component: {fileID: 740096627}
   - component: {fileID: 740096628}
   - component: {fileID: 740096630}
-  - component: {fileID: 740096624}
-  - component: {fileID: 740096623}
   - component: {fileID: 740096629}
   - component: {fileID: 740096631}
   m_Layer: 0
@@ -9871,37 +9926,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &740096623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2aba5048c9a4865a3d83e90b21f7543, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _notePrefab: {fileID: 0}
-  _harmonyProgressionTime: 10
---- !u!114 &740096624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39de57ecf03f12c418183ca3097d9ad2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fundamentalPrefab: {fileID: 4368231981953033810, guid: b3c590c4cffd54550a4d8d5237e99ebc, type: 3}
-  _voiceInterpreter: {fileID: 740096625}
-  _fundamentalMeterToFill: 5
-  _fillRate: 1
-  _offerTime: 5
 --- !u!114 &740096625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9915,13 +9939,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DevModeSettings: {fileID: 316632675}
-  wwiseAVSMusicManager: {fileID: 0}
+  wwiseAVSMusicManager: {fileID: 437048159}
+  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  director: {fileID: 1829208165}
   pitch_hz: 0
   note_st: 0
   _dbThreshold: -25
   imitoneInactiveTimer: 0
-  imitoneConfidentActiveTimer: 0
   imitoneConfidentInactiveTimer: 0
+  exceptionFlag: 0
   _tThisTone: 0
   _tThisToneConfident: 0
   _tThisToneBiasTrue: 0
@@ -9977,6 +10003,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096625}
   pauseGuardTone: 0
+  modePlayful: 1
+  modeMeditative: 0
   canvas: {fileID: 1172631974}
   rectanglePrefab: {fileID: 2136379597242905194, guid: b2f7d0aeb351b4aaa81c07226898e5ab, type: 3}
   SelectedRectangle: {fileID: 0}
@@ -10012,7 +10040,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceIntepreter: {fileID: 740096625}
-  wwiseAVSMusicManager: {fileID: 0}
+  wwiseAVSMusicManager: {fileID: 437048159}
 --- !u!114 &740096630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10025,14 +10053,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f606da8100514734b984403543e58894, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  developmentMode: {fileID: 538272586}
   AudioManager: {fileID: 47830410}
+  director: {fileID: 1829208165}
   imitoneVoiceInterpreter: {fileID: 740096625}
   respirationTracker: {fileID: 740096627}
-  wwiseAVSMusicManager: {fileID: 0}
+  wwiseAVSMusicManager: {fileID: 437048159}
+  wwiseInteractiveMusicManager: {fileID: 1564575221}
   _chantLerpSlowDamp1: 0
   _chantLerpSlowDamp2: 0
   _chantLerpFastDamp1: 0
   _chantLerpFastDamp2: 0
+  changeDetectedToneLength: 0
+  changeDetectedRestLength: 0
 --- !u!164 &740096631
 AudioReverbFilter:
   m_ObjectHideFlags: 0
@@ -20670,21 +20703,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ec8f52d339795b4b814170dd9d5bd77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  developmentMode: {fileID: 538272586}
   musicSystem1: {fileID: 619104374}
+  wwiseAVSMusicManager: {fileID: 437048159}
+  respirationTracker: {fileID: 740096627}
+  imitoneVoiceIntepreter: {fileID: 740096625}
+  wwiseVOManager: {fileID: 486583134}
+  director: {fileID: 1829208165}
   currentSwitchState: B
   currentToningState: none
   InteractiveMusicSilentLoopsRTPC: 0
   HarmonySilentVolumeRTPC: 0
   FundamentalSilentVolumeRTPC: 0
-  imitoneVoiceIntepreter: {fileID: 740096625}
-  wwiseVOManager: {fileID: 486583134}
   playingId: 0
-  elapsedTime: 0
+  currentStage: 0
+  csvWriter: {fileID: 662335749}
   CFundamentalGHarmonyLock: 0
-  csvWriter: {fileID: 0}
-  IsTutorialTestingMicInput: 0
-  IsTutorialTestingMicInputTimer: 0
-  disableMicrophoneResponsiveness: 1
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
@@ -23381,6 +23415,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1829208163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1829208164}
+  - component: {fileID: 1829208165}
+  m_Layer: 0
+  m_Name: Director
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1829208164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829208163}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 198.45227, y: 296.08066, z: -737.12384}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1859086000}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1829208165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829208163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9efffcc1057e3949ac25c6427ec51c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  developmentMode: {fileID: 538272586}
+  wwiseAVSMusicManager: {fileID: 437048159}
+  imitoneVoiceInterpreter: {fileID: 740096625}
+  queueIndex: 0
 --- !u!1 &1842254102
 GameObject:
   m_ObjectHideFlags: 0
@@ -23629,6 +23711,7 @@ Transform:
   - {fileID: 437048155}
   - {fileID: 1564575217}
   - {fileID: 486583130}
+  - {fileID: 1829208164}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1860419330
@@ -27209,3 +27292,4 @@ SceneRoots:
   - {fileID: 1172631975}
   - {fileID: 2103932348}
   - {fileID: 1435489962}
+  - {fileID: 538272587}

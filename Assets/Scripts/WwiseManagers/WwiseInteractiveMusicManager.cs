@@ -6,56 +6,72 @@ using System;
 
 public class WwiseInteractiveMusicManager : MonoBehaviour
 {
+    public DevelopmentMode developmentMode;
     public MusicSystem1 musicSystem1;
-    public string currentSwitchState = "B"; // Default switch state
+    public WwiseAVSMusicManager wwiseAVSMusicManager;
+    public RespirationTracker respirationTracker;
+    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public WwiseVOManager wwiseVOManager;
+    public Director director;
+    private int fundamentalCount = -1;
+    private int harmonyCount = -1;
+
+    public string currentSwitchState = "B";
     public string currentToningState = "None";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
     public float HarmonySilentVolumeRTPC = 0.0f;
     public float FundamentalSilentVolumeRTPC = 0.0f;
-    private float UserNotToningThreshold = 10.0f;
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
-    public WwiseVOManager wwiseVOManager;
+    private float UserNotToningThreshold = 30.0f; //controls environment shift.
     public uint playingId;
     private bool toneActiveTriggered = false; // Flag to control the event triggering
 
     [SerializeField]
-    private float elapsedTime = 0f; // Tracks the elapsed time since the start
     private int currentStage = 0; // Tracks the current stage of the sound world
+    public CSVWriter csvWriter;
+    private bool thisTonesImpactPlayed = false;
+    // AVS Controls
+    private float _absorptionThreshold;
+    float d = 1f; //debug timer mult
+
+    //THESE THINGS ARE DEFINITELY PERTAINING TO THE  STORY PROGRESSION, AND SHOULD PROBABLY BE REFACTORED
+    
+    private bool musicProgressionFlag = false;
 
     private float interactiveMusicExperienceTotalTime;
     private float finalStagePreLogicTime;
 
-    private float WakeUpCounter; // Timer for the wakeup event
-     private bool wakeUpEndSoonTriggered = false; // Flag to control the event "WakeupSoon" triggering
+    private float WakeUpCounter;
+    private bool wakeUpEndSoonTriggered = false; // Flag to control the event triggering
+    private float soundWorldChangeTime;
+    private bool finalStagePreLogicExecuted = false; 
+    public bool CFundamentalGHarmonyLock = false;
+    private bool flagTriggerEnd = false;
+    private bool flagThetaCoroutine = false;
+    private List<int> coroutineCleanupList = new List<int>();
+    private Coroutine CoroutineDynamicDropStart;
+    private Coroutine CoroutineDynamicDropTheta;
+    private Coroutine CoroutineDynamicDropEnd;
 
 
-    private float soundWorldChangeTime; //Timer that triggers the sound world change
-    private bool finalStagePreLogicExecuted = false; // Flag to control the final stage pre-logic execution
-    public bool CFundamentalGHarmonyLock = false; // Flag to lock the fundamental and harmony to C and G respectively
-    public CSVWriter csvWriter; //Reference to CSV Writer script
+    void Awake()
+    {
+        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
 
-    private bool thisTonesImpactPlayed = false; // Tracks whether this Tone's Impact has been played
+        if(!developmentMode.developmentMode)
+        {
+            d = 1f;
+        }
+    }
 
-
-    //Fields for Guided Interactive Music Progression
-    private int guidedVocalizationPlayCount = 0; // Tracks the number of times the sound has been played
-    public bool IsTutorialTestingMicInput = false; // Tracks if we're in the humming session // i.e. if tutorial sequence is looking for sound
-    public float IsTutorialTestingMicInputTimer = 0.0f; 
-    private bool canPlayGuidedVocalization = true; // Flag to allow or block playing the sound
-    private float guidedVocalizationThreshold = 3.0f;
-    public bool disableMicrophoneResponsiveness = true; // Flag to disable microphone responsiveness
-    private bool disableMicrophoneResponsivenessDebugFlag = false; // please keep this "false" so we get alerts if it turns off on first frame
-    private bool previousToneActiveConfident = false; // Tracks the previous state of toneActiveConfident
-
-
-    // Start is called before the first frame update
     void Start()
     {
         WakeUpCounter = 2280.0f;
         interactiveMusicExperienceTotalTime = 1245.0f;
         soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
         finalStagePreLogicTime = 15f; 
+        _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
+        CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         //Uncomment when CSV Writer is implemented
         /*if(csvWriter.GameMode == "Preperation")
         {
@@ -76,115 +92,80 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         
 
         AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
+        //AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
+        //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
+        //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
         
         musicSystem1.fundamentalNote = 9;
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
+        //AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
+        //AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);
+        //PlaySoundOnSpecificBus("Play_SilentLoops3_Fundamentalonly", "AVS System");
+        //PlaySoundOnSpecificBus("Play_SilentLoops3_Harmonyonly", "Master Audio Bus");
     }
-
-
-
-    public void userToningToChangeFundamental(string fundamentalNote)
-    {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote,gameObject);
-        Debug.Log("Fundamental Note: " + ConvertIntToNote(musicSystem1.fundamentalNote));
-    }
-    public void changeHarmony(string harmonyNote)
-    {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-        Debug.Log("Harmony Note: " + ConvertIntToNote(musicSystem1.harmonyNote));
-    }
-
    
     // Update is called once per frame
     void Update()
     {
-        if(imitoneVoiceIntepreter.toneActiveConfident == false)
+
+        if(developmentMode.developmentMode)
+        {
+            if(Input.GetKeyDown(KeyCode.L))
+            {
+                WakeUpCounter = 190f;
+                Debug.Log("Wakeup Counter set to " + WakeUpCounter);
+            }
+        }
+
+        if(imitoneVoiceIntepreter.toneActive == false)
         {
             thisTonesImpactPlayed = false;
-           
         }
         if(WakeUpCounter > -1.0f)
         {
             WakeUpCounter -= Time.deltaTime;
-        } 
+        }
+        if(WakeUpCounter <= 180f && !flagTriggerEnd)
+        {
+            CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
+            flagTriggerEnd = true;
+        }
         
         if( WakeUpCounter <= 0.0f && !wakeUpEndSoonTriggered)
         {
             AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
             WakeUpCounter = -1.0f;
             wakeUpEndSoonTriggered = true;
+            wwiseAVSMusicManager.SetPreferredColor("Dark");
+            wwiseAVSMusicManager.NextColorWorld(10f);
         }
         if (imitoneVoiceIntepreter.toneActiveConfident)
         {
-            IsTutorialTestingMicInputTimer += Time.deltaTime;
+            if (!toneActiveTriggered)
+            {
+                toneActiveTriggered = true; // Set the flag to true after the event is triggered
+            }
         }
         else
         {
-            if(previousToneActiveConfident)
+            if (toneActiveTriggered)
             {
-                Debug.Log("Player has just stopped Toning");
-                IsTutorialTestingMicInput = false;
-                canPlayGuidedVocalization = true;
-                disableMicrophoneResponsiveness = true;
+                //AkSoundEngine.StopPlayingID(playingId);
+                toneActiveTriggered = false; // Reset the flag when toneActiveConfident becomes false
             }
-            IsTutorialTestingMicInputTimer = 0.0f;
         }
-        previousToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
 
-        if(wwiseVOManager.interactive == true)
+        
+        if(wwiseVOManager.interactive && !musicProgressionFlag)
         {
-            HandleGuidedVocalization();
-            elapsedTime += Time.deltaTime;
-            if (elapsedTime >= soundWorldChangeTime)
-            {
-                if (currentStage == 0)
-                {
-                    Debug.Log("Stage 0 SonoFlore");
-                }
-                Debug.Log("Stage 1 Gentle");
-                elapsedTime = 0f; // Reset elapsed time
-                currentStage++; // Move to the next stage
-                
-                switch (currentStage)
-                {
-                    case 1:
-                        Debug.Log("Stage 1 Gentle");
-                        AkSoundEngine.SetState("SoundWorldMode", "Gentle");
-                        break;
-                    case 2:
-                        Debug.Log("Stage 2 Shadow");
-                        AkSoundEngine.SetState("SoundWorldMode", "Shadow");
-                        break;
-                    case 3:
-                        Debug.Log("Stage 3 Shruti");
-                        AkSoundEngine.SetState("SoundWorldMode", "Shruti");
-                        break;
-                    default:
-                    wwiseVOManager.interactive = false;
-                    Debug.Log("Stage 4 Final");
-                    AkSoundEngine.PostEvent("Stop_InteractiveMusicSystem", gameObject);
-                    wwiseVOManager.PassBackToVOManager();
-                    break;
-                }   
-            }
-            if (currentStage == 3 && !finalStagePreLogicExecuted)
-            {
-                // Calculate the remaining time before the final logic execution
-                float timeRemainingForFinalLogic = soundWorldChangeTime - elapsedTime;
+            musicProgressionFlag = true;
+            StartCoroutine(StartMusicalProgression());
+        }
 
-                if (timeRemainingForFinalLogic <= finalStagePreLogicTime)
-                {
-                    CFundamentalGHarmonyLock = true;
-                    finalStagePreLogicExecuted = true;
-                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", "C", gameObject);
-                    AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "G", gameObject);
-                }
-            }
+        if(wwiseVOManager.interactive)
+        {
             if(imitoneVoiceIntepreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
             {
                 AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
@@ -196,127 +177,423 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
 
             if(imitoneVoiceIntepreter._tThisTone > imitoneVoiceIntepreter._activeThreshold4)
             {
-                Debug.Log("this tone is now longer than 8s");
                 if(!thisTonesImpactPlayed)
                 {
+                    Debug.Log("this tone is now longer than 8s, play impact");
+
                     Debug.Log("impact");
                     AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
                     thisTonesImpactPlayed = true;   
                 }
-
             }
         }
-
-        if (disableMicrophoneResponsiveness != disableMicrophoneResponsivenessDebugFlag)
-        {
-            // Pring a debug message on bool change
-            Debug.Log("Microphone Responsiveness is now: " + disableMicrophoneResponsiveness);
-            disableMicrophoneResponsivenessDebugFlag = disableMicrophoneResponsiveness;
-        }
-
     }
 
-    private void HandleGuidedVocalization() // Robin naming convention feedback: let's call this "Tutorial"
+    public void PostTheToningEvents()
     {
-        if ((guidedVocalizationPlayCount < 4) && canPlayGuidedVocalization)
-        {
-            // One more thing to be slightly mindful of - I'm going to want to use this variable, elsewhere in the scripts,
-            // to disable some of the AVS and music behaviors connected to i.e. toneActive, chantCharge, etc.
-            // So this should be accessible to me in some way that I can use it in other scripts. Ideally in this format:
-            // public bool disableMicrophoneResponsiveness = true when we are in the tutorial && not testing.
-            if (!IsTutorialTestingMicInput) //PSUEDOCODE: Make sure this won't work if we are in a tutorial correction
-            {
-                string tutorialToPlay = "Play_VO_GuidedVocalizationHum";
-                // BEGIN TESTING CODE BLOCK
-                // Play the guided vocalization sound
-                wwiseVOManager.handleTutorialMeditation(tutorialToPlay);
-                guidedVocalizationPlayCount++;
-                IsTutorialTestingMicInput = true;
-                canPlayGuidedVocalization = false; // Block further plays until the next condition is met
-            }
-        } else if (guidedVocalizationPlayCount >= 4 && guidedVocalizationPlayCount <= 11 && canPlayGuidedVocalization)
-        {
-            if(!IsTutorialTestingMicInput)
-            {
-                string tutorialToPlay = "Play_VO_GuidedVocalizationAhh";
-                wwiseVOManager.handleTutorialMeditation(tutorialToPlay);
-                guidedVocalizationPlayCount++;
-                IsTutorialTestingMicInput = true;
-                canPlayGuidedVocalization = false; // Block further plays until the next condition is met
-            }
-        } else if (guidedVocalizationPlayCount >= 10 && guidedVocalizationPlayCount < 15 && canPlayGuidedVocalization)
-        {
-            if(!IsTutorialTestingMicInput)
-            {
-                string tutorialToPlay = "Play_VO_GuidedVocalizationOoh";
-                wwiseVOManager.handleTutorialMeditation(tutorialToPlay);
-                guidedVocalizationPlayCount++;
-                IsTutorialTestingMicInput = true;
-                canPlayGuidedVocalization = false; // Block further plays until the next condition is met
-            }
-        } else if (guidedVocalizationPlayCount >= 14 && guidedVocalizationPlayCount < 19 && canPlayGuidedVocalization )
-        {
-            if(!IsTutorialTestingMicInput)
-            {
-                string tutorialToPlay = "Play_VO_GuidedVocalizationAdvanced";
-                wwiseVOManager.handleTutorialMeditation(tutorialToPlay);
-                guidedVocalizationPlayCount++;
-                //Instead of IsTutorialTestingMicInput = true, Make it trigger with Cue Logic from Wwise.
-                IsTutorialTestingMicInput = true;
-                canPlayGuidedVocalization = false; // Block further plays until the next condition is met
-            }
-        }
-        float timeWaiting = 0.0f; 
-        if (IsTutorialTestingMicInput)
-        {
-            //PSUEDOCODE
-            timeWaiting += Time.deltaTime;
+        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
+        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
+    }
+    
+     public void userToningToChangeFundamental(string fundamentalNote)
+     {
+         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
+         Debug.Log("Fundamental Note Set To: " + fundamentalNote);
+     }
+     public void changeHarmony(string harmonyNote)
+     {
+         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
+         Debug.Log("Harmony Note Set To: " + harmonyNote);
+     }
 
-            // TO DO: Replace "imitoneVoiceInterpreter.imitoneConfidentActiveTimer" with a new timer that respects isTutorialTestingMicInput, 
-            // Check if the player is humming confidently for more than 3 seconds
-            if (imitoneVoiceIntepreter.imitoneConfidentActiveTimer > guidedVocalizationThreshold)
-            {
-                if(!thisTonesImpactPlayed)
-                {
-                    // FIRST, play a thump on success
-                    AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
-                    thisTonesImpactPlayed = true;
-                }
-                if(imitoneVoiceIntepreter.toneActiveConfident == false)// THEN... ONCE !toneActiveConfident
-                {
-                    // MODIFICATION: We shouldn't make the following changes until the next frame toneActiveConfident == false
-                    IsTutorialTestingMicInput = false;
-                    canPlayGuidedVocalization = true; // Allow the next play
-                    disableMicrophoneResponsiveness = true; // This should be set to true when we are in the beginning of the tutorial
-                    thisTonesImpactPlayed = false;
-                }
+    IEnumerator StartMusicalProgression()
+    {
+        float _t = WakeUpCounter;
+        float _tQueueShadow = _t * 1f/4f - 60f;
+        float _tQueueShruti = _t * 2f/4f - 60f;
+        float _tQueueSonoflore = _t * 3f/4f - 60f;
 
-            }
-        }
-        // REEF: Look and Test this
-        // PSEUDOCODE for handling "Tutorial Corrections"
-        if (timeWaiting > 8f)
+        Debug.Log("Music Progression: Stage 0 SonoFlore");
+        QueueNewWorld("Gentle", "Red");
+
+        while(_t >= _tQueueShadow)
         {
-        //     // Play the correction sound
-            AkSoundEngine.PostEvent("PLAYLIST TO BE FILLED OUT", gameObject);
-            IsTutorialTestingMicInput = true;
-            canPlayGuidedVocalization = false; // Allow the next play
+            _t -= Time.deltaTime;
+            yield return null;
         }
+        Debug.Log("Music Progression: Stage 1 Gentle");
+        QueueNewWorld("Shadow", "Blue");
 
-        // ANOTHER THING ROBIN WOULD LIKE TO ADD, THAT WILL REQUIRE LORNA'S HELP,
-        // THAT CONTROLS WHEN WE ARE LOOKING FOR A TONE FROM THE PLAYER DYNAMICALLY
-        //
-        // STEP 1: We need a unity cues from Wwise, that Lorna will program into the audio files
-        // Cue: "ReactivateTutorialMic" - this cue will be played near the end of the audio file, when we are ready to test again
-        //
-        // PSUEDOCODE
-        // else if (cue == "ReactivateTutorialMic")
-        // {
-        //     IsTutorialTestingMicInput = true;
-        // }
+        while(_t >= _tQueueShruti)
+        {
+            _t -= Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("Music Progression: Stage 2 Shadow");
+        QueueNewWorld("Shruti", "White");
+
+        while(_t >= _tQueueSonoflore)
+        {
+            _t -= Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("Music Progression: Stage 3 Shruti");
+        QueueNewWorld("SonoFlore", "Red");
+
+        //LET'S PUT THE GO DARK LOGIC HERE.
 
     }
 
+    IEnumerator AVS_Program_DynamicDrop_Start()
+    {
+        bool stopProgression = false;
+        Cleanup(coroutineCleanupList); //not necessary for the first one, but placing it here for convention.
+        yield return null;
+        //define a list of integers to hold the director queue index items that are created in this coroutine
+       
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDropStart. Waiting for lights. Currently:" + wwiseAVSMusicManager.cycleRecent);
+
+        if(developmentMode.developmentPlayground)
+        {
+            wwiseAVSMusicManager.SetColorWorldByType("Red", 0.0f);
+        }
+
+        while((wwiseAVSMusicManager.cycleRecent == "dark") || (wwiseAVSMusicManager.cycleRecent == "Dark"))
+        {
+            yield return null;
+        }
+        //ONCE THE LIGHTS TURN ON, START AT 45HZ
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDropStart. Lights detected, set strobe to 45hz.");
+        wwiseAVSMusicManager.SetStrobeRate(45.0f, 0.0f);
+        float _timer = 10f / d;
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        //AFTER 10 SECOND HOLD IS FINISHED, DROP TO 11HZ OVER 30 SECONDS
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDropStart. Initializeing drop from gamma to high alpha.");
+        _timer = 30f / d;
+        wwiseAVSMusicManager.SetStrobeRate(11.0f, _timer);
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        //NOW TAKE 120 SECONDS TO DROP TO 8.5HZ
+        //FOLLOWING THIS POINT, IF THE ABSORPTION THRESHOLD IS MET, WE WILL SKIP TO THE NEXT PROGRAM
+        _timer = 150f / d;
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDropStart. Begining drop from high alpha to 10hz.");
+        wwiseAVSMusicManager.SetStrobeRate(8.5f, _timer);
+        while(_timer > 0 || stopProgression)
+        {
+            if(AVS_Program_ManageThetaTransition(coroutineCleanupList))
+            {
+                stopProgression = true;
+                break;
+            }
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        yield return null;
+        //NOW START A SAW STROBE COROUTINE AROUND ALPHA
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDropStart. Starting Saw Strobe Coroutine.");
+        float _wavelength = 360f / d;
+        float _halfWavelength = _wavelength / 2;
+        wwiseAVSMusicManager.SetSawStrobe(8.5f, 11.5f, _wavelength);
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDropStart. Waiting for absorption threshold to be met.");
+
+        _timer = _halfWavelength;
+        bool flag1 = false;
+        bool flag2 = false;
+        while(stopProgression)
+        {
+            if(AVS_Program_ManageThetaTransition(coroutineCleanupList))
+            {
+                stopProgression = true;
+                break;
+            }
+
+            //ADD SOME MONO/STEREO BEHAVIOR. RHYTHMICALLY ADD MONO/STEREO COMMANDS TO DIRECTOR QUEUE
+            //MONO ACTIVATES AT END, STEREO DOES NOT. COMMANDS ARE EXCLUSIVE.
+            if (_timer > 0)
+            {
+                _timer -= Time.deltaTime;
+            }
+            else
+            {
+                _timer = _halfWavelength;
+            }
+            if(_timer > _halfWavelength*3/4)
+            {
+                flag2 = false;
+                if(!flag1)
+                {
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, false, 2));
+                    flag1 = true;
+                }
+            }
+            else if(_timer <= _halfWavelength*3/4)
+            {
+                flag1 = false;
+                if(!flag2)
+                {
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
+                    flag2 = true;
+                }
+            }
+            yield return null;
+        }
+        
+    }
+
+    private bool AVS_Program_ManageThetaTransition(List<int> coroutineCleanupList)
+    {
+        bool forceIt = developmentMode.developmentMode && Input.GetKeyDown(KeyCode.K);
+        if((respirationTracker._absorption > _absorptionThreshold || forceIt) && !flagThetaCoroutine)
+        {
+            flagThetaCoroutine = true;
+            CoroutineDynamicDropTheta = StartCoroutine(AVS_Program_DynamicDrop_Theta());
+            return true;
+        }
+        return false;
+    }
+
+    IEnumerator AVS_Program_DynamicDrop_Theta()
+    {
+        if(CoroutineDynamicDropStart != null)
+        {
+            Debug.Log(WakeUpCounter + "| AVS Program: Stopping Coroutine from THETA Coroutine().");
+            StopCoroutine(CoroutineDynamicDropStart);
+        }
+          
+        yield return null;
+        Cleanup(coroutineCleanupList);
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Starting Theta program.");
+
+        //SET CORRECT MONO/STEREO
+        director.ClearQueueOfType("monostereo");
+        //add mono to queue, if we're in bilateral
+        if(wwiseAVSMusicManager.bilateral)
+        {
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
+            Debug.Log(WakeUpCounter + " Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
+            director.LogQueue();
+        }
+        //and wait to enter mono...
+        while(wwiseAVSMusicManager.bilateral)
+        {
+            yield return null;
+        }
+        //DROP TO 7HZ
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 7hz.");
+        float _timer = 120f / d;
+        wwiseAVSMusicManager.SetStrobeRate(7.0f, _timer);
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        //CYCLE THROUGH BILATERAL ONCE
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, true, 2));
+        while(!wwiseAVSMusicManager.bilateral)
+        {
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
+        while(wwiseAVSMusicManager.bilateral)
+        {
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
+        while(wwiseAVSMusicManager.bilateral)
+        {
+            yield return null;
+        }
+        //DROP TO 6HZ
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
+        _timer = 60f / d;
+        wwiseAVSMusicManager.SetStrobeRate(6.0f, _timer);
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        //GAMMA BURSTS, THEN HANG HERE. 
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
+        _timer = 180f / d;
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f/d, true, 2));
+        _timer = 180f / d;
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        //DROP TO 5HZ
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Dropping to 5hz.");
+        _timer = 60f / d;
+        wwiseAVSMusicManager.SetStrobeRate(5.0f, _timer);
+        while(_timer > 0)
+        {
+            _timer -= Time.deltaTime;
+            yield return null;
+        }
+        //NOW CYCLE THROUGH GAMMA BETWEEN GAMMA AND NOT-GAMMA, AS WE WERE DOING WITH BILATERAL IN THE LAST PROGRAM
+        _timer = 300f / d;
+        float _halfWave = _timer / 2;
+        bool flag1 = false;
+        bool flag2 = false;
+        while(true)
+        {
+            if(_timer > 0)
+            {
+                _timer -= Time.deltaTime;
+            }
+            else
+            {
+                _timer = 300f / d;
+            }
+            if(_timer > _halfWave)
+            {
+                flag2 = false;
+                if(!flag1)
+                {
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
+                    flag1 = true;
+                    Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
+                }
+            }
+            else if(_timer <= _halfWave)
+            {
+                flag1 = false;
+                if(!flag2)
+                {
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f/d, true, 2));
+                    flag2 = true;
+                    Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
+                }
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator AVS_Program_DynamicDrop_End() //TEST THIS
+    {
+        if(CoroutineDynamicDropStart != null)
+        {
+            Debug.Log(WakeUpCounter + "| AVS Program: Stopping Coroutine from END Coroutine().");
+            StopCoroutine(CoroutineDynamicDropStart);
+        }
+        if(CoroutineDynamicDropTheta != null)
+        {
+            Debug.Log(WakeUpCounter + "| AVS Program: Stopping Coroutine from END Coroutine().");
+            StopCoroutine(CoroutineDynamicDropTheta);
+        }
+
+        yield return null;
+        Cleanup(coroutineCleanupList);
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. Starting End Program.");
+        director.ClearQueueOfType("gamma");
+        director.ClearQueueOfType("monostereo");
+        if(!wwiseAVSMusicManager.bilateral)
+        {
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 30.0f, true, 2));
+        }
+        if(wwiseAVSMusicManager._gammaBurstMode != 0.0f)
+        {
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 30.0f, true, 2));
+        }
+
+        while(WakeUpCounter > 110f)
+        {
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. Stabilizing before dramatic rise.");
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 10.0f, true, 2));
+
+        while(WakeUpCounter > 90f)
+        {
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. Starting dramatic rise to 40hz.");
+        wwiseAVSMusicManager.SetStrobeRate(40.0f, 90f);
+
+        while(WakeUpCounter > 0f)
+        {
+            yield return null;
+        }
+        Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. End of AVS Program. Goodnight!");
+    }
+
+    private void Cleanup(List<int> coroutineCleanupList)
+    {
+        Debug.Log("Performing cleanup.");
+        foreach (int index in coroutineCleanupList)
+        {
+            Debug.Log(WakeUpCounter + " Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
+            director.queue.Remove(index);
+        }
+        director.LogQueue();
+    }
+    
+    private Action Action_Gamma(bool gammaOn)
+    {
+        return () => wwiseAVSMusicManager.Gamma(gammaOn);
+    }
+    
+    private void QueueNewWorld(string world, string color)
+    {
+        director.AddActionToQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, 120.0f, true, 2);
+        director.AddActionToQueue(Action_SetPreferredColor(color), "ColorPreference", false, true, 120.0f, true, 2);
+        director.AddActionToQueue(Action_NextColorWorld(120.0f), "ColorCycle", false, true, 120.0f, true, 2);
+        director.AddActionToQueue(Action_PlayTransitionSound(), "TransitionSound", true, false, 120.0f, true, 2);
+    }
+
+    private Action Action_SetSoundWorld(string soundWorld)
+    {
+        return () => SetSoundWorld(soundWorld);
+    }
+
+    private void SetSoundWorld(string soundWorld)
+    {
+        AkSoundEngine.SetState("SoundWorldMode", soundWorld);
+        Debug.Log("Sound World Set To: " + soundWorld);
+    }
+
+    private Action Action_SetPreferredColor(string color)
+    {
+        return () => wwiseAVSMusicManager.SetPreferredColor(color);
+    }
+
+    private Action Action_NextColorWorld(float _seconds)
+    {
+        return () => wwiseAVSMusicManager.NextColorWorld(_seconds);
+    }
+    
+    private Action Action_Strobe_MonoStereo(bool bilateral = false)
+    {
+        return () => wwiseAVSMusicManager.Strobe_MonoStereo(bilateral);
+    }
+    private Action Action_Strobe_Frequency(float frequency, float seconds)
+    {
+        return () => wwiseAVSMusicManager.SetStrobeRate(frequency, seconds);
+    }
+    private Action Action_PlayTransitionSound()
+    {
+        return () => director.PlayTransitionSound();
+    }
 
     public void ChangeToningState()
     {
@@ -328,31 +605,32 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
     }
 
-    public void setallRTPCValue(float newRTPCValue)
-    {
-        AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newRTPCValue, gameObject);
-        AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newRTPCValue, gameObject);
-        AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newRTPCValue, gameObject);
-    }
+    //THESE ARE NEVER USED - COMMENTING THEM OUT
+    //public void setallRTPCValue(float newRTPCValue)
+    //{
+    //    AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newRTPCValue, gameObject);
+    //    AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newRTPCValue, gameObject);
+    //    AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newRTPCValue, gameObject);
+    //}
 
-    public void setHarmonySilentVolumeRTPCValue(float newHarmonyVolumeRTPC)
-    {
-        AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newHarmonyVolumeRTPC, gameObject);
-    }
+    // public void setHarmonySilentVolumeRTPCValue(float newHarmonyVolumeRTPC)
+    // {
+    //     AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newHarmonyVolumeRTPC, gameObject);
+    // }
 
-    public void setFundamentalSilentVolumeRTPCValue(float newFundamentalVolumeRTPC)
-    {
-        AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newFundamentalVolumeRTPC, gameObject);
-    }
+    // public void setFundamentalSilentVolumeRTPCValue(float newFundamentalVolumeRTPC)
+    // {
+    //     AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newFundamentalVolumeRTPC, gameObject);
+    // }
 
-    public void setInteractiveMusicSilentLoopsRTPCValue(float newInteractiveMusicSilentLoopRTPC)
-    {
-        AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newInteractiveMusicSilentLoopRTPC, gameObject);
-    }
+    // public void setInteractiveMusicSilentLoopsRTPCValue(float newInteractiveMusicSilentLoopRTPC)
+    // {
+    //     AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newInteractiveMusicSilentLoopRTPC, gameObject);
+    // }
 
 
 
-        public enum NoteName
+    public enum NoteName
     {
         C,
         CsharpDflat,

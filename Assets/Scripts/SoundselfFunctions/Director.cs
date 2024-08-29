@@ -21,8 +21,8 @@ public class Director : MonoBehaviour
     //3. The queue can also be cleared.
 
     public DevelopmentMode developmentMode;
-    public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
-    public ImitoneVoiceIntepreterForPlayground imitoneVoiceInterpreter;
+    public WwiseAVSMusicManager wwiseAVSMusicManager;
+    public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     
     public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
     public int queueIndex = 0;

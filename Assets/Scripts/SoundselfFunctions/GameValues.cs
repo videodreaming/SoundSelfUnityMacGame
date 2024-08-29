@@ -13,14 +13,16 @@ using imitone;
 
 //TODO - revisit "responsiveness"
 
-public class GameValues: MonoBehaviour
+public class GameValues : MonoBehaviour
 {
+    public DevelopmentMode developmentMode;
     public AudioManager AudioManager;
+    public Director director;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public RespirationTracker respirationTracker;
     public WwiseAVSMusicManager wwiseAVSMusicManager;
-
-    
+    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
+    private bool debugAllowChangeVerboseLogs = false;
     [Header("DampingValues")]
     private float responsiveness = 1.0f; //revisit when we have absorption
 
@@ -50,8 +52,8 @@ public class GameValues: MonoBehaviour
     float _lerpTargetFast   = 0.0f;
     public float _chantLerpFast {get; private set;} = 0.0f;
     public float _chantLerpSlow {get; private set;} = 0.0f;
-    public float _tChantLerp {get; private set;} = 0.0f;
-    public float _tRestLerp {get; private set;} = 0.0f;
+    public float _tChantLerp {get; private set;} = 0.0f; //not currently referenced, but might be useful for WWise
+    public float _tRestLerp {get; private set;} = 0.0f; //not currently referenced, but might be useful for WWise
 
     //CHANTCHARGE
     private float RecentToneMeanDuration = 5.0f; //resvisit when we have cadence/respirationrate.
@@ -64,9 +66,37 @@ public class GameValues: MonoBehaviour
     private Dictionary<int, float> _chantChargeContributions = new Dictionary<int, float>(); 
     private int chantChargeCoroutineCounter = 0;
 
-   
+    //CHANGE DETECTION
+    private Dictionary<int, float> _toneDurations = new Dictionary<int, float>();
+    private Dictionary<int, float> _restDurations = new Dictionary<int, float>();
+    public bool changeDetectedToneLength = false;
+    public bool changeDetectedRestLength = false;
+    private int toneRestCounterMax = 3; //not including the current one...
+    private int toneDurationCounter = 0;
+    private int restDurationCounter = 0;
+    private bool toneDurationGuard = false;
+    private bool restDurationGuard = false;    
+    private float _toneAnchorHigh;
+    private float _toneAnchorLow;
+    private bool toneAnchored = false;
+    private float _restAnchorHigh;
+    private float _restAnchorLow;
+    private bool restAnchored = false;
+    private float _toneWindlassSpread;
+    private float _restWindlassSpread;
+    //The below 4 values require tweaking from gameplay observations. Notes from changes in comments below.
+    private float _toneWindlassSpreadInitialize = 0.15f;
+    private float _restWindlassSpreadInitialize = 0.075f; //Needs to be lower than toneWindlassSpreadInitialize
+    private float _windlassSpreadGrowthPerMinute_Init = 0.025f; // * mean duration
+    private float _windlassSpreadGrowthPerMinute = 0.025f; // * mean duration
+    private float _anchorSpreadShrinkPerMinute_Init = 0.025f; // * mean duration
+    private float _anchorSpreadShrinkPerMinute = 0.025f; // * mean duration
+    private float _anchorSetMult = 2.0f;
+
     void Start()
     {
+        _toneWindlassSpread = _toneWindlassSpreadInitialize;
+        _restWindlassSpread = _restWindlassSpreadInitialize;
     }
 
     // Fixed Update is called once per frame, but it is called on a fixed time step.
@@ -74,38 +104,28 @@ public class GameValues: MonoBehaviour
     {
         handlecChanting();
         handleVolume();
-        if (_chantLerpSlow > 0.0f)
-        _tChantLerp += Time.fixedDeltaTime * _chantLerpSlow;
-        if (_chantLerpSlow < 1.0f)
-        _tRestLerp += Time.fixedDeltaTime * (1.0f - _chantLerpSlow);
-
-        //HANDLE "CHANT CHARGE"
-        //if we are in a guided vocalization state, set the full value to 5, otherwise it sets dynamically.
-        float _forceDurationToFill = 0f; // 0 does not force
-        if (imitoneVoiceInterpreter._tThisToneBiasTrue == 0)
-        {
-            chantChargeToneGuard = false;
-        }
-        else if (!chantChargeToneGuard)
-        {
-            chantChargeToneGuard = true;
-            if(AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced
-            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAhh
-            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh
-            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum)
-            {
-                _forceDurationToFill = 5.0f;
-            }
-            StartCoroutine(ChantChargeMemberCoroutine(_forceDurationToFill));
-        }
-        _chantCharge = Mathf.Clamp(_chantChargeContributions.Values.Sum(), 0,1);
-        //RE-ADD BACK ONCE ROBIN FINISHES AVS
-        //wwiseAVSMusicManager.Wwise_Strobe_ChargeDisplay(_chantCharge);
-        //wwiseAVSMusicManager.Wwise_Strobe_ToneDisplay(_chantLerpFast);
-        Debug.Log("imitoneActive: " + imitoneVoiceInterpreter.imitoneActive + " toneActive: " + imitoneVoiceInterpreter.toneActive + " Chant Charge: " + _chantCharge + " Chant Lerp Fast: " + _chantLerpFast);
+        handleChantCharge();
+        wwiseAVSMusicManager.Wwise_Strobe_ChargeDisplay(_chantCharge);
+        wwiseAVSMusicManager.Wwise_Strobe_ToneDisplay(_chantLerpFast);
+        //Debug.Log("imitoneActive: " + imitoneVoiceInterpreter.imitoneActive + " toneActive: " + imitoneVoiceInterpreter.toneActive + " Chant Charge: " + _chantCharge + " Chant Lerp Fast: " + _chantLerpFast);
     }
 
-    private void handleVolume(){
+    void Update()
+    {
+        //probably handleVolume() could go in here too, with a little tweaking. cChanting and chantCharge should stay in FixedUpdate unlesss you want to fiddle deeper with the lerp tools.
+        changeDetection();
+        if(changeDetectedToneLength)
+        {
+            Debug.Log("Change Detection: Tone Length Change");
+        }
+        if(changeDetectedRestLength)
+        {
+            Debug.Log("Change Detection: Breath Length Change");
+        }
+    }
+
+    private void handleVolume()
+    {
         
         //every frame, store the current _dbValue in the dictionary. The dictionary should only ever have 1 second of data. It will clear when toneActive is false. When there is at least 1 second of data, we will calculate _dbValidValue as the highest value in the dictionary
 
@@ -171,7 +191,8 @@ public class GameValues: MonoBehaviour
         //Debug.Log("Time.FrameCount = " + Time.frameCount + ", Time = " + Time.time);
     }
 
-    private void handlecChanting(){
+    private void handlecChanting()
+    {
 
         //Set interpoloation speeds
         _meanToneLengthLerp = LerpUtilities.DampTool("meanToneLengthLerp", _meanToneLengthLerp, respirationTracker._meanToneLength, 0.036f, 0.018f, 0.0001f);
@@ -217,9 +238,45 @@ public class GameValues: MonoBehaviour
         _chantLerpFast = Mathf.Clamp(_chantLerpFast + _chantLerpLinear, 0, 1);
         if (_chantLerpFast > _lerpTargetFast)
         _chantLerpFast = Mathf.Clamp(_chantLerpFast - _chantLerpLinear, 0, 1);
+
+        
+        if (_chantLerpSlow > 0.0f)
+        _tChantLerp += Time.fixedDeltaTime * _chantLerpSlow;
+        if (_chantLerpSlow < 1.0f)
+        _tRestLerp += Time.fixedDeltaTime * (1.0f - _chantLerpSlow);
+
+        AkSoundEngine.SetRTPCValue("Unity_ChantLerpFast", _chantLerpFast * 100.0f, gameObject);
+        AkSoundEngine.SetRTPCValue("Unity_ChantLerpSlow", _chantLerpSlow * 100.0f, gameObject);
     }
 
-    private IEnumerator ChantChargeMemberCoroutine(float _forceDurationToFill= 0f) {
+    private void handleChantCharge()
+    {
+        //HANDLE "CHANT CHARGE"
+        //if we are in a guided vocalization state, set the full value to 5, otherwise it sets dynamically.
+        float _forceDurationToFill = 0f; // 0 does not force
+        if (imitoneVoiceInterpreter._tThisToneBiasTrue == 0)
+        {
+            chantChargeToneGuard = false;
+        }
+        else if (!chantChargeToneGuard)
+        {
+            chantChargeToneGuard = true;
+            if(AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced
+            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAhh
+            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh
+            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum)
+            {
+                _forceDurationToFill = 5.0f;
+            }
+            StartCoroutine(ChantChargeMemberCoroutine(_forceDurationToFill));
+        }
+        _chantCharge = Mathf.Clamp(_chantChargeContributions.Values.Sum(), 0,1);
+        
+        AkSoundEngine.SetRTPCValue("Unity_Charge", _chantCharge*100.0f, gameObject);
+    }
+
+    private IEnumerator ChantChargeMemberCoroutine(float _forceDurationToFill= 0f) 
+    {
         int chantChargeCoroutineID = chantChargeCoroutineCounter++;
         float _meanToneAtStart = respirationTracker._meanToneLength;
         float _normalizedToneTime = 0f;
@@ -259,4 +316,235 @@ public class GameValues: MonoBehaviour
         //Debug.Log("ChantCharge " + chantChargeCoroutineCounter + " End");
     }
 
+    private void changeDetection()
+    {
+        _windlassSpreadGrowthPerMinute = _windlassSpreadGrowthPerMinute_Init * Mathf.Pow(2, (1-Mathf.Clamp(respirationTracker._absorption, 0, 1)));
+        _anchorSpreadShrinkPerMinute = _anchorSpreadShrinkPerMinute_Init * Mathf.Pow(2,(1-Mathf.Clamp(respirationTracker._absorption, 0, 1)));
+
+        // Track the three most recent tone and breath durations from imitoneVoiceInterpreter using a library of the last 3 values
+        if (imitoneVoiceInterpreter.toneActiveConfident)
+        {
+            if (toneDurationGuard == false)
+            {
+                StartCoroutine(DurationCoroutine(true));
+                toneDurationGuard = true;
+            }
+        }
+        else
+        {
+            if (restDurationGuard == false)
+            {
+                
+                StartCoroutine(DurationCoroutine(false));
+                restDurationGuard = true;
+            }
+        }
+
+        if(changeDetectedToneLength || changeDetectedRestLength)
+        {
+            float flourishTime = 0.0f;
+            if(changeDetectedToneLength)
+            {
+                flourishTime = imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f;
+                //ChangeColor(imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f);
+            }
+            else if(changeDetectedRestLength)
+            {
+                flourishTime = 5.0f;
+                //ChangeColor(5.0f);
+            }
+            
+            director.ActivateQueue(flourishTime); //whenever there is a change detected, process any queued a/v actions
+
+        }
+    }
+
+    // A coroutine that will be used to measure the duration of most recent tones or breaths
+    private IEnumerator DurationCoroutine(bool isTone)
+    {
+        int counter = isTone ? toneDurationCounter++ : restDurationCounter++;
+        int id = isTone ? toneDurationCounter : restDurationCounter;
+        float _duration = 0.0f;
+        bool triggeredChange = false;
+        float _windlassSpread = isTone ? _toneWindlassSpread : _restWindlassSpread;
+        float _anchorLow = isTone ? _toneAnchorLow : _restAnchorLow;
+        float _anchorHigh = isTone ? _toneAnchorHigh : _restAnchorHigh;
+        bool anchored = isTone ? toneAnchored : restAnchored;
+        Dictionary<int, float> _durations = isTone ? _toneDurations : _restDurations;
+        float _durationsMean = (_durations.Count > 0) ? _durations.Values.Average() : 0.0f;
+        float _durationsRelativeRange = (_durations.Count > 0) ? ((_durations.Values.Max() - _durations.Values.Min()) / _durationsMean) : 0.0f;
+        
+        if (debugAllowChangeVerboseLogs) //(isTone)
+        {
+            if (anchored)
+            {
+                Debug.Log("Change Detection " + (isTone ? "TONE " : "REST ") + id + ": COROUTINE START, ANCHORED (" + _anchorLow + ")|(" + _anchorHigh + ")");
+            }
+            else
+            {
+                Debug.Log("Change Detection " + (isTone ? "TONE " : "REST ") + id + ": COROUTINE START unanchored with range threshold (" + _windlassSpread + ")");
+            }
+        }
+
+
+        while (isTone == imitoneVoiceInterpreter.toneActiveConfident)
+        {
+            _duration += Time.deltaTime;//Time.fixedDeltaTime;
+
+            //EARLY CHANGE DETECTION FOR EXCEEDING THRESHOLD DURING TONING ONLY
+            if(anchored && isTone && !triggeredChange && (_duration > _anchorHigh))
+            {
+                triggeredChange = true;
+                StartCoroutine(ToneChangeEvent());
+                if(debugAllowChangeVerboseLogs)
+                {
+                    Debug.Log("Change Detection TONE: [CHANGE] " + id + " by exceeding upper threshold " + _anchorHigh);
+                }
+            }
+
+            yield return null;
+        }
+
+        //at end of measurement, add to the dictionary, remove excess values, and do a test for change detection
+        _durations.Add(id, _duration);
+        if (_durations.Count > toneRestCounterMax)
+        {
+            _durations = _durations.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+            _durations.Remove(_durations.Keys.First());
+            _durationsMean = _durations.Values.Average();
+            _durationsRelativeRange = (_durations.Values.Max() - _durations.Values.Min()) / _durations.Values.Average();
+
+            if (anchored) //ANCHORED, MIGHT UNANCHOR
+            {
+                if(isTone && !triggeredChange && (_duration < _anchorLow))
+                {
+                    triggeredChange = true;
+                    StartCoroutine(ToneChangeEvent());
+                    if(debugAllowChangeVerboseLogs)
+                        Debug.Log("Change Detection TONE: [CHANGE] " + id + " by falling below lower threshold " + _anchorLow);
+                }
+                else if (!isTone && !triggeredChange && anchored && ((_duration < _anchorLow) || (_duration > _anchorHigh)))
+                {
+                    triggeredChange = true;
+                    StartCoroutine(RestChangeEvent());
+                    if(debugAllowChangeVerboseLogs)
+                        Debug.Log("Change Detection REST: [CHANGE] " + id + " by ranging out of threshold (" + _anchorLow + ")(" + _anchorHigh + ")");
+                }
+               
+
+                if(triggeredChange) //IF A CHANGE WAS DETECTED, AND WE NOW UNANCHOR...
+                {
+                    anchored = false;
+                    _windlassSpread = isTone ? _toneWindlassSpreadInitialize : _restWindlassSpreadInitialize;
+                    if(isTone)
+                    {
+                        toneAnchored = false;
+                        _toneWindlassSpread = _windlassSpread;
+                    }
+                    else
+                    {
+                        restAnchored = false;
+                        _restWindlassSpread = _windlassSpread;
+                    }
+                    
+                    Debug.Log("Change Detection" + (isTone ? " TONE: " : " REST: ") + "unanchored with range threshold(" + _windlassSpread + ")");
+                }
+                else //IF NO CHANGE WAS DETECTED, SHRINK THE ANCHORED RANGE
+                {
+                    _anchorHigh -= _anchorSpreadShrinkPerMinute * 0.5f * _durationsMean * _duration / 60f;
+                    _anchorLow += _anchorSpreadShrinkPerMinute * 0.5f * _durationsMean * _duration / 60f;
+                    if(isTone)
+                    {
+                        _toneAnchorHigh = _anchorHigh;
+                        _toneAnchorLow = _anchorLow;   
+                    }
+                    else
+                    {
+                        _restAnchorHigh = _anchorHigh;
+                        _restAnchorLow = _anchorLow;
+                    }
+                    
+                    if(debugAllowChangeVerboseLogs)
+                        Debug.Log("Change Detection" + (isTone ? " TONE: " : " REST: ") + "anchored range set to (" + _anchorLow + ")|(" + _anchorHigh + ")");
+                }
+            }
+            else //NOT ANCHORED, MIGHT SET ANCHOR
+            {
+                if(_durationsRelativeRange < _windlassSpread) //if we are setting an anchor...
+                {
+                        _anchorHigh = _durationsMean + _windlassSpread * 0.5f *_anchorSetMult;
+                        _anchorLow  = _durationsMean - _windlassSpread * 0.5f *_anchorSetMult;
+                        anchored = true;
+                        
+                        if(isTone)
+                        {
+                            _toneAnchorHigh = _anchorHigh;
+                            _toneAnchorLow = _anchorLow;
+                            toneAnchored = true;
+                            Debug.Log("Change Detection TONE: [ANCHOR SET] (" + _toneAnchorLow + ")|(" + _toneAnchorHigh + ")");
+                        }
+                        else
+                        {
+                            _restAnchorHigh = _anchorHigh;
+                            _restAnchorLow = _anchorLow;
+                            restAnchored = true;
+                            Debug.Log("Change Detection REST: [ANCHOR SET] (" + _restAnchorLow + ")|(" + _restAnchorHigh + ")");
+                        }
+                }
+                else//if we are not setting an anchor...
+                {
+                    if(isTone)
+                    {
+                        _toneWindlassSpread += _windlassSpreadGrowthPerMinute * _durationsMean * _duration / 60f;
+                    }
+                    else
+                    {
+                        _restWindlassSpread += _windlassSpreadGrowthPerMinute * _durationsMean * _duration / 60f;
+                    }
+                    
+                    if(debugAllowChangeVerboseLogs)
+                    Debug.Log("Change Detection" + (isTone ? " TONE (no anchor): " : " REST (no anchor): ") + "memoryMin(" + _durations.Values.Min() + ") memoryMax(" + _durations.Values.Max() + ") range(" + _durationsRelativeRange + ") next-threshold set to ("  + _windlassSpread + ")");
+                }
+                
+            }
+
+        }
+
+        
+        if(!anchored && debugAllowChangeVerboseLogs)
+        {
+            Debug.Log("Change Detection " + (isTone ? "TONE (no anchor):" : "REST (no anchor):") + " Duration Coroutine " + id + " END with duration(" + _duration + ") count(" + _durations.Count + ") range(" + _durationsRelativeRange + ")  nextRangeThreshold(" + _windlassSpread + ")");
+        }
+        else if (anchored && debugAllowChangeVerboseLogs)
+        {
+            Debug.Log("Change Detection " + (isTone ? "TONE (anchored):" : "REST (anchored):") + " Duration Coroutine " + id + " END with duration(" + _duration + ") count(" + _durations.Count + ") anchors(" + _anchorLow + ")|(" + _anchorHigh + ")");
+        }
+        
+        if (isTone)
+        {
+            _toneDurations = _durations;
+            toneDurationGuard = false;
+
+        }
+        else
+        {
+            _restDurations = _durations;
+            restDurationGuard = false;
+        }
+
+    }
+
+    private IEnumerator ToneChangeEvent() //used to set value for one frame, given coroutine timing
+    {
+        changeDetectedToneLength = true;
+        yield return null;
+        changeDetectedToneLength = false;
+    }
+
+    private IEnumerator RestChangeEvent() //used to set value for one frame, given coroutine timing
+    {
+        changeDetectedRestLength = true;
+        yield return null;
+        changeDetectedRestLength = false;
+    }
 }
