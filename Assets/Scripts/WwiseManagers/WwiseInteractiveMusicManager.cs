@@ -218,45 +218,48 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
 
     private void HandleGuidedVocalization() // Robin naming convention feedback: let's call this "Tutorial"
     {
-        if ((guidedVocalizationPlayCount < 5) && canPlayGuidedVocalization)
+        if ((guidedVocalizationPlayCount < 4) && canPlayGuidedVocalization)
         {
             // One more thing to be slightly mindful of - I'm going to want to use this variable, elsewhere in the scripts,
             // to disable some of the AVS and music behaviors connected to i.e. toneActive, chantCharge, etc.
             // So this should be accessible to me in some way that I can use it in other scripts. Ideally in this format:
             // public bool disableMicrophoneResponsiveness = true when we are in the tutorial && not testing.
-
             if (!IsTutorialTestingMicInput) //PSUEDOCODE: Make sure this won't work if we are in a tutorial correction
             {
+                string tutorialToPlay = "Play_VO_GuidedVocalizationHum";
                 // BEGIN TESTING CODE BLOCK
                 // Play the guided vocalization sound
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject);
+                wwiseVOManager.handleTutorialMeditation(tutorialToPlay);
                 guidedVocalizationPlayCount++;
                 IsTutorialTestingMicInput = true;
                 canPlayGuidedVocalization = false; // Block further plays until the next condition is met
             }
-        } else if (guidedVocalizationPlayCount >= 5 && guidedVocalizationPlayCount <= 11 && canPlayGuidedVocalization)
+        } else if (guidedVocalizationPlayCount >= 4 && guidedVocalizationPlayCount <= 11 && canPlayGuidedVocalization)
         {
             if(!IsTutorialTestingMicInput)
             {
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject);
+                string tutorialToPlay = "Play_VO_GuidedVocalizationAhh";
+                wwiseVOManager.handleTutorialMeditation(tutorialToPlay);
                 guidedVocalizationPlayCount++;
                 IsTutorialTestingMicInput = true;
                 canPlayGuidedVocalization = false; // Block further plays until the next condition is met
             }
-        } else if (guidedVocalizationPlayCount >= 11 && guidedVocalizationPlayCount < 15 && canPlayGuidedVocalization)
+        } else if (guidedVocalizationPlayCount >= 10 && guidedVocalizationPlayCount < 15 && canPlayGuidedVocalization)
         {
             if(!IsTutorialTestingMicInput)
             {
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject);
+                string tutorialToPlay = "Play_VO_GuidedVocalizationOoh";
+                wwiseVOManager.handleTutorialMeditation(tutorialToPlay);
                 guidedVocalizationPlayCount++;
                 IsTutorialTestingMicInput = true;
                 canPlayGuidedVocalization = false; // Block further plays until the next condition is met
             }
-        } else if (guidedVocalizationPlayCount > 15 && guidedVocalizationPlayCount < 19 && canPlayGuidedVocalization )
+        } else if (guidedVocalizationPlayCount >= 14 && guidedVocalizationPlayCount < 19 && canPlayGuidedVocalization )
         {
             if(!IsTutorialTestingMicInput)
             {
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject);
+                string tutorialToPlay = "Play_VO_GuidedVocalizationAdvanced";
+                wwiseVOManager.handleTutorialMeditation(tutorialToPlay);
                 guidedVocalizationPlayCount++;
                 //Instead of IsTutorialTestingMicInput = true, Make it trigger with Cue Logic from Wwise.
                 IsTutorialTestingMicInput = true;

@@ -32,6 +32,7 @@ public class WwiseVOManagerForPlayGround : MonoBehaviour
     public RTPC toningHarmonyrtpcvolume;
     public bool firstTimeUser = true;
     public bool layingDown = true;
+    public bool muteInteraction = false;
     
     [SerializeField]
     public bool interactive = true;
