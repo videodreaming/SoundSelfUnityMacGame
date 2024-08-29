@@ -23,7 +23,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
     public float HarmonySilentVolumeRTPC = 0.0f;
     public float FundamentalSilentVolumeRTPC = 0.0f;
-    private float UserNotToningThreshold = 60.0f;
+    private float UserNotToningThreshold = 30.0f; //controls environment shift.
     public ImitoneVoiceIntepreterForPlayground imitoneVoiceIntepreter;
     public WwiseVOManagerForPlayGround wwiseVOManagerForPlayGround;
     public uint playingId;
