@@ -594,10 +594,6 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
             imitoneConfidentInactiveTimer = 0f;
             if (imitoneActiveTimer >= positiveActiveThreshold1 && !toneActive)
             {
-                if(!toneActive)
-                {
-                    toneActiveFrame = true;
-                }
                 toneActive = true;
                 toneActiveBiasTrue = true;
                 toneActiveBiasTrueTimer += Time.deltaTime;
@@ -620,7 +616,6 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 imitoneConfidentActiveTimer = 0f;
                 if(imitoneInactiveTimer >= negativeActiveThreshold1)
                 {
-                    toneActiveFrame = false;
                     toneActive = false;
                     AkSoundEngine.SetSwitch("ToneActive","Resting",gameObject);
                 }
@@ -636,16 +631,17 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
         //Logic that switches between toneActive and !toneActive, including setting _tThisTone and _tThisRest
         if(toneActive)
         {
+            if(!toneActiveFrame)
+            {
+                toneActiveFrame = true;
+                AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
+                Debug.Log("SFX: Stop_Inhales");
+            }
             _tThisTone += Time.deltaTime;
             _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
             resetToneFrame = false;
 
-            if(toneActiveFrame)
-            {
-                AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
-                Debug.Log("SFX: Stop_Inhales");
-            }
 
             if (_tThisTone > _activeThreshold3)
             toneActiveVeryConfident = true;
@@ -655,6 +651,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
         {
             _tThisRest += Time.deltaTime;
             _tThisTone  = 0.0f;
+            toneActiveFrame = false;
             
             if(imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
             {
