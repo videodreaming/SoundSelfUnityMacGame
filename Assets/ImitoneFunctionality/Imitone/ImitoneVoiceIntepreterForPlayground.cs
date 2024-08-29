@@ -20,6 +20,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
     public DevModeSettings DevModeSettings;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
     public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManager;
+    public Director director;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
@@ -34,6 +35,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
 
     [Tooltip("Toning With False Positive Logic")]
     public bool toneActive { get; private set; } = false;   
+    public bool toneActiveFrame { get; private set; } = false;
     
     [Tooltip("Confident Toning, used for... nothing yet")]
     public bool toneActiveConfident { get; private set; } = false;
@@ -70,9 +72,9 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
     //Both Above is the duration of breath 
     public float _tNextInhaleDuration = 0.0f;
     public float _breathVolume;
-    private bool isResettingTone = false;
-    public int breathStage = 0;
-    private bool endBreathVolumes   = false;
+    private bool resetToneFrame = false; //the first frame that !toneActive && !imitoneActive, before toneActive is true again.
+    public int breathStage = 0; //THIS IS NOT USED ANY MORE, REMOVE IT IN REFACTORING
+    private bool endBreathVolumes   = false; //THIS SYSTEM CAN DEFINITELY BE CLEANED UP QUITE EASILY...
     
     //public int MostRecentSemitone => _semitone;
     //public string MostRecentSemitoneNote => _semitoneNote;
@@ -290,7 +292,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
             Debug.Log("Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
             _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
-            wwiseInteractiveMusicManager.DirectorQueueProcessAll();
+            director.ActivateQueue(1.75f);
 
             //Clear the anomaly baseline data
             anomalyBaselineVolumes.Clear();
@@ -592,6 +594,10 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
             imitoneConfidentInactiveTimer = 0f;
             if (imitoneActiveTimer >= positiveActiveThreshold1 && !toneActive)
             {
+                if(!toneActive)
+                {
+                    toneActiveFrame = true;
+                }
                 toneActive = true;
                 toneActiveBiasTrue = true;
                 toneActiveBiasTrueTimer += Time.deltaTime;
@@ -614,6 +620,7 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 imitoneConfidentActiveTimer = 0f;
                 if(imitoneInactiveTimer >= negativeActiveThreshold1)
                 {
+                    toneActiveFrame = false;
                     toneActive = false;
                     AkSoundEngine.SetSwitch("ToneActive","Resting",gameObject);
                 }
@@ -629,11 +636,16 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
         //Logic that switches between toneActive and !toneActive, including setting _tThisTone and _tThisRest
         if(toneActive)
         {
-            breathStage = 0;
             _tThisTone += Time.deltaTime;
             _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
-            isResettingTone = false;
+            resetToneFrame = false;
+
+            if(toneActiveFrame)
+            {
+                AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
+                Debug.Log("SFX: Stop_Inhales");
+            }
 
             if (_tThisTone > _activeThreshold3)
             toneActiveVeryConfident = true;
@@ -641,7 +653,6 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
         }
         else
         {
-            handleBreathStage();
             _tThisRest += Time.deltaTime;
             _tThisTone  = 0.0f;
             
@@ -651,33 +662,41 @@ public class ImitoneVoiceIntepreterForPlayground: MonoBehaviour
                 toneActiveBiasFalse = false;
                 _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately above
             }
-            else if (!isResettingTone) //TRIGGER INHALE aka BREATHVOLUME
+            else if (!resetToneFrame) //TRIGGER INHALE aka BREATHVOLUME
             {
-                isResettingTone = true;
+                resetToneFrame = true;
                 float currentInhaleDuration = Math.Clamp(_tNextInhaleDuration, 1.76f, 7.0f);
-                endBreathVolumes = false;
-                //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
-                StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
-                StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
-                if(currentInhaleDuration > 6.0f)
+                if(currentInhaleDuration >= 1.0f)
                 {
-                    //AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
+                    endBreathVolumes = false;
+                    //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
+                    StartCoroutine(BreathVolumeCoroutine(currentInhaleDuration));
+                    StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
+                    if(currentInhaleDuration > 6.0f)
+                    {
+                        AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
+                        Debug.Log("SFX: Play_Inhale_Long");
+                    }
+                    
+                    else if(currentInhaleDuration > 4.0f)
+                    {
+                        AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
+                        Debug.Log("SFX: Play_Inhale_Medium");
+                    }
+                    
+                    else
+                    {
+                        AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
+                        Debug.Log("SFX: Play_Inhale_Short");
+                    }
                 }
-                
-                else if(currentInhaleDuration > 4.0f)
-                {
-                    //AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
-                }
-                
-                else
-                {
-                     //AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
-                }
-               
             }
 
             if (_tThisRest > _activeThreshold3)
-            toneActiveVeryConfident = false;
+            {
+                toneActiveVeryConfident = false;
+                EndBreathVolumesOnNextTone();
+            }
         }
 
         if(toneActiveConfident)
@@ -730,7 +749,7 @@ private IEnumerator EndBreathVolumesOnNextTone()
     }
     //Debug.Log("EndBreathVolumesOnNextTone: ending breath volumes");
     
-    _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!isResettingTone) if statement above.
+    _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!resetToneFrame) if statement above.
     endBreathVolumes = true;
     //AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
 }
@@ -763,15 +782,6 @@ private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
         yield return null;
     }
     
-    if(endBreathVolumes)
-    {
-        //Debug.Log("BreathVolumeCoroutine: Stage 1 complete EARLY at normalized time " + normalizedTime + " with volume of " + currentBreathValue);
-    }
-    else
-    {
-        //Debug.Log("BreathVolumeCoroutine: Stage 1 Complete NORMALLY at normalized time " + normalizedTime + " with volume of " + currentBreathValue);
-    }
-
     normalizedTime = _v;
     float _volumeAtBreak = currentBreathValue;
 
@@ -802,27 +812,27 @@ private void UpdateBreathVolumeTotal()
     _breathVolume = Mathf.Clamp(_breathVolume, 0.0f, 1.0f);
 }
 
-private void handleBreathStage(){
-    if(breathStage == 0){
-        breathStage = 1;
-    } else if(breathStage == 1){
-        if(_breathVolume > 0 && 0.5f > _breathVolume){
-            breathStage = 2;
-        }
-    } else if (breathStage == 2){
-        if(_breathVolume > 0.5f){
-            breathStage = 3;
-        }
-    } else if (breathStage == 3){
-        if(_breathVolume < 0.5f && _breathVolume > 0){
-            breathStage = 4;
-        }
-    } else if (breathStage == 4 || breathStage == 3){
-        if(_breathVolume <= 0){
-            breathStage = 5;
-        }
-    }
-}
+// private void handleBreathStage(){
+//     if(breathStage == 0){
+//         breathStage = 1;
+//     } else if(breathStage == 1){
+//         if(_breathVolume > 0 && 0.5f > _breathVolume){
+//             breathStage = 2;
+//         }
+//     } else if (breathStage == 2){
+//         if(_breathVolume > 0.5f){
+//             breathStage = 3;
+//         }
+//     } else if (breathStage == 3){
+//         if(_breathVolume < 0.5f && _breathVolume > 0){
+//             breathStage = 4;
+//         }
+//     } else if (breathStage == 4 || breathStage == 3){
+//         if(_breathVolume <= 0){
+//             breathStage = 5;
+//         }
+//     }
+// }
 
 public static int FrequencyToFlooredSemitone(double frequency)
 {

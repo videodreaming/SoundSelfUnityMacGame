@@ -9,7 +9,7 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
 {
     public WwiseVOManagerForPlayGround wwiseVOManagerForPlayGround;
     public WwiseInteractiveMusicManagerForPlayGround wwiseInteractiveMusicManager;
-    
+    public Director director;
     public RespirationTrackerForPlayground respirationTracker;
     private bool debugAllowLogs = false;
     // Variables
@@ -204,24 +204,25 @@ public class MusicSystem1ForPlayGround : MonoBehaviour
                             
                             if(checkForNewTone)
                             {
+                                //perform the transition immediately if we pass the higher queue
                                 if (checkForThreshold2)
                                 {
-                                    wwiseInteractiveMusicManager.ClearActionsOfTypeFromDirectorQueue("fundamentalChange");
-                                    wwiseInteractiveMusicManager.AddActionToDirectorQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 0f, true, 2);
-                                    wwiseInteractiveMusicManager.DirectorQueueProcessAll();
+                                    director.ClearQueueOfType("fundamentalChange");
+                                    director.AddActionToQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 0f, true, 2);
+                                    director.ActivateQueue(5.0f);
 
                                 }
                                 //otherwise, add the action to the director queue and wait patiently, as long as there isn't already one there.
                                 else if (checkForThreshold1)
                                 {                    
-                                    if (!wwiseInteractiveMusicManager.SearchDirectorQueueForType("fundamentalChange"))
+                                    if (!director.SearchQueueForType("fundamentalChange"))
                                     {
                                         
                                         if(debugAllowLogs)
                                         {
                                             Debug.Log("Adding fundamental change to director queue for " + ConvertIntToNote(scaleNote.Key));
                                         }
-                                        wwiseInteractiveMusicManager.AddActionToDirectorQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 45f, true, 1);
+                                        director.AddActionToQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 45f, true, 1);
                                     }
                                     else
                                     {

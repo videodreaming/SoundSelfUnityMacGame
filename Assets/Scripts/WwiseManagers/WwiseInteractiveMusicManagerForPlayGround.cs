@@ -5,19 +5,19 @@ using UnityEngine.UIElements;
 using System;
 
 //THERE ARE TWO THINGS IN HERE WHICH REALLY BELONG IN ANOTHER SCRIPT
-//FIRST, THE DIRECTOR AND DIRECTOR QUEUE, WHICH SHOULD BE IN ITS OWN SCRIPT
+//FIRST, THE DIRECTOR AND DIRECTOR QUEUE, WHICH SHOULD BE IN ITS OWN SCRIPT (working on this now)
 //SECOND, THE AVS PROGRAM, WHICH SHOULD PROBABLY BE IN VOMANAGER, OR WE SHOULD DISCUSS WHERE THAT AND SOME OTHER THINGS SHOULD GO.
 
 public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
 {
-    private int fundamentalCount = -1;
-    private int harmonyCount = -1;
-
     public DevelopmentMode developmentMode;
     public MusicSystem1ForPlayGround musicSystem1ForPlayGround;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
     public RespirationTrackerForPlayground respirationTracker;
-    public GameValuesForPlayGround gameValues;
+    public Director director;
+    private int fundamentalCount = -1;
+    private int harmonyCount = -1;
+
     public string currentSwitchState = "B";
     public string currentToningState = "None";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
@@ -56,24 +56,6 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     private Coroutine CoroutineDynamicDropTheta;
     private Coroutine CoroutineDynamicDropEnd;
 
-    //Director Queue... 
-    //REEF, the Director Queue and its Update function should, in my opinion, be in a separate script. I didn't want to make new scripts while in the playground editing. It is referenced in GameValuesForPlayground.cs
-    //The way this works is:
-    //1. You add an action to the director queue with a time limit.
-    //2. The DirectorQueueUpdate function will update the time limit and execute the action when the time limit is reached.
-    //3. The DirectorQueueProcessAll function will execute all actions in the queue. This is typically done when a change is detected in the GameValues script (those parts of that script should probably also be moved into a new director script with the rest of this, so it's all in one neat and tidy place)
-
-    //THIS DICTIONARY IS INTERESTING
-    //It collects actions.
-    //One of three things can happen:
-    //1. If "DirectorQueueProcessAll()" is called, all the actions execute. We do this (mostly) when the system detects a change in player behavior
-    //2. If the time limit is reached, actions with "activateAtEnd" will activate on the next tone. Otherwise, they will expire. (See "DirectorQueueUpdate()")
-    //3. The queue can also be cleared.
-    
-    public int audioTweakCounter = 0;
-    public float imminentTransitionTime = 5.0f;
-    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> directorQueue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
-    public int directorQueueIndex = 0;
 
     void Awake()
     {
@@ -127,25 +109,6 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         //PlaySoundOnSpecificBus("Play_SilentLoops3_Fundamentalonly", "AVS System");
         //PlaySoundOnSpecificBus("Play_SilentLoops3_Harmonyonly", "Master Audio Bus");
     }
-
-    //REFACTOR: just move these below update...
-    public void PostTheToningEvents()
-    {
-        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
-        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
-    }
-    
-     public void userToningToChangeFundamental(string fundamentalNote)
-     {
-         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
-         Debug.Log("Fundamental Note Set To: " + fundamentalNote);
-     }
-     public void changeHarmony(string harmonyNote)
-     {
-         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-         Debug.Log("Harmony Note Set To: " + harmonyNote);
-     }
-
    
     // Update is called once per frame
     void Update()
@@ -159,8 +122,6 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                 Debug.Log("Wakeup Counter set to " + WakeUpCounter);
             }
         }
-
-        DirectorQueueUpdate(); //TODO: put this in a separate script with director stuff
 
         if(imitoneVoiceIntepreter.toneActive == false)
         {
@@ -231,6 +192,23 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             }
         }
     }
+
+    public void PostTheToningEvents()
+    {
+        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
+        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
+    }
+    
+     public void userToningToChangeFundamental(string fundamentalNote)
+     {
+         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
+         Debug.Log("Fundamental Note Set To: " + fundamentalNote);
+     }
+     public void changeHarmony(string harmonyNote)
+     {
+         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
+         Debug.Log("Harmony Note Set To: " + harmonyNote);
+     }
 
     IEnumerator StartMusicalProgression()
     {
@@ -355,7 +333,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                 flag2 = false;
                 if(!flag1)
                 {
-                    coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, false, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, false, 2));
                     flag1 = true;
                 }
             }
@@ -364,7 +342,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                 flag1 = false;
                 if(!flag2)
                 {
-                    coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
                     flag2 = true;
                 }
             }
@@ -398,13 +376,13 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Starting Theta program.");
 
         //SET CORRECT MONO/STEREO
-        ClearActionsOfTypeFromDirectorQueue("monostereo");
+        director.ClearQueueOfType("monostereo");
         //add mono to queue, if we're in bilateral
         if(wwiseAVSMusicManager.bilateral)
         {
-            coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
-            Debug.Log(WakeUpCounter + " Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (directorQueueIndex - 1) + " monostereo=mono to director queue, and waiting.");
-            LogDirectorQueue();
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
+            Debug.Log(WakeUpCounter + " Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
+            director.LogQueue();
         }
         //and wait to enter mono...
         while(wwiseAVSMusicManager.bilateral)
@@ -423,20 +401,20 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         //CYCLE THROUGH BILATERAL ONCE
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
-        coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, true, 2));
         while(!wwiseAVSMusicManager.bilateral)
         {
             yield return null;
         }
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
-        coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
         while(wwiseAVSMusicManager.bilateral)
         {
             yield return null;
         }
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. bilateral is: " + wwiseAVSMusicManager.bilateral);
-        coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
         while(wwiseAVSMusicManager.bilateral)
         {
             yield return null;
@@ -452,7 +430,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         }
         //GAMMA BURSTS, THEN HANG HERE. 
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
-        coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
         _timer = 180f / d;
         while(_timer > 0)
         {
@@ -460,7 +438,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             yield return null;
         }
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
-        coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 180f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f/d, true, 2));
         _timer = 180f / d;
         while(_timer > 0)
         {
@@ -496,7 +474,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                 flag2 = false;
                 if(!flag1)
                 {
-                    coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
                     flag1 = true;
                     Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
                 }
@@ -506,7 +484,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
                 flag1 = false;
                 if(!flag2)
                 {
-                    coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 60f/d, true, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f/d, true, 2));
                     flag2 = true;
                     Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
                 }
@@ -531,15 +509,15 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         yield return null;
         Cleanup(coroutineCleanupList);
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. Starting End Program.");
-        ClearActionsOfTypeFromDirectorQueue("gamma");
-        ClearActionsOfTypeFromDirectorQueue("monostereo");
+        director.ClearQueueOfType("gamma");
+        director.ClearQueueOfType("monostereo");
         if(!wwiseAVSMusicManager.bilateral)
         {
-            coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 30.0f, true, 2));
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 30.0f, true, 2));
         }
         if(wwiseAVSMusicManager._gammaBurstMode != 0.0f)
         {
-            coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Gamma(false), "gamma", false, false, 30.0f, true, 2));
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 30.0f, true, 2));
         }
 
         while(WakeUpCounter > 110f)
@@ -547,7 +525,7 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
             yield return null;
         }
         Debug.Log(WakeUpCounter + "| AVS Program: DynamicDrop_End. Stabilizing before dramatic rise.");
-        coroutineCleanupList.Add(AddActionToDirectorQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 10.0f, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 10.0f, true, 2));
 
         while(WakeUpCounter > 90f)
         {
@@ -568,104 +546,25 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         Debug.Log("Performing cleanup.");
         foreach (int index in coroutineCleanupList)
         {
-            Debug.Log(WakeUpCounter + " Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + directorQueue[index].Item2);
-            directorQueue.Remove(index);
+            Debug.Log(WakeUpCounter + " Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
+            director.queue.Remove(index);
         }
-        LogDirectorQueue();
+        director.LogQueue();
     }
     
     private Action Action_Gamma(bool gammaOn)
     {
         return () => wwiseAVSMusicManager.Gamma(gammaOn);
     }
-    //TODO, TEST THIS
-    public int AddActionToDirectorQueue(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLimit, bool activateAtEnd, int exclusivityBehavior = 1)
-    {
-        //exclusivity behavior works like this:
-        //0: NONE - No exclusivity, just add the action to the queue
-        //1: PREFER LOWEST TIME LEFT - Check if there are any actions of the same type in the queue. If there are, only add (replace) the action if the new action has less time left than the existing action.
-        // Code below:        
-        //2: ALWAYS REPLACE - Clear all actions of the same type from the queue, then add the action
-       
-        if(exclusivityBehavior == 1)
-        {
-            if(SearchDirectorQueueForType(type))
-            {
-                foreach (var item in directorQueue)
-                {
-                    if(item.Value.type == type)
-                    {
-                        if(item.Value.timeLeft <= timeLimit)
-                        {
-                            Debug.Log("Director Queue: Action " + type + " already exists in director queue with shorter timeLeft, not adding new one per exclusivity rules.");
-                            LogDirectorQueue();
-                            return -1; //return -1 to indicate that the action was not added
-                        }
-                    }
-                }
-                ClearActionsOfTypeFromDirectorQueue(type);
-            }
-        }
-        else if(exclusivityBehavior == 2)
-        {
-            ClearActionsOfTypeFromDirectorQueue(type);
-        }
-        directorQueue.Add(directorQueueIndex++, (action, type, isAudioAction, isVisualAction, timeLimit, activateAtEnd));
-
-        Debug.Log("Director Queue: Added " + (directorQueueIndex - 1) + " " + type + " to director queue.");
-        LogDirectorQueue();
-
-        return directorQueueIndex - 1;
-    }
-
-    public bool SearchDirectorQueueForType(string type)
-    {
-        foreach (var item in directorQueue)
-        {
-            if(item.Value.Item2 == type)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    
     private void QueueNewWorld(string world, string color)
     {
-        AddActionToDirectorQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, 120.0f, true, 2);
-        AddActionToDirectorQueue(Action_SetPreferredColor(color), "ColorPreference", false, true, 120.0f, true, 2);
-        AddActionToDirectorQueue(Action_NextColorWorld(120.0f), "ColorCycle", false, true, 120.0f, true, 2);
-        AddActionToDirectorQueue(Action_PlayTransitionSound(), "TransitionSound", true, false, 120.0f, true, 2);
+        director.AddActionToQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, 120.0f, true, 2);
+        director.AddActionToQueue(Action_SetPreferredColor(color), "ColorPreference", false, true, 120.0f, true, 2);
+        director.AddActionToQueue(Action_NextColorWorld(120.0f), "ColorCycle", false, true, 120.0f, true, 2);
+        director.AddActionToQueue(Action_PlayTransitionSound(), "TransitionSound", true, false, 120.0f, true, 2);
     }
 
-    private Action Action_DirectorTest(string print)
-    {
-        return () => DirectorTest(print);
-    }
-
-    private void DirectorTest(string print)
-    {
-        Debug.Log("Director Test: " + print);
-    }
-
-    public void ClearActionsOfTypeFromDirectorQueue(string type)
-    {
-        List<int> keysToRemove = new List<int>();
-        foreach (var item in directorQueue)
-        {
-            if(item.Value.Item2 == type)
-            {
-                keysToRemove.Add(item.Key);
-            }
-        }
-        foreach (int key in keysToRemove)
-        {
-            directorQueue.Remove(key);
-        }
-        LogDirectorQueue();
-        Debug.Log("Director Queue: Removed all " + type + " items from director queue.");
-        LogDirectorQueue();
-    }
     private Action Action_SetSoundWorld(string soundWorld)
     {
         return () => SetSoundWorld(soundWorld);
@@ -695,140 +594,9 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
     {
         return () => wwiseAVSMusicManager.SetStrobeRate(frequency, seconds);
     }
-    private Action Action_TweakAudio(float _seconds)
-    {
-        return () => TweakAudio(_seconds);
-    }
-    private Action Action_ChangeColor(float _seconds)
-    {
-        return () => wwiseAVSMusicManager.NextColorWorld(_seconds);;
-    }
-
-    //REEF, these two functions should go in another script with the director queue
-    //a function to go through the director queue, update the times, and execute the actions that have run out of time
-    //TODO, update the director queue to use the ActivateOnTone
-    public void DirectorQueueUpdate()
-    {
-        List<int> keysToRemove = new List<int>();
-        var keys = new List<int>(directorQueue.Keys); // Create a copy of the keys to avoid modifying the collection during iteration
-        foreach (var key in keys)
-        {
-            var value = directorQueue[key]; // Create a temporary variable
-            if (value.timeLeft > 0)
-            {
-                value.timeLeft -= Time.deltaTime;
-                directorQueue[key] = value; // Update the dictionary with the modified value
-            }
-            else
-            {
-                //only execute the action if its "expires" bool is false
-                if(value.activateAtEnd)
-                {
-                    Debug.Log("Director Queue: Action " + key + " " + value.type + " will execute on next tone...");
-                    StartCoroutine(ActivateOnTone(value.action, key, value.type));
-                }
-                else
-                {
-                    Debug.Log("Director Queue: Action " + key + " " + value.type + " expired without executing");
-                }
-                keysToRemove.Add(key);
-            }
-        }
-        foreach (int key in keysToRemove)
-        {
-            directorQueue.Remove(key);
-            LogDirectorQueue();
-        }
-    }
-
-    //a function that takes an action as a parameter, and waits for the next time toneActiveConfident becomes true to execute it
-    private IEnumerator ActivateOnTone(Action action, int id = -1, string type = "(unknown type)")
-    {
-        Debug.Log("Director Queue: Action " + id + " " + type + " will activate when next tone begins");
-        //first, if we are toning, wait for this tone to finish...
-        while (imitoneVoiceIntepreter.toneActiveConfident)
-        {
-            yield return null;
-        }
-        //then, wait for the next tone to start
-        while(!imitoneVoiceIntepreter.toneActiveConfident)
-        {
-            yield return null;
-        }
-        //then run the action
-        action();
-    }
-
-    public void DirectorQueueProcessAll()
-    {
-        int countAudioEvents = 0;
-        int countVisualEvents = 0;
-
-        
-        LogDirectorQueue();
-      
-        foreach (var item in directorQueue)
-        {
-            item.Value.action();
-            
-            if(item.Value.isAudioAction)
-            {
-                countAudioEvents++;
-            }
-            if(item.Value.isVisualAction)
-            {
-                countVisualEvents++;
-            }
-
-            Debug.Log("Director Queue: Action " + item.Key + " " + item.Value.type + " executed from process-all");
-        }
-
-        if (countAudioEvents == 0)
-        {
-            Debug.Log("Director Queue: No Audio Actions Queued, Triggering one to complete syncresis");
-            TweakAudio(imminentTransitionTime);
-            PlayTransitionSound();
-        }
-        if (countVisualEvents == 0)
-        {
-            Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
-            wwiseAVSMusicManager.NextColorWorld(imminentTransitionTime);
-        }
-        directorQueue.Clear();
-        
-        LogDirectorQueue();
-    }
-
-    public void LogDirectorQueue()
-    {
-        //outputs a single log line, with the following format: "Director Queue: <index> <type>, <index> <type>, <index> <type>..."
-        string logString = "Director Queue Contents: ";
-        foreach (var item in directorQueue)
-        {
-            logString += "<" + item.Key + " " + item.Value.type + ", " + item.Value.timeLeft + "s> ";
-        }
-        Debug.Log(logString);
-    }
-
     private Action Action_PlayTransitionSound()
     {
-        return () => PlayTransitionSound();
-    }
-    private void PlayTransitionSound()
-    {
-        AkSoundEngine.PostEvent("Unity_TransitionSFX", gameObject);
-        Debug.Log("Transition Sound Played");
-    }
-
-    private void TweakAudio(float _seconds)
-    {
-        audioTweakCounter++;
-
-        float _rtpcTarget = audioTweakCounter % 2 == 0 ? 100.0f : 0.0f;
-        int ms = (int)(_seconds * 1000.0f);
-        
-        AkSoundEngine.SetRTPCValue("Unity_SoundTweak", _rtpcTarget, gameObject, ms);
-
+        return () => director.PlayTransitionSound();
     }
 
     public void ChangeToningState()
@@ -841,31 +609,32 @@ public class WwiseInteractiveMusicManagerForPlayGround : MonoBehaviour
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
     }
 
-    public void setallRTPCValue(float newRTPCValue)
-    {
-        AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newRTPCValue, gameObject);
-        AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newRTPCValue, gameObject);
-        AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newRTPCValue, gameObject);
-    }
+    //THESE ARE NEVER USED - COMMENTING THEM OUT
+    //public void setallRTPCValue(float newRTPCValue)
+    //{
+    //    AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newRTPCValue, gameObject);
+    //    AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newRTPCValue, gameObject);
+    //    AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newRTPCValue, gameObject);
+    //}
 
-    public void setHarmonySilentVolumeRTPCValue(float newHarmonyVolumeRTPC)
-    {
-        AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newHarmonyVolumeRTPC, gameObject);
-    }
+    // public void setHarmonySilentVolumeRTPCValue(float newHarmonyVolumeRTPC)
+    // {
+    //     AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newHarmonyVolumeRTPC, gameObject);
+    // }
 
-    public void setFundamentalSilentVolumeRTPCValue(float newFundamentalVolumeRTPC)
-    {
-        AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newFundamentalVolumeRTPC, gameObject);
-    }
+    // public void setFundamentalSilentVolumeRTPCValue(float newFundamentalVolumeRTPC)
+    // {
+    //     AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newFundamentalVolumeRTPC, gameObject);
+    // }
 
-    public void setInteractiveMusicSilentLoopsRTPCValue(float newInteractiveMusicSilentLoopRTPC)
-    {
-        AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newInteractiveMusicSilentLoopRTPC, gameObject);
-    }
+    // public void setInteractiveMusicSilentLoopsRTPCValue(float newInteractiveMusicSilentLoopRTPC)
+    // {
+    //     AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newInteractiveMusicSilentLoopRTPC, gameObject);
+    // }
 
 
 
-        public enum NoteName
+    public enum NoteName
     {
         C,
         CsharpDflat,

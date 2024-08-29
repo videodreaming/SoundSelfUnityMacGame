@@ -17,6 +17,7 @@ public class GameValuesForPlayGround : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
     public AudioManager AudioManager;
+    public Director director;
     public ImitoneVoiceIntepreterForPlayground imitoneVoiceInterpreter;
     public RespirationTrackerForPlayground respirationTracker;
     public WwiseAVSMusicManagerForPlayGround wwiseAVSMusicManager;
@@ -340,19 +341,20 @@ public class GameValuesForPlayGround : MonoBehaviour
         }
 
         if(changeDetectedToneLength || changeDetectedRestLength)
-        {            
+        {
+            float flourishTime = 0.0f;
             if(changeDetectedToneLength)
             {
-                wwiseInteractiveMusicManager.imminentTransitionTime = imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f;
+                flourishTime = imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f;
                 //ChangeColor(imitoneVoiceInterpreter.toneActiveConfident ? 3.0f : 7.0f);
             }
             else if(changeDetectedRestLength)
             {
-                wwiseInteractiveMusicManager.imminentTransitionTime = 5.0f;
+                flourishTime = 5.0f;
                 //ChangeColor(5.0f);
             }
             
-            wwiseInteractiveMusicManager.DirectorQueueProcessAll(); //whenever there is a change detected, process any queued a/v actions
+            director.ActivateQueue(flourishTime); //whenever there is a change detected, process any queued a/v actions
 
         }
     }
