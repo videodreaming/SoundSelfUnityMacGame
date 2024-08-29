@@ -11,6 +11,7 @@ using System;
 
 public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
 {
+    public DevelopmentMode developmentMode;
     [SerializeField] AkDeviceDescriptionArray m_devices;
     float overrideValue = 100.0f;
     bool AVSColorSelected = false;
@@ -19,7 +20,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     public bool bilateral {get; private set;} = false; 
     public string AVSColorCommand  = "";
     public string AVSStrobeCommand = "";
-    public string cycleRecent = "dark";
+    public string cycleRecent = "Dark";
     public string preferredColor = "Red";
     private float  _brightness = 0.6f;
     private int cycleRed = 0;
@@ -110,7 +111,6 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         AkSoundEngine.RegisterGameObj(gameObject, "System2Go");
         AkSoundEngine.SetListeners(AkSoundEngine.GetAkGameObjectID(gameObject), ListenerIds, 1);
 
-
         //Play all appropriate AVS waves
         wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
         AkSoundEngine.PostEvent("Play_AVS_Wave2", gameObject);
@@ -137,9 +137,16 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         cycleBlue = UnityEngine.Random.Range(0, 3);
         cycleWhite = UnityEngine.Random.Range(0, 3);
 
+        //INITIALIZE COLORS
+        if(developmentMode.developmentMode)
+        {
+            SetColorWorldByType("Red", 0.0f);
+        }
+        else
+        {
+            SetColorWorldByType("Dark", 0.0f);
+        }
         //=================================================
-
-        SetColorWorldByName("White3", 0.0f);
     }
 
     public struct Color
@@ -251,6 +258,19 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
 
     };
 
+    public void SetPreferredColor(string color)
+    {
+        if (color != "Red" && color != "Blue" && color != "White" && color != "Dark" && color != "Test")
+        {
+            Debug.LogError("Color type " + color + " not recognized, please use Red, Blue, White, Dark, or Test");
+            return;
+        }
+        else
+        {
+            preferredColor = color;
+            Debug.Log("Preferred color set to: " + color);
+        }
+    }
 
     public void NextColorWorld(float transitionTimeSec = 2.0f, bool exponentialCurve = true)
     {
@@ -424,7 +444,7 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         {
             yield break;
         }
-        Debug.Log("Going dark - " + timeRemaining);
+        Debug.Log("Going Dark - " + timeRemaining);
         yield return null;
         while(timeRemaining > 0)
         {
@@ -586,92 +606,51 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if(developmentMode.developmentMode)
         {
-            PopulateDevicesList();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            printDevicesList();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            preferredColor = "Test";
-            NextColorWorld(3f, true);
-        }
-        else if (Input.GetKeyUp(KeyCode.C))
-        {
-            NextColorWorld(7f, true);
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Strobe_MonoStereo(true);
-        }
-        else if (Input.GetKeyUp(KeyCode.V))
-        {
-            Strobe_MonoStereo(false);
-        }
-        /*if(Input.GetKeyDown(KeyCode.C))
-        {
-            Qcount++;
-            if(Qcount%10 == 0)
-            {
-                SetColorWorldByName("Dark", 2.0f);
-            }
-            else if(Qcount%10 == 1)
-            {
-                SetColorWorldByName("Red1", 2.0f);
-            }
-            else if(Qcount%10 == 2)
-            {
-                SetColorWorldByName("Red2", 2.0f);
-            }
-            else if(Qcount%10 == 3)
-            {
-                SetColorWorldByName("Red3", 2.0f);
-            }
-            else if(Qcount%10 == 4)
-            {
-                SetColorWorldByName("Blue1", 2.0f);
-            }
-            else if(Qcount%10 == 5)
-            {
-                SetColorWorldByName("Blue2", 2.0f);
-            }
-            else if(Qcount%10 == 6)
-            {
-                SetColorWorldByName("Blue3", 2.0f);
-            }
-            else if(Qcount%10 == 7)
-            {
-                SetColorWorldByName("White1", 2.0f);
-            }
-            else if(Qcount%10 == 8)
-            {
-                SetColorWorldByName("White2", 2.0f);
-            }
-            else if(Qcount%10 == 9)
-            {
-                SetColorWorldByName("White3", 2.0f);
-            }
-        }
-        */
 
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-            SetStrobeRate(15f, 5f);
-        }
-        if(Input.GetKeyUp(KeyCode.W))
-        {
-            SetStrobeRate(5f, 0f);
-        }
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            Gamma(true);
-        }
-        if(Input.GetKeyUp(KeyCode.R))
-        {
-            Gamma(false);
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                PopulateDevicesList();
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                printDevicesList();
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                preferredColor = "Test";
+                NextColorWorld(3f, true);
+            }
+            else if (Input.GetKeyUp(KeyCode.C))
+            {
+                NextColorWorld(7f, true);
+            }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                Strobe_MonoStereo(true);
+            }
+            else if (Input.GetKeyUp(KeyCode.V))
+            {
+                Strobe_MonoStereo(false);
+            }
+
+            if(Input.GetKeyDown(KeyCode.W))
+            {
+                SetStrobeRate(15f, 5f);
+            }
+            if(Input.GetKeyUp(KeyCode.W))
+            {
+                SetStrobeRate(5f, 0f);
+            }
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                Gamma(true);
+            }
+            if(Input.GetKeyUp(KeyCode.R))
+            {
+                Gamma(false);
+            }
         }
         
         // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
@@ -698,9 +677,4 @@ public class WwiseAVSMusicManagerForPlayGround : MonoBehaviour
         breathVisualizationFlag = false;
     }
 
-    public void SetPreferredColor(string color)
-    {
-        preferredColor = color;
-        Debug.Log("Preferred color set to: " + color);
-    }
 }

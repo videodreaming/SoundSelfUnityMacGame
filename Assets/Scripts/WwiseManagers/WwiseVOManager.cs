@@ -5,6 +5,13 @@ using UnityEngine;
 using AK.Wwise;
 using Unity.VisualScripting;
 
+//REFACTORING THOUGHTS FROM ROBIN
+//WE SHOULD ENSURE THAT THE USERAUDIOSOURCE IS ONLY REFERENCED AND CONTROLLED FROM ONE SCRIPT
+//WHAT IS CURRENTTLY "WWISEVOMANAGER", I.E. THIS SCRIPT, MAKES SENSE TO ME AS SOMETHING THAT CONTROLS
+//EVERYTHING THAT HAPPENS ON A LINEAR TIMELINE, AND BE LIKE THE MASTER TIME-CONTROL.
+//THERE ARE CERTAIN BEHAVIORS IN WWISEINTERACTIVEMUSICMANAGER THAT SHOULD REFERENCE THIS
+//THAT CONTROL AVS BEHAVIORS. WOULD LIKE REEF'S HELP ON REFACTORING AND ORGANIZATION.
+
 public class WwiseVOManager : MonoBehaviour
 {
     public AudioManager audioManager;
@@ -27,6 +34,7 @@ public class WwiseVOManager : MonoBehaviour
     public RTPC toningHarmonyrtpcvolume;
     public bool firstTimeUser = true;
     public bool layingDown = true;
+    public bool muteInteraction = false;
     
     [SerializeField]
     public bool interactive = false;
@@ -56,10 +64,48 @@ public class WwiseVOManager : MonoBehaviour
             //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
         }
 
+        //NOTE FROM ROBIN ABOUT WWISE CUE HANDLING FUNCTIONALITY:
+        //THIS IS WEIRD BEHAVIOR BUT IT WORKS AND HONESTLY I CAN'T MAKE SENSE OF IT
+        //BUT WE ARE TAKING IT AS A BLESSING.
+        //
+        //BASICALLY, AS SOON AS WE RUN THE POSTEVENT THAT TAKES OPENINGCALLBACKFUNCTION AS A PARAMETER
+        //WWISE SEEMS TO SEND CUES TO UNITY USING THE OPENINGCALLBACKFUNCITON
+        //
+        //FOR THIS REASON, WE THINK WE NEED TO BE CAUTIOUS ABOUT GAMEOBJECTS REFERENCED IN THE
+        //AKSOUNDENGINE FUNCTIONS. WE THINK THEY ALL HAVE TO BE CALLED FROM THE SAME GAMEOBJECT
+        //I.E. THE SAME SCRIPT
     }
     
+    public void handleTutorialMeditation(string tutorialToPlay)
+    {
+        AkSoundEngine.PostEvent(tutorialToPlay, gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+    }
 
-    void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
+    public void TutorialCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
+    {
+         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+            {
+                Debug.Log("Callback triggered: " + in_type);
+                AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+                if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
+                {
+                    Debug.Log("Cue_VO_GuidedVocalization_Start");
+                } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
+                {
+                    Debug.Log("Cue_VO_GuidedVocalization_End");
+                } else if (musicSyncInfo.userCueName == "Cue_BreathIn")
+                {
+                    breathInBehaviour();
+                    Debug.Log("Cue_BreathIn");
+                }
+            } 
+
+    }
+    private void breathInBehaviour()
+    {
+        //AVS + Audio stuff here
+    }
+    public void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {
         // Posture_Start
         // orientation_Start
@@ -79,6 +125,7 @@ public class WwiseVOManager : MonoBehaviour
         // Cue_InteractiveMusicSystem_Start
          if (in_type == AkCallbackType.AK_MusicSyncUserCue)
             {
+                Debug.Log("Callback triggered: " + in_type);
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
                 if (musicSyncInfo.userCueName == "Cue_Posture_Start")
                 {
@@ -95,13 +142,29 @@ public class WwiseVOManager : MonoBehaviour
                     csvWriter.microphoneMonitoring = true;
                     userAudioSource.volume = 1.0f;
                     Debug.Log("Cue Mic On");
-                } else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
+                }
+                else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
+                {
+                    //Robin to do AVS Stuff here
+                    csvWriter.microphoneMonitoring = false;
+                    userAudioSource.volume = 0.0f;
+                     Debug.Log("Cue Mic OFF");
+                }
+                else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
+                {
+                    Debug.Log("Cue_VO_GuidedVocalization_Start");
+                } 
+                else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
+                {
+                    Debug.Log("Cue_VO_GuidedVocalization_End");
+                }
+                else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
                 {
                     Debug.Log("Somatic Start");
                 }
                  else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
-                    //Robin to do AVS Stuff here
+                    breathInBehaviour();
                     Debug.Log("Cue BreathIn Start");
                 } else if(musicSyncInfo.userCueName == "Cue_Orientation_Start")
                 {
@@ -110,39 +173,33 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     //Robin to do AVS Stuff here
                     Debug.Log("Cue Sigh Start");
-                } else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
-                {
-                    //Robin to do AVS Stuff heres
-                    Debug.Log("Cue BreatheInStart");
-                } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
-                {
-                    //Robin to do AVS Stuff here
-                    Debug.Log("Cue Sigh Start");
-                } else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
-                {
-                    //Robin to do AVS Stuff here
-                    csvWriter.microphoneMonitoring = false;
-                    userAudioSource.volume = 0.0f;
-                     Debug.Log("Cue Mic OFF");
-                } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
+                }  else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
                 {
                     Debug.Log("PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum1_Start")
                 {
-
+                    Debug.Log("Cue_LinearHum1_Start");
+                    //WwiseAVSMusicManager.SetPreferredColor("Red");
+                    //WwiseAVSMusicManager.NextColorWorld(5.0f);
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum2_Start")
                 {
-
+                    Debug.Log("Cue_LinearHum2_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum3_Start")
                 {
-
+                    Debug.Log("Cue_LinearHum3_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
                     StartCoroutine (InteractiveMusicSystemFade());
                     interactive = true;
                     AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
                     AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-                } 
+                } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
+                {
+                    Debug.Log("Cue_VO_GuidedVocalization_Start");
+                } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
+                {
+                    Debug.Log("Cue_Opening_Start");
+                }
             }   
     }
     
