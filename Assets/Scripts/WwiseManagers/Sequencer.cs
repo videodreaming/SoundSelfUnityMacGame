@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 
-public class WwiseInteractiveMusicManager : MonoBehaviour
+public class Sequencer : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
     public MusicSystem1 musicSystem1;
@@ -13,8 +13,8 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public WwiseVOManager wwiseVOManager;
     public Director director;
-    private int fundamentalCount = -1;
-    private int harmonyCount = -1;
+    //private int fundamentalCount = -1;
+    //private int harmonyCount = -1;
 
     public string currentSwitchState = "B";
     public string currentToningState = "None";
@@ -26,7 +26,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     private bool toneActiveTriggered = false; // Flag to control the event triggering
 
     [SerializeField]
-    private int currentStage = 0; // Tracks the current stage of the sound world
+    //private int currentStage = 0; // Tracks the current stage of the sound world
     public CSVWriter csvWriter;
     private bool thisTonesImpactPlayed = false;
     // AVS Controls
@@ -38,12 +38,11 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     private bool musicProgressionFlag = false;
 
     private float interactiveMusicExperienceTotalTime;
-    private float finalStagePreLogicTime;
-
     private float WakeUpCounter;
     private bool wakeUpEndSoonTriggered = false; // Flag to control the event triggering
     private float soundWorldChangeTime;
-    private bool finalStagePreLogicExecuted = false; 
+    //private float finalStagePreLogicTime;
+    //private bool finalStagePreLogicExecuted = false; 
     public bool CFundamentalGHarmonyLock = false;
     private bool flagTriggerEnd = false;
     private bool flagThetaCoroutine = false;
@@ -68,7 +67,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         WakeUpCounter = 2280.0f;
         interactiveMusicExperienceTotalTime = 1245.0f;
         soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
-        finalStagePreLogicTime = 15f; 
+        //finalStagePreLogicTime = 15f; 
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
         CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());

@@ -21,7 +21,6 @@ public class GameValues : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public RespirationTracker respirationTracker;
     public LightControl lightControl;
-    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
     private bool debugAllowChangeVerboseLogs = false;
     [Header("DampingValues")]
     private float responsiveness = 1.0f; //revisit when we have absorption

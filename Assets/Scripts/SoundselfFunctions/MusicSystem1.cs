@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class MusicSystem1 : MonoBehaviour
 {
     public WwiseVOManager wwiseVOManager;
-    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
+    public Sequencer sequencer;
     public Director director;
     public RespirationTracker respirationTracker;
     private bool debugAllowLogs = false;
@@ -160,9 +160,9 @@ public class MusicSystem1 : MonoBehaviour
                 //Now play the tone
                                
                 harmonyNote = (fundamentalNote + harmonization) % 12;
-                if(wwiseInteractiveMusicManager.CFundamentalGHarmonyLock == false)
+                if(sequencer.CFundamentalGHarmonyLock == false)
                 {
-                    wwiseInteractiveMusicManager.changeHarmony(ConvertIntToNote(harmonyNote)); 
+                    sequencer.changeHarmony(ConvertIntToNote(harmonyNote)); 
                 }
                 if (debugAllowLogs)
                 {
@@ -278,9 +278,9 @@ public class MusicSystem1 : MonoBehaviour
     public void ChangeFundamentalNow(int newFundamental)
     {
         fundamentalNote = newFundamental;
-        if(wwiseInteractiveMusicManager.CFundamentalGHarmonyLock == false && allowFundamentalChange)
+        if(sequencer.CFundamentalGHarmonyLock == false && allowFundamentalChange)
         {
-            wwiseInteractiveMusicManager.userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
+            sequencer.userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
            
             if(debugAllowLogs)
             {
@@ -327,7 +327,7 @@ public class MusicSystem1 : MonoBehaviour
             }
 
             //Add Function
-            wwiseInteractiveMusicManager.PostTheToningEvents();
+            sequencer.PostTheToningEvents();
 
         } else if (!currentToneActiveConfident && previousToneActiveConfident)
         {

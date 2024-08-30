@@ -58,8 +58,6 @@ public class AudioManager : MonoBehaviour
     public bool Query1CheckStarted = false;
 
     public WwiseGlobalManager wwiseGlobalManager;
-
-    public WwiseInteractiveMusicManager interactiveMusicManager;
     public WwiseVOManager VOManager;
     private float audioClipStartTime = 0.0f;
     public AudioClip recordedAudioClip;

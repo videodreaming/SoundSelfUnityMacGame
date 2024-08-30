@@ -5,7 +5,7 @@ using UnityEngine;
 public class PitchMusicSystem : MonoBehaviour
 {
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
-    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
+    public Sequencer sequencer; //THESE FUNCTIONALITIES SHOULD BE REFACTORED INTO MUSICSYSTEM1
     public WwiseGlobalManager wwiseGlobalManager;
     public DebugKeyBoardIlluminator debugKeyBoardIlluminator;
     public string currentNote = "";
@@ -91,32 +91,32 @@ public class PitchMusicSystem : MonoBehaviour
                    // Debug.Log("noteName" + range.noteName + "   frequency" + currentPitch);
                     if(range.noteName == "A2" || range.noteName == "A3" || range.noteName == "A4" ) 
                     {
-                        wwiseInteractiveMusicManager.currentSwitchState = "A";
-                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                        sequencer.currentSwitchState = "A";
+                        sequencer.ChangeSwitchState();
                     } else if(range.noteName == "B2" || range.noteName == "B3" || range.noteName == "B4" ) 
                     {
-                        wwiseInteractiveMusicManager.currentSwitchState = "B";
-                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                        sequencer.currentSwitchState = "B";
+                        sequencer.ChangeSwitchState();
                     } else if(range.noteName == "C3" || range.noteName == "C4" || range.noteName == "C5" ) 
                     {
-                        wwiseInteractiveMusicManager.currentSwitchState = "C";
-                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                        sequencer.currentSwitchState = "C";
+                        sequencer.ChangeSwitchState();
                     } else if(range.noteName == "D3" || range.noteName == "D4" ) 
                     {
-                        wwiseInteractiveMusicManager.currentSwitchState = "D";
-                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                        sequencer.currentSwitchState = "D";
+                        sequencer.ChangeSwitchState();
                     } else if(range.noteName == "E3" || range.noteName == "E4" ) 
                     {
-                        wwiseInteractiveMusicManager.currentSwitchState = "E";
-                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                        sequencer.currentSwitchState = "E";
+                        sequencer.ChangeSwitchState();
                     } else if(range.noteName == "F3" || range.noteName == "F4" ) 
                     {
-                        wwiseInteractiveMusicManager.currentSwitchState = "F";
-                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                        sequencer.currentSwitchState = "F";
+                        sequencer.ChangeSwitchState();
                     } else if(range.noteName == "G3" || range.noteName == "G4" ) 
                     {
-                        wwiseInteractiveMusicManager.currentSwitchState = "G";
-                        wwiseInteractiveMusicManager.ChangeSwitchState();
+                        sequencer.currentSwitchState = "G";
+                        sequencer.ChangeSwitchState();
                     }
                     break; // Stop checking once the correct range is found
                 }

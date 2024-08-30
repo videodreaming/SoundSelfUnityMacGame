@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WwiseGlobalManager : MonoBehaviour
 {
-    public WwiseInteractiveMusicManager InteractiveMusicManager;
-    public WwiseVOManager VOManager;
+    //public WwiseInteractiveMusicManager InteractiveMusicManager;
+    //public WwiseVOManager VOManager;
 
     // Start is called before the first frame update
     void Start()
