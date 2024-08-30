@@ -6,11 +6,10 @@ using UnityEngine;
 using AK.Wwise;
 using System;
 
-public class WwiseAVSMusicManager : MonoBehaviour
+public class LightControl : MonoBehaviour
 {
      public DevelopmentMode developmentMode;
     [SerializeField] AkDeviceDescriptionArray m_devices;
-    float overrideValue = 100.0f;
     bool AVSColorSelected = false;
     bool AVSColorSelectedLastFrame = false;
     bool AVSColorChangeFrame = false;
@@ -30,11 +29,10 @@ public class WwiseAVSMusicManager : MonoBehaviour
     private bool toneVisualizationFlag = false;
     private bool chargeVisualizationFlag = false;
     private bool breathVisualizationFlag = false;
-    private float _debugValue1    = 0.0f;
-    private float _debugValue2    = 0.0f; //currently unused
-    private float _debugValue3    = 0.0f;
-    private float _debugValue4    = 0.0f;
-    private int Qcount              = 0;
+    //private float _debugValue1    = 0.0f;
+    //private float _debugValue2    = 0.0f; //currently unused
+    //private float _debugValue3    = 0.0f;
+    //private float _debugValue4    = 0.0f;
     uint wave1ID;
     public uint rtpcID;
     public float frequencyWave1Value;

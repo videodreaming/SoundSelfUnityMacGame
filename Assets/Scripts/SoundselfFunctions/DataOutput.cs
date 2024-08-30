@@ -10,7 +10,7 @@ public class DataOutput : MonoBehaviour
     public RespirationTracker respirationTracker;
     public WwiseGlobalManager wwiseGlobalManager;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
-    public WwiseAVSMusicManager wwiseAVSMusicManager;
+    public LightControl lightControl;
 
     string AVSColorCommand = "";
     string AVSStrobeCommand = "";
@@ -102,13 +102,13 @@ public class DataOutput : MonoBehaviour
     void Update()
     {
         // "Commands"
-        /*if (wwiseAVSMusicManager.AVSColorCommand != "")
+        /*if (lightControl.AVSColorCommand != "")
         {
-            AVSColorCommand = wwiseAVSMusicManager.AVSColorCommand;
+            AVSColorCommand = lightControl.AVSColorCommand;
         }
-        if (wwiseAVSMusicManager.AVSStrobeCommand != "")
+        if (lightControl.AVSStrobeCommand != "")
         {
-            AVSStrobeCommand = wwiseAVSMusicManager.AVSStrobeCommand;
+            AVSStrobeCommand = lightControl.AVSStrobeCommand;
         }*/
     }
 

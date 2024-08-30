@@ -19,7 +19,7 @@ public class WwiseVOManager : MonoBehaviour
     public DevelopmentMode  developmentMode;
     public CSVWriter CSVWriter;
 
-    public WwiseAVSMusicManager wwiseAVSMusicManager;
+    public LightControl lightControl;
     public User userObject;
     public AudioSource userAudioSource;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
@@ -191,8 +191,8 @@ public class WwiseVOManager : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum1_Start")
                 {
                     Debug.Log("WWise_VO: Cue_LinearHum1_Start");
-                    wwiseAVSMusicManager.SetPreferredColor("Red");
-                    wwiseAVSMusicManager.NextColorWorld(5.0f);
+                    lightControl.SetPreferredColor("Red");
+                    lightControl.NextColorWorld(5.0f);
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum2_Start")
                 {
                     Debug.Log("WWise_VO: Cue_LinearHum2_Start");
@@ -236,7 +236,7 @@ public class WwiseVOManager : MonoBehaviour
     private IEnumerator InteractiveMusicSystemFade()
     {
 
-        //NOTE: this can be cleaned up by using the RTPC's transition time in ms, which Robin uses all the time (see wwiseAVSMusicManager)
+        //NOTE: this can be cleaned up by using the RTPC's transition time in ms, which Robin uses all the time (see lightControl)
         float initialValue = 0.0f;
         float startTime = Time.time;
 

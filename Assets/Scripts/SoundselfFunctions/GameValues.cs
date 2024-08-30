@@ -20,7 +20,7 @@ public class GameValues : MonoBehaviour
     public Director director;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public RespirationTracker respirationTracker;
-    public WwiseAVSMusicManager wwiseAVSMusicManager;
+    public LightControl lightControl;
     public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
     private bool debugAllowChangeVerboseLogs = false;
     [Header("DampingValues")]
@@ -105,8 +105,8 @@ public class GameValues : MonoBehaviour
         handlecChanting();
         handleVolume();
         handleChantCharge();
-        wwiseAVSMusicManager.Wwise_Strobe_ChargeDisplay(_chantCharge);
-        wwiseAVSMusicManager.Wwise_Strobe_ToneDisplay(_chantLerpFast);
+        lightControl.Wwise_Strobe_ChargeDisplay(_chantCharge);
+        lightControl.Wwise_Strobe_ToneDisplay(_chantLerpFast);
         //Debug.Log("imitoneActive: " + imitoneVoiceInterpreter.imitoneActive + " toneActive: " + imitoneVoiceInterpreter.toneActive + " Chant Charge: " + _chantCharge + " Chant Lerp Fast: " + _chantLerpFast);
     }
 

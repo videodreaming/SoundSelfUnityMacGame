@@ -21,7 +21,7 @@ public class Director : MonoBehaviour
     //3. The queue can also be cleared.
 
     public DevelopmentMode developmentMode;
-    public WwiseAVSMusicManager wwiseAVSMusicManager;
+    public LightControl lightControl;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     
     public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
@@ -166,7 +166,7 @@ public class Director : MonoBehaviour
         if (countVisualEvents == 0)
         {
             Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
-            wwiseAVSMusicManager.NextColorWorld(transitionTimeForFlourishes);
+            lightControl.NextColorWorld(transitionTimeForFlourishes);
         }
         queue.Clear();
         
@@ -254,7 +254,7 @@ public class Director : MonoBehaviour
     // }
     // private Action Action_ChangeColor(float _seconds)
     // {
-    //     return () => wwiseAVSMusicManager.NextColorWorld(_seconds);;
+    //     return () => lightControl.NextColorWorld(_seconds);;
     // }
 
 }
