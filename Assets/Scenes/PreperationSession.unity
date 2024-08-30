@@ -1022,7 +1022,6 @@ MonoBehaviour:
   sighElicitationTimer: 6
   Query1CheckStarted: 0
   wwiseGlobalManager: {fileID: 0}
-  interactiveMusicManager: {fileID: 0}
   VOManager: {fileID: 0}
   recordedAudioClip: {fileID: 0}
 --- !u!1 &52804560
@@ -6007,7 +6006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf99e9abf1a84247a2cfd3ac34f3278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  sequencer: {fileID: 0}
 --- !u!1 &420463981
 GameObject:
   m_ObjectHideFlags: 0
@@ -6352,7 +6351,7 @@ GameObject:
   - component: {fileID: 437048156}
   - component: {fileID: 437048159}
   m_Layer: 0
-  m_Name: WwiseLinearManager (Add back Wwise AVS system after Robin Finishes it)
+  m_Name: LightControl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7394,10 +7393,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
-  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  sequencer: {fileID: 0}
   developmentMode: {fileID: 538272586}
   CSVWriter: {fileID: 662335749}
-  wwiseAVSMusicManager: {fileID: 437048159}
+  lightControl: {fileID: 437048159}
   userObject: {fileID: 740096621}
   userAudioSource: {fileID: 740096622}
   imitoneVoiceIntepreter: {fileID: 740096625}
@@ -8374,7 +8373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wwiseVOManager: {fileID: 486583134}
-  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  sequencer: {fileID: 0}
   director: {fileID: 1829208165}
   respirationTracker: {fileID: 740096627}
   allowFundamentalChange: 1
@@ -9939,8 +9938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DevModeSettings: {fileID: 316632675}
-  wwiseAVSMusicManager: {fileID: 437048159}
-  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  lightControl: {fileID: 437048159}
   director: {fileID: 1829208165}
   pitch_hz: 0
   note_st: 0
@@ -10040,7 +10038,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceIntepreter: {fileID: 740096625}
-  wwiseAVSMusicManager: {fileID: 437048159}
+  lightControl: {fileID: 437048159}
 --- !u!114 &740096630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10058,8 +10056,7 @@ MonoBehaviour:
   director: {fileID: 1829208165}
   imitoneVoiceInterpreter: {fileID: 740096625}
   respirationTracker: {fileID: 740096627}
-  wwiseAVSMusicManager: {fileID: 437048159}
-  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  lightControl: {fileID: 437048159}
   _chantLerpSlowDamp1: 0
   _chantLerpSlowDamp2: 0
   _chantLerpFastDamp1: 0
@@ -17220,8 +17217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb752eca6516fd409913b821b0798b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractiveMusicManager: {fileID: 1564575221}
-  VOManager: {fileID: 486583134}
 --- !u!114 &1229442215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20621,7 +20616,7 @@ GameObject:
   - component: {fileID: 1564575218}
   - component: {fileID: 1564575221}
   m_Layer: 0
-  m_Name: WwiseInteractiveManager
+  m_Name: Sequencer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20705,20 +20700,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
   musicSystem1: {fileID: 619104374}
-  wwiseAVSMusicManager: {fileID: 437048159}
+  lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
   imitoneVoiceIntepreter: {fileID: 740096625}
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
-  currentSwitchState: B
-  currentToningState: none
   InteractiveMusicSilentLoopsRTPC: 0
   HarmonySilentVolumeRTPC: 0
   FundamentalSilentVolumeRTPC: 0
   playingId: 0
-  currentStage: 0
   csvWriter: {fileID: 662335749}
   CFundamentalGHarmonyLock: 0
+  currentSwitchState: B
+  currentToningState: none
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
@@ -22583,7 +22577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10aefaebd1d574f0db923665aded62d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  sequencer: {fileID: 0}
 --- !u!1 &1721812663
 GameObject:
   m_ObjectHideFlags: 0
@@ -23460,7 +23454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
-  wwiseAVSMusicManager: {fileID: 437048159}
+  lightControl: {fileID: 437048159}
   imitoneVoiceInterpreter: {fileID: 740096625}
   queueIndex: 0
 --- !u!1 &1842254102
@@ -25352,7 +25346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceIntepreter: {fileID: 740096625}
-  wwiseInteractiveMusicManager: {fileID: 1564575221}
+  sequencer: {fileID: 0}
   wwiseGlobalManager: {fileID: 1229442214}
   debugKeyBoardIlluminator: {fileID: 1306403868}
   currentNote: 

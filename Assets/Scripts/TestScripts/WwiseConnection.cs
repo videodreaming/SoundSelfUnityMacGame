@@ -112,6 +112,7 @@ public class WwiseConnection : MonoBehaviour
         }
     }
 
+    //THIS SHOULD BE REFERENCING A GLOBAL ENUM
     public string ConvertIntToNote(int noteNumber)
     {
         if (noteNumber >= 0 && noteNumber <= 11)

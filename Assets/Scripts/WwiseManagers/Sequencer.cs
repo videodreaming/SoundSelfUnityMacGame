@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 
-public class WwiseInteractiveMusicManager : MonoBehaviour
+public class Sequencer : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
     public MusicSystem1 musicSystem1;
@@ -13,20 +13,16 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public WwiseVOManager wwiseVOManager;
     public Director director;
-    private int fundamentalCount = -1;
-    private int harmonyCount = -1;
+    //private int fundamentalCount = -1;
+    //private int harmonyCount = -1;
 
-    public string currentSwitchState = "B";
-    public string currentToningState = "None";
     public float InteractiveMusicSilentLoopsRTPC = 0.0f;
     public float HarmonySilentVolumeRTPC = 0.0f;
     public float FundamentalSilentVolumeRTPC = 0.0f;
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
     public uint playingId;
-    private bool toneActiveTriggered = false; // Flag to control the event triggering
-
     [SerializeField]
-    private int currentStage = 0; // Tracks the current stage of the sound world
+    //private int currentStage = 0; // Tracks the current stage of the sound world
     public CSVWriter csvWriter;
     private bool thisTonesImpactPlayed = false;
     // AVS Controls
@@ -38,12 +34,11 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     private bool musicProgressionFlag = false;
 
     private float interactiveMusicExperienceTotalTime;
-    private float finalStagePreLogicTime;
-
     private float WakeUpCounter;
     private bool wakeUpEndSoonTriggered = false; // Flag to control the event triggering
     private float soundWorldChangeTime;
-    private bool finalStagePreLogicExecuted = false; 
+    //private float finalStagePreLogicTime;
+    //private bool finalStagePreLogicExecuted = false; 
     public bool CFundamentalGHarmonyLock = false;
     private bool flagTriggerEnd = false;
     private bool flagThetaCoroutine = false;
@@ -51,6 +46,13 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     private Coroutine CoroutineDynamicDropStart;
     private Coroutine CoroutineDynamicDropTheta;
     private Coroutine CoroutineDynamicDropEnd;
+
+    //PLEASE REFACTOR THIS INTO MUSICSYSTEM1
+    public string currentSwitchState = "B";
+
+
+    //REFACTORING: CAN THIS BE DELETED?
+    public string currentToningState = "None";
 
 
     void Awake()
@@ -68,7 +70,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         WakeUpCounter = 2280.0f;
         interactiveMusicExperienceTotalTime = 1245.0f;
         soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
-        finalStagePreLogicTime = 15f; 
+        //finalStagePreLogicTime = 15f; 
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
         CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
@@ -91,12 +93,14 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }*/
         
 
-        AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
         //AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
         //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
         //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
         
+
+        //CAN ALL OF THIS BE REFACTORED INTO MUSICSYSTEM1?
         musicSystem1.fundamentalNote = 9;
+        AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
@@ -119,10 +123,6 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
             }
         }
 
-        if(imitoneVoiceIntepreter.toneActive == false)
-        {
-            thisTonesImpactPlayed = false;
-        }
         if(WakeUpCounter > -1.0f)
         {
             WakeUpCounter -= Time.deltaTime;
@@ -141,27 +141,17 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
             lightControl.SetPreferredColor("Dark");
             lightControl.NextColorWorld(10f);
         }
-        if (imitoneVoiceIntepreter.toneActiveConfident)
-        {
-            if (!toneActiveTriggered)
-            {
-                toneActiveTriggered = true; // Set the flag to true after the event is triggered
-            }
-        }
-        else
-        {
-            if (toneActiveTriggered)
-            {
-                //AkSoundEngine.StopPlayingID(playingId);
-                toneActiveTriggered = false; // Reset the flag when toneActiveConfident becomes false
-            }
-        }
-
         
         if(wwiseVOManager.interactive && !musicProgressionFlag)
         {
             musicProgressionFlag = true;
             StartCoroutine(StartMusicalProgression());
+        }
+
+        //PLEASE REFACTOR THE BELOW BY MOVING IT INTO MUSICSYSTEM1
+        if(imitoneVoiceIntepreter.toneActive == false)
+        {
+            thisTonesImpactPlayed = false;
         }
 
         if(wwiseVOManager.interactive)
@@ -189,23 +179,7 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         }
     }
 
-    public void PostTheToningEvents()
-    {
-        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
-        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
-    }
     
-     public void userToningToChangeFundamental(string fundamentalNote)
-     {
-         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
-         Debug.Log("Fundamental Note Set To: " + fundamentalNote);
-     }
-     public void changeHarmony(string harmonyNote)
-     {
-         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-         Debug.Log("Harmony Note Set To: " + harmonyNote);
-     }
-
     IEnumerator StartMusicalProgression()
     {
         float _t = WakeUpCounter;
@@ -240,10 +214,13 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         Debug.Log("Music Progression: Stage 3 Shruti");
         QueueNewWorld("SonoFlore", "Red");
 
-        //LET'S PUT THE GO DARK LOGIC HERE.
+        //SHOULD THE GO DARK LOGIC BE IN HERE OR IN THE AVS STORY?
 
     }
 
+    //====================================================================================================
+    //LIGHT CONTROL
+    //====================================================================================================
     IEnumerator AVS_Program_DynamicDrop_Start()
     {
         bool stopProgression = false;
@@ -548,11 +525,9 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         director.LogQueue();
     }
     
-    private Action Action_Gamma(bool gammaOn)
-    {
-        return () => lightControl.Gamma(gammaOn);
-    }
-    
+    //====================================================================================================
+    //DIRECTOR QUEUE
+    //====================================================================================================
     private void QueueNewWorld(string world, string color)
     {
         director.AddActionToQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, 120.0f, true, 2);
@@ -581,7 +556,10 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
     {
         return () => lightControl.NextColorWorld(_seconds);
     }
-    
+    private Action Action_Gamma(bool gammaOn)
+    {
+        return () => lightControl.Gamma(gammaOn);
+    }
     private Action Action_Strobe_MonoStereo(bool bilateral = false)
     {
         return () => lightControl.Strobe_MonoStereo(bilateral);
@@ -595,66 +573,36 @@ public class WwiseInteractiveMusicManager : MonoBehaviour
         return () => director.PlayTransitionSound();
     }
 
-    public void ChangeToningState()
+    //====================================================================================================
+    //PLEASE REFACTOR THIS INTO MUSICSYSTEM1
+    //====================================================================================================
+    
+    public void PostTheToningEvents()
+    {
+        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
+        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
+    }
+    
+    public void userToningToChangeFundamental(string fundamentalNote)
+    {
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
+        Debug.Log("Fundamental Note Set To: " + fundamentalNote);
+    }
+    public void changeHarmony(string harmonyNote)
+    {
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
+        Debug.Log("Harmony Note Set To: " + harmonyNote);
+    }
+     
+    public void ChangeToningState() //PLEASE REFACTOR BY DELETING OR MOVING INTO MUSICSYSTEM1
     {
         AkSoundEngine.SetState("SoundWorldMode", currentToningState);
     }
 
-    public void ChangeSwitchState()
+    public void ChangeSwitchState() //PLEASE REFACTOR INTO MUSICSYSTEM1
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
     }
 
-    //THESE ARE NEVER USED - COMMENTING THEM OUT
-    //public void setallRTPCValue(float newRTPCValue)
-    //{
-    //    AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newRTPCValue, gameObject);
-    //    AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newRTPCValue, gameObject);
-    //    AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newRTPCValue, gameObject);
-    //}
 
-    // public void setHarmonySilentVolumeRTPCValue(float newHarmonyVolumeRTPC)
-    // {
-    //     AkSoundEngine.SetRTPCValue("HarmonySilentVolume", newHarmonyVolumeRTPC, gameObject);
-    // }
-
-    // public void setFundamentalSilentVolumeRTPCValue(float newFundamentalVolumeRTPC)
-    // {
-    //     AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", newFundamentalVolumeRTPC, gameObject);
-    // }
-
-    // public void setInteractiveMusicSilentLoopsRTPCValue(float newInteractiveMusicSilentLoopRTPC)
-    // {
-    //     AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", newInteractiveMusicSilentLoopRTPC, gameObject);
-    // }
-
-
-
-    public enum NoteName
-    {
-        C,
-        CsharpDflat,
-        D,
-        DsharpEflat,
-        E,
-        F,
-        FsharpGflat,
-        G,
-        GsharpAflat,
-        A,
-        AsharpBflat,
-        B
-    }
-
-    public string ConvertIntToNote(int noteNumber)
-    {
-        if (noteNumber >= 0 && noteNumber <= 11)
-        {
-            return Enum.GetName(typeof(NoteName), noteNumber);
-        }
-        else
-        {
-            throw new ArgumentException("Invalid noteNumber value");
-        }
-    }
 }

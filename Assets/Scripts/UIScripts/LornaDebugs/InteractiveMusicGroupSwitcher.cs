@@ -4,46 +4,46 @@ using UnityEngine;
 using TMPro;
 public class InteractiveMusicGroupSwitcher : MonoBehaviour
 {
-    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
+    public Sequencer sequencer; //THESE FUNCTIONALITIES SHOULD BE REFACTORED INTO MUSICSYSTEM1
     // Start is called before the first frame update
     public void DropDown(int index)
     {
         switch (index)
         {
             case 0:
-                wwiseInteractiveMusicManager.currentSwitchState = "C";
+                sequencer.currentSwitchState = "C";
                 Debug.Log("Switching to C");
-                wwiseInteractiveMusicManager.ChangeSwitchState();
+                sequencer.ChangeSwitchState();
                 break;
             case 1:
-                wwiseInteractiveMusicManager.currentSwitchState = "D";
+                sequencer.currentSwitchState = "D";
                 Debug.Log("Switching to D");
-                wwiseInteractiveMusicManager.ChangeSwitchState();
+                sequencer.ChangeSwitchState();
                 break;
             case 2:
-                wwiseInteractiveMusicManager.currentSwitchState = "E";
+                sequencer.currentSwitchState = "E";
                 Debug.Log("Switching to E");
-                wwiseInteractiveMusicManager.ChangeSwitchState();
+                sequencer.ChangeSwitchState();
                 break;
             case 3:
-                wwiseInteractiveMusicManager.currentSwitchState = "F";
+                sequencer.currentSwitchState = "F";
                 Debug.Log("Switching to F");
-                wwiseInteractiveMusicManager.ChangeSwitchState();
+                sequencer.ChangeSwitchState();
                 break;
             case 4:
-                wwiseInteractiveMusicManager.currentSwitchState = "G";
+                sequencer.currentSwitchState = "G";
                 Debug.Log("Switching to F");
-                wwiseInteractiveMusicManager.ChangeSwitchState();
+                sequencer.ChangeSwitchState();
                 break;
             case 5:
-                wwiseInteractiveMusicManager.currentSwitchState = "A";
+                sequencer.currentSwitchState = "A";
                 Debug.Log("Switching to A");
-                wwiseInteractiveMusicManager.ChangeSwitchState();
+                sequencer.ChangeSwitchState();
                 break;
             case 6:
-                wwiseInteractiveMusicManager.currentSwitchState = "B";
+                sequencer.currentSwitchState = "B";
                 Debug.Log("Switching to B");
-                wwiseInteractiveMusicManager.ChangeSwitchState();
+                sequencer.ChangeSwitchState();
                 break;
         }
     }

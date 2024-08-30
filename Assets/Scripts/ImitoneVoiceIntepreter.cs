@@ -19,7 +19,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     //base variables pitch and midiNote
     public DevModeSettings DevModeSettings;
     public LightControl lightControl;
-    public WwiseInteractiveMusicManager wwiseInteractiveMusicManager;
     public Director director;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
