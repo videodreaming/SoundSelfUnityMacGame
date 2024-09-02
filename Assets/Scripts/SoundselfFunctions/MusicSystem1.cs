@@ -138,9 +138,9 @@ public class MusicSystem1 : MonoBehaviour
 
     void Update()
     {
-        NoteDetection(); //ROBIN THINKS THIS IS A LEFTOVER FROM AN OLD SYSTEM AND SHOULD BE DELETED. WAS REFACTORED FROM PITCHMUSICSYSTEM.CS
-
-        if(enableMusicSystem) //REEF - should enableMusicSystem just be wwiseVOManagerForPlayGround.interactive?
+        if(enableMusicSystem) //REEF - should enableMusicSystem just be wwiseVOManagerForPlayGround.interactive.
+        //Reef: It should be wwiseVOManager.interactive, i was using this to test the music system internally
+        //so that I could have control independantly, we can switch this over to wwiseVOManager.interactive when we are ready to test it in the game.
         { 
             InterpretImitone();
             BasicToning();
@@ -304,7 +304,9 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    private void ThumpUpdate () //REEF - CHECK AKSOUNDENGINE IS CORRECT
+    private void ThumpUpdate () //REEF - CHECK AKSOUNDENGINE IS CORRECT 
+    //Reef: LTGM! I'm not sure what you mean by "check AkSoundEngine is correct" but I'm not seeing
+    //any issues with the code or methods here.
     {
         if(imitoneVoiceInterpreter.toneActive == false)
         {
@@ -586,7 +588,8 @@ public class MusicSystem1 : MonoBehaviour
         // }
     }
 
-    //THESE FOUR WERE REFACTORED FROM SEQUENCER.CS, @REEF WOULD YOU CHECK THIS IS OK?
+    //THESE FOUR WERE REFACTORED FROM SEQUENCER.CS, @REEF WOULD YOU CHECK THIS IS OK? 
+    // Reef: LGTM! 
     private void PostTheToningEvents()
     {
         AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
@@ -604,90 +607,7 @@ public class MusicSystem1 : MonoBehaviour
         Debug.Log("Harmony Note Set To: " + harmonyNote);
     }
      
-    public void ChangeToningState() //CAN WE DELETE THIS ONE @REEF?
-    {
-        AkSoundEngine.SetState("SoundWorldMode", currentToningState);
-    }
-
-    //THIS WAS REFACTORED FROM PITCHMUSICSYSTEM.CS, AND MAY NOT BE NECESSARY ANY MORE... REEF?
-    public void NoteDetection()
-    {
-        if (imitoneVoiceInterpreter != null && imitoneVoiceInterpreter.pitch_hz > 0)
-        {
-            // Get the current pitch from the interpreter
-            float currentPitch = imitoneVoiceInterpreter.pitch_hz;
-
-            // Check which range the current pitch falls into
-            foreach (var range in noteRanges)
-            {
-                if (currentPitch >= range.minFreq && currentPitch <= range.maxFreq)
-                {
-                    //currentNote = range.noteName;
-                   // Debug.Log("noteName" + range.noteName + "   frequency" + currentPitch);
-                    if(range.noteName == "A2" || range.noteName == "A3" || range.noteName == "A4" ) 
-                    {
-                        currentSwitchState = "A";
-                        ChangeSwitchState();
-                    }
-                    else if(range.noteName == "A#2/Bb2" || range.noteName == "A#3/Bb3" || range.noteName == "A#4/Bb4" ) 
-                    {
-                        currentSwitchState = "As";
-                        ChangeSwitchState();
-                    }
-                    else if(range.noteName == "B2" || range.noteName == "B3" || range.noteName == "B4" ) 
-                    {
-                        currentSwitchState = "B";
-                        ChangeSwitchState();
-                    } else if(range.noteName == "C3" || range.noteName == "C4" || range.noteName == "C5" ) 
-                    {
-                        currentSwitchState = "C";
-                        ChangeSwitchState();
-                    } 
-                    else if(range.noteName == "C#3/Db3" || range.noteName == "C#4/Db4" ) 
-                    {
-                        currentSwitchState = "Cs";
-                        ChangeSwitchState();
-                    }
-                    else if(range.noteName == "D3" || range.noteName == "D4" ) 
-                    {
-                        currentSwitchState = "D";
-                        ChangeSwitchState();
-                    } 
-                    else if(range.noteName == "D#3/Eb3" || range.noteName == "D#4/Eb4" ) 
-                    {
-                        currentSwitchState = "Ds";
-                        ChangeSwitchState();
-                    }
-                    else if(range.noteName == "E3" || range.noteName == "E4" ) 
-                    {
-                        currentSwitchState = "E";
-                        ChangeSwitchState();
-                    } else if(range.noteName == "F3" || range.noteName == "F4" ) 
-                    {
-                        currentSwitchState = "F";
-                        ChangeSwitchState();
-                    } 
-                    else if(range.noteName == "F#3/Gb3" || range.noteName == "F#4/Gb4" ) 
-                    {
-                        currentSwitchState = "Fs";
-                        ChangeSwitchState();
-                    }
-                    else if(range.noteName == "G3" || range.noteName == "G4" ) 
-                    {
-                        currentSwitchState = "G";
-                        ChangeSwitchState();
-                    }
-                    else if(range.noteName == "G#3/Ab3" || range.noteName == "G#4/Ab4" ) 
-                    {
-                        currentSwitchState = "Gs";
-                        ChangeSwitchState();
-                    }
-                    break; // Stop checking once the correct range is found
-                }
-            }
-        }
-
-    }
+   
     public void ChangeSwitchState()
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
@@ -741,27 +661,4 @@ public class MusicSystem1 : MonoBehaviour
  
 
 }
-
-//REFERENCE FOR MIDI NOTES
-//C = 0
-//C# = 1
-//D = 2
-//D# = 3
-//E = 4
-//F = 5
-//F# = 6
-//G = 7
-//G# = 8
-//A = 9
-//A# = 10
-//B = 11
-
-
-//GAME CALLS FOR WWISE THAT WE MIGHT WANT TO USE
-// Game Call for Playing (turns on fundamental): AkSoundEngine.PostEvent("Play_Toning3_FundamentalOnly", gameObject);
-// Game Call for Playing (turns on harmony): AkSoundEngine.PostEvent("Play_Toning3_HarmonyOnly", gameObject);
-
-// Game Call for changing the Fundamental: AkSoundEngine.SetState("SoundWorldMode", currentToningState);
-// Game Call for changing the Harmony: AkSoundEngine.SetState("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", currentToningState);
-// Game Call for changing the Switch: AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState (This takes in an arguement the form of "A" or "B"), gameObject);
 
