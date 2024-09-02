@@ -52,7 +52,7 @@ public class CSVWriter : MonoBehaviour
             GetData();
         } else if (decryptedstatus == "ready")
         {
-            Debug.Log("Ready");      
+            //Debug.Log("Ready");      
         }
     }
 

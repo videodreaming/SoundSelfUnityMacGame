@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584767467686008848
+    m_lastTime: -8584767256300950372
     List:
     - name: Aux_Impacts
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -335,7 +335,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584767467685623953
+    m_lastTime: -8584763011311061910
     List:
     - name: CLOSING
       guid: 660ba7396da1574496e1fee4e15fcf1c
@@ -1229,7 +1229,7 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584769178062142263
+    m_lastTime: -8584767256448097645
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -1561,7 +1561,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584768300657481963
+    m_lastTime: -8584767256448087503
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1580,6 +1580,57 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 415.44745
       minDuration: 385.44745
+    - name: Play_Inhale_Long
+      guid: cc2a9f4bfd558542952b9206b5585121
+      id: 769398012
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_Inhale_Long
+        ObjectType: 3
+        guid: cc2a9f4bfd558542952b9206b5585121
+      Path: Events\SFX\Play_Inhale_Long
+      maxAttenuation: 0
+      maxDuration: 3.1872916
+      minDuration: 3.1872916
+    - name: Play_Inhale_Medium
+      guid: bba83bbb94fcfb428e1b11efb7f9ec68
+      id: 1252315619
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_Inhale_Medium
+        ObjectType: 3
+        guid: bba83bbb94fcfb428e1b11efb7f9ec68
+      Path: Events\SFX\Play_Inhale_Medium
+      maxAttenuation: 0
+      maxDuration: 3.1872916
+      minDuration: 3.1872916
+    - name: Play_Inhale_Short
+      guid: 4a35cf9a4f3e494289c48c49b0dff12b
+      id: 2110561540
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_Inhale_Short
+        ObjectType: 3
+        guid: 4a35cf9a4f3e494289c48c49b0dff12b
+      Path: Events\SFX\Play_Inhale_Short
+      maxAttenuation: 0
+      maxDuration: 3.1872916
+      minDuration: 3.1872916
     - name: Play_sfx_breathein
       guid: 3bb9951731f13247805529bc37e9b579
       id: 3830600368
@@ -1682,6 +1733,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_Inhales
+      guid: 65f45a464e83f54980d0aa1071bdb9e2
+      id: 237216068
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Stop_Inhales
+        ObjectType: 3
+        guid: 65f45a464e83f54980d0aa1071bdb9e2
+      Path: Events\SFX\Stop_Inhales
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_sfx_SoundSeed_BreathCycleWind
       guid: ba913102b25a9a429c53b3a0c009be7b
       id: 674892661
@@ -1714,8 +1782,8 @@ MonoBehaviour:
         guid: 2d500e1e201d094289c0d28db3052cff
       Path: Events\SFX\Unity_TransitionSFX
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: 13.185377
+      minDuration: 4.9054503
   - PhysicalPath: Events\VO.wwu
     PathAndIcons:
     - ElementName: Events
@@ -1727,7 +1795,7 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584767467688644541
+    m_lastTime: -8584767256448048225
     List:
     - name: Play_VO_ClosingGoodbye
       guid: d8c917e3a4fcc241bc26f16e968efae1
@@ -3064,7 +3132,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\SFX
     guid: 22725a575c2b944694ea3cb75aedb4cc
     GuidInternal: 
-    m_lastTime: -8584795888315725694
+    m_lastTime: -8584767256448038233
     List:
     - name: BreatheCycle_Volume
       guid: 44b8546045cb594c9436ecb992881033
@@ -3080,6 +3148,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: 44b8546045cb594c9436ecb992881033
       Path: Game Parameters\SFX\BreatheCycle_Volume
+    - name: BreathIn_PlaybackRate
+      guid: 819888e1934ea744869316dfa0c6a9bc
+      id: 4191266472
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 22725a575c2b944694ea3cb75aedb4cc
+      - ElementName: BreathIn_PlaybackRate
+        ObjectType: 13
+        guid: 819888e1934ea744869316dfa0c6a9bc
+      Path: Game Parameters\SFX\BreathIn_PlaybackRate
     - name: CrystalBowlGenerator_Volume
       guid: 341c0f297cf98643b9440cc0d9101d56
       id: 3761161481
@@ -3119,7 +3201,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Unity Imitone
     guid: cac749861016bd468dcac9f447d3c666
     GuidInternal: 
-    m_lastTime: -8584768300657416974
+    m_lastTime: -8584767256448028234
     List:
     - name: New_Game_Parameter
       guid: 5a12dd1db39d5e458313043bf219d342
