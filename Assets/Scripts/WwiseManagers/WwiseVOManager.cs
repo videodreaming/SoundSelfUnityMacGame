@@ -18,6 +18,7 @@ public class WwiseVOManager : MonoBehaviour
     public LightControl lightControl;
     public User userObject;
     public AudioSource userAudioSource;
+    public MusicSystem1 musicSystem1;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     //public MusicSystem1 musicSystem1;
     public RTPC silentrtpcvolume;
@@ -33,10 +34,6 @@ public class WwiseVOManager : MonoBehaviour
     public bool firstTimeUser = true;
     public bool layingDown = true;
     public bool muteInteraction = false;
-    
-    [SerializeField]
-    public bool interactive = false;
-
     public CSVWriter csvWriter;
 
     //private bool silentPlaying = false;
@@ -131,7 +128,7 @@ public class WwiseVOManager : MonoBehaviour
         // BreatheOut_Start
         // Linear 1 2 and 3
         // Cue_InteractiveMusicSystem_Start
-         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+            if (in_type == AkCallbackType.AK_MusicSyncUserCue)
             {
                 Debug.Log("WWise_VO: Callback triggered: " + in_type);
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
@@ -211,7 +208,7 @@ public class WwiseVOManager : MonoBehaviour
     private void InteractiveMusicInitializations()
     {
         Debug.Log("InteractiveMusicSystemFade is running");
-        AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+        musicSystem1.SetMusicModeTo("InteractiveMusicSystem");
         if(developmentMode.developmentPlayground)
         {
             silentrtpcvolume.SetGlobalValue(80.0f);
@@ -223,7 +220,7 @@ public class WwiseVOManager : MonoBehaviour
             StartCoroutine(InteractiveMusicSystemFade());
         }
 
-        interactive = true;
+        musicSystem1.interactive = true;
         AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
         AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
         AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);

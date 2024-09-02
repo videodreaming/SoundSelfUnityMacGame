@@ -40,6 +40,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public bool toneActiveConfident { get; private set; } = false;
     public bool toneActiveBiasTrue { get; private set; } = false;   //combines toneActive & toneActiveConfident
     public float toneActiveBiasTrueTimer { get; private set; } = 0f;
+    public bool toneActiveBiasTrueFrame { get; private set; } = false;
+    private bool toneActiveBiasTrueFrameFlag = false;
     public bool toneActiveBiasFalse { get; private set; } = false;  //combines toneActive & toneActiveVeryConfident
     [Tooltip("Very Confident Toning, used for respiration")]
     public bool toneActiveVeryConfident { get; private set; } = false;
@@ -597,6 +599,16 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 toneActiveBiasTrue = true;
                 toneActiveBiasTrueTimer += Time.deltaTime;
                 AkSoundEngine.SetSwitch("ToneActive","Toning",gameObject);
+
+                if(!toneActiveBiasTrueFrameFlag)
+                {
+                    toneActiveBiasTrueFrame = true;
+                    toneActiveBiasTrueFrameFlag = true;
+                }
+                else
+                {
+                    toneActiveBiasTrueFrame = false;
+                }
             }
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
@@ -623,6 +635,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     toneActiveConfident = false;
                     toneActiveBiasTrue = false;
                     toneActiveBiasTrueTimer = 0f;
+                    toneActiveBiasTrueFrame = false;
+                    toneActiveBiasTrueFrameFlag = false;
                 }
             }
         }
@@ -848,11 +862,11 @@ public float GetVolumeThresholdFromJson()
     else
     {
         return -999f;
-        if (!exceptionFlag)
-        {
-            exceptionFlag = true;
-            throw new Exception("Could not find 'volume:threshold' in JSON string");
-        }
+        //if (!exceptionFlag)
+        //{
+        //    exceptionFlag = true;
+        //    throw new Exception("Could not find 'volume:threshold' in JSON string");
+        //}
     }
 }
 }

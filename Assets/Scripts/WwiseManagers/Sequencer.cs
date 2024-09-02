@@ -16,21 +16,18 @@ public class Sequencer : MonoBehaviour
     //private int fundamentalCount = -1;
     //private int harmonyCount = -1;
 
-    public float InteractiveMusicSilentLoopsRTPC = 0.0f;
-    public float HarmonySilentVolumeRTPC = 0.0f;
-    public float FundamentalSilentVolumeRTPC = 0.0f;
-    private float UserNotToningThreshold = 30.0f; //controls environment shift.
+    //public float InteractiveMusicSilentLoopsRTPC = 0.0f;
+    //public float HarmonySilentVolumeRTPC = 0.0f;
+    //public float FundamentalSilentVolumeRTPC = 0.0f;
     public uint playingId;
     [SerializeField]
     //private int currentStage = 0; // Tracks the current stage of the sound world
     public CSVWriter csvWriter;
-    private bool thisTonesImpactPlayed = false;
     // AVS Controls
     private float _absorptionThreshold;
     float d = 1f; //debug timer mult
 
-    //THESE THINGS ARE DEFINITELY PERTAINING TO THE  STORY PROGRESSION, AND SHOULD PROBABLY BE REFACTORED
-    
+    //THINGS THAT PERTAIN TO STORY PROGRESSION    
     private bool musicProgressionFlag = false;
 
     private float interactiveMusicExperienceTotalTime;
@@ -39,20 +36,12 @@ public class Sequencer : MonoBehaviour
     private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
     //private bool finalStagePreLogicExecuted = false; 
-    public bool CFundamentalGHarmonyLock = false;
     private bool flagTriggerEnd = false;
     private bool flagThetaCoroutine = false;
     private List<int> coroutineCleanupList = new List<int>();
     private Coroutine CoroutineDynamicDropStart;
     private Coroutine CoroutineDynamicDropTheta;
     private Coroutine CoroutineDynamicDropEnd;
-
-    //PLEASE REFACTOR THIS INTO MUSICSYSTEM1
-    public string currentSwitchState = "B";
-
-
-    //REFACTORING: CAN THIS BE DELETED?
-    public string currentToningState = "None";
 
 
     void Awake()
@@ -98,12 +87,8 @@ public class Sequencer : MonoBehaviour
         //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
         
 
-        //CAN ALL OF THIS BE REFACTORED INTO MUSICSYSTEM1?
         musicSystem1.fundamentalNote = 9;
-        AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-        AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
+        musicSystem1.SetMusicModeTo("InteractiveMusicSystem");
         //AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
         //AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);
         //PlaySoundOnSpecificBus("Play_SilentLoops3_Fundamentalonly", "AVS System");
@@ -142,40 +127,10 @@ public class Sequencer : MonoBehaviour
             lightControl.NextColorWorld(10f);
         }
         
-        if(wwiseVOManager.interactive && !musicProgressionFlag)
+        if(musicSystem1.interactive && !musicProgressionFlag)
         {
             musicProgressionFlag = true;
             StartCoroutine(StartMusicalProgression());
-        }
-
-        //PLEASE REFACTOR THE BELOW BY MOVING IT INTO MUSICSYSTEM1
-        if(imitoneVoiceIntepreter.toneActive == false)
-        {
-            thisTonesImpactPlayed = false;
-        }
-
-        if(wwiseVOManager.interactive)
-        {
-            if(imitoneVoiceIntepreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
-            {
-                AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
-            }
-            else
-            {
-                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-            }
-
-            if(imitoneVoiceIntepreter._tThisTone > imitoneVoiceIntepreter._activeThreshold4)
-            {
-                if(!thisTonesImpactPlayed)
-                {
-                    Debug.Log("this tone is now longer than 8s, play impact");
-
-                    Debug.Log("impact");
-                    AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
-                    thisTonesImpactPlayed = true;   
-                }
-            }
         }
     }
 
@@ -577,32 +532,5 @@ public class Sequencer : MonoBehaviour
     //PLEASE REFACTOR THIS INTO MUSICSYSTEM1
     //====================================================================================================
     
-    public void PostTheToningEvents()
-    {
-        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
-        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
-    }
-    
-    public void userToningToChangeFundamental(string fundamentalNote)
-    {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
-        Debug.Log("Fundamental Note Set To: " + fundamentalNote);
-    }
-    public void changeHarmony(string harmonyNote)
-    {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-        Debug.Log("Harmony Note Set To: " + harmonyNote);
-    }
-     
-    public void ChangeToningState() //PLEASE REFACTOR BY DELETING OR MOVING INTO MUSICSYSTEM1
-    {
-        AkSoundEngine.SetState("SoundWorldMode", currentToningState);
-    }
-
-    public void ChangeSwitchState() //PLEASE REFACTOR INTO MUSICSYSTEM1
-    {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
-    }
-
 
 }

@@ -5,36 +5,36 @@ using TMPro;
 
 public class InteractiveMusicToneSwitcher : MonoBehaviour
 {
-    public Sequencer sequencer;
+    public MusicSystem1 musicSystem1;
     // Start is called before the first frame update
     public void DropDown(int index)
     {
         switch (index)
         {
             case 0:
-                sequencer.currentToningState = "None";
+                musicSystem1.currentToningState = "None";
                 Debug.Log("Switching to none");
-                sequencer.ChangeToningState();
+                musicSystem1.ChangeToningState();
                 break;
             case 1:
-                sequencer.currentToningState = "Gentle";
+                musicSystem1.currentToningState = "Gentle";
                 Debug.Log("Switching to gentle");
-                sequencer.ChangeToningState();
+                musicSystem1.ChangeToningState();
                 break;
             case 2:
-                sequencer.currentToningState = "Shadow";
+                musicSystem1.currentToningState = "Shadow";
                 Debug.Log("Switching to none");
-                sequencer.ChangeToningState();
+                musicSystem1.ChangeToningState();
                 break;
             case 3:
-                sequencer.currentToningState = "Shruti";
+                musicSystem1.currentToningState = "Shruti";
                 Debug.Log("Switching to none");
-                sequencer.ChangeToningState();
+                musicSystem1.ChangeToningState();
                 break;
             case 4:
-                sequencer.currentToningState = "SoneFlore";
+                musicSystem1.currentToningState = "SoneFlore";
                 Debug.Log("Switching to none");
-                sequencer.ChangeToningState();
+                musicSystem1.ChangeToningState();
                 break;
         }
     }

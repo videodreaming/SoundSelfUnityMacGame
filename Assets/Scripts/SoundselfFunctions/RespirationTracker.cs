@@ -509,7 +509,7 @@ public class RespirationTracker : MonoBehaviour
     private float GetRespirationRate(Dictionary<int, BreathCycleData> breathCycleDictionary, float _window)
     {
             //first check for invalid breath cycles
-            bool invalid = false;
+            //bool invalid = false;
             float _respirationMeasured = 0.0f;
 
             foreach (KeyValuePair<int, BreathCycleData> entry in breathCycleDictionary)
@@ -518,7 +518,6 @@ public class RespirationTracker : MonoBehaviour
                 if (entry.Value.invalid)
                 {
                     return -1.0f;
-                    break;
                 }
             }
 

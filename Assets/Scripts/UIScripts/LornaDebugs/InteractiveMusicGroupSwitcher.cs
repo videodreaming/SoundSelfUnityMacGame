@@ -4,46 +4,45 @@ using UnityEngine;
 using TMPro;
 public class InteractiveMusicGroupSwitcher : MonoBehaviour
 {
-    public Sequencer sequencer; //THESE FUNCTIONALITIES SHOULD BE REFACTORED INTO MUSICSYSTEM1
-    // Start is called before the first frame update
+    public MusicSystem1 musicSystem1;
     public void DropDown(int index)
     {
         switch (index)
         {
             case 0:
-                sequencer.currentSwitchState = "C";
+                musicSystem1.currentSwitchState = "C";
                 Debug.Log("Switching to C");
-                sequencer.ChangeSwitchState();
+                musicSystem1.ChangeSwitchState();
                 break;
             case 1:
-                sequencer.currentSwitchState = "D";
+                musicSystem1.currentSwitchState = "D";
                 Debug.Log("Switching to D");
-                sequencer.ChangeSwitchState();
+                musicSystem1.ChangeSwitchState();
                 break;
             case 2:
-                sequencer.currentSwitchState = "E";
+                musicSystem1.currentSwitchState = "E";
                 Debug.Log("Switching to E");
-                sequencer.ChangeSwitchState();
+                musicSystem1.ChangeSwitchState();
                 break;
             case 3:
-                sequencer.currentSwitchState = "F";
+                musicSystem1.currentSwitchState = "F";
                 Debug.Log("Switching to F");
-                sequencer.ChangeSwitchState();
+                musicSystem1.ChangeSwitchState();
                 break;
             case 4:
-                sequencer.currentSwitchState = "G";
+                musicSystem1.currentSwitchState = "G";
                 Debug.Log("Switching to F");
-                sequencer.ChangeSwitchState();
+                musicSystem1.ChangeSwitchState();
                 break;
             case 5:
-                sequencer.currentSwitchState = "A";
+                musicSystem1.currentSwitchState = "A";
                 Debug.Log("Switching to A");
-                sequencer.ChangeSwitchState();
+                musicSystem1.ChangeSwitchState();
                 break;
             case 6:
-                sequencer.currentSwitchState = "B";
+                musicSystem1.currentSwitchState = "B";
                 Debug.Log("Switching to B");
-                sequencer.ChangeSwitchState();
+                musicSystem1.ChangeSwitchState();
                 break;
         }
     }

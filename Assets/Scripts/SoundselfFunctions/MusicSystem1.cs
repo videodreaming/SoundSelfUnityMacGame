@@ -8,7 +8,6 @@ using UnityEngine.UIElements;
 public class MusicSystem1 : MonoBehaviour
 {
     public WwiseVOManager wwiseVOManager;
-    public Sequencer sequencer;
     public Director director;
     public RespirationTracker respirationTracker;
     private bool debugAllowLogs = false;
@@ -16,9 +15,6 @@ public class MusicSystem1 : MonoBehaviour
     public bool allowFundamentalChange = true;
     public bool enableMusicSystem = true;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
-
-    private int countDebug = 0;
-
     private Dictionary<int, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, bool, float)>();
     // Tracks information for each musical note:
     // ActivationTimer: Time duration the note has been active
@@ -42,10 +38,7 @@ public class MusicSystem1 : MonoBehaviour
     private bool previousToneActiveConfident = false;
 
     // FUNDAMENTAL AND HARMONY CONTROL
-    private bool musicToneActiveFrame; // Turns on the frame that a vocalization is interpreted by the music system.
-    private bool musicToneActiveFrameGuard  = false; 
-    private int musicToneActivationCount = 0; // Number of times we have tracked a vocalization
-    public int fundamentalNote; // Base note around which other notes are calculated
+    public int fundamentalNote = 9; // Base note around which other notes are calculated
     private int fundamentalNoteCompare = -1; //this is used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNote for the purpose of changing the fundamental
     public int harmonyNote; // Note that plays in harmony with the fundamental note
     private float fundamentalTimeSinceLastTrigger   = 0f;
@@ -66,8 +59,62 @@ public class MusicSystem1 : MonoBehaviour
     int currentSequenceIndex;
     int currentHarmonyIndex = 0;
 
+    //REFACTORED FROM SEQUENCER and WWISEVOMANAGER
+    
+    public bool CFundamentalGHarmonyLock = false;
+    private bool thisTonesImpactPlayed = false;
+    
+    private float UserNotToningThreshold = 30.0f; //controls environment shift.
+    public bool interactive = false;
+    public string currentSwitchState = "B";
+    
+    //REFACTORED FROM SEQUENCER... CAN THIS BE DELETED?
+    public string currentToningState = "None";
+
+
+    //REFACTORED FROM PITCHMUSICSYSTEM
+    // Define a list of tuples representing note ranges and corresponding note names
+    private List<(float minFreq, float maxFreq, string noteName)> noteRanges = new List<(float, float, string)>()
+    {
+        //NOTE THAT AN ALTERNATIVE LIST WAS COMMENTED OUT. I DELETED IT HERE, BUT IT CAN STILL BE FOUND AT PITCHMUSICSYSTEM.CS
+
+        (107.5f, 112.5f, "A2"),
+        (116.5f, 136.5f, "A#2/Bb2"),
+        (120.97f, 125.97f, "B2"),
+        (128.31f,133.31f, "C3"),
+        (138.6f, 158.6f, "C#3/Db3"),
+        (144.33f, 149.333f, "D3"),
+        (155.6f, 175.6f, "D#3/Eb3"),
+        (162.31f,167.31f, "E3"),
+        (172.11f,177.11f, "F3"),
+        (185f, 205f, "F#3/Gb3"),
+        (193.5f,198.5f, "G3"),
+        (207.7f, 227.7f, "G#3/Ab3"),
+        (217.5f, 222.5f, "A3"),
+        (233.1f, 253.1f, "A#3/Bb3"),
+        (244.44f,249.44f, "B3"),
+        (259.13f,264.13f, "C4"),
+        (277.2f, 297.2f, "C#4/Db4"),
+        (291.16f, 296.16f, "D4"),
+        (311.1f, 331.1f, "D#4/Eb4"),
+        (327.13f,332.13f, "E4"),
+        (346.73f, 351.73f, "F4"),
+        (370f, 390f, "F#4/Gb4"),
+        (387.5f, 394.5f, "G4"), 
+        (415.3f, 435.3f, "G#4/Ab4"),
+        (437.5f, 442.5f, "A4"),
+        (466.2f, 486.2f, "A#4/Bb4"),
+        (491.38f, 496.38f, "B4"),
+        (520.75f, 525.75f, "C5"),
+    };
+
     void Start()
     {
+        //These three refactored from Sequencer.cs attn: @Reef
+        AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
+        AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
+        AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
+
         // Initialize the NoteTracker dictionary with 12 keys for each note in an octave
         for (int i = 0; i < 12; i++)
         {
@@ -91,85 +138,18 @@ public class MusicSystem1 : MonoBehaviour
 
     void Update()
     {
+        NoteDetection(); //ROBIN THINKS THIS IS A LEFTOVER FROM AN OLD SYSTEM AND SHOULD BE DELETED. WAS REFACTORED FROM PITCHMUSICSYSTEM.CS
+
         if(enableMusicSystem) //REEF - should enableMusicSystem just be wwiseVOManagerForPlayGround.interactive?
-        {
+        { 
             InterpretImitone();
-
-            if(wwiseVOManager.interactive == true)
-            {
-                BasicToning();
-            }
-
-            //set musicToneActiveFrame to true for the first frame that toneActiveBiasTrue is true, and false for all other frames.
-            if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
-            {
-                musicToneActiveFrame = false;
-                musicToneActiveFrameGuard = false;
-            }
-            else if (imitoneVoiceInterpreter.toneActiveBiasTrue && !musicToneActiveFrameGuard)
-            {
-                musicToneActiveFrame = true;
-                musicToneActiveFrameGuard = true;
-                musicToneActivationCount++;
-            }
-            else
-            {
-                musicToneActiveFrame = false;
-            }
-
+            BasicToning();
             FundamentalUpdate();
-
-            //FUNDAMENTAL
-            //Send commands to WWise to play the fundamental, either on new tone, or on fundamental change
-            fundamentalTimeSinceLastTrigger += Time.deltaTime;
-            harmonyTimeSinceLastTrigger += Time.deltaTime;
-            bool fundamentalTimeTest    = fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold;
-            bool fundamentalRetriggerTest = (musicToneActiveFrame && fundamentalTimeTest);
-            bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
-            if (fundamentalRetriggerTest || fundamentalChangeTest)
-            {
-                string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);                                  
-                fundamentalNoteCompare = fundamentalNote;
-                if (debugAllowLogs)
-                {
-                    if (fundamentalChangeTest)
-                    Debug.Log("MUSIC 9: New Fundamental Triggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
-                    else if (fundamentalRetriggerTest)
-                    Debug.Log("MUSIC 9: Old Fundamental Retriggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: musicToneActiveFrame (" + musicToneActiveFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
-                }
-                fundamentalTimeSinceLastTrigger = 0f;
-            }
-
-            //HARMONY
-            if(musicToneActiveFrame)
-            {
-                //Choose a tone based on a sequence
-                List<int> currentSequence = sequences[currentSequenceIndex];
-                int harmonization = currentSequence[currentHarmonyIndex];
-
-                // Move to the next note in the sequence
-                currentHarmonyIndex++;
-
-                // If we've reached the end of the sequence, select a new sequence
-                if (currentHarmonyIndex >= currentSequence.Count)
-                {
-                    currentSequenceIndex = random.Next(sequences.Count);
-                    currentHarmonyIndex = 0;
-                }
-
-                //Now play the tone
-                               
-                harmonyNote = (fundamentalNote + harmonization) % 12;
-                if(sequencer.CFundamentalGHarmonyLock == false)
-                {
-                    sequencer.changeHarmony(ConvertIntToNote(harmonyNote)); 
-                }
-                if (debugAllowLogs)
-                {
-                    Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
-                }
-            }
+            HarmonyUpdate();
         }
+
+        ThumpUpdate();
+        MusicModeUpdate(); 
     }
 
     //Take the fundamental behaviors in the InterpretImitone method and move them here for clarity
@@ -268,6 +248,107 @@ public class MusicSystem1 : MonoBehaviour
                 NoteTracker[update.Key] = update.Value;
             }
         }
+
+        //Send commands to WWise to play the fundamental, either on new tone, or on fundamental change
+        fundamentalTimeSinceLastTrigger += Time.deltaTime;
+        harmonyTimeSinceLastTrigger += Time.deltaTime;
+        bool fundamentalTimeTest    = fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold;
+        bool fundamentalRetriggerTest = (imitoneVoiceInterpreter.toneActiveBiasTrueFrame && fundamentalTimeTest);
+        bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
+        if (fundamentalRetriggerTest || fundamentalChangeTest)
+        {
+            string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);                                  
+            fundamentalNoteCompare = fundamentalNote;
+            if (debugAllowLogs)
+            {
+                if (fundamentalChangeTest)
+                Debug.Log("MUSIC 9: New Fundamental Triggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: toneActiveBiasTrueFrame (" + imitoneVoiceInterpreter.toneActiveBiasTrueFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
+                else if (fundamentalRetriggerTest)
+                Debug.Log("MUSIC 9: Old Fundamental Retriggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: toneActiveBiasTrueFrame (" + imitoneVoiceInterpreter.toneActiveBiasTrueFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
+            }
+            fundamentalTimeSinceLastTrigger = 0f;
+        }
+
+
+    }
+    private void HarmonyUpdate()
+    {
+        if(imitoneVoiceInterpreter.toneActiveBiasTrueFrame)
+        {
+            //Choose a tone based on a sequence
+            List<int> currentSequence = sequences[currentSequenceIndex];
+            int harmonization = currentSequence[currentHarmonyIndex];
+
+            // Move to the next note in the sequence
+            currentHarmonyIndex++;
+
+            // If we've reached the end of the sequence, select a new sequence
+            if (currentHarmonyIndex >= currentSequence.Count)
+            {
+                currentSequenceIndex = random.Next(sequences.Count);
+                currentHarmonyIndex = 0;
+            }
+
+            //Now play the tone
+                            
+            if(CFundamentalGHarmonyLock == false)
+            {
+                harmonyNote = (fundamentalNote + harmonization) % 12;
+                changeHarmony(ConvertIntToNote(harmonyNote)); 
+                if (debugAllowLogs)
+                {
+                    Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
+                }
+            }
+            
+        }
+    }
+
+    private void ThumpUpdate () //REEF - CHECK AKSOUNDENGINE IS CORRECT
+    {
+        if(imitoneVoiceInterpreter.toneActive == false)
+        {
+            thisTonesImpactPlayed = false;
+        }
+
+        if(imitoneVoiceInterpreter._tThisTone > imitoneVoiceInterpreter._activeThreshold4)
+        {
+            if(!thisTonesImpactPlayed)
+            {
+                Debug.Log("this tone is now longer than 8s, play impact");
+
+                Debug.Log("impact");
+                AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
+                thisTonesImpactPlayed = true;   
+            }
+        }
+    }
+    
+    private void MusicModeUpdate()
+    {
+        if(interactive)
+        {
+            if(imitoneVoiceInterpreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
+            {
+                SetMusicModeTo("Environment");
+            }
+            else
+            {
+                SetMusicModeTo("InteractiveMusicSystem");
+            }
+        }
+    }
+
+    public void SetMusicModeTo(string mode)
+    {
+        if (mode == "Environment" || mode == "InteractiveMusicSystem")
+        {
+            AkSoundEngine.SetState("InteractiveMusicMode", mode);
+        }
+        else
+        {
+            throw new ArgumentException("Invalid music mode. Only 'Environment' and 'InteractiveMusicSystem' are allowed.");
+        }
     }
 
     public Action Action_ChangeFundamentalNow(int scaleNoteKey)
@@ -278,9 +359,9 @@ public class MusicSystem1 : MonoBehaviour
     public void ChangeFundamentalNow(int newFundamental)
     {
         fundamentalNote = newFundamental;
-        if(sequencer.CFundamentalGHarmonyLock == false && allowFundamentalChange)
+        if(CFundamentalGHarmonyLock == false && allowFundamentalChange)
         {
-            sequencer.userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
+            userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
            
             if(debugAllowLogs)
             {
@@ -307,38 +388,39 @@ public class MusicSystem1 : MonoBehaviour
     }
 
 
-    void BasicToning()
+    private void BasicToning()
     {       
-        //if(wwiseVOManagerForPlayGround.silentPlaying == false)
-        //{
-            // silentrtpcvolume.SetGlobalValue(targetValue);
-            // toningrtpcvolume.SetGlobalValue(targetValue);
-            // AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-            // AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-            // silentPlaying = true;
-        //}
-        
-        bool currentToneActiveConfident = imitoneVoiceInterpreter.toneActiveConfident;
-        if(currentToneActiveConfident && !previousToneActiveConfident)
+        if(interactive == true)
         {
-            if(true)
+            //if(wwiseVOManagerForPlayGround.silentPlaying == false)
+            //{
+                // silentrtpcvolume.SetGlobalValue(targetValue);
+                // toningrtpcvolume.SetGlobalValue(targetValue);
+                // AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+                // AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+                // silentPlaying = true;
+            //}
+            
+            bool currentToneActiveConfident = imitoneVoiceInterpreter.toneActiveConfident;
+            if(currentToneActiveConfident && !previousToneActiveConfident)
             {
-                Debug.Log("Post Toning Events to Wwise");
-            }
+                if(true)
+                {
+                    Debug.Log("Post Toning Events to Wwise");
+                }
 
-            //Add Function
-            sequencer.PostTheToningEvents();
+                PostTheToningEvents();
 
-        } else if (!currentToneActiveConfident && previousToneActiveConfident)
-        {
-            if(true)
+            } else if (!currentToneActiveConfident && previousToneActiveConfident)
             {
-                Debug.Log("Post Toning Events STOP to Wwise");
+                if(true)
+                {
+                    Debug.Log("Post Toning Events STOP to Wwise");
+                }
+                AkSoundEngine.PostEvent("Stop_Toning",gameObject);
             }
-            AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+            previousToneActiveConfident = currentToneActiveConfident;
         }
-        previousToneActiveConfident = currentToneActiveConfident;
-        
     }
 
     private void InterpretImitone()
@@ -503,6 +585,114 @@ public class MusicSystem1 : MonoBehaviour
         //     musicNoteActivated = -1;
         // }
     }
+
+    //THESE FOUR WERE REFACTORED FROM SEQUENCER.CS, @REEF WOULD YOU CHECK THIS IS OK?
+    private void PostTheToningEvents()
+    {
+        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
+        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
+    }
+    
+    private void userToningToChangeFundamental(string fundamentalNote)
+    {
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
+        Debug.Log("Fundamental Note Set To: " + fundamentalNote);
+    }
+    private void changeHarmony(string harmonyNote)
+    {
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
+        Debug.Log("Harmony Note Set To: " + harmonyNote);
+    }
+     
+    public void ChangeToningState() //CAN WE DELETE THIS ONE @REEF?
+    {
+        AkSoundEngine.SetState("SoundWorldMode", currentToningState);
+    }
+
+    //THIS WAS REFACTORED FROM PITCHMUSICSYSTEM.CS, AND MAY NOT BE NECESSARY ANY MORE... REEF?
+    public void NoteDetection()
+    {
+        if (imitoneVoiceInterpreter != null && imitoneVoiceInterpreter.pitch_hz > 0)
+        {
+            // Get the current pitch from the interpreter
+            float currentPitch = imitoneVoiceInterpreter.pitch_hz;
+
+            // Check which range the current pitch falls into
+            foreach (var range in noteRanges)
+            {
+                if (currentPitch >= range.minFreq && currentPitch <= range.maxFreq)
+                {
+                    //currentNote = range.noteName;
+                   // Debug.Log("noteName" + range.noteName + "   frequency" + currentPitch);
+                    if(range.noteName == "A2" || range.noteName == "A3" || range.noteName == "A4" ) 
+                    {
+                        currentSwitchState = "A";
+                        ChangeSwitchState();
+                    }
+                    else if(range.noteName == "A#2/Bb2" || range.noteName == "A#3/Bb3" || range.noteName == "A#4/Bb4" ) 
+                    {
+                        currentSwitchState = "As";
+                        ChangeSwitchState();
+                    }
+                    else if(range.noteName == "B2" || range.noteName == "B3" || range.noteName == "B4" ) 
+                    {
+                        currentSwitchState = "B";
+                        ChangeSwitchState();
+                    } else if(range.noteName == "C3" || range.noteName == "C4" || range.noteName == "C5" ) 
+                    {
+                        currentSwitchState = "C";
+                        ChangeSwitchState();
+                    } 
+                    else if(range.noteName == "C#3/Db3" || range.noteName == "C#4/Db4" ) 
+                    {
+                        currentSwitchState = "Cs";
+                        ChangeSwitchState();
+                    }
+                    else if(range.noteName == "D3" || range.noteName == "D4" ) 
+                    {
+                        currentSwitchState = "D";
+                        ChangeSwitchState();
+                    } 
+                    else if(range.noteName == "D#3/Eb3" || range.noteName == "D#4/Eb4" ) 
+                    {
+                        currentSwitchState = "Ds";
+                        ChangeSwitchState();
+                    }
+                    else if(range.noteName == "E3" || range.noteName == "E4" ) 
+                    {
+                        currentSwitchState = "E";
+                        ChangeSwitchState();
+                    } else if(range.noteName == "F3" || range.noteName == "F4" ) 
+                    {
+                        currentSwitchState = "F";
+                        ChangeSwitchState();
+                    } 
+                    else if(range.noteName == "F#3/Gb3" || range.noteName == "F#4/Gb4" ) 
+                    {
+                        currentSwitchState = "Fs";
+                        ChangeSwitchState();
+                    }
+                    else if(range.noteName == "G3" || range.noteName == "G4" ) 
+                    {
+                        currentSwitchState = "G";
+                        ChangeSwitchState();
+                    }
+                    else if(range.noteName == "G#3/Ab3" || range.noteName == "G#4/Ab4" ) 
+                    {
+                        currentSwitchState = "Gs";
+                        ChangeSwitchState();
+                    }
+                    break; // Stop checking once the correct range is found
+                }
+            }
+        }
+
+    }
+    public void ChangeSwitchState()
+    {
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
+    }
+
 
     //REFACTOR THE BELOW INTO GLOBAL ENUMS AND METHODS
     public enum NoteName

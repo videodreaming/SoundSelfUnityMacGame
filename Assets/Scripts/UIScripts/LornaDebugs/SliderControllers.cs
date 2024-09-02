@@ -46,19 +46,19 @@ public class SliderControllers : MonoBehaviour
         toningHarmonyText.text = localValue.ToString("0");
     }
 
-    public void SilentFundamentalSlider(float value)
-    {
-        float localValue = value;
-        AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", localValue);
-        silentLoopsFundamentalText.text = localValue.ToString("0");
-    }
+    // public void SilentFundamentalSlider(float value)
+    // {
+    //     float localValue = value;
+    //     AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", localValue);
+    //     silentLoopsFundamentalText.text = localValue.ToString("0");
+    // }
 
-    public void SilentHarmonySlider(float value)
-    {
-        float localValue = value;
-        AkSoundEngine.SetRTPCValue("HarmonySilentVolume", localValue);
-        silentLoopsHarmonyText.text = localValue.ToString("0");
-    }
+    // public void SilentHarmonySlider(float value)
+    // {
+    //     float localValue = value;
+    //     AkSoundEngine.SetRTPCValue("HarmonySilentVolume", localValue);
+    //     silentLoopsHarmonyText.text = localValue.ToString("0");
+    // }
 
      public void VoBusSlider(float value)
     {
@@ -67,12 +67,12 @@ public class SliderControllers : MonoBehaviour
         VOBusText.text = localValue.ToString("0");
     }
 
-     public void InteractiveBusSlider(float value)
-    {
-        float localValue = value;
-        AkSoundEngine.SetRTPCValue("InteractiveMusic_Bus_Volume", localValue);
-        silentInteractiveBusText.text = localValue.ToString("0");
-    }
+    //  public void InteractiveBusSlider(float value)
+    // {
+    //     float localValue = value;
+    //     AkSoundEngine.SetRTPCValue("InteractiveMusic_Bus_Volume", localValue);
+    //     silentInteractiveBusText.text = localValue.ToString("0");
+    // }
 
     public void MasterVolumeSlider(float value)
     {
