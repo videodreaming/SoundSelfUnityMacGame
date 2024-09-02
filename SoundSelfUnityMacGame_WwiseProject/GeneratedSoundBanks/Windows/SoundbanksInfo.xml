@@ -16,79 +16,6 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="237216068" Type="Event" Language="SFX" Hash="{C0B91557-2D56-44AB-8829-AFF3F7DCD631}">
-			<ShortName>Stop_Inhales</ShortName>
-			<Path>Event/23/Stop_Inhales.bnk</Path>
-			<Events>
-				<Event Id="237216068" Name="Stop_Inhales" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-			</Events>
-		</SoundBank>
-		<SoundBank Id="769398012" Type="Event" Language="SFX" Hash="{723B467E-FD4C-6436-B0AA-9214D07BD625}">
-			<ShortName>Play_Inhale_Long</ShortName>
-			<Path>Event/76/Play_Inhale_Long.bnk</Path>
-			<Media>
-				<File Id="466210932" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>sfx_breath in.wav</ShortName>
-					<Path>Media/46/466210932.wem</Path>
-					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
-				</File>
-			</Media>
-			<Plugins>
-				<ShareSets>
-					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
-				</ShareSets>
-			</Plugins>
-			<Events>
-				<Event Id="769398012" Name="Play_Inhale_Long" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
-					<MediaRefs>
-						<MediaRef Id="466210932"/>
-					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="3164629247"/>
-						</ShareSets>
-					</PluginRefs>
-				</Event>
-			</Events>
-			<GameParameters>
-				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
-				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
-				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
-			</GameParameters>
-		</SoundBank>
-		<SoundBank Id="1252315619" Type="Event" Language="SFX" Hash="{CEDAB849-CEEC-6892-4B1F-5D125F1F418E}">
-			<ShortName>Play_Inhale_Medium</ShortName>
-			<Path>Event/12/Play_Inhale_Medium.bnk</Path>
-			<Media>
-				<File Id="466210932" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>sfx_breath in.wav</ShortName>
-					<Path>Media/46/466210932.wem</Path>
-					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
-				</File>
-			</Media>
-			<Plugins>
-				<ShareSets>
-					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
-				</ShareSets>
-			</Plugins>
-			<Events>
-				<Event Id="1252315619" Name="Play_Inhale_Medium" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
-					<MediaRefs>
-						<MediaRef Id="466210932"/>
-					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="3164629247"/>
-						</ShareSets>
-					</PluginRefs>
-				</Event>
-			</Events>
-			<GameParameters>
-				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
-				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
-				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
-			</GameParameters>
-		</SoundBank>
 		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{7B002EA9-4E46-7D85-7CD8-DDFD5C75BEF5}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
@@ -432,7 +359,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{112C48DF-D690-0A4F-C50A-6B2826847505}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{6E2B26E5-E5A9-2F48-B56F-91AB6D2EF673}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -4925,39 +4852,6 @@
 				<AuxBus Id="1959646260" Name="Aux_SilentLoops"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2110561540" Type="Event" Language="SFX" Hash="{3028CD73-1F27-A9E3-0E59-C37F7B439C9B}">
-			<ShortName>Play_Inhale_Short</ShortName>
-			<Path>Event/21/Play_Inhale_Short.bnk</Path>
-			<Media>
-				<File Id="466210932" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>sfx_breath in.wav</ShortName>
-					<Path>Media/46/466210932.wem</Path>
-					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
-				</File>
-			</Media>
-			<Plugins>
-				<ShareSets>
-					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
-				</ShareSets>
-			</Plugins>
-			<Events>
-				<Event Id="2110561540" Name="Play_Inhale_Short" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
-					<MediaRefs>
-						<MediaRef Id="466210932"/>
-					</MediaRefs>
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="3164629247"/>
-						</ShareSets>
-					</PluginRefs>
-				</Event>
-			</Events>
-			<GameParameters>
-				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
-				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
-				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
-			</GameParameters>
-		</SoundBank>
 		<SoundBank Id="2138093880" Type="Event" Language="SFX" Hash="{669B9045-1361-3B32-7E87-E3D2276458E0}">
 			<ShortName>Play_VO_SighElicitation2</ShortName>
 			<Path>Event/21/Play_VO_SighElicitation2.bnk</Path>
@@ -5945,7 +5839,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{BC39D104-59C9-D192-6E1B-11E83C49C301}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{D21844BE-7285-AE7B-B746-7C40D4E4D64E}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -6204,6 +6098,10 @@
 				<File Id="465792322" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_A7ED6E33.wem</CachePath>
+				</File>
+				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
 				</File>
 				<File Id="493065678" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SO_AM_90_ambience_rain_muladhara.wav</ShortName>
@@ -6507,6 +6405,7 @@
 					<Plugin Id="1506222490" Name="AVS_Modulation_Wave1_02" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2943759360" Name="AVS_Modulation_Wave3_02" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2943759363" Name="AVS_Modulation_Wave3_01" LibName="Wwise Tremolo" LibId="8585219"/>
+					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="3216246379" Name="Space_Dreaming" LibName="Wwise RoomVerb" LibId="7733251"/>
 					<Plugin Id="3561977548" Name="AVS_Modulation_Wave2_01" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="3561977551" Name="AVS_Modulation_Wave2_02" LibName="Wwise Tremolo" LibId="8585219"/>
@@ -6580,6 +6479,36 @@
 						<ShareSets>
 							<PluginRef Id="2943759360"/>
 							<PluginRef Id="2943759363"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="769398012" Name="Play_Inhale_Long" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="1252315619" Name="Play_Inhale_Medium" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="2110561540" Name="Play_Inhale_Short" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
 						</ShareSets>
 					</PluginRefs>
 				</Event>
@@ -9305,6 +9234,7 @@
 				<Event Id="4138940081" Name="Stop_AVS_Wave1" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="4138940082" Name="Stop_AVS_Wave2" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="4138940083" Name="Stop_AVS_Wave3" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="237216068" Name="Stop_Inhales" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="114893642" Name="Stop_InteractiveMusicSystem" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2822016348" Name="Stop_SilentLoops" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="955662865" Name="Stop_Toning" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -9358,12 +9288,14 @@
 				<GameParameter Id="3244028900" Name="AVS_BLUE_Volume_Wave3"/>
 				<GameParameter Id="3244028901" Name="AVS_BLUE_Volume_Wave2"/>
 				<GameParameter Id="3244028902" Name="AVS_BLUE_Volume_Wave1"/>
+				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
 				<GameParameter Id="3740547865" Name="AVS_Modulation_BypassEffect_Wave1"/>
 				<GameParameter Id="3740547866" Name="AVS_Modulation_BypassEffect_Wave2"/>
 				<GameParameter Id="3740547867" Name="AVS_Modulation_BypassEffect_Wave3"/>
 				<GameParameter Id="3922087661" Name="AVS_RED_Volume_Wave1"/>
 				<GameParameter Id="3922087662" Name="AVS_RED_Volume_Wave2"/>
 				<GameParameter Id="3922087663" Name="AVS_RED_Volume_Wave3"/>
+				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
 				<GameParameter Id="4221340217" Name="AVS_GREEN_Volume_Wave1"/>
 				<GameParameter Id="4221340218" Name="AVS_GREEN_Volume_Wave2"/>
 				<GameParameter Id="4221340219" Name="AVS_GREEN_Volume_Wave3"/>
@@ -9431,5 +9363,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{CEDFB98D-6CD4-A967-7F35-0CCB5B08464B}</FileHash>
+	<FileHash>{C42B815F-5C32-DFF0-422C-3465FFC8A721}</FileHash>
 </SoundBanksInfo>
