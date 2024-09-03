@@ -42,6 +42,18 @@ public class LightControl : MonoBehaviour
     public Color breathWaveColor = new Color(0.0f, 0.0f, 0.0f);
     
 
+    void Awake()
+    {
+        //INITIALIZE COLORS
+        if(developmentMode.developmentPlayground)
+        {
+            //SetColorWorldByType("Red", 0.0f);
+        }
+        else
+        {
+            SetColorWorldByType("Dark", 0.0f);
+        }
+    }
     void Start()
     {
         rtpcID = AkSoundEngine.GetIDFromString("AVS_Modulation_Frequency_Wave1");
@@ -132,16 +144,6 @@ public class LightControl : MonoBehaviour
         cycleBlue = UnityEngine.Random.Range(0, 3);
         cycleWhite = UnityEngine.Random.Range(0, 3);
 
-        //INITIALIZE COLORS
-        if(developmentMode.developmentMode)
-        {
-            SetColorWorldByType("Red", 0.0f);
-        }
-        else
-        {
-            SetColorWorldByType("Dark", 0.0f);
-        }
-        //=================================================
     }
 
     public struct Color
