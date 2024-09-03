@@ -45,11 +45,15 @@ public class LightControl : MonoBehaviour
     void Awake()
     {
         //INITIALIZE COLORS
-        if(developmentMode.developmentPlayground)
+        if(developmentMode.configureMode)
+        {
+            SetColorWorldByType("White", 0.0f);
+            SetStrobeRate(8f, 0.0f);
+        }
+        else if(developmentMode.developmentPlayground)
         {
             //SetColorWorldByType("Red", 0.0f);
-        }
-        else
+        }else
         {
             SetColorWorldByType("Dark", 0.0f);
         }
@@ -490,9 +494,14 @@ public class LightControl : MonoBehaviour
     }
     public void Wwise_Strobe_ToneDisplay (float _input)
     {
+        float _input2 = _input;
+        if(developmentMode.configureMode)
+        {
+            _input2 = 1.0f;
+        }
         float _m2 = Mathf.Max(Mathf.Min(_gammaBurstMode, 1.0f), 0.0f);
         float _m1 = 1.0f - _m2;
-        float _i = Mathf.Max(Mathf.Min(_input, 1.0f), 0.0f);
+        float _i = Mathf.Max(Mathf.Min(_input2, 1.0f), 0.0f);
         float _strobe1Depth       = (44.0f + 56.0f * _i);
         float _strobe1            = (45.0f + (((_m1*55.0f)-(_m2*45.0f)) * _i)); //gamma bursts make this go down, otherwise up 
         float _strobe2            = _m2 * ((70.0f * _i) + (30.0f * Mathf.Min((_i * 2), 1)));//there's a little boost at the bottom end because that works best with the glasses.
@@ -506,11 +515,17 @@ public class LightControl : MonoBehaviour
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave1", _strobe1Depth, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1", _strobe1, gameObject);
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave2", _strobe2, gameObject);
+        
     }
 
     public void Wwise_Strobe_ChargeDisplay (float _input) //RENAME THIS TO JUST BE WWISE_CHARGE
     {
-        float _i = Mathf.Max(Mathf.Min(_input, 1.0f), 0.0f);
+        float _input2 = _input;
+        if(developmentMode.configureMode)
+        {
+            _input2 = 0.75f;
+        }
+        float _i = Mathf.Max(Mathf.Min(_input2, 1.0f), 0.0f);
         float _strobe1Smoothing = 100.0f - _i*100.0f;
         float _strobePWM = 25.0f + 50.0f * _i;
 
@@ -528,6 +543,11 @@ public class LightControl : MonoBehaviour
 
     public void Wwise_BreathDisplay (float _input)
     {
+        float _input2 = _input;
+        if(developmentMode.configureMode)
+        {
+            _input2 = 0.0f;
+        }
         float _i = Mathf.Max(Mathf.Min(_input, 1.0f), 0.0f);
         float _waveValue = 0.0f + 100.0f * _i;
 

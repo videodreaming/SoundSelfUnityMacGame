@@ -65,7 +65,10 @@ public class Sequencer : MonoBehaviour
         //finalStagePreLogicTime = 15f; 
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
-        CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
+        if(!developmentMode.configureMode)
+        {
+            CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
+        }
         //Uncomment when CSV Writer is implemented
         /*if(csvWriter.GameMode == "Preperation")
         {
@@ -90,7 +93,7 @@ public class Sequencer : MonoBehaviour
         //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
         
 
-        musicSystem1.fundamentalNote = 9;
+        //musicSystem1.fundamentalNote = 9; //using LockToC() from VOManager
         musicSystem1.SetMusicModeTo("InteractiveMusicSystem");
         //AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
         //AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);

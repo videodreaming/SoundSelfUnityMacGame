@@ -7981,8 +7981,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc54582afe4ef1941b94bcaed0fdae61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentPlayground: 1
+  developmentPlayground: 0
   developmentMode: 1
+  configureMode: 0
 --- !u!4 &538272587
 Transform:
   m_ObjectHideFlags: 0
