@@ -119,6 +119,23 @@ public class MusicSystem1 : MonoBehaviour
             HarmonyUpdate();
         }
 
+        //LOCK THE NOTE TO C WHEN THE C BUTTON IS PRESSED DOWN.
+        //UNLOCK IT WHEN THE C BUTTON IS RELEASED.
+        //THIS IS FOR DEVELOPMENT PURPOSES ONLY.
+        if(developmentMode.developmentMode)
+        {
+            if(Input.GetKeyDown(KeyCode.C))
+            {
+                _queueFundamentalChangeThreshold = 5.0f;
+                _initiateImminentFundamentalChangeThreshold = 10.0f;
+                LockToC(true);
+            }
+            if(Input.GetKeyUp(KeyCode.C))
+            {
+                LockToC(false);
+            }
+        }
+
         ThumpUpdate();
         MusicModeUpdate(); 
     }
