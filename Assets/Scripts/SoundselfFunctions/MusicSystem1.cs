@@ -12,7 +12,7 @@ public class MusicSystem1 : MonoBehaviour
     public WwiseVOManager wwiseVOManager;
     public Director director;
     public RespirationTracker respirationTracker;
-    private bool debugAllowLogs = false;
+    private bool debugAllowLogs = true;
 
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private Dictionary<int, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, bool, float)>();
@@ -275,6 +275,7 @@ public class MusicSystem1 : MonoBehaviour
             {
                 currentSequenceIndex = random.Next(sequences.Count);
                 currentHarmonyIndex = 0;
+                Debug.Log("MUSIC: New Harmony Sequence Selected:" + currentSequenceIndex);
             }
 
             //Now play the tone
@@ -463,14 +464,6 @@ public class MusicSystem1 : MonoBehaviour
     {       
         if(interactive == true)
         {
-            //if(wwiseVOManagerForPlayGround.silentPlaying == false)
-            //{
-                // silentrtpcvolume.SetGlobalValue(targetValue);
-                // toningrtpcvolume.SetGlobalValue(targetValue);
-                // AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-                // AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-                // silentPlaying = true;
-            //}
             
             bool currentToneActiveConfident = imitoneVoiceInterpreter.toneActiveConfident;
             if(currentToneActiveConfident && !previousToneActiveConfident)
@@ -661,6 +654,7 @@ public class MusicSystem1 : MonoBehaviour
     // Reef: LGTM! 
     private void PostTheToningEvents()
     {
+        Debug.Log("MUSIC: Post Toning Events to Wwise");
         AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
         AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
     }
@@ -671,10 +665,10 @@ public class MusicSystem1 : MonoBehaviour
         Debug.Log("MUSIC: Harmony Note Set To: " + harmonyNote);
     }
 
-   //THIS IS PROBABLY NOT USED ANY MORE IN THE ACTUAL GAME...
+   //THIS IS PROBABLY NOT USED ANY MORE IN THE ACTUAL GAME. LET'S KEEP IT COMMENTED.
     public void ChangeSwitchState()
     {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
+        //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
     }
 
 

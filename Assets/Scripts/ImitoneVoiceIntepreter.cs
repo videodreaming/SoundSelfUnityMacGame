@@ -50,7 +50,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float negativeActiveThreshold1 {get; private set;}  = 0.1f; //for toneActive
     public float negativeActiveThreshold2 {get; private set;}  = 0.33f; //for toneActiveConfident
     public float _activeThreshold3 {get; private set;}  = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
-    public float _activeThreshold4 {get; private set;}  = 8.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
+    public float _activeThreshold4 {get; private set;}  = 7.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     private float imitoneActiveTimer = 0f;
     public float imitoneInactiveTimer = 0f;
     private float imitoneConfidentActiveTimer = 0.0f;
@@ -599,16 +599,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 toneActiveBiasTrue = true;
                 toneActiveBiasTrueTimer += Time.deltaTime;
                 AkSoundEngine.SetSwitch("ToneActive","Toning",gameObject);
-
-                if(!toneActiveBiasTrueFrameFlag)
-                {
-                    toneActiveBiasTrueFrame = true;
-                    toneActiveBiasTrueFrameFlag = true;
-                }
-                else
-                {
-                    toneActiveBiasTrueFrame = false;
-                }
             }
             if(imitoneActiveTimer >= positiveActiveThreshold2) 
             {
@@ -635,8 +625,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     toneActiveConfident = false;
                     toneActiveBiasTrue = false;
                     toneActiveBiasTrueTimer = 0f;
-                    toneActiveBiasTrueFrame = false;
-                    toneActiveBiasTrueFrameFlag = false;
                 }
             }
         }
@@ -706,6 +694,25 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 toneActiveVeryConfident = false;
                 EndBreathVolumesOnNextTone();
             }
+        }
+
+        if (toneActiveBiasTrue)
+        {
+            if(!toneActiveBiasTrueFrameFlag)
+            {
+                Debug.Log("Tone Active Bias True Frame");
+                toneActiveBiasTrueFrame = true;
+                toneActiveBiasTrueFrameFlag = true;
+            }
+            else
+            {
+                toneActiveBiasTrueFrame = false;
+            }
+        }
+        else
+        {
+            toneActiveBiasTrueFrame = false;
+            toneActiveBiasTrueFrameFlag = false;
         }
 
         if(toneActiveConfident)
