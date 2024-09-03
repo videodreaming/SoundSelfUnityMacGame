@@ -21,14 +21,12 @@ public class WwiseVOManager : MonoBehaviour
     public MusicSystem1 musicSystem1;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     //public MusicSystem1 musicSystem1;
-    public RTPC silentrtpcvolume;
-    public RTPC toningrtpcvolume;
-    public RTPC silentFundamentalrtpcvolume;
-    public RTPC toningFundamentalrtpcvolume;
-    public RTPC silentHarmonyrtpcvolume;
-    public RTPC toningHarmonyrtpcvolume;
-    public float fadeDuration = 54.0f;
-    public float targetValue = 80.0f;
+    //public RTPC silentFundamentalrtpcvolume;
+    //public RTPC toningFundamentalrtpcvolume;
+    //public RTPC silentHarmonyrtpcvolume;
+    //public RTPC toningHarmonyrtpcvolume;
+    //public float fadeDuration = 54.0f;
+    //public float targetValue = 80.0f;
     private bool debugAllowMusicLogs = true;
     private bool pause = true;
     public bool firstTimeUser = true;
@@ -37,16 +35,11 @@ public class WwiseVOManager : MonoBehaviour
     public CSVWriter csvWriter;
 
     //private bool silentPlaying = false;
-    private bool previousToneActiveConfident = false;
-
 
     void Start()
     {
+        //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS
         
-        if(developmentMode.developmentPlayground)
-        {
-            InteractiveMusicInitializations();
-        }
         if(userObject != null)
         {
             userAudioSource = userObject.GetComponent<AudioSource>();
@@ -55,26 +48,28 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
         AkSoundEngine.SetSwitch("VO_ThematicContent","Peace", gameObject);
         assignVOs();
-        if(firstTimeUser)
+        
+        if(developmentMode.developmentPlayground)
         {
-            //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
-            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
-            AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
-        } else {
-            //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+            musicSystem1.InteractiveMusicInitializations();
+            musicSystem1.LockToC(false);
+            InitializeLights();
         }
-
-        //NOTE FROM ROBIN ABOUT WWISE CUE HANDLING FUNCTIONALITY:
-        //THIS IS WEIRD BEHAVIOR BUT IT WORKS AND HONESTLY I CAN'T MAKE SENSE OF IT
-        //BUT WE ARE TAKING IT AS A BLESSING.
-        //
-        //BASICALLY, AS SOON AS WE RUN THE POSTEVENT THAT TAKES OPENINGCALLBACKFUNCTION AS A PARAMETER
-        //WWISE SEEMS TO SEND CUES TO UNITY USING THE OPENINGCALLBACKFUNCITON
-        //
-        //FOR THIS REASON, WE THINK WE NEED TO BE CAUTIOUS ABOUT GAMEOBJECTS REFERENCED IN THE
-        //AKSOUNDENGINE FUNCTIONS. WE THINK THEY ALL HAVE TO BE CALLED FROM THE SAME GAMEOBJECT
-        //I.E. THE SAME SCRIPT
-        //
+        if(!developmentMode.developmentPlayground)
+        {
+            musicSystem1.LockToC(true);
+            if(firstTimeUser)
+            {
+                //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
+                AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
+            } else {
+                //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+            }
+        }
+        //NOTE ABOUT WWISE:
+        //THE GAMEOBJECT POINTS TO *THIS* GAMEOBJECT. SO WE CAN'T START
+        //IT FROM ONE GAMEOBJECT AND THEN STOP IT FROM ANOTHER. IT HAS TO BE THE SAME GAMEOBJECT
     }
 
     void Update()
@@ -105,10 +100,6 @@ public class WwiseVOManager : MonoBehaviour
                 }
             } 
 
-    }
-    private void breathInBehaviour()
-    {
-        //AVS + Audio stuff here
     }
     public void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {
@@ -184,8 +175,7 @@ public class WwiseVOManager : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum1_Start")
                 {
                     Debug.Log("WWise_VO: Cue_LinearHum1_Start");
-                    lightControl.SetPreferredColor("Red");
-                    lightControl.NextColorWorld(5.0f);
+                    InitializeLights();
                 } else if (musicSyncInfo.userCueName == "Cue_LinearHum2_Start")
                 {
                     Debug.Log("WWise_VO: Cue_LinearHum2_Start");
@@ -194,56 +184,26 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("WWise_VO: Cue_LinearHum3_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
-                    InteractiveMusicInitializations();
+                    musicSystem1.InteractiveMusicInitializations();
                 } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
                 {
                     Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
                 {
                     Debug.Log("WWise_VO: Cue_Opening_Start");
-                }
+                } //else if (musicSyncInfo.userCueName == "Cue_FreePlay")
+                //{
+                //    Debug.Log("WWise_VO: Cue_FreePlay");
+                //    musicSystem1.LockToC(false);
+                //}
             }   
     }
-    
-    private void InteractiveMusicInitializations()
+
+    private void InitializeLights()
     {
-        Debug.Log("InteractiveMusicSystemFade is running");
-        musicSystem1.SetMusicModeTo("InteractiveMusicSystem");
-        if(developmentMode.developmentPlayground)
-        {
-            silentrtpcvolume.SetGlobalValue(80.0f);
-            toningrtpcvolume.SetGlobalValue(80.0f);
-        }
-
-        else if(developmentMode.developmentPlayground==false)
-        {
-            StartCoroutine(InteractiveMusicSystemFade());
-        }
-
-        musicSystem1.interactive = true;
-        AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-        AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-        AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);
-    }
-
-    private IEnumerator InteractiveMusicSystemFade()
-    {
-
-        //NOTE: this can be cleaned up by using the RTPC's transition time in ms, which Robin uses all the time (see lightControl)
-        float initialValue = 0.0f;
-        float startTime = Time.time;
-
-        while(Time.time - startTime <fadeDuration)
-        {
-            float elapsed = (Time.time - startTime)/fadeDuration;
-            float currentValue = Mathf.Lerp(initialValue, targetValue, elapsed);
-            silentrtpcvolume.SetGlobalValue(currentValue);
-            toningrtpcvolume.SetGlobalValue(currentValue);
-            yield return null;
-        }
-        silentrtpcvolume.SetGlobalValue(targetValue);
-        toningrtpcvolume.SetGlobalValue(targetValue);
-        yield break;
+        Debug.Log("WWise_VO: InitializeLights");
+        lightControl.SetPreferredColor("Red");
+        lightControl.NextColorWorld(5.0f);
     }
     
     private float GetRTPCValue(RTPC rtpc)
@@ -254,7 +214,6 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out value, ref valueType);
         return value;
     }
-    
     
     void assignVOs()
     {
@@ -317,8 +276,10 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject);
     }
 
-
-
+    private void breathInBehaviour()
+    {
+        //AVS + Audio stuff here
+    }
         
     IEnumerator StartSighElicitationTimer()
         {

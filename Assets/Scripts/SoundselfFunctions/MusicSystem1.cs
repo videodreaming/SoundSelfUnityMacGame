@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using AK.Wwise;
 
 
 public class MusicSystem1 : MonoBehaviour
 {
+    public DevelopmentMode developmentMode;
     public WwiseVOManager wwiseVOManager;
     public Director director;
     public RespirationTracker respirationTracker;
     private bool debugAllowLogs = false;
-    // Variables
-    public bool allowFundamentalChange = true;
-    public bool enableMusicSystem = true;
+
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private Dictionary<int, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, bool, float)>();
     // Tracks information for each musical note:
@@ -61,52 +61,25 @@ public class MusicSystem1 : MonoBehaviour
 
     //REFACTORED FROM SEQUENCER and WWISEVOMANAGER
     
-    public bool CFundamentalGHarmonyLock = false;
+    //public int holdFundamentalNote = -1; //when -1, do not hold the fundamental note.
+    //private int holdFundamentalNoteCompare;
+    public bool lockFundamental = false;
     private bool thisTonesImpactPlayed = false;
     
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
     public bool interactive = false;
-    public string currentSwitchState = "B";
+    public string currentSwitchState = "C";
+
+    //PLAYBACK AND INITIALIZATION
+    public RTPC silentrtpcvolume;
+    public RTPC toningrtpcvolume;
+    private float rtpcFadeDuration = 54.0f;
+    private float rtpcTargetValue = 80.0f;
+    private bool environmentFlag = false;
+    private bool interactiveFlag = false;
     
-    //REFACTORED FROM SEQUENCER... CAN THIS BE DELETED?
-    public string currentToningState = "None";
-
-
-    //REFACTORED FROM PITCHMUSICSYSTEM
-    // Define a list of tuples representing note ranges and corresponding note names
-    private List<(float minFreq, float maxFreq, string noteName)> noteRanges = new List<(float, float, string)>()
-    {
-        //NOTE THAT AN ALTERNATIVE LIST WAS COMMENTED OUT. I DELETED IT HERE, BUT IT CAN STILL BE FOUND AT PITCHMUSICSYSTEM.CS
-
-        (107.5f, 112.5f, "A2"),
-        (116.5f, 136.5f, "A#2/Bb2"),
-        (120.97f, 125.97f, "B2"),
-        (128.31f,133.31f, "C3"),
-        (138.6f, 158.6f, "C#3/Db3"),
-        (144.33f, 149.333f, "D3"),
-        (155.6f, 175.6f, "D#3/Eb3"),
-        (162.31f,167.31f, "E3"),
-        (172.11f,177.11f, "F3"),
-        (185f, 205f, "F#3/Gb3"),
-        (193.5f,198.5f, "G3"),
-        (207.7f, 227.7f, "G#3/Ab3"),
-        (217.5f, 222.5f, "A3"),
-        (233.1f, 253.1f, "A#3/Bb3"),
-        (244.44f,249.44f, "B3"),
-        (259.13f,264.13f, "C4"),
-        (277.2f, 297.2f, "C#4/Db4"),
-        (291.16f, 296.16f, "D4"),
-        (311.1f, 331.1f, "D#4/Eb4"),
-        (327.13f,332.13f, "E4"),
-        (346.73f, 351.73f, "F4"),
-        (370f, 390f, "F#4/Gb4"),
-        (387.5f, 394.5f, "G4"), 
-        (415.3f, 435.3f, "G#4/Ab4"),
-        (437.5f, 442.5f, "A4"),
-        (466.2f, 486.2f, "A#4/Bb4"),
-        (491.38f, 496.38f, "B4"),
-        (520.75f, 525.75f, "C5"),
-    };
+    //REEF - REFACTORED FROM SEQUENCER... CAN THIS BE DELETED?
+    //public string currentToningState = "None";
 
     void Start()
     {
@@ -138,9 +111,7 @@ public class MusicSystem1 : MonoBehaviour
 
     void Update()
     {
-        if(enableMusicSystem) //REEF - should enableMusicSystem just be wwiseVOManagerForPlayGround.interactive.
-        //Reef: It should be wwiseVOManager.interactive, i was using this to test the music system internally
-        //so that I could have control independantly, we can switch this over to wwiseVOManager.interactive when we are ready to test it in the game.
+        if(interactive) 
         { 
             InterpretImitone();
             BasicToning();
@@ -156,11 +127,24 @@ public class MusicSystem1 : MonoBehaviour
     private void FundamentalUpdate()
     {
         var updates = new Dictionary<int, (float, bool, bool, float)>();
+        List<float> fundamentalTimerValues = new List<float>();
+        float highestFundamentalTimer = 0;
+
         if(imitoneVoiceInterpreter.imitoneActive)
         {
+            //first get the highest fundamental timer at the start, for later comparison.
             foreach (var scaleNote in NoteTracker)
             {
-                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
+                fundamentalTimerValues.Add(scaleNote.Value.ChangeFundamentalTimer);
+                if (scaleNote.Value.ChangeFundamentalTimer > highestFundamentalTimer)
+                {
+                    highestFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
+                }
+            }
+
+            foreach (var scaleNote in NoteTracker)
+            {
+                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;         
 
                 if(scaleNote.Value.Active)
                 {
@@ -168,47 +152,53 @@ public class MusicSystem1 : MonoBehaviour
                     if (scaleNote.Key != fundamentalNote)
                     {
                         newChangeFundamentalTimer += Time.deltaTime;
-
-                        if (scaleNote.Value.FirstFrameActive)
+                        
+                        if(scaleNote.Value.FirstFrameActive)
                         {
-                            bool checkForNewTone = imitoneVoiceInterpreter._tThisToneBiasTrue < 2.0f;
-                            bool checkForThreshold1 = newChangeFundamentalTimer >= _queueFundamentalChangeThreshold; 
-                            bool checkForThreshold2 = newChangeFundamentalTimer >= _initiateImminentFundamentalChangeThreshold; 
-                            
-                            if(debugAllowLogs)
-                            {
-                                Debug.Log("MUSIC 5: Change Fundamental Timer for " + ConvertIntToNote(scaleNote.Key) + ": " + newChangeFundamentalTimer);
-                                Debug.Log("MUSIC 5: checkForNewTone: " + checkForNewTone + " checkForThreshold1: " + checkForThreshold1 + " checkForThreshold2: " + checkForThreshold2);
-                            }
+                            //Test if we are the highest timer.
+                            bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
 
-                            
-                            if(checkForNewTone)
+                            if (!lockFundamental && isHighestFundamentalTimer)
                             {
-                                //perform the transition immediately if we pass the higher queue
-                                if (checkForThreshold2)
+                                bool checkForNewTone = imitoneVoiceInterpreter._tThisToneBiasTrue < 2.0f;
+                                bool checkForThreshold1 = newChangeFundamentalTimer >= _queueFundamentalChangeThreshold; 
+                                bool checkForThreshold2 = newChangeFundamentalTimer >= _initiateImminentFundamentalChangeThreshold; 
+                                
+                                if(debugAllowLogs)
                                 {
-                                    director.ClearQueueOfType("fundamentalChange");
-                                    director.AddActionToQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 0f, true, 2);
-                                    director.ActivateQueue(5.0f);
-
+                                    Debug.Log("MUSIC 5: Change Fundamental Timer for " + ConvertIntToNote(scaleNote.Key) + ": " + newChangeFundamentalTimer);
+                                    Debug.Log("MUSIC 5: checkForNewTone: " + checkForNewTone + " checkForThreshold1: " + checkForThreshold1 + " checkForThreshold2: " + checkForThreshold2);
                                 }
-                                //otherwise, add the action to the director queue and wait patiently, as long as there isn't already one there.
-                                else if (checkForThreshold1)
-                                {                    
-                                    if (!director.SearchQueueForType("fundamentalChange"))
+
+                                
+                                if(checkForNewTone)
+                                {
+                                    //perform the transition immediately if we pass the higher queue
+                                    if (checkForThreshold2)
                                     {
-                                        
-                                        if(debugAllowLogs)
-                                        {
-                                            Debug.Log("Adding fundamental change to director queue for " + ConvertIntToNote(scaleNote.Key));
-                                        }
-                                        director.AddActionToQueue(Action_ChangeFundamentalNow(scaleNote.Key), "fundamentalChange", true, false, 45f, true, 1);
+                                        director.ClearQueueOfType("fundamentalChange");
+                                        director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 0f, true, 2);
+                                        director.ActivateQueue(5.0f);
+
                                     }
-                                    else
-                                    {
-                                        if(debugAllowLogs)
+                                    //otherwise, add the action to the director queue and wait patiently, as long as there isn't already one there.
+                                    else if (checkForThreshold1)
+                                    {                    
+                                        if (!director.SearchQueueForType("fundamentalChange"))
                                         {
-                                            Debug.Log("Attempted but failed to add fundamental change to director queue, because one is already there.");
+                                            
+                                            if(debugAllowLogs)
+                                            {
+                                                Debug.Log("MUSIC: Adding fundamental change to director queue for " + ConvertIntToNote(scaleNote.Key));
+                                            }
+                                            director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 45f, true, 1);
+                                        }
+                                        else
+                                        {
+                                            if(debugAllowLogs)
+                                            {
+                                                Debug.Log("MUSIC: Attempted but failed to add fundamental change to director queue, because one is already there.");
+                                            }
                                         }
                                     }
                                 }
@@ -268,8 +258,6 @@ public class MusicSystem1 : MonoBehaviour
             }
             fundamentalTimeSinceLastTrigger = 0f;
         }
-
-
     }
     private void HarmonyUpdate()
     {
@@ -291,19 +279,62 @@ public class MusicSystem1 : MonoBehaviour
 
             //Now play the tone
                             
-            if(CFundamentalGHarmonyLock == false)
+            harmonyNote = (fundamentalNote + harmonization) % 12;
+            changeHarmony(ConvertIntToNote(harmonyNote)); 
+            if (debugAllowLogs)
             {
-                harmonyNote = (fundamentalNote + harmonization) % 12;
-                changeHarmony(ConvertIntToNote(harmonyNote)); 
-                if (debugAllowLogs)
-                {
-                    Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
-                }
+                Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
             }
-            
         }
     }
 
+    public void InteractiveMusicInitializations()
+    {
+        if(!interactive)
+        {
+            Debug.Log("MUSIC: InteractiveMusicSystemFade is running");
+            SetMusicModeTo("InteractiveMusicSystem");
+            if(developmentMode.developmentPlayground)
+            {
+                //instant on for development
+                silentrtpcvolume.SetGlobalValue(80.0f);
+                toningrtpcvolume.SetGlobalValue(80.0f);
+            }
+            else
+            {
+                StartCoroutine(InteractiveMusicSystemFade());
+            }
+
+            interactive = true;
+            AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+            AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+            AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("MUSIC: InteractiveMusicSystemFade is already running");
+        }
+    }
+
+    private IEnumerator InteractiveMusicSystemFade()
+    {
+        //NOTE: this can be cleaned up by using the RTPC's transition time in ms, which Robin uses all the time (see lightControl)
+        float initialValue = 0.0f;
+        float startTime = Time.time;
+
+        while(Time.time - startTime < rtpcFadeDuration)
+        {
+            float elapsed = (Time.time - startTime) / rtpcFadeDuration;
+            float currentValue = Mathf.Lerp(initialValue, rtpcTargetValue, elapsed);
+            silentrtpcvolume.SetGlobalValue(currentValue);
+            toningrtpcvolume.SetGlobalValue(currentValue);
+            yield return null;
+        }
+        silentrtpcvolume.SetGlobalValue(rtpcTargetValue);
+        toningrtpcvolume.SetGlobalValue(rtpcTargetValue);
+        yield break;
+    }
+    
     private void ThumpUpdate () //REEF - CHECK AKSOUNDENGINE IS CORRECT 
     //Reef: LTGM! I'm not sure what you mean by "check AkSoundEngine is correct" but I'm not seeing
     //any issues with the code or methods here.
@@ -317,9 +348,7 @@ public class MusicSystem1 : MonoBehaviour
         {
             if(!thisTonesImpactPlayed)
             {
-                Debug.Log("this tone is now longer than 8s, play impact");
-
-                Debug.Log("impact");
+                Debug.Log("MUSIC: impact");
                 AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
                 thisTonesImpactPlayed = true;   
             }
@@ -330,13 +359,17 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(interactive)
         {
-            if(imitoneVoiceInterpreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
+            if(!environmentFlag && imitoneVoiceInterpreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
             {
+                Debug.Log("MUSIC: Environment Mode");
                 SetMusicModeTo("Environment");
+                environmentFlag = true;
             }
-            else
+            else if (!interactiveFlag)
             {
+                Debug.Log("MUSIC: Interactive Music System Mode");
                 SetMusicModeTo("InteractiveMusicSystem");
+                interactiveFlag = true;
             }
         }
     }
@@ -349,30 +382,66 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            throw new ArgumentException("Invalid music mode. Only 'Environment' and 'InteractiveMusicSystem' are allowed.");
+            throw new ArgumentException("MUSIC: Invalid music mode. Only 'Environment' and 'InteractiveMusicSystem' are allowed.");
         }
     }
 
-    public Action Action_ChangeFundamentalNow(int scaleNoteKey)
+    public Action Action_ChangeFundamental(int scaleNoteKey)
     {
-        return () => ChangeFundamentalNow(scaleNoteKey);
+        return () => ChangeFundamental(scaleNoteKey);
     }
 
-    public void ChangeFundamentalNow(int newFundamental)
+    public void ChangeFundamental(int newFundamental)
     {
+          
         fundamentalNote = newFundamental;
-        if(CFundamentalGHarmonyLock == false && allowFundamentalChange)
-        {
-            userToningToChangeFundamental(ConvertIntToNote(fundamentalNote));
-           
-            if(debugAllowLogs)
-            {
-                Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
-            }
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote), gameObject);
 
+        if(debugAllowLogs)
+        {
+            Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
         }
+
         ResetFundamentalTimers();
     }
+
+    
+    public void LockToC(bool doLock)
+    {
+        if (doLock)
+        {
+            ChangeFundamental(ConvertNoteToInt("C"));
+            lockFundamental = true;
+            Debug.Log("MUSIC: Fundamental Locked to C");
+        }
+        else
+        {
+            lockFundamental = false;
+            //Queue the fundamental change for whichever note has the highest ChangeFundamentalTimer, provided that it is higher than _queueFundamentalChangeThreshold
+            int newFundamental = -1;
+            float highestFundamentalTimer = 0;
+            Debug.Log("MUSIC: Fundamental Unlocked");
+            foreach (var note in NoteTracker)
+            {
+                if (note.Value.ChangeFundamentalTimer > highestFundamentalTimer)
+                {
+                    highestFundamentalTimer = note.Value.ChangeFundamentalTimer;
+                    newFundamental = note.Key;
+                }
+            }
+            if (highestFundamentalTimer >= _queueFundamentalChangeThreshold)
+            {
+                director.ClearQueueOfType("fundamentalChange");
+                director.AddActionToQueue(Action_ChangeFundamental(newFundamental), "fundamentalChange", true, false, 45f, true, 1);
+                ResetFundamentalTimers();
+                Debug.Log("MUSIC: New Fundamental Queued on Unlock: " + ConvertIntToNote(newFundamental));
+            }
+            
+
+        }
+    }
+     
+
 
     private void ResetFundamentalTimers()
     {
@@ -408,7 +477,7 @@ public class MusicSystem1 : MonoBehaviour
             {
                 if(true)
                 {
-                    Debug.Log("Post Toning Events to Wwise");
+                    Debug.Log("MUSIC: Post Toning Events to Wwise");
                 }
 
                 PostTheToningEvents();
@@ -417,7 +486,7 @@ public class MusicSystem1 : MonoBehaviour
             {
                 if(true)
                 {
-                    Debug.Log("Post Toning Events STOP to Wwise");
+                    Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
                 }
                 AkSoundEngine.PostEvent("Stop_Toning",gameObject);
             }
@@ -596,18 +665,13 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
     }
     
-    private void userToningToChangeFundamental(string fundamentalNote)
-    {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", fundamentalNote, gameObject);
-        Debug.Log("Fundamental Note Set To: " + fundamentalNote);
-    }
     private void changeHarmony(string harmonyNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-        Debug.Log("Harmony Note Set To: " + harmonyNote);
+        Debug.Log("MUSIC: Harmony Note Set To: " + harmonyNote);
     }
-     
-   
+
+   //THIS IS PROBABLY NOT USED ANY MORE IN THE ACTUAL GAME...
     public void ChangeSwitchState()
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
@@ -617,18 +681,18 @@ public class MusicSystem1 : MonoBehaviour
     //REFACTOR THE BELOW INTO GLOBAL ENUMS AND METHODS
     public enum NoteName
     {
-        C,
-        Cs,
-        D,
-        Ds,
-        E,
-        F,
-        Fs,
-        G,
-        Gs,
-        A,
-        As,
-        B
+        C,  //0
+        Cs, //1
+        D,  //2
+        Ds, //3
+        E,  //4
+        F,  //5
+        Fs, //6
+        G,  //7
+        Gs, //8
+        A,  //9
+        As, //10
+        B   //11
     }
 
     public string ConvertIntToNote(int noteNumber)
@@ -639,10 +703,27 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.Log(noteNumber);
+            Debug.Log("MUSIC: Invalid note number " + noteNumber);
             throw new ArgumentException("Invalid noteNumber value (MusicSystem1.cs)");
             
         }
+    }
+
+    public int ConvertNoteToInt(string noteName)
+    {
+        //if notename is empty or "none", return -1
+        if (string.IsNullOrEmpty(noteName) || noteName == "none")
+        {
+            return -1;
+        }
+        //if the notename is invalid, return -2 and print a warning
+        if (!Enum.IsDefined(typeof(NoteName), noteName))
+        {
+            Debug.LogWarning("MUSIC: Invalid note name " + noteName);
+            return -2;
+        }
+        //otherwise, return the integer value of the note
+        return (int)Enum.Parse(typeof(NoteName), noteName);
     }
 
   

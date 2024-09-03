@@ -19,8 +19,9 @@ public class Sequencer : MonoBehaviour
     //public float InteractiveMusicSilentLoopsRTPC = 0.0f;
     //public float HarmonySilentVolumeRTPC = 0.0f;
     //public float FundamentalSilentVolumeRTPC = 0.0f;
-    public uint playingId;
-    [SerializeField]
+    
+    //public uint playingId;
+    //[SerializeField]
     //private int currentStage = 0; // Tracks the current stage of the sound world
     public CSVWriter csvWriter;
     // AVS Controls
@@ -56,6 +57,8 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
+        //SOME IMPORTANT STATUP BEHAVIORS ARE IN WWISEVOMANAGER.CS
+
         WakeUpCounter = 2280.0f;
         interactiveMusicExperienceTotalTime = 1245.0f;
         soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
@@ -112,6 +115,7 @@ public class Sequencer : MonoBehaviour
         {
             WakeUpCounter -= Time.deltaTime;
         }
+
         if(WakeUpCounter <= 180f && !flagTriggerEnd)
         {
             CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
@@ -134,7 +138,9 @@ public class Sequencer : MonoBehaviour
         }
     }
 
-    
+    //====================================================================================================
+    //MUSIC PROGRESSION
+    //====================================================================================================
     IEnumerator StartMusicalProgression()
     {
         float _t = WakeUpCounter;
@@ -168,10 +174,8 @@ public class Sequencer : MonoBehaviour
         }
         Debug.Log("Music Progression: Stage 3 Shruti");
         QueueNewWorld("SonoFlore", "Red");
-
-        //SHOULD THE GO DARK LOGIC BE IN HERE OR IN THE AVS STORY?
-
     }
+
 
     //====================================================================================================
     //LIGHT CONTROL

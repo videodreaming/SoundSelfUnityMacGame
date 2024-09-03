@@ -6006,7 +6006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf99e9abf1a84247a2cfd3ac34f3278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequencer: {fileID: 0}
+  musicSystem1: {fileID: 0}
 --- !u!1 &420463981
 GameObject:
   m_ObjectHideFlags: 0
@@ -7393,43 +7393,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
-  sequencer: {fileID: 0}
+  sequencer: {fileID: 1564575221}
   developmentMode: {fileID: 538272586}
   CSVWriter: {fileID: 662335749}
   lightControl: {fileID: 437048159}
   userObject: {fileID: 740096621}
   userAudioSource: {fileID: 740096622}
+  musicSystem1: {fileID: 619104374}
   imitoneVoiceIntepreter: {fileID: 740096625}
-  silentrtpcvolume:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: ac2abccdc6d2bad4085cd679876584cc, type: 2}
-  toningrtpcvolume:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 08d6b5eaea91c384da487f2b2f15dd90, type: 2}
-  silentFundamentalrtpcvolume:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: cc815dd2ed7e9e146adaf04b3aabb137, type: 2}
-  toningFundamentalrtpcvolume:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: bbb93fce22082c74dbfc1956fc40f88d, type: 2}
-  silentHarmonyrtpcvolume:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 08617389800d20f45a0994dab94cdf8c, type: 2}
-  toningHarmonyrtpcvolume:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: bcaabec165f1c124594b1b952bff5aea, type: 2}
-  fadeDuration: 54
-  targetValue: 80
   firstTimeUser: 1
   layingDown: 1
   muteInteraction: 0
-  interactive: 0
   csvWriter: {fileID: 662335749}
 --- !u!114 &486583135
 MonoBehaviour:
@@ -8007,8 +7981,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc54582afe4ef1941b94bcaed0fdae61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentPlayground: 0
-  developmentMode: 0
+  developmentPlayground: 1
+  developmentMode: 1
 --- !u!4 &538272587
 Transform:
   m_ObjectHideFlags: 0
@@ -8372,16 +8346,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a12f047d29ba3a47b11145e10d490f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  developmentMode: {fileID: 538272586}
   wwiseVOManager: {fileID: 486583134}
-  sequencer: {fileID: 0}
   director: {fileID: 1829208165}
   respirationTracker: {fileID: 740096627}
-  allowFundamentalChange: 1
-  enableMusicSystem: 1
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicNoteActivated: 0
   fundamentalNote: 0
   harmonyNote: 0
+  lockFundamental: 0
+  interactive: 0
+  currentSwitchState: C
+  silentrtpcvolume:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  toningrtpcvolume:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
 --- !u!4 &619104375
 Transform:
   m_ObjectHideFlags: 0
@@ -20705,14 +20688,7 @@ MonoBehaviour:
   imitoneVoiceIntepreter: {fileID: 740096625}
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
-  InteractiveMusicSilentLoopsRTPC: 0
-  HarmonySilentVolumeRTPC: 0
-  FundamentalSilentVolumeRTPC: 0
-  playingId: 0
   csvWriter: {fileID: 662335749}
-  CFundamentalGHarmonyLock: 0
-  currentSwitchState: B
-  currentToningState: none
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
@@ -22577,7 +22553,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10aefaebd1d574f0db923665aded62d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequencer: {fileID: 0}
 --- !u!1 &1721812663
 GameObject:
   m_ObjectHideFlags: 0
@@ -25346,10 +25321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceIntepreter: {fileID: 740096625}
-  sequencer: {fileID: 0}
-  wwiseGlobalManager: {fileID: 1229442214}
-  debugKeyBoardIlluminator: {fileID: 1306403868}
-  currentNote: 
+  musicSystem1: {fileID: 0}
 --- !u!4 &1990219739
 Transform:
   m_ObjectHideFlags: 0

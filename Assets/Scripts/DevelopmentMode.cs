@@ -12,6 +12,10 @@ public class DevelopmentMode : MonoBehaviour
         if(developmentMode)
         {
             Debug.Log("AWAKE IN DEVELOPMENT MODE");
+            if(developmentPlayground)
+            {
+                Debug.Log("AWAKE IN PLAYGROUND MODE");
+            }
         }
         else
         {
