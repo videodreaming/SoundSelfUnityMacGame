@@ -24449,6 +24449,13 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{AE6C6AA2-2DB8-4EBE-8512-275558CB2B1A}" ShortID="543728546">
+					<PropertyList>
+						<Property Name="OutputBusHighpass" Type="int16">
+							<ValueList>
+								<Value>11</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -29114,7 +29121,7 @@
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31743,7 +31750,7 @@
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -33313,6 +33320,13 @@
 					</StateInfo>
 				</ActorMixer>
 				<ActorMixer Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{128C7A9D-1145-4CED-A8C2-2065EFDECDBF}" ShortID="16965110">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -33323,6 +33337,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<BlendContainer Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" ShortID="880696158">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -33345,11 +33366,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-1</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -33467,7 +33483,7 @@
 											<PropertyList>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-3</Value>
+														<Value>-2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -33782,7 +33798,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-5</Value>
+																<Value>-6</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -33861,7 +33877,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-4</Value>
+																<Value>-28</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -34817,7 +34833,7 @@
 												<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
 												<CustomState Name="" ID="{5B2C7169-D9F0-4FCC-8788-CBD5F142B3A0}" ShortID="902059177">
 													<PropertyList>
-														<Property Name="Volume" Type="Real64" Value="-85"/>
+														<Property Name="Volume" Type="Real64" Value="-108"/>
 													</PropertyList>
 												</CustomState>
 											</CustomState>
@@ -35161,12 +35177,8 @@
 												<Value>8</Value>
 											</ValueList>
 										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>1</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -36345,6 +36357,39 @@
 										</CustomStateList>
 									</StateInfo>
 									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{2B666E24-7BB9-47B1-B147-B8ABE03C7CB1}" ShortID="863587639">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																<ObjectRef Name="Hall_Large_Dark" ID="{0F6A7D6D-131C-4650-9561-FC05F5C7A37B}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+														<StateInfo>
+															<CustomStateList>
+																<CustomState>
+																	<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+																	<CustomState Name="" ID="{CF7200D2-34E1-40D5-BD2C-EE18331EA187}" ShortID="660136684"/>
+																</CustomState>
+																<CustomState>
+																	<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+																	<CustomState Name="" ID="{33824286-66D9-456B-8942-09AF47E36A0E}" ShortID="783433334"/>
+																</CustomState>
+																<CustomState>
+																	<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+																	<CustomState Name="" ID="{16D1FFEE-D278-432E-A002-BC78C2057EFA}" ShortID="817413676"/>
+																</CustomState>
+																<CustomState>
+																	<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+																	<CustomState Name="" ID="{29FD1954-411A-477D-805C-0B4ECBF30BFF}" ShortID="620853925"/>
+																</CustomState>
+															</CustomStateList>
+														</StateInfo>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
 										<ObjectList Name="RTPC">
 											<Reference>
 												<Local>
@@ -36732,7 +36777,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>34</Value>
+																<Value>6</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -36835,7 +36880,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-2</Value>
+																<Value>-16</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -37007,7 +37052,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>27</Value>
+																<Value>2</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -37101,7 +37146,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>20</Value>
+																<Value>10</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -37369,11 +37414,6 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>30</Value>
-															</ValueList>
-														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -37381,7 +37421,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-2</Value>
+																<Value>-11</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -37474,7 +37514,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>39</Value>
+																<Value>12</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -37558,7 +37598,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>36</Value>
+																<Value>4</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -37656,7 +37696,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>39</Value>
+																<Value>8</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -37666,7 +37706,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-2</Value>
+																<Value>-11</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -37740,7 +37780,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>36</Value>
+																<Value>8</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -37838,7 +37878,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>34</Value>
+																<Value>10</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -37936,7 +37976,7 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>30</Value>
+																<Value>15</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Volume" Type="Real64">
@@ -38015,7 +38055,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>19</Value>
+																<Value>18</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -38111,6 +38151,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_shadow" ID="{9C2C7260-9A02-4DFA-B96B-47E6AA2B4631}" ShortID="247753106">
 													<PropertyList>
+														<Property Name="Inclusion" Type="bool">
+															<ValueList>
+																<Value>False</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -38197,17 +38242,12 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>30</Value>
+																<Value>8</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Volume" Type="Real64">
-															<ValueList>
-																<Value>-2</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -38300,7 +38340,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>27</Value>
+																<Value>3</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -38750,6 +38790,7 @@
 												<Value>15</Value>
 											</ValueList>
 										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 									</PropertyList>
 									<ReferenceList>
@@ -38791,9 +38832,9 @@
 																<Value>1</Value>
 															</ValueList>
 														</Property>
-														<Property Name="Lowpass" Type="int16">
+														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>61</Value>
+																<Value>-1</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -38890,7 +38931,7 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>33</Value>
+																<Value>17</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -38982,7 +39023,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>54</Value>
+																<Value>12</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -39079,12 +39120,17 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>58</Value>
+																<Value>14</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>5</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -39178,11 +39224,6 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
-															</ValueList>
-														</Property>
-														<Property Name="Lowpass" Type="int16">
-															<ValueList>
-																<Value>42</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -39284,7 +39325,7 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>33</Value>
+																<Value>16</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -39381,7 +39422,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>54</Value>
+																<Value>18</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -39488,7 +39529,7 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>42</Value>
+																<Value>11</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -39595,7 +39636,12 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>61</Value>
+																<Value>8</Value>
+															</ValueList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-1</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -39697,7 +39743,7 @@
 														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>33</Value>
+																<Value>13</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -39794,7 +39840,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>54</Value>
+																<Value>13</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -39896,7 +39942,7 @@
 													<PropertyList>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
-																<Value>54</Value>
+																<Value>13</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -40015,6 +40061,39 @@
 										</CustomStateList>
 									</StateInfo>
 									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{CFADE61E-BD52-4914-B7A7-B98AE80A8472}" ShortID="730310812">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+																<ObjectRef Name="Hall_Large_Bright" ID="{CB602948-2D1D-4977-A8D5-378184293E80}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+														<StateInfo>
+															<CustomStateList>
+																<CustomState>
+																	<StateRef Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
+																	<CustomState Name="" ID="{5B832E45-D0BC-4B55-92B8-E4F8B387D5D4}" ShortID="611679117"/>
+																</CustomState>
+																<CustomState>
+																	<StateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+																	<CustomState Name="" ID="{EEB8F28C-97E1-45E1-8D75-CA082F607EBD}" ShortID="87359547"/>
+																</CustomState>
+																<CustomState>
+																	<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+																	<CustomState Name="" ID="{3B0124C9-D8F1-46BA-8D2B-F4FACC2CDA01}" ShortID="432871847"/>
+																</CustomState>
+																<CustomState>
+																	<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+																	<CustomState Name="" ID="{2B4F060F-E4DC-4433-8F04-EEE3A69659C1}" ShortID="811573612"/>
+																</CustomState>
+															</CustomStateList>
+														</StateInfo>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
 										<ObjectList Name="RTPC">
 											<Reference>
 												<Local>

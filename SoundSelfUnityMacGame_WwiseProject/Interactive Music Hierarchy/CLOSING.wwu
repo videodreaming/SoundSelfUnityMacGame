@@ -646,12 +646,12 @@
 								<Property Name="EndPosition" Type="Real64" Value="290579.041666667"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>26</Value>
+										<Value>11</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -742,12 +742,12 @@
 								<Property Name="EndPosition" Type="Real64" Value="228813.208333333"/>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>26</Value>
+										<Value>16</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -838,11 +838,6 @@
 				<MusicSegment Name="THEMATIC SAVASANA MUSIC" ID="{4F892BE2-11F6-4BE3-9124-6DFE970D4D32}" ShortID="195375706">
 					<PropertyList>
 						<Property Name="EndPosition" Type="Real64" Value="406875"/>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>-1</Value>
-							</ValueList>
-						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -2419,7 +2414,6 @@
 							<Reference>
 								<Local>
 									<MultiSwitchEntry Name="" ID="{B0B87DB7-43D3-4AB7-80EE-B1E1110C91BE}">
-										<ReferenceList/>
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
@@ -2580,6 +2574,11 @@
 				<MusicSegment Name="VO_WakeUp&amp;EndSoon" ID="{B42684B8-82A1-4965-A680-EE5418F465DC}" ShortID="291995682">
 					<PropertyList>
 						<Property Name="EndPosition" Type="Real64" Value="134236.816038661"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">

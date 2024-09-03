@@ -441,7 +441,6 @@ namespace AK
         static const AkUniqueID INTERACTIVEMUSIC_BUS_VOLUME = 609474916U;
         static const AkUniqueID LINEARMUSIC_VOLUME = 2590911748U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
-        static const AkUniqueID NEW_GAME_PARAMETER = 3671138082U;
         static const AkUniqueID SFX_BUS_VOLUME = 1050949862U;
         static const AkUniqueID SILENT_VOLUME = 3070055575U;
         static const AkUniqueID TONING_PLAYER_VOLUME = 2438365033U;
