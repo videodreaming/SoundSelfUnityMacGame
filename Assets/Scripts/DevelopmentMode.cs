@@ -6,6 +6,7 @@ public class DevelopmentMode : MonoBehaviour
 {
     public bool developmentPlayground = false;
     public bool developmentMode = false;
+    public bool configureMode = false; //not actually a development mode, used for configuring light and sound.
 
     void Awake()
     {

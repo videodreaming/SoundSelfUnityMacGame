@@ -191,11 +191,11 @@ public class WwiseVOManager : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
                 {
                     Debug.Log("WWise_VO: Cue_Opening_Start");
-                } //else if (musicSyncInfo.userCueName == "Cue_FreePlay")
-                //{
-                //    Debug.Log("WWise_VO: Cue_FreePlay");
-                //    musicSystem1.LockToC(false);
-                //}
+                } else if (musicSyncInfo.userCueName == "Cue_FreePlay")
+                {
+                    Debug.Log("WWise_VO: Cue_FreePlay");
+                    musicSystem1.LockToC(false);
+                }
             }   
     }
 
