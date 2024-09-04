@@ -36,9 +36,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
     [Tooltip("Toning With False Positive Logic")]
     public bool toneActive { get; private set; } = false;   
+    public int toneActiveCounter { get; private set; } = 0;
     public bool toneActiveRaw { get; private set; } = false;
     public bool toneActiveFrame { get; private set; } = false;
     public bool toneActiveConfident { get; private set; } = false;
+    public bool toneActiveConfidentFrame { get; private set; } = false;
+    public int toneActiveConfidentCounter { get; private set; } = 0;
     public bool toneActiveBiasTrue { get; private set; } = false;   //combines toneActive & toneActiveConfident
     public float toneActiveBiasTrueTimer { get; private set; } = 0f;
     public bool toneActiveBiasTrueFrame { get; private set; } = false;
@@ -629,6 +632,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             if(!toneActiveFrame)
             {
                 toneActiveFrame = true;
+                toneActiveCounter++;
                 AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
                 Debug.Log("SFX: Stop_Inhales");
             }
@@ -730,7 +734,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         {
             _tThisToneConfident += Time.deltaTime;
             _tThisRestConfident = 0.0f;
-         }
+            if(!toneActiveConfidentFrame)
+            {
+                toneActiveConfidentFrame = true;
+                toneActiveConfidentCounter++;
+            }
+        }
         else
         {
             _tThisToneConfident = 0.0f;

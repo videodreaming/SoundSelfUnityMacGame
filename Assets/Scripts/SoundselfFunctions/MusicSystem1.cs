@@ -12,6 +12,9 @@ public class MusicSystem1 : MonoBehaviour
     public WwiseVOManager wwiseVOManager;
     public Director director;
     public RespirationTracker respirationTracker;
+    public GameValues gameValues;
+    public User userObject;
+    public AudioSource userAudioSource;
     private bool debugAllowLogs = true;
 
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
@@ -51,13 +54,14 @@ public class MusicSystem1 : MonoBehaviour
     List<int> harmonySequence2 = new List<int> {5, 12, 5, 12};
     List<int> harmonySequence3 = new List<int> {7, 12, 7, 12};
     List<int> harmonySequence4 = new List<int> {5, 7, 12, 5, 7, 12, 5, 7, 12, 5, 7, 12};
-
     List<List<int>> sequences;
-
     System.Random random = new System.Random();
-        
     int currentSequenceIndex;
     int currentHarmonyIndex = 0;
+
+    //DIRECT MONITORING
+    float _gameOnLerp = 0.0f;
+    float _chargeLerp = 0.0f;
 
     //REFACTORED FROM SEQUENCER and WWISEVOMANAGER
     
@@ -83,6 +87,13 @@ public class MusicSystem1 : MonoBehaviour
 
     void Start()
     {
+        
+        if(userObject != null)
+        {
+            userAudioSource = userObject.GetComponent<AudioSource>();
+            userAudioSource.volume = 0.0f;
+        }
+
         //These three refactored from Sequencer.cs attn: @Reef
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
@@ -135,9 +146,50 @@ public class MusicSystem1 : MonoBehaviour
                 LockToC(false);
             }
         }
-
+        DirectVoiceMonitoring();
         ThumpUpdate();
         MusicModeUpdate(); 
+    }
+
+    private void DirectVoiceMonitoring()
+    {
+        //first get a lerp for the gameOn state
+        if(imitoneVoiceInterpreter.gameOn)
+        {
+            _gameOnLerp += Time.deltaTime * 2f;
+            _gameOnLerp = Mathf.Clamp(_gameOnLerp, 0.0f, 1.0f);
+        }
+        else
+        {
+            _gameOnLerp -= Time.deltaTime * 0.5f;
+            _gameOnLerp = Mathf.Clamp(_gameOnLerp, 0.0f, 1.0f);
+        }
+
+        //then get a lerp for the charge state
+        if(imitoneVoiceInterpreter.toneActive)
+        {
+            if (gameValues._chantCharge > _chargeLerp)
+            {
+                _chargeLerp += Time.deltaTime;
+                _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, gameValues._chantCharge);
+            }
+            else if (gameValues._chantCharge < _chargeLerp)
+            {
+                _chargeLerp -= Time.deltaTime;
+                _chargeLerp = Mathf.Clamp(_chargeLerp, gameValues._chantCharge, 1.0f);
+            }
+            else
+            {
+                _chargeLerp = gameValues._chantCharge;
+            }
+        }
+        else
+        {
+            _chargeLerp -= Time.deltaTime;
+            _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, 1.0f);
+        }
+
+        userAudioSource.volume = _gameOnLerp * (1 - _chargeLerp) * gameValues._chantLerpFast;
     }
 
     //Take the fundamental behaviors in the InterpretImitone method and move them here for clarity

@@ -15,8 +15,6 @@ public class WwiseVOManager : MonoBehaviour
     public DevelopmentMode  developmentMode;
     public CSVWriter CSVWriter;
     public LightControl lightControl;
-    public User userObject;
-    public AudioSource userAudioSource;
     public MusicSystem1 musicSystem1;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     //public MusicSystem1 musicSystem1;
@@ -37,12 +35,6 @@ public class WwiseVOManager : MonoBehaviour
     void Start()
     {
         //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS
-        
-        if(userObject != null)
-        {
-            userAudioSource = userObject.GetComponent<AudioSource>();
-            userAudioSource.volume = 0.0f;
-        }
         AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
         AkSoundEngine.SetSwitch("VO_ThematicContent","Peace", gameObject);
         assignVOs();
@@ -140,14 +132,12 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     Debug.Log("WWise_VO: Cue Mic On");
                     csvWriter.microphoneMonitoring = true;
-                    userAudioSource.volume = 1.0f;
                     imitoneVoiceIntepreter.gameOn = true;
                 }
                 else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
                 {
                     Debug.Log("WWise_VO: Cue Mic OFF");
                     csvWriter.microphoneMonitoring = false;
-                    userAudioSource.volume = 0.0f;
                     imitoneVoiceIntepreter.gameOn = false;
                 }
                 else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")

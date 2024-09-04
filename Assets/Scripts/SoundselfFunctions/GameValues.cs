@@ -33,10 +33,12 @@ public class GameValues : MonoBehaviour
     int volumeKey = 0;
     int volumeKey2 = 0;
     private float _volumeTimeGuardTimer = 0.0f;
-    public float _loudnessRelative {get; private set;} = 0.0f; //THIS IS A GOOD METRIC, NOT USED YET.
+    public float _loudnessRelative {get; private set;} = 0.5f; //THIS IS A GOOD METRIC, NOT USED YET.
     private float _dbLowest;
     private float _dbHighest;
     private Dictionary <int, (float, float, float)> _db5Minutes = new Dictionary<int, (float, float, float)>(); //time, high-second, low-second
+    private bool guard1 = false;
+    private bool guard2 = false;
 
     //CHANTLERP
     [SerializeField] public float _meanToneLengthLerp {get; private set;} = 0.0f;
@@ -55,7 +57,6 @@ public class GameValues : MonoBehaviour
     public float _tRestLerp {get; private set;} = 0.0f; //not currently referenced, but might be useful for WWise
 
     //CHANTCHARGE
-    private float RecentToneMeanDuration = 5.0f; //resvisit when we have cadence/respirationrate.
     private float _chantChargeDamp1 = 0.01f;
     private float _chantChargeDamp2 = 0.005f;
     private float _chantChargeLinear = 0.00005f;
@@ -102,7 +103,7 @@ public class GameValues : MonoBehaviour
     {
             
         // Fixed Update is called once per frame, but it is called on a fixed time step.
-        // THIS IS A PROBLEM TO CONSIDER FIXING IN THE FUTURE.
+        // THIS IS A PROBLEM TO CONSIDER FIXING IN THE FUTURE, BY CAREFULLY MOVING EVERYTHING TO UPDATE()
         // Because this happens on a different time step to the rest of the game, we can't trust it
         // to use any kind of "one-frame" logic.
         
@@ -148,6 +149,7 @@ public class GameValues : MonoBehaviour
                 {
                     _dbLowestLastSecond = _dbSecond.Values.Min(x => x.Item2);
                     _dbHighestLastSecond = _dbSecond.Values.Max(x => x.Item2);
+                    guard1 = true;
                 }
 
             }
@@ -164,7 +166,7 @@ public class GameValues : MonoBehaviour
             _volumeTimeGuardTimer = 0.0f;
             volumeKey2 ++;
 
-            if(_dbHighestLastSecond!=null && _dbLowestLastSecond!=null)
+            if(guard1)
             {
                 _db5Minutes.Add(volumeKey2, (Time.time, _dbHighestLastSecond, _dbLowestLastSecond));
                 //if any entries are older than 5 minutes, remove them:
@@ -177,6 +179,7 @@ public class GameValues : MonoBehaviour
                 {
                     _dbHighest = _db5Minutes.Values.Max(x => x.Item3);
                     _dbLowest = Mathf.Min(_db5Minutes.Values.Min(x => x.Item2), _dbHighest - 6);
+                    guard2 = true;
                 }
             }
             
@@ -188,9 +191,10 @@ public class GameValues : MonoBehaviour
         
         //calculate _loudnessRelative as the _dbValidValue mapped to the range of _dbLowest to _dbHighest
 
-        if (_dbLowest!=null && _dbHighest!=null && _dbValidValue!=null)
-        _loudnessRelative = Mathf.Clamp(Mathf.InverseLerp(_dbLowest, _dbHighest, _dbValidValue), 0, 1);
-
+        if (guard1 && guard2)
+        {
+            _loudnessRelative = Mathf.Clamp(Mathf.InverseLerp(_dbLowest, _dbHighest, _dbValidValue), 0, 1);
+        }
         //Debug.Log("Time = " + Time.time + ", DB Valid: " + _dbValidValue + ", Loudness Relative: " + _loudnessRelative + ", DB  Range: " + _dbLowest + ", " + _dbHighest);
         //Debug.Log("Time.FrameCount = " + Time.frameCount + ", Time = " + Time.time);
     }
@@ -284,8 +288,8 @@ public class GameValues : MonoBehaviour
         int chantChargeCoroutineID = chantChargeCoroutineCounter++;
         float _meanToneAtStart = respirationTracker._meanToneLength;
         float _normalizedToneTime = 0f;
-        float _lerpTarget1        = 0f;
-        float _lerpTarget2      = 0f;
+        //float _lerpTarget1        = 0f;
+        //float _lerpTarget2      = 0f;
         float _forceDurationToFillAtStart = _forceDurationToFill;
         _chantChargeContributions[chantChargeCoroutineID] = 0f;
         string localID = $"{nameof(_chantChargeContributions)}.{chantChargeCoroutineID}";
