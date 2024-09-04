@@ -6,10 +6,7 @@ using UnityEngine;
 
 public class DataOutput : MonoBehaviour
 {
-    public AudioManager audioManager;
     public RespirationTracker respirationTracker;
-    public WwiseGlobalManager wwiseGlobalManager;
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public LightControl lightControl;
 
     string AVSColorCommand = "";
@@ -20,10 +17,6 @@ public class DataOutput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (imitoneVoiceIntepreter == null)
-        {
-            Debug.LogError("Exception: ImitoneVoiceIntepreter not found");
-        }
 
         //Future questions for our Machine Learning Algorithm:
         // - Of the various abasorption details, which are most important for determining the user's emotional state?

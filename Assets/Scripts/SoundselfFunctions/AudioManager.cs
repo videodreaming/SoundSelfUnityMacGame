@@ -95,7 +95,7 @@ public class AudioManager : MonoBehaviour
                 // Decrease the timer for toneActive
                 sighTimer += Time.deltaTime;
                 // Check if the tone has been active for at least 0.75 seconds
-                if (sighTimer >= 0.75f /*&& ImitoneVoiceInterpreter.breathStage >= 2*/)
+                if (sighTimer >= 0.75f)
                 {
                     SighElicitationPass1 = true;    
                 }

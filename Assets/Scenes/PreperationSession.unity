@@ -7580,7 +7580,6 @@ MonoBehaviour:
   imitoneVoiceIntepreter: {fileID: 740096625}
   firstTimeUser: 1
   layingDown: 1
-  muteInteraction: 0
   csvWriter: {fileID: 662335749}
 --- !u!114 &486583135
 MonoBehaviour:
@@ -10098,25 +10097,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce06df8ab098394995c5c4862618d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DevModeSettings: {fileID: 316632675}
+  developmentMode: {fileID: 538272586}
   lightControl: {fileID: 437048159}
   director: {fileID: 1829208165}
   pitch_hz: 0
   note_st: 0
   _dbThreshold: -25
-  imitoneInactiveTimer: 0
-  imitoneConfidentInactiveTimer: 0
+  gameOn: 1
   exceptionFlag: 0
+  _imitoneInactiveRawTimer: 0
   _tThisTone: 0
+  _tThisToneRaw: 0
   _tThisToneConfident: 0
   _tThisToneBiasTrue: 0
   _tThisRest: 0
+  _tThisRestRaw: 0
   _tThisRestConfident: 0
-  _tThisRestBiasTrue: 0
   _breathHoldTimeBeforeInhale: 0
   _tNextInhaleDuration: 0
   _breathVolume: 0
-  breathStage: 0
   _harmonicity: 0
   _dbValue: 0
   _dbMicrophone: -999
@@ -10160,8 +10159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcaa5c1f6cd78df41ad308518c56edbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImitoneVoiceIntepreter: {fileID: 740096625}
-  pauseGuardTone: 0
+  imitoneVoiceInterpreter: {fileID: 740096625}
   modePlayful: 1
   modeMeditative: 0
   canvas: {fileID: 1172631974}
@@ -10182,7 +10180,7 @@ MonoBehaviour:
   audioManager: {fileID: 47830410}
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
-  imitoneVoiceIntepreter: {fileID: 740096625}
+  imitoneVoiceInterpreter: {fileID: 740096625}
 --- !u!114 &740096629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10195,10 +10193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 357af5d4da8634c4d87d7e83c01f1ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 47830410}
   respirationTracker: {fileID: 740096627}
-  wwiseGlobalManager: {fileID: 1229442214}
-  imitoneVoiceIntepreter: {fileID: 740096625}
   lightControl: {fileID: 437048159}
 --- !u!114 &740096630
 MonoBehaviour:
@@ -20863,7 +20858,6 @@ MonoBehaviour:
   musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
-  imitoneVoiceIntepreter: {fileID: 740096625}
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
   csvWriter: {fileID: 662335749}
@@ -25498,7 +25492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42cf30a2af80d094f90709b2fb90ab52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imitoneVoiceIntepreter: {fileID: 740096625}
   musicSystem1: {fileID: 0}
 --- !u!4 &1990219739
 Transform:

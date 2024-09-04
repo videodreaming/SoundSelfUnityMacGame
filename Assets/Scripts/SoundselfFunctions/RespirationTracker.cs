@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class RespirationTracker : MonoBehaviour
 {
-    public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
+    public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     private bool debugAllowLogs = false;
     public float _respirationRate       {get; private set;} = 1.0f;   
     public float _respirationRateRaw        {get; private set;} = 1.0f; //uses either the 1min or 2min version, depending on validity, preferrring 1min
@@ -43,7 +43,6 @@ public class RespirationTracker : MonoBehaviour
     public float _absorptionRaw {get; private set;} = 0.0f;
     public float _absorptionMostRecentValid {get; private set;} = 0.0f; //this only updates if it is valid
     private bool frameGuardTone = false;
-    public bool pauseGuardTone  = false;
     public bool modePlayful     = true;
     public bool modeMeditative  = false;
     private float _respirationMeasurementWindow1 = 60.0f;
@@ -90,11 +89,11 @@ public class RespirationTracker : MonoBehaviour
         //{
         //    debugAllowLogs = !debugAllowLogs;
         //}
-        if (ImitoneVoiceIntepreter.toneActiveVeryConfident)
+        if (imitoneVoiceInterpreter.toneActiveVeryConfidentRaw)
         {
            //return the total of all the cycle counts in the dictionary:
             toneActiveForRespirationRate = true;
-            if (!frameGuardTone && !pauseGuardTone)
+            if (!frameGuardTone)
             {
                 // Start the coroutine to measure the duration of one tone/rest cycle, but do it just once per tone:
                 //Debug.Log("Start Respiration Cycle Coroutine");
@@ -219,7 +218,7 @@ public class RespirationTracker : MonoBehaviour
         // The measurements are stored in a dictionary, and cleared after the cycle exits the measurement window entirely.
         float _age = 0.0f;
         float _tAfterCycle = 0.0f;
-        float _toneLength = ImitoneVoiceIntepreter._activeThreshold3;
+        float _toneLength = imitoneVoiceInterpreter._activeThreshold3;
         float _restLength = 0.0f;
         float _cycleLength = 0.0f;
         bool isFirstInvalidFrame = true; // turns false after the first invalid frame.
@@ -276,7 +275,7 @@ public class RespirationTracker : MonoBehaviour
             thisBreathCycleData._cycleLength = _cycleLength;
             if(!thisBreathCycleData.invalid)
             {
-                thisBreathCycleData.invalid = pauseGuardTone || ((_toneLength > 45.0f) || (_cycleLength > (_measurementWindow / 2)));
+                thisBreathCycleData.invalid = !imitoneVoiceInterpreter.gameOn || ((_toneLength > 45.0f) || (_cycleLength > (_measurementWindow / 2)));
 
                 if (thisBreathCycleData.invalid)
                 {
@@ -344,7 +343,7 @@ public class RespirationTracker : MonoBehaviour
 
         //Step 2: Measure the Rest
         float _initialMeanRestLength = _meanRestLength;
-        _restLength = ImitoneVoiceIntepreter._activeThreshold3;
+        _restLength = imitoneVoiceInterpreter._activeThreshold3;
 
         while (toneActiveForRespirationRate == false)
         {
@@ -366,7 +365,7 @@ public class RespirationTracker : MonoBehaviour
             thisBreathCycleData._restLength = _restLength;
             thisBreathCycleData._cycleLength = _cycleLength;
             if(!thisBreathCycleData.invalid)
-            thisBreathCycleData.invalid = pauseGuardTone || ((_restLength > 13.0f) || (_cycleLength > (_measurementWindow / 2)));
+            thisBreathCycleData.invalid = !imitoneVoiceInterpreter.gameOn || ((_restLength > 13.0f) || (_cycleLength > (_measurementWindow / 2)));
             if (thisBreathCycleData.invalid && isFirstInvalidFrame)
             {
                 if(debugAllowLogs)

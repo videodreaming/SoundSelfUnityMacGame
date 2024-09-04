@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PitchMusicSystem : MonoBehaviour
 {
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    //public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public MusicSystem1 musicSystem1;
     //public WwiseGlobalManager wwiseGlobalManager;
     //public DebugKeyBoardIlluminator debugKeyBoardIlluminator;

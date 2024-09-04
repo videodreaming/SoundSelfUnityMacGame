@@ -35,7 +35,7 @@ public class MusicSystem1 : MonoBehaviour
     private float _initiateImminentFundamentalChangeThreshold = 40f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
-    private bool previousToneActiveConfident = false;
+    private bool previousLocalToneOn = false;
 
     // FUNDAMENTAL AND HARMONY CONTROL
     public int fundamentalNote = 9; // Base note around which other notes are calculated
@@ -377,7 +377,7 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(interactive)
         {
-            if(!environmentFlag && imitoneVoiceInterpreter.imitoneConfidentInactiveTimer > UserNotToningThreshold)
+            if(!environmentFlag && imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold)
             {
                 Debug.Log("MUSIC: Environment Mode");
                 SetMusicModeTo("Environment");
@@ -482,8 +482,8 @@ public class MusicSystem1 : MonoBehaviour
         if(interactive == true)
         {
             
-            bool currentToneActiveConfident = imitoneVoiceInterpreter.toneActiveConfident;
-            if(currentToneActiveConfident && !previousToneActiveConfident)
+            bool localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue; //turns on with toneActive
+            if(localToneOn && !previousLocalToneOn)
             {
                 if(true)
                 {
@@ -492,7 +492,7 @@ public class MusicSystem1 : MonoBehaviour
 
                 PostTheToningEvents();
 
-            } else if (!currentToneActiveConfident && previousToneActiveConfident)
+            } else if (!localToneOn && previousLocalToneOn)
             {
                 if(true)
                 {
@@ -500,7 +500,7 @@ public class MusicSystem1 : MonoBehaviour
                 }
                 AkSoundEngine.PostEvent("Stop_Toning",gameObject);
             }
-            previousToneActiveConfident = currentToneActiveConfident;
+            previousLocalToneOn = localToneOn;
         }
     }
 

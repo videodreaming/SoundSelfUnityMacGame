@@ -33,7 +33,7 @@ public class GameValues : MonoBehaviour
     int volumeKey = 0;
     int volumeKey2 = 0;
     private float _volumeTimeGuardTimer = 0.0f;
-    public float _loudnessRelative {get; private set;} = 0.0f;
+    public float _loudnessRelative {get; private set;} = 0.0f; //THIS IS A GOOD METRIC, NOT USED YET.
     private float _dbLowest;
     private float _dbHighest;
     private Dictionary <int, (float, float, float)> _db5Minutes = new Dictionary<int, (float, float, float)>(); //time, high-second, low-second
@@ -98,15 +98,17 @@ public class GameValues : MonoBehaviour
         _restWindlassSpread = _restWindlassSpreadInitialize;
     }
 
-    // Fixed Update is called once per frame, but it is called on a fixed time step.
     void FixedUpdate()
     {
+            
+        // Fixed Update is called once per frame, but it is called on a fixed time step.
+        // THIS IS A PROBLEM TO CONSIDER FIXING IN THE FUTURE.
+        // Because this happens on a different time step to the rest of the game, we can't trust it
+        // to use any kind of "one-frame" logic.
+        
         handlecChanting();
         handleVolume();
         handleChantCharge();
-        lightControl.Wwise_Strobe_ChargeDisplay(_chantCharge);
-        lightControl.Wwise_Strobe_ToneDisplay(_chantLerpFast);
-        //Debug.Log("imitoneActive: " + imitoneVoiceInterpreter.imitoneActive + " toneActive: " + imitoneVoiceInterpreter.toneActive + " Chant Charge: " + _chantCharge + " Chant Lerp Fast: " + _chantLerpFast);
     }
 
     void Update()
@@ -121,6 +123,9 @@ public class GameValues : MonoBehaviour
         {
             Debug.Log("Change Detection: Breath Length Change");
         }
+        
+        lightControl.Wwise_Strobe_ChargeDisplay(_chantCharge);
+        lightControl.Wwise_Strobe_ToneDisplay(_chantLerpFast);
     }
 
     private void handleVolume()

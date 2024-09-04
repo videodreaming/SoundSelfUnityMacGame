@@ -14,7 +14,6 @@ public class WwiseVOManager : MonoBehaviour
     public Sequencer sequencer;
     public DevelopmentMode  developmentMode;
     public CSVWriter CSVWriter;
-
     public LightControl lightControl;
     public User userObject;
     public AudioSource userAudioSource;
@@ -31,7 +30,6 @@ public class WwiseVOManager : MonoBehaviour
     private bool pause = true;
     public bool firstTimeUser = true;
     public bool layingDown = true;
-    public bool muteInteraction = false;
     public CSVWriter csvWriter;
 
     //private bool silentPlaying = false;
@@ -53,11 +51,13 @@ public class WwiseVOManager : MonoBehaviour
         {
             musicSystem1.InteractiveMusicInitializations();
             musicSystem1.LockToC(false);
+            imitoneVoiceIntepreter.gameOn = true;
             InitializeLights();
         }
         if(!developmentMode.developmentPlayground)
         {
             musicSystem1.LockToC(true);
+            imitoneVoiceIntepreter.gameOn = false;
             if(firstTimeUser)
             {
                 //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
@@ -74,6 +74,21 @@ public class WwiseVOManager : MonoBehaviour
 
     void Update()
     {
+        if(developmentMode.developmentMode)
+        {
+            //toggle gameOn with the "G" button
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                if (imitoneVoiceIntepreter.gameOn)
+                {
+                    imitoneVoiceIntepreter.gameOn = false;
+                }
+                else
+                {
+                    imitoneVoiceIntepreter.gameOn = true;
+                }
+            }
+        }
     }
     
     public void handleTutorialMeditation(string tutorialToPlay)
@@ -103,22 +118,10 @@ public class WwiseVOManager : MonoBehaviour
     }
     public void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {
-        // Posture_Start
-        // orientation_Start
-        // thematicOpening_Start
-        // Cue_ThematicOpening_End
-        // Cue_VoiceElicitation1_Start
-        // Cue_Microphone_ON
-        // Cue_BreathIn_Start
-        // Cue_Sigh_Start
-        // Cue_Microphone_OFF
-        // Cue_VoiceElicitation1_End
-        // Cue_Somatic_Start
-        // Cue_Microphone_ON
-        //Cue_BreathIN_start
-        // BreatheOut_Start
-        // Linear 1 2 and 3
-        // Cue_InteractiveMusicSystem_Start
+            // NOT-YET INTEGRATED ONES
+            // BreatheOut_Start
+            // Cue_ThematicOpening_End
+
             if (in_type == AkCallbackType.AK_MusicSyncUserCue)
             {
                 Debug.Log("WWise_VO: Callback triggered: " + in_type);
@@ -135,24 +138,27 @@ public class WwiseVOManager : MonoBehaviour
                 }
                 else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
                 {
+                    Debug.Log("WWise_VO: Cue Mic On");
                     csvWriter.microphoneMonitoring = true;
                     userAudioSource.volume = 1.0f;
-                    Debug.Log("WWise_VO: Cue Mic On");
+                    imitoneVoiceIntepreter.gameOn = true;
                 }
                 else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
                 {
-                    //Robin to do AVS Stuff here
+                    Debug.Log("WWise_VO: Cue Mic OFF");
                     csvWriter.microphoneMonitoring = false;
                     userAudioSource.volume = 0.0f;
-                     Debug.Log("WWise_VO: Cue Mic OFF");
+                    imitoneVoiceIntepreter.gameOn = false;
                 }
                 else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
                 {
                     Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
+                    imitoneVoiceIntepreter.gameOn = false;
                 } 
                 else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
                 {
                     Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End");
+                    imitoneVoiceIntepreter.gameOn = true;
                 }
                 else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
                 {
@@ -172,22 +178,13 @@ public class WwiseVOManager : MonoBehaviour
                 }  else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
                 {
                     Debug.Log("WWise_VO: PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
-                } else if (musicSyncInfo.userCueName == "Cue_LinearHum1_Start")
+                } else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
                 {
-                    Debug.Log("WWise_VO: Cue_LinearHum1_Start");
+                    Debug.Log("WWise_VO: Cue_LinearHum_Start");
                     InitializeLights();
-                } else if (musicSyncInfo.userCueName == "Cue_LinearHum2_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_LinearHum2_Start");
-                } else if (musicSyncInfo.userCueName == "Cue_LinearHum3_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_LinearHum3_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
                     musicSystem1.InteractiveMusicInitializations();
-                } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
                 } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
                 {
                     Debug.Log("WWise_VO: Cue_Opening_Start");
@@ -195,6 +192,7 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     Debug.Log("WWise_VO: Cue_FreePlay");
                     musicSystem1.LockToC(false);
+
                 }
             }   
     }

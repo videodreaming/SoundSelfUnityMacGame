@@ -9,14 +9,15 @@ public class UserControlScript : MonoBehaviour
     public AudioManager audioManager;
     public RespirationTracker respirationTracker;
     public WwiseGlobalManager wwiseGlobalManager;
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     
     private StreamWriter writer;
+    private bool cacheGameOn;
     private string filePath;
     // Start is called before the first frame update
     void Start()
     {
-        if (imitoneVoiceIntepreter == null)
+        if (imitoneVoiceInterpreter == null)
         {
             Debug.LogError("Exception: ImitoneVoiceIntepreter not found");
         }
@@ -27,14 +28,13 @@ public class UserControlScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             Debug.Log("Pause Placeholder Activated");
-            imitoneVoiceIntepreter.SetMute(true);
-            respirationTracker.pauseGuardTone = true;
+            cacheGameOn = imitoneVoiceInterpreter.gameOn;
+            imitoneVoiceInterpreter.gameOn = false;
         }
         else if (Input.GetKeyUp(KeyCode.Tab))
         {
             Debug.Log("Pause Placeholder Deactivated");
-            imitoneVoiceIntepreter.SetMute(false);
-            respirationTracker.pauseGuardTone = false;
+            imitoneVoiceInterpreter.gameOn = cacheGameOn;
         }
     }
 }

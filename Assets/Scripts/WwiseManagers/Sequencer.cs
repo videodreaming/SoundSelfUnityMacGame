@@ -10,7 +10,6 @@ public class Sequencer : MonoBehaviour
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
-    public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public WwiseVOManager wwiseVOManager;
     public Director director;
     //private int fundamentalCount = -1;
@@ -69,6 +68,7 @@ public class Sequencer : MonoBehaviour
         {
             CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         }
+
         //Uncomment when CSV Writer is implemented
         /*if(csvWriter.GameMode == "Preperation")
         {
