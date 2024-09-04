@@ -222,7 +222,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         GetRawVoiceData();
         CheckToning();
         TrackMicVolume();
-        lightControl.Wwise_BreathDisplay(_breathVolume);
+        lightControl.Wwise_BreathDisplay(_breathVolume, lightControl._fxWave);
 
         if (gameOn != gameOnLastFrame)
         {
@@ -666,21 +666,21 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
                     StartCoroutine(BreathVolumeCoroutine(Mathf.Max(1.76f,currentInhaleDuration)));
                     StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
-                    if(currentInhaleDuration > 6.0f)
+                    if(currentInhaleDuration > 5.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
-                        Debug.Log("SFX: Play_Inhale_Long");
+                        Debug.Log("SFX: Play_Inhale_Long (" + currentInhaleDuration + ")");
                     }
                     
-                    else if(currentInhaleDuration > 4.0f)
+                    else if(currentInhaleDuration > 3.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
-                        Debug.Log("SFX: Play_Inhale_Medium");
+                        Debug.Log("SFX: Play_Inhale_Medium(" + currentInhaleDuration + ")");
                     }
                     else if(currentInhaleDuration >= 1.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
-                        Debug.Log("SFX: Play_Inhale_Short");
+                        Debug.Log("SFX: Play_Inhale_Short (" + currentInhaleDuration + ")");
                     }
                 }
             }

@@ -63,6 +63,7 @@ public class GameValues : MonoBehaviour
     private bool chantChargeToneGuard   = false;
     public float _chantCharge {get; private set;} = 0f;   
     
+    float _chantChargeDuration = 0f; // 0 does not force
     private Dictionary<int, float> _chantChargeContributions = new Dictionary<int, float>(); 
     private int chantChargeCoroutineCounter = 0;
 
@@ -261,7 +262,6 @@ public class GameValues : MonoBehaviour
     {
         //HANDLE "CHANT CHARGE"
         //if we are in a guided vocalization state, set the full value to 5, otherwise it sets dynamically.
-        float _forceDurationToFill = 0f; // 0 does not force
         if (imitoneVoiceInterpreter._tThisToneBiasTrue == 0)
         {
             chantChargeToneGuard = false;
@@ -274,24 +274,27 @@ public class GameValues : MonoBehaviour
             ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh
             ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum)
             {
-                _forceDurationToFill = 5.0f;
+                _chantChargeDuration = 5.0f;
             }
-            StartCoroutine(ChantChargeMemberCoroutine(_forceDurationToFill));
+            else
+            {
+                _chantChargeDuration = Mathf.Clamp((respirationTracker._meanToneLength * 0.8f), 5f, 20f);
+            }
+            StartCoroutine(ChantChargeMemberCoroutine(_chantChargeDuration));
         }
         _chantCharge = Mathf.Clamp(_chantChargeContributions.Values.Sum(), 0,1);
         
         AkSoundEngine.SetRTPCValue("Unity_Charge", _chantCharge*100.0f, gameObject);
     }
 
-    private IEnumerator ChantChargeMemberCoroutine(float _forceDurationToFill= 0f) 
+    private IEnumerator ChantChargeMemberCoroutine(float _chantChargeDuration= 0f) 
     {
         int chantChargeCoroutineID = chantChargeCoroutineCounter++;
-        float _meanToneAtStart = respirationTracker._meanToneLength;
         float _normalizedToneTime = 0f;
-        //float _lerpTarget1        = 0f;
-        //float _lerpTarget2      = 0f;
-        float _forceDurationToFillAtStart = _forceDurationToFill;
+        float _chantChargeDurationAtStart = _chantChargeDuration;
+
         _chantChargeContributions[chantChargeCoroutineID] = 0f;
+        
         string localID = $"{nameof(_chantChargeContributions)}.{chantChargeCoroutineID}";
 
         //Debug.Log("ChantCharge " + chantChargeCoroutineID + " Begin, mean tone is: " + _meanToneAtStart);
@@ -299,10 +302,8 @@ public class GameValues : MonoBehaviour
         //lerp up to 1 over the course of the tone
         while (imitoneVoiceInterpreter._tThisToneBiasTrue > 0f) 
         {
-            if(_forceDurationToFillAtStart != 0f)
-            _normalizedToneTime = Mathf.Clamp(imitoneVoiceInterpreter._tThisToneBiasTrue / _forceDurationToFill, 0f, 1f);
-            else
-            _normalizedToneTime = Mathf.Clamp(imitoneVoiceInterpreter._tThisToneBiasTrue / Mathf.Clamp((_meanToneAtStart * 0.8f), 5f, 20f), 0f, 1f);
+            _normalizedToneTime = Mathf.Clamp(imitoneVoiceInterpreter._tThisToneBiasTrue / _chantChargeDurationAtStart, 0f, 1f);
+            
 
             _chantChargeContributions[chantChargeCoroutineID] = LerpUtilities.DampTool(localID, _chantChargeContributions[chantChargeCoroutineID], _normalizedToneTime, _chantChargeDamp1, _chantChargeDamp2, _chantChargeLinear);
 
