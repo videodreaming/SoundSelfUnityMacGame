@@ -10,7 +10,7 @@ public class UserControlScript : MonoBehaviour
     public RespirationTracker respirationTracker;
     public WwiseGlobalManager wwiseGlobalManager;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    
+    public DevelopmentMode developmentMode;
     private StreamWriter writer;
     private bool cacheGameOn;
     private string filePath;
@@ -25,16 +25,19 @@ public class UserControlScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if(developmentMode.developmentMode)
         {
-            Debug.Log("Pause Placeholder Activated");
-            cacheGameOn = imitoneVoiceInterpreter.gameOn;
-            imitoneVoiceInterpreter.gameOn = false;
-        }
-        else if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            Debug.Log("Pause Placeholder Deactivated");
-            imitoneVoiceInterpreter.gameOn = cacheGameOn;
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Debug.Log("Pause Placeholder Activated");
+                cacheGameOn = imitoneVoiceInterpreter.gameOn;
+                imitoneVoiceInterpreter.gameOn = false;
+            }
+            else if (Input.GetKeyUp(KeyCode.Tab))
+            {
+                Debug.Log("Pause Placeholder Deactivated");
+                imitoneVoiceInterpreter.gameOn = cacheGameOn;
+            }
         }
     }
 }
