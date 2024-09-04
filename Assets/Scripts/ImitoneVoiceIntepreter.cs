@@ -234,6 +234,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             {
                 Debug.Log("Imitone: Game Off");
             }
+            gameOnLastFrame = gameOn;
         }
     }
 

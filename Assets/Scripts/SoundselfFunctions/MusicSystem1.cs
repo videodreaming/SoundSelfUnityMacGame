@@ -476,7 +476,7 @@ public class MusicSystem1 : MonoBehaviour
     }
 
     
-    public void LockToC(bool doLock)
+    public void LockToC(bool doLock = true)
     {
         if (doLock)
         {

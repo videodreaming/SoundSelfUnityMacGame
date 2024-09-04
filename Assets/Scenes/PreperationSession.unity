@@ -20860,6 +20860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
+  imitoneVoiceInterpreter: {fileID: 740096625}
   musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
@@ -23609,6 +23610,7 @@ MonoBehaviour:
   lightControl: {fileID: 437048159}
   imitoneVoiceInterpreter: {fileID: 740096625}
   queueIndex: 0
+  disable: 0
 --- !u!1 &1842254102
 GameObject:
   m_ObjectHideFlags: 0
