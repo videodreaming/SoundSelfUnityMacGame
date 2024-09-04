@@ -21,6 +21,10 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 public class WwiseSetupWizard
 {
+	static Dictionary<int, string> WwiseAddressableDefines = new Dictionary<int, string>()
+	{
+		{2023, "WWISE_ADDRESSABLES_23_1_OR_LATER"},
+	};
 	public static void RunModify()
 	{
 		try
@@ -484,7 +488,7 @@ public class WwiseSetupWizard
 			UnityEditor.SceneManagement.EditorSceneManager.OpenScene(loadedScenePath);
 		}
 
-		SetAddressablesDefines();
+		SetWwiseVersionDefines(WwiseAddressableDefines);
 
 		UnityEngine.Debug.Log("WwiseUnity: Removing lock for launcher.");
 
@@ -512,7 +516,7 @@ public class WwiseSetupWizard
 		AkPluginActivator.Update();
 		AkPluginActivator.ActivatePluginsForEditor();
 		
-		SetAddressablesDefines();
+		SetWwiseVersionDefines(WwiseAddressableDefines);
 	}
 
 	// Perform all necessary steps to use the Wwise Unity integration.
@@ -563,7 +567,7 @@ public class WwiseSetupWizard
 		AkXboxOneUtils.EnableXboxOneNetworkSockets();
 		
 		// 12. Add addressables version define
-		SetAddressablesDefines();
+		SetWwiseVersionDefines(WwiseAddressableDefines);
 	}
 
 	private static HashSet<BuildTargetGroup> AvailableBuildTargetGroups = new HashSet<BuildTargetGroup>();
@@ -572,24 +576,28 @@ public class WwiseSetupWizard
 	{
 		AvailableBuildTargetGroups.Add(NewGroup);
 	}
-	private static void SetAddressablesDefines()
+	private static void SetWwiseVersionDefines(Dictionary<int,string> versionDefines)
 	{
 		string wwiseVersion = AkSoundEngine.WwiseVersion;
 		string shortWwiseVersion = wwiseVersion.Substring(0, 4);
 		int wwiseVersionAsInteger = int.Parse(shortWwiseVersion);
-		string wwiseAddressablePost2023 = "WWISE_ADDRESSABLES_POST_2023";
 
 		if (wwiseVersionAsInteger >= 2023)
 		{
 			foreach (var TargetGroup in AvailableBuildTargetGroups)
 			{
 				string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(TargetGroup);
-				Match match = Regex.Match(defines, wwiseAddressablePost2023);
-				if (!match.Success)
+				for (int i = 2023; i <= wwiseVersionAsInteger; ++i)
 				{
-					defines += ";" + wwiseAddressablePost2023;
+					if (versionDefines.ContainsKey(i))
+					{
+						Match match = Regex.Match(defines, versionDefines[i]);
+						if (!match.Success)
+						{
+							defines += ";" + versionDefines[i];
+						}
+					}
 				}
-
 				PlayerSettings.SetScriptingDefineSymbolsForGroup(TargetGroup, defines);
 			}
 		}

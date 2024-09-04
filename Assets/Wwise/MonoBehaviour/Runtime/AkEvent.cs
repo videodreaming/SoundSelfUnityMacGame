@@ -80,7 +80,7 @@ public class AkEvent : AkDragDropTriggerHandler
 	/// Game object onto which the Event will be posted.  By default, when empty, it is posted on the same object on which the component was added.
 	public UnityEngine.GameObject soundEmitterObject;
 
-	/// Duration of the fade.  See AK::SoundEngine::ExecuteEventOnAction()
+	/// Duration of the fade, in milliseconds. See <a href="https://www.audiokinetic.com/library/edge/?source=SDK&id=namespace_a_k_1_1_sound_engine_ac55e3d6ac464b0579a8487c88a755d8c.html" target="_blank">AK::SoundEngine::ExecuteEventOnAction()</a>.
 	public float transitionDuration = 0.0f;
 
 	private AkEventCallbackMsg EventCallbackMsg = null;

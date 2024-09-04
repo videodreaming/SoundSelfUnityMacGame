@@ -92,6 +92,10 @@ public partial class AkBasePathGetter
 			fullBasePath = fullBasePath.Substring(1);
 #endif
 
+#if UNITY_OPENHARMONY
+		fullBasePath = fullBasePath.Substring(fullBasePath.IndexOf("Data"));
+#endif
+
 		// Combine base path with platform sub-folder
 		var platformBasePath = System.IO.Path.Combine(fullBasePath, platformName);
 		AkUtilities.FixSlashes(ref platformBasePath);
@@ -248,7 +252,7 @@ public partial class AkBasePathGetter
 			tempSoundBankBasePath = GetPlatformBasePath();
 
 #if !AK_WWISE_ADDRESSABLES //Don't log this if we're using addressables
-#if !UNITY_EDITOR && UNITY_ANDROID
+#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_OPENHARMONY)
 			// Can't use File.Exists on Android, assume banks are there
 			var InitBnkFound = true;
 #else

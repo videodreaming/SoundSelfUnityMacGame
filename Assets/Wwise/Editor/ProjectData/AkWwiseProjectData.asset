@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AkWwiseProjectData
   m_EditorClassIdentifier: 
   AcousticTextureWwu:
-  - PhysicalPath: Virtual Acoustics\Default Work Unit.wwu
+  - PhysicalPath: Virtual Acoustics/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Virtual Acoustics
       ObjectType: 5
@@ -21,13 +21,13 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: 05d53899a8c68e4fb3bf417ea35907a3
-    ParentPath: Virtual Acoustics\Default Work Unit
+    ParentPath: Virtual Acoustics/Default Work Unit
     guid: 05d53899a8c68e4fb3bf417ea35907a3
     GuidInternal: 
-    m_lastTime: -8584929757175740728
+    m_lastTime: -8584761385860272706
     List: []
   AuxBusWwu:
-  - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
+  - PhysicalPath: Master-Mixer Hierarchy/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Master-Mixer Hierarchy
       ObjectType: 5
@@ -35,10 +35,10 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: dd3e190cfb4d16499f593fc858e3694d
-    ParentPath: Master-Mixer Hierarchy\Default Work Unit
+    ParentPath: Master-Mixer Hierarchy/Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584767256300950372
+    m_lastTime: -8584761385860628901
     List:
     - name: Aux_Impacts
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -56,7 +56,7 @@ MonoBehaviour:
       - ElementName: Aux_Impacts
         ObjectType: 1
         guid: 63f7c0bf69d9f048aaab0642bcb3f556
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_Impacts
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_Impacts
     - name: Aux_Music
       guid: 9a033c4bc05c9647acd0a8d86ec1b749
       id: 3331583377
@@ -73,7 +73,7 @@ MonoBehaviour:
       - ElementName: Aux_Music
         ObjectType: 1
         guid: 9a033c4bc05c9647acd0a8d86ec1b749
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_Music
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_Music
     - name: Aux_SFX
       guid: c7c9b70b5dffd74ca311e226f083cdfe
       id: 2562455749
@@ -90,7 +90,7 @@ MonoBehaviour:
       - ElementName: Aux_SFX
         ObjectType: 1
         guid: c7c9b70b5dffd74ca311e226f083cdfe
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_SFX
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_SFX
     - name: Aux_SilentLoops
       guid: be8434bfd554ae4d88a34836f1b18d20
       id: 1959646260
@@ -107,7 +107,7 @@ MonoBehaviour:
       - ElementName: Aux_SilentLoops
         ObjectType: 1
         guid: be8434bfd554ae4d88a34836f1b18d20
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_SilentLoops
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_SilentLoops
     - name: Aux_Toning
       guid: 957d9f61f478a54aaec9ab6251e1bf93
       id: 183653145
@@ -124,7 +124,7 @@ MonoBehaviour:
       - ElementName: Aux_Toning
         ObjectType: 1
         guid: 957d9f61f478a54aaec9ab6251e1bf93
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\Aux_Toning
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_Toning
     - name: AVS System
       guid: 5270ae016217ed4c975ab966f98065df
       id: 65973818
@@ -138,7 +138,7 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System
     - name: AVS_Breath
       guid: f59e551d2f08314584755928a839dd2d
       id: 3239584272
@@ -155,7 +155,7 @@ MonoBehaviour:
       - ElementName: AVS_Breath
         ObjectType: 2
         guid: f59e551d2f08314584755928a839dd2d
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS_Breath
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Breath
     - name: AVS_Silent
       guid: d42b25675f7bae4d8bbcc967668b1b15
       id: 493151109
@@ -172,7 +172,7 @@ MonoBehaviour:
       - ElementName: AVS_Silent
         ObjectType: 2
         guid: d42b25675f7bae4d8bbcc967668b1b15
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS_Silent
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Silent
     - name: AVS_Toning
       guid: 8c2be1a9aa9b404bb8ec0e821d2c0b79
       id: 2286170043
@@ -189,7 +189,7 @@ MonoBehaviour:
       - ElementName: AVS_Toning
         ObjectType: 2
         guid: 8c2be1a9aa9b404bb8ec0e821d2c0b79
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS_Toning
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Toning
     - name: Environment
       guid: 33c5be8c13440144925c5a5bca9f83ca
       id: 1229948536
@@ -206,7 +206,7 @@ MonoBehaviour:
       - ElementName: Environment
         ObjectType: 2
         guid: 33c5be8c13440144925c5a5bca9f83ca
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Environment
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Environment
     - name: Impacts, SubAcoustic
       guid: c9d68c9d7cca6149bd11af2a2c52a1f4
       id: 2670023165
@@ -223,7 +223,7 @@ MonoBehaviour:
       - ElementName: Impacts, SubAcoustic
         ObjectType: 2
         guid: c9d68c9d7cca6149bd11af2a2c52a1f4
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Impacts, SubAcoustic
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Impacts, SubAcoustic
     - name: InteractiveMusic_Vocal_Silent
       guid: 29c924b1c4b1334cabd2695febf6f2ef
       id: 2579128390
@@ -240,7 +240,7 @@ MonoBehaviour:
       - ElementName: InteractiveMusic_Vocal_Silent
         ObjectType: 2
         guid: 29c924b1c4b1334cabd2695febf6f2ef
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Silent
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/InteractiveMusic_Vocal_Silent
     - name: InteractiveMusic_Vocal_Toning
       guid: 6bbe72bee3fbc44b90f584df890b98fa
       id: 2479991680
@@ -257,7 +257,7 @@ MonoBehaviour:
       - ElementName: InteractiveMusic_Vocal_Toning
         ObjectType: 2
         guid: 6bbe72bee3fbc44b90f584df890b98fa
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Toning
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/InteractiveMusic_Vocal_Toning
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
       id: 3803692087
@@ -271,7 +271,7 @@ MonoBehaviour:
       - ElementName: Master Audio Bus
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus
     - name: Music
       guid: 73438df47fe6f64a8cd31cd46406f853
       id: 3991942870
@@ -288,7 +288,7 @@ MonoBehaviour:
       - ElementName: Music
         ObjectType: 2
         guid: 73438df47fe6f64a8cd31cd46406f853
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Music
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/Music
     - name: SFX
       guid: e4e1fde827d06d4b903a2e8e41698e0e
       id: 393239870
@@ -305,7 +305,7 @@ MonoBehaviour:
       - ElementName: SFX
         ObjectType: 2
         guid: e4e1fde827d06d4b903a2e8e41698e0e
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/SFX
     - name: VO
       guid: 564b83fb29cadf4682248dc300a1905b
       id: 1534528548
@@ -322,9 +322,9 @@ MonoBehaviour:
       - ElementName: VO
         ObjectType: 2
         guid: 564b83fb29cadf4682248dc300a1905b
-      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\VO
+      Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/VO
   BankWwu:
-  - PhysicalPath: SoundBanks\Default Work Unit.wwu
+  - PhysicalPath: SoundBanks/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: SoundBanks
       ObjectType: 5
@@ -332,10 +332,10 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: de1292387a65644aa29a0dc03049efe2
-    ParentPath: SoundBanks\Default Work Unit
+    ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584763011311061910
+    m_lastTime: -8584761385860302586
     List:
     - name: CLOSING
       guid: 660ba7396da1574496e1fee4e15fcf1c
@@ -350,7 +350,7 @@ MonoBehaviour:
       - ElementName: CLOSING
         ObjectType: 7
         guid: 660ba7396da1574496e1fee4e15fcf1c
-      Path: SoundBanks\Default Work Unit\CLOSING
+      Path: SoundBanks/Default Work Unit/CLOSING
     - name: INTERACTIVE
       guid: 9882f34365e8da4b8507fc6343628d07
       id: 3481447043
@@ -364,7 +364,7 @@ MonoBehaviour:
       - ElementName: INTERACTIVE
         ObjectType: 7
         guid: 9882f34365e8da4b8507fc6343628d07
-      Path: SoundBanks\Default Work Unit\INTERACTIVE
+      Path: SoundBanks/Default Work Unit/INTERACTIVE
     - name: OPENING
       guid: f62aed69a816044db9b19ed9530c9ad4
       id: 1831982039
@@ -378,9 +378,9 @@ MonoBehaviour:
       - ElementName: OPENING
         ObjectType: 7
         guid: f62aed69a816044db9b19ed9530c9ad4
-      Path: SoundBanks\Default Work Unit\OPENING
+      Path: SoundBanks/Default Work Unit/OPENING
   EventWwu:
-  - PhysicalPath: Events\AVS System.wwu
+  - PhysicalPath: Events/AVS System.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
@@ -388,10 +388,10 @@ MonoBehaviour:
     - ElementName: AVS System
       ObjectType: 12
       guid: 8dda26975fba794392b0097b08fbff76
-    ParentPath: Events\AVS System
+    ParentPath: Events/AVS System
     guid: 8dda26975fba794392b0097b08fbff76
     GuidInternal: 
-    m_lastTime: -8584783853546781312
+    m_lastTime: -8584761385860754538
     List:
     - name: Play_AVS_SineGenerators_REFERENCE
       guid: 2241cc075f82884483bb65d548a393f8
@@ -406,7 +406,7 @@ MonoBehaviour:
       - ElementName: Play_AVS_SineGenerators_REFERENCE
         ObjectType: 3
         guid: 2241cc075f82884483bb65d548a393f8
-      Path: Events\AVS System\Play_AVS_SineGenerators_REFERENCE
+      Path: Events/AVS System/Play_AVS_SineGenerators_REFERENCE
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -423,7 +423,7 @@ MonoBehaviour:
       - ElementName: Play_AVS_Wave1
         ObjectType: 3
         guid: 9e992e737bc4084d952ef582fd997b5c
-      Path: Events\AVS System\Play_AVS_Wave1
+      Path: Events/AVS System/Play_AVS_Wave1
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -440,7 +440,7 @@ MonoBehaviour:
       - ElementName: Play_AVS_Wave2
         ObjectType: 3
         guid: 55563dc8b096454b9b0bc43858edce4a
-      Path: Events\AVS System\Play_AVS_Wave2
+      Path: Events/AVS System/Play_AVS_Wave2
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -457,7 +457,7 @@ MonoBehaviour:
       - ElementName: Play_AVS_Wave3
         ObjectType: 3
         guid: a29b04a737d3c245a567c1aa527339d2
-      Path: Events\AVS System\Play_AVS_Wave3
+      Path: Events/AVS System/Play_AVS_Wave3
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -474,7 +474,7 @@ MonoBehaviour:
       - ElementName: Stop_AVS_SineGenerators_REFERENCE
         ObjectType: 3
         guid: eb9cfe70966be6408a80ddaa41ffd559
-      Path: Events\AVS System\Stop_AVS_SineGenerators_REFERENCE
+      Path: Events/AVS System/Stop_AVS_SineGenerators_REFERENCE
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -491,7 +491,7 @@ MonoBehaviour:
       - ElementName: Stop_AVS_Wave1
         ObjectType: 3
         guid: 87acfa5f6c2f764c835b639293412c44
-      Path: Events\AVS System\Stop_AVS_Wave1
+      Path: Events/AVS System/Stop_AVS_Wave1
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -508,7 +508,7 @@ MonoBehaviour:
       - ElementName: Stop_AVS_Wave2
         ObjectType: 3
         guid: 442cdcd67f1753479f7af2c5b5f99a86
-      Path: Events\AVS System\Stop_AVS_Wave2
+      Path: Events/AVS System/Stop_AVS_Wave2
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -525,11 +525,11 @@ MonoBehaviour:
       - ElementName: Stop_AVS_Wave3
         ObjectType: 3
         guid: c870ca5d08a7f94e9d93ee185337cfe9
-      Path: Events\AVS System\Stop_AVS_Wave3
+      Path: Events/AVS System/Stop_AVS_Wave3
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-  - PhysicalPath: Events\Default Work Unit.wwu
+  - PhysicalPath: Events/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
@@ -537,10 +537,10 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-    ParentPath: Events\Default Work Unit
+    ParentPath: Events/Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584792294135388531
+    m_lastTime: -8584761385860753371
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -555,7 +555,7 @@ MonoBehaviour:
       - ElementName: Mute_OPENING_MUSIC
         ObjectType: 3
         guid: 3e8079271bd4fe409836f7a7128e849e
-      Path: Events\Default Work Unit\Mute_OPENING_MUSIC
+      Path: Events/Default Work Unit/Mute_OPENING_MUSIC
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -572,7 +572,7 @@ MonoBehaviour:
       - ElementName: Mute_SILENTMEDITATION_MUSIC
         ObjectType: 3
         guid: b413da09e89f614ab8a984ae807a82c3
-      Path: Events\Default Work Unit\Mute_SILENTMEDITATION_MUSIC
+      Path: Events/Default Work Unit/Mute_SILENTMEDITATION_MUSIC
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
       - ElementName: Play_ADJUNCT_OPENING_SEQUENCE_LONG
         ObjectType: 3
         guid: a709e420b744d44cb9c2de5361ac7ffc
-      Path: Events\Default Work Unit\Play_ADJUNCT_OPENING_SEQUENCE_LONG
+      Path: Events/Default Work Unit/Play_ADJUNCT_OPENING_SEQUENCE_LONG
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -606,7 +606,7 @@ MonoBehaviour:
       - ElementName: Play_ADJUNCT_OPENING_SEQUENCE_SHORT
         ObjectType: 3
         guid: 72cba5a6405e4147b9f6d419e13d55c5
-      Path: Events\Default Work Unit\Play_ADJUNCT_OPENING_SEQUENCE_SHORT
+      Path: Events/Default Work Unit/Play_ADJUNCT_OPENING_SEQUENCE_SHORT
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -623,7 +623,7 @@ MonoBehaviour:
       - ElementName: Play_AMBIENT_ENVIRONMENT_LOOP
         ObjectType: 3
         guid: cb6fb65d1c06e543880d2c319ad8a094
-      Path: Events\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP
+      Path: Events/Default Work Unit/Play_AMBIENT_ENVIRONMENT_LOOP
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -640,7 +640,7 @@ MonoBehaviour:
       - ElementName: Play_EndSoon_SEQUENCE
         ObjectType: 3
         guid: 4d79fe912423754c8f4c9f79330eaf86
-      Path: Events\Default Work Unit\Play_EndSoon_SEQUENCE
+      Path: Events/Default Work Unit/Play_EndSoon_SEQUENCE
       maxAttenuation: 0
       maxDuration: 134.23682
       minDuration: 134.23682
@@ -657,7 +657,7 @@ MonoBehaviour:
       - ElementName: Play_EXIT_MUSIC_PLAYLIST
         ObjectType: 3
         guid: f3103949575e7045b6d21abea929d925
-      Path: Events\Default Work Unit\Play_EXIT_MUSIC_PLAYLIST
+      Path: Events/Default Work Unit/Play_EXIT_MUSIC_PLAYLIST
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -674,7 +674,7 @@ MonoBehaviour:
       - ElementName: Play_INTEGRATION_OPENING_SEQUENCE_SHORT
         ObjectType: 3
         guid: 7ad738c7e4be804f9f36bd97613a271a
-      Path: Events\Default Work Unit\Play_INTEGRATION_OPENING_SEQUENCE_SHORT
+      Path: Events/Default Work Unit/Play_INTEGRATION_OPENING_SEQUENCE_SHORT
       maxAttenuation: 0
       maxDuration: 471.42188
       minDuration: 471.42188
@@ -691,7 +691,7 @@ MonoBehaviour:
       - ElementName: Play_MUSIC_PLAYLIST_SWITCH
         ObjectType: 3
         guid: 4ad42d0e718cce4daa453716dd52e231
-      Path: Events\Default Work Unit\Play_MUSIC_PLAYLIST_SWITCH
+      Path: Events/Default Work Unit/Play_MUSIC_PLAYLIST_SWITCH
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -708,7 +708,7 @@ MonoBehaviour:
       - ElementName: Play_PASSIVE_OPENING_SEQUENCE
         ObjectType: 3
         guid: 32f8da04fe81b8488b57be2e117bfaab
-      Path: Events\Default Work Unit\Play_PASSIVE_OPENING_SEQUENCE
+      Path: Events/Default Work Unit/Play_PASSIVE_OPENING_SEQUENCE
       maxAttenuation: 0
       maxDuration: 310.5156
       minDuration: 310.5156
@@ -725,7 +725,7 @@ MonoBehaviour:
       - ElementName: Play_PREPARATION_OPENING_SEQUENCE_LONG
         ObjectType: 3
         guid: a82983929bbfc746a5d8defd50ee76e9
-      Path: Events\Default Work Unit\Play_PREPARATION_OPENING_SEQUENCE_LONG
+      Path: Events/Default Work Unit/Play_PREPARATION_OPENING_SEQUENCE_LONG
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -742,7 +742,7 @@ MonoBehaviour:
       - ElementName: Play_PREPARATION_OPENING_SEQUENCE_SHORT
         ObjectType: 3
         guid: 3fe2f451f7904f408149caf1ebd9cbc5
-      Path: Events\Default Work Unit\Play_PREPARATION_OPENING_SEQUENCE_SHORT
+      Path: Events/Default Work Unit/Play_PREPARATION_OPENING_SEQUENCE_SHORT
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -759,7 +759,7 @@ MonoBehaviour:
       - ElementName: Play_SIGH_QUERY_SEQUENCE_1
         ObjectType: 3
         guid: 9a39e8794c5e6144a5a4926f23585c1c
-      Path: Events\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_1
+      Path: Events/Default Work Unit/Play_SIGH_QUERY_SEQUENCE_1
       maxAttenuation: 0
       maxDuration: 214.70941
       minDuration: 214.70941
@@ -776,7 +776,7 @@ MonoBehaviour:
       - ElementName: Play_SIGH_QUERY_SEQUENCE_2
         ObjectType: 3
         guid: ef1d0a2011e79746a5152af0f737bf26
-      Path: Events\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_2
+      Path: Events/Default Work Unit/Play_SIGH_QUERY_SEQUENCE_2
       maxAttenuation: 0
       maxDuration: 214.70941
       minDuration: 214.70941
@@ -793,7 +793,7 @@ MonoBehaviour:
       - ElementName: Play_SOMATIC_SEQUENCE
         ObjectType: 3
         guid: f430602e2e1d69419928e3b4db9cffe4
-      Path: Events\Default Work Unit\Play_SOMATIC_SEQUENCE
+      Path: Events/Default Work Unit/Play_SOMATIC_SEQUENCE
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -810,7 +810,7 @@ MonoBehaviour:
       - ElementName: Play_THEMATIC_SAVASANA_SEQUENCE
         ObjectType: 3
         guid: 24a08781d1a1c74d9027969c6840ade5
-      Path: Events\Default Work Unit\Play_THEMATIC_SAVASANA_SEQUENCE
+      Path: Events/Default Work Unit/Play_THEMATIC_SAVASANA_SEQUENCE
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -827,7 +827,7 @@ MonoBehaviour:
       - ElementName: Play_VO_OPENING_THEMATIC_SWITCH
         ObjectType: 3
         guid: b5c1b507caf31747990f8136a1e1b9ea
-      Path: Events\Default Work Unit\Play_VO_OPENING_THEMATIC_SWITCH
+      Path: Events/Default Work Unit/Play_VO_OPENING_THEMATIC_SWITCH
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -844,7 +844,7 @@ MonoBehaviour:
       - ElementName: Play_VO_POSTURE_SWITCH
         ObjectType: 3
         guid: c4d1c7ad767db04682281a0b986f8a77
-      Path: Events\Default Work Unit\Play_VO_POSTURE_SWITCH
+      Path: Events/Default Work Unit/Play_VO_POSTURE_SWITCH
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -861,7 +861,7 @@ MonoBehaviour:
       - ElementName: Play_WakeUpEndSoon_SEQUENCE
         ObjectType: 3
         guid: 6f6694900c2f6b48b702268ae17352dd
-      Path: Events\Default Work Unit\Play_WakeUpEndSoon_SEQUENCE
+      Path: Events/Default Work Unit/Play_WakeUpEndSoon_SEQUENCE
       maxAttenuation: 0
       maxDuration: 134.23682
       minDuration: 134.23682
@@ -878,7 +878,7 @@ MonoBehaviour:
       - ElementName: Play_WISDOM_OPENING_SEQUENCE_LONG
         ObjectType: 3
         guid: 8492bac2adc8ea4b87353eab0982d3bb
-      Path: Events\Default Work Unit\Play_WISDOM_OPENING_SEQUENCE_LONG
+      Path: Events/Default Work Unit/Play_WISDOM_OPENING_SEQUENCE_LONG
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -895,7 +895,7 @@ MonoBehaviour:
       - ElementName: Play_WISDOM_OPENING_SEQUENCE_SHORT
         ObjectType: 3
         guid: de84f2f2b6e5f9458f439dc49d920fd7
-      Path: Events\Default Work Unit\Play_WISDOM_OPENING_SEQUENCE_SHORT
+      Path: Events/Default Work Unit/Play_WISDOM_OPENING_SEQUENCE_SHORT
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -912,7 +912,7 @@ MonoBehaviour:
       - ElementName: Stop_All
         ObjectType: 3
         guid: 911e8239f431d347b1afe42968aa6d28
-      Path: Events\Default Work Unit\Stop_All
+      Path: Events/Default Work Unit/Stop_All
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -929,7 +929,7 @@ MonoBehaviour:
       - ElementName: Stop_AMBIENT_ENVIRONMENT_LOOP
         ObjectType: 3
         guid: eee0e16fd43b964ca0cd0085351ba02b
-      Path: Events\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP
+      Path: Events/Default Work Unit/Stop_AMBIENT_ENVIRONMENT_LOOP
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -946,7 +946,7 @@ MonoBehaviour:
       - ElementName: Stop_OPENING_SEQUENCE
         ObjectType: 3
         guid: 3880d8431034894ebd1dd4d496c2a6b3
-      Path: Events\Default Work Unit\Stop_OPENING_SEQUENCE
+      Path: Events/Default Work Unit/Stop_OPENING_SEQUENCE
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -963,7 +963,7 @@ MonoBehaviour:
       - ElementName: Stop_SIGH_QUERY_SEQUENCE_1
         ObjectType: 3
         guid: b5c759ffa48dd2489eef82ee9d58d6d9
-      Path: Events\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_1
+      Path: Events/Default Work Unit/Stop_SIGH_QUERY_SEQUENCE_1
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -980,7 +980,7 @@ MonoBehaviour:
       - ElementName: Stop_SIGH_QUERY_SEQUENCE_2
         ObjectType: 3
         guid: 1796222a990b4f40877f837cfa0e1607
-      Path: Events\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_2
+      Path: Events/Default Work Unit/Stop_SIGH_QUERY_SEQUENCE_2
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -997,7 +997,7 @@ MonoBehaviour:
       - ElementName: Stop_SOMATIC_SEQUENCE
         ObjectType: 3
         guid: 0bad97d50b3f0b4b98eb3f63a16acdff
-      Path: Events\Default Work Unit\Stop_SOMATIC_SEQUENCE
+      Path: Events/Default Work Unit/Stop_SOMATIC_SEQUENCE
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1014,7 +1014,7 @@ MonoBehaviour:
       - ElementName: Stop_THEMATIC_SAVASANA_SEQUENCE
         ObjectType: 3
         guid: bb32aa4488f1b842bb5ebf7e9fac8450
-      Path: Events\Default Work Unit\Stop_THEMATIC_SAVASANA_SEQUENCE
+      Path: Events/Default Work Unit/Stop_THEMATIC_SAVASANA_SEQUENCE
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1031,11 +1031,11 @@ MonoBehaviour:
       - ElementName: Stop_VO_OPENING_THEMATIC_SWITCH
         ObjectType: 3
         guid: 84bcd5d238eb134aba7053f1cfac8075
-      Path: Events\Default Work Unit\Stop_VO_OPENING_THEMATIC_SWITCH
+      Path: Events/Default Work Unit/Stop_VO_OPENING_THEMATIC_SWITCH
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-  - PhysicalPath: Events\Environment.wwu
+  - PhysicalPath: Events/Environment.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
@@ -1043,10 +1043,10 @@ MonoBehaviour:
     - ElementName: Environment
       ObjectType: 12
       guid: 3ffbeff2adf5b844b3827d55048249ec
-    ParentPath: Events\Environment
+    ParentPath: Events/Environment
     guid: 3ffbeff2adf5b844b3827d55048249ec
     GuidInternal: 
-    m_lastTime: -8584817378589022361
+    m_lastTime: -8584761385860751478
     List:
     - name: Play_environment_anyQueryRepeat1
       guid: 78543b158da14a44a12803d2d86547b2
@@ -1061,7 +1061,7 @@ MonoBehaviour:
       - ElementName: Play_environment_anyQueryRepeat1
         ObjectType: 3
         guid: 78543b158da14a44a12803d2d86547b2
-      Path: Events\Environment\Play_environment_anyQueryRepeat1
+      Path: Events/Environment/Play_environment_anyQueryRepeat1
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1078,7 +1078,7 @@ MonoBehaviour:
       - ElementName: Play_environment_anyQueryRepeat2
         ObjectType: 3
         guid: a74a78625487754c83e189f38e1542e0
-      Path: Events\Environment\Play_environment_anyQueryRepeat2
+      Path: Events/Environment/Play_environment_anyQueryRepeat2
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1095,7 +1095,7 @@ MonoBehaviour:
       - ElementName: Play_environment_crickets
         ObjectType: 3
         guid: caf9ad289544634ebabb04d4ee579e24
-      Path: Events\Environment\Play_environment_crickets
+      Path: Events/Environment/Play_environment_crickets
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1112,7 +1112,7 @@ MonoBehaviour:
       - ElementName: Play_environment_openingMeditation
         ObjectType: 3
         guid: 326bdc957a16b444aef6e72e76569a47
-      Path: Events\Environment\Play_environment_openingMeditation
+      Path: Events/Environment/Play_environment_openingMeditation
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1129,7 +1129,7 @@ MonoBehaviour:
       - ElementName: Play_environment_openingQuery
         ObjectType: 3
         guid: fcf464f8792826429786dc66a59cb755
-      Path: Events\Environment\Play_environment_openingQuery
+      Path: Events/Environment/Play_environment_openingQuery
       maxAttenuation: 0
       maxDuration: 12.938896
       minDuration: 12.938896
@@ -1146,7 +1146,7 @@ MonoBehaviour:
       - ElementName: Play_environment_openingQueryRepeat1
         ObjectType: 3
         guid: b3f21f69d3cfc943b7c1cdc5db950be5
-      Path: Events\Environment\Play_environment_openingQueryRepeat1
+      Path: Events/Environment/Play_environment_openingQueryRepeat1
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1163,7 +1163,7 @@ MonoBehaviour:
       - ElementName: Play_environment_openingWelcome
         ObjectType: 3
         guid: 060e8d2d615c0d4c9dad742d0c446dcb
-      Path: Events\Environment\Play_environment_openingWelcome
+      Path: Events/Environment/Play_environment_openingWelcome
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1180,7 +1180,7 @@ MonoBehaviour:
       - ElementName: Play_environment_wind
         ObjectType: 3
         guid: c2a27769525b9b4986ec4482937d7ab0
-      Path: Events\Environment\Play_environment_wind
+      Path: Events/Environment/Play_environment_wind
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1197,7 +1197,7 @@ MonoBehaviour:
       - ElementName: Stop_environment_crickets
         ObjectType: 3
         guid: 1f84e6e4d9486d4fa3ebfe8d13c58924
-      Path: Events\Environment\Stop_environment_crickets
+      Path: Events/Environment/Stop_environment_crickets
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1214,11 +1214,11 @@ MonoBehaviour:
       - ElementName: Stop_environment_wind
         ObjectType: 3
         guid: 5e7a40dec1c0d0478434c812b73b3da0
-      Path: Events\Environment\Stop_environment_wind
+      Path: Events/Environment/Stop_environment_wind
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-  - PhysicalPath: Events\Interactive Music System.wwu
+  - PhysicalPath: Events/Interactive Music System.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
@@ -1226,10 +1226,10 @@ MonoBehaviour:
     - ElementName: Interactive Music System
       ObjectType: 12
       guid: e3fca33b7e95e0428b60263055648e4a
-    ParentPath: Events\Interactive Music System
+    ParentPath: Events/Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584767256448097645
+    m_lastTime: -8584761385860750381
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -1244,7 +1244,7 @@ MonoBehaviour:
       - ElementName: Play_NewEnding
         ObjectType: 3
         guid: ce484e1f58344e419ccdb73901fa46cf
-      Path: Events\Interactive Music System\Play_NewEnding
+      Path: Events/Interactive Music System/Play_NewEnding
       maxAttenuation: 0
       maxDuration: 44.175877
       minDuration: 44.175877
@@ -1261,7 +1261,7 @@ MonoBehaviour:
       - ElementName: Play_SilentLoops
         ObjectType: 3
         guid: c4fdcbeb421dc146af154a03e05840a9
-      Path: Events\Interactive Music System\Play_SilentLoops
+      Path: Events/Interactive Music System/Play_SilentLoops
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1278,7 +1278,7 @@ MonoBehaviour:
       - ElementName: Play_SilentLoops_v1_7Pitch_Linked
         ObjectType: 3
         guid: 0cb89a07d3ce784183dd41e8abf2bae5
-      Path: Events\Interactive Music System\Play_SilentLoops_v1_7Pitch_Linked
+      Path: Events/Interactive Music System/Play_SilentLoops_v1_7Pitch_Linked
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1295,7 +1295,7 @@ MonoBehaviour:
       - ElementName: Play_SilentLoops_v2_12Pitch_Linked
         ObjectType: 3
         guid: 6996796e00d00944aa90f73b8ecf6353
-      Path: Events\Interactive Music System\Play_SilentLoops_v2_12Pitch_Linked
+      Path: Events/Interactive Music System/Play_SilentLoops_v2_12Pitch_Linked
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1312,7 +1312,7 @@ MonoBehaviour:
       - ElementName: Play_SilentLoops_v3_FundamentalOnly
         ObjectType: 3
         guid: 7a127f49cca5f04c85d2f5b56677900e
-      Path: Events\Interactive Music System\Play_SilentLoops_v3_FundamentalOnly
+      Path: Events/Interactive Music System/Play_SilentLoops_v3_FundamentalOnly
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1329,7 +1329,7 @@ MonoBehaviour:
       - ElementName: Play_SilentLoops_v3_HarmonyOnly
         ObjectType: 3
         guid: 115715e0385c3b46876e4dcb38a63217
-      Path: Events\Interactive Music System\Play_SilentLoops_v3_HarmonyOnly
+      Path: Events/Interactive Music System/Play_SilentLoops_v3_HarmonyOnly
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1346,7 +1346,7 @@ MonoBehaviour:
       - ElementName: Play_Toning
         ObjectType: 3
         guid: e40a28752704e04ba4e13f0b4ad82e9b
-      Path: Events\Interactive Music System\Play_Toning
+      Path: Events/Interactive Music System/Play_Toning
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1363,7 +1363,7 @@ MonoBehaviour:
       - ElementName: Play_Toning_v1_7Pitch_Linked
         ObjectType: 3
         guid: 113f849040658c4ab5532767e329b988
-      Path: Events\Interactive Music System\Play_Toning_v1_7Pitch_Linked
+      Path: Events/Interactive Music System/Play_Toning_v1_7Pitch_Linked
       maxAttenuation: 0
       maxDuration: 35.676212
       minDuration: 15.866851
@@ -1380,7 +1380,7 @@ MonoBehaviour:
       - ElementName: Play_Toning_v2_12Pitch_Linked
         ObjectType: 3
         guid: 3edf4117d250ee4fbf9b528e101620d8
-      Path: Events\Interactive Music System\Play_Toning_v2_12Pitch_Linked
+      Path: Events/Interactive Music System/Play_Toning_v2_12Pitch_Linked
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1397,7 +1397,7 @@ MonoBehaviour:
       - ElementName: Play_Toning_v3_FundamentalOnly
         ObjectType: 3
         guid: efb100dad61d484fad925da76bc5f7c1
-      Path: Events\Interactive Music System\Play_Toning_v3_FundamentalOnly
+      Path: Events/Interactive Music System/Play_Toning_v3_FundamentalOnly
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1414,7 +1414,7 @@ MonoBehaviour:
       - ElementName: Play_Toning_v3_HarmonyOnly
         ObjectType: 3
         guid: 17c68e7fe73ec14ab11d03973b8fdda8
-      Path: Events\Interactive Music System\Play_Toning_v3_HarmonyOnly
+      Path: Events/Interactive Music System/Play_Toning_v3_HarmonyOnly
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1431,7 +1431,7 @@ MonoBehaviour:
       - ElementName: Stop_InteractiveMusicSystem
         ObjectType: 3
         guid: 73dcd21109e2b44589fdf87c94f55b6d
-      Path: Events\Interactive Music System\Stop_InteractiveMusicSystem
+      Path: Events/Interactive Music System/Stop_InteractiveMusicSystem
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1448,7 +1448,7 @@ MonoBehaviour:
       - ElementName: Stop_SilentLoops
         ObjectType: 3
         guid: 4700c3375aafb943896d68e3f2aa7d3a
-      Path: Events\Interactive Music System\Stop_SilentLoops
+      Path: Events/Interactive Music System/Stop_SilentLoops
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1465,11 +1465,11 @@ MonoBehaviour:
       - ElementName: Stop_Toning
         ObjectType: 3
         guid: 95bc9dbcec1f2440914947e42f23d96e
-      Path: Events\Interactive Music System\Stop_Toning
+      Path: Events/Interactive Music System/Stop_Toning
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-  - PhysicalPath: Events\Linear Music.wwu
+  - PhysicalPath: Events/Linear Music.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
@@ -1477,10 +1477,10 @@ MonoBehaviour:
     - ElementName: Linear Music
       ObjectType: 12
       guid: ae874db4035f664c8db73b3cfbfee75e
-    ParentPath: Events\Linear Music
+    ParentPath: Events/Linear Music
     guid: ae874db4035f664c8db73b3cfbfee75e
     GuidInternal: 
-    m_lastTime: -8584802617932617400
+    m_lastTime: -8584761385860747554
     List:
     - name: Play_MenuMusic
       guid: 1df5e9e4dc81c841ba5daa250a570b32
@@ -1495,7 +1495,7 @@ MonoBehaviour:
       - ElementName: Play_MenuMusic
         ObjectType: 3
         guid: 1df5e9e4dc81c841ba5daa250a570b32
-      Path: Events\Linear Music\Play_MenuMusic
+      Path: Events/Linear Music/Play_MenuMusic
       maxAttenuation: 0
       maxDuration: 228.8132
       minDuration: 228.8132
@@ -1512,7 +1512,7 @@ MonoBehaviour:
       - ElementName: Play_music_Duet_D_Major
         ObjectType: 3
         guid: 50bea881047ffc4dbcba00a442a5995b
-      Path: Events\Linear Music\Play_music_Duet_D_Major
+      Path: Events/Linear Music/Play_music_Duet_D_Major
       maxAttenuation: 0
       maxDuration: 290.57904
       minDuration: 290.57904
@@ -1529,7 +1529,7 @@ MonoBehaviour:
       - ElementName: Play_music_meditationSilent_E_Major_LOOP
         ObjectType: 3
         guid: f8be09ce602a5241be1973ff50191240
-      Path: Events\Linear Music\Play_music_meditationSilent_E_Major_LOOP
+      Path: Events/Linear Music/Play_music_meditationSilent_E_Major_LOOP
       maxAttenuation: 0
       maxDuration: 117.802315
       minDuration: 117.802315
@@ -1546,11 +1546,11 @@ MonoBehaviour:
       - ElementName: Stop_music_meditationSilent_E_Major_LOOP
         ObjectType: 3
         guid: 49a8687f59df014590db9bb1a586eb46
-      Path: Events\Linear Music\Stop_music_meditationSilent_E_Major_LOOP
+      Path: Events/Linear Music/Stop_music_meditationSilent_E_Major_LOOP
       maxAttenuation: 0
       maxDuration: 117.802315
       minDuration: 117.802315
-  - PhysicalPath: Events\SFX.wwu
+  - PhysicalPath: Events/SFX.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
@@ -1558,10 +1558,10 @@ MonoBehaviour:
     - ElementName: SFX
       ObjectType: 12
       guid: 5832c42f0bb4dc4fbcadfaa5eef44194
-    ParentPath: Events\SFX
+    ParentPath: Events/SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584767256448087503
+    m_lastTime: -8584761385860746146
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1576,7 +1576,7 @@ MonoBehaviour:
       - ElementName: Play_CrystalBowlGenerator
         ObjectType: 3
         guid: 1a9f408bea41d94f88556e165a2929f1
-      Path: Events\SFX\Play_CrystalBowlGenerator
+      Path: Events/SFX/Play_CrystalBowlGenerator
       maxAttenuation: 0
       maxDuration: 415.44745
       minDuration: 385.44745
@@ -1593,7 +1593,7 @@ MonoBehaviour:
       - ElementName: Play_Inhale_Long
         ObjectType: 3
         guid: cc2a9f4bfd558542952b9206b5585121
-      Path: Events\SFX\Play_Inhale_Long
+      Path: Events/SFX/Play_Inhale_Long
       maxAttenuation: 0
       maxDuration: 3.1872916
       minDuration: 3.1872916
@@ -1610,7 +1610,7 @@ MonoBehaviour:
       - ElementName: Play_Inhale_Medium
         ObjectType: 3
         guid: bba83bbb94fcfb428e1b11efb7f9ec68
-      Path: Events\SFX\Play_Inhale_Medium
+      Path: Events/SFX/Play_Inhale_Medium
       maxAttenuation: 0
       maxDuration: 3.1872916
       minDuration: 3.1872916
@@ -1627,7 +1627,7 @@ MonoBehaviour:
       - ElementName: Play_Inhale_Short
         ObjectType: 3
         guid: 4a35cf9a4f3e494289c48c49b0dff12b
-      Path: Events\SFX\Play_Inhale_Short
+      Path: Events/SFX/Play_Inhale_Short
       maxAttenuation: 0
       maxDuration: 3.1872916
       minDuration: 3.1872916
@@ -1644,7 +1644,7 @@ MonoBehaviour:
       - ElementName: Play_sfx_breathein
         ObjectType: 3
         guid: 3bb9951731f13247805529bc37e9b579
-      Path: Events\SFX\Play_sfx_breathein
+      Path: Events/SFX/Play_sfx_breathein
       maxAttenuation: 0
       maxDuration: 3.1872919
       minDuration: 3.1872919
@@ -1661,7 +1661,7 @@ MonoBehaviour:
       - ElementName: Play_sfx_breatheout
         ObjectType: 3
         guid: 45fd7e94e476614f88550a00fe87bc89
-      Path: Events\SFX\Play_sfx_breatheout
+      Path: Events/SFX/Play_sfx_breatheout
       maxAttenuation: 0
       maxDuration: 4
       minDuration: 4
@@ -1678,7 +1678,7 @@ MonoBehaviour:
       - ElementName: Play_sfx_Impact
         ObjectType: 3
         guid: 32835a0a9f382e45b07c318cd4f7edd5
-      Path: Events\SFX\Play_sfx_Impact
+      Path: Events/SFX/Play_sfx_Impact
       maxAttenuation: 0
       maxDuration: 19.552813
       minDuration: 2.6546667
@@ -1695,7 +1695,7 @@ MonoBehaviour:
       - ElementName: Play_sfx_SoundSeed_BreathCycle
         ObjectType: 3
         guid: 99106bfe1545de45801f62326cc3385b
-      Path: Events\SFX\Play_sfx_SoundSeed_BreathCycle
+      Path: Events/SFX/Play_sfx_SoundSeed_BreathCycle
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1712,7 +1712,7 @@ MonoBehaviour:
       - ElementName: Play_sfx_SoundSeed_BreathCycleWind
         ObjectType: 3
         guid: 4ed7691a4216e14ab637480e5631f78d
-      Path: Events\SFX\Play_sfx_SoundSeed_BreathCycleWind
+      Path: Events/SFX/Play_sfx_SoundSeed_BreathCycleWind
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1729,7 +1729,7 @@ MonoBehaviour:
       - ElementName: Stop_CrystalBowlGenerator
         ObjectType: 3
         guid: 5c3ad7973e439042b073bf488ecf89f7
-      Path: Events\SFX\Stop_CrystalBowlGenerator
+      Path: Events/SFX/Stop_CrystalBowlGenerator
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1746,7 +1746,7 @@ MonoBehaviour:
       - ElementName: Stop_Inhales
         ObjectType: 3
         guid: 65f45a464e83f54980d0aa1071bdb9e2
-      Path: Events\SFX\Stop_Inhales
+      Path: Events/SFX/Stop_Inhales
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1763,7 +1763,7 @@ MonoBehaviour:
       - ElementName: Stop_sfx_SoundSeed_BreathCycleWind
         ObjectType: 3
         guid: ba913102b25a9a429c53b3a0c009be7b
-      Path: Events\SFX\Stop_sfx_SoundSeed_BreathCycleWind
+      Path: Events/SFX/Stop_sfx_SoundSeed_BreathCycleWind
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1780,11 +1780,11 @@ MonoBehaviour:
       - ElementName: Unity_TransitionSFX
         ObjectType: 3
         guid: 2d500e1e201d094289c0d28db3052cff
-      Path: Events\SFX\Unity_TransitionSFX
+      Path: Events/SFX/Unity_TransitionSFX
       maxAttenuation: 0
       maxDuration: 13.185377
       minDuration: 4.9054503
-  - PhysicalPath: Events\VO.wwu
+  - PhysicalPath: Events/VO.wwu
     PathAndIcons:
     - ElementName: Events
       ObjectType: 5
@@ -1792,10 +1792,10 @@ MonoBehaviour:
     - ElementName: VO
       ObjectType: 12
       guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
-    ParentPath: Events\VO
+    ParentPath: Events/VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584767256448048225
+    m_lastTime: -8584761385860745036
     List:
     - name: Play_VO_ClosingGoodbye
       guid: d8c917e3a4fcc241bc26f16e968efae1
@@ -1810,7 +1810,7 @@ MonoBehaviour:
       - ElementName: Play_VO_ClosingGoodbye
         ObjectType: 3
         guid: d8c917e3a4fcc241bc26f16e968efae1
-      Path: Events\VO\Play_VO_ClosingGoodbye
+      Path: Events/VO/Play_VO_ClosingGoodbye
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1827,7 +1827,7 @@ MonoBehaviour:
       - ElementName: Play_VO_EndingSoon
         ObjectType: 3
         guid: 96640d9ed7824448acd78c31b52a9987
-      Path: Events\VO\Play_VO_EndingSoon
+      Path: Events/VO/Play_VO_EndingSoon
       maxAttenuation: 0
       maxDuration: 2.738
       minDuration: 2.738
@@ -1844,7 +1844,7 @@ MonoBehaviour:
       - ElementName: Play_VO_GuidedVocalizationAdvanced
         ObjectType: 3
         guid: 2aa909ca19197c4ea1e2a10d652f7f14
-      Path: Events\VO\Play_VO_GuidedVocalizationAdvanced
+      Path: Events/VO/Play_VO_GuidedVocalizationAdvanced
       maxAttenuation: 0
       maxDuration: 3.4206667
       minDuration: 2.0553331
@@ -1861,7 +1861,7 @@ MonoBehaviour:
       - ElementName: Play_VO_GuidedVocalizationAhh
         ObjectType: 3
         guid: 3dec97b020b0ef41ab707566952fcfc4
-      Path: Events\VO\Play_VO_GuidedVocalizationAhh
+      Path: Events/VO/Play_VO_GuidedVocalizationAhh
       maxAttenuation: 0
       maxDuration: 17.756666
       minDuration: 2.738
@@ -1878,7 +1878,7 @@ MonoBehaviour:
       - ElementName: Play_VO_GuidedVocalizationHum
         ObjectType: 3
         guid: d23b86ff726cf34e9d32b7a302edeecc
-      Path: Events\VO\Play_VO_GuidedVocalizationHum
+      Path: Events/VO/Play_VO_GuidedVocalizationHum
       maxAttenuation: 0
       maxDuration: 13.660667
       minDuration: 2.738
@@ -1895,7 +1895,7 @@ MonoBehaviour:
       - ElementName: Play_VO_GuidedVocalizationOhh
         ObjectType: 3
         guid: 4b2c2e8e91f16c4bb7f08643bfb84742
-      Path: Events\VO\Play_VO_GuidedVocalizationOhh
+      Path: Events/VO/Play_VO_GuidedVocalizationOhh
       maxAttenuation: 0
       maxDuration: 19.122
       minDuration: 15.026
@@ -1912,7 +1912,7 @@ MonoBehaviour:
       - ElementName: Play_VO_Opening
         ObjectType: 3
         guid: eb996ea9cf252c42b4a9890c7155a065
-      Path: Events\VO\Play_VO_Opening
+      Path: Events/VO/Play_VO_Opening
       maxAttenuation: 0
       maxDuration: 69.639336
       minDuration: 37.554
@@ -1929,7 +1929,7 @@ MonoBehaviour:
       - ElementName: Play_VO_QueryElicitation1
         ObjectType: 3
         guid: 62bcdf3dcaee4b41959a6cd9ff50f414
-      Path: Events\VO\Play_VO_QueryElicitation1
+      Path: Events/VO/Play_VO_QueryElicitation1
       maxAttenuation: 0
       maxDuration: 53.938
       minDuration: 53.938
@@ -1946,7 +1946,7 @@ MonoBehaviour:
       - ElementName: Play_VO_QueryElicitation2
         ObjectType: 3
         guid: 2c1f049cfac55046a7ff2589d7e2832d
-      Path: Events\VO\Play_VO_QueryElicitation2
+      Path: Events/VO/Play_VO_QueryElicitation2
       maxAttenuation: 0
       maxDuration: 47.794
       minDuration: 47.794
@@ -1963,7 +1963,7 @@ MonoBehaviour:
       - ElementName: Play_VO_QueryElicitationFail1
         ObjectType: 3
         guid: 94c46e0d8127564a8c83a52071a455fa
-      Path: Events\VO\Play_VO_QueryElicitationFail1
+      Path: Events/VO/Play_VO_QueryElicitationFail1
       maxAttenuation: 0
       maxDuration: 29.362
       minDuration: 10.93
@@ -1980,7 +1980,7 @@ MonoBehaviour:
       - ElementName: Play_VO_QueryElicitationFail2
         ObjectType: 3
         guid: b82badcafe41da4c92779a649a763e03
-      Path: Events\VO\Play_VO_QueryElicitationFail2
+      Path: Events/VO/Play_VO_QueryElicitationFail2
       maxAttenuation: 0
       maxDuration: 29.362
       minDuration: 10.93
@@ -1997,7 +1997,7 @@ MonoBehaviour:
       - ElementName: Play_VO_QueryElicitationPass2
         ObjectType: 3
         guid: 4344878971e3d54b833b22293dbd6b7a
-      Path: Events\VO\Play_VO_QueryElicitationPass2
+      Path: Events/VO/Play_VO_QueryElicitationPass2
       maxAttenuation: 0
       maxDuration: 0.69
       minDuration: 0.69
@@ -2014,7 +2014,7 @@ MonoBehaviour:
       - ElementName: Play_VO_QueryElicitationPassThankYou1
         ObjectType: 3
         guid: 2dd8c1de4e0ac3499ae11d4c421710ee
-      Path: Events\VO\Play_VO_QueryElicitationPassThankYou1
+      Path: Events/VO/Play_VO_QueryElicitationPassThankYou1
       maxAttenuation: 0
       maxDuration: 0.69
       minDuration: 0.69
@@ -2031,7 +2031,7 @@ MonoBehaviour:
       - ElementName: Play_VO_SighElicitation1
         ObjectType: 3
         guid: 95ce432778a77646a9e76e4bff47e683
-      Path: Events\VO\Play_VO_SighElicitation1
+      Path: Events/VO/Play_VO_SighElicitation1
       maxAttenuation: 0
       maxDuration: 34.374
       minDuration: 34.374
@@ -2048,7 +2048,7 @@ MonoBehaviour:
       - ElementName: Play_VO_SighElicitation2
         ObjectType: 3
         guid: 272bdf37c62fdd4e8549be6dc8ca14aa
-      Path: Events\VO\Play_VO_SighElicitation2
+      Path: Events/VO/Play_VO_SighElicitation2
       maxAttenuation: 0
       maxDuration: 20.487333
       minDuration: 20.487333
@@ -2065,7 +2065,7 @@ MonoBehaviour:
       - ElementName: Play_VO_SighElicitationFail1
         ObjectType: 3
         guid: d6827984d06b8e45b7ef8583c5e6353d
-      Path: Events\VO\Play_VO_SighElicitationFail1
+      Path: Events/VO/Play_VO_SighElicitationFail1
       maxAttenuation: 0
       maxDuration: 22.535334
       minDuration: 21.17
@@ -2082,7 +2082,7 @@ MonoBehaviour:
       - ElementName: Play_VO_SighElicitationFail2
         ObjectType: 3
         guid: f25648c226137c488349c8a5075d0f2e
-      Path: Events\VO\Play_VO_SighElicitationFail2
+      Path: Events/VO/Play_VO_SighElicitationFail2
       maxAttenuation: 0
       maxDuration: 21.17
       minDuration: 21.17
@@ -2099,7 +2099,7 @@ MonoBehaviour:
       - ElementName: Play_VO_Somatic
         ObjectType: 3
         guid: e33e322a7338124abd6b479d1a70ca48
-      Path: Events\VO\Play_VO_Somatic
+      Path: Events/VO/Play_VO_Somatic
       maxAttenuation: 0
       maxDuration: 236.89267
       minDuration: 96.946
@@ -2116,7 +2116,7 @@ MonoBehaviour:
       - ElementName: Play_VO_testRepair_Ahh
         ObjectType: 3
         guid: d550459058aa1f4a99c107e70ea2bdc5
-      Path: Events\VO\Play_VO_testRepair_Ahh
+      Path: Events/VO/Play_VO_testRepair_Ahh
       maxAttenuation: 0
       maxDuration: 27.314
       minDuration: 27.314
@@ -2133,7 +2133,7 @@ MonoBehaviour:
       - ElementName: Play_VO_testRepair_Extended
         ObjectType: 3
         guid: 71bf7b38bb12b64e85df4141273202de
-      Path: Events\VO\Play_VO_testRepair_Extended
+      Path: Events/VO/Play_VO_testRepair_Extended
       maxAttenuation: 0
       maxDuration: 27.314
       minDuration: 27.314
@@ -2150,7 +2150,7 @@ MonoBehaviour:
       - ElementName: Play_VO_testRepair_Hum
         ObjectType: 3
         guid: 37c0deee67d1be4c944520bc3ba01658
-      Path: Events\VO\Play_VO_testRepair_Hum
+      Path: Events/VO/Play_VO_testRepair_Hum
       maxAttenuation: 0
       maxDuration: 28.679335
       minDuration: 28.679335
@@ -2167,7 +2167,7 @@ MonoBehaviour:
       - ElementName: Play_VO_testRepair_Ohh
         ObjectType: 3
         guid: 051060091e817140a42cce34ab039b9b
-      Path: Events\VO\Play_VO_testRepair_Ohh
+      Path: Events/VO/Play_VO_testRepair_Ohh
       maxAttenuation: 0
       maxDuration: 29.362
       minDuration: 29.362
@@ -2184,7 +2184,7 @@ MonoBehaviour:
       - ElementName: Play_VO_ThematicContent
         ObjectType: 3
         guid: 1a5202d6f76fc048930706656786d26d
-      Path: Events\VO\Play_VO_ThematicContent
+      Path: Events/VO/Play_VO_ThematicContent
       maxAttenuation: 0
       maxDuration: 154.97267
       minDuration: 23.900667
@@ -2201,7 +2201,7 @@ MonoBehaviour:
       - ElementName: Play_VO_ThematicSavasana
         ObjectType: 3
         guid: a3785972b74ccf4586e3bd5bae777da1
-      Path: Events\VO\Play_VO_ThematicSavasana
+      Path: Events/VO/Play_VO_ThematicSavasana
       maxAttenuation: 0
       maxDuration: 335.62918
       minDuration: 55.999584
@@ -2218,7 +2218,7 @@ MonoBehaviour:
       - ElementName: Play_VO_Wakeup
         ObjectType: 3
         guid: d4b5318eef53574893d3635f862c3583
-      Path: Events\VO\Play_VO_Wakeup
+      Path: Events/VO/Play_VO_Wakeup
       maxAttenuation: 0
       maxDuration: 38.919334
       minDuration: 38.919334
@@ -2235,7 +2235,7 @@ MonoBehaviour:
       - ElementName: Play_VO_Wisdom
         ObjectType: 3
         guid: 41b8c77f2f29e446bb2a7198ff57229b
-      Path: Events\VO\Play_VO_Wisdom
+      Path: Events/VO/Play_VO_Wisdom
       maxAttenuation: 0
       maxDuration: 664.9247
       minDuration: 453.298
@@ -2252,12 +2252,12 @@ MonoBehaviour:
       - ElementName: Stop_VO_ClosingGoodbye
         ObjectType: 3
         guid: ea967efc3a25da45860c6d159a29245c
-      Path: Events\VO\Stop_VO_ClosingGoodbye
+      Path: Events/VO/Stop_VO_ClosingGoodbye
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
   RtpcWwu:
-  - PhysicalPath: Game Parameters\AVS System.wwu
+  - PhysicalPath: Game Parameters/AVS System.wwu
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
@@ -2265,10 +2265,10 @@ MonoBehaviour:
     - ElementName: AVS System
       ObjectType: 12
       guid: 33c2cba45d7021408c88e244225aa913
-    ParentPath: Game Parameters\AVS System
+    ParentPath: Game Parameters/AVS System
     guid: 33c2cba45d7021408c88e244225aa913
     GuidInternal: 
-    m_lastTime: -8584769175728121911
+    m_lastTime: -8584761385860743914
     List:
     - name: AVS_BLUE_Volume_Wave1
       guid: 7bb67256f951734384840f7d6cc7fd2e
@@ -2286,7 +2286,7 @@ MonoBehaviour:
       - ElementName: AVS_BLUE_Volume_Wave1
         ObjectType: 13
         guid: 7bb67256f951734384840f7d6cc7fd2e
-      Path: Game Parameters\AVS System\WAVE 1\AVS_BLUE_Volume_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_BLUE_Volume_Wave1
     - name: AVS_BLUE_Volume_Wave2
       guid: b9435d1d5dbd1a469c316a9e8cf6d920
       id: 3244028901
@@ -2303,7 +2303,7 @@ MonoBehaviour:
       - ElementName: AVS_BLUE_Volume_Wave2
         ObjectType: 13
         guid: b9435d1d5dbd1a469c316a9e8cf6d920
-      Path: Game Parameters\AVS System\WAVE 2\AVS_BLUE_Volume_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_BLUE_Volume_Wave2
     - name: AVS_BLUE_Volume_Wave3
       guid: 913dafc565320546ae3f74ce948b2852
       id: 3244028900
@@ -2320,7 +2320,7 @@ MonoBehaviour:
       - ElementName: AVS_BLUE_Volume_Wave3
         ObjectType: 13
         guid: 913dafc565320546ae3f74ce948b2852
-      Path: Game Parameters\AVS System\WAVE 3\AVS_BLUE_Volume_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_BLUE_Volume_Wave3
     - name: AVS_GREEN_Volume_Wave1
       guid: 2731b1028526f0478836d47e996419f2
       id: 4221340217
@@ -2337,7 +2337,7 @@ MonoBehaviour:
       - ElementName: AVS_GREEN_Volume_Wave1
         ObjectType: 13
         guid: 2731b1028526f0478836d47e996419f2
-      Path: Game Parameters\AVS System\WAVE 1\AVS_GREEN_Volume_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_GREEN_Volume_Wave1
     - name: AVS_GREEN_Volume_Wave2
       guid: 2fe16ffe23503d408404b296caab678d
       id: 4221340218
@@ -2354,7 +2354,7 @@ MonoBehaviour:
       - ElementName: AVS_GREEN_Volume_Wave2
         ObjectType: 13
         guid: 2fe16ffe23503d408404b296caab678d
-      Path: Game Parameters\AVS System\WAVE 2\AVS_GREEN_Volume_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_GREEN_Volume_Wave2
     - name: AVS_GREEN_Volume_Wave3
       guid: 3715cb6178152b48a0f41e17347cdd82
       id: 4221340219
@@ -2371,7 +2371,7 @@ MonoBehaviour:
       - ElementName: AVS_GREEN_Volume_Wave3
         ObjectType: 13
         guid: 3715cb6178152b48a0f41e17347cdd82
-      Path: Game Parameters\AVS System\WAVE 3\AVS_GREEN_Volume_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_GREEN_Volume_Wave3
     - name: AVS_MasterVolume_Wave1
       guid: c6000061fb2e84419e903554537a9cd3
       id: 54156859
@@ -2388,7 +2388,7 @@ MonoBehaviour:
       - ElementName: AVS_MasterVolume_Wave1
         ObjectType: 13
         guid: c6000061fb2e84419e903554537a9cd3
-      Path: Game Parameters\AVS System\WAVE 1\AVS_MasterVolume_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_MasterVolume_Wave1
     - name: AVS_MasterVolume_Wave2
       guid: 39b68351f66bbc4e8dc9cb8c7a1318fa
       id: 54156856
@@ -2405,7 +2405,7 @@ MonoBehaviour:
       - ElementName: AVS_MasterVolume_Wave2
         ObjectType: 13
         guid: 39b68351f66bbc4e8dc9cb8c7a1318fa
-      Path: Game Parameters\AVS System\WAVE 2\AVS_MasterVolume_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_MasterVolume_Wave2
     - name: AVS_MasterVolume_Wave3
       guid: 2cac7b00fc11a641959dd6242397f2bf
       id: 54156857
@@ -2422,7 +2422,7 @@ MonoBehaviour:
       - ElementName: AVS_MasterVolume_Wave3
         ObjectType: 13
         guid: 2cac7b00fc11a641959dd6242397f2bf
-      Path: Game Parameters\AVS System\WAVE 3\AVS_MasterVolume_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_MasterVolume_Wave3
     - name: AVS_Modulation_BypassEffect_Wave1
       guid: b2e743cc76eb3b4b87ab0667e6aced47
       id: 3740547865
@@ -2439,7 +2439,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_BypassEffect_Wave1
         ObjectType: 13
         guid: b2e743cc76eb3b4b87ab0667e6aced47
-      Path: Game Parameters\AVS System\WAVE 1\AVS_Modulation_BypassEffect_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_Modulation_BypassEffect_Wave1
     - name: AVS_Modulation_BypassEffect_Wave2
       guid: 02c6ca58ce0fe5419dfd6c398d99e0f8
       id: 3740547866
@@ -2456,7 +2456,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_BypassEffect_Wave2
         ObjectType: 13
         guid: 02c6ca58ce0fe5419dfd6c398d99e0f8
-      Path: Game Parameters\AVS System\WAVE 2\AVS_Modulation_BypassEffect_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_Modulation_BypassEffect_Wave2
     - name: AVS_Modulation_BypassEffect_Wave3
       guid: 926ba07e99bef44f962ba0980df75a92
       id: 3740547867
@@ -2473,7 +2473,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_BypassEffect_Wave3
         ObjectType: 13
         guid: 926ba07e99bef44f962ba0980df75a92
-      Path: Game Parameters\AVS System\WAVE 3\AVS_Modulation_BypassEffect_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_Modulation_BypassEffect_Wave3
     - name: AVS_Modulation_Depth_Wave1
       guid: 8134dafec489ac43b1f0a8b9ab552820
       id: 3133219855
@@ -2490,7 +2490,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Depth_Wave1
         ObjectType: 13
         guid: 8134dafec489ac43b1f0a8b9ab552820
-      Path: Game Parameters\AVS System\WAVE 1\AVS_Modulation_Depth_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_Modulation_Depth_Wave1
     - name: AVS_Modulation_Depth_Wave2
       guid: c2f9072940581b42919c15862f120bf1
       id: 3133219852
@@ -2507,7 +2507,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Depth_Wave2
         ObjectType: 13
         guid: c2f9072940581b42919c15862f120bf1
-      Path: Game Parameters\AVS System\WAVE 2\AVS_Modulation_Depth_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_Modulation_Depth_Wave2
     - name: AVS_Modulation_Depth_Wave3
       guid: cd725d1ad09cc744bb55c07f08439a84
       id: 3133219853
@@ -2524,7 +2524,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Depth_Wave3
         ObjectType: 13
         guid: cd725d1ad09cc744bb55c07f08439a84
-      Path: Game Parameters\AVS System\WAVE 3\AVS_Modulation_Depth_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_Modulation_Depth_Wave3
     - name: AVS_Modulation_Frequency_Wave1
       guid: c981412a13d89245b49bfe706dca83dc
       id: 2189202578
@@ -2541,7 +2541,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Frequency_Wave1
         ObjectType: 13
         guid: c981412a13d89245b49bfe706dca83dc
-      Path: Game Parameters\AVS System\WAVE 1\AVS_Modulation_Frequency_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_Modulation_Frequency_Wave1
     - name: AVS_Modulation_Frequency_Wave2
       guid: 785e0d0b812d254989382d61600ec511
       id: 2189202577
@@ -2558,7 +2558,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Frequency_Wave2
         ObjectType: 13
         guid: 785e0d0b812d254989382d61600ec511
-      Path: Game Parameters\AVS System\WAVE 2\AVS_Modulation_Frequency_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_Modulation_Frequency_Wave2
     - name: AVS_Modulation_Frequency_Wave3
       guid: e35d70a0af17df419fbe572f59284c20
       id: 2189202576
@@ -2575,7 +2575,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Frequency_Wave3
         ObjectType: 13
         guid: e35d70a0af17df419fbe572f59284c20
-      Path: Game Parameters\AVS System\WAVE 3\AVS_Modulation_Frequency_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_Modulation_Frequency_Wave3
     - name: AVS_Modulation_MonoStereo_Wave1
       guid: cd5ed6396c0d114abfcc2f0700fc642a
       id: 3000490607
@@ -2592,7 +2592,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_MonoStereo_Wave1
         ObjectType: 13
         guid: cd5ed6396c0d114abfcc2f0700fc642a
-      Path: Game Parameters\AVS System\WAVE 1\AVS_Modulation_MonoStereo_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_Modulation_MonoStereo_Wave1
     - name: AVS_Modulation_MonoStereo_Wave2
       guid: 6dadd7cfbb0adc4381bdaceba122e1fd
       id: 3000490604
@@ -2609,7 +2609,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_MonoStereo_Wave2
         ObjectType: 13
         guid: 6dadd7cfbb0adc4381bdaceba122e1fd
-      Path: Game Parameters\AVS System\WAVE 2\AVS_Modulation_MonoStereo_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_Modulation_MonoStereo_Wave2
     - name: AVS_Modulation_MonoStereo_Wave3
       guid: ffd93a4529e7d94d9f30a8a7dd3eac03
       id: 3000490605
@@ -2626,7 +2626,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_MonoStereo_Wave3
         ObjectType: 13
         guid: ffd93a4529e7d94d9f30a8a7dd3eac03
-      Path: Game Parameters\AVS System\WAVE 3\AVS_Modulation_MonoStereo_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_Modulation_MonoStereo_Wave3
     - name: AVS_Modulation_PWM_Wave1
       guid: 2687d0af140f2c459df7918098047f10
       id: 1209148328
@@ -2643,7 +2643,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_PWM_Wave1
         ObjectType: 13
         guid: 2687d0af140f2c459df7918098047f10
-      Path: Game Parameters\AVS System\WAVE 1\AVS_Modulation_PWM_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_Modulation_PWM_Wave1
     - name: AVS_Modulation_PWM_Wave2
       guid: 57d08b3018a15d498107054da12af64c
       id: 1209148331
@@ -2660,7 +2660,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_PWM_Wave2
         ObjectType: 13
         guid: 57d08b3018a15d498107054da12af64c
-      Path: Game Parameters\AVS System\WAVE 2\AVS_Modulation_PWM_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_Modulation_PWM_Wave2
     - name: AVS_Modulation_PWM_Wave3
       guid: e830a596ac8f6f47a6edba17ab4d36ce
       id: 1209148330
@@ -2677,7 +2677,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_PWM_Wave3
         ObjectType: 13
         guid: e830a596ac8f6f47a6edba17ab4d36ce
-      Path: Game Parameters\AVS System\WAVE 3\AVS_Modulation_PWM_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_Modulation_PWM_Wave3
     - name: AVS_Modulation_Smoothing_Wave1
       guid: f3d16965524c5a409fb4c72a6edab006
       id: 2075358266
@@ -2694,7 +2694,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Smoothing_Wave1
         ObjectType: 13
         guid: f3d16965524c5a409fb4c72a6edab006
-      Path: Game Parameters\AVS System\WAVE 1\AVS_Modulation_Smoothing_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_Modulation_Smoothing_Wave1
     - name: AVS_Modulation_Smoothing_Wave2
       guid: b5ac5c8a57f3c2469de4ea03d7f43621
       id: 2075358265
@@ -2711,7 +2711,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Smoothing_Wave2
         ObjectType: 13
         guid: b5ac5c8a57f3c2469de4ea03d7f43621
-      Path: Game Parameters\AVS System\WAVE 2\AVS_Modulation_Smoothing_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_Modulation_Smoothing_Wave2
     - name: AVS_Modulation_Smoothing_Wave3
       guid: cb67f2ccb1cffe41a9de175f55a8dc99
       id: 2075358264
@@ -2728,7 +2728,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Smoothing_Wave3
         ObjectType: 13
         guid: cb67f2ccb1cffe41a9de175f55a8dc99
-      Path: Game Parameters\AVS System\WAVE 3\AVS_Modulation_Smoothing_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_Modulation_Smoothing_Wave3
     - name: AVS_Modulation_Waveform_Wave1
       guid: d718382483f0da4da64c0fe11bd9d652
       id: 2591147255
@@ -2745,7 +2745,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Waveform_Wave1
         ObjectType: 13
         guid: d718382483f0da4da64c0fe11bd9d652
-      Path: Game Parameters\AVS System\WAVE 1\AVS_Modulation_Waveform_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_Modulation_Waveform_Wave1
     - name: AVS_Modulation_Waveform_Wave2
       guid: 5ecb705637aa7a409f2261541495672a
       id: 2591147252
@@ -2762,7 +2762,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Waveform_Wave2
         ObjectType: 13
         guid: 5ecb705637aa7a409f2261541495672a
-      Path: Game Parameters\AVS System\WAVE 2\AVS_Modulation_Waveform_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_Modulation_Waveform_Wave2
     - name: AVS_Modulation_Waveform_Wave3
       guid: 177396e6c4d6284a81564a69389dd267
       id: 2591147253
@@ -2779,7 +2779,7 @@ MonoBehaviour:
       - ElementName: AVS_Modulation_Waveform_Wave3
         ObjectType: 13
         guid: 177396e6c4d6284a81564a69389dd267
-      Path: Game Parameters\AVS System\WAVE 3\AVS_Modulation_Waveform_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_Modulation_Waveform_Wave3
     - name: AVS_RED_Volume_Wave1
       guid: aac2f2b326e6824a848448f42e99bd97
       id: 3922087661
@@ -2796,7 +2796,7 @@ MonoBehaviour:
       - ElementName: AVS_RED_Volume_Wave1
         ObjectType: 13
         guid: aac2f2b326e6824a848448f42e99bd97
-      Path: Game Parameters\AVS System\WAVE 1\AVS_RED_Volume_Wave1
+      Path: Game Parameters/AVS System/WAVE 1/AVS_RED_Volume_Wave1
     - name: AVS_RED_Volume_Wave2
       guid: 659391d944bb23478aa6a7a386f5464b
       id: 3922087662
@@ -2813,7 +2813,7 @@ MonoBehaviour:
       - ElementName: AVS_RED_Volume_Wave2
         ObjectType: 13
         guid: 659391d944bb23478aa6a7a386f5464b
-      Path: Game Parameters\AVS System\WAVE 2\AVS_RED_Volume_Wave2
+      Path: Game Parameters/AVS System/WAVE 2/AVS_RED_Volume_Wave2
     - name: AVS_RED_Volume_Wave3
       guid: 6ed79bc265d4a64aa1f69097ebb49bb8
       id: 3922087663
@@ -2830,7 +2830,7 @@ MonoBehaviour:
       - ElementName: AVS_RED_Volume_Wave3
         ObjectType: 13
         guid: 6ed79bc265d4a64aa1f69097ebb49bb8
-      Path: Game Parameters\AVS System\WAVE 3\AVS_RED_Volume_Wave3
+      Path: Game Parameters/AVS System/WAVE 3/AVS_RED_Volume_Wave3
     - name: AVS_REFERENCE_Volume
       guid: 201b8ba081a8e64d8a49b6dca4ac8ffd
       id: 2523786154
@@ -2844,7 +2844,7 @@ MonoBehaviour:
       - ElementName: AVS_REFERENCE_Volume
         ObjectType: 13
         guid: 201b8ba081a8e64d8a49b6dca4ac8ffd
-      Path: Game Parameters\AVS System\AVS_REFERENCE_Volume
+      Path: Game Parameters/AVS System/AVS_REFERENCE_Volume
     - name: WAVE 1
       guid: 7ce37c24f0b4ed4b9dbea11fe8a88a26
       id: 2208685651
@@ -2858,7 +2858,7 @@ MonoBehaviour:
       - ElementName: WAVE 1
         ObjectType: 4
         guid: 7ce37c24f0b4ed4b9dbea11fe8a88a26
-      Path: Game Parameters\AVS System\WAVE 1
+      Path: Game Parameters/AVS System/WAVE 1
     - name: WAVE 2
       guid: 370cba7bb97221428e3fb3bad18c5209
       id: 2208685648
@@ -2872,7 +2872,7 @@ MonoBehaviour:
       - ElementName: WAVE 2
         ObjectType: 4
         guid: 370cba7bb97221428e3fb3bad18c5209
-      Path: Game Parameters\AVS System\WAVE 2
+      Path: Game Parameters/AVS System/WAVE 2
     - name: WAVE 3
       guid: bbd5fcad744dd74197cd9234624492d1
       id: 2208685649
@@ -2886,8 +2886,8 @@ MonoBehaviour:
       - ElementName: WAVE 3
         ObjectType: 4
         guid: bbd5fcad744dd74197cd9234624492d1
-      Path: Game Parameters\AVS System\WAVE 3
-  - PhysicalPath: Game Parameters\Default Work Unit.wwu
+      Path: Game Parameters/AVS System/WAVE 3
+  - PhysicalPath: Game Parameters/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
@@ -2895,12 +2895,12 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: 08fd3303aa3c7f468178c0764211feaf
-    ParentPath: Game Parameters\Default Work Unit
+    ParentPath: Game Parameters/Default Work Unit
     guid: 08fd3303aa3c7f468178c0764211feaf
     GuidInternal: 
-    m_lastTime: -8584877335249865139
+    m_lastTime: -8584761385860742672
     List: []
-  - PhysicalPath: Game Parameters\Environment.wwu
+  - PhysicalPath: Game Parameters/Environment.wwu
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
@@ -2908,12 +2908,12 @@ MonoBehaviour:
     - ElementName: Environment
       ObjectType: 12
       guid: 68706b1d86fc5f4cab899effe052e5a3
-    ParentPath: Game Parameters\Environment
+    ParentPath: Game Parameters/Environment
     guid: 68706b1d86fc5f4cab899effe052e5a3
     GuidInternal: 
-    m_lastTime: -8584874479641167453
+    m_lastTime: -8584761385860742104
     List: []
-  - PhysicalPath: Game Parameters\Interactive Music System.wwu
+  - PhysicalPath: Game Parameters/Interactive Music System.wwu
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
@@ -2921,10 +2921,10 @@ MonoBehaviour:
     - ElementName: Interactive Music System
       ObjectType: 12
       guid: 7fec9d861a0e3046bfb37d6383814ca9
-    ParentPath: Game Parameters\Interactive Music System
+    ParentPath: Game Parameters/Interactive Music System
     guid: 7fec9d861a0e3046bfb37d6383814ca9
     GuidInternal: 
-    m_lastTime: -8584767467688584525
+    m_lastTime: -8584761385860741481
     List:
     - name: FundamentalSilentVolume
       guid: f8f04df21ddf8144bd237a969d9e8269
@@ -2939,7 +2939,7 @@ MonoBehaviour:
       - ElementName: FundamentalSilentVolume
         ObjectType: 13
         guid: f8f04df21ddf8144bd237a969d9e8269
-      Path: Game Parameters\Interactive Music System\FundamentalSilentVolume
+      Path: Game Parameters/Interactive Music System/FundamentalSilentVolume
     - name: FundamentalToningVolume
       guid: 9983698e9705ce4684bc695c0cec302f
       id: 1729197293
@@ -2953,7 +2953,7 @@ MonoBehaviour:
       - ElementName: FundamentalToningVolume
         ObjectType: 13
         guid: 9983698e9705ce4684bc695c0cec302f
-      Path: Game Parameters\Interactive Music System\FundamentalToningVolume
+      Path: Game Parameters/Interactive Music System/FundamentalToningVolume
     - name: HarmonySilentVolume
       guid: 0f42a8a8b86f1244b77a7846ace67d2d
       id: 1111564044
@@ -2967,7 +2967,7 @@ MonoBehaviour:
       - ElementName: HarmonySilentVolume
         ObjectType: 13
         guid: 0f42a8a8b86f1244b77a7846ace67d2d
-      Path: Game Parameters\Interactive Music System\HarmonySilentVolume
+      Path: Game Parameters/Interactive Music System/HarmonySilentVolume
     - name: HarmonyToningVolume
       guid: 32295aff637cb649bd96abbda509ee7d
       id: 1504547510
@@ -2981,7 +2981,7 @@ MonoBehaviour:
       - ElementName: HarmonyToningVolume
         ObjectType: 13
         guid: 32295aff637cb649bd96abbda509ee7d
-      Path: Game Parameters\Interactive Music System\HarmonyToningVolume
+      Path: Game Parameters/Interactive Music System/HarmonyToningVolume
     - name: SILENT_Volume
       guid: 36348e3b2e64dd42b54ab5f158016e34
       id: 3070055575
@@ -2995,7 +2995,7 @@ MonoBehaviour:
       - ElementName: SILENT_Volume
         ObjectType: 13
         guid: 36348e3b2e64dd42b54ab5f158016e34
-      Path: Game Parameters\Interactive Music System\SILENT_Volume
+      Path: Game Parameters/Interactive Music System/SILENT_Volume
     - name: TONING_Volume
       guid: 541c389cb77c2740adb12e43f1fcf463
       id: 1765174721
@@ -3009,8 +3009,8 @@ MonoBehaviour:
       - ElementName: TONING_Volume
         ObjectType: 13
         guid: 541c389cb77c2740adb12e43f1fcf463
-      Path: Game Parameters\Interactive Music System\TONING_Volume
-  - PhysicalPath: Game Parameters\Master Mixer.wwu
+      Path: Game Parameters/Interactive Music System/TONING_Volume
+  - PhysicalPath: Game Parameters/Master Mixer.wwu
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
@@ -3018,10 +3018,10 @@ MonoBehaviour:
     - ElementName: Master Mixer
       ObjectType: 12
       guid: 5920b64a742d1a4e8cff8cefde2685e4
-    ParentPath: Game Parameters\Master Mixer
+    ParentPath: Game Parameters/Master Mixer
     guid: 5920b64a742d1a4e8cff8cefde2685e4
     GuidInternal: 
-    m_lastTime: -8584833953546364959
+    m_lastTime: -8584761385860738479
     List:
     - name: Environment_Bus_Volume
       guid: 00e9241d6ffb984998eae0bfa9b073c4
@@ -3036,7 +3036,7 @@ MonoBehaviour:
       - ElementName: Environment_Bus_Volume
         ObjectType: 13
         guid: 00e9241d6ffb984998eae0bfa9b073c4
-      Path: Game Parameters\Master Mixer\Environment_Bus_Volume
+      Path: Game Parameters/Master Mixer/Environment_Bus_Volume
     - name: ImpactsSub_Bus_Volume
       guid: d02133a5f3a74143abfb0bbd9cee0d2b
       id: 767906964
@@ -3050,7 +3050,7 @@ MonoBehaviour:
       - ElementName: ImpactsSub_Bus_Volume
         ObjectType: 13
         guid: d02133a5f3a74143abfb0bbd9cee0d2b
-      Path: Game Parameters\Master Mixer\ImpactsSub_Bus_Volume
+      Path: Game Parameters/Master Mixer/ImpactsSub_Bus_Volume
     - name: InteractiveMusic_Bus_Volume
       guid: 575b55d52729ba4d8cf6892c63cd23a5
       id: 609474916
@@ -3064,7 +3064,7 @@ MonoBehaviour:
       - ElementName: InteractiveMusic_Bus_Volume
         ObjectType: 13
         guid: 575b55d52729ba4d8cf6892c63cd23a5
-      Path: Game Parameters\Master Mixer\InteractiveMusic_Bus_Volume
+      Path: Game Parameters/Master Mixer/InteractiveMusic_Bus_Volume
     - name: LinearMusic_Volume
       guid: c71b01f86939a043a957462cb30f8477
       id: 2590911748
@@ -3078,7 +3078,7 @@ MonoBehaviour:
       - ElementName: LinearMusic_Volume
         ObjectType: 13
         guid: c71b01f86939a043a957462cb30f8477
-      Path: Game Parameters\Master Mixer\LinearMusic_Volume
+      Path: Game Parameters/Master Mixer/LinearMusic_Volume
     - name: Master_Volume
       guid: 04c9625a073bab468226655481b0f80e
       id: 4179668880
@@ -3092,7 +3092,7 @@ MonoBehaviour:
       - ElementName: Master_Volume
         ObjectType: 13
         guid: 04c9625a073bab468226655481b0f80e
-      Path: Game Parameters\Master Mixer\Master_Volume
+      Path: Game Parameters/Master Mixer/Master_Volume
     - name: SFX_Bus_Volume
       guid: 56995eed68cb3847ac5ba953c216ce6d
       id: 1050949862
@@ -3106,7 +3106,7 @@ MonoBehaviour:
       - ElementName: SFX_Bus_Volume
         ObjectType: 13
         guid: 56995eed68cb3847ac5ba953c216ce6d
-      Path: Game Parameters\Master Mixer\SFX_Bus_Volume
+      Path: Game Parameters/Master Mixer/SFX_Bus_Volume
     - name: VO_Bus_Volume
       guid: 1298e04cde4b67498638b6c2e6d7a693
       id: 3687478936
@@ -3120,8 +3120,8 @@ MonoBehaviour:
       - ElementName: VO_Bus_Volume
         ObjectType: 13
         guid: 1298e04cde4b67498638b6c2e6d7a693
-      Path: Game Parameters\Master Mixer\VO_Bus_Volume
-  - PhysicalPath: Game Parameters\SFX.wwu
+      Path: Game Parameters/Master Mixer/VO_Bus_Volume
+  - PhysicalPath: Game Parameters/SFX.wwu
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
@@ -3129,10 +3129,10 @@ MonoBehaviour:
     - ElementName: SFX
       ObjectType: 12
       guid: 22725a575c2b944694ea3cb75aedb4cc
-    ParentPath: Game Parameters\SFX
+    ParentPath: Game Parameters/SFX
     guid: 22725a575c2b944694ea3cb75aedb4cc
     GuidInternal: 
-    m_lastTime: -8584767256448038233
+    m_lastTime: -8584761385860737729
     List:
     - name: BreatheCycle_Volume
       guid: 44b8546045cb594c9436ecb992881033
@@ -3147,7 +3147,7 @@ MonoBehaviour:
       - ElementName: BreatheCycle_Volume
         ObjectType: 13
         guid: 44b8546045cb594c9436ecb992881033
-      Path: Game Parameters\SFX\BreatheCycle_Volume
+      Path: Game Parameters/SFX/BreatheCycle_Volume
     - name: BreathIn_PlaybackRate
       guid: 819888e1934ea744869316dfa0c6a9bc
       id: 4191266472
@@ -3161,7 +3161,7 @@ MonoBehaviour:
       - ElementName: BreathIn_PlaybackRate
         ObjectType: 13
         guid: 819888e1934ea744869316dfa0c6a9bc
-      Path: Game Parameters\SFX\BreathIn_PlaybackRate
+      Path: Game Parameters/SFX/BreathIn_PlaybackRate
     - name: CrystalBowlGenerator_Volume
       guid: 341c0f297cf98643b9440cc0d9101d56
       id: 3761161481
@@ -3175,7 +3175,7 @@ MonoBehaviour:
       - ElementName: CrystalBowlGenerator_Volume
         ObjectType: 13
         guid: 341c0f297cf98643b9440cc0d9101d56
-      Path: Game Parameters\SFX\CrystalBowlGenerator_Volume
+      Path: Game Parameters/SFX/CrystalBowlGenerator_Volume
     - name: Impacts_Volume
       guid: 8d7e7c171e16194aafa65e7e47e603e8
       id: 1710998699
@@ -3189,8 +3189,8 @@ MonoBehaviour:
       - ElementName: Impacts_Volume
         ObjectType: 13
         guid: 8d7e7c171e16194aafa65e7e47e603e8
-      Path: Game Parameters\SFX\Impacts_Volume
-  - PhysicalPath: Game Parameters\Unity Imitone.wwu
+      Path: Game Parameters/SFX/Impacts_Volume
+  - PhysicalPath: Game Parameters/Unity Imitone.wwu
     PathAndIcons:
     - ElementName: Game Parameters
       ObjectType: 5
@@ -3198,25 +3198,11 @@ MonoBehaviour:
     - ElementName: Unity Imitone
       ObjectType: 12
       guid: cac749861016bd468dcac9f447d3c666
-    ParentPath: Game Parameters\Unity Imitone
+    ParentPath: Game Parameters/Unity Imitone
     guid: cac749861016bd468dcac9f447d3c666
     GuidInternal: 
-    m_lastTime: -8584767256448028234
+    m_lastTime: -8584761385860737005
     List:
-    - name: New_Game_Parameter
-      guid: 5a12dd1db39d5e458313043bf219d342
-      id: 3671138082
-      PathAndIcons:
-      - ElementName: Game Parameters
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Unity Imitone
-        ObjectType: 12
-        guid: cac749861016bd468dcac9f447d3c666
-      - ElementName: New_Game_Parameter
-        ObjectType: 13
-        guid: 5a12dd1db39d5e458313043bf219d342
-      Path: Game Parameters\Unity Imitone\New_Game_Parameter
     - name: TONING_Player_Volume
       guid: 2be8aa0241c86d48a07e07b93954dbcf
       id: 2438365033
@@ -3230,7 +3216,7 @@ MonoBehaviour:
       - ElementName: TONING_Player_Volume
         ObjectType: 13
         guid: 2be8aa0241c86d48a07e07b93954dbcf
-      Path: Game Parameters\Unity Imitone\TONING_Player_Volume
+      Path: Game Parameters/Unity Imitone/TONING_Player_Volume
     - name: Unity_Absorbtion
       guid: 9036acab1b39554ab7bf30708fa595dc
       id: 92185602
@@ -3244,7 +3230,7 @@ MonoBehaviour:
       - ElementName: Unity_Absorbtion
         ObjectType: 13
         guid: 9036acab1b39554ab7bf30708fa595dc
-      Path: Game Parameters\Unity Imitone\Unity_Absorbtion
+      Path: Game Parameters/Unity Imitone/Unity_Absorbtion
     - name: Unity_ChantLerpFast
       guid: 6b2ef27527e7624594b61ad84e3d57f8
       id: 1072896080
@@ -3258,7 +3244,7 @@ MonoBehaviour:
       - ElementName: Unity_ChantLerpFast
         ObjectType: 13
         guid: 6b2ef27527e7624594b61ad84e3d57f8
-      Path: Game Parameters\Unity Imitone\Unity_ChantLerpFast
+      Path: Game Parameters/Unity Imitone/Unity_ChantLerpFast
     - name: Unity_ChantLerpSlow
       guid: 2fad8143fb80694599b9a06bf7d63f22
       id: 3426469145
@@ -3272,7 +3258,7 @@ MonoBehaviour:
       - ElementName: Unity_ChantLerpSlow
         ObjectType: 13
         guid: 2fad8143fb80694599b9a06bf7d63f22
-      Path: Game Parameters\Unity Imitone\Unity_ChantLerpSlow
+      Path: Game Parameters/Unity Imitone/Unity_ChantLerpSlow
     - name: Unity_Charge
       guid: 4827963cd4912248a3b8e5787f955228
       id: 1523152327
@@ -3286,7 +3272,7 @@ MonoBehaviour:
       - ElementName: Unity_Charge
         ObjectType: 13
         guid: 4827963cd4912248a3b8e5787f955228
-      Path: Game Parameters\Unity Imitone\Unity_Charge
+      Path: Game Parameters/Unity Imitone/Unity_Charge
     - name: Unity_Inhale
       guid: b96c525ec45007459b59b79faa4746bd
       id: 3489928398
@@ -3300,7 +3286,7 @@ MonoBehaviour:
       - ElementName: Unity_Inhale
         ObjectType: 13
         guid: b96c525ec45007459b59b79faa4746bd
-      Path: Game Parameters\Unity Imitone\Unity_Inhale
+      Path: Game Parameters/Unity Imitone/Unity_Inhale
     - name: Unity_SoundTweak
       guid: 5f8c5e55edf445409646fb1e9ab54c1a
       id: 2462119772
@@ -3314,9 +3300,9 @@ MonoBehaviour:
       - ElementName: Unity_SoundTweak
         ObjectType: 13
         guid: 5f8c5e55edf445409646fb1e9ab54c1a
-      Path: Game Parameters\Unity Imitone\Unity_SoundTweak
+      Path: Game Parameters/Unity Imitone/Unity_SoundTweak
   StateWwu:
-  - PhysicalPath: States\Default Work Unit.wwu
+  - PhysicalPath: States/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: States
       ObjectType: 5
@@ -3324,10 +3310,10 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: 7ce132b6a0022f428482f3c8e97d00be
-    ParentPath: States\Default Work Unit
+    ParentPath: States/Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584768300651435134
+    m_lastTime: -8584761385860282296
     List:
     - name: AbsorptionMode
       guid: 56187ed435247e4fafedb57a575f601a
@@ -3342,7 +3328,7 @@ MonoBehaviour:
       - ElementName: AbsorptionMode
         ObjectType: 9
         guid: 56187ed435247e4fafedb57a575f601a
-      Path: States\Default Work Unit\AbsorptionMode
+      Path: States/Default Work Unit/AbsorptionMode
       values:
       - name: Meditative
         guid: 85cba16e674ecc41952f5d26718c2586
@@ -3408,7 +3394,7 @@ MonoBehaviour:
       - ElementName: InteractiveMusicMode
         ObjectType: 9
         guid: ff16d21ee376594bb02f58bf638de405
-      Path: States\Default Work Unit\InteractiveMusicMode
+      Path: States/Default Work Unit/InteractiveMusicMode
       values:
       - name: Environment
         guid: 15f6333e163c4a408318dd7f85cc06a8
@@ -3474,7 +3460,7 @@ MonoBehaviour:
       - ElementName: SoundWorldMode
         ObjectType: 9
         guid: 10d188a0300e454289a83f1a4f31424e
-      Path: States\Default Work Unit\SoundWorldMode
+      Path: States/Default Work Unit/SoundWorldMode
       values:
       - name: Gentle
         guid: f718d58ea3ad3243b9c4ae56a295a9d1
@@ -3560,7 +3546,7 @@ MonoBehaviour:
       ValueIcons: []
       valuesInternal: []
   SwitchWwu:
-  - PhysicalPath: Switches\AVS.wwu
+  - PhysicalPath: Switches/AVS.wwu
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
@@ -3568,12 +3554,12 @@ MonoBehaviour:
     - ElementName: AVS
       ObjectType: 12
       guid: 77a4ddce2990b345b04090db07cd3c46
-    ParentPath: Switches\AVS
+    ParentPath: Switches/AVS
     guid: 77a4ddce2990b345b04090db07cd3c46
     GuidInternal: 
-    m_lastTime: -8584829689751850495
+    m_lastTime: -8584761385860281458
     List: []
-  - PhysicalPath: Switches\Default Work Unit.wwu
+  - PhysicalPath: Switches/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
@@ -3581,10 +3567,10 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: b649101cab38b141861f0be6c57cc1d3
-    ParentPath: Switches\Default Work Unit
+    ParentPath: Switches/Default Work Unit
     guid: b649101cab38b141861f0be6c57cc1d3
     GuidInternal: 
-    m_lastTime: -8584833953543978659
+    m_lastTime: -8584761385860280327
     List:
     - name: MENU_SESSIONMODE
       guid: b9531b2ef2c59a45a67f8feff77eabc7
@@ -3599,7 +3585,7 @@ MonoBehaviour:
       - ElementName: MENU_SESSIONMODE
         ObjectType: 11
         guid: b9531b2ef2c59a45a67f8feff77eabc7
-      Path: Switches\Default Work Unit\MENU_SESSIONMODE
+      Path: Switches/Default Work Unit/MENU_SESSIONMODE
       values:
       - name: Adjunct
         guid: c1a92601fa6f434a958109218884c0a2
@@ -3684,7 +3670,7 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-  - PhysicalPath: Switches\Interactive Music System.wwu
+  - PhysicalPath: Switches/Interactive Music System.wwu
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
@@ -3692,10 +3678,10 @@ MonoBehaviour:
     - ElementName: Interactive Music System
       ObjectType: 12
       guid: a70b5ef296c6e5488bce779e710a3892
-    ParentPath: Switches\Interactive Music System
+    ParentPath: Switches/Interactive Music System
     guid: a70b5ef296c6e5488bce779e710a3892
     GuidInternal: 
-    m_lastTime: -8584867718378246673
+    m_lastTime: -8584761385860278819
     List:
     - name: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
       guid: 028067d9e2606b4b89c73087a452a4a2
@@ -3710,7 +3696,7 @@ MonoBehaviour:
       - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
         ObjectType: 11
         guid: 028067d9e2606b4b89c73087a452a4a2
-      Path: Switches\Interactive Music System\InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
+      Path: Switches/Interactive Music System/InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
       values:
       - name: A
         guid: b98ba9bc1fd9804681f8b1a108a2132f
@@ -3840,7 +3826,7 @@ MonoBehaviour:
       - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
         ObjectType: 11
         guid: 1e402f0a84f90f46811da40a29448345
-      Path: Switches\Interactive Music System\InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
+      Path: Switches/Interactive Music System/InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
       values:
       - name: A
         guid: 1dfbed79e77dac4994c278412ca12eaf
@@ -4050,7 +4036,7 @@ MonoBehaviour:
       - ElementName: InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly
         ObjectType: 11
         guid: ff6b106d642f02439ebe15077b75210a
-      Path: Switches\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly
+      Path: Switches/Interactive Music System/InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly
       values:
       - name: A
         guid: 42acbfb01c2e4e459e21181b9e4ce869
@@ -4260,7 +4246,7 @@ MonoBehaviour:
       - ElementName: InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly
         ObjectType: 11
         guid: 39485b67a9b9034ebeb0bda9cade8fdd
-      Path: Switches\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly
+      Path: Switches/Interactive Music System/InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly
       values:
       - name: A
         guid: d831daa1878d5045807b8f6d38c3c1bc
@@ -4457,7 +4443,7 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-  - PhysicalPath: Switches\Linear Music.wwu
+  - PhysicalPath: Switches/Linear Music.wwu
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
@@ -4465,10 +4451,10 @@ MonoBehaviour:
     - ElementName: Linear Music
       ObjectType: 12
       guid: 4559fdf6c456f549993933ab507a3928
-    ParentPath: Switches\Linear Music
+    ParentPath: Switches/Linear Music
     guid: 4559fdf6c456f549993933ab507a3928
     GuidInternal: 
-    m_lastTime: -8584795888313873736
+    m_lastTime: -8584761385860278021
     List:
     - name: LinearMusic_Opening
       guid: ad701a433214144398da4e5c38930442
@@ -4483,7 +4469,7 @@ MonoBehaviour:
       - ElementName: LinearMusic_Opening
         ObjectType: 11
         guid: ad701a433214144398da4e5c38930442
-      Path: Switches\Linear Music\LinearMusic_Opening
+      Path: Switches/Linear Music/LinearMusic_Opening
       values:
       - name: openingLong
         guid: ecfea3f19ec20d40a517fb9aa773f657
@@ -4549,7 +4535,7 @@ MonoBehaviour:
       - ElementName: MusicPlaylist_Switch
         ObjectType: 11
         guid: a40d9f25c6e78e4fa79e52d83d1a8402
-      Path: Switches\Linear Music\MusicPlaylist_Switch
+      Path: Switches/Linear Music/MusicPlaylist_Switch
       values:
       - name: Chakapa
         guid: af73ffdbbb6bcd4ab9ce47ef148244fc
@@ -4682,7 +4668,7 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-  - PhysicalPath: Switches\SFX.wwu
+  - PhysicalPath: Switches/SFX.wwu
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
@@ -4690,12 +4676,12 @@ MonoBehaviour:
     - ElementName: SFX
       ObjectType: 12
       guid: 632f13f35b1c6e4caf89d68030a98081
-    ParentPath: Switches\SFX
+    ParentPath: Switches/SFX
     guid: 632f13f35b1c6e4caf89d68030a98081
     GuidInternal: 
-    m_lastTime: -8584795888313798529
+    m_lastTime: -8584761385860277038
     List: []
-  - PhysicalPath: Switches\Unity Imitone.wwu
+  - PhysicalPath: Switches/Unity Imitone.wwu
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
@@ -4703,10 +4689,10 @@ MonoBehaviour:
     - ElementName: Unity Imitone
       ObjectType: 12
       guid: 03c51979dd6dc443bbf5588afb1af394
-    ParentPath: Switches\Unity Imitone
+    ParentPath: Switches/Unity Imitone
     guid: 03c51979dd6dc443bbf5588afb1af394
     GuidInternal: 
-    m_lastTime: -8584768300651395194
+    m_lastTime: -8584761385860276168
     List:
     - name: ToneActive
       guid: 3ce342ef55475f458960a54b73f37659
@@ -4721,7 +4707,7 @@ MonoBehaviour:
       - ElementName: ToneActive
         ObjectType: 11
         guid: 3ce342ef55475f458960a54b73f37659
-      Path: Switches\Unity Imitone\ToneActive
+      Path: Switches/Unity Imitone/ToneActive
       values:
       - name: Resting
         guid: 569a47fcc969204a98c2c8b295600a13
@@ -4758,7 +4744,7 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-  - PhysicalPath: Switches\VO.wwu
+  - PhysicalPath: Switches/VO.wwu
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
@@ -4766,10 +4752,10 @@ MonoBehaviour:
     - ElementName: VO
       ObjectType: 12
       guid: 64d0b0ac8a9e0840a3f6580a8631c66d
-    ParentPath: Switches\VO
+    ParentPath: Switches/VO
     guid: 64d0b0ac8a9e0840a3f6580a8631c66d
     GuidInternal: 
-    m_lastTime: -8584826122848342244
+    m_lastTime: -8584761385860275058
     List:
     - name: VO_ClosingGoodbye
       guid: 23795947d066d74cb40d1bb0c14d37bf
@@ -4784,7 +4770,7 @@ MonoBehaviour:
       - ElementName: VO_ClosingGoodbye
         ObjectType: 11
         guid: 23795947d066d74cb40d1bb0c14d37bf
-      Path: Switches\VO\VO_ClosingGoodbye
+      Path: Switches/VO/VO_ClosingGoodbye
       values:
       - name: Anchoring
         guid: a7ce5429f881774f9c14d7d8d695785b
@@ -4866,7 +4852,7 @@ MonoBehaviour:
       - ElementName: VO_Opening
         ObjectType: 11
         guid: 5e33baede89a9e4d80e52ad14d4eb4ab
-      Path: Switches\VO\VO_Opening
+      Path: Switches/VO/VO_Opening
       values:
       - name: openingLong
         guid: ecbc2d6cd76f6c46aaa5909eab07a054
@@ -4932,7 +4918,7 @@ MonoBehaviour:
       - ElementName: VO_Posture
         ObjectType: 11
         guid: a6fb9b0f399bb648bd622c752cd3ac34
-      Path: Switches\VO\VO_Posture
+      Path: Switches/VO/VO_Posture
       values:
       - name: LieDown
         guid: 6ddf1521be13ca479106188feb415b6f
@@ -4982,7 +4968,7 @@ MonoBehaviour:
       - ElementName: VO_Somatic
         ObjectType: 11
         guid: d0a7afeab38fac439ad202108f5a6e74
-      Path: Switches\VO\VO_Somatic
+      Path: Switches/VO/VO_Somatic
       values:
       - name: Long
         guid: fcf44f3c56010f47a2fd87b00b639139
@@ -5032,7 +5018,7 @@ MonoBehaviour:
       - ElementName: VO_ThematicContent
         ObjectType: 11
         guid: 323c1c548842b94e8f7d84a35876dd4a
-      Path: Switches\VO\VO_ThematicContent
+      Path: Switches/VO/VO_ThematicContent
       values:
       - name: DieWell
         guid: 7331af0eb0243b4f9e353b33d7c405db
@@ -5114,7 +5100,7 @@ MonoBehaviour:
       - ElementName: VO_ThematicSavasana
         ObjectType: 11
         guid: 0299a041e9102045834d12006930ab09
-      Path: Switches\VO\VO_ThematicSavasana
+      Path: Switches/VO/VO_ThematicSavasana
       values:
       - name: Anchoring
         guid: eaeede189a41dd4698296860d83f6090
@@ -5308,7 +5294,7 @@ MonoBehaviour:
       - ElementName: VO_Wisdom
         ObjectType: 11
         guid: 17d7ef1201597b41916ebaa0f56a2a5a
-      Path: Switches\VO\VO_Wisdom
+      Path: Switches/VO/VO_Wisdom
       values:
       - name: DieWell
         guid: c67d56994998a64aac3ab5bb35ff1727
@@ -5378,7 +5364,7 @@ MonoBehaviour:
       ValueIcons: []
       valuesInternal: []
   TriggerWwu:
-  - PhysicalPath: Triggers\Default Work Unit.wwu
+  - PhysicalPath: Triggers/Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Triggers
       ObjectType: 5
@@ -5386,10 +5372,10 @@ MonoBehaviour:
     - ElementName: Default Work Unit
       ObjectType: 12
       guid: 2e22794f9054df4dba29a333b79a5f59
-    ParentPath: Triggers\Default Work Unit
+    ParentPath: Triggers/Default Work Unit
     guid: 2e22794f9054df4dba29a333b79a5f59
     GuidInternal: 
-    m_lastTime: -8584833953543963616
+    m_lastTime: -8584761385860273799
     List:
     - name: Test
       guid: c760786d07938d41a39c332de5c52dab
@@ -5404,9 +5390,9 @@ MonoBehaviour:
       - ElementName: Test
         ObjectType: 14
         guid: c760786d07938d41a39c332de5c52dab
-      Path: Triggers\Default Work Unit\Test
+      Path: Triggers/Default Work Unit/Test
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 070000004e00000078000000790000007d0000007e000000910000009200000099000000
+  ExpandedWaapiItemIds: 
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

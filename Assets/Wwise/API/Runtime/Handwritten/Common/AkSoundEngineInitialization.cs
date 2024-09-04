@@ -61,6 +61,9 @@ public class AkSoundEngineInitialization
 
 		var akBasePathGetterInstance = AkBasePathGetter.Get();
 		var soundBankBasePath = akBasePathGetterInstance.SoundBankBasePath;
+#if UNITY_OPENHARMONY && !UNITY_EDITOR
+		soundBankBasePath = "rawfile://" + soundBankBasePath;
+#endif
 		if (string.IsNullOrEmpty(soundBankBasePath))
 		{
 			// this is a nearly impossible situation
