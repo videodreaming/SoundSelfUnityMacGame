@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UserOutput : MonoBehaviour
 {
+    public DevelopmentMode developmentMode;
     public float respirationRate;
     public float averageVolume;
     public float averagePitch;
@@ -17,16 +18,19 @@ public class UserOutput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if(developmentMode.developmentMode)
         {
-            respirationRate = respirationRate + 1.0f;
-            averagePitch = averagePitch + 1.0f;
-            averageVolume = averageVolume + 1.0f;
-        }
+            if(Input.GetKeyDown(KeyCode.A))
+            {
+                respirationRate = respirationRate + 1.0f;
+                averagePitch = averagePitch + 1.0f;
+                averageVolume = averageVolume + 1.0f;
+            }
 
-        if(Input.GetKeyDown(KeyCode.B))
-        {
-            Application.Quit();
+            if(Input.GetKeyDown(KeyCode.B))
+            {
+                Application.Quit();
+            }
         }
     }
 }

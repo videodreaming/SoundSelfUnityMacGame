@@ -912,6 +912,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImitoneVoiceInterpreter: {fileID: 740096625}
   currentState: 3
+  developmentMode: {fileID: 538272586}
   SighElicitationPass1: 0
   audioStates:
   - state: 0
@@ -1738,6 +1739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c240a24b08d9545e5b34ae66f4e30308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  developmentMode: {fileID: 538272586}
   respirationRate: 0
   averageVolume: 0
   averagePitch: 0
@@ -2568,6 +2570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioManager: {fileID: 47830410}
+  developmentMode: {fileID: 0}
 --- !u!1 &136101445
 GameObject:
   m_ObjectHideFlags: 0
@@ -7574,8 +7577,6 @@ MonoBehaviour:
   developmentMode: {fileID: 538272586}
   CSVWriter: {fileID: 662335749}
   lightControl: {fileID: 437048159}
-  userObject: {fileID: 740096621}
-  userAudioSource: {fileID: 740096622}
   musicSystem1: {fileID: 619104374}
   imitoneVoiceIntepreter: {fileID: 740096625}
   firstTimeUser: 1
@@ -8157,7 +8158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc54582afe4ef1941b94bcaed0fdae61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentPlayground: 0
+  developmentPlayground: 1
   developmentMode: 1
   configureMode: 0
 --- !u!4 &538272587
@@ -8527,6 +8528,9 @@ MonoBehaviour:
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
   respirationTracker: {fileID: 740096627}
+  gameValues: {fileID: 740096630}
+  userObject: {fileID: 740096621}
+  userAudioSource: {fileID: 0}
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicNoteActivated: 0
   fundamentalNote: 0
@@ -10181,6 +10185,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceInterpreter: {fileID: 740096625}
+  developmentMode: {fileID: 538272586}
 --- !u!114 &740096629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20855,6 +20860,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
+  imitoneVoiceInterpreter: {fileID: 740096625}
   musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
@@ -23604,6 +23610,7 @@ MonoBehaviour:
   lightControl: {fileID: 437048159}
   imitoneVoiceInterpreter: {fileID: 740096625}
   queueIndex: 0
+  disable: 0
 --- !u!1 &1842254102
 GameObject:
   m_ObjectHideFlags: 0

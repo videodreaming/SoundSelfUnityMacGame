@@ -43,6 +43,7 @@ public class AudioManager : MonoBehaviour
     public ImitoneVoiceIntepreter ImitoneVoiceInterpreter; //reference to ImitoneVoiceInterpreter
     
     public AudioManagerState currentState = AudioManagerState.Opening;
+    public DevelopmentMode developmentMode;
     public bool SighElicitationPass1 = true;
     private bool QueryElicitationPass1 = false;
     private bool SighElicitationPass2 = false;
@@ -84,7 +85,7 @@ public class AudioManager : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.I)){
+        if(developmentMode.developmentMode && Input.GetKeyDown(KeyCode.I)){
             ChangeToNextState();
         }
         if (currentState == AudioManagerState.SighElicitationFail1|| currentState == AudioManagerState.SighElicitation1)

@@ -27,6 +27,7 @@ public class Director : MonoBehaviour
     public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
     public int queueIndex = 0;
     private int audioTweakCounter = 0;
+    public bool disable = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,10 @@ public class Director : MonoBehaviour
 
     public void QueueUpdate()
     {
+        if(disable)
+        {
+            return;
+        }
         List<int> keysToRemove = new List<int>();
         var keys = new List<int>(queue.Keys); // Create a copy of the keys to avoid modifying the collection during iteration
         foreach (var key in keys)
@@ -97,7 +102,11 @@ public class Director : MonoBehaviour
         //1: PREFER LOWEST TIME LEFT - Check if there are any actions of the same type in the queue. If there are, only add (replace) the action if the new action has less time left than the existing action.
         // Code below:        
         //2: ALWAYS REPLACE - Clear all actions of the same type from the queue, then add the action
-       
+        if(disable)
+        {
+            Debug.LogWarning("Director Queue: Director is disabled, not adding action to queue.");
+            return -1;
+        }
         if(exclusivityBehavior == 1)
         {
             if(SearchQueueForType(type))
@@ -134,6 +143,12 @@ public class Director : MonoBehaviour
     {
         int countAudioEvents = 0;
         int countVisualEvents = 0;
+
+        if(disable)
+        {
+            Debug.LogWarning("Director Queue: Director is disabled, not activating queue.");
+            return;
+        }
 
         LogQueue();
       

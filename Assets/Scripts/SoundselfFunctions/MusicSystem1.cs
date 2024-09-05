@@ -12,6 +12,10 @@ public class MusicSystem1 : MonoBehaviour
     public WwiseVOManager wwiseVOManager;
     public Director director;
     public RespirationTracker respirationTracker;
+    public GameValues gameValues;
+    public User userObject;
+    public LightControl lightControl;
+    public AudioSource userAudioSource;
     private bool debugAllowLogs = true;
 
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
@@ -51,13 +55,14 @@ public class MusicSystem1 : MonoBehaviour
     List<int> harmonySequence2 = new List<int> {5, 12, 5, 12};
     List<int> harmonySequence3 = new List<int> {7, 12, 7, 12};
     List<int> harmonySequence4 = new List<int> {5, 7, 12, 5, 7, 12, 5, 7, 12, 5, 7, 12};
-
     List<List<int>> sequences;
-
     System.Random random = new System.Random();
-        
     int currentSequenceIndex;
     int currentHarmonyIndex = 0;
+
+    //DIRECT MONITORING
+    float _gameOnLerp = 0.0f;
+    float _chargeLerp = 0.0f;
 
     //REFACTORED FROM SEQUENCER and WWISEVOMANAGER
     
@@ -83,6 +88,13 @@ public class MusicSystem1 : MonoBehaviour
 
     void Start()
     {
+        
+        if(userObject != null)
+        {
+            userAudioSource = userObject.GetComponent<AudioSource>();
+            userAudioSource.volume = 0.0f;
+        }
+
         //These three refactored from Sequencer.cs attn: @Reef
         AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
         AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
@@ -135,9 +147,50 @@ public class MusicSystem1 : MonoBehaviour
                 LockToC(false);
             }
         }
-
+        DirectVoiceMonitoring();
         ThumpUpdate();
         MusicModeUpdate(); 
+    }
+
+    private void DirectVoiceMonitoring()
+    {
+        //first get a lerp for the gameOn state
+        if(imitoneVoiceInterpreter.gameOn)
+        {
+            _gameOnLerp += Time.deltaTime * 2f;
+            _gameOnLerp = Mathf.Clamp(_gameOnLerp, 0.0f, 1.0f);
+        }
+        else
+        {
+            _gameOnLerp -= Time.deltaTime * 0.5f;
+            _gameOnLerp = Mathf.Clamp(_gameOnLerp, 0.0f, 1.0f);
+        }
+
+        //then get a lerp for the charge state
+        if(imitoneVoiceInterpreter.toneActive)
+        {
+            if (gameValues._chantCharge > _chargeLerp)
+            {
+                _chargeLerp += Time.deltaTime;
+                _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, gameValues._chantCharge);
+            }
+            else if (gameValues._chantCharge < _chargeLerp)
+            {
+                _chargeLerp -= Time.deltaTime;
+                _chargeLerp = Mathf.Clamp(_chargeLerp, gameValues._chantCharge, 1.0f);
+            }
+            else
+            {
+                _chargeLerp = gameValues._chantCharge;
+            }
+        }
+        else
+        {
+            _chargeLerp -= Time.deltaTime;
+            _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, 1.0f);
+        }
+
+        userAudioSource.volume = _gameOnLerp * (1 - _chargeLerp) * gameValues._chantLerpFast;
     }
 
     //Take the fundamental behaviors in the InterpretImitone method and move them here for clarity
@@ -353,24 +406,55 @@ public class MusicSystem1 : MonoBehaviour
         yield break;
     }
     
-    private void ThumpUpdate () //REEF - CHECK AKSOUNDENGINE IS CORRECT 
-    //Reef: LTGM! I'm not sure what you mean by "check AkSoundEngine is correct" but I'm not seeing
-    //any issues with the code or methods here.
+    private void ThumpUpdate ()
     {
-        if(imitoneVoiceInterpreter.toneActive == false)
+        if(gameValues._chantCharge < 1.0f)
         {
             thisTonesImpactPlayed = false;
         }
 
-        if(imitoneVoiceInterpreter._tThisTone > imitoneVoiceInterpreter._activeThreshold4)
+        if(gameValues._chantCharge >= 1.0f)
         {
             if(!thisTonesImpactPlayed)
             {
                 Debug.Log("MUSIC: impact");
                 AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
                 thisTonesImpactPlayed = true;   
+                StartCoroutine(ThumpVisuals(0.75f));
             }
         }
+    }
+
+    private IEnumerator ThumpVisuals(float _amplitude = 0.3f)
+    {
+        float _dur = 3.0f;
+        float _t = 0f;
+        float _fx = 0.0f;
+        float _split = 0.01f;
+        int key = lightControl.fxWaveKey++;
+
+        lightControl._fxWaveDict.Add(key, 0.0f);
+
+        while(_t <= (_dur * _split))
+        {
+            _t += Time.deltaTime;
+
+            _fx = _t / (_dur * _split);
+            
+            lightControl._fxWaveDict[key] = _fx * _amplitude;            
+            yield return null;
+        }
+        while(_t <= _dur)
+        {
+            _t += Time.deltaTime;
+            //now gradually bring _fx down from to 0 for the remainder of the _dur
+            _fx = 1 - ((_t - (_dur * _split)) / (_dur * (1 - _split)));
+
+            lightControl._fxWaveDict[key] = _fx * _amplitude;
+            yield return null;
+        }
+        //remove the keys from the dictionary
+        lightControl._fxWaveDict.Remove(key);
     }
     
     private void MusicModeUpdate()
@@ -424,7 +508,7 @@ public class MusicSystem1 : MonoBehaviour
     }
 
     
-    public void LockToC(bool doLock)
+    public void LockToC(bool doLock = true)
     {
         if (doLock)
         {

@@ -7,6 +7,7 @@ using System;
 public class Sequencer : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
+    public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
@@ -36,7 +37,8 @@ public class Sequencer : MonoBehaviour
     private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
     //private bool finalStagePreLogicExecuted = false; 
-    private bool flagTriggerEnd = false;
+    private bool flagTriggerEnd1 = false;
+    private bool flagTriggerEnd2 = false;
     private bool flagThetaCoroutine = false;
     private List<int> coroutineCleanupList = new List<int>();
     private Coroutine CoroutineDynamicDropStart;
@@ -118,11 +120,24 @@ public class Sequencer : MonoBehaviour
         {
             WakeUpCounter -= Time.deltaTime;
         }
+        
+        if(musicSystem1.interactive && !musicProgressionFlag)
+        {
+            musicProgressionFlag = true;
+            StartCoroutine(StartMusicalProgression());
+        }
 
-        if(WakeUpCounter <= 180f && !flagTriggerEnd)
+        //End Behaviors
+        if(WakeUpCounter <= 180f && !flagTriggerEnd1)
         {
             CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
-            flagTriggerEnd = true;
+            flagTriggerEnd1 = true;
+        }
+
+        if(WakeUpCounter <= 60f && !flagTriggerEnd2)
+        {
+            StartCoroutine(LastMinute());
+            flagTriggerEnd2 = true;
         }
         
         if( WakeUpCounter <= 0.0f && !wakeUpEndSoonTriggered)
@@ -130,15 +145,39 @@ public class Sequencer : MonoBehaviour
             AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
             WakeUpCounter = -1.0f;
             wakeUpEndSoonTriggered = true;
-            lightControl.SetPreferredColor("Dark");
-            lightControl.NextColorWorld(10f);
+        }
+    }
+
+    //====================================================================================================
+    //TIMED BEHAVIORS
+    //====================================================================================================
+    IEnumerator LastMinute()
+    {
+        Debug.Log("Last Minute: Starting Last Minute Behaviors.");
+
+        //wait for the first new tone to start, or to pass the 30s threshold...
+        while(WakeUpCounter > 30f || imitoneVoiceInterpreter.toneActiveConfident)
+        {
+            yield return null;
+        }
+        while(WakeUpCounter > 30f || !imitoneVoiceInterpreter.toneActiveConfident)
+        {
+            yield return null;
+        }
+
+        imitoneVoiceInterpreter.gameOn = false;
+        musicSystem1.LockToC(true);
+        director.ActivateQueue(15f);
+        director.disable = true;
+        yield return null;
+
+        while(WakeUpCounter > 15f)
+        {
+            yield return null;
         }
         
-        if(musicSystem1.interactive && !musicProgressionFlag)
-        {
-            musicProgressionFlag = true;
-            StartCoroutine(StartMusicalProgression());
-        }
+        lightControl.SetPreferredColor("Dark");
+        lightControl.NextColorWorld(18f);
     }
 
     //====================================================================================================

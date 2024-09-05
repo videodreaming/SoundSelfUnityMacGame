@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class MicrophoneManager : MonoBehaviour
 {
+    public DevelopmentMode developmentMode;
     private AudioSource audioSource;
     private bool isRecording = false;
     private AudioClip recordedClip;
@@ -34,7 +35,7 @@ public class MicrophoneManager : MonoBehaviour
     if (Microphone.IsRecording(microphone))
     {
     }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (developmentMode.developmentMode && Input.GetKeyDown(KeyCode.Space))
         {
             if (!isRecording)
             {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class RecodedAudioPlaybackTest : MonoBehaviour
 {
     public AudioManager audioManager; // Assign your AudioManager in the Inspector
-
+    public DevelopmentMode developmentMode; // Assign your DevelopmentMode in the Inspector
     void Update()
     {
         // Check if AudioManager and recordedAudioClip are assigned
@@ -21,7 +21,7 @@ public class RecodedAudioPlaybackTest : MonoBehaviour
             // Assign the recordedAudioClip to the AudioSource
             audioSource.clip = audioManager.recordedAudioClip;
 
-            if(Input.GetKeyDown(KeyCode.H)){
+            if(developmentMode.developmentMode && Input.GetKeyDown(KeyCode.H)){
                 audioSource.Play();
             }
             // Play the AudioClip

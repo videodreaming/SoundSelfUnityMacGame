@@ -23,6 +23,7 @@ public class LightControl : MonoBehaviour
     private int cycleBlue = 0;
     private int cycleWhite = 0;
     private int cycleTest = 0;
+    public float _fxWave = 0f;
     public float _strobePWM    = 0.0f;
     public float _strobe1Smoothing = 0.0f;
     public float _gammaBurstMode = 0.0f;
@@ -40,6 +41,8 @@ public class LightControl : MonoBehaviour
     private Coroutine gammaCoroutine;
     public Color toneWaveColor = new Color(0.0f, 0.0f, 0.0f);
     public Color breathWaveColor = new Color(0.0f, 0.0f, 0.0f);
+    public int fxWaveKey = 0;
+    public Dictionary <int, float> _fxWaveDict = new Dictionary<int, float>();
     
 
     void Awake()
@@ -169,6 +172,87 @@ public class LightControl : MonoBehaviour
             g = green;
             b = blue;
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        HandleFXWave();
+        if(developmentMode.developmentMode)
+        {
+
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                PopulateDevicesList();
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                printDevicesList();
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                preferredColor = "Test";
+                NextColorWorld(3f, true);
+            }
+            else if (Input.GetKeyUp(KeyCode.C))
+            {
+                NextColorWorld(7f, true);
+            }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                Strobe_MonoStereo(true);
+            }
+            else if (Input.GetKeyUp(KeyCode.V))
+            {
+                Strobe_MonoStereo(false);
+            }
+
+            if(Input.GetKeyDown(KeyCode.W))
+            {
+                SetStrobeRate(15f, 5f);
+            }
+            if(Input.GetKeyUp(KeyCode.W))
+            {
+                SetStrobeRate(5f, 0f);
+            }
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                Gamma(true);
+            }
+            if(Input.GetKeyUp(KeyCode.R))
+            {
+                Gamma(false);
+            }
+        }
+        
+        // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
+        if (AVSColorSelected && !AVSColorSelectedLastFrame)
+        {
+            AkSoundEngine.PostEvent("Play_AVS_SineGenerators_REFERENCE", gameObject);
+            Debug.Log("AVS: Starting Reference Signal");
+        }
+        else if (!AVSColorSelected && AVSColorSelectedLastFrame)
+        {
+            AkSoundEngine.PostEvent("Stop_AVS_SineGenerators_REFERENCE", gameObject);
+            Debug.Log("AVS: Stopping Reference Signal");
+        }
+        AVSColorSelectedLastFrame = AVSColorSelected;
+    }
+
+    void HandleFXWave()
+    {
+       //add all the float values of the dictionary together and output it to _fxWave
+        _fxWave = _fxWaveDict.Values.Sum();
+    }
+
+    void LateUpdate()
+    {
+        AVSColorChangeFrame = false;
+        AVSColorCommand = "";
+        AVSStrobeCommand = "";
+        toneVisualizationFlag = false;
+        chargeVisualizationFlag = false;
+        breathVisualizationFlag = false;
     }
 
     void PopulateDevicesList() 
@@ -548,14 +632,16 @@ public class LightControl : MonoBehaviour
         chargeVisualizationFlag = true;
     }
 
-    public void Wwise_BreathDisplay (float _input)
+    public void Wwise_BreathDisplay (float _input, float _addition = 0.0f)
     {
         float _input2 = _input;
+        float _addition2 = _addition;
         if(developmentMode.configureMode)
         {
             _input2 = 0.0f;
+            _addition2 = 0.0f;
         }
-        float _i = Mathf.Max(Mathf.Min(_input, 1.0f), 0.0f);
+        float _i = Mathf.Max(Mathf.Min(_input2 + _addition2, 1.0f), 0.0f);
         float _waveValue = 0.0f + 100.0f * _i;
 
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", _waveValue, gameObject);
@@ -627,78 +713,5 @@ public class LightControl : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(developmentMode.developmentMode)
-        {
-
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                PopulateDevicesList();
-            }
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                printDevicesList();
-            }
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                preferredColor = "Test";
-                NextColorWorld(3f, true);
-            }
-            else if (Input.GetKeyUp(KeyCode.C))
-            {
-                NextColorWorld(7f, true);
-            }
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                Strobe_MonoStereo(true);
-            }
-            else if (Input.GetKeyUp(KeyCode.V))
-            {
-                Strobe_MonoStereo(false);
-            }
-
-            if(Input.GetKeyDown(KeyCode.W))
-            {
-                SetStrobeRate(15f, 5f);
-            }
-            if(Input.GetKeyUp(KeyCode.W))
-            {
-                SetStrobeRate(5f, 0f);
-            }
-            if(Input.GetKeyDown(KeyCode.R))
-            {
-                Gamma(true);
-            }
-            if(Input.GetKeyUp(KeyCode.R))
-            {
-                Gamma(false);
-            }
-        }
-        
-        // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
-        if (AVSColorSelected && !AVSColorSelectedLastFrame)
-        {
-            AkSoundEngine.PostEvent("Play_AVS_SineGenerators_REFERENCE", gameObject);
-            Debug.Log("AVS: Starting Reference Signal");
-        }
-        else if (!AVSColorSelected && AVSColorSelectedLastFrame)
-        {
-            AkSoundEngine.PostEvent("Stop_AVS_SineGenerators_REFERENCE", gameObject);
-            Debug.Log("AVS: Stopping Reference Signal");
-        }
-        AVSColorSelectedLastFrame = AVSColorSelected;
-    }
-
-    void LateUpdate()
-    {
-        AVSColorChangeFrame = false;
-        AVSColorCommand = "";
-        AVSStrobeCommand = "";
-        toneVisualizationFlag = false;
-        chargeVisualizationFlag = false;
-        breathVisualizationFlag = false;
-    }
 
 }
