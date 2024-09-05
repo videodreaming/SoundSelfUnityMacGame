@@ -12,7 +12,6 @@ public class CSVWriter : MonoBehaviour
     private string session_resultsPath = "";
     public RespirationTracker respirationTracker;
     public GameManagement gameManagement;
-    public bool microphoneMonitoring = false;
     public string GameMode;
     public string SubGameMode;
     public string encryptedstatus = "";

@@ -97,13 +97,15 @@ public class WwiseVOManager : MonoBehaviour
                 if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
                 {
                     Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
+                    imitoneVoiceIntepreter.gameOn = false;
                 } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
                 {
                     Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End");
+                    imitoneVoiceIntepreter.gameOn = true;
                 } else if (musicSyncInfo.userCueName == "Cue_BreathIn")
                 {
-                    breathInBehaviour();
                     Debug.Log("WWise_VO: Cue_BreathIn");
+                    breathInBehaviour();
                 }
             } 
 
@@ -131,13 +133,11 @@ public class WwiseVOManager : MonoBehaviour
                 else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
                 {
                     Debug.Log("WWise_VO: Cue Mic On");
-                    csvWriter.microphoneMonitoring = true;
                     imitoneVoiceIntepreter.gameOn = true;
                 }
                 else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
                 {
                     Debug.Log("WWise_VO: Cue Mic OFF");
-                    csvWriter.microphoneMonitoring = false;
                     imitoneVoiceIntepreter.gameOn = false;
                 }
                 else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
@@ -266,7 +266,7 @@ public class WwiseVOManager : MonoBehaviour
 
     private void breathInBehaviour()
     {
-        //AVS + Audio stuff here
+        lightControl.FXWave(1.0f, 5f, 0.25f, true);
     }
         
     IEnumerator StartSighElicitationTimer()

@@ -650,6 +650,41 @@ public class LightControl : MonoBehaviour
         breathVisualizationFlag = true;
     }
 
+    public void FXWave(float _amplitude, float _dur, float _split, bool rampShape = false)
+    {
+        StartCoroutine(FXWaveCoroutine(_amplitude, _dur, _split, true));
+    }
+
+    private IEnumerator FXWaveCoroutine(float _amplitude = 0.3f, float _dur = 4.0f, float _split = 0.25f, bool rampShape = false)
+    {
+        float _t = 0f;
+        float _fx = 0.0f;
+        int key = fxWaveKey++;
+        float exponent = rampShape ? 0.5f : 1.0f;
+
+        _fxWaveDict.Add(key, 0.0f);
+
+        Debug.Log("AVS FXWave started with key: " + key);
+
+        while (_t <= 0.5f) //ramp _fx up to 1.0f in _split time
+        {
+            _t += (Time.deltaTime * 0.5f / (_dur * Mathf.Clamp(_split, 0.0f, 1.0f)));
+
+            _fx = Mathf.Pow(_t * 2.0f, exponent);
+            _fxWaveDict[key] = _fx * Mathf.Clamp(_amplitude, 0.0f, 1.0f);
+            yield return null;
+        }
+        while(_t <= 1.0f) //ramp down to 0.0f in the remaining time
+        {
+            _t += (Time.deltaTime * 0.5f / (_dur * Mathf.Clamp(1 - _split, 0.0f, 1.0f)));
+            _fx = Mathf.Pow(Mathf.Clamp(2.0f - _t * 2.0f, 0f, 1f), exponent);
+            _fxWaveDict[key] = _fx * Mathf.Clamp(_amplitude, 0.0f, 1.0f);
+            yield return null;
+        }
+
+        _fxWaveDict.Remove(key);
+    }
+
     public void Gamma(bool gammaOn)
     {
         if(gammaOn)

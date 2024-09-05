@@ -8,6 +8,7 @@ public class DataOutput : MonoBehaviour
 {
     public RespirationTracker respirationTracker;
     public LightControl lightControl;
+    public ImitoneVoiceIntepreter imitoneVoiceInterprter;
 
     string AVSColorCommand = "";
     string AVSStrobeCommand = "";
@@ -29,6 +30,7 @@ public class DataOutput : MonoBehaviour
             "Run Time," +
             "Command: AVS Strobe Rate," +
             "Command: AVS Color," +
+            "Microphone Interactivity," +
             "Respiration: Rate," +
             "Respiration: Mean Tone Length," +
             "Respiration: Mean Rest Length," +
@@ -66,6 +68,7 @@ public class DataOutput : MonoBehaviour
                          $"{Time.time}," +
                          $"{AVSStrobeCommand}," +
                          $"{AVSColorCommand}," +
+                         $"{imitoneVoiceInterprter.gameOn}," +
                          $"{respirationTracker._respirationRate}," +
                          $"{respirationTracker._meanToneLength}," +
                          $"{respirationTracker._meanRestLength}," +
