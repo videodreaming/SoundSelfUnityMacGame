@@ -57,6 +57,9 @@ public class LightControl : MonoBehaviour
         {
             SetColorWorldByType("Dark", 0.0f);
         }
+        //ulong gameObjectID = AkSoundEngine.GetAkGameObjectID(gameObject);
+        // Log the Game Object ID for tracking purposes
+        //Debug.Log($"Game Object '{gameObject.name}' registered with Wwise ID: {gameObjectID}");
     }
     void Start()
     {
@@ -94,7 +97,7 @@ public class LightControl : MonoBehaviour
                 if (devices[i].deviceName == wantedDevice)
                 {
                     deviceId = devices[i].idDevice;
-                    print("Device found: " + devices[i].deviceName);
+                    print("Device found: " + devices[i].deviceName + " With ID: " + devices[i].idDevice);
                     break;
                 }
             }
@@ -113,14 +116,18 @@ public class LightControl : MonoBehaviour
         AkOutputSettings outputSettings2 = new AkOutputSettings();
         outputSettings2.audioDeviceShareset = sharesetIdSystem2;
         outputSettings2.idDevice = deviceId;
+        print("OutputSettings2 ID Device " + outputSettings2.idDevice);
+        
         // We call the AddOutput with the newly create OutputSetting2 for the System_01 and for the system2Listener.
         ulong outDeviceId = 0;
         ulong[] ListenerIds = { AkSoundEngine.GetAkGameObjectID(gameObject) };
         AkSoundEngine.AddOutput(outputSettings2, out outDeviceId, ListenerIds, 1);
+        
         // We Set the listener of Game_Object_System2 to be listened by system2Listener. Set will clear all Emitter-Listener already there, 
         // so the default listener will not be associated anymore.
         AkSoundEngine.RegisterGameObj(gameObject, "System2Go");
         AkSoundEngine.SetListeners(AkSoundEngine.GetAkGameObjectID(gameObject), ListenerIds, 1);
+        print("GameObjectID : " + AkSoundEngine.GetAkGameObjectID(gameObject));
 
         //Play all appropriate AVS waves
         wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
