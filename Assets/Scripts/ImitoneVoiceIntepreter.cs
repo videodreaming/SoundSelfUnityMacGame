@@ -296,7 +296,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         bool captureThreshold = _secsCapturedBaseline > 15f;
         if (captureThreshold && (_vol1Sec > (_anomalyBaseline + _volumeAnomalyThresholdDb)))
         {
-            Debug.Log("Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
+            Debug.Log("Director Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
             _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
             director.ActivateQueue(1.75f);

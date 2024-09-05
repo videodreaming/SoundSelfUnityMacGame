@@ -249,7 +249,7 @@ public class MusicSystem1 : MonoBehaviour
                                         director.ClearQueueOfType("fundamentalChange");
                                         director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 0f, true, 2);
                                         director.ActivateQueue(5.0f);
-
+                                        Debug.Log("Director queue activated from fundamental change in music");
                                     }
                                     //otherwise, add the action to the director queue and wait patiently, as long as there isn't already one there.
                                     else if (checkForThreshold1)

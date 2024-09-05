@@ -181,8 +181,6 @@ public class Director : MonoBehaviour
         if (countVisualEvents == 0)
         {
             Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
-            //choose a random number, 0 1 or 2
-            int choose = UnityEngine.Random.Range(0, 3);
             lightControl.NextColorWorld(transitionTimeForFlourishes);
             lightControl.FXWave(0.75f, 15.0f, 0.1f, true);
         }

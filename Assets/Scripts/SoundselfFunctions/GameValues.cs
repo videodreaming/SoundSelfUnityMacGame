@@ -119,11 +119,11 @@ public class GameValues : MonoBehaviour
         changeDetection();
         if(changeDetectedToneLength)
         {
-            Debug.Log("Change Detection: Tone Length Change");
+            Debug.Log("Director Change Detection: Tone Length Change");
         }
         if(changeDetectedRestLength)
         {
-            Debug.Log("Change Detection: Breath Length Change");
+            Debug.Log("Director Change Detection: Breath Length Change");
         }
         
         lightControl.Wwise_Strobe_ChargeDisplay(_chantCharge);
@@ -294,7 +294,7 @@ public class GameValues : MonoBehaviour
         float _chantChargeDurationAtStart = _chantChargeDuration;
 
         _chantChargeContributions[chantChargeCoroutineID] = 0f;
-        
+
         string localID = $"{nameof(_chantChargeContributions)}.{chantChargeCoroutineID}";
 
         //Debug.Log("ChantCharge " + chantChargeCoroutineID + " Begin, mean tone is: " + _meanToneAtStart);
@@ -387,11 +387,11 @@ public class GameValues : MonoBehaviour
         {
             if (anchored)
             {
-                Debug.Log("Change Detection " + (isTone ? "TONE " : "REST ") + id + ": COROUTINE START, ANCHORED (" + _anchorLow + ")|(" + _anchorHigh + ")");
+                Debug.Log("Director Change Detection " + (isTone ? "TONE " : "REST ") + id + ": COROUTINE START, ANCHORED (" + _anchorLow + ")|(" + _anchorHigh + ")");
             }
             else
             {
-                Debug.Log("Change Detection " + (isTone ? "TONE " : "REST ") + id + ": COROUTINE START unanchored with range threshold (" + _windlassSpread + ")");
+                Debug.Log("Director Change Detection " + (isTone ? "TONE " : "REST ") + id + ": COROUTINE START unanchored with range threshold (" + _windlassSpread + ")");
             }
         }
 
@@ -407,7 +407,7 @@ public class GameValues : MonoBehaviour
                 StartCoroutine(ToneChangeEvent());
                 if(debugAllowChangeVerboseLogs)
                 {
-                    Debug.Log("Change Detection TONE: [CHANGE] " + id + " by exceeding upper threshold " + _anchorHigh);
+                    Debug.Log("Director Change Detection TONE: [CHANGE] " + id + " by exceeding upper threshold " + _anchorHigh);
                 }
             }
 
@@ -430,14 +430,14 @@ public class GameValues : MonoBehaviour
                     triggeredChange = true;
                     StartCoroutine(ToneChangeEvent());
                     if(debugAllowChangeVerboseLogs)
-                        Debug.Log("Change Detection TONE: [CHANGE] " + id + " by falling below lower threshold " + _anchorLow);
+                        Debug.Log("Director Change Detection TONE: [CHANGE] " + id + " by falling below lower threshold " + _anchorLow);
                 }
                 else if (!isTone && !triggeredChange && anchored && ((_duration < _anchorLow) || (_duration > _anchorHigh)))
                 {
                     triggeredChange = true;
                     StartCoroutine(RestChangeEvent());
                     if(debugAllowChangeVerboseLogs)
-                        Debug.Log("Change Detection REST: [CHANGE] " + id + " by ranging out of threshold (" + _anchorLow + ")(" + _anchorHigh + ")");
+                        Debug.Log("Director Change Detection REST: [CHANGE] " + id + " by ranging out of threshold (" + _anchorLow + ")(" + _anchorHigh + ")");
                 }
                
 
@@ -456,7 +456,7 @@ public class GameValues : MonoBehaviour
                         _restWindlassSpread = _windlassSpread;
                     }
                     
-                    Debug.Log("Change Detection" + (isTone ? " TONE: " : " REST: ") + "unanchored with range threshold(" + _windlassSpread + ")");
+                    Debug.Log("Director Change Detection" + (isTone ? " TONE: " : " REST: ") + "unanchored with range threshold(" + _windlassSpread + ")");
                 }
                 else //IF NO CHANGE WAS DETECTED, SHRINK THE ANCHORED RANGE
                 {
@@ -474,7 +474,7 @@ public class GameValues : MonoBehaviour
                     }
                     
                     if(debugAllowChangeVerboseLogs)
-                        Debug.Log("Change Detection" + (isTone ? " TONE: " : " REST: ") + "anchored range set to (" + _anchorLow + ")|(" + _anchorHigh + ")");
+                        Debug.Log("Director Change Detection" + (isTone ? " TONE: " : " REST: ") + "anchored range set to (" + _anchorLow + ")|(" + _anchorHigh + ")");
                 }
             }
             else //NOT ANCHORED, MIGHT SET ANCHOR
@@ -490,14 +490,14 @@ public class GameValues : MonoBehaviour
                             _toneAnchorHigh = _anchorHigh;
                             _toneAnchorLow = _anchorLow;
                             toneAnchored = true;
-                            Debug.Log("Change Detection TONE: [ANCHOR SET] (" + _toneAnchorLow + ")|(" + _toneAnchorHigh + ")");
+                            Debug.Log("Director Change Detection TONE: [ANCHOR SET] (" + _toneAnchorLow + ")|(" + _toneAnchorHigh + ")");
                         }
                         else
                         {
                             _restAnchorHigh = _anchorHigh;
                             _restAnchorLow = _anchorLow;
                             restAnchored = true;
-                            Debug.Log("Change Detection REST: [ANCHOR SET] (" + _restAnchorLow + ")|(" + _restAnchorHigh + ")");
+                            Debug.Log("Director Change Detection REST: [ANCHOR SET] (" + _restAnchorLow + ")|(" + _restAnchorHigh + ")");
                         }
                 }
                 else//if we are not setting an anchor...
@@ -512,7 +512,7 @@ public class GameValues : MonoBehaviour
                     }
                     
                     if(debugAllowChangeVerboseLogs)
-                    Debug.Log("Change Detection" + (isTone ? " TONE (no anchor): " : " REST (no anchor): ") + "memoryMin(" + _durations.Values.Min() + ") memoryMax(" + _durations.Values.Max() + ") range(" + _durationsRelativeRange + ") next-threshold set to ("  + _windlassSpread + ")");
+                    Debug.Log("Director Change Detection" + (isTone ? " TONE (no anchor): " : " REST (no anchor): ") + "memoryMin(" + _durations.Values.Min() + ") memoryMax(" + _durations.Values.Max() + ") range(" + _durationsRelativeRange + ") next-threshold set to ("  + _windlassSpread + ")");
                 }
                 
             }
@@ -522,11 +522,11 @@ public class GameValues : MonoBehaviour
         
         if(!anchored && debugAllowChangeVerboseLogs)
         {
-            Debug.Log("Change Detection " + (isTone ? "TONE (no anchor):" : "REST (no anchor):") + " Duration Coroutine " + id + " END with duration(" + _duration + ") count(" + _durations.Count + ") range(" + _durationsRelativeRange + ")  nextRangeThreshold(" + _windlassSpread + ")");
+            Debug.Log("Director Change Detection " + (isTone ? "TONE (no anchor):" : "REST (no anchor):") + " Duration Coroutine " + id + " END with duration(" + _duration + ") count(" + _durations.Count + ") range(" + _durationsRelativeRange + ")  nextRangeThreshold(" + _windlassSpread + ")");
         }
         else if (anchored && debugAllowChangeVerboseLogs)
         {
-            Debug.Log("Change Detection " + (isTone ? "TONE (anchored):" : "REST (anchored):") + " Duration Coroutine " + id + " END with duration(" + _duration + ") count(" + _durations.Count + ") anchors(" + _anchorLow + ")|(" + _anchorHigh + ")");
+            Debug.Log("Director Change Detection " + (isTone ? "TONE (anchored):" : "REST (anchored):") + " Duration Coroutine " + id + " END with duration(" + _duration + ") count(" + _durations.Count + ") anchors(" + _anchorLow + ")|(" + _anchorHigh + ")");
         }
         
         if (isTone)
