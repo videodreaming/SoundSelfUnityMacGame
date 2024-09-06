@@ -164,14 +164,15 @@ Effect plug-ins	ID	Name	Type				Notes
 	1443902288	_1_Second_Delay	Wwise Stereo Delay			
 	1506222489	AVS_Modulation_Wave1_01	Wwise Tremolo			
 	1506222490	AVS_Modulation_Wave1_02	Wwise Tremolo			
+	1759944409	Cut_3dB_100Hz	Wwise Parametric EQ			
 	2943759360	AVS_Modulation_Wave3_02	Wwise Tremolo			
 	2943759363	AVS_Modulation_Wave3_01	Wwise Tremolo			
+	2998002419	Boost_3dB_10KHz	Wwise Parametric EQ			
 	3164629247	Holy	Wwise RoomVerb			
 	3216246379	Space_Dreaming	Wwise RoomVerb			
 	3442768367	Hall_Large_Dark	Wwise RoomVerb			
 	3561977548	AVS_Modulation_Wave2_01	Wwise Tremolo			
 	3561977551	AVS_Modulation_Wave2_02	Wwise Tremolo			
-	3701691487	Hall_Large_Bright	Wwise RoomVerb			
 
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	21278335	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\RED\RED\Sine	

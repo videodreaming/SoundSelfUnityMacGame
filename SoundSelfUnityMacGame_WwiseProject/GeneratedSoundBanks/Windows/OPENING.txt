@@ -92,6 +92,9 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	1662384195	BreatheCycle_Volume			\SFX\BreatheCycle_Volume	
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
 
+Effect plug-ins	ID	Name	Type				Notes
+	2998002419	Boost_3dB_10KHz	Wwise Parametric EQ			
+
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
 

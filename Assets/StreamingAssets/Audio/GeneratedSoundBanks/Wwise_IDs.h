@@ -474,7 +474,7 @@ namespace AK
         static const AkUniqueID AVS_SILENT = 493151109U;
         static const AkUniqueID AVS_TONING = 2286170043U;
         static const AkUniqueID ENVIRONMENT = 1229948536U;
-        static const AkUniqueID IMPACTS__SUBACOUSTIC = 2670023165U;
+        static const AkUniqueID IMPACTS_SUBACOUSTICS = 958096227U;
         static const AkUniqueID INTERACTIVEMUSIC_VOCAL_SILENT = 2579128390U;
         static const AkUniqueID INTERACTIVEMUSIC_VOCAL_TONING = 2479991680U;
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
@@ -485,7 +485,7 @@ namespace AK
 
     namespace AUX_BUSSES
     {
-        static const AkUniqueID AUX_IMPACTS = 3329123393U;
+        static const AkUniqueID AUX_IMPACTSSUB = 1163393389U;
         static const AkUniqueID AUX_MUSIC = 3331583377U;
         static const AkUniqueID AUX_SFX = 2562455749U;
         static const AkUniqueID AUX_SILENTLOOPS = 1959646260U;

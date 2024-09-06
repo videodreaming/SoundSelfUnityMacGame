@@ -201,7 +201,7 @@
 							<PropertyList>
 								<Property Name="OutputGain" Type="Real32" Value="2"/>
 								<Property Name="Ratio" Type="Real32" Value="50"/>
-								<Property Name="Threshold" Type="Real32" Value="-6"/>
+								<Property Name="Threshold" Type="Real32" Value="-20"/>
 							</PropertyList>
 						</Effect>
 						<Effect Name="Brick_Wall_Minus_1dB_Peak_Slow_Release" ID="{9FB8DC2B-7F1C-4E4E-8FA5-50872652D2DD}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
@@ -271,10 +271,14 @@
 									<ChildrenList>
 										<Effect Name="Boost_3dB_10KHz" ID="{59632554-9396-4E15-889E-7A2F5458DEC3}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 											<PropertyList>
-												<Property Name="FrequencyBand3" Type="Real32" Value="10000"/>
-												<Property Name="GainBand3" Type="Real32" Value="3"/>
-												<Property Name="OnOffBand1" Type="bool" Value="False"/>
-												<Property Name="OnOffBand2" Type="bool" Value="False"/>
+												<Property Name="FrequencyBand1" Type="Real32" Value="91"/>
+												<Property Name="FrequencyBand2" Type="Real32" Value="4466"/>
+												<Property Name="FrequencyBand3" Type="Real32" Value="450"/>
+												<Property Name="GainBand1" Type="Real32" Value="-4"/>
+												<Property Name="GainBand2" Type="Real32" Value="2.5"/>
+												<Property Name="GainBand3" Type="Real32" Value="6"/>
+												<Property Name="OutputLevel" Type="Real32" Value="4"/>
+												<Property Name="QFactorBand2" Type="Real32" Value="13.6"/>
 											</PropertyList>
 										</Effect>
 										<Effect Name="Cut_3dB_10KHz" ID="{83EAB3EA-A43D-470F-A183-7F02DAA44A4D}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
@@ -422,12 +426,16 @@
 									<ChildrenList>
 										<Effect Name="Bass_Remover_1" ID="{D313DB05-6B33-4C1F-8C2F-F989052E8120}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 											<PropertyList>
-												<Property Name="FilterTypeBand1" Type="int32" Value="1"/>
-												<Property Name="FilterTypeBand2" Type="int32" Value="4"/>
-												<Property Name="FrequencyBand1" Type="Real32" Value="60"/>
-												<Property Name="FrequencyBand2" Type="Real32" Value="100"/>
-												<Property Name="GainBand2" Type="Real32" Value="-3"/>
-												<Property Name="OnOffBand3" Type="bool" Value="False"/>
+												<Property Name="FilterTypeBand1" Type="int32" Value="6"/>
+												<Property Name="FilterTypeBand2" Type="int32" Value="5"/>
+												<Property Name="FrequencyBand1" Type="Real32" Value="7384"/>
+												<Property Name="FrequencyBand2" Type="Real32" Value="6931"/>
+												<Property Name="FrequencyBand3" Type="Real32" Value="831"/>
+												<Property Name="GainBand1" Type="Real32" Value="3"/>
+												<Property Name="GainBand2" Type="Real32" Value="4"/>
+												<Property Name="GainBand3" Type="Real32" Value="13"/>
+												<Property Name="OutputLevel" Type="Real32" Value="1"/>
+												<Property Name="QFactorBand1" Type="Real32" Value="35.1"/>
 											</PropertyList>
 										</Effect>
 										<Effect Name="Bass_Remover_2" ID="{A0788DC0-7254-4FDD-A6F4-2BAF12AD6CE2}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
@@ -537,9 +545,12 @@
 										</Effect>
 										<Effect Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 											<PropertyList>
-												<Property Name="GainBand1" Type="Real32" Value="-3"/>
-												<Property Name="OnOffBand2" Type="bool" Value="False"/>
-												<Property Name="OnOffBand3" Type="bool" Value="False"/>
+												<Property Name="FrequencyBand2" Type="Real32" Value="2435"/>
+												<Property Name="GainBand1" Type="Real32" Value="-8"/>
+												<Property Name="GainBand2" Type="Real32" Value="2"/>
+												<Property Name="GainBand3" Type="Real32" Value="4"/>
+												<Property Name="OutputLevel" Type="Real32" Value="2.5"/>
+												<Property Name="QFactorBand2" Type="Real32" Value="28.8"/>
 											</PropertyList>
 										</Effect>
 									</ChildrenList>
@@ -638,9 +649,12 @@
 								<Effect Name="High_Pass_60Hz" ID="{F9627628-0B10-4272-BC30-D4C20423CB38}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 									<PropertyList>
 										<Property Name="FilterTypeBand1" Type="int32" Value="1"/>
-										<Property Name="FrequencyBand1" Type="Real32" Value="60"/>
-										<Property Name="OnOffBand2" Type="bool" Value="False"/>
-										<Property Name="OnOffBand3" Type="bool" Value="False"/>
+										<Property Name="FrequencyBand1" Type="Real32" Value="79"/>
+										<Property Name="FrequencyBand2" Type="Real32" Value="83"/>
+										<Property Name="FrequencyBand3" Type="Real32" Value="7497"/>
+										<Property Name="GainBand3" Type="Real32" Value="8.5"/>
+										<Property Name="OutputLevel" Type="Real32" Value="1"/>
+										<Property Name="QFactorBand2" Type="Real32" Value="0.5"/>
 									</PropertyList>
 								</Effect>
 							</ChildrenList>
@@ -658,10 +672,12 @@
 								</Effect>
 								<Effect Name="Static_Sibilance_Remover_Male" ID="{3FF84C1E-F84E-432E-86BC-96B3C9219F10}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 									<PropertyList>
+										<Property Name="FrequencyBand1" Type="Real32" Value="358"/>
 										<Property Name="FrequencyBand2" Type="Real32" Value="4000"/>
-										<Property Name="GainBand2" Type="Real32" Value="-6"/>
-										<Property Name="OnOffBand1" Type="bool" Value="False"/>
-										<Property Name="OnOffBand3" Type="bool" Value="False"/>
+										<Property Name="FrequencyBand3" Type="Real32" Value="1037"/>
+										<Property Name="GainBand1" Type="Real32" Value="2"/>
+										<Property Name="GainBand2" Type="Real32" Value="0.5"/>
+										<Property Name="GainBand3" Type="Real32" Value="2.5"/>
 										<Property Name="QFactorBand2" Type="Real32" Value="3"/>
 									</PropertyList>
 								</Effect>
@@ -672,8 +688,8 @@
 								<Effect Name="Low_Pass_20KHz" ID="{830124FB-B9D5-4AE8-846E-E94A74652666}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 									<PropertyList>
 										<Property Name="FilterTypeBand1" Type="int32" Value="1"/>
-										<Property Name="FilterTypeBand3" Type="int32" Value="1"/>
-										<Property Name="FrequencyBand3" Type="Real32" Value="20000"/>
+										<Property Name="FilterTypeBand3" Type="int32" Value="0"/>
+										<Property Name="FrequencyBand3" Type="Real32" Value="60"/>
 										<Property Name="OnOffBand1" Type="bool" Value="False"/>
 										<Property Name="OnOffBand2" Type="bool" Value="False"/>
 									</PropertyList>
@@ -824,7 +840,7 @@
 									<PropertyList>
 										<Property Name="DecayTime" Type="Real32" Value="4.9"/>
 										<Property Name="Density" Type="Real32" Value="70"/>
-										<Property Name="DryLevel" Type="Real32" Value="-2"/>
+										<Property Name="DryLevel" Type="Real32" Value="0"/>
 										<Property Name="ERLevel" Type="Real32" Value="-23"/>
 										<Property Name="ERPattern" Type="int32" Value="15"/>
 										<Property Name="Filter1Freq" Type="Real32" Value="590"/>
@@ -881,19 +897,22 @@
 									<PropertyList>
 										<Property Name="DecayTime" Type="Real32" Value="5.2"/>
 										<Property Name="Density" Type="Real32" Value="70"/>
-										<Property Name="DryLevel" Type="Real32" Value="-6.3"/>
+										<Property Name="DryLevel" Type="Real32" Value="-0.3"/>
 										<Property Name="ERFrontBackDelay" Type="Real32" Value="75"/>
-										<Property Name="ERLevel" Type="Real32" Value="-7"/>
-										<Property Name="ERPattern" Type="int32" Value="21"/>
-										<Property Name="Filter1Freq" Type="Real32" Value="490"/>
-										<Property Name="Filter1Gain" Type="Real32" Value="4"/>
+										<Property Name="ERLevel" Type="Real32" Value="-5"/>
+										<Property Name="ERPattern" Type="int32" Value="8"/>
+										<Property Name="EnableToneControls" Type="bool" Value="True"/>
+										<Property Name="Filter1Freq" Type="Real32" Value="80"/>
+										<Property Name="Filter1Gain" Type="Real32" Value="-15.5"/>
 										<Property Name="Filter1InsertPos" Type="int32" Value="2"/>
+										<Property Name="Filter2Freq" Type="Real32" Value="560"/>
+										<Property Name="Filter2Gain" Type="Real32" Value="9"/>
 										<Property Name="Filter3Freq" Type="Real32" Value="11000"/>
-										<Property Name="Filter3Gain" Type="Real32" Value="-11.5"/>
+										<Property Name="Filter3Gain" Type="Real32" Value="13.5"/>
 										<Property Name="HFDamping" Type="Real32" Value="5.05"/>
 										<Property Name="PreDelay" Type="Real32" Value="75"/>
 										<Property Name="Quality" Type="int32" Value="16"/>
-										<Property Name="ReverbLevel" Type="Real32" Value="-24"/>
+										<Property Name="ReverbLevel" Type="Real32" Value="-34"/>
 										<Property Name="RoomShape" Type="Real32" Value="55"/>
 										<Property Name="RoomSize" Type="Real32" Value="73"/>
 									</PropertyList>
@@ -1395,24 +1414,26 @@
 										<Property Name="DecayTime" Type="Real32" Value="8"/>
 										<Property Name="Density" Type="Real32" Value="70"/>
 										<Property Name="DryLevel" Type="Real32" Value="-0.3"/>
-										<Property Name="ERFrontBackDelay" Type="Real32" Value="68"/>
-										<Property Name="ERLevel" Type="Real32" Value="-13"/>
-										<Property Name="ERPattern" Type="int32" Value="2"/>
+										<Property Name="ERFrontBackDelay" Type="Real32" Value="100"/>
+										<Property Name="ERLevel" Type="Real32" Value="-8"/>
+										<Property Name="ERPattern" Type="int32" Value="21"/>
 										<Property Name="EnableToneControls" Type="bool" Value="True"/>
 										<Property Name="Filter1Curve" Type="int32" Value="2"/>
-										<Property Name="Filter1Freq" Type="Real32" Value="490"/>
-										<Property Name="Filter1Gain" Type="Real32" Value="-0.5"/>
+										<Property Name="Filter1Freq" Type="Real32" Value="210"/>
+										<Property Name="Filter1Gain" Type="Real32" Value="-6"/>
 										<Property Name="Filter1InsertPos" Type="int32" Value="2"/>
-										<Property Name="Filter2InsertPos" Type="int32" Value="0"/>
-										<Property Name="Filter3Freq" Type="Real32" Value="11000"/>
+										<Property Name="Filter2Freq" Type="Real32" Value="7750"/>
+										<Property Name="Filter2Gain" Type="Real32" Value="4"/>
+										<Property Name="Filter2InsertPos" Type="int32" Value="2"/>
+										<Property Name="Filter2Q" Type="Real32" Value="3.6"/>
+										<Property Name="Filter3Freq" Type="Real32" Value="90"/>
 										<Property Name="Filter3Gain" Type="Real32" Value="-4.5"/>
 										<Property Name="Filter3InsertPos" Type="int32" Value="2"/>
 										<Property Name="HFDamping" Type="Real32" Value="5.7"/>
 										<Property Name="PreDelay" Type="Real32" Value="180"/>
 										<Property Name="Quality" Type="int32" Value="14"/>
-										<Property Name="ReverbLevel" Type="Real32" Value="-21"/>
+										<Property Name="ReverbLevel" Type="Real32" Value="-4"/>
 										<Property Name="RoomSize" Type="Real32" Value="100"/>
-										<Property Name="StereoWidth" Type="Real32" Value="172"/>
 									</PropertyList>
 								</Effect>
 								<Effect Name="Medium" ID="{AEB3F175-958B-45F2-A4C2-3FBD4F456568}" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">

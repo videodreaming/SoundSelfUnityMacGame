@@ -28,27 +28,28 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	65973818	AVS System			\Default Work Unit\AVS System	
 	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
 	493151109	AVS_Silent			\Default Work Unit\AVS System\AVS_Silent	
+	958096227	Impacts_SubAcoustics			\Default Work Unit\Master Audio Bus\Impacts_SubAcoustics	
 	1229948536	Environment			\Default Work Unit\Master Audio Bus\Environment	
 	1534528548	VO			\Default Work Unit\Master Audio Bus\VO	
 	2286170043	AVS_Toning			\Default Work Unit\AVS System\AVS_Toning	
 	2479991680	InteractiveMusic_Vocal_Toning			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Toning	
 	2579128390	InteractiveMusic_Vocal_Silent			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Silent	
-	2670023165	Impacts, SubAcoustic			\Default Work Unit\Master Audio Bus\Impacts, SubAcoustic	
 	3239584272	AVS_Breath			\Default Work Unit\AVS System\AVS_Breath	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 
 Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	183653145	Aux_Toning			\Default Work Unit\AVS System\Aux_Toning	
+	1163393389	Aux_ImpactsSub			\Default Work Unit\AVS System\Aux_ImpactsSub	
 	1959646260	Aux_SilentLoops			\Default Work Unit\AVS System\Aux_SilentLoops	
 	2562455749	Aux_SFX			\Default Work Unit\AVS System\Aux_SFX	
-	3329123393	Aux_Impacts			\Default Work Unit\AVS System\Aux_Impacts	
 	3331583377	Aux_Music			\Default Work Unit\AVS System\Aux_Music	
 
 Effect plug-ins	ID	Name	Type				Notes
 	418265525	Gentle_Program_Compressor_Minus_14dB_RMS	Wwise Compressor			
+	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
+	3013737263	Bass_Remover_1	Wwise Parametric EQ			
 	3157974155	New_Mastering_Suite	Mastering Suite			
-	3164629247	Holy	Wwise RoomVerb			
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

@@ -258,6 +258,10 @@
 				<Event Name="Play_Inhale_Short" ID="{9ACF354A-3E4F-4249-89C4-8C49B0DFF12B}">
 					<ChildrenList>
 						<Action Name="" ID="{1703D022-8713-44A2-ABDA-5478E080110B}" ShortID="1036759606">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
