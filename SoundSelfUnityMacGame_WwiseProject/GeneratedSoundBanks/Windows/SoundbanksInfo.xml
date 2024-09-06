@@ -34,7 +34,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{13E129EA-13EF-240C-46F7-682289291354}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{63E6FE26-E53C-F962-8579-B7498A68F107}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -43,6 +43,7 @@
 					<Plugin Id="1008402193" Name="Low_Pass_20KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="3013737263" Name="Bass_Remover_1" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="3157974155" Name="New_Mastering_Suite" LibName="Mastering Suite" LibId="12189699"/>
+					<Plugin Id="3425998380" Name="VocalBassReduction" LibName="Wwise Parametric EQ" LibId="6881283"/>
 				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
@@ -75,7 +76,13 @@
 					</AuxBusRefs>
 				</Bus>
 				<Bus Id="1229948536" Name="Environment"/>
-				<Bus Id="1534528548" Name="VO"/>
+				<Bus Id="1534528548" Name="VO">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3425998380"/>
+						</ShareSets>
+					</PluginRefs>
+				</Bus>
 				<Bus Id="2286170043" Name="AVS_Toning"/>
 				<Bus Id="2479991680" Name="InteractiveMusic_Vocal_Toning">
 					<AuxBusRefs>
@@ -371,7 +378,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{B9213FA5-DA6C-C1B4-D02D-7C33DE4B0B4A}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D7AD45A1-43CD-69FB-CF67-8455258DF426}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -5852,7 +5859,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{A21F5432-47EA-7199-81DF-E8AC3DB86DAA}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{8F194A68-E426-D20D-FF04-1B211AE95100}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -9766,5 +9773,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{30367367-FE08-9F78-C08E-FBC59D40B68E}</FileHash>
+	<FileHash>{07E5F264-B22D-7DD5-CE02-42B8E8EA92DF}</FileHash>
 </SoundBanksInfo>

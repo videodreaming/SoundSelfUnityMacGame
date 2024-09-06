@@ -386,8 +386,7 @@
 						<Property Name="Threshold" Type="Real32" Value="-12"/>
 					</PropertyList>
 				</Effect>
-				<Effect Name="New_AK_Convolution_Reverb" ID="{EF04B53E-32E2-41C1-81DD-1D0CE112DDDA}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">					<PluginData>
-	<ConvolutionData>
+				<Effect Name="New_AK_Convolution_Reverb" ID="{EF04B53E-32E2-41C1-81DD-1D0CE112DDDA}" PluginName="Wwise Convolution Reverb" CompanyID="0" PluginID="127" PluginType="3">					<PluginData><ConvolutionData>
 		<CurveList Version="1">
 			<CurveInfo Name="IRGraphicEQ">
 				<Curve Name="">
@@ -409,8 +408,7 @@
 				</Curve>
 			</CurveInfo>
 		</CurveList>
-	</ConvolutionData>
-</PluginData>
+	</ConvolutionData></PluginData>
 				</Effect>
 				<Effect Name="New_Pitch_Shifter" ID="{6890CD9A-71F3-49D2-B4F1-76C0836DACA8}" PluginName="Wwise Pitch Shifter" CompanyID="0" PluginID="136" PluginType="3">
 					<PropertyList>
@@ -2281,6 +2279,12 @@
 					</ObjectLists>
 				</Effect>
 				<Effect Name="New_Meter" ID="{E3226E7B-A9BA-41A2-81C6-D47A6211FFB3}" PluginName="Wwise Meter" CompanyID="0" PluginID="129" PluginType="3"/>
+				<Effect Name="VocalBassReduction" ID="{B443BB70-9CA5-43F2-B6AE-6AF534B620FB}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+					<PropertyList>
+						<Property Name="GainBand1" Type="Real32" Value="-4"/>
+						<Property Name="GainBand2" Type="Real32" Value="2.5"/>
+					</PropertyList>
+				</Effect>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>

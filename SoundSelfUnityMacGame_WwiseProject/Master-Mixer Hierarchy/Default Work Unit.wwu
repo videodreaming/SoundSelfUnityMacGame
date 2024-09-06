@@ -404,11 +404,6 @@
 						</Bus>
 						<Bus Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}">
 							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
 										<Value>6</Value>
@@ -417,6 +412,19 @@
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-3"/>
 							</PropertyList>
 							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{D38923E3-79A6-4CF5-BDD6-DEA6F3262616}" ShortID="921320141">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+														<ObjectRef Name="VocalBassReduction" ID="{B443BB70-9CA5-43F2-B6AE-6AF534B620FB}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
 								<ObjectList Name="RTPC">
 									<Reference>
 										<Local>
@@ -459,9 +467,9 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 									<DuckingParam>
-										<Volume>-3</Volume>
+										<Volume>-1</Volume>
 										<FadeInTime>1</FadeInTime>
-										<FadeOutTime>0.300000011920929</FadeOutTime>
+										<FadeOutTime>0.5</FadeOutTime>
 										<FadeCurve>FadeLog1</FadeCurve>
 									</DuckingParam>
 								</DuckItem>

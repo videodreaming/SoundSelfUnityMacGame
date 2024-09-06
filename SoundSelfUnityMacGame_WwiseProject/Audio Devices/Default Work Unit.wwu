@@ -9,9 +9,6 @@
 							<Reference>
 								<Local>
 									<EffectSlot Name="" ID="{F808B9D0-2287-4413-AF42-2F3A52311B2B}" ShortID="736741912">
-										<PropertyList>
-											<Property Name="Bypass" Type="bool" Value="True"/>
-										</PropertyList>
 										<ReferenceList>
 											<Reference Name="Effect" PluginName="Mastering Suite" CompanyID="0" PluginID="186" PluginType="3">
 												<ObjectRef Name="New_Mastering_Suite" ID="{76CFC61C-659F-4651-B56B-0FAD71ADB80B}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
