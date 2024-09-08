@@ -206,7 +206,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
 
-        SetMusicModeTo("Environment");
+        musicSystem1.SetMusicModeTo("Environment");
         Debug.Log("Sequencer Last Minute: Starting Light Fade-Out.");
         lightControl.SetPreferredColor("Dark");
         lightControl.NextPreferredColorWorld(18f);

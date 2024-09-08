@@ -54,13 +54,16 @@ namespace imitone
             Sets a partial or full imitone configuration using a JSON string.
                 Changes will take effect with the next call to InputAudio.
         */
-        public void SetConfig(string config_changes)
+        public void SetConfig(string config_changes, bool log = true)
         {
             uint result = 200;
             if (config_changes.Length > 0)
             {
                 imi_SetConfig(voice, config_changes);
-                Debug.Log("Config Changes: " + config_changes);
+                if (log)
+                {
+                    Debug.Log("Config Changes: " + config_changes);
+                }
             }
                 
             if (result > 299)
