@@ -41,6 +41,18 @@
 				<Property Name="Event Action List\{FF59C7B5-8DA4-48D2-9EEF-82EE9D58D6D9}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="EventView\FilterMode1" Type="int32" Value="2"/>
 				<Property Name="EventView\FilterMode2" Type="int32" Value="2"/>
+				<Property Name="ExternalSourcesInputPath" Type="string">
+					<ValueList>
+						<Value Platform="Windows"></Value>
+						<Value Platform="Mac"></Value>
+					</ValueList>
+				</Property>
+				<Property Name="ExternalSourcesOutputPath" Type="string">
+					<ValueList>
+						<Value Platform="Windows">GeneratedSoundBanks\Windows\</Value>
+						<Value Platform="Mac">GeneratedSoundBanks\Mac\</Value>
+					</ValueList>
+				</Property>
 				<Property Name="Game Profiler\Voice Monitor\LastBus" Type="string" Value="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}"/>
 				<Property Name="General\LatestLanguage" Type="int32" Value="684519430"/>
 				<Property Name="General\LatestPlatform" Type="string" Value="Mac"/>
@@ -146,7 +158,6 @@
 				<Property Name="RTPC\GameParameterSimValue\{1A5D72CD-9CD0-44C7-BB55-C07F08439A84}" Type="Real64" Value="0"/>
 				<Property Name="RTPC\GameParameterSimValue\{1D24E900-FB6F-4998-98EA-E0BFA9B073C4}" Type="Real64" Value="50"/>
 				<Property Name="RTPC\GameParameterSimValue\{1D5D43B9-BD5D-461A-9C31-6A9E8CF6D920}" Type="Real64" Value="0"/>
-				<Property Name="RTPC\GameParameterSimValue\{1DDD125A-9DB3-455E-8313-043BF219D342}" Type="Real64" Value="50"/>
 				<Property Name="RTPC\GameParameterSimValue\{243818D7-F083-4DDA-A64C-0FE11BD9D652}" Type="Real64" Value="0"/>
 				<Property Name="RTPC\GameParameterSimValue\{2907F9C2-5840-421B-919C-15862F120BF1}" Type="Real64" Value="0"/>
 				<Property Name="RTPC\GameParameterSimValue\{290F1C34-F97C-4386-B944-0CC0D9101D56}" Type="Real64" Value="50"/>
@@ -203,6 +214,36 @@
 				<Property Name="SoundBank Manager\x64_Expand States Auto" Type="string" Value=""/>
 				<Property Name="SoundBank Manager\x64_Expand States User" Type="string" Value="3hKSOHplZEqimg3AMEnv4g=="/>
 				<Property Name="SoundBankHeaderFilePath" Type="string" Value="GeneratedSoundBanks\"/>
+				<Property Name="SoundBankPaths" Type="string">
+					<ValueList>
+						<Value Platform="Windows">GeneratedSoundBanks\Windows\</Value>
+						<Value Platform="Mac">GeneratedSoundBanks\Mac\</Value>
+					</ValueList>
+				</Property>
+				<Property Name="SoundBankPostGenerateCustomCmdDescription" Type="string">
+					<ValueList>
+						<Value Platform="Windows"></Value>
+						<Value Platform="Mac"></Value>
+					</ValueList>
+				</Property>
+				<Property Name="SoundBankPostGenerateCustomCmdLines" Type="string">
+					<ValueList>
+						<Value Platform="Windows"></Value>
+						<Value Platform="Mac"></Value>
+					</ValueList>
+				</Property>
+				<Property Name="SoundBankPreGenerateCustomCmdDescription" Type="string">
+					<ValueList>
+						<Value Platform="Windows"></Value>
+						<Value Platform="Mac"></Value>
+					</ValueList>
+				</Property>
+				<Property Name="SoundBankPreGenerateCustomCmdLines" Type="string">
+					<ValueList>
+						<Value Platform="Windows"></Value>
+						<Value Platform="Mac"></Value>
+					</ValueList>
+				</Property>
 				<Property Name="SoundEngine\BusMapping\{01AE7052-1762-4CED-975A-B966F98065DF}" Type="string" Value="{95AA84FA-26F8-4A9F-B2AB-9ABE1AD81420}2213089785"/>
 				<Property Name="SoundEngine\BusMapping\{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" Type="string" Value="{69D60C99-E104-4F92-81B8-1C890CC95B06}4095162878"/>
 				<Property Name="Soundcaster\PreviousSession" Type="string" Value="{8A2BD70A-9B31-4B23-8C73-70092ACD3B89}"/>
