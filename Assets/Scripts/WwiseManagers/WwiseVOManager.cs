@@ -13,6 +13,7 @@ public class WwiseVOManager : MonoBehaviour
     public AudioManager audioManager;
     public Sequencer sequencer;
     public DevelopmentMode  developmentMode;
+    public Director director;
     public CSVWriter CSVWriter;
     public LightControl lightControl;
     public MusicSystem1 musicSystem1;
@@ -44,12 +45,14 @@ public class WwiseVOManager : MonoBehaviour
             musicSystem1.InteractiveMusicInitializations();
             musicSystem1.LockToC(false);
             imitoneVoiceIntepreter.gameOn = true;
+            director.disable = false;
             InitializeLights();
         }
         if(!developmentMode.developmentPlayground)
         {
             musicSystem1.LockToC(true);
             imitoneVoiceIntepreter.gameOn = false;
+            director.disable = true;
             if(firstTimeUser)
             {
                 //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
@@ -81,6 +84,12 @@ public class WwiseVOManager : MonoBehaviour
                 }
             }
         }
+
+        //when I press "n", run MakeWWiseTone()
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            StartCoroutine(MakeWWiseTone());
+        }
     }
     
     public void handleTutorialMeditation(string tutorialToPlay)
@@ -92,7 +101,6 @@ public class WwiseVOManager : MonoBehaviour
     {
          if (in_type == AkCallbackType.AK_MusicSyncUserCue)
             {
-                Debug.Log("WWise_VO: Callback triggered: " + in_type);
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
                 if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
                 {
@@ -106,6 +114,10 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     Debug.Log("WWise_VO: Cue_BreathIn");
                     breathInBehaviour();
+                }
+                else
+                {
+                    Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
                 }
             } 
 
@@ -156,14 +168,13 @@ public class WwiseVOManager : MonoBehaviour
                 }
                  else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
-                    breathInBehaviour();
                     Debug.Log("WWise_VO: Cue BreathIn Start");
+                    breathInBehaviour();
                 } else if(musicSyncInfo.userCueName == "Cue_Orientation_Start")
                 {
                     Debug.Log("WWise_VO: Cue Orientation Start");
                 } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
                 {
-                    //Robin to do AVS Stuff here
                     Debug.Log("WWise_VO: Cue Sigh Start");
                 }  else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
                 {
@@ -172,8 +183,10 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     Debug.Log("WWise_VO: Cue_LinearHum_Start");
                     InitializeLights();
+                    StartCoroutine(MakeWWiseTone());
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
+                    Debug.Log("WWise_VO: Cue_InteractiveMusicSystem_Start");
                     musicSystem1.InteractiveMusicInitializations();
                 } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
                 {
@@ -182,16 +195,34 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     Debug.Log("WWise_VO: Cue_FreePlay");
                     musicSystem1.LockToC(false);
-
+                    director.disable = false;
+                }
+                else
+                {
+                    Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
                 }
             }   
+    }
+
+    private IEnumerator MakeWWiseTone()
+    {
+        Debug.Log("WWise_VO: Triggering a False Tone in WWise");
+        musicSystem1.PostTheToningEvents();
+        float _t = 4f;
+        while (_t > 0)
+        {
+            _t -= Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("WWise_VO: Stopping a False Tone in WWise");
+        musicSystem1.StopWwiseToning();
     }
 
     private void InitializeLights()
     {
         Debug.Log("WWise_VO: InitializeLights");
         lightControl.SetPreferredColor("Red");
-        lightControl.NextColorWorld(5.0f);
+        lightControl.NextPreferredColorWorld(5.0f);
     }
     
     private float GetRTPCValue(RTPC rtpc)
@@ -266,7 +297,7 @@ public class WwiseVOManager : MonoBehaviour
 
     private void breathInBehaviour()
     {
-        lightControl.FXWave(1.0f, 5f, 0.25f, true);
+        lightControl.FXWave(0.6f, 5f, 0.25f, true, true);
     }
         
     IEnumerator StartSighElicitationTimer()

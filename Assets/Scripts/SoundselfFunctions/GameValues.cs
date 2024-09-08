@@ -83,21 +83,25 @@ public class GameValues : MonoBehaviour
     private float _restAnchorHigh;
     private float _restAnchorLow;
     private bool restAnchored = false;
+    //The windlass is the spread threshold that sets the anchor when we are repeatedly within that range.
+    //The anchor is a larger spread, initialized as a multiple of the windlass at the time the anchor is first set, that we have to "Break out of" to trigger a change behavior
     private float _toneWindlassSpread;
     private float _restWindlassSpread;
+    private float _windlassSpreadGrowthPerMinute; // * mean duration
+    private float _anchorSpreadShrinkPerMinute; // * mean duration
     //The below 4 values require tweaking from gameplay observations. Notes from changes in comments below.
-    private float _toneWindlassSpreadInitialize = 0.15f;
-    private float _restWindlassSpreadInitialize = 0.075f; //Needs to be lower than toneWindlassSpreadInitialize
-    private float _windlassSpreadGrowthPerMinute_Init = 0.025f; // * mean duration
-    private float _windlassSpreadGrowthPerMinute = 0.025f; // * mean duration
-    private float _anchorSpreadShrinkPerMinute_Init = 0.025f; // * mean duration
-    private float _anchorSpreadShrinkPerMinute = 0.025f; // * mean duration
-    private float _anchorSetMult = 2.0f;
+    private float _toneWindlassSpreadInitialize = 0.1f; //was 0.15f
+    private float _restWindlassSpreadInitialize = 0.065f;//was 0.75f //Needs to be lower than toneWindlassSpreadInitialize
+    private float _windlassSpreadGrowthPerMinute_Init = 0.02f; //was 0.025 // * mean duration
+    private float _anchorSpreadShrinkPerMinute_Init = 0.015f; // was 0.025// * mean duration
+    private float _anchorSetMult = 2.5f; //was 2.0f
 
     void Start()
     {
         _toneWindlassSpread = _toneWindlassSpreadInitialize;
         _restWindlassSpread = _restWindlassSpreadInitialize;
+        _anchorSpreadShrinkPerMinute = _anchorSpreadShrinkPerMinute_Init;
+        _windlassSpreadGrowthPerMinute = _windlassSpreadGrowthPerMinute_Init;
     }
 
     void FixedUpdate()

@@ -26,7 +26,8 @@ public class Sequencer : MonoBehaviour
     public CSVWriter csvWriter;
     // AVS Controls
     private float _absorptionThreshold;
-    float d = 1f; //debug timer mult
+    private float d = 1f; //debug timer mult, higher makes it go faster for testing
+    private int debugWorldCount = 0;
 
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
     private bool musicProgressionFlag = false;
@@ -127,6 +128,34 @@ public class Sequencer : MonoBehaviour
             StartCoroutine(StartMusicalProgression());
         }
 
+        //in playground mode, when I press the M button, cycle to the next music world (Gentle, Shadow, Shruti, Sonoflore)
+        if(developmentMode.developmentPlayground)
+        {
+            if(Input.GetKeyDown(KeyCode.M))
+            {
+                debugWorldCount++;
+                if(debugWorldCount > 3)
+                {
+                    debugWorldCount = 0;
+                }
+                switch(debugWorldCount)
+                {
+                    case 0:
+                        QueueNewWorld("Gentle", "Red", 1f);
+                        break;
+                    case 1:
+                        QueueNewWorld("Shadow", "Blue", 1f);
+                        break;
+                    case 2:
+                        QueueNewWorld("Shruti", "White", 1f);
+                        break;
+                    case 3:
+                        QueueNewWorld("SonoFlore", "Red", 1f);
+                        break;
+                }
+            }
+        }
+
         //End Behaviors
         if(WakeUpCounter <= 180f && !flagTriggerEnd1)
         {
@@ -176,10 +205,11 @@ public class Sequencer : MonoBehaviour
         {
             yield return null;
         }
-        
+
+        SetMusicModeTo("Environment");
         Debug.Log("Sequencer Last Minute: Starting Light Fade-Out.");
         lightControl.SetPreferredColor("Dark");
-        lightControl.NextColorWorld(18f);
+        lightControl.NextPreferredColorWorld(18f);
     }
 
     //====================================================================================================
@@ -231,14 +261,14 @@ public class Sequencer : MonoBehaviour
         yield return null;
         //define a list of integers to hold the director queue index items that are created in this coroutine
        
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.cycleRecent);
+        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
 
         if(developmentMode.developmentPlayground)
         {
             lightControl.SetColorWorldByType("Red", 0.0f);
         }
 
-        while((lightControl.cycleRecent == "dark") || (lightControl.cycleRecent == "Dark"))
+        while((lightControl.currentColorType == "Dark") || (lightControl.currentColorType == "BreathOnly"))
         {
             yield return null;
         }
@@ -531,12 +561,13 @@ public class Sequencer : MonoBehaviour
     //====================================================================================================
     //DIRECTOR QUEUE
     //====================================================================================================
-    private void QueueNewWorld(string world, string color)
+    private void QueueNewWorld(string world, string color, float _seconds = 120.0f)
     {
-        director.AddActionToQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, 120.0f, true, 2);
-        director.AddActionToQueue(Action_SetPreferredColor(color), "ColorPreference", false, true, 120.0f, true, 2);
-        director.AddActionToQueue(Action_NextColorWorld(120.0f), "ColorCycle", false, true, 120.0f, true, 2);
-        director.AddActionToQueue(Action_PlayTransitionSound(), "TransitionSound", true, false, 120.0f, true, 2);
+        Debug.Log("Sequencer QueueNewWorld: Queuing New World: " + world + " with color: " + color);
+        director.AddActionToQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, _seconds, true, 2);
+        director.AddActionToQueue(Action_SetPreferredColor(color), "ColorPreference", false, true, _seconds, true, 2);
+        director.AddActionToQueue(Action_NextColorWorld(120.0f), "ColorCycle", false, true, _seconds, true, 2);
+        director.AddActionToQueue(Action_PlayTransitionSound(), "TransitionSound", true, false, _seconds, true, 2);
     }
 
     private Action Action_SetSoundWorld(string soundWorld)
@@ -557,7 +588,7 @@ public class Sequencer : MonoBehaviour
 
     private Action Action_NextColorWorld(float _seconds)
     {
-        return () => lightControl.NextColorWorld(_seconds);
+        return () => lightControl.NextPreferredColorWorld(_seconds);
     }
     private Action Action_Gamma(bool gammaOn)
     {

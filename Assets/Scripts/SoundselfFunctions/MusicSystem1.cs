@@ -16,7 +16,7 @@ public class MusicSystem1 : MonoBehaviour
     public User userObject;
     public LightControl lightControl;
     public AudioSource userAudioSource;
-    private bool debugAllowLogs = true;
+    private bool debugAllowLogs = false;
 
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private Dictionary<int, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, bool, float)>();
@@ -96,9 +96,10 @@ public class MusicSystem1 : MonoBehaviour
         }
 
         //These three refactored from Sequencer.cs attn: @Reef
-        AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
+        //ROBIN WANTS TO DELETE THESE
+        //AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
+        //AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
+        //AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
 
         // Initialize the NoteTracker dictionary with 12 keys for each note in an octave
         for (int i = 0; i < 12; i++)
@@ -257,18 +258,18 @@ public class MusicSystem1 : MonoBehaviour
                                         if (!director.SearchQueueForType("fundamentalChange"))
                                         {
                                             
-                                            if(debugAllowLogs)
-                                            {
+                                            //if(debugAllowLogs)
+                                            //{
                                                 Debug.Log("MUSIC: Adding fundamental change to director queue for " + ConvertIntToNote(scaleNote.Key));
-                                            }
+                                            //}
                                             director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 45f, true, 1);
                                         }
                                         else
                                         {
-                                            if(debugAllowLogs)
-                                            {
+                                            //if(debugAllowLogs)
+                                            //{
                                                 Debug.Log("MUSIC: Attempted but failed to add fundamental change to director queue, because one is already there.");
-                                            }
+                                            //}
                                         }
                                     }
                                 }
@@ -363,7 +364,6 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(!interactive)
         {
-            Debug.Log("MUSIC: InteractiveMusicSystemFade is running");
             SetMusicModeTo("InteractiveMusicSystem");
             if(developmentMode.developmentPlayground)
             {
@@ -373,6 +373,7 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
+                Debug.Log("MUSIC: InteractiveMusicSystemFade starting");
                 StartCoroutine(InteractiveMusicSystemFade());
             }
 
@@ -417,7 +418,10 @@ public class MusicSystem1 : MonoBehaviour
         {
             if(!thisTonesImpactPlayed)
             {
-                Debug.Log("MUSIC: impact");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("MUSIC: impact");
+                }
                 AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
                 thisTonesImpactPlayed = true;   
                 lightControl.FXWave(0.8f, 1.5f, 0.1f, true);
@@ -537,7 +541,7 @@ public class MusicSystem1 : MonoBehaviour
             bool localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue; //turns on with toneActive
             if(localToneOn && !previousLocalToneOn)
             {
-                if(true)
+                if(debugAllowLogs)
                 {
                     Debug.Log("MUSIC: Post Toning Events to Wwise");
                 }
@@ -546,14 +550,19 @@ public class MusicSystem1 : MonoBehaviour
 
             } else if (!localToneOn && previousLocalToneOn)
             {
-                if(true)
+                if(debugAllowLogs)
                 {
                     Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
                 }
-                AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+                StopWwiseToning();
             }
             previousLocalToneOn = localToneOn;
         }
+    }
+
+    public void StopWwiseToning()
+    {
+        AkSoundEngine.PostEvent("Stop_Toning",gameObject);
     }
 
     private void InterpretImitone()
@@ -719,11 +728,12 @@ public class MusicSystem1 : MonoBehaviour
         // }
     }
 
-    //THESE FOUR WERE REFACTORED FROM SEQUENCER.CS, @REEF WOULD YOU CHECK THIS IS OK? 
-    // Reef: LGTM! 
-    private void PostTheToningEvents()
+    public void PostTheToningEvents()
     {
-        Debug.Log("MUSIC: Post Toning Events to Wwise");
+        if(debugAllowLogs)
+        {
+            Debug.Log("MUSIC: Post Toning Events to Wwise");
+        }
         AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
         AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
     }
@@ -731,7 +741,10 @@ public class MusicSystem1 : MonoBehaviour
     private void changeHarmony(string harmonyNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
-        Debug.Log("MUSIC: Harmony Note Set To: " + harmonyNote);
+        if(debugAllowLogs)
+        {
+            Debug.Log("MUSIC: Harmony Note Set To: " + harmonyNote);
+        }
     }
 
    //THIS IS PROBABLY NOT USED ANY MORE IN THE ACTUAL GAME. LET'S KEEP IT COMMENTED.
@@ -766,7 +779,7 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.Log("MUSIC: Invalid note number " + noteNumber);
+            Debug.LogWarning("MUSIC: Invalid note number " + noteNumber);
             throw new ArgumentException("Invalid noteNumber value (MusicSystem1.cs)");
             
         }

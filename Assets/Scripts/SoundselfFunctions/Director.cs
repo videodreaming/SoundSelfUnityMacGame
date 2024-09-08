@@ -23,11 +23,13 @@ public class Director : MonoBehaviour
     public DevelopmentMode developmentMode;
     public LightControl lightControl;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
+    private bool debugAllowLogs = false;
     
     public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
     public int queueIndex = 0;
     private int audioTweakCounter = 0;
     public bool disable = false;
+    private bool disableLast = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,19 @@ public class Director : MonoBehaviour
     void Update()
     {
         QueueUpdate(); //TODO: put this in a separate script with director stuff
+
+        if(disable != disableLast)
+        {
+            if(disable)
+            {
+                Debug.Log("Director Queue: Director Disabled");
+            }
+            else
+            {
+                Debug.Log("Director Queue: Director Enabled");
+            }
+            disableLast = disable;
+        }
     }
 
     public void QueueUpdate()
@@ -181,7 +196,7 @@ public class Director : MonoBehaviour
         if (countVisualEvents == 0)
         {
             Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
-            lightControl.NextColorWorld(transitionTimeForFlourishes);
+            lightControl.NextPreferredColorWorld(transitionTimeForFlourishes);
             lightControl.FXWave(0.75f, 15.0f, 0.1f, true);
         }
         queue.Clear();
@@ -270,7 +285,7 @@ public class Director : MonoBehaviour
     // }
     // private Action Action_ChangeColor(float _seconds)
     // {
-    //     return () => lightControl.NextColorWorld(_seconds);;
+    //     return () => lightControl.NextPreferredColorWorld(_seconds);;
     // }
 
 }

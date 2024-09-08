@@ -10,13 +10,13 @@ public class LightControl : MonoBehaviour
 {
      public DevelopmentMode developmentMode;
     [SerializeField] AkDeviceDescriptionArray m_devices;
-    bool AVSColorSelected = false;
-    bool AVSColorSelectedLastFrame = false;
-    bool AVSColorChangeFrame = false;
+    private bool playReference = false;
+    private bool playReferenceLastFrame = false;
+    private bool playReferenceFrame = false;
     public bool bilateral {get; private set;} = false; 
     public string AVSColorCommand  = "";
     public string AVSStrobeCommand = "";
-    public string cycleRecent = "Dark";
+    public string currentColorType = "Dark";
     public string preferredColor = "Red";
     private float  _brightness = 0.6f;
     private int cycleRed = 0;
@@ -192,11 +192,11 @@ public class LightControl : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.C))
             {
                 preferredColor = "Test";
-                NextColorWorld(3f, true);
+                NextPreferredColorWorld(3f, true);
             }
             else if (Input.GetKeyUp(KeyCode.C))
             {
-                NextColorWorld(7f, true);
+                NextPreferredColorWorld(7f, true);
             }
             if (Input.GetKeyDown(KeyCode.V))
             {
@@ -226,17 +226,17 @@ public class LightControl : MonoBehaviour
         }
         
         // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
-        if (AVSColorSelected && !AVSColorSelectedLastFrame)
+        if (playReference && !playReferenceLastFrame)
         {
             AkSoundEngine.PostEvent("Play_AVS_SineGenerators_REFERENCE", gameObject);
             Debug.Log("AVS: Starting Reference Signal");
         }
-        else if (!AVSColorSelected && AVSColorSelectedLastFrame)
+        else if (!playReference && playReferenceLastFrame)
         {
             AkSoundEngine.PostEvent("Stop_AVS_SineGenerators_REFERENCE", gameObject);
             Debug.Log("AVS: Stopping Reference Signal");
         }
-        AVSColorSelectedLastFrame = AVSColorSelected;
+        playReferenceLastFrame = playReference;
     }
 
     void HandleFXWave()
@@ -247,7 +247,7 @@ public class LightControl : MonoBehaviour
 
     void LateUpdate()
     {
-        AVSColorChangeFrame = false;
+        playReferenceFrame = false;
         AVSColorCommand = "";
         AVSStrobeCommand = "";
         toneVisualizationFlag = false;
@@ -331,10 +331,11 @@ public class LightControl : MonoBehaviour
     }
     
     //COLOR WORLD FUNCTIONS
-    //   Name        Strobe Color                Wave Color (these will be modified by _brightness in SetColorWorld)
+    //   Name        Strobe Color                Wave Color (these will be modified by _brightness in SetColorWorldByNumbers)
     private static readonly Dictionary<string, ((float, float, float) strobeColor, (float, float, float) waveColor)> colorPresets = new Dictionary<string, ((float, float, float), (float, float, float))>
     {
         { "Dark", ((0.0f, 0.0f, 0.0f),          (0.0f, 0.0f, 0.0f)) },
+        { "BreathOnly", ((0.0f, 0.0f, 0.0f),    (100.0f, 0.0f, 0.0f)) },
         { "Red1", ((100.0f, 0.0f, 0.0f),        (72.0f, 100.0f, 100.0f)) },
         { "Red2", ((100.0f, 0.0f, 100.0f),      (68.0f, 100.0f, 0.0f)) },
         { "Red3", ((100.0f, 100.0f, 100.0f),    (68.0f, 100.0f, 0.0f)) },
@@ -352,9 +353,9 @@ public class LightControl : MonoBehaviour
 
     public void SetPreferredColor(string color)
     {
-        if (color != "Red" && color != "Blue" && color != "White" && color != "Dark" && color != "Test")
+        if (color != "Red" && color != "Blue" && color != "White" && color != "Dark" && color != "BreathOnly" && color != "Test")
         {
-            Debug.LogError("Color type " + color + " not recognized, please use Red, Blue, White, Dark, or Test");
+            Debug.LogError("Color type " + color + " not recognized, please use Red, Blue, White, Dark, BreathOnly or Test");
             return;
         }
         else
@@ -364,7 +365,7 @@ public class LightControl : MonoBehaviour
         }
     }
 
-    public void NextColorWorld(float transitionTimeSec = 2.0f, bool exponentialCurve = true)
+    public void NextPreferredColorWorld(float transitionTimeSec = 2.0f, bool exponentialCurve = true)
     {
         SetColorWorldByType(preferredColor, transitionTimeSec, exponentialCurve);
     }
@@ -385,19 +386,22 @@ public class LightControl : MonoBehaviour
             case "Test":
                 CycleColor(ref cycleTest, "Test", colorType, transitionTimeSec, exponentialCurve);
                 break;
+            case "BreathOnly":
+                SetColorWorldByName("BreathOnly", transitionTimeSec);
+                break;
             case "Dark":
                 SetColorWorldByName("Dark", transitionTimeSec);
                 break;
         }
 
-        if (colorType != "Red" && colorType != "Blue" && colorType != "White" && colorType != "Dark" && colorType != "Test")
+        if (colorType != "Red" && colorType != "Blue" && colorType != "White" && colorType != "Dark" && colorType != "BreathOnly" && colorType != "Test")
         {
             Debug.LogError("Color type not recognized");
         }
     }
     private void CycleColor(ref int cycleCount, string colorBaseName, string colorType, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
     {
-        if (cycleRecent == colorType)
+        if (currentColorType == colorType)
         {
             cycleCount++;
             switch (cycleCount % 3)
@@ -415,7 +419,6 @@ public class LightControl : MonoBehaviour
         }
         else
         {
-            cycleRecent = colorType; // this should not be necessary as it's also done in SetColorWorld
             switch (cycleCount % 3)
             {
                 case 1:
@@ -435,7 +438,7 @@ public class LightControl : MonoBehaviour
     {
         if (colorPresets.TryGetValue(colorName, out var colors))
         {
-            SetColorWorld(colorName, colors.strobeColor, colors.waveColor, transitionTimeSec, exponentialCurve);
+            SetColorWorldByNumbers(colorName, colors.strobeColor, colors.waveColor, transitionTimeSec, exponentialCurve);
             if (colorName == "Dark")
             {
                 StartCoroutine(GoDark((int)(transitionTimeSec * 1000)));
@@ -447,28 +450,30 @@ public class LightControl : MonoBehaviour
         }
     }
 
-    void SetColorWorld(string colorName, (float, float, float) strobeColor, (float, float, float) waveColor, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
+    private void SetColorWorldByNumbers(string colorName, (float, float, float) strobeColor, (float, float, float) waveColor, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
     {
         int transitionTimeMS = (int)(transitionTimeSec * 1000);
         float _v = _brightness;
 
         //colorName is a color ("Red" "Blue" or "White") followed by a number (1, 2, or 3)
+        //or is "Dark" or "BreathOnly"
         //I need a variable that is the color name without the number
 
         if (colorName.Length > 0 && char.IsDigit(colorName[colorName.Length - 1]))
         {
-            cycleRecent = colorName.Substring(0, colorName.Length - 1);
+            currentColorType = colorName.Substring(0, colorName.Length - 1);
         }
         else
         {
-            cycleRecent = colorName;
+            currentColorType = colorName;
         }
         
         SetWaveColor(1, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, exponentialCurve);
         SetWaveColor(2, strobeColor.Item1*_v, strobeColor.Item2*_v, strobeColor.Item3*_v, transitionTimeMS, exponentialCurve);
         SetWaveColor(3, waveColor.Item1*_v, waveColor.Item2*_v, waveColor.Item3*_v, transitionTimeMS, exponentialCurve);
+
         AVSColorCommand = $"Transition to {colorName} over {transitionTimeSec} s";
-        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s with new cycleRecent of {cycleRecent}");
+        Debug.Log($"Transition to {colorName} over {transitionTimeSec} s with new currentColorType of {currentColorType}");
     }
 
     void SetWaveColor(int wave, float _red, float _green, float _blue, int transitionTimeMS, bool exponentialCurve = false)
@@ -524,15 +529,15 @@ public class LightControl : MonoBehaviour
         
         if(_red >0 || _green > 0 || _blue > 0)
         {
-            AVSColorSelected = true;
-            AVSColorChangeFrame = true;
+            playReference = true;
+            playReferenceFrame = true;
         }
     }
     
     IEnumerator GoDark(int milliseconds = 1000)
     {
         float timeRemaining = (milliseconds) / 1000f;
-        if(AVSColorChangeFrame)
+        if(playReferenceFrame)
         {
             yield break;
         }
@@ -540,20 +545,20 @@ public class LightControl : MonoBehaviour
         yield return null;
         while(timeRemaining > 0)
         {
-            if(AVSColorChangeFrame)
+            if(playReferenceFrame)
             {
                 yield break;
             }
             timeRemaining -= Time.deltaTime;
             yield return null;
         }
-        if(AVSColorChangeFrame)
+        if(playReferenceFrame)
         {
             yield break;
         }
         else
         {
-            AVSColorSelected = false;
+            playReference = false;
         }
     }
     // DYNAMIC AVS CONTROL SYSTEMS
@@ -657,8 +662,13 @@ public class LightControl : MonoBehaviour
         breathVisualizationFlag = true;
     }
 
-    public void FXWave(float _amplitude, float _dur, float _split, bool rampShape = false)
+    public void FXWave(float _amplitude, float _dur, float _split, bool rampShape = false, bool allowDuringDark = false)
     {
+        if(currentColorType == "Dark" && !allowDuringDark)
+        {
+            Debug.LogWarning("FXWave command ignored because the current color world is Dark");
+            return;
+        }
         StartCoroutine(FXWaveCoroutine(_amplitude, _dur, _split, true));
     }
 
@@ -668,10 +678,26 @@ public class LightControl : MonoBehaviour
         float _fx = 0.0f;
         int key = fxWaveKey++;
         float exponent = rampShape ? 0.5f : 1.0f;
+        bool setDarkAtEnd = false;
+        float _delay = 0.0f;
 
         _fxWaveDict.Add(key, 0.0f);
 
+        if(currentColorType == "Dark")
+        {
+            SetColorWorldByName("BreathOnly", 0.1f);
+            setDarkAtEnd = true;
+            _delay = 0.25f;
+        }
+
         Debug.Log("AVS FXWave started with key: " + key);
+
+        while (_delay > 0)
+        {
+            //If we started dark, we will need a moment to turn on the lights first...
+            _delay -= Time.deltaTime;
+            yield return null;
+        }
 
         while (_t <= 0.5f) //ramp _fx up to 1.0f in _split time
         {
@@ -687,6 +713,11 @@ public class LightControl : MonoBehaviour
             _fx = Mathf.Pow(Mathf.Clamp(2.0f - _t * 2.0f, 0f, 1f), exponent);
             _fxWaveDict[key] = _fx * Mathf.Clamp(_amplitude, 0.0f, 1.0f);
             yield return null;
+        }
+
+        if(setDarkAtEnd && currentColorType == "BreathOnly")
+        {
+            SetColorWorldByName("Dark", 0.1f);
         }
 
         _fxWaveDict.Remove(key);

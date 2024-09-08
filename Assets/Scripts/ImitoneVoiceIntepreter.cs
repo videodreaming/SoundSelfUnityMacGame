@@ -23,7 +23,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
-    public float _dbThreshold = -59.0f;
+    public float _dbThreshold;
 
     // Are we using this action? Robin doesn't understand how an action works.
     public Action<float> OnNewTone;
@@ -422,8 +422,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private void SetThreshold(float db = -52.5f){
         //Logic that sets the threshold for imitone's dbValue using SetConfig() to the value of dbThreshold
        
-        imitone.SetConfig("{\"volume\" : {\"threshold\" : " + db + "} }");   
+        imitone.SetConfig("{\"volume\" : {\"threshold\" : " + db + "} }", false);   
         imitoneConfig = imitone.GetConfig();
+        _dbThreshold = db;
         //Debug.Log("imitone configuration: " + imitoneConfig);  
     }
 
