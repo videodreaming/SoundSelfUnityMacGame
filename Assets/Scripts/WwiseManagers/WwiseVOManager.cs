@@ -18,6 +18,7 @@ public class WwiseVOManager : MonoBehaviour
     public LightControl lightControl;
     public MusicSystem1 musicSystem1;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    public Tutorial tutorial;
     //public MusicSystem1 musicSystem1;
     //public RTPC silentFundamentalrtpcvolume;
     //public RTPC toningFundamentalrtpcvolume;
@@ -30,6 +31,7 @@ public class WwiseVOManager : MonoBehaviour
     public bool firstTimeUser = true;
     public bool layingDown = true;
     public CSVWriter csvWriter;
+    
 
     //private bool silentPlaying = false;
 
@@ -114,7 +116,24 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     Debug.Log("WWise_VO: Cue_BreathIn");
                     breathInBehaviour();
-                }
+                } else if (musicSyncInfo.userCueName == "Cue_ChangeFromHmmToAhh")
+                {
+                    Debug.Log("Wwise_Tutorial_Should_Change_From_Hmm_To_Ahh");
+                    //TO TEST!!!!!
+                    tutorial.testVocalizationType = "Ahh";
+                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
+                {
+                    Debug.Log("Wwise_Tutorial_Should_Change_From_Ahh_To_Ohh");
+                    tutorial.testVocalizationType = "Ohh";
+                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
+                {
+                    Debug.Log("Wwise_Tutorial_Should_Change_From_Ohh_To_Advanced")
+                    tutorial.testVocalizationType == "Advanced";
+                } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") 
+                {
+                    Debug.Log("Wwise_Tutorial_Break_All_Tests");
+                    Tutorial.breakAllTests;
+                } 
                 else
                 {
                     Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
@@ -156,7 +175,7 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
                     imitoneVoiceIntepreter.gameOn = false;
-                } 
+                }
                 else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
                 {
                     Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End");
@@ -165,6 +184,7 @@ public class WwiseVOManager : MonoBehaviour
                 else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
                 {
                     Debug.Log("WWise_VO: Somatic Start");
+                    tutorial.testVocalizationType = "hum";
                 }
                  else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
