@@ -6616,13 +6616,15 @@ MonoBehaviour:
   developmentMode: {fileID: 538272586}
   AVSColorCommand: 
   AVSStrobeCommand: 
-  cycleRecent: Dark
+  currentColorType: Dark
   preferredColor: Red
+  _fxWave: 0
   _strobePWM: 0
   _strobe1Smoothing: 0
   _gammaBurstMode: 0
   rtpcID: 0
   frequencyWave1Value: 0
+  fxWaveKey: 0
 --- !u!1 &443228039
 GameObject:
   m_ObjectHideFlags: 0
@@ -7575,6 +7577,7 @@ MonoBehaviour:
   audioManager: {fileID: 47830410}
   sequencer: {fileID: 1564575221}
   developmentMode: {fileID: 538272586}
+  director: {fileID: 0}
   CSVWriter: {fileID: 662335749}
   lightControl: {fileID: 437048159}
   musicSystem1: {fileID: 619104374}
@@ -8530,6 +8533,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   gameValues: {fileID: 740096630}
   userObject: {fileID: 740096621}
+  lightControl: {fileID: 0}
   userAudioSource: {fileID: 0}
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicNoteActivated: 0
@@ -9301,7 +9305,6 @@ MonoBehaviour:
   currentSessionNumber: 0
   respirationTracker: {fileID: 740096627}
   gameManagement: {fileID: 1060646673}
-  microphoneMonitoring: 0
   GameMode: 
   SubGameMode: 
   encryptedstatus: 
@@ -10200,6 +10203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respirationTracker: {fileID: 740096627}
   lightControl: {fileID: 437048159}
+  imitoneVoiceInterprter: {fileID: 740096625}
 --- !u!114 &740096630
 MonoBehaviour:
   m_ObjectHideFlags: 0
