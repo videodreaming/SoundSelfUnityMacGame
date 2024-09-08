@@ -7577,7 +7577,7 @@ MonoBehaviour:
   audioManager: {fileID: 47830410}
   sequencer: {fileID: 1564575221}
   developmentMode: {fileID: 538272586}
-  director: {fileID: 0}
+  director: {fileID: 1829208165}
   CSVWriter: {fileID: 662335749}
   lightControl: {fileID: 437048159}
   musicSystem1: {fileID: 619104374}
@@ -8161,8 +8161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc54582afe4ef1941b94bcaed0fdae61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentPlayground: 1
-  developmentMode: 1
+  developmentPlayground: 0
+  developmentMode: 0
   configureMode: 0
 --- !u!4 &538272587
 Transform:
