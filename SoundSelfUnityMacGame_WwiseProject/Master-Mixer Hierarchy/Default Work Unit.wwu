@@ -225,7 +225,12 @@
 								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>10</Value>
+										<Value>7</Value>
+									</ValueList>
+								</Property>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -323,6 +328,11 @@
 									</ValueList>
 								</Property>
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-1"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>5</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="UserAuxSend0">
@@ -527,13 +537,6 @@
 							</PropertyList>
 						</Bus>
 						<AuxBus Name="Aux_ImpactsSub" ID="{BFC0F763-D969-48F0-AAAB-0642BCB3F556}">
-							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>-3</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="Effects">
 									<Reference>

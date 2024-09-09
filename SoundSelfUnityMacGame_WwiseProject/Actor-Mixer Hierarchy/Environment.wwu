@@ -205,6 +205,11 @@
 								<Sound Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" ShortID="840084692">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-4</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">

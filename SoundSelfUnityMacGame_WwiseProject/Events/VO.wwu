@@ -300,6 +300,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_VO_testRepair_Succeed" ID="{8D479B7D-34C5-4B08-A76C-A77A148A4E52}">
+					<ChildrenList>
+						<Action Name="" ID="{01F94FB6-A29E-4C0B-9E27-772B09C97639}" ShortID="77889644">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_succeed" ID="{CF759797-30D3-4272-8D7B-144B27E1007C}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

@@ -16,7 +16,7 @@
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1163393389" Type="Bus" Language="SFX" Hash="{5B031FFF-64E9-F2B6-80C2-93FA7E081858}">
+		<SoundBank Id="1163393389" Type="Bus" Language="SFX" Hash="{6FAFDF1F-42DD-CA6A-A730-E8AC2407073F}">
 			<ShortName>Aux_ImpactsSub</ShortName>
 			<Path>Bus/11/Aux_ImpactsSub.bnk</Path>
 			<Plugins>
@@ -34,7 +34,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{63E6FE26-E53C-F962-8579-B7498A68F107}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{20EBCA06-C7FF-0DBA-AB99-C8E4BC41117F}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -378,7 +378,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D7AD45A1-43CD-69FB-CF67-8455258DF426}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{9C51D9EF-21C5-F176-1083-F8146265ED45}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -4904,7 +4904,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{B1CA401C-C117-EC3E-F8E1-88E16EF67CE0}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{716AC682-BBD9-F7FF-5F09-D60E0394A70F}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5747,6 +5747,11 @@
 						<ActionPostEventEntry Id="236202206" Name="Mute_SILENTMEDITATION_MUSIC"/>
 					</ActionPostEvent>
 				</Event>
+				<Event Id="4209841698" Name="Set_State_InteractiveMusicMode_Environment" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<ActionSetState>
+						<ActionSetStateEntry GroupId="361224273" Id="1229948536" Name="Environment"/>
+					</ActionSetState>
+				</Event>
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="4041758113" Name="Stop_CrystalBowlGenerator" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -5806,6 +5811,15 @@
 				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
 				<GameParameter Id="3761161481" Name="CrystalBowlGenerator_Volume"/>
 			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="361224273" Name="InteractiveMusicMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1229948536" Name="Environment"/>
+						<State Id="1817215723" Name="InteractiveMusicSystem"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
 			<SwitchGroups>
 				<SwitchGroup Id="683317262" Name="VO_Wisdom">
 					<Switches>
@@ -5859,7 +5873,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{8F194A68-E426-D20D-FF04-1B211AE95100}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{887CD98B-0864-BB3F-8EBE-8C9F41F61857}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -5886,6 +5900,10 @@
 				<File Id="66126426" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_F2BA6C14.wem</CachePath>
+				</File>
+				<File Id="75378886" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_testRepair_succeed.wav</ShortName>
+					<CachePath>SFX/vo_testRepair_succeed_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="91575132" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_sono flore.wav</ShortName>
@@ -6058,6 +6076,10 @@
 				<File Id="370281401" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
 					<CachePath>SFX/fundamental_[B]_toning_shadow_3E06637A.wem</CachePath>
+				</File>
+				<File Id="370838361" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_test20tone.wav</ShortName>
+					<CachePath>SFX/vo_test20tone_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="375667203" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_test03hum.wav</ShortName>
@@ -9589,6 +9611,7 @@
 						<MediaRef Id="54482482"/>
 						<MediaRef Id="169180974"/>
 						<MediaRef Id="316401243"/>
+						<MediaRef Id="370838361"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="745351876" Name="Play_VO_GuidedVocalizationAhh" DurationType="OneShot" DurationMin="2.738" DurationMax="17.756666">
@@ -9636,6 +9659,11 @@
 				<Event Id="3359759171" Name="Play_VO_testRepair_Ohh" DurationType="OneShot" DurationMin="29.362" DurationMax="29.362">
 					<MediaRefs>
 						<MediaRef Id="978729283"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2076613512" Name="Play_VO_testRepair_Succeed" DurationType="OneShot" DurationMin="3.5" DurationMax="3.5">
+					<MediaRefs>
+						<MediaRef Id="75378886"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="452547817" Name="Stop_All" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -9773,5 +9801,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{07E5F264-B22D-7DD5-CE02-42B8E8EA92DF}</FileHash>
+	<FileHash>{84E4162A-028D-02E8-39FD-76FEBE6AA8A5}</FileHash>
 </SoundBanksInfo>

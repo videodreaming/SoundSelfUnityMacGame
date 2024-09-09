@@ -88,6 +88,7 @@ namespace AK
         static const AkUniqueID PLAY_VO_TESTREPAIR_EXTENDED = 3708648383U;
         static const AkUniqueID PLAY_VO_TESTREPAIR_HUM = 3544460158U;
         static const AkUniqueID PLAY_VO_TESTREPAIR_OHH = 3359759171U;
+        static const AkUniqueID PLAY_VO_TESTREPAIR_SUCCEED = 2076613512U;
         static const AkUniqueID PLAY_VO_THEMATICCONTENT = 2088653686U;
         static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
@@ -95,6 +96,7 @@ namespace AK
         static const AkUniqueID PLAY_WAKEUPENDSOON_SEQUENCE = 4021535955U;
         static const AkUniqueID PLAY_WISDOM_OPENING_SEQUENCE_LONG = 1410067095U;
         static const AkUniqueID PLAY_WISDOM_OPENING_SEQUENCE_SHORT = 855517545U;
+        static const AkUniqueID SET_STATE_INTERACTIVEMUSICMODE_ENVIRONMENT = 4209841698U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
         static const AkUniqueID STOP_AVS_SINEGENERATORS_REFERENCE = 767717232U;

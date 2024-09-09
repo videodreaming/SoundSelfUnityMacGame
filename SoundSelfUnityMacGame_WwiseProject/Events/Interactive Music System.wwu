@@ -123,7 +123,7 @@
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="5"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
+								<Property Name="FadeTime" Type="Real64" Value="15"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -135,7 +135,7 @@
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="5"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
+								<Property Name="FadeTime" Type="Real64" Value="25"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">

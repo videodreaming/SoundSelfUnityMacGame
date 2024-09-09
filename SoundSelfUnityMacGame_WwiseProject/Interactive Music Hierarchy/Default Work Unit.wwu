@@ -4857,7 +4857,7 @@
 											<MusicCue Name="Cue_Microphone_ON" ID="{DDAEB981-8B8A-4D65-956A-A533387525D0}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="233763.279507801"/>
+													<Property Name="TimeMs" Type="Real64" Value="178985.331929036"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -5017,7 +5017,7 @@
 											<MusicCue Name="Cue_InteractiveMusicSystem_Start" ID="{D973C3BF-8D7B-42A7-82C0-AD10B2C22E77}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="180000.002361021"/>
+													<Property Name="TimeMs" Type="Real64" Value="179253.102351382"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -5037,6 +5037,16 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="234035.45692044"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_StartTutorial" ID="{E89F8E9C-0C23-405D-B0B0-C092D6170148}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="233986.193145924"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -8371,7 +8381,7 @@
 											<MusicCue Name="Cue_Microphone_ON" ID="{70F229C4-B139-42A9-96AC-5ED29DC7ECB8}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="98341.9840610195"/>
+													<Property Name="TimeMs" Type="Real64" Value="59025.1064142757"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -8451,7 +8461,7 @@
 											<MusicCue Name="Cue_InteractiveMusicSystem_Start" ID="{C5C787AB-D0DD-47C1-AE25-7DCB738246F9}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="109506.098827799"/>
+													<Property Name="TimeMs" Type="Real64" Value="91173.5078270095"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -8462,6 +8472,16 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="98694.1860552675"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_StartTutorial" ID="{3C667AE1-F0C6-426D-884C-F43D8C8D886B}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="98104.9885771599"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -10078,6 +10098,11 @@
 				<MusicSegment Name="VOICE ELICITATION 2" ID="{2C852D0F-ADB1-4222-B893-7A9D086BB8E7}" ShortID="862328925">
 					<PropertyList>
 						<Property Name="EndPosition" Type="Real64" Value="214709.403307815"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">

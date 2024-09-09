@@ -153,6 +153,20 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Set_State_InteractiveMusicMode_Environment" ID="{CD4A7C0F-2A77-4173-9ADE-8F9245E4A072}">
+					<ChildrenList>
+						<Action Name="" ID="{666D7DEF-D244-4667-A6D4-919D40382E4F}" ShortID="292383423">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="22"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}" WorkUnitID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
