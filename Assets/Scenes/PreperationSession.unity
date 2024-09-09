@@ -7582,7 +7582,6 @@ MonoBehaviour:
   lightControl: {fileID: 437048159}
   musicSystem1: {fileID: 619104374}
   imitoneVoiceIntepreter: {fileID: 740096625}
-  tutorial: {fileID: 1635385662}
   firstTimeUser: 1
   layingDown: 1
   csvWriter: {fileID: 662335749}
@@ -8546,11 +8545,11 @@ MonoBehaviour:
   silentrtpcvolume:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: ac2abccdc6d2bad4085cd679876584cc, type: 2}
   toningrtpcvolume:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 08d6b5eaea91c384da487f2b2f15dd90, type: 2}
 --- !u!4 &619104375
 Transform:
   m_ObjectHideFlags: 0
@@ -20871,7 +20870,6 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
-  tutorial: {fileID: 0}
   csvWriter: {fileID: 662335749}
 --- !u!1 &1573501369
 GameObject:
