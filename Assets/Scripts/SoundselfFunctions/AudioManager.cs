@@ -57,9 +57,6 @@ public class AudioManager : MonoBehaviour
     private float notTalkingTimer1 = 0.0f;
     private float QueryTimer1 = 30.0f;
     public bool Query1CheckStarted = false;
-
-    public WwiseGlobalManager wwiseGlobalManager;
-    public WwiseVOManager VOManager;
     private float audioClipStartTime = 0.0f;
     public AudioClip recordedAudioClip;
 

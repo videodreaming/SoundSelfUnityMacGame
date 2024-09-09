@@ -39,6 +39,7 @@ public class MusicSystem1 : MonoBehaviour
     private float _initiateImminentFundamentalChangeThreshold = 40f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
+    public bool localToneOn {get; private set;} = false;
     private bool previousLocalToneOn = false;
 
     // FUNDAMENTAL AND HARMONY CONTROL
@@ -76,10 +77,10 @@ public class MusicSystem1 : MonoBehaviour
     public string currentSwitchState = "C";
 
     //PLAYBACK AND INITIALIZATION
-    public RTPC silentrtpcvolume;
-    public RTPC toningrtpcvolume;
-    private float rtpcFadeDuration = 54.0f;
-    private float rtpcTargetValue = 80.0f;
+    //public RTPC silentrtpcvolume;
+    //public RTPC toningrtpcvolume;
+    //private float rtpcFadeDuration = 54.0f;
+    //private float rtpcTargetValue = 80.0f;
     private bool environmentFlag = false;
     private bool interactiveFlag = false;
     
@@ -94,12 +95,6 @@ public class MusicSystem1 : MonoBehaviour
             userAudioSource = userObject.GetComponent<AudioSource>();
             userAudioSource.volume = 0.0f;
         }
-
-        //These three refactored from Sequencer.cs attn: @Reef
-        //ROBIN WANTS TO DELETE THESE
-        //AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
-        //AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
-        //AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
 
         // Initialize the NoteTracker dictionary with 12 keys for each note in an octave
         for (int i = 0; i < 12; i++)
@@ -124,6 +119,8 @@ public class MusicSystem1 : MonoBehaviour
 
     void Update()
     {
+        localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue;
+
         if(interactive) 
         { 
             InterpretImitone();
@@ -368,13 +365,15 @@ public class MusicSystem1 : MonoBehaviour
             if(developmentMode.developmentPlayground)
             {
                 //instant on for development
-                silentrtpcvolume.SetGlobalValue(80.0f);
-                toningrtpcvolume.SetGlobalValue(80.0f);
+                //silentrtpcvolume.SetGlobalValue(80.0f);
+                //toningrtpcvolume.SetGlobalValue(80.0f);
+                //SetSilentVolume(80.0f);
             }
             else
             {
                 Debug.Log("MUSIC: InteractiveMusicSystemFade starting");
-                StartCoroutine(InteractiveMusicSystemFade());
+                //SetSilentVolume(80.0f, 54.0f);
+                //StartCoroutine(InteractiveMusicSystemFade());
             }
 
             interactive = true;
@@ -388,24 +387,24 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    private IEnumerator InteractiveMusicSystemFade()
-    {
-        //NOTE: this can be cleaned up by using the RTPC's transition time in ms, which Robin uses all the time (see lightControl)
-        float initialValue = 0.0f;
-        float startTime = Time.time;
+    // private IEnumerator InteractiveMusicSystemFade()
+    // {
+    //     //NOTE: this can be cleaned up by using the RTPC's transition time in ms, which Robin uses all the time (see lightControl)
+    //     float initialValue = 0.0f;
+    //     float startTime = Time.time;
 
-        while(Time.time - startTime < rtpcFadeDuration)
-        {
-            float elapsed = (Time.time - startTime) / rtpcFadeDuration;
-            float currentValue = Mathf.Lerp(initialValue, rtpcTargetValue, elapsed);
-            silentrtpcvolume.SetGlobalValue(currentValue);
-            toningrtpcvolume.SetGlobalValue(currentValue);
-            yield return null;
-        }
-        silentrtpcvolume.SetGlobalValue(rtpcTargetValue);
-        toningrtpcvolume.SetGlobalValue(rtpcTargetValue);
-        yield break;
-    }
+    //     while(Time.time - startTime < rtpcFadeDuration)
+    //     {
+    //         float elapsed = (Time.time - startTime) / rtpcFadeDuration;
+    //         float currentValue = Mathf.Lerp(initialValue, rtpcTargetValue, elapsed);
+    //         silentrtpcvolume.SetGlobalValue(currentValue);
+    //         toningrtpcvolume.SetGlobalValue(currentValue);
+    //         yield return null;
+    //     }
+    //     silentrtpcvolume.SetGlobalValue(rtpcTargetValue);
+    //     toningrtpcvolume.SetGlobalValue(rtpcTargetValue);
+    //     yield break;
+    // }
     
     private void ThumpUpdate ()
     {
@@ -537,8 +536,6 @@ public class MusicSystem1 : MonoBehaviour
     {       
         if(interactive == true)
         {
-            
-            bool localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue; //turns on with toneActive
             if(localToneOn && !previousLocalToneOn)
             {
                 if(debugAllowLogs)
@@ -802,7 +799,15 @@ public class MusicSystem1 : MonoBehaviour
         return (int)Enum.Parse(typeof(NoteName), noteName);
     }
 
-  
+    public void SetSilentVolume(float _target, float fadeDuration = 0.1f)
+    {
+        int ms = (int) Mathf.RoundToInt(fadeDuration * 1000);
+
+        AkSoundEngine.SetRTPCValue("SILENT_Volume", _target, gameObject, ms);
+        Debug.Log("MUSIC: Set Silent Volume to " + _target);
+        //AkSoundEngine.SetRTPCValue("TONING_Volume", _target, gameObject, ms);
+        //TONING_Volume is set in ImitoneVoiceInterpreter, and is dynamic with player volume.
+    }
 
 
     
