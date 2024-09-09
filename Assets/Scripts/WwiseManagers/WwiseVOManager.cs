@@ -188,7 +188,7 @@ public class WwiseVOManager : MonoBehaviour
         {
             if(musicSystem1.localToneOn)
             {   //if an actual music system tone comes on, break the loop, so we don't de-activate it here.
-                break;
+                yield break;
             }
             _t -= Time.deltaTime;
             yield return null;
@@ -196,7 +196,7 @@ public class WwiseVOManager : MonoBehaviour
         
         if(musicSystem1.localToneOn)
         { //just in case this would end on the exact frame that the tone starts, check again...
-            break;
+            yield break;
         }
 
         Debug.Log("WWise_VO: Stopping a False Tone in WWise");

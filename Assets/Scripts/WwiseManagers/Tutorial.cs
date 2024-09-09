@@ -133,7 +133,7 @@ public class Tutorial : MonoBehaviour
                 if(_failTimer > failThreshold)
                 {
                     correctionCoroutine = StartCoroutine(ProvideCorrection());                   
-                    break;
+                    yield break;
                 }
             }
             yield return null;
@@ -171,7 +171,7 @@ public class Tutorial : MonoBehaviour
                 if(_failTimer > failThreshold)
                 {
                     correctionCoroutine = StartCoroutine(ProvideCorrection());                   
-                    break;
+                    yield break;
                 }
             }
             yield return null;
