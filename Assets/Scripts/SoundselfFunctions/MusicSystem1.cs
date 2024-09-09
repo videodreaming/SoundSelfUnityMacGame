@@ -96,12 +96,6 @@ public class MusicSystem1 : MonoBehaviour
             userAudioSource.volume = 0.0f;
         }
 
-        //These three refactored from Sequencer.cs attn: @Reef
-        //ROBIN WANTS TO DELETE THESE
-        //AkSoundEngine.SetRTPCValue("InteractiveMusicSilentLoops", 30.0f, gameObject);
-        //AkSoundEngine.SetRTPCValue("HarmonySilentVolume", 30.0f, gameObject);
-        //AkSoundEngine.SetRTPCValue("FundamentalSilentVolume", 30.0f, gameObject);
-
         // Initialize the NoteTracker dictionary with 12 keys for each note in an octave
         for (int i = 0; i < 12; i++)
         {

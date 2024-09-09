@@ -161,20 +161,17 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("WWise_VO: Cue_LinearHum_Start");
                     InitializeLights();
                     StartCoroutine(MakeWWiseTone());
+                } else if (musicSyncInfo.userCueName == "Cue_StartTutorial")
+                {
+                    tutorial.StartTutorial();
                 } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
                 {
                     Debug.Log("WWise_VO: Cue_InteractiveMusicSystem_Start");
                     musicSystem1.InteractiveMusicInitializations();
-                    tutorial.StartTutorial();
                 } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
                 {
                     Debug.Log("WWise_VO: Cue_Opening_Start");
-                } else if (musicSyncInfo.userCueName == "Cue_FreePlay")
-                {
-                    Debug.Log("WWise_VO: Cue_FreePlay");
-                    musicSystem1.LockToC(false);
-                    director.disable = false;
-                }
+                } 
                 else
                 {
                     Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);

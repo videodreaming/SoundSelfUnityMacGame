@@ -10,6 +10,8 @@ public class Tutorial : MonoBehaviour
 {
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public WwiseVOManager wwiseVOManager;
+    public MusicSystem1 musicSystem1;
+    public Director director;
     public bool active {get; private set;}  = false;
     float testThreshold = 5.0f;
     float failThreshold = 8.0f;
@@ -29,6 +31,8 @@ public class Tutorial : MonoBehaviour
     void Update()
     {
         testSuccess = imitoneVoiceInterpreter._tThisTone >= testThreshold;
+
+            //NOTES FROM MEETING ON 9/9/2024
             //I THINK THESE ONES ARE DONE BUT NEED TO CONFIRM
             //Use a cue from WWise to change testVocalizationType from "hum" to "ahh" to "ohh" to "advanced", at the very beginning of the line being spoken.
             //- Whenever he is talking, the "mic off" cue should happen right at the start of his vo
@@ -37,16 +41,11 @@ public class Tutorial : MonoBehaviour
             //- We need a cue at the beginning of each tutorial VO that tells us if it is Hum/Ahh/Ohh etc.
 
             //MORE WWISE THINGS TO CHANGES
-            //- When the game is close to over (the 1 minute left logic in sequencer), we need to kill all behaviors here... 
             //- Set up a cue at the beginning of the last VO that triggers breaking all tests, cos we're done! 
             //- We need a WWise Event for the correction success (vo_testRepair_succeed) ("Now you keep going on your own")
             //- What is cueing FreePlay right now? That *should* be the end of the tutorial.
             //- Need to check on this cue: "WWise_VO: Cue_InteractiveMusicSystem_Start" (whis will currently trigger the start of the tutorial, if I understand it correctly, it should happen at the end of the somatic meditaiton, so that's where I've put the call to StartTutorial())
             //- Let's check each of the test vos for a good place to put the breath in cue, even if he doesn't say "breathe in"
-            //- Can we rename the cue that starts the tutorial to something with "Tutorial" in the name?
-
-
-            //Something else Robin needs to remember to do: when I begin toning, it should interrupt the coroutine for the false tone, currently in VOManager
     }
     
     public void StartTutorial()
@@ -76,7 +75,7 @@ public class Tutorial : MonoBehaviour
                 {
                     Debug.Log("WWise_VO Tutorial: Cue_BreathIn");
                     wwiseVOManager.breathInBehaviour();
-                } else if (musicSyncInfo.userCueName == "Cue_ChangeFromHmmToAhh")
+                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromHmmToAhh")
                 {
                     Debug.Log("WWise_VO Tutorial: Cue Change to Ahh");
                     //TO TEST!!!!!
@@ -93,7 +92,12 @@ public class Tutorial : MonoBehaviour
                 {
                     Debug.Log("Wwise_Tutorial_Break_All_Tests");
                     EndTutorial();
-                } 
+                } else if (musicSyncInfo.userCueName == "Cue_FreePlay")
+                {
+                    Debug.Log("WWise_VO Tutorial: Cue_FreePlay");
+                    musicSystem1.LockToC(false);
+                    director.disable = false;
+                }
                 else
                 {
                     Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
@@ -174,7 +178,6 @@ public class Tutorial : MonoBehaviour
         }
         AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
-
     }
 
     private void PlayTutorialGuidance()
@@ -207,7 +210,7 @@ public class Tutorial : MonoBehaviour
                 AkSoundEngine.PostEvent("Play_VO_testRepairAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
                 break;
             case "Ohh":
-                AkSoundEngine.PostEvent("Play_VO_testRepair", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_testRepairOhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
                 break;
             case "Advanced":
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
