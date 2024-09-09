@@ -13,10 +13,12 @@ public class Tutorial : MonoBehaviour
     public MusicSystem1 musicSystem1;
     public Director director;
     public bool active {get; private set;}  = false;
+    private bool activeLastFrame = false;
     float testThreshold = 5.0f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;
     string testVocalizationType;
+    string testVocalizationTypeLastFrame;
     private Coroutine testCoroutine;
     private Coroutine correctionCoroutine;
     
@@ -24,7 +26,6 @@ public class Tutorial : MonoBehaviour
     void Start()
     {
         testVocalizationType = "Hum";
-
     }
 
     // Update is called once per frame
@@ -32,6 +33,14 @@ public class Tutorial : MonoBehaviour
     {
         testSuccess = imitoneVoiceInterpreter._tThisTone >= testThreshold;
 
+        if(testVocalizationType != testVocalizationTypeLastFrame)
+        {
+           if(testVocalizationType == "Advanced")
+            {
+                musicSystem1.SetSilentVolume(80f, 40f);
+            }
+            testVocalizationTypeLastFrame = testVocalizationType;
+        }
             //NOTES FROM MEETING ON 9/9/2024
             //I THINK THESE ONES ARE DONE BUT NEED TO CONFIRM
             //Use a cue from WWise to change testVocalizationType from "hum" to "ahh" to "ohh" to "advanced", at the very beginning of the line being spoken.
@@ -54,6 +63,7 @@ public class Tutorial : MonoBehaviour
         {
             active = true;
             testVocalizationType = "Hum";
+            musicSystem1.SetSilentVolume(50f, 20f);
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
         }
     }
@@ -196,6 +206,9 @@ public class Tutorial : MonoBehaviour
             case "Advanced":
                 AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
                 break;
+            default:
+                Debug.LogError("Invalid testVocalizationType: " + testVocalizationType);
+                break;
         }
     }
 
@@ -214,6 +227,9 @@ public class Tutorial : MonoBehaviour
                 break;
             case "Advanced":
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            default:
+                Debug.LogError("Invalid testVocalizationType: " + testVocalizationType);
                 break;
         }
     }

@@ -45,6 +45,7 @@ public class WwiseVOManager : MonoBehaviour
         if(developmentMode.developmentPlayground)
         {
             musicSystem1.InteractiveMusicInitializations();
+            musicSystem1.SetSilentVolume(80f, 0f);
             musicSystem1.LockToC(false);
             imitoneVoiceIntepreter.gameOn = true;
             director.disable = false;
@@ -52,6 +53,8 @@ public class WwiseVOManager : MonoBehaviour
         }
         if(!developmentMode.developmentPlayground)
         {
+            
+            musicSystem1.SetSilentVolume(50f, 0f);
             musicSystem1.LockToC(true);
             imitoneVoiceIntepreter.gameOn = false;
             director.disable = true;
