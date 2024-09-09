@@ -94,53 +94,11 @@ public class WwiseVOManager : MonoBehaviour
         }
     }
     
-    public void handleTutorialMeditation(string tutorialToPlay)
-    {
-        AkSoundEngine.PostEvent(tutorialToPlay, gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-    }
+    //public void handleTutorialMeditation(string tutorialToPlay) //THIS ISN'T CURRENTLY USED
+    //{
+    //    AkSoundEngine.PostEvent(tutorialToPlay, gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+    //}
 
-    public void TutorialCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
-    {
-         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
-            {
-                AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-                if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
-                    imitoneVoiceIntepreter.gameOn = false;
-                } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
-                {
-                    Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End");
-                    imitoneVoiceIntepreter.gameOn = true;
-                } else if (musicSyncInfo.userCueName == "Cue_BreathIn")
-                {
-                    Debug.Log("WWise_VO: Cue_BreathIn");
-                    breathInBehaviour();
-                } else if (musicSyncInfo.userCueName == "Cue_ChangeFromHmmToAhh")
-                {
-                    Debug.Log("Wwise_Tutorial_Should_Change_From_Hmm_To_Ahh");
-                    //TO TEST!!!!!
-                    tutorial.testVocalizationType = "Ahh";
-                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
-                {
-                    Debug.Log("Wwise_Tutorial_Should_Change_From_Ahh_To_Ohh");
-                    tutorial.testVocalizationType = "Ohh";
-                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
-                {
-                    Debug.Log("Wwise_Tutorial_Should_Change_From_Ohh_To_Advanced")
-                    tutorial.testVocalizationType == "Advanced";
-                } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") 
-                {
-                    Debug.Log("Wwise_Tutorial_Break_All_Tests");
-                    Tutorial.breakAllTests;
-                } 
-                else
-                {
-                    Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
-                }
-            } 
-
-    }
     public void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {
             // NOT-YET INTEGRATED ONES
@@ -184,7 +142,6 @@ public class WwiseVOManager : MonoBehaviour
                 else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
                 {
                     Debug.Log("WWise_VO: Somatic Start");
-                    tutorial.testVocalizationType = "hum";
                 }
                  else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
                 {
@@ -208,6 +165,7 @@ public class WwiseVOManager : MonoBehaviour
                 {
                     Debug.Log("WWise_VO: Cue_InteractiveMusicSystem_Start");
                     musicSystem1.InteractiveMusicInitializations();
+                    tutorial.StartTutorial();
                 } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
                 {
                     Debug.Log("WWise_VO: Cue_Opening_Start");
@@ -231,9 +189,19 @@ public class WwiseVOManager : MonoBehaviour
         float _t = 4f;
         while (_t > 0)
         {
+            if(musicSystem1.localToneOn)
+            {   //if an actual music system tone comes on, break the loop, so we don't de-activate it here.
+                break;
+            }
             _t -= Time.deltaTime;
             yield return null;
         }
+        
+        if(musicSystem1.localToneOn)
+        { //just in case this would end on the exact frame that the tone starts, check again...
+            break;
+        }
+
         Debug.Log("WWise_VO: Stopping a False Tone in WWise");
         musicSystem1.StopWwiseToning();
     }
@@ -315,7 +283,7 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject);
     }
 
-    private void breathInBehaviour()
+    public void breathInBehaviour()
     {
         lightControl.FXWave(0.6f, 5f, 0.25f, true, true);
     }

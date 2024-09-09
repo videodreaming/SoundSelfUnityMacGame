@@ -7582,6 +7582,7 @@ MonoBehaviour:
   lightControl: {fileID: 437048159}
   musicSystem1: {fileID: 619104374}
   imitoneVoiceIntepreter: {fileID: 740096625}
+  tutorial: {fileID: 1635385662}
   firstTimeUser: 1
   layingDown: 1
   csvWriter: {fileID: 662335749}
@@ -20870,6 +20871,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
+  tutorial: {fileID: 0}
   csvWriter: {fileID: 662335749}
 --- !u!1 &1573501369
 GameObject:
@@ -21586,6 +21588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceInterpreter: {fileID: 740096625}
+  wwiseVOManager: {fileID: 486583134}
 --- !u!54 &1635385663
 Rigidbody:
   m_ObjectHideFlags: 0

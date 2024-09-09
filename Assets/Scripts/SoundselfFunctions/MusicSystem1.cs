@@ -39,6 +39,7 @@ public class MusicSystem1 : MonoBehaviour
     private float _initiateImminentFundamentalChangeThreshold = 40f;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
+    public bool localToneOn {get; private set;} = false;
     private bool previousLocalToneOn = false;
 
     // FUNDAMENTAL AND HARMONY CONTROL
@@ -124,6 +125,8 @@ public class MusicSystem1 : MonoBehaviour
 
     void Update()
     {
+        localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue;
+
         if(interactive) 
         { 
             InterpretImitone();
@@ -537,8 +540,6 @@ public class MusicSystem1 : MonoBehaviour
     {       
         if(interactive == true)
         {
-            
-            bool localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue; //turns on with toneActive
             if(localToneOn && !previousLocalToneOn)
             {
                 if(debugAllowLogs)

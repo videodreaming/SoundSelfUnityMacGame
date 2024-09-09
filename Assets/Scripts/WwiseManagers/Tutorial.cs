@@ -9,71 +9,218 @@ using Unity.VisualScripting;
 public class Tutorial : MonoBehaviour
 {
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    public bool active = false;
-    private bool primaryFlag = false;
-    private bool correcting = false;
+    public WwiseVOManager wwiseVOManager;
+    public bool active {get; private set;}  = false;
     float testThreshold = 5.0f;
     float failThreshold = 8.0f;
-    string testVocalizationType = "";
+    private bool testSuccess = false;
+    string testVocalizationType;
+    private Coroutine testCoroutine;
+    private Coroutine correctionCoroutine;
     
     // Start is called before the first frame update
     void Start()
     {
+        testVocalizationType = "Hum";
 
     }
 
     // Update is called once per frame
     void Update()
     {
-            //THINGS TO DO:
-
+        testSuccess = imitoneVoiceInterpreter._tThisTone >= testThreshold;
+            //I THINK THESE ONES ARE DONE BUT NEED TO CONFIRM
             //Use a cue from WWise to change testVocalizationType from "hum" to "ahh" to "ohh" to "advanced", at the very beginning of the line being spoken.
+            //- Whenever he is talking, the "mic off" cue should happen right at the start of his vo
+            //- We should then trigger the "mic on" cue near the end (but not AT) the end, when he says "breathe in" or whatever.
+            //      - (The other cue pair that has the same Unity behavior will work as well, AS LONG AS WE ARE TRIGGERING GAMEON CORRECTLY)
+            //- We need a cue at the beginning of each tutorial VO that tells us if it is Hum/Ahh/Ohh etc.
 
             //MORE WWISE THINGS TO CHANGES
-            //- Whenever he is talking, the "mic off" cue should happen at the start of his vo
-            //- We should then trigger the "mic on" cue near the end (but not AT) the end, when he says "breathe in" or whatever.
             //- When the game is close to over (the 1 minute left logic in sequencer), we need to kill all behaviors here... 
-            //- Set up a cue at the beginning of the last VO that triggers breaking all tests, cos we're done!       
+            //- Set up a cue at the beginning of the last VO that triggers breaking all tests, cos we're done! 
+            //- We need a WWise Event for the correction success (vo_testRepair_succeed) ("Now you keep going on your own")
+            //- What is cueing FreePlay right now? That *should* be the end of the tutorial.
+            //- Need to check on this cue: "WWise_VO: Cue_InteractiveMusicSystem_Start" (whis will currently trigger the start of the tutorial, if I understand it correctly, it should happen at the end of the somatic meditaiton, so that's where I've put the call to StartTutorial())
+            //- Let's check each of the test vos for a good place to put the breath in cue, even if he doesn't say "breathe in"
+            //- Can we rename the cue that starts the tutorial to something with "Tutorial" in the name?
+
+
+            //Something else Robin needs to remember to do: when I begin toning, it should interrupt the coroutine for the false tone, currently in VOManager
     }
     
-    private IEnumerator TestCoroutine()
+    public void StartTutorial()
     {
-        float _failTimer = 0.0f;
-        while(imitoneVoiceInterpreter._tThisTone < testThreshold)
+        if(!active)
         {
+            active = true;
+            testVocalizationType = "Hum";
+            testCoroutine = StartCoroutine(VoiceTestCoroutine());
+        }
+    }
+
+    public void TutorialCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
+    {
+         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+            {
+                AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+                if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
+                {
+                    Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_Start");
+                    imitoneVoiceInterpreter.gameOn = false;
+                } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
+                {
+                    Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_End");
+                    imitoneVoiceInterpreter.gameOn = true;
+                } else if (musicSyncInfo.userCueName == "Cue_BreathIn")
+                {
+                    Debug.Log("WWise_VO Tutorial: Cue_BreathIn");
+                    wwiseVOManager.breathInBehaviour();
+                } else if (musicSyncInfo.userCueName == "Cue_ChangeFromHmmToAhh")
+                {
+                    Debug.Log("WWise_VO Tutorial: Cue Change to Ahh");
+                    //TO TEST!!!!!
+                    testVocalizationType = "Ahh";
+                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
+                {
+                    Debug.Log("WWise_VO Tutorial: Cue Change to Ohh");
+                    testVocalizationType = "Ohh";
+                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
+                {
+                    Debug.Log("WWise_VO Tutorial: Cue Change to Advanced");
+                    testVocalizationType = "Advanced";
+                } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") 
+                {
+                    Debug.Log("Wwise_Tutorial_Break_All_Tests");
+                    EndTutorial();
+                } 
+                else
+                {
+                    Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
+                }
+            } 
+
+    }
+
+    private IEnumerator VoiceTestCoroutine()
+    {
+        //First, wait one second, to give room for the cue to be triggered.
+        float _tWait = 0.0f;
+        while(_tWait < 1.0f)
+        {
+            _tWait += Time.deltaTime;
+            yield return null;
+        }
+
+        while(!imitoneVoiceInterpreter.gameOn)
+        {
+            //wait for the previous guidance to end
+            yield return null;
+        }
+
+        float _failTimer = 0.0f;
+        while(!testSuccess)
+        {
+            //waiting for success...
             if(!imitoneVoiceInterpreter.toneActive)
             {
-                _failTimer += time.deltaTime;
+                //...while testing for failure
+                _failTimer += Time.deltaTime;
                 if(_failTimer > failThreshold)
                 {
-                    StartCoroutine(ProvideCorrection());                   
+                    correctionCoroutine = StartCoroutine(ProvideCorrection());                   
                     break;
                 }
             }
             yield return null;
         }
-        //PSUEDOCODE
-        
-        //AkSoundEngine.PostEvent("Play_Next_Test", gameObject); //(Play the next line of dialogue)
+        //on success, start the next coroutine
+        PlayTutorialGuidance();
+        testCoroutine = StartCoroutine(VoiceTestCoroutine());
     }
 
     private IEnumerator ProvideCorrection()
     {
-        testPrimary = false;
-        testCorrection = true;
-        if(testVocalizationType == "Hum")
+        PlayCorrectionGuidance(); 
+        //Wait one second, to give room for the cue to be triggered.
+        float _tWait = 0.0f;
+        while(_tWait < 1.0f)
         {
-            AkSoundEngine.PostEvent("Play_VO_testRepairHum");
-        } else if (testVocalizationType == "Ahh")
-        {
-            AkSoundEngine.PostEvent("Play_VO_testRepairAhh");
-        } else if (testVocalizationType == "Ohh")
-        {
-            AkSoundEngine.PostEvent("Play_VO_testRepair");
-        } else if (testVocalizationType == "Advanced")
-        {
-            AkSoundEngine.PostEvent("Play_VO_testRepair_Extended");
+            _tWait += Time.deltaTime;
+            yield return null;
         }
-        //Interrupt the primary playlist to offer a corrective. Then require a successful test to resume the primary playlist
+     
+        while(!imitoneVoiceInterpreter.gameOn)
+        {
+            //wait for the correction guidance to end
+            yield return null;
+        }
+
+        float _failTimer = 0.0f;
+        while(!testSuccess)
+        {
+            //waiting for success...
+            if(!imitoneVoiceInterpreter.toneActive)
+            {
+                //...while testing for failure
+                _failTimer += Time.deltaTime;
+                if(_failTimer > failThreshold)
+                {
+                    correctionCoroutine = StartCoroutine(ProvideCorrection());                   
+                    break;
+                }
+            }
+            yield return null;
+        }
+        AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+        testCoroutine = StartCoroutine(VoiceTestCoroutine());
+
+    }
+
+    private void PlayTutorialGuidance()
+    {
+        switch(testVocalizationType)
+        {
+            case "Hum":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Ahh":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Ohh":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Advanced":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+        }
+    }
+
+    private void PlayCorrectionGuidance()
+    {
+        switch(testVocalizationType)
+        {
+            case "Hum":
+                AkSoundEngine.PostEvent("Play_VO_testRepairHum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Ahh":
+                AkSoundEngine.PostEvent("Play_VO_testRepairAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Ohh":
+                AkSoundEngine.PostEvent("Play_VO_testRepair", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Advanced":
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+        }
+    }
+
+    public void EndTutorial()
+    {
+        //Run this when the cue for the end of the tutorial hits.
+        Debug.Log("Ending Tutorial");
+        StopCoroutine(testCoroutine);
+        StopCoroutine(correctionCoroutine);
+        active = false;
     }
 }

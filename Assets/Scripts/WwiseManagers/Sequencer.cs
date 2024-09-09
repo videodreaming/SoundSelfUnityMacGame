@@ -13,6 +13,7 @@ public class Sequencer : MonoBehaviour
     public RespirationTracker respirationTracker;
     public WwiseVOManager wwiseVOManager;
     public Director director;
+    public Tutorial tutorial;
     //private int fundamentalCount = -1;
     //private int harmonyCount = -1;
 
@@ -183,6 +184,7 @@ public class Sequencer : MonoBehaviour
     IEnumerator LastMinute()
     {
         Debug.Log("Sequencer Last Minute: Starting Last Minute Behaviors.");
+        tutorial.EndTutorial();
 
         //wait for the first new tone to start, or to pass the 30s threshold...
         while(WakeUpCounter > 30f || imitoneVoiceInterpreter.toneActiveConfident)
