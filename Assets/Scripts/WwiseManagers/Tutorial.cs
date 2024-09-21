@@ -14,7 +14,7 @@ public class Tutorial : MonoBehaviour
     public Director director;
     public bool active {get; private set;}  = false;
     private bool activeLastFrame = false;
-    float testThreshold = 2.5f;
+    float testThreshold = 2.0f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;
     string testVocalizationType;
