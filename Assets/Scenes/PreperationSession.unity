@@ -1022,8 +1022,6 @@ MonoBehaviour:
   delays: []
   sighElicitationTimer: 6
   Query1CheckStarted: 0
-  wwiseGlobalManager: {fileID: 0}
-  VOManager: {fileID: 0}
   recordedAudioClip: {fileID: 0}
 --- !u!1 &52804560
 GameObject:
@@ -7582,6 +7580,7 @@ MonoBehaviour:
   lightControl: {fileID: 437048159}
   musicSystem1: {fileID: 619104374}
   imitoneVoiceIntepreter: {fileID: 740096625}
+  tutorial: {fileID: 0}
   firstTimeUser: 1
   layingDown: 1
   csvWriter: {fileID: 662335749}
@@ -8161,8 +8160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc54582afe4ef1941b94bcaed0fdae61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentPlayground: 0
-  developmentMode: 0
+  developmentPlayground: 1
+  developmentMode: 1
   configureMode: 0
 --- !u!4 &538272587
 Transform:
@@ -8542,14 +8541,6 @@ MonoBehaviour:
   lockFundamental: 0
   interactive: 0
   currentSwitchState: C
-  silentrtpcvolume:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: ac2abccdc6d2bad4085cd679876584cc, type: 2}
-  toningrtpcvolume:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 08d6b5eaea91c384da487f2b2f15dd90, type: 2}
 --- !u!4 &619104375
 Transform:
   m_ObjectHideFlags: 0
@@ -20870,6 +20861,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
+  tutorial: {fileID: 0}
   csvWriter: {fileID: 662335749}
 --- !u!1 &1573501369
 GameObject:
@@ -21587,6 +21579,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imitoneVoiceInterpreter: {fileID: 740096625}
   wwiseVOManager: {fileID: 486583134}
+  musicSystem1: {fileID: 0}
+  director: {fileID: 0}
 --- !u!54 &1635385663
 Rigidbody:
   m_ObjectHideFlags: 0

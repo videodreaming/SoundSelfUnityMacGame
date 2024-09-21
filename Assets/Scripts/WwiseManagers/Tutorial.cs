@@ -14,7 +14,7 @@ public class Tutorial : MonoBehaviour
     public Director director;
     public bool active {get; private set;}  = false;
     private bool activeLastFrame = false;
-    float testThreshold = 5.0f;
+    float testThreshold = 2.0f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;
     string testVocalizationType;
@@ -136,7 +136,7 @@ public class Tutorial : MonoBehaviour
         while(!testSuccess)
         {
             //waiting for success...
-            if(!imitoneVoiceInterpreter.toneActive)
+            if(!imitoneVoiceInterpreter.toneActiveBiasTrue)
             {
                 //...while testing for failure
                 _failTimer += Time.deltaTime;
@@ -146,6 +146,10 @@ public class Tutorial : MonoBehaviour
                     yield break;
                 }
             }
+            yield return null;
+        }
+        while(imitoneVoiceInterpreter.toneActiveBiasTrue)
+        {
             yield return null;
         }
         //on success, start the next coroutine
@@ -174,7 +178,7 @@ public class Tutorial : MonoBehaviour
         while(!testSuccess)
         {
             //waiting for success...
-            if(!imitoneVoiceInterpreter.toneActive)
+            if(!imitoneVoiceInterpreter.toneActiveBiasTrue)
             {
                 //...while testing for failure
                 _failTimer += Time.deltaTime;
@@ -184,6 +188,10 @@ public class Tutorial : MonoBehaviour
                     yield break;
                 }
             }
+            yield return null;
+        }
+        while(imitoneVoiceInterpreter.toneActiveBiasTrue)
+        {
             yield return null;
         }
         AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
