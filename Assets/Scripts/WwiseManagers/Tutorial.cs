@@ -8,12 +8,12 @@ using Unity.VisualScripting;
 
 public class Tutorial : MonoBehaviour
 {
+    private bool debugAllowLogs = true;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public WwiseVOManager wwiseVOManager;
     public MusicSystem1 musicSystem1;
     public Director director;
     public bool active {get; private set;}  = false;
-    private bool activeLastFrame = false;
     float testThreshold = 2.5f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;
@@ -41,8 +41,9 @@ public class Tutorial : MonoBehaviour
             }
             testVocalizationTypeLastFrame = testVocalizationType;
         }
+            //REEF, WOULD YOU TEST THAT THESE THINGS ARE IMPLEMENTED? I *THINK* THEY ARE.
             //NOTES FROM MEETING ON 9/9/2024
-            //I THINK THESE ONES ARE DONE BUT NEED TO CONFIRM
+            //I THINK THESE ONES ARE DONE BUT NEED TO CONFIRM 
             //Use a cue from WWise to change testVocalizationType from "hum" to "ahh" to "ohh" to "advanced", at the very beginning of the line being spoken.
             //- Whenever he is talking, the "mic off" cue should happen right at the start of his vo
             //- We should then trigger the "mic on" cue near the end (but not AT) the end, when he says "breathe in" or whatever.
@@ -61,6 +62,7 @@ public class Tutorial : MonoBehaviour
     {
         if(!active)
         {
+            Debug.Log("Tutorial: START");
             active = true;
             testVocalizationType = "Hum";
             musicSystem1.SetSilentVolume(50f, 20f);
@@ -120,6 +122,12 @@ public class Tutorial : MonoBehaviour
     {
         //First, wait one second, to give room for the cue to be triggered.
         float _tWait = 0.0f;
+
+        if(debugAllowLogs)
+        {
+            Debug.Log("Tutorial: About to test...");
+        }
+
         while(_tWait < 1.0f)
         {
             _tWait += Time.deltaTime;
@@ -132,6 +140,11 @@ public class Tutorial : MonoBehaviour
             yield return null;
         }
 
+        if(debugAllowLogs)
+        {
+            Debug.Log("Tutorial: Testing...");
+        }
+
         float _failTimer = 0.0f;
         while(!testSuccess)
         {
@@ -142,12 +155,14 @@ public class Tutorial : MonoBehaviour
                 _failTimer += Time.deltaTime;
                 if(_failTimer > failThreshold)
                 {
+                    Debug.Log("Tutorial: TEST FAIL");
                     correctionCoroutine = StartCoroutine(ProvideCorrection());                   
                     yield break;
                 }
             }
             yield return null;
         }
+        Debug.Log("Tutorial: TEST SUCCESS (wait for breath)");
         while(imitoneVoiceInterpreter.toneActiveBiasTrue)
         {
             yield return null;
@@ -159,6 +174,11 @@ public class Tutorial : MonoBehaviour
 
     private IEnumerator ProvideCorrection()
     {
+        if(debugAllowLogs)
+        {
+            Debug.Log("Tutorial: Provide Correction, playing guidance...");
+        }
+
         PlayCorrectionGuidance(); 
         //Wait one second, to give room for the cue to be triggered.
         float _tWait = 0.0f;
@@ -174,6 +194,10 @@ public class Tutorial : MonoBehaviour
             yield return null;
         }
 
+        if(debugAllowLogs)
+        {
+            Debug.Log("Tutorial: Testing correction...");
+        }
         float _failTimer = 0.0f;
         while(!testSuccess)
         {
@@ -184,15 +208,21 @@ public class Tutorial : MonoBehaviour
                 _failTimer += Time.deltaTime;
                 if(_failTimer > failThreshold)
                 {
+                    Debug.Log("Tutorial: CORRECTION TEST FAIL");
                     correctionCoroutine = StartCoroutine(ProvideCorrection());                   
                     yield break;
                 }
             }
             yield return null;
         }
+        Debug.Log("Tutorial: CORRECTION TEST SUCCESS (wait for breath...)");
         while(imitoneVoiceInterpreter.toneActiveBiasTrue)
         {
             yield return null;
+        }
+        if(debugAllowLogs)
+        {
+            Debug.Log("Tutorial: Play correction confirmation vo");
         }
         AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
@@ -200,6 +230,12 @@ public class Tutorial : MonoBehaviour
 
     private void PlayTutorialGuidance()
     {
+        
+        if(debugAllowLogs)
+        {
+            Debug.Log("Tutorial: Play " + testVocalizationType + " Guidance");
+        }
+        
         switch(testVocalizationType)
         {
             case "Hum":
@@ -222,6 +258,12 @@ public class Tutorial : MonoBehaviour
 
     private void PlayCorrectionGuidance()
     {
+        
+        if(debugAllowLogs)
+        {
+            Debug.Log("Tutorial: Play " + testVocalizationType + " Correction Guidance");
+        }
+
         switch(testVocalizationType)
         {
             case "Hum":
@@ -245,7 +287,7 @@ public class Tutorial : MonoBehaviour
     public void EndTutorial()
     {
         //Run this when the cue for the end of the tutorial hits.
-        Debug.Log("Ending Tutorial");
+        Debug.Log("TUTORIAL: END");
         StopCoroutine(testCoroutine);
         StopCoroutine(correctionCoroutine);
         active = false;
