@@ -53,10 +53,7 @@ public class LightControl : MonoBehaviour
             SetColorWorldByType("White", 0.0f);
             SetStrobeRate(8f, 0.0f);
         }
-        else if(developmentMode.developmentPlayground)
-        {
-            //SetColorWorldByType("Red", 0.0f);
-        }else
+        else if(developmentMode.startAtStart)
         {
             SetColorWorldByType("Dark", 0.0f);
         }

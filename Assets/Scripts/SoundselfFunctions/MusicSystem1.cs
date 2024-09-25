@@ -68,7 +68,7 @@ public class MusicSystem1 : MonoBehaviour
     
     //public int holdFundamentalNote = -1; //when -1, do not hold the fundamental note.
     //private int holdFundamentalNoteCompare;
-    public bool lockFundamental = false;
+    private bool lockFundamental = false;
     private bool thisTonesImpactPlayed = false;
     
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
@@ -88,6 +88,19 @@ public class MusicSystem1 : MonoBehaviour
 
     void Start()
     {
+        if(developmentMode.startAtStart || developmentMode.startInTutorial) //NORMAL START
+        {
+            PlaygroundMode(false);
+            SetSilentVolume(50f, 0f);
+        }
+        else if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
+        {
+            PlaygroundMode(true, 0f);
+        }
+        else if (developmentMode.startInTutorial)
+        {
+            PlaygroundMode(false);
+        }
         
         if(userObject != null)
         {
@@ -361,19 +374,6 @@ public class MusicSystem1 : MonoBehaviour
         if(!interactive)
         {
             SetMusicModeTo("InteractiveMusicSystem");
-            if(developmentMode.developmentPlayground)
-            {
-                //instant on for development
-                //silentrtpcvolume.SetGlobalValue(80.0f);
-                //toningrtpcvolume.SetGlobalValue(80.0f);
-                //SetSilentVolume(80.0f);
-            }
-            else
-            {
-                Debug.Log("MUSIC: InteractiveMusicSystemFade starting");
-                //SetSilentVolume(80.0f, 54.0f);
-                //StartCoroutine(InteractiveMusicSystemFade());
-            }
 
             interactive = true;
             AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
@@ -458,35 +458,42 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    public Action Action_ChangeFundamental(int scaleNoteKey)
+    private Action Action_ChangeFundamental(int scaleNoteKey)
     {
         return () => ChangeFundamental(scaleNoteKey);
     }
 
-    public void ChangeFundamental(int newFundamental)
+    private void ChangeFundamental(int newFundamental)
     {
-          
-        fundamentalNote = newFundamental;
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote), gameObject);
-
-        if(debugAllowLogs)
+        if(!lockFundamental)
         {
-            Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
-        }
+            fundamentalNote = newFundamental;
+            AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote), gameObject);
 
-        ResetFundamentalTimers();
+            if(debugAllowLogs)
+            {
+                Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
+            }
+
+            ResetFundamentalTimers();
+        }
+        else
+        {
+            Debug.LogWarning("MUSIC: Tried to change the fundamental, but it was locked. This shouldn't happen, and probably indicates a logic flaw in the code.");
+        }
     }
 
     
     public void LockToC(bool doLock = true)
     {
-        if (doLock)
+        if (doLock && !lockFundamental)
         {
+            director.ClearQueueOfType("fundamentalChange");
             ChangeFundamental(ConvertNoteToInt("C"));
             lockFundamental = true;
             Debug.Log("MUSIC: Fundamental Locked to C");
         }
-        else
+        else if (!doLock && lockFundamental)
         {
             lockFundamental = false;
             //Queue the fundamental change for whichever note has the highest ChangeFundamentalTimer, provided that it is higher than _queueFundamentalChangeThreshold
@@ -508,8 +515,13 @@ public class MusicSystem1 : MonoBehaviour
                 ResetFundamentalTimers();
                 Debug.Log("MUSIC: New Fundamental Queued on Unlock: " + ConvertIntToNote(newFundamental));
             }
-            
-
+        }
+        else if (doLock == lockFundamental)
+        {
+            if(doLock)
+            Debug.Log("MUSIC: Tried to lock fundamental, but it was already locked");
+            else
+            Debug.Log("MUSIC: Tried to unlock fundamental, but it was already unlocked");
         }
     }
      
@@ -808,7 +820,29 @@ public class MusicSystem1 : MonoBehaviour
         //TONING_Volume is set in ImitoneVoiceInterpreter, and is dynamic with player volume.
     }
 
-
+    
+    //====================================================================================================
+    //PLAYGROUND
+    //====================================================================================================
+    public void PlaygroundMode(bool on, float _transitionSecs = 0f)
+    {
+        if(on) //used to trigger playground mode
+        {
+            Debug.Log("Sequencer: PLAYGROUND ON");
+            InteractiveMusicInitializations();
+            SetSilentVolume(80f, _transitionSecs);
+            LockToC(false);
+            imitoneVoiceInterpreter.gameOn = true;
+            director.disable = false;
+        }
+        else
+        {
+            Debug.Log("Sequencer: PLAYGROUND OFF");
+            LockToC(true);
+            imitoneVoiceInterpreter.gameOn = false;
+            director.disable = true;
+        }
+    }
     
     // ===== REWARD THUMPS =====
     //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0 due to inerpolation rules)

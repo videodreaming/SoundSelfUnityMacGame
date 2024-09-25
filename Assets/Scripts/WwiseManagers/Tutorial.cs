@@ -66,6 +66,8 @@ public class Tutorial : MonoBehaviour
             active = true;
             testVocalizationType = "Hum";
             musicSystem1.SetSilentVolume(50f, 20f);
+            musicSystem1.LockToC(true);
+            wwiseVOManager.InitializeLights(); //this is probably already initialized, just making sure.
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
         }
     }
@@ -100,6 +102,7 @@ public class Tutorial : MonoBehaviour
                 {
                     Debug.Log("WWise_VO Tutorial: Cue Change to Advanced");
                     testVocalizationType = "Advanced";
+                    musicSystem1.LockToC(false);
                 } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") 
                 {
                     Debug.Log("Wwise_Tutorial_Break_All_Tests");
@@ -178,6 +181,8 @@ public class Tutorial : MonoBehaviour
         {
             Debug.Log("Tutorial: Provide Correction, playing guidance...");
         }
+        
+        musicSystem1.LockToC(true);
 
         PlayCorrectionGuidance(); 
         //Wait one second, to give room for the cue to be triggered.
@@ -223,6 +228,10 @@ public class Tutorial : MonoBehaviour
         if(debugAllowLogs)
         {
             Debug.Log("Tutorial: Play correction confirmation vo");
+        }
+        if(testVocalizationType == "Advanced")
+        {
+            musicSystem1.LockToC(false);
         }
         AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
@@ -290,6 +299,7 @@ public class Tutorial : MonoBehaviour
         Debug.Log("TUTORIAL: END");
         StopCoroutine(testCoroutine);
         StopCoroutine(correctionCoroutine);
+        musicSystem1.PlaygroundMode(true, 40f);
         active = false;
     }
 }

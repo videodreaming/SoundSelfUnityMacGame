@@ -30,6 +30,7 @@ public class WwiseVOManager : MonoBehaviour
     private bool pause = true;
     public bool firstTimeUser = true;
     public bool layingDown = true;
+    private bool lightsInitialized = false;
     public CSVWriter csvWriter;
     
 
@@ -37,27 +38,13 @@ public class WwiseVOManager : MonoBehaviour
 
     void Start()
     {
-        //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS
+        //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS AND MUSICSYSTEM1.CS
         AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
         AkSoundEngine.SetSwitch("VO_ThematicContent","Peace", gameObject);
         assignVOs();
         
-        if(developmentMode.developmentPlayground)
+        if(developmentMode.startAtStart) //NORMAL START
         {
-            musicSystem1.InteractiveMusicInitializations();
-            musicSystem1.SetSilentVolume(80f, 0f);
-            musicSystem1.LockToC(false);
-            imitoneVoiceIntepreter.gameOn = true;
-            director.disable = false;
-            InitializeLights();
-        }
-        if(!developmentMode.developmentPlayground)
-        {
-            
-            musicSystem1.SetSilentVolume(50f, 0f);
-            musicSystem1.LockToC(true);
-            imitoneVoiceIntepreter.gameOn = false;
-            director.disable = true;
             if(firstTimeUser)
             {
                 //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
@@ -66,6 +53,15 @@ public class WwiseVOManager : MonoBehaviour
             } else {
                 //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
             }
+        }
+        else if (developmentMode.startInTutorial)
+        {
+            tutorial.StartTutorial();
+            InitializeLights();
+        }
+        else if(developmentMode.startInPlayground)
+        {
+            InitializeLights();
         }
         //NOTE ABOUT WWISE:
         //THE GAMEOBJECT POINTS TO *THIS* GAMEOBJECT. SO WE CAN'T START
@@ -206,11 +202,15 @@ public class WwiseVOManager : MonoBehaviour
         musicSystem1.StopWwiseToning();
     }
 
-    private void InitializeLights()
+    public void InitializeLights()
     {
-        Debug.Log("WWise_VO: InitializeLights");
-        lightControl.SetPreferredColor("Red");
-        lightControl.NextPreferredColorWorld(5.0f);
+        if(!lightsInitialized)
+        {
+            Debug.Log("WWise_VO: InitializeLights");
+            lightControl.SetPreferredColor("Red");
+            lightControl.NextPreferredColorWorld(5.0f);
+            lightsInitialized = true;
+        }
     }
     
     private float GetRTPCValue(RTPC rtpc)

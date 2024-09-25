@@ -33,10 +33,10 @@ public class Sequencer : MonoBehaviour
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
     private bool musicProgressionFlag = false;
 
-    private float interactiveMusicExperienceTotalTime;
+    //private float interactiveMusicExperienceTotalTime;
     private float WakeUpCounter;
     private bool wakeUpEndSoonTriggered = false; // Flag to control the event triggering
-    private float soundWorldChangeTime;
+    //private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
     //private bool finalStagePreLogicExecuted = false; 
     private bool flagTriggerEnd1 = false;
@@ -60,11 +60,25 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
-        //SOME IMPORTANT STATUP BEHAVIORS ARE IN WWISEVOMANAGER.CS
+        //SOME IMPORTANT STATUP BEHAVIORS ARE IN WWISEVOMANAGER.CS AND MUSICSYSTEM1.CS
 
-        WakeUpCounter = 2280.0f;
-        interactiveMusicExperienceTotalTime = 1245.0f;
-        soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
+        if(developmentMode.startAtStart || developmentMode.startInTutorial || developmentMode.startInPlayground)
+        {
+            WakeUpCounter = 2280.0f;
+        }
+        else if (developmentMode.startRightBeforeSavasana)
+        {
+            WakeUpCounter = 190f;
+        }
+        else if (developmentMode.startInSavasana)
+        {
+            WakeUpCounter = 1f;
+            musicSystem1.SetMusicModeTo("Environment");
+            lightControl.SetPreferredColor("Dark");
+            lightControl.NextPreferredColorWorld(18f);
+        }
+        //interactiveMusicExperienceTotalTime = 1245.0f;
+        //soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
         //finalStagePreLogicTime = 15f; 
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
@@ -130,7 +144,7 @@ public class Sequencer : MonoBehaviour
         }
 
         //in playground mode, when I press the M button, cycle to the next music world (Gentle, Shadow, Shruti, Sonoflore)
-        if(developmentMode.developmentPlayground)
+        if(developmentMode.startInPlayground)
         {
             if(Input.GetKeyDown(KeyCode.M))
             {
@@ -158,21 +172,25 @@ public class Sequencer : MonoBehaviour
         }
 
         //End Behaviors
-        if(WakeUpCounter <= 180f && !flagTriggerEnd1)
+        if(!developmentMode.startInSavasana)
         {
-            CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
-            flagTriggerEnd1 = true;
-        }
+            if(WakeUpCounter <= 180f && !flagTriggerEnd1)
+            {
+                CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
+                flagTriggerEnd1 = true;
+            }
 
-        if(WakeUpCounter <= 60f && !flagTriggerEnd2)
-        {
-            StartCoroutine(LastMinute());
-            flagTriggerEnd2 = true;
+            if(WakeUpCounter <= 60f && !flagTriggerEnd2)
+            {
+                StartCoroutine(LastMinute());
+                flagTriggerEnd2 = true;
+            }
         }
         
         if( WakeUpCounter <= 0.0f && !wakeUpEndSoonTriggered)
         {
             AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
+            //wwiseVOManager.PassBackToVOManager() //REEF- is it correct above, or should it be using this?
             WakeUpCounter = -1.0f;
             wakeUpEndSoonTriggered = true;
         }
@@ -197,17 +215,15 @@ public class Sequencer : MonoBehaviour
         }
 
         Debug.Log("Sequencer Last Minute: Tone Detected. Starting Final Behaviors.");
-        imitoneVoiceInterpreter.gameOn = false;
-        musicSystem1.LockToC(true);
         director.ActivateQueue(15f);
-        director.disable = true;
+        musicSystem1.PlaygroundMode(false);
         yield return null;
 
         while(WakeUpCounter > 15f)
         {
             yield return null;
         }
-
+        //THINGS UNDER HERE SHOULD ALSO BE INITIALIZED IN START, IF WE ARE IN STARTINSAVASANA
         musicSystem1.SetMusicModeTo("Environment");
         Debug.Log("Sequencer Last Minute: Starting Light Fade-Out.");
         lightControl.SetPreferredColor("Dark");
@@ -265,11 +281,12 @@ public class Sequencer : MonoBehaviour
        
         Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
 
-        if(developmentMode.developmentPlayground)
+        if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
         {
             lightControl.SetColorWorldByType("Red", 0.0f);
         }
 
+        //WAIT UNTIL WE CHANGE TO A REAL COLOR TYPE, WHICH USUALLY HAPPENS ON THE FIRST HUM, IN WWISEVOMANAGER.
         while((lightControl.currentColorType == "Dark") || (lightControl.currentColorType == "BreathOnly"))
         {
             yield return null;
@@ -501,7 +518,7 @@ public class Sequencer : MonoBehaviour
         }
     }
 
-    IEnumerator AVS_Program_DynamicDrop_End() //TEST THIS
+    IEnumerator AVS_Program_DynamicDrop_End()
     {
         if(CoroutineDynamicDropStart != null)
         {
@@ -609,9 +626,5 @@ public class Sequencer : MonoBehaviour
         return () => director.PlayTransitionSound();
     }
 
-    //====================================================================================================
-    //PLEASE REFACTOR THIS INTO MUSICSYSTEM1
-    //====================================================================================================
-    
 
 }
