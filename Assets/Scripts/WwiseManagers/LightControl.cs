@@ -24,6 +24,7 @@ public class LightControl : MonoBehaviour
     private int cycleWhite = 0;
     private int cycleTest = 0;
     public float _fxWave = 0f;
+    public float _strobeRate {get; private set;}
     public float _strobePWM    = 0.0f;
     public float _strobe1Smoothing = 0.0f;
     public float _gammaBurstMode = 0.0f;
@@ -36,9 +37,9 @@ public class LightControl : MonoBehaviour
     //private float _debugValue4    = 0.0f;
     uint wave1ID;
     public uint rtpcID;
-    public float frequencyWave1Value;
     private Coroutine sawStrobeCoroutine;
     private Coroutine gammaCoroutine;
+    private Coroutine reportStrobeRateCoroutine;
     public Color toneWaveColor = new Color(0.0f, 0.0f, 0.0f);
     public Color breathWaveColor = new Color(0.0f, 0.0f, 0.0f);
     public int fxWaveKey = 0;
@@ -311,11 +312,16 @@ public class LightControl : MonoBehaviour
 
         int transitionTimeMS = (int)(transitionTimeSec * 1000);
         AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave1", _rate, gameObject, transitionTimeMS);
+        //Get RPTC Value of the StrobeRate and then use that as the strobe rate
+        //Start a coroutineSetStrobeRate that always reports what _rate is, and stores that into another variable from other scripts
+        //_currentStrobeRate
         if(transitionTimeMS == 0)
         {
             Debug.Log("Strobe Rate set to: " + _rate + " Hz immediately");
             if(!partOfCoroutine)
             AVSStrobeCommand = "Strobe Rate: " + _rate + " Hz immediately";
+            StopCoroutine(reportStrobeRateCoroutine);
+            _strobeRate = _rate;
         }
         else
         {
@@ -323,8 +329,23 @@ public class LightControl : MonoBehaviour
             if(!partOfCoroutine)
             AVSStrobeCommand = "Strobe Rate: " + _rate + " Hz over " + transitionTimeMS + " ms";
             //StartCoroutine(ReportStrobeTargetMet(_rate, transitionTimeSec));
+            StopCoroutine(reportStrobeRateCoroutine);
+            reportStrobeRateCoroutine = StartCoroutine(ReportStrobeRate(_rate, transitionTimeSec));
+        }        
+    }
+
+    private IEnumerator ReportStrobeRate(float _targetRate, float _transitionTimeSec)
+    {
+        float _t = _transitionTimeSec;
+        float _initialRate = _strobeRate;
+
+        while(_t > 0)
+        {
+            _t -= Mathf.Max(Time.deltaTime, 0f);
+            _strobeRate = Mathf.Lerp(_initialRate, _targetRate, _t / _transitionTimeSec);
+            yield return null;
         }
-        
+        _strobeRate = _targetRate;
     }
     
     //COLOR WORLD FUNCTIONS
