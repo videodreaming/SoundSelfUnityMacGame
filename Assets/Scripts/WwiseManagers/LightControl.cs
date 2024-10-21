@@ -8,7 +8,7 @@ using System;
 
 public class LightControl : MonoBehaviour
 {
-     public DevelopmentMode developmentMode;
+    public DevelopmentMode developmentMode;
     [SerializeField] AkDeviceDescriptionArray m_devices;
     private bool playReference = false;
     private bool playReferenceLastFrame = false;
@@ -35,6 +35,7 @@ public class LightControl : MonoBehaviour
     //private float _debugValue2    = 0.0f; //currently unused
     //private float _debugValue3    = 0.0f;
     //private float _debugValue4    = 0.0f;
+    public float _rate;
     uint wave1ID;
     public uint rtpcID;
     private Coroutine sawStrobeCoroutine;

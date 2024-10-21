@@ -38,6 +38,11 @@ public class canvasSwitcher : MonoBehaviour
             canvas2.enabled = false;
             canvas3.enabled = true;
         }
-
+        if(Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            canvas1.enabled = false;
+            canvas2.enabled = false;
+            canvas3.enabled = false;
+        }
     }
 }

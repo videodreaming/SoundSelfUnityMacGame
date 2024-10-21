@@ -54,7 +54,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float negativeActiveThreshold2 {get; private set;}  = 0.33f; //for toneActiveConfident
     public float _activeThreshold3 {get; private set;}  = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     public float _activeThreshold4 {get; private set;}  = 7.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
-    public bool exceptionFlag   = false;
+    public bool exceptionFlag = false;
 
     //TODO: using these vars
     public float ssVolume { get; private set; }     //WORK ON THIS ONE IN GAMEVALUES

@@ -88,6 +88,10 @@ public class InitializationManager : MonoBehaviour
         {
             Debug.Log("Attempting to load scene: " + GameMode);
             SceneManager.LoadScene("AdjunctiveSession");
+        } else if (GameMode == "Configuration")
+        {
+            Debug.Log("Attempting to load Configuration Mode");
+            //SceneManager.LoadScene("Configuration")
         }
     }
 

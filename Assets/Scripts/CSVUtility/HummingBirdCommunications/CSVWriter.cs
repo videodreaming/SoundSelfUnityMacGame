@@ -150,7 +150,6 @@ public class CSVWriter : MonoBehaviour
         {
             tw.WriteLine(combinedData);
         }
-
         combinedData = ""; // Clear the combined data after writing to CSV
     }
 }
