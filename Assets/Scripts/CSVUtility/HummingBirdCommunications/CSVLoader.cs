@@ -19,12 +19,12 @@ public class InitializationManager : MonoBehaviour
     [SerializeField] private string decryptedGameMode;
     [SerializeField] private string decryptedSubGameMode;
     
-    
+
     void Start()
     {
         #if UNITY_STANDALONE_OSX
-            string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
-            baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Hummingbird");
+            string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+            baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
             Debug.Log("Base sessions folder path: " + baseSessionsFolderPath);
         #elif UNITY_STANDALONE_WIN
             baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
@@ -39,6 +39,7 @@ public class InitializationManager : MonoBehaviour
 
         if (File.Exists(sessionsCsvPath))
         {
+            Debug.Log("GO");
             using (StreamReader reader = new StreamReader(sessionsCsvPath))
             {
                 string line;
@@ -67,7 +68,7 @@ public class InitializationManager : MonoBehaviour
         ReadSessionParams();
 
         // Load Preparation Scene if game mode is set to "preparation"
-        if (GameMode == "Preparation")
+        if (GameMode == "Preparation" || GameMode == "Skills Training")
         {
             Debug.Log("Attempting to load scene: " + GameMode);
             SceneManager.LoadScene("PreperationSession");
@@ -103,8 +104,9 @@ public class InitializationManager : MonoBehaviour
             if(File.Exists(sessionsParams))
             {
                 string[] data = File.ReadAllText(sessionsParams).Split(new string[] {",","\n"}, StringSplitOptions.None);
-                encryptedGameMode = data[0];
-                encryptedSubGameMode = data[1];
+                encryptedGameMode = data[0].Trim();
+                encryptedSubGameMode = data[1].Trim();
+                Debug.Log("encryptedSubGameMode = " + encryptedSubGameMode);
                 decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
                 decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
                 GameMode = decryptedGameMode;
