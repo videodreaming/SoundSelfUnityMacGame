@@ -692,7 +692,91 @@ public class AkRoom : AkTriggerHandler
 		}
 	}
 
-#region Obsolete
+	#region OutdoorsRoom
+
+	private static ulong INVALID_ROOM_GAMEOBJECT_ID = unchecked((ulong)(-4));
+	private static AkRoom.OutdoorsRoomParameters _currentOutdoorsRoomParameters = AkRoom.OutdoorsRoomParameters.Default;
+
+	static public AkRoom.OutdoorsRoomParameters currentOutdoorsRoomParameters { get { return _currentOutdoorsRoomParameters; } }
+
+	public struct OutdoorsRoomParameters
+	{
+		public OutdoorsRoomParameters(AK.Wwise.AuxBus in_reverbAuxBus, float in_reverbLevel, float in_transmissionLoss, float in_auxSendLevel, bool in_keepRegistered)
+		{
+			reverbAuxBus = in_reverbAuxBus;
+			reverbLevel = in_reverbLevel;
+			transmissionLoss = in_transmissionLoss;
+			auxSendLevel = in_auxSendLevel;
+			keepRegistered = in_keepRegistered;
+		}
+
+		public AK.Wwise.AuxBus reverbAuxBus;
+		public float reverbLevel;
+		public float transmissionLoss;
+		public float auxSendLevel;
+		public bool keepRegistered;
+
+		public static OutdoorsRoomParameters Default
+		{
+			get { return new OutdoorsRoomParameters(null, 1.0f, .0f, .0f, false); }
+		}
+	}
+
+	static public void SetOutdoorsRoomParameters(OutdoorsRoomParameters in_outdoorsRoomParameters)
+	{
+		_currentOutdoorsRoomParameters = in_outdoorsRoomParameters;
+
+		if (!AkSoundEngine.IsInitialized())
+		{
+			return;
+		}
+
+		AkRoomParams roomParams = new AkRoomParams();
+
+		uint shortID = AK.Wwise.AuxBus.InvalidId;
+		if (_currentOutdoorsRoomParameters.reverbAuxBus != null && _currentOutdoorsRoomParameters.reverbAuxBus.IsValid())
+		{
+			shortID = _currentOutdoorsRoomParameters.reverbAuxBus.Id;
+			if (shortID == AK.Wwise.AuxBus.InvalidId)
+			{
+				UnityEngine.Debug.Log("AkRoom.SetOutdoorsRoomParameters : AuxBus passed in parameters has an invalid ShortId.");
+			}
+		}
+		roomParams.ReverbAuxBus = shortID;
+
+		roomParams.ReverbLevel = _currentOutdoorsRoomParameters.reverbLevel;
+		roomParams.TransmissionLoss = _currentOutdoorsRoomParameters.transmissionLoss;
+		roomParams.RoomGameObj_AuxSendLevelToSelf = _currentOutdoorsRoomParameters.auxSendLevel;
+		roomParams.RoomGameObj_KeepRegistered = _currentOutdoorsRoomParameters.keepRegistered;
+		roomParams.RoomPriority = 1;
+
+		AkSoundEngine.SetRoom(AkRoom.INVALID_ROOM_ID, roomParams, AkSurfaceReflector.INVALID_GEOMETRY_ID, "Outdoors");
+	}
+
+	static public uint PostEventOutdoors(AK.Wwise.Event in_event)
+	{
+		if (!in_event.IsValid())
+			return AkSoundEngine.AK_INVALID_PLAYING_ID;
+
+		// before posting an event to the outdoors room, we need to make sure the room Game Object ID exists
+		// We need to set AkRoomParams.RoomGameObj_KeepRegistered to true
+		if (!_currentOutdoorsRoomParameters.keepRegistered)
+		{
+			_currentOutdoorsRoomParameters.keepRegistered = true;
+			AkRoom.SetOutdoorsRoomParameters(_currentOutdoorsRoomParameters);
+		}
+
+		return in_event.Post(AkRoom.INVALID_ROOM_GAMEOBJECT_ID);
+	}
+
+	static public void StopOutdoors()
+	{
+		AkSoundEngine.StopAll(AkRoom.INVALID_ROOM_GAMEOBJECT_ID);
+	}
+
+	#endregion
+
+	#region Obsolete
 	[System.Obsolete(AkSoundEngine.Deprecation_2021_1_0)]
 	public float wallOcclusion
 	{

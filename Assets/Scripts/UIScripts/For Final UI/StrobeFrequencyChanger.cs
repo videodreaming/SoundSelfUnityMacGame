@@ -49,6 +49,6 @@ public class ImageChanger : MonoBehaviour
         } else if (!imitoneVoiceIntepreter.toneActive)
         {
             experienceUIImage.sprite = experienceSprites [0];
-        }
+        } 
     }   
 }

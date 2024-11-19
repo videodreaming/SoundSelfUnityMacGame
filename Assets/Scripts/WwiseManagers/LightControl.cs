@@ -106,7 +106,7 @@ public class LightControl : MonoBehaviour
         }
         if(deviceId == 0)
         {
-            Debug.LogError("Device not found");
+            Debug.LogError("Devices not found");
             return;
         }
 
@@ -321,7 +321,7 @@ public class LightControl : MonoBehaviour
             Debug.Log("Strobe Rate set to: " + _rate + " Hz immediately");
             if(!partOfCoroutine)
             AVSStrobeCommand = "Strobe Rate: " + _rate + " Hz immediately";
-            StopCoroutine(reportStrobeRateCoroutine);
+            //StopCoroutine(reportStrobeRateCoroutine);
             _strobeRate = _rate;
         }
         else
@@ -330,7 +330,7 @@ public class LightControl : MonoBehaviour
             if(!partOfCoroutine)
             AVSStrobeCommand = "Strobe Rate: " + _rate + " Hz over " + transitionTimeMS + " ms";
             //StartCoroutine(ReportStrobeTargetMet(_rate, transitionTimeSec));
-            StopCoroutine(reportStrobeRateCoroutine);
+            //StopCoroutine(reportStrobeRateCoroutine);
             reportStrobeRateCoroutine = StartCoroutine(ReportStrobeRate(_rate, transitionTimeSec));
         }        
     }

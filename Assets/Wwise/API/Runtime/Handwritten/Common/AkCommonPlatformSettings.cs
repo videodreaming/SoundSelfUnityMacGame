@@ -292,7 +292,7 @@ public partial class AkCommonUserSettings
 			UnityEngine.Debug.Log("Cannot find Wwise plugin path");
 			return null;
 		}
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID || UNITY_OPENHARMONY
 		return null;
 #else
 		return System.IO.Path.Combine(UnityEngine.Application.dataPath, "Plugins" + System.IO.Path.DirectorySeparatorChar);

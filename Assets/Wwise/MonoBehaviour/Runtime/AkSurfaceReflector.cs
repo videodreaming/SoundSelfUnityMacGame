@@ -205,12 +205,26 @@ public class AkSurfaceReflector : UnityEngine.MonoBehaviour
 
 		for (var v = 0; v < vertices.Length; ++v)
 		{
+			var vertex = vertices[v];
+			if (UnityEngine.Mathf.Abs(vertex.x) < float.MaxValue * UnityEngine.Vector3.kEpsilon)
+			{
+				vertex.x = UnityEngine.Mathf.Round(vertex.x / UnityEngine.Vector3.kEpsilon) * UnityEngine.Vector3.kEpsilon;
+			}
+			if (UnityEngine.Mathf.Abs(vertex.y) < float.MaxValue * UnityEngine.Vector3.kEpsilon)
+			{
+				vertex.y = UnityEngine.Mathf.Round(vertex.y / UnityEngine.Vector3.kEpsilon) * UnityEngine.Vector3.kEpsilon;
+			}
+			if (UnityEngine.Mathf.Abs(vertex.z) < float.MaxValue * UnityEngine.Vector3.kEpsilon)
+			{
+				vertex.z = UnityEngine.Mathf.Round(vertex.z / UnityEngine.Vector3.kEpsilon) * UnityEngine.Vector3.kEpsilon;
+			}
+
 			int vertIdx = 0;
-			if (!vertDict.TryGetValue(vertices[v], out vertIdx))
+			if (!vertDict.TryGetValue(vertex, out vertIdx))
 			{
 				vertIdx = uniqueVerts.Count;
-				uniqueVerts.Add(vertices[v]);
-				vertDict.Add(vertices[v], vertIdx);
+				uniqueVerts.Add(vertex);
+				vertDict.Add(vertex, vertIdx);
 			}
 			vertRemap[v] = vertIdx;
 		}
@@ -401,7 +415,10 @@ public class AkSurfaceReflector : UnityEngine.MonoBehaviour
 #if UNITY_EDITOR
 		if (!UnityEditor.EditorApplication.isPlaying) return;
 #endif
-		AkSoundEngine.RemoveGeometry(GetID());
+		if (AkSoundEngine.RemoveGeometry(GetID()) == AKRESULT.AK_Success)
+		{
+			isGeometrySetInWwise = false;
+		}
 	}
 
 	/// <summary>
@@ -412,7 +429,10 @@ public class AkSurfaceReflector : UnityEngine.MonoBehaviour
 #if UNITY_EDITOR
 		if (!UnityEditor.EditorApplication.isPlaying) return;
 #endif
-		AkSoundEngine.RemoveGeometryInstance(GetID());
+		if (isGeometrySetInWwise)
+		{
+			AkSoundEngine.RemoveGeometryInstance(GetID());
+		}
 	}
 
 	private void Awake()
@@ -466,28 +486,31 @@ public class AkSurfaceReflector : UnityEngine.MonoBehaviour
 			return;
 		}
 #endif
-		// need to call geometry, even if it might have already been sent to wwise, in case something changed while the component was disabled.
-		SetGeometry();
 
 		// init update conditions
 		PreviousTransformState = GetTransformState();
 		PreviousGeometryState = GetGeometryState();
 		PreviousAssociatedRoomState = GetAssociatedRoomState();
 
-		// Only SetGeometryInstance directly if there is no associated room because the room manager will set the geometry instance of registered reflectors.
-		if (AssociatedRoom != null)
+		// need to call geometry, even if it might have already been sent to wwise, in case something changed while the component was disabled.
+		SetGeometry();
+		if (isGeometrySetInWwise)
 		{
-			AkRoomManager.RegisterReflector(this);
-		}
-		else
-		{
-			SetGeometryInstance();
-		}
+			// Only SetGeometryInstance directly if there is no associated room because the room manager will set the geometry instance of registered reflectors.
+			if (AssociatedRoom != null)
+			{
+				AkRoomManager.RegisterReflector(this);
+			}
+			else
+			{
+				SetGeometryInstance();
+			}
 
-		AkRoom roomComponent = gameObject.GetComponent<AkRoom>();
-		if (roomComponent != null && roomComponent.isActiveAndEnabled && !roomComponent.UsesGeometry(GetID()))
-		{
-			roomComponent.SetRoom(GetID());
+			AkRoom roomComponent = gameObject.GetComponent<AkRoom>();
+			if (roomComponent != null && roomComponent.isActiveAndEnabled && !roomComponent.UsesGeometry(GetID()))
+			{
+				roomComponent.SetRoom(GetID());
+			}
 		}
 	}
 
