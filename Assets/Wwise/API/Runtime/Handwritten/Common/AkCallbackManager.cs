@@ -380,18 +380,17 @@ public static class AkCallbackManager
 								AkMonitoringCallbackInfo.playingID, AkMonitoringCallbackInfo.gameObjID, AkMonitoringCallbackInfo.message);
 						}
 #if UNITY_EDITOR
-						else if (IsLoggingEnabled)
-						{
-							AkMonitoringCallbackInfo.setCPtr(pData);
+					else if (IsLoggingEnabled)
+					{
+						AkMonitoringCallbackInfo.setCPtr(pData);
+						var msg = "Wwise: " + AkMonitoringCallbackInfo.message;
+						ParseCallbackInfoMessage(ref msg);
+						if (AkMonitoringCallbackInfo.errorLevel == AkMonitorErrorLevel.ErrorLevel_Error && AkMonitoringCallbackInfo.errorCode != AkMonitorErrorCode.ErrorCode_VoiceStarving)
+							UnityEngine.Debug.LogError(msg);
+						else
+							UnityEngine.Debug.Log(msg);
+					}
 
-							var msg = "Wwise: " + AkMonitoringCallbackInfo.message;
-							ParseCallbackInfoMessage(ref msg);
-
-							if (AkMonitoringCallbackInfo.errorLevel == AkMonitorErrorLevel.ErrorLevel_Error)
-								UnityEngine.Debug.LogError(msg);
-							else
-								UnityEngine.Debug.Log(msg);
-						}
 #endif
 						break;
 
