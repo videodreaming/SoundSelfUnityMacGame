@@ -2366,6 +2366,16 @@
 												</Reference>
 											</ReferenceList>
 										</MusicPlaylistItem>
+										<MusicPlaylistItem Name="" ID="{86124B55-0267-4D99-A3BE-CFF005C55D31}" ShortID="965657242">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="vo_test20tone" ID="{3051AD17-46C2-4708-AF07-29F7094B64C5}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
 									</ChildrenList>
 								</MusicPlaylistItem>
 							</Custom>
