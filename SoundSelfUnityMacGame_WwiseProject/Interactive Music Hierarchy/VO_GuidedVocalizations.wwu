@@ -543,7 +543,7 @@
 						</MusicSegment>
 						<MusicSegment Name="vo_test04tone" ID="{A61562C8-F98C-45D0-9D21-7F188C4C50F8}" ShortID="1019108865">
 							<PropertyList>
-								<Property Name="EndPosition" Type="Real64" Value="13660.6666666667"/>
+								<Property Name="EndPosition" Type="Real64" Value="14552.4127372547"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -638,7 +638,7 @@
 											<MusicCue Name="Cue_BreathIn_Start" ID="{FFB56D5C-A585-48FE-88C6-0D7FD0E5E0BF}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="10057.3809195402"/>
+													<Property Name="TimeMs" Type="Real64" Value="11458.0067757846"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1432,6 +1432,16 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="9716.53433583958"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_ChangeVocalizationTypeFromAhhToOhh" ID="{DACBF16C-DB86-4578-88C0-E473A1D02DF6}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="12269.9491729323"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

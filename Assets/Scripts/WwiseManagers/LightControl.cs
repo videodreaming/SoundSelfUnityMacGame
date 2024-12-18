@@ -106,7 +106,7 @@ public class LightControl : MonoBehaviour
         }
         if(deviceId == 0)
         {
-            Debug.LogError("Devices not found");
+            Debug.Log("Devices not found");
             return;
         }
 

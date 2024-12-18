@@ -16,11 +16,11 @@ using imitone;
 public class GameValues : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
-    public AudioManager AudioManager;
     public Director director;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public RespirationTracker respirationTracker;
     public LightControl lightControl;
+    public Tutorial tutorial;
     private bool debugAllowChangeVerboseLogs = false;
     [Header("DampingValues")]
     private float responsiveness = 1.0f; //revisit when we have absorption
@@ -273,10 +273,7 @@ public class GameValues : MonoBehaviour
         else if (!chantChargeToneGuard)
         {
             chantChargeToneGuard = true;
-            if(AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAdvanced
-            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationAhh
-            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationOhh
-            ||AudioManager.currentState == AudioManager.AudioManagerState.GuidedVocalizationHum)
+            if(tutorial.inTutorial)
             {
                 _chantChargeDuration = 5.0f;
             }

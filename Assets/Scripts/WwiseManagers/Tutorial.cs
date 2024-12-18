@@ -14,13 +14,14 @@ public class Tutorial : MonoBehaviour
     public MusicSystem1 musicSystem1;
     public Director director;
     public bool active {get; private set;}  = false;
-    float testThreshold = 2.5f;
+    float testThreshold = 1.5f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;
     string testVocalizationType;
     string testVocalizationTypeLastFrame;
     private Coroutine testCoroutine;
     private Coroutine correctionCoroutine;
+    public bool inTutorial = false;
     
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,11 @@ public class Tutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        testSuccess = imitoneVoiceInterpreter.toneActiveBiasTrueTimer >= testThreshold;
+        if(imitoneVoiceInterpreter._tThisToneBiasTrue >= testThreshold)
+        {
+            testSuccess = true;
+            Debug.Log("Tutorial: Test Success");
+        }        
 
         if(testVocalizationType != testVocalizationTypeLastFrame)
         {
@@ -45,8 +50,8 @@ public class Tutorial : MonoBehaviour
             //NOTES FROM MEETING ON 9/9/2024
             //I THINK THESE ONES ARE DONE BUT NEED TO CONFIRM 
             //Use a cue from WWise to change testVocalizationType from "hum" to "ahh" to "ohh" to "advanced", at the very beginning of the line being spoken.
-            //- Whenever he is talking, the "mic off" cue should happen right at the start of his vo
-            //- We should then trigger the "mic on" cue near the end (but not AT) the end, when he says "breathe in" or whatever.
+            //- Whenever he is talking, the "mic off" cue should happen right at the start of his vo DONE
+            //- We should then trigger the "mic on" cue near the end (but not AT) the end, when he says "breathe in" or whatever. DONE
             //      - (The other cue pair that has the same Unity behavior will work as well, AS LONG AS WE ARE TRIGGERING GAMEON CORRECTLY)
             //- We need a cue at the beginning of each tutorial VO that tells us if it is Hum/Ahh/Ohh etc.
 
@@ -69,6 +74,7 @@ public class Tutorial : MonoBehaviour
             musicSystem1.LockToC(true);
             wwiseVOManager.InitializeLights(); //this is probably already initialized, just making sure.
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
+            inTutorial = true;
         }
     }
 
@@ -78,7 +84,8 @@ public class Tutorial : MonoBehaviour
             {
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
                 if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
-                {
+                { 
+                    
                     Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_Start");
                     imitoneVoiceInterpreter.gameOn = false;
                 } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
@@ -92,7 +99,6 @@ public class Tutorial : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromHmmToAhh")
                 {
                     Debug.Log("WWise_VO Tutorial: Cue Change to Ahh");
-                    //TO TEST!!!!!
                     testVocalizationType = "Ahh";
                 } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
                 {
@@ -106,6 +112,7 @@ public class Tutorial : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") 
                 {
                     Debug.Log("Wwise_Tutorial_Break_All_Tests");
+                    inTutorial = false;
                     EndTutorial();
                 } else if (musicSyncInfo.userCueName == "Cue_FreePlay")
                 {
@@ -118,11 +125,13 @@ public class Tutorial : MonoBehaviour
                     Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
                 }
             } 
-
     }
 
     private IEnumerator VoiceTestCoroutine()
     {
+        //I think that the logic of setting the testSuccess to false at the beginning of this coroutine is correct.
+        testSuccess = false;
+        Debug.Log("Tutorial: Voice Test Coroutine");
         //First, wait one second, to give room for the cue to be triggered.
         float _tWait = 0.0f;
 
@@ -131,7 +140,7 @@ public class Tutorial : MonoBehaviour
             Debug.Log("Tutorial: About to test...");
         }
 
-        while(_tWait < 1.0f)
+        while(_tWait < 3.0f)
         {
             _tWait += Time.deltaTime;
             yield return null;
@@ -177,6 +186,7 @@ public class Tutorial : MonoBehaviour
 
     private IEnumerator ProvideCorrection()
     {
+        testSuccess = false;
         if(debugAllowLogs)
         {
             Debug.Log("Tutorial: Provide Correction, playing guidance...");
@@ -276,13 +286,13 @@ public class Tutorial : MonoBehaviour
         switch(testVocalizationType)
         {
             case "Hum":
-                AkSoundEngine.PostEvent("Play_VO_testRepairHum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Hum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
                 break;
             case "Ahh":
-                AkSoundEngine.PostEvent("Play_VO_testRepairAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Ahh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
                 break;
             case "Ohh":
-                AkSoundEngine.PostEvent("Play_VO_testRepairOhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Ohh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
                 break;
             case "Advanced":
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);

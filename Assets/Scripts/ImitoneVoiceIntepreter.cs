@@ -43,7 +43,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public bool toneActiveConfidentFrame { get; private set; } = false;
     public int toneActiveConfidentCounter { get; private set; } = 0;
     public bool toneActiveBiasTrue { get; private set; } = false;   //combines toneActive & toneActiveConfident
-    public float toneActiveBiasTrueTimer { get; private set; } = 0f;
+    public float toneActiveBiasTrueTimer = 0f;
     public bool toneActiveBiasTrueFrame { get; private set; } = false;
     private bool toneActiveBiasTrueFrameFlag = false;
     public bool toneActiveVeryConfident { get; private set; } = false;
@@ -70,6 +70,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float _tThisRestRaw;
     public float _tThisRestConfident;
     private float _durLastTone;    
+    public bool _advanceToNextTutorialKey = false;
 
     //BREATH
     [SerializeField] private float _breathHoldTimeBeforeInhale;
@@ -95,11 +96,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     [SerializeField] public float _timbre = 0.0f;
     [SerializeField] public float _level; 
     private const int SAMPLE_SIZE = 1024;
-    private AudioSource _audioSource;
+    public AudioSource _audioSource;
+    [SerializeField] private AudioClip _audioClip;
+
     private string _selectedDevice; 
     private int _sampleRate;
     private readonly float _referenceAmplitude = 20.0f * Mathf.Pow(10.0f, -6.0f);
-    [SerializeField] private AudioClip _audioClip;
     [SerializeField] private float _pitchDifference = 3;
     
     private Dictionary<int, float> _breathVolumeContributions = new Dictionary<int, float>();
@@ -671,18 +673,30 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
                         Debug.Log("SFX: Play_Inhale_Long (" + currentInhaleDuration + ")");
+                        //Logging the Duration of the Inhale that just ended
+                        _durLastTone = currentInhaleDuration;
                     }
                     
                     else if(currentInhaleDuration > 3.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
                         Debug.Log("SFX: Play_Inhale_Medium(" + currentInhaleDuration + ")");
+                        //Logging the Duration of the Inhale that just ended
+                        _durLastTone = currentInhaleDuration;
                     }
                     else if(currentInhaleDuration >= 1.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
                         Debug.Log("SFX: Play_Inhale_Short (" + currentInhaleDuration + ")");
+                        //Logging the Duration of the Inhale that just ended
+                        _durLastTone = currentInhaleDuration;
                     }
+                }
+                //if the duration of the just finished tone is greater than 1.5 seconds, the tutorial can advance to the next segment. 
+                //But the Tutorial will only check for this TutorialKey after a slight delay after "Cue_VO_GuidedVocalization_End" is done.
+                if(_durLastTone >= 1.5f || currentInhaleDuration >= 1.5f)
+                {
+                    _advanceToNextTutorialKey = true;
                 }
             }
 

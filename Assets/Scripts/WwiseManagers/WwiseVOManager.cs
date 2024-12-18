@@ -93,10 +93,6 @@ public class WwiseVOManager : MonoBehaviour
         }
     }
     
-    //public void handleTutorialMeditation(string tutorialToPlay) //THIS ISN'T CURRENTLY USED
-    //{
-    //    AkSoundEngine.PostEvent(tutorialToPlay, gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-    //}
 
     public void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {

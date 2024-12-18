@@ -14,7 +14,10 @@ public class canvasSwitcher : MonoBehaviour
     {
         canvas1 = GameObject.Find("Canvas1").GetComponent<Canvas>();
         canvas2 = GameObject.Find("Canvas2").GetComponent<Canvas>();
+        canvas3 = GameObject.Find("Canvas3").GetComponent<Canvas>();
+        canvas1.enabled = false;
         canvas2.enabled = false;
+        canvas3.enabled = false;
     }
 
     // Update is called once per frame
