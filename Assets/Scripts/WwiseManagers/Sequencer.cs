@@ -8,6 +8,7 @@ public class Sequencer : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
+    public recordedAudioPlaybackTest recordedAudioPlaybackTest;
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
@@ -203,6 +204,8 @@ public class Sequencer : MonoBehaviour
     {
         Debug.Log("Sequencer Last Minute: Starting Last Minute Behaviors.");
         tutorial.EndTutorial();
+        recordedAudioPlaybackTest.SetRecordMode(false);
+        recordedAudioPlaybackTest.SetPlaybackMode(false);
 
         //wait for the first new tone to start, or to pass the 30s threshold...
         while(WakeUpCounter > 30f || imitoneVoiceInterpreter.toneActiveConfident)

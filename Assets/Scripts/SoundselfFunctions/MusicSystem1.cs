@@ -830,21 +830,9 @@ public class MusicSystem1 : MonoBehaviour
         if(on) //used to trigger playground mode
         {
             //Start recording the user's voice here AND we should also playback the user's voice at the current fundamental should it be populated in the scripts.ss
-            //PSEUDOCODE:
-            RecordedAudioPlaybackTest.SetRecordReplayMode(true);
             //RECORDING SYSTEM:
-        
-            RecordedAuduioPlaybackTest.StartRecording();
-
-            //When recordMode is true, we are basically always recording (or looking for an opportunity to record) the user's voice. 
-            //Some of those recordings are viable, some are thrown away mid-recording (i.e. if we change fundamental mid-recording, or if there is not enough player input)
-            //At the end of the first recording for a note, we turn the replay system on for that note.
-            //When a recording ends, we start a new one, as soon as the next tone starts.
-            //REPLAY SYSTEM
-
-            //Replay system starts "off" per note.
-            //If there is a viable recording in the current fundamental's index, then we play it back.
-            //When the player stops, we look at the current viable recordings in this fundamental. We throw away all of the recordings in this note bther than the newest, and start playing the remaining one.
+            RecordedAudioPlaybackTest.SetRecordMode(true);
+            recordedAudioPlaybackTest.SetPlaybackMode(true);
         
             //NORMAL CODE:
             Debug.Log("Sequencer: PLAYGROUND ON");

@@ -10,6 +10,7 @@ public class Tutorial : MonoBehaviour
 {
     private bool debugAllowLogs = true;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
+    public recordedAudioPlaybackTest recordedAudioPlaybackTest;
     public WwiseVOManager wwiseVOManager;
     public MusicSystem1 musicSystem1;
     public Director director;
@@ -100,6 +101,7 @@ public class Tutorial : MonoBehaviour
                 {
                     Debug.Log("WWise_VO Tutorial: Cue Change to Ahh");
                     testVocalizationType = "Ahh";
+                    recordedAudioPlaybackTest.SetRecordMode(true);
                 } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
                 {
                     Debug.Log("WWise_VO Tutorial: Cue Change to Ohh");
