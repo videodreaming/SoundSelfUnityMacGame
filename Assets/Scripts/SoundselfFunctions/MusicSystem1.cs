@@ -17,7 +17,7 @@ public class MusicSystem1 : MonoBehaviour
     public User userObject;
     public LightControl lightControl;
     public AudioSource userAudioSource;
-    public recordedAudioPlaybackTest recordedAudioPlaybackTest;
+    public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private Dictionary<int, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, bool, float)>();
     // Tracks information for each musical note:

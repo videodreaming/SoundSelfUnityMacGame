@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecodedAudioPlaybackTest : MonoBehaviour
+public class RecordedAudioPlaybackTest : MonoBehaviour
 {
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Assign your imitoneVoiceInterpreter in the Inspector
     public DevelopmentMode developmentMode; // Assign your DevelopmentMode in the Inspector
