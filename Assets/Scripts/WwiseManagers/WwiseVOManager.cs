@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 
 public class WwiseVOManager : MonoBehaviour
 {
-    public AudioManager audioManager;
+    public CSVLoader csvLoader;
     public Sequencer sequencer;
     public DevelopmentMode  developmentMode;
     public Director director;
@@ -21,7 +21,7 @@ public class WwiseVOManager : MonoBehaviour
     public Tutorial tutorial;
     //public MusicSystem1 musicSystem1;
     //public RTPC silentFundamentalrtpcvolume;
-    //public RTPC toningFundamentalrtpcvolume;
+    //public RTPC toningFundamentalrtpcvolume;s
     //public RTPC silentHarmonyrtpcvolume;
     //public RTPC toningHarmonyrtpcvolume;
     //public float fadeDuration = 54.0f;
@@ -32,27 +32,55 @@ public class WwiseVOManager : MonoBehaviour
     public bool layingDown = true;
     private bool lightsInitialized = false;
     public CSVWriter csvWriter;
-    
+    public float totalTimeOfPostUnguidedVocalizationContant;
+    public float timeInUnguidedVocalization;
+    private int currentSegment = 0; //As Sonoflore
 
     //private bool silentPlaying = false;
 
-    void Start()
+    void Awake()
     {
-        //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS AND MUSICSYSTEM1.CS
-        AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
-        AkSoundEngine.SetSwitch("VO_ThematicContent","Peace", gameObject);
-        assignVOs();
-        
-        if(developmentMode.startAtStart) //NORMAL START
+        if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
         {
+            if (CSVLoader.subGameMode == "Peace" || CSVLoader.subGameMode == "Mindfulness and Joy")
+            {
+                totalTimeOfPostUnguidedVocalizationContant = 889.0f;
+                AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
+            } 
+            else if (CSVLoader.subGameMode == "Narrative" || CSVLoader.subGameMode == "Psychological Flexibility")
+            {
+                totalTimeOfPostUnguidedVocalizationContant = 742.0f;
+                AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);
+            } 
+            else if (CSVLoader.subGameMode == "Surrender" || CSVLoader.subGameMode == "Psychedelic Prepeation")
+            {
+                totalTimeOfPostUnguidedVocalizationContant = 775.0f;
+                AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
+            } 
+
             if(firstTimeUser)
             {
                 //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
                 AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
                 AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
             } else {
-                //AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+                AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+                AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
             }
+        } else if (CSVLoader.gameMode == "Integration")
+        {
+            AkSoundEngine.PostEvent("Play_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
+        }
+        //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS AND MUSICSYSTEM1.CS
+        
+        assignVOs();
+        
+        if(developmentMode.startAtStart) //NORMAL START
+        {
+
         }
         else if (developmentMode.startInTutorial)
         {
@@ -229,48 +257,6 @@ public class WwiseVOManager : MonoBehaviour
         {
             AkSoundEngine.SetSwitch("VO_Posture","Relax",gameObject);
         }
-
-
-        if(firstTimeUser == true)
-        {
-           // AkSoundEngine.SetSwitch("VO_Opening", "openingLong", gameObject);
-            //AkSoundEngine.SetSwitch("VO_Somatic", "long", gameObject);
-        } else if (firstTimeUser == false)
-        {
-           // AkSoundEngine.SetSwitch("VO_Opening", "openingShort", gameObject);
-           // AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
-        } else 
-        {
-            //AkSoundEngine.SetSwitch("VO_Opening", "openingPassive", gameObject);
-            //AkSoundEngine.SetSwitch("VO_Somatic", "short", gameObject);
-        }
-
-        if(csvWriter.SubGameMode == "DieWell")
-        {
-            AkSoundEngine.SetSwitch("VO_ThematicContent", "DieWell", gameObject);
-        } else if (csvWriter.SubGameMode == "Narrative")
-        {
-           AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
-        } else if (csvWriter.SubGameMode == "Peace")
-        {
-            AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);
-        } else if (csvWriter.SubGameMode == "Surrender")
-        {
-            AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
-        }
-    
-        if(csvWriter.GameMode == "Preperation")
-        {
-
-        } 
-        if(csvWriter.GameMode == "Integration")
-        {
-
-        }
-        if(csvWriter.GameMode == "Adjunctive")
-        {
-
-        }
     }
     public void PassBackToVOManager()
     {
@@ -278,6 +264,44 @@ public class WwiseVOManager : MonoBehaviour
        
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject);
     }
+    public void calculateRemainingTime(float currentTime)
+    {
+        timeInUnguidedVocalization = 2700.0f - totalTimeOfPostUnguidedVocalizationContant - currentTime;   
+        float timeInEachSegment = timeInUnguidedVocalization / 4;
+        StartCoroutine(CountdownToNextSegment(timeInEachSegment));
+    }
+
+    IEnumerator CountdownToNextSegment(float timeInEachSegment)
+    {
+        yield return new WaitForSeconds(timeInEachSegment);
+
+        if (currentStage == 0)
+        {
+            AkSoundEngine.SetState("SoundWorldMode", "Gentle");
+            currentStage = 1;
+        }
+        else if (currentStage == 1)
+        {
+            AkSoundEngine.SetState("SoundWorldMode", "Shadow");
+            currentStage = 2;
+        }
+        else if (currentStage == 2)
+        {
+            AkSoundEngine.SetState("SoundWorldMode", "Shruti");
+            currentStage = 3;
+        }
+    }
+
+    // Restart manually
+    public void RestartCountdown(float timeInEachSegment)
+    {
+        if (countdownCoroutine != null)
+        {
+            StopCoroutine(countdownCoroutine);
+        }
+        countdownCoroutine = StartCoroutine(CountdownToNextSegment(timeInEachSegment));
+    }
+
 
     public void breathInBehaviour()
     {
@@ -287,18 +311,15 @@ public class WwiseVOManager : MonoBehaviour
     IEnumerator StartSighElicitationTimer()
         {
             yield return new WaitForSeconds(6.0f); // Wait for the audio event to finish playing
-            audioManager.OnAudioFinished();
             pause = false;
         }
     IEnumerator StartQueryElicitationTimer()
         {
             pause = true;
-            audioManager.Query1CheckStarted = true;
             yield return new WaitForSeconds(30.0f); // Wait for the audio event to finish playing
-            audioManager.OnAudioFinished();
             pause = false;
         }
                     
-        
+    
 }
 

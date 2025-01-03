@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement; // For scene loading
 using System.IO;
 using System;
 
-public class InitializationManager : MonoBehaviour
+public class CSVLoader : MonoBehaviour
 {
-    public static string GameMode;
-    public static string SubGameMode;
+    public static string gameMode;
+    public static string subGameMode;
     public static int currentSessionNumber = 0;
     private string baseSessionsFolderPath = "";
     public string encryptedReadyCheck;
@@ -20,12 +20,12 @@ public class InitializationManager : MonoBehaviour
     [SerializeField] private string decryptedSubGameMode;
     
 
-    void Start()
+    void Awake()
     {
         #if UNITY_STANDALONE_OSX
             string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
             baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
-            Debug.Log("Base sessions folder path: " + baseSessionsFolderPath);
+            Debug.Log("Base sessions folder path for Loader: " + baseSessionsFolderPath);
         #elif UNITY_STANDALONE_WIN
             baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
         #else
@@ -39,7 +39,6 @@ public class InitializationManager : MonoBehaviour
 
         if (File.Exists(sessionsCsvPath))
         {
-            Debug.Log("GO");
             using (StreamReader reader = new StreamReader(sessionsCsvPath))
             {
                 string line;
@@ -64,36 +63,7 @@ public class InitializationManager : MonoBehaviour
                 }
             }
         }
-
         ReadSessionParams();
-
-        // Load Preparation Scene if game mode is set to "preparation"
-        if (GameMode == "Preparation" || GameMode == "Skills Training")
-        {
-            Debug.Log("Attempting to load scene: " + GameMode);
-            SceneManager.LoadScene("PreperationSession");
-        }
-        else if (GameMode == "Integration")
-        {
-            Debug.Log("Attempting to load scene: " + GameMode);
-            SceneManager.LoadScene("IntegrationSession");
-        } else if (GameMode == "Passive")
-        {
-            Debug.Log("Attempting to load scene: " + GameMode);
-            SceneManager.LoadScene("PassiveSession");
-        } else if (GameMode == "Wisdom")
-        {
-            Debug.Log("Attempting to load scene: " + GameMode);
-            SceneManager.LoadScene("WisdomSession");
-        } else if (GameMode == "Adjunctive")
-        {
-            Debug.Log("Attempting to load scene: " + GameMode);
-            SceneManager.LoadScene("AdjunctiveSession");
-        } else if (GameMode == "Configuration")
-        {
-            Debug.Log("Attempting to load Configuration Mode");
-            //SceneManager.LoadScene("Configuration")
-        }
     }
 
     void ReadSessionParams()
@@ -106,11 +76,10 @@ public class InitializationManager : MonoBehaviour
                 string[] data = File.ReadAllText(sessionsParams).Split(new string[] {",","\n"}, StringSplitOptions.None);
                 encryptedGameMode = data[0].Trim();
                 encryptedSubGameMode = data[1].Trim();
-                Debug.Log("encryptedSubGameMode = " + encryptedSubGameMode);
                 decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
                 decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
-                GameMode = decryptedGameMode;
-                SubGameMode = decryptedSubGameMode;
+                gameMode = decryptedGameMode;
+                subGameMode = decryptedSubGameMode;
             }
             else 
             {

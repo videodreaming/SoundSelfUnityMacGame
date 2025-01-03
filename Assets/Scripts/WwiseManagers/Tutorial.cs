@@ -10,7 +10,7 @@ public class Tutorial : MonoBehaviour
 {
     private bool debugAllowLogs = true;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    public recordedAudioPlaybackTest recordedAudioPlaybackTest;
+    public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public WwiseVOManager wwiseVOManager;
     public MusicSystem1 musicSystem1;
     public Director director;
@@ -23,6 +23,7 @@ public class Tutorial : MonoBehaviour
     private Coroutine testCoroutine;
     private Coroutine correctionCoroutine;
     public bool inTutorial = false;
+    public float totalTimeOfPostUnguidedVocalizationContant;
     
     // Start is called before the first frame update
     void Start()
@@ -311,7 +312,9 @@ public class Tutorial : MonoBehaviour
         Debug.Log("TUTORIAL: END");
         StopCoroutine(testCoroutine);
         StopCoroutine(correctionCoroutine);
+        wwiseVOManager.calculateRemainingTime(TimeTrackerScript.TotalElapsedTime);
         musicSystem1.PlaygroundMode(true, 40f);
         active = false;
     }
+
 }

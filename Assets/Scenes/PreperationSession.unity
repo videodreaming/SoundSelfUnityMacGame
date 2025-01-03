@@ -2314,11 +2314,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceInterpreter: {fileID: 740096625}
+  director: {fileID: 1829208165}
   developmentMode: {fileID: 538272586}
   musicSystem1: {fileID: 619104374}
-  ImitoneaudioSource: {fileID: 740096622}
-  audioClips: []
-  maxClips: 12
+  ThisObjectAudioSource: {fileID: 132454817}
+  respirationTracker: {fileID: 740096627}
+  maxNotes: 12
 --- !u!1 &136101445
 GameObject:
   m_ObjectHideFlags: 0
@@ -7058,7 +7059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71246112b53506c41b65735e259da458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
+  csvLoader: {fileID: 0}
   sequencer: {fileID: 1564575221}
   developmentMode: {fileID: 538272586}
   director: {fileID: 1829208165}
@@ -8023,7 +8024,8 @@ MonoBehaviour:
   gameValues: {fileID: 740096630}
   userObject: {fileID: 740096621}
   lightControl: {fileID: 437048159}
-  userAudioSource: {fileID: 0}
+  userAudioSource: {fileID: 132454817}
+  recordedAudioPlaybackTest: {fileID: 132454819}
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicNoteActivated: 0
   fundamentalNote: 0
@@ -8749,7 +8751,7 @@ GameObject:
   - component: {fileID: 662335748}
   - component: {fileID: 662335749}
   m_Layer: 0
-  m_Name: HummingBirdCommunicator
+  m_Name: CSVWriter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8785,8 +8787,7 @@ MonoBehaviour:
   currentSessionNumber: 0
   respirationTracker: {fileID: 740096627}
   gameManagement: {fileID: 1060646673}
-  GameMode: 
-  SubGameMode: 
+  csvLoader: {fileID: 695725736}
   encryptedstatus: 
   decryptedstatus: 
   CSVDevMode: 0
@@ -9137,6 +9138,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668810477}
   m_CullTransparentMesh: 1
+--- !u!1 &695725734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 695725735}
+  - component: {fileID: 695725736}
+  m_Layer: 0
+  m_Name: CSVLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &695725735
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695725734}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -57.15161, y: 505.29987, z: -32.983276}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1974369288}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &695725736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695725734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7973d1713d2f7411e9698ef3b54dc05a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  encryptedReadyCheck: 
+  decryptedReadyCheck: 
+  encryptedGameMode: 
+  encryptedSubGameMode: 
+  decryptedGameMode: 
+  decryptedSubGameMode: 
 --- !u!1 &724699067
 GameObject:
   m_ObjectHideFlags: 0
@@ -20421,6 +20472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
   imitoneVoiceInterpreter: {fileID: 740096625}
+  recordedAudioPlaybackTest: {fileID: 0}
   musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
@@ -21143,6 +21195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceInterpreter: {fileID: 740096625}
+  recordedAudioPlaybackTest: {fileID: 132454819}
   wwiseVOManager: {fileID: 486583134}
   musicSystem1: {fileID: 619104374}
   director: {fileID: 1829208165}
@@ -24933,6 +24986,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 662335748}
+  - {fileID: 695725735}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1985251118

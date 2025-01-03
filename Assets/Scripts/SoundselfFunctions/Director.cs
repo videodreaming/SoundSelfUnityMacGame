@@ -39,7 +39,7 @@ public class Director : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        QueueUpdate(); //TODO: put this in a separate script with director stuff
+        QueueUpdate(); 
 
         if(disable != disableLast)
         {

@@ -831,7 +831,7 @@ public class MusicSystem1 : MonoBehaviour
         {
             //Start recording the user's voice here AND we should also playback the user's voice at the current fundamental should it be populated in the scripts.ss
             //RECORDING SYSTEM:
-            RecordedAudioPlaybackTest.SetRecordMode(true);
+            recordedAudioPlaybackTest.SetRecordMode(true);
             recordedAudioPlaybackTest.SetPlaybackMode(true);
         
             //NORMAL CODE:
@@ -845,7 +845,7 @@ public class MusicSystem1 : MonoBehaviour
         else
         {
             //PSEUDOCODE:
-            RecordedAudioPlaybackTest.SetRecordReplayMode(false);
+            recordedAudioPlaybackTest.SetRecordReplayMode(false);
 
             //NORMAL CODE:
             Debug.Log("Sequencer: PLAYGROUND OFF");

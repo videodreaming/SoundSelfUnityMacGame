@@ -16,7 +16,7 @@ public class SubGameModeValue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        string decryptedReadyCheck = EncryptionHelper.Decrypt(csvWriter.SubGameMode);
+        string decryptedReadyCheck = EncryptionHelper.Decrypt(CSVWriter.subGameMode);
         tmpText.text = decryptedReadyCheck;
     }
 }

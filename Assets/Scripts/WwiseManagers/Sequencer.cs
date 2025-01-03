@@ -8,7 +8,7 @@ public class Sequencer : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    public recordedAudioPlaybackTest recordedAudioPlaybackTest;
+    public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
@@ -87,37 +87,8 @@ public class Sequencer : MonoBehaviour
         {
             CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         }
-
-        //Uncomment when CSV Writer is implemented
-        /*if(csvWriter.GameMode == "Preperation")
-        {
-            WakeupCounter = 2280.0f;
-            if(csvWriter.SubGameMode == "Peace")
-            {   
-                interactiveMusicExpereicneTotalTime = 1245.0f;
-                finalStagePreLogicTime = 15f; 
-            } else if (csvWriter.SubGameMode == "Narrative")
-            {
-                interactiveMusicExpereicneTotalTime = 1378.0f;
-            } else if (csvWriter.SubGameMode == "Surrender")
-            {   
-                interactiveMusicExpereicneTotalTime = 1254.0f;
-            }
-            soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
-        }*/
-        
-
-        //AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
-        //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly","A",gameObject);
-        //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pithces_HarmonyOnly","E",gameObject);
-        
-
-        //musicSystem1.fundamentalNote = 9; //using LockToC() from VOManager
         musicSystem1.SetMusicModeTo("InteractiveMusicSystem");
-        //AkSoundEngine.PostEvent("Play_SilentLoops3_Fundamentalonly", gameObject);
-        //AkSoundEngine.PostEvent("Play_SilentLoops3_Harmonyonly", gameObject);
-        //PlaySoundOnSpecificBus("Play_SilentLoops3_Fundamentalonly", "AVS System");
-        //PlaySoundOnSpecificBus("Play_SilentLoops3_Harmonyonly", "Master Audio Bus");
+
     }
    
     // Update is called once per frame

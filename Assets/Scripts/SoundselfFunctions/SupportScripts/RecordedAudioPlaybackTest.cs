@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class RecordedAudioPlaybackTest : MonoBehaviour
 {
+    [Header("Core References")]
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Assign your imitoneVoiceInterpreter in the Inspector
+    public Director director; // Assign your Director in the Inspector
     public DevelopmentMode developmentMode; // Assign your DevelopmentMode in the Inspector
     public MusicSystem1 musicSystem1; // Assign your MusicSystem1 in the Inspector
     public AudioSource ThisObjectAudioSource; // Assign your AudioSource in the Inspector 
+    public RespirationTracker respirationTracker; // Assign your RespirationTracker in the Inspector
+    private string deviceName; // Store the selected microphone device
 
-    public List<AudioClip> audioClips = new List<AudioClip>(12); // Preallocate space for 12 notes    private List<AudioClip> audioClips = new List<AudioClip>(); // List to store audio clips
-    public int maxClips = 12; 
+    
+    public int maxNotes = 12; 
     private float recordingDuration = 120f; // Duration of the recording in seconds, plus time for user to stop toning
     private bool recordMode = false;
     private bool playMode = false;
@@ -21,6 +25,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     // Change audioClips to a list of lists
     private List<List<AudioClip>> audioClips = new List<List<AudioClip>>(); 
     private int maxClipsPerNote = 3; // Maximum clips per note
+    private float _recordingDuration = 10f; // Duration of the recording in seconds
     
     private void Awake()
     {
@@ -57,8 +62,8 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     {
         if (Microphone.devices.Length > 0)
         {
-            string deviceName = Microphone.devices[0]; // Use the first microphone device
-            RecordingCoroutine();
+            deviceName = Microphone.devices[0]; // Use the first microphone device
+            StartCoroutine(RecordingCoroutine());
             Debug.Log("Recording: Recording Loop started...");
         }
         else
@@ -129,7 +134,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         //Step 2: Start Recording
         FadeRecordingUp();
         Debug.Log("Recording: Begin recording...");
-        ThisObjectAudioSource.clip = Microphone.Start(deviceName, false, 3600, 44100); // Record for up to 10 seconds OR this should be a dynamic number based on the length of the breath.
+        ThisObjectAudioSource.clip = Microphone.Start(deviceName, false, 600, 44100); // Record for up to 10 seconds OR this should be a dynamic number based on the length of the breath.
         float _t = 0.0f;
         //wait for the "duration" amount of seconds
         while (_t < _recordingDuration)
@@ -160,17 +165,18 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             yield return null;
         }
         StopRecording();
-        SaveRecording(); //ROBIN: I know this is technically incorrect, but you should get the idea here...
+        SaveRecording(ThisObjectAudioSource.clip, musicSystem1.ConvertIntToNote(musicSystem1.fundamentalNote));
         recordingLoopGuard = false;
-        RecordingCoroutine();
+        StartCoroutine(RecordingCoroutine());
     }
 
     private bool testForFailure ()
     {
-        bool testAbsorption = respirationTracker.absorption > 0.1f; //ROBIN: We want to only record if player is "absorbed"
+        bool testAbsorption = respirationTracker._absorption > 0.1f; //ROBIN: We want to only record if player is "absorbed"
         bool testRest = imitoneVoiceInterpreter._tThisRest <= 15f; //ROBIN: We want to only record if player is consistently toning
         bool testMode = recordMode; //ROBIN: We want to break recording if the recordMode turns off.
-        bool testFundamental = !readTheComment; //ROBIN: We need to test here if there is a fundamental change queued in the director, or happening now, because a fundamental change should "fail". 
+        bool testFundamental = director.queue.Count > 0; //REEF: We want to break recording if the fundamental changes.
+
 
         if(testAbsorption && testRest && testFundamental && testMode)
         {
@@ -181,11 +187,21 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             StopRecording();
             Debug.Log("Recording: failed test, stopping recording.");
             recordingLoopGuard = false;
-            RecordingCoroutine();
+            StartCoroutine(RecordingCoroutine());
             return true;
         }
     }
-
+    public void SetRecordReplayMode (bool localRecordReplayMode)
+    {
+        if (localRecordReplayMode)
+        {
+            FadeRecordingUp();
+        }
+        else
+        {
+            FadeRecordingDown();
+        }
+    }
     private void FadeRecordingUp() //NOT CODED YET, I'M NOT SURE HOW - Robin
     {
         Debug.Log("Recording: Fading audio up in the recording, so it doesn't hard-switch on...");

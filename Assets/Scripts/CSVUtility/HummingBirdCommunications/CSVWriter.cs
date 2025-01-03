@@ -6,23 +6,26 @@ using System;
 
 public class CSVWriter : MonoBehaviour
 {
+    public static string gameMode;
+    public static string subGameMode;
     public int currentSessionNumber;
     private string baseSessionsFolderPath = "";
     private string combinedData = "";
     private string session_resultsPath = "";
     public RespirationTracker respirationTracker;
     public GameManagement gameManagement;
-    public string GameMode;
-    public string SubGameMode;
+    public CSVLoader csvLoader;
     public string encryptedstatus = "";
     public string decryptedstatus = "";
     public bool CSVDevMode = false;
 
+
     void Start()
     {
         #if UNITY_STANDALONE_OSX
-            string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
-            baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Hummingbird");
+            string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+            baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
+            Debug.Log("Base sessions folder path for writer: " + baseSessionsFolderPath);
         #elif UNITY_STANDALONE_WIN
             baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
         #else
@@ -31,9 +34,9 @@ public class CSVWriter : MonoBehaviour
         #endif
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
-        currentSessionNumber = InitializationManager.currentSessionNumber; // Get session number from InitializationManager
-        GameMode = InitializationManager.GameMode;
-        SubGameMode = InitializationManager.SubGameMode;
+        currentSessionNumber = CSVLoader.currentSessionNumber; // Get session number from InitializationManager
+        gameMode = CSVLoader.gameMode;
+        subGameMode = CSVLoader.subGameMode;
     }
     
     void Update()
