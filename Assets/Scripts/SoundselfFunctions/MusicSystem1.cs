@@ -756,11 +756,7 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-   //THIS IS PROBABLY NOT USED ANY MORE IN THE ACTUAL GAME. LET'S KEEP IT COMMENTED.
-    public void ChangeSwitchState()
-    {
-        //AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup", currentSwitchState, gameObject);
-    }
+
 
 
     //REFACTOR THE BELOW INTO GLOBAL ENUMS AND METHODS

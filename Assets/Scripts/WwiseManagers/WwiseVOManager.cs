@@ -34,7 +34,8 @@ public class WwiseVOManager : MonoBehaviour
     public CSVWriter csvWriter;
     public float totalTimeOfPostUnguidedVocalizationContant;
     public float timeInUnguidedVocalization;
-    private int currentSegment = 0; //As Sonoflore
+    private Coroutine countdownCoroutine; // Reference to the coroutines
+    private int currentStage = 0; //As Sonoflore
 
     //private bool silentPlaying = false;
 
@@ -268,7 +269,7 @@ public class WwiseVOManager : MonoBehaviour
     {
         timeInUnguidedVocalization = 2700.0f - totalTimeOfPostUnguidedVocalizationContant - currentTime;   
         float timeInEachSegment = timeInUnguidedVocalization / 4;
-        StartCoroutine(CountdownToNextSegment(timeInEachSegment));
+        StartOrRestartCountdown(timeInEachSegment);
     }
 
     IEnumerator CountdownToNextSegment(float timeInEachSegment)
@@ -279,11 +280,13 @@ public class WwiseVOManager : MonoBehaviour
         {
             AkSoundEngine.SetState("SoundWorldMode", "Gentle");
             currentStage = 1;
+            
         }
         else if (currentStage == 1)
         {
             AkSoundEngine.SetState("SoundWorldMode", "Shadow");
             currentStage = 2;
+            
         }
         else if (currentStage == 2)
         {
@@ -293,7 +296,7 @@ public class WwiseVOManager : MonoBehaviour
     }
 
     // Restart manually
-    public void RestartCountdown(float timeInEachSegment)
+    public void StartOrRestartCountdown(float timeInEachSegment)
     {
         if (countdownCoroutine != null)
         {
