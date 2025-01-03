@@ -756,9 +756,6 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-
-
-
     //REFACTOR THE BELOW INTO GLOBAL ENUMS AND METHODS
     public enum NoteName
     {

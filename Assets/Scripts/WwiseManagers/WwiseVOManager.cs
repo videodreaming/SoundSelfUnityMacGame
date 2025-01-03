@@ -21,7 +21,7 @@ public class WwiseVOManager : MonoBehaviour
     public Tutorial tutorial;
     //public MusicSystem1 musicSystem1;
     //public RTPC silentFundamentalrtpcvolume;
-    //public RTPC toningFundamentalrtpcvolume;s
+    //public RTPC toningFundamentalrtpcvolume;
     //public RTPC silentHarmonyrtpcvolume;
     //public RTPC toningHarmonyrtpcvolume;
     //public float fadeDuration = 54.0f;
@@ -32,10 +32,11 @@ public class WwiseVOManager : MonoBehaviour
     public bool layingDown = true;
     private bool lightsInitialized = false;
     public CSVWriter csvWriter;
+    private Coroutine countdownCoroutine; // Reference to the coroutines
     public float totalTimeOfPostUnguidedVocalizationContant;
     public float timeInUnguidedVocalization;
-    private Coroutine countdownCoroutine; // Reference to the coroutines
     private int currentStage = 0; //As Sonoflore
+    private float totalTimeOfExperience;
 
     //private bool silentPlaying = false;
 
@@ -43,6 +44,7 @@ public class WwiseVOManager : MonoBehaviour
     {
         if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
         {
+            totalTimeOfExperience = 2700.0f;
             if (CSVLoader.subGameMode == "Peace" || CSVLoader.subGameMode == "Mindfulness and Joy")
             {
                 totalTimeOfPostUnguidedVocalizationContant = 889.0f;
@@ -61,7 +63,6 @@ public class WwiseVOManager : MonoBehaviour
                 AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
             } 
-
             if(firstTimeUser)
             {
                 //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
@@ -73,12 +74,21 @@ public class WwiseVOManager : MonoBehaviour
             }
         } else if (CSVLoader.gameMode == "Integration")
         {
+            totalTimeOfExperience = 1500.0f;
+            if(CSVLoader.subGameMode == "Fireflies")
+            {
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
+            } else if (CSVLoader.subGameMode == "Kindness")
+            {
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Kindness", gameObject);
+            } else if (CSVLoader.subGameMode == "Metta")
+            {
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Metta", gameObject);
+            }
             AkSoundEngine.PostEvent("Play_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
         }
         //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS AND MUSICSYSTEM1.CS
-        
         assignVOs();
-        
         if(developmentMode.startAtStart) //NORMAL START
         {
 
@@ -115,7 +125,6 @@ public class WwiseVOManager : MonoBehaviour
             }
         }
 
-        //when I press "n", run MakeWWiseTone()
         if (Input.GetKeyDown(KeyCode.N))
         {
             StartCoroutine(MakeWWiseTone());
@@ -128,79 +137,78 @@ public class WwiseVOManager : MonoBehaviour
             // NOT-YET INTEGRATED ONES
             // BreatheOut_Start
             // Cue_ThematicOpening_End
-
-            if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+        if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+        {
+            Debug.Log("WWise_VO: Callback triggered: " + in_type);
+            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+            if (musicSyncInfo.userCueName == "Cue_Posture_Start")
             {
-                Debug.Log("WWise_VO: Callback triggered: " + in_type);
-                AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-                if (musicSyncInfo.userCueName == "Cue_Posture_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_Posture_Start");
-                } else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_ThematicOpening_Start");
-                } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
-                 {
-                    Debug.Log("WWise_VO: Stopping Openign Seq, play sigh Query Seq");
-                }
-                else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
-                {
-                    Debug.Log("WWise_VO: Cue Mic On");
-                    imitoneVoiceIntepreter.gameOn = true;
-                }
-                else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
-                {
-                    Debug.Log("WWise_VO: Cue Mic OFF");
-                    imitoneVoiceIntepreter.gameOn = false;
-                }
-                else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
-                    imitoneVoiceIntepreter.gameOn = false;
-                }
-                else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
-                {
-                    Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End");
-                    imitoneVoiceIntepreter.gameOn = true;
-                }
-                else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
-                {
-                    Debug.Log("WWise_VO: Somatic Start");
-                }
-                 else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
-                {
-                    Debug.Log("WWise_VO: Cue BreathIn Start");
-                    breathInBehaviour();
-                } else if(musicSyncInfo.userCueName == "Cue_Orientation_Start")
-                {
-                    Debug.Log("WWise_VO: Cue Orientation Start");
-                } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
-                {
-                    Debug.Log("WWise_VO: Cue Sigh Start");
-                }  else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
-                {
-                    Debug.Log("WWise_VO: PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
-                } else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_LinearHum_Start");
-                    InitializeLights();
-                    StartCoroutine(MakeWWiseTone());
-                } else if (musicSyncInfo.userCueName == "Cue_StartTutorial")
-                {
-                    tutorial.StartTutorial();
-                } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_InteractiveMusicSystem_Start");
-                    musicSystem1.InteractiveMusicInitializations();
-                } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
-                {
-                    Debug.Log("WWise_VO: Cue_Opening_Start");
-                } 
-                else
-                {
-                    Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
-                }
-            }   
+                Debug.Log("WWise_VO: Cue_Posture_Start");
+            } else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
+            {
+                Debug.Log("WWise_VO: Cue_ThematicOpening_Start");
+            } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
+            {
+                Debug.Log("WWise_VO: Stopping Openign Seq, play sigh Query Seq");
+            }
+            else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
+            {
+                Debug.Log("WWise_VO: Cue Mic On");
+                imitoneVoiceIntepreter.gameOn = true;
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
+            {
+                Debug.Log("WWise_VO: Cue Mic OFF");
+                imitoneVoiceIntepreter.gameOn = false;
+            }
+            else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
+            {
+                Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
+                imitoneVoiceIntepreter.gameOn = false;
+            }
+            else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
+            {
+                Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End");
+                imitoneVoiceIntepreter.gameOn = true;
+            }
+            else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
+            {
+                Debug.Log("WWise_VO: Somatic Start");
+            }
+            else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
+            {
+                Debug.Log("WWise_VO: Cue BreathIn Start");
+                breathInBehaviour();
+            } else if(musicSyncInfo.userCueName == "Cue_Orientation_Start")
+            {
+                Debug.Log("WWise_VO: Cue Orientation Start");
+            } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
+            {
+                Debug.Log("WWise_VO: Cue Sigh Start");
+            }  else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
+            {
+                Debug.Log("WWise_VO: PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
+            } else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
+            {
+                Debug.Log("WWise_VO: Cue_LinearHum_Start");
+                InitializeLights();
+                StartCoroutine(MakeWWiseTone());
+            } else if (musicSyncInfo.userCueName == "Cue_StartTutorial")
+            {
+                tutorial.StartTutorial();
+            } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
+            {
+                Debug.Log("WWise_VO: Cue_InteractiveMusicSystem_Start");
+                musicSystem1.InteractiveMusicInitializations();
+            } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
+            {
+                Debug.Log("WWise_VO: Cue_Opening_Start");
+            } 
+            else
+            {
+                Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
+            }
+        }   
     }
 
     private IEnumerator MakeWWiseTone()
@@ -267,7 +275,7 @@ public class WwiseVOManager : MonoBehaviour
     }
     public void calculateRemainingTime(float currentTime)
     {
-        timeInUnguidedVocalization = 2700.0f - totalTimeOfPostUnguidedVocalizationContant - currentTime;   
+        timeInUnguidedVocalization = totalTimeOfExperience - totalTimeOfPostUnguidedVocalizationContant - currentTime;   
         float timeInEachSegment = timeInUnguidedVocalization / 4;
         StartOrRestartCountdown(timeInEachSegment);
     }
@@ -293,9 +301,9 @@ public class WwiseVOManager : MonoBehaviour
             AkSoundEngine.SetState("SoundWorldMode", "Shruti");
             currentStage = 3;
         }
+        // NEED TO ADD THE 15 SECONDS BEFORE FINALITY TO LOCK FUNDAM
     }
 
-    // Restart manually
     public void StartOrRestartCountdown(float timeInEachSegment)
     {
         if (countdownCoroutine != null)

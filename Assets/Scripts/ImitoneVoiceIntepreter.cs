@@ -381,7 +381,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         yield return new WaitForSeconds(_afterDropWaitTime);
 
         //Now we can measure the noise floor
-        float _measuredTime                                 = 0f;
+        float _measuredTime = 0f;
         while (_measuredTime < _noiseFloorMeasurementTime)
         {
             _noiseFloorMeasurementSum += _dbMicrophone;
