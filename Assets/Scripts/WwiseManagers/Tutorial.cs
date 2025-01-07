@@ -14,7 +14,7 @@ public class Tutorial : MonoBehaviour
     public WwiseVOManager wwiseVOManager;
     public MusicSystem1 musicSystem1;
     public Director director;
-    public bool active {get; private set;}  = false;
+    public bool active {get; private set;}  = false; //currently, this is just for external objects to view if the tutorial is doing anything or not, all the actual behaviors are in StartTutorial() and EndTutorial()
     float testThreshold = 1.5f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;

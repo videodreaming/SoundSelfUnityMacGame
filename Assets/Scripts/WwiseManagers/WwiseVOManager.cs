@@ -267,7 +267,7 @@ public class WwiseVOManager : MonoBehaviour
             AkSoundEngine.SetSwitch("VO_Posture","Relax",gameObject);
         }
     }
-    public void PassBackToVOManager()
+    public void PassBackToVOManager() //REEF - this is currently unused, see Sequencer.cs for where its use it commented out
     {
         Debug.Log("WWise_VO: RanFinalStageLogic");
        

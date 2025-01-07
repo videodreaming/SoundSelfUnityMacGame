@@ -74,9 +74,7 @@ public class Sequencer : MonoBehaviour
         else if (developmentMode.startInSavasana)
         {
             WakeUpCounter = 1f;
-            musicSystem1.SetMusicModeTo("Environment");
-            lightControl.SetPreferredColor("Dark");
-            lightControl.NextPreferredColorWorld(18f);
+            StartSavasana();
         }
         //interactiveMusicExperienceTotalTime = 1245.0f;
         //soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
@@ -197,9 +195,14 @@ public class Sequencer : MonoBehaviour
         {
             yield return null;
         }
-        //THINGS UNDER HERE SHOULD ALSO BE INITIALIZED IN START, IF WE ARE IN STARTINSAVASANA
-        musicSystem1.SetMusicModeTo("Environment");
+        
         Debug.Log("Sequencer Last Minute: Starting Light Fade-Out.");
+        StartSavasana();
+    }
+
+    private void StartSavasana()
+    {
+        musicSystem1.SetMusicModeTo("Environment");
         lightControl.SetPreferredColor("Dark");
         lightControl.NextPreferredColorWorld(18f);
     }
