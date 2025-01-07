@@ -40,10 +40,11 @@ public class WwiseVOManager : MonoBehaviour
 
     //private bool silentPlaying = false;
 
-    void Awake()
+    void Start()
     {
         if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
         {
+            Debug.Log("WWise_VO: Setting up for Preperation or Skills Training");
             totalTimeOfExperience = 2700.0f;
             if (CSVLoader.subGameMode == "Peace" || CSVLoader.subGameMode == "Mindfulness and Joy")
             {
@@ -53,6 +54,8 @@ public class WwiseVOManager : MonoBehaviour
             } 
             else if (CSVLoader.subGameMode == "Narrative" || CSVLoader.subGameMode == "Psychological Flexibility")
             {
+
+            Debug.Log("WWise_VO: Psychological Flexibility or Narrative");
                 totalTimeOfPostUnguidedVocalizationContant = 742.0f;
                 AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);

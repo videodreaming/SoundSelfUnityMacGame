@@ -87,7 +87,6 @@ public class Tutorial : MonoBehaviour
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
                 if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
                 { 
-                    
                     Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_Start");
                     imitoneVoiceInterpreter.gameOn = false;
                 } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
@@ -102,7 +101,6 @@ public class Tutorial : MonoBehaviour
                 {
                     Debug.Log("WWise_VO Tutorial: Cue Change to Ahh");
                     testVocalizationType = "Ahh";
-                    recordedAudioPlaybackTest.SetRecordMode(true);
                 } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
                 {
                     Debug.Log("WWise_VO Tutorial: Cue Change to Ohh");
