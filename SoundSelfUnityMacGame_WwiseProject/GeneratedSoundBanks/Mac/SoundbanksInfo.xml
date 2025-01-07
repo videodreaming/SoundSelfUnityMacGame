@@ -5873,7 +5873,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{DE91129A-7E7D-1790-9B73-3B930C350B41}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{D525EA0C-B82A-31F4-0140-33D46CED3FC6}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -9605,7 +9605,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="4057363449" Name="Play_VO_GuidedVocalizationAdvanced" DurationType="OneShot" DurationMin="2.0553331" DurationMax="3.4206667">
+				<Event Id="4057363449" Name="Play_VO_GuidedVocalizationAdvanced" DurationType="OneShot" DurationMin="1.3726666" DurationMax="3.4206667">
 					<MediaRefs>
 						<MediaRef Id="37972462"/>
 						<MediaRef Id="54482482"/>
@@ -9801,5 +9801,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{4B0EBEF9-1673-F3EF-33C2-4427B9E7DF15}</FileHash>
+	<FileHash>{471BB676-3D10-7EFE-D294-190D6A2E17B0}</FileHash>
 </SoundBanksInfo>
