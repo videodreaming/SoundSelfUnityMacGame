@@ -113,7 +113,7 @@ public class Tutorial : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") 
                 {
                     Debug.Log("Wwise_Tutorial_Break_All_Tests");
-                    inTutorial = false;
+                    
                     EndTutorial();
                 } else if (musicSyncInfo.userCueName == "Cue_FreePlay")
                 {
@@ -130,59 +130,64 @@ public class Tutorial : MonoBehaviour
 
     private IEnumerator VoiceTestCoroutine()
     {
-        //I think that the logic of setting the testSuccess to false at the beginning of this coroutine is correct.
-        testSuccess = false;
-        Debug.Log("Tutorial: Voice Test Coroutine");
-        //First, wait one second, to give room for the cue to be triggered.
-        float _tWait = 0.0f;
-
-        if(debugAllowLogs)
+        if(inTutorial)
         {
-            Debug.Log("Tutorial: About to test...");
-        }
+             //I think that the logic of setting the testSuccess to false at the beginning of this coroutine is correct.
+            testSuccess = false;
+            Debug.Log("Tutorial: Voice Test Coroutine");
+            //First, wait one second, to give room for the cue to be triggered.
+            float _tWait = 0.0f;
 
-        while(_tWait < 3.0f)
-        {
-            _tWait += Time.deltaTime;
-            yield return null;
-        }
-
-        while(!imitoneVoiceInterpreter.gameOn)
-        {
-            //wait for the previous guidance to end
-            yield return null;
-        }
-
-        if(debugAllowLogs)
-        {
-            Debug.Log("Tutorial: Testing...");
-        }
-
-        float _failTimer = 0.0f;
-        while(!testSuccess)
-        {
-            //waiting for success...
-            if(!imitoneVoiceInterpreter.toneActiveBiasTrue)
+            if(debugAllowLogs)
             {
-                //...while testing for failure
-                _failTimer += Time.deltaTime;
-                if(_failTimer > failThreshold)
-                {
-                    Debug.Log("Tutorial: TEST FAIL");
-                    correctionCoroutine = StartCoroutine(ProvideCorrection());                   
-                    yield break;
-                }
+                Debug.Log("Tutorial: About to test...");
             }
-            yield return null;
+
+            while(_tWait < 3.0f)
+            {
+                _tWait += Time.deltaTime;
+                yield return null;
+            }
+
+            while(!imitoneVoiceInterpreter.gameOn)
+            {
+                //wait for the previous guidance to end
+                yield return null;
+            }
+
+            if(debugAllowLogs)
+            {
+                Debug.Log("Tutorial: Testing...");
+            }
+
+            float _failTimer = 0.0f;
+            while(!testSuccess)
+            {
+                //waiting for success...
+                if(!imitoneVoiceInterpreter.toneActiveBiasTrue)
+                {
+                    //...while testing for failure
+                    _failTimer += Time.deltaTime;
+                    if(_failTimer > failThreshold)
+                    {
+                        Debug.Log("Tutorial: TEST FAIL");
+                        correctionCoroutine = StartCoroutine(ProvideCorrection());                   
+                        yield break;
+                    }
+                }
+                yield return null;
+            }
+            Debug.Log("Tutorial: TEST SUCCESS (wait for breath)");
+            while(imitoneVoiceInterpreter.toneActiveBiasTrue)
+            {
+                yield return null;
+            }
+            //on success, start the next coroutine
+            PlayTutorialGuidance();
+            testCoroutine = StartCoroutine(VoiceTestCoroutine());
+        } else {
+            Debug.Log("Tutorial: Voice Test Coroutine: Tutorial is over");
         }
-        Debug.Log("Tutorial: TEST SUCCESS (wait for breath)");
-        while(imitoneVoiceInterpreter.toneActiveBiasTrue)
-        {
-            yield return null;
-        }
-        //on success, start the next coroutine
-        PlayTutorialGuidance();
-        testCoroutine = StartCoroutine(VoiceTestCoroutine());
     }
 
     private IEnumerator ProvideCorrection()
@@ -307,12 +312,13 @@ public class Tutorial : MonoBehaviour
     public void EndTutorial()
     {
         //Run this when the cue for the end of the tutorial hits.
-        Debug.Log("TUTORIAL: END");
+        inTutorial = false;
         StopCoroutine(testCoroutine);
         StopCoroutine(correctionCoroutine);
         wwiseVOManager.calculateRemainingTime(TimeTrackerScript.TotalElapsedTime);
         musicSystem1.PlaygroundMode(true, 40f);
         active = false;
+        Debug.Log("TUTORIAL: END");
     }
 
 }

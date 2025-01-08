@@ -273,7 +273,6 @@ public class WwiseVOManager : MonoBehaviour
     public void PassBackToVOManager() //REEF - this is currently unused, see Sequencer.cs for where its use it commented out
     {
         Debug.Log("WWise_VO: RanFinalStageLogic");
-       
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject);
     }
     public void calculateRemainingTime(float currentTime)
@@ -281,30 +280,50 @@ public class WwiseVOManager : MonoBehaviour
         timeInUnguidedVocalization = totalTimeOfExperience - totalTimeOfPostUnguidedVocalizationContant - currentTime;   
         float timeInEachSegment = timeInUnguidedVocalization / 4;
         StartOrRestartCountdown(timeInEachSegment);
+        Debug.Log("WWise_VO: Time in each segment: " + timeInEachSegment);
+        Debug.Log("WWise_VO: Time in Unguided Vocalization: " + timeInUnguidedVocalization);
     }
 
     IEnumerator CountdownToNextSegment(float timeInEachSegment)
     {
-        yield return new WaitForSeconds(timeInEachSegment);
-
         if (currentStage == 0)
         {
-            AkSoundEngine.SetState("SoundWorldMode", "Gentle");
+            AkSoundEngine.SetState("SoundWorldMode", "SonoFlore");
             currentStage = 1;
-            
+            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: SonoFlore");
         }
         else if (currentStage == 1)
         {
-            AkSoundEngine.SetState("SoundWorldMode", "Shadow");
+            AkSoundEngine.SetState("SoundWorldMode", "Gentle");
             currentStage = 2;
-            
+            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Gentle");
         }
         else if (currentStage == 2)
         {
-            AkSoundEngine.SetState("SoundWorldMode", "Shruti");
+            AkSoundEngine.SetState("SoundWorldMode", "Shadow");
             currentStage = 3;
+            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shadow");
+            
+        } else if (currentStage == 3)
+        {
+            AkSoundEngine.SetState("SoundWorldMode", "Shruti");
+            currentStage = 4;
+            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shruti");
+            //calculateTimeforEarlyTrigger
+            float earlyTriggerTime = timeInEachSegment - 15f;
+            StartCoroutine(ShrutiEarlyBehavior(earlyTriggerTime));
+        } else if (currentStage == 4)
+        {
+            AkSoundEngine.PostEvent("Play_VO_ThematicSavasana", gameObject);
         }
-        // NEED TO ADD THE 15 SECONDS BEFORE FINALITY TO LOCK FUNDAM
+        yield return new WaitForSeconds(timeInEachSegment);
+        StartOrRestartCountdown(timeInEachSegment);
+    }
+
+    IEnumerator ShrutiEarlyBehavior(float earlyTriggerTime)
+    {
+        yield return new WaitForSeconds(earlyTriggerTime);
+        //LOCK FUNDAMENTAL AND HARMONY
     }
 
     public void StartOrRestartCountdown(float timeInEachSegment)
