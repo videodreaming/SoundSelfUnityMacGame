@@ -314,7 +314,7 @@ public class WwiseVOManager : MonoBehaviour
             StartCoroutine(ShrutiEarlyBehavior(earlyTriggerTime));
         } else if (currentStage == 4)
         {
-            AkSoundEngine.PostEvent("Play_VO_ThematicSavasana", gameObject);
+            //PLAY THEMATIC SAVASANA
         }
         yield return new WaitForSeconds(timeInEachSegment);
         StartOrRestartCountdown(timeInEachSegment);
