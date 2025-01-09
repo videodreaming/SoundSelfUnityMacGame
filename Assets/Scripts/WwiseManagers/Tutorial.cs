@@ -315,7 +315,7 @@ public class Tutorial : MonoBehaviour
         inTutorial = false;
         StopCoroutine(testCoroutine);
         StopCoroutine(correctionCoroutine);
-        wwiseVOManager.calculateRemainingTime(TimeTrackerScript.TotalElapsedTime);
+        wwiseVOManager.BeginMusicSequence(TimeTrackerScript.TotalElapsedTime);
         musicSystem1.PlaygroundMode(true, 40f);
         active = false;
         Debug.Log("TUTORIAL: END");

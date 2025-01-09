@@ -140,6 +140,8 @@ public class Sequencer : MonoBehaviour
                 }
             }
         }
+        //REEF - I think the behaviors you are working on in WwiseVOManager.cs belong in here, because this is where we deal with other elements of the sequence.
+        //... Some of what you are doing could be done with something like what LastMinute() is doing, which triggers in the last minute of the wake up counter. 
 
         //End Behaviors
         if(!developmentMode.startInSavasana)
@@ -575,6 +577,7 @@ public class Sequencer : MonoBehaviour
     {
         AkSoundEngine.SetState("SoundWorldMode", soundWorld);
         Debug.Log("Sequencer Sound World Set To: " + soundWorld);
+        //Reef- you would put the behavior that sets the timer for the next world transition being *queued* (not necessarily triggered right away) here.
     }
 
     private Action Action_SetPreferredColor(string color)
