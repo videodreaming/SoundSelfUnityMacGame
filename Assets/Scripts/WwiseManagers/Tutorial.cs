@@ -69,14 +69,16 @@ public class Tutorial : MonoBehaviour
     {
         if(!active)
         {
+            inTutorial = true;
             Debug.Log("Tutorial: START");
             active = true;
             testVocalizationType = "Hum";
             musicSystem1.SetSilentVolume(50f, 20f);
             musicSystem1.LockToC(true);
             wwiseVOManager.InitializeLights(); //this is probably already initialized, just making sure.
+            
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
-            inTutorial = true;
+
         }
     }
 
@@ -311,14 +313,22 @@ public class Tutorial : MonoBehaviour
 
     public void EndTutorial()
     {
-        //Run this when the cue for the end of the tutorial hits.
+        // Run this when the cue for the end of the tutorial hits.
         inTutorial = false;
-        StopCoroutine(testCoroutine);
-        StopCoroutine(correctionCoroutine);
+
+        if (testCoroutine != null)
+        {
+            StopCoroutine(testCoroutine);
+        }
+        if (correctionCoroutine != null)
+        {
+            StopCoroutine(correctionCoroutine);
+        }
         wwiseVOManager.BeginMusicSequence(TimeTrackerScript.TotalElapsedTime);
         musicSystem1.PlaygroundMode(true, 40f);
         active = false;
         Debug.Log("TUTORIAL: END");
     }
+
 
 }

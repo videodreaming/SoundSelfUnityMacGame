@@ -559,7 +559,7 @@ public class Sequencer : MonoBehaviour
     //====================================================================================================
     //DIRECTOR QUEUE
     //====================================================================================================
-    private void QueueNewWorld(string world, string color, float _seconds = 120.0f)
+    public void QueueNewWorld(string world, string color, float _seconds = 120.0f)
     {
         Debug.Log("Sequencer QueueNewWorld: Queuing New World: " + world + " with color: " + color);
         director.AddActionToQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, _seconds, true, 2);
