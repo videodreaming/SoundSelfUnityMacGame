@@ -76,7 +76,7 @@ public class Director : MonoBehaviour
                 //only execute the action if its "expires" bool is false
                 if(value.activateAtEnd)
                 {
-                    Debug.Log("Director Queue: Action " + key + " " + value.type + " will execute on next tone...");
+                    Debug.Log("Director Queue: Action " + key + " " + value.type + " expired...");
                     StartCoroutine(ActivateOnTone(value.action, key, value.type));
                 }
                 else
