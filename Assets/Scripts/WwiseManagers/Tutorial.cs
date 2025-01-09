@@ -12,6 +12,7 @@ public class Tutorial : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public WwiseVOManager wwiseVOManager;
+    public Sequencer sequencer;
     public MusicSystem1 musicSystem1;
     public Director director;
     public bool active {get; private set;}  = false; //currently, this is just for external objects to view if the tutorial is doing anything or not, all the actual behaviors are in StartTutorial() and EndTutorial()
@@ -115,13 +116,12 @@ public class Tutorial : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") 
                 {
                     Debug.Log("Wwise_Tutorial_Break_All_Tests");
-                    
                     EndTutorial();
                 } else if (musicSyncInfo.userCueName == "Cue_FreePlay")
                 {
                     Debug.Log("WWise_VO Tutorial: Cue_FreePlay");
-                    musicSystem1.LockToC(false);
                     director.disable = false;
+                    musicSystem1.InteractiveMusicInitializations();
                 }
                 else
                 {
@@ -324,11 +324,9 @@ public class Tutorial : MonoBehaviour
         {
             StopCoroutine(correctionCoroutine);
         }
-        wwiseVOManager.BeginMusicSequence(TimeTrackerScript.TotalElapsedTime);
+        sequencer.BeginMusicSequence(TimeTrackerScript.TotalElapsedTime);
         musicSystem1.PlaygroundMode(true, 40f);
         active = false;
         Debug.Log("TUTORIAL: END");
     }
-
-
 }

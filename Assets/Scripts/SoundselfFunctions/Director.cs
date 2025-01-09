@@ -55,7 +55,7 @@ public class Director : MonoBehaviour
         }
     }
 
-    public void QueueUpdate()
+    private void QueueUpdate()
     {
         if(disable)
         {
@@ -107,6 +107,8 @@ public class Director : MonoBehaviour
             yield return null;
         }
         //then run the action
+        Debug.Log("Director Queue: Action " + id + " " + type + " activating with tone");
+
         action();
     }
 
@@ -169,7 +171,7 @@ public class Director : MonoBehaviour
       
         foreach (var item in queue)
         {
-            item.Value.action();
+            item.Value.action(); //execute the action
             
             if(item.Value.isAudioAction)
             {
@@ -186,14 +188,15 @@ public class Director : MonoBehaviour
         //FLOURISHES
         //if an audio or visual action is missing from the queue,
         //we need to trigger one of each to complete syncresis
+        //unless the queue is empty, in which case we do nothing
 
-        if (countAudioEvents == 0)
+        if (countAudioEvents == 0 && countVisualEvents != 0)
         {
             Debug.Log("Director Queue: No Audio Actions Queued, Triggering one to complete syncresis");
             TweakAudio(transitionTimeForFlourishes);
             PlayTransitionSound();
         }
-        if (countVisualEvents == 0)
+        if (countVisualEvents == 0 && countAudioEvents != 0)
         {
             Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
             lightControl.NextPreferredColorWorld(transitionTimeForFlourishes);

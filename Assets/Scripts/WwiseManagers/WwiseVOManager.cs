@@ -201,8 +201,8 @@ public class WwiseVOManager : MonoBehaviour
                 tutorial.StartTutorial();
             } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
             {
-                Debug.Log("WWise_VO: Cue_InteractiveMusicSystem_Start");
-                musicSystem1.InteractiveMusicInitializations();
+                Debug.Warning("WwiseVO: WARNING, THIS CUE IS NOT EXPECTED, IT IS A DUPLICATE OF CUE_FREEPLAY: Cue_InteractiveMusicSystem_Start");
+                //musicSystem1.InteractiveMusicInitializations();
             } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
             {
                 Debug.Log("WWise_VO: Cue_Opening_Start");
@@ -269,87 +269,6 @@ public class WwiseVOManager : MonoBehaviour
         {
             AkSoundEngine.SetSwitch("VO_Posture","Relax",gameObject);
         }
-    }
-    public void PassBackToVOManager() //REEF - this is currently unused, see Sequencer.cs for where its use it commented out
-    {
-        Debug.Log("WWise_VO: RanFinalStageLogic");
-        AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject);
-    }
-
-    //REEF - I suggest putting these behaviors in Sequencer, as they don't necessarily pertain to VO, but more to the "sequence" of events. See a comment I left for you on line 143 of that script.
-    //Also noting that the design of this doesn't lend itself easily or naturally to different sequences, using different instrument sets, or a different order, or not all of them, which will become more relevant in the not too distant future, but is relevant even now given the possibility that someone will just "stay" in the tutorial.
-    //... The ideal system would have a list of sound worlds to play, and would move through the list. That list could be modified based on (a) the launch initializations and (b) the amount of time left when the sequence initiates
-    //This will work for now, but I think the system could be cleaner.
-
-    public void BeginMusicSequence(float currentTime) //REEF- I renamed this because I think "CalculateRemainingTime" doesn't adequately describe its function. I changed the reference in Tutorial too.
-    {
-        timeInUnguidedVocalization = totalTimeOfExperience - totalTimeOfPostUnguidedVocalizationContant - currentTime;   
-        float timeInEachSegment = timeInUnguidedVocalization / 4;
-        StartCountdownToNextSegment(timeInEachSegment);
-        Debug.Log("WWise_VO: Time in each segment: " + timeInEachSegment);
-        Debug.Log("WWise_VO: Time in Unguided Vocalization: " + timeInUnguidedVocalization);
-    }
-
-    IEnumerator CountdownToNextSegmentCoroutine(float timeInEachSegment)
-    {
-        //REEF - **Important**, I've changed this to use the director system instead of causing a change right away on the clock. This makes the system more responsive. This way, instead of happening on a precise schedule, the desired change is "queued" and then triggers when an player-driven behavior change happens in the player, so it feels like it is responding to them. Right now, it is set to change  after 60 seconds (that's the 60f) even if there is not behavior change in the player, but I'd recommend this being 120 seconds instead, because it's such a big and important change, and we really want the player to feel it as a response from them. 
-        //The system you've designed lends itself to precise, clockwork timing. It should bere-evaluated to work well with the director system, which includes a variable delay. The reconfigured system should calculate the time until the next world-change is added to the queue when the change actually is dynamically triggered. The behavior of setting a new countdown would then have to be triggered by the director system activation event. So you'd put the behavior that starts a new countdown in sequencer.SetSoundWorld. I've put a comment there for you to look at.
-
-        //REEF - **IMPORTANT READ THIS FIRST**, I am just seeing this now, but it looks like Sequencer.cs already has a system that attempts to do what you are doing here. Check it out: sequencer.StartMusicalProgression. I *believe* it has been tested to work.
-
-        if (currentStage == 0)
-        {
-            //AkSoundEngine.SetState("SoundWorldMode", "SonoFlore");
-            sequencer.QueueNewWorld("SonoFlore", "Red", 60f);
-            currentStage = 1;
-            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: SonoFlore");
-        }
-        else if (currentStage == 1)
-        {
-            //AkSoundEngine.SetState("SoundWorldMode", "Gentle");
-            sequencer.QueueNewWorld("Gentle", "Red", 60f);
-            currentStage = 2;
-            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Gentle");
-        }
-        else if (currentStage == 2)
-        {
-            //AkSoundEngine.SetState("SoundWorldMode", "Shadow");
-            sequencer.QueueNewWorld("Shadow", "Blue", 60f);
-            currentStage = 3;
-            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shadow");
-            
-        } else if (currentStage == 3)
-        {
-            //AkSoundEngine.SetState("SoundWorldMode", "Shruti");
-            sequencer.QueueNewWorld("Shruti", "White", 60f);
-            currentStage = 4;
-            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shruti");
-            //calculateTimeforEarlyTrigger
-            float earlyTriggerTime = timeInEachSegment - 15f;
-            StartCoroutine(ShrutiEarlyBehavior(earlyTriggerTime));
-        } else if (currentStage == 4)
-        {
-            //PLAY THEMATIC SAVASANA
-        }
-        yield return new WaitForSeconds(timeInEachSegment);
-        StartCountdownToNextSegment(timeInEachSegment);
-    }
-
-    IEnumerator ShrutiEarlyBehavior(float earlyTriggerTime)
-    {
-        yield return new WaitForSeconds(earlyTriggerTime);
-        //LOCK FUNDAMENTAL AND HARMONY
-        musicSystem1.LockToC(true);
-        //to unlock it, call musicSystem1.LockToC(false);
-    }
-
-    public void StartCountdownToNextSegment(float timeInEachSegment) //REEF - renamed this for clarity
-    {
-        if (countdownCoroutine != null)
-        {
-            StopCoroutine(countdownCoroutine);
-        }
-        countdownCoroutine = StartCoroutine(CountdownToNextSegmentCoroutine(timeInEachSegment));
     }
 
 

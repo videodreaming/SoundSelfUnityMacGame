@@ -377,6 +377,7 @@ public class MusicSystem1 : MonoBehaviour
             SetMusicModeTo("InteractiveMusicSystem");
 
             interactive = true;
+            LockToC(false);
             AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
             AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
             AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);
@@ -831,7 +832,6 @@ public class MusicSystem1 : MonoBehaviour
             Debug.Log("Sequencer: PLAYGROUND ON");
             InteractiveMusicInitializations();
             SetSilentVolume(80f, _transitionSecs);
-            LockToC(false);
             imitoneVoiceInterpreter.gameOn = true;
             director.disable = false;
         }

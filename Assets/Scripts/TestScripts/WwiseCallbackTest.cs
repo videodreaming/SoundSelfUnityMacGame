@@ -36,18 +36,5 @@ public class WwiseCallbackTest : MonoBehaviour
             Debug.Log("Not the right cue");
         }
     }
-    void OpeningCallBackFunction(object in_cookie, AkCallbackType in_type, AkCallbackInfo in_info)
-    {
-        Debug.Log("Callback triggered: " + in_type);
-        if (in_type == AkCallbackType.AK_MusicSyncUserCue)
-        {
-            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-            Debug.Log("User Cue Name: " + musicSyncInfo.userCueName);
-            if (musicSyncInfo.userCueName == "Cue_Posture_Start")
-            {
-            Debug.Log("Cue_Posture_Start");
-            }
-        }
-    }   
 
 }
