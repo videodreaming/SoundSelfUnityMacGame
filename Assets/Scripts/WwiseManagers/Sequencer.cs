@@ -179,14 +179,24 @@ public class Sequencer : MonoBehaviour
         //recordedAudioPlaybackTest.SetPlaybackMode(false);
 
         //wait for the first new tone to start, or to pass the 30s threshold...
-        while(WakeUpCounter > 30f || !imitoneVoiceInterpreter.toneActiveConfident)
-        {
-            yield return null;
-        }
-        while(WakeUpCounter > 30f || imitoneVoiceInterpreter.toneActiveConfident)
-        {
-            yield return null;
-        }
+        
+        // For some reason, it should work after i double checekd but for some reason it doesn't work in the following code, so I went with the WaitUntilCondition method.
+        // while(WakeUpCounter > 30f || !imitoneVoiceInterpreter.toneActiveConfident)
+        // {
+        //     yield return null;
+        // }
+        // while(WakeUpCounter > 30f || imitoneVoiceInterpreter.toneActiveConfident)
+        // {
+        //     yield return null;
+        // }
+
+        //ROBIN: Could you check up on where and how WakeUpCounter needs to be implemented for iterations in the following code?
+        // Wait until toneActiveConfident becomes false
+        
+        yield return new WaitUntil(() => !imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter > 30f);
+
+        // Wait until toneActiveConfident becomes true
+        yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter > 30f);
 
         Debug.Log("Sequencer Last Minute: Tone Detected. Starting Final Behaviors.");
         director.ActivateQueue(15f);
