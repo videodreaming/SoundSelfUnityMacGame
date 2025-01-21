@@ -2039,7 +2039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &132454817
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5595,7 +5595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf99e9abf1a84247a2cfd3ac34f3278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSystem1: {fileID: 0}
 --- !u!1 &420463981
 GameObject:
   m_ObjectHideFlags: 0
@@ -6847,7 +6846,7 @@ MonoBehaviour:
   layingDown: 1
   csvWriter: {fileID: 662335749}
   totalTimeOfPostUnguidedVocalizationContant: 0
-  timeInUnguidedVocalization: 0
+  totalTimeOfExperience: 0
 --- !u!114 &486583135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7679,7 +7678,6 @@ MonoBehaviour:
   userObject: {fileID: 740096621}
   lightControl: {fileID: 437048159}
   userAudioSource: {fileID: 132454817}
-  recordedAudioPlaybackTest: {fileID: 132454819}
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicNoteActivated: 0
   fundamentalNote: 0
@@ -19396,14 +19394,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
   imitoneVoiceInterpreter: {fileID: 740096625}
-  recordedAudioPlaybackTest: {fileID: 0}
   musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
   tutorial: {fileID: 1635385662}
+  savasana: {fileID: 1809294502}
   csvWriter: {fileID: 662335749}
+  timeInUnguidedVocalization: 0
+  totalTimeOfPostUnguidedVocalizationContant: 0
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
@@ -20119,8 +20119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceInterpreter: {fileID: 740096625}
-  recordedAudioPlaybackTest: {fileID: 132454819}
   wwiseVOManager: {fileID: 486583134}
+  sequencer: {fileID: 1564575221}
   musicSystem1: {fileID: 619104374}
   director: {fileID: 1829208165}
   inTutorial: 0
@@ -22058,6 +22058,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1807808375}
   m_CullTransparentMesh: 1
+--- !u!1 &1809294500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809294501}
+  - component: {fileID: 1809294502}
+  m_Layer: 0
+  m_Name: SavasanaManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1809294501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809294500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1037.1322, y: 976.6184, z: -41.123314}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1809294502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809294500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77269b1ae0b1c4b54a60a6b8c3fa4e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1823268062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25986,3 +26030,4 @@ SceneRoots:
   - {fileID: 1435489962}
   - {fileID: 538272587}
   - {fileID: 157077275}
+  - {fileID: 1809294501}

@@ -58,19 +58,19 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     //At the end of the first recording for a note, we turn the replay system on for that note.
     //When a recording ends, we start a new one, as soon as the next tone starts.
     
-    public void StartRecordingLoop()
-    {
-        if (Microphone.devices.Length > 0)
-        {
-            deviceName = Microphone.devices[0]; // Use the first microphone device
-            StartCoroutine(RecordingCoroutine());
-            Debug.Log("Recording: Recording Loop started...");
-        }
-        else
-        {
-            Debug.LogWarning("Recording: No microphone detected!");
-        }
-    }
+        // public void StartRecordingLoop()
+        // {
+        //     if (Microphone.devices.Length > 0)
+        //     {
+        //         deviceName = Microphone.devices[0]; // Use the first microphone device
+        //         StartCoroutine(RecordingCoroutine());
+        //         Debug.Log("Recording: Recording Loop started...");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogWarning("Recording: No microphone detected!");
+        //     }
+        // }
 
     //INFO NEEDED ON HOW TO DELETE OTHER RECORDED CLIPS // ROBIN: I took no steps here, not sure if you needed something from me.
     public void SaveRecording(AudioClip recordedClip, string noteName)
@@ -239,31 +239,31 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
 
     //ROBIN: See "Sequencer.cs" and "MusicSystem1.cs" and "Tutorial.cs" for where these are called. I have RecordMode turned on before Playback Mode, so we can actually start capturing recordings during the tutorial, even if we aren't playing them yet. The system will have to be able to handle, therefore, the recording system "filling up" before playback begins, but I think the way you've built it works for that.
-    public void SetRecordMode(bool localRecordMode) //this is now triggered in Tutorial, as well, so we can start recording a little earlier.
-    {
-        if (localRecordMode)
-        {
-            recordMode = true;
-            StartRecordingLoop();
-        }
-        else
-        {
-            StopRecording();
-            recordingLoopGuard = false;
-            recordMode = false;
-        }
-    }
+    // public void SetRecordMode(bool localRecordMode) //this is now triggered in Tutorial, as well, so we can start recording a little earlier.
+    // {
+    //     if (localRecordMode)
+    //     {
+    //         recordMode = true;
+    //         StartRecordingLoop();
+    //     }
+    //     else
+    //     {
+    //         StopRecording();
+    //         recordingLoopGuard = false;
+    //         recordMode = false;
+    //     }
+    // }
 
-    public void SetPlaybackMode(bool localPlayMode)
-    {
-        if (localPlayMode)
-        {
-            playMode = true;
-        }
-        else
-        {
-            playMode = false;
-        }
-    }
+    // public void SetPlaybackMode(bool localPlayMode)
+    // {
+    //     if (localPlayMode)
+    //     {
+    //         playMode = true;
+    //     }
+    //     else
+    //     {
+    //         playMode = false;
+    //     }
+    // }
 }
 

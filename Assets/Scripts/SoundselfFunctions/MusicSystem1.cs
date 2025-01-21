@@ -17,7 +17,7 @@ public class MusicSystem1 : MonoBehaviour
     public User userObject;
     public LightControl lightControl;
     public AudioSource userAudioSource;
-    public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
+   // public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private Dictionary<int, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, bool, float)>();
     // Tracks information for each musical note:
@@ -825,8 +825,8 @@ public class MusicSystem1 : MonoBehaviour
         {
             //Start recording the user's voice here AND we should also playback the user's voice at the current fundamental should it be populated in the scripts.ss
             //RECORDING SYSTEM:
-            recordedAudioPlaybackTest.SetRecordMode(true);
-            recordedAudioPlaybackTest.SetPlaybackMode(true);
+            //recordedAudioPlaybackTest.SetRecordMode(true);
+            //recordedAudioPlaybackTest.SetPlaybackMode(true);
         
             //NORMAL CODE:
             Debug.Log("Sequencer: PLAYGROUND ON");
@@ -838,7 +838,7 @@ public class MusicSystem1 : MonoBehaviour
         else
         {
             //PSEUDOCODE:
-            recordedAudioPlaybackTest.SetRecordReplayMode(false);
+            //recordedAudioPlaybackTest.SetRecordReplayMode(false);
 
             //NORMAL CODE:
             Debug.Log("Sequencer: PLAYGROUND OFF");

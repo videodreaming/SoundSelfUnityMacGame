@@ -10,7 +10,7 @@ public class Tutorial : MonoBehaviour
 {
     private bool debugAllowLogs = true;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
+    //public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public WwiseVOManager wwiseVOManager;
     public Sequencer sequencer;
     public MusicSystem1 musicSystem1;
@@ -313,6 +313,7 @@ public class Tutorial : MonoBehaviour
 
     public void EndTutorial()
     {
+        Debug.Log("TutorialEnded");
         // Run this when the cue for the end of the tutorial hits.
         inTutorial = false;
 
@@ -327,6 +328,6 @@ public class Tutorial : MonoBehaviour
         sequencer.BeginMusicSequence(TimeTrackerScript.TotalElapsedTime);
         musicSystem1.PlaygroundMode(true, 40f);
         active = false;
-        Debug.Log("TUTORIAL: END");
+        Debug.Log("TUTORIAL: END with" + TimeTrackerScript.TotalElapsedTime);
     }
 }

@@ -34,9 +34,8 @@ public class WwiseVOManager : MonoBehaviour
     public CSVWriter csvWriter;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     public float totalTimeOfPostUnguidedVocalizationContant;
-    public float timeInUnguidedVocalization;
-    private int currentStage = 0; //As Sonoflore
-    private float totalTimeOfExperience;
+
+    public float totalTimeOfExperience;
 
     //private bool silentPlaying = false;
 
@@ -45,6 +44,7 @@ public class WwiseVOManager : MonoBehaviour
         if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
         {
             Debug.Log("WWise_VO: Setting up for Preperation or Skills Training");
+            //move TotalTimeOfExperience over to sequencer
             totalTimeOfExperience = 2700.0f;
             if (CSVLoader.subGameMode == "Peace" || CSVLoader.subGameMode == "Mindfulness and Joy")
             {
@@ -201,7 +201,7 @@ public class WwiseVOManager : MonoBehaviour
                 tutorial.StartTutorial();
             } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
             {
-                Debug.Warning("WwiseVO: WARNING, THIS CUE IS NOT EXPECTED, IT IS A DUPLICATE OF CUE_FREEPLAY: Cue_InteractiveMusicSystem_Start");
+                Debug.Log("WwiseVO: WARNING, THIS CUE IS NOT EXPECTED, IT IS A DUPLICATE OF CUE_FREEPLAY: Cue_InteractiveMusicSystem_Start");
                 //musicSystem1.InteractiveMusicInitializations();
             } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
             {

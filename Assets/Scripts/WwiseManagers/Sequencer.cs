@@ -8,7 +8,7 @@ public class Sequencer : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
+    //public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
@@ -17,11 +17,8 @@ public class Sequencer : MonoBehaviour
     public Tutorial tutorial;
     //private int fundamentalCount = -1;
     //private int harmonyCount = -1;
+    public SavasanaPlayer savasana;
 
-    //public float InteractiveMusicSilentLoopsRTPC = 0.0f;
-    //public float HarmonySilentVolumeRTPC = 0.0f;
-    //public float FundamentalSilentVolumeRTPC = 0.0f;
-    
     //public uint playingId;
     //[SerializeField]
     //private int currentStage = 0; // Tracks the current stage of the sound world
@@ -47,6 +44,12 @@ public class Sequencer : MonoBehaviour
     private Coroutine CoroutineDynamicDropStart;
     private Coroutine CoroutineDynamicDropTheta;
     private Coroutine CoroutineDynamicDropEnd;
+
+    private Coroutine countdownCoroutine; // Reference to the coroutines
+    private int currentStage = 0; //As Sonoflore
+    public float timeInUnguidedVocalization;
+    public float totalTimeOfPostUnguidedVocalizationContant;
+
 
 
     void Awake()
@@ -172,9 +175,8 @@ public class Sequencer : MonoBehaviour
     IEnumerator LastMinute()
     {
         Debug.Log("Sequencer Last Minute: Starting Last Minute Behaviors.");
-        tutorial.EndTutorial();
-        recordedAudioPlaybackTest.SetRecordMode(false);
-        recordedAudioPlaybackTest.SetPlaybackMode(false);
+        //recordedAudioPlaybackTest.SetRecordMode(false);
+        //recordedAudioPlaybackTest.SetPlaybackMode(false);
 
         //wait for the first new tone to start, or to pass the 30s threshold...
         while(WakeUpCounter > 30f || !imitoneVoiceInterpreter.toneActiveConfident)
@@ -204,8 +206,6 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         savasana.PlayThematicSavasana();
-
-        AkSoundEngine.PostEvent("Play_VO_ThematicSavasana",gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
     }
 
     private void FadeOut()
@@ -213,19 +213,6 @@ public class Sequencer : MonoBehaviour
         musicSystem1.SetMusicModeTo("Environment");
         lightControl.SetPreferredColor("Dark");
         lightControl.NextPreferredColorWorld(18f);
-    }
-
-    public void ClosingCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
-    {
-        if (in_type == AkCallbackType.AK_MusicSyncUserCue)
-        {
-            Debug.Log("WWise_VO: Callback triggered: " + in_type);
-            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-            if (musicSyncInfo.userCueName == "Cue_Posture_Start")
-            {
-                Debug.Log("WWise_VO: Cue_Posture_Start");
-            }
-        }
     }
     
     //====================================================================================================
@@ -238,7 +225,7 @@ public class Sequencer : MonoBehaviour
     //This will work for now, but I think the system could be cleaner.
     public void BeginMusicSequence(float currentTime) //REEF- I renamed this because I think "CalculateRemainingTime" doesn't adequately describe its function. I changed the reference in Tutorial too.
     {
-        timeInUnguidedVocalization = totalTimeOfExperience - totalTimeOfPostUnguidedVocalizationContant - currentTime;   
+        timeInUnguidedVocalization = wwiseVOManager.totalTimeOfExperience - wwiseVOManager.totalTimeOfPostUnguidedVocalizationContant - currentTime;   
         float timeInEachSegment = timeInUnguidedVocalization / 4;
         StartCountdownToNextSegment(timeInEachSegment);
         Debug.Log("WWise_VO: Time in each segment: " + timeInEachSegment);
@@ -257,40 +244,48 @@ public class Sequencer : MonoBehaviour
     {
         //REEF - **Important**, I've changed this to use the director system instead of causing a change right away on the clock. This makes the system more responsive. This way, instead of happening on a precise schedule, the desired change is "queued" and then triggers when an player-driven behavior change happens in the player, so it feels like it is responding to them. Right now, it is set to change  after 60 seconds (that's the 60f) even if there is not behavior change in the player, but I'd recommend this being 120 seconds instead, because it's such a big and important change, and we really want the player to feel it as a response from them. 
         //The system you've designed lends itself to precise, clockwork timing. It should bere-evaluated to work well with the director system, which includes a variable delay. The reconfigured system should calculate the time until the next world-change is added to the queue when the change actually is dynamically triggered. The behavior of setting a new countdown would then have to be triggered by the director system activation event. So you'd put the behavior that starts a new countdown in sequencer.SetSoundWorld. I've put a comment there for you to look at.
-
+        Debug.Log("WWise_VO: Starting Countdown to Next Segment with :" + timeInEachSegment + " | Current Stage: " + currentStage);
         if (currentStage == 0)
         {
-            //AkSoundEngine.SetState("SoundWorldMode", "SonoFlore");
             QueueNewWorld("SonoFlore", "Red", 120f);
             currentStage = 1;
             Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: SonoFlore");
         }
         else if (currentStage == 1)
         {
-            //AkSoundEngine.SetState("SoundWorldMode", "Gentle");
             QueueNewWorld("Gentle", "Red", 120f);
             currentStage = 2;
             Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Gentle");
         }
         else if (currentStage == 2)
         {
-            //AkSoundEngine.SetState("SoundWorldMode", "Shadow");
             QueueNewWorld("Shadow", "Blue", 120f);
             currentStage = 3;
             Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shadow");
             
         } else if (currentStage == 3)
         {
-            //AkSoundEngine.SetState("SoundWorldMode", "Shruti");
             QueueNewWorld("Shruti", "White", 120f);
             currentStage = 4;
             Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shruti");
         } else if (currentStage == 4)
         {
-           
+            Debug.Log("Transitioning to stage 4 and starting LastMinute coroutine.");
+            StartCoroutine(LastMinute());
+           //IMPLEMENT LAST MINUTE COROUTINE HERE
         }
-        yield return new WaitForSeconds(timeInEachSegment);
-        StartCountdownToNextSegment(timeInEachSegment);
+
+        if(currentStage < 4)
+        {
+            yield return new WaitForSeconds(timeInEachSegment);
+            StartCountdownToNextSegment(timeInEachSegment);
+            Debug.Log("Starting Countdown to Next Segment with :" + timeInEachSegment);
+        }
+        if(currentStage == 4)
+        {
+            Debug.Log("Starting Countdown to Next Segment with -60f :" + timeInEachSegment);
+            yield return new WaitForSeconds(timeInEachSegment - 60f);
+        }
     }
 
     //====================================================================================================
