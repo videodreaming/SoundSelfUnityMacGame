@@ -66,11 +66,7 @@ public class Sequencer : MonoBehaviour
     {
         //SOME IMPORTANT STATUP BEHAVIORS ARE IN WWISEVOMANAGER.CS AND MUSICSYSTEM1.CS
 
-        if(developmentMode.startAtStart || developmentMode.startInTutorial || developmentMode.startInPlayground)
-        {
-            WakeUpCounter = 2280.0f;
-        }
-        else if (developmentMode.startRightBeforeSavasana)
+        if (developmentMode.startRightBeforeSavasana)
         {
             WakeUpCounter = 190f;
         }
@@ -79,6 +75,11 @@ public class Sequencer : MonoBehaviour
             WakeUpCounter = 1f;
             FadeOut();
         }
+        else
+        {
+            WakeUpCounter = 2280.0f;
+        }
+        
         //interactiveMusicExperienceTotalTime = 1245.0f;
         //soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
         //finalStagePreLogicTime = 15f; 
@@ -109,7 +110,12 @@ public class Sequencer : MonoBehaviour
         {
             WakeUpCounter -= Time.deltaTime;
         }
+        else
+        {
+            WakeUpCounter = -1.0f;
+        }
         
+        //REEF- note that musicProgressionFlag doesn't seem to be used any more, this can probably be removed.
         if(musicSystem1.interactive && !musicProgressionFlag)
         {
             musicProgressionFlag = true;
@@ -178,35 +184,20 @@ public class Sequencer : MonoBehaviour
         //recordedAudioPlaybackTest.SetRecordMode(false);
         //recordedAudioPlaybackTest.SetPlaybackMode(false);
 
-        //wait for the first new tone to start, or to pass the 30s threshold...
-        
-        // For some reason, it should work after i double checekd but for some reason it doesn't work in the following code, so I went with the WaitUntilCondition method.
-        // while(WakeUpCounter > 30f || !imitoneVoiceInterpreter.toneActiveConfident)
-        // {
-        //     yield return null;
-        // }
-        // while(WakeUpCounter > 30f || imitoneVoiceInterpreter.toneActiveConfident)
-        // {
-        //     yield return null;
-        // }
+        //WHAT SHOULD HAPPEN HERE: wait for the first *new* tone to start, *or* to pass the 30s threshold..
 
-        //ROBIN: Could you check up on where and how WakeUpCounter needs to be implemented for iterations in the following code?
         // Wait until toneActiveConfident becomes false
+        yield return new WaitUntil(() => !imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter <= 30f);
+        Debug.Log("Sequencer Last Minute: Test 1 (Rest or Time) passed");
         
-        yield return new WaitUntil(() => !imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter > 30f);
-
         // Wait until toneActiveConfident becomes true
-        yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter > 30f);
-
-        Debug.Log("Sequencer Last Minute: Tone Detected. Starting Final Behaviors.");
+        yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter <= 30f);
+        Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors.");
         director.ActivateQueue(15f);
         musicSystem1.PlaygroundMode(false);
         yield return null;
 
-        while(WakeUpCounter > 15f)
-        {
-            yield return null;
-        }
+        yield return new WaitUntil(() => WakeUpCounter <= 15f);
         
         Debug.Log("Sequencer Last Minute: Starting Light Fade-Out.");
         FadeOut();
