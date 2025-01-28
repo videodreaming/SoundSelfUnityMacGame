@@ -64,8 +64,6 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
-        //SOME IMPORTANT STATUP BEHAVIORS ARE IN WWISEVOMANAGER.CS AND MUSICSYSTEM1.CS
-
         if (developmentMode.startRightBeforeSavasana)
         {
             WakeUpCounter = 190f;
@@ -80,9 +78,6 @@ public class Sequencer : MonoBehaviour
             WakeUpCounter = 2280.0f;
         }
         
-        //interactiveMusicExperienceTotalTime = 1245.0f;
-        //soundWorldChangeTime = interactiveMusicExperienceTotalTime / 4;
-        //finalStagePreLogicTime = 15f; 
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
         if(!developmentMode.configureMode)
@@ -148,8 +143,8 @@ public class Sequencer : MonoBehaviour
                 }
             }
         }
-        //REEF - I think the behaviors you are working on in WwiseVOManager.cs belong in here, because this is where we deal with other elements of the sequence.
-        //... Some of what you are doing could be done with something like what LastMinute() is doing, which triggers in the last minute of the wake up counter. 
+        //REEF - I think the behaviors you are working on in WwiseVOManager.cs bel dong in here, because this is where we deal with other elements of the sequence.
+        //... Some of what you areoing could be done with something like what LastMinute() is doing, which triggers in the last minute of the wake up counter. 
 
         //End Behaviors
         if(!developmentMode.startInSavasana)
@@ -184,19 +179,19 @@ public class Sequencer : MonoBehaviour
         //recordedAudioPlaybackTest.SetRecordMode(false);
         //recordedAudioPlaybackTest.SetPlaybackMode(false);
 
-        //WHAT SHOULD HAPPEN HERE: wait for the first *new* tone to start, *or* to pass the 30s threshold..
-
         // Wait until toneActiveConfident becomes false
         yield return new WaitUntil(() => !imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter <= 30f);
         Debug.Log("Sequencer Last Minute: Test 1 (Rest or Time) passed");
         
         // Wait until toneActiveConfident becomes true
         yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter <= 30f);
-        Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors.");
+        Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors. Wake Up Counter" + WakeUpCounter);
         director.ActivateQueue(15f);
         musicSystem1.PlaygroundMode(false);
-        yield return null;
 
+        Debug.Log("Sequencer Last Minute: Starting Thematic Savasana.");
+        yield return null;
+        Debug.Log("wake Up Counter:" + WakeUpCounter);
         yield return new WaitUntil(() => WakeUpCounter <= 15f);
         
         Debug.Log("Sequencer Last Minute: Starting Light Fade-Out.");
@@ -205,8 +200,8 @@ public class Sequencer : MonoBehaviour
         while(WakeUpCounter > 0f)
         {
             yield return null;
+            Debug.Log("Sequencer Last Minute: Waiting for WakeUpCounter to reach 0.");
         }
-        savasana.PlayThematicSavasana();
     }
 
     private void FadeOut()
@@ -220,11 +215,10 @@ public class Sequencer : MonoBehaviour
     //MUSIC PROGRESSION
     //====================================================================================================
 
-    //REEF - I suggest putting these behaviors in Sequencer, as they don't necessarily pertain to VO, but more to the "sequence" of events. See a comment I left for you on line 143 of that script.
     //Also noting that the design of this doesn't lend itself easily or naturally to different sequences, using different instrument sets, or a different order, or not all of them, which will become more relevant in the not too distant future, but is relevant even now given the possibility that someone will just "stay" in the tutorial.
     //... The ideal system would have a list of sound worlds to play, and would move through the list. That list could be modified based on (a) the launch initializations and (b) the amount of time left when the sequence initiates
     //This will work for now, but I think the system could be cleaner.
-    public void BeginMusicSequence(float currentTime) //REEF- I renamed this because I think "CalculateRemainingTime" doesn't adequately describe its function. I changed the reference in Tutorial too.
+    public void BeginMusicSequence(float currentTime)
     {
         timeInUnguidedVocalization = wwiseVOManager.totalTimeOfExperience - wwiseVOManager.totalTimeOfPostUnguidedVocalizationContant - currentTime;   
         float timeInEachSegment = timeInUnguidedVocalization / 4;
@@ -271,21 +265,22 @@ public class Sequencer : MonoBehaviour
             Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shruti");
         } else if (currentStage == 4)
         {
-            Debug.Log("Transitioning to stage 4 and starting LastMinute coroutine.");
-            StartCoroutine(LastMinute());
-           //IMPLEMENT LAST MINUTE COROUTINE HERE
+            Debug.Log("PlayingThematicSavasana");
+            savasana.PlayThematicSavasana();
+            yield break; // End the coroutine here to avoid further countdown logic.
         }
 
-        if(currentStage < 4)
+        if (currentStage < 4)
         {
             yield return new WaitForSeconds(timeInEachSegment);
             StartCountdownToNextSegment(timeInEachSegment);
             Debug.Log("Starting Countdown to Next Segment with :" + timeInEachSegment);
         }
-        if(currentStage == 4)
+        else if (currentStage == 4) // Ensure this logic does not conflict with LastMinute
         {
             Debug.Log("Starting Countdown to Next Segment with -60f :" + timeInEachSegment);
             yield return new WaitForSeconds(timeInEachSegment - 60f);
+            StartCountdownToNextSegment(timeInEachSegment-60f);
         }
     }
 

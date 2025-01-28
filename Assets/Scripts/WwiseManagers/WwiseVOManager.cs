@@ -66,13 +66,16 @@ public class WwiseVOManager : MonoBehaviour
                 AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
             } 
+            
             if(firstTimeUser)
             {
                 //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
                 AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
                 AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
+                AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Long",gameObject);
             } else {
                 AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+                AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
                 AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
             }
         } else if (CSVLoader.gameMode == "Integration")

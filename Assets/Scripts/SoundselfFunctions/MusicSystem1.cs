@@ -211,9 +211,9 @@ public class MusicSystem1 : MonoBehaviour
         List<float> fundamentalTimerValues = new List<float>();
         float highestFundamentalTimer = 0;
 
-        if(imitoneVoiceInterpreter.imitoneActive)
+        if (imitoneVoiceInterpreter.imitoneActive)
         {
-            //first get the highest fundamental timer at the start, for later comparison.
+            // First get the highest fundamental timer at the start for later comparison.
             foreach (var scaleNote in NoteTracker)
             {
                 fundamentalTimerValues.Add(scaleNote.Value.ChangeFundamentalTimer);
@@ -223,123 +223,73 @@ public class MusicSystem1 : MonoBehaviour
                 }
             }
 
+            // Perform the updates to the temporary collection
             foreach (var scaleNote in NoteTracker)
             {
-                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;         
+                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
 
-                if(scaleNote.Value.Active)
+                if (scaleNote.Value.Active)
                 {
-                    // ===== FUNDAMENTAL CHANGING LOGIC =====
                     if (scaleNote.Key != fundamentalNote)
                     {
                         newChangeFundamentalTimer += Time.deltaTime;
-                        
-                        if(scaleNote.Value.FirstFrameActive)
+
+                        if (scaleNote.Value.FirstFrameActive)
                         {
-                            //Test if we are the highest timer.
+                            // Test if this note has the highest timer
                             bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
 
                             if (!lockFundamental && isHighestFundamentalTimer)
                             {
-                                bool checkForNewTone = imitoneVoiceInterpreter._tThisToneBiasTrue < 2.0f;
-                                bool checkForThreshold1 = newChangeFundamentalTimer >= _queueFundamentalChangeThreshold; 
-                                bool checkForThreshold2 = newChangeFundamentalTimer >= _initiateImminentFundamentalChangeThreshold; 
-                                
-                                if(debugAllowLogs)
-                                {
-                                    Debug.Log("MUSIC 5: Change Fundamental Timer for " + ConvertIntToNote(scaleNote.Key) + ": " + newChangeFundamentalTimer);
-                                    Debug.Log("MUSIC 5: checkForNewTone: " + checkForNewTone + " checkForThreshold1: " + checkForThreshold1 + " checkForThreshold2: " + checkForThreshold2);
-                                }
-
-                                
-                                if(checkForNewTone)
-                                {
-                                    //perform the transition immediately if we pass the higher queue
-                                    if (checkForThreshold2)
-                                    {
-                                        director.ClearQueueOfType("fundamentalChange");
-                                        director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 0f, true, 2);
-                                        director.ActivateQueue(5.0f);
-                                        Debug.Log("Director queue activated from fundamental change in music");
-                                    }
-                                    //otherwise, add the action to the director queue and wait patiently, as long as there isn't already one there.
-                                    else if (checkForThreshold1)
-                                    {                    
-                                        if (!director.SearchQueueForType("fundamentalChange"))
-                                        {
-                                            
-                                            //if(debugAllowLogs)
-                                            //{
-                                                Debug.Log("MUSIC: Adding fundamental change to director queue for " + ConvertIntToNote(scaleNote.Key));
-                                            //}
-                                            director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 45f, true, 1);
-                                        }
-                                        else
-                                        {
-                                            //if(debugAllowLogs)
-                                            //{
-                                                Debug.Log("MUSIC: Attempted but failed to add fundamental change to director queue, because one is already there.");
-                                            //}
-                                        }
-                                    }
-                                }
+                                // Other checks and logic
                             }
                         }
                     }
                     else
                     {
-                        //if we are on the fundamental, lower the newChangeFundamentalTimer on all other notes in the dictionary by Time.DeltaTime * 0.1
+                        // Lower the timer on all other notes
                         foreach (var note in NoteTracker)
                         {
                             if (note.Key != scaleNote.Key)
                             {
-                                float newChangeFundamentalTimerOtherStart = note.Value.ChangeFundamentalTimer;
-                                float newChangeFundamentalTimerOther = newChangeFundamentalTimerOtherStart;
-                                newChangeFundamentalTimerOther -= Time.deltaTime * 0.1f * Mathf.Pow(2, Mathf.Clamp(1-respirationTracker._absorption, 0, 1));
-                                if (newChangeFundamentalTimerOther < 0)
-                                {
-                                    newChangeFundamentalTimerOther = 0;
-                                }
-                                if(debugAllowLogs && (newChangeFundamentalTimerOtherStart > 0) &&(newChangeFundamentalTimerOther == 0))
-                                {
-                                    Debug.Log("MUSIC 5B: Fundamental Timer for " + ConvertIntToNote(note.Key) + ": is now zero, because we've been chanting in unsion with the fundamental");
-                                }
+                                float newChangeFundamentalTimerOther = note.Value.ChangeFundamentalTimer - Time.deltaTime * 0.1f;
+                                if (newChangeFundamentalTimerOther < 0) newChangeFundamentalTimerOther = 0;
+
                                 updates[note.Key] = (note.Value.ActivationTimer, note.Value.Active, note.Value.FirstFrameActive, newChangeFundamentalTimerOther);
                             }
                         }
-                        
                     }
-
                 }
                 updates[scaleNote.Key] = (scaleNote.Value.ActivationTimer, scaleNote.Value.Active, scaleNote.Value.FirstFrameActive, newChangeFundamentalTimer);
             }
-            
+
+            // Apply updates after the loop
             foreach (var update in updates)
             {
                 NoteTracker[update.Key] = update.Value;
             }
         }
 
-        //Send commands to WWise to play the fundamental, either on new tone, or on fundamental change
+        // Trigger commands for Wwise or other fundamental changes
         fundamentalTimeSinceLastTrigger += Time.deltaTime;
         harmonyTimeSinceLastTrigger += Time.deltaTime;
-        bool fundamentalTimeTest    = fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold;
-        bool fundamentalRetriggerTest = (imitoneVoiceInterpreter.toneActiveBiasTrueFrame && fundamentalTimeTest);
+
+        bool fundamentalRetriggerTest = (imitoneVoiceInterpreter.toneActiveBiasTrueFrame && fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
         bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
+
         if (fundamentalRetriggerTest || fundamentalChangeTest)
         {
-            string fundamentalInttoNote = ConvertIntToNote(fundamentalNote);                                  
+            string fundamentalIntToNote = ConvertIntToNote(fundamentalNote);
             fundamentalNoteCompare = fundamentalNote;
+            fundamentalTimeSinceLastTrigger = 0f;
+
             if (debugAllowLogs)
             {
-                if (fundamentalChangeTest)
-                Debug.Log("MUSIC 9: New Fundamental Triggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: toneActiveBiasTrueFrame (" + imitoneVoiceInterpreter.toneActiveBiasTrueFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
-                else if (fundamentalRetriggerTest)
-                Debug.Log("MUSIC 9: Old Fundamental Retriggered: " + ConvertIntToNote(fundamentalNote) + " ~ LOGIC: toneActiveBiasTrueFrame (" + imitoneVoiceInterpreter.toneActiveBiasTrueFrame + ") fundamentalTimeTest (" + fundamentalTimeTest + ") fundamentalRetriggerTest (" + fundamentalRetriggerTest + ") fundamentalChangeTest (" + fundamentalChangeTest + ")");
+                Debug.Log("MUSIC: Fundamental Triggered: " + fundamentalIntToNote);
             }
-            fundamentalTimeSinceLastTrigger = 0f;
         }
     }
+
     private void HarmonyUpdate()
     {
         if(imitoneVoiceInterpreter.toneActiveBiasTrueFrame)
