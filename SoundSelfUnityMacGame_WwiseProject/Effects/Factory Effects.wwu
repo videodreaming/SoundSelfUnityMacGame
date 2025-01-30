@@ -41,7 +41,7 @@
 						</Effect>
 						<Effect Name="Dialog_Too_Quiet" ID="{F9C77BF1-1CCC-415B-B93F-B048979CA620}" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
 							<PropertyList>
-								<Property Name="OutputGain" Type="Real32" Value="6"/>
+								<Property Name="OutputGain" Type="Real32" Value="1.9"/>
 								<Property Name="Ratio" Type="Real32" Value="3"/>
 								<Property Name="Threshold" Type="Real32" Value="-30"/>
 							</PropertyList>

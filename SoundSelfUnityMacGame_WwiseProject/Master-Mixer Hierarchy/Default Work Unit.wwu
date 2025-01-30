@@ -78,7 +78,7 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 									<DuckingParam>
-										<Volume>-1</Volume>
+										<Volume>-0.5</Volume>
 										<FadeInTime>0.5</FadeInTime>
 										<FadeOutTime>0.5</FadeOutTime>
 										<FadeCurve>FadeLog1</FadeCurve>
@@ -88,7 +88,7 @@
 								<DuckItem>
 									<BusRef Name="Environment" ID="{8CBEC533-4413-4401-925C-5A5BCA9F83CA}"/>
 									<DuckingParam>
-										<Volume>-2</Volume>
+										<Volume>-1</Volume>
 										<FadeInTime>1</FadeInTime>
 										<FadeOutTime>0.5</FadeOutTime>
 										<FadeCurve>FadeLog1</FadeCurve>
@@ -395,7 +395,7 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 									<DuckingParam>
-										<Volume>-2</Volume>
+										<Volume>-1</Volume>
 										<FadeInTime>2</FadeInTime>
 										<FadeOutTime>0.5</FadeOutTime>
 										<FadeCurve>FadeLog2</FadeCurve>
@@ -404,7 +404,7 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}"/>
 									<DuckingParam>
-										<Volume>-2</Volume>
+										<Volume>-1</Volume>
 										<FadeInTime>1</FadeInTime>
 										<FadeOutTime>1</FadeOutTime>
 										<FadeCurve>FadeLog2</FadeCurve>
@@ -425,10 +425,21 @@
 								<ObjectList Name="Effects">
 									<Reference>
 										<Local>
-											<EffectSlot Name="" ID="{D38923E3-79A6-4CF5-BDD6-DEA6F3262616}" ShortID="921320141">
+											<EffectSlot Name="" ID="{731E73FE-54B9-4F5C-AC95-AC40F378B874}" ShortID="753092907">
 												<ReferenceList>
-													<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
-														<ObjectRef Name="VocalBassReduction" ID="{B443BB70-9CA5-43F2-B6AE-6AF534B620FB}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
+													<Reference Name="Effect" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
+														<ObjectRef Name="Dialog_Too_Quiet" ID="{F9C77BF1-1CCC-415B-B93F-B048979CA620}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{94D7886D-002A-47A5-9D46-A2F7F5BDD988}" ShortID="904651133">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
+														<ObjectRef Name="Dialog_Leveler_Soft" ID="{9C1D0FCF-896E-4739-A8E8-B1E908F51CE6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 													</Reference>
 												</ReferenceList>
 											</EffectSlot>
@@ -473,34 +484,8 @@
 									</Reference>
 								</ObjectList>
 							</ObjectLists>
-							<DuckingList>
-								<DuckItem>
-									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
-									<DuckingParam>
-										<Volume>-1</Volume>
-										<FadeInTime>1</FadeInTime>
-										<FadeOutTime>0.5</FadeOutTime>
-										<FadeCurve>FadeLog1</FadeCurve>
-									</DuckingParam>
-								</DuckItem>
-							</DuckingList>
 						</Bus>
 					</ChildrenList>
-					<ObjectLists>
-						<ObjectList Name="Effects">
-							<Reference>
-								<Local>
-									<EffectSlot Name="" ID="{93AAAD96-FA74-42E3-9FB6-0CF5F23F3D93}" ShortID="291720297">
-										<ReferenceList>
-											<Reference Name="Effect" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
-												<ObjectRef Name="Gentle_Program_Compressor_Minus_14dB_RMS" ID="{1595E6B0-DD58-4363-A3F0-DF0C96EC7C17}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
-											</Reference>
-										</ReferenceList>
-									</EffectSlot>
-								</Local>
-							</Reference>
-						</ObjectList>
-					</ObjectLists>
 				</Bus>
 				<Bus Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}">
 					<PropertyList>

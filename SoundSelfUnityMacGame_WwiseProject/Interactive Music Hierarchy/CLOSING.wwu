@@ -852,7 +852,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -914,23 +914,28 @@
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>36.16948</XPos>
-																						<YPos>-2.37685</YPos>
+																						<XPos>36.12908</XPos>
+																						<YPos>-2.47787</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>41.11163</XPos>
-																						<YPos>-2.39362</YPos>
+																						<XPos>41.07123</XPos>
+																						<YPos>-2.49484</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>48.42507</XPos>
-																						<YPos>-2.5939</YPos>
+																						<XPos>48.37946</XPos>
+																						<YPos>-2.6975</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>54.1613519726331</XPos>
+																						<YPos>-2.51010767762615</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
 																						<XPos>60.35103</XPos>
-																						<YPos>-2.66751</YPos>
+																						<YPos>-2.42059</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -939,38 +944,43 @@
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>86.44346</XPos>
-																						<YPos>-2.55184</YPos>
+																						<XPos>86.32812</XPos>
+																						<YPos>-2.30814</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
 																						<XPos>101.09435</XPos>
-																						<YPos>-2.59192</YPos>
+																						<YPos>-2.42795</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>113.11642</XPos>
-																						<YPos>-2.22344</YPos>
+																						<XPos>113.30206</XPos>
+																						<YPos>-2.0681</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>130.69528</XPos>
-																						<YPos>-2.28368</YPos>
+																						<XPos>130.88092</XPos>
+																						<YPos>-1.80053</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>155.05996</XPos>
-																						<YPos>-2.01951</YPos>
+																						<XPos>155.2456</XPos>
+																						<YPos>-1.3697</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>168.22002</XPos>
-																						<YPos>-1.70832</YPos>
+																						<XPos>167.84875</XPos>
+																						<YPos>-1.34407</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
 																						<XPos>183.56428</XPos>
-																						<YPos>-1.93161</YPos>
+																						<YPos>-1.64997</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>209.56445</XPos>
+																						<YPos>-1.4065</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -979,8 +989,13 @@
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>336.82362</XPos>
-																						<YPos>-0.80488</YPos>
+																						<XPos>320.96459</XPos>
+																						<YPos>-1.24583</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>406.874</XPos>
+																						<YPos>-1.14677</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -1013,7 +1028,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{B0DFD9D4-938C-4845-AB4A-AFA44B27DFF9}" ShortID="203772450">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="295295.837585892"/>
+																		<Property Name="PlayAt" Type="Real64" Value="272224.521778313"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -1712,6 +1727,11 @@
 						<MusicSegment Name="vo_thematicSavasana_narrative" ID="{81BAAB28-048D-4F4A-A1AA-43E6E10C0E26}" ShortID="1026644906">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="86023.3333333333"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1797,7 +1817,7 @@
 											<MusicCue Name="Cue_ThematicSavasana_End" ID="{7D73B174-7F49-44F4-BA1E-7A3D60D2791B}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="86023.3333333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="84996.2154851434"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1817,6 +1837,11 @@
 						<MusicSegment Name="vo_thematicSavasana_peace" ID="{C6DC30C5-9A01-491B-B93D-CFEC781D7266}" ShortID="27917859">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="229383.333333333"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1902,7 +1927,7 @@
 											<MusicCue Name="Cue_ThematicSavasana_End" ID="{5D05549C-4D00-4CEA-9AAF-50F5BEADAA8A}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="229383.333333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="228856.679778108"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2007,7 +2032,7 @@
 											<MusicCue Name="ThematicSavasana_End" ID="{02EAEFD5-93D3-4E99-80F9-30B1587EC7EF}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="84658"/>
+													<Property Name="TimeMs" Type="Real64" Value="84563.1254879906"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2132,6 +2157,11 @@
 						<MusicSegment Name="vo_thematicSavasana_surrender" ID="{C1556365-FE7C-4DF0-9C93-ED440AE7C525}" ShortID="465805778">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="114536.3125"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2396,6 +2426,19 @@
 						<ObjectList Name="Arguments">
 							<Reference>
 								<ObjectRef Name="VO_ThematicSavasana" ID="{41A09902-10E9-4520-834D-12006930AB09}" WorkUnitID="{ACB0D064-9E8A-4008-A3F6-580A8631C66D}"/>
+							</Reference>
+						</ObjectList>
+						<ObjectList Name="Effects">
+							<Reference>
+								<Local>
+									<EffectSlot Name="" ID="{4E249271-9C7A-4287-BB28-56FCCCF0F18E}" ShortID="624527526">
+										<ReferenceList>
+											<Reference Name="Effect" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
+												<ObjectRef Name="Dialog_Leveler_Soft" ID="{9C1D0FCF-896E-4739-A8E8-B1E908F51CE6}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+											</Reference>
+										</ReferenceList>
+									</EffectSlot>
+								</Local>
 							</Reference>
 						</ObjectList>
 						<ObjectList Name="Entries">

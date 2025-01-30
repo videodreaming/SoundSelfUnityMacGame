@@ -998,12 +998,17 @@
 					<PropertyList>
 						<Property Name="Highpass" Type="int16">
 							<ValueList>
-								<Value>9</Value>
+								<Value>14</Value>
 							</ValueList>
 						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>7</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>-1</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1029,7 +1034,7 @@
 												<PropertyList>
 													<Property Name="Enabled" Type="bool" Value="True"/>
 													<Property Name="Max" Type="Real64" Value="11"/>
-													<Property Name="Min" Type="Real64" Value="-10"/>
+													<Property Name="Min" Type="Real64" Value="-5"/>
 												</PropertyList>
 											</Modifier>
 										</ModifierInfo>
@@ -1042,7 +1047,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-10</Value>
+										<Value>-9</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
