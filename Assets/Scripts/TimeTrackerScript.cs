@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TimeTrackerScript : MonoBehaviour
 {
-    public static float TotalElapsedTime;
-    public static string DisplayTime;
+    public float TotalElapsedTime;
+    public string DisplayTime;
 
     // Start is called before the first frame update
     void Start()

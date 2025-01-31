@@ -25,6 +25,7 @@ public class Tutorial : MonoBehaviour
     private Coroutine correctionCoroutine;
     public bool inTutorial = false;
     public float totalTimeOfPostUnguidedVocalizationContant;
+    public TimeTrackerScript TimeTrackerScript;
     
     // Start is called before the first frame update
     void Start()
