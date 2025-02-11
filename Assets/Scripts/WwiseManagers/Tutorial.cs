@@ -114,15 +114,15 @@ public class Tutorial : MonoBehaviour
                     Debug.Log("WWise_VO Tutorial: Cue Change to Advanced");
                     testVocalizationType = "Advanced";
                     musicSystem1.LockToC(false);
-                } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") 
-                {
-                    Debug.Log("Wwise_Tutorial_Break_All_Tests");
-                    EndTutorial();
-                } else if (musicSyncInfo.userCueName == "Cue_FreePlay")
+                } else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
                 {
                     Debug.Log("WWise_VO Tutorial: Cue_FreePlay");
                     director.disable = false;
                     musicSystem1.InteractiveMusicInitializations();
+                } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
+                {
+                    Debug.Log("Wwise_Tutorial_Break_All_Tests");
+                    EndTutorial();
                 }
                 else
                 {
@@ -312,7 +312,7 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public void EndTutorial()
+    private void EndTutorial()
     {
         Debug.Log("TutorialEnded");
         // Run this when the cue for the end of the tutorial hits.

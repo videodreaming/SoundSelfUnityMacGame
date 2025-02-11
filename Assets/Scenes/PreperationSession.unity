@@ -7682,7 +7682,6 @@ MonoBehaviour:
   musicNoteActivated: 0
   fundamentalNote: 0
   harmonyNote: 0
-  interactive: 0
   currentSwitchState: C
 --- !u!4 &619104375
 Transform:
@@ -9280,7 +9279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a354a5c4b7b78f54081df115d9ae3152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceInterpreter: {fileID: 740096625}
@@ -22105,6 +22103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77269b1ae0b1c4b54a60a6b8c3fa4e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wwiseVOManager: {fileID: 0}
 --- !u!1001 &1823268062
 PrefabInstance:
   m_ObjectHideFlags: 0

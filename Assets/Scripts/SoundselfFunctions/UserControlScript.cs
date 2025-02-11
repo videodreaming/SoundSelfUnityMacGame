@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class UserControlScript : MonoBehaviour
 {
-    public AudioManager audioManager;
     public RespirationTracker respirationTracker;
     public WwiseGlobalManager wwiseGlobalManager;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;

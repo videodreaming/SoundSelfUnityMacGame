@@ -83,7 +83,7 @@ public class Sequencer : MonoBehaviour
         {
             CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         }
-        musicSystem1.SetMusicModeTo("InteractiveMusicSystem");
+        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
 
     }
    
@@ -199,7 +199,7 @@ public class Sequencer : MonoBehaviour
 
     private void FadeOut()
     {
-        musicSystem1.SetMusicModeTo("Environment");
+        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Environment);
         lightControl.SetPreferredColor("Dark");
         lightControl.NextPreferredColorWorld(18f);
     }

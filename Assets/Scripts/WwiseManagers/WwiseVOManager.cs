@@ -206,7 +206,6 @@ public class WwiseVOManager : MonoBehaviour
             } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
             {
                 Debug.Log("WwiseVO: WARNING, THIS CUE IS NOT EXPECTED, IT IS A DUPLICATE OF CUE_FREEPLAY: Cue_InteractiveMusicSystem_Start");
-                //musicSystem1.InteractiveMusicInitializations();
             } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
             {
                 Debug.Log("WWise_VO: Cue_Opening_Start");

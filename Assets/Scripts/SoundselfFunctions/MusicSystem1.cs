@@ -321,25 +321,6 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    public void InteractiveMusicInitializations()
-    {
-        if(!initializeFlag)
-        {
-            SetMusicModeTo("InteractiveMusicSystem");
-
-            freeplay = true;
-            initializeFlag = true;
-            LockToC(false);
-            AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-            AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
-            AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);
-        }
-        else
-        {
-            Debug.LogWarning("MUSIC: InteractiveMusicSystem is already initialized, this can only happen once");
-        }
-    }
-
     // private IEnumerator InteractiveMusicSystemFade()
     // {
     //     //NOTE: this can be cleaned up by using the RTPC's transition time in ms, which Robin uses all the time (see lightControl)
@@ -388,16 +369,15 @@ public class MusicSystem1 : MonoBehaviour
             if(!environmentFlag && imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold)
             {
                 Debug.Log("MUSIC: Environment Mode : because " + imitoneVoiceInterpreter._tThisRestConfident + " > " + UserNotToningThreshold);
-                SetMusicModeTo("Environment");
+                SetMusicModeTo(MusicMode.Environment);
             }
             else if (!interactiveFlag)
             {
                 Debug.Log("MUSIC: Interactive Music System Mode");
-                SetMusicModeTo("InteractiveMusicSystem");
+                SetMusicModeTo(MusicMode.Freeplay);
             }
         }
     }
-
 
     //TODO: SOME IMPPORTANT CLEAN-UP WORK
     //Right now, "playground" turns on, but "playground" includes "Environment".
@@ -406,26 +386,97 @@ public class MusicSystem1 : MonoBehaviour
     //(Possibly also a "tutorial" mode)
     //Without the hierarchy of "playground" (formerly "interactive") over "environment" / "interactive" (which is confusing)
 
-    public void SetMusicModeTo(string mode)
+    //freeplay (bool)
+    // -> environment (not even set - interacts straight with WWise)
+    // -> interactiveMusicMode (not even set - interacts straight with WWise)
+
+    // ~~~~
+    public enum MusicMode
+    {
+        Silent,
+        Tutorial,
+        Freeplay,
+        Environment
+    }
+
+    private bool modeSilentFlag = false;
+    private bool modeTutorialFlag = false;
+    private bool modeFreeplayFlag = false;
+    private bool modeEnvironmentFlag = false;
+
+    public void SetMusicModeTo(MusicMode mode)
     {
         Debug.Log("MUSIC: Please set Music Mode to " + mode + "...");
-        if (mode == "Environment" && !environmentFlag)
+        switch (mode)
         {
-            AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
-            environmentFlag = true;
-            interactiveFlag = false;
-            Debug.Log("MUSIC: Music Mode set to Environment");
-        }
-        else if (mode == "InteractiveMusicSystem" && !interactiveFlag)
-        {
-            AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-            interactiveFlag = true;
-            environmentFlag = false;
-            Debug.Log("MUSIC: Music Mode set to InteractiveMusicMode");
-        }
-        else
-        {
-            throw new ArgumentException("MUSIC: Invalid music mode change. Only 'Environment' and 'InteractiveMusicSystem' are allowed, or the mode is already set to " + mode);
+            case MusicMode.Silent:
+            if(!modeSilentFlag)
+            {
+                modeSilentFlag = true;
+                modeTutorialFlag = false;
+                modeFreeplayFlag = false;
+                modeEnvironmentFlag = false;
+
+                //SET BEHAVIORS FOR SILENT IN HERE
+                Debug.Log("MUSIC: Music Mode Set to Silent");
+            }
+            else
+            {
+                Debug.LogWarning("MUSIC: Tried to set Music Mode to Silent, but it was already set to Silent");
+            }
+            break;
+            
+            case MusicMode.Tutorial:
+            if(!modeTutorialFlag)
+            {
+                modeSilentFlag = false;
+                modeTutorialFlag = true;
+                modeFreeplayFlag = false;
+                modeEnvironmentFlag = false;
+                Debug.Log("MUSIC: Music Mode Set to Tutorial");
+                //SET BEHAVIORS FOR TUTORIAL IN HERE
+            }
+            else
+            {
+                Debug.LogWarning("MUSIC: Tried to set Music Mode to Tutorial, but it was already set to Tutorial");
+            }
+            break;
+            
+            case MusicMode.Freeplay:
+            if(!modeFreeplayFlag)
+            {
+                modeSilentFlag = false;
+                modeTutorialFlag = false;
+                modeFreeplayFlag = true;
+                modeEnvironmentFlag = false;
+                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+                Debug.Log("MUSIC: Music Mode Set to Freeplay (WWise: InteractiveMusicSystem)");
+            }
+            else
+            {
+                Debug.LogWarning("MUSIC: Tried to set Music Mode to Freeplay, but it was already set to Freeplay");
+            }
+            break;
+            
+            case MusicMode.Environment:
+            if(!modeEnvironmentFlag)
+            {
+                modeSilentFlag = false;
+                modeTutorialFlag = false;
+                modeFreeplayFlag = false;
+                modeEnvironmentFlag = true;
+                AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
+                Debug.Log("MUSIC: Music Mode Set to Environment");
+            }
+            else
+            {
+                Debug.LogWarning("MUSIC: Tried to set Music Mode to Environment, but it was already set to Environment");
+            }
+            break;
+            
+            default:
+                Debug.Log("MUSIC: Invalid Music Mode: " + mode);
+            break;
         }
     }
 
@@ -791,30 +842,40 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(on) //used to trigger playground mode
         {
-            //Start recording the user's voice here AND we should also playback the user's voice at the current fundamental should it be populated in the scripts.ss
-            //RECORDING SYSTEM:
-            //recordedAudioPlaybackTest.SetRecordMode(true);
-            //recordedAudioPlaybackTest.SetPlaybackMode(true);
-        
-            //NORMAL CODE:
             Debug.Log("Sequencer: PLAYGROUND ON");
             InteractiveMusicInitializations();
+            SetMusicModeTo(MusicMode.Freeplay);
+            freeplay = true;
+            LockToC(false);
             SetSilentVolume(80f, _transitionSecs);
             imitoneVoiceInterpreter.gameOn = true;
             director.disable = false;
         }
         else
         {
-            //PSEUDOCODE:
-            //recordedAudioPlaybackTest.SetRecordReplayMode(false);
-
-            //NORMAL CODE:
             Debug.Log("Sequencer: PLAYGROUND OFF");
             LockToC(true);
             imitoneVoiceInterpreter.gameOn = false;
             director.disable = true;
         }
     }
+
+    
+    private void InteractiveMusicInitializations()
+    {
+        if(!initializeFlag)
+        {
+            initializeFlag = true;
+            AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+            AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+            AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("MUSIC: InteractiveMusicSystem is already initialized, this can only happen once");
+        }
+    }
+
     
     // ===== REWARD THUMPS =====
     //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0 due to inerpolation rules)
