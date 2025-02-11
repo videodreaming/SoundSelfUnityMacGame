@@ -137,8 +137,8 @@ public class MusicSystem1 : MonoBehaviour
 
         if(freeplay) 
         { 
-            InterpretImitone();
-            BasicToning();
+            InterpretImitoneUpdate();
+            BasicToningUpdate();
             FundamentalUpdate();
             HarmonyUpdate();
         }
@@ -205,7 +205,7 @@ public class MusicSystem1 : MonoBehaviour
         userAudioSource.volume = _gameOnLerp * (1 - _chargeLerp) * gameValues._chantLerpFast;
     }
 
-    //Take the fundamental behaviors in the InterpretImitone method and move them here for clarity
+    //Take the fundamental behaviors in the InterpretImitonUpdate method and move them here for clarity
     private void FundamentalUpdate()
     {
         var updates = new Dictionary<int, (float, bool, bool, float)>();
@@ -403,6 +403,7 @@ public class MusicSystem1 : MonoBehaviour
     //Right now, "playground" turns on, but "playground" includes "Environment".
     //These need to be brought together.
     //As far as MusicSystem1 is concerned, and the below method, there should basically just be three modes: "Environment", "InteractiveMusicSystem", and "Silent".
+    //(Possibly also a "tutorial" mode)
     //Without the hierarchy of "playground" (formerly "interactive") over "environment" / "interactive" (which is confusing)
 
     public void SetMusicModeTo(string mode)
@@ -513,7 +514,7 @@ public class MusicSystem1 : MonoBehaviour
     }
 
 
-    private void BasicToning()
+    private void BasicToningUpdate()
     {       
         if(freeplay == true)
         {
@@ -543,7 +544,7 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.PostEvent("Stop_Toning",gameObject);
     }
 
-    private void InterpretImitone()
+    private void InterpretImitoneUpdate()
     {
          // ========================================================
         // CONVERTS RAW IMITONE INTO DATA USABLE BY OUR MUSIC SYSTEM
