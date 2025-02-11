@@ -118,7 +118,6 @@ public class Tutorial : MonoBehaviour
                 {
                     Debug.Log("WWise_VO Tutorial: Cue_FreePlay");
                     director.disable = false;
-                    musicSystem1.InteractiveMusicInitializations();
                 } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
                 {
                     Debug.Log("Wwise_Tutorial_Break_All_Tests");

@@ -73,7 +73,7 @@ public class MusicSystem1 : MonoBehaviour
     private bool thisTonesImpactPlayed = false;
     
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
-    public bool freeplay { get; private set; } = false;
+    private MusicMode currentMusicMode;
     private bool initializeFlag = false;
     public string currentSwitchState = "C";
 
@@ -90,18 +90,20 @@ public class MusicSystem1 : MonoBehaviour
 
     void Start()
     {
-        if(developmentMode.startAtStart || developmentMode.startInTutorial) //NORMAL START
+        if(developmentMode.startAtStart) //NORMAL START
         {
-            PlaygroundMode(false);
+            SetMusicModeTo(MusicMode.Silent);
+            SetSilentVolume(50f, 0f);
+        }
+        else if (developmentMode.startInTutorial)
+        {
+            SetMusicModeTo(MusicMode.Tutorial);
             SetSilentVolume(50f, 0f);
         }
         else if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
         {
-            PlaygroundMode(true, 0f);
-        }
-        else if (developmentMode.startInTutorial)
-        {
-            PlaygroundMode(false);
+            SetMusicModeTo(MusicMode.Freeplay);
+            SetSilentVolume(80f, 0f);
         }
         
         if(userObject != null)
@@ -135,12 +137,33 @@ public class MusicSystem1 : MonoBehaviour
     {
         localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue;
 
-        if(freeplay) 
+        if (currentMusicMode == MusicMode.Silent)
+        {
+            //PUT STUFF HERE
+        }
+        else if (currentMusicMode == MusicMode.Tutorial)
+        {
+            //PUT STUFF HERE
+        }
+        else if(currentMusicMode == MusicMode.Freeplay) 
         { 
             InterpretImitoneUpdate();
             BasicToningUpdate();
             FundamentalUpdate();
             HarmonyUpdate();
+            CheckForModeSwitchToEnvironment();
+        }
+        else if (currentMusicMode == MusicMode.FrozenFreeplay)
+        {
+            //PUT STUFF HERE
+        }
+        else if (currentMusicMode == MusicMode.Environment)
+        {
+            //PUT STUFF HERE
+            if(!inTutorial && !SavasanaPlayer.playedThematicSavasana) //only if both the following: tutorial has ended, and savasana has not begun.
+            {
+                CheckForModeSwitchToFreeplay();
+            }
         }
 
         //LOCK THE NOTE TO C WHEN THE C BUTTON IS PRESSED DOWN.
@@ -161,7 +184,6 @@ public class MusicSystem1 : MonoBehaviour
         }
         DirectVoiceMonitoring();
         ThumpUpdate();
-        MusicModeUpdate(); 
     }
 
     private void DirectVoiceMonitoring()
@@ -362,20 +384,22 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
     
-    private void MusicModeUpdate()
+    //private void MusicModeUpdate()
+    private void CheckForModeSwitchToEnvironment()
     {
-        if(freeplay)
+        if(!environmentFlag && imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold)
         {
-            if(!environmentFlag && imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold)
-            {
-                Debug.Log("MUSIC: Environment Mode : because " + imitoneVoiceInterpreter._tThisRestConfident + " > " + UserNotToningThreshold);
-                SetMusicModeTo(MusicMode.Environment);
-            }
-            else if (!interactiveFlag)
-            {
-                Debug.Log("MUSIC: Interactive Music System Mode");
-                SetMusicModeTo(MusicMode.Freeplay);
-            }
+            Debug.Log("MUSIC: Environment Mode : because " + imitoneVoiceInterpreter._tThisRestConfident + " > " + UserNotToningThreshold);
+            SetMusicModeTo(MusicMode.Environment);
+        }
+    }
+
+    private void CheckForModeSwitchToFreeplay()
+    {
+        if (!interactiveFlag && imitoneVoiceInterpreter.toneActiveVeryConfident)
+        {
+            Debug.Log("MUSIC: Interactive Music System Mode because toneActiveVeryConfident");
+            SetMusicModeTo(MusicMode.Freeplay);
         }
     }
 
@@ -396,12 +420,14 @@ public class MusicSystem1 : MonoBehaviour
         Silent,
         Tutorial,
         Freeplay,
+        FrozenFreeplay,
         Environment
     }
 
     private bool modeSilentFlag = false;
     private bool modeTutorialFlag = false;
     private bool modeFreeplayFlag = false;
+    private bool modeFrozenFreeplayFlag = false;
     private bool modeEnvironmentFlag = false;
 
     public void SetMusicModeTo(MusicMode mode)
@@ -409,12 +435,14 @@ public class MusicSystem1 : MonoBehaviour
         Debug.Log("MUSIC: Please set Music Mode to " + mode + "...");
         switch (mode)
         {
+            currentMusicMode = mode;
             case MusicMode.Silent:
             if(!modeSilentFlag)
             {
                 modeSilentFlag = true;
                 modeTutorialFlag = false;
                 modeFreeplayFlag = false;
+                modeFrozenFreeplayFlag = false;
                 modeEnvironmentFlag = false;
 
                 //SET BEHAVIORS FOR SILENT IN HERE
@@ -432,6 +460,7 @@ public class MusicSystem1 : MonoBehaviour
                 modeSilentFlag = false;
                 modeTutorialFlag = true;
                 modeFreeplayFlag = false;
+                modeFrozenFreeplayFlag = false;
                 modeEnvironmentFlag = false;
                 Debug.Log("MUSIC: Music Mode Set to Tutorial");
                 //SET BEHAVIORS FOR TUTORIAL IN HERE
@@ -448,7 +477,15 @@ public class MusicSystem1 : MonoBehaviour
                 modeSilentFlag = false;
                 modeTutorialFlag = false;
                 modeFreeplayFlag = true;
+                modeFrozenFreeplayFlag = false;
                 modeEnvironmentFlag = false;
+
+                LockToC(false);
+                InteractiveMusicInitializations();
+                imitoneVoiceInterpreter.gameOn = true;
+                SetSilentVolume(80f, 40f);            
+                director.disable = false;
+
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
                 Debug.Log("MUSIC: Music Mode Set to Freeplay (WWise: InteractiveMusicSystem)");
             }
@@ -458,12 +495,27 @@ public class MusicSystem1 : MonoBehaviour
             }
             break;
             
+            case MusicMode.FrozenFreeplay
+            if(!modeFrozenFreeplayFlag)
+            {
+                modeSilentFlag = false;
+                modeTutorialFlag = false;
+                modeFreeplayFlag = false;
+                modeFrozenFreeplayFlag = true;
+                modeEnvironmentFlag = false;
+
+                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+                Debug.Log("MUSIC: Music Mode Set to Freeplay (WWise: InteractiveMusicSystem)");
+            }
+
+
             case MusicMode.Environment:
             if(!modeEnvironmentFlag)
             {
                 modeSilentFlag = false;
                 modeTutorialFlag = false;
                 modeFreeplayFlag = false;
+                modeFrozenFreeplayFlag = false;
                 modeEnvironmentFlag = true;
                 AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
                 Debug.Log("MUSIC: Music Mode Set to Environment");
@@ -566,27 +618,24 @@ public class MusicSystem1 : MonoBehaviour
 
     private void BasicToningUpdate()
     {       
-        if(freeplay == true)
+        if(localToneOn && !previousLocalToneOn)
         {
-            if(localToneOn && !previousLocalToneOn)
+            if(debugAllowLogs)
             {
-                if(debugAllowLogs)
-                {
-                    Debug.Log("MUSIC: Post Toning Events to Wwise");
-                }
-
-                PostTheToningEvents();
-
-            } else if (!localToneOn && previousLocalToneOn)
-            {
-                if(debugAllowLogs)
-                {
-                    Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
-                }
-                StopWwiseToning();
+                Debug.Log("MUSIC: Post Toning Events to Wwise");
             }
-            previousLocalToneOn = localToneOn;
+
+            PostTheToningEvents();
+
+        } else if (!localToneOn && previousLocalToneOn)
+        {
+            if(debugAllowLogs)
+            {
+                Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
+            }
+            StopWwiseToning();
         }
+        previousLocalToneOn = localToneOn;
     }
 
     public void StopWwiseToning()
@@ -842,14 +891,6 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(on) //used to trigger playground mode
         {
-            Debug.Log("Sequencer: PLAYGROUND ON");
-            InteractiveMusicInitializations();
-            SetMusicModeTo(MusicMode.Freeplay);
-            freeplay = true;
-            LockToC(false);
-            SetSilentVolume(80f, _transitionSecs);
-            imitoneVoiceInterpreter.gameOn = true;
-            director.disable = false;
         }
         else
         {
