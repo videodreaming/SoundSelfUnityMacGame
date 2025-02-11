@@ -54,8 +54,7 @@ public class WwiseVOManager : MonoBehaviour
             } 
             else if (CSVLoader.subGameMode == "Narrative" || CSVLoader.subGameMode == "Psychological Flexibility")
             {
-
-            Debug.Log("WWise_VO: Psychological Flexibility or Narrative");
+                Debug.Log("WWise_VO: Psychological Flexibility or Narrative");
                 totalTimeOfPostUnguidedVocalizationContant = 742.0f;
                 AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);
@@ -73,10 +72,12 @@ public class WwiseVOManager : MonoBehaviour
                 AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
                 AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
                 AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Long",gameObject);
+                Debug.Log("WWise_VO: First Time User");
             } else {
                 AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
                 AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
-                AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
+                AkSoundEngine.SetSwitch("VO_Somatic","Short",gameObject);
+                Debug.Log("WWise_VO: Not First Time User");
             }
         } else if (CSVLoader.gameMode == "Integration")
         {
