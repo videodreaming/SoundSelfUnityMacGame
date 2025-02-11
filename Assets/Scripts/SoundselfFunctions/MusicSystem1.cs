@@ -387,7 +387,7 @@ public class MusicSystem1 : MonoBehaviour
         {
             if(!environmentFlag && imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold)
             {
-                Debug.Log("MUSIC: Environment Mode");
+                Debug.Log("MUSIC: Environment Mode : because " + imitoneVoiceInterpreter._tThisRestConfident + " > " + UserNotToningThreshold);
                 SetMusicModeTo("Environment");
             }
             else if (!interactiveFlag)
@@ -440,12 +440,11 @@ public class MusicSystem1 : MonoBehaviour
         {
             fundamentalNote = newFundamental;
             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote), gameObject);
-
+        
             if(debugAllowLogs)
             {
                 Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
             }
-
             ResetFundamentalTimers();
         }
         else

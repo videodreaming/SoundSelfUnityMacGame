@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class SavasanaPlayer : MonoBehaviour
 {
+    public WwiseVOManager wwiseVOManager;
+
     public void PlayThematicSavasana()
     {
         AkSoundEngine.PostEvent("Play_VO_ThematicSavasana", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);  
+        if(wwiseVOManager.firstTimeUser)
+        {
+            AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Long",gameObject);
+        } else if(wwiseVOManager.firstTimeUser == false)
+        {
+            AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
+        }
+        
         Debug.Log("ThematicSavasana_ShouldBePlaying");
     }
     

@@ -64,11 +64,17 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float _imitoneInactiveTimer;
     public float _tThisTone;
     public float _tThisToneRaw;
+    
+    [SerializeField]
     public float _tThisToneConfident;
+    
     public float _tThisToneBiasTrue;
     public float _tThisRest;
     public float _tThisRestRaw;
+
+    [SerializeField]
     public float _tThisRestConfident;
+    
     private float _durLastTone;    
     public bool _advanceToNextTutorialKey = false;
 
@@ -758,7 +764,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
         else
         {
-            _tThisToneConfident = 0.0f;
+            _tThisToneConfident = 0.0f; 
             _tThisRestConfident += Time.deltaTime;
         }
 
