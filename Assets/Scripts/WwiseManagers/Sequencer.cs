@@ -29,7 +29,6 @@ public class Sequencer : MonoBehaviour
     private int debugWorldCount = 0;
 
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
-    private bool musicProgressionFlag = false;
 
     //private float interactiveMusicExperienceTotalTime;
     private float WakeUpCounter;
@@ -109,13 +108,7 @@ public class Sequencer : MonoBehaviour
         {
             WakeUpCounter = -1.0f;
         }
-        
-        //REEF- note that musicProgressionFlag doesn't seem to be used any more, this can probably be removed.
-        if(musicSystem1.interactive && !musicProgressionFlag)
-        {
-            musicProgressionFlag = true;
-        }
-
+       
         //in playground mode, when I press the M button, cycle to the next music world (Gentle, Shadow, Shruti, Sonoflore)
         if(developmentMode.startInPlayground)
         {
