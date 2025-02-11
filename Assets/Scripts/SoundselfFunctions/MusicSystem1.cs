@@ -504,6 +504,8 @@ public class MusicSystem1 : MonoBehaviour
                 modeFrozenFreeplayFlag = true;
                 modeEnvironmentFlag = false;
 
+                //NOTE I GOT HERE - LOOK FOR WHEN PLAYGROUNDMODE IS TURNED OFF
+
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
                 Debug.Log("MUSIC: Music Mode Set to Freeplay (WWise: InteractiveMusicSystem)");
             }
