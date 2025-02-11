@@ -73,7 +73,8 @@ public class MusicSystem1 : MonoBehaviour
     private bool thisTonesImpactPlayed = false;
     
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
-    public bool interactive = false;
+    public bool freeplay { get; private set; } = false;
+    private bool initializeFlag = false;
     public string currentSwitchState = "C";
 
     //PLAYBACK AND INITIALIZATION
@@ -134,7 +135,7 @@ public class MusicSystem1 : MonoBehaviour
     {
         localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue;
 
-        if(interactive) 
+        if(freeplay) 
         { 
             InterpretImitone();
             BasicToning();
@@ -322,11 +323,12 @@ public class MusicSystem1 : MonoBehaviour
 
     public void InteractiveMusicInitializations()
     {
-        if(!interactive)
+        if(!initializeFlag)
         {
             SetMusicModeTo("InteractiveMusicSystem");
 
-            interactive = true;
+            freeplay = true;
+            initializeFlag = true;
             LockToC(false);
             AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
             AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
@@ -334,7 +336,7 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("MUSIC: InteractiveMusicSystemFade is already running");
+            Debug.LogWarning("MUSIC: InteractiveMusicSystem is already initialized, this can only happen once");
         }
     }
 
@@ -381,32 +383,48 @@ public class MusicSystem1 : MonoBehaviour
     
     private void MusicModeUpdate()
     {
-        if(interactive)
+        if(freeplay)
         {
             if(!environmentFlag && imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold)
             {
                 Debug.Log("MUSIC: Environment Mode");
                 SetMusicModeTo("Environment");
-                environmentFlag = true;
             }
             else if (!interactiveFlag)
             {
                 Debug.Log("MUSIC: Interactive Music System Mode");
                 SetMusicModeTo("InteractiveMusicSystem");
-                interactiveFlag = true;
             }
         }
     }
 
+
+    //TODO: SOME IMPPORTANT CLEAN-UP WORK
+    //Right now, "playground" turns on, but "playground" includes "Environment".
+    //These need to be brought together.
+    //As far as MusicSystem1 is concerned, and the below method, there should basically just be three modes: "Environment", "InteractiveMusicSystem", and "Silent".
+    //Without the hierarchy of "playground" (formerly "interactive") over "environment" / "interactive" (which is confusing)
+
     public void SetMusicModeTo(string mode)
     {
-        if (mode == "Environment" || mode == "InteractiveMusicSystem")
+        Debug.Log("MUSIC: Please set Music Mode to " + mode + "...");
+        if (mode == "Environment" && !environmentFlag)
         {
-            AkSoundEngine.SetState("InteractiveMusicMode", mode);
+            AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
+            environmentFlag = true;
+            interactiveFlag = false;
+            Debug.Log("MUSIC: Music Mode set to Environment");
+        }
+        else if (mode == "InteractiveMusicSystem" && !interactiveFlag)
+        {
+            AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+            interactiveFlag = true;
+            environmentFlag = false;
+            Debug.Log("MUSIC: Music Mode set to InteractiveMusicMode");
         }
         else
         {
-            throw new ArgumentException("MUSIC: Invalid music mode. Only 'Environment' and 'InteractiveMusicSystem' are allowed.");
+            throw new ArgumentException("MUSIC: Invalid music mode change. Only 'Environment' and 'InteractiveMusicSystem' are allowed, or the mode is already set to " + mode);
         }
     }
 
@@ -497,7 +515,7 @@ public class MusicSystem1 : MonoBehaviour
 
     private void BasicToning()
     {       
-        if(interactive == true)
+        if(freeplay == true)
         {
             if(localToneOn && !previousLocalToneOn)
             {
