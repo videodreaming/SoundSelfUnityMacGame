@@ -39,6 +39,7 @@ public class Sequencer : MonoBehaviour
     private bool flagTriggerEnd1 = false;
     private bool flagTriggerEnd2 = false;
     private bool flagThetaCoroutine = false;
+    public bool lastMinuteTriggered {get; private set;} = false; 
     private List<int> coroutineCleanupList = new List<int>();
     private Coroutine CoroutineDynamicDropStart;
     private Coroutine CoroutineDynamicDropTheta;
@@ -75,6 +76,8 @@ public class Sequencer : MonoBehaviour
         else
         {
             WakeUpCounter = 2280.0f;
+            musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Silent);          
+            director.disable = true;
         }
         
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
@@ -83,8 +86,6 @@ public class Sequencer : MonoBehaviour
         {
             CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         }
-        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
-
     }
    
     // Update is called once per frame
@@ -169,6 +170,7 @@ public class Sequencer : MonoBehaviour
     IEnumerator LastMinute()
     {
         Debug.Log("Sequencer Last Minute: Starting Last Minute Behaviors.");
+        lastMinuteTriggered = true;
         //recordedAudioPlaybackTest.SetRecordMode(false);
         //recordedAudioPlaybackTest.SetPlaybackMode(false);
 
@@ -180,7 +182,10 @@ public class Sequencer : MonoBehaviour
         yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter <= 30f);
         Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors. Wake Up Counter" + WakeUpCounter);
         director.ActivateQueue(15f);
-        musicSystem1.PlaygroundMode(false);
+        director.disable = true;
+        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+
+        //musicSystem1.PlaygroundMode(false);
 
         Debug.Log("Sequencer Last Minute: Starting Thematic Savasana.");
         yield return null;

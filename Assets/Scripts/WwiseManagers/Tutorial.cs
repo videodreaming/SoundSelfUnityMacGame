@@ -75,8 +75,9 @@ public class Tutorial : MonoBehaviour
             Debug.Log("Tutorial: START");
             active = true;
             testVocalizationType = "Hum";
-            musicSystem1.SetSilentVolume(50f, 20f);
-            musicSystem1.LockToC(true);
+
+            musicSystem1.SetMusicModeTo(musicSystem1.MusicMode.Tutorial);
+
             wwiseVOManager.InitializeLights(); //this is probably already initialized, just making sure.
             
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
@@ -91,12 +92,12 @@ public class Tutorial : MonoBehaviour
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
                 if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
                 { 
-                    Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_Start");
-                    imitoneVoiceInterpreter.gameOn = false;
+                    Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_Start"); //HELP! What is Tthis and the one below? I think this could help explain the bug where the music suddenly stops
+                    imitoneVoiceInterpreter.gameOn = false; //I think one of these is not correct. (also see Sequencer.cs and MusicSystem1.cs).
                 } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
                 {
                     Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_End");
-                    imitoneVoiceInterpreter.gameOn = true;
+                    imitoneVoiceInterpreter.gameOn = true;//I think one of these is not correct. (also see Sequencer.cs and MusicSystem1.cs)
                 } else if (musicSyncInfo.userCueName == "Cue_BreathIn")
                 {
                     Debug.Log("WWise_VO Tutorial: Cue_BreathIn");
@@ -117,6 +118,8 @@ public class Tutorial : MonoBehaviour
                 } else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
                 {
                     Debug.Log("WWise_VO Tutorial: Cue_FreePlay");
+                    
+                    musicSystem1.SetSilentVolume(80f, 40f);            
                     director.disable = false;
                 } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
                 {
@@ -326,7 +329,8 @@ public class Tutorial : MonoBehaviour
             StopCoroutine(correctionCoroutine);
         }
         sequencer.BeginMusicSequence(TimeTrackerScript.TotalElapsedTime);
-        musicSystem1.PlaygroundMode(true, 40f);
+        musicSystem1.SetMusicModeTo(musicSystem1.MusicMode.Freeplay);
+        director.disable = false;
         active = false;
         Debug.Log("TUTORIAL: END with" + TimeTrackerScript.TotalElapsedTime);
     }

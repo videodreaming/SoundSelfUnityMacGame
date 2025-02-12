@@ -10,6 +10,7 @@ public class MusicSystem1 : MonoBehaviour
 {
     private bool debugAllowLogs = false;
     public DevelopmentMode developmentMode;
+    public Sequencer sequencer;
     public WwiseVOManager wwiseVOManager;
     public Director director;
     public RespirationTracker respirationTracker;
@@ -74,7 +75,8 @@ public class MusicSystem1 : MonoBehaviour
     
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
     private MusicMode currentMusicMode;
-    private bool initializeFlag = false;
+    private bool initializeInteractiveMusicFlag = false;
+    private bool initializeEnvironmentFlag = false;
     public string currentSwitchState = "C";
 
     //PLAYBACK AND INITIALIZATION
@@ -93,16 +95,19 @@ public class MusicSystem1 : MonoBehaviour
         if(developmentMode.startAtStart) //NORMAL START
         {
             SetMusicModeTo(MusicMode.Silent);
-            SetSilentVolume(50f, 0f);
+            SetSilentVolume(50f, 0f);          
+            director.disable = true;
         }
         else if (developmentMode.startInTutorial)
         {
-            SetMusicModeTo(MusicMode.Tutorial);
+            SetMusicModeTo(MusicMode.Tutorial);          
+            director.disable = true;
             SetSilentVolume(50f, 0f);
         }
         else if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
         {
-            SetMusicModeTo(MusicMode.Freeplay);
+            SetMusicModeTo(MusicMode.Freeplay);          
+            director.disable = false;
             SetSilentVolume(80f, 0f);
         }
         
@@ -139,11 +144,14 @@ public class MusicSystem1 : MonoBehaviour
 
         if (currentMusicMode == MusicMode.Silent)
         {
-            //PUT STUFF HERE
+            //PUT STUFF HERE IF NECESSARY
         }
         else if (currentMusicMode == MusicMode.Tutorial)
         {
-            //PUT STUFF HERE
+            InterpretImitoneUpdate();
+            BasicToningUpdate();
+            FundamentalUpdate();
+            HarmonyUpdate();
         }
         else if(currentMusicMode == MusicMode.Freeplay) 
         { 
@@ -155,12 +163,11 @@ public class MusicSystem1 : MonoBehaviour
         }
         else if (currentMusicMode == MusicMode.FrozenFreeplay)
         {
-            //PUT STUFF HERE
+            //PUT STUFF HERE IF NECESSARY
         }
         else if (currentMusicMode == MusicMode.Environment)
         {
-            //PUT STUFF HERE
-            if(!inTutorial && !SavasanaPlayer.playedThematicSavasana) //only if both the following: tutorial has ended, and savasana has not begun.
+\            if(!inTutorial && !SavasanaPlayer.playedThematicSavasana && !sequencer.lastMinuteTriggered) //only if ALL the following: tutorial has ended, last minute not triggered, and savasana has not begun.
             {
                 CheckForModeSwitchToFreeplay();
             }
@@ -169,6 +176,7 @@ public class MusicSystem1 : MonoBehaviour
         //LOCK THE NOTE TO C WHEN THE C BUTTON IS PRESSED DOWN.
         //UNLOCK IT WHEN THE C BUTTON IS RELEASED.
         //THIS IS FOR DEVELOPMENT PURPOSES ONLY.
+        /*
         if(developmentMode.developmentMode)
         {
             if(Input.GetKeyDown(KeyCode.C))
@@ -182,6 +190,8 @@ public class MusicSystem1 : MonoBehaviour
                 LockToC(false);
             }
         }
+        */
+
         DirectVoiceMonitoring();
         ThumpUpdate();
     }
@@ -343,25 +353,6 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    // private IEnumerator InteractiveMusicSystemFade()
-    // {
-    //     //NOTE: this can be cleaned up by using the RTPC's transition time in ms, which Robin uses all the time (see lightControl)
-    //     float initialValue = 0.0f;
-    //     float startTime = Time.time;
-
-    //     while(Time.time - startTime < rtpcFadeDuration)
-    //     {
-    //         float elapsed = (Time.time - startTime) / rtpcFadeDuration;
-    //         float currentValue = Mathf.Lerp(initialValue, rtpcTargetValue, elapsed);
-    //         silentrtpcvolume.SetGlobalValue(currentValue);
-    //         toningrtpcvolume.SetGlobalValue(currentValue);
-    //         yield return null;
-    //     }
-    //     silentrtpcvolume.SetGlobalValue(rtpcTargetValue);
-    //     toningrtpcvolume.SetGlobalValue(rtpcTargetValue);
-    //     yield break;
-    // }
-    
     private void ThumpUpdate ()
     {
         if(gameValues._chantCharge < 1.0f)
@@ -439,14 +430,11 @@ public class MusicSystem1 : MonoBehaviour
             case MusicMode.Silent:
             if(!modeSilentFlag)
             {
-                modeSilentFlag = true;
-                modeTutorialFlag = false;
-                modeFreeplayFlag = false;
-                modeFrozenFreeplayFlag = false;
-                modeEnvironmentFlag = false;
-
-                //SET BEHAVIORS FOR SILENT IN HERE
-                Debug.Log("MUSIC: Music Mode Set to Silent");
+                SetMusicModeFlags(true, false, false, false, false);      
+                
+                imitoneVoiceInterpreter.gameOn = false;
+                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+                Debug.Log("MUSIC: Music Mode Set to Silent  (WWise: InteractiveMusicSystem)");
             }
             else
             {
@@ -457,13 +445,21 @@ public class MusicSystem1 : MonoBehaviour
             case MusicMode.Tutorial:
             if(!modeTutorialFlag)
             {
-                modeSilentFlag = false;
-                modeTutorialFlag = true;
-                modeFreeplayFlag = false;
-                modeFrozenFreeplayFlag = false;
-                modeEnvironmentFlag = false;
-                Debug.Log("MUSIC: Music Mode Set to Tutorial");
-                //SET BEHAVIORS FOR TUTORIAL IN HERE
+                SetMusicModeFlags(false, true, false, false, false);    
+                Debug.Log("MUSIC: Music Mode Set to Tutorial  (WWise: InteractiveMusicSystem)");
+                
+                //ALSO, LOOK INTO INTERACTIVE MUSIC INITIALIZATIONS, AND FOR WHAT RUNS THE BASIC TONING UPDATE, SOMETHING SEEMS FISHY IN THERE TO ME, BUT I DON'T KNOW.
+
+
+                //NOTE, THESE 2 LINES WERE NOT HERE BEFORE, I AM ADDING IT BECAUSE I THINK IT WILL FIX A BUG, BUT I AM NOT SURE.
+                //imitoneVoiceInterpreter.gameOn = true; //I think one of these is not correct. (also see tutorial.cs and MusicSystem1.cs) //I'm commenting this one out because the handling of gameOn is pretty throughly handled moment to moment in the tutorial sequence.
+                InteractiveMusicInitializations(); 
+                
+                LockToC(true);
+                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+                
+                musicSystem1.SetSilentVolume(50f, 20f);
+
             }
             else
             {
@@ -474,20 +470,15 @@ public class MusicSystem1 : MonoBehaviour
             case MusicMode.Freeplay:
             if(!modeFreeplayFlag)
             {
-                modeSilentFlag = false;
-                modeTutorialFlag = false;
-                modeFreeplayFlag = true;
-                modeFrozenFreeplayFlag = false;
-                modeEnvironmentFlag = false;
+                SetMusicModeFlags(false, false, true, false, false);    
+                Debug.Log("MUSIC: Music Mode Set to Freeplay (WWise: InteractiveMusicSystem)");
 
                 LockToC(false);
                 InteractiveMusicInitializations();
-                imitoneVoiceInterpreter.gameOn = true;
-                SetSilentVolume(80f, 40f);            
-                director.disable = false;
+                imitoneVoiceInterpreter.gameOn = true; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs)
+                SetSilentVolume(80f, 40f);  
 
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-                Debug.Log("MUSIC: Music Mode Set to Freeplay (WWise: InteractiveMusicSystem)");
             }
             else
             {
@@ -498,29 +489,22 @@ public class MusicSystem1 : MonoBehaviour
             case MusicMode.FrozenFreeplay
             if(!modeFrozenFreeplayFlag)
             {
-                modeSilentFlag = false;
-                modeTutorialFlag = false;
-                modeFreeplayFlag = false;
-                modeFrozenFreeplayFlag = true;
-                modeEnvironmentFlag = false;
+                SetMusicModeFlags(false, false, false, true, false);    
+                Debug.Log("MUSIC: Music Mode Set to FrozenFreeplay (WWise: InteractiveMusicSystem)");
 
-                //NOTE I GOT HERE - LOOK FOR WHEN PLAYGROUNDMODE IS TURNED OFF
-
+                LockToC(true);
+                imitoneVoiceInterpreter.gameOn = false; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs)
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-                Debug.Log("MUSIC: Music Mode Set to Freeplay (WWise: InteractiveMusicSystem)");
             }
-
 
             case MusicMode.Environment:
             if(!modeEnvironmentFlag)
             {
-                modeSilentFlag = false;
-                modeTutorialFlag = false;
-                modeFreeplayFlag = false;
-                modeFrozenFreeplayFlag = false;
-                modeEnvironmentFlag = true;
+                SetMusicModeFlags(false, false, false, false, true);    
+                Debug.Log("MUSIC: Music Mode Set to Environment  (WWise: Environment)");
+
+                EnvironmentInitializations();
                 AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
-                Debug.Log("MUSIC: Music Mode Set to Environment");
             }
             else
             {
@@ -532,6 +516,16 @@ public class MusicSystem1 : MonoBehaviour
                 Debug.Log("MUSIC: Invalid Music Mode: " + mode);
             break;
         }
+    }
+
+    //A method for easily setting the flags, to replace the code in each of the case statements above.
+    private void SetMusicModeFlags(bool silent, bool tutorial, bool freeplay, bool frozenFreeplay, bool environment)
+    {
+        modeSilentFlag = silent;
+        modeTutorialFlag = tutorial;
+        modeFreeplayFlag = freeplay;
+        modeFrozenFreeplayFlag = frozenFreeplay;
+        modeEnvironmentFlag = environment;
     }
 
     private Action Action_ChangeFundamental(int scaleNoteKey)
@@ -906,16 +900,28 @@ public class MusicSystem1 : MonoBehaviour
     
     private void InteractiveMusicInitializations()
     {
-        if(!initializeFlag)
+        if(!initializeInteractiveMusicFlag)
         {
-            initializeFlag = true;
+            initializeInteractiveMusicFlag = true;
             AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
             AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("MUSIC: InteractiveMusicSystem is already initialized");
+        }
+    }
+
+    private void EnvironmentInitializations()
+    {
+        if(!initializeEnvironmentFlag)
+        {
+            initializeEnvironmentFlag = true;
             AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);
         }
         else
         {
-            Debug.LogWarning("MUSIC: InteractiveMusicSystem is already initialized, this can only happen once");
+            Debug.LogWarning("MUSIC: Environment is already initialized");
         }
     }
 

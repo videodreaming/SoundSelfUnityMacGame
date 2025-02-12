@@ -160,23 +160,23 @@ public class WwiseVOManager : MonoBehaviour
             }
             else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
             {
-                Debug.Log("WWise_VO: Cue Mic On");
-                imitoneVoiceIntepreter.gameOn = true;
+                Debug.Log("WWise_VO: Cue Mic On"); //HELP! What are these and the ones below? I think this could help explain the bug where the music suddenly stops
+                imitoneVoiceIntepreter.gameOn = true;  //I think one of these is not correct (also see tutorial.cs and MusicSystem1.cs).
             }
             else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
             {
                 Debug.Log("WWise_VO: Cue Mic OFF");
-                imitoneVoiceIntepreter.gameOn = false;
+                imitoneVoiceIntepreter.gameOn = false;//I think one of these is not correct.  (also see tutorial.cs and MusicSystem1.cs).
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
             {
                 Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
-                imitoneVoiceIntepreter.gameOn = false;
+                imitoneVoiceIntepreter.gameOn = false;//I think one of these is not correct. (also see tutorial.cs and MusicSystem1.cs).
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
             {
                 Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End");
-                imitoneVoiceIntepreter.gameOn = true;
+                imitoneVoiceIntepreter.gameOn = true;//I think one of these is not correct. (also see tutorial.cs and MusicSystem1.cs).
             }
             else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
             {
