@@ -76,7 +76,7 @@ public class Tutorial : MonoBehaviour
             active = true;
             testVocalizationType = "Hum";
 
-            musicSystem1.SetMusicModeTo(musicSystem1.MusicMode.Tutorial);
+            musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
 
             wwiseVOManager.InitializeLights(); //this is probably already initialized, just making sure.
             
@@ -329,7 +329,7 @@ public class Tutorial : MonoBehaviour
             StopCoroutine(correctionCoroutine);
         }
         sequencer.BeginMusicSequence(TimeTrackerScript.TotalElapsedTime);
-        musicSystem1.SetMusicModeTo(musicSystem1.MusicMode.Freeplay);
+        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
         director.disable = false;
         active = false;
         Debug.Log("TUTORIAL: END with" + TimeTrackerScript.TotalElapsedTime);

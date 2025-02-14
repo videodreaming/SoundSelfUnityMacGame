@@ -18,6 +18,8 @@ public class MusicSystem1 : MonoBehaviour
     public User userObject;
     public LightControl lightControl;
     public AudioSource userAudioSource;
+    public Tutorial tutorial;
+    public SavasanaPlayer SavasanaPlayer;
    // public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private Dictionary<int, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<int, (float, bool, bool, float)>();
@@ -86,6 +88,12 @@ public class MusicSystem1 : MonoBehaviour
     //private float rtpcTargetValue = 80.0f;
     private bool environmentFlag = false;
     private bool interactiveFlag = false;
+    
+    private bool modeSilentFlag = false;
+    private bool modeTutorialFlag = false;
+    private bool modeFreeplayFlag = false;
+    private bool modeFrozenFreeplayFlag = false;
+    private bool modeEnvironmentFlag = false;
     
     //REEF - REFACTORED FROM SEQUENCER... CAN THIS BE DELETED?
     //public string currentToningState = "None";
@@ -167,7 +175,7 @@ public class MusicSystem1 : MonoBehaviour
         }
         else if (currentMusicMode == MusicMode.Environment)
         {
-\            if(!inTutorial && !SavasanaPlayer.playedThematicSavasana && !sequencer.lastMinuteTriggered) //only if ALL the following: tutorial has ended, last minute not triggered, and savasana has not begun.
+            if(!tutorial.inTutorial && !SavasanaPlayer.playedThematicSavasana && !sequencer.lastMinuteTriggered) //only if ALL the following: tutorial has ended, last minute not triggered, and savasana has not begun.
             {
                 CheckForModeSwitchToFreeplay();
             }
@@ -415,19 +423,15 @@ public class MusicSystem1 : MonoBehaviour
         Environment
     }
 
-    private bool modeSilentFlag = false;
-    private bool modeTutorialFlag = false;
-    private bool modeFreeplayFlag = false;
-    private bool modeFrozenFreeplayFlag = false;
-    private bool modeEnvironmentFlag = false;
 
     public void SetMusicModeTo(MusicMode mode)
     {
         Debug.Log("MUSIC: Please set Music Mode to " + mode + "...");
         switch (mode)
         {
-            currentMusicMode = mode;
+            
             case MusicMode.Silent:
+            currentMusicMode = mode;
             if(!modeSilentFlag)
             {
                 SetMusicModeFlags(true, false, false, false, false);      
@@ -443,6 +447,7 @@ public class MusicSystem1 : MonoBehaviour
             break;
             
             case MusicMode.Tutorial:
+            currentMusicMode = mode;
             if(!modeTutorialFlag)
             {
                 SetMusicModeFlags(false, true, false, false, false);    
@@ -452,13 +457,13 @@ public class MusicSystem1 : MonoBehaviour
 
 
                 //NOTE, THESE 2 LINES WERE NOT HERE BEFORE, I AM ADDING IT BECAUSE I THINK IT WILL FIX A BUG, BUT I AM NOT SURE.
-                //imitoneVoiceInterpreter.gameOn = true; //I think one of these is not correct. (also see tutorial.cs and MusicSystem1.cs) //I'm commenting this one out because the handling of gameOn is pretty throughly handled moment to moment in the tutorial sequence.
+                //imitoneVoiceInterpreter.gameOn = true; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs) //I'm commenting this one out because the handling of gameOn is pretty throughly handled moment to moment in the tutorial sequence.
                 InteractiveMusicInitializations(); 
                 
                 LockToC(true);
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
                 
-                musicSystem1.SetSilentVolume(50f, 20f);
+                SetSilentVolume(50f, 20f);
 
             }
             else
@@ -468,6 +473,7 @@ public class MusicSystem1 : MonoBehaviour
             break;
             
             case MusicMode.Freeplay:
+            currentMusicMode = mode;
             if(!modeFreeplayFlag)
             {
                 SetMusicModeFlags(false, false, true, false, false);    
@@ -486,7 +492,8 @@ public class MusicSystem1 : MonoBehaviour
             }
             break;
             
-            case MusicMode.FrozenFreeplay
+            case MusicMode.FrozenFreeplay:
+            currentMusicMode = mode;
             if(!modeFrozenFreeplayFlag)
             {
                 SetMusicModeFlags(false, false, false, true, false);    
@@ -496,8 +503,13 @@ public class MusicSystem1 : MonoBehaviour
                 imitoneVoiceInterpreter.gameOn = false; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs)
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
             }
-
+            else
+            {
+                Debug.LogWarning("MUSIC: Tried to set Music Mode to FrozenFreeplay, but it was already set to FrozenFreeplay");
+            }
+            break;
             case MusicMode.Environment:
+            currentMusicMode = mode;
             if(!modeEnvironmentFlag)
             {
                 SetMusicModeFlags(false, false, false, false, true);    
@@ -513,6 +525,7 @@ public class MusicSystem1 : MonoBehaviour
             break;
             
             default:
+            currentMusicMode = mode;
                 Debug.Log("MUSIC: Invalid Music Mode: " + mode);
             break;
         }

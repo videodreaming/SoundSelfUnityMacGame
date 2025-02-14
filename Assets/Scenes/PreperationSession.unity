@@ -7671,6 +7671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
+  sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
   director: {fileID: 1829208165}
   respirationTracker: {fileID: 740096627}
@@ -7678,6 +7679,8 @@ MonoBehaviour:
   userObject: {fileID: 740096621}
   lightControl: {fileID: 437048159}
   userAudioSource: {fileID: 132454817}
+  tutorial: {fileID: 1635385662}
+  SavasanaPlayer: {fileID: 1809294502}
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicNoteActivated: 0
   fundamentalNote: 0
@@ -22104,6 +22107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wwiseVOManager: {fileID: 0}
+  playedThematicSavasana: 0
 --- !u!1001 &1823268062
 PrefabInstance:
   m_ObjectHideFlags: 0
