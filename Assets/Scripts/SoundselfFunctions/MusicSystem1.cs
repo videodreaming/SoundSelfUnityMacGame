@@ -156,17 +156,11 @@ public class MusicSystem1 : MonoBehaviour
         }
         else if (currentMusicMode == MusicMode.Tutorial)
         {
-            InterpretImitoneUpdate();
-            BasicToningUpdate();
-            FundamentalUpdate();
-            HarmonyUpdate();
+            DynamicMusicSystem();
         }
         else if(currentMusicMode == MusicMode.Freeplay) 
         { 
-            InterpretImitoneUpdate();
-            BasicToningUpdate();
-            FundamentalUpdate();
-            HarmonyUpdate();
+            DynamicMusicSystem();
             CheckForModeSwitchToEnvironment();
         }
         else if (currentMusicMode == MusicMode.FrozenFreeplay)
@@ -175,33 +169,23 @@ public class MusicSystem1 : MonoBehaviour
         }
         else if (currentMusicMode == MusicMode.Environment)
         {
-            if(!tutorial.inTutorial && !SavasanaPlayer.playedThematicSavasana && !sequencer.lastMinuteTriggered) //only if ALL the following: tutorial has ended, last minute not triggered, and savasana has not begun.
+            if(!tutorial.inTutorial && !SavasanaPlayer.playedThematicSavasana && !sequencer.lastMinuteTriggered) 
             {
+                //only if ALL the following: we are not in the tutorial, last minute not triggered, and savasana has not begun.
                 CheckForModeSwitchToFreeplay();
             }
         }
 
-        //LOCK THE NOTE TO C WHEN THE C BUTTON IS PRESSED DOWN.
-        //UNLOCK IT WHEN THE C BUTTON IS RELEASED.
-        //THIS IS FOR DEVELOPMENT PURPOSES ONLY.
-        /*
-        if(developmentMode.developmentMode)
-        {
-            if(Input.GetKeyDown(KeyCode.C))
-            {
-                _queueFundamentalChangeThreshold = 5.0f;
-                _initiateImminentFundamentalChangeThreshold = 10.0f;
-                LockToC(true);
-            }
-            if(Input.GetKeyUp(KeyCode.C))
-            {
-                LockToC(false);
-            }
-        }
-        */
-
         DirectVoiceMonitoring();
         ThumpUpdate();
+    }
+
+    private void DynamicMusicSystem()
+    {
+        InterpretImitoneUpdate();
+        BasicToningUpdate();
+        FundamentalUpdate();
+        HarmonyUpdate();
     }
 
     private void DirectVoiceMonitoring()
@@ -452,12 +436,7 @@ public class MusicSystem1 : MonoBehaviour
             {
                 SetMusicModeFlags(false, true, false, false, false);    
                 Debug.Log("MUSIC: Music Mode Set to Tutorial  (WWise: InteractiveMusicSystem)");
-                
-                //ALSO, LOOK INTO INTERACTIVE MUSIC INITIALIZATIONS, AND FOR WHAT RUNS THE BASIC TONING UPDATE, SOMETHING SEEMS FISHY IN THERE TO ME, BUT I DON'T KNOW.
 
-
-                //NOTE, THESE 2 LINES WERE NOT HERE BEFORE, I AM ADDING IT BECAUSE I THINK IT WILL FIX A BUG, BUT I AM NOT SURE.
-                //imitoneVoiceInterpreter.gameOn = true; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs) //I'm commenting this one out because the handling of gameOn is pretty throughly handled moment to moment in the tutorial sequence.
                 InteractiveMusicInitializations(); 
                 
                 LockToC(true);

@@ -160,8 +160,8 @@ public class WwiseVOManager : MonoBehaviour
             }
             else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
             {
-                Debug.Log("WWise_VO: Cue Mic On"); //HELP! What are these and the ones below? I think this could help explain the bug where the music suddenly stops
-                imitoneVoiceIntepreter.gameOn = true;  //I think one of these is not correct (also see tutorial.cs and MusicSystem1.cs).
+                Debug.Log("WWise_VO: Cue Mic On"); //Mic On and Mic Off are used in the "voice elicitation" sequences
+                imitoneVoiceIntepreter.gameOn = true;
             }
             else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
             {
@@ -170,13 +170,13 @@ public class WwiseVOManager : MonoBehaviour
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
             {
-                Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start");
-                imitoneVoiceIntepreter.gameOn = false;//I think one of these is not correct. (also see tutorial.cs and MusicSystem1.cs).
+                Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
+                imitoneVoiceIntepreter.gameOn = false;
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
             {
-                Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End");
-                imitoneVoiceIntepreter.gameOn = true;//I think one of these is not correct. (also see tutorial.cs and MusicSystem1.cs).
+                Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
+                imitoneVoiceIntepreter.gameOn = true;
             }
             else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
             {
@@ -200,7 +200,7 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO: Cue_LinearHum_Start");
                 InitializeLights();
                 StartCoroutine(MakeWWiseTone());
-            } else if (musicSyncInfo.userCueName == "Cue_StartTutorial")
+            } else if (musicSyncInfo.userCueName == "Cue_StartTutorial") //This is called from the end of the Somatic Sequence, near the end. He says "Humming and toning should first come from a relaxed place. Breathe in, and hum"
             {
                 tutorial.StartTutorial();
             } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")

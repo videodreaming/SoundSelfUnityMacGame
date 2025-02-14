@@ -92,7 +92,7 @@ public class Tutorial : MonoBehaviour
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
                 if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
                 { 
-                    Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_Start"); //HELP! What is Tthis and the one below? I think this could help explain the bug where the music suddenly stops
+                    Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_Start"); //These are used during the test tones, for when Jaya speaks or not.
                     imitoneVoiceInterpreter.gameOn = false; //I think one of these is not correct. (also see Sequencer.cs and MusicSystem1.cs).
                 } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
                 {
