@@ -41,6 +41,7 @@ public class WwiseVOManager : MonoBehaviour
 
     void Start()
     {
+        //TODO: Can we move this to Awake() in CSVLoader?
         if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
         {
             Debug.Log("WWise_VO: Setting up for Preperation or Skills Training");
@@ -65,16 +66,33 @@ public class WwiseVOManager : MonoBehaviour
                 AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
             } 
-            
+            //TODO:
+            //Move the actual Post Event calls to Sequencer.cs.
+            //Can we move the SetSwitches to Awake in CSVLoader?
+
             if(firstTimeUser)
             {
                 //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
-                AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
+                if(!developmentMode.developmentMode || developmentMode.startAtStart)
+                {
+                    AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
+                }
+                else
+                {
+                    Debug.Log("WWise_VO: (DEVELOPMENT) skipping preparation opening sequence");
+                }
                 AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
                 AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Long",gameObject);
                 Debug.Log("WWise_VO: First Time User");
             } else {
-                AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+                if(!developmentMode.developmentMode || developmentMode.startAtStart)
+                {
+                    AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+                }
+                else
+                {
+                    Debug.Log("WWise_VO: (DEVELOPMENT) skipping preparation opening sequence");
+                }
                 AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
                 AkSoundEngine.SetSwitch("VO_Somatic","Short",gameObject);
                 Debug.Log("WWise_VO: Not First Time User");
