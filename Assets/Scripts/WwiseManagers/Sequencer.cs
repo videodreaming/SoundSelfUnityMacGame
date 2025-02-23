@@ -52,6 +52,7 @@ public class Sequencer : MonoBehaviour
 
 
 
+
     void Awake()
     {
         AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
@@ -64,6 +65,7 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
+
         if (developmentMode.startRightBeforeSavasana)
         {
             WakeUpCounter = 190f;

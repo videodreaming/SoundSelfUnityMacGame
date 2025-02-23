@@ -34,9 +34,11 @@ public class WwiseVOManager : MonoBehaviour
     public CSVWriter csvWriter;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     public float totalTimeOfPostUnguidedVocalizationContant;
-
+    public string closingGoodbyeType;
+    public float timeToPlayClosingGoodbye;
+    
+    
     public float totalTimeOfExperience;
-
     //private bool silentPlaying = false;
 
     void Start()
@@ -82,7 +84,9 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("WWise_VO: (DEVELOPMENT) skipping preparation opening sequence");
                 }
                 AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
-                AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Long",gameObject);
+                closingGoodbyeType = "Long";
+                timeToPlayClosingGoodbye = totalTimeOfExperience-60.0f;
+                Debug.Log("Time To Play Closing Goodbye: " +timeToPlayClosingGoodbye);
                 Debug.Log("WWise_VO: First Time User");
             } else {
                 if(!developmentMode.developmentMode || developmentMode.startAtStart)
@@ -94,7 +98,9 @@ public class WwiseVOManager : MonoBehaviour
                     Debug.Log("WWise_VO: (DEVELOPMENT) skipping preparation opening sequence");
                 }
                 AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
-                AkSoundEngine.SetSwitch("VO_Somatic","Short",gameObject);
+                closingGoodbyeType = "Short";
+                timeToPlayClosingGoodbye = totalTimeOfExperience-10.0f;
+                 Debug.Log("Time To Play Closing Goodbye: "+timeToPlayClosingGoodbye);
                 Debug.Log("WWise_VO: Not First Time User");
             }
         } else if (CSVLoader.gameMode == "Integration")

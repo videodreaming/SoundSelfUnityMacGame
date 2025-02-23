@@ -35,7 +35,7 @@ public class CSVLoader : MonoBehaviour
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
-        Debug.Log(sessionsCsvPath);
+        Debug.Log("CSVSessionsPath : " +sessionsCsvPath);
 
         if (File.Exists(sessionsCsvPath))
         {

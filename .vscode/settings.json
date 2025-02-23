@@ -59,6 +59,7 @@
     "dotnet.defaultSolution": "SoundSelfUnityMacGame.sln",
     "C_Cpp.default.compilerPath": "/usr/bin/clang++",
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }
