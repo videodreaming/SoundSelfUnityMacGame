@@ -46,11 +46,11 @@ Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	3331583377	Aux_Music			\Default Work Unit\AVS System\Aux_Music	
 
 Effect plug-ins	ID	Name	Type				Notes
-	418265525	Gentle_Program_Compressor_Minus_14dB_RMS	Wwise Compressor			
+	59662939	Dialog_Too_Quiet	Wwise Compressor			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
+	2652646462	Dialog_Leveler_Soft	Wwise Compressor			
 	3013737263	Bass_Remover_1	Wwise Parametric EQ			
 	3157974155	New_Mastering_Suite	Mastering Suite			
-	3425998380	VocalBassReduction	Wwise Parametric EQ			
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			

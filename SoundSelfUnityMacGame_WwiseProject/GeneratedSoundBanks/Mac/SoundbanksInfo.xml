@@ -34,16 +34,16 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{3EB85A92-8E21-51E7-7916-146C5B6F9D41}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{A84DF804-C08F-39F9-9CE9-38B7A4B590DB}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
 				<ShareSets>
-					<Plugin Id="418265525" Name="Gentle_Program_Compressor_Minus_14dB_RMS" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="59662939" Name="Dialog_Too_Quiet" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="1008402193" Name="Low_Pass_20KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="3013737263" Name="Bass_Remover_1" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="3157974155" Name="New_Mastering_Suite" LibName="Mastering Suite" LibId="12189699"/>
-					<Plugin Id="3425998380" Name="VocalBassReduction" LibName="Wwise Parametric EQ" LibId="6881283"/>
 				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
@@ -79,7 +79,8 @@
 				<Bus Id="1534528548" Name="VO">
 					<PluginRefs>
 						<ShareSets>
-							<PluginRef Id="3425998380"/>
+							<PluginRef Id="59662939"/>
+							<PluginRef Id="2652646462"/>
 						</ShareSets>
 					</PluginRefs>
 				</Bus>
@@ -95,13 +96,7 @@
 					</AuxBusRefs>
 				</Bus>
 				<Bus Id="3239584272" Name="AVS_Breath"/>
-				<Bus Id="3803692087" Name="Master Audio Bus">
-					<PluginRefs>
-						<ShareSets>
-							<PluginRef Id="418265525"/>
-						</ShareSets>
-					</PluginRefs>
-				</Bus>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
 				<Bus Id="3991942870" Name="Music">
 					<AuxBusRefs>
 						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
@@ -378,7 +373,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{0512C0B6-17D9-E02F-A340-F96CC2388E1E}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{72FAE9D2-F144-1AA6-F53F-356968B42907}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -1089,11 +1084,6 @@
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
 				</Event>
 				<Event Id="3724822780" Name="Play_environment_anyQueryRepeat1" DurationType="Infinite">
 					<MediaRefs>
@@ -4904,7 +4894,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{90E252C5-0DE3-CDDA-5970-3CDC6EACB051}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{0455F5A9-CCBB-D3D3-6D19-018150E88BF8}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5189,6 +5179,9 @@
 				<Custom>
 					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
 				</Custom>
+				<ShareSets>
+					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
+				</ShareSets>
 			</Plugins>
 			<Events>
 				<Event Id="236202206" Name="Mute_SILENTMEDITATION_MUSIC" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -5196,11 +5189,6 @@
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
 				</Event>
 				<Event Id="2917442959" Name="Play_CrystalBowlGenerator" DurationType="OneShot" DurationMin="385.44745" DurationMax="415.44745">
 					<MediaRefs>
@@ -5387,6 +5375,11 @@
 							<MediaRefs>
 								<MediaRef Id="541654321"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1126065684"/>
@@ -5410,6 +5403,9 @@
 								<Custom>
 									<PluginRef Id="670553737"/>
 								</Custom>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
 							</PluginRefs>
 							<Children>
 								<SwitchContainer>
@@ -5468,6 +5464,9 @@
 								<Custom>
 									<PluginRef Id="670553737"/>
 								</Custom>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
 							</PluginRefs>
 							<Children>
 								<SwitchContainer>
@@ -5509,6 +5508,11 @@
 							<MediaRefs>
 								<MediaRef Id="870294765"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2692078280"/>
@@ -5532,6 +5536,9 @@
 								<Custom>
 									<PluginRef Id="670553737"/>
 								</Custom>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
 							</PluginRefs>
 							<Children>
 								<SwitchContainer>
@@ -5573,30 +5580,55 @@
 							<MediaRefs>
 								<MediaRef Id="973516209"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="103389341"/>
 							<MediaRefs>
 								<MediaRef Id="251627468"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2585211341"/>
 							<MediaRefs>
 								<MediaRef Id="172072923"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="3041563226"/>
 							<MediaRefs>
 								<MediaRef Id="658131175"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2965941853"/>
 							<MediaRefs>
 								<MediaRef Id="80906255"/>
 							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
+							</PluginRefs>
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
@@ -5873,7 +5905,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{D525EA0C-B82A-31F4-0140-33D46CED3FC6}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{C2C362EC-158C-FDDE-FEC1-09AD0CF9B01E}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -6461,11 +6493,6 @@
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
 				</Event>
 				<Event Id="3449237142" Name="Play_AVS_SineGenerators_REFERENCE" DurationType="Infinite">
 					<PluginRefs>
@@ -9801,5 +9828,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{471BB676-3D10-7EFE-D294-190D6A2E17B0}</FileHash>
+	<FileHash>{EB251033-6181-AAFE-0303-4AD4ABA40D6A}</FileHash>
 </SoundBanksInfo>

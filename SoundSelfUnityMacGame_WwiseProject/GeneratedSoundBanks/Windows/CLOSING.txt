@@ -87,6 +87,9 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
 	3761161481	CrystalBowlGenerator_Volume			\SFX\CrystalBowlGenerator_Volume	
 
+Effect plug-ins	ID	Name	Type				Notes
+	2652646462	Dialog_Leveler_Soft	Wwise Compressor			
+
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
 
