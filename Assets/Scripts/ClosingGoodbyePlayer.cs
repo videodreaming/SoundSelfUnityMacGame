@@ -18,14 +18,9 @@ public class ClosingGoodbyePlayer : MonoBehaviour
        if(timeTrackerScript.TotalElapsedTime >= timeToPlayClosingGoodbye && !playedClosingGoodbyeOnce)
        {
             playedClosingGoodbyeOnce = true;
-            playClosingGoodbye();
-            Debug.Log("Closing Goodbye Played");
+            wwiseVOManager.PlayClosingGoodbye();
        }
     }
 
-    public void playClosingGoodbye()
-    {
-        AkSoundEngine.PostEvent("Play_VO_ClosingGoodbye", gameObject);
-    }
 
 }

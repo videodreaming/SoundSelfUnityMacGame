@@ -74,9 +74,10 @@ public class CSVLoader : MonoBehaviour
         // VO INITIALIZATION
         if(gameMode == "Preperation" || gameMode == "Skills Training")
         {
-            Debug.Log("WWise_VO: Setting up for Preperation or Skills Training");
+            Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
             //move TotalTimeOfExperience over to sequencer
             sequencer.totalTimeOfExperience = 2700.0f;
+            sequencer._wakeUpCounter = 2280f;
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
                 totalTimeOfPostUnguidedVocalizationContant = 889.0f;
@@ -85,7 +86,7 @@ public class CSVLoader : MonoBehaviour
             } 
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
-                Debug.Log("WWise_VO: Psychological Flexibility or Narrative");
+                Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
                 totalTimeOfPostUnguidedVocalizationContant = 742.0f;
                 AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);
@@ -102,17 +103,18 @@ public class CSVLoader : MonoBehaviour
                 //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
                 AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
                 timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-60.0f;
-                Debug.Log("Time To Play Closing Goodbye: " +timeToPlayClosingGoodbye);
-                Debug.Log("WWise_VO: First Time User");
+                Debug.Log("CSVLoader: Time To Play Closing Goodbye: " +timeToPlayClosingGoodbye);
+                Debug.Log("CSVLoader: First Time User");
             } else {
                 AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
                 timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-10.0f;
                  Debug.Log("Time To Play Closing Goodbye: "+timeToPlayClosingGoodbye);
-                Debug.Log("WWise_VO: Not First Time User");
+                Debug.Log("CSVLoader: Not First Time User");
             }
         } else if (gameMode == "Integration")
         {
             sequencer.totalTimeOfExperience = 1500.0f;
+            sequencer._wakeUpCounter = 1500.0f; //TODO - SET THIS TO SOMETHING REAL
             if(subGameMode == "Fireflies")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);

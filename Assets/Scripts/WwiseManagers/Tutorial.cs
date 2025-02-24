@@ -80,7 +80,7 @@ public class Tutorial : MonoBehaviour
 
             musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
 
-            wwiseVOManager.InitializeLights(); //this is probably already initialized, just making sure.
+            sequencer.InitializeLights(); //this is probably already initialized, just making sure.
             
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
 

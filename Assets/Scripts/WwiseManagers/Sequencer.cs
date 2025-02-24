@@ -32,7 +32,7 @@ public class Sequencer : MonoBehaviour
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
     //private float interactiveMusicExperienceTotalTime;
-    private float WakeUpCounter;
+    public float _wakeUpCounter;
     private bool wakeUpEndSoonTriggered = false; // Flag to control the event triggering
     //private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
@@ -67,22 +67,34 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
-        //These initializations should all be in CSVLoader.cs. Suggest not making WakeUpCounter public, but initialize it with a public Method.
+        //These initializations should all be in CSVLoader.cs. Suggest not making _wakeUpCounter public, but initialize it with a public Method.
         if (developmentMode.startRightBeforeSavasana)
         {
-            WakeUpCounter = 190f;
+            _wakeUpCounter = 190f;
+            Debug.Log("Sequencer: Wakeup Counter set to " + _wakeUpCounter + " for debug.");
         }
         else if (developmentMode.startInSavasana)
         {
-            WakeUpCounter = 1f;
+            _wakeUpCounter = 1f;
+            Debug.Log("Sequencer: Wakeup Counter set to " + _wakeUpCounter + " for debug.");
             FadeOut();
+        }
+        else if (developmentMode.startInTutorial)
+        {
+            tutorial.StartTutorial();
+            InitializeLights();
+        }
+        else if (developmentMode.startInPlayground)
+        {
+            InitializeLights();
         }
         else
         {
-            WakeUpCounter = 2280.0f;
             musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Silent);          
             director.disable = true;
         }
+        
+        Debug.Log("Sequencer: Wakeup Counter starts at " + _wakeUpCounter + ", total time of experience is " + totalTimeOfExperience);
         
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
@@ -130,18 +142,18 @@ public class Sequencer : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.L))
             {
-                WakeUpCounter = 190f;
-                Debug.Log("Sequencer Wakeup Counter set to " + WakeUpCounter);
+                _wakeUpCounter = 190f;
+                Debug.Log("Sequencer Wakeup Counter set to " + _wakeUpCounter);
             }
         }
 
-        if(WakeUpCounter > -1.0f)
+        if(_wakeUpCounter > -1.0f)
         {
-            WakeUpCounter -= Time.deltaTime;
+            _wakeUpCounter -= Time.deltaTime;
         }
         else
         {
-            WakeUpCounter = -1.0f;
+            _wakeUpCounter = -1.0f;
         }
        
         //in playground mode, when I press the M button, cycle to the next music world (Gentle, Shadow, Shruti, Sonoflore)
@@ -177,23 +189,23 @@ public class Sequencer : MonoBehaviour
         //End Behaviors
         if(!developmentMode.startInSavasana)
         {
-            if(WakeUpCounter <= 180f && !flagTriggerEnd1)
+            if(_wakeUpCounter <= 180f && !flagTriggerEnd1)
             {
                 CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
                 flagTriggerEnd1 = true;
             }
 
-            if(WakeUpCounter <= 60f && !flagTriggerEnd2)
+            if(_wakeUpCounter <= 60f && !flagTriggerEnd2)
             {
                 StartCoroutine(LastMinute());
                 flagTriggerEnd2 = true;
             }
         }
         
-        if( WakeUpCounter <= 0.0f && !wakeUpEndSoonTriggered)
+        if( _wakeUpCounter <= 0.0f && !wakeUpEndSoonTriggered)
         {
             wwiseVOManager.PlayWakeUpSoonVO();
-            WakeUpCounter = -1.0f;
+            _wakeUpCounter = -1.0f;
             wakeUpEndSoonTriggered = true;
         }
     }
@@ -209,12 +221,12 @@ public class Sequencer : MonoBehaviour
         //recordedAudioPlaybackTest.SetPlaybackMode(false);
 
         // Wait until toneActiveConfident becomes false
-        yield return new WaitUntil(() => !imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter <= 30f);
+        yield return new WaitUntil(() => !imitoneVoiceInterpreter.toneActiveConfident || _wakeUpCounter <= 30f);
         Debug.Log("Sequencer Last Minute: Test 1 (Rest or Time) passed");
         
         // Wait until toneActiveConfident becomes true
-        yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || WakeUpCounter <= 30f);
-        Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors. Wake Up Counter" + WakeUpCounter);
+        yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || _wakeUpCounter <= 30f);
+        Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors. Wake Up Counter" + _wakeUpCounter);
         director.ActivateQueue(15f);
         director.disable = true;
         musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
@@ -223,16 +235,16 @@ public class Sequencer : MonoBehaviour
 
         Debug.Log("Sequencer Last Minute: Starting Thematic Savasana.");
         yield return null;
-        Debug.Log("wake Up Counter:" + WakeUpCounter);
-        yield return new WaitUntil(() => WakeUpCounter <= 15f);
+        Debug.Log("wake Up Counter:" + _wakeUpCounter);
+        yield return new WaitUntil(() => _wakeUpCounter <= 15f);
         
         Debug.Log("Sequencer Last Minute: Starting Light Fade-Out.");
         FadeOut();
 
-        while(WakeUpCounter > 0f)
+        while(_wakeUpCounter > 0f)
         {
             yield return null;
-            Debug.Log("Sequencer Last Minute: Waiting for WakeUpCounter to reach 0.");
+            Debug.Log("Sequencer Last Minute: Waiting for _wakeUpCounter to reach 0.");
         }
     }
 
@@ -320,6 +332,19 @@ public class Sequencer : MonoBehaviour
     //====================================================================================================
     //LIGHT CONTROL
     //====================================================================================================
+
+    
+    public void InitializeLights()
+    {
+        if(!lightsInitialized)
+        {
+            Debug.Log("Sequencer: InitializeLights");
+            lightControl.SetPreferredColor("Red");
+            lightControl.NextPreferredColorWorld(5.0f);
+            lightsInitialized = true;
+        }
+    }
+
     IEnumerator AVS_Program_DynamicDrop_Start()
     {
         bool stopProgression = false;
@@ -327,7 +352,7 @@ public class Sequencer : MonoBehaviour
         yield return null;
         //define a list of integers to hold the director queue index items that are created in this coroutine
        
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
 
         if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
         {
@@ -340,7 +365,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //ONCE THE LIGHTS TURN ON, START AT 45HZ
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Lights detected, set strobe to 45hz.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Lights detected, set strobe to 45hz.");
         lightControl.SetStrobeRate(45.0f, 0.0f);
         float _timer = 10f / d;
         while(_timer > 0)
@@ -349,7 +374,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //AFTER 10 SECOND HOLD IS FINISHED, DROP TO 11HZ OVER 30 SECONDS
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Initializeing drop from gamma to high alpha.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Initializeing drop from gamma to high alpha.");
         _timer = 30f / d;
         lightControl.SetStrobeRate(11.0f, _timer);
         while(_timer > 0)
@@ -360,7 +385,7 @@ public class Sequencer : MonoBehaviour
         //NOW TAKE 120 SECONDS TO DROP TO 8.5HZ
         //FOLLOWING THIS POINT, IF THE ABSORPTION THRESHOLD IS MET, WE WILL SKIP TO THE NEXT PROGRAM
         _timer = 150f / d;
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Begining drop from high alpha to 10hz.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Begining drop from high alpha to 10hz.");
         lightControl.SetStrobeRate(8.5f, _timer);
         while(_timer > 0 || stopProgression)
         {
@@ -374,11 +399,11 @@ public class Sequencer : MonoBehaviour
         }
         yield return null;
         //NOW START A SAW STROBE COROUTINE AROUND ALPHA
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Starting Saw Strobe Coroutine.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Starting Saw Strobe Coroutine.");
         float _wavelength = 360f / d;
         float _halfWavelength = _wavelength / 2;
         lightControl.SetSawStrobe(8.5f, 11.5f, _wavelength);
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Waiting for absorption threshold to be met.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Waiting for absorption threshold to be met.");
 
         _timer = _halfWavelength;
         bool flag1 = false;
@@ -440,13 +465,13 @@ public class Sequencer : MonoBehaviour
     {
         if(CoroutineDynamicDropStart != null)
         {
-            Debug.Log(WakeUpCounter + "Sequencer | AVS Program: Stopping Coroutine from THETA Coroutine().");
+            Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: Stopping Coroutine from THETA Coroutine().");
             StopCoroutine(CoroutineDynamicDropStart);
         }
           
         yield return null;
         Cleanup(coroutineCleanupList);
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Starting Theta program.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Starting Theta program.");
 
         //SET CORRECT MONO/STEREO
         director.ClearQueueOfType("monostereo");
@@ -454,7 +479,7 @@ public class Sequencer : MonoBehaviour
         if(lightControl.bilateral)
         {
             coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
-            Debug.Log(WakeUpCounter + " Sequencer Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
+            Debug.Log(_wakeUpCounter + " Sequencer Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
             director.LogQueue();
         }
         //and wait to enter mono...
@@ -463,7 +488,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //DROP TO 7HZ
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 7hz.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 7hz.");
         float _timer = 120f / d;
         lightControl.SetStrobeRate(7.0f, _timer);
         while(_timer > 0)
@@ -472,28 +497,28 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //CYCLE THROUGH BILATERAL ONCE
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, true, 2));
         while(!lightControl.bilateral)
         {
             yield return null;
         }
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
         while(lightControl.bilateral)
         {
             yield return null;
         }
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
         while(lightControl.bilateral)
         {
             yield return null;
         }
         //DROP TO 6HZ
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
         _timer = 60f / d;
         lightControl.SetStrobeRate(6.0f, _timer);
         while(_timer > 0)
@@ -502,7 +527,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //GAMMA BURSTS, THEN HANG HERE. 
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
         _timer = 180f / d;
         while(_timer > 0)
@@ -510,7 +535,7 @@ public class Sequencer : MonoBehaviour
             _timer -= Time.deltaTime;
             yield return null;
         }
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f/d, true, 2));
         _timer = 180f / d;
         while(_timer > 0)
@@ -519,7 +544,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //DROP TO 5HZ
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 5hz.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 5hz.");
         _timer = 60f / d;
         lightControl.SetStrobeRate(5.0f, _timer);
         while(_timer > 0)
@@ -549,7 +574,7 @@ public class Sequencer : MonoBehaviour
                 {
                     coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
                     flag1 = true;
-                    Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
+                    Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
                 }
             }
             else if(_timer <= _halfWave)
@@ -559,7 +584,7 @@ public class Sequencer : MonoBehaviour
                 {
                     coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f/d, true, 2));
                     flag2 = true;
-                    Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
+                    Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
                 }
             }
             yield return null;
@@ -570,18 +595,18 @@ public class Sequencer : MonoBehaviour
     {
         if(CoroutineDynamicDropStart != null)
         {
-            Debug.Log(WakeUpCounter + "Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
+            Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
             StopCoroutine(CoroutineDynamicDropStart);
         }
         if(CoroutineDynamicDropTheta != null)
         {
-            Debug.Log(WakeUpCounter + "Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
+            Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
             StopCoroutine(CoroutineDynamicDropTheta);
         }
 
         yield return null;
         Cleanup(coroutineCleanupList);
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_End. Starting End Program.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_End. Starting End Program.");
         director.ClearQueueOfType("gamma");
         director.ClearQueueOfType("monostereo");
         if(!lightControl.bilateral)
@@ -593,25 +618,25 @@ public class Sequencer : MonoBehaviour
             coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 30.0f, true, 2));
         }
 
-        while(WakeUpCounter > 110f)
+        while(_wakeUpCounter > 110f)
         {
             yield return null;
         }
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_End. Stabilizing before dramatic rise.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_End. Stabilizing before dramatic rise.");
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 10.0f, true, 2));
 
-        while(WakeUpCounter > 90f)
+        while(_wakeUpCounter > 90f)
         {
             yield return null;
         }
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_End. Starting dramatic rise to 40hz.");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_End. Starting dramatic rise to 40hz.");
         lightControl.SetStrobeRate(40.0f, 90f);
 
-        while(WakeUpCounter > 0f)
+        while(_wakeUpCounter > 0f)
         {
             yield return null;
         }
-        Debug.Log(WakeUpCounter + "Sequencer | AVS Program: DynamicDrop_End. End of AVS Program. Goodnight!");
+        Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDrop_End. End of AVS Program. Goodnight!");
     }
 
     private void Cleanup(List<int> coroutineCleanupList)
@@ -619,7 +644,7 @@ public class Sequencer : MonoBehaviour
         Debug.Log("Performing cleanup.");
         foreach (int index in coroutineCleanupList)
         {
-            Debug.Log(WakeUpCounter + "Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
+            Debug.Log(_wakeUpCounter + "Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
             director.queue.Remove(index);
         }
         director.LogQueue();

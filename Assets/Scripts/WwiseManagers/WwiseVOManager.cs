@@ -42,19 +42,7 @@ public class WwiseVOManager : MonoBehaviour
         
         //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS AND MUSICSYSTEM1.CS
         assignVOs();
-        if(developmentMode.startAtStart) //NORMAL START
-        {
-
-        }
-        else if (developmentMode.startInTutorial)
-        {
-            tutorial.StartTutorial();
-            InitializeLights();
-        }
-        else if(developmentMode.startInPlayground)
-        {
-            InitializeLights();
-        }
+       
         //NOTE ABOUT WWISE:
         //THE GAMEOBJECT POINTS TO *THIS* GAMEOBJECT. SO WE CAN'T START
         //IT FROM ONE GAMEOBJECT AND THEN STOP IT FROM ANOTHER. IT HAS TO BE THE SAME GAMEOBJECT
@@ -92,102 +80,102 @@ public class WwiseVOManager : MonoBehaviour
             // Cue_ThematicOpening_End
         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
         {
-            Debug.Log("WWise_VO: Callback triggered: " + in_type);
+            Debug.Log("WWise_VO_CUE: Callback triggered: " + in_type);
             AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
             if (musicSyncInfo.userCueName == "Cue_Posture_Start")
             {
-                Debug.Log("WWise_VO: Cue_Posture_Start");
+                Debug.Log("WWise_VO_CUE: Cue_Posture_Start");
             } else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
             {
-                Debug.Log("WWise_VO: Cue_ThematicOpening_Start");
+                Debug.Log("WWise_VO_CUE: Cue_ThematicOpening_Start");
             } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
             {
-                Debug.Log("WWise_VO: Stopping Openign Seq, play sigh Query Seq");
+                Debug.Log("WWise_VO_CUE: Stopping Openign Seq, play sigh Query Seq");
             }
             else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
             {
-                Debug.Log("WWise_VO: Cue Mic On"); //Mic On and Mic Off are used in the "voice elicitation" sequences
+                Debug.Log("WWise_VO_CUE: Cue Mic On"); //Mic On and Mic Off are used in the "voice elicitation" sequences
                 imitoneVoiceIntepreter.gameOn = true;
             }
             else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
             {
-                Debug.Log("WWise_VO: Cue Mic OFF");
+                Debug.Log("WWise_VO_CUE: Cue Mic OFF");
                 imitoneVoiceIntepreter.gameOn = false;//I think one of these is not correct.  (also see tutorial.cs and MusicSystem1.cs).
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
             {
-                Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_Start (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
+                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
                 imitoneVoiceIntepreter.gameOn = false;
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
             {
-                Debug.Log("WWise_VO: Cue_VO_GuidedVocalization_End (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
+                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_End (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
                 imitoneVoiceIntepreter.gameOn = true;
             }
             else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
             {
-                Debug.Log("WWise_VO: Somatic Start");
+                Debug.Log("WWise_VO_CUE: Somatic Start");
             }
             else if (musicSyncInfo.userCueName == "Cue_BreathIn")
             {
-                Debug.Log("WWise_VO Tutorial: Cue_BreathIn");
+                Debug.Log("WWise_VO_CUE: Cue_BreathIn");
                 breathInBehaviour();
             } 
             else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
             {
-                Debug.Log("WWise_VO: Cue BreathIn Start");
+                Debug.Log("WWise_VO_CUE: Cue BreathIn Start");
                 breathInBehaviour();
             } else if(musicSyncInfo.userCueName == "Cue_Orientation_Start")
             {
-                Debug.Log("WWise_VO: Cue Orientation Start");
+                Debug.Log("WWise_VO_CUE: Cue Orientation Start");
             } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
             {
-                Debug.Log("WWise_VO: Cue Sigh Start");
+                Debug.Log("WWise_VO_CUE: Cue Sigh Start");
             }  else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
             {
-                Debug.Log("WWise_VO: PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
+                Debug.Log("WWise_VO_CUE: PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
             } else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
             {
-                Debug.Log("WWise_VO: Cue_LinearHum_Start");
-                InitializeLights();
+                Debug.Log("WWise_VO_CUE: Cue_LinearHum_Start");
+                sequencer.InitializeLights();
                 StartCoroutine(MakeWWiseTone());
             } else if (musicSyncInfo.userCueName == "Cue_StartTutorial") //This is called from the end of the Somatic Sequence, near the end. He says "Humming and toning should first come from a relaxed place. Breathe in, and hum"
             {
                 tutorial.StartTutorial();
             } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
             {
-                Debug.Log("WwiseVO: WARNING, THIS CUE IS NOT EXPECTED, IT IS A DUPLICATE OF CUE_FREEPLAY: Cue_InteractiveMusicSystem_Start");
+                Debug.LogWarning("WWise_VO_CUE: WARNING, THIS CUE IS NOT EXPECTED, IT IS A DUPLICATE OF CUE_FREEPLAY: Cue_InteractiveMusicSystem_Start");
             } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
             {
-                Debug.Log("WWise_VO: Cue_Opening_Start");
+                Debug.Log("WWise_VO_CUE: Cue_Opening_Start");
             } 
             else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromHmmToAhh")
             {
-                Debug.Log("WWise_VO Tutorial: Cue Change to Ahh");
+                Debug.Log("WWise_VO_CUE: Cue Change to Ahh");
                 tutorial.SetTestVocalizationType("Ahh");
             } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
             {
-                Debug.Log("WWise_VO Tutorial: Cue Change to Ohh");
+                Debug.Log("WWise_VO_CUE: Cue Change to Ohh");
                 tutorial.SetTestVocalizationType("Ohh");
             } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
             {
-                Debug.Log("WWise_VO Tutorial: Cue Change to Advanced");
+                Debug.Log("WWise_VO_CUE: Cue Change to Advanced");
                 tutorial.SetTestVocalizationType("Advanced");
                 musicSystem1.LockToC(false);
             } else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
             {
-                Debug.Log("WWise_VO Tutorial: Cue_FreePlay");
+                Debug.Log("WWise_VO_CUE: Cue_FreePlay");
                 
                 musicSystem1.SetSilentVolume(80f, 40f);            
                 director.disable = false;
             } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
             {
-                Debug.Log("Wwise_Tutorial_Break_All_Tests");
+                Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
                 EndTutorial();
             }
             else
             {
-                Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
+                Debug.LogWarning("WWise_VO_CUE: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
             }
         }   
     }
@@ -216,16 +204,6 @@ public class WwiseVOManager : MonoBehaviour
         musicSystem1.StopWwiseToning();
     }
 
-    public void InitializeLights()
-    {
-        if(!lightsInitialized)
-        {
-            Debug.Log("WWise_VO: InitializeLights");
-            lightControl.SetPreferredColor("Red");
-            lightControl.NextPreferredColorWorld(5.0f);
-            lightsInitialized = true;
-        }
-    }
     
     private float GetRTPCValue(RTPC rtpc)
     {
@@ -320,7 +298,7 @@ public class WwiseVOManager : MonoBehaviour
         
         if(debugAllowLogs)
         {
-            Debug.Log("Tutorial: Play " + guidanceType + " Correction Guidance");
+            Debug.Log("WWise_VO: Play " + guidanceType + " Correction Guidance");
         }
 
         switch(guidanceType)
@@ -338,7 +316,7 @@ public class WwiseVOManager : MonoBehaviour
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
                 break;
             default:
-                Debug.LogError("Invalid testVocalizationType: " + guidanceType);
+                Debug.LogError("WWise_VO: Invalid testVocalizationType: " + guidanceType);
                 break;
         }
     }
@@ -346,12 +324,21 @@ public class WwiseVOManager : MonoBehaviour
     public void PlayCorrectionConfirmationVO()
     {
         AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+        Debug.Log("WWise_VO: Play Repair Success");
     }
 
     //WAS IN SEQUENCER.CS BEFORE I MOVED IT
     public void PlayWakeUpSoonVO()
     {
         AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
+        Debug.Log("WWise_VO: Play Wake Up Soon Sequence");
+    }
+
+    //SAVASANA BEHAVIORS
+    public void PlayClosingGoodbye()
+    {
+        AkSoundEngine.PostEvent("Play_VO_ClosingGoodbye", gameObject);
+        Debug.Log("WWise_VO: Play Closing Goodbye");
     }
 }
 
