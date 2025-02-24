@@ -78,7 +78,6 @@ public class CSVLoader : MonoBehaviour
         ReadSessionParams();
 
         // VO INITIALIZATION
-        //TODO: Can we move this to Awake() in CSVLoader?
         if(gameMode == "Preperation" || gameMode == "Skills Training")
         {
             Debug.Log("WWise_VO: Setting up for Preperation or Skills Training");
