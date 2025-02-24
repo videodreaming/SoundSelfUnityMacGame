@@ -49,7 +49,6 @@ public class Sequencer : MonoBehaviour
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private int currentStage = 0; //As Sonoflore
     public float timeInUnguidedVocalization;
-    public float totalTimeOfPostUnguidedVocalizationContant;
     public float totalTimeOfExperience;
 
 
@@ -265,7 +264,7 @@ public class Sequencer : MonoBehaviour
     //PROPOSED SOLUTION: Add things to director... when the new music is triggered wait 2 mins or so, then add the next one to the director. This should be in MusicSystem1.cs
     public void BeginMusicSequence(float currentTime)
     {
-        timeInUnguidedVocalization = totalTimeOfExperience - wwiseVOManager.totalTimeOfPostUnguidedVocalizationContant - currentTime;   
+        timeInUnguidedVocalization = totalTimeOfExperience - csvLoader.totalTimeOfPostUnguidedVocalizationContant - currentTime;   
         float timeInEachSegment = timeInUnguidedVocalization / 4;
         StartCountdownToNextSegment(timeInEachSegment);
         Debug.Log("Sequencer: Time in each segment: " + timeInEachSegment);

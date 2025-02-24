@@ -13,8 +13,10 @@ public class CSVLoader : MonoBehaviour
     public static string gameMode {get; private set;};
     public static string subGameMode {get; private set;};
     public float timeToPlayClosingGoodbye;
+    public float totalTimeOfPostUnguidedVocalizationContant;
 
     private bool firstTimeUser {get; private set;} = true;
+    private bool layingDown = true;
     public static int currentSessionNumber = 0;
     private string baseSessionsFolderPath = "";
     public string encryptedReadyCheck;
@@ -71,7 +73,10 @@ public class CSVLoader : MonoBehaviour
         }
         ReadSessionParams();
 
-        // VO INITIALIZATION
+        //=======================================================================================================
+        // VO INITIALIZATION        
+        //=======================================================================================================
+        //GAME MODES
         if(gameMode == "Preperation" || gameMode == "Skills Training")
         {
             Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
@@ -114,7 +119,8 @@ public class CSVLoader : MonoBehaviour
         } else if (gameMode == "Integration")
         {
             sequencer.totalTimeOfExperience = 1500.0f;
-            sequencer._wakeUpCounter = 1500.0f; //TODO - SET THIS TO SOMETHING REAL
+            totalTimeOfPostUnguidedVocalizationContent = 0.0f;
+            sequencer._wakeUpCounter = 1.0f; //TODO - SET THIS TO SOMETHING REAL
             if(subGameMode == "Fireflies")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
@@ -125,6 +131,15 @@ public class CSVLoader : MonoBehaviour
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Metta", gameObject);
             }
+        }
+        
+        //OTHER VO INITIALIZATIONS
+        if(layingDown)
+        {
+            AkSoundEngine.SetSwitch("VO_Posture","LieDown",gameObject);
+        } else 
+        {
+            AkSoundEngine.SetSwitch("VO_Posture","Relax",gameObject);
         }
     }
 

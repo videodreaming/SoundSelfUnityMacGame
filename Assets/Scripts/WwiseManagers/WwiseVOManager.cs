@@ -32,7 +32,6 @@ public class WwiseVOManager : MonoBehaviour
     private bool lightsInitialized = false;
     public CSVWriter csvWriter;
     private Coroutine countdownCoroutine; // Reference to the coroutines
-    public float totalTimeOfPostUnguidedVocalizationContant;
     private bool debugAllowLogs;
     
     //private bool silentPlaying = false;
@@ -41,7 +40,6 @@ public class WwiseVOManager : MonoBehaviour
     {
         
         //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS AND MUSICSYSTEM1.CS
-        assignVOs();
        
         //NOTE ABOUT WWISE:
         //THE GAMEOBJECT POINTS TO *THIS* GAMEOBJECT. SO WE CAN'T START
@@ -213,20 +211,6 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out value, ref valueType);
         return value;
     }
-    
-    void assignVOs()
-    {
-        //Set VO_Posture
-        
-        if(layingDown)
-        {
-            AkSoundEngine.SetSwitch("VO_Posture","LieDown",gameObject);
-        } else 
-        {
-            AkSoundEngine.SetSwitch("VO_Posture","Relax",gameObject);
-        }
-    }
-
 
     public void breathInBehaviour()
     {
