@@ -145,6 +145,8 @@ public class Tutorial : MonoBehaviour
                         correctionCoroutine = StartCoroutine(ProvideCorrection());                   
                         yield break;
                     }
+                } else {
+                    _failTimer = 0.0f;
                 }
                 yield return null;
             }
@@ -204,6 +206,8 @@ public class Tutorial : MonoBehaviour
                     correctionCoroutine = StartCoroutine(ProvideCorrection());                   
                     yield break;
                 }
+            } else {
+                _failTimer = 0.0f;
             }
             yield return null;
         }
