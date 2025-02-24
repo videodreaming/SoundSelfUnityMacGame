@@ -10205,6 +10205,20 @@
 																</MusicClip>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{FC47B87B-7F1E-4AD5-B5A3-D87B55654F6E}" ShortID="582385830">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="117412.99420826"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_VO_CLOSING_GOODBYE" ID="{AF08258D-64D6-468F-8641-00152A884F0F}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -10813,20 +10827,6 @@
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
 																			<ObjectRef Name="Play_music_meditationSilent_E_Major_LOOP" ID="{CE09BEF8-2A60-4152-BE19-73FF50191240}" WorkUnitID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{C2CB1896-6084-4A37-9545-6F749D4DD75D}" ShortID="258713128">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="117486.342944742"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_VO_ClosingGoodbye" ID="{E317C9D8-FCA4-41C2-BC26-F16E968EFAE1}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
 																		</Reference>
 																	</ReferenceList>
 																</MusicEventCue>
