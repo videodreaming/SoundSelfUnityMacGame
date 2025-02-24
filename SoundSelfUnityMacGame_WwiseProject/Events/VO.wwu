@@ -235,6 +235,9 @@
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_VO_ClosingGoodbye" ID="{E317C9D8-FCA4-41C2-BC26-F16E968EFAE1}">
+					<PropertyList>
+						<Property Name="Inclusion" Type="bool" Value="False"/>
+					</PropertyList>
 					<ChildrenList>
 						<Action Name="" ID="{736D7638-991E-46A5-9B7E-06048AA9F894}" ShortID="877815523">
 							<ReferenceList>
@@ -306,6 +309,17 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="vo_testRepair_succeed" ID="{CF759797-30D3-4272-8D7B-144B27E1007C}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_CLOSING_GOODBYE" ID="{AF08258D-64D6-468F-8641-00152A884F0F}">
+					<ChildrenList>
+						<Action Name="" ID="{125410B3-E30B-46AE-BF7F-AEE8AC43220A}" ShortID="695586086">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_CLOSING_GOODBYE" ID="{8FB1D877-44D3-49AA-8EE3-10978E8749BB}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

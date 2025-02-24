@@ -34,7 +34,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{A84DF804-C08F-39F9-9CE9-38B7A4B590DB}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{ADCD95D2-C36C-57CF-03FE-9CFAB4A54E50}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -4887,14 +4887,14 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{0CAF9AD6-6643-DA3A-8B6D-26341FC31DEA}">
+		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{2D13CAC7-BF60-D2CD-0197-3008D88527C8}">
 			<ShortName>Aux_SFX</ShortName>
 			<Path>Bus/25/Aux_SFX.bnk</Path>
 			<AuxBusses>
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{0455F5A9-CCBB-D3D3-6D19-018150E88BF8}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{826243F2-CD62-8798-B872-C72E0D78ADDA}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5632,7 +5632,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="699412784" Name="Play_VO_ClosingGoodbye" DurationType="Infinite">
+				<Event Id="3820138711" Name="Play_VO_CLOSING_GOODBYE" DurationType="Infinite">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="1815817025" Id="1927133646"/>
@@ -9828,5 +9828,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{EB251033-6181-AAFE-0303-4AD4ABA40D6A}</FileHash>
+	<FileHash>{8AEE9669-6A07-8F26-D9FF-08C7C798D401}</FileHash>
 </SoundBanksInfo>
