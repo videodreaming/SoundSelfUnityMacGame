@@ -67,6 +67,8 @@ public class Tutorial : MonoBehaviour
             //- Let's check each of the test vos for a good place to put the breath in cue, even if he doesn't say "breathe in"
     }
     
+    //TODO: Move StartTutorial() to Sequencer.cs, and the call for it, which right now is in WwiseVOManager.cs, should reference something in Sequencer.cs. Basically. Sequencer wants to control the sequence of events.
+    //TODO: With that in mind, move inTutorial to Sequencer.cs. Sequencer should be able to tell us where in the sequence we are: Opening, Tutorial, Freeplay, Savasana.
     public void StartTutorial()
     {
         if(!active)

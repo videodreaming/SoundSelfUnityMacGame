@@ -65,7 +65,7 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
-
+        //These initializations should all be in CSVLoader.cs. Suggest not making WakeUpCounter public, but initialize it with a public Method.
         if (developmentMode.startRightBeforeSavasana)
         {
             WakeUpCounter = 190f;
