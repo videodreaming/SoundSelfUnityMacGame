@@ -6833,7 +6833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71246112b53506c41b65735e259da458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  csvLoader: {fileID: 0}
+  csvLoader: {fileID: 695725736}
   sequencer: {fileID: 1564575221}
   developmentMode: {fileID: 538272586}
   director: {fileID: 1829208165}
@@ -6842,13 +6842,8 @@ MonoBehaviour:
   musicSystem1: {fileID: 619104374}
   imitoneVoiceIntepreter: {fileID: 740096625}
   tutorial: {fileID: 1635385662}
-  firstTimeUser: 1
   layingDown: 1
   csvWriter: {fileID: 662335749}
-  totalTimeOfPostUnguidedVocalizationContant: 0
-  closingGoodbyeType: 
-  timeToPlayClosingGoodbye: 0
-  totalTimeOfExperience: 0
 --- !u!114 &486583135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8748,6 +8743,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7973d1713d2f7411e9698ef3b54dc05a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sequencer: {fileID: 0}
+  wwiseVOManager: {fileID: 0}
+  timeToPlayClosingGoodbye: 0
+  totalTimeOfPostUnguidedVocalizationContent: 0
   encryptedReadyCheck: 
   decryptedReadyCheck: 
   encryptedGameMode: 
@@ -19445,6 +19444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
+  csvLoader: {fileID: 695725736}
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
@@ -19454,8 +19454,9 @@ MonoBehaviour:
   tutorial: {fileID: 1635385662}
   savasana: {fileID: 1809294502}
   csvWriter: {fileID: 662335749}
+  _wakeUpCounter: 0
   timeInUnguidedVocalization: 0
-  totalTimeOfPostUnguidedVocalizationContant: 0
+  totalTimeOfExperience: 0
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
@@ -20176,7 +20177,7 @@ MonoBehaviour:
   musicSystem1: {fileID: 619104374}
   director: {fileID: 1829208165}
   inTutorial: 0
-  totalTimeOfPostUnguidedVocalizationContant: 0
+  totalTimeOfPostUnguidedVocalizationContent: 0
   TimeTrackerScript: {fileID: 1435489961}
 --- !u!54 &1635385663
 Rigidbody:

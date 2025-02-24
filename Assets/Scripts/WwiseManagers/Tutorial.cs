@@ -24,7 +24,7 @@ public class Tutorial : MonoBehaviour
     private Coroutine testCoroutine;
     private Coroutine correctionCoroutine;
     public bool inTutorial = false;
-    public float totalTimeOfPostUnguidedVocalizationContant;
+    public float totalTimeOfPostUnguidedVocalizationContent;
     public TimeTrackerScript TimeTrackerScript;
     
     // Start is called before the first frame update
@@ -154,7 +154,7 @@ public class Tutorial : MonoBehaviour
                 yield return null;
             }
             //on success, start the next coroutine
-            wwiseVOManager.PlayTutorialVO(testVocalizationType);
+            wwiseVOManager.PlayTutorialGuidance(testVocalizationType);
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
         } else {
             Debug.Log("Tutorial: Voice Test Coroutine: Tutorial is over");
@@ -224,7 +224,7 @@ public class Tutorial : MonoBehaviour
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
     }
 
-    private void EndTutorial()
+    public void EndTutorial()
     {
         Debug.Log("TutorialEnded");
         // Run this when the cue for the end of the tutorial hits.

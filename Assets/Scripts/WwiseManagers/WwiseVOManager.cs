@@ -29,7 +29,7 @@ public class WwiseVOManager : MonoBehaviour
     private bool debugAllowMusicLogs = true;
     private bool pause = true;
     public bool layingDown = true;
-    private bool lightsInitialized = false;
+    
     public CSVWriter csvWriter;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private bool debugAllowLogs;
@@ -169,7 +169,7 @@ public class WwiseVOManager : MonoBehaviour
             } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
             {
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
-                EndTutorial();
+                tutorial.EndTutorial();
             }
             else
             {
@@ -177,7 +177,33 @@ public class WwiseVOManager : MonoBehaviour
             }
         }   
     }
+    public void SetToPeace()
+    {
+        AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);
+        AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
+    }
+    public void SetToNarrative()
+    {
+        AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
+        AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);
+    }
+    public void SetToSurrender()
+    {
+        AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
+        AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
+    }
 
+    public void firstTimeUser()
+    {
+        AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
+        AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Long",gameObject);
+    }
+
+    public void notFirstTimeUser()
+    {
+        AkSoundEngine.SetSwitch("VO_Somatic","Short",gameObject);
+        AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
+    }
     private IEnumerator MakeWWiseTone()
     {
         Debug.Log("WWise_VO: Triggering a False Tone in WWise");
@@ -260,16 +286,16 @@ public class WwiseVOManager : MonoBehaviour
         switch(guidanceType)
         {
             case "Hum":
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
                 break;
             case "Ahh":
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
                 break;
             case "Ohh":
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
                 break;
             case "Advanced":
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
                 break;
             default:
                 Debug.LogError("Invalid testVocalizationType: " + guidanceType);
@@ -288,16 +314,16 @@ public class WwiseVOManager : MonoBehaviour
         switch(guidanceType)
         {
             case "Hum":
-                AkSoundEngine.PostEvent("Play_VO_testRepair_Hum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Hum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
                 break;
             case "Ahh":
-                AkSoundEngine.PostEvent("Play_VO_testRepair_Ahh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Ahh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
                 break;
             case "Ohh":
-                AkSoundEngine.PostEvent("Play_VO_testRepair_Ohh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Ohh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
                 break;
             case "Advanced":
-                AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
                 break;
             default:
                 Debug.LogError("WWise_VO: Invalid testVocalizationType: " + guidanceType);
@@ -307,7 +333,7 @@ public class WwiseVOManager : MonoBehaviour
 
     public void PlayCorrectionConfirmationVO()
     {
-        AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+        AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, tutorial.TutorialCallBackFunction, null);
         Debug.Log("WWise_VO: Play Repair Success");
     }
 
@@ -316,13 +342,6 @@ public class WwiseVOManager : MonoBehaviour
     {
         AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
         Debug.Log("WWise_VO: Play Wake Up Soon Sequence");
-    }
-
-    //SAVASANA BEHAVIORS
-    public void PlayClosingGoodbye()
-    {
-        AkSoundEngine.PostEvent("Play_VO_ClosingGoodbye", gameObject);
-        Debug.Log("WWise_VO: Play Closing Goodbye");
     }
 }
 

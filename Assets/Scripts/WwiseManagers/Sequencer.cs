@@ -19,6 +19,8 @@ public class Sequencer : MonoBehaviour
     //private int fundamentalCount = -1;
     //private int harmonyCount = -1;
     public SavasanaPlayer savasana;
+    private bool lightsInitialized = false;
+    
 
     //public uint playingId;
     //[SerializeField]
@@ -105,7 +107,7 @@ public class Sequencer : MonoBehaviour
         //PLAY OPENING SEQUENCE
         if(!developmentMode.developmentMode || developmentMode.startAtStart)
         {
-            if(csvLoader.gameMode == "Preparation" || csvLoader.gameMode == "Skills Training")
+            if(CSVLoader.gameMode == "Preparation" || CSVLoader.gameMode == "Skills Training")
             {
                 if(csvLoader.firstTimeUser)
                 {
@@ -116,7 +118,7 @@ public class Sequencer : MonoBehaviour
                     wwiseVOManager.PlayOpeningSequence("Preparation_Short");
                 }
             }
-            else if (csvLoader.gameMode == "Integration")
+            else if (CSVLoader.gameMode == "Integration")
             {
                 wwiseVOManager.PlayOpeningSequence("Integration_Short");
             }
@@ -264,7 +266,7 @@ public class Sequencer : MonoBehaviour
     //PROPOSED SOLUTION: Add things to director... when the new music is triggered wait 2 mins or so, then add the next one to the director. This should be in MusicSystem1.cs
     public void BeginMusicSequence(float currentTime)
     {
-        timeInUnguidedVocalization = totalTimeOfExperience - csvLoader.totalTimeOfPostUnguidedVocalizationContant - currentTime;   
+        timeInUnguidedVocalization = totalTimeOfExperience - csvLoader.totalTimeOfPostUnguidedVocalizationContent - currentTime;   
         float timeInEachSegment = timeInUnguidedVocalization / 4;
         StartCountdownToNextSegment(timeInEachSegment);
         Debug.Log("Sequencer: Time in each segment: " + timeInEachSegment);
