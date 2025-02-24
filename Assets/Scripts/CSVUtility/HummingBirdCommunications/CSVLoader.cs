@@ -7,6 +7,7 @@ using System;
 
 public class CSVLoader : MonoBehaviour
 {
+    public Sequencer sequencer;
     public static string gameMode;
     public static string subGameMode;
     public static int currentSessionNumber = 0;

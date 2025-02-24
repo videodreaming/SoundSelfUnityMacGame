@@ -36,9 +36,8 @@ public class WwiseVOManager : MonoBehaviour
     public float totalTimeOfPostUnguidedVocalizationContant;
     public string closingGoodbyeType;
     public float timeToPlayClosingGoodbye;
+    private bool debugAllowLogs;
     
-    
-    public float totalTimeOfExperience;
     //private bool silentPlaying = false;
 
     void Start()
@@ -48,7 +47,7 @@ public class WwiseVOManager : MonoBehaviour
         {
             Debug.Log("WWise_VO: Setting up for Preperation or Skills Training");
             //move TotalTimeOfExperience over to sequencer
-            totalTimeOfExperience = 2700.0f;
+            sequencer.totalTimeOfExperience = 2700.0f;
             if (CSVLoader.subGameMode == "Peace" || CSVLoader.subGameMode == "Mindfulness and Joy")
             {
                 totalTimeOfPostUnguidedVocalizationContant = 889.0f;
@@ -85,7 +84,7 @@ public class WwiseVOManager : MonoBehaviour
                 }
                 AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
                 closingGoodbyeType = "Long";
-                timeToPlayClosingGoodbye = totalTimeOfExperience-60.0f;
+                timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-60.0f;
                 Debug.Log("Time To Play Closing Goodbye: " +timeToPlayClosingGoodbye);
                 Debug.Log("WWise_VO: First Time User");
             } else {
@@ -99,13 +98,13 @@ public class WwiseVOManager : MonoBehaviour
                 }
                 AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
                 closingGoodbyeType = "Short";
-                timeToPlayClosingGoodbye = totalTimeOfExperience-10.0f;
+                timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-10.0f;
                  Debug.Log("Time To Play Closing Goodbye: "+timeToPlayClosingGoodbye);
                 Debug.Log("WWise_VO: Not First Time User");
             }
         } else if (CSVLoader.gameMode == "Integration")
         {
-            totalTimeOfExperience = 1500.0f;
+            sequencer.totalTimeOfExperience = 1500.0f;
             if(CSVLoader.subGameMode == "Fireflies")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
@@ -206,6 +205,11 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO: Somatic Start");
             }
+            else if (musicSyncInfo.userCueName == "Cue_BreathIn")
+            {
+                Debug.Log("WWise_VO Tutorial: Cue_BreathIn");
+                breathInBehaviour();
+            } 
             else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
             {
                 Debug.Log("WWise_VO: Cue BreathIn Start");
@@ -234,6 +238,30 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO: Cue_Opening_Start");
             } 
+            else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromHmmToAhh")
+            {
+                Debug.Log("WWise_VO Tutorial: Cue Change to Ahh");
+                tutorial.SetTestVocalizationType("Ahh");
+            } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
+            {
+                Debug.Log("WWise_VO Tutorial: Cue Change to Ohh");
+                tutorial.SetTestVocalizationType("Ohh");
+            } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
+            {
+                Debug.Log("WWise_VO Tutorial: Cue Change to Advanced");
+                tutorial.SetTestVocalizationType("Advanced");
+                musicSystem1.LockToC(false);
+            } else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
+            {
+                Debug.Log("WWise_VO Tutorial: Cue_FreePlay");
+                
+                musicSystem1.SetSilentVolume(80f, 40f);            
+                director.disable = false;
+            } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
+            {
+                Debug.Log("Wwise_Tutorial_Break_All_Tests");
+                EndTutorial();
+            }
             else
             {
                 Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
@@ -316,6 +344,72 @@ public class WwiseVOManager : MonoBehaviour
             pause = false;
         }
                     
+    //TUTORIAL VO CALLS
+    public void PlayTutorialGuidance(string guidanceType)
+    {
+        
+        if(debugAllowLogs)
+        {
+            Debug.Log("Wwise_VO: Play " + guidanceType + " Guidance");
+        }
+        
+        switch(guidanceType)
+        {
+            case "Hum":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Ahh":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Ohh":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Advanced":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            default:
+                Debug.LogError("Invalid testVocalizationType: " + guidanceType);
+                break;
+        }
+    }
     
+    public void PlayCorrectionGuidance(string guidanceType)
+    {
+        
+        if(debugAllowLogs)
+        {
+            Debug.Log("Tutorial: Play " + guidanceType + " Correction Guidance");
+        }
+
+        switch(guidanceType)
+        {
+            case "Hum":
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Hum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Ahh":
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Ahh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Ohh":
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Ohh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            case "Advanced":
+                AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+                break;
+            default:
+                Debug.LogError("Invalid testVocalizationType: " + guidanceType);
+                break;
+        }
+    }
+
+    public void PlayCorrectionConfirmationVO()
+    {
+        AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+    }
+
+    //WAS IN SEQUENCER.CS BEFORE I MOVED IT
+    public void PlayWakeUpSoonVO()
+    {
+        AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
+    }
 }
 

@@ -520,6 +520,19 @@ public class MusicSystem1 : MonoBehaviour
         modeEnvironmentFlag = environment;
     }
 
+    
+    public Action Action_SetSoundWorld(string soundWorld)
+    {
+        return () => SetSoundWorld(soundWorld);
+    }
+
+    public void SetSoundWorld(string soundWorld)
+    {
+        AkSoundEngine.SetState("SoundWorldMode", soundWorld);
+        Debug.Log("MUSIC: Sound World Set To: " + soundWorld);
+    }
+
+
     private Action Action_ChangeFundamental(int scaleNoteKey)
     {
         return () => ChangeFundamental(scaleNoteKey);

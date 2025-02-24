@@ -76,7 +76,7 @@ public class Tutorial : MonoBehaviour
             inTutorial = true;
             Debug.Log("Tutorial: START");
             active = true;
-            testVocalizationType = "Hum";
+            SetTestVocalizationType("Hum");
 
             musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
 
@@ -92,46 +92,10 @@ public class Tutorial : MonoBehaviour
          if (in_type == AkCallbackType.AK_MusicSyncUserCue)
             {
                 AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-                if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
-                { 
-                    Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_Start"); //These are used during the test tones, for when Jaya speaks or not.
-                    imitoneVoiceInterpreter.gameOn = false; //I think one of these is not correct. (also see Sequencer.cs and MusicSystem1.cs).
-                } else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
-                {
-                    Debug.Log("WWise_VO Tutorial: Cue_VO_GuidedVocalization_End");
-                    imitoneVoiceInterpreter.gameOn = true;//I think one of these is not correct. (also see Sequencer.cs and MusicSystem1.cs)
-                } else if (musicSyncInfo.userCueName == "Cue_BreathIn")
-                {
-                    Debug.Log("WWise_VO Tutorial: Cue_BreathIn");
-                    wwiseVOManager.breathInBehaviour();
-                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromHmmToAhh")
-                {
-                    Debug.Log("WWise_VO Tutorial: Cue Change to Ahh");
-                    testVocalizationType = "Ahh";
-                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
-                {
-                    Debug.Log("WWise_VO Tutorial: Cue Change to Ohh");
-                    testVocalizationType = "Ohh";
-                } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
-                {
-                    Debug.Log("WWise_VO Tutorial: Cue Change to Advanced");
-                    testVocalizationType = "Advanced";
-                    musicSystem1.LockToC(false);
-                } else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
-                {
-                    Debug.Log("WWise_VO Tutorial: Cue_FreePlay");
-                    
-                    musicSystem1.SetSilentVolume(80f, 40f);            
-                    director.disable = false;
-                } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
-                {
-                    Debug.Log("Wwise_Tutorial_Break_All_Tests");
-                    EndTutorial();
-                }
-                else
-                {
-                    Debug.LogWarning("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
-                }
+
+                //NOTE: I've moved everything from here into WwiseVOManager.cs, am just keeping this here to catch anything unexpected so we can fix it.
+             
+                Debug.LogWarning("Tutorial: Unexpected Wwise Cue: " + in_type + " | " + musicSyncInfo.userCueName);
             } 
     }
 
@@ -190,7 +154,7 @@ public class Tutorial : MonoBehaviour
                 yield return null;
             }
             //on success, start the next coroutine
-            PlayTutorialGuidance();
+            wwiseVOManager.PlayTutorialVO(testVocalizationType);
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
         } else {
             Debug.Log("Tutorial: Voice Test Coroutine: Tutorial is over");
@@ -207,7 +171,7 @@ public class Tutorial : MonoBehaviour
         
         musicSystem1.LockToC(true);
 
-        PlayCorrectionGuidance(); 
+        wwiseVOManager.PlayCorrectionGuidance(testVocalizationType); 
         //Wait one second, to give room for the cue to be triggered.
         float _tWait = 0.0f;
         while(_tWait < 1.0f)
@@ -256,64 +220,8 @@ public class Tutorial : MonoBehaviour
         {
             musicSystem1.LockToC(false);
         }
-        AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
+        wwiseVOManager.PlayCorrectionConfirmationVO();
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
-    }
-
-    private void PlayTutorialGuidance()
-    {
-        
-        if(debugAllowLogs)
-        {
-            Debug.Log("Tutorial: Play " + testVocalizationType + " Guidance");
-        }
-        
-        switch(testVocalizationType)
-        {
-            case "Hum":
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-                break;
-            case "Ahh":
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-                break;
-            case "Ohh":
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-                break;
-            case "Advanced":
-                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-                break;
-            default:
-                Debug.LogError("Invalid testVocalizationType: " + testVocalizationType);
-                break;
-        }
-    }
-
-    private void PlayCorrectionGuidance()
-    {
-        
-        if(debugAllowLogs)
-        {
-            Debug.Log("Tutorial: Play " + testVocalizationType + " Correction Guidance");
-        }
-
-        switch(testVocalizationType)
-        {
-            case "Hum":
-                AkSoundEngine.PostEvent("Play_VO_testRepair_Hum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-                break;
-            case "Ahh":
-                AkSoundEngine.PostEvent("Play_VO_testRepair_Ahh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-                break;
-            case "Ohh":
-                AkSoundEngine.PostEvent("Play_VO_testRepair_Ohh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-                break;
-            case "Advanced":
-                AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, TutorialCallBackFunction, null);
-                break;
-            default:
-                Debug.LogError("Invalid testVocalizationType: " + testVocalizationType);
-                break;
-        }
     }
 
     private void EndTutorial()
@@ -335,5 +243,19 @@ public class Tutorial : MonoBehaviour
         director.disable = false;
         active = false;
         Debug.Log("TUTORIAL: END with" + TimeTrackerScript.TotalElapsedTime);
+    }
+
+    public void SetTestVocalizationType(string vocalizationType)
+    {
+        //first, check if the string is a supported type
+        if(vocalizationType != "Hum" && vocalizationType != "Ahh" && vocalizationType != "Ohh" && vocalizationType != "Advanced")
+        {
+            Debug.LogError("Tutorial: Invalid vocalization type: " + vocalizationType);
+            return;
+        }
+        else
+        {
+            testVocalizationType = vocalizationType;
+        }
     }
 }

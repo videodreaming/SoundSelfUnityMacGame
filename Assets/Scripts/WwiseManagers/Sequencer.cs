@@ -49,13 +49,14 @@ public class Sequencer : MonoBehaviour
     private int currentStage = 0; //As Sonoflore
     public float timeInUnguidedVocalization;
     public float totalTimeOfPostUnguidedVocalizationContant;
+    public float totalTimeOfExperience;
 
 
 
 
     void Awake()
     {
-        AkSoundEngine.SetState("SoundWorldMode","SonoFlore");
+        musicSystem1.SetSoundWorld("SonoFlore");
 
         if(!developmentMode.developmentMode)
         {
@@ -160,7 +161,7 @@ public class Sequencer : MonoBehaviour
         
         if( WakeUpCounter <= 0.0f && !wakeUpEndSoonTriggered)
         {
-            AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
+            wwiseVOManager.PlayWakeUpSoonVO();
             WakeUpCounter = -1.0f;
             wakeUpEndSoonTriggered = true;
         }
@@ -218,13 +219,14 @@ public class Sequencer : MonoBehaviour
     //Also noting that the design of this doesn't lend itself easily or naturally to different sequences, using different instrument sets, or a different order, or not all of them, which will become more relevant in the not too distant future, but is relevant even now given the possibility that someone will just "stay" in the tutorial.
     //... The ideal system would have a list of sound worlds to play, and would move through the list. That list could be modified based on (a) the launch initializations and (b) the amount of time left when the sequence initiates
     //This will work for now, but I think the system could be cleaner.
+    //PROPOSED SOLUTION: Add things to director... when the new music is triggered wait 2 mins or so, then add the next one to the director. This should be in MusicSystem1.cs
     public void BeginMusicSequence(float currentTime)
     {
-        timeInUnguidedVocalization = wwiseVOManager.totalTimeOfExperience - wwiseVOManager.totalTimeOfPostUnguidedVocalizationContant - currentTime;   
+        timeInUnguidedVocalization = totalTimeOfExperience - wwiseVOManager.totalTimeOfPostUnguidedVocalizationContant - currentTime;   
         float timeInEachSegment = timeInUnguidedVocalization / 4;
         StartCountdownToNextSegment(timeInEachSegment);
-        Debug.Log("WWise_VO: Time in each segment: " + timeInEachSegment);
-        Debug.Log("WWise_VO: Time in Unguided Vocalization: " + timeInUnguidedVocalization);
+        Debug.Log("Sequencer: Time in each segment: " + timeInEachSegment);
+        Debug.Log("Sequencer: Time in Unguided Vocalization: " + timeInUnguidedVocalization);
     }
     public void StartCountdownToNextSegment(float timeInEachSegment) //REEF - renamed this for clarity
     {
@@ -239,30 +241,30 @@ public class Sequencer : MonoBehaviour
     {
         //REEF - **Important**, I've changed this to use the director system instead of causing a change right away on the clock. This makes the system more responsive. This way, instead of happening on a precise schedule, the desired change is "queued" and then triggers when an player-driven behavior change happens in the player, so it feels like it is responding to them. Right now, it is set to change  after 60 seconds (that's the 60f) even if there is not behavior change in the player, but I'd recommend this being 120 seconds instead, because it's such a big and important change, and we really want the player to feel it as a response from them. 
         //The system you've designed lends itself to precise, clockwork timing. It should bere-evaluated to work well with the director system, which includes a variable delay. The reconfigured system should calculate the time until the next world-change is added to the queue when the change actually is dynamically triggered. The behavior of setting a new countdown would then have to be triggered by the director system activation event. So you'd put the behavior that starts a new countdown in sequencer.SetSoundWorld. I've put a comment there for you to look at.
-        Debug.Log("WWise_VO: Starting Countdown to Next Segment with :" + timeInEachSegment + " | Current Stage: " + currentStage);
+        Debug.Log("Sequencer: Starting Countdown to Next Segment with :" + timeInEachSegment + " | Current Stage: " + currentStage);
         if (currentStage == 0)
         {
             QueueNewWorld("SonoFlore", "Red", 120f);
             currentStage = 1;
-            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: SonoFlore");
+            Debug.Log("Sequencer: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: SonoFlore");
         }
         else if (currentStage == 1)
         {
             QueueNewWorld("Gentle", "Red", 120f);
             currentStage = 2;
-            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Gentle");
+            Debug.Log("Sequencer: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Gentle");
         }
         else if (currentStage == 2)
         {
             QueueNewWorld("Shadow", "Blue", 120f);
             currentStage = 3;
-            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shadow");
+            Debug.Log("Sequencer: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shadow");
             
         } else if (currentStage == 3)
         {
             QueueNewWorld("Shruti", "White", 120f);
             currentStage = 4;
-            Debug.Log("WWise_VO: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shruti");
+            Debug.Log("Sequencer: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shruti");
         } else if (currentStage == 4)
         {
             Debug.Log("PlayingThematicSavasana");
@@ -598,23 +600,12 @@ public class Sequencer : MonoBehaviour
     public void QueueNewWorld(string world, string color, float _seconds = 120.0f)
     {
         Debug.Log("Sequencer QueueNewWorld: Queuing New World: " + world + " with color: " + color);
-        director.AddActionToQueue(Action_SetSoundWorld(world), "SoundWorld", true, false, _seconds, true, 2);
+        director.AddActionToQueue(musicSystem1.Action_SetSoundWorld(world), "SoundWorld", true, false, _seconds, true, 2);
         director.AddActionToQueue(Action_SetPreferredColor(color), "ColorPreference", false, true, _seconds, true, 2);
         director.AddActionToQueue(Action_NextColorWorld(120.0f), "ColorCycle", false, true, _seconds, true, 2);
         director.AddActionToQueue(Action_PlayTransitionSound(), "TransitionSound", true, false, _seconds, true, 2);
     }
 
-    private Action Action_SetSoundWorld(string soundWorld)
-    {
-        return () => SetSoundWorld(soundWorld);
-    }
-
-    private void SetSoundWorld(string soundWorld)
-    {
-        AkSoundEngine.SetState("SoundWorldMode", soundWorld);
-        Debug.Log("Sequencer Sound World Set To: " + soundWorld);
-        //REEF, if you want something to happen when the sound world actually changes, it should be here.
-    }
 
     private Action Action_SetPreferredColor(string color)
     {
