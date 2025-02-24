@@ -8,7 +8,6 @@ using System;
 public class CSVLoader : MonoBehaviour
 {
     public Sequencer sequencer;
-    public DevelopmentMode developmentMode;
     
     public WwiseVOManager wwiseVOManager;
     public static string gameMode {get; private set;};
@@ -43,11 +42,6 @@ public class CSVLoader : MonoBehaviour
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
         Debug.Log("CSVSessionsPath : " +sessionsCsvPath);
-
-        if(!developmentMode.awake)
-        {
-            Debug.LogError("CSVLoader: DevelopmentMode not awake yet, that should Awake() before CSVLoader() does.");
-        }
 
         if (File.Exists(sessionsCsvPath))
         {
