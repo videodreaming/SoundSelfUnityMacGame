@@ -10,12 +10,12 @@ public class CSVLoader : MonoBehaviour
     public Sequencer sequencer;
     
     public WwiseVOManager wwiseVOManager;
-    public static string gameMode {get; private set;};
-    public static string subGameMode {get; private set;};
+    public static string gameMode {get; private set;}
+    public static string subGameMode {get; private set;}
     public float timeToPlayClosingGoodbye;
-    public float totalTimeOfPostUnguidedVocalizationContant;
+    public float totalTimeOfPostUnguidedVocalizationContent;
 
-    private bool firstTimeUser {get; private set;} = true;
+    public bool firstTimeUser {get; private set;} = true;
     private bool layingDown = true;
     public static int currentSessionNumber = 0;
     private string baseSessionsFolderPath = "";
@@ -85,35 +85,27 @@ public class CSVLoader : MonoBehaviour
             sequencer._wakeUpCounter = 2280f;
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
-                totalTimeOfPostUnguidedVocalizationContant = 889.0f;
-                AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
+                totalTimeOfPostUnguidedVocalizationContent = 889.0f;
+                wwiseVOManager.SetToPeace();
             } 
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
                 Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContant = 742.0f;
-                AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);
+                totalTimeOfPostUnguidedVocalizationContent = 742.0f;
+                wwiseVOManager.SetToNarrative();
             } 
             else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Prepeation")
             {
-                totalTimeOfPostUnguidedVocalizationContant = 775.0f;
-                AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
+                totalTimeOfPostUnguidedVocalizationContent = 775.0f;
+                wwiseVOManager.SetToSurrender();
             } 
 
             if(firstTimeUser)
             {
-                //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
-                AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
-                timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-60.0f;
-                Debug.Log("CSVLoader: Time To Play Closing Goodbye: " +timeToPlayClosingGoodbye);
+                wwiseVOManager.firstTimeUser();
                 Debug.Log("CSVLoader: First Time User");
             } else {
-                AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
-                timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-10.0f;
-                 Debug.Log("Time To Play Closing Goodbye: "+timeToPlayClosingGoodbye);
+                wwiseVOManager.notFirstTimeUser();
                 Debug.Log("CSVLoader: Not First Time User");
             }
         } else if (gameMode == "Integration")

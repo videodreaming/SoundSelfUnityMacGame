@@ -144,6 +144,8 @@ public class Tutorial : MonoBehaviour
                         correctionCoroutine = StartCoroutine(ProvideCorrection());                   
                         yield break;
                     }
+                } else {
+                    _failTimer = 0.0f;
                 }
                 yield return null;
             }
@@ -153,7 +155,7 @@ public class Tutorial : MonoBehaviour
                 yield return null;
             }
             //on success, start the next coroutine
-            wwiseVOManager.PlayTutorialVO(testVocalizationType);
+            wwiseVOManager.PlayTutorialGuidance(testVocalizationType);
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
         } else {
             Debug.Log("Tutorial: Voice Test Coroutine: Tutorial is over");
@@ -203,6 +205,8 @@ public class Tutorial : MonoBehaviour
                     correctionCoroutine = StartCoroutine(ProvideCorrection());                   
                     yield break;
                 }
+            } else {
+                _failTimer = 0.0f;
             }
             yield return null;
         }
@@ -223,7 +227,7 @@ public class Tutorial : MonoBehaviour
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
     }
 
-    private void EndTutorial()
+    public void EndTutorial()
     {
         Debug.Log("TutorialEnded");
         // Run this when the cue for the end of the tutorial hits.
