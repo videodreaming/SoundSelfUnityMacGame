@@ -12,7 +12,7 @@ public class WwiseVOManager : MonoBehaviour
 {
     public CSVLoader csvLoader;
     public Sequencer sequencer;
-    public DevelopmentMode  developmentMode;
+    public DevelopmentMode developmentMode;
     public Director director;
     public CSVWriter CSVWriter;
     public LightControl lightControl;
@@ -28,95 +28,18 @@ public class WwiseVOManager : MonoBehaviour
     //public float targetValue = 80.0f;
     private bool debugAllowMusicLogs = true;
     private bool pause = true;
-    public bool firstTimeUser = true;
     public bool layingDown = true;
     private bool lightsInitialized = false;
     public CSVWriter csvWriter;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     public float totalTimeOfPostUnguidedVocalizationContant;
-    public string closingGoodbyeType;
-    public float timeToPlayClosingGoodbye;
     private bool debugAllowLogs;
     
     //private bool silentPlaying = false;
 
     void Start()
     {
-        //TODO: Can we move this to Awake() in CSVLoader?
-        if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
-        {
-            Debug.Log("WWise_VO: Setting up for Preperation or Skills Training");
-            //move TotalTimeOfExperience over to sequencer
-            sequencer.totalTimeOfExperience = 2700.0f;
-            if (CSVLoader.subGameMode == "Peace" || CSVLoader.subGameMode == "Mindfulness and Joy")
-            {
-                totalTimeOfPostUnguidedVocalizationContant = 889.0f;
-                AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
-            } 
-            else if (CSVLoader.subGameMode == "Narrative" || CSVLoader.subGameMode == "Psychological Flexibility")
-            {
-                Debug.Log("WWise_VO: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContant = 742.0f;
-                AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);
-            } 
-            else if (CSVLoader.subGameMode == "Surrender" || CSVLoader.subGameMode == "Psychedelic Prepeation")
-            {
-                totalTimeOfPostUnguidedVocalizationContant = 775.0f;
-                AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
-            } 
-            //TODO:
-            //Move the actual Post Event calls to Sequencer.cs.
-            //Can we move the SetSwitches to Awake in CSVLoader?
-
-            if(firstTimeUser)
-            {
-                //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
-                if(!developmentMode.developmentMode || developmentMode.startAtStart)
-                {
-                    AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);  
-                }
-                else
-                {
-                    Debug.Log("WWise_VO: (DEVELOPMENT) skipping preparation opening sequence");
-                }
-                AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
-                closingGoodbyeType = "Long";
-                timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-60.0f;
-                Debug.Log("Time To Play Closing Goodbye: " +timeToPlayClosingGoodbye);
-                Debug.Log("WWise_VO: First Time User");
-            } else {
-                if(!developmentMode.developmentMode || developmentMode.startAtStart)
-                {
-                    AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
-                }
-                else
-                {
-                    Debug.Log("WWise_VO: (DEVELOPMENT) skipping preparation opening sequence");
-                }
-                AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
-                closingGoodbyeType = "Short";
-                timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-10.0f;
-                 Debug.Log("Time To Play Closing Goodbye: "+timeToPlayClosingGoodbye);
-                Debug.Log("WWise_VO: Not First Time User");
-            }
-        } else if (CSVLoader.gameMode == "Integration")
-        {
-            sequencer.totalTimeOfExperience = 1500.0f;
-            if(CSVLoader.subGameMode == "Fireflies")
-            {
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
-            } else if (CSVLoader.subGameMode == "Kindness")
-            {
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Kindness", gameObject);
-            } else if (CSVLoader.subGameMode == "Metta")
-            {
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Metta", gameObject);
-            }
-            AkSoundEngine.PostEvent("Play_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
-        }
+        
         //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS AND MUSICSYSTEM1.CS
         assignVOs();
         if(developmentMode.startAtStart) //NORMAL START
@@ -343,7 +266,26 @@ public class WwiseVOManager : MonoBehaviour
             yield return new WaitForSeconds(30.0f); // Wait for the audio event to finish playing
             pause = false;
         }
-                    
+
+    //INTRO VO CALLS
+    public void PlayOpeningSequence(string openingSequenceType)
+    {
+        switch (openingSequenceType)
+        {
+            case "Preparation_Long":
+            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
+            break;
+            case "Preparation_Short":
+            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+            break;
+            case "Integration_Short":
+            AkSoundEngine.PostEvent("Play_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
+            break;
+            default:
+            Debug.LogError("WWise_VO: Invalid openingSequenceType: " + openingSequenceType);
+            break;
+        }
+    }         
     //TUTORIAL VO CALLS
     public void PlayTutorialGuidance(string guidanceType)
     {

@@ -7,6 +7,7 @@ using System;
 public class Sequencer : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
+    public CSVLoader csvLoader;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     //public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public MusicSystem1 musicSystem1;
@@ -89,6 +90,36 @@ public class Sequencer : MonoBehaviour
         {
             CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         }
+
+        //PLAY OPENING SEQUENCE
+        if(!developmentMode.developmentMode || developmentMode.startAtStart)
+        {
+            if(csvLoader.gameMode == "Preparation" || csvLoader.gameMode == "Skills Training")
+            {
+                if(csvLoader.firstTimeUser)
+                {
+                    wwiseVOManager.PlayOpeningSequence("Preparation_Long");
+                }
+                else
+                {
+                    wwiseVOManager.PlayOpeningSequence("Preparation_Short");
+                }
+            }
+            else if (csvLoader.gameMode == "Integration")
+            {
+                wwiseVOManager.PlayOpeningSequence("Integration_Short");
+            }
+            else
+            {
+                Debug.LogWarning("Sequencer: No Opening Sequence for this game mode.");
+            }
+        }
+        else
+        {
+            Debug.Log("Sequencer: (DEVELOPMENT) skipping opening sequence");
+        }
+        
+
     }
    
     // Update is called once per frame

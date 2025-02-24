@@ -8,8 +8,14 @@ using System;
 public class CSVLoader : MonoBehaviour
 {
     public Sequencer sequencer;
-    public static string gameMode;
-    public static string subGameMode;
+    public DevelopmentMode developmentMode;
+    
+    public WwiseVOManager wwiseVOManager;
+    public static string gameMode {get; private set;};
+    public static string subGameMode {get; private set;};
+    public float timeToPlayClosingGoodbye;
+
+    private bool firstTimeUser {get; private set;} = true;
     public static int currentSessionNumber = 0;
     private string baseSessionsFolderPath = "";
     public string encryptedReadyCheck;
@@ -38,6 +44,11 @@ public class CSVLoader : MonoBehaviour
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
         Debug.Log("CSVSessionsPath : " +sessionsCsvPath);
 
+        if(!developmentMode.awake)
+        {
+            Debug.LogError("CSVLoader: DevelopmentMode not awake yet, that should Awake() before CSVLoader() does.");
+        }
+
         if (File.Exists(sessionsCsvPath))
         {
             using (StreamReader reader = new StreamReader(sessionsCsvPath))
@@ -65,6 +76,61 @@ public class CSVLoader : MonoBehaviour
             }
         }
         ReadSessionParams();
+
+        // VO INITIALIZATION
+        //TODO: Can we move this to Awake() in CSVLoader?
+        if(gameMode == "Preperation" || gameMode == "Skills Training")
+        {
+            Debug.Log("WWise_VO: Setting up for Preperation or Skills Training");
+            //move TotalTimeOfExperience over to sequencer
+            sequencer.totalTimeOfExperience = 2700.0f;
+            if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
+            {
+                totalTimeOfPostUnguidedVocalizationContant = 889.0f;
+                AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
+            } 
+            else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
+            {
+                Debug.Log("WWise_VO: Psychological Flexibility or Narrative");
+                totalTimeOfPostUnguidedVocalizationContant = 742.0f;
+                AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);
+            } 
+            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Prepeation")
+            {
+                totalTimeOfPostUnguidedVocalizationContant = 775.0f;
+                AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
+            } 
+
+            if(firstTimeUser)
+            {
+                //AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject,(uint)AkCallbackType.AK_MusicSyncUserCue, OpeningCallBackFunction, null);
+                AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
+                timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-60.0f;
+                Debug.Log("Time To Play Closing Goodbye: " +timeToPlayClosingGoodbye);
+                Debug.Log("WWise_VO: First Time User");
+            } else {
+                AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
+                timeToPlayClosingGoodbye = sequencer.totalTimeOfExperience-10.0f;
+                 Debug.Log("Time To Play Closing Goodbye: "+timeToPlayClosingGoodbye);
+                Debug.Log("WWise_VO: Not First Time User");
+            }
+        } else if (gameMode == "Integration")
+        {
+            sequencer.totalTimeOfExperience = 1500.0f;
+            if(subGameMode == "Fireflies")
+            {
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
+            } else if (subGameMode == "Kindness")
+            {
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Kindness", gameObject);
+            } else if (subGameMode == "Metta")
+            {
+                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Metta", gameObject);
+            }
+        }
     }
 
     void ReadSessionParams()

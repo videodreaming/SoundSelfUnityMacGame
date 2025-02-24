@@ -12,9 +12,11 @@ public class DevelopmentMode : MonoBehaviour
     public bool startInTutorial = false;
     public bool startRightBeforeSavasana = false;
     public bool startInSavasana = false;
+    public bool awake {get; private set;} = false;
 
     void Awake()
     {
+        awake = true;
         if(developmentMode)
         {
             Debug.Log("AWAKE IN DEVELOPMENT MODE");
