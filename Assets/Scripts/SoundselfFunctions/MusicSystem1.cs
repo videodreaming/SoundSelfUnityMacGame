@@ -76,7 +76,7 @@ public class MusicSystem1 : MonoBehaviour
     private bool thisTonesImpactPlayed = false;
     
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
-    private MusicMode currentMusicMode;
+    public MusicMode currentMusicMode;
     private bool initializeInteractiveMusicFlag = false;
     private bool initializeEnvironmentFlag = false;
     public string currentSwitchState = "C";
