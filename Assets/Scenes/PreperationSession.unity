@@ -8743,8 +8743,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7973d1713d2f7411e9698ef3b54dc05a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequencer: {fileID: 0}
-  wwiseVOManager: {fileID: 0}
+  sequencer: {fileID: 1564575221}
+  wwiseVOManager: {fileID: 486583134}
   timeToPlayClosingGoodbye: 0
   totalTimeOfPostUnguidedVocalizationContent: 0
   encryptedReadyCheck: 
@@ -19255,9 +19255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe95052749634fbdbc029f3d6674bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wwiseVOManager: {fileID: 486583134}
-  playedClosingGoodbye: 0
-  timeTrackerScript: {fileID: 1435489961}
 --- !u!4 &1535763379
 Transform:
   m_ObjectHideFlags: 0
@@ -20177,7 +20174,6 @@ MonoBehaviour:
   musicSystem1: {fileID: 619104374}
   director: {fileID: 1829208165}
   inTutorial: 0
-  totalTimeOfPostUnguidedVocalizationContent: 0
   TimeTrackerScript: {fileID: 1435489961}
 --- !u!54 &1635385663
 Rigidbody:
