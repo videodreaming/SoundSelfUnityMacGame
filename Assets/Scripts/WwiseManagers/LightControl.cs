@@ -688,7 +688,8 @@ public class LightControl : MonoBehaviour
             Debug.LogWarning("FXWave command ignored because the current color world is Dark");
             return;
         }
-        StartCoroutine(FXWaveCoroutine(_amplitude, _dur, _split, true));
+        else
+        StartCoroutine(FXWaveCoroutine(_amplitude, _dur, _split, rampShape));
     }
 
     private IEnumerator FXWaveCoroutine(float _amplitude = 0.3f, float _dur = 4.0f, float _split = 0.25f, bool rampShape = false)

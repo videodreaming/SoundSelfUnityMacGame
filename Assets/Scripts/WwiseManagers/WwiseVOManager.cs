@@ -242,7 +242,7 @@ public class WwiseVOManager : MonoBehaviour
 
     public void breathInBehaviour()
     {
-        lightControl.FXWave(0.6f, 5f, 0.25f, true, true);
+        lightControl.FXWave(0.6f, 5f, 0.25f, true, false);
     }
         
     IEnumerator StartSighElicitationTimer()
