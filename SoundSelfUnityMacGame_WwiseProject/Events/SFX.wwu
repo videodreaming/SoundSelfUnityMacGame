@@ -340,6 +340,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_sfx_Impact_AVS_Only" ID="{BFD987A0-47C4-42B5-877D-0397B90C2857}">
+					<ChildrenList>
+						<Action Name="" ID="{E738ED9A-64D5-4EC7-8CDC-6E599685D71A}" ShortID="572075731">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Impacts_Sequence_AVS_Only" ID="{DD6FAAED-CC76-4AA4-9EE3-16BCC05DD8D4}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

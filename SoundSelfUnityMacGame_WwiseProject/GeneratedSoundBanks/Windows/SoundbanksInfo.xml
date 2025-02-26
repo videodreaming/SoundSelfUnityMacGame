@@ -373,7 +373,7 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{72FAE9D2-F144-1AA6-F53F-356968B42907}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{44E76FA8-3830-284F-E10F-44FEDA0452E5}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -2720,6 +2720,19 @@
 					</MediaRefs>
 				</Event>
 				<Event Id="2908297336" Name="Play_sfx_Impact" DurationType="OneShot" DurationMin="2.6546667" DurationMax="19.552813">
+					<MediaRefs>
+						<MediaRef Id="226852051"/>
+						<MediaRef Id="363531574"/>
+						<MediaRef Id="793736320"/>
+						<MediaRef Id="1046552367"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2998002419"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="160921230" Name="Play_sfx_Impact_AVS_Only" DurationType="OneShot" DurationMin="2.6546667" DurationMax="19.552813">
 					<MediaRefs>
 						<MediaRef Id="226852051"/>
 						<MediaRef Id="363531574"/>
@@ -5905,7 +5918,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{C2C362EC-158C-FDDE-FEC1-09AD0CF9B01E}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{8834BE5B-E72D-B01B-C170-C2AE9EC08ECE}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -6601,6 +6614,19 @@
 					</MediaRefs>
 				</Event>
 				<Event Id="2908297336" Name="Play_sfx_Impact" DurationType="OneShot" DurationMin="2.6546667" DurationMax="19.552813">
+					<MediaRefs>
+						<MediaRef Id="226852051"/>
+						<MediaRef Id="363531574"/>
+						<MediaRef Id="793736320"/>
+						<MediaRef Id="1046552367"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="2998002419"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="160921230" Name="Play_sfx_Impact_AVS_Only" DurationType="OneShot" DurationMin="2.6546667" DurationMax="19.552813">
 					<MediaRefs>
 						<MediaRef Id="226852051"/>
 						<MediaRef Id="363531574"/>
@@ -9828,5 +9854,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D741D7A2-0B8E-F5B5-5EE8-021685C888F2}</FileHash>
+	<FileHash>{8BD8F400-E72E-1D4F-8FED-E44EB994C284}</FileHash>
 </SoundBanksInfo>

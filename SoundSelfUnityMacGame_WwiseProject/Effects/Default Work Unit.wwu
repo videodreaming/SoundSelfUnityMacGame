@@ -2285,6 +2285,13 @@
 						<Property Name="GainBand2" Type="Real32" Value="2.5"/>
 					</PropertyList>
 				</Effect>
+				<Effect Name="New_Parametric_EQ_CutMiddle" ID="{96CB4F58-1677-442E-B5EB-7E789D95FE0A}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+					<PropertyList>
+						<Property Name="FilterTypeBand1" Type="int32" Value="0"/>
+						<Property Name="FilterTypeBand2" Type="int32" Value="3"/>
+						<Property Name="FrequencyBand1" Type="Real32" Value="918"/>
+					</PropertyList>
+				</Effect>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>
