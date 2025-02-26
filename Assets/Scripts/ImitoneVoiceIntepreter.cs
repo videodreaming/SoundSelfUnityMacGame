@@ -152,7 +152,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private bool _volFlagA = false;
     private float _anomalyBaselineMeasurementTime = 60.0f;
     private float _volumeAnomalyThresholdDb_init = 6.0f;
-    private float _volumeAnomalyThresholdDbDecreaseRate = 0.5f;//per minute
+    private float _volumeAnomalyThresholdDbDecreaseRate = 1.0f;//per minute
     private float _volumeAnomalyThresholdDb;
     //DevMode
     public string imitoneConfig;

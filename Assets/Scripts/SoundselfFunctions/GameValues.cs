@@ -92,8 +92,8 @@ public class GameValues : MonoBehaviour
     //The below 4 values require tweaking from gameplay observations. Notes from changes in comments below.
     private float _toneWindlassSpreadInitialize = 0.1f; //was 0.15f
     private float _restWindlassSpreadInitialize = 0.065f;//was 0.75f //Needs to be lower than toneWindlassSpreadInitialize
-    private float _windlassSpreadGrowthPerMinute_Init = 0.02f; //was 0.025 // * mean duration
-    private float _anchorSpreadShrinkPerMinute_Init = 0.015f; // was 0.025// * mean duration
+    private float _windlassSpreadGrowthPerMinute_Init = 0.03f;
+    private float _anchorSpreadShrinkPerMinute_Init = 0.02f; 
     private float _anchorSetMult = 2.5f; //was 2.0f
 
     void Start()
