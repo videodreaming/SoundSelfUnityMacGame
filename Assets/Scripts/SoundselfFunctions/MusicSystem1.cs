@@ -40,6 +40,7 @@ public class MusicSystem1 : MonoBehaviour
     private float _constWiggleRoomUnison = 1.5f;
     private float _queueFundamentalChangeThreshold = 25f;
     private float _initiateImminentFundamentalChangeThreshold = 40f;
+    private int directorStoredFundamental = -1;
     private int nextNote = -1; // Next note to activate
     private float highestActivationTimer = 0.0f;
     public bool localToneOn {get; private set;} = false;
@@ -51,7 +52,7 @@ public class MusicSystem1 : MonoBehaviour
     public int harmonyNote; // Note that plays in harmony with the fundamental note
     private float fundamentalTimeSinceLastTrigger   = 0f;
     private float harmonyTimeSinceLastTrigger = 0f;
-    private float fundamentalRetriggerThreshold = 6f; // minimum time between fundamental retriggering
+    private float fundamentalRetriggerThreshold = 25f; // minimum time between fundamental retriggering
     private float harmonyRetriggerThreshold = 6f; // minimum time between harmony retriggering
 
     //HARMONY SEQUENCES
@@ -263,11 +264,39 @@ public class MusicSystem1 : MonoBehaviour
                         {
                             // Test if this note has the highest timer
                             bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
+                            bool noMatchPass = directorStoredFundamental != scaleNote.Key;
+                            bool lowThresholdPass = newChangeFundamentalTimer >= _queueFundamentalChangeThreshold;
+                            bool highThresholdPass = newChangeFundamentalTimer >= _initiateImminentFundamentalChangeThreshold;
+                            bool instantTriggerTest = (imitoneVoiceInterpreter.toneActiveBiasTrueFrame && fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
 
-                            if (!lockFundamental && isHighestFundamentalTimer)
+                            //THRESHOLDS HIGH AND LOW:
+                            //Immediately change the fundamental if the timer is high enough, or...
+                            //Add a fundamental change to the director if the timer is high enough
+                            if(!lockFundamental)
                             {
-                                // Other checks and logic
+                                if (isHighestFundamentalTimer && highThresholdPass && instantTriggerTest)
+                                {
+                                    if (debugAllowLogs)
+                                    {
+                                        Debug.Log("MUSIC: Instantly Triggering Fundamental Change to " + ConvertIntToNote(fundamentalNote));
+                                    }
+                                    director.ClearQueueOfType("fundamentalChange");
+                                    ChangeFundamental(scaleNote.Key);
+                                }
+                                else if (isHighestFundamentalTimer && noMatchPass && lowThresholdPass)
+                                {
+                                    director.ClearQueueOfType("fundamentalChange");
+                                    director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 9999f, false, 2);
+                                    directorStoredFundamental = scaleNote.key;
+                                    if (debugAllowLogs)
+                                    {
+                                        Debug.Log("MUSIC: New Fundamental Queued: " + ConvertIntToNote(scaleNote.Key));
+                                    }
+                                }
                             }
+                            //THRESHOLD 2:
+                            //Make the change immediately if the timer is high enough
+                            
                         }
                     }
                     else
@@ -298,21 +327,6 @@ public class MusicSystem1 : MonoBehaviour
         // Trigger commands for Wwise or other fundamental changes
         fundamentalTimeSinceLastTrigger += Time.deltaTime;
         harmonyTimeSinceLastTrigger += Time.deltaTime;
-
-        bool fundamentalRetriggerTest = (imitoneVoiceInterpreter.toneActiveBiasTrueFrame && fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
-        bool fundamentalChangeTest = fundamentalNoteCompare != fundamentalNote;
-
-        if (fundamentalRetriggerTest || fundamentalChangeTest)
-        {
-            string fundamentalIntToNote = ConvertIntToNote(fundamentalNote);
-            fundamentalNoteCompare = fundamentalNote;
-            fundamentalTimeSinceLastTrigger = 0f;
-
-            if (debugAllowLogs)
-            {
-                Debug.Log("MUSIC: Fundamental Triggered: " + fundamentalIntToNote);
-            }
-        }
     }
 
     private void HarmonyUpdate()
@@ -542,6 +556,7 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(!lockFundamental)
         {
+            
             fundamentalNote = newFundamental;
             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote), gameObject);
         
@@ -550,6 +565,7 @@ public class MusicSystem1 : MonoBehaviour
                 Debug.Log("MUSIC 6: Fundamental Note Changed to " + ConvertIntToNote(fundamentalNote));
             }
             ResetFundamentalTimers();
+            directorStoredFundamental = scaleNote.key;
         }
         else
         {
@@ -585,8 +601,8 @@ public class MusicSystem1 : MonoBehaviour
             if (highestFundamentalTimer >= _queueFundamentalChangeThreshold)
             {
                 director.ClearQueueOfType("fundamentalChange");
-                director.AddActionToQueue(Action_ChangeFundamental(newFundamental), "fundamentalChange", true, false, 45f, true, 1);
-                ResetFundamentalTimers();
+                director.AddActionToQueue(Action_ChangeFundamental(newFundamental), "fundamentalChange", true, false, 120f, true, 2);
+                directorStoredFundamental = newFundamental;
                 Debug.Log("MUSIC: New Fundamental Queued on Unlock: " + ConvertIntToNote(newFundamental));
             }
         }
@@ -614,6 +630,8 @@ public class MusicSystem1 : MonoBehaviour
                 Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
             }
         }
+
+        fundamentalTimeSinceLastTrigger = 0f;
     }
 
 

@@ -219,7 +219,7 @@ public class Tutorial : MonoBehaviour
         {
             Debug.Log("Tutorial: Play correction confirmation vo");
         }
-        if(testVocalizationType == "Advanced")
+        if(testVocalizationType != "Hum")
         {
             musicSystem1.LockToC(false);
         }
