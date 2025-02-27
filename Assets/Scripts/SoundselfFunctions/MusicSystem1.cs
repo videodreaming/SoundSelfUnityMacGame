@@ -252,7 +252,9 @@ public class MusicSystem1 : MonoBehaviour
             // Perform the updates to the temporary collection
             foreach (var scaleNote in NoteTracker)
             {
-                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
+                
+                float _newChangeMultiplier = Mathf.Abs(scaleNote.Key - fundamentalNote) > 6 ? 0.5f : 1.0f;
+                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer * _newChangeMultiplier;
 
                 if (scaleNote.Value.Active)
                 {
@@ -268,10 +270,9 @@ public class MusicSystem1 : MonoBehaviour
                             //THRESHOLDS HIGH AND LOW:
                             if(!lockFundamental && isHighestFundamentalTimer)
                             {
-                                float _thresholdMultiplier = Mathf.Abs(scaleNote.Key - fundamentalNote) > 6 ? 0.5f : 1.0f;
                                 bool noMatchPass = directorStoredFundamental != scaleNote.Key;
-                                bool lowThresholdPass = newChangeFundamentalTimer >= (_queueFundamentalChangeThreshold * _thresholdMultiplier);
-                                bool highThresholdPass = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold * _thresholdMultiplier);
+                                bool lowThresholdPass = newChangeFundamentalTimer >= (_queueFundamentalChangeThreshold);
+                                bool highThresholdPass = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold);
                                 bool instantTriggerTest = (imitoneVoiceInterpreter.toneActiveBiasTrueFrame && fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
 
                                 if (instantTriggerTest && highThresholdPass)
