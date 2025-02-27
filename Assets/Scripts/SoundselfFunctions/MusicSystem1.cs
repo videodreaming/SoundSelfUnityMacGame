@@ -30,8 +30,8 @@ public class MusicSystem1 : MonoBehaviour
     // ChangeFundamentalTimer: Timer for changing the fundamental note
 
     //THE TWO DICTIONARIES BELOW NOT USED ANY MORE, WE SHOULD DELETE THEM WHEN WE ARE SURE WE DON'T NEED THEM
-    private Dictionary<int, bool> Fundamentals = new Dictionary<int, bool>(); // Tracks if a note is a fundamental tone
-    private Dictionary<int, bool> Harmonies = new Dictionary<int, bool>(); // Tracks if a note is a harmony
+    //private Dictionary<int, bool> Fundamentals = new Dictionary<int, bool>(); // Tracks if a note is a fundamental tone
+    //private Dictionary<int, bool> Harmonies = new Dictionary<int, bool>(); // Tracks if a note is a harmony
     
     // IMITONE INTERPRETATION AND BASIC TONES
     private float musicNoteInputRaw; // The raw note input from voice interpretation
@@ -71,12 +71,8 @@ public class MusicSystem1 : MonoBehaviour
     float _chargeLerp = 0.0f;
 
     //REFACTORED FROM SEQUENCER and WWISEVOMANAGER
-    
-    //public int holdFundamentalNote = -1; //when -1, do not hold the fundamental note.
-    //private int holdFundamentalNoteCompare;
     private bool lockFundamental = false;
     private bool thisTonesImpactPlayed = false;
-    
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
     public MusicMode currentMusicMode;
     private bool initializeInteractiveMusicFlag = false;
@@ -84,10 +80,6 @@ public class MusicSystem1 : MonoBehaviour
     public string currentSwitchState = "C";
 
     //PLAYBACK AND INITIALIZATION
-    //public RTPC silentrtpcvolume;
-    //public RTPC toningrtpcvolume;
-    //private float rtpcFadeDuration = 54.0f;
-    //private float rtpcTargetValue = 80.0f;
     private bool environmentFlag = false;
     private bool interactiveFlag = false;
     
@@ -96,9 +88,6 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeFreeplayFlag = false;
     private bool modeFrozenFreeplayFlag = false;
     private bool modeEnvironmentFlag = false;
-    
-    //REEF - REFACTORED FROM SEQUENCER... CAN THIS BE DELETED?
-    //public string currentToningState = "None";
 
     void Start()
     {
@@ -291,7 +280,7 @@ public class MusicSystem1 : MonoBehaviour
                                     //...Add a fundamental change to the director if the timer is high enough
                                     director.ClearQueueOfType("fundamentalChange");
                                     director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 9999f, false, 2);
-                                    directorStoredFundamental = scaleNote.key;
+                                    directorStoredFundamental = scaleNote.Key;
                                     if (debugAllowLogs)
                                     {
                                         Debug.Log("MUSIC: New Fundamental Queued: " + ConvertIntToNote(scaleNote.Key));
@@ -567,7 +556,7 @@ public class MusicSystem1 : MonoBehaviour
             fundamentalNote = newFundamental;
             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote), gameObject);
             ResetFundamentalTimers();
-            directorStoredFundamental = scaleNote.key;
+            directorStoredFundamental = newFundamental;
         }
         else
         {

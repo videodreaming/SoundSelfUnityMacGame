@@ -338,12 +338,12 @@ public class LightControl : MonoBehaviour
 
     private IEnumerator ReportStrobeRate(float _targetRate, float _transitionTimeSec)
     {
-        float _t = _transitionTimeSec;
+        float _t = 0f;
         float _initialRate = _strobeRate;
 
-        while(_t > 0)
+        while (_t < _transitionTimeSec)
         {
-            _t -= Mathf.Max(Time.deltaTime, 0f);
+            _t += Mathf.Max(Time.deltaTime, 0f);
             _strobeRate = Mathf.Lerp(_initialRate, _targetRate, _t / _transitionTimeSec);
             yield return null;
         }

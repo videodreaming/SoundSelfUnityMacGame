@@ -210,12 +210,14 @@ public class Director : MonoBehaviour
     public void LogQueue()
     {
         //outputs a single log line, with the following format: "Director Queue: <index> <type>, <index> <type>, <index> <type>..."
+        /*
         string logString = "Director Queue Contents: ";
         foreach (var item in queue)
         {
             logString += "<" + item.Key + " " + item.Value.type + ", " + item.Value.timeLeft + "s> ";
         }
         Debug.Log(logString);
+        */
     }
 
     public bool SearchQueueForType(string type)

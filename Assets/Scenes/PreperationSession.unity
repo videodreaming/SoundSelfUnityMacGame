@@ -6022,6 +6022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
+  worldShuffler: {fileID: 1804684750}
   AVSColorCommand: 
   AVSStrobeCommand: 
   currentColorType: Dark
@@ -6991,6 +6992,7 @@ MonoBehaviour:
   musicSystem1: {fileID: 619104374}
   imitoneVoiceIntepreter: {fileID: 740096625}
   tutorial: {fileID: 1635385662}
+  worldShuffler: {fileID: 1804684750}
   layingDown: 1
   csvWriter: {fileID: 662335749}
 --- !u!114 &486583135
@@ -7289,6 +7291,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImitoneVoiceIntepreter: {fileID: 740096625}
   inhaleTotalText: {fileID: 511886545}
+--- !u!1 &515930619
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 515930620}
+  - component: {fileID: 515930621}
+  m_Layer: 0
+  m_Name: ImpactPlayer(To Delete After Test)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &515930620
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515930619}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 864.1064, y: 505.56296, z: -3.9101562}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &515930621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515930619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c04669557a6044144b8f66b4fb6fe10e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &516288819
 GameObject:
   m_ObjectHideFlags: 0
@@ -7571,10 +7617,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentMode: 1
   configureMode: 0
-  startAtStart: 1
+  startAtStart: 0
   startInPlayground: 0
   startInTutorial: 0
-  startRightBeforeSavasana: 0
+  startRightBeforeSavasana: 1
   startInSavasana: 0
 --- !u!4 &538272587
 Transform:
@@ -7819,6 +7865,7 @@ MonoBehaviour:
   developmentMode: {fileID: 538272586}
   sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
+  worldShuffler: {fileID: 1804684750}
   director: {fileID: 1829208165}
   respirationTracker: {fileID: 740096627}
   gameValues: {fileID: 740096630}
@@ -8781,6 +8828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
+  timeLeftScript: {fileID: 1140148591}
   timeToPlayClosingGoodbye: 0
   totalTimeOfPostUnguidedVocalizationContent: 0
   encryptedReadyCheck: 
@@ -14895,6 +14943,7 @@ MonoBehaviour:
   timeTracker: {fileID: 1435489961}
   sequencer: {fileID: 1564575221}
   timeLeftText: {fileID: 1140148592}
+  _timeLeft: 0
 --- !u!114 &1140148592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19787,10 +19836,11 @@ MonoBehaviour:
   director: {fileID: 1829208165}
   tutorial: {fileID: 1635385662}
   savasana: {fileID: 1809294502}
+  worldShuffler: {fileID: 1804684750}
   csvWriter: {fileID: 662335749}
   _wakeUpCounter: 0
+  _timeSinceTutorial: 0
   timeInUnguidedVocalization: 0
-  totalTimeOfExperience: 0
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
@@ -20510,7 +20560,11 @@ MonoBehaviour:
   sequencer: {fileID: 1564575221}
   musicSystem1: {fileID: 619104374}
   director: {fileID: 1829208165}
+  worldShuffler: {fileID: 1804684750}
+  csvLoader: {fileID: 0}
+  timeLeftScript: {fileID: 0}
   inTutorial: 0
+  tutorialComplete: 0
   TimeTrackerScript: {fileID: 1435489961}
 --- !u!54 &1635385663
 Rigidbody:
@@ -22384,6 +22438,56 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 850516834}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1804684749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1804684751}
+  - component: {fileID: 1804684750}
+  m_Layer: 0
+  m_Name: worldShuffler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1804684750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804684749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e538f6e313ffe40bda960de778504709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  developmentMode: {fileID: 538272586}
+  musicSystem1: {fileID: 619104374}
+  lightControl: {fileID: 437048159}
+  respirationTracker: {fileID: 740096627}
+  director: {fileID: 1829208165}
+  musicQueueOpen: 1
+--- !u!4 &1804684751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804684749}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 864.1064, y: 505.56296, z: -3.9101562}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1807808375
 GameObject:
@@ -26436,3 +26540,5 @@ SceneRoots:
   - {fileID: 157077275}
   - {fileID: 1809294501}
   - {fileID: 1535763379}
+  - {fileID: 515930620}
+  - {fileID: 1804684751}

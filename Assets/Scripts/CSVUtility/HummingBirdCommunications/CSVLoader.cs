@@ -10,6 +10,7 @@ public class CSVLoader : MonoBehaviour
     public Sequencer sequencer;
     
     public WwiseVOManager wwiseVOManager;
+    public TimeLeftScript timeLeftScript;
     public static string gameMode {get; private set;}
     public static string subGameMode {get; private set;}
     public float timeToPlayClosingGoodbye;
@@ -80,9 +81,7 @@ public class CSVLoader : MonoBehaviour
         if(gameMode == "Preperation" || gameMode == "Skills Training")
         {
             Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
-            //move TotalTimeOfExperience over to sequencer
-            sequencer.totalTimeOfExperience = 2700.0f;
-            sequencer._wakeUpCounter = 2280f;
+            timeLeftScript.SetTimeLeftSeconds(2700.0f);
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
                 totalTimeOfPostUnguidedVocalizationContent = 889.0f;
@@ -110,20 +109,26 @@ public class CSVLoader : MonoBehaviour
             }
         } else if (gameMode == "Integration")
         {
-            sequencer.totalTimeOfExperience = 1500.0f;
-            totalTimeOfPostUnguidedVocalizationContent = 0.0f;
-            sequencer._wakeUpCounter = 1.0f; //TODO - SET THIS TO SOMETHING REAL
+            //sequencer.totalTimeOfExperience = 1500.0f;
+            timeLeftScript.SetTimeLeftSeconds(1500.0f);
             if(subGameMode == "Fireflies")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
+                totalTimeOfPostUnguidedVocalizationContent = 415.0f;
             } else if (subGameMode == "Kindness")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Kindness", gameObject);
+                totalTimeOfPostUnguidedVocalizationContent = 349.0f;
             } else if (subGameMode == "Metta")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Metta", gameObject);
+                totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
         }
+        
+        //SET CORRECT WAKEUP TIMER
+        sequencer._wakeUpCounter = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
+        Debug.Log("CSVLoader: Wakeup Counter set to " + sequencer._wakeUpCounter + " seconds");
         
         //OTHER VO INITIALIZATIONS
         if(layingDown)

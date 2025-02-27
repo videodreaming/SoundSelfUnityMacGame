@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy/Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584611717017233247
+    m_lastTime: -8584609410481494570
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -335,7 +335,7 @@ MonoBehaviour:
     ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584611717017225941
+    m_lastTime: -8584609410481424693
     List:
     - name: CLOSING
       guid: 660ba7396da1574496e1fee4e15fcf1c
@@ -1578,7 +1578,7 @@ MonoBehaviour:
     ParentPath: Events/SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584611717188805291
+    m_lastTime: -8584609410489037711
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1696,6 +1696,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: 32835a0a9f382e45b07c318cd4f7edd5
       Path: Events/SFX/Play_sfx_Impact
+      maxAttenuation: 0
+      maxDuration: 19.552813
+      minDuration: 2.6546667
+    - name: Play_sfx_Impact_AVS_Only
+      guid: a087d9bfc447b542877d0397b90c2857
+      id: 160921230
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_Impact_AVS_Only
+        ObjectType: 3
+        guid: a087d9bfc447b542877d0397b90c2857
+      Path: Events/SFX/Play_sfx_Impact_AVS_Only
       maxAttenuation: 0
       maxDuration: 19.552813
       minDuration: 2.6546667

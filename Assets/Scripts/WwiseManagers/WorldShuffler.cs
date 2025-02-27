@@ -58,7 +58,6 @@ public class WorldShuffler : MonoBehaviour
                 {
                     Debug.Log("WorldShuffler: Time to shuffle worlds.");
                     QueueWorldShuffle();
-                    WaitForNextShuffle();
                 }
             }
         }
@@ -93,7 +92,7 @@ public class WorldShuffler : MonoBehaviour
         if(availableWorlds.Count > 0)
         {
             int randomIndex = UnityEngine.Random.Range(0, availableWorlds.Count);
-            musicSystem1.Action_SetSoundWorld(availableWorlds[randomIndex]);
+            musicSystem1.SetSoundWorld(availableWorlds[randomIndex]);
             director.PlayTransitionSound();
         }
         else
@@ -165,6 +164,7 @@ public class WorldShuffler : MonoBehaviour
         }
         director.AddActionToQueue(Action_ShuffleColorWorld(), "ColorPreference", false, true, _seconds, true, 1);
         
+        WaitForNextShuffle();
     }
 
     private Action Action_ShuffleSoundWorld()
@@ -195,8 +195,7 @@ public class WorldShuffler : MonoBehaviour
             else
             {
                 Debug.Log("WorldShuffler: Beginning shuffle with director queue.");
-                QueueWorldShuffle(120f)
-                StartTimer();
+                QueueWorldShuffle(120f);
             }
         }
         else
@@ -258,21 +257,26 @@ public class WorldShuffler : MonoBehaviour
     {
         Debug.Log("WorldShuffler: Resetting all music worlds to be available for shuffling.");
         //Reset all music worlds to be available for shuffling
+        Dictionary<string, bool> updatedMusicWorlds = new Dictionary<string, bool>(availableMusicWorlds);
         foreach(KeyValuePair<string, bool> entry in availableMusicWorlds)
         {
-            availableMusicWorlds[entry.Key] = true;
+            updatedMusicWorlds[entry.Key] = true;
         }
+        availableMusicWorlds = updatedMusicWorlds;
     }
 
     public void ResetColorWorlds()
     {
         Debug.Log("WorldShuffler: Resetting all color worlds to be available for shuffling.");
         //Reset all color worlds to be available for shuffling
+        Dictionary<string, bool> updatedColorWorlds = new Dictionary<string, bool>(availableColorWorlds);
         foreach(KeyValuePair<string, bool> entry in availableColorWorlds)
         {
-            availableColorWorlds[entry.Key] = true;
+            updatedColorWorlds[entry.Key] = true;
         }
+        availableColorWorlds = updatedColorWorlds;
     }
+
     
     public void SetCurrentMusicWorld(string world)
     {
@@ -284,11 +288,11 @@ public class WorldShuffler : MonoBehaviour
         currentColorWorld = world;
     }
 
-    public void clearCurrentMusicWorld()
+    public void ClearCurrentMusicWorld()
     {
         currentMusicWorld = "";
     }
-    public void clearCurrentColorWorld()
+    public void ClearCurrentColorWorld()
     {
         currentColorWorld = "";
     }

@@ -19,13 +19,14 @@ public class Sequencer : MonoBehaviour
     //private int fundamentalCount = -1;
     //private int harmonyCount = -1;
     public SavasanaPlayer savasana;
+    public WorldShuffler worldShuffler;
+    public CSVWriter csvWriter;
     private bool lightsInitialized = false;
     
 
     //public uint playingId;
     //[SerializeField]
     //private int currentStage = 0; // Tracks the current stage of the sound world
-    public CSVWriter csvWriter;
     // AVS Controls
     private float _absorptionThreshold;
     private float d = 1f; //debug timer mult, higher makes it go faster for testing
@@ -54,10 +55,7 @@ public class Sequencer : MonoBehaviour
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private int currentStage = 0; //As Sonoflore
     public float timeInUnguidedVocalization;
-    public float totalTimeOfExperience;
-
-
-
+    //public float totalTimeOfExperience;
 
     void Awake()
     {
@@ -101,7 +99,7 @@ public class Sequencer : MonoBehaviour
         else if (developmentMode.startInPlayground)
         {
             tutorial.tutorialComplete = true;
-            BeginShuffle(false);
+            worldShuffler.BeginShuffle(false);
             InitializeLights();
         }
         else
@@ -112,12 +110,13 @@ public class Sequencer : MonoBehaviour
             worldShuffler.ExcludeMusicWorld("Shadow");
         }
         
-        Debug.Log("Sequencer: Wakeup Counter starts at " + _wakeUpCounter + ", total time of experience is " + totalTimeOfExperience);
+        Debug.Log("Sequencer: Wakeup Counter starts at " + _wakeUpCounter);
         
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
         if(!developmentMode.configureMode)
         {
+            Debug.Log("AVS_Program_DynamicDrop_Start is starting");
             CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         }
 
@@ -184,7 +183,7 @@ public class Sequencer : MonoBehaviour
         if(_timeSinceTutorial <= 60 && !flagTriggerStart1)
         {
             Debug.Log("Sequencer: Triggering Start1 Behaviors: Reset Music Worlds for Shuffle");
-            worldShuffler.ResetMusicWorlds(true);
+            worldShuffler.ResetMusicWorlds();
             flagTriggerStart1 = true;
         }
         if(_timeSinceTutorial <= 300 && !flagTriggerStart2)
@@ -263,100 +262,24 @@ public class Sequencer : MonoBehaviour
         Debug.Log("wake Up Counter:" + _wakeUpCounter);
         yield return new WaitUntil(() => _wakeUpCounter <= 15f);
         
-        Debug.Log("Sequencer Last Minute: Starting Light Fade-Out.");
+        Debug.Log("Sequencer Last Minute: Starting Light Fade-Out. Waiting for _wakeUpCounter to reach 0.");
         FadeOut();
 
         while(_wakeUpCounter > 0f)
         {
             yield return null;
-            Debug.Log("Sequencer Last Minute: Waiting for _wakeUpCounter to reach 0.");
         }
+        Debug.Log("Sequencer Last Minute: Starting Thematic Savasana, and ending coroutine");
+        savasana.PlayThematicSavasana();
     }
 
     private void FadeOut()
     {
         musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Environment);
         lightControl.SetPreferredColor("Dark", 18f);
-        //lightControl.NextPreferredColorWorld(18f);
     }
     
-    /* @REEF, PLEASE DELETE THIS WHEN YOU'VE REPLACED THE BEHAVIOR OF savasana.PlayThematicSavasana();
-    //(THESE BEHAVIORS HAVE BEEN REPLACED BY WORLDSHUFFLER.CS)
-
-    //====================================================================================================
-    //MUSIC PROGRESSION
-    //====================================================================================================
-
-    //Also noting that the design of this doesn't lend itself easily or naturally to different sequences, using different instrument sets, or a different order, or not all of them, which will become more relevant in the not too distant future, but is relevant even now given the possibility that someone will just "stay" in the tutorial.
-    //... The ideal system would have a list of sound worlds to play, and would move through the list. That list could be modified based on (a) the launch initializations and (b) the amount of time left when the sequence initiates
-    //This will work for now, but I think the system could be cleaner.
-    //PROPOSED SOLUTION: Add things to director... when the new music is triggered wait 2 mins or so, then add the next one to the director. This should be in MusicSystem1.cs
-    public void BeginMusicSequence(float currentTime)
-    {
-        timeInUnguidedVocalization = totalTimeOfExperience - csvLoader.totalTimeOfPostUnguidedVocalizationContent - currentTime;   
-        float timeInEachSegment = timeInUnguidedVocalization / 4;
-        StartCountdownToNextSegment(timeInEachSegment);
-        Debug.Log("Sequencer: Time in each segment: " + timeInEachSegment);
-        Debug.Log("Sequencer: Time in Unguided Vocalization: " + timeInUnguidedVocalization);
-    }
-    public void StartCountdownToNextSegment(float timeInEachSegment) //REEF - renamed this for clarity
-    {
-        if (countdownCoroutine != null)
-        {
-            StopCoroutine(countdownCoroutine);
-        }
-        countdownCoroutine = StartCoroutine(CountdownToNextSegmentCoroutine(timeInEachSegment));
-    }
-
-    IEnumerator CountdownToNextSegmentCoroutine(float timeInEachSegment)
-    {
-        //REEF - **Important**, I've changed this to use the director system instead of causing a change right away on the clock. This makes the system more responsive. This way, instead of happening on a precise schedule, the desired change is "queued" and then triggers when an player-driven behavior change happens in the player, so it feels like it is responding to them. Right now, it is set to change  after 60 seconds (that's the 60f) even if there is not behavior change in the player, but I'd recommend this being 120 seconds instead, because it's such a big and important change, and we really want the player to feel it as a response from them. 
-        //The system you've designed lends itself to precise, clockwork timing. It should bere-evaluated to work well with the director system, which includes a variable delay. The reconfigured system should calculate the time until the next world-change is added to the queue when the change actually is dynamically triggered. The behavior of setting a new countdown would then have to be triggered by the director system activation event. So you'd put the behavior that starts a new countdown in sequencer.SetSoundWorld. I've put a comment there for you to look at.
-        Debug.Log("Sequencer: Starting Countdown to Next Segment with :" + timeInEachSegment + " | Current Stage: " + currentStage);
-        if (currentStage == 0)
-        {
-            QueueNewWorld("SonoFlore", "Red", 120f);
-            currentStage = 1;
-            Debug.Log("Sequencer: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: SonoFlore");
-        }
-        else if (currentStage == 1)
-        {
-            QueueNewWorld("Gentle", "Red", 120f);
-            currentStage = 2;
-            Debug.Log("Sequencer: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Gentle");
-        }
-        else if (currentStage == 2)
-        {
-            QueueNewWorld("Shadow", "Blue", 120f);
-            currentStage = 3;
-            Debug.Log("Sequencer: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shadow");
-            
-        } else if (currentStage == 3)
-        {
-            QueueNewWorld("Shruti", "White", 120f);
-            currentStage = 4;
-            Debug.Log("Sequencer: Current Stage: " + currentStage + " | Time in each segment: " + timeInEachSegment + " | SoundWorldMode: Shruti");
-        } else if (currentStage == 4)
-        {
-            Debug.Log("PlayingThematicSavasana");
-            savasana.PlayThematicSavasana();
-            yield break; // End the coroutine here to avoid further countdown logic.
-        }
-
-        if (currentStage < 4)
-        {
-            yield return new WaitForSeconds(timeInEachSegment);
-            StartCountdownToNextSegment(timeInEachSegment);
-            Debug.Log("Starting Countdown to Next Segment with :" + timeInEachSegment);
-        }
-        else if (currentStage == 4) // Ensure this logic does not conflict with LastMinute
-        {
-            Debug.Log("Starting Countdown to Next Segment with -60f :" + timeInEachSegment);
-            yield return new WaitForSeconds(timeInEachSegment - 60f);
-            StartCountdownToNextSegment(timeInEachSegment-60f);
-        }
-    }
-    */
+    
 
     //====================================================================================================
     //LIGHT CONTROL
@@ -369,7 +292,6 @@ public class Sequencer : MonoBehaviour
         {
             Debug.Log("Sequencer: InitializeLights");
             lightControl.SetPreferredColor("Red", 5.0f);
-            //lightControl.NextPreferredColorWorld(5.0f);
             lightsInitialized = true;
         }
     }
@@ -379,7 +301,6 @@ public class Sequencer : MonoBehaviour
         bool stopProgression = false;
         Cleanup(coroutineCleanupList); //not necessary for the first one, but placing it here for convention.
         yield return null;
-        //define a list of integers to hold the director queue index items that are created in this coroutine
        
         Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
 
@@ -411,7 +332,7 @@ public class Sequencer : MonoBehaviour
             _timer -= Time.deltaTime;
             yield return null;
         }
-        //NOW TAKE 120 SECONDS TO DROP TO 8.5HZ
+        //NOW TAKE 150 SECONDS TO DROP TO 8.5HZ
         //FOLLOWING THIS POINT, IF THE ABSORPTION THRESHOLD IS MET, WE WILL SKIP TO THE NEXT PROGRAM
         _timer = 150f / d;
         Debug.Log(_wakeUpCounter + "Sequencer | AVS Program: DynamicDropStart. Begining drop from high alpha to 10hz.");

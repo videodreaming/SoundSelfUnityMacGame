@@ -16,6 +16,8 @@ public class Tutorial : MonoBehaviour
     public MusicSystem1 musicSystem1;
     public Director director;
     public WorldShuffler worldShuffler;
+    public CSVLoader csvLoader;
+    public TimeLeftScript timeLeftScript;
     public bool active {get; private set;}  = false; //currently, this is just for external objects to view if the tutorial is doing anything or not, all the actual behaviors are in StartTutorial() and EndTutorial()
     float testThreshold = 1.5f;
     float failThreshold = 8.0f;
@@ -78,6 +80,7 @@ public class Tutorial : MonoBehaviour
             Debug.Log("Tutorial: START");
             active = true;
             SetTestVocalizationType("Hum");
+            timeLeftScript.SetTimeLeftSeconds(csvLoader.totalTimeOfPostUnguidedVocalizationContent);
 
             musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
 
