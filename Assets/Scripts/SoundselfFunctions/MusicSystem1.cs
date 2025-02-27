@@ -12,6 +12,7 @@ public class MusicSystem1 : MonoBehaviour
     public DevelopmentMode developmentMode;
     public Sequencer sequencer;
     public WwiseVOManager wwiseVOManager;
+    public WorldShuffler worldShuffler;
     public Director director;
     public RespirationTracker respirationTracker;
     public GameValues gameValues;
@@ -543,6 +544,7 @@ public class MusicSystem1 : MonoBehaviour
     public void SetSoundWorld(string soundWorld)
     {
         AkSoundEngine.SetState("SoundWorldMode", soundWorld);
+        worldShuffler.SetCurrentMusicWorld(soundWorld);
         Debug.Log("MUSIC: Sound World Set To: " + soundWorld);
     }
 

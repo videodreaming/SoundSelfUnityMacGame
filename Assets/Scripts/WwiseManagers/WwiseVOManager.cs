@@ -19,6 +19,7 @@ public class WwiseVOManager : MonoBehaviour
     public MusicSystem1 musicSystem1;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public Tutorial tutorial;
+    public WorldShuffler worldShuffler;
     //public MusicSystem1 musicSystem1;
     //public RTPC silentFundamentalrtpcvolume;
     //public RTPC toningFundamentalrtpcvolume;
@@ -162,6 +163,10 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Cue Change to Advanced");
                 tutorial.SetTestVocalizationType("Advanced");
                 musicSystem1.LockToC(false);
+                if(!worldShuffler.shuffling)
+                {
+                    worldShuffler.BeginShuffle();
+                }
             } else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
             {
                 Debug.Log("WWise_VO_CUE: Cue_FreePlay");

@@ -9,6 +9,7 @@ using System;
 public class LightControl : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
+    public WorldShuffler worldShuffler;
     [SerializeField] AkDeviceDescriptionArray m_devices;
     private bool playReference = false;
     private bool playReferenceLastFrame = false;
@@ -370,7 +371,7 @@ public class LightControl : MonoBehaviour
 
     };
 
-    public void SetPreferredColor(string color)
+    public void SetPreferredColor(string color, float transitionTimeSec = 2.0f, bool exponentialCurve = true)
     {
         if (color != "Red" && color != "Blue" && color != "White" && color != "Dark" && color != "BreathOnly" && color != "Test")
         {
@@ -381,6 +382,7 @@ public class LightControl : MonoBehaviour
         {
             preferredColor = color;
             Debug.Log("Preferred color set to: " + color);
+            NextPreferredColorWorld(transitionTimeSec, exponentialCurve);
         }
     }
 
@@ -395,21 +397,27 @@ public class LightControl : MonoBehaviour
         {
             case "Red":
                 CycleColor(ref cycleRed, "Red", colorType, transitionTimeSec, exponentialCurve);
+                worldShuffler.SetCurrentColorWorld("Red");
                 break;
             case "Blue":
                 CycleColor(ref cycleBlue, "Blue", colorType, transitionTimeSec, exponentialCurve);
+                worldShuffler.SetCurrentColorWorld("Blue");
                 break;
             case "White":
                 CycleColor(ref cycleWhite, "White", colorType, transitionTimeSec, exponentialCurve);
+                worldShuffler.SetCurrentColorWorld("White");
                 break;
             case "Test":
                 CycleColor(ref cycleTest, "Test", colorType, transitionTimeSec, exponentialCurve);
+                worldShuffler.ClearCurrentColorWorld();
                 break;
             case "BreathOnly":
                 SetColorWorldByName("BreathOnly", transitionTimeSec);
+                worldShuffler.ClearCurrentColorWorld();
                 break;
             case "Dark":
                 SetColorWorldByName("Dark", transitionTimeSec);
+                worldShuffler.ClearCurrentColorWorld();
                 break;
         }
 

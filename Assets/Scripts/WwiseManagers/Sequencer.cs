@@ -29,18 +29,21 @@ public class Sequencer : MonoBehaviour
     // AVS Controls
     private float _absorptionThreshold;
     private float d = 1f; //debug timer mult, higher makes it go faster for testing
-    private int debugWorldCount = 0;
 
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
     //private float interactiveMusicExperienceTotalTime;
     public float _wakeUpCounter;
+    public float _timeSinceTutorial;
     private bool wakeUpEndSoonTriggered = false; // Flag to control the event triggering
     //private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
     //private bool finalStagePreLogicExecuted = false; 
+    private bool flagTriggerStart1 = false;
+    private bool flagTriggerStart2 = false;
     private bool flagTriggerEnd1 = false;
     private bool flagTriggerEnd2 = false;
+    private bool flagTriggerEnd3 = false;
     private bool flagThetaCoroutine = false;
     public bool lastMinuteTriggered {get; private set;} = false; 
     private List<int> coroutineCleanupList = new List<int>();
@@ -71,11 +74,14 @@ public class Sequencer : MonoBehaviour
         //These initializations should all be in CSVLoader.cs. Suggest not making _wakeUpCounter public, but initialize it with a public Method.
         if (developmentMode.startRightBeforeSavasana)
         {
+            tutorial.tutorialComplete = true;
+            worldShuffler.BeginShuffle(false);
             _wakeUpCounter = 190f;
             Debug.Log("Sequencer: Wakeup Counter set to " + _wakeUpCounter + " for debug.");
         }
         else if (developmentMode.startInSavasana)
         {
+            tutorial.tutorialComplete = true;
             _wakeUpCounter = 1f;
             Debug.Log("Sequencer: Wakeup Counter set to " + _wakeUpCounter + " for debug.");
             FadeOut();
@@ -84,15 +90,21 @@ public class Sequencer : MonoBehaviour
         {
             tutorial.StartTutorial();
             InitializeLights();
+            worldShuffler.ExcludeColorWorld("Blue");
+            worldShuffler.ExcludeMusicWorld("Shadow");
         }
         else if (developmentMode.startInPlayground)
         {
+            tutorial.tutorialComplete = true;
+            BeginShuffle(false);
             InitializeLights();
         }
         else
         {
             musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Silent);          
             director.disable = true;
+            worldShuffler.ExcludeColorWorld("Blue");
+            worldShuffler.ExcludeMusicWorld("Shadow");
         }
         
         Debug.Log("Sequencer: Wakeup Counter starts at " + _wakeUpCounter + ", total time of experience is " + totalTimeOfExperience);
@@ -156,50 +168,44 @@ public class Sequencer : MonoBehaviour
         {
             _wakeUpCounter = -1.0f;
         }
-       
-        //in playground mode, when I press the M button, cycle to the next music world (Gentle, Shadow, Shruti, Sonoflore)
-        if(developmentMode.startInPlayground)
+
+        //add time to the _timeSinceTutorial counter, once the tutorial has been completed
+        if(tutorial.tutorialComplete)
         {
-            if(Input.GetKeyDown(KeyCode.M))
-            {
-                debugWorldCount++;
-                if(debugWorldCount > 3)
-                {
-                    debugWorldCount = 0;
-                }
-                switch(debugWorldCount)
-                {
-                    case 0:
-                        QueueNewWorld("Gentle", "Red", 1f);
-                        break;
-                    case 1:
-                        QueueNewWorld("Shadow", "Blue", 1f);
-                        break;
-                    case 2:
-                        QueueNewWorld("Shruti", "White", 1f);
-                        break;
-                    case 3:
-                        QueueNewWorld("SonoFlore", "Red", 1f);
-                        break;
-                }
-            }
+            _timeSinceTutorial += Time.deltaTime;
         }
-        //REEF - I think the behaviors you are working on in WwiseVOManager.cs bel dong in here, because this is where we deal with other elements of the sequence.
-        //... Some of what you areoing could be done with something like what LastMinute() is doing, which triggers in the last minute of the wake up counter. 
+       
+        //Early Behaviors
+        if(_timeSinceTutorial <= 60 && !flagTriggerStart1)
+        {
+            worldShuffler.ResetMusicWorlds(true);
+            flagTriggerStart1 = true;
+        }
+        if(_timeSinceTutorial <= 300 && !flagTriggerStart2)
+        {
+            worldShuffler.ResetColorWorlds();
+            flagTriggerStart2 = true;
+        }
 
         //End Behaviors
         if(!developmentMode.startInSavasana)
         {
-            if(_wakeUpCounter <= 180f && !flagTriggerEnd1)
+            if(_wakeUpCounter <= 300 && !flagTriggerEnd1)
             {
-                CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
+                worldShuffler.ResetMusicWorlds();
+                worldShuffler.ExcludeMusicWorld("Shadow");
                 flagTriggerEnd1 = true;
             }
+            if(_wakeUpCounter <= 180f && !flagTriggerEnd2)
+            {
+                CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
+                flagTriggerEnd2 = true;
+            }
 
-            if(_wakeUpCounter <= 60f && !flagTriggerEnd2)
+            if(_wakeUpCounter <= 60f && !flagTriggerEnd3)
             {
                 StartCoroutine(LastMinute());
-                flagTriggerEnd2 = true;
+                flagTriggerEnd3 = true;
             }
         }
         
@@ -218,6 +224,7 @@ public class Sequencer : MonoBehaviour
     {
         Debug.Log("Sequencer Last Minute: Starting Last Minute Behaviors.");
         lastMinuteTriggered = true;
+        worldShuffler.StopShuffle();
         //recordedAudioPlaybackTest.SetRecordMode(false);
         //recordedAudioPlaybackTest.SetPlaybackMode(false);
 
@@ -252,10 +259,13 @@ public class Sequencer : MonoBehaviour
     private void FadeOut()
     {
         musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Environment);
-        lightControl.SetPreferredColor("Dark");
-        lightControl.NextPreferredColorWorld(18f);
+        lightControl.SetPreferredColor("Dark", 18f);
+        //lightControl.NextPreferredColorWorld(18f);
     }
     
+    /* @REEF, PLEASE DELETE THIS WHEN YOU'VE REPLACED THE BEHAVIOR OF savasana.PlayThematicSavasana();
+    //(THESE BEHAVIORS HAVE BEEN REPLACED BY WORLDSHUFFLER.CS)
+
     //====================================================================================================
     //MUSIC PROGRESSION
     //====================================================================================================
@@ -329,6 +339,7 @@ public class Sequencer : MonoBehaviour
             StartCountdownToNextSegment(timeInEachSegment-60f);
         }
     }
+    */
 
     //====================================================================================================
     //LIGHT CONTROL
@@ -340,8 +351,8 @@ public class Sequencer : MonoBehaviour
         if(!lightsInitialized)
         {
             Debug.Log("Sequencer: InitializeLights");
-            lightControl.SetPreferredColor("Red");
-            lightControl.NextPreferredColorWorld(5.0f);
+            lightControl.SetPreferredColor("Red", 5.0f);
+            //lightControl.NextPreferredColorWorld(5.0f);
             lightsInitialized = true;
         }
     }
@@ -654,25 +665,6 @@ public class Sequencer : MonoBehaviour
     //====================================================================================================
     //DIRECTOR QUEUE
     //====================================================================================================
-    public void QueueNewWorld(string world, string color, float _seconds = 120.0f)
-    {
-        Debug.Log("Sequencer QueueNewWorld: Queuing New World: " + world + " with color: " + color);
-        director.AddActionToQueue(musicSystem1.Action_SetSoundWorld(world), "SoundWorld", true, false, _seconds, true, 2);
-        director.AddActionToQueue(Action_SetPreferredColor(color), "ColorPreference", false, true, _seconds, true, 2);
-        director.AddActionToQueue(Action_NextColorWorld(120.0f), "ColorCycle", false, true, _seconds, true, 2);
-        director.AddActionToQueue(Action_PlayTransitionSound(), "TransitionSound", true, false, _seconds, true, 2);
-    }
-
-
-    private Action Action_SetPreferredColor(string color)
-    {
-        return () => lightControl.SetPreferredColor(color);
-    }
-
-    private Action Action_NextColorWorld(float _seconds)
-    {
-        return () => lightControl.NextPreferredColorWorld(_seconds);
-    }
     private Action Action_Gamma(bool gammaOn)
     {
         return () => lightControl.Gamma(gammaOn);
@@ -685,10 +677,4 @@ public class Sequencer : MonoBehaviour
     {
         return () => lightControl.SetStrobeRate(frequency, seconds);
     }
-    private Action Action_PlayTransitionSound()
-    {
-        return () => director.PlayTransitionSound();
-    }
-
-
 }

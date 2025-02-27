@@ -15,6 +15,7 @@ public class Tutorial : MonoBehaviour
     public Sequencer sequencer;
     public MusicSystem1 musicSystem1;
     public Director director;
+    public WorldShuffler worldShuffler;
     public bool active {get; private set;}  = false; //currently, this is just for external objects to view if the tutorial is doing anything or not, all the actual behaviors are in StartTutorial() and EndTutorial()
     float testThreshold = 1.5f;
     float failThreshold = 8.0f;
@@ -24,6 +25,7 @@ public class Tutorial : MonoBehaviour
     private Coroutine testCoroutine;
     private Coroutine correctionCoroutine;
     public bool inTutorial = false;
+    public bool tutorialComplete = false;
     public TimeTrackerScript TimeTrackerScript;
     
     // Start is called before the first frame update
@@ -232,6 +234,7 @@ public class Tutorial : MonoBehaviour
         Debug.Log("TutorialEnded");
         // Run this when the cue for the end of the tutorial hits.
         inTutorial = false;
+        tutorialComplete = true;
 
         if (testCoroutine != null)
         {
@@ -241,8 +244,12 @@ public class Tutorial : MonoBehaviour
         {
             StopCoroutine(correctionCoroutine);
         }
-        sequencer.BeginMusicSequence(TimeTrackerScript.TotalElapsedTime);
         musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+        
+        if(!worldShuffler.shuffling)
+        {
+            worldShuffler.BeginShuffle();
+        }
         director.disable = false;
         active = false;
         Debug.Log("TUTORIAL: END with" + TimeTrackerScript.TotalElapsedTime);
