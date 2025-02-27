@@ -195,6 +195,8 @@ public class Sequencer : MonoBehaviour
                 worldShuffler.ResetMusicWorlds();
                 worldShuffler.ExcludeMusicWorld("Shadow");
                 flagTriggerEnd1 = true;
+                flagTriggerStart1 = true;
+                flagTriggerStart2 = true;
             }
             if(_wakeUpCounter <= 180f && !flagTriggerEnd2)
             {

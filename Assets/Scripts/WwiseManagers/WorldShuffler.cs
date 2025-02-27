@@ -167,10 +167,6 @@ public class WorldShuffler : MonoBehaviour
         return () => ShuffleColorWorld();
     }
 
-    private Action Action_SetPreferredColor(string color, float _seconds)
-    {
-        return () => lightControl.SetPreferredColor(color, _seconds);
-    }
 
     //====================================================================================================
     //PUBLIC FUNCTIONS
