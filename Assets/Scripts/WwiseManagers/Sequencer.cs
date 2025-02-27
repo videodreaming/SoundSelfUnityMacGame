@@ -78,6 +78,8 @@ public class Sequencer : MonoBehaviour
             worldShuffler.BeginShuffle(false);
             _wakeUpCounter = 190f;
             Debug.Log("Sequencer: Wakeup Counter set to " + _wakeUpCounter + " for debug.");
+            flagTriggerStart1 = true;
+            flagTriggerStart2 = true;
         }
         else if (developmentMode.startInSavasana)
         {
@@ -85,6 +87,9 @@ public class Sequencer : MonoBehaviour
             _wakeUpCounter = 1f;
             Debug.Log("Sequencer: Wakeup Counter set to " + _wakeUpCounter + " for debug.");
             FadeOut();
+            
+            flagTriggerStart1 = true;
+            flagTriggerStart2 = true;
         }
         else if (developmentMode.startInTutorial)
         {
@@ -194,12 +199,17 @@ public class Sequencer : MonoBehaviour
             {
                 worldShuffler.ResetMusicWorlds();
                 worldShuffler.ExcludeMusicWorld("Shadow");
+                worldShuffler.ExcludeMusicWorld("Shruti"); //removing shruti, as we want it to go last
                 flagTriggerEnd1 = true;
                 flagTriggerStart1 = true;
                 flagTriggerStart2 = true;
             }
             if(_wakeUpCounter <= 180f && !flagTriggerEnd2)
             {
+                //finally, queue shruti and prevent further queueing of shuffled sound worlds.
+                director.AddActionToQueue(musicSystem1.Action_SetSoundWorld("Shruti"), "SoundWorld", true, false, 180.0f, true, 2);
+                director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, true, 2);
+                worldShuffler.CloseMusicQueue();
                 CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
                 flagTriggerEnd2 = true;
             }

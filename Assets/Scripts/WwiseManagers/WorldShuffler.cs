@@ -13,6 +13,7 @@ public class WorldShuffler : MonoBehaviour
     public Director director;
     private int debugWorldCount = 0;
     public bool shuffling {get; private set;} = false;
+    public bool musicQueueOpen = true;
     private bool waiting = false; // for when a world change has been added to the director queue, but not triggered yet.
     private float _shuffleInterval = 120.0f; //will be effectively half this if absorption is 0. After this much time, world shuffle will be added to the director queue.
     private float _shuffleTimer = 0.0f;
@@ -152,9 +153,18 @@ public class WorldShuffler : MonoBehaviour
 
     private void QueueWorldShuffle(float _seconds = 120.0f)
     {
+        
         Debug.Log("WorldShuffler: Queuing World Shuffle");
-        director.AddActionToQueue(Action_ShuffleSoundWorld(), "SoundWorld", true, false, _seconds, true, 1);
+        if(musicQueueOpen)
+        {
+            director.AddActionToQueue(Action_ShuffleSoundWorld(), "SoundWorld", true, false, _seconds, true, 1);
+        }
+        else
+        {
+            Debug.LogWarning("WorldShuffler: Attempted to queue sound world shuffle, but music queue is closed.");
+        }
         director.AddActionToQueue(Action_ShuffleColorWorld(), "ColorPreference", false, true, _seconds, true, 1);
+        
     }
 
     private Action Action_ShuffleSoundWorld()
@@ -176,6 +186,7 @@ public class WorldShuffler : MonoBehaviour
         if(!shuffling)
         {
             shuffling = true;
+            musicQueueOpen = true;
             if(shuffleNow)
             {
                 Debug.Log("WorldShuffler: Beginning shuffle immediately.");
@@ -199,6 +210,7 @@ public class WorldShuffler : MonoBehaviour
         if(shuffling)
         {
             shuffling = false;
+            musicQueueOpen = false;
             _shuffleTimer = 0.0f;
             Debug.Log("WorldShuffler: Stopping shuffle.");
         }
@@ -206,6 +218,11 @@ public class WorldShuffler : MonoBehaviour
         {
             Debug.LogWarning("WorldShuffler: Attempted to stop shuffling, but shuffling is already inactive.");
         }
+    }
+
+    public void CloseMusicQueue()
+    {
+        musicQueueOpen = false;
     }
 
 

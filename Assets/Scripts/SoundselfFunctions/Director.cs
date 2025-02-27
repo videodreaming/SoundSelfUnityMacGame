@@ -111,7 +111,7 @@ public class Director : MonoBehaviour
 
         action();
     }
-    
+
     public int AddActionToQueue(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLimit, bool activateAtEnd, int exclusivityBehavior = 1)
     {
         //exclusivity behavior works like this:
@@ -258,6 +258,11 @@ public class Director : MonoBehaviour
     {
         AkSoundEngine.PostEvent("Unity_TransitionSFX", gameObject);
         Debug.Log("Director: Transition Sound Played");
+    }
+
+    public Action Action_PlayTransitionSound()
+    {
+        return () => PlayTransitionSound();
     }
 
     //PRIVATE
