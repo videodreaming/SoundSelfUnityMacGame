@@ -268,10 +268,10 @@ public class MusicSystem1 : MonoBehaviour
                             //THRESHOLDS HIGH AND LOW:
                             if(!lockFundamental && isHighestFundamentalTimer)
                             {
-                                
+                                float _thresholdMultiplier = Mathf.Abs(scaleNote.Key - fundamentalNote) > 6 ? 0.5f : 1.0f;
                                 bool noMatchPass = directorStoredFundamental != scaleNote.Key;
-                                bool lowThresholdPass = newChangeFundamentalTimer >= _queueFundamentalChangeThreshold;
-                                bool highThresholdPass = newChangeFundamentalTimer >= _initiateImminentFundamentalChangeThreshold;
+                                bool lowThresholdPass = newChangeFundamentalTimer >= (_queueFundamentalChangeThreshold * _thresholdMultiplier);
+                                bool highThresholdPass = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold * _thresholdMultiplier);
                                 bool instantTriggerTest = (imitoneVoiceInterpreter.toneActiveBiasTrueFrame && fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
 
                                 if (instantTriggerTest && highThresholdPass)
