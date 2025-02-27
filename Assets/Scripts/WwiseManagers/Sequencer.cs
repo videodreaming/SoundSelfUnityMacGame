@@ -183,11 +183,13 @@ public class Sequencer : MonoBehaviour
         //Early Behaviors
         if(_timeSinceTutorial <= 60 && !flagTriggerStart1)
         {
+            Debug.Log("Sequencer: Triggering Start1 Behaviors: Reset Music Worlds for Shuffle");
             worldShuffler.ResetMusicWorlds(true);
             flagTriggerStart1 = true;
         }
         if(_timeSinceTutorial <= 300 && !flagTriggerStart2)
         {
+            Debug.Log("Sequencer: Triggering Start2 Behaviors: Reset Color Worlds for Shuffle");
             worldShuffler.ResetColorWorlds();
             flagTriggerStart2 = true;
         }
@@ -197,6 +199,7 @@ public class Sequencer : MonoBehaviour
         {
             if(_wakeUpCounter <= 300 && !flagTriggerEnd1)
             {
+                Debug.Log("Sequencer: Triggering End1 Behaviors: No Shadow or Shruti Allowed");
                 worldShuffler.ResetMusicWorlds();
                 worldShuffler.ExcludeMusicWorld("Shadow");
                 worldShuffler.ExcludeMusicWorld("Shruti"); //removing shruti, as we want it to go last
@@ -206,6 +209,7 @@ public class Sequencer : MonoBehaviour
             }
             if(_wakeUpCounter <= 180f && !flagTriggerEnd2)
             {
+                Debug.Log("Sequencer: Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
                 //finally, queue shruti and prevent further queueing of shuffled sound worlds.
                 director.AddActionToQueue(musicSystem1.Action_SetSoundWorld("Shruti"), "SoundWorld", true, false, 180.0f, true, 2);
                 director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, true, 2);
@@ -216,6 +220,7 @@ public class Sequencer : MonoBehaviour
 
             if(_wakeUpCounter <= 60f && !flagTriggerEnd3)
             {
+                Debug.Log("Sequencer: Triggering End3 Behaviors: Start Last Minute Behaviors");
                 StartCoroutine(LastMinute());
                 flagTriggerEnd3 = true;
             }
