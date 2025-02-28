@@ -89,6 +89,7 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Cue_ThematicOpening_Start");
             } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
             {
+                UI_CurrentSession.Instance.currentSession = "Opening Inquiry";
                 Debug.Log("WWise_VO_CUE: Stopping Openign Seq, play sigh Query Seq");
             }
             else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
@@ -103,6 +104,7 @@ public class WwiseVOManager : MonoBehaviour
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
             {
+                UI_CurrentSession.Instance.currentSession = "Opening Teaching";
                 Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
                 imitoneVoiceIntepreter.gameOn = false;
             }
@@ -170,7 +172,7 @@ public class WwiseVOManager : MonoBehaviour
             } else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
             {
                 Debug.Log("WWise_VO_CUE: Cue_FreePlay");
-                
+                UI_CurrentSession.Instance.currentSession = "Free Interaction";
                 musicSystem1.SetSilentVolume(80f, 40f);            
                 director.disable = false;
             } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
@@ -184,6 +186,37 @@ public class WwiseVOManager : MonoBehaviour
             }
         }   
     }
+
+    public void ClosingCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
+    {
+        if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+        {
+            Debug.Log("WWise_VO: Callback triggered: " + in_type);
+            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+            if (musicSyncInfo.userCueName == "Cue_ThematicSavasana_Start")
+            {
+                UI_CurrentSession.Instance.currentSession = "Thematic Savasana";
+                Debug.Log("WWise_VO: Cue_ThematicSavasana_Start");
+            } else if (musicSyncInfo.userCueName == "Cue_ThematicSavansana_End")
+            {
+                UI_CurrentSession.Instance.currentSession = "Closing Teaching";
+                Debug.Log("Wwise_VO: Cue_ThematicSavasana_End");
+            } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation2_Start")
+            {
+                UI_CurrentSession.Instance.currentSession = "Closing Inquiry";
+                Debug.Log("Wwise_VO: Cue_VoiceElicitation2_Start");
+            } else if (musicSyncInfo.userCueName == "Cue_VO_Wakeup_Start")
+            {
+                UI_CurrentSession.Instance.currentSession = "Wake Up";
+                Debug.Log("Wwise_VO: Cue_VO_Wakeup_Start");
+            } else if (musicSyncInfo.userCueName == "Cue_Goodbye_Start")
+            {
+                UI_CurrentSession.Instance.currentSession = "Closing Words";
+            }
+        }
+    }
+
+
     public void SetToPeace()
     {
         AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);

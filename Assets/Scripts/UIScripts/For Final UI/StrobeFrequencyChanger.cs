@@ -8,7 +8,9 @@ using System.Collections.Generic;
 public class ImageChanger : MonoBehaviour
 {
     public LightControl lightControl;
+    public TimeLeftScript timeLeftScript;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
+    private bool inGame = true;
 
     // Reference to the Image component on the UI
     public Image frequencyUIImage;
@@ -43,12 +45,23 @@ public class ImageChanger : MonoBehaviour
             frequencyUIImage.sprite = frequencySprites[0];
         }
 
-        if(imitoneVoiceIntepreter.toneActive)
+        if(timeLeftScript._timeLeft <= 0)
         {
-            experienceUIImage.sprite = experienceSprites[2];
-        } else if (!imitoneVoiceIntepreter.toneActive)
-        {
-            experienceUIImage.sprite = experienceSprites [0];
+            inGame = false;
         } 
+        if(inGame)
+        {
+            if(imitoneVoiceIntepreter.toneActive)
+            {
+                experienceUIImage.sprite = experienceSprites[2];
+            } else if (!imitoneVoiceIntepreter.toneActive)
+            {
+                experienceUIImage.sprite = experienceSprites [0];
+            } 
+        } else 
+        {
+            experienceUIImage.sprite = experienceSprites[4];
+        }
+
     }   
 }
