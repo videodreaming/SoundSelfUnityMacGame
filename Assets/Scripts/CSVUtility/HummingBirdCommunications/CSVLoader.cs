@@ -10,6 +10,7 @@ public class CSVLoader : MonoBehaviour
     public Sequencer sequencer;
     
     public WwiseVOManager wwiseVOManager;
+    public DevelopmentMode developmentMode;
     public TimeLeftScript timeLeftScript;
     public static string gameMode {get; private set;}
     public static string subGameMode {get; private set;}
@@ -34,9 +35,9 @@ public class CSVLoader : MonoBehaviour
         #if UNITY_STANDALONE_OSX
             string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
             baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
-            Debug.Log("Base sessions folder path for Loader: " + baseSessionsFolderPath);
         #elif UNITY_STANDALONE_WIN
             baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
+            Debug.Log("Windows platform" + baseSessionsFolderPath);
         #else
             Debug.LogError("Unsupported platform");
             return;
@@ -73,7 +74,6 @@ public class CSVLoader : MonoBehaviour
             }
         }
         ReadSessionParams();
-
         //=======================================================================================================
         // VO INITIALIZATION        
         //=======================================================================================================
@@ -147,13 +147,31 @@ public class CSVLoader : MonoBehaviour
             string sessionsParams = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_params.csv");
             if(File.Exists(sessionsParams))
             {
+                Debug.Log("CSV file found at: " + sessionsParams);
                 string[] data = File.ReadAllText(sessionsParams).Split(new string[] {",","\n"}, StringSplitOptions.None);
                 encryptedGameMode = data[0].Trim();
                 encryptedSubGameMode = data[1].Trim();
-                decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
-                decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
-                gameMode = decryptedGameMode;
-                subGameMode = decryptedSubGameMode;
+                if(encryptedGameMode == "Set Levels")
+                {
+                    Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
+                    if(encryptedSubGameMode == "Set Levels")
+                    {
+                        Debug.Log("Encrypted Sub Game Mode: " + encryptedSubGameMode);
+                        developmentMode.configureMode = true;
+                        developmentMode.startInTutorial = true;
+                        developmentMode.startAtStart = false;
+                    }
+                } else
+                {
+                    Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
+                    Debug.Log("Encrypted Sub Game Mode: " + encryptedSubGameMode);
+                    decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
+                    decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
+                    gameMode = decryptedGameMode;
+                    subGameMode = decryptedSubGameMode;
+                }
+
+
             }
             else 
             {

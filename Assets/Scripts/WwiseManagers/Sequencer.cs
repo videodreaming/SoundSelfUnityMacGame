@@ -8,6 +8,7 @@ public class Sequencer : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
     public CSVLoader csvLoader;
+    public TimeLeftScript timeLeftScript;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     //public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public MusicSystem1 musicSystem1;
@@ -271,6 +272,7 @@ public class Sequencer : MonoBehaviour
         }
         Debug.Log("Sequencer Last Minute: Starting Thematic Savasana, and ending coroutine");
         savasana.PlayThematicSavasana();
+        timeLeftScript.SetTimeLeftSeconds(csvLoader.totalTimeOfPostUnguidedVocalizationContent);
     }
 
     private void FadeOut()

@@ -89,7 +89,11 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Cue_ThematicOpening_Start");
             } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
             {
-                UI_CurrentSession.Instance.currentSession = "Opening Inquiry";
+                if(UI_CurrentSession.Instance != null)
+                {
+                    Debug.Log("Not Null");
+                    UI_CurrentSession.Instance.currentSession = "Opening Inquiry";
+                }
                 Debug.Log("WWise_VO_CUE: Stopping Openign Seq, play sigh Query Seq");
             }
             else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")

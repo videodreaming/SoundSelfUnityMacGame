@@ -10,6 +10,15 @@ public class UI_CurrentSession : MonoBehaviour
     public string currentSession = "Introduction";
     public TextMeshProUGUI currentSessionText;
 
+    void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
     // Update is called once per frame
     void Update()
     {

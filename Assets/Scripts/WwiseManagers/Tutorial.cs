@@ -80,7 +80,7 @@ public class Tutorial : MonoBehaviour
             Debug.Log("Tutorial: START");
             active = true;
             SetTestVocalizationType("Hum");
-            timeLeftScript.SetTimeLeftSeconds(csvLoader.totalTimeOfPostUnguidedVocalizationContent);
+
 
             musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
 
