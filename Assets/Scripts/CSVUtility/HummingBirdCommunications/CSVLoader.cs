@@ -84,18 +84,18 @@ public class CSVLoader : MonoBehaviour
             timeLeftScript.SetTimeLeftSeconds(2700.0f);
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
-                totalTimeOfPostUnguidedVocalizationContent = 889.0f;
+                totalTimeOfPostUnguidedVocalizationContent = 769.0f;
                 wwiseVOManager.SetToPeace();
             } 
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
                 Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContent = 742.0f;
+                totalTimeOfPostUnguidedVocalizationContent = 622.0f;
                 wwiseVOManager.SetToNarrative();
             } 
             else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Prepeation")
             {
-                totalTimeOfPostUnguidedVocalizationContent = 775.0f;
+                totalTimeOfPostUnguidedVocalizationContent = 655.0f;
                 wwiseVOManager.SetToSurrender();
             } 
 
@@ -127,8 +127,10 @@ public class CSVLoader : MonoBehaviour
         }
         
         //SET CORRECT WAKEUP TIMER
-        sequencer._wakeUpCounter = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
-        Debug.Log("CSVLoader: Wakeup Counter set to " + sequencer._wakeUpCounter + " seconds");
+        sequencer._countdownToSavasana = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
+        sequencer._countdownToWakeUpEnd = 240f; //the amount of time we will spend in music, before triggering Play_WakeUpEndSoon_SEQUENCE
+
+        Debug.Log("CSVLoader: Wakeup Counter set to " + sequencer._countdownToSavasana + " seconds");
         
         //OTHER VO INITIALIZATIONS
         if(layingDown)
