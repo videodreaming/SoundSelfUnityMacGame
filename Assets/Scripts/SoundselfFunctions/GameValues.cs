@@ -57,8 +57,8 @@ public class GameValues : MonoBehaviour
     public float _tRestLerp {get; private set;} = 0.0f; //not currently referenced, but might be useful for WWise
 
     //CHANTCHARGE
-    private float _chantChargeDamp1 = 0.01f;
-    private float _chantChargeDamp2 = 0.005f;
+    private float _chantChargeDamp1 = 0.015f;
+    private float _chantChargeDamp2 = 0.01f;
     private float _chantChargeLinear = 0.00005f;
     private bool chantChargeToneGuard   = false;
     public float _chantCharge {get; private set;} = 0f;   

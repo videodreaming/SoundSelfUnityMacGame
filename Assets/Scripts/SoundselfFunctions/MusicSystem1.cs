@@ -13,6 +13,7 @@ public class MusicSystem1 : MonoBehaviour
     public Sequencer sequencer;
     public WwiseVOManager wwiseVOManager;
     public WorldShuffler worldShuffler;
+    public RespirationTracker respirationTracker;
     public Director director;
     public RespirationTracker respirationTracker;
     public GameValues gameValues;
@@ -46,8 +47,8 @@ public class MusicSystem1 : MonoBehaviour
     private bool previousLocalToneOn = false;
 
     // FUNDAMENTAL AND HARMONY CONTROL
-    private float _queueFundamentalChangeThreshold = 18f;
-    private float _initiateImminentFundamentalChangeThreshold = 35;
+    private float _queueFundamentalChangeThreshold = 12f;
+    private float _initiateImminentFundamentalChangeThreshold = 35f;
     public int fundamentalNote = 9; // Base note around which other notes are calculated
     private int fundamentalNoteCompare = -1; //this is used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNote for the purpose of changing the fundamental
     public int harmonyNote; // Note that plays in harmony with the fundamental note
@@ -58,8 +59,8 @@ public class MusicSystem1 : MonoBehaviour
 
     //HARMONY SEQUENCES
     List<int> harmonySequence1 = new List<int> {5, 7, 5, 7, 5, 7, 5, 7};
-    List<int> harmonySequence2 = new List<int> {5, 12, 5, 12};
-    List<int> harmonySequence3 = new List<int> {7, 12, 7, 12};
+    List<int> harmonySequence2 = new List<int> {5, 12, 5, 12, 5, 12, 5, 12};
+    List<int> harmonySequence3 = new List<int> {7, 12, 7, 12, 7, 12, 7, 12};
     List<int> harmonySequence4 = new List<int> {5, 7, 12, 5, 7, 12, 5, 7, 12, 5, 7, 12};
     List<List<int>> sequences;
     System.Random random = new System.Random();
@@ -243,50 +244,58 @@ public class MusicSystem1 : MonoBehaviour
             foreach (var scaleNote in NoteTracker)
             {
                 
-                float _newChangeMultiplier = Mathf.Abs(scaleNote.Key - fundamentalNote) > 6 ? 0.5f : 1.0f;
-                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer * _newChangeMultiplier;
+                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
 
                 if (scaleNote.Value.Active)
                 {
                     if (scaleNote.Key != fundamentalNote)
                     {
-                        newChangeFundamentalTimer += Time.deltaTime;
+                        //Increase the timer, by a variable amount per absorption and note difference from fundamental
+                        float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(respirationTracker._absorption, 0, 1) * -1); //slow it down with higher absorption
+                        float _fastWhenVeryDifferent = (Mathf.Abs(scaleNote.Key - fundamentalNote) > 6 ? 2.0f : 1.0f);
+                        float _newChangeMultiplier = _slowWhenHighAbsorption * _fastWhenVeryDifferent;
+                        newChangeFundamentalTimer += (Time.deltaTime * _newChangeMultiplier);
 
-                        if (scaleNote.Value.FirstFrameActive)
+                        
+                        // TESTS for changing the fundamental
+                        bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
+                        bool retriggerTest = (fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
+                        bool test = !lockFundamental && retriggerTest && isHighestFundamentalTimer;
+                        bool directorMatchTest = directorStoredFundamental != scaleNote.Key; //don't bother if this note is already the next one queued by the director...
+
+                        bool highThresholdPass = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold);
+                        bool highThresholdPass_variation = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold - 5.0f);
+                        bool lowThresholdPass = newChangeFundamentalTimer >= (_queueFundamentalChangeThreshold);
+
+                        bool longTest = test && highThresholdPass; //immediate change
+                        bool longishTest = test && highThresholdPass_variation && scaleNote.Value.FirstFrameActive; //more lenient immediate change if first frame active
+                        bool shortTest = test && lowThresholdPass && directorMatchTest && scaleNote.Value.FirstFrameActive; //most lenient change for setting director.
+
+                        if(longTest || longishTest)
                         {
-                            // Test if this note has the highest timer
-                            bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
-
-                            //THRESHOLDS HIGH AND LOW:
-                            if(!lockFundamental && isHighestFundamentalTimer)
+                             //Immediately change the fundamental if the timer is high enough, or...
+                            if (debugAllowLogs)
                             {
-                                bool noMatchPass = directorStoredFundamental != scaleNote.Key;
-                                bool lowThresholdPass = newChangeFundamentalTimer >= (_queueFundamentalChangeThreshold);
-                                bool highThresholdPass = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold);
-                                bool instantTriggerTest = (imitoneVoiceInterpreter.toneActiveBiasTrueFrame && fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
-
-                                if (instantTriggerTest && highThresholdPass)
-                                {
-                                    //Immediately change the fundamental if the timer is high enough, or...
-                                    if (debugAllowLogs)
-                                    {
-                                        Debug.Log("MUSIC: Instantly Triggering Fundamental Change to " + ConvertIntToNote(fundamentalNote));
-                                    }
-                                    ChangeFundamental(scaleNote.Key);
-                                    director.ActivateQueue(5.0f);
+                                if(longTest){
+                                    Debug.Log("MUSIC: Long Test Instantly Triggering Fundamental Change to " + ConvertIntToNote(fundamentalNote));
+                                } else {
+                                    Debug.Log("MUSIC: Longish Test Instantly Triggering Fundamental Change to " + ConvertIntToNote(fundamentalNote));
                                 }
-                                else if (noMatchPass && lowThresholdPass)
-                                {
-                                    //...Add a fundamental change to the director if the timer is high enough
-                                    director.ClearQueueOfType("fundamentalChange");
-                                    director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 9999f, false, 2);
-                                    directorStoredFundamental = scaleNote.Key;
-                                    if (debugAllowLogs)
-                                    {
-                                        Debug.Log("MUSIC: New Fundamental Queued: " + ConvertIntToNote(scaleNote.Key));
-                                    }
-                                }
-                            }                            
+                            }
+                            ChangeFundamental(scaleNote.Key);
+                            director.ActivateQueue(5.0f);
+                        }
+                        else if (shortTest)
+                        {
+                            
+                            //...Add a fundamental change to the director if the timer is high enough
+                            director.ClearQueueOfType("fundamentalChange");
+                            director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 9999f, false, 2);
+                            directorStoredFundamental = scaleNote.Key;
+                            if (debugAllowLogs)
+                            {
+                                Debug.Log("MUSIC: Short Test New Fundamental Queued: " + ConvertIntToNote(scaleNote.Key));
+                            }
                         }
                     }
                     else
@@ -296,8 +305,7 @@ public class MusicSystem1 : MonoBehaviour
                         {
                             if (note.Key != scaleNote.Key)
                             {
-                                float newChangeFundamentalTimerOther = note.Value.ChangeFundamentalTimer - Time.deltaTime * 0.1f;
-                                if (newChangeFundamentalTimerOther < 0) newChangeFundamentalTimerOther = 0;
+                                float newChangeFundamentalTimerOther = Mathf.Max(0, note.Value.ChangeFundamentalTimer - Time.deltaTime * 0.1f);
 
                                 updates[note.Key] = (note.Value.ActivationTimer, note.Value.Active, note.Value.FirstFrameActive, newChangeFundamentalTimerOther);
                             }
