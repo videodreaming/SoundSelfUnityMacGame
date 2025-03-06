@@ -4907,7 +4907,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{826243F2-CD62-8798-B872-C72E0D78ADDA}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{9FF80848-33EC-C911-28F9-6528985DADC9}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5034,6 +5034,10 @@
 				<File Id="518332124" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SoundCeremony_CrystalBowl_03.wav</ShortName>
 					<CachePath>SFX/SoundCeremony_CrystalBowl_03_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="525152423" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GIO_HEAL_bowls_wide.wav</ShortName>
+					<CachePath>SFX/GIO_HEAL_bowls_wide_A57DBB30.wem</CachePath>
 				</File>
 				<File Id="529751748" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Opening_Bowls, Nature, BinauralBeats_4.24.24.wav</ShortName>
@@ -5342,6 +5346,11 @@
 				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
 					<MediaRefs>
 						<MediaRef Id="464203531"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1425422979" Name="Play_sfx_EndInteractive" DurationType="OneShot" DurationMin="38.616783" DurationMax="38.616783">
+					<MediaRefs>
+						<MediaRef Id="525152423"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite">
@@ -5918,7 +5927,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{8834BE5B-E72D-B01B-C170-C2AE9EC08ECE}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{77C9AB1B-AA22-05DA-ED4F-86D7B58342CB}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -6205,6 +6214,10 @@
 				<File Id="518293729" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_shruti.wav</ShortName>
 					<CachePath>SFX/harmony_[F]_toning_shruti_818F3B66.wem</CachePath>
+				</File>
+				<File Id="525152423" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GIO_HEAL_bowls_wide.wav</ShortName>
+					<CachePath>SFX/GIO_HEAL_bowls_wide_A57DBB30.wem</CachePath>
 				</File>
 				<File Id="533405318" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_sono flore.wav</ShortName>
@@ -6611,6 +6624,11 @@
 				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
 					<MediaRefs>
 						<MediaRef Id="464203531"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1425422979" Name="Play_sfx_EndInteractive" DurationType="OneShot" DurationMin="38.616783" DurationMax="38.616783">
+					<MediaRefs>
+						<MediaRef Id="525152423"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2908297336" Name="Play_sfx_Impact" DurationType="OneShot" DurationMin="2.6546667" DurationMax="19.552813">
@@ -9854,5 +9872,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{A9154001-942A-4622-0819-D67760C56263}</FileHash>
+	<FileHash>{21F9D6D2-F203-F1BF-2860-5F3E6239CB63}</FileHash>
 </SoundBanksInfo>

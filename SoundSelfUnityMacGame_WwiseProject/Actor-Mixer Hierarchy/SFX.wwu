@@ -347,28 +347,6 @@
 				</Folder>
 				<Folder Name="Extra Samples" ID="{150E0F69-E70B-4978-8C0D-2F5073E9A8D7}" ShortID="757757495">
 					<ChildrenList>
-						<Sound Name="Glass_Crystal_Tap_5_D#4" ID="{BCBC0270-88ED-46AE-BE8D-9F5F64E62273}" ShortID="387346837">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="Glass_Crystal_Tap_5_D#4" ID="{C36A61B6-FB28-4796-9710-4ECDB7832D7D}">
-									<Language>SFX</Language>
-									<AudioFile>Glass_Crystal_Tap_5_D#4.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="145322421"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="Glass_Crystal_Tap_5_D#4" ID="{C36A61B6-FB28-4796-9710-4ECDB7832D7D}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="Gong,Rainstick_Oneshot" ID="{D0E44717-CC0F-4C30-9338-9520D4EA1A22}" ShortID="972808193">
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -459,7 +437,7 @@
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-12</Value>
+										<Value>-7</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -477,7 +455,6 @@
 										<Property Name="FadeInDuration" Type="Real64" Value="0.319949811794228"/>
 										<Property Name="FadeOutDuration" Type="Real64" Value="3.29360100376412"/>
 										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-										<Property Name="TrimEnd" Type="Real64" Value="3.74529485570891"/>
 									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>holyamb_glockenspiel_wave_09.wav</AudioFile>
@@ -708,6 +685,41 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="SoundSelf_Jaya_Vocalizing_Toning_Drone" ID="{E6A0B208-1FFA-45CF-A166-8025635D4060}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="End Interactive SFX" ID="{A9BED808-170A-4678-99E1-DE23BFEBB9E1}" ShortID="379125574">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-11</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="GIO_HEAL_bowls_wide" ID="{24414999-B995-4E38-B8FC-14B94BAE35AE}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.243353048700237"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="1.90602389475897"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.0912573932625889"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>GIO_HEAL_bowls_wide.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="525152423"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="GIO_HEAL_bowls_wide" ID="{24414999-B995-4E38-B8FC-14B94BAE35AE}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
