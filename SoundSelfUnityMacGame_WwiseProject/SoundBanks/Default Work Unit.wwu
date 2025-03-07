@@ -83,6 +83,7 @@
 						<ObjectRef Name="Stop_Inhales" ID="{465AF465-834E-49F5-80D0-AA1071BDB9E2}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_testRepair_Ahh" ID="{904550D5-AA58-4A1F-99C1-07E70EA2BDC5}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Toning_v1_7Pitch_Linked" ID="{90843F11-6540-4A8C-B553-2767E329B988}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_sfx_EndInteractive" ID="{0434785F-64FB-4AAF-9300-4EDF77019B5A}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Toning_v3_HarmonyOnly" ID="{7F8EC617-3EE7-4AC1-B11D-03973B8FDDA8}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_testRepair_Succeed" ID="{8D479B7D-34C5-4B08-A76C-A77A148A4E52}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
@@ -132,6 +133,7 @@
 						<ObjectRef Name="Play_WakeUpEndSoon_SEQUENCE" ID="{9094666F-2F0C-486B-B702-268AE17352DD}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_environment_wind" ID="{6977A2C2-5B52-499B-86EC-4482937D7AB0}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Mute_SILENTMEDITATION_MUSIC" ID="{09DA13B4-9FE8-4A61-B8A9-84AE807A82C3}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_sfx_EndInteractive" ID="{0434785F-64FB-4AAF-9300-4EDF77019B5A}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_environment_openingWelcome" ID="{2D8D0E06-5C61-4C0D-9DAD-742D0C446DCB}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>

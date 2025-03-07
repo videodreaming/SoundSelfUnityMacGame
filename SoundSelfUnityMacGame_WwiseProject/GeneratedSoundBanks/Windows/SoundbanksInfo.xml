@@ -9,14 +9,14 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{BEA5D7C4-C65E-F4BE-E827-EFB584C3CB22}">
+		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{38C6029B-7D3B-0C9D-9CFD-129C41B7051B}">
 			<ShortName>Aux_Toning</ShortName>
 			<Path>Bus/18/Aux_Toning.bnk</Path>
 			<AuxBusses>
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1163393389" Type="Bus" Language="SFX" Hash="{6FAFDF1F-42DD-CA6A-A730-E8AC2407073F}">
+		<SoundBank Id="1163393389" Type="Bus" Language="SFX" Hash="{3B33DF67-DCDE-D551-3C2E-532C08ECF499}">
 			<ShortName>Aux_ImpactsSub</ShortName>
 			<Path>Bus/11/Aux_ImpactsSub.bnk</Path>
 			<Plugins>
@@ -34,7 +34,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{09BDB803-48AF-CE6C-6937-991773419638}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{898FC24F-6D9F-699C-6F28-5335BE289540}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -64,7 +64,7 @@
 						<AuxBusRef Id="2562455749" Name="Aux_SFX"/>
 					</AuxBusRefs>
 				</Bus>
-				<Bus Id="493151109" Name="AVS_Silent"/>
+				<Bus Id="433461193" Name="AVS_Reference"/>
 				<Bus Id="958096227" Name="Impacts_SubAcoustics">
 					<PluginRefs>
 						<ShareSets>
@@ -75,7 +75,9 @@
 						<AuxBusRef Id="1163393389" Name="Aux_ImpactsSub"/>
 					</AuxBusRefs>
 				</Bus>
+				<Bus Id="1128474843" Name="AVS_Wave 2_Toning"/>
 				<Bus Id="1229948536" Name="Environment"/>
+				<Bus Id="1241127624" Name="AVS_Wave 1_Silent"/>
 				<Bus Id="1534528548" Name="VO">
 					<PluginRefs>
 						<ShareSets>
@@ -84,7 +86,8 @@
 						</ShareSets>
 					</PluginRefs>
 				</Bus>
-				<Bus Id="2286170043" Name="AVS_Toning"/>
+				<Bus Id="1779589820" Name="Sub_ImpactSub"/>
+				<Bus Id="2044215677" Name="Sub_Toning"/>
 				<Bus Id="2479991680" Name="InteractiveMusic_Vocal_Toning">
 					<AuxBusRefs>
 						<AuxBusRef Id="183653145" Name="Aux_Toning"/>
@@ -95,13 +98,16 @@
 						<AuxBusRef Id="1959646260" Name="Aux_SilentLoops"/>
 					</AuxBusRefs>
 				</Bus>
-				<Bus Id="3239584272" Name="AVS_Breath"/>
+				<Bus Id="3257610129" Name="Sub_SFX"/>
+				<Bus Id="3322116549" Name="Sub_Music"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 				<Bus Id="3991942870" Name="Music">
 					<AuxBusRefs>
 						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
 					</AuxBusRefs>
 				</Bus>
+				<Bus Id="4079501339" Name="AVS_Wave 3_Breath"/>
+				<Bus Id="4193096480" Name="Sub_SilentLoops"/>
 			</Busses>
 			<AuxBusses>
 				<AuxBus Id="183653145" Name="Aux_Toning"/>
@@ -4875,7 +4881,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1959646260" Type="Bus" Language="SFX" Hash="{E74FE4AD-D751-66A6-D436-9F0DC5D0F373}">
+		<SoundBank Id="1959646260" Type="Bus" Language="SFX" Hash="{5FC2CED9-C765-48B0-8E6D-DCDC0E127403}">
 			<ShortName>Aux_SilentLoops</ShortName>
 			<Path>Bus/19/Aux_SilentLoops.bnk</Path>
 			<AuxBusses>
@@ -4900,14 +4906,14 @@
 				</Event>
 			</Events>
 		</SoundBank>
-		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{2D13CAC7-BF60-D2CD-0197-3008D88527C8}">
+		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{6B3B0E6F-9A5E-5DD1-213F-53FEBC5B1369}">
 			<ShortName>Aux_SFX</ShortName>
 			<Path>Bus/25/Aux_SFX.bnk</Path>
 			<AuxBusses>
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{9FF80848-33EC-C911-28F9-6528985DADC9}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{8D66135F-3868-E674-FF3A-D2DED752C852}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5037,7 +5043,7 @@
 				</File>
 				<File Id="525152423" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GIO_HEAL_bowls_wide.wav</ShortName>
-					<CachePath>SFX/GIO_HEAL_bowls_wide_A57DBB30.wem</CachePath>
+					<CachePath>SFX/GIO_HEAL_bowls_wide_29FB70CC.wem</CachePath>
 				</File>
 				<File Id="529751748" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Opening_Bowls, Nature, BinauralBeats_4.24.24.wav</ShortName>
@@ -5920,14 +5926,14 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3331583377" Type="Bus" Language="SFX" Hash="{9C5F277C-223B-541B-EDCA-1612CBBB0D4E}">
+		<SoundBank Id="3331583377" Type="Bus" Language="SFX" Hash="{A8F119DE-F53A-8305-C49D-A534D7478AEC}">
 			<ShortName>Aux_Music</ShortName>
 			<Path>Bus/33/Aux_Music.bnk</Path>
 			<AuxBusses>
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{77C9AB1B-AA22-05DA-ED4F-86D7B58342CB}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{98F8D32B-FB6A-45D5-7857-F99EFB4A9095}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -6217,7 +6223,7 @@
 				</File>
 				<File Id="525152423" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GIO_HEAL_bowls_wide.wav</ShortName>
-					<CachePath>SFX/GIO_HEAL_bowls_wide_A57DBB30.wem</CachePath>
+					<CachePath>SFX/GIO_HEAL_bowls_wide_29FB70CC.wem</CachePath>
 				</File>
 				<File Id="533405318" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_sono flore.wav</ShortName>
@@ -9872,5 +9878,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{E07BA47F-CE61-A066-3B5D-F4063324B3CA}</FileHash>
+	<FileHash>{55FD5348-4AF3-7725-B6F7-A5BF81F283C3}</FileHash>
 </SoundBanksInfo>

@@ -3066,7 +3066,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+									<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -3092,7 +3092,7 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -4105,7 +4105,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+									<ObjectRef Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -4135,7 +4135,7 @@
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+													<ObjectRef Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -5094,7 +5094,7 @@
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+													<ObjectRef Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -5208,7 +5208,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+									<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -5238,7 +5238,7 @@
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+													<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -6147,7 +6147,7 @@
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 												</Reference>
 												<Reference Name="OutputBus">
-													<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+													<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
@@ -6281,7 +6281,7 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -8120,7 +8120,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -8134,7 +8134,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+									<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -8150,7 +8150,7 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -8492,7 +8492,7 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -8900,7 +8900,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="AVS_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -9272,7 +9272,7 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -9680,7 +9680,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -9694,7 +9694,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+									<ObjectRef Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -9710,7 +9710,7 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -10048,7 +10048,7 @@
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 										</Reference>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -10454,7 +10454,7 @@
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="AVS_Reference" ID="{4EFB273A-020C-4984-B70A-0DF0AD87E170}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
