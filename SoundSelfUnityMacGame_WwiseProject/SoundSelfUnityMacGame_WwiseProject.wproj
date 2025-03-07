@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="Project" SchemaVersion="119" WwiseVersion="v2023.1.8" WwiseBuild="8601">
+<WwiseDocument Type="Project" SchemaVersion="119" WwiseVersion="v2023.1.6" WwiseBuild="8555">
 	<ProjectInfo>
 		<Project Name="SoundSelfUnityMacGame_WwiseProject" ID="{DA3E18A3-7A51-4313-8B32-6AA2527F3EA5}">
 			<Platforms>
@@ -32,7 +32,7 @@
 				<Property Name="SoundBankGenerateEstimatedDuration" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateHeaderFile" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateMaxAttenuationInfo" Type="bool" Value="True"/>
-				<Property Name="SoundBankHeaderFilePath" Type="string" Value="Z:/Users/harithliew/Desktop/SoundSelfUnityMac/SoundSelfUnityMacGame/Assets/StreamingAssets/Audio/GeneratedSoundBanks"/>
+				<Property Name="SoundBankHeaderFilePath" Type="string" Value=".."/>
 				<Property Name="SoundBankPaths" Type="string">
 					<ValueList>
 						<Value Platform="Windows">GeneratedSoundBanks\Windows\</Value>
@@ -12831,6 +12831,9 @@
 					</ObsOccCurve>
 				</ObsOccCurves>
 			</EnvironmentalSettings>
+			<LogCentralIgnoreList>
+				<IgnoreItem MessageId="None"/>
+			</LogCentralIgnoreList>
 			<DefaultConversion Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}"/>
 			<PhysicalFolderList>
 				<PhysicalFolder Path="Actor-Mixer Hierarchy">
