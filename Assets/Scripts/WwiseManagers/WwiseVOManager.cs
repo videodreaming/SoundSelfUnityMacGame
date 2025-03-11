@@ -205,7 +205,7 @@ public class WwiseVOManager : MonoBehaviour
             {
                 UI_CurrentSession.Instance.currentSession = "Closing Teaching";
                 Debug.Log("Wwise_VO: Cue_ThematicSavasana_End");
-                sequencer.twoMinMeditationTimer = true;
+                sequencer.StartSilentMeditation();
             } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation2_Start")
             {
                 UI_CurrentSession.Instance.currentSession = "Closing Inquiry";

@@ -39,6 +39,7 @@ public class Sequencer : MonoBehaviour
     public float _timeSinceTutorial;
     private bool savasanaTriggered = false; // Flag to control the event triggering
     private bool wakeUpTriggered = false;
+    private bool twoMinMeditationTimer = false;
     public float _countdownToWakeUpEnd = 120f; 
     //private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
@@ -226,6 +227,7 @@ public class Sequencer : MonoBehaviour
         }
         else if(_countdownToSavasana <= 0.0f && !savasanaTriggered)
         {
+            Debug.Log("Sequencer: Triggering Thematic Savasana.");
             savasana.PlayThematicSavasana();
             _countdownToSavasana = -1.0f;
             savasanaTriggered = true;
@@ -238,6 +240,7 @@ public class Sequencer : MonoBehaviour
         }
         else if(_countdownToWakeUpEnd <= 0.0 && !wakeUpTriggered)
         {
+            Debug.Log("Sequencer: Triggering Wake Up from Silent Meditation.");
             wwiseVOManager.PlayWakeUpSoonVO();   
             _countdownToWakeUpEnd = -1.0f;     
             wakeUpTriggered = true;
@@ -627,5 +630,22 @@ public class Sequencer : MonoBehaviour
     private Action Action_Strobe_Frequency(float frequency, float seconds)
     {
         return () => lightControl.SetStrobeRate(frequency, seconds);
+    }
+
+    //====================================================================================================
+    //PUBLIC METHODS
+    //====================================================================================================
+
+    public void StartSilentMeditation()
+    {
+        if(twoMinMeditationTimer == false)
+        {
+            Debug.Log("Sequencer: StartSilentMeditation() called. Starting two minute meditation timer.");
+            twoMinMeditationTimer = true;
+        }
+        else
+        {
+            Debug.LogWarning("Sequencer: StartSilentMeditation() called, but twoMinMeditationTimer is already true.");
+        }
     }
 }
