@@ -47,7 +47,9 @@ namespace AK
         static const AkUniqueID PLAY_PREPARATION_OPENING_SEQUENCE_SHORT = 2916823035U;
         static const AkUniqueID PLAY_SFX_BREATHEIN = 3830600368U;
         static const AkUniqueID PLAY_SFX_BREATHEOUT = 77468567U;
+        static const AkUniqueID PLAY_SFX_ENDINTERACTIVE = 1425422979U;
         static const AkUniqueID PLAY_SFX_IMPACT = 2908297336U;
+        static const AkUniqueID PLAY_SFX_IMPACT_AVS_ONLY = 160921230U;
         static const AkUniqueID PLAY_SFX_SOUNDSEED_BREATHCYCLE = 3431547933U;
         static const AkUniqueID PLAY_SFX_SOUNDSEED_BREATHCYCLEWIND = 603425291U;
         static const AkUniqueID PLAY_SIGH_QUERY_SEQUENCE_1 = 410054882U;
@@ -64,7 +66,7 @@ namespace AK
         static const AkUniqueID PLAY_TONING_V2_12PITCH_LINKED = 296236610U;
         static const AkUniqueID PLAY_TONING_V3_FUNDAMENTALONLY = 3427313557U;
         static const AkUniqueID PLAY_TONING_V3_HARMONYONLY = 32253738U;
-        static const AkUniqueID PLAY_VO_CLOSINGGOODBYE = 699412784U;
+        static const AkUniqueID PLAY_VO_CLOSING_GOODBYE = 3820138711U;
         static const AkUniqueID PLAY_VO_ENDINGSOON = 936790198U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONADVANCED = 4057363449U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONAHH = 745351876U;

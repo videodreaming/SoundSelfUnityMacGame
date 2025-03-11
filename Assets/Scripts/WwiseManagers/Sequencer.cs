@@ -39,7 +39,7 @@ public class Sequencer : MonoBehaviour
     public float _timeSinceTutorial;
     private bool savasanaTriggered = false; // Flag to control the event triggering
     private bool wakeUpTriggered = false;
-    public float _countdownToWakeUpEnd = 120f; 
+    [SerializeField] public float _countdownToWakeUpEnd = 120f; 
     //private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
     //private bool finalStagePreLogicExecuted = false; 
@@ -54,6 +54,7 @@ public class Sequencer : MonoBehaviour
     private Coroutine CoroutineDynamicDropStart;
     private Coroutine CoroutineDynamicDropTheta;
     private Coroutine CoroutineDynamicDropEnd;
+    public bool twoMinMeditationTimer = false;
 
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private int currentStage = 0; //As Sonoflore
@@ -235,13 +236,15 @@ public class Sequencer : MonoBehaviour
         if((twoMinMeditationTimer == true) && (_countdownToWakeUpEnd > 0))
         {
             _countdownToWakeUpEnd -= Time.deltaTime;
+            twoMinMeditationTimer = false;
         }
-        else if(_countdownToWakeUpEnd <= 0.0 && !wakeUpTriggered)
+        
+        if(_countdownToWakeUpEnd <= 0.0 && !wakeUpTriggered)
         {
             wwiseVOManager.PlayWakeUpSoonVO();   
             _countdownToWakeUpEnd = -1.0f;     
             wakeUpTriggered = true;
-        }
+        }   
     }
 
     //====================================================================================================
