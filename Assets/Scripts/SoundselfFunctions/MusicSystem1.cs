@@ -15,7 +15,6 @@ public class MusicSystem1 : MonoBehaviour
     public WorldShuffler worldShuffler;
     public RespirationTracker respirationTracker;
     public Director director;
-    public RespirationTracker respirationTracker;
     public GameValues gameValues;
     public User userObject;
     public LightControl lightControl;

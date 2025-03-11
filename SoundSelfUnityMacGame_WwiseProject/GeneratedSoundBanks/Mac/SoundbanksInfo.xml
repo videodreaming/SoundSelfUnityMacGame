@@ -361,6 +361,24 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
+		<SoundBank Id="1425422979" Type="Event" Language="SFX" Hash="{39572F4F-A6C6-F94D-A17B-581E965BC770}">
+			<ShortName>Play_sfx_EndInteractive</ShortName>
+			<Path>Event/14/Play_sfx_EndInteractive.bnk</Path>
+			<Media>
+				<File Id="525152423" Language="SFX" Streaming="false" Location="Loose">
+					<ShortName>GIO_HEAL_bowls_wide.wav</ShortName>
+					<Path>Media/52/525152423.wem</Path>
+					<CachePath>SFX/GIO_HEAL_bowls_wide_29FB70CC.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="1425422979" Name="Play_sfx_EndInteractive" DurationType="OneShot" DurationMin="38.616783" DurationMax="38.616783">
+					<MediaRefs>
+						<MediaRef Id="525152423"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+		</SoundBank>
 		<SoundBank Id="1488609145" Type="Event" Language="SFX" Hash="{53773445-563C-70E2-CB0B-795C104D11A0}">
 			<ShortName>Play_VO_QueryElicitation2</ShortName>
 			<Path>Event/14/Play_VO_QueryElicitation2.bnk</Path>
@@ -5354,11 +5372,6 @@
 						<MediaRef Id="464203531"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1425422979" Name="Play_sfx_EndInteractive" DurationType="OneShot" DurationMin="38.616783" DurationMax="38.616783">
-					<MediaRefs>
-						<MediaRef Id="525152423"/>
-					</MediaRefs>
-				</Event>
 				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite">
 					<PluginRefs>
 						<Custom>
@@ -6630,11 +6643,6 @@
 				<Event Id="77468567" Name="Play_sfx_breatheout" DurationType="OneShot" DurationMin="4" DurationMax="4">
 					<MediaRefs>
 						<MediaRef Id="464203531"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="1425422979" Name="Play_sfx_EndInteractive" DurationType="OneShot" DurationMin="38.616783" DurationMax="38.616783">
-					<MediaRefs>
-						<MediaRef Id="525152423"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2908297336" Name="Play_sfx_Impact" DurationType="OneShot" DurationMin="2.6546667" DurationMax="19.552813">

@@ -128,8 +128,6 @@ public class CSVLoader : MonoBehaviour
         
         //SET CORRECT WAKEUP TIMER
         sequencer._countdownToSavasana = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
-        sequencer._countdownToWakeUpEnd = 240f; //the amount of time we will spend in music, before triggering Play_WakeUpEndSoon_SEQUENCE
-
         Debug.Log("CSVLoader: Wakeup Counter set to " + sequencer._countdownToSavasana + " seconds");
         
         //OTHER VO INITIALIZATIONS

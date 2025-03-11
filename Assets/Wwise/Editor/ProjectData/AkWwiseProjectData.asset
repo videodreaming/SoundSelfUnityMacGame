@@ -1578,7 +1578,7 @@ MonoBehaviour:
     ParentPath: Events/SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584609410489037711
+    m_lastTime: -8584603141641483080
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1682,6 +1682,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 4
       minDuration: 4
+    - name: Play_sfx_EndInteractive
+      guid: 5f783404fb64af4a93004edf77019b5a
+      id: 1425422979
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_EndInteractive
+        ObjectType: 3
+        guid: 5f783404fb64af4a93004edf77019b5a
+      Path: Events/SFX/Play_sfx_EndInteractive
+      maxAttenuation: 0
+      maxDuration: 38.616783
+      minDuration: 38.616783
     - name: Play_sfx_Impact
       guid: 32835a0a9f382e45b07c318cd4f7edd5
       id: 2908297336

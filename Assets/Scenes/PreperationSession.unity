@@ -7868,8 +7868,8 @@ MonoBehaviour:
   sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
   worldShuffler: {fileID: 1804684750}
-  director: {fileID: 1829208165}
   respirationTracker: {fileID: 740096627}
+  director: {fileID: 1829208165}
   gameValues: {fileID: 740096630}
   userObject: {fileID: 740096621}
   lightControl: {fileID: 437048159}
@@ -20810,6 +20810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   developmentMode: {fileID: 538272586}
   csvLoader: {fileID: 695725736}
+  timeLeftScript: {fileID: 1140148591}
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
@@ -20820,8 +20821,10 @@ MonoBehaviour:
   savasana: {fileID: 1809294502}
   worldShuffler: {fileID: 1804684750}
   csvWriter: {fileID: 662335749}
-  _wakeUpCounter: 0
+  _countdownToSavasana: 0
   _timeSinceTutorial: 0
+  _countdownToWakeUpEnd: 120
+  twoMinMeditationTimer: 0
   timeInUnguidedVocalization: 0
 --- !u!1 &1573501369
 GameObject:
