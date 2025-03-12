@@ -39,7 +39,6 @@ public class Sequencer : MonoBehaviour
     public float _timeSinceTutorial;
     private bool savasanaTriggered = false; // Flag to control the event triggering
     private bool wakeUpTriggered = false;
-    private bool twoMinMeditationTimer = false;
     [SerializeField] public float _countdownToWakeUpEnd = 120f; 
     //private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
