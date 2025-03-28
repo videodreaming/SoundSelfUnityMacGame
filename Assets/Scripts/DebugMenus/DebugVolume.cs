@@ -23,12 +23,7 @@ public class DebugVolume : MonoBehaviour
     }
     void UpdateFill()
     {
-        //Debug.Log("OrginalValue: " + OrginalValue);
-        //Debug.Log("minValue: " + minValue);
-        //Debug.Log("maxValue: " + maxValue);
         float normalizedValue = Mathf.Clamp01((ImitoneVoiceIntepreter._dbValue - minValue) / (maxValue - minValue));
-        //Debug.Log("Normalized Value: " + normalizedValue);
-        //Debug.Log("DBValue " + ImitoneVoiceIntepreter._dbValue);
         fillImage.fillAmount = normalizedValue;
         if(ImitoneVoiceIntepreter.imitoneActive == true){
             fillImage.color = Color.blue;

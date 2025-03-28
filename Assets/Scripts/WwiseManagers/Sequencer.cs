@@ -232,7 +232,6 @@ public class Sequencer : MonoBehaviour
         if((twoMinMeditationTimer == true) && (_countdownToWakeUpEnd > 0))
         {
             _countdownToWakeUpEnd -= Time.deltaTime;
-            twoMinMeditationTimer = false;
         }
         
         if(_countdownToWakeUpEnd <= 0.0 && !wakeUpTriggered)

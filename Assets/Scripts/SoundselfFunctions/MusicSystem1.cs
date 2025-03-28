@@ -227,104 +227,106 @@ public class MusicSystem1 : MonoBehaviour
         List<float> fundamentalTimerValues = new List<float>();
         float highestFundamentalTimer = 0;
 
+        // Cache keys to avoid modifying the dictionary while iterating
+        List<int> noteKeys = new List<int>(NoteTracker.Keys);
+
         if (imitoneVoiceInterpreter.imitoneActive)
         {
-            // First get the highest fundamental timer at the start for later comparison.
-            foreach (var scaleNote in NoteTracker)
+            // First get the highest fundamental timer at the start
+            foreach (int key in noteKeys)
             {
-                fundamentalTimerValues.Add(scaleNote.Value.ChangeFundamentalTimer);
-                if (scaleNote.Value.ChangeFundamentalTimer > highestFundamentalTimer)
+                fundamentalTimerValues.Add(NoteTracker[key].ChangeFundamentalTimer);
+                if (NoteTracker[key].ChangeFundamentalTimer > highestFundamentalTimer)
                 {
-                    highestFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
+                    highestFundamentalTimer = NoteTracker[key].ChangeFundamentalTimer;
                 }
             }
 
-            // Perform the updates to the temporary collection
-            foreach (var scaleNote in NoteTracker)
+            // Perform the updates
+            foreach (int key in noteKeys)
             {
-                
-                float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
+                var scaleNote = NoteTracker[key];
+                float newChangeFundamentalTimer = scaleNote.ChangeFundamentalTimer;
 
-                if (scaleNote.Value.Active)
+                if (scaleNote.Active)
                 {
-                    if (scaleNote.Key != fundamentalNote)
+                    if (key != fundamentalNote)
                     {
-                        //Increase the timer, by a variable amount per absorption and note difference from fundamental
-                        float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(respirationTracker._absorption, 0, 1) * -1); //slow it down with higher absorption
-                        float _fastWhenVeryDifferent = (Mathf.Abs(scaleNote.Key - fundamentalNote) > 6 ? 2.0f : 1.0f);
+                        // Increase timer based on absorption and distance from fundamental
+                        float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(respirationTracker._absorption, 0, 1) * -1);
+                        float _fastWhenVeryDifferent = (Mathf.Abs(key - fundamentalNote) > 6 ? 2.0f : 1.0f);
                         float _newChangeMultiplier = _slowWhenHighAbsorption * _fastWhenVeryDifferent;
                         newChangeFundamentalTimer += (Time.deltaTime * _newChangeMultiplier);
 
-                        
-                        // TESTS for changing the fundamental
+                        // Fundamental change conditions
                         bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
                         bool retriggerTest = (fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
                         bool test = !lockFundamental && retriggerTest && isHighestFundamentalTimer;
-                        bool directorMatchTest = directorStoredFundamental != scaleNote.Key; //don't bother if this note is already the next one queued by the director...
+                        bool directorMatchTest = directorStoredFundamental != key;
 
                         bool highThresholdPass = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold);
                         bool highThresholdPass_variation = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold - 5.0f);
                         bool lowThresholdPass = newChangeFundamentalTimer >= (_queueFundamentalChangeThreshold);
 
-                        bool longTest = test && highThresholdPass; //immediate change
-                        bool longishTest = test && highThresholdPass_variation && scaleNote.Value.FirstFrameActive; //more lenient immediate change if first frame active
-                        bool shortTest = test && lowThresholdPass && directorMatchTest && scaleNote.Value.FirstFrameActive; //most lenient change for setting director.
+                        bool longTest = test && highThresholdPass;
+                        bool longishTest = test && highThresholdPass_variation && scaleNote.FirstFrameActive;
+                        bool shortTest = test && lowThresholdPass && directorMatchTest && scaleNote.FirstFrameActive;
 
-                        if(longTest || longishTest)
+                        if (longTest || longishTest)
                         {
-                             //Immediately change the fundamental if the timer is high enough, or...
                             if (debugAllowLogs)
                             {
-                                if(longTest){
+                                if (longTest)
                                     Debug.Log("MUSIC: Long Test Instantly Triggering Fundamental Change to " + ConvertIntToNote(fundamentalNote));
-                                } else {
+                                else
                                     Debug.Log("MUSIC: Longish Test Instantly Triggering Fundamental Change to " + ConvertIntToNote(fundamentalNote));
-                                }
                             }
-                            ChangeFundamental(scaleNote.Key);
+
+                            ChangeFundamental(key);
                             director.ActivateQueue(5.0f);
                         }
                         else if (shortTest)
                         {
-                            
-                            //...Add a fundamental change to the director if the timer is high enough
                             director.ClearQueueOfType("fundamentalChange");
-                            director.AddActionToQueue(Action_ChangeFundamental(scaleNote.Key), "fundamentalChange", true, false, 9999f, false, 2);
-                            directorStoredFundamental = scaleNote.Key;
+                            director.AddActionToQueue(Action_ChangeFundamental(key), "fundamentalChange", true, false, 9999f, false, 2);
+                            directorStoredFundamental = key;
+
                             if (debugAllowLogs)
                             {
-                                Debug.Log("MUSIC: Short Test New Fundamental Queued: " + ConvertIntToNote(scaleNote.Key));
+                                Debug.Log("MUSIC: Short Test New Fundamental Queued: " + ConvertIntToNote(key));
                             }
                         }
                     }
                     else
                     {
-                        // Lower the timer on all other notes
-                        foreach (var note in NoteTracker)
+                        // Reduce timers on other notes when current note is fundamental
+                        foreach (int otherKey in noteKeys)
                         {
-                            if (note.Key != scaleNote.Key)
+                            if (otherKey != key)
                             {
-                                float newChangeFundamentalTimerOther = Mathf.Max(0, note.Value.ChangeFundamentalTimer - Time.deltaTime * 0.1f);
-
-                                updates[note.Key] = (note.Value.ActivationTimer, note.Value.Active, note.Value.FirstFrameActive, newChangeFundamentalTimerOther);
+                                var otherNote = NoteTracker[otherKey];
+                                float newChangeFundamentalTimerOther = Mathf.Max(0, otherNote.ChangeFundamentalTimer - Time.deltaTime * 0.1f);
+                                updates[otherKey] = (otherNote.ActivationTimer, otherNote.Active, otherNote.FirstFrameActive, newChangeFundamentalTimerOther);
                             }
                         }
                     }
                 }
-                updates[scaleNote.Key] = (scaleNote.Value.ActivationTimer, scaleNote.Value.Active, scaleNote.Value.FirstFrameActive, newChangeFundamentalTimer);
+
+                // Save updated state
+                updates[key] = (scaleNote.ActivationTimer, scaleNote.Active, scaleNote.FirstFrameActive, newChangeFundamentalTimer);
             }
 
-            // Apply updates after the loop
+            // Apply all updates at once
             foreach (var update in updates)
             {
                 NoteTracker[update.Key] = update.Value;
             }
         }
 
-        // Trigger commands for Wwise or other fundamental changes
         fundamentalTimeSinceLastTrigger += Time.deltaTime;
         harmonyTimeSinceLastTrigger += Time.deltaTime;
     }
+
 
     private void HarmonyUpdate()
     {
