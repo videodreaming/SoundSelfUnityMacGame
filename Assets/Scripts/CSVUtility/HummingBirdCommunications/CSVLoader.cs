@@ -111,23 +111,26 @@ public class CSVLoader : MonoBehaviour
         {
             //sequencer.totalTimeOfExperience = 1500.0f;
             timeLeftScript.SetTimeLeftSeconds(1500.0f);
-            if(subGameMode == "Fireflies")
+            if(subGameMode == "Fireflies"|| subGameMode == "Self Compassion")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
+                
                 totalTimeOfPostUnguidedVocalizationContent = 415.0f;
-            } else if (subGameMode == "Kindness")
+            } else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Kindness", gameObject);
                 totalTimeOfPostUnguidedVocalizationContent = 349.0f;
-            } else if (subGameMode == "Metta")
+               
+            } else if (subGameMode == "Metta" || subGameMode == "Transitions")
             {
                 AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Metta", gameObject);
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
         }
-        
-        //SET CORRECT WAKEUP TIMER
+
         sequencer._countdownToSavasana = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
+        sequencer._integrationEnd = timeLeftScript._timeLeft - 247.0f;
+        Debug.Log("CSVLoader: Integration End set to " + sequencer._integrationEnd + " seconds");
         Debug.Log("CSVLoader: Wakeup Counter set to " + sequencer._countdownToSavasana + " seconds");
         
         //OTHER VO INITIALIZATIONS

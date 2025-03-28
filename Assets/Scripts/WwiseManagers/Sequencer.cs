@@ -37,6 +37,8 @@ public class Sequencer : MonoBehaviour
     private bool savasanaTriggered = false; // Flag to control the event triggering
     private bool wakeUpTriggered = false;
     [SerializeField] public float _countdownToWakeUpEnd = 120f; 
+    [SerializeField] public float _integrationEnd; 
+    [SerializeField] public bool endSoonFlag = false;
     //private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
     //private bool finalStagePreLogicExecuted = false; 
@@ -241,6 +243,22 @@ public class Sequencer : MonoBehaviour
             _countdownToWakeUpEnd = -1.0f;     
             wakeUpTriggered = true;
         }   
+
+        if(CSVLoader.gameMode == "Integration")
+        {
+            if(_integrationEnd > 0)
+            {
+                _integrationEnd -= Time.deltaTime;
+            }
+            else if(_integrationEnd <= 0.0f && !endSoonFlag)
+            {
+                Debug.Log("Sequencer: Triggering Integration End.");
+                wwiseVOManager.Stop_InteractiveMusicSystem();
+                wwiseVOManager.PlayEndingSoonVO();
+                _integrationEnd = -1.0f;
+                endSoonFlag = true;
+            }
+        }
     }
 
     //====================================================================================================

@@ -399,6 +399,13 @@ public class WwiseVOManager : MonoBehaviour
         Debug.Log("WWise_VO: Play Wake Up Soon Sequence");
     }
 
+    public void PlayEndingSoonVO()
+    {
+        AkSoundEngine.PostEvent("Play_VO_EndingSoon", gameObject);
+        Debug.Log("WWise_VO: Play End Soon Sequence");
+    }
+
+
     public void PlayThematicSavasana()
     {
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
