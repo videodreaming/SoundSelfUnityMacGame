@@ -10,15 +10,12 @@ public class Sequencer : MonoBehaviour
     public CSVLoader csvLoader;
     public TimeLeftScript timeLeftScript;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    //public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
     public WwiseVOManager wwiseVOManager;
     public Director director;
     public Tutorial tutorial;
-    //private int fundamentalCount = -1;
-    //private int harmonyCount = -1;
     public SavasanaPlayer savasana;
     public WorldShuffler worldShuffler;
     public CSVWriter csvWriter;
@@ -35,7 +32,7 @@ public class Sequencer : MonoBehaviour
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
     //private float interactiveMusicExperienceTotalTime;
-    public float _countdownToSavasana;
+    [SerializeField]public float _countdownToSavasana;
     public float _timeSinceTutorial;
     private bool savasanaTriggered = false; // Flag to control the event triggering
     private bool wakeUpTriggered = false;
@@ -151,13 +148,12 @@ public class Sequencer : MonoBehaviour
         {
             Debug.Log("Sequencer: (DEVELOPMENT) skipping opening sequence");
         }
-        
-
     }
    
     // Update is called once per frame
     void Update()
     {
+        
         if(developmentMode.developmentMode)
         {
             if(Input.GetKeyDown(KeyCode.L))
@@ -166,13 +162,11 @@ public class Sequencer : MonoBehaviour
                 Debug.Log("Sequencer ThematicSavasanaCountdown Counter set to " + _countdownToSavasana);
             }
         }
-
         //add time to the _timeSinceTutorial counter, once the tutorial has been completed
         if(tutorial.tutorialComplete)
         {
             _timeSinceTutorial += Time.deltaTime;
         }
-       
         //Early Behaviors
         if(_timeSinceTutorial <= 60 && !flagTriggerStart1)
         {
@@ -228,7 +222,8 @@ public class Sequencer : MonoBehaviour
         else if(_countdownToSavasana <= 0.0f && !savasanaTriggered)
         {
             Debug.Log("Sequencer: Triggering Thematic Savasana.");
-            savasana.PlayThematicSavasana();
+            wwiseVOManager.Stop_InteractiveMusicSystem();
+            wwiseVOManager.PlayThematicSavasana();
             _countdownToSavasana = -1.0f;
             savasanaTriggered = true;
         }

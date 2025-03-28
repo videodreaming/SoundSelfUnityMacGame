@@ -429,8 +429,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     
     private void SetThreshold(float db = -52.5f){
         //Logic that sets the threshold for imitone's dbValue using SetConfig() to the value of dbThreshold
-       
-        imitone.SetConfig("{\"volume\" : {\"threshold\" : " + db + "} }", false);   
+       //False has been removed as the second arguement for imitone.SetConfig to prevent the game from breaking after March 18th 2025 when the dylib is updated for apple silicon arch.
+        imitone.SetConfig("{\"volume\" : {\"threshold\" : " + db + "} }");   
         imitoneConfig = imitone.GetConfig();
         _dbThreshold = db;
         //Debug.Log("imitone configuration: " + imitoneConfig);  

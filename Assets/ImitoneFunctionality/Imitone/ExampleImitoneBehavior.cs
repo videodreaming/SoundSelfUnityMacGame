@@ -10,7 +10,7 @@ using Defective.JSON;
 using imitone;
 
 
-public class ExampleImitoneBehavior: MonoBehaviour
+public class ExampleImitoneBehavior : MonoBehaviour
 {
     public float pitch_hz = 0f;
     public float note_st = 0f;
@@ -29,12 +29,21 @@ public class ExampleImitoneBehavior: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Iterate through Unity's list of available microphones and pick the first one.
+        microphoneName = "";
+        Debug.Log(String.Format("Microphones Available: x {0}", Microphone.devices.Length));
         foreach (var device in Microphone.devices)
-            {microphoneName = device; break;}
+        {
+            if (microphoneName.Length == 0 && device.Length > 0)
+            {
+                microphoneName = device;
+            }
+            Debug.Log("Microphone Available: " + device);
+        }
         
         if (microphoneName.Length == 0)
         {
-            Debug.Log("No microphone was available for pitch tracking.");
+            Debug.Log("No microphone was available for pitch tracking.  UnityEngine.Microphone.devices is an empty list.");
             return;
         }
         Debug.Log("Chose microphone: " + microphoneName);
@@ -86,6 +95,7 @@ public class ExampleImitoneBehavior: MonoBehaviour
         // The microphone's write position in the clip can wrap back around to the beginning.
         int micPosWrite = Microphone.GetPosition(microphoneName);
         Array.Resize(ref capturedInput, (inputBuffer.samples  +  micPosWrite - micPosRead) % inputBuffer.samples);
+
         if (capturedInput.Length > 0)
         {
             

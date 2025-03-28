@@ -161,49 +161,55 @@ public class Director : MonoBehaviour
         int countAudioEvents = 0;
         int countVisualEvents = 0;
 
-        if(disable)
+        if (disable)
         {
             Debug.LogWarning("Director Queue: Director is disabled, not activating queue.");
             return;
         }
 
         LogQueue();
-      
-        foreach (var item in queue)
+
+        // Copy out the queue’s items first
+        var queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>(queue.Values);
+
+        // Now iterate over the COPY
+        foreach (var item in queuedItems)
         {
-            item.Value.action(); //execute the action
-            
-            if(item.Value.isAudioAction)
-            {
+            // Execute the action
+            item.action();
+
+            if (item.isAudioAction)
                 countAudioEvents++;
-            }
-            if(item.Value.isVisualAction)
-            {
+
+            if (item.isVisualAction)
                 countVisualEvents++;
+
+            Debug.Log($"Director Queue: Action {item.type} executed from process-all");
+        }
+
+        // Once done, we can safely clear the queue 
+        // (which no longer breaks the iteration because we’re not iterating over the original dictionary)
+        if (queuedItems.Count > 0)
+        {
+            // If no audio events, do an audio flourish
+            if (countAudioEvents == 0 && countVisualEvents != 0)
+            {
+                Debug.Log("Director Queue: No Audio Actions Queued, triggering one to complete syncresis");
+                TweakAudio(transitionTimeForFlourishes);
+                PlayTransitionSound();
             }
 
-            Debug.Log("Director Queue: Action " + item.Key + " " + item.Value.type + " executed from process-all");
+            // If no visual events, do a visual flourish
+            if (countVisualEvents == 0 && countAudioEvents != 0)
+            {
+                Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
+                lightControl.NextPreferredColorWorld(transitionTimeForFlourishes);
+                lightControl.FXWave(0.75f, 15.0f, 0.1f, true);
+            }
         }
 
-        //FLOURISHES
-        //if an audio or visual action is missing from the queue,
-        //we need to trigger one of each to complete syncresis
-        //unless the queue is empty, in which case we do nothing
-
-        if (countAudioEvents == 0 && countVisualEvents != 0)
-        {
-            Debug.Log("Director Queue: No Audio Actions Queued, Triggering one to complete syncresis");
-            TweakAudio(transitionTimeForFlourishes);
-            PlayTransitionSound();
-        }
-        if (countVisualEvents == 0 && countAudioEvents != 0)
-        {
-            Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
-            lightControl.NextPreferredColorWorld(transitionTimeForFlourishes);
-            lightControl.FXWave(0.75f, 15.0f, 0.1f, true);
-        }
+        // Clear the dictionary at the end
         queue.Clear();
-        
         LogQueue();
     }
 

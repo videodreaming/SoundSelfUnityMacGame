@@ -51,7 +51,6 @@ public class DevelopmentMode : MonoBehaviour
                 Debug.Log("AWAKE STARTING AT THE BEGINNING");
                 startAtStart = true;
             }
-
         }
         else
         {

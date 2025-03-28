@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy/Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584609410481494570
+    m_lastTime: -8584598860876498868
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -53,10 +53,13 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_ImpactSub
+        ObjectType: 2
+        guid: 7d77c8afbe035c439d8d3000a1f105fb
       - ElementName: Aux_ImpactsSub
         ObjectType: 1
         guid: 63f7c0bf69d9f048aaab0642bcb3f556
-      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_ImpactsSub
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_ImpactSub/Aux_ImpactsSub
     - name: Aux_Music
       guid: 9a033c4bc05c9647acd0a8d86ec1b749
       id: 3331583377
@@ -70,10 +73,13 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_Music
+        ObjectType: 2
+        guid: bf25bc3f22d18745a844776f0cd71394
       - ElementName: Aux_Music
         ObjectType: 1
         guid: 9a033c4bc05c9647acd0a8d86ec1b749
-      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_Music
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_Music/Aux_Music
     - name: Aux_SFX
       guid: c7c9b70b5dffd74ca311e226f083cdfe
       id: 2562455749
@@ -87,10 +93,13 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_SFX
+        ObjectType: 2
+        guid: 060edc10f64d1e47b7be18ecc571ebdc
       - ElementName: Aux_SFX
         ObjectType: 1
         guid: c7c9b70b5dffd74ca311e226f083cdfe
-      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_SFX
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_SFX/Aux_SFX
     - name: Aux_SilentLoops
       guid: be8434bfd554ae4d88a34836f1b18d20
       id: 1959646260
@@ -104,10 +113,13 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_SilentLoops
+        ObjectType: 2
+        guid: 4f921222ae54e84aa9a8396907ffe46b
       - ElementName: Aux_SilentLoops
         ObjectType: 1
         guid: be8434bfd554ae4d88a34836f1b18d20
-      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_SilentLoops
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_SilentLoops/Aux_SilentLoops
     - name: Aux_Toning
       guid: 957d9f61f478a54aaec9ab6251e1bf93
       id: 183653145
@@ -121,10 +133,13 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_Toning
+        ObjectType: 2
+        guid: e5bcdd2b366a3f4e90c3e06fe578944e
       - ElementName: Aux_Toning
         ObjectType: 1
         guid: 957d9f61f478a54aaec9ab6251e1bf93
-      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Aux_Toning
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_Toning/Aux_Toning
     - name: AVS System
       guid: 5270ae016217ed4c975ab966f98065df
       id: 65973818
@@ -139,9 +154,9 @@ MonoBehaviour:
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
       Path: Master-Mixer Hierarchy/Default Work Unit/AVS System
-    - name: AVS_Breath
-      guid: f59e551d2f08314584755928a839dd2d
-      id: 3239584272
+    - name: AVS_Reference
+      guid: 3a27fb4e0c028449b70a0df0ad87e170
+      id: 433461193
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -152,13 +167,13 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
-      - ElementName: AVS_Breath
+      - ElementName: AVS_Reference
         ObjectType: 2
-        guid: f59e551d2f08314584755928a839dd2d
-      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Breath
-    - name: AVS_Silent
+        guid: 3a27fb4e0c028449b70a0df0ad87e170
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Reference
+    - name: AVS_Wave 1_Silent
       guid: d42b25675f7bae4d8bbcc967668b1b15
-      id: 493151109
+      id: 1241127624
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -169,13 +184,13 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
-      - ElementName: AVS_Silent
+      - ElementName: AVS_Wave 1_Silent
         ObjectType: 2
         guid: d42b25675f7bae4d8bbcc967668b1b15
-      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Silent
-    - name: AVS_Toning
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Wave 1_Silent
+    - name: AVS_Wave 2_Toning
       guid: 8c2be1a9aa9b404bb8ec0e821d2c0b79
-      id: 2286170043
+      id: 1128474843
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -186,10 +201,27 @@ MonoBehaviour:
       - ElementName: AVS System
         ObjectType: 2
         guid: 5270ae016217ed4c975ab966f98065df
-      - ElementName: AVS_Toning
+      - ElementName: AVS_Wave 2_Toning
         ObjectType: 2
         guid: 8c2be1a9aa9b404bb8ec0e821d2c0b79
-      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Toning
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Wave 2_Toning
+    - name: AVS_Wave 3_Breath
+      guid: f59e551d2f08314584755928a839dd2d
+      id: 4079501339
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: AVS_Wave 3_Breath
+        ObjectType: 2
+        guid: f59e551d2f08314584755928a839dd2d
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/AVS_Wave 3_Breath
     - name: Environment
       guid: 33c5be8c13440144925c5a5bca9f83ca
       id: 1229948536
@@ -306,6 +338,91 @@ MonoBehaviour:
         ObjectType: 2
         guid: e4e1fde827d06d4b903a2e8e41698e0e
       Path: Master-Mixer Hierarchy/Default Work Unit/Master Audio Bus/SFX
+    - name: Sub_ImpactSub
+      guid: 7d77c8afbe035c439d8d3000a1f105fb
+      id: 1779589820
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_ImpactSub
+        ObjectType: 2
+        guid: 7d77c8afbe035c439d8d3000a1f105fb
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_ImpactSub
+    - name: Sub_Music
+      guid: bf25bc3f22d18745a844776f0cd71394
+      id: 3322116549
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_Music
+        ObjectType: 2
+        guid: bf25bc3f22d18745a844776f0cd71394
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_Music
+    - name: Sub_SFX
+      guid: 060edc10f64d1e47b7be18ecc571ebdc
+      id: 3257610129
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_SFX
+        ObjectType: 2
+        guid: 060edc10f64d1e47b7be18ecc571ebdc
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_SFX
+    - name: Sub_SilentLoops
+      guid: 4f921222ae54e84aa9a8396907ffe46b
+      id: 4193096480
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_SilentLoops
+        ObjectType: 2
+        guid: 4f921222ae54e84aa9a8396907ffe46b
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_SilentLoops
+    - name: Sub_Toning
+      guid: e5bcdd2b366a3f4e90c3e06fe578944e
+      id: 2044215677
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: dd3e190cfb4d16499f593fc858e3694d
+      - ElementName: AVS System
+        ObjectType: 2
+        guid: 5270ae016217ed4c975ab966f98065df
+      - ElementName: Sub_Toning
+        ObjectType: 2
+        guid: e5bcdd2b366a3f4e90c3e06fe578944e
+      Path: Master-Mixer Hierarchy/Default Work Unit/AVS System/Sub_Toning
     - name: VO
       guid: 564b83fb29cadf4682248dc300a1905b
       id: 1534528548
@@ -335,7 +452,7 @@ MonoBehaviour:
     ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584609410481424693
+    m_lastTime: -8584598860876480289
     List:
     - name: CLOSING
       guid: 660ba7396da1574496e1fee4e15fcf1c

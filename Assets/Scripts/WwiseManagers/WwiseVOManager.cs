@@ -39,9 +39,6 @@ public class WwiseVOManager : MonoBehaviour
 
     void Start()
     {
-        
-        //SOME IMPORTANT STARTUP BEHAVIORS ARE IN SEQUENCER.CS AND MUSICSYSTEM1.CS
-       
         //NOTE ABOUT WWISE:
         //THE GAMEOBJECT POINTS TO *THIS* GAMEOBJECT. SO WE CAN'T START
         //IT FROM ONE GAMEOBJECT AND THEN STOP IT FROM ANOTHER. IT HAS TO BE THE SAME GAMEOBJECT
@@ -224,13 +221,18 @@ public class WwiseVOManager : MonoBehaviour
 
     public void SetToPeace()
     {
+        Debug.Log("WWise_VO: Set to Peace");
         AkSoundEngine.SetSwitch("VO_ThematicContent", "Peace", gameObject);
         AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Peace", gameObject);
+        AkSoundEngine.SetSwitch("VO_THEMATICSAVASANA_SWITCH", "Peace", gameObject);
     }
     public void SetToNarrative()
     {
+
+        Debug.Log("WWise_VO: Set to Narrative");
         AkSoundEngine.SetSwitch("VO_ThematicContent", "Narrative", gameObject);
         AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Narrative", gameObject);
+        AkSoundEngine.SetSwitch("VO_THEMATICSAVASANA_SWITCH", "Narrative", gameObject);
     }
     public void SetToSurrender()
     {
@@ -319,6 +321,12 @@ public class WwiseVOManager : MonoBehaviour
             break;
         }
     }         
+
+    public void Stop_InteractiveMusicSystem()
+    {
+        AkSoundEngine.PostEvent("Stop_InteractiveMusicSystem", gameObject);
+        Debug.Log("WWise_VO: Stop Interactive Music System");
+    }
     //TUTORIAL VO CALLS
     public void PlayTutorialGuidance(string guidanceType)
     {
@@ -387,6 +395,11 @@ public class WwiseVOManager : MonoBehaviour
     {
         AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
         Debug.Log("WWise_VO: Play Wake Up Soon Sequence");
+    }
+
+    public void PlayThematicSavasana()
+    {
+        AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
     }
 }
 
