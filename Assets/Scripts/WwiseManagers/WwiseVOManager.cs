@@ -219,6 +219,27 @@ public class WwiseVOManager : MonoBehaviour
         }
     }
 
+    public void SetToFireflies()
+    {
+        Debug.Log("WWise_VO: Set to Fireflies");
+        AkSoundEngine.SetSwitch("VO_ThematicContent", "Fireflies", gameObject);
+        AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
+        AkSoundEngine.SetSwitch("VO_THEMATICSAVASANA_SWITCH", "Fireflies", gameObject);
+    }
+    public void SetToKindness()
+    {
+        Debug.Log("WWise_VO: Set to Kindness");
+        AkSoundEngine.SetSwitch("VO_ThematicContent", "Kindness", gameObject);
+        AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Kindness", gameObject);
+        AkSoundEngine.SetSwitch("VO_THEMATICSAVASANA_SWITCH", "Kindness", gameObject);
+    }
+    public void SetToMetta()
+    {
+        Debug.Log("WWise_VO: Set to Metta");
+        AkSoundEngine.SetSwitch("VO_ThematicContent", "Metta", gameObject);
+        AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Metta", gameObject);
+        AkSoundEngine.SetSwitch("VO_THEMATICSAVASANA_SWITCH", "Metta", gameObject);
+    }
 
     public void SetToPeace()
     {

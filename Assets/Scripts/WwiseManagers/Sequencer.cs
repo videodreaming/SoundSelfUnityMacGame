@@ -243,22 +243,6 @@ public class Sequencer : MonoBehaviour
             _countdownToWakeUpEnd = -1.0f;     
             wakeUpTriggered = true;
         }   
-
-        if(CSVLoader.gameMode == "Integration")
-        {
-            if(_integrationEnd > 0)
-            {
-                _integrationEnd -= Time.deltaTime;
-            }
-            else if(_integrationEnd <= 0.0f && !endSoonFlag)
-            {
-                Debug.Log("Sequencer: Triggering Integration End.");
-                wwiseVOManager.Stop_InteractiveMusicSystem();
-                wwiseVOManager.PlayEndingSoonVO();
-                _integrationEnd = -1.0f;
-                endSoonFlag = true;
-            }
-        }
     }
 
     //====================================================================================================

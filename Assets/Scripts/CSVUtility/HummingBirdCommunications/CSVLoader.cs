@@ -113,17 +113,15 @@ public class CSVLoader : MonoBehaviour
             timeLeftScript.SetTimeLeftSeconds(1500.0f);
             if(subGameMode == "Fireflies"|| subGameMode == "Self Compassion")
             {
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Fireflies", gameObject);
-                
+                wwiseVOManager.SetToFireflies();
                 totalTimeOfPostUnguidedVocalizationContent = 415.0f;
             } else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
             {
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Kindness", gameObject);
+                wwiseVOManager.SetToKindness();
                 totalTimeOfPostUnguidedVocalizationContent = 349.0f;
-               
             } else if (subGameMode == "Metta" || subGameMode == "Transitions")
             {
-                AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Metta", gameObject);
+                wwiseVOManager.SetToMetta();
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
         }
