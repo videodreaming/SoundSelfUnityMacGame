@@ -49,7 +49,7 @@ public class Tutorial : MonoBehaviour
         {
            if(testVocalizationType == "Advanced")
             {
-                musicSystem1.SetSilentVolume(80f, 40f);
+                musicSystem1.SetSilentVolume(musicSystem1._silentVolumeHigh, 40f);
             }
             testVocalizationTypeLastFrame = testVocalizationType;
         }

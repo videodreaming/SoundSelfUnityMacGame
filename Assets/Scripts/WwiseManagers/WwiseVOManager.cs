@@ -174,7 +174,7 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO_CUE: Cue_FreePlay");
                 UI_CurrentSession.Instance.currentSession = "Free Interaction";
-                musicSystem1.SetSilentVolume(80f, 40f);            
+                musicSystem1.SetSilentVolume(musicSystem1._silentVolumeHigh, 40f);            
                 director.disable = false;
             } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
             {
@@ -307,9 +307,10 @@ public class WwiseVOManager : MonoBehaviour
         return value;
     }
 
-    public void breathInBehaviour()
+    private void breathInBehaviour()
     {
         lightControl.FXWave(0.6f, 5f, 0.25f, true, false);
+        AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
     }
         
     IEnumerator StartSighElicitationTimer()

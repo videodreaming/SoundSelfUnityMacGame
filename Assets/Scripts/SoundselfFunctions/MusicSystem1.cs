@@ -45,9 +45,13 @@ public class MusicSystem1 : MonoBehaviour
     public bool localToneOn {get; private set;} = false;
     private bool previousLocalToneOn = false;
 
+    
+    public const float _silentVolumeLow = 65f; //this was 50f, Robin changed it on 4/4/2025
+    public const float _silentVolumeHigh = 80f;
+
     // FUNDAMENTAL AND HARMONY CONTROL
     private float _queueFundamentalChangeThreshold = 12f;
-    private float _initiateImminentFundamentalChangeThreshold = 35f;
+    private float _initiateImminentFundamentalChangeThreshold = 22f; //was 35f, changed on 4/4/2025
     public int fundamentalNote = 9; // Base note around which other notes are calculated
     private int fundamentalNoteCompare = -1; //this is used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNote for the purpose of changing the fundamental
     public int harmonyNote; // Note that plays in harmony with the fundamental note
@@ -94,20 +98,20 @@ public class MusicSystem1 : MonoBehaviour
         if(developmentMode.startAtStart) //NORMAL START
         {
             SetMusicModeTo(MusicMode.Silent);
-            SetSilentVolume(50f, 0f);          
+            SetSilentVolume(_silentVolumeLow, 0f);          
             director.disable = true;
         }
         else if (developmentMode.startInTutorial)
         {
             SetMusicModeTo(MusicMode.Tutorial);          
             director.disable = true;
-            SetSilentVolume(50f, 0f);
+            SetSilentVolume(_silentVolumeLow, 0f);
         }
         else if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
         {
             SetMusicModeTo(MusicMode.Freeplay);          
             director.disable = false;
-            SetSilentVolume(80f, 0f);
+            SetSilentVolume(_silentVolumeHigh, 0f);
         }
         
         if(userObject != null)
@@ -252,9 +256,12 @@ public class MusicSystem1 : MonoBehaviour
                 {
                     if (key != fundamentalNote)
                     {
-                        // Increase timer based on absorption and distance from fundamental
+                        // Calculate the wrapped distance between key and fundamentalNote
+                        int d = Mathf.Min(Mathf.Abs(key - fundamentalNote), 12 - Mathf.Abs(key - fundamentalNote));
+
+                        // Change timer rate based on absorption and wrapped distance from fundamental
                         float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(respirationTracker._absorption, 0, 1) * -1);
-                        float _fastWhenVeryDifferent = (Mathf.Abs(key - fundamentalNote) > 6 ? 2.0f : 1.0f);
+                        float _fastWhenVeryDifferent = (d > 4 ? 2.0f : 1.0f);
                         float _newChangeMultiplier = _slowWhenHighAbsorption * _fastWhenVeryDifferent;
                         newChangeFundamentalTimer += (Time.deltaTime * _newChangeMultiplier);
 
@@ -305,7 +312,7 @@ public class MusicSystem1 : MonoBehaviour
                             if (otherKey != key)
                             {
                                 var otherNote = NoteTracker[otherKey];
-                                float newChangeFundamentalTimerOther = Mathf.Max(0, otherNote.ChangeFundamentalTimer - Time.deltaTime * 0.1f);
+                                float newChangeFundamentalTimerOther = Mathf.Max(0, otherNote.ChangeFundamentalTimer - Time.deltaTime * 0.075f);
                                 updates[otherKey] = (otherNote.ActivationTimer, otherNote.Active, otherNote.FirstFrameActive, newChangeFundamentalTimerOther);
                             }
                         }
@@ -455,7 +462,7 @@ public class MusicSystem1 : MonoBehaviour
                 LockToC(true);
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
                 
-                SetSilentVolume(50f, 20f);
+                SetSilentVolume(_silentVolumeLow, 20f);
 
             }
             else
@@ -474,7 +481,7 @@ public class MusicSystem1 : MonoBehaviour
                 LockToC(false);
                 InteractiveMusicInitializations();
                 imitoneVoiceInterpreter.gameOn = true; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs)
-                SetSilentVolume(80f, 40f);  
+                SetSilentVolume(_silentVolumeHigh, 40f);  
 
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
             }

@@ -416,7 +416,8 @@ public class Sequencer : MonoBehaviour
     private bool AVS_Program_ManageThetaTransition(List<int> coroutineCleanupList)
     {
         bool forceIt = developmentMode.developmentMode && Input.GetKeyDown(KeyCode.K);
-        if((respirationTracker._absorption > _absorptionThreshold || forceIt) && !flagThetaCoroutine)
+        bool forceItAfterTutorial= tutorial.testVocalizationType == "Advanced" ||  tutorial.tutorialComplete; // TODO: FIGURE OUT WHY ABSORPTION ISN'T WORKING, THEN REMOVE THIS... or don't...
+        if((respirationTracker._absorption > _absorptionThreshold || forceIt || forceItAfterTutorial) && !flagThetaCoroutine)
         {
             flagThetaCoroutine = true;
             CoroutineDynamicDropTheta = StartCoroutine(AVS_Program_DynamicDrop_Theta());

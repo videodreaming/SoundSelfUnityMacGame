@@ -60,6 +60,7 @@ public class GameValues : MonoBehaviour
     private float _chantChargeDamp1 = 0.015f;
     private float _chantChargeDamp2 = 0.01f;
     private float _chantChargeLinear = 0.00005f;
+    private float _chantChargeDownMult = 2.0f; // only affects damp1
     private bool chantChargeToneGuard   = false;
     public float _chantCharge {get; private set;} = 0f;   
     
@@ -316,7 +317,7 @@ public class GameValues : MonoBehaviour
         //lerp down to 0 after the tone ends
         while (_chantChargeContributions[chantChargeCoroutineID] > 0f) 
         {
-            _chantChargeContributions[chantChargeCoroutineID] = LerpUtilities.DampTool(localID, _chantChargeContributions[chantChargeCoroutineID], 0f, _chantChargeDamp1, _chantChargeDamp2, _chantChargeLinear);
+            _chantChargeContributions[chantChargeCoroutineID] = LerpUtilities.DampTool(localID, _chantChargeContributions[chantChargeCoroutineID], 0f, _chantChargeDamp1 * _chantChargeDownMult, _chantChargeDamp2, _chantChargeLinear);
 
             yield return null;
         }
