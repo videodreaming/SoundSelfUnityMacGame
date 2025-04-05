@@ -7,7 +7,7 @@
 					<PropertyList>
 						<Property Name="BusVolume" Type="Real64">
 							<ValueList>
-								<Value>3</Value>
+								<Value>2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -73,9 +73,9 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 									<DuckingParam>
-										<Volume>-0.5</Volume>
+										<Volume>0</Volume>
 										<FadeInTime>0.5</FadeInTime>
-										<FadeOutTime>0.5</FadeOutTime>
+										<FadeOutTime>0</FadeOutTime>
 										<FadeCurve>FadeLog1</FadeCurve>
 										<TargetProp>BusVolume</TargetProp>
 									</DuckingParam>
@@ -94,11 +94,6 @@
 						</Bus>
 						<Bus Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}">
 							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
-									</ValueList>
-								</Property>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
 										<Value>3</Value>
@@ -199,7 +194,7 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 									<DuckingParam>
-										<Volume>-1</Volume>
+										<Volume>-2</Volume>
 										<FadeInTime>1</FadeInTime>
 										<FadeOutTime>0.5</FadeOutTime>
 										<FadeCurve>FadeLinear</FadeCurve>

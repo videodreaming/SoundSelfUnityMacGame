@@ -737,11 +737,6 @@
 						<RandomSequenceContainer Name="SFX_Impacts_Sequence" ID="{284B4166-15FA-4248-9C6C-BFED6EF1B1A2}" ShortID="844985352">
 							<PropertyList>
 								<Property Name="RandomOrSequence" Type="int16" Value="0"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-2</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">

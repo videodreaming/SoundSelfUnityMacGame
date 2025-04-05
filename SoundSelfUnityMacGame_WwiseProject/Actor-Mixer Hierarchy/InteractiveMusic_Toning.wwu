@@ -24449,13 +24449,6 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{AE6C6AA2-2DB8-4EBE-8512-275558CB2B1A}" ShortID="543728546">
-					<PropertyList>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -24466,6 +24459,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<BlendContainer Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" ShortID="487420332">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -24488,6 +24488,11 @@
 											</ValueList>
 										</Property>
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -26660,7 +26665,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26675,7 +26680,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26690,7 +26695,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26705,7 +26710,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26720,7 +26725,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26735,7 +26740,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26750,7 +26755,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26765,7 +26770,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26780,7 +26785,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26795,7 +26800,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26810,7 +26815,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26825,7 +26830,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -26915,6 +26920,11 @@
 											</ValueList>
 										</Property>
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -27314,9 +27324,7 @@
 													</Reference>
 													<Reference>
 														<Local>
-															<EffectSlot Name="" ID="{3ED57C60-26E6-41F9-95FA-8937EBD4A543}" ShortID="821954037">
-																<ReferenceList/>
-															</EffectSlot>
+															<EffectSlot Name="" ID="{3ED57C60-26E6-41F9-95FA-8937EBD4A543}" ShortID="821954037"/>
 														</Local>
 													</Reference>
 												</ObjectList>
@@ -28860,7 +28868,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28875,7 +28883,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28890,7 +28898,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28905,7 +28913,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28920,7 +28928,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28935,7 +28943,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28950,7 +28958,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28965,7 +28973,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28980,7 +28988,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -28995,7 +29003,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -29010,7 +29018,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -29025,7 +29033,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -29113,7 +29121,7 @@
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>1</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -31485,7 +31493,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31500,7 +31508,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31515,7 +31523,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31530,7 +31538,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31545,7 +31553,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31560,7 +31568,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31575,7 +31583,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31590,7 +31598,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31605,7 +31613,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31620,7 +31628,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31635,7 +31643,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31650,7 +31658,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -31742,7 +31750,7 @@
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32885,7 +32893,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -32900,7 +32908,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -32915,7 +32923,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -32930,7 +32938,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -32945,7 +32953,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -32960,7 +32968,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -32975,7 +32983,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -32990,7 +32998,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -33005,7 +33013,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -33020,7 +33028,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -33035,7 +33043,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -33050,7 +33058,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -33322,13 +33330,6 @@
 					</ReferenceList>
 					<ChildrenList>
 						<BlendContainer Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" ShortID="880696158">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -34859,9 +34860,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F#Gb]_toning_gentle" ID="{D7C3612D-85BF-4838-87B6-A28EA6F1F0F7}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34869,9 +34875,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C#Db]_toning_gentle" ID="{653BF148-4ECE-4785-923B-42A95D3AFE95}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34879,9 +34890,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A#Bb]_toning_gentle" ID="{EC04C56A-44BF-4A08-A9B0-AE3DE9D7F97A}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34889,9 +34905,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[F]_toning_gentle" ID="{EC32937C-FE5D-4C11-9CF9-3331DBBDD0EB}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34899,9 +34920,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D#Eb]_toning_gentle" ID="{2B0AC880-B9E8-4E6D-AE28-F1A9863B3EC8}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34909,9 +34935,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[D]_toning_gentle" ID="{D1249695-23F3-45FD-87C5-C6ECEF4512BE}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34919,9 +34950,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[E]_toning_gentle" ID="{B272659C-9E9C-4B78-9B76-80B282F31161}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34929,9 +34965,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[B]_toning_gentle" ID="{E2FADAA4-1DD0-4E2F-A586-1762C569A996}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34939,9 +34980,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G]_toning_gentle" ID="{CBD00BA6-12B9-49E7-91A7-2B7263405E47}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34949,9 +34995,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[G#Ab]_toning_gentle" ID="{8D87C5A9-7263-4E09-BF76-ACE5B61B6FF3}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34959,9 +35010,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[A]_toning_gentle" ID="{55F064B0-4B92-49FA-BB43-7A0323274A98}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -34969,9 +35025,14 @@
 											<GroupingBehavior>
 												<ItemRef Name="harmony_[C]_toning_gentle" ID="{852F34ED-C454-48B3-B625-CEDB5953BEB8}"/>
 												<PropertyList>
-													<Property Name="FadeOutTime" Type="Real64">
+													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
 															<Value>1</Value>
+														</ValueList>
+													</Property>
+													<Property Name="FadeOutTime" Type="Real64">
+														<ValueList>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36384,7 +36445,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36399,7 +36460,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36414,7 +36475,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36429,7 +36490,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36444,7 +36505,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36459,7 +36520,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36474,7 +36535,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36489,7 +36550,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36504,7 +36565,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36519,7 +36580,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36534,7 +36595,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36549,7 +36610,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -36637,7 +36698,7 @@
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>4</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -38441,7 +38502,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38456,7 +38517,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38471,7 +38532,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38486,7 +38547,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38501,7 +38562,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38516,7 +38577,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38531,7 +38592,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38546,7 +38607,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38561,7 +38622,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38576,7 +38637,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38591,7 +38652,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38606,7 +38667,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -38697,6 +38758,11 @@
 										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -40074,7 +40140,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40089,7 +40155,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40104,7 +40170,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40119,7 +40185,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40134,7 +40200,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40149,7 +40215,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40164,7 +40230,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40179,7 +40245,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40194,7 +40260,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40209,7 +40275,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40224,7 +40290,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
@@ -40239,7 +40305,7 @@
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>4</Value>
 														</ValueList>
 													</Property>
 												</PropertyList>
