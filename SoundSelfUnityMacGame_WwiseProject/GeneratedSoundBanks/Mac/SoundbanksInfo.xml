@@ -34,7 +34,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{22A5A782-B70F-A003-6D4E-22AEF108ECBF}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{209D2570-8D56-9ADE-7D71-5899EB25B4FA}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -361,25 +361,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1488609145" Type="Event" Language="SFX" Hash="{53773445-563C-70E2-CB0B-795C104D11A0}">
-			<ShortName>Play_VO_QueryElicitation2</ShortName>
-			<Path>Event/14/Play_VO_QueryElicitation2.bnk</Path>
-			<Media>
-				<File Id="39430341" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_elicitQuery_closing.wav</ShortName>
-					<Path>Media/39/39430341.wem</Path>
-					<CachePath>SFX/vo_elicitQuery_closing_818F3B66.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="1488609145" Name="Play_VO_QueryElicitation2" DurationType="OneShot" DurationMin="47.794" DurationMax="47.794">
-					<MediaRefs>
-						<MediaRef Id="39430341"/>
-					</MediaRefs>
-				</Event>
-			</Events>
-		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{45A900B1-BAD9-364E-B8B8-851E2130A7D9}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{06C18198-6831-B279-4524-F1B45C0EC03F}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -4888,24 +4870,6 @@
 				<AuxBus Id="1959646260" Name="Aux_SilentLoops"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2138093880" Type="Event" Language="SFX" Hash="{669B9045-1361-3B32-7E87-E3D2276458E0}">
-			<ShortName>Play_VO_SighElicitation2</ShortName>
-			<Path>Event/21/Play_VO_SighElicitation2.bnk</Path>
-			<Media>
-				<File Id="494111603" Language="SFX" Streaming="false" Location="Loose">
-					<ShortName>vo_elicitSigh_closing.wav</ShortName>
-					<Path>Media/49/494111603.wem</Path>
-					<CachePath>SFX/vo_elicitSigh_closing_818F3B66.wem</CachePath>
-				</File>
-			</Media>
-			<Events>
-				<Event Id="2138093880" Name="Play_VO_SighElicitation2" DurationType="OneShot" DurationMin="20.487333" DurationMax="20.487333">
-					<MediaRefs>
-						<MediaRef Id="494111603"/>
-					</MediaRefs>
-				</Event>
-			</Events>
-		</SoundBank>
 		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{6B3B0E6F-9A5E-5DD1-213F-53FEBC5B1369}">
 			<ShortName>Aux_SFX</ShortName>
 			<Path>Bus/25/Aux_SFX.bnk</Path>
@@ -4913,7 +4877,7 @@
 				<AuxBus Id="2562455749" Name="Aux_SFX"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{286A02CE-1443-4FAA-C58E-6096BA232AF8}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{EB60F7A8-9F50-2A40-79EB-F562D658FFE6}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -4924,6 +4888,10 @@
 				<File Id="30291822" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_endingSoon.wav</ShortName>
 					<CachePath>SFX/vo_endingSoon_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="39430341" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitQuery_closing.wav</ShortName>
+					<CachePath>SFX/vo_elicitQuery_closing_818F3B66.wem</CachePath>
 				</File>
 				<File Id="54796230" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_short.wav</ShortName>
@@ -5017,6 +4985,10 @@
 					<ShortName>vo_thematicSavasana_fireflies.wav</ShortName>
 					<CachePath>SFX/vo_thematicSavasana_fireflies_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="437973430" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Jaya_ThematicSavasana_Gratitude_Edit2.wav</ShortName>
+					<CachePath>SFX/Jaya_ThematicSavasana_Gratitude_Edit2_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="456722588" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>SoundCeremony_CrystalBowl_05.wav</ShortName>
 					<CachePath>SFX/SoundCeremony_CrystalBowl_05_FBC78EF0.wem</CachePath>
@@ -5025,9 +4997,17 @@
 					<ShortName>sfx_breath out.wav</ShortName>
 					<CachePath>SFX/sfx_breath out_818F3B66.wem</CachePath>
 				</File>
+				<File Id="466210932" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_breath in.wav</ShortName>
+					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
+				</File>
 				<File Id="473964817" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_goodbye_long.wav</ShortName>
 					<CachePath>SFX/vo_goodbye_long_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="494111603" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_elicitSigh_closing.wav</ShortName>
+					<CachePath>SFX/vo_elicitSigh_closing_818F3B66.wem</CachePath>
 				</File>
 				<File Id="515336261" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>environment_openingQueryRepeat1.wav</ShortName>
@@ -5072,6 +5052,10 @@
 				<File Id="592303975" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_wisdom_jaguar.wav</ShortName>
 					<CachePath>SFX/vo_wisdom_jaguar_818F3B66.wem</CachePath>
+				</File>
+				<File Id="618347590" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>vo_thematicSavasana_gratitude.wav</ShortName>
+					<CachePath>SFX/vo_thematicSavasana_gratitude_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="623436931" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>RKU_LHH2_Percussion_Tingsha_2.wav</ShortName>
@@ -5208,6 +5192,7 @@
 				</Custom>
 				<ShareSets>
 					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
+					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
 				</ShareSets>
 			</Plugins>
 			<Events>
@@ -5217,7 +5202,7 @@
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2917442959" Name="Play_CrystalBowlGenerator" DurationType="OneShot" DurationMin="385.44745" DurationMax="415.44745">
+				<Event Id="2917442959" Name="Play_CrystalBowlGenerator" DurationType="OneShot" DurationMin="385.44745" DurationMax="385.44745">
 					<MediaRefs>
 						<MediaRef Id="125495837"/>
 						<MediaRef Id="382946237"/>
@@ -5286,6 +5271,36 @@
 						<MediaRef Id="745939041"/>
 						<MediaRef Id="901997753"/>
 					</MediaRefs>
+				</Event>
+				<Event Id="769398012" Name="Play_Inhale_Long" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="1252315619" Name="Play_Inhale_Medium" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
+				</Event>
+				<Event Id="2110561540" Name="Play_Inhale_Short" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
+					<MediaRefs>
+						<MediaRef Id="466210932"/>
+					</MediaRefs>
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="3164629247"/>
+						</ShareSets>
+					</PluginRefs>
 				</Event>
 				<Event Id="1226520867" Name="Play_music_Duet_D_Major" DurationType="OneShot" DurationMin="290.57904" DurationMax="290.57904">
 					<MediaRefs>
@@ -5477,6 +5492,18 @@
 							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1721781634"/>
+							<MediaRefs>
+								<MediaRef Id="437973430"/>
+								<MediaRef Id="618347590"/>
+							</MediaRefs>
+							<PluginRefs>
+								<ShareSets>
+									<PluginRef Id="2652646462"/>
+								</ShareSets>
+							</PluginRefs>
+						</SwitchContainer>
+						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2655751454"/>
 							<MediaRefs>
 								<MediaRef Id="30291822"/>
@@ -5614,24 +5641,128 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1047870521"/>
 							<MediaRefs>
+								<MediaRef Id="30291822"/>
+								<MediaRef Id="163565718"/>
+								<MediaRef Id="543585764"/>
+								<MediaRef Id="579672527"/>
+								<MediaRef Id="623436931"/>
+								<MediaRef Id="629816663"/>
+								<MediaRef Id="650293573"/>
+								<MediaRef Id="665576698"/>
+								<MediaRef Id="789751157"/>
+								<MediaRef Id="883996255"/>
 								<MediaRef Id="973516209"/>
+								<MediaRef Id="977341665"/>
+								<MediaRef Id="997677863"/>
+								<MediaRef Id="1006284074"/>
+								<MediaRef Id="1050281884"/>
+								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
+								<Custom>
+									<PluginRef Id="670553737"/>
+								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
 							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="1927133646"/>
+									<MediaRefs>
+										<MediaRef Id="248741514"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
+									<MediaRefs>
+										<MediaRef Id="473964817"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="54796230"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="3041563226"/>
+									<MediaRefs>
+										<MediaRef Id="351785776"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="103389341"/>
 							<MediaRefs>
+								<MediaRef Id="30291822"/>
+								<MediaRef Id="163565718"/>
 								<MediaRef Id="251627468"/>
+								<MediaRef Id="543585764"/>
+								<MediaRef Id="579672527"/>
+								<MediaRef Id="623436931"/>
+								<MediaRef Id="629816663"/>
+								<MediaRef Id="650293573"/>
+								<MediaRef Id="665576698"/>
+								<MediaRef Id="789751157"/>
+								<MediaRef Id="883996255"/>
+								<MediaRef Id="977341665"/>
+								<MediaRef Id="997677863"/>
+								<MediaRef Id="1006284074"/>
+								<MediaRef Id="1050281884"/>
+								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
+								<Custom>
+									<PluginRef Id="670553737"/>
+								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
 							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="1927133646"/>
+									<MediaRefs>
+										<MediaRef Id="248741514"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
+									<MediaRefs>
+										<MediaRef Id="473964817"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="54796230"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="3041563226"/>
+									<MediaRefs>
+										<MediaRef Id="351785776"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2585211341"/>
@@ -5658,13 +5789,65 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="2965941853"/>
 							<MediaRefs>
+								<MediaRef Id="30291822"/>
 								<MediaRef Id="80906255"/>
+								<MediaRef Id="163565718"/>
+								<MediaRef Id="543585764"/>
+								<MediaRef Id="579672527"/>
+								<MediaRef Id="623436931"/>
+								<MediaRef Id="629816663"/>
+								<MediaRef Id="650293573"/>
+								<MediaRef Id="665576698"/>
+								<MediaRef Id="789751157"/>
+								<MediaRef Id="883996255"/>
+								<MediaRef Id="977341665"/>
+								<MediaRef Id="997677863"/>
+								<MediaRef Id="1006284074"/>
+								<MediaRef Id="1050281884"/>
+								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
+								<Custom>
+									<PluginRef Id="670553737"/>
+								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
 							</PluginRefs>
+							<Children>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="1927133646"/>
+									<MediaRefs>
+										<MediaRef Id="248741514"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="674228435"/>
+									<MediaRefs>
+										<MediaRef Id="473964817"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="2585211341"/>
+									<MediaRefs>
+										<MediaRef Id="54796230"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+								<SwitchContainer>
+									<SwitchValue GroupType="Switch" GroupId="1815817025" Id="3041563226"/>
+									<MediaRefs>
+										<MediaRef Id="351785776"/>
+										<MediaRef Id="745939041"/>
+										<MediaRef Id="901997753"/>
+									</MediaRefs>
+								</SwitchContainer>
+							</Children>
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
@@ -5707,6 +5890,16 @@
 				<Event Id="936790198" Name="Play_VO_EndingSoon" DurationType="OneShot" DurationMin="2.738" DurationMax="2.738">
 					<MediaRefs>
 						<MediaRef Id="1059101541"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1488609145" Name="Play_VO_QueryElicitation2" DurationType="OneShot" DurationMin="47.794" DurationMax="47.794">
+					<MediaRefs>
+						<MediaRef Id="39430341"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2138093880" Name="Play_VO_SighElicitation2" DurationType="OneShot" DurationMin="20.487333" DurationMax="20.487333">
+					<MediaRefs>
+						<MediaRef Id="494111603"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="247426471" Name="Play_VO_ThematicSavasana" DurationType="OneShot" DurationMin="55.999584" DurationMax="335.62918">
@@ -5877,7 +6070,9 @@
 			<GameParameters>
 				<GameParameter Id="1662384195" Name="BreatheCycle_Volume"/>
 				<GameParameter Id="2456559820" Name="Environment_Bus_Volume"/>
+				<GameParameter Id="3489928398" Name="Unity_Inhale"/>
 				<GameParameter Id="3761161481" Name="CrystalBowlGenerator_Volume"/>
+				<GameParameter Id="4191266472" Name="BreathIn_PlaybackRate"/>
 			</GameParameters>
 			<StateGroups>
 				<StateGroup Id="361224273" Name="InteractiveMusicMode">
@@ -5941,7 +6136,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music"/>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{5DB913D6-46AE-B3C4-B647-2FB2D61843E3}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{F813DA87-536E-1DB8-5370-ACEC5519F091}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -9886,5 +10081,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{AFBDF868-93C8-C029-2C69-69BB91B613B9}</FileHash>
+	<FileHash>{6C25E74B-99B4-8D79-A51F-3171E9682323}</FileHash>
 </SoundBanksInfo>

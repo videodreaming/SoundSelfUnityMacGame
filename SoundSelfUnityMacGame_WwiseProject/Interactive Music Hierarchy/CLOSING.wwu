@@ -7,7 +7,7 @@
 					<PropertyList>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>4</Value>
+								<Value>3</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1202,7 +1202,7 @@
 																				<PointList>
 																					<Point>
 																						<XPos>0</XPos>
-																						<YPos>-2.15313</YPos>
+																						<YPos>-2.79617</YPos>
 																						<Flags>5</Flags>
 																					</Point>
 																					<Point>
@@ -1211,13 +1211,13 @@
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>36.12908</XPos>
-																						<YPos>-2.47787</YPos>
+																						<XPos>35.7625</XPos>
+																						<YPos>-2.50181</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
 																						<XPos>41.07123</XPos>
-																						<YPos>-2.49484</YPos>
+																						<YPos>-2.567</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -1232,17 +1232,17 @@
 																					</Point>
 																					<Point>
 																						<XPos>60.35103</XPos>
-																						<YPos>-2.42059</YPos>
+																						<YPos>-2.52771</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>70.55107</XPos>
-																						<YPos>-2.79758</YPos>
+																						<XPos>70.91765</XPos>
+																						<YPos>-2.65002</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>86.32812</XPos>
-																						<YPos>-2.30814</YPos>
+																						<XPos>86.15711</XPos>
+																						<YPos>-2.62927</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -1252,7 +1252,7 @@
 																					</Point>
 																					<Point>
 																						<XPos>113.30206</XPos>
-																						<YPos>-2.0681</YPos>
+																						<YPos>-2.2228</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -1266,28 +1266,43 @@
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>167.84875</XPos>
-																						<YPos>-1.34407</YPos>
+																						<XPos>167.48217</XPos>
+																						<YPos>-1.21981</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>176.43093</XPos>
+																						<YPos>-1.20841</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
 																						<XPos>183.56428</XPos>
-																						<YPos>-1.64997</YPos>
+																						<YPos>-1.25321</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>209.56445</XPos>
-																						<YPos>-1.4065</YPos>
+																						<XPos>191.70408</XPos>
+																						<YPos>-1.39343</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>257.27921</XPos>
-																						<YPos>-1.22253</YPos>
+																						<XPos>209.15549</XPos>
+																						<YPos>-1.16769</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>320.96459</XPos>
-																						<YPos>-1.24583</YPos>
+																						<XPos>256.09847</XPos>
+																						<YPos>-1.07981</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>297.52577</XPos>
+																						<YPos>-1.00071</YPos>
+																						<Flags>0</Flags>
+																					</Point>
+																					<Point>
+																						<XPos>348.13512</XPos>
+																						<YPos>-0.97342</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -1309,13 +1324,13 @@
 														</Reference>
 														<Reference>
 															<Local>
-																<MusicEventCue Name="" ID="{5FECDA95-D44F-4427-B5F9-EB0299AFF58C}" ShortID="171016071">
+																<MusicEventCue Name="" ID="{0FDD1366-4A8F-4425-A95A-5D4DE15E1C91}" ShortID="359427282">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="379228.136846157"/>
+																		<Property Name="PlayAt" Type="Real64" Value="64328.8685734132"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																			<ObjectRef Name="Set_State_InteractiveMusicMode_Environment" ID="{CD4A7C0F-2A77-4173-9ADE-8F9245E4A072}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}"/>
 																		</Reference>
 																	</ReferenceList>
 																</MusicEventCue>
@@ -1323,9 +1338,9 @@
 														</Reference>
 														<Reference>
 															<Local>
-																<MusicEventCue Name="" ID="{B0DFD9D4-938C-4845-AB4A-AFA44B27DFF9}" ShortID="203772450">
+																<MusicEventCue Name="" ID="{C01E724D-4082-46DD-BA70-DD65CCC7E460}" ShortID="658204413">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="272224.521778313"/>
+																		<Property Name="PlayAt" Type="Real64" Value="274255.394735371"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -1337,13 +1352,13 @@
 														</Reference>
 														<Reference>
 															<Local>
-																<MusicEventCue Name="" ID="{0FDD1366-4A8F-4425-A95A-5D4DE15E1C91}" ShortID="359427282">
+																<MusicEventCue Name="" ID="{4ED80F48-6F5D-43F8-A619-1E31C2DD155C}" ShortID="926757085">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="64328.8685734132"/>
+																		<Property Name="PlayAt" Type="Real64" Value="379179.318415427"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Set_State_InteractiveMusicMode_Environment" ID="{CD4A7C0F-2A77-4173-9ADE-8F9245E4A072}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}"/>
+																			<ObjectRef Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 																		</Reference>
 																	</ReferenceList>
 																</MusicEventCue>
@@ -1389,6 +1404,11 @@
 				</MusicSegment>
 				<MusicSwitchContainer Name="VO_THEMATICSAVASANA_SWITCH" ID="{AB4D44F6-744F-4940-87C6-85B801501218}" ShortID="1062729546">
 					<PropertyList>
+						<Property Name="Highpass" Type="int16">
+							<ValueList>
+								<Value>9</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>9</Value>
@@ -1396,7 +1416,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>2</Value>
+								<Value>1</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -2023,7 +2043,7 @@
 						</MusicSegment>
 						<MusicSegment Name="vo_thematicSavasana_narrative" ID="{81BAAB28-048D-4F4A-A1AA-43E6E10C0E26}" ShortID="1026644906">
 							<PropertyList>
-								<Property Name="EndPosition" Type="Real64" Value="86023.3333333333"/>
+								<Property Name="EndPosition" Type="Real64" Value="210030.236508523"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>1</Value>
@@ -2083,6 +2103,20 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{F7125560-B9B2-4F26-AA84-81589E6B15C3}" ShortID="453384195">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="205958.003365382"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_WakeUpEndSoon_SEQUENCE" ID="{9094666F-2F0C-486B-B702-268AE17352DD}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -2104,7 +2138,7 @@
 											<MusicCue Name="Exit Cue" ID="{089A6B85-23DE-4948-9829-569CEB137932}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="86023.3333333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="210030.236508523"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2114,7 +2148,7 @@
 											<MusicCue Name="Cue_ThematicSavasana_End" ID="{7D73B174-7F49-44F4-BA1E-7A3D60D2791B}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="85064.3560566515"/>
+													<Property Name="TimeMs" Type="Real64" Value="86023.3333333333"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2133,7 +2167,7 @@
 						</MusicSegment>
 						<MusicSegment Name="vo_thematicSavasana_peace" ID="{C6DC30C5-9A01-491B-B93D-CFEC781D7266}" ShortID="27917859">
 							<PropertyList>
-								<Property Name="EndPosition" Type="Real64" Value="239728.430611088"/>
+								<Property Name="EndPosition" Type="Real64" Value="357416.230645159"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>1</Value>
@@ -2193,6 +2227,20 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{00574F1A-4EBA-4D05-9E53-7588FB0421A1}" ShortID="844995302">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="349496.677490704"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_WakeUpEndSoon_SEQUENCE" ID="{9094666F-2F0C-486B-B702-268AE17352DD}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -2214,7 +2262,7 @@
 											<MusicCue Name="Exit Cue" ID="{90C47403-A34D-4E5D-8713-00EE9BEF768D}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="229383.333333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="357416.230645159"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2453,7 +2501,7 @@
 						</MusicSegment>
 						<MusicSegment Name="vo_thematicSavasana_surrender" ID="{C1556365-FE7C-4DF0-9C93-ED440AE7C525}" ShortID="465805778">
 							<PropertyList>
-								<Property Name="EndPosition" Type="Real64" Value="114536.3125"/>
+								<Property Name="EndPosition" Type="Real64" Value="236956.154060636"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>1</Value>
@@ -2513,6 +2561,20 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{40573D80-E610-4A29-96CE-365EE980D159}" ShortID="520565537">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="234005.734277609"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_WakeUpEndSoon_SEQUENCE" ID="{9094666F-2F0C-486B-B702-268AE17352DD}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -2534,7 +2596,7 @@
 											<MusicCue Name="Exit Cue" ID="{B110D6ED-C24C-49BB-B9F3-D7E7B4823A53}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="114536.3125"/>
+													<Property Name="TimeMs" Type="Real64" Value="236956.154060636"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

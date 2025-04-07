@@ -10,14 +10,19 @@ Event	ID	Name			Wwise Object Path	Notes
 	603425291	Play_sfx_SoundSeed_BreathCycleWind			\SFX\Play_sfx_SoundSeed_BreathCycleWind	
 	674892661	Stop_sfx_SoundSeed_BreathCycleWind			\SFX\Stop_sfx_SoundSeed_BreathCycleWind	
 	711060179	Play_MUSIC_PLAYLIST_SWITCH			\Default Work Unit\Play_MUSIC_PLAYLIST_SWITCH	
+	769398012	Play_Inhale_Long			\SFX\Play_Inhale_Long	
 	772188046	Play_environment_openingQueryRepeat1			\Environment\Play_environment_openingQueryRepeat1	
 	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP	
 	936790198	Play_VO_EndingSoon			\VO\Play_VO_EndingSoon	
 	1088180278	Play_THEMATIC_SAVASANA_SEQUENCE			\Default Work Unit\Play_THEMATIC_SAVASANA_SEQUENCE	
 	1226520867	Play_music_Duet_D_Major			\Linear Music\Play_music_Duet_D_Major	
+	1252315619	Play_Inhale_Medium			\SFX\Play_Inhale_Medium	
 	1425422979	Play_sfx_EndInteractive			\SFX\Play_sfx_EndInteractive	
+	1488609145	Play_VO_QueryElicitation2			\VO\Play_VO_QueryElicitation2	
 	1774847782	Stop_environment_crickets			\Environment\Stop_environment_crickets	
 	2071903771	Stop_SIGH_QUERY_SEQUENCE_2			\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_2	
+	2110561540	Play_Inhale_Short			\SFX\Play_Inhale_Short	
+	2138093880	Play_VO_SighElicitation2			\VO\Play_VO_SighElicitation2	
 	2767686943	Play_VO_Wisdom			\VO\Play_VO_Wisdom	
 	2811342292	Stop_THEMATIC_SAVASANA_SEQUENCE			\Default Work Unit\Stop_THEMATIC_SAVASANA_SEQUENCE	
 	2849654864	Play_environment_openingWelcome			\Environment\Play_environment_openingWelcome	
@@ -86,10 +91,13 @@ State	ID	Name	State Group			Notes
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	1662384195	BreatheCycle_Volume			\SFX\BreatheCycle_Volume	
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
+	3489928398	Unity_Inhale			\Unity Imitone\Unity_Inhale	
 	3761161481	CrystalBowlGenerator_Volume			\SFX\CrystalBowlGenerator_Volume	
+	4191266472	BreathIn_PlaybackRate			\SFX\BreathIn_PlaybackRate	
 
 Effect plug-ins	ID	Name	Type				Notes
 	2652646462	Dialog_Leveler_Soft	Wwise Compressor			
+	3164629247	Holy	Wwise RoomVerb			
 
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
@@ -97,6 +105,7 @@ Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	9176103	vo_thematicSavasana_gratitude	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_gratitude_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_gratitude		18942436
 	30291822	vo_endingSoon	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_endingSoon_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_EndSoon\vo_endingSoon		525856
+	39430341	vo_elicitQuery_closing	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQuery_closing_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitation2\vo_elicitQuery_closing		9176608
 	54796230	vo_goodbye_short	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_short_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_short\vo_goodbye_short		1181216
 	80906255	vo_thematicSavasana_surrender	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_surrender_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_surrender\vo_thematicSavasana_surrender		21991132
 	103751047	MusicArrangement_Radiance_9_6_23	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\MusicArrangement_Radiance_9.6.23_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\MusicDemo_Radiance, Nature, Pipe Organ\MusicArrangement_Radiance_9_6_23		105642764
@@ -120,9 +129,12 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	382946237	SoundCeremony_CrystalBowl_11	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_11_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_11\SoundCeremony_CrystalBowl_11		12576160
 	412214530	SoundCeremony_CrystalBowl_08	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_08_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_08\SoundCeremony_CrystalBowl_08		2584160
 	425147260	vo_thematicSavasana_fireflies	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_fireflies_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_fireflies\vo_thematicSavasana_fireflies		29376160
+	437973430	vo_thematicSavasana_Gratitude_Edit2	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Jaya_ThematicSavasana_Gratitude_Edit2_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_gratitude\vo_thematicSavasana_Gratitude_Edit2		18556428
 	456722588	SoundCeremony_CrystalBowl_05	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_05_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_05\SoundCeremony_CrystalBowl_05		15168160
 	464203531	sfx_breath out	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath out_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
+	466210932	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_C3F4FBB0.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612056
 	473964817	vo_goodbye_long	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_long_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_long\vo_goodbye_long		10094112
+	494111603	vo_elicitSigh_closing	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSigh_closing_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitation2\vo_elicitSigh_closing		3933728
 	515336261	environment_openingQueryRepeat1	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingQueryRepeat1_FBC78EF0.wem		\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_openingQueryRepeat1		3258072
 	517296307	environment_openingWelcome	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingWelcome_FBC78EF0.wem		\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_openingWelcome		9918616
 	518332124	SoundCeremony_CrystalBowl_03	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_03_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_03\SoundCeremony_CrystalBowl_03		8000960
@@ -134,6 +146,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	579672527	sfx_start	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_start_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_start		1399392
 	587565267	vo_thematicSavasana_long	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_long_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_long		25429536
 	592303975	vo_wisdom_jaguar	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wisdom_jaguar_818F3B66.wem		\Actor-Mixer Hierarchy\VO\VO\VO_Wisdom\VO_Wisdom\vo_wisdom_jaguar		87033376
+	618347590	vo_thematicSavasana_gratitude	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_gratitude_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_gratitude\vo_thematicSavasana_gratitude		18942436
 	623436931	sfx_stop_v2	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\RKU_LHH2_Percussion_Tingsha_2_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_stop_v2		2116896
 	629816663	vo_wakeUp	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wakeUp_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\CLOSING\VO_WakeUp&EndSoon\vo_wakeUp		7472672
 	650293573	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath in		612056

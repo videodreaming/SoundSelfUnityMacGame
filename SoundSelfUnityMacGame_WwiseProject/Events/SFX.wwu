@@ -84,7 +84,13 @@
 						</Action>
 						<Action Name="" ID="{7520821E-9FD7-46F7-8619-4012A2E68574}" ShortID="464801548">
 							<PropertyList>
-								<Property Name="Delay" Type="Real64" Value="6"/>
+								<Property Name="Delay" Type="Real64" Value="6">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{0716D24D-B67B-444D-8EC5-0A830BC5A083}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -99,7 +105,6 @@
 										<ModifierInfo>
 											<Modifier Name="" ID="{568AEFC7-742A-457A-95A0-E2821F4730EA}">
 												<PropertyList>
-													<Property Name="Enabled" Type="bool" Value="True"/>
 													<Property Name="Max" Type="Real64" Value="30"/>
 												</PropertyList>
 											</Modifier>
@@ -120,7 +125,6 @@
 										<ModifierInfo>
 											<Modifier Name="" ID="{F6B1F966-5093-48A9-A7E8-84BC1C7E2B6C}">
 												<PropertyList>
-													<Property Name="Enabled" Type="bool" Value="True"/>
 													<Property Name="Max" Type="Real64" Value="30"/>
 												</PropertyList>
 											</Modifier>
@@ -142,6 +146,7 @@
 						<Action Name="" ID="{46B78FF4-FDE3-4A01-B21D-3169B456BFD2}" ShortID="203972915">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="6"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
 								<Property Name="FadeTime" Type="Real64" Value="60"/>
 							</PropertyList>
@@ -154,6 +159,7 @@
 						<Action Name="" ID="{875CD99C-B8EF-4104-8F37-C1016E53CC47}" ShortID="534528042">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="8"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
 								<Property Name="FadeTime" Type="Real64" Value="60"/>
 							</PropertyList>
@@ -166,12 +172,11 @@
 						<Action Name="" ID="{F2027554-0F82-4770-9AC7-CFFA7544821A}" ShortID="160949399">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64">
+								<Property Name="Delay" Type="Real64" Value="8">
 									<ModifierList>
 										<ModifierInfo>
 											<Modifier Name="" ID="{6B27E4BC-62CE-447C-9BA3-0DA6C56F87FB}">
 												<PropertyList>
-													<Property Name="Enabled" Type="bool" Value="True"/>
 													<Property Name="Max" Type="Real64" Value="30"/>
 												</PropertyList>
 											</Modifier>
@@ -190,12 +195,11 @@
 						<Action Name="" ID="{2AF0767C-6A39-4940-903B-F22FDEDF0476}" ShortID="277484690">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64">
+								<Property Name="Delay" Type="Real64" Value="10">
 									<ModifierList>
 										<ModifierInfo>
 											<Modifier Name="" ID="{9662F4D3-B4AE-4D78-A486-EE79BFCB6E8F}">
 												<PropertyList>
-													<Property Name="Enabled" Type="bool" Value="True"/>
 													<Property Name="Max" Type="Real64" Value="30"/>
 												</PropertyList>
 											</Modifier>
