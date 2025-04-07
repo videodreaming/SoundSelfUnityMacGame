@@ -22,8 +22,8 @@ public class Tutorial : MonoBehaviour
     float testThreshold = 1.5f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;
-    string testVocalizationType;
-    string testVocalizationTypeLastFrame;
+    public string testVocalizationType;
+    public string testVocalizationTypeLastFrame;
     private Coroutine testCoroutine;
     private Coroutine correctionCoroutine;
     public bool inTutorial = false;
