@@ -7,7 +7,7 @@
 					<PropertyList>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>5</Value>
+								<Value>4</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -2136,7 +2136,7 @@
 								<Property Name="EndPosition" Type="Real64" Value="239728.430611088"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>2</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2778,6 +2778,11 @@
 							<Reference>
 								<Local>
 									<MultiSwitchEntry Name="" ID="{B0B87DB7-43D3-4AB7-80EE-B1E1110C91BE}">
+										<ReferenceList>
+											<Reference Name="AudioNode">
+												<ObjectRef Name="vo_thematicSavasana_gratitude" ID="{4465E86D-02F7-4457-9B07-5D489E96A37A}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
+											</Reference>
+										</ReferenceList>
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
