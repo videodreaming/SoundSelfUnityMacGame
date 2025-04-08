@@ -230,7 +230,7 @@ public class Sequencer : MonoBehaviour
             savasanaTriggered = true;
         }
 
-        //TODO: REMOVE THIS LOGIC
+        //TODO: REMOVE THIS LOGIC WHEN LORNA CHANGES THE WWISE LOGIC
         //WAKE UP FROM SILENT MEDITATION TIMER AND TRIGGER
         if((twoMinMeditationTimer == true) && (_countdownToWakeUpEnd > 0))
         {
