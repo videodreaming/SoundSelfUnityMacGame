@@ -77,7 +77,7 @@ public class MicPlayback : MonoBehaviour
             //LIMITING: GIVEN THE NEW AMPLIFICATION THIS CREATES THE POSSIBILITY OF, LORNA SHOULD APPLY A LIMITER TO IT AS WELL TO AVOID CLIPPING. SHE WILL KNOW HOW TO DO THAT, PLEASE ASK HER.
             //_CHANTCHARGE ADJUST: IT WILL WORK WELL IF THE SOUND BEGINS WITH LESS REVERB AT THE BEGINNING OF A TONE, AND THEN GETS STEADILY MORE REVERB (TO USE AUDIO LANGUAGE, GOES FROM MORE "DRY" TO MORE "WET"). THIS CAN BE DONE USING THE GAMEVALUES._CHANTCHARGE VARIABLE. HIGHER _CHANTCHARGE SHOULD HAVE HIGHER REVERB SETTINGS
 
-            if (Time.time % 2f < Time.deltaTime)
+            if (imitoneVoiceInterpreter._tThisTone % 2f < Time.deltaTime)
             {
                 Debug.Log($"[MIC PLAYBACK] [Input: {GetDecibels(audioInput.level):F2} dB]  [Gain: {_gain:F2} dB]  [Game Adjustment: {GetDecibels(_gameAdjust):F2} dB]  [{lerpType}]   ");
             }
