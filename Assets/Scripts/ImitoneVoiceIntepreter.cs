@@ -63,6 +63,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float _imitoneActiveTimer;
     private float _imitoneInactiveTimer;
     public float _tThisTone;
+    
+    public float _tSessionToneActive {get; private set; } = 0f;
     public float _tThisToneRaw;
     
     [SerializeField]
@@ -634,6 +636,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         {
             //BE MINDFUL THAT ANY CHANGES HERE ARE APPROPRIATELY DUPLICATED IN THE TONEACTIVERAW BLOCK BELOW.
             _tThisTone += Time.deltaTime;
+            _tSessionToneActive += Time.deltaTime;
             _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
             resetToneFrame = false;

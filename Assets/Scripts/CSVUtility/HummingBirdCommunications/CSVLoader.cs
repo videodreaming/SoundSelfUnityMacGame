@@ -84,18 +84,18 @@ public class CSVLoader : MonoBehaviour
             timeLeftScript.SetTimeLeftSeconds(2700.0f);
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
-                totalTimeOfPostUnguidedVocalizationContent = 769.0f;
+                totalTimeOfPostUnguidedVocalizationContent = (9.0f * 60.0f) + 49.0f; //9 min 49 seconds
                 wwiseVOManager.SetToPeace();
             } 
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
                 Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContent = 622.0f;
+                totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 22.0f; //7 min 22 seconds`
                 wwiseVOManager.SetToNarrative();
             } 
             else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Prepeation")
             {
-                totalTimeOfPostUnguidedVocalizationContent = 655.0f;
+                totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 55.0f; //7 min 55 seconds
                 wwiseVOManager.SetToSurrender();
             } 
 
@@ -109,6 +109,8 @@ public class CSVLoader : MonoBehaviour
             }
         } else if (gameMode == "Integration")
         {
+            wwiseVOManager.notFirstTimeUser();
+            Debug.Log("CSVLoader: Not First Time User");
             //sequencer.totalTimeOfExperience = 1500.0f;
             timeLeftScript.SetTimeLeftSeconds(1500.0f);
             if(subGameMode == "Fireflies"|| subGameMode == "Self Compassion")

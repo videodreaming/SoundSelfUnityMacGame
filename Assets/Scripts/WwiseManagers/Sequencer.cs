@@ -230,6 +230,7 @@ public class Sequencer : MonoBehaviour
             savasanaTriggered = true;
         }
 
+        //TODO: REMOVE THIS LOGIC WHEN LORNA CHANGES THE WWISE LOGIC
         //WAKE UP FROM SILENT MEDITATION TIMER AND TRIGGER
         if((twoMinMeditationTimer == true) && (_countdownToWakeUpEnd > 0))
         {
@@ -238,10 +239,13 @@ public class Sequencer : MonoBehaviour
         
         if(_countdownToWakeUpEnd <= 0.0 && !wakeUpTriggered)
         {
-            Debug.Log("Sequencer: Triggering Wake Up from Silent Meditation.");
-            wwiseVOManager.PlayWakeUpSoonVO();   
-            _countdownToWakeUpEnd = -1.0f;     
-            wakeUpTriggered = true;
+            if(CSVLoader.gameMode != "Integration")
+            {
+                Debug.Log("Sequencer: Triggering Wake Up from Silent Meditation.");
+                wwiseVOManager.PlayWakeUpSoonVO();   
+                _countdownToWakeUpEnd = -1.0f;     
+                wakeUpTriggered = true;
+            }
         }   
     }
 

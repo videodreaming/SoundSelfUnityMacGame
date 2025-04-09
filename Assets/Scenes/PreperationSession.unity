@@ -7742,6 +7742,8 @@ MonoBehaviour:
   SavasanaPlayer: {fileID: 1809294502}
   imitoneVoiceInterpreter: {fileID: 740096625}
   musicNoteActivated: 0
+  _silentVolumeLow: 65
+  _silentVolumeHigh: 80
   fundamentalNote: 0
   harmonyNote: 0
   currentMusicMode: 0
@@ -9186,7 +9188,7 @@ AudioSource:
   m_GameObject: {fileID: 740096620}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4730911767487490131, guid: 78d62b3f89eff41c78a9eb5069a9bea1, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -21505,6 +21507,8 @@ MonoBehaviour:
   worldShuffler: {fileID: 1804684750}
   csvLoader: {fileID: 695725736}
   timeLeftScript: {fileID: 1140148591}
+  testVocalizationType: 
+  testVocalizationTypeLastFrame: 
   inTutorial: 0
   tutorialComplete: 0
   TimeTrackerScript: {fileID: 1435489961}
