@@ -39,26 +39,33 @@ public class MicPlayback : MonoBehaviour
             {
                 // If the level is above the target level + limit threshold, decrease the gain quickly to prevent clipping
                 _gain -= dbDownRateLimit * Time.deltaTime;
-                lerpType = "limit";
+                lerpType = "down fast";
             }
             else if ((GetDecibels(audioInput.level) < dbTarget + wayTooQuietThreshold) && imitoneVoiceInterpreter._tThisTone > 1.0f)
             {
                 // If the level is below the target level - way too quiet threshold, increase the gain quickly
                 _gain += dbUpRateFast * Time.deltaTime;
-                lerpType = "quiet";
+                lerpType = "up fast";
             }
             else if (GetDecibels(audioInput.level) > dbTarget + tolerance.over)
             {
                 // If the level is above the target level + tolerance, decrease the gain
                 _gain -= dbDownRate * Time.deltaTime;
-                lerpType = "over";
+                lerpType = "down";
             }
             else if (GetDecibels(audioInput.level) < dbTarget + tolerance.under)
             {
                 // If the level is below the target level - tolerance, increase the gain
                 bool initializing = (imitoneVoiceInterpreter._tSessionToneActive < 30f); //increase it faster if we are initializing.
                 _gain += (initializing ? dbUpRateFast : dbUpRate)  * Time.deltaTime;
-                lerpType = "under";
+                if(initializing)
+                lerpType = "up fast";
+                else
+                lerpType = "up";
+            }
+            else
+            {
+                lerpType = "stable";
             }
 
             float _gameAdjust = gameValues._chantLerpFast * GetLevel(16f * gameValues._chantLerpSlow - 16f) * GetLevel(gameValues._chantCharge * -12f); // artistically adjust level based on game values.
@@ -70,7 +77,7 @@ public class MicPlayback : MonoBehaviour
             //LIMITING: GIVEN THE NEW AMPLIFICATION THIS CREATES THE POSSIBILITY OF, LORNA SHOULD APPLY A LIMITER TO IT AS WELL TO AVOID CLIPPING. SHE WILL KNOW HOW TO DO THAT, PLEASE ASK HER.
             //_CHANTCHARGE ADJUST: IT WILL WORK WELL IF THE SOUND BEGINS WITH LESS REVERB AT THE BEGINNING OF A TONE, AND THEN GETS STEADILY MORE REVERB (TO USE AUDIO LANGUAGE, GOES FROM MORE "DRY" TO MORE "WET"). THIS CAN BE DONE USING THE GAMEVALUES._CHANTCHARGE VARIABLE. HIGHER _CHANTCHARGE SHOULD HAVE HIGHER REVERB SETTINGS
 
-            if (Time.time % 2f < Time.deltaTime)
+            if (imitoneVoiceInterpreter._tThisTone % 2f < Time.deltaTime)
             {
                 Debug.Log($"[MIC PLAYBACK] [Input: {GetDecibels(audioInput.level):F2} dB]  [Gain: {_gain:F2} dB]  [Game Adjustment: {GetDecibels(_gameAdjust):F2} dB]  [{lerpType}]   ");
             }
