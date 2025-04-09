@@ -39,26 +39,33 @@ public class MicPlayback : MonoBehaviour
             {
                 // If the level is above the target level + limit threshold, decrease the gain quickly to prevent clipping
                 _gain -= dbDownRateLimit * Time.deltaTime;
-                lerpType = "limit";
+                lerpType = "down fast";
             }
             else if ((GetDecibels(audioInput.level) < dbTarget + wayTooQuietThreshold) && imitoneVoiceInterpreter._tThisTone > 1.0f)
             {
                 // If the level is below the target level - way too quiet threshold, increase the gain quickly
                 _gain += dbUpRateFast * Time.deltaTime;
-                lerpType = "quiet";
+                lerpType = "up fast";
             }
             else if (GetDecibels(audioInput.level) > dbTarget + tolerance.over)
             {
                 // If the level is above the target level + tolerance, decrease the gain
                 _gain -= dbDownRate * Time.deltaTime;
-                lerpType = "over";
+                lerpType = "down";
             }
             else if (GetDecibels(audioInput.level) < dbTarget + tolerance.under)
             {
                 // If the level is below the target level - tolerance, increase the gain
                 bool initializing = (imitoneVoiceInterpreter._tSessionToneActive < 30f); //increase it faster if we are initializing.
                 _gain += (initializing ? dbUpRateFast : dbUpRate)  * Time.deltaTime;
-                lerpType = "under";
+                if(initializing)
+                lerpType = "up fast";
+                else
+                lerpType = "up";
+            }
+            else
+            {
+                lerpType = "stable";
             }
 
             float _gameAdjust = gameValues._chantLerpFast * GetLevel(16f * gameValues._chantLerpSlow - 16f) * GetLevel(gameValues._chantCharge * -12f); // artistically adjust level based on game values.
