@@ -316,7 +316,6 @@ public class Sequencer : MonoBehaviour
 
     IEnumerator AVS_Program_DynamicDrop_Start()
     {
-        bool stopProgression = false;
         Cleanup(coroutineCleanupList); //not necessary for the first one, but placing it here for convention.
         yield return null;
        
@@ -355,12 +354,11 @@ public class Sequencer : MonoBehaviour
         _timer = 150f / d;
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDropStart. Begining drop from high alpha to 10hz.");
         lightControl.SetStrobeRate(8.5f, _timer);
-        while(_timer > 0 || stopProgression)
+        while(_timer > 0)
         {
-            if(AVS_Program_ManageThetaTransition(coroutineCleanupList))
+            if(AVS_Program_ManageThetaTransition())
             {
-                stopProgression = true;
-                break;
+                yield break;
             }
             _timer -= Time.deltaTime;
             yield return null;
@@ -376,12 +374,11 @@ public class Sequencer : MonoBehaviour
         _timer = _halfWavelength;
         bool flag1 = false;
         bool flag2 = false;
-        while(stopProgression)
+        while(true)
         {
-            if(AVS_Program_ManageThetaTransition(coroutineCleanupList))
+            if(AVS_Program_ManageThetaTransition())
             {
-                stopProgression = true;
-                break;
+                yield break;
             }
 
             //ADD SOME MONO/STEREO BEHAVIOR. RHYTHMICALLY ADD MONO/STEREO COMMANDS TO DIRECTOR QUEUE
@@ -414,14 +411,13 @@ public class Sequencer : MonoBehaviour
             }
             yield return null;
         }
-        
     }
 
-    private bool AVS_Program_ManageThetaTransition(List<int> coroutineCleanupList)
+    private bool AVS_Program_ManageThetaTransition()
     {
         bool forceIt = developmentMode.developmentMode && Input.GetKeyDown(KeyCode.K);
-        bool forceItAfterTutorial= tutorial.testVocalizationType == "Advanced" ||  tutorial.tutorialComplete; // TODO: FIGURE OUT WHY ABSORPTION ISN'T WORKING, THEN REMOVE THIS... or don't...
-        if((respirationTracker._absorption > _absorptionThreshold || forceIt || forceItAfterTutorial) && !flagThetaCoroutine)
+        bool forceItAfterTutorial= tutorial.testVocalizationType == "Advanced" ||  tutorial.tutorialComplete; // TODO: FIGURE OUT WHY ABSORPTION ISN'T WORKING, THEN REMOVE THIS TEST... or don't...
+        if(((respirationTracker._absorption > _absorptionThreshold) || forceIt || forceItAfterTutorial) && !flagThetaCoroutine)
         {
             flagThetaCoroutine = true;
             CoroutineDynamicDropTheta = StartCoroutine(AVS_Program_DynamicDrop_Theta());
@@ -437,7 +433,7 @@ public class Sequencer : MonoBehaviour
             Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: Stopping Coroutine from THETA Coroutine().");
             StopCoroutine(CoroutineDynamicDropStart);
         }
-          
+
         yield return null;
         Cleanup(coroutineCleanupList);
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. Starting Theta program.");

@@ -81,7 +81,7 @@ public class CSVLoader : MonoBehaviour
         if(gameMode == "Preperation" || gameMode == "Skills Training")
         {
             Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
-            timeLeftScript.SetTimeLeftSeconds(2700.0f);
+            timeLeftScript.SetTimeLeftSeconds(2400.0f);
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
                 totalTimeOfPostUnguidedVocalizationContent = (9.0f * 60.0f) + 49.0f; //9 min 49 seconds
