@@ -169,6 +169,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     AudioClip          inputBuffer;
     int                micPosRead = 0;
     float[]            capturedInput;
+
+    public GameObject audioReceiver2;
+    private AudioSource source2;
+
    
     void Start()
     {
@@ -202,12 +206,19 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             Debug.Log("PitchTracker failed to Start recording from Microphone!");
             return;
         }
+
         _audioSource.clip = inputBuffer;
         _audioSource.loop = true;
+
+        source2 = audioReceiver2.GetComponent<AudioSource>();
+        source2.clip = inputBuffer;
+        source2.loop = true;
+
+
         while(!(Microphone.GetPosition(microphoneName) > 0)){
-            _audioSource.Play();
+            source2.Play();
         } 
-        
+
         try
         {
             ImitoneVoice.ActivateLicense("imitone technology used under license to New Entheogen Ltd, March 2023.");

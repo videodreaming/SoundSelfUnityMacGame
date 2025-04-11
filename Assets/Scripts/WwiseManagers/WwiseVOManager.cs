@@ -34,7 +34,10 @@ public class WwiseVOManager : MonoBehaviour
     public CSVWriter csvWriter;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private bool debugAllowLogs;
-    
+
+    public GameObject micPlayback;
+    public AudioSource audioSource;
+    public UnityPlayBack unityPlaybackScript;
     //private bool silentPlaying = false;
 
     void Start()
@@ -42,6 +45,7 @@ public class WwiseVOManager : MonoBehaviour
         //NOTE ABOUT WWISE:
         //THE GAMEOBJECT POINTS TO *THIS* GAMEOBJECT. SO WE CAN'T START
         //IT FROM ONE GAMEOBJECT AND THEN STOP IT FROM ANOTHER. IT HAS TO BE THE SAME GAMEOBJECT
+        audioSource = micPlayback.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -96,11 +100,13 @@ public class WwiseVOManager : MonoBehaviour
             else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
             {
                 Debug.Log("WWise_VO_CUE: Cue Mic On"); //Mic On and Mic Off are used in the "voice elicitation" sequences
+                unityPlaybackScript.targetVolume = 1.0f;
                 imitoneVoiceIntepreter.gameOn = true;
             }
             else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
             {
                 Debug.Log("WWise_VO_CUE: Cue Mic OFF");
+                unityPlaybackScript.targetVolume = 0.0f;   
                 imitoneVoiceIntepreter.gameOn = false;//I think one of these is not correct.  (also see tutorial.cs and MusicSystem1.cs).
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")

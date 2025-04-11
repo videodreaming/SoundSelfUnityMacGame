@@ -1,10 +1,12 @@
 //This is pseudocode for the direct monitoring and playback of the audio from the microphone
-
-public class MicPlayback : MonoBehaviour
+/*using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class MicPlaybackPseudo : MonoBehaviour
 {
     // Reference to the direct microphone input stream. (whatever that is in Unity)
     private  GameValues gameValues;
-    private ImitoneVoiceInterpreter imitoneVoiceInterpreter
+    private ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     private const float dbTarget = -10f; // We can set this manually, here, to find a good level for microphone reamplification.
     private const float dbUpRate = 0.25f; // The rate at which we want to increase the gain of the microphone input, per second
     private const float dbUpRateFast = 2f; // The rate at which we want to increase the gain of the microphone input, per second, when initializing or when we need to quickly increase it.
@@ -97,4 +99,4 @@ public class MicPlayback : MonoBehaviour
         // Convert decibels to linear level using the formula: level = 10^(dB / 20)
         return Mathf.Pow(10f, db * 0.05f); // 20 is used in the denominator for conversion to linear scale
     }
-}
+}*/

@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy/Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584598860876498868
+    m_lastTime: -8584573738184655609
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -452,7 +452,7 @@ MonoBehaviour:
     ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584598860876480289
+    m_lastTime: -8584573738184430137
     List:
     - name: CLOSING
       guid: 660ba7396da1574496e1fee4e15fcf1c
@@ -657,7 +657,7 @@ MonoBehaviour:
     ParentPath: Events/Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584611717188818957
+    m_lastTime: -8584573738194987495
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -980,8 +980,8 @@ MonoBehaviour:
         guid: 6f6694900c2f6b48b702268ae17352dd
       Path: Events/Default Work Unit/Play_WakeUpEndSoon_SEQUENCE
       maxAttenuation: 0
-      maxDuration: 134.23682
-      minDuration: 134.23682
+      maxDuration: 101.6265
+      minDuration: 101.6265
     - name: Play_WISDOM_OPENING_SEQUENCE_LONG
       guid: 8492bac2adc8ea4b87353eab0982d3bb
       id: 1410067095
@@ -1363,7 +1363,7 @@ MonoBehaviour:
     ParentPath: Events/Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584744034008642255
+    m_lastTime: -8584573738194978412
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -1695,7 +1695,7 @@ MonoBehaviour:
     ParentPath: Events/SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584603141641483080
+    m_lastTime: -8584573738194973779
     List:
     - name: Play_CrystalBowlGenerator
       guid: 1a9f408bea41d94f88556e165a2929f1
@@ -1712,7 +1712,7 @@ MonoBehaviour:
         guid: 1a9f408bea41d94f88556e165a2929f1
       Path: Events/SFX/Play_CrystalBowlGenerator
       maxAttenuation: 0
-      maxDuration: 415.44745
+      maxDuration: 385.44745
       minDuration: 385.44745
     - name: Play_Inhale_Long
       guid: cc2a9f4bfd558542952b9206b5585121
@@ -3515,7 +3515,7 @@ MonoBehaviour:
     ParentPath: States/Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584761385860282296
+    m_lastTime: -8584573738184382946
     List:
     - name: AbsorptionMode
       guid: 56187ed435247e4fafedb57a575f601a
