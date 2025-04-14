@@ -173,6 +173,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public GameObject audioReceiver2;
     private AudioSource source2;
 
+    public GameObject audioReceiver3;
+    private AudioSource source3;
+
    
     void Start()
     {
@@ -213,6 +216,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         source2 = audioReceiver2.GetComponent<AudioSource>();
         source2.clip = inputBuffer;
         source2.loop = true;
+
 
 
         while(!(Microphone.GetPosition(microphoneName) > 0)){
