@@ -231,6 +231,7 @@ public class Sequencer : MonoBehaviour
         }
 
         //TODO: REMOVE THIS LOGIC WHEN LORNA CHANGES THE WWISE LOGIC
+        //READY TO REMOVE
         //WAKE UP FROM SILENT MEDITATION TIMER AND TRIGGER
         if((twoMinMeditationTimer == true) && (_countdownToWakeUpEnd > 0))
         {
@@ -242,7 +243,7 @@ public class Sequencer : MonoBehaviour
             if(CSVLoader.gameMode != "Integration")
             {
                 Debug.Log("Sequencer: Triggering Wake Up from Silent Meditation.");
-                wwiseVOManager.PlayWakeUpSoonVO();   
+                
                 _countdownToWakeUpEnd = -1.0f;     
                 wakeUpTriggered = true;
             }

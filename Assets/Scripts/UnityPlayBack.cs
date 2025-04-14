@@ -35,8 +35,6 @@ public class UnityPlayBack : MonoBehaviour
         {
             audioSource.volume = Mathf.Lerp(audioSource.volume, targetVolume, Time.deltaTime);
         }
-        Debug.Log("Unity Target Volume:" + targetVolume);
-        Debug.Log("Unity Actual Volume:" + audioSource.volume);
         //REMOVE ON PRODUCTION BUILD
         if(developmentMode.developmentMode)
         {

@@ -420,13 +420,6 @@ public class WwiseVOManager : MonoBehaviour
         Debug.Log("WWise_VO: Play Repair Success");
     }
 
-    //WAS IN SEQUENCER.CS BEFORE I MOVED IT
-    public void PlayWakeUpSoonVO()
-    {
-        AkSoundEngine.PostEvent("Play_WakeUpEndSoon_SEQUENCE", gameObject);
-        Debug.Log("WWise_VO: Play Wake Up Soon Sequence");
-    }
-
     public void PlayThematicSavasana()
     {
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
