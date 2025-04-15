@@ -694,6 +694,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_goodbye_silence" ID="{6F80C5B4-CD86-4A3B-8E8C-A2D8C1554608}" ShortID="929192169">
+									<PropertyList>
+										<Property Name="LookAheadTime" Type="int16">
+											<ValueList>
+												<Value>1363</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
