@@ -724,6 +724,11 @@
 										<Property Name="LookAheadTime" Type="int16">
 											<ValueList>
 												<Value>1363</Value>
+=======
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+>>>>>>> Stashed changes
 											</ValueList>
 										</Property>
 									</PropertyList>

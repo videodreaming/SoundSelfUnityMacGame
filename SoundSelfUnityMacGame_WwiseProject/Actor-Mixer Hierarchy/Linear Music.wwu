@@ -6,6 +6,13 @@
 				<Folder Name="Music" ID="{990A4A58-DFB2-4457-83B2-F31759AF2B7B}" ShortID="922355172">
 					<ChildrenList>
 						<Sound Name="music_duet_D Major" ID="{ACEFFB1D-0572-4D14-AEC0-950E214F17AF}" ShortID="881040484">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -29,6 +36,11 @@
 						</Sound>
 						<Sound Name="music_meditationSilent_E Major" ID="{51A07E08-BDD3-44B2-AA13-33E6CC101BB7}" ShortID="537070791">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-4</Value>
@@ -57,6 +69,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="MusicMode_10m_A Major-D Major" ID="{3FD932AA-000F-43A4-BA5C-1343E5DEBBF1}" ShortID="187138454">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -81,6 +100,11 @@
 						<Sound Name="music_OpeningMeditationLong_A Major" ID="{5420F189-70E4-4967-A125-125C49895F1E}" ShortID="775113752">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>1</Value>
@@ -111,6 +135,11 @@
 						<Sound Name="music_OpeningMeditationShort_A Major" ID="{9793A5AC-EA59-4C05-AD5F-2625AF026F84}" ShortID="1066218272">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -135,6 +164,11 @@
 						</Sound>
 						<Sound Name="ThematicSavasana_Metta_MusicDemo_5_2_24" ID="{E17AF902-FECE-4209-8647-F6D13A2E9CC8}" ShortID="1063811394">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-6</Value>
@@ -168,6 +202,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24" ID="{D78C39C4-1FB2-43EE-943B-52B0336B2EC4}" ShortID="598331855">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -190,6 +231,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="MusicArrangement_Radiance_9_6_23" ID="{494C7843-A1DA-4D5D-A80A-A5CE498968FA}" ShortID="1033902443">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -212,6 +260,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="MusicDemo_Sax,Bowls,Nature_4_24_24" ID="{750E407E-D248-4812-9F5D-EA6AC4223EDA}" ShortID="843021607">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -238,6 +293,11 @@
 								<Property Name="Highpass" Type="int16">
 									<ValueList>
 										<Value>16</Value>
+									</ValueList>
+								</Property>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Lowpass" Type="int16">
@@ -274,6 +334,11 @@
 										<Value>19</Value>
 									</ValueList>
 								</Property>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
 										<Value>12</Value>
@@ -308,6 +373,11 @@
 						</Sound>
 						<Sound Name="Opening_Bowls, Nature, BinauralBeats_4_24_24" ID="{9385CC63-5092-495E-9EB3-77AE313AC119}" ShortID="547220418">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-1</Value>
@@ -354,6 +424,11 @@
 							<ChildrenList>
 								<Sound Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{A0A0C5F7-6652-4619-9A50-295C8AA3388E}" ShortID="81463665">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-13</Value>
@@ -388,6 +463,11 @@
 								</Sound>
 								<Sound Name="ThematicSavasana_MUSIC_METTA" ID="{9EE8E7EC-FDFD-4C13-9377-36D7BA41FAE7}" ShortID="1027927233">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-8</Value>
@@ -429,36 +509,6 @@
 						</RandomSequenceContainer>
 					</ChildrenList>
 				</Folder>
-				<ActorMixer Name="OPENING SEQUENCE_MUSIC" ID="{59969AF7-568E-4A70-A9CB-34DA1421F3EF}" ShortID="262996012">
-					<PropertyList>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
-						<SwitchContainer Name="OPENING SEQUENCE_MUSIC" ID="{DC4E5C34-AD26-4BEC-9C8E-9991C3583E68}" ShortID="1001426312">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<GroupingInfo/>
-						</SwitchContainer>
-					</ChildrenList>
-				</ActorMixer>
 				<ActorMixer Name="SOMATIC SEQUENCE_MUSIC" ID="{D1DE903A-3EDA-4B98-A5A9-CDA86998341A}" ShortID="419334509">
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -486,6 +536,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="music_OpeningMeditationLong_A Major" ID="{60508AA3-5667-4D83-9E34-B6E891E13962}" ShortID="163848622">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -507,7 +564,14 @@
 										<ActiveSource Name="music_OpeningMeditationLong_A Major" ID="{0844200F-787E-4776-A247-7FDF651C4FCB}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="music_OpeningMeditationShort_A Major" ID="{21FEEE7A-C9A4-4D64-BCF7-930EB24F4E1B}" ShortID="680531747">
+								<Sound Name="music_OpeningMeditationShort_A Major_short" ID="{21FEEE7A-C9A4-4D64-BCF7-930EB24F4E1B}" ShortID="680531747">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -533,7 +597,7 @@
 							<GroupingInfo>
 								<GroupingBehaviorList>
 									<GroupingBehavior>
-										<ItemRef Name="music_OpeningMeditationShort_A Major" ID="{21FEEE7A-C9A4-4D64-BCF7-930EB24F4E1B}"/>
+										<ItemRef Name="music_OpeningMeditationShort_A Major_short" ID="{21FEEE7A-C9A4-4D64-BCF7-930EB24F4E1B}"/>
 									</GroupingBehavior>
 									<GroupingBehavior>
 										<ItemRef Name="music_OpeningMeditationLong_A Major" ID="{60508AA3-5667-4D83-9E34-B6E891E13962}"/>
@@ -543,7 +607,7 @@
 									<Grouping>
 										<SwitchRef Name="Short" ID="{25DF1B1F-1E89-4B5C-9356-6BEE287FABBB}"/>
 										<ItemList>
-											<ItemRef Name="music_OpeningMeditationShort_A Major" ID="{21FEEE7A-C9A4-4D64-BCF7-930EB24F4E1B}"/>
+											<ItemRef Name="music_OpeningMeditationShort_A Major_short" ID="{21FEEE7A-C9A4-4D64-BCF7-930EB24F4E1B}"/>
 										</ItemList>
 									</Grouping>
 									<Grouping>

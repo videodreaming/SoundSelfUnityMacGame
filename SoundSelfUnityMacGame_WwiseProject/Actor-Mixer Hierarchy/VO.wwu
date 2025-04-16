@@ -23,6 +23,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_endingSoon" ID="{368C9F8B-8373-4546-B197-6AE9D661B1F5}" ShortID="891374001">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -65,6 +72,11 @@
 							<ChildrenList>
 								<Sound Name="vo_orientation" ID="{A2A73575-D43D-4F99-A67D-BC52DA430FBB}" ShortID="994186271">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -113,6 +125,11 @@
 							<ChildrenList>
 								<Sound Name="vo_elicitQuery_opening" ID="{C7B57A6D-736E-4C74-956B-77021ED73901}" ShortID="782934172">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -161,6 +178,11 @@
 							<ChildrenList>
 								<Sound Name="vo_elicitQuery_closing" ID="{BD2C286C-1478-451A-B953-B7BAB4E61591}" ShortID="717880222">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>1</Value>
@@ -209,6 +231,11 @@
 							<ChildrenList>
 								<Sound Name="vo_thankYou" ID="{EFEE0386-C0CB-4348-ABE7-ACD5252F2046}" ShortID="654063754">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>1</Value>
@@ -257,6 +284,11 @@
 							<ChildrenList>
 								<Sound Name="vo_elicitSigh_opening" ID="{B898CA1F-0AD7-4604-A86A-5372BD2BCCA4}" ShortID="902896712">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -304,6 +336,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="vo_elicitSigh_closing" ID="{CDFC8713-B0D5-4ABA-A5C9-33A84618DD69}" ShortID="806727899">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -339,6 +378,11 @@
 							<ChildrenList>
 								<Sound Name="vo_wakeUp" ID="{5E8C30DE-AAAB-425A-9686-C50D7E07AF38}" ShortID="283792055">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>1</Value>
@@ -404,6 +448,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_test16tone" ID="{AF535438-2035-4F19-A516-76964B89FAA0}" ShortID="154741957">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -426,6 +477,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test17tone" ID="{474C0E30-96BE-4BDE-9103-C578C4AA6438}" ShortID="911306019">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -448,6 +506,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test18tone" ID="{E212D8EB-C03D-4BCC-A11C-42BB706B2033}" ShortID="390686316">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -470,6 +535,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test19tone" ID="{E42FFCD3-494A-4DCE-96FD-7F0A6B2AE36B}" ShortID="910429875">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -547,6 +619,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_test05tone" ID="{CDF7094A-9008-48A1-B1E5-B7536225F6E2}" ShortID="917026683">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -569,6 +648,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test06tone" ID="{95AEA185-4478-47EB-88BD-35929D2F595D}" ShortID="66992403">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -591,6 +677,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test07tone" ID="{0CA05DD4-1509-4808-AF8E-58CAB954B75F}" ShortID="340211046">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -613,6 +706,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test08tone" ID="{AC916FB8-2723-477E-8342-266D7CA1404E}" ShortID="735485416">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -635,6 +735,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test09tone" ID="{4CF40225-3F31-4D4F-8548-022C8CB2476D}" ShortID="144191288">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -657,6 +764,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test10tone" ID="{8CE38E2D-8A6A-4B0E-BBE9-FB0755462D23}" ShortID="543146534">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -740,6 +854,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_test01hum" ID="{C35389B7-F8FB-481B-A180-B2797B87725A}" ShortID="8259758">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -762,6 +883,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test02hum" ID="{E1807F4E-CCA1-41BE-8244-0AEFAC90835E}" ShortID="719273314">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -784,6 +912,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test03hum" ID="{16C5423E-D334-4E0E-A2F0-A6A685E3AB32}" ShortID="794101168">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -806,6 +941,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test04hum" ID="{B2681E5F-0CB5-4428-B994-289BB61EF41A}" ShortID="337939595">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -828,6 +970,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test04tone" ID="{FE122C06-B148-4091-A573-59E323956393}" ShortID="43710676">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -908,6 +1057,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_test12tone" ID="{B1610828-9DBB-40DA-938E-E794451382B7}" ShortID="287432624">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -930,6 +1086,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test13tone" ID="{9C399B5D-94F2-4AAD-95A7-51A237B1A940}" ShortID="621034205">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -952,6 +1115,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test14tone" ID="{D41B0BE3-9417-42CD-949A-F42B2B4EFE13}" ShortID="95391326">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -974,6 +1144,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_test15tone" ID="{CACE267B-1333-4579-B9B3-CC993D96440A}" ShortID="682008245">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1051,6 +1228,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_elicitQueryFail_any1" ID="{9D8A32F2-8E66-4BD2-8425-417A273E78CB}" ShortID="473882898">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1073,6 +1257,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_elicitQueryFail_any2" ID="{C144492C-4153-4338-A0D1-1E8140C2A7C4}" ShortID="813581436">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1095,6 +1286,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_elicitQueryFail_any3" ID="{C2CF62CA-496C-46C1-B0B6-DF8605C07C03}" ShortID="510584959">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1117,6 +1315,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_elicitQueryFail_opening1" ID="{9CCD0426-3586-490B-916E-0D7C2E38B28C}" ShortID="371013478">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1194,6 +1399,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_elicitQueryFail_closing" ID="{5415D9F3-13E7-4CD8-B805-A898459ECC60}" ShortID="827188185">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1216,6 +1428,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_elicitQueryFail_any1" ID="{3F332498-35A9-4B27-821C-468EB83EDC41}" ShortID="970381779">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1238,6 +1457,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_elicitQueryFail_any2" ID="{D9A8C7E2-BA87-4C6F-86AD-173C6602B7B6}" ShortID="726551172">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1260,6 +1486,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_elicitQueryFail_any3" ID="{C132D8BF-73DC-4F5E-98B5-B0F0C49F002C}" ShortID="472681124">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1337,6 +1570,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_elicitSighFail_any" ID="{3A1BB49C-302E-4E71-89EE-A0A693E3BFB3}" ShortID="5634830">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1359,6 +1599,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_elicitSighFail_opening1" ID="{54FCDB0B-F63B-4C75-9A07-6D8BABE7D1B0}" ShortID="527842707">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1435,6 +1682,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_goodbye_long" ID="{70A8F7F3-AE31-47C0-836D-3FC244B12DA8}" ShortID="507853000">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1457,6 +1711,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_goodbye_short" ID="{D2973574-9300-4B86-AF4A-B629C4F86AD5}" ShortID="483808158">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1479,6 +1740,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_goodbye_silence" ID="{3F314038-3E30-4CFB-9C0F-2B0CDE34E0FA}" ShortID="107887681">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1501,6 +1769,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_goodbye_anchoring" ID="{FC3E2AE6-F60C-497F-B53C-15A199DFA485}" ShortID="73554974">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1609,6 +1884,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_thematicOpening_diewell" ID="{30FA54FD-D5A9-466B-AF06-C959445CE44D}" ShortID="562466286">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1631,6 +1913,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicOpening_narrative" ID="{5D39569D-BFD3-4C36-8542-DD1D7F93D333}" ShortID="1057080689">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1653,6 +1942,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicOpening_peace" ID="{87AB7E57-8B42-451E-A30D-AEEB0A99B7F6}" ShortID="200806347">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1675,6 +1971,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicOpening_surrender" ID="{58058633-1EB8-4B85-91E5-4C3F5F0C9807}" ShortID="511192470">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1783,6 +2086,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_thematicSavasana_long" ID="{C7F75F81-28F5-45BC-9C91-421EF4654619}" ShortID="581572163">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1805,6 +2115,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_short" ID="{C14A5455-A985-47CF-B249-F574497A7E22}" ShortID="204580195">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1827,6 +2144,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_surrender" ID="{682541C3-DA70-494B-9696-2B1C58CBEF07}" ShortID="641620778">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1849,6 +2173,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_peace" ID="{BF004B34-E3B4-4EC6-8E4D-C0A3BFA26D24}" ShortID="436740079">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1871,6 +2202,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_anchoring" ID="{674DFA4B-8762-4216-9636-6CF431C900EF}" ShortID="410031947">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1893,6 +2231,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_fireflies" ID="{E488745D-0A87-4B27-8443-BD83B603F24A}" ShortID="1002251218">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1915,6 +2260,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_kindness" ID="{FCCC3289-A58C-47C6-BEB3-4A45D4A35B25}" ShortID="961221756">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1937,6 +2289,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_metta" ID="{77FD0C57-B8E5-4CD9-BA8B-200A443D2F8B}" ShortID="703696089">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1959,6 +2318,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_narrative" ID="{EF06EFAB-03A5-494C-927B-9C99ECC1D2AA}" ShortID="365779968">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1981,6 +2347,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_gratitude" ID="{37572AF5-C52A-4FC8-8298-44BB4BE93C27}" ShortID="1036123351">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2003,6 +2376,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_thematicSavasana_silence" ID="{69587874-648B-4CCE-8824-10494DDA1B1D}" ShortID="386483465">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2180,6 +2560,11 @@
 														<Value>7</Value>
 													</ValueList>
 												</Property>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>8</Value>
@@ -2219,6 +2604,11 @@
 														<Value>4</Value>
 													</ValueList>
 												</Property>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>21</Value>
@@ -2256,6 +2646,11 @@
 												<Property Name="Highpass" Type="int16">
 													<ValueList>
 														<Value>16</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
 													</ValueList>
 												</Property>
 												<Property Name="MakeUpGain" Type="Real64">
@@ -2348,6 +2743,11 @@
 							<ChildrenList>
 								<Sound Name="vo_elicitSigh_opening" ID="{E07A3BCA-948D-4390-B38D-9A37767338D6}" ShortID="282850301">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -2377,6 +2777,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Silence_8s" ID="{FF37584F-3B62-4CD4-8E89-3C4B6BFB2728}" ShortID="77375453">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2398,6 +2805,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Silence_6s" ID="{1255F21A-C402-4D9C-B162-FB03BA2603C2}" ShortID="843006698">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2419,6 +2833,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Silence_20s" ID="{63342B94-0E42-406A-89AB-D835F5404292}" ShortID="957747781">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2441,6 +2862,11 @@
 								</Sound>
 								<Sound Name="vo_thankYou" ID="{A1FAB670-AB44-45F0-8601-9C291865F289}" ShortID="101556235">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 									</PropertyList>
 									<ReferenceList>
@@ -2465,6 +2891,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Silence_4s" ID="{31A5DF54-9989-4AC6-8C7F-BED56063A98B}" ShortID="401158705">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2486,6 +2919,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Silence_12s" ID="{EF70B6B2-6860-41E5-832E-B4B319D568EF}" ShortID="362222500">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2507,6 +2947,13 @@
 									</ActiveSourceList>
 								</Sound>
 								<Sound Name="Silence_10s" ID="{2F88AE7F-1DB9-44E2-B726-373CFB935E3D}" ShortID="1000891292">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2545,6 +2992,11 @@
 												<Property Name="InitialDelay" Type="Real64">
 													<ValueList>
 														<Value>4</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
 													</ValueList>
 												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
@@ -2587,6 +3039,11 @@
 														<Value>20</Value>
 													</ValueList>
 												</Property>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
@@ -2617,6 +3074,11 @@
 										</Sound>
 										<Sound Name="vo_elicitQuery_opening" ID="{8EF8C6A2-6D71-4ED2-A73F-781E50A09BF3}" ShortID="175295818">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>3</Value>
@@ -2654,6 +3116,11 @@
 														<Value>55</Value>
 													</ValueList>
 												</Property>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
@@ -2687,6 +3154,11 @@
 												<Property Name="InitialDelay" Type="Real64">
 													<ValueList>
 														<Value>85</Value>
+													</ValueList>
+												</Property>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
 													</ValueList>
 												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
@@ -2738,6 +3210,11 @@
 									<ChildrenList>
 										<Sound Name="environment_openingQuery" ID="{11161C99-5D48-4B7E-A789-20BBF58FE1AA}" ShortID="302599741">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 											</PropertyList>
 											<ReferenceList>
@@ -2766,6 +3243,11 @@
 										</Sound>
 										<Sound Name="environment_openingWelcome" ID="{79EC42C6-06E3-4473-A2BF-F9BE2B6E506C}" ShortID="221115952">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="OverrideOutput" Type="bool" Value="True"/>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
@@ -2801,6 +3283,11 @@
 										</Sound>
 										<Sound Name="sfx_start" ID="{F5A0F897-51B5-4D4E-88D6-45D17A8F741C}" ShortID="314835402">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>2</Value>
@@ -2835,6 +3322,11 @@
 										</Sound>
 										<Sound Name="sfx_start_tingsha" ID="{3AC6EF38-A129-4DEB-B158-B787A28168A5}" ShortID="270789147">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-3</Value>
@@ -2864,6 +3356,11 @@
 										</Sound>
 										<Sound Name="sfx_stop" ID="{933635C9-E362-4DA7-A9D0-BD42E82C5FB7}" ShortID="818743040">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>3</Value>
@@ -2892,6 +3389,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="Silence_2s" ID="{9BDEDF8C-CD20-4895-B336-4107DD732CA0}" ShortID="1020067488">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2967,6 +3471,11 @@
 							<ChildrenList>
 								<Sound Name="vo_elicitQuery_opening" ID="{8B525864-1210-494D-AD2E-9B68775245E6}" ShortID="184707716">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>1</Value>
@@ -3015,6 +3524,11 @@
 							<ChildrenList>
 								<Sound Name="vo_thankYou" ID="{BC9042D3-3DD5-4A0D-A366-56CE31FB14DF}" ShortID="236031364">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -3082,6 +3596,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<Sound Name="vo_somaticMeditation_long" ID="{BE9A975C-8001-4240-818F-49EB20DE9C39}" ShortID="239241591">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -3104,6 +3625,13 @@
 											</ActiveSourceList>
 										</Sound>
 										<Sound Name="vo_somaticMeditation_short" ID="{A60A4F70-343C-45D1-9E91-1821612ED5BE}" ShortID="637935730">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -4302,6 +4830,11 @@
 												</BlendContainer>
 												<Sound Name="environment_openingQuery" ID="{4B7A1928-5B49-40D0-B3CC-75D4502476C4}" ShortID="445455165">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="OverrideOutput" Type="bool" Value="True"/>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
@@ -4348,6 +4881,11 @@
 													<ChildrenList>
 														<Sound Name="environment_openingMeditation" ID="{C8B580CE-A841-4711-BDBC-1A0CE220C1BC}" ShortID="521504425">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
@@ -5038,6 +5576,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="Silence_8s" ID="{B68527CD-6F25-460B-80DF-5CBEB46E7450}" ShortID="456487625">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5059,6 +5604,13 @@
 													</ActiveSourceList>
 												</Sound>
 												<Sound Name="Silence_6s" ID="{F85330D5-D50F-45C8-85E4-9C125FB9B458}" ShortID="941141878">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5118,6 +5670,13 @@
 															</ReferenceList>
 															<ChildrenList>
 																<Sound Name="vo_posture_liedown" ID="{5AC03A06-444A-4009-9F9C-55ED3F14A986}" ShortID="989580056">
+																	<PropertyList>
+																		<Property Name="IsStreamingEnabled" Type="bool">
+																			<ValueList>
+																				<Value>True</Value>
+																			</ValueList>
+																		</Property>
+																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="Conversion">
 																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5140,6 +5699,13 @@
 																	</ActiveSourceList>
 																</Sound>
 																<Sound Name="vo_posture_relax" ID="{0FC53A98-63ED-4F85-BCD7-B5A28315C0F9}" ShortID="577944593">
+																	<PropertyList>
+																		<Property Name="IsStreamingEnabled" Type="bool">
+																			<ValueList>
+																				<Value>True</Value>
+																			</ValueList>
+																		</Property>
+																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="Conversion">
 																			<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5191,6 +5757,11 @@
 												</BlendContainer>
 												<Sound Name="vo_orientation" ID="{CE815886-F7EE-4D53-99AD-6B876A7159CD}" ShortID="28230862">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>2</Value>
@@ -5322,6 +5893,11 @@
 													<ChildrenList>
 														<Sound Name="environment_openingQuery" ID="{B8A05674-FA5F-4D74-B575-4859A065B655}" ShortID="679574812">
 															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
 																<Property Name="Volume" Type="Real64">
 																	<ValueList>
@@ -5360,6 +5936,11 @@
 																<Property Name="InitialDelay" Type="Real64">
 																	<ValueList>
 																		<Value>20</Value>
+																	</ValueList>
+																</Property>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
 																	</ValueList>
 																</Property>
 																<Property Name="OverrideOutput" Type="bool" Value="True"/>
@@ -5797,6 +6378,13 @@
 													</ReferenceList>
 													<ChildrenList>
 														<Sound Name="vo_thematicOpening_surrender" ID="{7D565A07-7A75-41D2-9940-931FB2B43BAE}" ShortID="529377273">
+															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5819,6 +6407,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="vo_thematicOpening_diewell" ID="{5A35E7A7-8123-4626-9FD2-B8A669EB0758}" ShortID="371458589">
+															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5841,6 +6436,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="vo_thematicOpening_narrative" ID="{8DA73B93-14C9-4C4B-AFA1-C7B9A045E10A}" ShortID="77678909">
+															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5863,6 +6465,13 @@
 															</ActiveSourceList>
 														</Sound>
 														<Sound Name="vo_thematicOpening_peace" ID="{59F539E3-DFB3-4339-B414-91D974D7DDE1}" ShortID="775004923">
+															<PropertyList>
+																<Property Name="IsStreamingEnabled" Type="bool">
+																	<ValueList>
+																		<Value>True</Value>
+																	</ValueList>
+																</Property>
+															</PropertyList>
 															<ReferenceList>
 																<Reference Name="Conversion">
 																	<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5929,6 +6538,13 @@
 													</GroupingInfo>
 												</SwitchContainer>
 												<Sound Name="Silence_12s" ID="{A7E69EE6-6C59-407D-BBF8-E7B76C5FB407}" ShortID="629069100">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5962,6 +6578,13 @@
 											</ObjectLists>
 										</RandomSequenceContainer>
 										<Sound Name="Silence_6s" ID="{19CC37E8-D1D9-4568-AF35-DA777378BDA0}" ShortID="137926893">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
