@@ -49,6 +49,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_goodbye_anchoring" ID="{6BBF751F-B82F-431E-85C4-8F318CCC6CB0}" ShortID="971580585">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -164,6 +171,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_goodbye_long" ID="{16C4865D-513F-4F23-97FE-A20947F975E9}" ShortID="833885497">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -575,6 +589,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_goodbye_short" ID="{17743373-7AD9-4612-B6C3-EB07070B859D}" ShortID="916653362">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -695,6 +716,11 @@
 							<ChildrenList>
 								<MusicTrack Name="vo_goodbye_silence" ID="{6F80C5B4-CD86-4A3B-8E8C-A2D8C1554608}" ShortID="929192169">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="LookAheadTime" Type="int16">
 											<ValueList>
 												<Value>1363</Value>
@@ -969,6 +995,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="music_duet_D Major" ID="{9FF34442-A8D8-4F93-8CF2-86BB88F6ED6A}" ShortID="412136296">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1065,6 +1098,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="menu_music_C Major" ID="{80E13731-DC5F-4EFD-9947-45CB22885547}" ShortID="91791400">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1154,6 +1194,11 @@
 					<ChildrenList>
 						<MusicTrack Name="ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24" ID="{BEE509C3-AB72-4D9A-8276-E0F1697B9C64}" ShortID="652193002">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-1</Value>
@@ -1465,6 +1510,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_anchoring" ID="{DD303569-11CE-4AD3-A554-6DE0FBF570FA}" ShortID="586851180">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1570,6 +1622,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_fireflies" ID="{92702632-51F1-40FF-A32E-AA0E916FD48F}" ShortID="266391195">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1699,6 +1758,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_kindness" ID="{24D686FC-15D3-426A-995D-7E3B7EB6D23D}" ShortID="504760467">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1828,6 +1894,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_long" ID="{C8D9F0EE-EBA3-4052-A3E2-427897E3D164}" ShortID="1051644005">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1933,6 +2006,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_metta" ID="{B1442466-5CD6-4F4E-9113-84101ED408B7}" ShortID="379587085">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2067,6 +2147,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_narrative" ID="{67CFB1C4-018A-4189-813A-3E1D0B4C6264}" ShortID="187981224">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2191,6 +2278,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_peace" ID="{1EC8CFD2-02DC-4E89-86AD-E8A9CD3476E8}" ShortID="151974558">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2310,6 +2404,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_short" ID="{FBF48AB7-FD7E-4AD5-87CC-E4CFCDD1F5D1}" ShortID="665616502">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2415,6 +2516,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_silence" ID="{9B893945-7F78-449F-9C47-8AB38685A393}" ShortID="795106340">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2525,6 +2633,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_surrender" ID="{149F0B09-BF10-49BC-A35F-1EF71FD8E732}" ShortID="417549668">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2644,6 +2759,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_thematicSavasana_gratitude" ID="{C87BEE11-AD5D-491E-9291-B82BB894B2C6}" ShortID="137219309">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2696,6 +2818,13 @@
 									</ObjectLists>
 								</MusicTrack>
 								<MusicTrack Name="vo_thematicSavasana_Gratitude_Edit2" ID="{0FFFC3E5-D5B0-4CC9-8514-96288924C47E}" ShortID="669451321">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -3024,6 +3153,11 @@
 					<ChildrenList>
 						<MusicTrack Name="vo_wakeUp" ID="{F7C01FB1-E2BA-4D8D-8FB8-165A3DEC5416}" ShortID="991582701">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>1</Value>
@@ -3082,6 +3216,13 @@
 							</ObjectLists>
 						</MusicTrack>
 						<MusicTrack Name="vo_endingSoon" ID="{DEEFDA02-A096-47FC-BA11-B9A0B0200988}" ShortID="97050093">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -3240,6 +3381,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<MusicTrack Name="vo_endingSoon" ID="{20D30957-7BAD-4F3C-B38E-0A1BB5DEC910}" ShortID="830800484">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>

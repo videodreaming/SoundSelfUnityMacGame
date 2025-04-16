@@ -22,6 +22,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<MusicTrack Name="vo_testRepair_ahh" ID="{A352C8C8-2F17-4226-96EC-FC34FB1028F9}" ShortID="108566515">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -166,6 +173,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<MusicTrack Name="vo_testRepair_extended" ID="{0DE93272-DEFE-4EB9-9666-7781ACE148B0}" ShortID="392441496">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -310,6 +324,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<MusicTrack Name="vo_testRepair_hum" ID="{02ABFA0E-659C-4F0C-903C-ECA30A61EE69}" ShortID="572049977">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -449,6 +470,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<MusicTrack Name="vo_testRepair_ohh" ID="{E3940BB9-2AA5-402A-B13B-61DED65DEB2E}" ShortID="1039064396">
+							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -601,6 +629,11 @@
 					<ChildrenList>
 						<MusicTrack Name="vo_testRepair_succeed" ID="{8F46E2B4-8157-4D80-8DB5-B34CD2018267}" ShortID="775379161">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-3</Value>

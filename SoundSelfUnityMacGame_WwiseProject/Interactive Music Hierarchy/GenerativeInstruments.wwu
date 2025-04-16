@@ -165,6 +165,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_Crystal Bowl_oneshot" ID="{0553499C-1B21-4740-A88E-3977E8F9AAEC}" ShortID="1027085900">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -278,6 +283,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_01" ID="{5E3EA36B-07F2-478A-941D-3111B97DEB28}" ShortID="91233046">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>3</Value>
@@ -444,6 +454,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_02" ID="{A7E48A1A-C07D-4A86-9B0E-C13229300627}" ShortID="759614246">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -586,6 +603,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_03" ID="{D0915BEA-4765-43E3-8E02-6AD4FFB5D297}" ShortID="632648088">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -687,6 +711,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_05" ID="{7B97BD1D-4780-4F71-A107-D1786AE65E72}" ShortID="829714131">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -793,6 +824,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_07" ID="{364D567C-776A-4334-97E8-1E1697249F3E}" ShortID="273084014">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -894,6 +932,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_08" ID="{BE9A598C-526F-4EC1-B4DB-78CBD63E40AB}" ShortID="69346081">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -995,6 +1040,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_09" ID="{0DA9BD16-55FC-4755-8CA0-ED6DE45A96AD}" ShortID="456511982">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1096,6 +1148,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_10" ID="{300B41EB-9D46-4B14-B353-BBF052229F6B}" ShortID="191695203">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1203,6 +1262,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_11" ID="{91401546-F23C-4F8D-9009-631B1DF6FF91}" ShortID="878872090">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -1315,6 +1379,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_12" ID="{9AD39176-94DF-463F-9A53-0C52153472AB}" ShortID="543940675">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1414,6 +1485,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_13" ID="{6B0DAB7E-08F3-4BDA-B7B0-22A85D1935AC}" ShortID="632034345">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1802,6 +1880,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_01" ID="{2C594B54-52DC-4082-955C-58CC4AF93AAA}" ShortID="368356689">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>3</Value>
@@ -1968,6 +2051,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_02" ID="{FAA5AB26-9832-412A-9F5D-6A5474BB3DE3}" ShortID="810685938">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2110,6 +2200,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_03" ID="{A32C8397-502A-444B-B3C7-9C9F439D3835}" ShortID="867672581">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2211,6 +2308,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_05" ID="{E9B771E8-BECF-4FBE-AEFD-7D12C82A8B80}" ShortID="185313658">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2317,6 +2421,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_07" ID="{BD70424C-C156-4BC6-9BCA-0EC0904CC3D3}" ShortID="651061384">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2418,6 +2529,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_08" ID="{1FEBFA01-EA58-4D1C-8F60-3C83D57EB92A}" ShortID="1063844945">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2519,6 +2637,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_09" ID="{334093DD-25A5-4F11-AFA8-B472E6038DBA}" ShortID="655982035">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2620,6 +2745,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_10" ID="{80BBFA81-7402-4845-8730-98E10109A86A}" ShortID="1068021287">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2727,6 +2859,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_11" ID="{616E5D1C-FDF3-4D24-A5D6-1893226532A5}" ShortID="142046646">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -2839,6 +2976,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_12" ID="{FF45D62E-7491-478D-849A-EE120B0378CF}" ShortID="394526341">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2938,6 +3082,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_13" ID="{D0BC7F67-9A62-465C-9FA3-9F3CC8AD1E43}" ShortID="982192360">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -3205,6 +3356,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_Crystal Bowl_oneshot" ID="{0E6B1554-8C79-46E4-A1EC-4F52A1ABA720}" ShortID="242802798">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -3318,6 +3474,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_01" ID="{6FD400B1-1F0F-4F38-A8E2-C6B5952CA37B}" ShortID="1028362018">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>3</Value>
@@ -3484,6 +3645,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_02" ID="{0484D8A7-4DDA-4695-B942-92E168BE6F3F}" ShortID="567627173">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -3626,6 +3794,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_03" ID="{08740F99-BD14-4DD9-B6FC-3E5D19F0B88A}" ShortID="1072113357">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -3727,6 +3902,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_05" ID="{0C40C68A-DF36-477A-A250-C09053C63ABD}" ShortID="734184703">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -3833,6 +4015,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_07" ID="{356A1A7F-E104-4191-86D8-5A09BD829582}" ShortID="375940207">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -3934,6 +4123,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_08" ID="{DBA3DFD6-4C67-4269-82F7-87ACB45F404B}" ShortID="790885172">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -4035,6 +4231,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_09" ID="{5EBC4635-60AD-4A65-9F08-D1C2620D8F37}" ShortID="685699148">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -4136,6 +4339,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_10" ID="{E81B4323-38C0-44F9-9A2D-F2CD50522A93}" ShortID="358117053">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -4243,6 +4453,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_11" ID="{43F9E850-6183-458D-B348-96961A3F731F}" ShortID="397601183">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -4355,6 +4570,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_12" ID="{FA21342B-F9A8-48EC-9EA3-4289B8300CA5}" ShortID="101933903">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -4454,6 +4676,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_13" ID="{C6F469C7-3A18-48E9-8FE3-52F6617F92BE}" ShortID="512270561">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -4721,6 +4950,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_Crystal Bowl_oneshot" ID="{CD368CA1-E186-4E58-B566-D632C509A8FA}" ShortID="79216662">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -4834,6 +5068,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_01" ID="{2F408D75-2399-43A1-A4A6-6186C35E7840}" ShortID="787209295">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>3</Value>
@@ -5000,6 +5239,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_02" ID="{19BBE909-4CE2-46C8-9BD3-6A3D62460574}" ShortID="99893955">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -5142,6 +5388,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_03" ID="{1BBA9101-82CB-4687-833F-68FCE9A62C77}" ShortID="294745358">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -5243,6 +5496,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_05" ID="{3F863CC5-E63B-4AF7-8C86-6D7BC90E316C}" ShortID="523511839">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -5349,6 +5609,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_07" ID="{65C46708-0FC8-4C53-8C89-7E37F96F44E7}" ShortID="83408922">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -5450,6 +5717,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_08" ID="{B0C26954-706E-492D-9F46-B6D0E716D366}" ShortID="606040755">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -5551,6 +5825,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_09" ID="{7C60ED38-C20F-4B67-A34C-F1A272C5CBF2}" ShortID="769738598">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -5652,6 +5933,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_10" ID="{D175B4A5-A123-421D-9607-D6FEB2ADC208}" ShortID="593201442">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -5759,6 +6047,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_11" ID="{BAEF8CC3-3A6D-472C-94F9-3B0C5FE7776D}" ShortID="604496852">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -5871,6 +6164,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_12" ID="{31EC4EE5-F6AE-497C-B2B2-1E54C9BC30CE}" ShortID="911162820">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -5970,6 +6270,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_13" ID="{1B7E78CE-E39F-4F8B-A31D-C9C0D5F1FA8D}" ShortID="258920393">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -6237,6 +6544,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_Crystal Bowl_oneshot" ID="{7F0E5CDD-2976-46A7-97C6-D6737ADA1A5B}" ShortID="1051513711">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -6350,6 +6662,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_01" ID="{236405C9-283E-4ED6-A464-328237DD1851}" ShortID="84472591">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>3</Value>
@@ -6516,6 +6833,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_02" ID="{AC426A06-AA40-42C4-925C-AA8481FCC1FE}" ShortID="611538834">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -6658,6 +6982,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_03" ID="{C6553768-EA84-4FEC-81A6-29FC4EE6FC32}" ShortID="662739805">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -6759,6 +7090,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_05" ID="{D38DB5D0-90E6-49BD-8D4A-580AEC59109E}" ShortID="537943883">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -6865,6 +7203,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_07" ID="{09CB50A9-49D4-42CA-B655-2DA860A677E3}" ShortID="733583614">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -6966,6 +7311,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_08" ID="{B7CA51A9-ECC2-476F-AB04-C1B17BC321FA}" ShortID="741597781">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -7067,6 +7419,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_09" ID="{D7314DA6-F3AE-4E2B-B520-B9A2720E7216}" ShortID="725776985">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -7168,6 +7527,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_10" ID="{31902317-823F-4339-93C9-E810D14E949D}" ShortID="880152092">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -7275,6 +7641,11 @@
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_11" ID="{AA236C67-B571-482B-8EB6-2AAB830CA30D}" ShortID="664487152">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -7387,6 +7758,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_12" ID="{F971E3CB-09D8-408A-BA9D-691FA91622E7}" ShortID="66807618">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -7486,6 +7864,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="SoundCeremony_CrystalBowl_13" ID="{45B7166B-B7A8-4421-8336-DC2E93D12592}" ShortID="768996753">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>

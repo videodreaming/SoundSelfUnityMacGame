@@ -18,6 +18,11 @@
 					<ChildrenList>
 						<MusicTrack Name="vo_elicitQuery_opening" ID="{D40C7A59-AFB0-419E-812F-D06D212DF8A6}" ShortID="437925642">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -105,6 +110,11 @@
 						</MusicTrack>
 						<MusicTrack Name="vo_elicitSigh_opening" ID="{802AF1BD-BEFA-4859-AE35-2B80525EA89D}" ShortID="799486439">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -148,6 +158,11 @@
 						</MusicTrack>
 						<MusicTrack Name="vo_thankYou" ID="{55F11E74-9D37-49C7-A8F6-F8324DD29B39}" ShortID="388858848">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
@@ -186,6 +201,11 @@
 						</MusicTrack>
 						<MusicTrack Name="sfx_breath in" ID="{BC655F5C-E80E-4730-B78B-864719A0FF8A}" ShortID="940717732">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -232,6 +252,11 @@
 						</MusicTrack>
 						<MusicTrack Name="sfx_breath out" ID="{4D8CCEFF-B900-4AA5-803E-F097C15807D6}" ShortID="888761612">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -278,6 +303,11 @@
 						</MusicTrack>
 						<MusicTrack Name="environment_wind" ID="{DE4A15B8-CEB5-4132-8A74-FD4A602D1675}" ShortID="967835685">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -327,6 +357,11 @@
 						</MusicTrack>
 						<MusicTrack Name="environment_openingQuery" ID="{23ADE749-6E69-4DCE-9C5A-6703898FE85C}" ShortID="816981260">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -373,6 +408,11 @@
 						</MusicTrack>
 						<MusicTrack Name="environment_crickets" ID="{A01F8555-2BBB-4E5D-A808-9F7DEA9686B8}" ShortID="719859758">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -419,6 +459,11 @@
 						</MusicTrack>
 						<MusicTrack Name="sfx_start" ID="{8B2B03B4-BF42-4832-8267-2ABF6960370E}" ShortID="654734666">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -465,6 +510,11 @@
 						</MusicTrack>
 						<MusicTrack Name="sfx_stop" ID="{98AC528C-7E1C-4A51-8CA0-AF9EE7428CBB}" ShortID="371152846">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
@@ -610,6 +660,11 @@
 					<ChildrenList>
 						<MusicTrack Name="vo_thankYou" ID="{30E2712F-7276-4AC3-B212-45D40404E1C4}" ShortID="182886548">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -653,6 +708,11 @@
 						</MusicTrack>
 						<MusicTrack Name="sfx_breath in" ID="{B1D58EF8-C20A-4412-A53B-23EB5B404F83}" ShortID="728407020">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -699,6 +759,11 @@
 						</MusicTrack>
 						<MusicTrack Name="sfx_breath out" ID="{2FF0F21D-6ED0-4918-B02C-3330465B6926}" ShortID="624646592">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -745,6 +810,11 @@
 						</MusicTrack>
 						<MusicTrack Name="environment_wind" ID="{6BE8DE3D-6611-4EB9-B022-9ABCAF48A4AB}" ShortID="944463046">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -794,6 +864,11 @@
 						</MusicTrack>
 						<MusicTrack Name="environment_openingQuery" ID="{D6D0CD10-B547-4D52-A3C2-00901EB70CC6}" ShortID="931667960">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -840,6 +915,11 @@
 						</MusicTrack>
 						<MusicTrack Name="environment_crickets" ID="{CBEAA77B-3F12-4EF9-BC2F-6FC42396ED7E}" ShortID="1047703180">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -919,6 +999,11 @@
 						</MusicTrack>
 						<MusicTrack Name="sfx_start" ID="{05F9E1EE-DDDE-4192-9E64-D167F66B1FB0}" ShortID="962643104">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
@@ -984,6 +1069,11 @@
 						</MusicTrack>
 						<MusicTrack Name="sfx_stop" ID="{60AAA5B6-1BD5-4857-800F-4D9963B0B831}" ShortID="738511307">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
@@ -1025,6 +1115,11 @@
 						</MusicTrack>
 						<MusicTrack Name="vo_elicitSigh_closing" ID="{D32F2B9E-AB3C-4EB2-8082-995D62AFE9C4}" ShortID="196637230">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
@@ -1063,6 +1158,11 @@
 						</MusicTrack>
 						<MusicTrack Name="vo_elicitQuery_closing" ID="{FC90AE5B-3559-4946-99F0-85071981A62E}" ShortID="850672858">
 							<PropertyList>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>

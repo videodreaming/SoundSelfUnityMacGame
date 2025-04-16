@@ -110,6 +110,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test01hum" ID="{8E03A60A-3E97-4D59-9359-9EFF9589FDBD}" ShortID="1059081167">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -281,6 +288,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test02hum" ID="{9E4215D3-1EB9-4FD8-BC3A-52C7470091F8}" ShortID="377657347">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -387,6 +401,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test03hum" ID="{E2CED5DF-089D-42CF-BCDA-28B0CCEA18DF}" ShortID="580786263">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -498,6 +519,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test04hum" ID="{20BAC210-3EFC-4D52-9B66-46ADB5887DD1}" ShortID="718926407">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -614,6 +642,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test04tone" ID="{89A271EC-3F6D-477E-8ADE-4C071E9A7E87}" ShortID="89449489">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -844,6 +879,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test05tone" ID="{96F49C08-E502-49B9-BDE7-D0109041BDD1}" ShortID="844717773">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -947,6 +989,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test06tone" ID="{B0EEFDC6-1599-44DA-8053-CAE8A1528BD3}" ShortID="274293679">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1052,6 +1101,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test07tone" ID="{80756517-6551-4891-AEF8-8A8070E92E93}" ShortID="834448280">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1167,6 +1223,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test08tone" ID="{B175FDF9-4D7E-46B3-A943-50F017C27B6C}" ShortID="50667145">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1282,6 +1345,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test09tone" ID="{533C14CB-18DB-41F0-A727-D965CA9C2E50}" ShortID="1033285111">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1397,6 +1467,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test10tone" ID="{B08E6225-1CFE-4551-A80C-5EB2EFF816D1}" ShortID="842739862">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1607,6 +1684,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test12tone" ID="{115A1F71-6A4A-458D-995C-262781160562}" ShortID="944625012">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1732,6 +1816,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test13tone" ID="{130731DD-0A95-4ECD-9975-857ED1464A87}" ShortID="1003849409">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1847,6 +1938,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test14tone" ID="{2DFEF77A-FC54-4AD1-B126-DD0F4269C55B}" ShortID="947296114">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1962,6 +2060,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test15tone" ID="{DCC1087B-9B58-4CF6-915E-7DEA8977F5FF}" ShortID="874344919">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2467,6 +2572,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test16tone" ID="{8D6B6A69-2111-4312-8659-FDBB1CE4A36D}" ShortID="208978284">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2569,6 +2681,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test17tone" ID="{B76238BA-4A06-4F47-826C-A2076D57467B}" ShortID="885887370">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2671,6 +2790,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test18tone" ID="{7420E6FA-EEF6-4E98-84A7-99D90FD3B507}" ShortID="1053247626">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2773,6 +2899,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test19tone" ID="{3EDB3A71-CB4E-4165-8B6D-D58E98FF1124}" ShortID="756815787">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2885,6 +3018,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="vo_test20tone" ID="{722C085C-FD4A-4CCF-967C-A731383B9CB4}" ShortID="103973194">
+									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
