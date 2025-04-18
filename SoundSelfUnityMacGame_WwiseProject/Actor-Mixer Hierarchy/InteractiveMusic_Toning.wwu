@@ -58,6 +58,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[D]_toning_gentle" ID="{739276AA-2074-4A70-9F6E-C8268622F82A}" ShortID="935586546">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -147,6 +152,11 @@
 																<Value>22</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -233,6 +243,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{79B8D711-77F1-444C-9006-226A072BBE0B}" ShortID="953099202">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-8</Value>
@@ -307,6 +322,11 @@
 												</Sound>
 												<Sound Name="fundamental_[B]_toning_gentle" ID="{CDC737D8-6B2E-4F48-AC2E-BAA399CCC226}" ShortID="819899688">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -400,6 +420,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_gentle" ID="{F142BEE0-CF71-4E58-8C44-2FCA74859CA2}" ShortID="177059764">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
@@ -474,6 +499,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{B8BBA5BC-277F-4C3A-AC1E-6D7E41DC3F32}" ShortID="1060905775">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>400</Value>
@@ -553,6 +583,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_gentle_01" ID="{21AE83CB-8C34-4E3A-92DE-D75EBA80BB5C}" ShortID="374639879">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>39</Value>
@@ -653,6 +688,11 @@
 																<Value>38</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>43</Value>
@@ -738,6 +778,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{315F58C1-BFD8-441F-8DEF-1D2FB278CCF0}" ShortID="1036216357">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>500</Value>
@@ -817,6 +862,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_gentle_01" ID="{7274D8E4-40B1-4FCD-A936-3108B5200CB9}" ShortID="33317131">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -907,6 +957,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[A]_toning_gentle" ID="{83310558-2FC1-4DE5-8CBC-D091B5E80628}" ShortID="747024537">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -988,6 +1043,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{2E8A55A8-665F-4C4A-A50F-3A280914D6AE}" ShortID="1032932362">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-300</Value>
@@ -1079,6 +1139,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_gentle" ID="{29E09CF0-FE79-4744-A33A-C290C05DDDFE}" ShortID="236142715">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1159,6 +1226,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_gentle" ID="{2F7FC8E1-BF1B-4CAA-B371-043109E4F756}" ShortID="242847593">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ModifierList>
 																<ModifierInfo>
@@ -1250,6 +1322,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Volume" Type="Real64">
@@ -1344,6 +1421,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[D]_toning_gentle" ID="{658C3370-504F-4572-9771-5602259B12D1}" ShortID="883189309">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -1429,6 +1511,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{9F98DACF-0CFC-49BC-A771-740101491179}" ShortID="766638893">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -1518,6 +1605,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -1623,6 +1715,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -1702,6 +1799,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_gentle" ID="{89B7E76D-1271-47D8-B3B0-75AE59B10D4B}" ShortID="115358094">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -1793,6 +1895,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[D]_toning_gentle" ID="{2D8B9676-A774-4A78-A2BC-997A6A2FD433}" ShortID="1047939942">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -1871,6 +1978,11 @@
 												</Sound>
 												<Sound Name="harmony_[F]_toning_gentle_01" ID="{7075C325-CB44-41A0-B923-95BB68924CBA}" ShortID="212364259">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>600</Value>
@@ -1961,6 +2073,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{879AEFEE-34A1-4DA4-A687-2A7AB46DB4BC}" ShortID="993427203">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -2395,6 +2512,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -2490,6 +2612,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -2594,6 +2721,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -2691,6 +2823,11 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>23</Value>
@@ -2767,6 +2904,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -2881,6 +3023,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -2973,6 +3120,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -3063,6 +3215,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -3162,6 +3319,11 @@
 																<Value>25</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -3259,6 +3421,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -3335,6 +3502,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>61</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -3418,6 +3590,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -3533,6 +3710,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>30</Value>
@@ -3619,6 +3801,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -3733,6 +3920,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>21</Value>
@@ -3819,6 +4011,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>24</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -3939,6 +4136,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -4029,6 +4231,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -4131,6 +4338,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -4580,6 +4792,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_shadow_01" ID="{2EC61AAF-0404-4267-AB68-8941F76DF32D}" ShortID="934074610">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -4659,6 +4876,11 @@
 												</Sound>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{E8935D2B-2AFD-4BE5-8F24-E36110541207}" ShortID="685170922">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -4742,6 +4964,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -4817,6 +5044,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-10</Value>
@@ -4853,6 +5085,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{F508728C-ED3D-4139-B3E7-4DCFEFAD4FD5}" ShortID="677810601">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -4933,6 +5170,11 @@
 												</Sound>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{3FB807C3-428B-4FE9-AA0D-4C7A19846F18}" ShortID="624820718">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -5037,6 +5279,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_shadow_01" ID="{A38C9CD5-B681-4D28-9D6C-D9B8587582AA}" ShortID="528154699">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -5124,6 +5371,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -5179,6 +5431,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{AD02B352-DD77-497B-90D9-D830D9E20E90}" ShortID="1063221404">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-8</Value>
@@ -5257,6 +5514,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -5349,6 +5611,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-9</Value>
@@ -5413,6 +5680,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{E542345B-209F-44BE-8A89-4C84CD35CA94}" ShortID="624752676">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5492,6 +5766,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -5550,6 +5829,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_shadow" ID="{8CA42751-402B-482C-A340-EEDCAD44DD67}" ShortID="151977978">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -5628,6 +5914,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -5688,6 +5979,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{79927E20-B541-4EE0-8743-4AA904E9002A}" ShortID="970481655">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -5772,6 +6068,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -5820,6 +6121,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{596C89B7-229F-451D-A94F-9BBA4F5297D5}" ShortID="928532787">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
@@ -5918,6 +6224,11 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>30</Value>
@@ -5997,6 +6308,11 @@
 												</Sound>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{F8DA5182-4B13-4F0F-8CD6-EE378FF072B0}" ShortID="286731452">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -6088,6 +6404,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_shadow" ID="{8B9D332E-A79B-4FC6-A470-FCB10572B0A6}" ShortID="79758816">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>27</Value>
@@ -6175,6 +6496,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[G]_toning_shadow" ID="{D7D95976-D49B-4F4B-80F1-F3A4BAAAD6D5}" ShortID="28276622">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>20</Value>
@@ -6261,6 +6587,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{10BDC550-DFFF-4C6C-B517-0662F19CE6E2}" ShortID="1038943128">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -6354,6 +6685,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_shadow" ID="{071A7361-2ED0-432D-8BC7-350C6A93F1D7}" ShortID="111590450">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -6436,6 +6772,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -6541,6 +6882,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{333AFCDE-8767-4A73-88F1-540D889A1447}" ShortID="1052024875">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>39</Value>
@@ -6625,6 +6971,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_shadow_01" ID="{5DE13A2F-A00D-4068-9CA1-A2151F73753A}" ShortID="305938138">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>36</Value>
@@ -7051,6 +7402,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{7994A59F-7065-408F-A759-927811C1BFE1}" ShortID="318917451">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -7129,6 +7487,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_sono flore" ID="{7D2DBA71-CAEC-434D-926E-7705658C4297}" ShortID="436083109">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -7207,6 +7572,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{177C45F4-ADCD-4589-A709-595CB481C905}" ShortID="686839581">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -7285,6 +7657,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_sono flore" ID="{0ACA9079-2111-4902-B5AD-1A47E780A361}" ShortID="360514239">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -7379,6 +7758,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -7483,6 +7867,11 @@
 																<Value>16</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -7580,6 +7969,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{3C1648B7-2669-4A3C-AD9C-41B97CDD6B48}" ShortID="220198225">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>54</Value>
@@ -7682,6 +8076,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[G]_toning_sono flore" ID="{8AC79E3D-754F-4917-81EC-CBCBE4C70FCF}" ShortID="692090911">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>58</Value>
@@ -7773,6 +8172,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{11287C2C-BFD5-488A-AD0C-D2AFCD429E67}" ShortID="644724382">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -7858,6 +8262,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{C23802D4-75DB-4D07-95C6-C5A22874EFE8}" ShortID="651272919">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -7943,6 +8352,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{65E10162-1188-461E-B32B-9CEF1E2AF790}" ShortID="576525123">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -8043,6 +8457,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -8152,6 +8571,11 @@
 																<Value>16</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -8254,6 +8678,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{6EF7173E-949A-4440-980A-91080B967FD8}" ShortID="58226920">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>54</Value>
@@ -8872,6 +9301,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[D]_toning_gentle" ID="{F93ED6C6-3F9A-43AA-B81E-13A14C828449}" ShortID="450450948">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -8959,6 +9393,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -9054,6 +9493,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{430A99BD-8A12-4897-9D44-D21536EBF449}" ShortID="1052956081">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-8</Value>
@@ -9128,6 +9572,11 @@
 												</Sound>
 												<Sound Name="fundamental_[B]_toning_gentle" ID="{D1497311-F21D-428E-99FD-ED5A02E360C4}" ShortID="892939418">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -9221,6 +9670,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_gentle" ID="{80588549-6B12-41B3-912B-BB70BE4276E2}" ShortID="84832738">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
@@ -9295,6 +9749,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{9E2BD090-D177-46F8-9D0B-E9B9D2918336}" ShortID="506393986">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>400</Value>
@@ -9374,6 +9833,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_gentle_01" ID="{AE8815E1-D26A-4477-8739-E69EC04C0069}" ShortID="374323421">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>39</Value>
@@ -9474,6 +9938,11 @@
 																<Value>38</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>43</Value>
@@ -9559,6 +10028,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{372AB9A1-929E-403F-9DE9-4E974CE4EB0C}" ShortID="787067237">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>500</Value>
@@ -9638,6 +10112,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_gentle_01" ID="{8ACB3EB0-38C1-404D-AD3A-D286965A5949}" ShortID="795731128">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -9735,6 +10214,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[A]_toning_gentle" ID="{A830AEB4-3106-4ADD-A286-F667F001EF49}" ShortID="699048092">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -9816,6 +10300,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{3ED75482-A8EB-4D5B-91BC-A7DD65237666}" ShortID="16077362">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-300</Value>
@@ -9914,6 +10403,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_gentle" ID="{E8E10C6C-233B-4FE3-A21E-EDCDC9EBDE63}" ShortID="278286813">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -10001,6 +10497,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_gentle" ID="{77D30448-7A85-400B-8170-A4EEDFFD2A1A}" ShortID="823515461">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ModifierList>
 																<ModifierInfo>
@@ -10101,6 +10602,11 @@
 																<Value>22</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -10193,6 +10699,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[D]_toning_gentle" ID="{01A0CE75-39FD-4D0E-BDDB-5CCEC555CEF6}" ShortID="354804628">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -10285,6 +10796,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{F1BBD6DC-4CF5-40AB-9669-22FBA600037C}" ShortID="245745057">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -10381,6 +10897,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -10486,6 +11007,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -10565,6 +11091,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_gentle" ID="{D29147C6-4D6C-49B1-A8CD-6D7AA2F08480}" ShortID="338634605">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -10663,6 +11194,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[D]_toning_gentle" ID="{1AA067C9-D359-4294-8C8E-AFB4487A2371}" ShortID="623416095">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -10741,6 +11277,11 @@
 												</Sound>
 												<Sound Name="harmony_[F]_toning_gentle_01" ID="{321AF9EA-E43C-41B0-9B33-BBE5D83BF5E3}" ShortID="277265915">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>600</Value>
@@ -10838,6 +11379,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{38697508-C9EA-4450-94C8-5CDA1F20F9AB}" ShortID="870024967">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -10941,6 +11487,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_gentle" ID="{8BAC92FB-A465-420C-A7E1-5C77B84EBE34}" ShortID="350597739">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ModifierList>
 																<ModifierInfo>
@@ -11041,6 +11592,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[D]_toning_gentle" ID="{E95D181A-BE65-4F64-8996-1FBD730E75E5}" ShortID="235616152">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -11128,6 +11684,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -11223,6 +11784,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_gentle" ID="{C3AEA424-50FF-4C34-858F-347F187512DC}" ShortID="440047448">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
@@ -11297,6 +11863,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{33029035-DDAA-491F-A63B-390E83332C42}" ShortID="376177494">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>400</Value>
@@ -11376,6 +11947,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_gentle_01" ID="{D77EF515-61AE-4DDA-A4A8-7F79095444AA}" ShortID="52122958">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>39</Value>
@@ -11482,6 +12058,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_gentle" ID="{59C531F6-0DEB-4A84-8958-CDC0A51E89A9}" ShortID="319808227">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -11574,6 +12157,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[A]_toning_gentle" ID="{AF6B912F-2B6F-4A53-9DC7-05B4FCA63F99}" ShortID="189755111">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -11655,6 +12243,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{9831763D-BBA0-4A04-8606-8DC6AF0A3122}" ShortID="1020523334">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-300</Value>
@@ -11764,6 +12357,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -11843,6 +12441,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_gentle" ID="{52918CB0-2A8D-4D10-AC06-471C4EDB9722}" ShortID="713178255">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -11951,6 +12554,11 @@
 																<Value>22</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -12048,6 +12656,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[D]_toning_gentle" ID="{8D54A436-E631-447A-BBB9-2B2456048F6F}" ShortID="810291718">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -12145,6 +12758,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{D5B31022-8745-4C1B-9AB4-B10CE2C1F7B2}" ShortID="594830998">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -12248,6 +12866,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{F871CDCD-ACE6-4C99-B361-B71307B7438C}" ShortID="724457058">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -12933,6 +13556,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -13028,6 +13656,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -13132,6 +13765,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -13229,6 +13867,11 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>23</Value>
@@ -13305,6 +13948,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -13419,6 +14067,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -13511,6 +14164,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -13601,6 +14259,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -13700,6 +14363,11 @@
 																<Value>25</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -13797,6 +14465,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -13873,6 +14546,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>61</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -13956,6 +14634,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -14071,6 +14754,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>30</Value>
@@ -14157,6 +14845,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -14271,6 +14964,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>21</Value>
@@ -14357,6 +15055,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>24</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -14477,6 +15180,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -14567,6 +15275,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -14669,6 +15382,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -14783,6 +15501,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -14859,6 +15582,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>61</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -14942,6 +15670,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -15062,6 +15795,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -15164,6 +15902,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>30</Value>
@@ -15250,6 +15993,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -15369,6 +16117,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -15471,6 +16224,11 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>23</Value>
@@ -15547,6 +16305,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -15666,6 +16429,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>37</Value>
@@ -15778,6 +16546,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -15875,6 +16648,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -15970,6 +16748,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -16072,6 +16855,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -16772,6 +17560,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_shadow_01" ID="{5A3FBF63-DADE-4E26-A6BC-3DFC5B310FF5}" ShortID="208194749">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -16851,6 +17644,11 @@
 												</Sound>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{EA4DEA21-9C36-49EE-A669-5CB1033AA26E}" ShortID="408917287">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -16932,6 +17730,11 @@
 														<Property Name="InitialDelay" Type="Real64">
 															<ValueList>
 																<Value>0.5</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Volume" Type="Real64">
@@ -17019,6 +17822,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-10</Value>
@@ -17055,6 +17863,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{C3D5866C-D363-4022-B1A2-FCA496B590DE}" ShortID="422888012">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -17135,6 +17948,11 @@
 												</Sound>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{BBCBEA34-B6CA-4A63-A8A2-D3FB1EBC2EBD}" ShortID="343101363">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -17249,6 +18067,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_shadow_01" ID="{6ED9AC86-8BCE-4ED7-84B8-41422084FF23}" ShortID="627871408">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -17336,6 +18159,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -17406,6 +18234,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{ECB1C588-513A-4566-B39A-B0C650FF9472}" ShortID="19470275">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-8</Value>
@@ -17484,6 +18317,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -17576,6 +18414,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-9</Value>
@@ -17650,6 +18493,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{F3C462BD-9544-4456-8DEB-A63CF3DB97B8}" ShortID="16969231">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -17729,6 +18579,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -17797,6 +18652,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_shadow" ID="{A3796C39-251B-472F-A017-614EF8979A53}" ShortID="435277824">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -17875,6 +18737,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -17945,6 +18812,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{0C23D0B4-25E3-4732-91CE-30BE7EC50F67}" ShortID="203507795">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -18029,6 +18901,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -18094,6 +18971,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{97A031B0-C94C-47A2-AFC7-80BC235D1825}" ShortID="824188879">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
@@ -18202,6 +19084,11 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>30</Value>
@@ -18281,6 +19168,11 @@
 												</Sound>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{C36655A6-858A-4531-AA78-03B973EDE44A}" ShortID="666743851">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -18389,6 +19281,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_shadow" ID="{AFCC2D45-9399-4624-83E9-3407EE87727D}" ShortID="154294199">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>27</Value>
@@ -18493,6 +19390,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[G]_toning_shadow" ID="{0763F2A5-21E4-4781-9CE2-961C732349E4}" ShortID="775173850">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>20</Value>
@@ -18596,6 +19498,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{5D176417-365A-4CEA-A17D-40AFA3D493CA}" ShortID="510980622">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -18699,6 +19606,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_shadow" ID="{EC822CBB-EA35-4E1C-9110-C86686D3E93E}" ShortID="7814498">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -18781,6 +19693,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -18896,6 +19813,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{230E125E-6590-43BC-B8A6-750DD938BC92}" ShortID="258109928">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>39</Value>
@@ -18980,6 +19902,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_shadow_01" ID="{B2ED27A2-DDF5-4F18-851B-BCB822E6F15C}" ShortID="251609616">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>36</Value>
@@ -19108,6 +20035,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-10</Value>
@@ -19144,6 +20076,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{6CD9DE15-D0F8-444C-A379-41BF90E32A74}" ShortID="227888972">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -19224,6 +20161,11 @@
 												</Sound>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{281B7580-4B91-4BD5-A369-B36F8D1D1BE3}" ShortID="370938499">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -19342,6 +20284,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{299DF796-71C1-4387-9C11-8B513E4689D8}" ShortID="26796041">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -19421,6 +20370,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -19490,6 +20444,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_shadow_01" ID="{0E70A5D1-F81E-42B9-B1EB-D3910CEB2EEE}" ShortID="299118353">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -19569,6 +20528,11 @@
 												</Sound>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{780DB2A0-A6D6-4D29-9AFA-65BA9098CA9D}" ShortID="538444601">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -19652,6 +20616,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -19722,6 +20691,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{ACEF41DD-5416-4F01-B2B5-9B55C0AFC602}" ShortID="489848356">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -19806,6 +20780,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -19876,6 +20855,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{AB223BF5-5279-42F7-8F6B-DFD7314FC6F8}" ShortID="33201777">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-8</Value>
@@ -19954,6 +20938,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -20046,6 +21035,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-9</Value>
@@ -20111,6 +21105,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{A58EDDD1-5966-4002-A3E9-C1A550F82BFE}" ShortID="410453366">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>39</Value>
@@ -20195,6 +21194,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_shadow_01" ID="{1C20964A-4ABF-4F3D-BB9C-C3A4B00E8FFC}" ShortID="927882432">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>36</Value>
@@ -20303,6 +21307,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{CC33DD9D-799E-4035-9157-C6C95A167077}" ShortID="193410867">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
@@ -20411,6 +21420,11 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>30</Value>
@@ -20490,6 +21504,11 @@
 												</Sound>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{B3FB4AE6-974F-43B7-879D-D57F34999418}" ShortID="58569967">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -20598,6 +21617,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_shadow" ID="{467061F3-D580-4B59-A5AA-1B6F386200C1}" ShortID="629246795">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -20680,6 +21704,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -20795,6 +21824,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_shadow" ID="{BEB3A295-6544-4845-8C80-4F1A790FF7C6}" ShortID="388107421">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>27</Value>
@@ -21468,6 +22502,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{6D84075C-9435-4CF0-99F0-31C4E24ED0F1}" ShortID="300164399">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -21546,6 +22587,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_sono flore" ID="{EF13AEA6-D84F-4CD0-A839-478EF7E34E0C}" ShortID="827918122">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -21624,6 +22672,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{6E00540C-198D-4C3E-96BB-17DFD94FA4A4}" ShortID="643840082">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -21702,6 +22757,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_sono flore" ID="{CAE0930B-C083-46AE-A98D-2AD2F96F48F4}" ShortID="262130479">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -21796,6 +22858,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -21900,6 +22967,11 @@
 																<Value>16</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -21997,6 +23069,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{1E5E5273-75B4-45C2-88AD-7A226C60BD49}" ShortID="1020070839">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>54</Value>
@@ -22099,6 +23176,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[G]_toning_sono flore" ID="{A77DE560-9FAC-4CDA-B8BD-BB0F3130AF15}" ShortID="391379385">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>58</Value>
@@ -22190,6 +23272,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{31D89D9A-1541-4EA9-BB27-89AB52FE5B72}" ShortID="125722745">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -22275,6 +23362,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{112920CC-FB49-427E-9968-05DA2EAC8564}" ShortID="187284911">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -22360,6 +23452,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{44C7E24D-CF19-4F91-9AFE-AB7528AA5CB0}" ShortID="762250240">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -22460,6 +23557,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -22569,6 +23671,11 @@
 																<Value>16</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -22671,6 +23778,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{491135BF-C53F-4309-82F5-CE3927839BB7}" ShortID="905726325">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>54</Value>
@@ -22768,6 +23880,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{B578F06E-8FA1-4930-BE21-544B8360BC20}" ShortID="199996471">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -22859,6 +23976,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{1BE15680-05A0-4BF3-912D-A19489C3D07C}" ShortID="892181788">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -22945,6 +24069,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{1A3BFA89-E598-4ABB-90D6-1DAF8F4C5A78}" ShortID="669637957">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -23036,6 +24165,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{12CBF237-84A5-4B61-B7EE-70E733323199}" ShortID="1042006335">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -23121,6 +24257,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_sono flore" ID="{206FEB01-7AD3-4B21-8307-5ADD9A232A59}" ShortID="855616245">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -23220,6 +24363,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -23334,6 +24482,11 @@
 																<Value>1</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>61</Value>
@@ -23441,6 +24594,11 @@
 																<Value>16</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -23543,6 +24701,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{7280E84F-EC88-41D9-95E3-B347498A9440}" ShortID="784073835">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>54</Value>
@@ -23650,6 +24813,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{50882F58-7DF3-4BAA-BAB5-26798C8F5B5B}" ShortID="913028178">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>54</Value>
@@ -24528,6 +25696,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[D]_toning_gentle" ID="{702B323E-34F1-4D71-B442-FC363197AF6E}" ShortID="257550423">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -24615,6 +25788,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -24710,6 +25888,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{B3E78195-68A9-410B-A561-093367FF852B}" ShortID="564782543">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-8</Value>
@@ -24784,6 +25967,11 @@
 												</Sound>
 												<Sound Name="fundamental_[B]_toning_gentle" ID="{34144800-0C2F-4C69-9FFC-14ECF56B1E09}" ShortID="886489772">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -24877,6 +26065,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_gentle" ID="{DC528592-8A05-492B-BD0F-FC3DF54454BA}" ShortID="795794764">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
@@ -24951,6 +26144,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{4C951D24-DCB1-439D-84C7-5632B23669BC}" ShortID="807476416">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>400</Value>
@@ -25030,6 +26228,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_gentle_01" ID="{08FD659D-D66E-49A7-AE5C-1F68BAE7433F}" ShortID="504541094">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>39</Value>
@@ -25130,6 +26333,11 @@
 																<Value>38</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>43</Value>
@@ -25215,6 +26423,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{9152D18D-A40F-4B4C-8A8F-E51479C1D5FB}" ShortID="1011802587">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>500</Value>
@@ -25294,6 +26507,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_gentle_01" ID="{DD7E4A7E-5C39-4A09-B6B6-E10F39F02E00}" ShortID="310193898">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -25391,6 +26609,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[A]_toning_gentle" ID="{EB1EE107-0179-4458-B72C-181C9F88948C}" ShortID="641331024">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -25472,6 +26695,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{D09D5E3D-7420-4F5A-8F19-93A3D9E298B8}" ShortID="286122187">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-300</Value>
@@ -25570,6 +26798,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_gentle" ID="{F3595A29-21E0-48C7-836C-E30EA0E1EA48}" ShortID="921530989">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -25657,6 +26892,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_gentle" ID="{2E10C8C9-5896-4A29-BB32-5B225C4A3BF0}" ShortID="437791168">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ModifierList>
 																<ModifierInfo>
@@ -25757,6 +26997,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_gentle" ID="{39AB947F-61AB-41DF-B8E7-59283AB19839}" ShortID="765992107">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ModifierList>
 																<ModifierInfo>
@@ -25857,6 +27102,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[D]_toning_gentle" ID="{4330D4FE-0813-4A4A-8E03-75C64CABF9BB}" ShortID="217271834">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>33</Value>
@@ -25944,6 +27194,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -26039,6 +27294,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_gentle" ID="{DA6697B5-9A02-40B8-BA0F-6EE79120B4AD}" ShortID="938017705">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
@@ -26113,6 +27373,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{2D9D6172-D29D-403F-8A33-44EFF8010827}" ShortID="507361419">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>400</Value>
@@ -26192,6 +27457,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_gentle_01" ID="{629033F2-C017-4D06-93DA-B7BCB3B02555}" ShortID="733382349">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>39</Value>
@@ -26298,6 +27568,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_gentle" ID="{FE4CE13B-E113-4AF1-B998-CC1DF19C163C}" ShortID="257778273">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -26390,6 +27667,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[A]_toning_gentle" ID="{32A14C03-A3C2-430F-976A-CEB1B34E1F5D}" ShortID="1067282648">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -26471,6 +27753,11 @@
 												</Sound>
 												<Sound Name="fundamental_[C]_toning_gentle" ID="{AEE35B5A-BC14-4FD5-9738-0D2D77A5A4DF}" ShortID="858216718">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-300</Value>
@@ -26970,6 +28257,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -27055,6 +28347,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27149,6 +28446,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -27240,6 +28542,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -27364,6 +28671,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -27440,6 +28752,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>61</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -27523,6 +28840,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -27628,6 +28950,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -27709,6 +29036,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -27813,6 +29145,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
@@ -27899,6 +29236,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>24</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
@@ -28024,6 +29366,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
@@ -28102,6 +29449,11 @@
 																<Value>61</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>1000</Value>
@@ -28178,6 +29530,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -28293,6 +29650,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -28390,6 +29752,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -28471,6 +29838,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>26</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -28580,6 +29952,11 @@
 																<Value>24</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="MakeUpGain" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -28675,6 +30052,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -29164,6 +30546,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_shadow_01" ID="{B677EDB4-B8C4-4C28-BD6A-D8A7720B407D}" ShortID="388412464">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -29243,6 +30630,11 @@
 												</Sound>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{2179B090-5145-4AD0-9FAE-37492308BAB4}" ShortID="742383144">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -29326,6 +30718,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -29401,6 +30798,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-10</Value>
@@ -29437,6 +30839,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{1746D233-61F5-48E2-8BC9-0AA64F424547}" ShortID="218173678">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -29517,6 +30924,11 @@
 												</Sound>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{7AC9AF15-9BAA-412C-8365-F44FAE1849CB}" ShortID="606773832">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -29621,6 +31033,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_shadow_01" ID="{DAFF816A-9ED9-4CEF-8016-564300BCF7DF}" ShortID="715146543">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -29708,6 +31125,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -29768,6 +31190,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{A7F145E9-E210-44F6-B2B4-B811A46E1545}" ShortID="1010378840">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-8</Value>
@@ -29846,6 +31273,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -29938,6 +31370,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-9</Value>
@@ -30002,6 +31439,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{E0CC134E-9915-47D8-BAC0-245534A562A2}" ShortID="209122404">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -30081,6 +31525,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -30139,6 +31588,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_shadow" ID="{397308D5-4C7C-454A-A908-29638D6105A7}" ShortID="476054931">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -30217,6 +31673,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -30277,6 +31738,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{E9AF9BE4-B53C-49FA-B966-4C1C05301822}" ShortID="56668718">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -30361,6 +31827,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -30436,6 +31907,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-10</Value>
@@ -30472,6 +31948,11 @@
 												</Sound>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{CC472420-3EA8-4E92-A4AE-216A5C44A22F}" ShortID="327678786">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -30552,6 +32033,11 @@
 												</Sound>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{06B44667-FECA-4940-8966-AEFF70584B9C}" ShortID="960601220">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -30660,6 +32146,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_shadow" ID="{D6D4EA66-21F1-4E0F-A50D-8A4DDE95CBD8}" ShortID="544762740">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -30739,6 +32232,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -30798,6 +32296,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_shadow_01" ID="{4178A660-DFAE-4CC0-B58A-C633CE6F5A81}" ShortID="299198395">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -30877,6 +32380,11 @@
 												</Sound>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{F08FCDC8-46C2-497F-90AF-AD52FF79E2A0}" ShortID="412016945">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -30960,6 +32468,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -31020,6 +32533,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_shadow" ID="{081C7501-6339-4289-8D6F-8110B754564C}" ShortID="511724477">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -31104,6 +32622,11 @@
 																<Value>0.5</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-7</Value>
@@ -31164,6 +32687,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_shadow" ID="{982FA8A6-5A10-4955-B2BC-F56359F6177C}" ShortID="462115837">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-8</Value>
@@ -31242,6 +32770,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -31332,6 +32865,11 @@
 														<Property Name="InitialDelay" Type="Real64">
 															<ValueList>
 																<Value>0.5</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Volume" Type="Real64">
@@ -31780,6 +33318,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{D9BBD555-BC43-48E8-8CD8-C9EAFD29DECB}" ShortID="483963351">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -31858,6 +33403,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[C]_toning_sono flore" ID="{756074F3-5B44-46D8-A1A2-2CFB387170C7}" ShortID="312211348">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -31936,6 +33488,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{B106ADDB-A05C-4F30-A3E4-E30EAD37C843}" ShortID="386072823">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -32014,6 +33573,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_sono flore" ID="{94D92AB9-43A7-4BE2-8EDE-E95C1F4B8B73}" ShortID="161299694">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -32093,6 +33659,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{A649FF74-3B26-4C7E-8171-B87C1A783BC7}" ShortID="896840323">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -32178,6 +33749,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{148A0DCF-16FD-4C94-A5E0-1A51564DBF63}" ShortID="785191688">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -32263,6 +33839,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{5E891912-B494-4A92-AB62-BBB6BBE29EFC}" ShortID="143140815">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -32355,6 +33936,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{9EABFE54-6D50-4B60-A3C4-F712C00ED507}" ShortID="843885496">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -32446,6 +34032,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[B]_toning_sono flore" ID="{DD5EDC2A-C581-4B38-BDCB-8AA690CF367D}" ShortID="596801049">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -32532,6 +34125,11 @@
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{C20B5A67-79D3-4BDD-8EA3-341D56B368CB}" ShortID="499953964">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -32623,6 +34221,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[E]_toning_sono flore" ID="{057D4242-3B34-4FFF-99E5-368029A39A2E}" ShortID="59708553">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -32708,6 +34313,13 @@
 											</ReferenceList>
 											<ChildrenList>
 												<Sound Name="fundamental_[G]_toning_sono flore" ID="{F204377C-6CF4-4C18-A8A0-D3D38BB2E26C}" ShortID="350456109">
+													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
 															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -33381,6 +34993,11 @@
 																<Value>22</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -33466,6 +35083,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[D]_toning_gentle" ID="{43DA42D2-AA08-4E15-B557-29022F3551B5}" ShortID="302941412">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -33551,6 +35173,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{B0179606-ED86-418E-B3AE-C1F11672ECA4}" ShortID="844719298">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -33640,6 +35267,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>22</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -33738,6 +35370,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -33817,6 +35454,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_gentle" ID="{5CEFE59A-4644-4073-8675-C96B51A074F1}" ShortID="915667900">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -33908,6 +35550,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[D]_toning_gentle" ID="{719F430C-ABB2-4630-92DB-B7B63711E1B8}" ShortID="796439786">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -33986,6 +35633,11 @@
 												</Sound>
 												<Sound Name="harmony_[F]_toning_gentle_01" ID="{D2CAE784-11A1-4A70-B257-69C899902615}" ShortID="688627902">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>600</Value>
@@ -34076,6 +35728,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{1F3538DA-8CBB-4923-9128-A447FA71C55C}" ShortID="909954558">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -34179,6 +35836,11 @@
 																<Value>20</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -34258,6 +35920,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_gentle" ID="{A268EE63-740F-4C8B-A977-C3E36E7070E7}" ShortID="39930708">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>200</Value>
@@ -34361,6 +36028,11 @@
 																<Value>22</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -34453,6 +36125,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[D]_toning_gentle" ID="{CC9DC4A6-E592-4953-869E-EC624C1D126B}" ShortID="791095699">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -34545,6 +36222,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{D1334AA5-1268-4302-9F5D-2DDB15E181FE}" ShortID="804766863">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -34643,6 +36325,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_gentle" ID="{6429F4B7-D42C-438B-ACD7-087A757364BF}" ShortID="607749387">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-5</Value>
@@ -35158,6 +36845,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -35243,6 +36935,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -35332,6 +37029,11 @@
 																<Value>32</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -35417,6 +37119,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>25</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -35516,6 +37223,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -35601,6 +37313,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -35693,6 +37410,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -35790,6 +37512,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>34</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -35904,6 +37631,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -36001,6 +37733,11 @@
 																<Value>34</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -36091,6 +37828,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -36188,6 +37930,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>32</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -36741,6 +38488,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{4BE5EDBD-62F2-4382-87B0-3EF9FC48339D}" ShortID="1043259880">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>6</Value>
@@ -36839,6 +38591,11 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>30</Value>
@@ -36918,6 +38675,11 @@
 												</Sound>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{C56CFFDE-09F2-4C4E-ACE4-CD088DD5FDAE}" ShortID="657238610">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>19</Value>
@@ -37016,6 +38778,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_shadow" ID="{8415A454-3D41-44D4-B124-302694F1AF08}" ShortID="426213297">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>2</Value>
@@ -37110,6 +38877,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[G]_toning_shadow" ID="{C5B75757-EE8E-441F-A908-C910255DBEA6}" ShortID="889654725">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>10</Value>
@@ -37203,6 +38975,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{F380E5D7-D3B4-4A20-8C0D-1B336E499A0A}" ShortID="230299693">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>100</Value>
@@ -37296,6 +39073,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_shadow" ID="{B6019A97-4FE0-4D8D-AC68-D4E8F2C4F9E1}" ShortID="480703004">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -37378,6 +39160,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Pitch" Type="int32">
@@ -37478,6 +39265,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{A333EDDB-1E8E-4013-9982-8347FC58A1E5}" ShortID="282900887">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>12</Value>
@@ -37562,6 +39354,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_shadow_01" ID="{4BDF0707-D551-4176-9B06-EA5E3B3DBE13}" ShortID="285441892">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>4</Value>
@@ -37660,6 +39457,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{5BD54CCD-5B81-431B-B1F2-14A13624C95E}" ShortID="49394883">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -37744,6 +39546,11 @@
 												</Sound>
 												<Sound Name="harmony_[G]_toning_shadow_01" ID="{05ECE7DC-0A51-488C-8D74-CB926D4E0F46}" ShortID="577572254">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -37842,6 +39649,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{3A2390EC-D4FA-4628-BED3-1AA6E5C93579}" ShortID="158518733">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>10</Value>
@@ -37940,6 +39752,11 @@
 																<Value>14</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>15</Value>
@@ -38019,6 +39836,11 @@
 												</Sound>
 												<Sound Name="harmony_[B]_toning_shadow" ID="{2935FEF0-BD6D-4BDD-9BE4-B1FE0E7DEC55}" ShortID="866684917">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>18</Value>
@@ -38122,6 +39944,11 @@
 																<Value>False</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -38204,6 +40031,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -38304,6 +40136,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F]_toning_shadow" ID="{0CC3ACFD-7B76-49E8-AE66-589CE8F25AC4}" ShortID="150575436">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>3</Value>
@@ -38803,6 +40640,11 @@
 																<Value>1</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
 																<Value>-1</Value>
@@ -38900,6 +40742,11 @@
 																<Value>16</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>17</Value>
@@ -38992,6 +40839,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{1238B0B4-8BC3-40BC-8575-CFE2301FD89D}" ShortID="88459238">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>12</Value>
@@ -39089,6 +40941,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[G]_toning_sono flore" ID="{41F7B624-DD1F-4F69-9282-5466465A8FDF}" ShortID="646780465">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>14</Value>
@@ -39197,6 +41054,11 @@
 																<Value>1</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Pitch" Type="int32">
 															<ValueList>
 																<Value>-200</Value>
@@ -39292,6 +41154,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>16</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -39391,6 +41258,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{2BF7DC8B-6B11-4EA6-8190-3528B943A66C}" ShortID="483575579">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>18</Value>
@@ -39496,6 +41368,11 @@
 														<Property Name="Highpass" Type="int16">
 															<ValueList>
 																<Value>1</Value>
+															</ValueList>
+														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
 															</ValueList>
 														</Property>
 														<Property Name="Lowpass" Type="int16">
@@ -39605,6 +41482,11 @@
 																<Value>1</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>8</Value>
@@ -39712,6 +41594,11 @@
 																<Value>16</Value>
 															</ValueList>
 														</Property>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>13</Value>
@@ -39809,6 +41696,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{3DB1D449-94F3-4F72-B91F-AAEDE962EC33}" ShortID="671139311">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>13</Value>
@@ -39911,6 +41803,11 @@
 											<ChildrenList>
 												<Sound Name="harmony_[F#]_toning_sono flore" ID="{B91FC365-CF47-4C10-8005-486B217A4154}" ShortID="1066914530">
 													<PropertyList>
+														<Property Name="IsStreamingEnabled" Type="bool">
+															<ValueList>
+																<Value>True</Value>
+															</ValueList>
+														</Property>
 														<Property Name="Lowpass" Type="int16">
 															<ValueList>
 																<Value>13</Value>

@@ -489,28 +489,6 @@
 								<ActiveSource Name="SO_AM_bells_single_D" ID="{5BBCF0CB-D9F9-40B5-985C-F96F71BB5F88}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="SoundSelf_Jaya_Vocalizing_Toning_Drone" ID="{9D6349A4-29CA-4209-BDBD-B692A35E343A}" ShortID="1010085468">
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<AudioFileSource Name="SoundSelf_Jaya_Vocalizing_Toning_Drone" ID="{E6A0B208-1FFA-45CF-A166-8025635D4060}">
-									<Language>SFX</Language>
-									<AudioFile>SoundSelf_Jaya_Vocalizing_Toning_Drone.wav</AudioFile>
-									<MediaIDList>
-										<MediaID ID="443774587"/>
-									</MediaIDList>
-								</AudioFileSource>
-							</ChildrenList>
-							<ActiveSourceList>
-								<ActiveSource Name="SoundSelf_Jaya_Vocalizing_Toning_Drone" ID="{E6A0B208-1FFA-45CF-A166-8025635D4060}" Platform="Linked"/>
-							</ActiveSourceList>
-						</Sound>
 						<Sound Name="End Interactive SFX" ID="{A9BED808-170A-4678-99E1-DE23BFEBB9E1}" ShortID="379125574">
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">

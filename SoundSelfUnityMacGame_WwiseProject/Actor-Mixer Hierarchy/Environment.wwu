@@ -26,6 +26,11 @@
 								<Sound Name="environment_anyQueryRepeat1" ID="{7C0DCEC0-1458-40F1-97B3-715AB5FE2925}" ShortID="752532433">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -51,6 +56,11 @@
 								<Sound Name="environment_anyQueryRepeat2" ID="{015FE28E-EEF9-4E58-808B-DF902CBA7230}" ShortID="328165093">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -76,6 +86,11 @@
 								<Sound Name="environment_crickets" ID="{45E1A457-7423-4EAA-A64A-7F5C16961E9C}" ShortID="146546644">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -101,6 +116,11 @@
 								<Sound Name="environment_openingMeditation" ID="{E10B9D3D-5F4A-4367-BC97-FF6B13F7153D}" ShortID="450635756">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -125,6 +145,11 @@
 								</Sound>
 								<Sound Name="environment_openingQuery" ID="{B22B2EEF-0C68-42EC-97B2-483B4DF0F568}" ShortID="582401264">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -155,6 +180,11 @@
 								<Sound Name="environment_openingQueryRepeat1" ID="{B0AE1FF7-E153-4E94-8CD5-419471774C6C}" ShortID="410380753">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -180,6 +210,11 @@
 								<Sound Name="environment_openingWelcome" ID="{76B88064-8483-45F9-964C-594B5621285F}" ShortID="992578835">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -205,6 +240,11 @@
 								<Sound Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" ShortID="840084692">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-3</Value>
