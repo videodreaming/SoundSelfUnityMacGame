@@ -37,7 +37,6 @@ public class CSVLoader : MonoBehaviour
             baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
         #elif UNITY_STANDALONE_WIN
             baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
-            Debug.Log("Windows platform" + baseSessionsFolderPath);
         #else
             Debug.LogError("Unsupported platform");
             return;
@@ -45,7 +44,6 @@ public class CSVLoader : MonoBehaviour
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
-        Debug.Log("CSVSessionsPath : " +sessionsCsvPath);
 
         if (File.Exists(sessionsCsvPath))
         {
@@ -65,7 +63,6 @@ public class CSVLoader : MonoBehaviour
                             if (int.TryParse(EncryptionHelper.Decrypt(encryptedSessionNumber), out int sessionNumber)) 
                             {
                                 currentSessionNumber = sessionNumber;
-                                Debug.Log(currentSessionNumber);
                                 break;
                             }
                         }
@@ -130,8 +127,6 @@ public class CSVLoader : MonoBehaviour
 
         sequencer._countdownToSavasana = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
         sequencer._integrationEnd = timeLeftScript._timeLeft - 247.0f;
-        Debug.Log("CSVLoader: Integration End set to " + sequencer._integrationEnd + " seconds");
-        Debug.Log("CSVLoader: Wakeup Counter set to " + sequencer._countdownToSavasana + " seconds");
         
         //OTHER VO INITIALIZATIONS
         if(layingDown)

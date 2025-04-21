@@ -25,7 +25,6 @@ public class CSVWriter : MonoBehaviour
         #if UNITY_STANDALONE_OSX
             string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
             baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
-            Debug.Log("Base sessions folder path for writer: " + baseSessionsFolderPath);
         #elif UNITY_STANDALONE_WIN
             baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
         #else
@@ -35,6 +34,7 @@ public class CSVWriter : MonoBehaviour
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
         currentSessionNumber = CSVLoader.currentSessionNumber; // Get session number from InitializationManager
+        Debug.Log("Current session number: " + currentSessionNumber);
         gameMode = CSVLoader.gameMode;
         subGameMode = CSVLoader.subGameMode;
     }
@@ -45,16 +45,19 @@ public class CSVWriter : MonoBehaviour
         if(decryptedstatus == "paused")
         {
             
-        } else if (decryptedstatus == "terminated")
+        } else if (decryptedstatus == "terminated" || Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("Game Terminated");
             writeCSV();
             gameManagement.EndGame();
         } else if (decryptedstatus == "resumed")
         {
             GetData();
+            Debug.Log("Resumed");
         } else if (decryptedstatus == "ready")
         {
-            //Debug.Log("Ready");      
+            GetData();
+            Debug.Log("Ready");      
         }
     }
 
