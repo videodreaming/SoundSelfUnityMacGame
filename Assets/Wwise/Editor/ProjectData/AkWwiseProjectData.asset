@@ -1963,7 +1963,7 @@ MonoBehaviour:
     ParentPath: Events/VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584572099085619006
+    m_lastTime: -8584563572914934568
     List:
     - name: Play_VO_CLOSING_GOODBYE
       guid: 8d2508afd6648f46864100152a884f0f
@@ -2084,23 +2084,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 19.122
       minDuration: 15.026
-    - name: Play_VO_Opening
-      guid: eb996ea9cf252c42b4a9890c7155a065
-      id: 1386597262
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: VO
-        ObjectType: 12
-        guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
-      - ElementName: Play_VO_Opening
-        ObjectType: 3
-        guid: eb996ea9cf252c42b4a9890c7155a065
-      Path: Events/VO/Play_VO_Opening
-      maxAttenuation: 0
-      maxDuration: 69.639336
-      minDuration: 37.554
     - name: Play_VO_QueryElicitation1
       guid: 62bcdf3dcaee4b41959a6cd9ff50f414
       id: 1488609146
