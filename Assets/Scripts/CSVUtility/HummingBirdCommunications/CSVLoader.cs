@@ -37,6 +37,7 @@ public class CSVLoader : MonoBehaviour
             baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
         #elif UNITY_STANDALONE_WIN
             baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
+            Debug.Log("Base path: " + baseSessionsFolderPath);
         #else
             Debug.LogError("Unsupported platform");
             return;

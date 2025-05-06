@@ -26,4 +26,9 @@ public class TimeLeftScript : MonoBehaviour
         Debug.Log("TimeLeftScript: Setting time left to " + minutes + " minutes " + seconds + " seconds");
         _timeLeft = timeLeft;
     }
+    
+    public float GetTimeLeft()
+    {
+        return _timeLeft;
+    }
 }

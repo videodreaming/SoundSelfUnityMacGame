@@ -85,7 +85,7 @@ public class LightControl : MonoBehaviour
         #if UNITY_STANDALONE_OSX
             wantedDevice = "Kasina MMS Audio";
         #elif UNITY_STANDALONE_WIN
-            wantedDevice = "Speakers (Kasina MMS Audio)";
+            wantedDevice = "Speakers (MPL Audio   )";
         #else
             Debug.LogError("Unsupported platform");
             return;

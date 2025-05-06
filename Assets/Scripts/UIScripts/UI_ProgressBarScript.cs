@@ -3,15 +3,19 @@ using UnityEngine.UI;
 
 public class ProgressBar : MonoBehaviour
 {
-    [SerializeField]
-    private float totalTime = 2400f;  // 40 minutes in seconds
+    private float totalTime;  // 40 minutes in seconds
+    public TimeLeftScript timeLeftScript;
 
     private float currentTime = 0f;
-    private Image progressBar;
+    public Slider progressBar;
 
     private void Start()
     {
-        progressBar = GetComponent<Image>();
+        totalTime = timeLeftScript.GetTimeLeft(); // Set this to the desired total time in seconds
+        if (progressBar == null)
+        {
+            progressBar = GetComponent<Slider>();
+        }
     }
 
     private void Update()
@@ -24,7 +28,7 @@ public class ProgressBar : MonoBehaviour
             float fillAmount = currentTime / totalTime;
 
             // Update the UI Image fill amount
-            progressBar.fillAmount = fillAmount;
+            progressBar.value = fillAmount;
         }
     }
 }

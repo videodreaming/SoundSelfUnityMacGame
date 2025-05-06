@@ -19,6 +19,11 @@ public class CSVWriter : MonoBehaviour
     public string decryptedstatus = "";
     public bool CSVDevMode = false;
 
+    private float dataLogTimer = 0f;
+    private float dataLogInterval = 1f; // Log data every 
+
+    private bool headerWritten = false;
+
 
     void Start()
     {
@@ -37,6 +42,7 @@ public class CSVWriter : MonoBehaviour
         Debug.Log("Current session number: " + currentSessionNumber);
         gameMode = CSVLoader.gameMode;
         subGameMode = CSVLoader.subGameMode;
+        WriteCSVHeader();
     }
     
     void Update()
@@ -50,16 +56,61 @@ public class CSVWriter : MonoBehaviour
             Debug.Log("Game Terminated");
             writeCSV();
             gameManagement.EndGame();
-        } else if (decryptedstatus == "resumed")
+        } else if (decryptedstatus == "resumed"||decryptedstatus == "ready")
         {
-            GetData();
-            Debug.Log("Resumed");
-        } else if (decryptedstatus == "ready")
-        {
-            GetData();
-            Debug.Log("Ready");      
+            dataLogTimer += Time.deltaTime;
+            if(dataLogTimer >= dataLogInterval)
+            {
+                GetData();
+                dataLogTimer = 0f;
+            }
         }
     }
+
+    void WriteCSVHeader()
+    {
+        string sessionsFolder = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}");
+        Directory.CreateDirectory(sessionsFolder);
+        session_resultsPath = Path.Combine(sessionsFolder, "session_results.csv");
+
+        if (!File.Exists(session_resultsPath))
+        {
+            string[] fieldNames = new string[] {
+                "time",
+                "respirationRate",
+                "meanToneLength",
+                "meanRestLength",
+                "respirationRate1min",
+                "respirationRate2min",
+                "respirationRateRaw1min",
+                "respirationRateRaw2min",
+                "meanToneLength1min",
+                "meanToneLength2min",
+                "meanRestLength1min",
+                "meanRestLength2min",
+                "absorption",
+                "absorptionRaw",
+                "standardDeviationTone1min",
+                "standardDeviationTone2min",
+                "standardDeviationRest1min",
+                "standardDeviationRest2min",
+                "absorptionRespirationRateMultiplier1min",
+                "absorptionRespirationRateMultiplier2min",
+                "absorptionToneLengthMultiplier1min",
+                "absorptionToneLengthMultiplier2min"
+            };
+
+            for (int i = 0; i < fieldNames.Length; i++)
+            {
+                fieldNames[i] = EncryptionHelper.Encrypt(fieldNames[i]);
+            }
+
+            string encryptedHeader = string.Join(";", fieldNames);
+            File.WriteAllText(session_resultsPath, encryptedHeader + "\n");
+            headerWritten = true;
+        }
+    }
+
 
     void GetStatus()
     {

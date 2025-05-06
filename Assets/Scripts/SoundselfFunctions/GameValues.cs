@@ -108,18 +108,15 @@ public class GameValues : MonoBehaviour
     void FixedUpdate()
     {
             
-        // Fixed Update is called once per frame, but it is called on a fixed time step.
-        // THIS IS A PROBLEM TO CONSIDER FIXING IN THE FUTURE, BY CAREFULLY MOVING EVERYTHING TO UPDATE()
-        // Because this happens on a different time step to the rest of the game, we can't trust it
-        // to use any kind of "one-frame" logic.
-        
-        handlecChanting();
-        handleVolume();
-        handleChantCharge();
+
     }
 
     void Update()
     {
+
+        handlecChanting();
+        handleVolume();
+        handleChantCharge();
         //probably handleVolume() could go in here too, with a little tweaking. cChanting and chantCharge should stay in FixedUpdate unlesss you want to fiddle deeper with the lerp tools.
         changeDetection();
         if(changeDetectedToneLength)
