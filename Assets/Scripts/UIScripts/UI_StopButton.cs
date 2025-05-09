@@ -17,6 +17,5 @@ public class UI_StopButton : MonoBehaviour
     {
         Debug.Log("Stop Button Clicked");
         GameObject.Find("GameManager").GetComponent<GameManagement>().EndGame();
-
     }
 }

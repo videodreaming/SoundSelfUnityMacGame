@@ -19,7 +19,6 @@ public class GameManagement : MonoBehaviour
     public void EndGame()
     {
         Debug.Log("Ending game...");
-        // End the game
         Application.Quit();
     }
 }

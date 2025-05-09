@@ -178,4 +178,14 @@ public class CSVLoader : MonoBehaviour
             }
         }
     }
+
+    public string GetCurrentMode()
+    {
+        return gameMode;
+    }
+
+    public string GetCurrentSubMode()
+    {
+        return subGameMode;
+    }
 }

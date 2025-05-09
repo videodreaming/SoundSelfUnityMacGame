@@ -42,7 +42,7 @@ public class CSVWriter : MonoBehaviour
         Debug.Log("Current session number: " + currentSessionNumber);
         gameMode = CSVLoader.gameMode;
         subGameMode = CSVLoader.subGameMode;
-        WriteCSVHeader();
+        //WriteCSVHeader();
     }
     
     void Update()
@@ -50,8 +50,8 @@ public class CSVWriter : MonoBehaviour
         GetStatus();
         if(decryptedstatus == "paused")
         {
-            
-        } else if (decryptedstatus == "terminated" || Input.GetKeyDown(KeyCode.Escape))
+            Debug.Log("game paused");
+        } else if (decryptedstatus == "terminated")
         {
             Debug.Log("Game Terminated");
             writeCSV();

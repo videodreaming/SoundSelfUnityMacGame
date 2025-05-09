@@ -356,10 +356,16 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         AkSoundEngine.SetRTPCValue("TONING_Volume", 60f + NormalizeVolume(_vol1Sec * 40f), gameObject);
     }
 
-    private float NormalizeVolume(float volume)
+    public float NormalizeVolume(float volume)
     {
         return Mathf.Clamp(Mathf.InverseLerp(-55.0f, -29.0f, volume), 0.0f, 1.0f);
     }
+
+    public float GetNormalizedVolume()
+    {
+        return NormalizeVolume(_vol1Sec * 40f);
+    }
+
 
     private void SetNoiseFloorThreshold() //WE NEED RAW VALUES FOR THIS. CURRENT RAW DEPENDENCIES: _dbMicrophone
     {

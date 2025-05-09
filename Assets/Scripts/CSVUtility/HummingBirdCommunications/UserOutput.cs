@@ -26,11 +26,6 @@ public class UserOutput : MonoBehaviour
                 averagePitch = averagePitch + 1.0f;
                 averageVolume = averageVolume + 1.0f;
             }
-
-            if(Input.GetKeyDown(KeyCode.B))
-            {
-                Application.Quit();
-            }
         }
     }
 }

@@ -79,13 +79,17 @@ public class LightControl : MonoBehaviour
         AkSoundEngine.GetDeviceList(sharesetIdSystem, out deviceCount, devices);
 
         // Return the device with the specified name on the system. This is where you will either put you logic to enumarate all the Device and let the user decide, or force a specified device directly.
+        string wantedDevice1;
+        string wantedDevice2;
         string wantedDevice;
 
         // We set the wantedDevice to the name of the device we want to use. This is the name of the device as it appears in the Wwise Audio Device Manager.
         #if UNITY_STANDALONE_OSX
-            wantedDevice = "Kasina MMS Audio";
+            wantedDevice1 = "Kasina MMS Audio";
+            wantedDevice2 = "MPL Audio       ";
         #elif UNITY_STANDALONE_WIN
-            wantedDevice = "Speakers (MPL Audio   )";
+            wantedDevice1 = "Speakers (Kasina MMS Audio)";
+            wantedDevice2 = "Speakers (MPL Audio       )";
         #else
             Debug.LogError("Unsupported platform");
             return;
@@ -97,11 +101,21 @@ public class LightControl : MonoBehaviour
         {
             if (devices[i].deviceStateMask == AkAudioDeviceState.AkDeviceState_Active)
             {
-                if (devices[i].deviceName == wantedDevice)
+                if (devices[i].deviceName == wantedDevice1)
                 {
                     deviceId = devices[i].idDevice;
                     print("Device found: " + devices[i].deviceName + " With ID: " + devices[i].idDevice);
                     break;
+                }
+                else if(devices[i].deviceName == wantedDevice2)
+                {
+                    deviceId = devices[i].idDevice;
+                    print("Device found: " + devices[i].deviceName + " With ID: " + devices[i].idDevice);
+                    break;
+                }
+                else
+                {
+                    print("Devices not found");
                 }
             }
         }
