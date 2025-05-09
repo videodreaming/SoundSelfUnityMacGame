@@ -18,7 +18,6 @@ public class DataOutput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         //Future questions for our Machine Learning Algorithm:
         // - Of the various abasorption details, which are most important for determining the user's emotional state?
         // - Is the dynamic switching between 1m and 2m valuable, or should we just use 2m?
