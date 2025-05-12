@@ -42,7 +42,6 @@ public class CSVWriter : MonoBehaviour
         Debug.Log("Current session number: " + currentSessionNumber);
         gameMode = CSVLoader.gameMode;
         subGameMode = CSVLoader.subGameMode;
-        //WriteCSVHeader();
     }
     
     void Update()
@@ -67,49 +66,6 @@ public class CSVWriter : MonoBehaviour
         }
     }
 
-    void WriteCSVHeader()
-    {
-        string sessionsFolder = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}");
-        Directory.CreateDirectory(sessionsFolder);
-        session_resultsPath = Path.Combine(sessionsFolder, "session_results.csv");
-
-        if (!File.Exists(session_resultsPath))
-        {
-            string[] fieldNames = new string[] {
-                "time",
-                "respirationRate",
-                "meanToneLength",
-                "meanRestLength",
-                "respirationRate1min",
-                "respirationRate2min",
-                "respirationRateRaw1min",
-                "respirationRateRaw2min",
-                "meanToneLength1min",
-                "meanToneLength2min",
-                "meanRestLength1min",
-                "meanRestLength2min",
-                "absorption",
-                "absorptionRaw",
-                "standardDeviationTone1min",
-                "standardDeviationTone2min",
-                "standardDeviationRest1min",
-                "standardDeviationRest2min",
-                "absorptionRespirationRateMultiplier1min",
-                "absorptionRespirationRateMultiplier2min",
-                "absorptionToneLengthMultiplier1min",
-                "absorptionToneLengthMultiplier2min"
-            };
-
-            for (int i = 0; i < fieldNames.Length; i++)
-            {
-                fieldNames[i] = EncryptionHelper.Encrypt(fieldNames[i]);
-            }
-
-            string encryptedHeader = string.Join(";", fieldNames);
-            File.WriteAllText(session_resultsPath, encryptedHeader + "\n");
-            headerWritten = true;
-        }
-    }
 
 
     void GetStatus()
@@ -159,7 +115,7 @@ public class CSVWriter : MonoBehaviour
 
     void GetData()
     {
-        string data = string.Join(";",
+            string data = string.Join(";",
             $"{Time.time}",
             $"{respirationTracker._respirationRate}",
             $"{respirationTracker._meanToneLength}",
@@ -185,6 +141,7 @@ public class CSVWriter : MonoBehaviour
         );
         string encryptedData = EncryptionHelper.Encrypt(data);
         combinedData += encryptedData + " "; // Append encrypted data with a space as a separator
+        dataLogTimer = 0f;
     }
 
     public void writeCSV()

@@ -18,6 +18,5 @@ public class UI_MainDisplayVolume : MonoBehaviour
     void Update()
     {
         volumeSlider.value = voiceIntepreter.GetNormalizedVolume();
-        Debug.Log("Volume: " + voiceIntepreter.GetNormalizedVolume());
     }
 }
