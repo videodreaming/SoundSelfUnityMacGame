@@ -13,7 +13,8 @@ public class subGameModeDisplayer : MonoBehaviour
     void Start()
     {
         modeText = GetComponent<TextMeshProUGUI>();
-        modeText.text = csvLoader.GetCurrentSubMode();    
+        string currentSubMode = csvLoader.GetCurrentSubMode();
+        modeText.text = "SubMode: " + currentSubMode;
     }
 
     // Update is called once per frame

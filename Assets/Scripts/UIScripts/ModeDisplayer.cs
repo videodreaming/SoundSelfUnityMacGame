@@ -12,7 +12,8 @@ public class ModeDisplayer : MonoBehaviour
     void Start()
     {
         modeText = GetComponent<TextMeshProUGUI>();
-        modeText.text = csvLoader.GetCurrentMode();    
+        string currentMode = csvLoader.GetCurrentMode();    
+        modeText.text = "Mode: " + currentMode;
     }
 
     // Update is called once per frame

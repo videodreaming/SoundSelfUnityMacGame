@@ -22,8 +22,6 @@ public class CSVWriter : MonoBehaviour
     private float dataLogTimer = 0f;
     private float dataLogInterval = 1f; // Log data every 
 
-    private bool headerWritten = false;
-
 
     void Start()
     {
@@ -53,7 +51,6 @@ public class CSVWriter : MonoBehaviour
         } else if (decryptedstatus == "terminated")
         {
             Debug.Log("Game Terminated");
-            writeCSV();
             gameManagement.EndGame();
         } else if (decryptedstatus == "resumed"||decryptedstatus == "ready")
         {
@@ -149,15 +146,10 @@ public class CSVWriter : MonoBehaviour
         string sessionsFolder = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}");
         Directory.CreateDirectory(sessionsFolder); // Ensure session folder exists
         session_resultsPath = Path.Combine(sessionsFolder, "session_results.csv");
-
-        Debug.Log("Encrypted Data: " + combinedData);
-
         string[] encryptedEntries = combinedData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        Debug.Log("Decrypted Data: ");
         foreach (string encryptedEntry in encryptedEntries)
         {
             string decryptedEntry = EncryptionHelper.Decrypt(encryptedEntry);
-            Debug.Log(decryptedEntry);
         }
 
         using (TextWriter tw = new StreamWriter(session_resultsPath, true))

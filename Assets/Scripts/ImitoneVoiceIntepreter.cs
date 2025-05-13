@@ -668,7 +668,6 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 toneActiveFrame = true;
                 toneActiveCounter++;
                 AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
-                Debug.Log("SFX: Stop_Inhales");
             }
 
             if (_tThisTone > _activeThreshold3)

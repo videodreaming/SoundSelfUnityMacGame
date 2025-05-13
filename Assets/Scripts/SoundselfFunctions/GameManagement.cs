@@ -7,17 +7,10 @@ using System;
 public class GameManagement : MonoBehaviour
 {
     public CSVWriter CSVWriter;
-    void Update()
-    {
-        // Quit the game if the player presses the Escape key
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Debug.Log("Game Terminated");
-            EndGame();
-        }
-    }
+
     public void EndGame()
     {
+        CSVWriter.writeCSV();
         Debug.Log("Ending game...");
         Application.Quit();
     }

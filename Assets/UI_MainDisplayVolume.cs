@@ -6,17 +6,25 @@ using UnityEngine.UI;
 
 public class UI_MainDisplayVolume : MonoBehaviour
 {
-    public ImitoneVoiceIntepreter voiceIntepreter;
-    public Slider volumeSlider;
-    // Start is called before the first frame update
-    void Start()
-    {
-        volumeSlider = GetComponent<Slider>();
-    }
+    public ImitoneVoiceIntepreter ImitoneVoiceIntepreter;
+    public Image fillImage;
+    public float minValue;
+    public float maxValue;
+    public float OrginalValue = -15.0f;
 
-    // Update is called once per frame
+    void Start(){
+        minValue = -50.0f;
+        maxValue = -10.0f;
+        fillImage = GetComponent<Image>();
+        fillImage.fillAmount = 0.5f;
+    }
     void Update()
     {
-        volumeSlider.value = voiceIntepreter.GetNormalizedVolume();
+        UpdateFill();
+    }
+    void UpdateFill()
+    {
+        float normalizedValue = Mathf.Clamp01((ImitoneVoiceIntepreter._dbValue - minValue) / (maxValue - minValue));
+        fillImage.fillAmount = normalizedValue;
     }
 }
