@@ -72,7 +72,6 @@ namespace AK
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONAHH = 745351876U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONHUM = 897777483U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONOHH = 1350331786U;
-        static const AkUniqueID PLAY_VO_OPENING = 1386597262U;
         static const AkUniqueID PLAY_VO_OPENING_THEMATIC_SWITCH = 3418740755U;
         static const AkUniqueID PLAY_VO_POSTURE_SWITCH = 528568497U;
         static const AkUniqueID PLAY_VO_QUERYELICITATION1 = 1488609146U;
