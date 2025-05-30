@@ -87,6 +87,7 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
 
 Effect plug-ins	ID	Name	Type				Notes
+	1759944409	Cut_3dB_100Hz	Wwise Parametric EQ			
 	2998002419	Boost_3dB_10KHz	Wwise Parametric EQ			
 
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
@@ -128,6 +129,7 @@ Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	
 	570701755	environment_anyQueryRepeat1	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_anyQueryRepeat1_FBC78EF0.wem	570701755.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_anyQueryRepeat1	
 	579672527	sfx_start	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_start_FBC78EF0.wem	579672527.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 1\sfx_start	
 	611040035	vo_opening_openingPassive	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_opening_openingPassive_FBC78EF0.wem	611040035.wem	\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_PASSIVE\vo_opening_openingPassive	
+	623436931	sfx_stop_v2	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\RKU_LHH2_Percussion_Tingsha_2_FBC78EF0.wem	623436931.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 1\sfx_stop_v2	
 	625014998	vo_elicitQuery_opening	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_elicitQuery_opening_FBC78EF0.wem	625014998.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 1\vo_elicitQuery_opening	
 	648810886	vo_elicitSighFail_opening1	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_elicitSighFail_opening1_818F3B66.wem	648810886.wem	\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitationFail1\VO_SighElicitationFail1\vo_elicitSighFail_opening1	
 	650293573	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_FBC78EF0.wem	650293573.wem	\Interactive Music Hierarchy\Default Work Unit\OPENING\OPENING_SHORT_INTEGRATION\sfx_breath in	

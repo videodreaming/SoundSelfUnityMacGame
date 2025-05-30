@@ -6,6 +6,11 @@
 				<MusicPlaylistContainer Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" ShortID="682289842">
 					<PropertyList>
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>-2</Value>
@@ -145,6 +150,9 @@
 									<TransitionInfo/>
 								</MusicTransition>
 							</Custom>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -1614,6 +1622,13 @@
 					</ObjectLists>
 				</MusicPlaylistContainer>
 				<MusicPlaylistContainer Name="CrystalBowlGenerator3" ID="{50267ADD-15EE-4E74-8243-1D198EC51B17}" ShortID="1054515911">
+					<PropertyList>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1747,6 +1762,9 @@
 									<TransitionInfo/>
 								</MusicTransition>
 							</Custom>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -3203,6 +3221,13 @@
 					</ObjectLists>
 				</MusicPlaylistContainer>
 				<MusicPlaylistContainer Name="CrystalBowlGenerator2" ID="{A0AF4A64-9A1B-4DFA-855D-5AFB4F2F91CF}" ShortID="268533734">
+					<PropertyList>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -3336,6 +3361,9 @@
 									<TransitionInfo/>
 								</MusicTransition>
 							</Custom>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -4797,6 +4825,13 @@
 					</ObjectLists>
 				</MusicPlaylistContainer>
 				<MusicPlaylistContainer Name="CrystalBowlGenerator1" ID="{4E2AB925-A65D-41BA-A8C3-082791B9BB3B}" ShortID="840940891">
+					<PropertyList>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -4930,6 +4965,9 @@
 									<TransitionInfo/>
 								</MusicTransition>
 							</Custom>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -6391,6 +6429,13 @@
 					</ObjectLists>
 				</MusicPlaylistContainer>
 				<MusicPlaylistContainer Name="CrystalBowlGenerator4" ID="{E8CCE4F8-74A2-4433-8FE3-6E7B0375FE3B}" ShortID="973208986">
+					<PropertyList>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -6524,6 +6569,9 @@
 									<TransitionInfo/>
 								</MusicTransition>
 							</Custom>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>

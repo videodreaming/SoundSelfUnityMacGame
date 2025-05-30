@@ -99,9 +99,15 @@
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="UserAuxSendVolume0" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -118,6 +124,9 @@
 													<TransitionInfo/>
 												</MusicTransition>
 											</Custom>
+										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -198,13 +207,13 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>7.33877</XPos>
-																								<YPos>-2.87188</YPos>
+																								<XPos>7.17663</XPos>
+																								<YPos>-2.65925</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>9.88167</XPos>
-																								<YPos>-2.39878</YPos>
+																								<YPos>-1.80782</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -213,8 +222,8 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>20.1894494500833</XPos>
-																								<YPos>-1.24057288121221</YPos>
+																								<XPos>20.18945</XPos>
+																								<YPos>-0.89092</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -249,7 +258,7 @@
 																							</Point>
 																							<Point>
 																								<XPos>132.30715</XPos>
-																								<YPos>-1.22762</YPos>
+																								<YPos>-0.62035</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -296,7 +305,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>1</Value>
+												<Value>2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -931,10 +940,17 @@
 												<Value>True</Value>
 											</ValueList>
 										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="UserAuxSendVolume0" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -952,6 +968,9 @@
 												</MusicTransition>
 											</Custom>
 										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{259EBC19-CF9D-4420-9E3C-81C351B95FCC}">
@@ -963,6 +982,19 @@
 										</AudioFileSource>
 									</ChildrenList>
 									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{3BCE757A-D744-450F-B4F5-C01E49A8E059}" ShortID="507015276">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
 										<ObjectList Name="Sequences">
 											<Reference>
 												<Local>
@@ -1027,7 +1059,7 @@
 																						<PointList>
 																							<Point>
 																								<XPos>0</XPos>
-																								<YPos>-0.67857</YPos>
+																								<YPos>-1.3746</YPos>
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
@@ -1036,13 +1068,13 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>11.69639</XPos>
-																								<YPos>-1.61428</YPos>
+																								<XPos>11.88549</XPos>
+																								<YPos>-1.80255</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>17.9371320680173</XPos>
-																								<YPos>-2.11989863997567</YPos>
+																								<XPos>17.93713</XPos>
+																								<YPos>-1.54701</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -1077,7 +1109,7 @@
 																		<MusicClip Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{BE785925-D221-4345-9962-8A6D945D374A}">
 																			<PropertyList>
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="66615.0675688092"/>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="152309.866336471"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="154417.72083215"/>
 																				<Property Name="FadeInDuration" Type="Real64" Value="7162.36711911741"/>
 																				<Property Name="FadeOutDuration" Type="Real64" Value="20488.6209532926"/>
 																				<Property Name="PlayAt" Type="Real64" Value="-37928.3563803779"/>
@@ -1096,7 +1128,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>152.30987</XPos>
+																								<XPos>154.41772</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -1115,7 +1147,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>152.30987</XPos>
+																								<XPos>154.41772</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -1145,17 +1177,22 @@
 																							</Point>
 																							<Point>
 																								<XPos>85.91</XPos>
-																								<YPos>-2.59054</YPos>
+																								<YPos>-1.98684</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>92.39575</XPos>
+																								<YPos>-1.22581</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>101.76329</XPos>
-																								<YPos>-1.58569</YPos>
+																								<YPos>-1.96511</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>108.19817</XPos>
-																								<YPos>-1.90419</YPos>
+																								<XPos>107.14424</XPos>
+																								<YPos>-2.29811</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -1164,22 +1201,22 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>121.66674</XPos>
-																								<YPos>-3.08984</YPos>
+																								<XPos>121.82888</XPos>
+																								<YPos>-2.05091</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>128.83812</XPos>
-																								<YPos>-6.16293</YPos>
+																								<XPos>129.16241</XPos>
+																								<YPos>-2.39577</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>133.98749</XPos>
-																								<YPos>-9.96904</YPos>
+																								<XPos>134.31177</XPos>
+																								<YPos>-3.66654</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>152.30987</XPos>
+																								<XPos>154.41772</XPos>
 																								<YPos>-22.4986</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -1208,7 +1245,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1333,7 +1370,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2612,10 +2649,17 @@
 												<Value>True</Value>
 											</ValueList>
 										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="UserAuxSendVolume0" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2633,6 +2677,9 @@
 												</MusicTransition>
 											</Custom>
 										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{ABCDD8C5-2934-486B-B582-E48A756424FE}">
@@ -2644,6 +2691,19 @@
 										</AudioFileSource>
 									</ChildrenList>
 									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{5B3745BA-2E73-4B67-8574-AAA46164B7A5}" ShortID="728065154">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
 										<ObjectList Name="Sequences">
 											<Reference>
 												<Local>
@@ -2656,7 +2716,7 @@
 																			<PropertyList>
 																				<Property Name="EndTrimOffset" Type="Real64" Value="186338.813333334"/>
 																				<Property Name="FadeInMode" Type="int16" Value="0"/>
-																				<Property Name="FadeOutDuration" Type="Real64" Value="37422.8303030292"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="23036.9516631187"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{ABCDD8C5-2934-486B-B582-E48A756424FE}"/>
 																			<PropertyCurveList>
@@ -2706,17 +2766,17 @@
 																						<PointList>
 																							<Point>
 																								<XPos>0</XPos>
-																								<YPos>0</YPos>
+																								<YPos>-0.42068</YPos>
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>12.14008</XPos>
-																								<YPos>-0.36372</YPos>
+																								<XPos>12.0491</XPos>
+																								<YPos>-0.80285</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>31.85296</XPos>
-																								<YPos>-1.05323</YPos>
+																								<XPos>30.67023</XPos>
+																								<YPos>-1.52965</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -2730,13 +2790,13 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>49.37301</XPos>
-																								<YPos>-0.35885</YPos>
+																								<XPos>49.28203</XPos>
+																								<YPos>-0.57552</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>54.92709</XPos>
-																								<YPos>-1.08392</YPos>
+																								<XPos>53.33271</XPos>
+																								<YPos>-1.58176</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -2745,8 +2805,8 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>64.52616</XPos>
-																								<YPos>-2.52405</YPos>
+																								<XPos>64.33483</XPos>
+																								<YPos>-1.97094</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -2770,23 +2830,23 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>107.38694</XPos>
-																								<YPos>-2.54935</YPos>
+																								<XPos>107.35186</XPos>
+																								<YPos>-1.69451</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>117.89653</XPos>
-																								<YPos>-2.15358</YPos>
+																								<YPos>-1.91175</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>122.7119</XPos>
-																								<YPos>-3.16304</YPos>
+																								<XPos>122.74698</XPos>
+																								<YPos>-2.75939</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>126.27605</XPos>
-																								<YPos>-3.97284</YPos>
+																								<XPos>126.31113</XPos>
+																								<YPos>-3.38823</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -2839,7 +2899,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>1</Value>
+												<Value>3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2951,12 +3011,71 @@
 																		<MusicClip Name="vo_opening_openingLong" ID="{6FCA76B5-422E-42D1-85C0-B65EF9B4E212}">
 																			<PropertyList>
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="40000"/>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="69639.3333333333"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="51036.3684145797"/>
 																				<Property Name="FadeInMode" Type="int16" Value="0"/>
-																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="175.382012339935"/>
 																				<Property Name="PlayAt" Type="Real64" Value="31217.7953728517"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="vo_opening_openingLong" ID="{BD1AE931-1CD4-4E84-873C-E2C35693BD1E}"/>
+																			<PropertyCurveList>
+																				<PropertyCurve PropertyName="Highpass">
+																					<Curve Name="" ID="{A3B77407-2F9F-4B05-90CC-F3D47955A469}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>40</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>51.03637</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Lowpass">
+																					<Curve Name="" ID="{D9B4C2E6-AC76-4250-A651-F55523E4A3FF}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>40</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>51.03637</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Volume">
+																					<Curve Name="" ID="{9B171EAE-EB2C-4C7A-818D-30F03358355E}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>40</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>51.03637</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																			</PropertyCurveList>
 																		</MusicClip>
 																	</Local>
 																</Reference>
@@ -2965,10 +3084,10 @@
 																		<MusicClip Name="vo_opening_openingLong" ID="{817BCA68-7454-4237-9DBB-BF4394638C08}">
 																			<PropertyList>
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="23263.6606374876"/>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="40000"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="33418.027762121"/>
 																				<Property Name="FadeInMode" Type="int16" Value="0"/>
-																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																				<Property Name="PlayAt" Type="Real64" Value="27907.2856733268"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="95.6629158217838"/>
+																				<Property Name="PlayAt" Type="Real64" Value="28768.2519157229"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="vo_opening_openingLong" ID="{BD1AE931-1CD4-4E84-873C-E2C35693BD1E}"/>
 																			<PropertyCurveList>
@@ -2984,7 +3103,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>40</XPos>
+																								<XPos>33.41803</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -3003,7 +3122,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>40</XPos>
+																								<XPos>33.41803</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -3022,7 +3141,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>40</XPos>
+																								<XPos>33.41803</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -3061,6 +3180,93 @@
 																		</MusicEventCue>
 																	</Local>
 																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicClip Name="vo_opening_openingLong" ID="{385040C2-DF68-41E3-9108-DC7700F48CEA}">
+																			<PropertyList>
+																				<Property Name="BeginTrimOffset" Type="Real64" Value="33418.027762121"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="40000"/>
+																				<Property Name="FadeInDuration" Type="Real64" Value="127.55055442905"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="159.438193036309"/>
+																				<Property Name="PlayAt" Type="Real64" Value="29182.7912176173"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="vo_opening_openingLong" ID="{BD1AE931-1CD4-4E84-873C-E2C35693BD1E}"/>
+																			<PropertyCurveList>
+																				<PropertyCurve PropertyName="Highpass">
+																					<Curve Name="" ID="{4F673ED2-FCC5-402E-A769-DCA6D279658C}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>33.41803</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>40</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Lowpass">
+																					<Curve Name="" ID="{36A8B793-0273-4D32-B906-5FFFAE67DD4F}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>33.41803</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>40</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Volume">
+																					<Curve Name="" ID="{23B01241-E9DD-4E31-95E3-5888EDC4D37B}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>33.41803</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>40</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																			</PropertyCurveList>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicClip Name="vo_opening_openingLong" ID="{DE2B0574-5AAD-46B7-868D-DF0BABFEF2A4}">
+																			<PropertyList>
+																				<Property Name="BeginTrimOffset" Type="Real64" Value="51036.3684145797"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="69639.3333333333"/>
+																				<Property Name="FadeInDuration" Type="Real64" Value="105.229207403943"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																				<Property Name="PlayAt" Type="Real64" Value="32199.9346419554"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="vo_opening_openingLong" ID="{BD1AE931-1CD4-4E84-873C-E2C35693BD1E}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -3079,7 +3285,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3289,9 +3495,15 @@
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="UserAuxSendVolume0" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3308,6 +3520,9 @@
 													<TransitionInfo/>
 												</MusicTransition>
 											</Custom>
+										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -3399,17 +3614,17 @@
 																							</Point>
 																							<Point>
 																								<XPos>31.417</XPos>
-																								<YPos>-1.05968</YPos>
+																								<YPos>-0.27634</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>73.2783</XPos>
-																								<YPos>-1.34611</YPos>
+																								<YPos>-0.82061</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>131.77266</XPos>
-																								<YPos>-3.5875</YPos>
+																								<YPos>-1.70373</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -5298,6 +5513,11 @@
 				<MusicSwitchContainer Name="VO_THEMATIC CONTENT_SWITCH" ID="{C7789B8F-0EED-48B6-AE27-DD0FBC34129F}" ShortID="763228606">
 					<PropertyList>
 						<Property Name="OverrideOutput" Type="bool" Value="True"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -6083,9 +6303,15 @@
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="UserAuxSendVolume0" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -6102,6 +6328,9 @@
 													<TransitionInfo/>
 												</MusicTransition>
 											</Custom>
+										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -6914,10 +7143,17 @@
 												<Value>True</Value>
 											</ValueList>
 										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="UserAuxSendVolume0" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-9</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -6935,6 +7171,9 @@
 												</MusicTransition>
 											</Custom>
 										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{31577190-361D-4ED4-BE8F-FB3A0555D850}">
@@ -6946,6 +7185,19 @@
 										</AudioFileSource>
 									</ChildrenList>
 									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{B1A2896B-9099-44F0-99F5-FF06413CAFCC}" ShortID="913278008">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
 										<ObjectList Name="Sequences">
 											<Reference>
 												<Local>
@@ -7191,7 +7443,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -7316,7 +7568,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -8500,10 +8752,17 @@
 												<Value>True</Value>
 											</ValueList>
 										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="UserAuxSendVolume0" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-9</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -8521,6 +8780,9 @@
 												</MusicTransition>
 											</Custom>
 										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{5F33D8A5-4A9E-4CAC-BDD3-8D5B3CB5D5C1}">
@@ -8532,6 +8794,19 @@
 										</AudioFileSource>
 									</ChildrenList>
 									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{17122D86-4365-43AA-9BB6-339398E522C2}" ShortID="924877257">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
 										<ObjectList Name="Sequences">
 											<Reference>
 												<Local>
@@ -8598,6 +8873,11 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
+																								<XPos>9.92941</XPos>
+																								<YPos>-1.42922</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
 																								<XPos>11.81094</XPos>
 																								<YPos>-2.12194</YPos>
 																								<Flags>0</Flags>
@@ -8609,12 +8889,12 @@
 																							</Point>
 																							<Point>
 																								<XPos>30.09753</XPos>
-																								<YPos>-3.81999</YPos>
+																								<YPos>-2.63324</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>36.5345</XPos>
-																								<YPos>-3.04661</YPos>
+																								<XPos>36.32977</XPos>
+																								<YPos>-2.12757</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -8624,7 +8904,7 @@
 																							</Point>
 																							<Point>
 																								<XPos>49.53419</XPos>
-																								<YPos>-2.15442</YPos>
+																								<YPos>-1.64479</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -8653,8 +8933,8 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>75.48336</XPos>
-																								<YPos>-2.78656</YPos>
+																								<XPos>75.41524</XPos>
+																								<YPos>-2.23965</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -8668,13 +8948,18 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>101.6142</XPos>
-																								<YPos>-1.45021</YPos>
+																								<XPos>93.48975</XPos>
+																								<YPos>-0.92069</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>107.38694</XPos>
-																								<YPos>-2.54935</YPos>
+																								<XPos>101.6142</XPos>
+																								<YPos>-1.13339</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>107.58131</XPos>
+																								<YPos>-1.51489</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -9211,9 +9496,15 @@
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="UserAuxSendVolume0" Type="Real64">
+											<ValueList>
+												<Value>12</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -9230,6 +9521,9 @@
 													<TransitionInfo/>
 												</MusicTransition>
 											</Custom>
+										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
@@ -10866,6 +11160,12 @@
 									</ValueList>
 								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>12</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>4</Value>
@@ -10885,6 +11185,9 @@
 											<TransitionInfo/>
 										</MusicTransition>
 									</Custom>
+								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -11699,9 +12002,15 @@
 									</ValueList>
 								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>12</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-9</Value>
+										<Value>-8</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -11718,6 +12027,9 @@
 											<TransitionInfo/>
 										</MusicTransition>
 									</Custom>
+								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -13331,7 +13643,7 @@
 									<MusicCue Name="Exit Cue" ID="{35A3AF6D-3ABE-42C7-AD0C-F5A0A4023845}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="1"/>
-											<Property Name="TimeMs" Type="Real64" Value="422694.714008869"/>
+											<Property Name="TimeMs" Type="Real64" Value="471421.875000001"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>
@@ -13390,9 +13702,15 @@
 									</ValueList>
 								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>12</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-10</Value>
+										<Value>-8</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -13409,6 +13727,9 @@
 											<TransitionInfo/>
 										</MusicTransition>
 									</Custom>
+								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>

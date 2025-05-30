@@ -484,11 +484,7 @@ namespace AK
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MUSIC = 3991942870U;
         static const AkUniqueID SFX = 393239870U;
-        static const AkUniqueID SUB_IMPACTSUB = 1779589820U;
-        static const AkUniqueID SUB_MUSIC = 3322116549U;
-        static const AkUniqueID SUB_SFX = 3257610129U;
-        static const AkUniqueID SUB_SILENTLOOPS = 4193096480U;
-        static const AkUniqueID SUB_TONING = 2044215677U;
+        static const AkUniqueID SUBACOUSTICS = 2218314507U;
         static const AkUniqueID VO = 1534528548U;
     } // namespace BUSSES
 

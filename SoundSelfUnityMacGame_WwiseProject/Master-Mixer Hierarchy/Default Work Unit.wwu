@@ -18,18 +18,7 @@
 					</ReferenceList>
 					<ChildrenList>
 						<Bus Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}">
-							<PropertyList>
-								<Property Name="UserAuxSendVolume0" Type="Real64">
-									<ValueList>
-										<Value>3</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="UserAuxSend0">
-									<ObjectRef Name="Aux_Toning" ID="{619F7D95-78F4-4AA5-AEC9-AB6251E1BF93}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
+							<ReferenceList/>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>
@@ -93,18 +82,7 @@
 							</DuckingList>
 						</Bus>
 						<Bus Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}">
-							<PropertyList>
-								<Property Name="UserAuxSendVolume0" Type="Real64">
-									<ValueList>
-										<Value>3</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="UserAuxSend0">
-									<ObjectRef Name="Aux_SilentLoops" ID="{BF3484BE-54D5-4DAE-88A3-4836F1B18D20}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
+							<ReferenceList/>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>
@@ -146,11 +124,7 @@
 							</ObjectLists>
 						</Bus>
 						<Bus Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}">
-							<ReferenceList>
-								<Reference Name="UserAuxSend0">
-									<ObjectRef Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
+							<ReferenceList/>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>
@@ -223,12 +197,13 @@
 										<Value>3</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
-							<ReferenceList>
-								<Reference Name="UserAuxSend0">
-									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
+							<ReferenceList/>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>
@@ -314,21 +289,12 @@
 							<PropertyList>
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
-										<Value>-6</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-1"/>
-								<Property Name="UserAuxSendVolume0" Type="Real64">
-									<ValueList>
-										<Value>4</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
-							<ReferenceList>
-								<Reference Name="UserAuxSend0">
-									<ObjectRef Name="Aux_ImpactsSub" ID="{BFC0F763-D969-48F0-AAAB-0642BCB3F556}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
+							<ReferenceList/>
 							<ObjectLists>
 								<ObjectList Name="Effects">
 									<Reference>
@@ -406,7 +372,7 @@
 							<PropertyList>
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
-										<Value>1</Value>
+										<Value>2</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Lowpass" Type="int16">
@@ -415,6 +381,11 @@
 									</ValueList>
 								</Property>
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-3"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="Effects">
@@ -525,53 +496,69 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Bus Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}">
-							<PropertyList>
-								<Property Name="Highpass" Type="int16">
-									<ValueList>
-										<Value>100</Value>
-									</ValueList>
-								</Property>
-								<Property Name="RecoveryTime" Type="Real64" Value="0"/>
-							</PropertyList>
-						</Bus>
-						<Bus Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}">
-							<PropertyList>
-								<Property Name="Highpass" Type="int16">
-									<ValueList>
-										<Value>100</Value>
-									</ValueList>
-								</Property>
-								<Property Name="RecoveryTime" Type="Real64" Value="0"/>
-							</PropertyList>
-						</Bus>
-						<Bus Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}">
-							<PropertyList>
-								<Property Name="Highpass" Type="int16">
-									<ValueList>
-										<Value>100</Value>
-									</ValueList>
-								</Property>
-								<Property Name="RecoveryTime" Type="Real64" Value="0"/>
-							</PropertyList>
-						</Bus>
-						<Bus Name="AVS_Reference" ID="{4EFB273A-020C-4984-B70A-0DF0AD87E170}">
-							<PropertyList>
-								<Property Name="Highpass" Type="int16">
-									<ValueList>
-										<Value>100</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-						</Bus>
-						<Bus Name="Sub_ImpactSub" ID="{AFC8777D-03BE-435C-9D8D-3000A1F105FB}">
+						<Bus Name="SubAcoustics" ID="{AFC8777D-03BE-435C-9D8D-3000A1F105FB}">
 							<ChildrenList>
+								<AuxBus Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}">
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{5427B142-0483-4E60-AC88-AB21FBF11DA3}" ShortID="663125460">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																<ObjectRef Name="Boost_3dB_100Hz" ID="{3EA7C9BD-6F9A-4000-A227-F86B5B4328EE}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</AuxBus>
+								<AuxBus Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}">
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{F1F66A30-FB4C-43DF-8FB8-F4B391C9B73F}" ShortID="981232718">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																<ObjectRef Name="Boost_3dB_100Hz" ID="{3EA7C9BD-6F9A-4000-A227-F86B5B4328EE}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</AuxBus>
+								<AuxBus Name="Aux_SilentLoops" ID="{BF3484BE-54D5-4DAE-88A3-4836F1B18D20}"/>
+								<AuxBus Name="Aux_Toning" ID="{619F7D95-78F4-4AA5-AEC9-AB6251E1BF93}">
+									<ObjectLists>
+										<ObjectList Name="Effects">
+											<Reference>
+												<Local>
+													<EffectSlot Name="" ID="{891C0D88-F2C5-44F0-93FE-52EA81A280AE}" ShortID="988324625">
+														<ReferenceList>
+															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+																<ObjectRef Name="Boost_3dB_100Hz" ID="{3EA7C9BD-6F9A-4000-A227-F86B5B4328EE}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+															</Reference>
+														</ReferenceList>
+													</EffectSlot>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</AuxBus>
 								<AuxBus Name="Aux_ImpactsSub" ID="{BFC0F763-D969-48F0-AAAB-0642BCB3F556}">
 									<ObjectLists>
 										<ObjectList Name="Effects">
 											<Reference>
 												<Local>
 													<EffectSlot Name="" ID="{E73CC6C3-EC41-4C86-98D7-8C73721029FA}" ShortID="363216071">
+														<PropertyList>
+															<Property Name="Bypass" Type="bool" Value="True"/>
+														</PropertyList>
 														<ReferenceList>
 															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 																<ObjectRef Name="Low_Pass_20KHz" ID="{830124FB-B9D5-4AE8-846E-E94A74652666}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
@@ -585,50 +572,49 @@
 								</AuxBus>
 							</ChildrenList>
 						</Bus>
-						<Bus Name="Sub_Music" ID="{3FBC25BF-D122-4587-A844-776F0CD71394}">
+						<Folder Name="AVS" ID="{30D4CC44-655F-4442-B9C8-2EB2013BCB12}" ShortID="888619726">
 							<ChildrenList>
-								<AuxBus Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}"/>
-							</ChildrenList>
-						</Bus>
-						<Bus Name="Sub_SFX" ID="{10DC0E06-4DF6-471E-B7BE-18ECC571EBDC}">
-							<ChildrenList>
-								<AuxBus Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}">
+								<Bus Name="AVS_Reference" ID="{4EFB273A-020C-4984-B70A-0DF0AD87E170}">
 									<PropertyList>
-										<Property Name="BusVolume" Type="Real64">
+										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>100</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
-								</AuxBus>
-							</ChildrenList>
-						</Bus>
-						<Bus Name="Sub_SilentLoops" ID="{2212924F-54AE-4AE8-A9A8-396907FFE46B}">
-							<ChildrenList>
-								<AuxBus Name="Aux_SilentLoops" ID="{BF3484BE-54D5-4DAE-88A3-4836F1B18D20}">
+								</Bus>
+								<Bus Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}">
 									<PropertyList>
-										<Property Name="OutputBusLowpass" Type="int16">
+										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>71</Value>
+												<Value>100</Value>
 											</ValueList>
 										</Property>
+										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
 									</PropertyList>
-								</AuxBus>
-							</ChildrenList>
-						</Bus>
-						<Bus Name="Sub_Toning" ID="{2BDDBCE5-6A36-4E3F-90C3-E06FE578944E}">
-							<ChildrenList>
-								<AuxBus Name="Aux_Toning" ID="{619F7D95-78F4-4AA5-AEC9-AB6251E1BF93}">
+								</Bus>
+								<Bus Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}">
 									<PropertyList>
-										<Property Name="OutputBusLowpass" Type="int16">
+										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>74</Value>
+												<Value>100</Value>
 											</ValueList>
 										</Property>
+										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
 									</PropertyList>
-								</AuxBus>
+								</Bus>
+								<Bus Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>100</Value>
+											</ValueList>
+										</Property>
+										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
+									</PropertyList>
+								</Bus>
 							</ChildrenList>
-						</Bus>
+						</Folder>
 					</ChildrenList>
 				</Bus>
 			</ChildrenList>

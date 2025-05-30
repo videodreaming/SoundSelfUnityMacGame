@@ -25617,12 +25617,22 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{AE6C6AA2-2DB8-4EBE-8512-275558CB2B1A}" ShortID="543728546">
+					<PropertyList>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Aux_Toning" ID="{619F7D95-78F4-4AA5-AEC9-AB6251E1BF93}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -25645,11 +25655,6 @@
 							<ChildrenList>
 								<SwitchContainer Name="Toning_Gentle" ID="{35C17ACD-03E0-4D90-894D-F2B0EE1FFC4C}" ShortID="553767257">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
-											<ValueList>
-												<Value>2</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>13</Value>
@@ -30503,7 +30508,7 @@
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -33280,11 +33285,6 @@
 								</SwitchContainer>
 								<SwitchContainer Name="Toning_SonoFlore" ID="{659BA40C-644E-45B2-A866-76496CF55EC5}" ShortID="86894726">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
-											<ValueList>
-												<Value>20</Value>
-											</ValueList>
-										</Property>
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -33336,14 +33336,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[B]_toning_sono flore" ID="{D7D4E3FD-7472-448F-900D-E9FB359769C1}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="11.6379310344828"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="4.96660236315413"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.1012931034483"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[B]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="363146653"/>
+																<MediaID ID="103853562"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -33421,14 +33420,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[C]_toning_sono flore" ID="{60AB59EC-FD6B-4F7F-939B-E3D6A6126FE9}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="8.76077586206897"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1.96357306486617"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.2306034482759"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[C]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="1031373284"/>
+																<MediaID ID="612765704"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -33506,14 +33504,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[E]_toning_sono flore" ID="{AF309EF3-0AFF-4757-A181-BF7835ADC7D8}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="8.01724137931035"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1.05220641427539"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="16.8103448275862"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[E]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="733447239"/>
+																<MediaID ID="42945333"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -33591,14 +33588,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[G]_toning_sono flore" ID="{8875B4DE-6917-438D-B4A3-43C43856F92E}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="11.9288793103448"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.851956233421722"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="18.4913793103448"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[G]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="337142600"/>
+																<MediaID ID="774261205"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -33681,14 +33677,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[B]_toning_sono flore" ID="{5080E0BF-86AC-4DA0-A2AE-1D32A0F32BFB}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="11.6379310344828"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="5.1344345309863"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.1012931034483"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[B]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="363146653"/>
+																<MediaID ID="917444133"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -33771,14 +33766,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[E]_toning_sono flore" ID="{056F3ECF-DE75-4381-89AC-B679A725DAA3}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="8.01724137931035"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="2.0979020979021"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="16.8103448275862"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[E]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="733447239"/>
+																<MediaID ID="619839172"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -33861,14 +33855,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[E]_toning_sono flore" ID="{23B6F592-16BF-4A48-9205-333B4DA7BFF7}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="8.01724137931035"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.296961659030631"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="16.8103448275862"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[E]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="733447239"/>
+																<MediaID ID="999174595"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -33958,14 +33951,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[B]_toning_sono flore" ID="{DBB0EC60-6C46-4BC7-B35E-781CFF2F3A7F}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="11.6379310344828"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.435133831685597"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.1012931034483"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[B]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="363146653"/>
+																<MediaID ID="622182299"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -34050,14 +34042,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[B]_toning_sono flore" ID="{C0F24D88-2D05-485A-B698-059954D1B71D}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="11.6379310344828"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="2.19737159392336"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.1012931034483"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[B]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="363146653"/>
+																<MediaID ID="417221144"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -34147,14 +34138,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[E]_toning_sono flore" ID="{F87F3535-41D5-4B71-9898-060688B44311}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="8.01724137931035"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1.47178683385581"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="16.8103448275862"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[E]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="733447239"/>
+																<MediaID ID="544785390"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -34239,14 +34229,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[E]_toning_sono flore" ID="{565C7A04-F7E8-40CC-8B6B-B4C99FB9A7FE}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="8.01724137931035"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.842416204485174"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="16.8103448275862"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[E]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="733447239"/>
+																<MediaID ID="392757095"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -34331,14 +34320,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="fundamental_[G]_toning_sono flore" ID="{5C16E844-3C9D-4FD5-93A6-B2BA877355B2}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="11.9288793103448"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.965034965034963"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="18.4913793103448"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[G]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="337142600"/>
+																<MediaID ID="1067888804"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -34932,12 +34920,22 @@
 					</StateInfo>
 				</ActorMixer>
 				<ActorMixer Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{128C7A9D-1145-4CED-A8C2-2065EFDECDBF}" ShortID="16965110">
+					<PropertyList>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>12</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Aux_Toning" ID="{619F7D95-78F4-4AA5-AEC9-AB6251E1BF93}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -38441,13 +38439,13 @@
 								</SwitchContainer>
 								<SwitchContainer Name="Toning_Shadow" ID="{0B83BB64-DCBD-4811-834F-47FEDEA3980C}" ShortID="526604604">
 									<PropertyList>
-										<Property Name="OverrideEffect" Type="bool" Value="True"/>
-										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-										<Property Name="Volume" Type="Real64">
+										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>12</Value>
 											</ValueList>
 										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -40588,11 +40586,6 @@
 								</SwitchContainer>
 								<SwitchContainer Name="Toning_SonoFlore" ID="{78A730C2-62EB-4BDC-ACC4-DD243D5363B7}" ShortID="515473982">
 									<PropertyList>
-										<Property Name="Highpass" Type="int16">
-											<ValueList>
-												<Value>13</Value>
-											</ValueList>
-										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
@@ -40662,14 +40655,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[B]_toning_sono flore" ID="{DCC25DB3-E38B-4070-B784-8FC07E3A5CBE}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="6.43318965517241"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.89472811671087"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.2952586206897"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[B]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="1073188299"/>
+																<MediaID ID="44733396"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -40764,14 +40756,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[D]_toning_sono flore" ID="{223F546E-AEA1-4EA6-847A-2DEAB78ED937}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="9.60129310344828"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.874020376175553"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="19.8491379310345"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[D]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="263548589"/>
+																<MediaID ID="1045990553"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -40866,14 +40857,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[F]_toning_sono flore" ID="{7B0B1C12-CCD4-425A-8E0A-00C3861C35A3}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="9.73060344827586"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.67132867132867"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="19.0409482758621"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[F]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="972895772"/>
+																<MediaID ID="305443977"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -40958,7 +40948,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-7</Value>
+																<Value>-5</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -40974,14 +40964,13 @@
 														<AudioFileSource Name="harmony_[G]_toning_sono flore" ID="{38F35E95-8630-47A7-B918-4E0EF5F251FA}">
 															<PropertyList>
 																<Property Name="FadeInDuration" Type="Real64" Value="1.97198275862069"/>
-																<Property Name="FadeOutDuration" Type="Real64" Value="9.73060344827586"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1.84249156016397"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.8448275862069"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[G]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="102762678"/>
+																<MediaID ID="701492618"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -41076,14 +41065,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[B]_toning_sono flore" ID="{CF600432-3634-4CE9-8C80-6835A212C079}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="6.43318965517241"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1.73388895587171"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.2952586206897"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[B]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="1073188299"/>
+																<MediaID ID="322275570"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -41183,14 +41171,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[D]_toning_sono flore" ID="{1DA1B77B-47A3-47D3-8748-0EFA513584D5}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="9.60129310344828"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.496397998553173"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="19.8491379310345"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[D]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="263548589"/>
+																<MediaID ID="744575914"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -41285,14 +41272,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[F]_toning_sono flore" ID="{0F3638A7-ECDE-441F-8960-DE5548F9B195}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="9.73060344827586"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.499834217506629"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="19.0409482758621"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[F]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="972895772"/>
+																<MediaID ID="385705688"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -41397,14 +41383,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[B]_toning_sono flore" ID="{EF1158FD-E91F-449C-BF99-BF1E8AC89F1F}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="6.43318965517241"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.810812032794787"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.2952586206897"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[B]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="1073188299"/>
+																<MediaID ID="765258340"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -41509,14 +41494,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[B]_toning_sono flore" ID="{F91288CF-E3EA-4084-B241-95A4F14F1E78}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="6.43318965517241"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.726895948878703"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="17.2952586206897"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[B]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="1073188299"/>
+																<MediaID ID="378729370"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -41616,14 +41600,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[D]_toning_sono flore" ID="{0A723A8B-0262-4C2E-9B33-3271982245EA}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="9.60129310344828"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="1.20968471183989"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="19.8491379310345"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[D]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="263548589"/>
+																<MediaID ID="284594301"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -41723,14 +41706,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[F]_toning_sono flore" ID="{6EADF3EA-675D-4FF1-9738-1CC1F9F07D2A}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="9.73060344827586"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.965034965034963"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="19.0409482758621"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[F]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="972895772"/>
+																<MediaID ID="715375763"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -41830,14 +41812,13 @@
 													<ChildrenList>
 														<AudioFileSource Name="harmony_[F]_toning_sono flore" ID="{BAA554CC-41E5-4546-B57A-84F7BE21B026}">
 															<PropertyList>
-																<Property Name="FadeOutDuration" Type="Real64" Value="9.73060344827586"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.583750301422713"/>
 																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-																<Property Name="TrimEnd" Type="Real64" Value="19.0409482758621"/>
 															</PropertyList>
 															<Language>SFX</Language>
 															<AudioFile>harmony_[F]_toning_sono flore.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="972895772"/>
+																<MediaID ID="599055896"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
