@@ -280,22 +280,25 @@
 										</Effect>
 										<Effect Name="Cut_3dB_10KHz" ID="{83EAB3EA-A43D-470F-A183-7F02DAA44A4D}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 											<PropertyList>
-												<Property Name="FrequencyBand3" Type="Real32" Value="10000"/>
-												<Property Name="GainBand3" Type="Real32" Value="-3"/>
-												<Property Name="OnOffBand1" Type="bool" Value="False"/>
+												<Property Name="FilterTypeBand2" Type="int32" Value="3"/>
+												<Property Name="FrequencyBand1" Type="Real32" Value="150"/>
+												<Property Name="FrequencyBand2" Type="Real32" Value="483"/>
+												<Property Name="FrequencyBand3" Type="Real32" Value="150"/>
+												<Property Name="GainBand1" Type="Real32" Value="-1"/>
+												<Property Name="GainBand3" Type="Real32" Value="-8"/>
 												<Property Name="OnOffBand2" Type="bool" Value="False"/>
+												<Property Name="QFactorBand2" Type="Real32" Value="0.5"/>
 											</PropertyList>
 										</Effect>
 										<Effect Name="High_Freq_Cut_1" ID="{BA5BC68D-BCA7-4CE0-9878-1560F2D8B257}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 											<PropertyList>
-												<Property Name="FilterTypeBand1" Type="int32" Value="1"/>
 												<Property Name="FilterTypeBand2" Type="int32" Value="4"/>
 												<Property Name="FilterTypeBand3" Type="int32" Value="0"/>
 												<Property Name="FrequencyBand2" Type="Real32" Value="15000"/>
-												<Property Name="FrequencyBand3" Type="Real32" Value="18000"/>
-												<Property Name="GainBand2" Type="Real32" Value="-2"/>
+												<Property Name="FrequencyBand3" Type="Real32" Value="9173"/>
+												<Property Name="GainBand1" Type="Real32" Value="2"/>
+												<Property Name="GainBand2" Type="Real32" Value="-10"/>
 												<Property Name="GainBand3" Type="Real32" Value="-3"/>
-												<Property Name="OnOffBand1" Type="bool" Value="False"/>
 											</PropertyList>
 										</Effect>
 										<Effect Name="High_Freq_Cut_2" ID="{32F492AD-3F59-4D61-8488-1DADE817C01E}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
@@ -535,15 +538,16 @@
 										</Effect>
 										<Effect Name="Boost_3dB_100Hz" ID="{3EA7C9BD-6F9A-4000-A227-F86B5B4328EE}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 											<PropertyList>
-												<Property Name="GainBand1" Type="Real32" Value="2"/>
+												<Property Name="FrequencyBand1" Type="Real32" Value="150"/>
+												<Property Name="FrequencyBand3" Type="Real32" Value="150"/>
+												<Property Name="GainBand3" Type="Real32" Value="-12"/>
 												<Property Name="OnOffBand2" Type="bool" Value="False"/>
-												<Property Name="OnOffBand3" Type="bool" Value="False"/>
 											</PropertyList>
 										</Effect>
-										<Effect Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+										<Effect Name="Cut_2_dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 											<PropertyList>
 												<Property Name="FrequencyBand2" Type="Real32" Value="2435"/>
-												<Property Name="GainBand1" Type="Real32" Value="-8"/>
+												<Property Name="GainBand1" Type="Real32" Value="-2"/>
 												<Property Name="GainBand2" Type="Real32" Value="2"/>
 												<Property Name="GainBand3" Type="Real32" Value="4"/>
 												<Property Name="OnOffBand2" Type="bool" Value="False"/>
@@ -687,7 +691,7 @@
 									<PropertyList>
 										<Property Name="FilterTypeBand1" Type="int32" Value="1"/>
 										<Property Name="FilterTypeBand3" Type="int32" Value="0"/>
-										<Property Name="FrequencyBand3" Type="Real32" Value="60"/>
+										<Property Name="FrequencyBand3" Type="Real32" Value="200"/>
 										<Property Name="OnOffBand1" Type="bool" Value="False"/>
 										<Property Name="OnOffBand2" Type="bool" Value="False"/>
 									</PropertyList>

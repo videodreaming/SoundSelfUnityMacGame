@@ -107,7 +107,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -152,7 +152,7 @@
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="-4894.97888471675"/>
 																				<Property Name="EndTrimOffset" Type="Real64" Value="327421.875"/>
 																				<Property Name="FadeInDuration" Type="Real64" Value="7889.42767016015"/>
-																				<Property Name="FadeOutDuration" Type="Real64" Value="74952.6398774679"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="27436.7518374278"/>
 																				<Property Name="PlayAt" Type="Real64" Value="95928.81754637"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="ThematicSavasana_MUSIC_METTA" ID="{78766E0F-2BC5-4370-853B-0D53676D80F7}"/>
@@ -257,13 +257,13 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>132.30715</XPos>
-																								<YPos>-0.62035</YPos>
+																								<XPos>177.18327</XPos>
+																								<YPos>-0.29434</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>327.421875</XPos>
-																								<YPos>-2.41478</YPos>
+																								<YPos>-1.44938</YPos>
 																								<Flags>37</Flags>
 																							</Point>
 																						</PointList>
@@ -988,7 +988,7 @@
 													<EffectSlot Name="" ID="{3BCE757A-D744-450F-B4F5-C01E49A8E059}" ShortID="507015276">
 														<ReferenceList>
 															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
-																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																<ObjectRef Name="Cut_2_dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 															</Reference>
 														</ReferenceList>
 													</EffectSlot>
@@ -2697,7 +2697,7 @@
 													<EffectSlot Name="" ID="{5B3745BA-2E73-4B67-8574-AAA46164B7A5}" ShortID="728065154">
 														<ReferenceList>
 															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
-																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																<ObjectRef Name="Cut_2_dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 															</Reference>
 														</ReferenceList>
 													</EffectSlot>
@@ -3503,7 +3503,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3548,7 +3548,7 @@
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="-6575.8754863813"/>
 																				<Property Name="EndTrimOffset" Type="Real64" Value="327421.875"/>
 																				<Property Name="FadeInDuration" Type="Real64" Value="11775.4432203881"/>
-																				<Property Name="FadeOutDuration" Type="Real64" Value="82487.1225870466"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="52642.7646103955"/>
 																				<Property Name="PlayAt" Type="Real64" Value="144000"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="ThematicSavasana_MUSIC_METTA" ID="{3210626B-61F0-43EC-9E51-2923065D1A79}"/>
@@ -3623,13 +3623,13 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>131.77266</XPos>
-																								<YPos>-1.70373</YPos>
+																								<XPos>132.2785</XPos>
+																								<YPos>-0.81045</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>327.421875</XPos>
-																								<YPos>-3.18724</YPos>
+																								<YPos>-1.20066</YPos>
 																								<Flags>37</Flags>
 																							</Point>
 																						</PointList>
@@ -6447,7 +6447,7 @@
 																							</Point>
 																							<Point>
 																								<XPos>50.10693</XPos>
-																								<YPos>-2.41619</YPos>
+																								<YPos>-1.43942</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -7191,7 +7191,7 @@
 													<EffectSlot Name="" ID="{B1A2896B-9099-44F0-99F5-FF06413CAFCC}" ShortID="913278008">
 														<ReferenceList>
 															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
-																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																<ObjectRef Name="Cut_2_dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 															</Reference>
 														</ReferenceList>
 													</EffectSlot>
@@ -8800,7 +8800,7 @@
 													<EffectSlot Name="" ID="{17122D86-4365-43AA-9BB6-339398E522C2}" ShortID="924877257">
 														<ReferenceList>
 															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
-																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																<ObjectRef Name="Cut_2_dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 															</Reference>
 														</ReferenceList>
 													</EffectSlot>
@@ -9630,7 +9630,7 @@
 																							</Point>
 																							<Point>
 																								<XPos>31.417</XPos>
-																								<YPos>-1.05968</YPos>
+																								<YPos>-0.46365</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>

@@ -6,13 +6,6 @@
 				<WorkUnit Name="GenerativeInstruments" ID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}" PersistMode="Reference"/>
 				<WorkUnit Name="OPENING" ID="{90D952FB-C720-4B00-8ADF-CE167B473814}" PersistMode="Reference"/>
 				<MusicSwitchContainer Name="SOMATIC_SWITCH" ID="{29EC6BD4-AA95-44B6-9259-B9DE29F21203}" ShortID="571610091">
-					<PropertyList>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1623,7 +1616,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1750,6 +1743,11 @@
 										<Property Name="UserAuxSendVolume0" Type="Real64">
 											<ValueList>
 												<Value>12</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1893,7 +1891,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2042,7 +2040,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -5105,6 +5103,11 @@
 												<Value>12</Value>
 											</ValueList>
 										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
@@ -5167,8 +5170,8 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>53.86825</XPos>
-																								<YPos>-3.40094</YPos>
+																								<XPos>53.47558</XPos>
+																								<YPos>-2.71332</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -5211,7 +5214,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-9</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -6589,7 +6592,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -6741,7 +6744,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>

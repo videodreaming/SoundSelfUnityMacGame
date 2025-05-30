@@ -2284,6 +2284,15 @@
 						<Property Name="FrequencyBand1" Type="Real32" Value="918"/>
 					</PropertyList>
 				</Effect>
+				<Effect Name="HighShelfReduction" ID="{AFAFA943-EF02-4E89-9EAE-A35949700A4B}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+					<PropertyList>
+						<Property Name="FrequencyBand2" Type="Real32" Value="500"/>
+						<Property Name="FrequencyBand3" Type="Real32" Value="150"/>
+						<Property Name="GainBand2" Type="Real32" Value="-4"/>
+						<Property Name="GainBand3" Type="Real32" Value="-16"/>
+						<Property Name="QFactorBand2" Type="Real32" Value="0.5"/>
+					</PropertyList>
+				</Effect>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>

@@ -25620,7 +25620,7 @@
 					<PropertyList>
 						<Property Name="UserAuxSendVolume0" Type="Real64">
 							<ValueList>
-								<Value>12</Value>
+								<Value>6</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -34923,7 +34923,7 @@
 					<PropertyList>
 						<Property Name="UserAuxSendVolume0" Type="Real64">
 							<ValueList>
-								<Value>12</Value>
+								<Value>6</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -38047,7 +38047,7 @@
 													<EffectSlot Name="" ID="{BD4703B5-5EB5-45AB-88C0-3C7331A3AFF7}" ShortID="865834655">
 														<ReferenceList>
 															<Reference Name="Effect" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
-																<ObjectRef Name="Cut_3dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+																<ObjectRef Name="Cut_2_dB_100Hz" ID="{67423B74-4F0A-4719-92FE-343347C717C7}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 															</Reference>
 														</ReferenceList>
 														<StateInfo>

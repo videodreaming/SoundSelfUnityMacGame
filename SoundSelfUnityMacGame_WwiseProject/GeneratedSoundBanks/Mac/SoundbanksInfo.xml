@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{6B91F73A-C382-77FA-B890-3A62541C905F}">
+		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{B6F095DD-9A95-E13C-6B80-F9663FEBF01F}">
 			<ShortName>Aux_Toning</ShortName>
 			<Path>Bus/18/Aux_Toning.bnk</Path>
 			<Plugins>
@@ -27,7 +27,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1163393389" Type="Bus" Language="SFX" Hash="{6AA26475-1470-5060-B1C7-24BD2C1CB79F}">
+		<SoundBank Id="1163393389" Type="Bus" Language="SFX" Hash="{ED16858E-1471-4079-C95F-BD3C550CB447}">
 			<ShortName>Aux_ImpactsSub</ShortName>
 			<Path>Bus/11/Aux_ImpactsSub.bnk</Path>
 			<Plugins>
@@ -45,17 +45,19 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{5F1B3C6B-2702-1ECA-08FF-D73B499F5943}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{7C01FE6E-AA53-EB5E-AC4C-70520F75FE4C}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
 				<ShareSets>
 					<Plugin Id="59662939" Name="Dialog_Too_Quiet" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="1008402193" Name="Low_Pass_20KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="1182561210" Name="Cut_3dB_10KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="2547645744" Name="Boost_3dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="3013737263" Name="Bass_Remover_1" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="3157974155" Name="New_Mastering_Suite" LibName="Mastering Suite" LibId="12189699"/>
+					<Plugin Id="3986712950" Name="HighShelfReduction" LibName="Wwise Parametric EQ" LibId="6881283"/>
 				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
@@ -113,7 +115,13 @@
 						</ShareSets>
 					</PluginRefs>
 				</AuxBus>
-				<AuxBus Id="1959646260" Name="Aux_SilentLoops"/>
+				<AuxBus Id="1959646260" Name="Aux_SilentLoops">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1182561210"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
 				<AuxBus Id="2562455749" Name="Aux_SFX">
 					<PluginRefs>
 						<ShareSets>
@@ -124,7 +132,7 @@
 				<AuxBus Id="3331583377" Name="Aux_Music">
 					<PluginRefs>
 						<ShareSets>
-							<PluginRef Id="2547645744"/>
+							<PluginRef Id="3986712950"/>
 						</ShareSets>
 					</PluginRefs>
 				</AuxBus>
@@ -368,7 +376,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{055D3EB0-E1C5-38DC-0B38-947992D006F4}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{D76F8E78-CBAF-0138-FEEB-7EAFBA595F8A}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -713,7 +721,7 @@
 					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
 				</Custom>
 				<ShareSets>
-					<Plugin Id="1759944409" Name="Cut_3dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="2157017419" Name="Cut_2_dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="2998002419" Name="Boost_3dB_10KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 				</ShareSets>
 			</Plugins>
@@ -745,7 +753,7 @@
 									<PluginRef Id="670553737"/>
 								</Custom>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -846,7 +854,7 @@
 									<PluginRef Id="670553737"/>
 								</Custom>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -958,7 +966,7 @@
 									<PluginRef Id="670553737"/>
 								</Custom>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -1059,7 +1067,7 @@
 									<PluginRef Id="670553737"/>
 								</Custom>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -1297,7 +1305,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -1676,7 +1684,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -2066,7 +2074,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -2445,7 +2453,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -3439,7 +3447,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -3818,7 +3826,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -4209,7 +4217,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -4588,7 +4596,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 								</ShareSets>
 							</PluginRefs>
 							<Children>
@@ -5010,14 +5018,25 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1959646260" Type="Bus" Language="SFX" Hash="{C72B00F5-2FA4-7238-3E97-2759BB5F87E5}">
+		<SoundBank Id="1959646260" Type="Bus" Language="SFX" Hash="{3EF9B768-4DB4-234C-2052-D3DED7966809}">
 			<ShortName>Aux_SilentLoops</ShortName>
 			<Path>Bus/19/Aux_SilentLoops.bnk</Path>
+			<Plugins>
+				<ShareSets>
+					<Plugin Id="1182561210" Name="Cut_3dB_10KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+				</ShareSets>
+			</Plugins>
 			<AuxBusses>
-				<AuxBus Id="1959646260" Name="Aux_SilentLoops"/>
+				<AuxBus Id="1959646260" Name="Aux_SilentLoops">
+					<PluginRefs>
+						<ShareSets>
+							<PluginRef Id="1182561210"/>
+						</ShareSets>
+					</PluginRefs>
+				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{8FCB98AD-1B50-3C2D-328F-F36AC86AE72E}">
+		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{14CE7A2C-04BC-D085-4037-C0210070789D}">
 			<ShortName>Aux_SFX</ShortName>
 			<Path>Bus/25/Aux_SFX.bnk</Path>
 			<Plugins>
@@ -5035,7 +5054,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{0F372915-3FC5-2FF6-7571-9006597D804C}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{F23B86F8-1215-1F66-85BB-A6864D51877D}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5498,6 +5517,9 @@
 						<MediaRef Id="745939041"/>
 						<MediaRef Id="901997753"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
+					</AuxBusRefs>
 				</Event>
 				<Event Id="769398012" Name="Play_Inhale_Long" DurationType="OneShot" DurationMin="3.1872916" DurationMax="3.1872916">
 					<MediaRefs>
@@ -5647,6 +5669,9 @@
 					<MediaRefs>
 						<MediaRef Id="756450229"/>
 					</MediaRefs>
+					<AuxBusRefs>
+						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
+					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4155508698" Id="1927133646"/>
@@ -6362,25 +6387,25 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3331583377" Type="Bus" Language="SFX" Hash="{9DE29D9A-A70E-9FCB-7D65-4DAA4C93E1E0}">
+		<SoundBank Id="3331583377" Type="Bus" Language="SFX" Hash="{817D4F89-E097-2ECF-2AE7-ED803E6D758F}">
 			<ShortName>Aux_Music</ShortName>
 			<Path>Bus/33/Aux_Music.bnk</Path>
 			<Plugins>
 				<ShareSets>
-					<Plugin Id="2547645744" Name="Boost_3dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="3986712950" Name="HighShelfReduction" LibName="Wwise Parametric EQ" LibId="6881283"/>
 				</ShareSets>
 			</Plugins>
 			<AuxBusses>
 				<AuxBus Id="3331583377" Name="Aux_Music">
 					<PluginRefs>
 						<ShareSets>
-							<PluginRef Id="2547645744"/>
+							<PluginRef Id="3986712950"/>
 						</ShareSets>
 					</PluginRefs>
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{3A020DD0-25C3-33A6-BE00-9D57444CD58A}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{91CF7B7B-9AC5-EA14-7928-56E044164F1B}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -7211,7 +7236,7 @@
 					<Plugin Id="1443902288" Name="_1_Second_Delay" LibName="Wwise Stereo Delay" LibId="8847363"/>
 					<Plugin Id="1506222489" Name="AVS_Modulation_Wave1_01" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="1506222490" Name="AVS_Modulation_Wave1_02" LibName="Wwise Tremolo" LibId="8585219"/>
-					<Plugin Id="1759944409" Name="Cut_3dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
+					<Plugin Id="2157017419" Name="Cut_2_dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="2943759360" Name="AVS_Modulation_Wave3_02" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2943759363" Name="AVS_Modulation_Wave3_01" LibName="Wwise Tremolo" LibId="8585219"/>
 					<Plugin Id="2998002419" Name="Boost_3dB_10KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
@@ -8626,7 +8651,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8638,7 +8663,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8650,7 +8675,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8662,7 +8687,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8674,7 +8699,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8686,7 +8711,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8698,7 +8723,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8710,7 +8735,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8722,7 +8747,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8734,7 +8759,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8746,7 +8771,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -8758,7 +8783,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10063,7 +10088,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10075,7 +10100,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10087,7 +10112,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10099,7 +10124,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10111,7 +10136,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10123,7 +10148,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10135,7 +10160,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10147,7 +10172,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10159,7 +10184,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10171,7 +10196,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10183,7 +10208,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10195,7 +10220,7 @@
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
-									<PluginRef Id="1759944409"/>
+									<PluginRef Id="2157017419"/>
 									<PluginRef Id="3442768367"/>
 								</ShareSets>
 							</PluginRefs>
@@ -10607,5 +10632,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{278CA3BA-F0A4-267D-5980-D2E72409FE0A}</FileHash>
+	<FileHash>{5845EDE0-828C-5CE1-CE6C-F914061E4091}</FileHash>
 </SoundBanksInfo>
