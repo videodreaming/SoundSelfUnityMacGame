@@ -492,6 +492,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<Bus Name="SubAcoustics" ID="{AFC8777D-03BE-435C-9D8D-3000A1F105FB}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ChildrenList>
 								<AuxBus Name="Aux_SFX" ID="{0BB7C9C7-FF5D-4CD7-A311-E226F083CDFE}">
 									<PropertyList>

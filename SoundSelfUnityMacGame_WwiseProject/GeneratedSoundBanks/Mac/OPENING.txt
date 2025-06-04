@@ -90,9 +90,6 @@ Effect plug-ins	ID	Name	Type				Notes
 	2157017419	Cut_2_dB_100Hz	Wwise Parametric EQ			
 	2998002419	Boost_3dB_10KHz	Wwise Parametric EQ			
 
-Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
-	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
-
 Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
 	37327612	menu_music_C Major	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\menu_music_C Major_818F3B66.wem	37327612.wem	\Actor-Mixer Hierarchy\Linear Music\Music\menu_music_C Major	
 	39113922	vo_thematicOpening_surrender	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicOpening_surrender_FBC78EF0.wem	39113922.wem	\Interactive Music Hierarchy\Default Work Unit\OPENING\VO_THEMATIC CONTENT_SWITCH\vo_thematicOpening_surrender\vo_thematicOpening_surrender	

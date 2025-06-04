@@ -45,7 +45,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{28F3992B-2196-C3C6-548F-73764039AD4A}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{93CC6430-D6AD-9358-276B-4DCDA9AB0489}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -56,19 +56,12 @@
 					<Plugin Id="2547645744" Name="Boost_3dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="3013737263" Name="Bass_Remover_1" LibName="Wwise Parametric EQ" LibId="6881283"/>
-					<Plugin Id="3157974155" Name="New_Mastering_Suite" LibName="Mastering Suite" LibId="12189699"/>
 					<Plugin Id="3986712950" Name="HighShelfReduction" LibName="Wwise Parametric EQ" LibId="6881283"/>
 				</ShareSets>
 				<AudioDevices>
 					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
 					<Plugin Id="2719312584" Name="System_01" LibName="System" LibId="11403271"/>
-					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271">
-						<PluginRefs>
-							<ShareSets>
-								<PluginRef Id="3157974155"/>
-							</ShareSets>
-						</PluginRefs>
-					</Plugin>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
 				</AudioDevices>
 			</Plugins>
 			<Busses>
@@ -376,7 +369,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{FBD1EB70-871B-D75C-8192-38F7A17FCBB0}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{6E84FFC2-7881-7AA6-9F51-D9CDCDB9D5A5}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -717,9 +710,6 @@
 				</File>
 			</Media>
 			<Plugins>
-				<Custom>
-					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
-				</Custom>
 				<ShareSets>
 					<Plugin Id="2157017419" Name="Cut_2_dB_100Hz" LibName="Wwise Parametric EQ" LibId="6881283"/>
 					<Plugin Id="2998002419" Name="Boost_3dB_10KHz" LibName="Wwise Parametric EQ" LibId="6881283"/>
@@ -749,9 +739,6 @@
 								<MediaRef Id="1051969831"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2157017419"/>
 								</ShareSets>
@@ -850,9 +837,6 @@
 								<MediaRef Id="1051969831"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2157017419"/>
 								</ShareSets>
@@ -962,9 +946,6 @@
 								<MediaRef Id="1051969831"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2157017419"/>
 								</ShareSets>
@@ -1063,9 +1044,6 @@
 								<MediaRef Id="1051969831"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2157017419"/>
 								</ShareSets>
@@ -1259,11 +1237,6 @@
 							<MediaRefs>
 								<MediaRef Id="1050281884"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
-							</PluginRefs>
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
@@ -1337,11 +1310,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -1423,11 +1391,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -1509,11 +1472,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -1595,11 +1553,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -1716,11 +1669,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -1802,11 +1750,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -1888,11 +1831,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -1974,11 +1912,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2106,11 +2039,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2192,11 +2120,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2278,11 +2201,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2364,11 +2282,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2485,11 +2398,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2571,11 +2479,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2657,11 +2560,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2743,11 +2641,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -2866,22 +2759,11 @@
 						<AuxBusRef Id="1163393389" Name="Aux_ImpactsSub"/>
 					</AuxBusRefs>
 				</Event>
-				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite">
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
-				</Event>
+				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite"/>
 				<Event Id="603425291" Name="Play_sfx_SoundSeed_BreathCycleWind" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
 				</Event>
 				<Event Id="410054882" Name="Play_SIGH_QUERY_SEQUENCE_1" DurationType="OneShot" DurationMin="214.70941" DurationMax="214.70941">
 					<MediaRefs>
@@ -2988,11 +2870,6 @@
 								<MediaRef Id="997677863"/>
 								<MediaRef Id="1006284074"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
-							</PluginRefs>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3074,11 +2951,6 @@
 								<MediaRef Id="997677863"/>
 								<MediaRef Id="1006284074"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
-							</PluginRefs>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3160,11 +3032,6 @@
 								<MediaRef Id="997677863"/>
 								<MediaRef Id="1006284074"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
-							</PluginRefs>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3246,11 +3113,6 @@
 								<MediaRef Id="997677863"/>
 								<MediaRef Id="1006284074"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
-							</PluginRefs>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3479,11 +3341,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3565,11 +3422,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3651,11 +3503,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3737,11 +3584,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3858,11 +3700,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -3944,11 +3781,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4030,11 +3862,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4116,11 +3943,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4249,11 +4071,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4335,11 +4152,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4421,11 +4233,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4507,11 +4314,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4628,11 +4430,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4714,11 +4511,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4800,11 +4592,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -4886,11 +4673,6 @@
 										<MediaRef Id="997677863"/>
 										<MediaRef Id="1006284074"/>
 									</MediaRefs>
-									<PluginRefs>
-										<Custom>
-											<PluginRef Id="670553737"/>
-										</Custom>
-									</PluginRefs>
 									<Children>
 										<SwitchContainer>
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
@@ -5054,7 +4836,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{F23B86F8-1215-1F66-85BB-A6864D51877D}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{3DC0B68B-4BFE-0400-7C0C-823745049466}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5430,9 +5212,6 @@
 				</File>
 			</Media>
 			<Plugins>
-				<Custom>
-					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
-				</Custom>
 				<ShareSets>
 					<Plugin Id="2652646462" Name="Dialog_Leveler_Soft" LibName="Wwise Compressor" LibId="7077891"/>
 					<Plugin Id="3164629247" Name="Holy" LibName="Wwise RoomVerb" LibId="7733251"/>
@@ -5601,11 +5380,6 @@
 							<MediaRefs>
 								<MediaRef Id="1050281884"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
-							</PluginRefs>
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
@@ -5627,22 +5401,11 @@
 						<MediaRef Id="525152423"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite">
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
-				</Event>
+				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite"/>
 				<Event Id="603425291" Name="Play_sfx_SoundSeed_BreathCycleWind" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
 				</Event>
 				<Event Id="410054881" Name="Play_SIGH_QUERY_SEQUENCE_2" DurationType="OneShot" DurationMin="214.70941" DurationMax="214.70941">
 					<MediaRefs>
@@ -5704,9 +5467,6 @@
 								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
@@ -5778,9 +5538,6 @@
 								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
@@ -5851,9 +5608,6 @@
 								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
@@ -5914,9 +5668,6 @@
 								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
@@ -5977,9 +5728,6 @@
 								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
@@ -6062,9 +5810,6 @@
 								<MediaRef Id="1070561637"/>
 							</MediaRefs>
 							<PluginRefs>
-								<Custom>
-									<PluginRef Id="670553737"/>
-								</Custom>
 								<ShareSets>
 									<PluginRef Id="2652646462"/>
 								</ShareSets>
@@ -6405,38 +6150,53 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{91CF7B7B-9AC5-EA14-7928-56E044164F1B}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{8A08479A-C841-9419-14E2-61B29E03CE81}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
-				<File Id="1226163" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="1226163" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
-					<Path>Media/1226163.wem</Path>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_74C2D65B.wem</CachePath>
 				</File>
-				<File Id="14797253" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="9503144" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_gentle_DEB03EF5.wem</CachePath>
+				</File>
+				<File Id="11549638" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_gentle_107F0EA7.wem</CachePath>
+				</File>
+				<File Id="14797253" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
-					<Path>Media/14797253.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_shadow_700893EA.wem</CachePath>
+				</File>
+				<File Id="21213409" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_5B98AF72.wem</CachePath>
+				</File>
+				<File Id="34282035" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_7DC9D84C.wem</CachePath>
 				</File>
 				<File Id="37972462" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_test18tone.wav</ShortName>
 					<Path>Media/37972462.wem</Path>
 					<CachePath>SFX/vo_test18tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="42945333" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="42945333" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_sono flore.wav</ShortName>
-					<Path>Media/42945333.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_sono flore_873AA47B.wem</CachePath>
 				</File>
-				<File Id="44733396" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="44733396" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/44733396.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_sono flore_E536C325.wem</CachePath>
 				</File>
-				<File Id="52450926" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="45788262" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_0F188DDE.wem</CachePath>
+				</File>
+				<File Id="52450926" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_shadow.wav</ShortName>
-					<Path>Media/52450926.wem</Path>
 					<CachePath>SFX/harmony_[F]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="54482482" Language="SFX" Streaming="true" Location="Loose">
@@ -6444,9 +6204,8 @@
 					<Path>Media/54482482.wem</Path>
 					<CachePath>SFX/vo_test17tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="66126426" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="66126426" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
-					<Path>Media/66126426.wem</Path>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_F2BA6C14.wem</CachePath>
 				</File>
 				<File Id="75378886" Language="SFX" Streaming="true" Location="Loose">
@@ -6454,24 +6213,28 @@
 					<Path>Media/75378886.wem</Path>
 					<CachePath>SFX/vo_testRepair_succeed_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="91575132" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="81514641" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_gentle_67F3CACA.wem</CachePath>
+				</File>
+				<File Id="91575132" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_sono flore.wav</ShortName>
-					<Path>Media/91575132.wem</Path>
 					<CachePath>SFX/fundamental_[G]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="95564558" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="95564558" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_shruti.wav</ShortName>
-					<Path>Media/95564558.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_shruti_818F3B66.wem</CachePath>
 				</File>
-				<File Id="102762678" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="96528802" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_09DB6DFF.wem</CachePath>
+				</File>
+				<File Id="102762678" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_sono flore.wav</ShortName>
-					<Path>Media/102762678.wem</Path>
 					<CachePath>SFX/harmony_[G]_toning_sono flore_252A4D6D.wem</CachePath>
 				</File>
-				<File Id="103853562" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="103853562" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/103853562.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_sono flore_1425754D.wem</CachePath>
 				</File>
 				<File Id="105163780" Language="SFX" Streaming="true" Location="Loose">
@@ -6479,19 +6242,24 @@
 					<Path>Media/105163780.wem</Path>
 					<CachePath>SFX/Wind - cold - short - looping_85315AB2.wem</CachePath>
 				</File>
-				<File Id="108713058" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="108288478" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_gentle_C2BFD3E0.wem</CachePath>
+				</File>
+				<File Id="108713058" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
-					<Path>Media/108713058.wem</Path>
 					<CachePath>SFX/harmony_[G]_toning_gentle_0ADC2F43.wem</CachePath>
 				</File>
-				<File Id="116838749" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="112444658" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_shadow_CC2F19B1.wem</CachePath>
+				</File>
+				<File Id="116838749" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
-					<Path>Media/116838749.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_844889DB.wem</CachePath>
 				</File>
-				<File Id="119872313" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="119872313" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_shruti_loop.wav</ShortName>
-					<Path>Media/119872313.wem</Path>
 					<CachePath>SFX/fundamental_[E]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="124129431" Language="SFX" Streaming="true" Location="Loose">
@@ -6499,14 +6267,12 @@
 					<Path>Media/124129431.wem</Path>
 					<CachePath>SFX/vo_test10tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="130835513" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="130835513" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_silent_gentle.wav</ShortName>
-					<Path>Media/130835513.wem</Path>
 					<CachePath>SFX/fundamental_[B]_silent_gentle_11A93380.wem</CachePath>
 				</File>
-				<File Id="133084729" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="133084729" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
-					<Path>Media/133084729.wem</Path>
 					<CachePath>SFX/fundamental_[G]_toning_shadow_BE2AC651.wem</CachePath>
 				</File>
 				<File Id="135122032" Language="SFX" Streaming="true" Location="Loose">
@@ -6514,19 +6280,24 @@
 					<Path>Media/135122032.wem</Path>
 					<CachePath>SFX/NewEnding_Sub_818F3B66.wem</CachePath>
 				</File>
-				<File Id="151307626" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="137498101" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_shadow_11B2DCFF.wem</CachePath>
+				</File>
+				<File Id="142709989" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_413DAA32.wem</CachePath>
+				</File>
+				<File Id="151307626" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
-					<Path>Media/151307626.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_gentle_B8CD30AA.wem</CachePath>
 				</File>
-				<File Id="160721409" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="160721409" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_shadow.wav</ShortName>
-					<Path>Media/160721409.wem</Path>
 					<CachePath>SFX/fundamental_[C]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="167281688" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="167281688" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_shruti.wav</ShortName>
-					<Path>Media/167281688.wem</Path>
 					<CachePath>SFX/harmony_[D]_toning_shruti_818F3B66.wem</CachePath>
 				</File>
 				<File Id="169180974" Language="SFX" Streaming="true" Location="Loose">
@@ -6534,15 +6305,38 @@
 					<Path>Media/169180974.wem</Path>
 					<CachePath>SFX/vo_test16tone_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="184068794" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_FD7C1B5F.wem</CachePath>
+				</File>
+				<File Id="186433803" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_shadow_BB5CA618.wem</CachePath>
+				</File>
 				<File Id="188647660" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>NewEnding_Music+SFX.wav</ShortName>
 					<Path>Media/188647660.wem</Path>
 					<CachePath>SFX/NewEnding_Music+SFX_818F3B66.wem</CachePath>
 				</File>
-				<File Id="193930001" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="189362165" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_gentle_BB3FB9A1.wem</CachePath>
+				</File>
+				<File Id="193930001" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_shruti.wav</ShortName>
-					<Path>Media/193930001.wem</Path>
 					<CachePath>SFX/fundamental_[G]_toning_shruti_818F3B66.wem</CachePath>
+				</File>
+				<File Id="195786627" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_gentle_AE895625.wem</CachePath>
+				</File>
+				<File Id="208193126" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_62E6AD2D.wem</CachePath>
+				</File>
+				<File Id="210323003" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_shadow_5DD53577.wem</CachePath>
 				</File>
 				<File Id="226852051" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>sfx_subkick.wav</ShortName>
@@ -6554,79 +6348,102 @@
 					<Path>Media/238131971.wem</Path>
 					<CachePath>SFX/vo_test15tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="240795686" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="240795686" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_shruti.wav</ShortName>
-					<Path>Media/240795686.wem</Path>
 					<CachePath>SFX/fundamental_[G]_toning_shruti_6263EC42.wem</CachePath>
 				</File>
-				<File Id="262956075" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="251803074" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_39E1A205.wem</CachePath>
+				</File>
+				<File Id="257133459" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_gentle_386C508A.wem</CachePath>
+				</File>
+				<File Id="262956075" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_shadow.wav</ShortName>
-					<Path>Media/262956075.wem</Path>
 					<CachePath>SFX/harmony_[D]_toning_shadow_1D36B044.wem</CachePath>
 				</File>
-				<File Id="263548589" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="263548589" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_sono flore.wav</ShortName>
-					<Path>Media/263548589.wem</Path>
 					<CachePath>SFX/harmony_[D]_toning_sono flore_C0834F18.wem</CachePath>
 				</File>
-				<File Id="268737309" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="268737309" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_sono flore.wav</ShortName>
-					<Path>Media/268737309.wem</Path>
 					<CachePath>SFX/harmony_[D]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="278009541" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_gentle_0BA203BF.wem</CachePath>
 				</File>
 				<File Id="278768154" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_test13tone.wav</ShortName>
 					<Path>Media/278768154.wem</Path>
 					<CachePath>SFX/vo_test13tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="284594301" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="282878794" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_shadow_CCF1D3C9.wem</CachePath>
+				</File>
+				<File Id="284594301" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_sono flore.wav</ShortName>
-					<Path>Media/284594301.wem</Path>
 					<CachePath>SFX/harmony_[D]_toning_sono flore_4A6BEFEF.wem</CachePath>
 				</File>
-				<File Id="287831762" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="287831762" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_silent_shadow.wav</ShortName>
-					<Path>Media/287831762.wem</Path>
 					<CachePath>SFX/fundamental_[B]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="301605077" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="289360282" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_112BE012.wem</CachePath>
+				</File>
+				<File Id="301605077" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
-					<Path>Media/301605077.wem</Path>
 					<CachePath>SFX/fundamental_[G]_toning_gentle_AC1F407A.wem</CachePath>
 				</File>
-				<File Id="305443977" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="305443977" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_sono flore.wav</ShortName>
-					<Path>Media/305443977.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_sono flore_07FB49D0.wem</CachePath>
 				</File>
-				<File Id="315212690" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="315212690" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_gentle.wav</ShortName>
-					<Path>Media/315212690.wem</Path>
 					<CachePath>SFX/harmony_[F]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="315788529" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_A467141A.wem</CachePath>
 				</File>
 				<File Id="316401243" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_test19tone.wav</ShortName>
 					<Path>Media/316401243.wem</Path>
 					<CachePath>SFX/vo_test19tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="321295864" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="321295864" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
-					<Path>Media/321295864.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_D575A6E8.wem</CachePath>
 				</File>
-				<File Id="322275570" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="322275570" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/322275570.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_sono flore_83708EC6.wem</CachePath>
 				</File>
-				<File Id="328076972" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="324100547" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_86409320.wem</CachePath>
+				</File>
+				<File Id="325797358" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_gentle_8BC6C95D.wem</CachePath>
+				</File>
+				<File Id="328076972" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
-					<Path>Media/328076972.wem</Path>
 					<CachePath>SFX/harmony_[D]_toning_gentle_AC0DABBE.wem</CachePath>
 				</File>
-				<File Id="337142600" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="328884827" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_E77994C0.wem</CachePath>
+				</File>
+				<File Id="337142600" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_sono flore.wav</ShortName>
-					<Path>Media/337142600.wem</Path>
 					<CachePath>SFX/fundamental_[G]_toning_sono flore_BAD2D93F.wem</CachePath>
 				</File>
 				<File Id="341913190" Language="SFX" Streaming="true" Location="Loose">
@@ -6634,19 +6451,24 @@
 					<Path>Media/341913190.wem</Path>
 					<CachePath>SFX/vo_testRepair_ahh_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="346108750" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="346108750" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_shruti.wav</ShortName>
-					<Path>Media/346108750.wem</Path>
 					<CachePath>SFX/harmony_[G]_toning_shruti_818F3B66.wem</CachePath>
 				</File>
-				<File Id="348246571" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="346337294" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_57244D6B.wem</CachePath>
+				</File>
+				<File Id="348092558" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_96A1BF7C.wem</CachePath>
+				</File>
+				<File Id="348246571" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_sono flore.wav</ShortName>
-					<Path>Media/348246571.wem</Path>
 					<CachePath>SFX/harmony_[G]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="348501288" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="348501288" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_shadow.wav</ShortName>
-					<Path>Media/348501288.wem</Path>
 					<CachePath>SFX/fundamental_[G]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="349189626" Language="SFX" Streaming="true" Location="Loose">
@@ -6654,9 +6476,8 @@
 					<Path>Media/349189626.wem</Path>
 					<CachePath>SFX/vo_test09tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="349667166" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="349667166" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
-					<Path>Media/349667166.wem</Path>
 					<CachePath>SFX/fundamental_[G]_silent_gentle_818F3B66.wem</CachePath>
 				</File>
 				<File Id="356008410" Language="SFX" Streaming="true" Location="Loose">
@@ -6664,9 +6485,12 @@
 					<Path>Media/356008410.wem</Path>
 					<CachePath>SFX/vo_test12tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="363146653" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="357528307" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_4810C09D.wem</CachePath>
+				</File>
+				<File Id="363146653" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/363146653.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_sono flore_DA6E9D70.wem</CachePath>
 				</File>
 				<File Id="363531574" Language="SFX" Streaming="true" Location="Loose">
@@ -6674,19 +6498,16 @@
 					<Path>Media/363531574.wem</Path>
 					<CachePath>SFX/sfx_drum_cowhide_binaural_818F3B66.wem</CachePath>
 				</File>
-				<File Id="363805056" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="363805056" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
-					<Path>Media/363805056.wem</Path>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_16779D97.wem</CachePath>
 				</File>
-				<File Id="364631077" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="364631077" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
-					<Path>Media/364631077.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_shadow_511B6177.wem</CachePath>
 				</File>
-				<File Id="370281401" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="370281401" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
-					<Path>Media/370281401.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_shadow_3E06637A.wem</CachePath>
 				</File>
 				<File Id="370838361" Language="SFX" Streaming="true" Location="Loose">
@@ -6699,44 +6520,44 @@
 					<Path>Media/375667203.wem</Path>
 					<CachePath>SFX/vo_test03hum_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="378729370" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="378729370" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/378729370.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_sono flore_0F973F94.wem</CachePath>
 				</File>
-				<File Id="383782895" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="383382932" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_47D4C548.wem</CachePath>
+				</File>
+				<File Id="383782895" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_shadow.wav</ShortName>
-					<Path>Media/383782895.wem</Path>
 					<CachePath>SFX/fundamental_[E]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="385705688" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="385705688" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_sono flore.wav</ShortName>
-					<Path>Media/385705688.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_sono flore_2C75421B.wem</CachePath>
 				</File>
-				<File Id="392757095" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="389699264" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_gentle_C72A3F60.wem</CachePath>
+				</File>
+				<File Id="392757095" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_sono flore.wav</ShortName>
-					<Path>Media/392757095.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_sono flore_123FF31E.wem</CachePath>
 				</File>
-				<File Id="393083644" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="393083644" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
-					<Path>Media/393083644.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_gentle_18C84DD0.wem</CachePath>
 				</File>
-				<File Id="396023275" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="396023275" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
-					<Path>Media/396023275.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_shadow_1DDCAD57.wem</CachePath>
 				</File>
-				<File Id="402283812" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="402283812" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
-					<Path>Media/402283812.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_24AB9D2B.wem</CachePath>
 				</File>
-				<File Id="406046355" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="406046355" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
-					<Path>Media/406046355.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_gentle_E9291FEB.wem</CachePath>
 				</File>
 				<File Id="412890818" Language="SFX" Streaming="true" Location="Loose">
@@ -6744,9 +6565,8 @@
 					<Path>Media/412890818.wem</Path>
 					<CachePath>SFX/vo_test02hum_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="417221144" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="417221144" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/417221144.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_sono flore_314BA607.wem</CachePath>
 				</File>
 				<File Id="425610473" Language="SFX" Streaming="true" Location="Loose">
@@ -6754,9 +6574,8 @@
 					<Path>Media/425610473.wem</Path>
 					<CachePath>SFX/vo_test04tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="430598173" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="430598173" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_gentle.wav</ShortName>
-					<Path>Media/430598173.wem</Path>
 					<CachePath>SFX/fundamental_[C]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="431345141" Language="SFX" Streaming="true" Location="Loose">
@@ -6764,29 +6583,41 @@
 					<Path>Media/431345141.wem</Path>
 					<CachePath>SFX/vo_test07tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="433824871" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="433824871" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
-					<Path>Media/433824871.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_shadow_36F47997.wem</CachePath>
 				</File>
-				<File Id="441113636" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="437439631" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_221F3C06.wem</CachePath>
+				</File>
+				<File Id="441113636" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_shadow.wav</ShortName>
-					<Path>Media/441113636.wem</Path>
 					<CachePath>SFX/harmony_[G]_toning_shadow_F177E9BA.wem</CachePath>
 				</File>
-				<File Id="446117886" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="445487314" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_gentle_D1E033DE.wem</CachePath>
+				</File>
+				<File Id="446117886" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_gentle.wav</ShortName>
-					<Path>Media/446117886.wem</Path>
 					<CachePath>SFX/harmony_[G]_silent_gentle_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="451572278" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_shadow_8FB3D41F.wem</CachePath>
+				</File>
+				<File Id="454113618" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_D332D9C0.wem</CachePath>
 				</File>
 				<File Id="464203531" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>sfx_breath out.wav</ShortName>
 					<Path>Media/464203531.wem</Path>
 					<CachePath>SFX/sfx_breath out_818F3B66.wem</CachePath>
 				</File>
-				<File Id="465792322" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="465792322" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
-					<Path>Media/465792322.wem</Path>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_A7ED6E33.wem</CachePath>
 				</File>
 				<File Id="466210932" Language="SFX" Streaming="true" Location="Loose">
@@ -6794,34 +6625,46 @@
 					<Path>Media/466210932.wem</Path>
 					<CachePath>SFX/sfx_breath in_C3F4FBB0.wem</CachePath>
 				</File>
+				<File Id="472406873" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_24B4169D.wem</CachePath>
+				</File>
+				<File Id="490834563" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_65B521C8.wem</CachePath>
+				</File>
 				<File Id="493065678" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>SO_AM_90_ambience_rain_muladhara.wav</ShortName>
 					<Path>Media/493065678.wem</Path>
 					<CachePath>SFX/SO_AM_90_ambience_rain_muladhara_A9C1662C.wem</CachePath>
 				</File>
-				<File Id="494020334" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="494020334" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shruti.wav</ShortName>
-					<Path>Media/494020334.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_shruti_2E59B1D2.wem</CachePath>
 				</File>
-				<File Id="504715301" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="503979282" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_shadow_088F33FF.wem</CachePath>
+				</File>
+				<File Id="504715301" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_shruti.wav</ShortName>
-					<Path>Media/504715301.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_shruti_818F3B66.wem</CachePath>
 				</File>
-				<File Id="518293729" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="518293729" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_shruti.wav</ShortName>
-					<Path>Media/518293729.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_shruti_818F3B66.wem</CachePath>
+				</File>
+				<File Id="523234594" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_shadow_09A51874.wem</CachePath>
 				</File>
 				<File Id="525152423" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>GIO_HEAL_bowls_wide.wav</ShortName>
 					<Path>Media/525152423.wem</Path>
 					<CachePath>SFX/GIO_HEAL_bowls_wide_29FB70CC.wem</CachePath>
 				</File>
-				<File Id="533405318" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="533405318" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_sono flore.wav</ShortName>
-					<Path>Media/533405318.wem</Path>
 					<CachePath>SFX/fundamental_[C]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="544785390" Language="SFX" Streaming="true" Location="Loose">
@@ -6829,24 +6672,24 @@
 					<Path>Media/544785390.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_sono flore_1FFE05B7.wem</CachePath>
 				</File>
-				<File Id="548918255" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="547494964" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_7BBB1001.wem</CachePath>
+				</File>
+				<File Id="548918255" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_silent_shruti_loop.wav</ShortName>
-					<Path>Media/548918255.wem</Path>
 					<CachePath>SFX/harmony_[B]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="551054839" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="551054839" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
-					<Path>Media/551054839.wem</Path>
 					<CachePath>SFX/harmony_[G]_toning_gentle_1A99679E.wem</CachePath>
 				</File>
-				<File Id="553839132" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="553839132" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_shruti_loop.wav</ShortName>
-					<Path>Media/553839132.wem</Path>
 					<CachePath>SFX/harmony_[G]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="555063014" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="555063014" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_silent_sono flore.wav</ShortName>
-					<Path>Media/555063014.wem</Path>
 					<CachePath>SFX/fundamental_[B]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="560883928" Language="SFX" Streaming="true" Location="Loose">
@@ -6859,49 +6702,73 @@
 					<Path>Media/591501073.wem</Path>
 					<CachePath>SFX/vo_test05tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="597643613" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="593208287" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_85644B39.wem</CachePath>
+				</File>
+				<File Id="594880046" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_72A06CDD.wem</CachePath>
+				</File>
+				<File Id="597643613" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_silent_shruti_loop.wav</ShortName>
-					<Path>Media/597643613.wem</Path>
 					<CachePath>SFX/fundamental_[B]_silent_shruti_loop_11A93380.wem</CachePath>
 				</File>
-				<File Id="599055896" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="598700344" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_gentle_5AD5A327.wem</CachePath>
+				</File>
+				<File Id="599055896" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_sono flore.wav</ShortName>
-					<Path>Media/599055896.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_sono flore_AA456738.wem</CachePath>
 				</File>
-				<File Id="600400528" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="599279534" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_shadow_A9101876.wem</CachePath>
+				</File>
+				<File Id="600317337" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_9F675713.wem</CachePath>
+				</File>
+				<File Id="600400528" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_shruti_loop.wav</ShortName>
-					<Path>Media/600400528.wem</Path>
 					<CachePath>SFX/fundamental_[G]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="612543880" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="604415275" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_87EAF1DB.wem</CachePath>
+				</File>
+				<File Id="612543880" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_silent_shruti_loop.wav</ShortName>
-					<Path>Media/612543880.wem</Path>
 					<CachePath>SFX/fundamental_[C]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="612765704" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="612765704" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_sono flore.wav</ShortName>
-					<Path>Media/612765704.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_sono flore_A24EC93D.wem</CachePath>
 				</File>
-				<File Id="616627912" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="616627912" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_gentle.wav</ShortName>
-					<Path>Media/616627912.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_gentle_397F1954.wem</CachePath>
+				</File>
+				<File Id="616849476" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_88AC3481.wem</CachePath>
 				</File>
 				<File Id="619839172" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>fundamental_[E]_toning_sono flore.wav</ShortName>
 					<Path>Media/619839172.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_sono flore_FEBE1AC4.wem</CachePath>
 				</File>
-				<File Id="622182299" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="622182299" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/622182299.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_sono flore_E6C81E67.wem</CachePath>
 				</File>
-				<File Id="628564443" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="624302579" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_gentle_4370594A.wem</CachePath>
+				</File>
+				<File Id="628564443" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
-					<Path>Media/628564443.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_51A81178.wem</CachePath>
 				</File>
 				<File Id="632024458" Language="SFX" Streaming="true" Location="Loose">
@@ -6909,34 +6776,41 @@
 					<Path>Media/632024458.wem</Path>
 					<CachePath>SFX/vo_test06tone_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="644260494" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_DBDC76F4.wem</CachePath>
+				</File>
 				<File Id="650293573" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>sfx_breath in.wav</ShortName>
 					<Path>Media/650293573.wem</Path>
 					<CachePath>SFX/sfx_breath in_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="663876511" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="658056228" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_shadow_D345AA2B.wem</CachePath>
+				</File>
+				<File Id="663876511" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shruti.wav</ShortName>
-					<Path>Media/663876511.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_shruti_267A08E3.wem</CachePath>
 				</File>
-				<File Id="666893216" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="666893216" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_silent_shadow.wav</ShortName>
-					<Path>Media/666893216.wem</Path>
 					<CachePath>SFX/harmony_[G]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="672564742" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="672564742" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_silent_sono flore.wav</ShortName>
-					<Path>Media/672564742.wem</Path>
 					<CachePath>SFX/harmony_[B]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="682265836" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="682265836" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_gentle.wav</ShortName>
-					<Path>Media/682265836.wem</Path>
 					<CachePath>SFX/fundamental_[E]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="684226770" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="683600000" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_shadow_3F057184.wem</CachePath>
+				</File>
+				<File Id="684226770" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_silent_shadow.wav</ShortName>
-					<Path>Media/684226770.wem</Path>
 					<CachePath>SFX/harmony_[B]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="700824868" Language="SFX" Streaming="true" Location="Loose">
@@ -6944,14 +6818,12 @@
 					<Path>Media/700824868.wem</Path>
 					<CachePath>SFX/vo_test08tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="701069308" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="701069308" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
-					<Path>Media/701069308.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_gentle_66A1C141.wem</CachePath>
 				</File>
-				<File Id="701492618" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="701492618" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[G]_toning_sono flore.wav</ShortName>
-					<Path>Media/701492618.wem</Path>
 					<CachePath>SFX/harmony_[G]_toning_sono flore_45253E2B.wem</CachePath>
 				</File>
 				<File Id="702816434" Language="SFX" Streaming="true" Location="Loose">
@@ -6959,79 +6831,96 @@
 					<Path>Media/702816434.wem</Path>
 					<CachePath>SFX/vo_testRepair_extended_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="712224403" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="712224403" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
-					<Path>Media/712224403.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_gentle_39164C03.wem</CachePath>
 				</File>
-				<File Id="715375763" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="715375763" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_sono flore.wav</ShortName>
-					<Path>Media/715375763.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_sono flore_25CD50D3.wem</CachePath>
 				</File>
-				<File Id="723019569" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="723019569" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
-					<Path>Media/723019569.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_gentle_1B663CB4.wem</CachePath>
 				</File>
-				<File Id="733447239" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="727914181" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_gentle_51BA2323.wem</CachePath>
+				</File>
+				<File Id="732482558" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_gentle_E5BA1B83.wem</CachePath>
+				</File>
+				<File Id="733447239" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_sono flore.wav</ShortName>
-					<Path>Media/733447239.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_sono flore_654E9AAD.wem</CachePath>
 				</File>
-				<File Id="744575914" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="737755311" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_shadow_989CDE5D.wem</CachePath>
+				</File>
+				<File Id="740849634" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_44574F31.wem</CachePath>
+				</File>
+				<File Id="744575914" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_sono flore.wav</ShortName>
-					<Path>Media/744575914.wem</Path>
 					<CachePath>SFX/harmony_[D]_toning_sono flore_C7C6617F.wem</CachePath>
 				</File>
-				<File Id="759272252" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="759272252" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
-					<Path>Media/759272252.wem</Path>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_51CB044E.wem</CachePath>
 				</File>
-				<File Id="761406240" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="761406240" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_shadow.wav</ShortName>
-					<Path>Media/761406240.wem</Path>
 					<CachePath>SFX/harmony_[D]_silent_shadow_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="765066058" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="764188137" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_B23264F5.wem</CachePath>
+				</File>
+				<File Id="765066058" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
-					<Path>Media/765066058.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_shadow_C1AF4686.wem</CachePath>
 				</File>
-				<File Id="765258340" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="765258340" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/765258340.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_sono flore_71313414.wem</CachePath>
 				</File>
-				<File Id="767921191" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="767921191" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
-					<Path>Media/767921191.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_shadow_E736172A.wem</CachePath>
 				</File>
-				<File Id="774261205" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="769651911" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_E7E90FFA.wem</CachePath>
+				</File>
+				<File Id="774261205" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_sono flore.wav</ShortName>
-					<Path>Media/774261205.wem</Path>
 					<CachePath>SFX/fundamental_[G]_toning_sono flore_0DFCC359.wem</CachePath>
 				</File>
-				<File Id="776863379" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="776863379" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shruti.wav</ShortName>
-					<Path>Media/776863379.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_shruti_818F3B66.wem</CachePath>
 				</File>
-				<File Id="780915843" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="780915843" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
-					<Path>Media/780915843.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_shadow_478DD053.wem</CachePath>
 				</File>
-				<File Id="781632256" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="781632256" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
-					<Path>Media/781632256.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_shadow_D5BA7F87.wem</CachePath>
 				</File>
-				<File Id="790980483" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="784839497" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_0C1A3DF4.wem</CachePath>
+				</File>
+				<File Id="787884157" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_BFF958CA.wem</CachePath>
+				</File>
+				<File Id="790980483" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_gentle.wav</ShortName>
-					<Path>Media/790980483.wem</Path>
 					<CachePath>SFX/harmony_[D]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="793736320" Language="SFX" Streaming="true" Location="Loose">
@@ -7039,39 +6928,80 @@
 					<Path>Media/793736320.wem</Path>
 					<CachePath>SFX/Gong,Rainstick_Oneshot_818F3B66.wem</CachePath>
 				</File>
-				<File Id="822956135" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="804210538" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_shadow_6C21D1CB.wem</CachePath>
+				</File>
+				<File Id="815040994" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_shadow_9678353E.wem</CachePath>
+				</File>
+				<File Id="822956135" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
-					<Path>Media/822956135.wem</Path>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_F7D2C1C5.wem</CachePath>
 				</File>
-				<File Id="835717860" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="823760853" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_gentle_B06257C1.wem</CachePath>
+				</File>
+				<File Id="835717860" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_gentle.wav</ShortName>
-					<Path>Media/835717860.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_gentle_BA16EE5F.wem</CachePath>
 				</File>
-				<File Id="865483723" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="836702196" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
-					<Path>Media/865483723.wem</Path>
+					<CachePath>SFX/harmony_[B]_toning_gentle_AD760EC6.wem</CachePath>
+				</File>
+				<File Id="846911905" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_shadow_AB39EF53.wem</CachePath>
+				</File>
+				<File Id="854439999" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[G]_toning_shadow_CBED4C95.wem</CachePath>
+				</File>
+				<File Id="861328335" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_shadow_CD828DFE.wem</CachePath>
+				</File>
+				<File Id="863920644" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_D8B9DAF8.wem</CachePath>
+				</File>
+				<File Id="865483723" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_gentle.wav</ShortName>
 					<CachePath>SFX/harmony_[B]_toning_gentle_928AAB31.wem</CachePath>
 				</File>
-				<File Id="871521646" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="865675935" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_shadow_CD327C54.wem</CachePath>
+				</File>
+				<File Id="865738630" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_7A905B9A.wem</CachePath>
+				</File>
+				<File Id="871521646" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_gentle.wav</ShortName>
-					<Path>Media/871521646.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_gentle_E0A154C0.wem</CachePath>
 				</File>
-				<File Id="878755514" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="873219859" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_9A71813B.wem</CachePath>
+				</File>
+				<File Id="878755514" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_silent_shruti_loop.wav</ShortName>
-					<Path>Media/878755514.wem</Path>
 					<CachePath>SFX/harmony_[D]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="880603966" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="880603966" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
-					<Path>Media/880603966.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_shadow_11D892D0.wem</CachePath>
 				</File>
-				<File Id="882598793" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="881610511" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_gentle_981E1E99.wem</CachePath>
+				</File>
+				<File Id="882598793" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_silent_sono flore.wav</ShortName>
-					<Path>Media/882598793.wem</Path>
 					<CachePath>SFX/fundamental_[E]_silent_sono flore_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="883996255" Language="SFX" Streaming="true" Location="Loose">
@@ -7079,44 +7009,58 @@
 					<Path>Media/883996255.wem</Path>
 					<CachePath>SFX/environment_wind_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="884335976" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_shadow_6F05BEA7.wem</CachePath>
+				</File>
+				<File Id="892922380" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[B]_toning_shadow_DA850626.wem</CachePath>
+				</File>
 				<File Id="900846903" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_test14tone.wav</ShortName>
 					<Path>Media/900846903.wem</Path>
 					<CachePath>SFX/vo_test14tone_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="904046582" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="901801218" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_gentle_8AB47876.wem</CachePath>
+				</File>
+				<File Id="904046582" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_gentle.wav</ShortName>
-					<Path>Media/904046582.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_gentle_4C71C49F.wem</CachePath>
 				</File>
-				<File Id="907899839" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="907899839" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>Pigments_Ambient_C Maj Scale.wav</ShortName>
-					<Path>Media/907899839.wem</Path>
 					<CachePath>SFX/Pigments_Ambient_C Maj Scale_AA54145C.wem</CachePath>
 				</File>
-				<File Id="917444133" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="917444133" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/917444133.wem</Path>
 					<CachePath>SFX/fundamental_[B]_toning_sono flore_25F1FE5D.wem</CachePath>
 				</File>
-				<File Id="924773234" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="921138438" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_shadow_B86ADE2F.wem</CachePath>
+				</File>
+				<File Id="924773234" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_sono flore.wav</ShortName>
-					<Path>Media/924773234.wem</Path>
 					<CachePath>SFX/harmony_[F]_silent_sono flore_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="926989164" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[C]_toning_gentle_E22880CB.wem</CachePath>
 				</File>
 				<File Id="928485249" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>OceanWavesSlowSurf_BWU.685.wav</ShortName>
 					<Path>Media/928485249.wem</Path>
 					<CachePath>SFX/OceanWavesSlowSurf_BWU.685_D0AF3C00.wem</CachePath>
 				</File>
-				<File Id="934723135" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="934723135" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_shadow.wav</ShortName>
-					<Path>Media/934723135.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_shadow_F133989B.wem</CachePath>
 				</File>
-				<File Id="943526868" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="943526868" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_silent_gentle.wav</ShortName>
-					<Path>Media/943526868.wem</Path>
 					<CachePath>SFX/harmony_[B]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="948390285" Language="SFX" Streaming="true" Location="Loose">
@@ -7124,24 +7068,24 @@
 					<Path>Media/948390285.wem</Path>
 					<CachePath>SFX/SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_E0F51DE2.wem</CachePath>
 				</File>
-				<File Id="955040453" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="955040453" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
-					<Path>Media/955040453.wem</Path>
 					<CachePath>SFX/fundamental_[G]_silent_gentle_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="964479379" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="964479379" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
-					<Path>Media/964479379.wem</Path>
 					<CachePath>SFX/harmony_[D]_toning_gentle_E43BDEA4.wem</CachePath>
 				</File>
-				<File Id="972895772" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="970629662" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/fundamental_[G]_toning_gentle_2CC6B082.wem</CachePath>
+				</File>
+				<File Id="972895772" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_toning_sono flore.wav</ShortName>
-					<Path>Media/972895772.wem</Path>
 					<CachePath>SFX/harmony_[F]_toning_sono flore_730006A8.wem</CachePath>
 				</File>
-				<File Id="974874525" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="974874525" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[F]_silent_shruti_loop.wav</ShortName>
-					<Path>Media/974874525.wem</Path>
 					<CachePath>SFX/harmony_[F]_silent_shruti_loop_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="978729283" Language="SFX" Streaming="true" Location="Loose">
@@ -7154,9 +7098,16 @@
 					<Path>Media/987362858.wem</Path>
 					<CachePath>SFX/SO_AM_80_ambience_birds_creek_ashby_71613975.wem</CachePath>
 				</File>
-				<File Id="999174595" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="998221447" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[E]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[E]_toning_shadow_64215261.wem</CachePath>
+				</File>
+				<File Id="998298299" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_shadow_35732FD1.wem</CachePath>
+				</File>
+				<File Id="999174595" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[E]_toning_sono flore.wav</ShortName>
-					<Path>Media/999174595.wem</Path>
 					<CachePath>SFX/fundamental_[E]_toning_sono flore_BC3F56E4.wem</CachePath>
 				</File>
 				<File Id="1004814377" Language="SFX" Streaming="true" Location="Loose">
@@ -7164,14 +7115,20 @@
 					<Path>Media/1004814377.wem</Path>
 					<CachePath>SFX/vo_test01hum_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="1031373284" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="1023648219" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[F]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[F]_toning_gentle_79133E67.wem</CachePath>
+				</File>
+				<File Id="1025791043" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_gentle.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_gentle_30AC5CF9.wem</CachePath>
+				</File>
+				<File Id="1031373284" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_sono flore.wav</ShortName>
-					<Path>Media/1031373284.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_sono flore_D8247245.wem</CachePath>
 				</File>
-				<File Id="1045990553" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="1045990553" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[D]_toning_sono flore.wav</ShortName>
-					<Path>Media/1045990553.wem</Path>
 					<CachePath>SFX/harmony_[D]_toning_sono flore_E901E3B5.wem</CachePath>
 				</File>
 				<File Id="1046552367" Language="SFX" Streaming="true" Location="Loose">
@@ -7179,19 +7136,24 @@
 					<Path>Media/1046552367.wem</Path>
 					<CachePath>SFX/PLX_ALFTT_impact_bull_818F3B66.wem</CachePath>
 				</File>
-				<File Id="1056640681" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="1056640681" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[C]_toning_gentle.wav</ShortName>
-					<Path>Media/1056640681.wem</Path>
 					<CachePath>SFX/fundamental_[C]_toning_gentle_86925835.wem</CachePath>
 				</File>
-				<File Id="1059434116" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="1057650018" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>harmony_[D]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/harmony_[D]_toning_shadow_A20FE4EA.wem</CachePath>
+				</File>
+				<File Id="1058917369" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fundamental_[B]_toning_shadow.wav</ShortName>
+					<CachePath>SFX/fundamental_[B]_toning_shadow_36BB1BAE.wem</CachePath>
+				</File>
+				<File Id="1059434116" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_gentle.wav</ShortName>
-					<Path>Media/1059434116.wem</Path>
 					<CachePath>SFX/fundamental_[G]_toning_gentle_FC65D2AC.wem</CachePath>
 				</File>
-				<File Id="1067888804" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="1067888804" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fundamental_[G]_toning_sono flore.wav</ShortName>
-					<Path>Media/1067888804.wem</Path>
 					<CachePath>SFX/fundamental_[G]_toning_sono flore_25CD50D3.wem</CachePath>
 				</File>
 				<File Id="1071236301" Language="SFX" Streaming="true" Location="Loose">
@@ -7199,9 +7161,8 @@
 					<Path>Media/1071236301.wem</Path>
 					<CachePath>SFX/vo_test04hum_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="1073188299" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="1073188299" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>harmony_[B]_toning_sono flore.wav</ShortName>
-					<Path>Media/1073188299.wem</Path>
 					<CachePath>SFX/harmony_[B]_toning_sono flore_40E5F9ED.wem</CachePath>
 				</File>
 			</Media>
@@ -7224,7 +7185,6 @@
 					<Plugin Id="599365106" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="609153636" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="632779657" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
-					<Plugin Id="670553737" Name="Soundseed Air Woosh" LibName="SoundSeed Air Woosh" LibId="7864322"/>
 					<Plugin Id="725142564" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="879675526" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 					<Plugin Id="1006973361" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
@@ -7399,22 +7359,11 @@
 						<AuxBusRef Id="1163393389" Name="Aux_ImpactsSub"/>
 					</AuxBusRefs>
 				</Event>
-				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite">
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
-				</Event>
+				<Event Id="3431547933" Name="Play_sfx_SoundSeed_BreathCycle" DurationType="Infinite"/>
 				<Event Id="603425291" Name="Play_sfx_SoundSeed_BreathCycleWind" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
-					<PluginRefs>
-						<Custom>
-							<PluginRef Id="670553737"/>
-						</Custom>
-					</PluginRefs>
 				</Event>
 				<Event Id="4004321118" Name="Play_SilentLoops" DurationType="Infinite">
 					<AuxBusRefs>
@@ -8185,9 +8134,9 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
 							<MediaRefs>
-								<MediaRef Id="301605077"/>
-								<MediaRef Id="628564443"/>
-								<MediaRef Id="871521646"/>
+								<MediaRef Id="195786627"/>
+								<MediaRef Id="472406873"/>
+								<MediaRef Id="970629662"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -8199,21 +8148,21 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446" Default="true"/>
 							<MediaRefs>
+								<MediaRef Id="184068794"/>
 								<MediaRef Id="616627912"/>
-								<MediaRef Id="1056640681"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
 							<MediaRefs>
+								<MediaRef Id="383382932"/>
 								<MediaRef Id="616627912"/>
-								<MediaRef Id="1056640681"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696444"/>
 							<MediaRefs>
-								<MediaRef Id="402283812"/>
+								<MediaRef Id="600317337"/>
 								<MediaRef Id="904046582"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -8221,28 +8170,28 @@
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
 							<MediaRefs>
 								<MediaRef Id="116838749"/>
-								<MediaRef Id="301605077"/>
+								<MediaRef Id="325797358"/>
 								<MediaRef Id="712224403"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
 							<MediaRefs>
+								<MediaRef Id="34282035"/>
 								<MediaRef Id="151307626"/>
-								<MediaRef Id="321295864"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
 							<MediaRefs>
-								<MediaRef Id="1059434116"/>
+								<MediaRef Id="189362165"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
 							<MediaRefs>
 								<MediaRef Id="151307626"/>
-								<MediaRef Id="321295864"/>
+								<MediaRef Id="926989164"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -8254,15 +8203,15 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="1059434116"/>
+								<MediaRef Id="901801218"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
 							<MediaRefs>
 								<MediaRef Id="301605077"/>
-								<MediaRef Id="628564443"/>
-								<MediaRef Id="871521646"/>
+								<MediaRef Id="346337294"/>
+								<MediaRef Id="445487314"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -8350,30 +8299,30 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
 							<MediaRefs>
+								<MediaRef Id="96528802"/>
 								<MediaRef Id="363805056"/>
-								<MediaRef Id="396023275"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696445"/>
 							<MediaRefs>
 								<MediaRef Id="66126426"/>
-								<MediaRef Id="370281401"/>
+								<MediaRef Id="142709989"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446" Default="true"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="370281401"/>
+								<MediaRef Id="737755311"/>
+								<MediaRef Id="787884157"/>
 								<MediaRef Id="822956135"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="370281401"/>
+								<MediaRef Id="208193126"/>
+								<MediaRef Id="523234594"/>
 								<MediaRef Id="822956135"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -8387,54 +8336,54 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
 							<MediaRefs>
+								<MediaRef Id="357528307"/>
 								<MediaRef Id="465792322"/>
-								<MediaRef Id="767921191"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
 							<MediaRefs>
-								<MediaRef Id="364631077"/>
+								<MediaRef Id="348092558"/>
 								<MediaRef Id="759272252"/>
-								<MediaRef Id="781632256"/>
+								<MediaRef Id="846911905"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="780915843"/>
+								<MediaRef Id="861328335"/>
 								<MediaRef Id="907899839"/>
+								<MediaRef Id="1058917369"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
 							<MediaRefs>
-								<MediaRef Id="364631077"/>
+								<MediaRef Id="210323003"/>
 								<MediaRef Id="759272252"/>
-								<MediaRef Id="781632256"/>
+								<MediaRef Id="998221447"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3050272541"/>
 							<MediaRefs>
 								<MediaRef Id="66126426"/>
-								<MediaRef Id="370281401"/>
+								<MediaRef Id="437439631"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="780915843"/>
+								<MediaRef Id="21213409"/>
+								<MediaRef Id="658056228"/>
 								<MediaRef Id="907899839"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
 							<MediaRefs>
+								<MediaRef Id="289360282"/>
 								<MediaRef Id="363805056"/>
-								<MediaRef Id="396023275"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -8512,7 +8461,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
 							<MediaRefs>
-								<MediaRef Id="865483723"/>
+								<MediaRef Id="81514641"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8523,7 +8472,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="108713058"/>
+								<MediaRef Id="732482558"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8534,7 +8483,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
 							<MediaRefs>
-								<MediaRef Id="701069308"/>
+								<MediaRef Id="593208287"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8545,7 +8494,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
 							<MediaRefs>
-								<MediaRef Id="328076972"/>
+								<MediaRef Id="1025791043"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8556,8 +8505,8 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444"/>
 							<MediaRefs>
-								<MediaRef Id="723019569"/>
-								<MediaRef Id="964479379"/>
+								<MediaRef Id="257133459"/>
+								<MediaRef Id="324100547"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8568,7 +8517,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
 							<MediaRefs>
-								<MediaRef Id="393083644"/>
+								<MediaRef Id="454113618"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8579,7 +8528,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
 							<MediaRefs>
-								<MediaRef Id="701069308"/>
+								<MediaRef Id="1023648219"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8590,7 +8539,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
 							<MediaRefs>
-								<MediaRef Id="393083644"/>
+								<MediaRef Id="547494964"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8601,7 +8550,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
 							<MediaRefs>
-								<MediaRef Id="865483723"/>
+								<MediaRef Id="727914181"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8612,8 +8561,8 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
 							<MediaRefs>
-								<MediaRef Id="406046355"/>
-								<MediaRef Id="551054839"/>
+								<MediaRef Id="11549638"/>
+								<MediaRef Id="598700344"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8624,7 +8573,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
 							<MediaRefs>
-								<MediaRef Id="328076972"/>
+								<MediaRef Id="108288478"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8636,7 +8585,7 @@
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446" Default="true"/>
 							<MediaRefs>
 								<MediaRef Id="406046355"/>
-								<MediaRef Id="551054839"/>
+								<MediaRef Id="823760853"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -8791,78 +8740,78 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
 							<MediaRefs>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="604415275"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="441113636"/>
+								<MediaRef Id="804210538"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
 							<MediaRefs>
 								<MediaRef Id="262956075"/>
-								<MediaRef Id="433824871"/>
+								<MediaRef Id="998298299"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
 							<MediaRefs>
+								<MediaRef Id="251803074"/>
 								<MediaRef Id="262956075"/>
-								<MediaRef Id="934723135"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444"/>
 							<MediaRefs>
-								<MediaRef Id="934723135"/>
+								<MediaRef Id="892922380"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
 							<MediaRefs>
-								<MediaRef Id="14797253"/>
+								<MediaRef Id="884335976"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
 							<MediaRefs>
-								<MediaRef Id="262956075"/>
+								<MediaRef Id="112444658"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
 							<MediaRefs>
-								<MediaRef Id="14797253"/>
+								<MediaRef Id="865675935"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
 							<MediaRefs>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="863920644"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
 							<MediaRefs>
-								<MediaRef Id="441113636"/>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="137498101"/>
+								<MediaRef Id="315788529"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
 							<MediaRefs>
-								<MediaRef Id="262956075"/>
-								<MediaRef Id="934723135"/>
+								<MediaRef Id="45788262"/>
+								<MediaRef Id="1057650018"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446" Default="true"/>
 							<MediaRefs>
-								<MediaRef Id="441113636"/>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="784839497"/>
+								<MediaRef Id="854439999"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -8999,14 +8948,14 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="3415983401" Name="Play_Toning_v1_7Pitch_Linked" DurationType="OneShot" DurationMin="15.866851" DurationMax="35.676212">
+				<Event Id="3415983401" Name="Play_Toning_v1_7Pitch_Linked" DurationType="OneShot" DurationMin="25.017094" DurationMax="35.676212">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696442"/>
 							<MediaRefs>
 								<MediaRef Id="301605077"/>
-								<MediaRef Id="628564443"/>
-								<MediaRef Id="865483723"/>
+								<MediaRef Id="624302579"/>
+								<MediaRef Id="764188137"/>
 								<MediaRef Id="871521646"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -9022,40 +8971,40 @@
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696446" Default="true"/>
 							<MediaRefs>
 								<MediaRef Id="616627912"/>
-								<MediaRef Id="701069308"/>
+								<MediaRef Id="616849476"/>
 								<MediaRef Id="1056640681"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="328076972"/>
-								<MediaRef Id="1059434116"/>
+								<MediaRef Id="278009541"/>
+								<MediaRef Id="881610511"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696443"/>
 							<MediaRefs>
 								<MediaRef Id="151307626"/>
-								<MediaRef Id="321295864"/>
-								<MediaRef Id="406046355"/>
 								<MediaRef Id="551054839"/>
+								<MediaRef Id="594880046"/>
+								<MediaRef Id="836702196"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696441"/>
 							<MediaRefs>
+								<MediaRef Id="9503144"/>
 								<MediaRef Id="116838749"/>
 								<MediaRef Id="301605077"/>
-								<MediaRef Id="712224403"/>
+								<MediaRef Id="389699264"/>
 								<MediaRef Id="723019569"/>
-								<MediaRef Id="964479379"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696445"/>
 							<MediaRefs>
-								<MediaRef Id="393083644"/>
+								<MediaRef Id="644260494"/>
 								<MediaRef Id="835717860"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -9114,9 +9063,9 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696442"/>
 							<MediaRefs>
+								<MediaRef Id="289360282"/>
 								<MediaRef Id="363805056"/>
-								<MediaRef Id="396023275"/>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="873219859"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -9124,16 +9073,16 @@
 							<MediaRefs>
 								<MediaRef Id="1226163"/>
 								<MediaRef Id="441113636"/>
-								<MediaRef Id="765066058"/>
+								<MediaRef Id="683600000"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696446" Default="true"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="262956075"/>
-								<MediaRef Id="370281401"/>
-								<MediaRef Id="433824871"/>
+								<MediaRef Id="186433803"/>
+								<MediaRef Id="282878794"/>
+								<MediaRef Id="503979282"/>
+								<MediaRef Id="769651911"/>
 								<MediaRef Id="822956135"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -9141,36 +9090,36 @@
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696440"/>
 							<MediaRefs>
 								<MediaRef Id="133084729"/>
-								<MediaRef Id="262956075"/>
+								<MediaRef Id="490834563"/>
 								<MediaRef Id="780915843"/>
 								<MediaRef Id="907899839"/>
-								<MediaRef Id="934723135"/>
+								<MediaRef Id="921138438"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696443"/>
 							<MediaRefs>
-								<MediaRef Id="364631077"/>
-								<MediaRef Id="441113636"/>
+								<MediaRef Id="599279534"/>
+								<MediaRef Id="740849634"/>
 								<MediaRef Id="759272252"/>
-								<MediaRef Id="781632256"/>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="815040994"/>
+								<MediaRef Id="865738630"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696441"/>
 							<MediaRefs>
+								<MediaRef Id="328884827"/>
 								<MediaRef Id="465792322"/>
 								<MediaRef Id="767921191"/>
-								<MediaRef Id="934723135"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="2905423286" Id="84696445"/>
 							<MediaRefs>
-								<MediaRef Id="14797253"/>
 								<MediaRef Id="66126426"/>
 								<MediaRef Id="370281401"/>
+								<MediaRef Id="451572278"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -9615,9 +9564,9 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
 							<MediaRefs>
-								<MediaRef Id="301605077"/>
-								<MediaRef Id="628564443"/>
-								<MediaRef Id="871521646"/>
+								<MediaRef Id="195786627"/>
+								<MediaRef Id="472406873"/>
+								<MediaRef Id="970629662"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -9629,21 +9578,21 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446" Default="true"/>
 							<MediaRefs>
+								<MediaRef Id="184068794"/>
 								<MediaRef Id="616627912"/>
-								<MediaRef Id="1056640681"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
 							<MediaRefs>
+								<MediaRef Id="383382932"/>
 								<MediaRef Id="616627912"/>
-								<MediaRef Id="1056640681"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696444"/>
 							<MediaRefs>
-								<MediaRef Id="402283812"/>
+								<MediaRef Id="600317337"/>
 								<MediaRef Id="904046582"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -9651,28 +9600,28 @@
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
 							<MediaRefs>
 								<MediaRef Id="116838749"/>
-								<MediaRef Id="301605077"/>
+								<MediaRef Id="325797358"/>
 								<MediaRef Id="712224403"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
 							<MediaRefs>
+								<MediaRef Id="34282035"/>
 								<MediaRef Id="151307626"/>
-								<MediaRef Id="321295864"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
 							<MediaRefs>
-								<MediaRef Id="1059434116"/>
+								<MediaRef Id="189362165"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
 							<MediaRefs>
 								<MediaRef Id="151307626"/>
-								<MediaRef Id="321295864"/>
+								<MediaRef Id="926989164"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -9684,15 +9633,15 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="1059434116"/>
+								<MediaRef Id="901801218"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
 							<MediaRefs>
 								<MediaRef Id="301605077"/>
-								<MediaRef Id="628564443"/>
-								<MediaRef Id="871521646"/>
+								<MediaRef Id="346337294"/>
+								<MediaRef Id="445487314"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -9780,30 +9729,30 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696442"/>
 							<MediaRefs>
+								<MediaRef Id="96528802"/>
 								<MediaRef Id="363805056"/>
-								<MediaRef Id="396023275"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696445"/>
 							<MediaRefs>
 								<MediaRef Id="66126426"/>
-								<MediaRef Id="370281401"/>
+								<MediaRef Id="142709989"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696446" Default="true"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="370281401"/>
+								<MediaRef Id="737755311"/>
+								<MediaRef Id="787884157"/>
 								<MediaRef Id="822956135"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3573977648"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="370281401"/>
+								<MediaRef Id="208193126"/>
+								<MediaRef Id="523234594"/>
 								<MediaRef Id="822956135"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -9817,54 +9766,54 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696441"/>
 							<MediaRefs>
+								<MediaRef Id="357528307"/>
 								<MediaRef Id="465792322"/>
-								<MediaRef Id="767921191"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696443"/>
 							<MediaRefs>
-								<MediaRef Id="364631077"/>
+								<MediaRef Id="348092558"/>
 								<MediaRef Id="759272252"/>
-								<MediaRef Id="781632256"/>
+								<MediaRef Id="846911905"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="156517199"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="780915843"/>
+								<MediaRef Id="861328335"/>
 								<MediaRef Id="907899839"/>
+								<MediaRef Id="1058917369"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3800083777"/>
 							<MediaRefs>
-								<MediaRef Id="364631077"/>
+								<MediaRef Id="210323003"/>
 								<MediaRef Id="759272252"/>
-								<MediaRef Id="781632256"/>
+								<MediaRef Id="998221447"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="3050272541"/>
 							<MediaRefs>
 								<MediaRef Id="66126426"/>
-								<MediaRef Id="370281401"/>
+								<MediaRef Id="437439631"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="133084729"/>
-								<MediaRef Id="780915843"/>
+								<MediaRef Id="21213409"/>
+								<MediaRef Id="658056228"/>
 								<MediaRef Id="907899839"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3505294094" Id="791737535"/>
 							<MediaRefs>
+								<MediaRef Id="289360282"/>
 								<MediaRef Id="363805056"/>
-								<MediaRef Id="396023275"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -9949,7 +9898,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
 							<MediaRefs>
-								<MediaRef Id="865483723"/>
+								<MediaRef Id="81514641"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -9960,7 +9909,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="108713058"/>
+								<MediaRef Id="732482558"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -9971,7 +9920,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
 							<MediaRefs>
-								<MediaRef Id="701069308"/>
+								<MediaRef Id="593208287"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -9982,7 +9931,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
 							<MediaRefs>
-								<MediaRef Id="328076972"/>
+								<MediaRef Id="1025791043"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -9993,8 +9942,8 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444"/>
 							<MediaRefs>
-								<MediaRef Id="723019569"/>
-								<MediaRef Id="964479379"/>
+								<MediaRef Id="257133459"/>
+								<MediaRef Id="324100547"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -10005,7 +9954,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
 							<MediaRefs>
-								<MediaRef Id="393083644"/>
+								<MediaRef Id="454113618"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -10016,7 +9965,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
 							<MediaRefs>
-								<MediaRef Id="701069308"/>
+								<MediaRef Id="1023648219"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -10027,7 +9976,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
 							<MediaRefs>
-								<MediaRef Id="393083644"/>
+								<MediaRef Id="547494964"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -10038,7 +9987,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
 							<MediaRefs>
-								<MediaRef Id="865483723"/>
+								<MediaRef Id="727914181"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -10049,8 +9998,8 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
 							<MediaRefs>
-								<MediaRef Id="406046355"/>
-								<MediaRef Id="551054839"/>
+								<MediaRef Id="11549638"/>
+								<MediaRef Id="598700344"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -10061,7 +10010,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
 							<MediaRefs>
-								<MediaRef Id="328076972"/>
+								<MediaRef Id="108288478"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -10073,7 +10022,7 @@
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446" Default="true"/>
 							<MediaRefs>
 								<MediaRef Id="406046355"/>
-								<MediaRef Id="551054839"/>
+								<MediaRef Id="823760853"/>
 							</MediaRefs>
 							<PluginRefs>
 								<ShareSets>
@@ -10228,78 +10177,78 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3050272541"/>
 							<MediaRefs>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="604415275"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696440"/>
 							<MediaRefs>
-								<MediaRef Id="441113636"/>
+								<MediaRef Id="804210538"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696442"/>
 							<MediaRefs>
 								<MediaRef Id="262956075"/>
-								<MediaRef Id="433824871"/>
+								<MediaRef Id="998298299"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696443"/>
 							<MediaRefs>
+								<MediaRef Id="251803074"/>
 								<MediaRef Id="262956075"/>
-								<MediaRef Id="934723135"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696444"/>
 							<MediaRefs>
-								<MediaRef Id="934723135"/>
+								<MediaRef Id="892922380"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696441"/>
 							<MediaRefs>
-								<MediaRef Id="14797253"/>
+								<MediaRef Id="884335976"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="791737535"/>
 							<MediaRefs>
-								<MediaRef Id="262956075"/>
+								<MediaRef Id="112444658"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="156517199"/>
 							<MediaRefs>
-								<MediaRef Id="14797253"/>
+								<MediaRef Id="865675935"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696445"/>
 							<MediaRefs>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="863920644"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3573977648"/>
 							<MediaRefs>
-								<MediaRef Id="441113636"/>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="137498101"/>
+								<MediaRef Id="315788529"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="3800083777"/>
 							<MediaRefs>
-								<MediaRef Id="262956075"/>
-								<MediaRef Id="934723135"/>
+								<MediaRef Id="45788262"/>
+								<MediaRef Id="1057650018"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3514265297" Id="84696446" Default="true"/>
 							<MediaRefs>
-								<MediaRef Id="441113636"/>
-								<MediaRef Id="880603966"/>
+								<MediaRef Id="784839497"/>
+								<MediaRef Id="854439999"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -10632,5 +10581,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{18082CFB-8005-0D7D-817B-8D9D4F1B88DD}</FileHash>
+	<FileHash>{92A64DFA-238A-28E0-87DE-3387603EEA97}</FileHash>
 </SoundBanksInfo>

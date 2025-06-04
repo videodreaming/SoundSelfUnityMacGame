@@ -42,11 +42,6 @@
 								<Sound Name="fundamental_[B]_silent_gentle" ID="{1C6868BF-84B0-4744-A4F0-72D3DE20534C}" ShortID="539903857">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -161,11 +156,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>19</Value>
@@ -282,11 +272,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -401,11 +386,6 @@
 								<Sound Name="fundamental_[C]_silent_gentle" ID="{5B2CF9F9-64DB-4360-97D0-48B53220A8AA}" ShortID="978608370">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-6</Value>
@@ -517,11 +497,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>1</Value>
@@ -633,11 +608,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ModifierList>
 												<ModifierInfo>
@@ -751,11 +721,6 @@
 								<Sound Name="fundamental_[E]_silent_sonoflore" ID="{BD400440-88F5-497F-BB13-D7738E337AE5}" ShortID="223543159">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -867,11 +832,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>3</Value>
@@ -983,11 +943,6 @@
 								<Sound Name="fundamental_[G]_silent_sonoflore" ID="{7BA3AE50-4144-42E4-8C1B-C22178DFC7AF}" ShortID="616533982">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -1094,11 +1049,6 @@
 								<Sound Name="fundamental_[G]_silent_gentle" ID="{676899D5-7F8B-4A5D-B633-1DE9354CC1B7}" ShortID="272979156">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -1205,11 +1155,6 @@
 								<Sound Name="fundamental_[G]_silent_shadow" ID="{14F49935-99DC-4A2D-A053-C172BF78E6CF}" ShortID="905955209">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -1331,11 +1276,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>1</Value>
@@ -1447,11 +1387,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>15</Value>
@@ -1563,11 +1498,6 @@
 								<Sound Name="harmony_[B]_silent_shadow" ID="{6703129A-2CE7-4FCD-A5B8-73A1233802F7}" ShortID="527498288">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-5</Value>
@@ -1679,11 +1609,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -1790,11 +1715,6 @@
 								<Sound Name="harmony_[B]_silent_shruti" ID="{F318F410-1210-4C55-8ED4-F6A6A107F39F}" ShortID="223915598">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -1906,11 +1826,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -2022,11 +1937,6 @@
 								<Sound Name="harmony_[D]_silent_shadow" ID="{C42072DB-A548-4F8A-B7BA-1737AA742490}" ShortID="1067132872">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>2</Value>
@@ -2143,11 +2053,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>4</Value>
@@ -2259,11 +2164,6 @@
 								<Sound Name="harmony_[D]_silent_shruti" ID="{CAED2CBE-DCF4-4C6C-A351-64E38C31A6BF}" ShortID="249884194">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -2375,11 +2275,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>23</Value>
@@ -2496,11 +2391,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-5</Value>
@@ -2612,11 +2502,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>2</Value>
@@ -2728,11 +2613,6 @@
 								<Sound Name="harmony_[F#]_silent_shruti" ID="{B09FA6CF-B5A1-42EF-ABF7-43F6D0B27217}" ShortID="187548869">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -2844,11 +2724,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>24</Value>
@@ -2965,11 +2840,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>10</Value>
@@ -3086,11 +2956,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -3196,11 +3061,6 @@
 								</Sound>
 								<Sound Name="fundamental_[A]_silent_gentle" ID="{1E0B9070-214D-432F-BA01-EF0F07723C6B}" ShortID="566159110">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>6</Value>
@@ -3322,11 +3182,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>200</Value>
@@ -3443,11 +3298,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>26</Value>
@@ -3569,11 +3419,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -3695,11 +3540,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>24</Value>
@@ -3821,11 +3661,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>23</Value>
@@ -3964,11 +3799,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>51</Value>
@@ -4009,11 +3839,6 @@
 										<Sound Name="fundamental_[A]_silent_shadow_01" ID="{5A0A80AB-9E7D-4A67-8E3D-840C3BD7C3A9}" ShortID="678675721">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>45</Value>
@@ -4154,11 +3979,6 @@
 										<Sound Name="fundamental_[B]_silent_shadow_01" ID="{39F17BD2-9202-4776-9FE0-000585E7B7E6}" ShortID="1026230615">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>6</Value>
@@ -4243,11 +4063,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-5</Value>
@@ -4388,11 +4203,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>75</Value>
@@ -4428,11 +4238,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{2E4B2952-8574-4D0A-8C57-358E3860CD2F}" ShortID="155035506">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>510</Value>
@@ -4578,11 +4383,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>80</Value>
@@ -4623,11 +4423,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{DE94C6F3-61E7-48F1-BA8E-CBC4F772EAF6}" ShortID="612377391">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>6</Value>
@@ -4773,11 +4568,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>21</Value>
@@ -4813,11 +4603,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{9F5367FF-8BE1-4A48-8B0E-B249B2599FDA}" ShortID="187765433">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>31</Value>
@@ -4941,11 +4726,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>210</Value>
@@ -5062,11 +4842,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>210</Value>
@@ -5178,11 +4953,6 @@
 								<Sound Name="harmony_[C]_silent_shadow" ID="{FA2C6EB5-E5C7-4A4B-942D-0E92134779E8}" ShortID="609139788">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -5299,11 +5069,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -5428,11 +5193,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>200</Value>
@@ -5549,11 +5309,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -5665,11 +5420,6 @@
 								<Sound Name="harmony_[A]_silent_shruti" ID="{67286853-B588-47D3-8623-24BC19F8FB2B}" ShortID="280550740">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -5781,11 +5531,6 @@
 								<Sound Name="harmony_[C]_silent_shruti" ID="{0D8BBD22-1F8E-4C52-8AFA-7C993C612EBA}" ShortID="304604038">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -5914,11 +5659,6 @@
 										<Sound Name="harmony_[E]_silent_shruti" ID="{12D39F24-D523-4B8A-82FA-5CB831DF1B93}" ShortID="233661624">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>200</Value>
@@ -5993,11 +5733,6 @@
 										<Sound Name="harmony_[F#]_silent_shruti_01" ID="{283ECF43-3F89-4A5C-9922-16EC89FA2CD4}" ShortID="358456639">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -6150,11 +5885,6 @@
 								<Sound Name="fundamental_[F]_silent_gentle" ID="{8A319834-F786-4B43-B052-E2BEF3177853}" ShortID="336604226">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>3</Value>
@@ -6271,11 +6001,6 @@
 								<Sound Name="fundamental_[A]_silent_sonoflore" ID="{42A5AF27-7B06-4497-8BD9-E5623C07D623}" ShortID="1048603681">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -6414,11 +6139,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>100</Value>
@@ -6491,11 +6211,6 @@
 										<Sound Name="fundamental_[C]_silent_sonoflore" ID="{D29CD86B-6607-40E0-85E0-DCB610D7C439}" ShortID="967646981">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>8</Value>
@@ -6621,11 +6336,6 @@
 										<Sound Name="fundamental_[D]_silent_sonoflore" ID="{64B27E39-1F38-467C-B319-FC20C53CFF97}" ShortID="971896352">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -6661,11 +6371,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{6B192B5B-28AB-4B4B-A4DF-E7EB3609218C}" ShortID="753241184">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>49</Value>
@@ -6801,11 +6506,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{DB49A69F-226C-49E9-ABF1-49B2106278A3}" ShortID="147961486">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>100</Value>
@@ -6917,11 +6617,6 @@
 										<Sound Name="fundamental_[F]_silent_sonoflore" ID="{8E39207A-B53D-4465-800D-138CDEF4DA84}" ShortID="596391126">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>29</Value>
@@ -7121,11 +6816,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>22</Value>
@@ -7247,11 +6937,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -7368,11 +7053,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -7511,11 +7191,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
@@ -7593,11 +7268,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
@@ -8798,11 +8468,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>21</Value>
@@ -8922,11 +8587,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>19</Value>
@@ -9043,11 +8703,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -9167,11 +8822,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>29</Value>
@@ -9288,11 +8938,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>1</Value>
@@ -9404,11 +9049,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>16</Value>
@@ -9525,11 +9165,6 @@
 								<Sound Name="fundamental_[E]_silent_sonoflore" ID="{BCE35E3F-E190-4CE6-8613-5E600101964A}" ShortID="787367441">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -9641,11 +9276,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>3</Value>
@@ -9757,11 +9387,6 @@
 								<Sound Name="fundamental_[G]_silent_sonoflore" ID="{0C350BB2-4934-4386-BAAD-AF769B384215}" ShortID="588330144">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -9873,11 +9498,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>32</Value>
@@ -9989,11 +9609,6 @@
 								<Sound Name="fundamental_[G]_silent_shadow" ID="{C8CBC347-C2C6-42B4-BD7A-35618C743883}" ShortID="545398053">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -10115,11 +9730,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -10226,11 +9836,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>15</Value>
@@ -10347,11 +9952,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -10458,11 +10058,6 @@
 								<Sound Name="harmony_[B]_silent_shruti" ID="{BCE619A3-F55B-48AA-9309-CD4A2A834DF7}" ShortID="902730142">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -10574,11 +10169,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>10</Value>
@@ -10690,11 +10280,6 @@
 								<Sound Name="harmony_[D]_silent_shadow" ID="{0A2E9D82-B304-42DC-9CC8-4C4B7128239A}" ShortID="541569950">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-5</Value>
@@ -10806,11 +10391,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>4</Value>
@@ -10922,11 +10502,6 @@
 								<Sound Name="harmony_[D]_silent_shruti" ID="{B555A5A8-EFB6-445E-8D23-C873D01701C3}" ShortID="426253063">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-4</Value>
@@ -11038,11 +10613,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>23</Value>
@@ -11159,11 +10729,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>57</Value>
@@ -11285,11 +10850,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>2</Value>
@@ -11401,11 +10961,6 @@
 								<Sound Name="harmony_[F#Gb]_silent_shruti" ID="{04121AB4-5FAD-4117-85C7-C091847A660A}" ShortID="617838924">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -11517,11 +11072,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>10</Value>
@@ -11638,11 +11188,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>49</Value>
@@ -11764,11 +11309,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -11877,11 +11417,6 @@
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>13</Value>
-											</ValueList>
-										</Property>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Lowpass" Type="int16">
@@ -12005,11 +11540,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>34</Value>
@@ -12131,11 +11661,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>26</Value>
@@ -12257,11 +11782,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -12383,11 +11903,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>31</Value>
@@ -12509,11 +12024,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>23</Value>
@@ -12662,11 +12172,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>51</Value>
@@ -12707,11 +12212,6 @@
 										<Sound Name="fundamental_[A]_silent_shadow_01" ID="{5EC2E413-91D3-4448-9854-6BE86FFF44FF}" ShortID="426098425">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>45</Value>
@@ -12857,11 +12357,6 @@
 										<Sound Name="fundamental_[B]_silent_shadow_01" ID="{20EC773F-15D6-47F1-AD85-68448046ECB2}" ShortID="673780649">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>6</Value>
@@ -12946,11 +12441,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-5</Value>
@@ -13091,11 +12581,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>75</Value>
@@ -13131,11 +12616,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{4BA5B048-4324-48F5-82B9-996ED192880B}" ShortID="717923585">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>510</Value>
@@ -13281,11 +12761,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>75</Value>
@@ -13326,11 +12801,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{7FFEE50E-ADA7-4081-876E-A9DFAA617E8C}" ShortID="617863404">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>6</Value>
@@ -13476,11 +12946,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>15</Value>
@@ -13521,11 +12986,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{D5E6003A-93EC-448F-BFD3-586843DA7DC2}" ShortID="911741352">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>31</Value>
@@ -13649,11 +13109,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>220</Value>
@@ -13770,11 +13225,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>44</Value>
@@ -13891,11 +13341,6 @@
 								<Sound Name="harmony_[C]_silent_shadow" ID="{17FBE4ED-6D55-49BC-9CFB-3B55ACB94FAC}" ShortID="574367939">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -14012,11 +13457,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -14141,11 +13581,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>200</Value>
@@ -14262,11 +13697,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -14378,11 +13808,6 @@
 								<Sound Name="harmony_[A]_silent_shruti" ID="{197962DE-14E5-4572-A15C-3907901BE245}" ShortID="745923145">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -14494,11 +13919,6 @@
 								<Sound Name="harmony_[C]_silent_shruti" ID="{C1558503-4ECF-4602-8CA5-D9B77B19F73C}" ShortID="735162823">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -14627,11 +14047,6 @@
 										<Sound Name="harmony_[E]_silent_shruti" ID="{09499CF5-38BA-489F-A5CE-E5B7ABAE83DA}" ShortID="1038211797">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>200</Value>
@@ -14706,11 +14121,6 @@
 										<Sound Name="harmony_[F#]_silent_shruti_01" ID="{0BE41120-6AD2-4EEE-95C7-6DA8AFBB3196}" ShortID="662765867">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -14868,11 +14278,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>13</Value>
@@ -14989,11 +14394,6 @@
 								<Sound Name="fundamental_[A]_silent_sonoflore" ID="{0D394E99-E793-4751-8B35-EEB33592AA40}" ShortID="170464052">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -15132,11 +14532,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>100</Value>
@@ -15209,11 +14604,6 @@
 										<Sound Name="fundamental_[C]_silent_sonoflore" ID="{6A27D4E9-5E07-4800-A748-06EF77C4EE06}" ShortID="719650544">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>8</Value>
@@ -15339,11 +14729,6 @@
 										<Sound Name="fundamental_[D]_silent_sonoflore" ID="{4FF0C379-CA08-40CB-BC51-7FF080E7CCB0}" ShortID="426489814">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -15379,11 +14764,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{7AB2A1B8-BADD-4C9C-A984-F33CBB1DF13A}" ShortID="293257493">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>49</Value>
@@ -15519,11 +14899,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{8A2914EC-95E7-4DE3-BD52-D929B22EF96E}" ShortID="383747591">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>100</Value>
@@ -15635,11 +15010,6 @@
 										<Sound Name="fundamental_[F]_silent_sonoflore" ID="{B2C085AD-7C28-4D59-9DAB-D82A63E44E99}" ShortID="345599020">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>29</Value>
@@ -15839,11 +15209,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>17</Value>
@@ -15965,11 +15330,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -16086,11 +15446,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -16229,11 +15584,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
@@ -16311,11 +15661,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
@@ -16488,11 +15833,6 @@
 										<Sound Name="fundamental_[B]_silent_shadow_01" ID="{AFA00D2C-492D-4B31-9F73-67933875640B}" ShortID="693860973">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>6</Value>
@@ -16577,11 +15917,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-5</Value>
@@ -16722,11 +16057,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>75</Value>
@@ -16757,11 +16087,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{09E80664-80D1-4D6D-97CB-365A6F749A4A}" ShortID="251254956">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>510</Value>
@@ -16907,11 +16232,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
@@ -16947,11 +16267,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{6CF75907-E8E5-48C1-AAA4-F351C17B76C9}" ShortID="694349535">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>27</Value>
@@ -17070,11 +16385,6 @@
 								<Sound Name="fundamental_[F#Gb]_silent_shadow" ID="{D16AC7F3-6C54-41F6-9C5B-AC6754CD1472}" ShortID="1032657825">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -17196,11 +16506,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>13</Value>
@@ -17325,11 +16630,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -17454,11 +16754,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>19</Value>
@@ -17607,11 +16902,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>51</Value>
@@ -17652,11 +16942,6 @@
 										<Sound Name="fundamental_[A]_silent_shadow_01" ID="{D0F72656-29DF-4699-AC32-FF1E2CFE360E}" ShortID="149376564">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>45</Value>
@@ -17777,11 +17062,6 @@
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>9</Value>
-											</ValueList>
-										</Property>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Lowpass" Type="int16">
@@ -17905,11 +17185,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -18029,11 +17304,6 @@
 								<Sound Name="fundamental_[G#Ab]_silent_sonoflore" ID="{F32B2BFE-7E90-4E13-8F09-384BDDB3665D}" ShortID="654421057">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -18172,11 +17442,6 @@
 										<Sound Name="fundamental_[D]_silent_sonoflore" ID="{5AFE578F-9521-49CE-B2DB-37A215CECC08}" ShortID="867146106">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -18212,11 +17477,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{89FF3D2F-DB9C-49B0-9728-E3F8247ECB69}" ShortID="894479715">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>49</Value>
@@ -18340,11 +17600,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>300</Value>
@@ -18478,11 +17733,6 @@
 										<Sound Name="harmony_[E]_silent_shruti" ID="{173B7A2E-7A07-4F6A-BFDC-827CC4253BB8}" ShortID="57036697">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>200</Value>
@@ -18557,11 +17807,6 @@
 										<Sound Name="harmony_[F#]_silent_shruti_01" ID="{72F2D0AF-8A78-4A6B-B5C2-BBF437C1BF7F}" ShortID="124687856">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -18719,11 +17964,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>10</Value>
@@ -18845,11 +18085,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>110</Value>
@@ -18966,11 +18201,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -19087,11 +18317,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -19208,11 +18433,6 @@
 								<Sound Name="harmony_[A#Bb]_silent_shadow" ID="{9F729869-ABCC-4CBA-A574-2A277DE29BB7}" ShortID="167388853">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>45</Value>
@@ -19329,11 +18549,6 @@
 								<Sound Name="harmony_[C#Db]_silent_shadow" ID="{C127ED4B-B03F-410A-B127-3B160C40E793}" ShortID="953902168">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>1</Value>
@@ -19455,11 +18670,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-90</Value>
@@ -19576,11 +18786,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>37</Value>
@@ -19719,11 +18924,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>66</Value>
@@ -19840,11 +19040,6 @@
 										<Sound Name="harmony_[B]_silent_shadow" ID="{B0B3E20E-C024-47B6-B0B5-350F1D6B7DDE}" ShortID="105765066">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>43</Value>
@@ -20044,11 +19239,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -20170,11 +19360,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -20291,11 +19476,6 @@
 								<Sound Name="harmony_[A#Bb]_silent_shruti" ID="{BA4B8234-2EAC-405E-A5CE-DAD67EF9272C}" ShortID="200452113">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -20412,11 +19592,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -20533,11 +19708,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>35</Value>
@@ -20664,11 +19834,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>9</Value>
@@ -20785,11 +19950,6 @@
 								<Sound Name="fundamental_[C#Db]_silent_gentle" ID="{542EF3FF-9F2C-4C95-9E78-3443ADEFEC55}" ShortID="208216644">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>35</Value>
@@ -20911,11 +20071,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>100</Value>
@@ -21049,11 +20204,6 @@
 										<Sound Name="fundamental_[D]_silent_sonoflore" ID="{E0B395DD-8280-49B6-9F1D-6C01BD254B0F}" ShortID="500780004">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -21089,11 +20239,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{D979220A-8C3C-41CC-A7C4-7614D49F6972}" ShortID="277998445">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>49</Value>
@@ -21212,11 +20357,6 @@
 								<Sound Name="harmony_[F]_silent_shruti" ID="{C13AE3DF-7E1E-4D6F-8A51-4FB97771B3B0}" ShortID="65453589">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -21333,11 +20473,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -21444,11 +20579,6 @@
 								<Sound Name="harmony_[C#Db]_silent_shruti" ID="{665E6668-3CA8-433F-AF20-824B03654282}" ShortID="1041595178">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -21560,11 +20690,6 @@
 								<Sound Name="harmony_[G#Ab]_silent_shruti" ID="{155280FF-37F6-45A1-ACC5-99AB6C41BB1A}" ShortID="224804602">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-300</Value>
@@ -21676,11 +20801,6 @@
 								<Sound Name="fundamental_[F#Gb]_silent_sonoflore" ID="{AD402F04-8499-4E3D-96EE-E39A75570EA6}" ShortID="332914093">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>40</Value>
@@ -21802,11 +20922,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>4</Value>
@@ -21928,11 +21043,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -22049,11 +21159,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>17</Value>
@@ -22175,11 +21280,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>17</Value>
@@ -23999,11 +23099,6 @@
 								<Sound Name="fundamental_[B]_silent_gentle" ID="{4C99BD44-1AAB-4700-BC07-A6478CDC9AEA}" ShortID="400576015">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>22</Value>
@@ -24127,11 +23222,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>19</Value>
@@ -24248,11 +23338,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-5</Value>
@@ -24362,11 +23447,6 @@
 								<Sound Name="fundamental_[C]_silent_gentle" ID="{27D4A4AF-C457-49F2-9958-50AB6AC8C687}" ShortID="454226770">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>36</Value>
@@ -24487,11 +23567,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-6</Value>
@@ -24598,11 +23673,6 @@
 								<Sound Name="fundamental_[E]_silent_gentle" ID="{44680691-3316-421C-9529-F8271886BD62}" ShortID="947859151">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>26</Value>
@@ -24723,11 +23793,6 @@
 								<Sound Name="fundamental_[E]_silent_sonoflore" ID="{B02349CF-A158-41CA-ABC6-F361A256BE94}" ShortID="887794959">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-11</Value>
@@ -24839,11 +23904,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-6</Value>
@@ -24950,11 +24010,6 @@
 								<Sound Name="fundamental_[G]_silent_sonoflore" ID="{7F14C6EB-886A-48F7-B3E1-E3ED117B2D42}" ShortID="585404176">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-11</Value>
@@ -25061,11 +24116,6 @@
 								<Sound Name="fundamental_[G]_silent_gentle" ID="{45C0BBBF-6C7D-4445-AF22-E28090146107}" ShortID="606725284">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>29</Value>
@@ -25181,11 +24231,6 @@
 								<Sound Name="fundamental_[G]_silent_shadow" ID="{9C73A7CB-EB7E-4BC5-8A3C-E2B8FAF8007E}" ShortID="719269102">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -25302,11 +24347,6 @@
 								<Sound Name="fundamental_[G]_silent_shruti" ID="{2EC4E7DC-D327-4AF3-9425-E82382A8D6CB}" ShortID="564986720">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-5</Value>
@@ -25412,11 +24452,6 @@
 								</Sound>
 								<Sound Name="fundamental_[A]_silent_gentle" ID="{EDB6A3C1-C00F-4752-A928-910C76D7E12A}" ShortID="550914340">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>4</Value>
@@ -25537,11 +24572,6 @@
 								<Sound Name="fundamental_[D]_silent_gentle" ID="{CFDAA6B0-68AB-4A67-B61C-1BA5B0C26A2A}" ShortID="1025780867">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>8</Value>
@@ -25667,11 +24697,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>23</Value>
@@ -25820,11 +24845,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>51</Value>
@@ -25865,11 +24885,6 @@
 										<Sound Name="fundamental_[A]_silent_shadow_01" ID="{08D3FA8F-3EBC-4BD9-81A1-89C96F59CFB7}" ShortID="749789234">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>45</Value>
@@ -26010,11 +25025,6 @@
 										<Sound Name="fundamental_[B]_silent_shadow_01" ID="{DEE951CD-9AD4-4A71-A683-9F65CFA40331}" ShortID="780115778">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>6</Value>
@@ -26099,11 +25109,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-5</Value>
@@ -26239,11 +25244,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>75</Value>
@@ -26279,11 +25279,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{8AFFFCF2-3085-4A32-945F-A2F2F1CBF59A}" ShortID="7361295">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>510</Value>
@@ -26429,11 +25424,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>75</Value>
@@ -26474,11 +25464,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{203B6668-2C13-4173-80F7-625F958C94E3}" ShortID="735078404">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>6</Value>
@@ -26624,11 +25609,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>15</Value>
@@ -26669,11 +25649,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{04A80E22-7171-405D-AD23-5E3A08629AE7}" ShortID="433544915">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>31</Value>
@@ -26792,11 +25767,6 @@
 								<Sound Name="fundamental_[A]_silent_shruti" ID="{10FEE921-7D67-48AB-8B5C-F1F0616C092D}" ShortID="917464199">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -26916,11 +25886,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>200</Value>
@@ -27037,11 +26002,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -27153,11 +26113,6 @@
 								<Sound Name="fundamental_[F]_silent_gentle" ID="{51050AD7-1AC9-44CD-AC86-D8AE04299253}" ShortID="968328950">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>10</Value>
@@ -27278,11 +26233,6 @@
 								<Sound Name="fundamental_[A]_silent_sonoflore" ID="{6CD4C1E5-7FA7-48AA-8A57-25D20E07A705}" ShortID="332105642">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -27416,11 +26366,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>100</Value>
@@ -27493,11 +26438,6 @@
 										<Sound Name="fundamental_[C]_silent_sonoflore" ID="{F956D567-17FC-4EAF-B080-EFFAB21FE089}" ShortID="730305548">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>8</Value>
@@ -27623,11 +26563,6 @@
 										<Sound Name="fundamental_[D]_silent_sonoflore" ID="{3E51A7C4-247B-477D-ABB0-8CB8371A4BDD}" ShortID="557194702">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -27663,11 +26598,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{BE4A186F-1A05-46DD-B718-7AA4AF67E9C1}" ShortID="378333915">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>49</Value>
@@ -27803,11 +26733,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{0C00E7C6-C654-49AB-A137-3744C24412E2}" ShortID="1002066342">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>100</Value>
@@ -27919,11 +26844,6 @@
 										<Sound Name="fundamental_[F]_silent_sonoflore" ID="{37B8664B-2D8E-4FCB-ADE3-8C5F131ACDB8}" ShortID="440679753">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>29</Value>
@@ -28140,11 +27060,6 @@
 										<Sound Name="fundamental_[B]_silent_shadow_01" ID="{7AE8C5AB-57B7-44A6-B370-5A66FFFFD310}" ShortID="162569247">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>6</Value>
@@ -28229,11 +27144,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-5</Value>
@@ -28369,11 +27279,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>75</Value>
@@ -28404,11 +27309,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{EBD2831F-835A-44A8-B23F-A02C3AC76608}" ShortID="256783324">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>510</Value>
@@ -28554,11 +27454,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
@@ -28594,11 +27489,6 @@
 										<Sound Name="fundamental_[G]_silent_shadow_01" ID="{98345E16-1E6D-4CE4-A074-EA3132969EBB}" ShortID="33147452">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>27</Value>
@@ -28717,11 +27607,6 @@
 								<Sound Name="fundamental_[F#Gb]_silent_shadow" ID="{E4ABBBBA-68DC-4CE8-87BA-43C2A37DA23B}" ShortID="205456622">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>14</Value>
@@ -28838,11 +27723,6 @@
 								<Sound Name="fundamental_[A#Bb]_silent_gentle" ID="{F02AA447-C3D8-4237-AA5C-BC0B704615AA}" ShortID="661712702">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -28966,11 +27846,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="MakeUpGain" Type="Real64">
 											<ValueList>
 												<Value>2</Value>
@@ -29095,11 +27970,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -29243,11 +28113,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>51</Value>
@@ -29288,11 +28153,6 @@
 										<Sound Name="fundamental_[A]_silent_shadow_01" ID="{703EF9EC-F7BA-4CEF-8770-0BCB795F98D2}" ShortID="147882873">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>45</Value>
@@ -29410,11 +28270,6 @@
 								</BlendContainer>
 								<Sound Name="fundamental_[G#Ab]_silent_gentle" ID="{9B295EC4-F961-4311-A4DB-1CF50FD8F0E4}" ShortID="628159323">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>12</Value>
@@ -29540,11 +28395,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-300</Value>
@@ -29659,11 +28509,6 @@
 								<Sound Name="fundamental_[G#Ab]_silent_sonoflore" ID="{732791D4-4872-4E37-AD1D-FC3559CE50AE}" ShortID="627043610">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-300</Value>
@@ -29797,11 +28642,6 @@
 										<Sound Name="fundamental_[D]_silent_sonoflore" ID="{72D6239B-C977-4EE7-A881-53EDA4FCB74C}" ShortID="709604776">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -29837,11 +28677,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{4EEAACE8-00E6-4537-A782-0BA34F01F05A}" ShortID="376624500">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>49</Value>
@@ -29965,11 +28800,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>300</Value>
@@ -30081,11 +28911,6 @@
 								<Sound Name="fundamental_[F#Gb]_silent_gentle" ID="{99D43F57-8073-46AB-914F-9616CA92B943}" ShortID="854026507">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>4</Value>
@@ -30206,11 +29031,6 @@
 								<Sound Name="fundamental_[D#Eb]_silent_gentle" ID="{ADF6B524-7C7C-4788-84D9-7FEEF7AB9C5C}" ShortID="147487256">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -30336,11 +29156,6 @@
 								<Sound Name="fundamental_[C#Db]_silent_gentle" ID="{DEAA505C-857C-4767-974E-1E1C4EE104A7}" ShortID="643491860">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>37</Value>
@@ -30466,11 +29281,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>100</Value>
@@ -30604,11 +29414,6 @@
 										<Sound Name="fundamental_[D]_silent_sonoflore" ID="{F13B0724-6E7E-4C00-86FA-8D79E44CE200}" ShortID="686835302">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -30644,11 +29449,6 @@
 										<Sound Name="fundamental_[E]_silent_sonoflore_01" ID="{12F497C9-20B1-4F08-ABD1-18A98FDE48B3}" ShortID="457305468">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>49</Value>
@@ -30772,11 +29572,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -30888,11 +29683,6 @@
 								<Sound Name="fundamental_[F#Gb]_silent_sonoflore" ID="{144583BA-F63A-4570-AD23-5626D143F6D4}" ShortID="657072906">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -31975,11 +30765,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>15</Value>
@@ -32100,11 +30885,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>38</Value>
@@ -32216,11 +30996,6 @@
 								<Sound Name="harmony_[B]_silent_shruti" ID="{7BB12CAC-F101-464F-81EE-7597C4D6EFDF}" ShortID="1007552245">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-8</Value>
@@ -32327,11 +31102,6 @@
 								<Sound Name="harmony_[D]_silent_gentle" ID="{1FE4BA36-4F14-4F9D-BD58-82FD58164279}" ShortID="538619129">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -32447,11 +31217,6 @@
 								<Sound Name="harmony_[D]_silent_shadow" ID="{5836431C-53A1-451E-B84F-51C95BB32025}" ShortID="678506554">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-12</Value>
@@ -32563,11 +31328,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>19</Value>
@@ -32679,11 +31439,6 @@
 								<Sound Name="harmony_[D]_silent_shruti" ID="{262110EC-1857-49BC-8B69-52665EC5AF57}" ShortID="375947978">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>34</Value>
@@ -32795,11 +31550,6 @@
 								<Sound Name="harmony_[F#Gb]_silent_gentle" ID="{5FE92C78-5EE4-41B4-8AD4-1925BF8221BC}" ShortID="926039939">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-8</Value>
@@ -32915,11 +31665,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>41</Value>
@@ -33041,11 +31786,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>23</Value>
@@ -33157,11 +31897,6 @@
 								<Sound Name="harmony_[F#Gb]_silent_shruti" ID="{6528FDF4-E7AF-431D-88D0-C28922658253}" ShortID="921795100">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-6</Value>
@@ -33268,11 +32003,6 @@
 								<Sound Name="harmony_[G]_silent_gentle" ID="{0B2C731D-4EA3-4CB3-AAB6-D8C5C38BAD89}" ShortID="1048278318">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-8</Value>
@@ -33388,11 +32118,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>49</Value>
@@ -33509,11 +32234,6 @@
 								<Sound Name="harmony_[G]_silent_shruti" ID="{F8EF3520-CF83-41B2-A0F0-ADA1A7E070C8}" ShortID="391210477">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-6</Value>
@@ -33620,11 +32340,6 @@
 								<Sound Name="harmony_[C]_silent_gentle" ID="{656E6B69-DA10-4D23-822D-024A60FCD030}" ShortID="453066528">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>100</Value>
@@ -33740,11 +32455,6 @@
 								<Sound Name="harmony_[A]_silent_gentle" ID="{F6C454A2-3940-454C-A708-57B34F11D1F5}" ShortID="392257355">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>16</Value>
@@ -33865,11 +32575,6 @@
 								<Sound Name="harmony_[E]_silent_gentle" ID="{6CB6D717-46F8-40E4-8182-76F7C9D66F1C}" ShortID="849789490">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>12</Value>
@@ -33995,11 +32700,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>220</Value>
@@ -34116,11 +32816,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>44</Value>
@@ -34237,11 +32932,6 @@
 								<Sound Name="harmony_[C]_silent_shadow" ID="{87C51A12-4646-44EA-8DB3-507C71D0B6A7}" ShortID="42185595">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -34353,11 +33043,6 @@
 								<Sound Name="harmony_[A]_silent_shruti" ID="{E94A8314-1A01-457E-99A9-E79FE78B7830}" ShortID="402104884">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -34469,11 +33154,6 @@
 								<Sound Name="harmony_[C]_silent_shruti" ID="{300E31F0-EBB2-4AD8-A7EE-468A795A1D43}" ShortID="983412873">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-200</Value>
@@ -34602,11 +33282,6 @@
 										<Sound Name="harmony_[E]_silent_shruti" ID="{9D9E220A-A99D-4288-AE9C-F3A090D35D78}" ShortID="1030937753">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>200</Value>
@@ -34681,11 +33356,6 @@
 										<Sound Name="harmony_[F#]_silent_shruti_01" ID="{5DB7C6B1-8E2E-4E8B-8181-E9D0FDDC6B2B}" ShortID="810303621">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -34843,11 +33513,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>42</Value>
@@ -34969,11 +33634,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>24</Value>
@@ -35095,11 +33755,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>30</Value>
@@ -35243,11 +33898,6 @@
 										<Sound Name="harmony_[F#]_silent_sonoflore_01" ID="{A8DC47A2-8936-4BE9-A7B1-F1E678AB8865}" ShortID="49957724">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
@@ -35325,11 +33975,6 @@
 										<Sound Name="harmony_[G]_silent_sonoflore" ID="{7AABFAF8-7540-4575-804F-F838FE26B3A7}" ShortID="80943486">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>2</Value>
@@ -35502,11 +34147,6 @@
 										<Sound Name="harmony_[E]_silent_shruti" ID="{8888F6A6-19D2-4D8C-8E45-A4E4422F3E41}" ShortID="220224739">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>200</Value>
@@ -35581,11 +34221,6 @@
 										<Sound Name="harmony_[F#]_silent_shruti_01" ID="{446C966B-2B3C-4108-9AE9-A64F7107E9AF}" ShortID="387017657">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Pitch" Type="int32">
 													<ValueList>
 														<Value>-200</Value>
@@ -35738,11 +34373,6 @@
 								<Sound Name="harmony_[D#Eb]_silent_gentle" ID="{C574DE2D-685A-434A-ABBF-3619B38367BA}" ShortID="739196016">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>24</Value>
@@ -35868,11 +34498,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>110</Value>
@@ -35989,11 +34614,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>31</Value>
@@ -36110,11 +34730,6 @@
 								<Sound Name="harmony_[G#Ab]_silent_gentle" ID="{B4CB6579-3CB4-4C30-B618-069C4BBA2ACD}" ShortID="179286365">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>12</Value>
@@ -36235,11 +34850,6 @@
 								<Sound Name="harmony_[A#Bb]_silent_shadow" ID="{BD53554F-198F-431A-8E99-6D42D56D7980}" ShortID="725595894">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>45</Value>
@@ -36356,11 +34966,6 @@
 								<Sound Name="harmony_[C#Db]_silent_shadow" ID="{FE345974-8B7F-4AE7-9CF4-253E3354A042}" ShortID="724663503">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>1</Value>
@@ -36482,11 +35087,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-90</Value>
@@ -36603,11 +35203,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -36746,11 +35341,6 @@
 													</ValueList>
 												</Property>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>66</Value>
@@ -36867,11 +35457,6 @@
 										<Sound Name="harmony_[B]_silent_shadow" ID="{DBC95D35-2313-43A8-A028-A7299C657F9C}" ShortID="471847075">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Lowpass" Type="int16">
 													<ValueList>
 														<Value>43</Value>
@@ -37071,11 +35656,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>25</Value>
@@ -37196,11 +35776,6 @@
 								<Sound Name="harmony_[A#Bb]_silent_shruti" ID="{780364D2-75D6-40A8-A974-E0DA25A7FA85}" ShortID="502928569">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -37312,11 +35887,6 @@
 								<Sound Name="harmony_[A#Bb]_silent_gentle" ID="{F49AA61C-426A-47A1-8604-0949C033BDDD}" ShortID="916365919">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>10</Value>
@@ -37442,11 +36012,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>12</Value>
@@ -37567,11 +36132,6 @@
 								<Sound Name="harmony_[F]_silent_shruti" ID="{2C3ABE72-42F2-468E-9442-B40DE5303DE7}" ShortID="813998324">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -37683,11 +36243,6 @@
 								<Sound Name="harmony_[C#Db]_silent_shruti" ID="{878301AE-F246-4D1B-962C-D0170535F732}" ShortID="751605664">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-100</Value>
@@ -37799,11 +36354,6 @@
 								<Sound Name="harmony_[G#Ab]_silent_shruti" ID="{66C8E9F8-7EB4-42F7-A837-069B12DCB05D}" ShortID="729551753">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Pitch" Type="int32">
 											<ValueList>
 												<Value>-300</Value>
@@ -37920,11 +36470,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>36</Value>
@@ -38046,11 +36591,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>34</Value>
@@ -38172,11 +36712,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>42</Value>
@@ -38298,11 +36833,6 @@
 											</ValueList>
 										</Property>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>41</Value>
