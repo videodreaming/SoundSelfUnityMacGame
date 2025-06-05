@@ -88,8 +88,10 @@ public class LightControl : MonoBehaviour
             wantedDevice1 = "Kasina MMS Audio";
             wantedDevice2 = "MPL Audio       ";
         #elif UNITY_STANDALONE_WIN
-            wantedDevice1 = "Speakers (Kasina MMS Audio)";
-            wantedDevice2 = "Speakers (MPL Audio       )";
+            //wantedDevice1 = "Speakers (Kasina MMS Audio)";
+            //wantedDevice2 = "Speakers (MPL Audio       )";
+            wantedDevice1 = "Kasina MMS Audio";
+            wantedDevice2 = "MPL Audio       ";
         #else
             Debug.LogError("Unsupported platform");
             return;
