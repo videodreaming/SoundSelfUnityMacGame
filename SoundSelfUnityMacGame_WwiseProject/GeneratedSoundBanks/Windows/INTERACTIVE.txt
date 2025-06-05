@@ -167,7 +167,6 @@ Effect plug-ins	ID	Name	Type				Notes
 	48620415	Have_U_Ever_Been_Outside	Wwise RoomVerb			
 	59662939	Dialog_Too_Quiet	Wwise Compressor			
 	86245554	Attack_Remover	Wwise Compressor			
-	109045632	Vibrato	Wwise Flanger			
 	131511410	Let_The_Power_Fall	Wwise Stereo Delay			
 	136714882	_500ms_Per_Hour	Wwise Stereo Delay			
 	145028528	Static_Sibilance_Remover_Female	Wwise Parametric EQ			
@@ -180,14 +179,14 @@ Effect plug-ins	ID	Name	Type				Notes
 	484890516	Church_Small_Wood	Wwise RoomVerb			
 	506891147	Plate_Small	Wwise RoomVerb			
 	535667444	Bathroom1	Wwise Matrix Reverb			
+	544780433	New_Gain	Wwise Gain			
 	602546716	Room_Large	Wwise RoomVerb			
+	642532550	New_Pitch_Shifter	Wwise Pitch Shifter			
 	654807232	Chipmunk	Wwise Pitch Shifter			
 	701863527	Inside_My_Head	Wwise RoomVerb			
 	702543456	Tunnel1	Wwise Matrix Reverb			
 	776837744	Born_In_1950	Wwise Parametric EQ			
-	819943492	Fear_no_Evil	Wwise Harmonizer			
 	927250686	Rhythmic_Talk	Wwise Tremolo			
-	949863463	Many_Even_Harm_Notches	Wwise Flanger			
 	992902880	Small_Tiled_Room1	Wwise Matrix Reverb			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
 	1110677034	Underwater_Echoes	Wwise Stereo Delay			
@@ -198,10 +197,10 @@ Effect plug-ins	ID	Name	Type				Notes
 	1198215643	Boomerang	Wwise Tremolo			
 	1203617187	Machine_Gun_Hangar	Wwise RoomVerb			
 	1232017842	LR_Slap_with_CrossFeed	Wwise Stereo Delay			
+	1232150908	New_Tremolo	Wwise Tremolo			
 	1237275451	Octave_Up	Wwise Pitch Shifter			
-	1252796875	Light_Expander	Wwise Expander			
-	1291433344	Bass	Wwise Flanger			
 	1293178626	In_My_Car	Wwise Parametric EQ			
+	1352932576	New_3D_Audio_Bed_Mixer	Wwise 3D Audio Bed Mixer			
 	1416967478	All_Buttons_IN	Wwise Compressor			
 	1431209347	One_Tap_One_Second	Wwise Delay			
 	1431265797	Monsterize	Wwise Pitch Shifter			
@@ -215,15 +214,13 @@ Effect plug-ins	ID	Name	Type				Notes
 	1590660382	Nearly_Forever	Wwise Delay			
 	1655770832	High_Freq_Cut_11	Wwise Parametric EQ			
 	1655770833	High_Freq_Cut_10	Wwise Parametric EQ			
-	1674078407	Chorus_Like	Wwise Flanger			
 	1675424737	Extreme_Limiting_1	Wwise Peak Limiter			
 	1675424738	Extreme_Limiting_2	Wwise Peak Limiter			
 	1675424739	Extreme_Limiting_3	Wwise Peak Limiter			
 	1706684651	Plate_Medium	Wwise RoomVerb			
-	1711423976	Many_Odd_Harm_Notches	Wwise Flanger			
+	1724990773	New_Time_Stretch	Wwise Time Stretch			
 	1735130781	Aliasing	Wwise Tremolo			
-	1820854077	Noise_Gate_Fast_Attack	Wwise Expander			
-	1863245162	Noise_Gate_Slow_Attack	Wwise Expander			
+	1763592331	New_Meter	Wwise Meter			
 	1866712626	High_Freq_Cut_8	Wwise Parametric EQ			
 	1866712627	High_Freq_Cut_9	Wwise Parametric EQ			
 	1866712632	High_Freq_Cut_2	Wwise Parametric EQ			
@@ -234,38 +231,34 @@ Effect plug-ins	ID	Name	Type				Notes
 	1866712638	High_Freq_Cut_4	Wwise Parametric EQ			
 	1866712639	High_Freq_Cut_5	Wwise Parametric EQ			
 	1904434771	Medium_Room1	Wwise Matrix Reverb			
-	1976939195	Deep	Wwise Flanger			
 	1990128658	Room_Medium	Wwise RoomVerb			
 	2038996943	Plate_Sizzle	Wwise RoomVerb			
 	2080872166	Brick_Wall_Minus_6dB_Peak_Fast_Release	Wwise Peak Limiter			
 	2098638826	Underground_Parking1	Wwise Matrix Reverb			
+	2114643489	New_Parametric_EQ_CutMiddle	Wwise Parametric EQ			
 	2135883084	Nasty_Radio	Wwise Peak Limiter			
+	2154715732	New_Stereo_Delay	Wwise Stereo Delay			
 	2157017419	Cut_2_dB_100Hz	Wwise Parametric EQ			
 	2171127646	Hall_Conversation	Wwise RoomVerb			
 	2171939413	Dialog_Leveler_Hard	Wwise Compressor			
 	2180422931	One_Tap_Quarter_Second	Wwise Delay			
-	2202047219	Few_Even_Notches	Wwise Flanger			
 	2230265344	Very_Bad_Connection	Wwise Tremolo			
 	2258521792	Brick_Wall_Minus_1dB_Peak_Slow_Release	Wwise Peak Limiter			
 	2265839006	Not_A_Yellow_Submarine	Wwise RoomVerb			
-	2301880513	Many_Even_Harm_Peaks	Wwise Flanger			
 	2394809124	Very_Slow_Modulation	Wwise Tremolo			
 	2513915904	Hall_Large	Wwise RoomVerb			
-	2539557199	Treble	Wwise Flanger			
 	2547645744	Boost_3dB_100Hz	Wwise Parametric EQ			
-	2568359573	Secret_message	Wwise Harmonizer			
 	2648499661	Hall_Medium_Dark	Wwise RoomVerb			
 	2652646462	Dialog_Leveler_Soft	Wwise Compressor			
-	2653529179	Three_Voices	Wwise Harmonizer			
 	2656259783	PA_Announcement1	Wwise Matrix Reverb			
 	2662085913	Large_Church1	Wwise Matrix Reverb			
 	2667647788	Single_Band_1Khz_Wide	Wwise Parametric EQ			
+	2675251108	New_Peak_Limiter	Wwise Peak Limiter			
 	2755291684	Pumping_and_Breathing_1	Wwise Compressor			
 	2755291686	Pumping_and_Breathing_3	Wwise Compressor			
 	2755291687	Pumping_and_Breathing_2	Wwise Compressor			
 	2781261543	Brick_Wall_Minus_6dB_Peak_Slow_Release	Wwise Peak Limiter			
 	2791153688	Hall_Small	Wwise RoomVerb			
-	2805769450	Special_Effect_1	Wwise Flanger			
 	2849147824	Medium	Wwise RoomVerb			
 	2891462749	Room_Medium_High_Absorbtion	Wwise RoomVerb			
 	2900412812	Robotic_Trash	Wwise RoomVerb			
@@ -285,19 +278,17 @@ Effect plug-ins	ID	Name	Type				Notes
 	3013737260	Bass_Remover_2	Wwise Parametric EQ			
 	3013737261	Bass_Remover_3	Wwise Parametric EQ			
 	3013737263	Bass_Remover_1	Wwise Parametric EQ			
-	3025917178	Standard	Wwise Flanger			
 	3036946058	Inside_Your_Head	Wwise RoomVerb			
 	3043085106	High_Impact	Wwise Compressor			
-	3157398371	Few_Odd_Harm_Notches	Wwise Flanger			
 	3164629247	Holy	Wwise RoomVerb			
 	3209444191	Static_Sibilance_Remover_Male	Wwise Parametric EQ			
 	3216246379	Space_Dreaming	Wwise RoomVerb			
 	3250156175	Say_what	Wwise Tremolo			
 	3290519051	Aluminium_Tank	Wwise RoomVerb			
-	3332138788	Few_Even_Harm_Peaks	Wwise Flanger			
 	3354577677	Fast_LF_Tremolo	Wwise Tremolo			
 	3395979371	Straight_Delay	Wwise Stereo Delay			
 	3407225994	Phone_Booth	Wwise RoomVerb			
+	3425998380	VocalBassReduction	Wwise Parametric EQ			
 	3442768367	Hall_Large_Dark	Wwise RoomVerb			
 	3451596814	Hall_Medium	Wwise RoomVerb			
 	3487820010	One_Tap_Half_Second	Wwise Delay			
@@ -316,20 +307,18 @@ Effect plug-ins	ID	Name	Type				Notes
 	3673681183	Large_Bright_Chamber1	Wwise Matrix Reverb			
 	3701691487	Hall_Large_Bright	Wwise RoomVerb			
 	3796564934	Hard_Knee_Minus_3dB_RMS	Wwise Compressor			
-	3851006675	Secret_message_Distant	Wwise Harmonizer			
 	3900114836	Metal_Hangar	Wwise RoomVerb			
+	3922231154	PanningPhaseShift_180degrees	Wwise Tremolo			
 	3948262040	Octave_Down	Wwise Pitch Shifter			
+	3986712950	HighShelfReduction	Wwise Parametric EQ			
 	4113267698	Hall_Guns	Wwise RoomVerb			
-	4136714357	Few_Odd_Harm_Peaks	Wwise Flanger			
 	4143868620	Bass_Remover_11	Wwise Parametric EQ			
 	4143868621	Bass_Remover_10	Wwise Parametric EQ			
+	4155787858	New_Recorder	Wwise Recorder			
 	4185773483	Dual_Filters_Reset	Wwise Parametric EQ			
 	4190220820	Voice_CenterOnly_Lowered	Wwise Pitch Shifter			
-	4202347640	Repeat_after_me	Wwise Harmonizer			
 	4212217734	Personnel_Advisor	Wwise Stereo Delay			
-	4236290354	Many_Odd_Harm_Peaks	Wwise Flanger			
 	4239446561	Dual_Filters_Narrow_Bandwidth	Wwise Parametric EQ			
-	4269441574	Heavy_Metal	Wwise Flanger			
 	4286906788	Gentle_Program_Compressor_Minus_20dB_RMS	Wwise Compressor			
 
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
@@ -372,6 +361,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	96528802	fundamental_[E]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_toning_shadow_C4A86232.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[E]_toning_shadow\fundamental_[E]_toning_shadow		5760096
 	102762678	harmony_[G]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[G]_toning_sono flore_252A4D6D.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_SonoFlore\harmony_[G]_toning_sono flore\harmony_[G]_toning_sono flore		3426304
 	103853562	fundamental_[B]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_toning_sono flore_1425754D.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_SonoFlore\fundamental_[B]_toning_sono flore\fundamental_[B]_toning_sono flore		5760096
+	105163780	Wind - cold - short - looping	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Wind - cold - short - looping_85315AB2.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\Wind - cold - short - looping		1504228
 	108288478	harmony_[D]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_gentle_72C88504.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Gentle\harmony_[C#Db]_toning_gentle\harmony_[D]_toning_gentle		5760096
 	108713058	harmony_[G]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[G]_toning_gentle_0ADC2F43.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Gentle\harmony_[G]_toning_gentle\harmony_[G]_toning_gentle		5586304
 	112444658	harmony_[D]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_shadow_6F721C85.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shadow\harmony_[D#Eb]_toning_shadow\harmony_[D]_toning_shadow		5725328
@@ -379,6 +369,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	119872313	fundamental_[E]_silent_shruti	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_silent_shruti_loop_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v1_7_Linked\InteractiveMusic_SilentLoops_v1_7_Linked\fundamental_[E]_silent_shruti		6048096
 	130835513	fundamental_[A#Bb]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_silent_gentle_11A93380.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[A#Bb]_silent_gentle		8293380
 	133084729	fundamental_[G]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_toning_shadow_BE2AC651.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Shadow\fundamental_[G]_toning_shadow\fundamental_[G]_toning_shadow		4150776
+	135122032	NewEnding_Sub	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\NewEnding_Sub_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\NewEnding_Sub		8481864
 	137498101	harmony_[G]_toning_shadow_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[G]_toning_shadow_11B2DCFF.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shadow\harmony_[G#Ab]_toning_shadow\harmony_[G]_toning_shadow_01		5742712
 	142709989	fundamental_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_toning_shadow_60499D45.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[B]_toning_shadow\fundamental_[B]_toning_shadow		5586116
 	151307626	fundamental_[E]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_toning_gentle_B8CD30AA.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Gentle\fundamental_[C#Db]_toning_gentle\fundamental_[E]_toning_gentle		5269752
@@ -386,11 +377,13 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	167281688	harmony_[D]_toning_shruti	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_shruti_818F3B66.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Shruti\harmony_[Db]_toning_shruti\harmony_[D]_toning_shruti		2880096
 	184068794	fundamental_[C]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_gentle_6F49F2E0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Gentle\fundamental_[A]_toning_gentle\fundamental_[C]_toning_gentle		5549060
 	186433803	harmony_[F#]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_toning_shadow_EA3DCD90.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_Shadow\harmony_[E]_toning_shadow\harmony_[F#]_toning_shadow		5736916
+	188647660	NewEnding_Music+SFX	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\NewEnding_Music+SFX_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\NewEnding_Music+SFX		8481864
 	189362165	fundamental_[G]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_toning_gentle_75BAF325.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Gentle\fundamental_[F#Gb]_toning_gentle\fundamental_[G]_toning_gentle		5760096
 	193930001	fundamental_[G]_toning_shruti_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_toning_shruti_818F3B66.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Shruti\fundamental_[G]_toning_shruti\fundamental_[G]_toning_shruti_01		2880096
 	195786627	fundamental_[E]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_toning_gentle_C8199B29.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Gentle\fundamental_[E]_toning_gentle\fundamental_[E]_toning_gentle		5698028
 	208193126	fundamental_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_toning_shadow_21F43AF1.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[G#Ab]_toning_shadow\fundamental_[B]_toning_shadow		5586116
 	210323003	fundamental_[C]_toning_shadow_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_shadow_2156844E.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[C#Db]_toning_shadow\fundamental_[C]_toning_shadow_01		5760096
+	226852051	sfx_subkick	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_subkick_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence_AVS_Only\sfx_subkick		876456
 	240795686	fundamental_[G]_toning_shruti	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_toning_shruti_6263EC42.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shruti\fundamental_[A]_toning_shruti\fundamental_[G]_toning_shruti		1892136
 	251803074	harmony_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[B]_toning_shadow_FA776693.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shadow\harmony_[D]_toning_shadow\harmony_[B]_toning_shadow		5702148
 	257133459	harmony_[D]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_gentle_5328C8D7.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Gentle\harmony_[C]_toning_gentle\harmony_[D]_toning_gentle		5760096
@@ -421,6 +414,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	349667166	fundamental_[A]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_silent_gentle_818F3B66.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v1_7_Linked\InteractiveMusic_SilentLoops_v1_7_Linked\fundamental_[A]_silent_gentle		11120636
 	357528307	fundamental_[E]_toning_shadow_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_toning_shadow_380EBFC3.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[F]_toning_shadow\fundamental_[E]_toning_shadow_01		5760096
 	363146653	fundamental_[B]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_toning_sono flore_DA6E9D70.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_SonoFlore\fundamental_[G#Ab]_toning_sono flore\fundamental_[B]_toning_sono flore		3283544
+	363531574	sfx_drum_cowhide_binaural	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_drum_cowhide_binaural_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence\sfx_drum_cowhide_binaural		509792
 	363805056	Pigments_Ambient_C Maj Scale	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Pigments_Ambient_C Maj Scale_16779D97.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_Shadow\fundamental_[E]_toning_shadow\Pigments_Ambient_C Maj Scale		2737448
 	364631077	fundamental_[C]_toning_shadow_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_shadow_511B6177.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Shadow\fundamental_[D]_toning_shadow\fundamental_[C]_toning_shadow_01		2872516
 	370281401	fundamental_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_toning_shadow_3E06637A.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_Shadow\fundamental_[B]_toning_shadow\fundamental_[B]_toning_shadow		4337184
@@ -443,14 +437,18 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	446117886	harmony_[G#Ab]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[G]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v2_12_Linked\InteractiveMusic_SilentLoops_v2_12_Linked\harmony_[G#Ab]_silent_gentle		10932152
 	451572278	harmony_[F]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_toning_shadow_E4A8AF21.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_Shadow\harmony_[F#]_toning_shadow\harmony_[F]_toning_shadow		5736916
 	454113618	harmony_[F]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_toning_gentle_0670C445.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Gentle\harmony_[F]_toning_gentle\harmony_[F]_toning_gentle		5760096
+	464203531	sfx_breath out	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath out_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
 	465792322	Pigments_Ambient_C Maj Scale	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Pigments_Ambient_C Maj Scale_A7ED6E33.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[F]_toning_shadow\Pigments_Ambient_C Maj Scale		2550808
+	466210932	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_C3F4FBB0.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612056
 	472406873	fundamental_[C]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_gentle_82C41243.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Gentle\fundamental_[E]_toning_gentle\fundamental_[C]_toning_gentle		5238716
 	490834563	harmony_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[B]_toning_shadow_92F6D86F.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_Shadow\harmony_[D]_toning_shadow\harmony_[B]_toning_shadow		5702148
+	493065678	SO_AM_90_ambience_rain_muladhara	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_90_ambience_rain_muladhara_A9C1662C.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_90_ambience_rain_muladhara		2325996
 	494020334	fundamental_[C]_toning_shruti	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_shruti_2E59B1D2.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shruti\fundamental_[C]_toning_shruti\fundamental_[C]_toning_shruti		2858372
 	503979282	fundamental_[G]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_toning_shadow_672125B4.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_Shadow\fundamental_[A]_toning_shadow\fundamental_[G]_toning_shadow		4983396
 	504715301	harmony_[B]_toning_shruti	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[B]_toning_shruti_818F3B66.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shruti\harmony_[A#Bb]_toning_shruti\harmony_[B]_toning_shruti		2880096
 	518293729	harmony_[F]_toning_shruti	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_toning_shruti_818F3B66.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shruti\harmony_[E]_toning_shruti\harmony_[F]_toning_shruti		2880096
 	523234594	fundamental_[G]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_toning_shadow_AF7E49FD.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[G#Ab]_toning_shadow\fundamental_[G]_toning_shadow		4983396
+	525152423	End Interactive SFX	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\GIO_HEAL_bowls_wide_29FB70CC.wem		\Actor-Mixer Hierarchy\SFX\Extra Samples\End Interactive SFX		7414520
 	533405318	fundamental_[C]_silent_sonoflore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_silent_sono flore_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[C]_silent_sonoflore\fundamental_[C]_silent_sonoflore		19136092
 	547494964	harmony_[F]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_toning_gentle_D0AAC35D.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Gentle\harmony_[F#Gb]_toning_gentle\harmony_[F]_toning_gentle		5760096
 	548918255	harmony_[A#Bb]_silent_shruti	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[B]_silent_shruti_loop_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_HarmonyOnly\InteractiveMusic_SilentLoops_v3_12_HarmonyOnly\harmony_[A#Bb]_silent_shruti		5952096
@@ -506,6 +504,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	784839497	harmony_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[B]_toning_shadow_AEC73447.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shadow\harmony_[A]_toning_shadow\harmony_[B]_toning_shadow		5702148
 	787884157	fundamental_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_toning_shadow_C319F43B.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[A]_toning_shadow\fundamental_[B]_toning_shadow		5586116
 	790980483	harmony_[D#Eb]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_HarmonyOnly\InteractiveMusic_SilentLoops_v3_12_HarmonyOnly\harmony_[D#Eb]_silent_gentle		10178216
+	793736320	Gong,Rainstick_Oneshot	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Gong,Rainstick_Oneshot_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence\SFX_Gong_Rainstick_OneShot\Gong,Rainstick_Oneshot		3754236
 	804210538	harmony_[G]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[G]_toning_shadow_6C21D1CB.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shadow\harmony_[G]_toning_shadow\harmony_[G]_toning_shadow		5742712
 	815040994	fundamental_[C]_toning_shadow_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_shadow_8087E398.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_Shadow\fundamental_[D]_toning_shadow\fundamental_[C]_toning_shadow_01		5760096
 	822956135	Pigments_Ambient_C Maj Scale	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Pigments_Ambient_C Maj Scale_F7D2C1C5.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Shadow\fundamental_[A]_toning_shadow\Pigments_Ambient_C Maj Scale		2136060
@@ -534,13 +533,16 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	921138438	harmony_[D]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_shadow_536DB6A7.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v1_7_Linked\InteractiveMusic_Toning_v1_7_Linked\Toning_Shadow\harmony_[D]_toning_shadow\harmony_[D]_toning_shadow		5725328
 	924773234	harmony_[F#]_silent_sonoflore_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_silent_sono flore_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v2_12_Linked\InteractiveMusic_SilentLoops_v2_12_Linked\harmony_[G]_silent_sonoflore\harmony_[F#]_silent_sonoflore_01		10888948
 	926989164	fundamental_[D]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_gentle_E22880CB.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Gentle\fundamental_[C#Db]_toning_gentle\fundamental_[D]_toning_gentle		5561476
+	928485249	OceanWavesSlowSurf_BWU_685	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\OceanWavesSlowSurf_BWU.685_D0AF3C00.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\OceanWavesSlowSurf_BWU_685		2507440
 	934723135	harmony_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[B]_toning_shadow_F133989B.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Shadow\harmony_[D]_toning_shadow\harmony_[B]_toning_shadow		5702148
 	943526868	harmony_[B]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[B]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v1_7_Linked\InteractiveMusic_SilentLoops_v1_7_Linked\harmony_[B]_silent_gentle		7916412
+	948390285	SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_E0F51DE2.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj		865416
 	955040453	fundamental_[F]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_silent_gentle_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[F]_silent_gentle		11120636
 	964479379	harmony_[D]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_gentle_E43BDEA4.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Gentle\harmony_[C]_toning_gentle\harmony_[D]_toning_gentle		5760096
 	970629662	fundamental_[G]_toning_gentle_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_toning_gentle_2591E7E9.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Gentle\fundamental_[E]_toning_gentle\fundamental_[G]_toning_gentle_01		5760096
 	972895772	harmony_[F#]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_toning_sono flore_730006A8.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_SonoFlore\harmony_[E]_toning_sono flore\harmony_[F#]_toning_sono flore		3655956
 	974874525	harmony_[F#]_silent_shruti_01	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_silent_shruti_loop_FBC78EF0.wem		\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v2_12_Linked\InteractiveMusic_SilentLoops_v2_12_Linked\harmony_[E]_silent_shruti\harmony_[F#]_silent_shruti_01		9792096
+	987362858	SO_AM_80_ambience_birds_creek_ashby	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_80_ambience_birds_creek_ashby_71613975.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_80_ambience_birds_creek_ashby		1429216
 	998221447	fundamental_[E]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_toning_shadow_7F8529CA.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[C#Db]_toning_shadow\fundamental_[E]_toning_shadow		5760096
 	998298299	harmony_[F#]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[F]_toning_shadow_A36F737A.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shadow\harmony_[E]_toning_shadow\harmony_[F#]_toning_shadow		5736916
 	999174595	fundamental_[E]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_toning_sono flore_BC3F56E4.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_SonoFlore\fundamental_[F]_toning_sono flore\fundamental_[E]_toning_sono flore		5760096
@@ -548,6 +550,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1025791043	harmony_[D]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_gentle_44F2D337.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Gentle\harmony_[D]_toning_gentle\harmony_[D]_toning_gentle		5760096
 	1031373284	fundamental_[C]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_sono flore_D8247245.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_SonoFlore\fundamental_[C]_toning_sono flore\fundamental_[C]_toning_sono flore		3308372
 	1045990553	harmony_[D]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_sono flore_E901E3B5.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_SonoFlore\harmony_[D]_toning_sono flore\harmony_[D]_toning_sono flore		5760096
+	1046552367	SFX_Impact_Thud	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\PLX_ALFTT_impact_bull_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence_AVS_Only\SFX_Gong_Rainstick_OneShot\SFX_Impact_Thud		933120
 	1056640681	fundamental_[C]_toning_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_gentle_86925835.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v2_12_Linked\InteractiveMusic_Toning_v2_12_Linked\Toning_Gentle\fundamental_[G#Ab]_toning_gentle\fundamental_[C]_toning_gentle		4039156
 	1057650018	harmony_[D]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[D]_toning_shadow_3E762A1B.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_HarmonyOnly\InteractiveMusic_Toning_v3_12_HarmonyOnly\Toning_Shadow\harmony_[C#Db]_toning_shadow\harmony_[D]_toning_shadow		5725328
 	1058917369	fundamental_[B]_toning_shadow	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_toning_shadow_811F6CEF.wem		\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_Shadow\fundamental_[F#Gb]_toning_shadow\fundamental_[B]_toning_shadow		5567476
@@ -559,28 +562,19 @@ Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	
 	37972462	vo_test18tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test18tone_FBC78EF0.wem	37972462.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsAdvanced\vo_test18tone\vo_test18tone	
 	54482482	vo_test17tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test17tone_FBC78EF0.wem	54482482.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsAdvanced\vo_test17tone\vo_test17tone	
 	75378886	vo_testRepair_succeed	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_testRepair_succeed_FBC78EF0.wem	75378886.wem	\Interactive Music Hierarchy\VO_TestRepair\vo_testRepair_succeed\vo_testRepair_succeed	
-	105163780	Wind - cold - short - looping	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Wind - cold - short - looping_85315AB2.wem	105163780.wem	\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\Wind - cold - short - looping	
 	124129431	vo_test10tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test10tone_FBC78EF0.wem	124129431.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationAhh\vo_test10tone\vo_test10tone	
-	135122032	NewEnding_Sub	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\NewEnding_Sub_818F3B66.wem	135122032.wem	\Actor-Mixer Hierarchy\SFX\Ozone SFX\NewEnding_Sub	
 	169180974	vo_test16tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test16tone_FBC78EF0.wem	169180974.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsAdvanced\vo_test16tone\vo_test16tone	
-	188647660	NewEnding_Music+SFX	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\NewEnding_Music+SFX_818F3B66.wem	188647660.wem	\Actor-Mixer Hierarchy\SFX\Ozone SFX\NewEnding_Music+SFX	
-	226852051	sfx_subkick	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_subkick_818F3B66.wem	226852051.wem	\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence_AVS_Only\sfx_subkick	
 	238131971	vo_test15tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test15tone_FBC78EF0.wem	238131971.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationOhh\vo_test15tone\vo_test15tone	
 	278768154	vo_test13tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test13tone_FBC78EF0.wem	278768154.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationOhh\vo_test13tone\vo_test13tone	
 	316401243	vo_test19tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test19tone_FBC78EF0.wem	316401243.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsAdvanced\vo_test19tone\vo_test19tone	
 	341913190	vo_testRepair_ahh	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_testRepair_ahh_FBC78EF0.wem	341913190.wem	\Interactive Music Hierarchy\VO_TestRepair\vo_testRepair_ahh\vo_testRepair_ahh	
 	349189626	vo_test09tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test09tone_FBC78EF0.wem	349189626.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationAhh\vo_test09tone\vo_test09tone	
 	356008410	vo_test12tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test12tone_FBC78EF0.wem	356008410.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationOhh\vo_test12tone\vo_test12tone	
-	363531574	sfx_drum_cowhide_binaural	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_drum_cowhide_binaural_818F3B66.wem	363531574.wem	\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence\sfx_drum_cowhide_binaural	
 	370838361	vo_test20tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test20tone_FBC78EF0.wem	370838361.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsAdvanced\vo_test20tone\vo_test20tone	
 	375667203	vo_test03hum	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test03hum_FBC78EF0.wem	375667203.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsHum\vo_test03hum\vo_test03hum	
 	412890818	vo_test02hum	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test02hum_FBC78EF0.wem	412890818.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsHum\vo_test02hum\vo_test02hum	
 	425610473	vo_test04tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test04tone_FBC78EF0.wem	425610473.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsHum\vo_test04tone\vo_test04tone	
 	431345141	vo_test07tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test07tone_FBC78EF0.wem	431345141.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationAhh\vo_test07tone\vo_test07tone	
-	464203531	sfx_breath out	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath out_818F3B66.wem	464203531.wem	\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out	
-	466210932	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_C3F4FBB0.wem	466210932.wem	\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in	
-	493065678	SO_AM_90_ambience_rain_muladhara	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_90_ambience_rain_muladhara_A9C1662C.wem	493065678.wem	\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_90_ambience_rain_muladhara	
-	525152423	End Interactive SFX	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\GIO_HEAL_bowls_wide_29FB70CC.wem	525152423.wem	\Actor-Mixer Hierarchy\SFX\Extra Samples\End Interactive SFX	
 	544785390	fundamental_[E]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_toning_sono flore_1FFE05B7.wem	544785390.wem	\Actor-Mixer Hierarchy\InteractiveMusic_Toning\InteractiveMusic_Toning_v3_12_FundamentalOnly\InteractiveMusic_Toning_v3_12_FundamentalOnly\Toning_SonoFlore\fundamental_[C#Db]_toning_sono flore\fundamental_[E]_toning_sono flore	
 	560883928	vo_testRepair_hum	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_testRepair_hum_FBC78EF0.wem	560883928.wem	\Interactive Music Hierarchy\VO_TestRepair\vo_testRepair_hum\vo_testRepair_hum	
 	591501073	vo_test05tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test05tone_FBC78EF0.wem	591501073.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationAhh\vo_test05tone\vo_test05tone	
@@ -589,14 +583,9 @@ Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	
 	650293573	sfx_breath in	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_FBC78EF0.wem	650293573.wem	\Interactive Music Hierarchy\Default Work Unit\sfx_breathin\sfx_breath in	
 	700824868	vo_test08tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test08tone_FBC78EF0.wem	700824868.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationAhh\vo_test08tone\vo_test08tone	
 	702816434	vo_testRepair_extended	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_testRepair_extended_FBC78EF0.wem	702816434.wem	\Interactive Music Hierarchy\VO_TestRepair\vo_testRepair_extended\vo_testRepair_extended	
-	793736320	Gong,Rainstick_Oneshot	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Gong,Rainstick_Oneshot_818F3B66.wem	793736320.wem	\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence\SFX_Gong_Rainstick_OneShot\Gong,Rainstick_Oneshot	
 	883996255	environment_wind	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_wind_FBC78EF0.wem	883996255.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_wind	
 	900846903	vo_test14tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test14tone_FBC78EF0.wem	900846903.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationOhh\vo_test14tone\vo_test14tone	
-	928485249	OceanWavesSlowSurf_BWU_685	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\OceanWavesSlowSurf_BWU.685_D0AF3C00.wem	928485249.wem	\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\OceanWavesSlowSurf_BWU_685	
-	948390285	SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_E0F51DE2.wem	948390285.wem	\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj	
 	978729283	vo_testRepair_ohh	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_testRepair_ohh_FBC78EF0.wem	978729283.wem	\Interactive Music Hierarchy\VO_TestRepair\vo_testRepair_ohh\vo_testRepair_ohh	
-	987362858	SO_AM_80_ambience_birds_creek_ashby	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_80_ambience_birds_creek_ashby_71613975.wem	987362858.wem	\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_80_ambience_birds_creek_ashby	
 	1004814377	vo_test01hum	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test01hum_FBC78EF0.wem	1004814377.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsHum\vo_test01hum\vo_test01hum	
-	1046552367	SFX_Impact_Thud	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\PLX_ALFTT_impact_bull_818F3B66.wem	1046552367.wem	\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence_AVS_Only\SFX_Gong_Rainstick_OneShot\SFX_Impact_Thud	
 	1071236301	vo_test04hum	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test04hum_FBC78EF0.wem	1071236301.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationsHum\vo_test04hum\vo_test04hum	
 

@@ -12,11 +12,6 @@
 										<Value>33</Value>
 									</ValueList>
 								</Property>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -165,13 +160,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="sfx_breath out" ID="{AFA1D476-C82D-45BF-B001-DF5BD24B1A76}" ShortID="765441504">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -194,13 +182,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="sfx_drum_cowhide_binaural" ID="{D63AF67D-1252-4F9A-8EC7-10B8853F38CF}" ShortID="102057962">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -226,13 +207,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="sfx_start" ID="{4CD4097B-E0FF-417A-9CB7-175A87DF8BAF}" ShortID="563654178">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -255,13 +229,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="sfx_start_tingsha" ID="{D7E1057C-AD19-4F91-9E7B-DCA51462D70C}" ShortID="855675763">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -289,13 +256,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="sfx_stop" ID="{D1DB7B80-3B26-47B6-B526-66D485DD702F}" ShortID="978795500">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -318,13 +278,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="sfx_subkick" ID="{49DAEA38-36AA-4795-9020-D77DC2EDD173}" ShortID="404800180">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -347,13 +300,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="NewEnding_Music+SFX" ID="{2C6DDFAF-EEFB-4273-B6EA-CD179C888255}" ShortID="47350897">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -376,13 +322,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="NewEnding_Sub" ID="{47D65248-DDDA-4DB4-A469-63E84065426E}" ShortID="1013414322">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -409,13 +348,6 @@
 				<Folder Name="Extra Samples" ID="{150E0F69-E70B-4978-8C0D-2F5073E9A8D7}" ShortID="757757495">
 					<ChildrenList>
 						<Sound Name="Gong,Rainstick_Oneshot" ID="{D0E44717-CC0F-4C30-9338-9520D4EA1A22}" ShortID="972808193">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -438,13 +370,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="Gong_one-shot" ID="{23FE1B7E-2E23-4F6F-BD5D-CF56C58DBFFB}" ShortID="144234969">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -467,13 +392,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="Hangdrum_steelpan_D_Inquiry" ID="{4377DB55-365C-4DFF-9B4E-30192C61A7E1}" ShortID="4879115">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -517,11 +435,6 @@
 						</Sound>
 						<Sound Name="holyamb_glockenspiel_wave_09" ID="{9E7F9AC2-CC92-4E97-950E-441414811968}" ShortID="910722928">
 							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-7</Value>
@@ -555,13 +468,6 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="SO_AM_bells_single_D" ID="{654587BF-683F-4EA5-BF70-08DD9109389D}" ShortID="28525066">
-							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -585,11 +491,6 @@
 						</Sound>
 						<Sound Name="End Interactive SFX" ID="{A9BED808-170A-4678-99E1-DE23BFEBB9E1}" ShortID="379125574">
 							<PropertyList>
-								<Property Name="IsStreamingEnabled" Type="bool">
-									<ValueList>
-										<Value>True</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-11</Value>
@@ -660,11 +561,6 @@
 							<ChildrenList>
 								<Sound Name="sfx_drum_cowhide_binaural" ID="{3128B2AE-FACE-42B9-8DF3-D6826E06DFAC}" ShortID="482951190">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>33</Value>
@@ -718,11 +614,6 @@
 								</Sound>
 								<Sound Name="SFX_Impact_Thud" ID="{B709CF7C-D308-49E5-8E51-5AC782197860}" ShortID="752852112">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -768,11 +659,6 @@
 								</Sound>
 								<Sound Name="sfx_subkick" ID="{971FF672-7D8F-46D5-A8FD-B9B0E423D348}" ShortID="410514586">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -836,11 +722,6 @@
 									<ChildrenList>
 										<Sound Name="Gong,Rainstick_Oneshot" ID="{0A030CE5-8AF1-4015-8C40-F31345D348E3}" ShortID="715445957">
 											<PropertyList>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-3</Value>
@@ -876,11 +757,6 @@
 												<Property Name="InitialDelay" Type="Real64">
 													<ValueList>
 														<Value>1.9</Value>
-													</ValueList>
-												</Property>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
 													</ValueList>
 												</Property>
 												<Property Name="Lowpass" Type="int16">
@@ -956,11 +832,6 @@
 							<ChildrenList>
 								<Sound Name="sfx_drum_cowhide_binaural" ID="{E14F443F-25D1-468C-A7AD-0127B046B700}" ShortID="283533364">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>33</Value>
@@ -1014,11 +885,6 @@
 								</Sound>
 								<Sound Name="SFX_Impact_Thud" ID="{74CD1CBD-4C35-4CE3-A9B4-74779C5B4524}" ShortID="1018828008">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -1064,11 +930,6 @@
 								</Sound>
 								<Sound Name="sfx_subkick" ID="{7E4A02B7-4ED3-4B90-A8A0-08335F900064}" ShortID="886508035">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -1132,11 +993,6 @@
 									<ChildrenList>
 										<Sound Name="Gong,Rainstick_Oneshot" ID="{72686A2A-2FC6-4FC5-9BA3-8E2738E214B7}" ShortID="866971434">
 											<PropertyList>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
-													</ValueList>
-												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-3</Value>
@@ -1172,11 +1028,6 @@
 												<Property Name="InitialDelay" Type="Real64">
 													<ValueList>
 														<Value>1.9</Value>
-													</ValueList>
-												</Property>
-												<Property Name="IsStreamingEnabled" Type="bool">
-													<ValueList>
-														<Value>True</Value>
 													</ValueList>
 												</Property>
 												<Property Name="Lowpass" Type="int16">
@@ -1302,11 +1153,6 @@
 								<Sound Name="SoundSeed_Airwoosh_BreathCycle" ID="{8086FD72-E046-429E-9FCF-EBD0DCE02668}" ShortID="681650782">
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
 												<Value>45</Value>
@@ -1910,11 +1756,6 @@
 												<Value>16</Value>
 											</ValueList>
 										</Property>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-21</Value>
@@ -1959,11 +1800,6 @@
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>60</Value>
-											</ValueList>
-										</Property>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Lowpass" Type="int16">
@@ -2012,11 +1848,6 @@
 												<Value>39</Value>
 											</ValueList>
 										</Property>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-20</Value>
@@ -2053,11 +1884,6 @@
 								</Sound>
 								<Sound Name="SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj" ID="{D78E8C2F-06A8-4358-99AD-98B6E5427A5D}" ShortID="724016108">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -2113,11 +1939,6 @@
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>36</Value>
-											</ValueList>
-										</Property>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Lowpass" Type="int16">
