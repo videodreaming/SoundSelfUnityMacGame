@@ -610,8 +610,15 @@ public class Sequencer : MonoBehaviour
         Debug.Log("Performing cleanup.");
         foreach (int index in coroutineCleanupList)
         {
-            Debug.Log(_countdownToSavasana + "Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
-            director.queue.Remove(index);
+            if (director.queue.ContainsKey(index))
+            {
+                Debug.Log(_countdownToSavasana + " Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
+                director.queue.Remove(index);
+            }
+            else
+            {
+                Debug.LogWarning("Cleanup: Key " + index + " not found in director.queue, skipping.");
+            }
         }
         director.LogQueue();
     }
