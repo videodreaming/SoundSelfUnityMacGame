@@ -11,9 +11,12 @@
 						<ObjectRef Name="Play_VO_QueryElicitation1" ID="{3DDFBC62-EECA-414B-959A-6CD9FF50F414}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Dialog_Too_Quiet" ID="{F9C77BF1-1CCC-415B-B93F-B048979CA620}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_SOMATIC_SEQUENCE" ID="{2E6030F4-1D2E-4169-9928-E3B4DB9CFFE4}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{77A1D13E-4F48-4191-99C3-50A34F8045CB}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="High Pass Filters" ID="{5441713F-966E-419F-B171-057B368D693B}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_MenuMusic" ID="{E4E9F51D-81DC-41C8-BA5D-AA250A570B32}" WorkUnitID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_environment_openingQuery" ID="{F864F4FC-2879-4226-9786-DC66A59CB755}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SoundSeed_Airwoosh_BreathCycle" ID="{8086FD72-E046-429E-9FCF-EBD0DCE02668}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_sfx_Impact_AVS_Only" ID="{BFD987A0-47C4-42B5-877D-0397B90C2857}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Low Pass Filters" ID="{40969D6D-1C68-42EB-B46D-FD1A504F797C}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="AVS_Modulation_Wave2_02" ID="{1A0230FD-E732-433C-B899-0EB49B29DCA1}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}" Origin="Manual" Filter="7"/>
@@ -95,11 +98,14 @@
 						<ObjectRef Name="Play_NewEnding" ID="{1F4E48CE-3458-414E-9CCD-B73901FA46CF}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Dialog_Too_Quiet" ID="{F9C77BF1-1CCC-415B-B93F-B048979CA620}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_SilentLoops_v1_7Pitch_Linked" ID="{079AB80C-CED3-4178-83DD-41E8ABF2BAE5}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{77A1D13E-4F48-4191-99C3-50A34F8045CB}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="High Pass Filters" ID="{5441713F-966E-419F-B171-057B368D693B}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_GuidedVocalizationAhh" ID="{B097EC3D-B020-41EF-AB70-7566952FCFC4}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Unity_TransitionSFX" ID="{1E0E502D-1D20-4209-89C0-D28DB3052CFF}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Inhale_Short" ID="{9ACF354A-3E4F-4249-89C4-8C49B0DFF12B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Inhale_Long" ID="{4B9F2ACC-55FD-4285-952B-9206B5585121}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SoundSeed_Airwoosh_BreathCycle" ID="{8086FD72-E046-429E-9FCF-EBD0DCE02668}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_sfx_Impact_AVS_Only" ID="{BFD987A0-47C4-42B5-877D-0397B90C2857}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Low Pass Filters" ID="{40969D6D-1C68-42EB-B46D-FD1A504F797C}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Inhale_Medium" ID="{BB3BA8BB-FC94-42FB-8E1B-11EFB7F9EC68}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
@@ -177,12 +183,14 @@
 						<ObjectRef Name="AVS_Modulation_Wave3_01" ID="{BCDA1F72-52FD-40B2-A8BF-EDC995524B55}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_music_meditationSilent_E_Major_LOOP" ID="{CE09BEF8-2A60-4152-BE19-73FF50191240}" WorkUnitID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Dialog_Too_Quiet" ID="{F9C77BF1-1CCC-415B-B93F-B048979CA620}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{77A1D13E-4F48-4191-99C3-50A34F8045CB}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="High Pass Filters" ID="{5441713F-966E-419F-B171-057B368D693B}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_environment_openingQuery" ID="{F864F4FC-2879-4226-9786-DC66A59CB755}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Inhale_Short" ID="{9ACF354A-3E4F-4249-89C4-8C49B0DFF12B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Inhale_Long" ID="{4B9F2ACC-55FD-4285-952B-9206B5585121}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="SoundSeed_Airwoosh_BreathCycle" ID="{8086FD72-E046-429E-9FCF-EBD0DCE02668}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_THEMATIC_SAVASANA_SEQUENCE" ID="{44AA32BB-F188-42B8-BB5E-BF7E9FAC8450}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Low Pass Filters" ID="{40969D6D-1C68-42EB-B46D-FD1A504F797C}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Inhale_Medium" ID="{BB3BA8BB-FC94-42FB-8E1B-11EFB7F9EC68}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>

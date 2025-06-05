@@ -2,6 +2,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	77468567	Play_sfx_breatheout			\SFX\Play_sfx_breatheout	
 	160921230	Play_sfx_Impact_AVS_Only			\SFX\Play_sfx_Impact_AVS_Only	
 	186032212	Play_VO_QueryElicitationPassThankYou1			\VO\Play_VO_QueryElicitationPassThankYou1	
+	236202206	Mute_SILENTMEDITATION_MUSIC			\Default Work Unit\Mute_SILENTMEDITATION_MUSIC	
 	362704004	Play_environment_openingMeditation			\Environment\Play_environment_openingMeditation	
 	410054882	Play_SIGH_QUERY_SEQUENCE_1			\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_1	
 	452547817	Stop_All			\Default Work Unit\Stop_All	
@@ -11,6 +12,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	603425291	Play_sfx_SoundSeed_BreathCycleWind			\SFX\Play_sfx_SoundSeed_BreathCycleWind	
 	640169525	Play_ADJUNCT_OPENING_SEQUENCE_LONG			\Default Work Unit\Play_ADJUNCT_OPENING_SEQUENCE_LONG	
 	670049528	Stop_OPENING_SEQUENCE			\Default Work Unit\Stop_OPENING_SEQUENCE	
+	674892661	Stop_sfx_SoundSeed_BreathCycleWind			\SFX\Stop_sfx_SoundSeed_BreathCycleWind	
 	711060179	Play_MUSIC_PLAYLIST_SWITCH			\Default Work Unit\Play_MUSIC_PLAYLIST_SWITCH	
 	772188046	Play_environment_openingQueryRepeat1			\Environment\Play_environment_openingQueryRepeat1	
 	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP	
@@ -44,6 +46,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3724822783	Play_environment_anyQueryRepeat2			\Environment\Play_environment_anyQueryRepeat2	
 	3830600368	Play_sfx_breathein			\SFX\Play_sfx_breathein	
 	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP	
+	4021535955	Play_WakeUpEndSoon_SEQUENCE			\Default Work Unit\Play_WakeUpEndSoon_SEQUENCE	
 	4125756612	Play_PASSIVE_OPENING_SEQUENCE			\Default Work Unit\Play_PASSIVE_OPENING_SEQUENCE	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
@@ -215,6 +218,7 @@ Effect plug-ins	ID	Name	Type				Notes
 	3013737263	Bass_Remover_1	Wwise Parametric EQ			
 	3036946058	Inside_Your_Head	Wwise RoomVerb			
 	3043085106	High_Impact	Wwise Compressor			
+	3157974155	New_Mastering_Suite	Mastering Suite			
 	3164629247	Holy	Wwise RoomVerb			
 	3209444191	Static_Sibilance_Remover_Male	Wwise Parametric EQ			
 	3216246379	Space_Dreaming	Wwise RoomVerb			
@@ -252,6 +256,9 @@ Effect plug-ins	ID	Name	Type				Notes
 	4212217734	Personnel_Advisor	Wwise Stereo Delay			
 	4239446561	Dual_Filters_Narrow_Bandwidth	Wwise Parametric EQ			
 	4286906788	Gentle_Program_Compressor_Minus_20dB_RMS	Wwise Compressor			
+
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	226852051	sfx_subkick	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_subkick_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence_AVS_Only\sfx_subkick		876456

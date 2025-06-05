@@ -3,10 +3,12 @@ Event	ID	Name			Wwise Object Path	Notes
 	77468567	Play_sfx_breatheout			\SFX\Play_sfx_breatheout	
 	114893642	Stop_InteractiveMusicSystem			\Interactive Music System\Stop_InteractiveMusicSystem	
 	160921230	Play_sfx_Impact_AVS_Only			\SFX\Play_sfx_Impact_AVS_Only	
+	236202206	Mute_SILENTMEDITATION_MUSIC			\Default Work Unit\Mute_SILENTMEDITATION_MUSIC	
 	237216068	Stop_Inhales			\SFX\Stop_Inhales	
 	296236610	Play_Toning_v2_12Pitch_Linked			\Interactive Music System\Play_Toning_v2_12Pitch_Linked	
 	452547817	Stop_All			\Default Work Unit\Stop_All	
 	603425291	Play_sfx_SoundSeed_BreathCycleWind			\SFX\Play_sfx_SoundSeed_BreathCycleWind	
+	674892661	Stop_sfx_SoundSeed_BreathCycleWind			\SFX\Stop_sfx_SoundSeed_BreathCycleWind	
 	745351876	Play_VO_GuidedVocalizationAhh			\VO\Play_VO_GuidedVocalizationAhh	
 	761343465	Play_SilentLoops_v3_HarmonyOnly			\Interactive Music System\Play_SilentLoops_v3_HarmonyOnly	
 	767717232	Stop_AVS_SineGenerators_REFERENCE			\AVS System\Stop_AVS_SineGenerators_REFERENCE	
@@ -20,6 +22,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1425422979	Play_sfx_EndInteractive			\SFX\Play_sfx_EndInteractive	
 	1486999246	Play_SilentLoops_v1_7Pitch_Linked			\Interactive Music System\Play_SilentLoops_v1_7Pitch_Linked	
 	1511441763	Play_Toning			\Interactive Music System\Play_Toning	
+	1747587664	Stop_SOMATIC_SEQUENCE			\Default Work Unit\Stop_SOMATIC_SEQUENCE	
 	2076613512	Play_VO_testRepair_Succeed			\VO\Play_VO_testRepair_Succeed	
 	2110561540	Play_Inhale_Short			\SFX\Play_Inhale_Short	
 	2185482934	Play_SilentLoops_v3_FundamentalOnly			\Interactive Music System\Play_SilentLoops_v3_FundamentalOnly	
@@ -41,6 +44,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3913696011	Unity_TransitionSFX			\SFX\Unity_TransitionSFX	
 	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP	
 	4004321118	Play_SilentLoops			\Interactive Music System\Play_SilentLoops	
+	4021535955	Play_WakeUpEndSoon_SEQUENCE			\Default Work Unit\Play_WakeUpEndSoon_SEQUENCE	
 	4057363449	Play_VO_GuidedVocalizationAdvanced			\VO\Play_VO_GuidedVocalizationAdvanced	
 	4138940081	Stop_AVS_Wave1			\AVS System\Stop_AVS_Wave1	
 	4138940082	Stop_AVS_Wave2			\AVS System\Stop_AVS_Wave2	
@@ -280,6 +284,7 @@ Effect plug-ins	ID	Name	Type				Notes
 	3013737263	Bass_Remover_1	Wwise Parametric EQ			
 	3036946058	Inside_Your_Head	Wwise RoomVerb			
 	3043085106	High_Impact	Wwise Compressor			
+	3157974155	New_Mastering_Suite	Mastering Suite			
 	3164629247	Holy	Wwise RoomVerb			
 	3209444191	Static_Sibilance_Remover_Male	Wwise Parametric EQ			
 	3216246379	Space_Dreaming	Wwise RoomVerb			
@@ -339,6 +344,7 @@ Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	599365106	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_LEFT_Inhale\BLUE\BLUE\Sine	
 	609153636	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_LEFT_Inhale\RED\RED\Sine	
 	632779657	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_REFERENCE\Reference_SignalGenerator_L\Sine	
+	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
 	725142564	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\RED\RED\Sine	
 	879675526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_RIGHT_Toning\GREEN\GREEN\Sine	
 	1006973361	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\GREEN\GREEN\Sine	

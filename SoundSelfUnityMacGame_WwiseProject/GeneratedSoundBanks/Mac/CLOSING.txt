@@ -19,6 +19,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1252315619	Play_Inhale_Medium			\SFX\Play_Inhale_Medium	
 	1425422979	Play_sfx_EndInteractive			\SFX\Play_sfx_EndInteractive	
 	1488609145	Play_VO_QueryElicitation2			\VO\Play_VO_QueryElicitation2	
+	1747587664	Stop_SOMATIC_SEQUENCE			\Default Work Unit\Stop_SOMATIC_SEQUENCE	
 	1774847782	Stop_environment_crickets			\Environment\Stop_environment_crickets	
 	2071903771	Stop_SIGH_QUERY_SEQUENCE_2			\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_2	
 	2110561540	Play_Inhale_Short			\SFX\Play_Inhale_Short	
@@ -224,6 +225,7 @@ Effect plug-ins	ID	Name	Type				Notes
 	3013737263	Bass_Remover_1	Wwise Parametric EQ			
 	3036946058	Inside_Your_Head	Wwise RoomVerb			
 	3043085106	High_Impact	Wwise Compressor			
+	3157974155	New_Mastering_Suite	Mastering Suite			
 	3164629247	Holy	Wwise RoomVerb			
 	3209444191	Static_Sibilance_Remover_Male	Wwise Parametric EQ			
 	3216246379	Space_Dreaming	Wwise RoomVerb			
@@ -261,6 +263,9 @@ Effect plug-ins	ID	Name	Type				Notes
 	4212217734	Personnel_Advisor	Wwise Stereo Delay			
 	4239446561	Dual_Filters_Narrow_Bandwidth	Wwise Parametric EQ			
 	4286906788	Gentle_Program_Compressor_Minus_20dB_RMS	Wwise Compressor			
+
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	670553737	Soundseed Air Woosh	SoundSeed Air Woosh		\Actor-Mixer Hierarchy\SFX\SFX_SoundSeed_BreathCycle\SFX_SoundSeed_BreathCycle\SoundSeed_Airwoosh_BreathCycle\Soundseed Air Woosh	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	464203531	sfx_breath out	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath out_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
