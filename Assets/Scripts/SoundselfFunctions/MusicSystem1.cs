@@ -98,20 +98,20 @@ public class MusicSystem1 : MonoBehaviour
         if(developmentMode.startAtStart) //NORMAL START
         {
             SetMusicModeTo(MusicMode.Silent);
-            SetSilentVolume(_silentVolumeLow, 0f);          
+            SetMusicSilentLayerVolume(_silentVolumeLow, 0f);          
             director.disable = true;
         }
         else if (developmentMode.startInTutorial)
         {
             SetMusicModeTo(MusicMode.Tutorial);          
             director.disable = true;
-            SetSilentVolume(_silentVolumeLow, 0f);
+            SetMusicSilentLayerVolume(_silentVolumeLow, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
         }
         else if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
         {
             SetMusicModeTo(MusicMode.Freeplay);          
             director.disable = false;
-            SetSilentVolume(_silentVolumeHigh, 0f);
+            SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
         }
         
         if(userObject != null)
@@ -462,7 +462,7 @@ public class MusicSystem1 : MonoBehaviour
                 LockToC(true);
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
                 
-                SetSilentVolume(_silentVolumeLow, 20f);
+                SetMusicSilentLayerVolume(_silentVolumeLow, 20f);
 
             }
             else
@@ -481,7 +481,7 @@ public class MusicSystem1 : MonoBehaviour
                 LockToC(false);
                 InteractiveMusicInitializations();
                 imitoneVoiceInterpreter.gameOn = true; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs)
-                SetSilentVolume(_silentVolumeHigh, 40f);  
+                SetMusicSilentLayerVolume(_silentVolumeHigh, 40f);  
 
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
             }
@@ -897,14 +897,22 @@ public class MusicSystem1 : MonoBehaviour
         return (int)Enum.Parse(typeof(NoteName), noteName);
     }
 
-    public void SetSilentVolume(float _target, float fadeDuration = 0.1f)
+    public void SetMusicSilentLayerVolume(float _target, float fadeDuration = 0.1f)
     {
         int ms = (int) Mathf.RoundToInt(fadeDuration * 1000);
 
         AkSoundEngine.SetRTPCValue("SILENT_Volume", _target, gameObject, ms);
         Debug.Log("MUSIC: Set Silent Volume to " + _target);
-        //AkSoundEngine.SetRTPCValue("TONING_Volume", _target, gameObject, ms);
-        //TONING_Volume is set in ImitoneVoiceInterpreter, and is dynamic with player volume.
+    }
+
+    public void SetMusicToningLayerVolume(float _target, float fadeDuration = 0.1f)
+    {
+        int ms = (int) Mathf.RoundToInt(fadeDuration * 1000);
+
+        AkSoundEngine.SetRTPCValue("TONING_Volume", _target, gameObject, ms);
+        //Debug.Log("MUSIC: Set Toning Volume to " + _target);
+        //TONING_Volume (opposite of SILENT_Volume) is set in ImitoneVoiceInterpreter, and is dynamic with player volume.
+
     }
 
     
