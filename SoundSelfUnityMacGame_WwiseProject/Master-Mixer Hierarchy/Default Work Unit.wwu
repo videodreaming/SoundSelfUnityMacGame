@@ -493,11 +493,6 @@
 					<ChildrenList>
 						<Bus Name="SubAcoustics" ID="{AFC8777D-03BE-435C-9D8D-3000A1F105FB}">
 							<PropertyList>
-								<Property Name="BusChannelConfig" Type="int32">
-									<ValueList>
-										<Value>3840</Value>
-									</ValueList>
-								</Property>
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
 										<Value>-2</Value>
@@ -674,6 +669,15 @@
 											</ValueList>
 										</Property>
 										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
+									</PropertyList>
+								</Bus>
+								<Bus Name="AVS_Subacoustics" ID="{345BDE8D-3DD5-49D1-A93B-684EC6A0F1F0}">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>50</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 								</Bus>
 							</ChildrenList>

@@ -2651,15 +2651,9 @@
 										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
-										<Property Name="UserAuxSendVolume0" Type="Real64">
-											<ValueList>
-												<Value>12</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-9</Value>
+												<Value>-8</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2899,7 +2893,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3285,7 +3279,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3495,15 +3489,9 @@
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
-										<Property Name="UserAuxSendVolume0" Type="Real64">
-											<ValueList>
-												<Value>12</Value>
-											</ValueList>
-										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>4</Value>
+												<Value>6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -3913,7 +3901,7 @@
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 										<Reference Name="TransitionRoot">
 											<Custom>
@@ -4128,11 +4116,6 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_1Hz" ID="{D16B9C17-59A7-4756-B519-F773247FFAC6}" ShortID="614703727">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -4142,7 +4125,7 @@
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 										<Reference Name="TransitionRoot">
 											<Custom>
@@ -4347,11 +4330,6 @@
 								</MusicTrack>
 								<MusicTrack Name="REFERENCE" ID="{A2BEF386-9FA1-4A01-AAF8-EFABEBA01FB7}" ShortID="642009927">
 									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -4361,7 +4339,7 @@
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Reference" ID="{4EFB273A-020C-4984-B70A-0DF0AD87E170}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 										<Reference Name="TransitionRoot">
 											<Custom>
@@ -4560,7 +4538,7 @@
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
-											<ObjectRef Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+											<ObjectRef Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 										<Reference Name="TransitionRoot">
 											<Custom>
@@ -5128,6 +5106,406 @@
 																							<Point>
 																								<XPos>4</XPos>
 																								<YPos>-96.3</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																			</PropertyCurveList>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="SUB_STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]_01_SUB" ID="{660FFBBC-13BF-47AB-A149-12084A7F1205}" ShortID="434197707">
+									<PropertyList>
+										<Property Name="Highpass" Type="int16">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>34</Value>
+											</ValueList>
+										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="AVS_Subacoustics" ID="{345BDE8D-3DD5-49D1-A93B-684EC6A0F1F0}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{E0772C42-EDA0-4534-9802-B57A48948100}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{8F001701-4B5A-4411-A3E3-34403E89FAAF}">
+											<Language>SFX</Language>
+											<AudioFile>STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12.21.23 [2024-05-06 214206].wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="685689043"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{71DD3943-0EB6-4979-869B-30AFF537AE29}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{31E6291F-9866-400D-9097-5CA3E9C8F017}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="186338.813333334"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="23036.9516631187"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]" ID="{8F001701-4B5A-4411-A3E3-34403E89FAAF}"/>
+																			<PropertyCurveList>
+																				<PropertyCurve PropertyName="Highpass">
+																					<Curve Name="" ID="{332B9675-AC44-4B1F-A39F-E1F1670FD0DC}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>186.33881</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Lowpass">
+																					<Curve Name="" ID="{C2022F86-8D7A-4712-94AA-2D05B83FFFBE}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>186.33881</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Volume">
+																					<Curve Name="" ID="{F31D0866-1930-48E9-85DC-A6766E325BD1}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>-0.42068</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>12.0491</XPos>
+																								<YPos>-0.80285</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>30.67023</XPos>
+																								<YPos>-1.52965</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>36.31507</XPos>
+																								<YPos>-1.55631</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>43.91277</XPos>
+																								<YPos>-1.20515</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>49.28203</XPos>
+																								<YPos>-0.57552</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>53.33271</XPos>
+																								<YPos>-1.58176</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>60.68516</XPos>
+																								<YPos>-1.8561</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>64.33483</XPos>
+																								<YPos>-1.97094</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>67.6373</XPos>
+																								<YPos>-1.81669</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>70.1073</XPos>
+																								<YPos>-0.93356</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>84.89091</XPos>
+																								<YPos>-0.79884</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>101.6142</XPos>
+																								<YPos>-1.45021</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>107.35186</XPos>
+																								<YPos>-1.69451</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>117.89653</XPos>
+																								<YPos>-1.91175</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>122.74698</XPos>
+																								<YPos>-2.75939</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>126.31113</XPos>
+																								<YPos>-3.38823</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>134.01834</XPos>
+																								<YPos>-5.96502</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>139.82526</XPos>
+																								<YPos>-4.70331</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>144.91376</XPos>
+																								<YPos>-5.0145</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>153.51099</XPos>
+																								<YPos>-6.96116</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>186.33881</XPos>
+																								<YPos>-96.3</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																			</PropertyCurveList>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="SUB_ThematicSavasana_MUSIC_METTA_SUB" ID="{930BE200-5539-4E19-A5A5-78E78AF4D60C}" ShortID="308174657">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>25</Value>
+											</ValueList>
+										</Property>
+										<Property Name="MakeUpGain" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+										<Property Name="OutputBusLowpass" Type="int16">
+											<ValueList>
+												<Value>60</Value>
+											</ValueList>
+										</Property>
+										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="AVS_Subacoustics" ID="{345BDE8D-3DD5-49D1-A93B-684EC6A0F1F0}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{0BE99E1D-B16F-462D-AB35-2BF993FC4FD6}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+										<Reference Name="UserAuxSend0">
+											<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="ThematicSavasana_MUSIC_METTA" ID="{D15FE7C5-E5EE-4749-9810-CF84328521BE}">
+											<Language>SFX</Language>
+											<AudioFile>ThematicSavasana_MUSIC_METTA.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="137392073"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{00E5280C-4ECA-449A-AB11-B4839214C176}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="ThematicSavasana_MUSIC_METTA" ID="{48F10448-3752-4145-AB13-50A171935EAF}">
+																			<PropertyList>
+																				<Property Name="BeginTrimOffset" Type="Real64" Value="-6575.8754863813"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="327421.875"/>
+																				<Property Name="FadeInDuration" Type="Real64" Value="11775.4432203881"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="52642.7646103955"/>
+																				<Property Name="PlayAt" Type="Real64" Value="144000"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="ThematicSavasana_MUSIC_METTA" ID="{D15FE7C5-E5EE-4749-9810-CF84328521BE}"/>
+																			<PropertyCurveList>
+																				<PropertyCurve PropertyName="Highpass">
+																					<Curve Name="" ID="{CD92FB82-9BB8-438A-A3BF-FAB9170D87DF}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>-6.57588</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>327.421875</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Lowpass">
+																					<Curve Name="" ID="{86D9DB9C-521A-421E-850D-B5900D02680D}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>-6.57588</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>327.421875</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Volume">
+																					<Curve Name="" ID="{524698E6-CD33-42B1-B369-5B31F099D393}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>-6.57588</XPos>
+																								<YPos>-1.27678</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>21.80709</XPos>
+																								<YPos>-0.96792</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>23.96316</XPos>
+																								<YPos>-0.38155</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>31.417</XPos>
+																								<YPos>-0.27634</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>73.2783</XPos>
+																								<YPos>-0.82061</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>132.2785</XPos>
+																								<YPos>-0.81045</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>327.421875</XPos>
+																								<YPos>-1.20066</YPos>
 																								<Flags>37</Flags>
 																							</Point>
 																						</PointList>

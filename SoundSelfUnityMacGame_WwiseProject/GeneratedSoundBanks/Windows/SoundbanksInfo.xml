@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{B6F095DD-9A95-E13C-6B80-F9663FEBF01F}">
+		<SoundBank Id="183653145" Type="Bus" Language="SFX" Hash="{F6964FA9-C677-7DE0-2308-8A4305A756AA}">
 			<ShortName>Aux_Toning</ShortName>
 			<Path>Bus/Aux_Toning.bnk</Path>
 			<Plugins>
@@ -45,7 +45,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{34C8DDB8-C7E5-BFC4-8438-F243F8059A61}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{C2EE0E6E-0920-C624-4960-8E6CA80E235F}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -68,6 +68,7 @@
 				<Bus Id="65973818" Name="AVS System"/>
 				<Bus Id="393239870" Name="SFX"/>
 				<Bus Id="433461193" Name="AVS_Reference"/>
+				<Bus Id="458078932" Name="AVS_Subacoustics"/>
 				<Bus Id="958096227" Name="Impacts_SubAcoustics">
 					<PluginRefs>
 						<ShareSets>
@@ -369,7 +370,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{148E7956-1D64-C260-7B82-A180A5ADB4E0}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{DF4A9B44-476E-0C9E-4AD9-EAB13D88B4C4}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -5224,7 +5225,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{14CE7A2C-04BC-D085-4037-C0210070789D}">
+		<SoundBank Id="2562455749" Type="Bus" Language="SFX" Hash="{1DA28CD0-C955-8F1D-025E-C012675D80BA}">
 			<ShortName>Aux_SFX</ShortName>
 			<Path>Bus/Aux_SFX.bnk</Path>
 			<Plugins>
@@ -5242,7 +5243,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{5B41DC73-6275-4F9B-7156-AED52DA4A974}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{18EC4692-DBB6-AC2C-15E9-16B0DD5E244E}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -6784,7 +6785,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{56497C81-CED5-5746-3DDB-CCC15CB0A091}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{8B5D6B2E-6654-28FB-3AD8-E66D77BC9967}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -11395,5 +11396,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{98AC3848-68EB-6853-98A9-C6BAE1551D03}</FileHash>
+	<FileHash>{5E864B78-A077-425E-5AE3-B12FA952A435}</FileHash>
 </SoundBanksInfo>

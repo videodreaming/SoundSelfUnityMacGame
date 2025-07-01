@@ -538,8 +538,9 @@
 										</Effect>
 										<Effect Name="Boost_3dB_100Hz" ID="{3EA7C9BD-6F9A-4000-A227-F86B5B4328EE}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 											<PropertyList>
-												<Property Name="FrequencyBand1" Type="Real32" Value="150"/>
+												<Property Name="FrequencyBand1" Type="Real32" Value="308"/>
 												<Property Name="FrequencyBand3" Type="Real32" Value="150"/>
+												<Property Name="GainBand1" Type="Real32" Value="9.5"/>
 												<Property Name="GainBand3" Type="Real32" Value="-12"/>
 												<Property Name="OnOffBand2" Type="bool" Value="False"/>
 											</PropertyList>

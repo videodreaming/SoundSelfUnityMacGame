@@ -474,6 +474,7 @@ namespace AK
     {
         static const AkUniqueID AVS_SYSTEM = 65973818U;
         static const AkUniqueID AVS_REFERENCE = 433461193U;
+        static const AkUniqueID AVS_SUBACOUSTICS = 458078932U;
         static const AkUniqueID AVS_WAVE_1_SILENT = 1241127624U;
         static const AkUniqueID AVS_WAVE_2_TONING = 1128474843U;
         static const AkUniqueID AVS_WAVE_3_BREATH = 4079501339U;
