@@ -45,7 +45,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{C2EE0E6E-0920-C624-4960-8E6CA80E235F}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{D736F460-DD55-C981-3041-9CD0B6DA54A0}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -861,7 +861,13 @@
 				</ShareSets>
 			</Plugins>
 			<Events>
-				<Event Id="2146852899" Name="Mute_OPENING_MUSIC" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2146852899" Name="Mute_OPENING_MUSIC" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
+					<MediaRefs>
+						<MediaRef Id="137392073"/>
+						<MediaRef Id="288516378"/>
+						<MediaRef Id="334730074"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="236202206" Name="Mute_SILENTMEDITATION_MUSIC" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
 					<PluginRefs>
 						<Custom>
@@ -11396,5 +11402,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{5E864B78-A077-425E-5AE3-B12FA952A435}</FileHash>
+	<FileHash>{B5F00B2C-ED79-8F77-AAFD-11F9ADA9A8C4}</FileHash>
 </SoundBanksInfo>

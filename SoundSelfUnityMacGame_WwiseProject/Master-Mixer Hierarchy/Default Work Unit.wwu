@@ -478,13 +478,6 @@
 					</ChildrenList>
 				</Bus>
 				<Bus Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}">
-					<PropertyList>
-						<Property Name="Lowpass" Type="int16">
-							<ValueList>
-								<Value>5</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System_01" ID="{95AA84FA-26F8-4A9F-B2AB-9ABE1AD81420}" WorkUnitID="{20E15702-9916-45CB-8BCD-D7E3AE92AAE9}"/>
@@ -636,7 +629,7 @@
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>100</Value>
+												<Value>80</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -645,7 +638,7 @@
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>100</Value>
+												<Value>80</Value>
 											</ValueList>
 										</Property>
 										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
@@ -655,7 +648,7 @@
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>100</Value>
+												<Value>80</Value>
 											</ValueList>
 										</Property>
 										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
@@ -665,7 +658,7 @@
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
-												<Value>100</Value>
+												<Value>80</Value>
 											</ValueList>
 										</Property>
 										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
