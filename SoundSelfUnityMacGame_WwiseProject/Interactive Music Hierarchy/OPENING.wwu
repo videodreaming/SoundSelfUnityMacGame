@@ -207,38 +207,38 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>7.17663</XPos>
-																								<YPos>-2.65925</YPos>
+																								<XPos>6.96082</XPos>
+																								<YPos>-2.41978</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>9.88167</XPos>
-																								<YPos>-1.80782</YPos>
+																								<YPos>-1.59043</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>12.27123</XPos>
-																								<YPos>-1.27501</YPos>
+																								<YPos>-0.77226</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>19.40467</XPos>
-																								<YPos>-0.72123</YPos>
+																								<XPos>18.1098</XPos>
+																								<YPos>-0.34117</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>24.29918</XPos>
-																								<YPos>-0.4951</YPos>
+																								<YPos>-0.26169</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>31.19882</XPos>
-																								<YPos>-0.416</YPos>
+																								<XPos>31.09091</XPos>
+																								<YPos>-0.18468</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>36.10856</XPos>
-																								<YPos>-0.24512</YPos>
+																								<YPos>-0.01825</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -247,13 +247,18 @@
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>85.99456</XPos>
-																								<YPos>-0.1051</YPos>
+																								<XPos>50.46077</XPos>
+																								<YPos>0</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>107.97407</XPos>
-																								<YPos>-0.58505</YPos>
+																								<XPos>57.7232</XPos>
+																								<YPos>-0.24188</YPos>
+																								<Flags>0</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>107.52332</XPos>
+																								<YPos>-0.25669</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
@@ -2879,20 +2884,6 @@
 																				</PropertyCurve>
 																			</PropertyCurveList>
 																		</MusicClip>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{ADD721FF-BBB3-46FC-AC8C-7D1CF68C2EE0}" ShortID="845496283">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="110518.326920493"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_VO_POSTURE_SWITCH" ID="{ADC7D1C4-7D76-46B0-8228-1A0B986F8A77}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
 																	</Local>
 																</Reference>
 															</ObjectList>
