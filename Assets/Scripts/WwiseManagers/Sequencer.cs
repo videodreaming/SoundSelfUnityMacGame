@@ -158,7 +158,7 @@ public class Sequencer : MonoBehaviour
         
         if(developmentMode.developmentMode)
         {
-            if(Input.GetKeyDown(KeyCode.L))
+            if(Input.GetKeyDown(KeyCode.M))
             {
                 _countdownToSavasana = 190f;
                 Debug.Log("Sequencer ThematicSavasanaCountdown Counter set to " + _countdownToSavasana);
