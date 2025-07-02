@@ -72,16 +72,7 @@ public class CSVLoader : MonoBehaviour
             }
         }
         //OTHER VO INITIALIZATIONS
-        if (layingDown)
-        {
-            AkSoundEngine.SetSwitch("VO_Posture", "LieDown", gameObject);
-            Debug.Log("CSVLoader: Setting VO Posture to LieDown");
-        }
-        else
-        {
-            AkSoundEngine.SetSwitch("VO_Posture", "Relax", gameObject);
-            Debug.Log("CSVLoader: Setting VO Posture to Relax");
-        }
+
         ReadSessionParams();
         //=======================================================================================================
         // VO INITIALIZATION        

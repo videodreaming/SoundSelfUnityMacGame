@@ -216,23 +216,39 @@ public class WwiseVOManager : MonoBehaviour
             {
                 UI_CurrentSession.Instance.currentSession = "Thematic Savasana";
                 Debug.Log("WWise_VO: Cue_ThematicSavasana_Start");
-            } else if (musicSyncInfo.userCueName == "Cue_ThematicSavasana_End")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_ThematicSavasana_End")
             {
                 UI_CurrentSession.Instance.currentSession = "Closing Teaching";
                 Debug.Log("Wwise_VO: Cue_ThematicSavasana_End");
                 sequencer.StartSilentMeditation();
-                
-            } else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation2_Start")
+
+            }
+            else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation2_Start")
             {
                 UI_CurrentSession.Instance.currentSession = "Closing Inquiry";
                 Debug.Log("Wwise_VO: Cue_VoiceElicitation2_Start");
-            } else if (musicSyncInfo.userCueName == "Cue_VO_Wakeup_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_VO_Wakeup_Start")
             {
                 UI_CurrentSession.Instance.currentSession = "Wake Up";
                 Debug.Log("Wwise_VO: Cue_VO_Wakeup_Start");
-            } else if (musicSyncInfo.userCueName == "Cue_Goodbye_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Goodbye_Start")
             {
                 UI_CurrentSession.Instance.currentSession = "Closing Words";
+            }
+            else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
+            {
+                Debug.Log("WWise_VO_CUE: Cue Mic On");
+                unityPlaybackScript.targetVolume = 1.0f;
+                imitoneVoiceIntepreter.gameOn = true;
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
+            {
+                Debug.Log("WWise_VO_CUE: Cue Mic OFF");
+                unityPlaybackScript.targetVolume = 0.0f;   
+                imitoneVoiceIntepreter.gameOn = false;
             }
         }
     }
