@@ -74,13 +74,6 @@
 							</DuckingList>
 						</Bus>
 						<Bus Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}">
-							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>

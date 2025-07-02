@@ -45,7 +45,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{39C10DFA-F82F-6EDA-7B44-3AF861FE4415}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{5FBB1F9B-7376-9C46-E6A4-921716A3C93B}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -369,7 +369,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{148E7956-1D64-C260-7B82-A180A5ADB4E0}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{FDC6D3C4-1ECC-E985-1CB5-3EA5C2B289F3}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -639,14 +639,12 @@
 					<Path>Media/901997753.wem</Path>
 					<CachePath>SFX/music_duet_D Major_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="919460175" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="919460175" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_posture_liedown.wav</ShortName>
-					<Path>Media/919460175.wem</Path>
 					<CachePath>SFX/vo_posture_liedown_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="962245820" Language="SFX" Streaming="true" Location="Loose">
+				<File Id="962245820" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>vo_posture_relax.wav</ShortName>
-					<Path>Media/962245820.wem</Path>
 					<CachePath>SFX/vo_posture_relax_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="977341665" Language="SFX" Streaming="true" Location="Loose">
@@ -6784,7 +6782,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{56497C81-CED5-5746-3DDB-CCC15CB0A091}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{1D6559C8-ABD7-8ACB-741B-25F9571BD12C}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -11395,5 +11393,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{37CBC19D-6CC2-1726-719D-8034362BF76F}</FileHash>
+	<FileHash>{C143FE95-E287-CAB1-C3F0-9A50C1E6D015}</FileHash>
 </SoundBanksInfo>
