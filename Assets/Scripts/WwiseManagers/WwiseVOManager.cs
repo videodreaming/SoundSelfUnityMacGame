@@ -14,7 +14,7 @@ public class WwiseVOManager : MonoBehaviour
     public Sequencer sequencer;
     public DevelopmentMode developmentMode;
     public Director director;
-    public CSVWriter CSVWriter;
+    //public CSVWriter CSVWriter;
     public LightControl lightControl;
     public MusicSystem1 musicSystem1;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
@@ -31,7 +31,7 @@ public class WwiseVOManager : MonoBehaviour
     private bool pause = true;
     public bool layingDown = true;
     
-    public CSVWriter csvWriter;
+    //public CSVWriter csvWriter;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private bool debugAllowLogs;
 
@@ -145,7 +145,8 @@ public class WwiseVOManager : MonoBehaviour
             } else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue_LinearHum_Start");
-                sequencer.InitializeLights();
+                InitializeLightsWithDelay();
+                //sequencer.InitializeLights();
                 StartCoroutine(MakeWWiseTone());
             } else if (musicSyncInfo.userCueName == "Cue_StartTutorial") //This is called from the end of the Somatic Sequence, near the end. He says "Humming and toning should first come from a relaxed place. Breathe in, and hum"
             {
@@ -423,6 +424,18 @@ public class WwiseVOManager : MonoBehaviour
     public void PlayThematicSavasana()
     {
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
+    }
+
+    private void InitializeLightsWithDelay()
+    {
+        StartCoroutine(InitializeLightsCoroutine());
+    }
+
+    private IEnumerator InitializeLightsCoroutine()
+    {
+        debug.Log("WWise_VO: Initialize Lights in 1s...");
+        yield return new WaitForSeconds(1f);
+        sequencer.InitializeLights();
     }
 }
 
