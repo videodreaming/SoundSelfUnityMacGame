@@ -46,6 +46,17 @@ public class WwiseVOManager : MonoBehaviour
         //THE GAMEOBJECT POINTS TO *THIS* GAMEOBJECT. SO WE CAN'T START
         //IT FROM ONE GAMEOBJECT AND THEN STOP IT FROM ANOTHER. IT HAS TO BE THE SAME GAMEOBJECT
         audioSource = micPlayback.GetComponent<AudioSource>();
+
+        if (layingDown)
+        {
+            AkSoundEngine.SetSwitch("VO_Posture", "LieDown", gameObject);
+            Debug.Log("CSVLoader: Setting VO Posture to LieDown");
+        }
+        else
+        {
+            AkSoundEngine.SetSwitch("VO_Posture", "Relax", gameObject);
+            Debug.Log("CSVLoader: Setting VO Posture to Relax");
+        }
     }
 
     void Update()
@@ -433,7 +444,6 @@ public class WwiseVOManager : MonoBehaviour
 
     private IEnumerator InitializeLightsCoroutine()
     {
-        debug.Log("WWise_VO: Initialize Lights in 1s...");
         yield return new WaitForSeconds(1f);
         sequencer.InitializeLights();
     }
