@@ -11,6 +11,7 @@ public class LightControl : MonoBehaviour
     public DevelopmentMode developmentMode;
     public WorldShuffler worldShuffler;
     [SerializeField] AkDeviceDescriptionArray m_devices;
+    public GameObject gameObjectSystem2Listener;
     private bool playReference = false;
     private bool playReferenceLastFrame = false;
     private bool playReferenceFrame = false;
@@ -67,10 +68,10 @@ public class LightControl : MonoBehaviour
     void Start()
     {
         rtpcID = AkSoundEngine.GetIDFromString("AVS_Modulation_Frequency_Wave1");
-        AkSoundEngine.SetRTPCValue(rtpcID, 10.0f, gameObject);
+        AkSoundEngine.SetRTPCValue(rtpcID, 10.0f, gameObjectSystem2Listener);
         float initialValue;
         int type = 1;
-        AkSoundEngine.GetRTPCValue(rtpcID, gameObject, 0, out initialValue, ref type);
+        AkSoundEngine.GetRTPCValue(rtpcID, gameObjectSystem2Listener, 0, out initialValue, ref type);
         Debug.Log("RTPC Wave1 Frequency after initialization: " + initialValue);
         // We first enumerate all Devices from the System shareset to have all available devices on Windows.
        uint sharesetIdSystem = AkSoundEngine.GetIDFromString("System");
@@ -127,11 +128,11 @@ public class LightControl : MonoBehaviour
             return;
         }
 
-
-        // We create the Second Audio Device Listener GameObject and find the System_01 ShareSetID.
-        AkSoundEngine.RegisterGameObj(gameObject, "System2Listener");
+        // We create the Second Audio Device Listener GameObject and find the System_01 ShareSetID. With a separate GameObject.
+        AkSoundEngine.RegisterGameObj(gameObjectSystem2Listener, "System2Listener");
         uint sharesetIdSystem2 = AkSoundEngine.GetIDFromString("System_01");
-        // Creation of the Output Settings for the second Audio Device. Which will be another device on the machine different from the main Default Device (e.g a Focusrite).
+
+        // Creation of the Output Settings for the second Audio Device. Which will be another device on the machine different from the main Default Device.
         AkOutputSettings outputSettings2 = new AkOutputSettings();
         outputSettings2.audioDeviceShareset = sharesetIdSystem2;
         outputSettings2.idDevice = deviceId;
@@ -139,35 +140,36 @@ public class LightControl : MonoBehaviour
         
         // We call the AddOutput with the newly create OutputSetting2 for the System_01 and for the system2Listener.
         ulong outDeviceId = 0;
-        ulong[] ListenerIds = { AkSoundEngine.GetAkGameObjectID(gameObject) };
+        ulong[] ListenerIds = { AkSoundEngine.GetAkGameObjectID(gameObjectSystem2Listener) };
         AkSoundEngine.AddOutput(outputSettings2, out outDeviceId, ListenerIds, 1);
         
         // We Set the listener of Game_Object_System2 to be listened by system2Listener. Set will clear all Emitter-Listener already there, 
         // so the default listener will not be associated anymore.
-        AkSoundEngine.RegisterGameObj(gameObject, "System2Go");
-        AkSoundEngine.SetListeners(AkSoundEngine.GetAkGameObjectID(gameObject), ListenerIds, 1);
-        print("GameObjectID : " + AkSoundEngine.GetAkGameObjectID(gameObject));
+        AkSoundEngine.RegisterGameObj(gameObjectSystem2Listener, "System2Go");
+        AkSoundEngine.SetListeners(AkSoundEngine.GetAkGameObjectID(gameObjectSystem2Listener), ListenerIds, 1);
+        print("GameObjectID : " + AkSoundEngine.GetAkGameObjectID(gameObjectSystem2Listener));
+
 
         //Play all appropriate AVS waves
-        wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
-        AkSoundEngine.PostEvent("Play_AVS_Wave2", gameObject);
-        AkSoundEngine.PostEvent("Play_AVS_Wave3", gameObject);
-        
+        wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObjectSystem2Listener);
+        AkSoundEngine.PostEvent("Play_AVS_Wave2", gameObjectSystem2Listener);
+        AkSoundEngine.PostEvent("Play_AVS_Wave3", gameObjectSystem2Listener);
+
         //Initialize default RTPC values
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave1", 1.0f, gameObject); //1 enables modulation effects
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave2", 1.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave3", 0.0f, gameObject);
-        
-        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", 0.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave1", 100.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave2", 100.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave1", 55.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave2", 55.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Waveform_Wave1", 2.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Waveform_Wave2", 2.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave1", 10.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave2", 40.0f, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave2", 0.0f, gameObject);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave1", 1.0f, gameObjectSystem2Listener); //1 enables modulation effects
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave2", 1.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_BypassEffect_Wave3", 0.0f, gameObjectSystem2Listener);
+
+        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", 0.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave1", 100.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave2", 100.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave1", 55.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave2", 55.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Waveform_Wave1", 2.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Waveform_Wave2", 2.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave1", 10.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave2", 40.0f, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave2", 0.0f, gameObjectSystem2Listener);
 
         //Randomize initial colors for red/blue/white
         cycleRed = UnityEngine.Random.Range(0, 3);
@@ -244,12 +246,12 @@ public class LightControl : MonoBehaviour
         // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
         if (playReference && !playReferenceLastFrame)
         {
-            AkSoundEngine.PostEvent("Play_AVS_SineGenerators_REFERENCE", gameObject);
+            AkSoundEngine.PostEvent("Play_AVS_SineGenerators_REFERENCE", gameObjectSystem2Listener);
             Debug.Log("AVS: Starting Reference Signal");
         }
         else if (!playReference && playReferenceLastFrame)
         {
-            AkSoundEngine.PostEvent("Stop_AVS_SineGenerators_REFERENCE", gameObject);
+            AkSoundEngine.PostEvent("Stop_AVS_SineGenerators_REFERENCE", gameObjectSystem2Listener);
             Debug.Log("AVS: Stopping Reference Signal");
         }
         playReferenceLastFrame = playReference;
@@ -329,7 +331,7 @@ public class LightControl : MonoBehaviour
         }
 
         int transitionTimeMS = (int)(transitionTimeSec * 1000);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave1", _rate, gameObject, transitionTimeMS);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave1", _rate, gameObjectSystem2Listener, transitionTimeMS);
         //Get RPTC Value of the StrobeRate and then use that as the strobe rate
         //Start a coroutineSetStrobeRate that always reports what _rate is, and stores that into another variable from other scripts
         //_currentStrobeRate
@@ -549,9 +551,9 @@ public class LightControl : MonoBehaviour
 
         if(!exponentialCurve)
         {
-            AkSoundEngine.SetRTPCValue(stringRed, _red, gameObject, transitionTimeMS);
-            AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObject, transitionTimeMS);
-            AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObject, transitionTimeMS);
+            AkSoundEngine.SetRTPCValue(stringRed, _red, gameObjectSystem2Listener, transitionTimeMS);
+            AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObjectSystem2Listener, transitionTimeMS);
+            AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObjectSystem2Listener, transitionTimeMS);
         }
         else
         {   
@@ -565,9 +567,9 @@ public class LightControl : MonoBehaviour
             AkCurveInterpolation curveB = startColor.b < _blue ? curveUp : curveDown;
 
             //then set the values
-            AkSoundEngine.SetRTPCValue(stringRed, _red, gameObject, transitionTimeMS, curveR);
-            AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObject, transitionTimeMS, curveG);
-            AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObject, transitionTimeMS, curveB);
+            AkSoundEngine.SetRTPCValue(stringRed, _red, gameObjectSystem2Listener, transitionTimeMS, curveR);
+            AkSoundEngine.SetRTPCValue(stringGreen, _green, gameObjectSystem2Listener, transitionTimeMS, curveG);
+            AkSoundEngine.SetRTPCValue(stringBlue, _blue, gameObjectSystem2Listener, transitionTimeMS, curveB);
         }
         
         if(_red >0 || _green > 0 || _blue > 0)
@@ -618,17 +620,17 @@ public class LightControl : MonoBehaviour
             //yield return new WaitForSeconds(1f);
             if(doBilateral)
             {
-                AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 1.0f, gameObject);
+                AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 1.0f, gameObjectSystem2Listener);
                 Debug.Log("AVS: Switching to Mono");
                 bilateral = true;
             }
             else
             {
-                AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 0.0f, gameObject);
+                AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 0.0f, gameObjectSystem2Listener);
                 Debug.Log("AVS: Switching to Stereo");
                 bilateral = false;
             }
-            wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObject);
+            wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObjectSystem2Listener);
         }
     }
     public void Wwise_Strobe_ToneDisplay (float _input)
@@ -650,11 +652,11 @@ public class LightControl : MonoBehaviour
             Debug.LogWarning("Warning: AVS Tone Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
         }
         toneVisualizationFlag    = true;
-    
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave1", _strobe1Depth, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1", _strobe1, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave2", _strobe2, gameObject);
-        
+
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Depth_Wave1", _strobe1Depth, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave1", _strobe1, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave2", _strobe2, gameObjectSystem2Listener);
+
     }
 
     public void Wwise_Strobe_ChargeDisplay (float _input) //RENAME THIS TO JUST BE WWISE_CHARGE
@@ -668,10 +670,10 @@ public class LightControl : MonoBehaviour
         float _strobe1Smoothing = 100.0f - _i*100.0f;
         float _strobePWM = 25.0f + 50.0f * _i;
 
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave1", _strobePWM, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave2", _strobePWM, gameObject);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave1", _strobe1Smoothing, gameObject);
-        
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave1", _strobePWM, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_PWM_Wave2", _strobePWM, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("AVS_Modulation_Smoothing_Wave1", _strobe1Smoothing, gameObjectSystem2Listener);
+
 
         if (chargeVisualizationFlag)
         {
@@ -692,8 +694,8 @@ public class LightControl : MonoBehaviour
         float _i = Mathf.Max(Mathf.Min(_input2 + _addition2, 1.0f), 0.0f);
         float _waveValue = 0.0f + 100.0f * _i;
 
-        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", _waveValue, gameObject);
-        AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, gameObject);
+        AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", _waveValue, gameObjectSystem2Listener);
+        AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, gameObjectSystem2Listener);
 
         if (_i != 0.0f)
         //Debug.Log("Breath Wave Value: " + _waveValue);
