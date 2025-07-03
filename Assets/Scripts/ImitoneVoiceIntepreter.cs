@@ -27,6 +27,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     public float note_st = 0f;
     public float _dbThreshold;
 
+     public GameObject sequencerGameObject;
+
     // Are we using this action? Robin doesn't understand how an action works.
     public Action<float> OnNewTone;
     public bool gameOn = true;
@@ -90,6 +92,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     public float _breathVolume;
     private bool resetToneFrame = false; //the first frame that !toneActive && !imitoneActive, before toneActive is true again.
     private bool endBreathVolumes = false; //THIS SYSTEM CAN DEFINITELY BE CLEANED UP QUITE EASILY...
+    private bool breathSoundFlag = false;
 
     //public int MostRecentSemitone => _semitone;
     //public string MostRecentSemitoneNote => _semitoneNote;
@@ -97,6 +100,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     //private string _semitoneNote;
     //private int[] _mostRecentSemitone = new []{-1,-1};
     //private int[] _previousSemitone = new []{-1,-1};
+
+   
 
     [Header("DampingValues")]
     public float _harmonicity = 0.0f;
@@ -250,7 +255,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         GetRawVoiceData();
         CheckToning();
         TrackMicVolume();
-        lightControl.Wwise_BreathDisplay(_breathVolume, lightControl._fxWave);
+        Wwise_BreathSound(_breathVolume, lightControl._fxWave);
 
         if (gameOn != gameOnLastFrame)
         {
@@ -266,6 +271,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        breathSoundFlag = false;
+    }
     private void TrackMicVolume()
     {
 
@@ -695,6 +704,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             toneActiveFrame = false;
             AkSoundEngine.SetSwitch("ToneActive", "Resting", gameObject);
 
+            //TODO: Next time we refactor, move the breath stuff below into its own method, or even its own .cs\
             if (imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
             {
 
@@ -965,5 +975,30 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             //unityPlaybackScript.targetVolume = 0.0f;
             gameOn = false;
         }
+    }
+
+    private void Wwise_BreathSound (float _input, float _addition = 0.0f)
+    {
+        float _input2 = _input;
+        float _addition2 = _addition;
+        if(developmentMode.configureMode)
+        {
+            _input2 = 0.0f;
+            _addition2 = 0.0f;
+        }
+        float _i = Mathf.Max(Mathf.Min(_input2 + _addition2, 1.0f), 0.0f);
+        float _waveValue = 0.0f + 100.0f * _i;
+
+        AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, sequencerGameObject); //TODO: Make sure this is the correct game object.
+        lightControl.Wwise_BreathDisplay(_waveValue);
+        
+        if (_i != 0.0f)
+            //Debug.Log("Breath Wave Value: " + _waveValue);
+
+            if (breathSoundFlag)
+            {
+                Debug.LogWarning("Warning: AVS Breath Response (SOUND) already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+            }
+        breathSoundFlag = true;
     }
 }

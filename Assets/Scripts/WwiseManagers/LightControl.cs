@@ -12,6 +12,7 @@ public class LightControl : MonoBehaviour
     public WorldShuffler worldShuffler;
     [SerializeField] AkDeviceDescriptionArray m_devices;
     public GameObject gameObjectSystem2Listener;
+    public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private bool playReference = false;
     private bool playReferenceLastFrame = false;
     private bool playReferenceFrame = false;
@@ -682,28 +683,16 @@ public class LightControl : MonoBehaviour
         chargeVisualizationFlag = true;
     }
 
-    public void Wwise_BreathDisplay (float _input, float _addition = 0.0f)
+    public void Wwise_BreathDisplay (float _waveValue)
     {
-        float _input2 = _input;
-        float _addition2 = _addition;
-        if(developmentMode.configureMode)
-        {
-            _input2 = 0.0f;
-            _addition2 = 0.0f;
-        }
-        float _i = Mathf.Max(Mathf.Min(_input2 + _addition2, 1.0f), 0.0f);
-        float _waveValue = 0.0f + 100.0f * _i;
-
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", _waveValue, gameObjectSystem2Listener);
-        AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, gameObjectSystem2Listener);
 
         if (_i != 0.0f)
-        //Debug.Log("Breath Wave Value: " + _waveValue);
 
-        if(breathVisualizationFlag)
-        {
-            Debug.LogWarning("Warning: AVS Breath Response already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
-        }
+            if (breathVisualizationFlag)
+            {
+                Debug.LogWarning("Warning: AVS Breath Response (LIGHT) already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+            }
         breathVisualizationFlag = true;
     }
 
