@@ -14,14 +14,14 @@ using imitone;
 //TODO
 //Why is flooredsemitone floored and not rounded?
 
-public class ImitoneVoiceIntepreter: MonoBehaviour
+public class ImitoneVoiceIntepreter : MonoBehaviour
 {
     //base variables pitch and midiNote
     public DevelopmentMode developmentMode;
     public LightControl lightControl;
     public Director director;
-
-    public MusicSystem1 musicSystem1;    
+    public UnityPlayBack unityPlaybackScript;
+    public MusicSystem1 musicSystem1;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
@@ -31,13 +31,13 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public Action<float> OnNewTone;
     public bool gameOn = true;
     private bool gameOnLastFrame = true;
-    
+
     [Tooltip("imitoneActive when toning.")]
     public bool imitoneActive { get; private set; } = false;
     public bool imitoneActiveRaw { get; private set; } = false;
 
     [Tooltip("Toning With False Positive Logic")]
-    public bool toneActive { get; private set; } = false;   
+    public bool toneActive { get; private set; } = false;
     public int toneActiveCounter { get; private set; } = 0;
     public bool toneActiveRaw { get; private set; } = false;
     public bool toneActiveFrame { get; private set; } = false;
@@ -50,12 +50,12 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private bool toneActiveBiasTrueFrameFlag = false;
     public bool toneActiveVeryConfident { get; private set; } = false;
     public bool toneActiveVeryConfidentRaw { get; private set; } = false;
-    public float positiveActiveThreshold1 {get; private set;} = 0.05f; //for toneActive 
-    public float positiveActiveThreshold2 {get; private set;}  = 0.2f; //for toneActiveConfident
-    public float negativeActiveThreshold1 {get; private set;}  = 0.1f; //for toneActive
-    public float negativeActiveThreshold2 {get; private set;}  = 0.33f; //for toneActiveConfident
-    public float _activeThreshold3 {get; private set;}  = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
-    public float _activeThreshold4 {get; private set;}  = 7.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
+    public float positiveActiveThreshold1 { get; private set; } = 0.05f; //for toneActive 
+    public float positiveActiveThreshold2 { get; private set; } = 0.2f; //for toneActiveConfident
+    public float negativeActiveThreshold1 { get; private set; } = 0.1f; //for toneActive
+    public float negativeActiveThreshold2 { get; private set; } = 0.33f; //for toneActiveConfident
+    public float _activeThreshold3 { get; private set; } = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
+    public float _activeThreshold4 { get; private set; } = 7.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     public bool exceptionFlag = false;
 
     //TODO: using these vars
@@ -65,21 +65,21 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private float _imitoneActiveTimer;
     private float _imitoneInactiveTimer;
     public float _tThisTone;
-    
-    public float _tSessionToneActive {get; private set; } = 0f;
+
+    public float _tSessionToneActive { get; private set; } = 0f;
     public float _tThisToneRaw;
-    
+
     [SerializeField]
     public float _tThisToneConfident;
-    
+
     public float _tThisToneBiasTrue;
     public float _tThisRest;
     public float _tThisRestRaw;
 
     [SerializeField]
     public float _tThisRestConfident;
-    
-    private float _durLastTone;    
+
+    private float _durLastTone;
     public bool _advanceToNextTutorialKey = false;
 
     //BREATH
@@ -89,35 +89,35 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public float _tNextInhaleDuration = 0.0f;
     public float _breathVolume;
     private bool resetToneFrame = false; //the first frame that !toneActive && !imitoneActive, before toneActive is true again.
-    private bool endBreathVolumes   = false; //THIS SYSTEM CAN DEFINITELY BE CLEANED UP QUITE EASILY...
-    
+    private bool endBreathVolumes = false; //THIS SYSTEM CAN DEFINITELY BE CLEANED UP QUITE EASILY...
+
     //public int MostRecentSemitone => _semitone;
     //public string MostRecentSemitoneNote => _semitoneNote;
     //private int _semitone;
     //private string _semitoneNote;
     //private int[] _mostRecentSemitone = new []{-1,-1};
     //private int[] _previousSemitone = new []{-1,-1};
-    
+
     [Header("DampingValues")]
-    public float _harmonicity = 0.0f;    
+    public float _harmonicity = 0.0f;
     private float _rmsValue;
     [SerializeField] public float _dbValue = -80.0f; //this seems to be the db of the mic while toning
     [SerializeField] public float _dbMicrophone = -999.0f; //this seems to be the db of the raw mic
     [SerializeField] public float _timbre = 0.0f;
-    [SerializeField] public float _level; 
+    [SerializeField] public float _level;
     private const int SAMPLE_SIZE = 1024;
     public AudioSource _audioSource;
     [SerializeField] private AudioClip _audioClip;
 
-    private string _selectedDevice; 
+    private string _selectedDevice;
     private int _sampleRate;
     private readonly float _referenceAmplitude = 20.0f * Mathf.Pow(10.0f, -6.0f);
     [SerializeField] private float _pitchDifference = 3;
-    
+
     private Dictionary<int, float> _breathVolumeContributions = new Dictionary<int, float>();
     private int _coroutineCounter = 0; // To generate unique keys
 
-    [TextAreaAttribute(8,8)] public string imitoneState;
+    [TextAreaAttribute(8, 8)] public string imitoneState;
 
     [Header("dbController")]
 
@@ -128,18 +128,18 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     private Dictionary<int, (float, float)> noiseMeasurements = new Dictionary<int, (float, float)>();
     private bool expectNoiseFloor = false; //NOT YET IMPLEMENTED, use this when the system is programmatically expecting noise.
     private bool noiseFloorFlag = false;
-    [SerializeField] private float _volumeChangeMeasurementWindow   = 0.3f;
+    [SerializeField] private float _volumeChangeMeasurementWindow = 0.3f;
     [SerializeField] private float _volumeDropTriggerThresholdDB = 7f;
     [SerializeField] private float _volumeJumpTriggerThresholdDB = 12f;
-    [SerializeField] private float _afterDropWaitTime           = 0.5f;
-    private float _afterDropWaitTimer                           = 0f;
-    [SerializeField] private float _noiseFloorMeasurementTime    = 1.5f;
-    [SerializeField] private int noiseFloorMeasurementMaxAge    = 120;
-    private int uniqueKey                                       = 0;
-    [SerializeField] private float _thresholdAboveNoiseFloor    = 8f;
+    [SerializeField] private float _afterDropWaitTime = 0.5f;
+    private float _afterDropWaitTimer = 0f;
+    [SerializeField] private float _noiseFloorMeasurementTime = 1.5f;
+    [SerializeField] private int noiseFloorMeasurementMaxAge = 120;
+    private int uniqueKey = 0;
+    [SerializeField] private float _thresholdAboveNoiseFloor = 8f;
 
     public float _imitoneVolumeThreshold { get; private set; } = 0f;
-    
+
     private Coroutine currentNoiseFloorCoroutine;
 
     //private bool manualMode = false;
@@ -167,10 +167,10 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     int sampleRate;
     ImitoneVoice imitone;
 
-    string             microphoneName;
-    AudioClip          inputBuffer;
-    int                micPosRead = 0;
-    float[]            capturedInput;
+    string microphoneName;
+    AudioClip inputBuffer;
+    int micPosRead = 0;
+    float[] capturedInput;
 
     public GameObject audioReceiver2;
     private AudioSource source2;
@@ -178,37 +178,37 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     public GameObject audioReceiver3;
     private AudioSource source3;
 
-   
+
     void Start()
     {
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
         _audioSource = GetComponent<AudioSource>();
         //Checking for all devices in the list of devices 
         foreach (var device in Microphone.devices)
-            {microphoneName = device; break;}
+        { microphoneName = device; break; }
         if (microphoneName.Length == 0)
         {
-            Debug.Log("No microphone was available for pitch tracking.");
+            Debug.Log("Imitone: No microphone was available for pitch tracking.");
             return;
         }
-        Debug.Log("Chose microphone: " + microphoneName);
+        Debug.Log("Imitone: Chose microphone: " + microphoneName);
         // NOTE: Unity doesn't give us a way to query native samplerate.
         //  Converting to 48khz may degrade audio quality slightly.
         sampleRate = 48000;
 
         // NOTE: this requires permission on mobile.
-        
+
         inputBuffer = Microphone.Start(
                 deviceName: microphoneName,
-                loop:       true,
-                lengthSec:  1,
-                frequency:  sampleRate
+                loop: true,
+                lengthSec: 1,
+                frequency: sampleRate
                 );
 
         if (inputBuffer == null)
         {
             //If mircophone fails to start
-            Debug.Log("PitchTracker failed to Start recording from Microphone!");
+            Debug.Log("Imitone: PitchTracker failed to Start recording from Microphone!");
             return;
         }
 
@@ -221,14 +221,15 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
 
 
-        while(!(Microphone.GetPosition(microphoneName) > 0)){
+        while (!(Microphone.GetPosition(microphoneName) > 0))
+        {
             source2.Play();
-        } 
+        }
 
         try
         {
             ImitoneVoice.ActivateLicense("imitone technology used under license to New Entheogen Ltd, March 2023.");
-           // Original Settings:      (sampleRate, "{\"guide\":\"off\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":101.0}}");
+            // Original Settings:      (sampleRate, "{\"guide\":\"off\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":101.0}}");
             imitone = new ImitoneVoice(sampleRate, "{\"guide\":\"on\",\"slide\":\"bend\",\"range\":{\"min\":34.0,\"max\":88.0},\"volume\":{\"threshold\":-52.0}}"); //threshold of -52 is ideal for Corsair HS80
         }
         catch (System.Exception e)
@@ -239,7 +240,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
         if (imitone == null)
         {
-            Debug.Log("imitone was null after creation.");
+            Debug.Log("Imitone: imitone was null after creation.");
         }
     }
 
@@ -273,14 +274,14 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         //It will trigger the Director Queue to process its contents.
         //It will also not be able to trigger again for another 30 seconds.
         //first, get the average volume of the last one second
-        
-        if(toneActive)
+
+        if (toneActive)
         {
             //RECORD 1S DATA
-            volumes1s.Add((Time.time, _dbMicrophone));       
+            volumes1s.Add((Time.time, _dbMicrophone));
         }
-        
-        if(toneActiveConfident)
+
+        if (toneActiveConfident)
         {
             //LOG 1S AVERAGE
             _vol1Sec = volumes1s.Average(x => x.Item2);
@@ -293,9 +294,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 anomalyBaselineVolumes.Add((Time.time, _vol1Sec));
                 _timerForAnomalyBaselines = 0.0f;
             }
-            
+
         }
-        else if(!_volFlagA || !toneActive)
+        else if (!_volFlagA || !toneActive)
         {
             //CLEAR DATA FROM 1S
             volumes1s.Clear();
@@ -304,7 +305,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
 
         //CALCULATE ANOMALY BASELINE FROM 1M AVERAGE
-        if(anomalyBaselineVolumes.Count > 0)
+        if (anomalyBaselineVolumes.Count > 0)
         {
             _anomalyBaseline = anomalyBaselineVolumes.Average(x => x.Item2);
         }
@@ -313,7 +314,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             _anomalyBaseline = 0.0f;
         }
         float _secsCapturedBaseline = anomalyBaselineVolumes.Count * 0.1f;
-        
+
         //Debug.Log("Volume 1s: " + _vol1Sec + " Volume 1m: " + _anomalyBaseline + " Seconds Captured 1m: " + _secsCapturedBaseline + " Anomaly Threshold: " + _volumeAnomalyThresholdDb);
 
 
@@ -323,7 +324,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         bool captureThreshold = _secsCapturedBaseline > 15f;
         if (captureThreshold && (_vol1Sec > (_anomalyBaseline + _volumeAnomalyThresholdDb)))
         {
-            Debug.Log("Director Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
+            Debug.Log("Imitone: Director Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
             _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
             director.ActivateQueue(1.75f);
@@ -355,8 +356,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
 
         //Change the music volume based on the microphone input level
-        if(_vol1Sec > -1000.0f)
-        musicSystem1.SetMusicToningLayerVolume(60f + NormalizeVolume(_vol1Sec * 40f), 0f);
+        if (_vol1Sec > -1000.0f)
+            musicSystem1.SetMusicToningLayerVolume(60f + NormalizeVolume(_vol1Sec * 40f), 0f);
         //AkSoundEngine.SetRTPCValue("TONING_Volume", 60f + NormalizeVolume(_vol1Sec * 40f), gameObject);
     }
 
@@ -390,18 +391,18 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         if (_dbMicrophone > (rawMic.Values.Min(x => x.Item2) + _volumeJumpTriggerThresholdDB))
         {
             if (currentNoiseFloorCoroutine != null)
-            StopCoroutine(currentNoiseFloorCoroutine);
+                StopCoroutine(currentNoiseFloorCoroutine);
 
             currentNoiseFloorCoroutine = StartCoroutine(MeasureNoiseFloorCoroutine());
         }
-        
+
     }
 
-        
+
     private IEnumerator MeasureNoiseFloorCoroutine()
     {
-        float _noiseFloorMeasurementSum                     = 0f;
-        float _noiseFloorMeasurementCount                   = 0f;
+        float _noiseFloorMeasurementSum = 0f;
+        float _noiseFloorMeasurementCount = 0f;
         //Debug.Log("Preparing to Measure Noise Floor...");
 
         //First wait for the levels to drop an appropriate amount
@@ -422,17 +423,17 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             _measuredTime += Time.deltaTime;
             yield return null;
         }
-        
+
         //Once the noise floor has been measured, add the average to the noiseMeasurements dictionary, using the time as the key.
-        float _noiseFloorMeasurementAverage                = _noiseFloorMeasurementSum / _noiseFloorMeasurementCount;
+        float _noiseFloorMeasurementAverage = _noiseFloorMeasurementSum / _noiseFloorMeasurementCount;
 
         noiseMeasurements.Add(uniqueKey++, (Time.time, _noiseFloorMeasurementAverage));
         //Then, if there are entries that are older than noiseFloorMeasurementMaxAge, remove them
         List<int> keysToRemove = new List<int>();
         foreach (var entry in noiseMeasurements)
         {
-            if ((Time.time - entry.Value.Item1) > noiseFloorMeasurementMaxAge)     
-            {       
+            if ((Time.time - entry.Value.Item1) > noiseFloorMeasurementMaxAge)
+            {
                 keysToRemove.Add(entry.Key);
                 //Debug.Log("Removing Noise Key " + entry.Key + " with value " + entry.Value.Item2 + " from time " + entry.Value.Item1 + " because it is older than " + noiseFloorMeasurementMaxAge + " seconds.");
             }
@@ -445,35 +446,37 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
         //Calculate the median noise floor from the noiseMeasurements dictionary:
         List<float> values = noiseMeasurements.Values.Select(x => x.Item2).OrderBy(x => x).ToList();
-        float _medianNoiseFloor = (values.Count % 2 != 0) ? 
-        values[values.Count / 2] : 
+        float _medianNoiseFloor = (values.Count % 2 != 0) ?
+        values[values.Count / 2] :
         (values[(values.Count - 1) / 2] + values[values.Count / 2]) / 2.0f;
         _imitoneVolumeThreshold = _medianNoiseFloor + _thresholdAboveNoiseFloor;
         SetThreshold(_imitoneVolumeThreshold);
         //Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _imitoneVolumeThreshold + " from " + noiseMeasurements.Count + " measurements.");
         yield return null;
     }
-    
-    private void SetThreshold(float db = -52.5f){
+
+    private void SetThreshold(float db = -52.5f)
+    {
         //Logic that sets the threshold for imitone's dbValue using SetConfig() to the value of dbThreshold
-       //False has been removed as the second arguement for imitone.SetConfig to prevent the game from breaking after March 18th 2025 when the dylib is updated for apple silicon arch.
-        imitone.SetConfig("{\"volume\" : {\"threshold\" : " + db + "} }");   
+        //False has been removed as the second arguement for imitone.SetConfig to prevent the game from breaking after March 18th 2025 when the dylib is updated for apple silicon arch.
+        imitone.SetConfig("{\"volume\" : {\"threshold\" : " + db + "} }");
         imitoneConfig = imitone.GetConfig();
         _dbThreshold = db;
         //Debug.Log("imitone configuration: " + imitoneConfig);  
     }
 
 
-    private void GetRawVoiceData(){ //WE NEED RAW VALUES FOR THIS
-        if (!inputBuffer) 
+    private void GetRawVoiceData()
+    { //WE NEED RAW VALUES FOR THIS
+        if (!inputBuffer)
         {
-            Debug.Log("No Input Buffer");
+            Debug.Log("Imitone: No Input Buffer");
             return;
         }
 
         // The microphone's write position in the clip can wrap back around to the beginning.
         int micPosWrite = Microphone.GetPosition(microphoneName);
-        Array.Resize(ref capturedInput, (inputBuffer.samples  +  micPosWrite - micPosRead) % inputBuffer.samples);
+        Array.Resize(ref capturedInput, (inputBuffer.samples + micPosWrite - micPosRead) % inputBuffer.samples);
         if (capturedInput.Length > 0)
         {
             // Read the latest audio data, beginning from where we left off and wrapping around as needed.
@@ -493,9 +496,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     meanAmplitude += Math.Abs(sample);
                 }
                 meanAmplitude /= capturedInput.Length;
-            
+
                 //Debug.Log(String.Format("Analyzing mic samples x {0}, peak amplitude {1}", capturedInput.Length, peakAmplitude));
-                _dbMicrophone = (float)(10.0 * Math.Log10(meanAmplitude*meanAmplitude));
+                _dbMicrophone = (float)(10.0 * Math.Log10(meanAmplitude * meanAmplitude));
 
                 imitone.InputAudio(capturedInput);
                 imitoneState = imitone.GetState();
@@ -509,35 +512,37 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     if (tones.list != null && tones.list.Count > 0)
                     {
                         var tone = tones[0];
-                            if(tone.HasField("sound")){
-                                var soundObject = tone.GetField("sound");
-                                if(soundObject.HasField("power"))
-                                {
-                                    float power = soundObject.GetField("power").floatValue;
-                                    
-                                    if(!forceImitoneActive && !forceImitoneInactive)
-                                    {
-                                        _dbValue = (float)(10.0 * Math.Log10(power));
-                                        imitoneActiveRaw = true;
-                                        imitoneActive = gameOn ? true : false;
-                                        //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
-                                    }
+                        if (tone.HasField("sound"))
+                        {
+                            var soundObject = tone.GetField("sound");
+                            if (soundObject.HasField("power"))
+                            {
+                                float power = soundObject.GetField("power").floatValue;
 
-                                    _level = (float)Math.Pow(10,_dbValue) * 0.05f;
-                                }
-                                if(soundObject.HasField("brightness"))
+                                if (!forceImitoneActive && !forceImitoneInactive)
                                 {
-                                    float brightness = soundObject.GetField("brightness").floatValue;
-                                    _timbre = brightness;
+                                    _dbValue = (float)(10.0 * Math.Log10(power));
+                                    imitoneActiveRaw = true;
+                                    imitoneActive = gameOn ? true : false;
+                                    //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
                                 }
+
+                                _level = (float)Math.Pow(10, _dbValue) * 0.05f;
                             }
-                            if(tone.HasField("sahir")){
-                                var SahirObject = tone.GetField("sahir");
-                                if(SahirObject.HasField("conv"))
-                                {
-                                    _harmonicity = SahirObject.GetField("conv").floatValue;
-                                }
-                            } 
+                            if (soundObject.HasField("brightness"))
+                            {
+                                float brightness = soundObject.GetField("brightness").floatValue;
+                                _timbre = brightness;
+                            }
+                        }
+                        if (tone.HasField("sahir"))
+                        {
+                            var SahirObject = tone.GetField("sahir");
+                            if (SahirObject.HasField("conv"))
+                            {
+                                _harmonicity = SahirObject.GetField("conv").floatValue;
+                            }
+                        }
                         if (!tone.isObject) throw new ArgumentException("imitone tone is not an object");
                         if (tone["frequency_hz"] == null) throw new ArgumentException("imitone tone does not have frequency_hz");
                         pitch_hz = tone["frequency_hz"].floatValue;
@@ -569,26 +574,28 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                     pitch_hz = -1f;
                     note_st = -1f;
                 }
-                
+
             }
             else
             {
                 //Debug.Log("No imitone voice to analyze audio.");
             }
             //Debug Beheviors
-            if(developmentMode.developmentMode == true)
+            if (developmentMode.developmentMode == true)
             {
                 //T = FORCE TONEACTIVE 
-                if(Input.GetKey(KeyCode.T)){
+                if (Input.GetKey(KeyCode.T))
+                {
                     if (gameOn && forceImitoneActive == false)
                     {
-                        Debug.Log("Force Tone");
+                        Debug.Log("Imitone: Force Tone");
                         forceImitoneActive = true;
                         forceImitoneInactive = false;
                     }
                 }
-                else if (gameOn  && !Input.GetKey(KeyCode.T) && forceImitoneActive){
-                    Debug.Log("Force No-Tone");
+                else if (gameOn && !Input.GetKey(KeyCode.T) && forceImitoneActive)
+                {
+                    Debug.Log("Imitone: Force No-Tone");
                     forceImitoneActive = false;
                     forceImitoneInactive = true;
                 }
@@ -606,21 +613,22 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
     }
 
-    private void CheckToning(){
-        if(imitoneActiveRaw)
-        {        
+    private void CheckToning()
+    {
+        if (imitoneActiveRaw)
+        {
             //Logic that runs everytime imitoneActive is true. Increments timers
             _imitoneActiveRawTimer += Time.deltaTime;
             _imitoneInactiveRawTimer = 0f;
         }
         else
-        {  
+        {
             //Logic that increments timers
             _imitoneInactiveRawTimer += Time.deltaTime;
             _imitoneActiveRawTimer = 0f;
         }
 
-        if(imitoneActive)
+        if (imitoneActive)
         {
             _imitoneActiveTimer += Time.deltaTime;
             _imitoneInactiveTimer = 0f;
@@ -631,7 +639,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 toneActiveBiasTrue = gameOn ? true : false;
                 toneActiveBiasTrueTimer += Time.deltaTime;
             }
-            if(_imitoneActiveTimer >= positiveActiveThreshold2) 
+            if (_imitoneActiveTimer >= positiveActiveThreshold2)
             {
                 toneActiveConfident = gameOn ? true : false;
             }
@@ -642,11 +650,11 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             _imitoneInactiveTimer += Time.deltaTime;
             _imitoneActiveTimer = 0f;
 
-            if(_imitoneInactiveTimer >= negativeActiveThreshold1)
+            if (_imitoneInactiveTimer >= negativeActiveThreshold1)
             {
                 toneActive = false;
             }
-            if(_imitoneInactiveTimer >= negativeActiveThreshold2)
+            if (_imitoneInactiveTimer >= negativeActiveThreshold2)
             {
                 toneActiveConfident = false;
                 toneActiveBiasTrue = false;
@@ -657,7 +665,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
         //Logic that switches between toneActive and !toneActive, including setting _tThisTone and _tThisRest
 
-        if(toneActive)
+        if (toneActive)
         {
             //BE MINDFUL THAT ANY CHANGES HERE ARE APPROPRIATELY DUPLICATED IN THE TONEACTIVERAW BLOCK BELOW.
             _tThisTone += Time.deltaTime;
@@ -665,9 +673,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
             resetToneFrame = false;
-            AkSoundEngine.SetSwitch("ToneActive","Toning",gameObject);
-            
-            if(!toneActiveFrame)
+            AkSoundEngine.SetSwitch("ToneActive", "Toning", gameObject);
+
+            if (!toneActiveFrame)
             {
                 toneActiveFrame = true;
                 toneActiveCounter++;
@@ -683,51 +691,51 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         else
         {
             _tThisRest += Time.deltaTime;
-            _tThisTone  = 0.0f;
+            _tThisTone = 0.0f;
             toneActiveFrame = false;
-            AkSoundEngine.SetSwitch("ToneActive","Resting",gameObject);
-            
-            if(imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
+            AkSoundEngine.SetSwitch("ToneActive", "Resting", gameObject);
+
+            if (imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
             {
-                
+
                 _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately above
             }
             else if (!resetToneFrame) //TRIGGER INHALE aka BREATHVOLUME
             {
                 resetToneFrame = true;
                 float currentInhaleDuration = Mathf.Clamp(_tNextInhaleDuration, 0f, 7.0f);
-                if(currentInhaleDuration >= 1.0f)
+                if (currentInhaleDuration >= 1.0f)
                 {
                     endBreathVolumes = false;
                     //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
-                    StartCoroutine(BreathVolumeCoroutine(Mathf.Max(1.76f,currentInhaleDuration)));
+                    StartCoroutine(BreathVolumeCoroutine(Mathf.Max(1.76f, currentInhaleDuration)));
                     StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
-                    if(currentInhaleDuration > 5.0f)
+                    if (currentInhaleDuration > 5.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
-                        Debug.Log("SFX: Play_Inhale_Long (" + currentInhaleDuration + ")");
+                        Debug.Log("Imitone: SFX: Play_Inhale_Long (" + currentInhaleDuration + ")");
                         //Logging the Duration of the Inhale that just ended
                         _durLastTone = currentInhaleDuration;
                     }
-                    
-                    else if(currentInhaleDuration > 3.0f)
+
+                    else if (currentInhaleDuration > 3.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
-                        Debug.Log("SFX: Play_Inhale_Medium(" + currentInhaleDuration + ")");
+                        Debug.Log("Imitone: SFX: Play_Inhale_Medium(" + currentInhaleDuration + ")");
                         //Logging the Duration of the Inhale that just ended
                         _durLastTone = currentInhaleDuration;
                     }
-                    else if(currentInhaleDuration >= 1.0f)
+                    else if (currentInhaleDuration >= 1.0f)
                     {
                         AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
-                        Debug.Log("SFX: Play_Inhale_Short (" + currentInhaleDuration + ")");
+                        Debug.Log("Imitone: SFX: Play_Inhale_Short (" + currentInhaleDuration + ")");
                         //Logging the Duration of the Inhale that just ended
                         _durLastTone = currentInhaleDuration;
                     }
                 }
                 //if the duration of the just finished tone is greater than 1.5 seconds, the tutorial can advance to the next segment. 
                 //But the Tutorial will only check for this TutorialKey after a slight delay after "Cue_VO_GuidedVocalization_End" is done.
-                if(_durLastTone >= 1.5f || currentInhaleDuration >= 1.5f)
+                if (_durLastTone >= 1.5f || currentInhaleDuration >= 1.5f)
                 {
                     _advanceToNextTutorialKey = true;
                 }
@@ -739,8 +747,8 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
                 EndBreathVolumesOnNextTone();
             }
         }
-        
-        if(toneActiveRaw) //RAW VARIATION, FOR TONEACTIVEVERYCONFIDENTRAW FOR RESPIRATIONRATE
+
+        if (toneActiveRaw) //RAW VARIATION, FOR TONEACTIVEVERYCONFIDENTRAW FOR RESPIRATIONRATE
         {
             _tThisToneRaw += Time.deltaTime;
             _tThisRestRaw = 0.0f;
@@ -754,7 +762,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         {
             _tThisRestRaw += Time.deltaTime;
             _tThisToneRaw = 0.0f;
-            if(_tThisRestRaw > _activeThreshold3)
+            if (_tThisRestRaw > _activeThreshold3)
             {
                 toneActiveVeryConfidentRaw = false;
             }
@@ -762,9 +770,9 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
         if (toneActiveBiasTrue)
         {
-            if(!toneActiveBiasTrueFrameFlag)
+            if (!toneActiveBiasTrueFrameFlag)
             {
-                Debug.Log("Tone Active Bias True Frame");
+                Debug.Log("Imitone: Tone Active Bias True Frame");
                 toneActiveBiasTrueFrame = true;
                 toneActiveBiasTrueFrameFlag = true;
             }
@@ -779,11 +787,11 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             toneActiveBiasTrueFrameFlag = false;
         }
 
-        if(toneActiveConfident)
+        if (toneActiveConfident)
         {
             _tThisToneConfident += Time.deltaTime;
             _tThisRestConfident = 0.0f;
-            if(!toneActiveConfidentFrame)
+            if (!toneActiveConfidentFrame)
             {
                 toneActiveConfidentFrame = true;
                 toneActiveConfidentCounter++;
@@ -791,14 +799,14 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
         }
         else
         {
-            _tThisToneConfident = 0.0f; 
+            _tThisToneConfident = 0.0f;
             _tThisRestConfident += Time.deltaTime;
         }
 
-        if(toneActiveBiasTrue)
-        _tThisToneBiasTrue += Time.deltaTime;
+        if (toneActiveBiasTrue)
+            _tThisToneBiasTrue += Time.deltaTime;
         else
-        _tThisToneBiasTrue = 0.0f;
+            _tThisToneBiasTrue = 0.0f;
     }
 
 
@@ -827,28 +835,30 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             yield return null;
         }
         //Debug.Log("EndBreathVolumesOnNextTone: ending breath volumes");
-        
+
         _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!resetToneFrame) if statement above.
         endBreathVolumes = true;
         AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
     }
-    private IEnumerator BreathVolumeCoroutine(float inhaleDuration) {
+    private IEnumerator BreathVolumeCoroutine(float inhaleDuration)
+    {
         int coroutineID = _coroutineCounter++;
         _breathVolumeContributions[coroutineID] = 0f;
 
         float normalizedTime = 0f;
         float currentBreathValue = 0f;
-        float pi2           = 2 * Mathf.PI;
-        float _v            = 0f;
+        float pi2 = 2 * Mathf.PI;
+        float _v = 0f;
 
         if (inhaleDuration > 3.0f)
-        _v         = 0.25f; // how much time do we spend in stage 1 (up), vs. stage 2 (down)
+            _v = 0.25f; // how much time do we spend in stage 1 (up), vs. stage 2 (down)
         else
-        _v         = 0.33f; // how much time do we spend in stage 1 (up), vs. stage 2 (down)
-        
-        
+            _v = 0.33f; // how much time do we spend in stage 1 (up), vs. stage 2 (down)
+
+
         //Debug.Log("BreathVolumeCoroutine: Starting with Inhale Duration of " + inhaleDuration + " and _v of " + _v);
-        while (normalizedTime <= _v && !endBreathVolumes) { //Stage 1 - rapid increase, can be interrupted by tone
+        while (normalizedTime <= _v && !endBreathVolumes)
+        { //Stage 1 - rapid increase, can be interrupted by tone
             normalizedTime += Time.deltaTime / inhaleDuration;
             float _progress = Mathf.Min(normalizedTime / _v / 2.0f, 0.5f); // will get half way through when normalizedTime = _v
             //currentBreathValue = (1f - Mathf.Cos(_progress * pi2)) * 0.5f; //cosine calculation
@@ -860,20 +870,21 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
 
             yield return null;
         }
-        
+
         normalizedTime = _v;
         float _volumeAtBreak = currentBreathValue;
 
-        while (normalizedTime < 1.0f) { //Stage 2 - slow decrease
+        while (normalizedTime < 1.0f)
+        { //Stage 2 - slow decrease
             normalizedTime += Time.deltaTime / inhaleDuration;
-            float _progress = Mathf.Min(0.5f + (normalizedTime - _v)/(1f - _v) * 0.5f, 1.0f);
+            float _progress = Mathf.Min(0.5f + (normalizedTime - _v) / (1f - _v) * 0.5f, 1.0f);
             currentBreathValue = (1f - Mathf.Cos(_progress * pi2)) * 0.5f * _volumeAtBreak;
             _breathVolumeContributions[coroutineID] = currentBreathValue;
             UpdateBreathVolumeTotal();
 
             yield return null;
         }
-        
+
         //Debug.Log("BreathVolumeCoroutine: ending");
         _breathVolumeContributions.Remove(coroutineID);
         UpdateBreathVolumeTotal();
@@ -885,7 +896,7 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
     {
         _breathVolume = 0f;
         foreach (var contribution in _breathVolumeContributions.Values)
-        {   
+        {
             _breathVolume += contribution;
         }
         _breathVolume = Mathf.Clamp(_breathVolume, 0.0f, 1.0f);
@@ -937,6 +948,22 @@ public class ImitoneVoiceIntepreter: MonoBehaviour
             //    exceptionFlag = true;
             //    throw new Exception("Could not find 'volume:threshold' in JSON string");
             //}
+        }
+    }
+
+    public void SetGameOn(bool monitorOn)
+    {
+        if (monitorOn)
+        {
+            Debug.Log("Imitone: Monitoring start");
+            //unityPlaybackScript.targetVolume = 1.0f;
+            gameOn = true;
+        }
+        else
+        {
+            Debug.Log("Imitone: Monitoring stop");
+            //unityPlaybackScript.targetVolume = 0.0f;
+            gameOn = false;
         }
     }
 }

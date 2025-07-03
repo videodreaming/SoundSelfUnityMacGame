@@ -37,7 +37,7 @@ public class WwiseVOManager : MonoBehaviour
 
     public GameObject micPlayback;
     public AudioSource audioSource;
-    public UnityPlayBack unityPlaybackScript;
+    //public UnityPlayBack unityPlaybackScript;
     //private bool silentPlaying = false;
 
     void Start()
@@ -75,11 +75,10 @@ public class WwiseVOManager : MonoBehaviour
                     imitoneVoiceIntepreter.gameOn = true;
                 }
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            StartCoroutine(MakeWWiseTone());
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                StartCoroutine(MakeWWiseTone());
+            }
         }
     }
     
@@ -96,29 +95,29 @@ public class WwiseVOManager : MonoBehaviour
             if (musicSyncInfo.userCueName == "Cue_Posture_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue_Posture_Start");
-            } else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue_ThematicOpening_Start");
-            } else if(musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
             {
-                if(UI_CurrentSession.Instance != null)
+                if (UI_CurrentSession.Instance != null)
                 {
                     Debug.Log("Not Null");
                     UI_CurrentSession.Instance.currentSession = "Opening Inquiry";
                 }
                 Debug.Log("WWise_VO_CUE: Stopping Openign Seq, play sigh Query Seq");
             }
-            else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
+            else if (musicSyncInfo.userCueName == "Cue_Microphone_ON")
             {
                 Debug.Log("WWise_VO_CUE: Cue Mic On"); //Mic On and Mic Off are used in the "voice elicitation" sequences
-                unityPlaybackScript.targetVolume = 1.0f;
-                imitoneVoiceIntepreter.gameOn = true;
+                imitoneVoiceIntepreter.SetGameOn(true);
             }
             else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
             {
                 Debug.Log("WWise_VO_CUE: Cue Mic OFF");
-                unityPlaybackScript.targetVolume = 0.0f;   
-                imitoneVoiceIntepreter.gameOn = false;//I think one of these is not correct.  (also see tutorial.cs and MusicSystem1.cs).
+                imitoneVoiceIntepreter.SetGameOn(false);
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
             {
@@ -131,7 +130,7 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_End (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
                 imitoneVoiceIntepreter.gameOn = true;
             }
-            else if(musicSyncInfo.userCueName == "Cue_Somatic_Start")
+            else if (musicSyncInfo.userCueName == "Cue_Somatic_Start")
             {
                 Debug.Log("WWise_VO_CUE: Somatic Start");
             }
@@ -139,62 +138,73 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO_CUE: Cue_BreathIn");
                 breathInBehaviour();
-            } 
+            }
             else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue BreathIn Start");
                 breathInBehaviour();
-            } else if(musicSyncInfo.userCueName == "Cue_Orientation_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Orientation_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue Orientation Start");
-            } else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue Sigh Start");
-            }  else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
             {
                 Debug.Log("WWise_VO_CUE: PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
-            } else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue_LinearHum_Start");
                 InitializeLightsWithDelay();
                 //sequencer.InitializeLights();
                 StartCoroutine(MakeWWiseTone());
-            } else if (musicSyncInfo.userCueName == "Cue_StartTutorial") //This is called from the end of the Somatic Sequence, near the end. He says "Humming and toning should first come from a relaxed place. Breathe in, and hum"
+            }
+            else if (musicSyncInfo.userCueName == "Cue_StartTutorial") //This is called from the end of the Somatic Sequence, near the end. He says "Humming and toning should first come from a relaxed place. Breathe in, and hum"
             {
                 tutorial.StartTutorial();
-            } else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
             {
                 Debug.LogWarning("WWise_VO_CUE: WARNING, THIS CUE IS NOT EXPECTED, IT IS A DUPLICATE OF CUE_FREEPLAY: Cue_InteractiveMusicSystem_Start");
-            } else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue_Opening_Start");
-            } 
+            }
             else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromHmmToAhh")
             {
                 Debug.Log("WWise_VO_CUE: Cue Change to Ahh");
                 tutorial.SetTestVocalizationType("Ahh");
                 musicSystem1.LockToC(false);
-            } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
             {
                 Debug.Log("WWise_VO_CUE: Cue Change to Ohh");
                 tutorial.SetTestVocalizationType("Ohh");
                 musicSystem1.LockToC(false);
-            } else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
+            }
+            else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
             {
                 Debug.Log("WWise_VO_CUE: Cue Change to Advanced");
                 tutorial.SetTestVocalizationType("Advanced");
                 musicSystem1.LockToC(false);
-                if(!worldShuffler.shuffling)
+                if (!worldShuffler.shuffling)
                 {
                     worldShuffler.BeginShuffle();
                 }
-            } else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
+            }
+            else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
             {
                 Debug.Log("WWise_VO_CUE: Cue_FreePlay");
                 UI_CurrentSession.Instance.currentSession = "Free Interaction";
-                musicSystem1.SetMusicSilentLayerVolume(musicSystem1._silentVolumeHigh, 40f);            
+                musicSystem1.SetMusicSilentLayerVolume(musicSystem1._silentVolumeHigh, 40f);
                 director.disable = false;
-            } else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
             {
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
                 tutorial.EndTutorial();
@@ -241,14 +251,12 @@ public class WwiseVOManager : MonoBehaviour
             else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
             {
                 Debug.Log("WWise_VO_CUE: Cue Mic On");
-                unityPlaybackScript.targetVolume = 1.0f;
-                imitoneVoiceIntepreter.gameOn = true;
+                imitoneVoiceIntepreter.SetGameOn(true);
             }
             else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
             {
                 Debug.Log("WWise_VO_CUE: Cue Mic OFF");
-                unityPlaybackScript.targetVolume = 0.0f;   
-                imitoneVoiceIntepreter.gameOn = false;
+                imitoneVoiceIntepreter.SetGameOn(false);
             }
         }
     }

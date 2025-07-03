@@ -5,7 +5,7 @@ using UnityEngine;
 public class UnityPlayBack : MonoBehaviour
 {
     private AudioSource audioSource;
-    public float targetVolume;
+    //public float targetVolume;
     public DevelopmentMode developmentMode;
 
     void Start()
@@ -27,28 +27,6 @@ public class UnityPlayBack : MonoBehaviour
         {
             Debug.LogWarning("No microphone found!");
         }
-    }
-
-    void Update()
-    {
-        if(audioSource.volume != targetVolume)
-        {
-            audioSource.volume = Mathf.Lerp(audioSource.volume, targetVolume, Time.deltaTime);
-        }
-        //REMOVE ON PRODUCTION BUILD
-        if(developmentMode.developmentMode)
-        {
-            if(Input.GetKeyDown(KeyCode.Q))
-            {
-                targetVolume = 1.0f;
-            } 
-
-            if(Input.GetKeyDown(KeyCode.W))
-            {
-                targetVolume = 0f;
-            }
-        }
-
     }
 
 }

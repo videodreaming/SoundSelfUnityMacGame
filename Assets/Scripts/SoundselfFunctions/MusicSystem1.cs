@@ -221,7 +221,7 @@ public class MusicSystem1 : MonoBehaviour
             _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, 1.0f);
         }
 
-        userAudioSource.volume = _gameOnLerp * (1 - _chargeLerp) * gameValues._chantLerpFast;
+        userAudioSource.volume = _gameOnLerp * (1 - _chargeLerp * 0.5) * gameValues._chantLerpFast;
     }
 
     //Take the fundamental behaviors in the InterpretImitonUpdate method and move them here for clarity
@@ -480,7 +480,7 @@ public class MusicSystem1 : MonoBehaviour
 
                 LockToC(false);
                 InteractiveMusicInitializations();
-                imitoneVoiceInterpreter.gameOn = true; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs)
+                imitoneVoiceInterpreter.gameOn = true;
                 SetMusicSilentLayerVolume(_silentVolumeHigh, 40f);  
 
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
@@ -499,7 +499,7 @@ public class MusicSystem1 : MonoBehaviour
                 Debug.Log("MUSIC: Music Mode Set to FrozenFreeplay (WWise: InteractiveMusicSystem)");
 
                 LockToC(true);
-                imitoneVoiceInterpreter.gameOn = false; //I think one of these is not correct. (also see tutorial.cs and sequencer.cs)
+                imitoneVoiceInterpreter.gameOn = false;
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
             }
             else
