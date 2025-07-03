@@ -221,7 +221,7 @@ public class MusicSystem1 : MonoBehaviour
             _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, 1.0f);
         }
 
-        userAudioSource.volume = _gameOnLerp * (1 - _chargeLerp * 0.5) * gameValues._chantLerpFast;
+        userAudioSource.volume = _gameOnLerp * (1.0f - _chargeLerp * 0.5f) * gameValues._chantLerpFast;
     }
 
     //Take the fundamental behaviors in the InterpretImitonUpdate method and move them here for clarity
