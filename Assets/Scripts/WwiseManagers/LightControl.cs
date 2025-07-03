@@ -687,7 +687,7 @@ public class LightControl : MonoBehaviour
     {
         AkSoundEngine.SetRTPCValue("AVS_MasterVolume_Wave3", _waveValue, gameObjectSystem2Listener);
 
-        if (_i != 0.0f)
+        if (_waveValue != 0.0f)
 
             if (breathVisualizationFlag)
             {
