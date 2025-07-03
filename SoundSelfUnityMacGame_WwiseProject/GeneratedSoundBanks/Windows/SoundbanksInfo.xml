@@ -45,7 +45,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{5FBB1F9B-7376-9C46-E6A4-921716A3C93B}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{A2CBC5A2-B578-A56A-ADA6-59A65C5593BE}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -87,10 +87,22 @@
 					</PluginRefs>
 				</Bus>
 				<Bus Id="2218314507" Name="SubAcoustics"/>
-				<Bus Id="2479991680" Name="InteractiveMusic_Vocal_Toning"/>
-				<Bus Id="2579128390" Name="InteractiveMusic_Vocal_Silent"/>
+				<Bus Id="2479991680" Name="InteractiveMusic_Vocal_Toning">
+					<AuxBusRefs>
+						<AuxBusRef Id="183653145" Name="Aux_Toning"/>
+					</AuxBusRefs>
+				</Bus>
+				<Bus Id="2579128390" Name="InteractiveMusic_Vocal_Silent">
+					<AuxBusRefs>
+						<AuxBusRef Id="1959646260" Name="Aux_SilentLoops"/>
+					</AuxBusRefs>
+				</Bus>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
-				<Bus Id="3991942870" Name="Music"/>
+				<Bus Id="3991942870" Name="Music">
+					<AuxBusRefs>
+						<AuxBusRef Id="3331583377" Name="Aux_Music"/>
+					</AuxBusRefs>
+				</Bus>
 				<Bus Id="4079501339" Name="AVS_Wave 3_Breath"/>
 			</Busses>
 			<AuxBusses>
@@ -369,7 +381,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{96F2C130-1E37-22F9-FDE9-D90182DFE93D}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{ED92277A-EA8A-4137-0640-C1329268BF65}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -5240,7 +5252,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{078A7A62-EC0D-4688-8BED-ADA0888F289A}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{4E18FC09-F1ED-15F6-66CC-B073CA54358B}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -6782,7 +6794,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{1D6559C8-ABD7-8ACB-741B-25F9571BD12C}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{7C14B2A6-A416-D192-E326-36ECA84BAAB8}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -8149,6 +8161,7 @@
 				</Event>
 				<Event Id="4004321118" Name="Play_SilentLoops" DurationType="Infinite">
 					<AuxBusRefs>
+						<AuxBusRef Id="183653145" Name="Aux_Toning"/>
 						<AuxBusRef Id="1959646260" Name="Aux_SilentLoops"/>
 					</AuxBusRefs>
 					<SwitchContainers>
@@ -8665,7 +8678,7 @@
 				</Event>
 				<Event Id="2185482934" Name="Play_SilentLoops_v3_FundamentalOnly" DurationType="Infinite">
 					<AuxBusRefs>
-						<AuxBusRef Id="1959646260" Name="Aux_SilentLoops"/>
+						<AuxBusRef Id="183653145" Name="Aux_Toning"/>
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
@@ -11393,5 +11406,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{4F5ED672-BA68-EBDB-D3E4-53D8E710204B}</FileHash>
+	<FileHash>{BE1439A3-50FA-E8CB-97E3-E27DF0999AE0}</FileHash>
 </SoundBanksInfo>
