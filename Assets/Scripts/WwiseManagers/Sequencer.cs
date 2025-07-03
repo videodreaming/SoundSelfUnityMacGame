@@ -72,6 +72,8 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
+        
+        musicSystem1.SetSoundWorld("SonoFlore"); //duplicating this from Awake to try fixing something for Lorna. Untested, and not sure if necessary.
         //These initializations should all be in CSVLoader.cs. Suggest not making _countdownToSavasana public, but initialize it with a public Method.
         if (developmentMode.startRightBeforeSavasana)
         {
@@ -88,7 +90,7 @@ public class Sequencer : MonoBehaviour
             _countdownToSavasana = 1f;
             Debug.Log("Sequencer: ThematicSavasanaCountdown Counter set to " + _countdownToSavasana + " for debug.");
             FadeOut();
-            
+
             flagTriggerStart1 = true;
             flagTriggerStart2 = true;
         }
@@ -107,7 +109,7 @@ public class Sequencer : MonoBehaviour
         }
         else
         {
-            musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Silent);          
+            musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
             director.disable = true;
             worldShuffler.ExcludeColorWorld("Blue");
             worldShuffler.ExcludeMusicWorld("Shadow");

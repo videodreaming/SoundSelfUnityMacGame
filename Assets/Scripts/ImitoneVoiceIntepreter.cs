@@ -366,8 +366,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
         //Change the music volume based on the microphone input level
         if (_vol1Sec > -1000.0f)
-            musicSystem1.SetMusicToningLayerVolume(60f + NormalizeVolume(_vol1Sec * 40f), 0f);
-        //AkSoundEngine.SetRTPCValue("TONING_Volume", 60f + NormalizeVolume(_vol1Sec * 40f), gameObject);
+            musicSystem1.SetMusicToningLayerVolume(80f + NormalizeVolume(_vol1Sec * 20f), 0f);
     }
 
     public float NormalizeVolume(float volume)

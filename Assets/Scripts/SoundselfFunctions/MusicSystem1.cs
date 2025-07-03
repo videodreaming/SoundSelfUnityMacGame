@@ -105,7 +105,7 @@ public class MusicSystem1 : MonoBehaviour
         {
             SetMusicModeTo(MusicMode.Tutorial);          
             director.disable = true;
-            SetMusicSilentLayerVolume(_silentVolumeLow, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
+            SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
         }
         else if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
         {
@@ -462,7 +462,7 @@ public class MusicSystem1 : MonoBehaviour
                 LockToC(true);
                 AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
                 
-                SetMusicSilentLayerVolume(_silentVolumeLow, 20f);
+                SetMusicSilentLayerVolume(_silentVolumeHigh, 30f);
 
             }
             else
