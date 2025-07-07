@@ -84,18 +84,18 @@ public class CSVLoader : MonoBehaviour
             timeLeftScript.SetTimeLeftSeconds(2400.0f);
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
-                totalTimeOfPostUnguidedVocalizationContent = (9.0f * 60.0f) + 49.0f; //9 min 49 seconds
+                totalTimeOfPostUnguidedVocalizationContent = (10.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
                 wwiseVOManager.SetToPeace();
             } 
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
                 Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 22.0f; //7 min 22 seconds`
+                totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
                 wwiseVOManager.SetToNarrative();
             } 
             else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Prepeation")
             {
-                totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 55.0f; //7 min 55 seconds
+                totalTimeOfPostUnguidedVocalizationContent = (8.0f * 60.0f) + 06.0f; //8 min 6 seconds //July 7 2025, added 11 seconds
                 wwiseVOManager.SetToSurrender();
             } 
 
