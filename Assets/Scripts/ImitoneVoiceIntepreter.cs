@@ -187,7 +187,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     void Start()
     {
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
-        _audioSource = GetComponent<AudioSource>();
+
         //Checking for all devices in the list of devices 
         foreach (var device in Microphone.devices)
         { microphoneName = device; break; }
@@ -965,13 +965,13 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         if (monitorOn)
         {
             Debug.Log("Imitone: Monitoring start");
-            //unityPlaybackScript.targetVolume = 1.0f;
+            _audioSource.volume = 1.0f;
             gameOn = true;
         }
         else
         {
             Debug.Log("Imitone: Monitoring stop");
-            //unityPlaybackScript.targetVolume = 0.0f;
+            _audioSource.volume = 0.0f;
             gameOn = false;
         }
     }

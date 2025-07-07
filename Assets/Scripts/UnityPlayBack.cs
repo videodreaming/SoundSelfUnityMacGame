@@ -20,7 +20,7 @@ public class UnityPlayBack : MonoBehaviour
         {
             Debug.Log("Using microphone For Playback: " + micName);
             audioSource.clip = Microphone.Start(micName, true, 10, 44100);
-            audioSource.volume = 2.0f;
+            audioSource.volume = 0.0f;
             //StartCoroutine(WaitForMicAndPlay(micName));
         }
         else
