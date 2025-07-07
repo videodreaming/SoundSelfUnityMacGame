@@ -6001,7 +6001,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0976ab8168d14c19b667da35aa45d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetVolume: 0
   developmentMode: {fileID: 538272586}
 --- !u!1 &403368098
 GameObject:
@@ -6644,6 +6643,7 @@ MonoBehaviour:
   developmentMode: {fileID: 538272586}
   worldShuffler: {fileID: 1804684750}
   gameObjectSystem2Listener: {fileID: 131127795}
+  imitoneVoiceInterpreter: {fileID: 740096625}
   AVSColorCommand: 
   AVSStrobeCommand: 
   currentColorType: Dark
@@ -7608,17 +7608,14 @@ MonoBehaviour:
   sequencer: {fileID: 1564575221}
   developmentMode: {fileID: 538272586}
   director: {fileID: 1829208165}
-  CSVWriter: {fileID: 662335749}
   lightControl: {fileID: 437048159}
   musicSystem1: {fileID: 619104374}
   imitoneVoiceIntepreter: {fileID: 740096625}
   tutorial: {fileID: 1635385662}
   worldShuffler: {fileID: 1804684750}
   layingDown: 1
-  csvWriter: {fileID: 662335749}
   micPlayback: {fileID: 396706156}
   audioSource: {fileID: 0}
-  unityPlaybackScript: {fileID: 396706160}
 --- !u!114 &486583135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8581,7 +8578,7 @@ MonoBehaviour:
   gameValues: {fileID: 740096630}
   userObject: {fileID: 740096621}
   lightControl: {fileID: 437048159}
-  userAudioSource: {fileID: 132454817}
+  userAudioSource: {fileID: 740096622}
   tutorial: {fileID: 1635385662}
   SavasanaPlayer: {fileID: 1809294502}
   imitoneVoiceInterpreter: {fileID: 740096625}
@@ -10433,10 +10430,12 @@ MonoBehaviour:
   developmentMode: {fileID: 538272586}
   lightControl: {fileID: 437048159}
   director: {fileID: 1829208165}
+  unityPlaybackScript: {fileID: 396706160}
   musicSystem1: {fileID: 619104374}
   pitch_hz: 0
   note_st: 0
   _dbThreshold: -25
+  sequencerGameObject: {fileID: 1564575216}
   gameOn: 1
   toneActiveBiasTrueTimer: 0
   exceptionFlag: 0
