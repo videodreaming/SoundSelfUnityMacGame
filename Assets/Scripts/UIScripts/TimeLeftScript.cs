@@ -11,7 +11,7 @@ public class TimeLeftScript : MonoBehaviour
     public TextMeshProUGUI timeLeftText;
     public float _timeLeft;
     int minutes;
-    int seconds ;
+    int seconds;
 
     void Update()
     {
@@ -26,9 +26,16 @@ public class TimeLeftScript : MonoBehaviour
         Debug.Log("TimeLeftScript: Setting time left to " + minutes + " minutes " + seconds + " seconds");
         _timeLeft = timeLeft;
     }
-    
+
     public float GetTimeLeft()
     {
         return _timeLeft;
+    }
+
+    public string GetTimeLeftFormattedToMinutesAndSeconds()
+    {
+        int minutes = Mathf.FloorToInt(_timeLeft / 60);
+        int seconds = Mathf.FloorToInt(_timeLeft % 60);
+        return $"{minutes} minutes {seconds} seconds";
     }
 }
