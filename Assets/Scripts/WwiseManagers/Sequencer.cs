@@ -285,8 +285,9 @@ public class Sequencer : MonoBehaviour
         
         Debug.Log("Sequencer Last Minute: Starting Light Fade-Out. Waiting for _countdownToSavasana to reach 0.");
         FadeOut();
+        tutorial.StopTutorial();
 
-        while(_countdownToSavasana > 0f)
+        while (_countdownToSavasana > 0f)
         {
             yield return null;
         }

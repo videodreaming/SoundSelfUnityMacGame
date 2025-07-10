@@ -81,7 +81,6 @@ public class Tutorial : MonoBehaviour
             active = true;
             SetTestVocalizationType("Hum");
 
-
             musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
 
             sequencer.InitializeLights(); //this is probably already initialized, just making sure.
@@ -232,21 +231,9 @@ public class Tutorial : MonoBehaviour
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
     }
 
-    public void EndTutorial()
+    public void EndTutorialNaturally()
     {
-        Debug.Log("TutorialEnded");
-        // Run this when the cue for the end of the tutorial hits.
-        inTutorial = false;
-        tutorialComplete = true;
-
-        if (testCoroutine != null)
-        {
-            StopCoroutine(testCoroutine);
-        }
-        if (correctionCoroutine != null)
-        {
-            StopCoroutine(correctionCoroutine);
-        }
+        StopTutorial();
         musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
         
         if(!worldShuffler.shuffling)
@@ -254,14 +241,37 @@ public class Tutorial : MonoBehaviour
             worldShuffler.BeginShuffle();
         }
         director.disable = false;
-        active = false;
-        Debug.Log("TUTORIAL: END with" + TimeTrackerScript.TotalElapsedTime);
+        Debug.Log("TUTORIAL: END naturally with " + TimeTrackerScript.TotalElapsedTime);
+    }
+
+    public void StopTutorial()
+    {
+        if (inTutorial)
+        {
+            Debug.Log("Tutorial: Stopping");
+            inTutorial = false;
+            tutorialComplete = true;
+            active = false;
+
+            if (testCoroutine != null)
+            {
+                StopCoroutine(testCoroutine);
+            }
+            if (correctionCoroutine != null)
+            {
+                StopCoroutine(correctionCoroutine);
+            }
+        }
+        else
+        {
+            Debug.Log("Tutorial: StopTutorial called, but tutorial is not active.");
+        }
     }
 
     public void SetTestVocalizationType(string vocalizationType)
     {
         //first, check if the string is a supported type
-        if(vocalizationType != "Hum" && vocalizationType != "Ahh" && vocalizationType != "Ohh" && vocalizationType != "Advanced")
+        if (vocalizationType != "Hum" && vocalizationType != "Ahh" && vocalizationType != "Ohh" && vocalizationType != "Advanced")
         {
             Debug.LogError("Tutorial: Invalid vocalization type: " + vocalizationType);
             return;

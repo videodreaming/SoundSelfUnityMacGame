@@ -208,7 +208,7 @@ public class WwiseVOManager : MonoBehaviour
             else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
             {
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
-                tutorial.EndTutorial();
+                tutorial.EndTutorialNaturally();
             }
             else
             {
