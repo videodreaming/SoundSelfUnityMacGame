@@ -27,7 +27,7 @@ public class LightControl : MonoBehaviour
     private int cycleWhite = 0;
     private int cycleTest = 0;
     public float _fxWave = 0f;
-    public float _strobeRate {get; private set;}
+    public float _strobeRate;
     public float _strobePWM    = 0.0f;
     public float _strobe1Smoothing = 0.0f;
     public float _gammaBurstMode = 0.0f;

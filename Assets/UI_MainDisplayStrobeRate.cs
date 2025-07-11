@@ -18,6 +18,6 @@ public class UI_MainDisplayStrobeRate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        strobeRateText.text = "Strobe Rate: " + lightControl._rate.ToString("F2") + " Hz";
+        strobeRateText.text = "Strobe Rate: " + lightControl._strobeRate.ToString("F2") + " Hz";
     }
 }
