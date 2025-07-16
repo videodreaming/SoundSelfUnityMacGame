@@ -2788,7 +2788,6 @@ MonoBehaviour:
   timeLeftScript: {fileID: 1140148591}
   imitoneVoiceIntepreter: {fileID: 740096625}
   frequencyUIImage: {fileID: 327068910}
-  toggleUIImage: {fileID: 0}
   experienceUIImage: {fileID: 1851724846}
   frequencySprites:
   - {fileID: 21300000, guid: 4d56926e184de174b953f917f75c856b, type: 3}
@@ -2797,11 +2796,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: feb47ec7b7306544182005ded07fc39c, type: 3}
   - {fileID: 21300000, guid: fabb708109f8a9944993bf4d6ea3ddff, type: 3}
   - {fileID: 21300000, guid: 38197f3b05992304bb6275ed84ef3a79, type: 3}
-  toggleUISprites:
-  - {fileID: 21300000, guid: 6eafbea9712f6514e8fd5eb307a5d1ce, type: 3}
-  - {fileID: 21300000, guid: 652d6e0451e78cb40af153bbb2aff681, type: 3}
-  - {fileID: 21300000, guid: 7aa2ae97ecb67ad4ea34eccb981fd9a5, type: 3}
-  - {fileID: 21300000, guid: 61907768e59af1c4cb4c0708560a083d, type: 3}
   experienceSprites:
   - {fileID: 21300000, guid: 45c45c12b20d34143b9a257f963982ae, type: 3}
   - {fileID: 21300000, guid: 2121b352d8110a74fb02578c433424ed, type: 3}
@@ -4889,7 +4883,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d56926e184de174b953f917f75c856b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6650,6 +6644,7 @@ MonoBehaviour:
   currentColorType: Dark
   preferredColor: Red
   _fxWave: 0
+  _strobeRate: 0
   _strobePWM: 0
   _strobe1Smoothing: 0
   _gammaBurstMode: 0
@@ -25854,7 +25849,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2121b352d8110a74fb02578c433424ed, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

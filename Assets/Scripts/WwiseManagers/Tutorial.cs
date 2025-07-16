@@ -42,7 +42,6 @@ public class Tutorial : MonoBehaviour
         if(imitoneVoiceInterpreter._tThisToneBiasTrue >= testThreshold)
         {
             testSuccess = true;
-            Debug.Log("Tutorial: Test Success");
         }        
 
         if(testVocalizationType != testVocalizationTypeLastFrame)

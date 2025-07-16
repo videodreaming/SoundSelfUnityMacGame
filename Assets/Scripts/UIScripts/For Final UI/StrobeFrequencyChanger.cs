@@ -14,33 +14,32 @@ public class ImageChanger : MonoBehaviour
 
     // Reference to the Image component on the UI
     public Image frequencyUIImage;
-    public Image toggleUIImage;
+
     public Image experienceUIImage;
 
     // Array or list of sprites for different numbers
     public Sprite[] frequencySprites;
-    public Sprite[] toggleUISprites;
     public Sprite[] experienceSprites;
  
 
     void Update()
     {
-        if (lightControl._rate < 30.0f)
+        if (lightControl._strobeRate < 30.0f && lightControl._strobeRate > 0.5f)
         {
             frequencyUIImage.sprite = frequencySprites[1];
-        } else if (lightControl._rate > 12.0f && lightControl._rate <= 30.0f)
+        } else if (lightControl._strobeRate > 12.0f && lightControl._strobeRate <= 30.0f)
         {
             frequencyUIImage.sprite = frequencySprites[2];
-        } else if (lightControl._rate > 8.0f && lightControl._rate <= 12.0f)
+        } else if (lightControl._strobeRate > 8.0f && lightControl._strobeRate <= 12.0f)
         {
             frequencyUIImage.sprite = frequencySprites[3];
-        } else if (lightControl._rate > 4.0f && lightControl._rate <= 8.0f)
+        } else if (lightControl._strobeRate > 4.0f && lightControl._strobeRate <= 8.0f)
         {
             frequencyUIImage.sprite = frequencySprites[4];
-        } else if (lightControl._rate > 0.5f && lightControl._rate <= 4.0f)
+        } else if (lightControl._strobeRate > 0.5f && lightControl._strobeRate <= 4.0f)
         {
             frequencyUIImage.sprite = frequencySprites[5];
-        } else 
+        } else if (lightControl._strobeRate <= 0.5f)
         {
             frequencyUIImage.sprite = frequencySprites[0];
         }

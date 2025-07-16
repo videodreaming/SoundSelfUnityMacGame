@@ -11,6 +11,8 @@ public class canvasSwitcher : MonoBehaviour
     public Canvas canvas2;
     public Canvas canvas3;
     public Canvas canvas4;
+
+    public bool UIDevMode = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,39 +29,42 @@ public class canvasSwitcher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(developmentMode.configureMode)
+        if (UIDevMode)
         {
-            canvas1.enabled = false;
-            canvas2.enabled = false;
-            canvas3.enabled = false;
-            canvas4.enabled = true;
-        } else
-        {
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                canvas1.enabled = true;
-                canvas2.enabled = false;
-                canvas3.enabled = false;
-            } 
-            if(Input.GetKeyDown(KeyCode.Alpha2))
+            if (developmentMode.configureMode)
             {
                 canvas1.enabled = false;
-                canvas2.enabled = true;
+                canvas2.enabled = false;
                 canvas3.enabled = false;
+                canvas4.enabled = true;
             }
-            if(Input.GetKeyDown(KeyCode.Alpha3))
+            else
             {
-                canvas1.enabled = false;
-                canvas2.enabled = false;
-                canvas3.enabled = true;
-            }
-            if(Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                canvas1.enabled = false;
-                canvas2.enabled = false;
-                canvas3.enabled = false;
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    canvas1.enabled = true;
+                    canvas2.enabled = false;
+                    canvas3.enabled = false;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    canvas1.enabled = false;
+                    canvas2.enabled = true;
+                    canvas3.enabled = false;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    canvas1.enabled = false;
+                    canvas2.enabled = false;
+                    canvas3.enabled = true;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    canvas1.enabled = false;
+                    canvas2.enabled = false;
+                    canvas3.enabled = false;
+                }
             }
         }
-
     }
 }
