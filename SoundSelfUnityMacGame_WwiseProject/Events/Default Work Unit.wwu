@@ -779,6 +779,182 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_Calibration_Music" ID="{7AEEA6AF-695B-4081-8E90-65C9CDB2BE06}">
+					<ChildrenList>
+						<Action Name="" ID="{97B94BCB-2799-4374-9EAD-923A1C6411C2}" ShortID="682537069">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CalibrationSequence_Music" ID="{1F2233D8-F099-4356-BCE4-04DF2F661497}" WorkUnitID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_Calibration_Music" ID="{7CA0976E-7C7D-4840-B3BD-51950C7526F7}">
+					<ChildrenList>
+						<Action Name="" ID="{C666D03D-AEC9-46BC-938B-CB1AACB95E6A}" ShortID="678021573">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CalibrationSequence_Music" ID="{1F2233D8-F099-4356-BCE4-04DF2F661497}" WorkUnitID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{2494C984-3D92-4FB7-B437-CBD292A05BDD}" ShortID="114340347">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_SilentLoops" ID="{37C30047-AF5A-43B9-896D-68E3F2AA7D3A}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Calibration_Sequence" ID="{5BEBEBD7-24C0-4234-9448-19865473AD57}">
+					<ChildrenList>
+						<Action Name="" ID="{A3188CF2-0165-4ACB-BCCE-7E8728CBF192}" ShortID="1039559044">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Calibration Sequence" ID="{EDABCE0F-E53E-4EF1-8364-D25F9A524D73}" WorkUnitID="{70290BA1-AD7E-493B-99DA-9A18E9CD87E5}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{2FB778A5-37E2-49C2-8DE3-A5307538B5DC}" ShortID="911506956">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_Calibration_Music" ID="{7AEEA6AF-695B-4081-8E90-65C9CDB2BE06}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Calibration_SilentLoops" ID="{88A44F0E-EB0E-4B81-A6A2-2AFDA49FC43C}">
+					<ChildrenList>
+						<Action Name="" ID="{E25131A3-A89D-4C06-A189-700E7937FAE7}" ShortID="1012904939">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Play_SilentLoops_v3_FundamentalOnly" ID="{497F127A-A5CC-4CF0-85D2-F5B56677900E}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{A28709F1-3EB0-4AE8-98F1-BFF049B2D814}" ShortID="852136422">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="C" ID="{C3284F5C-2FBA-4D95-AF46-52056CD77674}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{CB22C765-80AD-44A2-9CB5-06751FBD35A8}" ShortID="989923492">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="22"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}" WorkUnitID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_Calibration_Sequence" ID="{1BB7DA2C-8E96-4F52-AAEC-17213E761B4A}">
+					<ChildrenList>
+						<Action Name="" ID="{C64E24C4-9C7F-4163-841B-18EBBE691E75}" ShortID="949151610">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Calibration Sequence" ID="{EDABCE0F-E53E-4EF1-8364-D25F9A524D73}" WorkUnitID="{70290BA1-AD7E-493B-99DA-9A18E9CD87E5}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{825A5EF9-A5D3-4584-AE10-E233B4278438}" ShortID="305306775">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_Calibration_Music" ID="{7CA0976E-7C7D-4840-B3BD-51950C7526F7}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_BassSynth" ID="{F494310D-2CEE-4F4C-B355-614678F37AC9}">
+					<ChildrenList>
+						<Action Name="" ID="{1E71D2C8-C25A-4EB3-8B60-7FF7A61CA0E4}" ShortID="618516701">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bass Synth Pitch Switch" ID="{526255D6-7209-4CCB-96E5-E43A5F1C794E}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}">
+					<ChildrenList>
+						<Action Name="" ID="{3DDBACE0-8E54-4BFB-9367-47867D06A9FA}" ShortID="585921775">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MIDI Bass Synthesizer" ID="{9632FC71-6F6A-41B6-9866-C06DEF5A034E}" WorkUnitID="{E278CC99-6E9A-4CDD-A0F2-45CA19E01AD2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_MIDI_Bass_Synthesizer" ID="{C255A655-CDD0-4BE3-99B9-995835D578AE}">
+					<ChildrenList>
+						<Action Name="" ID="{9F47DF93-8F46-4CEE-8D04-4A155F6AD891}" ShortID="665036185">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MIDI Bass Synthesizer" ID="{9632FC71-6F6A-41B6-9866-C06DEF5A034E}" WorkUnitID="{E278CC99-6E9A-4CDD-A0F2-45CA19E01AD2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_MIDI_Bass_Synthesizer" ID="{E52B5D22-0EEE-4FC6-9C3D-7773B2419D12}">
+					<ChildrenList>
+						<Action Name="" ID="{6282CE33-D400-44BF-A008-DA4846A51C92}" ShortID="129783162">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MIDI Bass Synthesizer" ID="{9632FC71-6F6A-41B6-9866-C06DEF5A034E}" WorkUnitID="{E278CC99-6E9A-4CDD-A0F2-45CA19E01AD2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

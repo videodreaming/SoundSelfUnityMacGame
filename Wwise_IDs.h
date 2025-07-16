@@ -22,6 +22,10 @@ namespace AK
         static const AkUniqueID PLAY_AVS_WAVE1 = 3630490451U;
         static const AkUniqueID PLAY_AVS_WAVE2 = 3630490448U;
         static const AkUniqueID PLAY_AVS_WAVE3 = 3630490449U;
+        static const AkUniqueID PLAY_BASSSYNTH = 1347182731U;
+        static const AkUniqueID PLAY_CALIBRATION_MUSIC = 3682980534U;
+        static const AkUniqueID PLAY_CALIBRATION_SEQUENCE = 1731808482U;
+        static const AkUniqueID PLAY_CALIBRATION_SILENTLOOPS = 3361879071U;
         static const AkUniqueID PLAY_CRYSTALBOWLGENERATOR = 2917442959U;
         static const AkUniqueID PLAY_ENDSOON_SEQUENCE = 3561899656U;
         static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT1 = 3724822780U;
@@ -38,6 +42,7 @@ namespace AK
         static const AkUniqueID PLAY_INHALE_SHORT = 2110561540U;
         static const AkUniqueID PLAY_INTEGRATION_OPENING_SEQUENCE_SHORT = 2779598584U;
         static const AkUniqueID PLAY_MENUMUSIC = 2570041344U;
+        static const AkUniqueID PLAY_MIDI_BASS_SYNTHESIZER = 3170198134U;
         static const AkUniqueID PLAY_MUSIC_DUET_D_MAJOR = 1226520867U;
         static const AkUniqueID PLAY_MUSIC_MEDITATIONSILENT_E_MAJOR_LOOP = 3359246268U;
         static const AkUniqueID PLAY_MUSIC_PLAYLIST_SWITCH = 711060179U;
@@ -104,11 +109,15 @@ namespace AK
         static const AkUniqueID STOP_AVS_WAVE1 = 4138940081U;
         static const AkUniqueID STOP_AVS_WAVE2 = 4138940082U;
         static const AkUniqueID STOP_AVS_WAVE3 = 4138940083U;
+        static const AkUniqueID STOP_BASSSYNTH = 1502315953U;
+        static const AkUniqueID STOP_CALIBRATION_MUSIC = 1661327600U;
+        static const AkUniqueID STOP_CALIBRATION_SEQUENCE = 2252226012U;
         static const AkUniqueID STOP_CRYSTALBOWLGENERATOR = 4041758113U;
         static const AkUniqueID STOP_ENVIRONMENT_CRICKETS = 1774847782U;
         static const AkUniqueID STOP_ENVIRONMENT_WIND = 333136496U;
         static const AkUniqueID STOP_INHALES = 237216068U;
         static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
+        static const AkUniqueID STOP_MIDI_BASS_SYNTHESIZER = 940955664U;
         static const AkUniqueID STOP_MUSIC_MEDITATIONSILENT_E_MAJOR_LOOP = 2938179890U;
         static const AkUniqueID STOP_OPENING_SEQUENCE = 670049528U;
         static const AkUniqueID STOP_SFX_SOUNDSEED_BREATHCYCLEWIND = 674892661U;
@@ -167,6 +176,22 @@ namespace AK
 
     namespace SWITCHES
     {
+        namespace CALIBRATION_SEQUENCE
+        {
+            static const AkUniqueID GROUP = 3689261721U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID END = 529726532U;
+                static const AkUniqueID INTRO = 1125500713U;
+                static const AkUniqueID LIGHTS = 3192784746U;
+                static const AkUniqueID MIC = 1182670510U;
+                static const AkUniqueID TECHNICALISSUES = 2957293210U;
+                static const AkUniqueID VIBRATION = 4241968201U;
+                static const AkUniqueID VOLUME = 2415836739U;
+            } // namespace SWITCH
+        } // namespace CALIBRATION_SEQUENCE
+
         namespace INTERACTIVEMUSICSWITCHGROUP1_7PITCHES_LINKED5THS
         {
             static const AkUniqueID GROUP = 2905423286U;
@@ -465,6 +490,7 @@ namespace AK
     namespace BANKS
     {
         static const AkUniqueID INIT = 1355168291U;
+        static const AkUniqueID CALIBRATION = 2230992643U;
         static const AkUniqueID CLOSING = 2930224074U;
         static const AkUniqueID INTERACTIVE = 3481447043U;
         static const AkUniqueID OPENING = 1831982039U;
