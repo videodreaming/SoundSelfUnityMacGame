@@ -1,3 +1,6 @@
+using UnityEngine;
+using System.Collections;
+
 public class Configuration : MonoBehaviour
 {
     private bool passMoment = false; //noting that the logic for activating passMoment must happen before the logic for checking it.
@@ -10,7 +13,7 @@ public class Configuration : MonoBehaviour
     {
     }
 
-    void Update ()
+    void Update()
     {
         //When the button is pressed, ButtonPressedCoroutine();
     }
@@ -19,8 +22,8 @@ public class Configuration : MonoBehaviour
     {
         passMoment = false;
     }
-
-    public void VOCallbackFunction ()//INITIATE ME
+    /*
+    public void VOCallbackFunction()//INITIATE ME
     {
         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
         {
@@ -72,23 +75,23 @@ public class Configuration : MonoBehaviour
         ResetTest();
         //PSEUDOCODE: PLAY VO_CALIBRATION_VOLUME
 
-        while(!pass)
+        while (!pass)
         {
             yield return null;
         }
         ResetTest();
         //PSEUDOCODE: PLAY VO_CALIBRATION_MIC
 
-        while(!pass)
+        while (!pass)
         {
             yield return null;
         }
         ResetTest();
-        
-        if(useVibroacoustics)
+
+        if (useVibroacoustics)
         {
             //PSEUDOCODE: PLAY VO_CALIBRATION_VIBRATION
-            while(!pass)
+            while (!pass)
             {
                 yield return null;
             }
@@ -96,14 +99,14 @@ public class Configuration : MonoBehaviour
         }
 
         //PSEUDOCODE: PLAY VO_CALIBRATION_LIGHTS
-        while(!pass)
+        while (!pass)
         {
             yield return null;
         }
         ResetTest();
         //PSEUDOCODE: PLAY VO_CALIBRATION_END
-       
-        while(!pass && voPlaying)
+
+        while (!pass && voPlaying)
         {
             yield return null;
         }
@@ -144,5 +147,5 @@ public class Configuration : MonoBehaviour
             yield return null;
         }
         pass = true;
-    }
+    }*/
 }

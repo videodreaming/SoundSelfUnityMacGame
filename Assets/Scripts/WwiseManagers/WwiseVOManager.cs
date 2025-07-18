@@ -375,7 +375,6 @@ public class WwiseVOManager : MonoBehaviour
         {
             case "Preparation_Long":
             AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
-    
             break;
             case "Preparation_Short":
             AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);

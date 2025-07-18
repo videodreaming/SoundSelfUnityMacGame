@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92c5aab0b85affa4f895ec585f5225df, type: 3}
+  m_Name: ExperienceDurationDatabase
+  m_EditorClassIdentifier: 
+  modeDurations:
+  - modeName: Preparation
+    durationInSeconds: 2400
+  - modeName: Integration
+    durationInSeconds: 1500
+  - modeName: Skills Training
+    durationInSeconds: 2400

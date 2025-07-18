@@ -14,7 +14,6 @@ public class TimerUIScript : MonoBehaviour
     {
         timerText = GetComponent<TextMeshProUGUI>();
         timerText.fontSize = 24;
-
     }
     
 

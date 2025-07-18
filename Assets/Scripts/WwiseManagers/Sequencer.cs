@@ -124,7 +124,10 @@ public class Sequencer : MonoBehaviour
             Debug.Log("AVS_Program_DynamicDrop_Start is starting");
             CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         }
+    }
 
+    public void PlayFirstSequence()
+    {
         //PLAY OPENING SEQUENCE
         if(!developmentMode.developmentMode || developmentMode.startAtStart)
         {
