@@ -242,24 +242,14 @@
 						</Sound>
 						<Sound Name="menu_music_C Major" ID="{326F167E-A33B-47E3-BE45-F0E0B149F187}" ShortID="461566900">
 							<PropertyList>
-								<Property Name="Highpass" Type="int16">
-									<ValueList>
-										<Value>19</Value>
-									</ValueList>
-								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
 									</ValueList>
 								</Property>
-								<Property Name="Lowpass" Type="int16">
-									<ValueList>
-										<Value>12</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -420,6 +410,46 @@
 								</ObjectList>
 							</ObjectLists>
 						</RandomSequenceContainer>
+						<Sound Name="CalibrationSequence_Music" ID="{1F2233D8-F099-4356-BCE4-04DF2F661497}" ShortID="14749120">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="ThematicSavasana_MUSIC" ID="{4A8A7031-BAAF-413B-BBB3-331F6B187B8C}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="1.41612871815971"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="392.713712818403"/>
+										<Property Name="VolumeOffset" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>ThematicSavasana_MUSIC.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="749900744"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="ThematicSavasana_MUSIC" ID="{4A8A7031-BAAF-413B-BBB3-331F6B187B8C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 				<ActorMixer Name="SOMATIC SEQUENCE_MUSIC" ID="{D1DE903A-3EDA-4B98-A5A9-CDA86998341A}" ShortID="419334509">

@@ -16,10 +16,11 @@
 		<PluginLib LibName="Wwise Stereo Delay" LibId="8847363" Type="Effect" DLL="AkStereoDelay" StaticLib="AkStereoDelayFX"/>
 		<PluginLib LibName="Wwise Pitch Shifter" LibId="8912899" Type="Effect" DLL="AkPitchShifter" StaticLib="AkPitchShifterFX"/>
 		<PluginLib LibName="Wwise Gain" LibId="9109507" Type="Effect" DLL="AkGain" StaticLib="AkGainFX"/>
+		<PluginLib LibName="Wwise Synth One" LibId="9699330" Type="Source" DLL="AkSynthOne" StaticLib="AkSynthOneSource"/>
 		<PluginLib LibName="System" LibId="11403271" Type="AudioDevice"/>
 		<PluginLib LibName="No Output" LibId="11862023" Type="AudioDevice"/>
 		<PluginLib LibName="Mastering Suite" LibId="12189699" Type="Effect" DLL="MasteringSuite" StaticLib="MasteringSuiteFX"/>
 		<PluginLib LibName="Wwise 3D Audio Bed Mixer" LibId="12451843" Type="Effect" DLL="Ak3DAudioBedMixer" StaticLib="Ak3DAudioBedMixerFX"/>
 	</PluginLibs>
-	<FileHash>{45D9729F-9DA3-36AE-0F2D-F905893D9447}</FileHash>
+	<FileHash>{C337404C-7502-218D-FEFD-2A8ED9F97A32}</FileHash>
 </PluginInfo>

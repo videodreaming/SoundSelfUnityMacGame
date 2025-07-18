@@ -213,7 +213,7 @@
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
+						<CurrentStateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
 						<CurrentStateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 						<CurrentStateRef Name="Playful" ID="{7104D2A2-9625-486D-A246-6B4C6AF8A511}"/>
 					</CurrentStateList>
@@ -226,11 +226,12 @@
 						<CurrentSwitchRef Name="Resting" ID="{FC479A56-69C9-4A20-98C2-C8B295600A13}"/>
 						<CurrentSwitchRef Name="Adjunct" ID="{0126A9C1-6FFA-4A43-9581-09218884C0A2}"/>
 						<CurrentSwitchRef Name="E" ID="{8C8F7A44-900B-4D6F-A8A8-C1B775AA91B9}"/>
+						<CurrentSwitchRef Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
 						<CurrentSwitchRef Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
-						<CurrentSwitchRef Name="E" ID="{2EF39E0C-E918-4DB4-9C57-CC6AFED08210}"/>
+						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
 						<CurrentSwitchRef Name="Chakapa" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>
@@ -672,7 +673,7 @@
 						<CurrentSwitchRef Name="D" ID="{F382FB7C-3DC1-4CA4-960E-677CB4038B33}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
-						<CurrentSwitchRef Name="Peace" ID="{3D16539A-F80B-40BC-9B23-290799772CF5}"/>
+						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
 						<CurrentSwitchRef Name="Resting" ID="{FC479A56-69C9-4A20-98C2-C8B295600A13}"/>
 						<CurrentSwitchRef Name="Preparation" ID="{ACC0C5B6-BF2F-4593-A6A0-17A99FE8BAE5}"/>
 						<CurrentSwitchRef Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
@@ -682,6 +683,85 @@
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="Peace" ID="{94BB8323-C29A-4FDB-8145-8499790D4345}"/>
+						<CurrentSwitchRef Name="Chakapa" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
+					</CurrentSwitchList>
+				</SoundcasterSession>
+				<SoundcasterSession Name="CALIBRATION" ID="{F3CF2A75-1AC4-437E-8CC7-AE8D371F89D2}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="Play_Calibration_Sequence" ID="{5BEBEBD7-24C0-4234-9448-19865473AD57}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="1" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_Calibration_Sequence" ID="{1BB7DA2C-8E96-4F52-AAEC-17213E761B4A}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="1" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+							<Position X="1" Y="2"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+							<Position X="1" Y="3"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_sfx_Impact" ID="{0A5A8332-389F-452E-B07C-318CD4F7EDD5}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+							<Position X="2" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+							<Position X="2" Y="2"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+							<Position X="2" Y="3"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="AVS_BLUE_Volume_Wave1" ID="{5672B67B-51F9-4373-8484-0F7D6CC7FD2E}"/>
+							<Value>40</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="AVS_Modulation_Depth_Wave1" ID="{FEDA3481-89C4-43AC-B1F0-A8B9AB552820}"/>
+							<Value>70</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="AVS_Modulation_Frequency_Wave1" ID="{2A4181C9-D813-4592-B49B-FE706DCA83DC}"/>
+							<Value>10</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="AVS_GREEN_Volume_Wave1" ID="{02B13127-2685-47F0-8836-D47E996419F2}"/>
+							<Value>20</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="AVS_Modulation_MonoStereo_Wave1" ID="{39D65ECD-0D6C-4A11-BFCC-2F0700FC642A}"/>
+							<Value>1</Value>
+						</RTPCValue>
+						<RTPCValue>
+							<GameParameterRef Name="AVS_RED_Volume_Wave1" ID="{B3F2C2AA-E626-4A82-8484-48F42E99BD97}"/>
+							<Value>50</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true">
+						<CurrentStateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
+					</CurrentStateList>
+					<CurrentSwitchList ShowAll="true">
+						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
+						<CurrentSwitchRef Name="C" ID="{C3284F5C-2FBA-4D95-AF46-52056CD77674}"/>
+						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
+						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
+						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
+						<CurrentSwitchRef Name="Resting" ID="{FC479A56-69C9-4A20-98C2-C8B295600A13}"/>
+						<CurrentSwitchRef Name="Adjunct" ID="{0126A9C1-6FFA-4A43-9581-09218884C0A2}"/>
+						<CurrentSwitchRef Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
+						<CurrentSwitchRef Name="TechnicalIssues" ID="{9C9FA979-E523-4CE2-9A9A-A4CDAEA206DD}"/>
+						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
+						<CurrentSwitchRef Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
+						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
+						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
+						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
+						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
 						<CurrentSwitchRef Name="Chakapa" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>

@@ -12,6 +12,11 @@
 					<ChildrenList>
 						<Bus Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}">
 							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
 										<Value>12</Value>
@@ -201,14 +206,14 @@
 						</Bus>
 						<Bus Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}">
 							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
 										<Value>7</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -384,7 +389,7 @@
 							<PropertyList>
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
-										<Value>2</Value>
+										<Value>3</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Lowpass" Type="int16">
@@ -393,17 +398,15 @@
 									</ValueList>
 								</Property>
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-3"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="Effects">
 									<Reference>
 										<Local>
 											<EffectSlot Name="" ID="{731E73FE-54B9-4F5C-AC95-AC40F378B874}" ShortID="753092907">
+												<PropertyList>
+													<Property Name="Bypass" Type="bool" Value="True"/>
+												</PropertyList>
 												<ReferenceList>
 													<Reference Name="Effect" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
 														<ObjectRef Name="Dialog_Too_Quiet" ID="{F9C77BF1-1CCC-415B-B93F-B048979CA620}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
