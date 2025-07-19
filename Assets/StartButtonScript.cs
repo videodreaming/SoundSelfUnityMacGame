@@ -24,6 +24,7 @@ public class StartButtonScript : MonoBehaviour
         endTutorialButton.onClick.AddListener(OnEndTutorialButtonClicked);
         nextButton.onClick.AddListener(OnNextButtonClicked);
         endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button initially
+        nextButton.gameObject.SetActive(false); // Hide the next button initially
     }
 
     void OnStartButtonClicked()
@@ -40,6 +41,8 @@ public class StartButtonScript : MonoBehaviour
 
         currentTutorialPortionIndex = 0; // Reset tutorial portion
         SetTutorialSwitch();
+
+        startButton.gameObject.SetActive(false); // Hide the start button when the game starts
     }
     void OnStartConfigButtonClicked()
     {
@@ -47,11 +50,13 @@ public class StartButtonScript : MonoBehaviour
         Debug.Log("Start Config button clicked");
         endTutorialButton.gameObject.SetActive(true);
         nextButton.gameObject.SetActive(true); // Show the next button when the start config button is clicked
+        startButton.gameObject.SetActive(false); // Hide the start button when the start config button is clicked
     }
 
     void OnEndTutorialButtonClicked()
     {
         Debug.Log("End Tutorial button clicked");
+        AkSoundEngine.PostEvent("Stop_Calibration_Sequence", gameObject);
         startConfigButton.gameObject.SetActive(true); // Show the start config button when the tutorial ends
         startButton.gameObject.SetActive(true); // Show the start button when the tutorial ends
         endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button when the tutorial ends
@@ -76,8 +81,15 @@ public class StartButtonScript : MonoBehaviour
         TutorialPortions portion = (TutorialPortions)currentTutorialPortionIndex;
         string portionName = portion.ToString();
         Debug.Log($"Setting Wwise switch to: {portionName}");
-        AkSoundEngine.SetSwitch("TutorialPortions", portionName, gameObject);
+        AkSoundEngine.SetSwitch("Calibration_Sequence", portionName, gameObject);
+
+        // If we're at the 'End' portion, hide the Next button
+        if (portion == TutorialPortions.End)
+        {
+            nextButton.gameObject.SetActive(false);
+        }
     }
+    
 }
 
 

@@ -1567,7 +1567,7 @@ GameObject:
   - component: {fileID: 105811497}
   - component: {fileID: 105811496}
   m_Layer: 5
-  m_Name: End Tutorial Text
+  m_Name: End Config Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1612,7 +1612,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: End Tutorial
+  m_text: 'End Config
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5926,7 +5928,7 @@ GameObject:
   - component: {fileID: 380622740}
   - component: {fileID: 380622739}
   m_Layer: 5
-  m_Name: End Tutorial
+  m_Name: End Config
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19207,7 +19209,7 @@ MonoBehaviour:
   data:
     idInternal: 0
     valueGuidInternal: 
-    WwiseObjectReference: {fileID: 0}
+    WwiseObjectReference: {fileID: 11400000, guid: 7298228d005cac049bd2dd63f81c310f, type: 2}
   decodeBank: 0
   overrideLoadSetting: 0
   loadAsynchronous: 0
