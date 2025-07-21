@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class canvasSwitcher : MonoBehaviour
 {
     public DevelopmentMode developmentMode;
@@ -11,9 +9,13 @@ public class canvasSwitcher : MonoBehaviour
     public Canvas canvas2;
     public Canvas canvas3;
     public Canvas canvas4;
+    public Canvas mainCanvas;
+
+    public Canvas calibrationCanvas;
 
     public bool UIDevMode = false;
     // Start is called before the first frame update
+
     void Start()
     {
         canvas1 = GameObject.Find("Canvas1").GetComponent<Canvas>();
@@ -24,6 +26,8 @@ public class canvasSwitcher : MonoBehaviour
         canvas2.enabled = false;
         canvas3.enabled = false;
         canvas4.enabled = false;
+        calibrationCanvas.enabled = true;
+        mainCanvas.enabled = false;
     }
 
     // Update is called once per frame
@@ -66,5 +70,15 @@ public class canvasSwitcher : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SwitchToMainCanvas()
+    {
+        canvas1.enabled = false;
+        canvas2.enabled = false;
+        canvas3.enabled = false;
+        canvas4.enabled = false;
+        mainCanvas.enabled = true;
+        calibrationCanvas.enabled = false;
     }
 }
