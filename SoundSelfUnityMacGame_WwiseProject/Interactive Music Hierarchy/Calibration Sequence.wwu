@@ -1535,28 +1535,6 @@
 																</Reference>
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{F0DACA3A-E223-47C8-A35A-9C56B936C48F}" ShortID="802679707">
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{B9EFF43D-83D0-4FCD-A5A8-9F63A4DFBA1A}" ShortID="396497877">
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
 																		<MusicEventCue Name="" ID="{1CEE5316-4DF9-4A36-AD1E-5B5D973C8798}" ShortID="347900677">
 																			<PropertyList>
 																				<Property Name="PlayAt" Type="Real64" Value="4247.31767931414"/>
@@ -1621,6 +1599,16 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="12377.8981470108"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_Microphone_OFF" ID="{A99DDAAF-9516-46E4-BF1A-613DF38C7B65}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="14.7615252058535"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
