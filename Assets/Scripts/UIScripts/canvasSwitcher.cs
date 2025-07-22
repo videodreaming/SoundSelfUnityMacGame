@@ -8,10 +8,10 @@ public class canvasSwitcher : MonoBehaviour
     public Canvas canvas1;
     public Canvas canvas2;
     public Canvas canvas3;
-    public Canvas canvas4;
     public Canvas mainCanvas;
 
     public Canvas calibrationCanvas;
+    public Canvas buttonCanvas;
 
     public bool UIDevMode = false;
     // Start is called before the first frame update
@@ -21,13 +21,12 @@ public class canvasSwitcher : MonoBehaviour
         canvas1 = GameObject.Find("Canvas1").GetComponent<Canvas>();
         canvas2 = GameObject.Find("Canvas2").GetComponent<Canvas>();
         canvas3 = GameObject.Find("Canvas3").GetComponent<Canvas>();
-        canvas4 = GameObject.Find("Canvas4").GetComponent<Canvas>();
         canvas1.enabled = false;
         canvas2.enabled = false;
         canvas3.enabled = false;
-        canvas4.enabled = false;
-        calibrationCanvas.enabled = true;
+        calibrationCanvas.enabled = false;
         mainCanvas.enabled = false;
+        buttonCanvas.enabled = true;
     }
 
     // Update is called once per frame
@@ -40,7 +39,6 @@ public class canvasSwitcher : MonoBehaviour
                 canvas1.enabled = false;
                 canvas2.enabled = false;
                 canvas3.enabled = false;
-                canvas4.enabled = true;
             }
             else
             {
@@ -77,8 +75,16 @@ public class canvasSwitcher : MonoBehaviour
         canvas1.enabled = false;
         canvas2.enabled = false;
         canvas3.enabled = false;
-        canvas4.enabled = false;
         mainCanvas.enabled = true;
         calibrationCanvas.enabled = false;
+    }
+
+    public void SwitchToCalibrationCanvas()
+    {
+        canvas1.enabled = false;
+        canvas2.enabled = false;
+        canvas3.enabled = false;
+        mainCanvas.enabled = false;
+        calibrationCanvas.enabled = true;
     }
 }
