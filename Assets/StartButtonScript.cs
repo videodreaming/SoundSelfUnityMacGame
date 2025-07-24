@@ -30,6 +30,8 @@ public class StartButtonScript : MonoBehaviour
     public Sprite onMarkImage;
     public Sprite offMarkImage;
 
+    public GameObject mainText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +47,7 @@ public class StartButtonScript : MonoBehaviour
     {
         if (!isCalibrationStarted)
         {
+            mainText.SetActive(false); // Hide the main text when the calibration starts
             isCalibrationStarted = true; // Set the flag to true to prevent multiple clicks
             endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button when the game starts
             startConfigButton.gameObject.SetActive(false); // Show the start config button when the game starts
@@ -67,6 +70,7 @@ public class StartButtonScript : MonoBehaviour
     public void OnStartConfigButtonClicked()
     {
         canvasManager.SwitchToCalibrationCanvas();
+        mainText.SetActive(false); // Hide the main text when the calibration starts
         verticalLayoutGroupController.highLightText(calibrationTexts[calibrationTextIndex]); // Highlight the first calibration text
         StartCoroutine(verticalLayoutGroupController.scaleText(calibrationTexts[calibrationTextIndex], 1.1f));
         highlightMark(calibrationMarks[calibrationTextIndex]); // Highlight the first calibration mark
