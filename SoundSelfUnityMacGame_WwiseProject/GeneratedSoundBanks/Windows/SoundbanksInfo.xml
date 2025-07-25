@@ -392,7 +392,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{A9845DD9-7F56-BE75-73B7-6137DBE4463A}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{3A8D09A3-5F8D-503E-56E1-CDB7BCC10011}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -5245,7 +5245,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{DB5E3D2E-C824-C87A-D4E3-55A0F6CC5439}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{4DC0B00F-103D-965E-3E95-2DB8356BBD50}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -7057,6 +7057,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
+				<Event Id="4293537666" Name="Set_Calibration_Lights" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="767717232" Name="Stop_AVS_SineGenerators_REFERENCE" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0">
 					<PluginRefs>
 						<Custom>
@@ -13948,5 +13949,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D9C734A4-2EA7-ED71-B695-0D5BD4DF8470}</FileHash>
+	<FileHash>{1BA9AF02-C474-A672-4801-2AD033DF0C6C}</FileHash>
 </SoundBanksInfo>

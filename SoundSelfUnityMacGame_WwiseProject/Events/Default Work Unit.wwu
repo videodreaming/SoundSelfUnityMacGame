@@ -958,6 +958,130 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Set_Calibration_Lights" ID="{8DC11C72-CA7C-4C2D-AA74-CF06BAF25381}">
+					<ChildrenList>
+						<Action Name="" ID="{35005D37-D81E-4953-86C8-DBED8F81B108}" ShortID="36795638">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="40"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_BLUE_Volume_Wave1" ID="{5672B67B-51F9-4373-8484-0F7D6CC7FD2E}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{245B35ED-701D-4319-A4EF-FAAAB59CFBA3}" ShortID="959716781">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="20"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_GREEN_Volume_Wave1" ID="{02B13127-2685-47F0-8836-D47E996419F2}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{92FED439-C91C-4A0D-B227-BBF99756BC0E}" ShortID="334342358">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="100"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_MasterVolume_Wave1" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{65E98D4B-8496-49D9-A6C4-BC463005B8D3}" ShortID="666426497">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_Modulation_BypassEffect_Wave1" ID="{CC43E7B2-EB76-4B3B-87AB-0667E6ACED47}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{34744DF7-4F87-4588-BB07-1553B90410F4}" ShortID="305391693">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="70"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_Modulation_Depth_Wave1" ID="{FEDA3481-89C4-43AC-B1F0-A8B9AB552820}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{07E01C75-E648-4DCE-BD28-9D13F0FF500D}" ShortID="615380353">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="10"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_Modulation_Frequency_Wave1" ID="{2A4181C9-D813-4592-B49B-FE706DCA83DC}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{A68AFCDD-4939-419D-86C5-B1AA538BCE2A}" ShortID="852992458">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_Modulation_MonoStereo_Wave1" ID="{39D65ECD-0D6C-4A11-BFCC-2F0700FC642A}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{E76CCCE2-74B4-4956-9459-5FC1242349A0}" ShortID="859964836">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="10"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_Modulation_PWM_Wave1" ID="{AFD08726-0F14-452C-9DF7-918098047F10}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C0254A9B-BDB5-4B27-A21C-CC5EC52C78FA}" ShortID="733382138">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_Modulation_Smoothing_Wave1" ID="{6569D1F3-4C52-405A-9FB4-C72A6EDAB006}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{108B6E5B-B291-4922-9EF5-0134BC844D67}" ShortID="113234084">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_Modulation_Waveform_Wave1" ID="{243818D7-F083-4DDA-A64C-0FE11BD9D652}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{4AC48379-456D-45FC-B652-AF14D76C3245}" ShortID="60235814">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="50"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_RED_Volume_Wave1" ID="{B3F2C2AA-E626-4A82-8484-48F42E99BD97}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

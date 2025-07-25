@@ -263,6 +263,7 @@
 				<SoundBank Name="CALIBRATION" ID="{B3BBF600-BC67-4136-A444-3A26DFFB8B68}">
 					<ObjectInclusionList>
 						<ObjectRef Name="Play_Calibration_Music" ID="{7AEEA6AF-695B-4081-8E90-65C9CDB2BE06}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="MIDI Bass Synthesizer" ID="{9632FC71-6F6A-41B6-9866-C06DEF5A034E}" WorkUnitID="{E278CC99-6E9A-4CDD-A0F2-45CA19E01AD2}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Calibration_Sequence" ID="{5BEBEBD7-24C0-4234-9448-19865473AD57}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="AVS_SineGenerators_RGB_Wave1" ID="{BC2415D2-D7B3-4381-92CA-DE56DD5EACD7}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}" Origin="Manual" Filter="7"/>
@@ -270,12 +271,16 @@
 						<ObjectRef Name="Bass Synthesizer" ID="{8B97F319-1FFC-4669-8617-342B598A1A10}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_Calibration_Music" ID="{7CA0976E-7C7D-4840-B3BD-51950C7526F7}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Calibration_SilentLoops" ID="{88A44F0E-EB0E-4B81-A6A2-2AFDA49FC43C}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_MIDI_Bass_Synthesizer" ID="{C255A655-CDD0-4BE3-99B9-995835D578AE}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Set_Calibration_Lights" ID="{8DC11C72-CA7C-4C2D-AA74-CF06BAF25381}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Bass Synth Pitch Switch" ID="{526255D6-7209-4CCB-96E5-E43A5F1C794E}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_SilentLoops_v3_FundamentalOnly" ID="{497F127A-A5CC-4CF0-85D2-F5B56677900E}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Calibration - Interactive Sequence" ID="{794E777A-078C-4EBE-BB75-2FE5DA9A74F4}" WorkUnitID="{70290BA1-AD7E-493B-99DA-9A18E9CD87E5}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Calibration Sequence" ID="{EDABCE0F-E53E-4EF1-8364-D25F9A524D73}" WorkUnitID="{70290BA1-AD7E-493B-99DA-9A18E9CD87E5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_BassSynth" ID="{F494310D-2CEE-4F4C-B355-614678F37AC9}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_Calibration_Sequence" ID="{1BB7DA2C-8E96-4F52-AAEC-17213E761B4A}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_MIDI_Bass_Synthesizer" ID="{E52B5D22-0EEE-4FC6-9C3D-7773B2419D12}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
