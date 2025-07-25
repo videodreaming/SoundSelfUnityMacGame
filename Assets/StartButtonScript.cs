@@ -69,6 +69,8 @@ public class StartButtonScript : MonoBehaviour
     }
     public void OnStartConfigButtonClicked()
     {
+        calibrationTextIndex = 0;
+        currentTutorialPortionIndex = 0; // Reset tutorial portion index
         canvasManager.SwitchToCalibrationCanvas();
         mainText.SetActive(false); // Hide the main text when the calibration starts
         verticalLayoutGroupController.highLightText(calibrationTexts[calibrationTextIndex]); // Highlight the first calibration text
@@ -97,6 +99,9 @@ public class StartButtonScript : MonoBehaviour
     public void OnEndTutorialButtonClicked()
     {
         Debug.Log("End Tutorial button clicked");
+        mainText.SetActive(true); // Show the main text when the tutorial ends
+        StartCoroutine(verticalLayoutGroupController.unScaleText(calibrationTexts[calibrationTextIndex], 1.1f));
+        verticalLayoutGroupController.unhighLightText(calibrationTexts[calibrationTextIndex]); //
         AkSoundEngine.PostEvent("Stop_Calibration_Sequence", gameObject);
         startConfigButton.gameObject.SetActive(true); // Show the start config button when the tutorial ends
         startButton.gameObject.SetActive(true); // Show the start button when the tutorial ends
@@ -143,6 +148,7 @@ public class StartButtonScript : MonoBehaviour
             else if (calibrationTextIndex == 5)
             {
                 // Calibration going into End
+
                 calibrationDiagrams[4].SetActive(false); // Hide the fifth calibration diagram
             }
         }
@@ -168,7 +174,6 @@ public class StartButtonScript : MonoBehaviour
     {
         TutorialPortions portion = (TutorialPortions)currentTutorialPortionIndex;
         portionName = portion.ToString();
-        Debug.Log($"Setting Wwise switch to: {portionName}");
         AkSoundEngine.SetSwitch("Calibration_Sequence", portionName, gameObject);
 
         // If we're at the 'End' portion, hide the Next button
@@ -183,16 +188,13 @@ public class StartButtonScript : MonoBehaviour
     {
         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
         {
-            Debug.Log("WWise_VO_CUE: Callback triggered: " + in_type);
             AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
             if (musicSyncInfo.userCueName == "Cue_Microphone_ON")
             {
-                Debug.Log("WWise_VO_CUE: Cue Mic On");
                 imitoneVoiceIntepreter.SetGameOn(true);
             }
             else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
             {
-                Debug.Log("WWise_VO_CUE: Cue Mic OFF");
                 imitoneVoiceIntepreter.SetGameOn(false);
             }
         }

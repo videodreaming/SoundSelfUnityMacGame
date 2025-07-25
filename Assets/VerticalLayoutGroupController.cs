@@ -73,7 +73,6 @@ public class VerticalLayoutGroupController : MonoBehaviour
 
     public IEnumerator unScaleText(GameObject textObject, float duration)
     {
-        Debug.Log("Unscaling text: " + textObject.name + " to size: " + originalfontSize);
         TextMeshProUGUI textMeshPro = textObject.GetComponent<TextMeshProUGUI>();
         LayoutElement layoutElement = textObject.GetComponent<LayoutElement>();
 

@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy/Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584487451629794226
+    m_lastTime: -8584482799851263676
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -413,7 +413,7 @@ MonoBehaviour:
     ParentPath: SoundBanks/Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584487451629623500
+    m_lastTime: -8584482799851198918
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -428,7 +428,7 @@ MonoBehaviour:
       - ElementName: CALIBRATION
         ObjectType: 7
         guid: 00f6bbb367bc3641a4443a26dffb8b68
-      Path: SoundBanks\Default Work Unit\CALIBRATION
+      Path: SoundBanks/Default Work Unit/CALIBRATION
     - name: CLOSING
       guid: 660ba7396da1574496e1fee4e15fcf1c
       id: 2930224074
@@ -632,7 +632,7 @@ MonoBehaviour:
     ParentPath: Events/Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584484792978685781
+    m_lastTime: -8584482799854142888
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -732,7 +732,7 @@ MonoBehaviour:
       - ElementName: Play_BassSynth
         ObjectType: 3
         guid: 0d3194f4ee2c4c4fb355614678f37ac9
-      Path: Events\Default Work Unit\Play_BassSynth
+      Path: Events/Default Work Unit/Play_BassSynth
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -749,7 +749,7 @@ MonoBehaviour:
       - ElementName: Play_Calibration_Music
         ObjectType: 3
         guid: afa6ee7a5b6981408e9065c9cdb2be06
-      Path: Events\Default Work Unit\Play_Calibration_Music
+      Path: Events/Default Work Unit/Play_Calibration_Music
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -766,7 +766,7 @@ MonoBehaviour:
       - ElementName: Play_Calibration_Sequence
         ObjectType: 3
         guid: d7ebeb5bc0243442944819865473ad57
-      Path: Events\Default Work Unit\Play_Calibration_Sequence
+      Path: Events/Default Work Unit/Play_Calibration_Sequence
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -783,7 +783,7 @@ MonoBehaviour:
       - ElementName: Play_Calibration_SilentLoops
         ObjectType: 3
         guid: 0e4fa4880eeb814ba6a22afda49fc43c
-      Path: Events\Default Work Unit\Play_Calibration_SilentLoops
+      Path: Events/Default Work Unit/Play_Calibration_SilentLoops
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -851,7 +851,7 @@ MonoBehaviour:
       - ElementName: Play_MIDI_Bass_Synthesizer
         ObjectType: 3
         guid: 55a655c2d0cde34b99b9995835d578ae
-      Path: Events\Default Work Unit\Play_MIDI_Bass_Synthesizer
+      Path: Events/Default Work Unit/Play_MIDI_Bass_Synthesizer
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1123,7 +1123,7 @@ MonoBehaviour:
       - ElementName: Stop_BassSynth
         ObjectType: 3
         guid: 666989eb779d0844a902cc27888b188e
-      Path: Events\Default Work Unit\Stop_BassSynth
+      Path: Events/Default Work Unit/Stop_BassSynth
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1140,7 +1140,7 @@ MonoBehaviour:
       - ElementName: Stop_Calibration_Music
         ObjectType: 3
         guid: 6e97a07c7d7c4048b3bd51950c7526f7
-      Path: Events\Default Work Unit\Stop_Calibration_Music
+      Path: Events/Default Work Unit/Stop_Calibration_Music
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1157,7 +1157,7 @@ MonoBehaviour:
       - ElementName: Stop_Calibration_Sequence
         ObjectType: 3
         guid: 2cdab71b968e524faaec17213e761b4a
-      Path: Events\Default Work Unit\Stop_Calibration_Sequence
+      Path: Events/Default Work Unit/Stop_Calibration_Sequence
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1174,7 +1174,7 @@ MonoBehaviour:
       - ElementName: Stop_MIDI_Bass_Synthesizer
         ObjectType: 3
         guid: 225d2be5ee0ec64f9c3d7773b2419d12
-      Path: Events\Default Work Unit\Stop_MIDI_Bass_Synthesizer
+      Path: Events/Default Work Unit/Stop_MIDI_Bass_Synthesizer
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1491,7 +1491,7 @@ MonoBehaviour:
     ParentPath: Events/Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584487451630619000
+    m_lastTime: -8584482799854140482
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -3883,7 +3883,7 @@ MonoBehaviour:
     ParentPath: Switches/Default Work Unit
     guid: b649101cab38b141861f0be6c57cc1d3
     GuidInternal: 
-    m_lastTime: -8584487451629550362
+    m_lastTime: -8584482799851171820
     List:
     - name: Calibration_Sequence
       guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -3898,7 +3898,7 @@ MonoBehaviour:
       - ElementName: Calibration_Sequence
         ObjectType: 11
         guid: 57c3cb2d2bb8a047af1ee8d7136b7129
-      Path: Switches\Default Work Unit\Calibration_Sequence
+      Path: Switches/Default Work Unit/Calibration_Sequence
       values:
       - name: End
         guid: 34a6c8211094814baca1dd4982baeb8b
