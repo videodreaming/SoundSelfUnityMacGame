@@ -24,7 +24,6 @@ public class VerticalLayoutGroupController : MonoBehaviour
             TextMeshProUGUI textMeshPro = child.GetComponent<TextMeshProUGUI>();
             if (textMeshPro != null)
             {
-                Debug.Log("Found TextMeshProUGUI component in child: " + textMeshPro.text);
                 children.Add(textMeshPro);
             }
         }

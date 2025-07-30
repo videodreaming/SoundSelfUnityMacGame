@@ -375,6 +375,7 @@ public class WwiseVOManager : MonoBehaviour
         {
             case "Preparation_Long":
             AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            Debug.Log("WWise_VO: Play Preparation Long Opening Sequence");
             break;
             case "Preparation_Short":
             AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
@@ -458,6 +459,7 @@ public class WwiseVOManager : MonoBehaviour
 
     public void PlayThematicSavasana()
     {
+
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
     }
 

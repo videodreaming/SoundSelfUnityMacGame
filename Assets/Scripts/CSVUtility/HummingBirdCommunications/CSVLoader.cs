@@ -28,20 +28,21 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private string encryptedSubGameMode;
     [SerializeField] private string decryptedGameMode;
     [SerializeField] private string decryptedSubGameMode;
-    
+
+
 
     void Awake()
     {
-        #if UNITY_STANDALONE_OSX
+#if UNITY_STANDALONE_OSX
             string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
             baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
-        #elif UNITY_STANDALONE_WIN
-            baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
-            Debug.Log("Base path: " + baseSessionsFolderPath);
-        #else
+#elif UNITY_STANDALONE_WIN
+        baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
+        Debug.Log("Base path: " + baseSessionsFolderPath);
+#else
             Debug.LogError("Unsupported platform");
             return;
-        #endif
+#endif
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
@@ -58,10 +59,10 @@ public class CSVLoader : MonoBehaviour
                     {
                         encryptedReadyCheck = columns[1].Trim();
                         decryptedReadyCheck = EncryptionHelper.Decrypt(encryptedReadyCheck);
-                        if(decryptedReadyCheck == "ready")
+                        if (decryptedReadyCheck == "ready")
                         {
                             encryptedSessionNumber = columns[0].Trim();
-                            if (int.TryParse(EncryptionHelper.Decrypt(encryptedSessionNumber), out int sessionNumber)) 
+                            if (int.TryParse(EncryptionHelper.Decrypt(encryptedSessionNumber), out int sessionNumber))
                             {
                                 currentSessionNumber = sessionNumber;
                                 break;
@@ -78,60 +79,63 @@ public class CSVLoader : MonoBehaviour
         // VO INITIALIZATION        
         //=======================================================================================================
         //GAME MODES
-        if(gameMode == "Preperation" || gameMode == "Skills Training")
+        if (gameMode == "Preperation" || gameMode == "Skills Training")
         {
-            Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
             timeLeftScript.SetTimeLeftSeconds(2400.0f);
+            Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
                 totalTimeOfPostUnguidedVocalizationContent = (10.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
                 wwiseVOManager.SetToPeace();
-            } 
+            }
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
                 Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
                 totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
                 wwiseVOManager.SetToNarrative();
-            } 
+            }
             else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Prepeation")
             {
                 totalTimeOfPostUnguidedVocalizationContent = (8.0f * 60.0f) + 06.0f; //8 min 6 seconds //July 7 2025, added 11 seconds
                 wwiseVOManager.SetToSurrender();
-            } 
+            }
 
-            if(firstTimeUser)
+            if (firstTimeUser)
             {
                 wwiseVOManager.firstTimeUser();
                 Debug.Log("CSVLoader: First Time User");
-            } else {
+            }
+            else
+            {
                 wwiseVOManager.notFirstTimeUser();
                 Debug.Log("CSVLoader: Not First Time User");
             }
-        } else if (gameMode == "Integration")
+        }
+        else if (gameMode == "Integration")
         {
             wwiseVOManager.notFirstTimeUser();
             Debug.Log("CSVLoader: Not First Time User");
             //sequencer.totalTimeOfExperience = 1500.0f;
             timeLeftScript.SetTimeLeftSeconds(1500.0f);
-            if(subGameMode == "Fireflies"|| subGameMode == "Self Compassion")
+            if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
             {
                 wwiseVOManager.SetToFireflies();
                 totalTimeOfPostUnguidedVocalizationContent = 415.0f;
-            } else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
+            }
+            else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
             {
                 wwiseVOManager.SetToKindness();
                 totalTimeOfPostUnguidedVocalizationContent = 349.0f;
-            } else if (subGameMode == "Metta" || subGameMode == "Transitions")
+            }
+            else if (subGameMode == "Metta" || subGameMode == "Transitions")
             {
                 wwiseVOManager.SetToMetta();
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
         }
-
         sequencer._countdownToSavasana = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
         sequencer._integrationEnd = timeLeftScript._timeLeft - 247.0f;
-
-
+        Debug.Log("countdownToSavasana: " + sequencer._countdownToSavasana);
     }
 
     void ReadSessionParams()

@@ -12,8 +12,18 @@ public class TimeLeftScript : MonoBehaviour
     public float _timeLeft;
     int minutes;
     int seconds;
+    public StartButtonScript startButtonScript;
 
     void Update()
+    {
+        if(startButtonScript.startedExperience)
+        {
+            UpdateTimeLeft();
+        }
+
+    }
+
+    private void UpdateTimeLeft()
     {
         _timeLeft -= Time.deltaTime;
         minutes = Mathf.FloorToInt(_timeLeft / 60);

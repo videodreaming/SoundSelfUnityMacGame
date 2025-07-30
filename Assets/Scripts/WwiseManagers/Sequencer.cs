@@ -9,6 +9,7 @@ public class Sequencer : MonoBehaviour
     public DevelopmentMode developmentMode;
     public CSVLoader csvLoader;
     public TimeLeftScript timeLeftScript;
+    public StartButtonScript startButtonScript;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
@@ -32,7 +33,7 @@ public class Sequencer : MonoBehaviour
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
     //private float interactiveMusicExperienceTotalTime;
-    [SerializeField]public float _countdownToSavasana;
+    public float _countdownToSavasana;
     public float _timeSinceTutorial;
     private bool savasanaTriggered = false; // Flag to control the event triggering
     private bool wakeUpTriggered = false;
@@ -58,7 +59,8 @@ public class Sequencer : MonoBehaviour
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private int currentStage = 0; //As Sonoflore
     public float timeInUnguidedVocalization;
-    //public float totalTimeOfExperience;
+    
+
 
     void Awake()
     {
@@ -224,7 +226,11 @@ public class Sequencer : MonoBehaviour
         
         if(_countdownToSavasana > 0f)
         {
-            _countdownToSavasana -= Time.deltaTime;
+            if (startButtonScript.startedExperience)
+            {
+                _countdownToSavasana -= Time.deltaTime;
+            }
+
         }
         else if(_countdownToSavasana <= 0.0f && !savasanaTriggered)
         {

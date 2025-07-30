@@ -26,6 +26,7 @@ public class StartButtonScript : MonoBehaviour
     public List<GameObject> calibrationDiagrams;
     private int calibrationTextIndex = 0;
     private bool isCalibrationStarted = false;
+    public bool startedExperience = false;
 
     public Sprite onMarkImage;
     public Sprite offMarkImage;
@@ -41,23 +42,35 @@ public class StartButtonScript : MonoBehaviour
         nextButton.onClick.AddListener(OnNextButtonClicked);
         endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button initially
         nextButton.gameObject.SetActive(false); // Hide the next button initially
+        AkSoundEngine.PostEvent("Play_Calibration_Sequence", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, CalibrationCallBackFunction, null);
     }
 
     public void OnStartButtonClicked()
     {
-        if (!isCalibrationStarted)
+        if(!startedExperience)
         {
+            startedExperience = true; // Set the flag to true to prevent multiple clicks
             mainText.SetActive(false); // Hide the main text when the calibration starts
             isCalibrationStarted = true; // Set the flag to true to prevent multiple clicks
             endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button when the game starts
             startConfigButton.gameObject.SetActive(false); // Show the start config button when the game starts
+            AkSoundEngine.PostEvent("Stop_Calibration_Sequence", gameObject);
 
             sequencer.PlayFirstSequence(); // Start the first sequence in the sequencer
             TimeLeftScript timeLeftScript = FindObjectOfType<TimeLeftScript>();
             if (timeLeftScript != null && experienceDurationDatabase != null)
             {
-                float duration = experienceDurationDatabase.GetDurationForMode(CSVLoader.gameMode);
-                timeLeftScript.SetTimeLeftSeconds(duration);
+                if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
+                {
+                    Debug.Log("Setting up for Preperation or Skills Training");
+                    timeLeftScript.SetTimeLeftSeconds(2400.0f); // 40 minutes
+                }
+                else if (CSVLoader.gameMode == "Integration")
+                {
+                    Debug.Log("Setting up for Integration");
+                    timeLeftScript.SetTimeLeftSeconds(1200.0f); // 20 minutes
+                    
+                }
             }
 
             currentTutorialPortionIndex = 0; // Reset tutorial portion
@@ -69,19 +82,22 @@ public class StartButtonScript : MonoBehaviour
     }
     public void OnStartConfigButtonClicked()
     {
-        calibrationTextIndex = 0;
-        currentTutorialPortionIndex = 0; // Reset tutorial portion index
-        canvasManager.SwitchToCalibrationCanvas();
-        mainText.SetActive(false); // Hide the main text when the calibration starts
-        verticalLayoutGroupController.highLightText(calibrationTexts[calibrationTextIndex]); // Highlight the first calibration text
-        StartCoroutine(verticalLayoutGroupController.scaleText(calibrationTexts[calibrationTextIndex], 1.1f));
-        highlightMark(calibrationMarks[calibrationTextIndex]); // Highlight the first calibration mark
-        AkSoundEngine.SetSwitch("Calibration_Sequence", "Intro", gameObject);
-        AkSoundEngine.PostEvent("Play_Calibration_Sequence", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, CalibrationCallBackFunction, null);
-        endTutorialButton.gameObject.SetActive(true);
-        nextButton.gameObject.SetActive(true); // Show the next button when the start config button is clicked
-        startButton.gameObject.SetActive(false); // Hide the start button when the start config button is clicked
-        startConfigButton.gameObject.SetActive(false); // Hide the start config button when the start config button is clicked
+        if (!isCalibrationStarted)
+        {
+            calibrationTextIndex = 0;
+            currentTutorialPortionIndex = 0; // Reset tutorial portion index
+            canvasManager.SwitchToCalibrationCanvas();
+            mainText.SetActive(false); // Hide the main text when the calibration starts
+            verticalLayoutGroupController.highLightText(calibrationTexts[calibrationTextIndex]); // Highlight the first calibration text
+            StartCoroutine(verticalLayoutGroupController.scaleText(calibrationTexts[calibrationTextIndex], 1.1f));
+            highlightMark(calibrationMarks[calibrationTextIndex]); // Highlight the first calibration mark
+            AkSoundEngine.SetSwitch("Calibration_Sequence", "Intro", gameObject);
+            
+            endTutorialButton.gameObject.SetActive(true);
+            nextButton.gameObject.SetActive(true); // Show the next button when the start config button is clicked
+            startButton.gameObject.SetActive(false); // Hide the start button when the start config button is clicked
+            startConfigButton.gameObject.SetActive(false); // Hide the start config button when the start config button is clicked
+        }
     }
 
     public void highlightMark(GameObject mark)
@@ -104,6 +120,7 @@ public class StartButtonScript : MonoBehaviour
         verticalLayoutGroupController.unhighLightText(calibrationTexts[calibrationTextIndex]); //
         AkSoundEngine.PostEvent("Stop_Calibration_Sequence", gameObject);
         startConfigButton.gameObject.SetActive(true); // Show the start config button when the tutorial ends
+        nextButton.gameObject.SetActive(false); // Hide the next button when the tutorial ends
         startButton.gameObject.SetActive(true); // Show the start button when the tutorial ends
         endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button when the tutorial ends
         canvasManager.calibrationCanvas.enabled= false; // Switch back to the main canvas
