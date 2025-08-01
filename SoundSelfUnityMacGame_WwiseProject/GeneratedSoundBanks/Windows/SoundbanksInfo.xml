@@ -392,7 +392,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{3A8D09A3-5F8D-503E-56E1-CDB7BCC10011}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{A8A97A98-A083-358A-7D1A-3BF3C47C72FA}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -5245,7 +5245,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{4DC0B00F-103D-965E-3E95-2DB8356BBD50}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{7F8BF29D-B77D-6FF7-5A0D-1A830EA5EADC}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -5332,10 +5332,6 @@
 				<File Id="470655207" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>VO_Calibration_Mic_v1.wav</ShortName>
 					<CachePath>SFX/VO_Calibration_Mic_v1_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="516747536" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>ThematicSavasana_MUSIC.wav</ShortName>
-					<CachePath>SFX/ThematicSavasana_MUSIC_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="521907833" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>A#Bb.mid</ShortName>
@@ -7508,7 +7504,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{1DE77EFE-0E5D-9E5D-C062-4747EC85BCD6}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{CBC588C9-5988-01FD-B348-45B876053FC4}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -9050,7 +9046,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{47C52BAE-101D-A818-99CC-51ED7D347D9B}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{640FE91B-94F0-9A8E-EA20-CE3CA45DD2CA}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -13949,5 +13945,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{1BA9AF02-C474-A672-4801-2AD033DF0C6C}</FileHash>
+	<FileHash>{28226756-4409-BFCE-CD18-0D1CB4FC4CC5}</FileHash>
 </SoundBanksInfo>

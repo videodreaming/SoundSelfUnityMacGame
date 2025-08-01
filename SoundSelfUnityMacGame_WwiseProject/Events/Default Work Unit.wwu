@@ -875,6 +875,17 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{B61437FF-BFAF-48C7-AAED-D5F71E9D2926}" ShortID="12609162">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="80"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SILENT_Volume" ID="{3B8E3436-642E-42DD-B54A-B5F158016E34}" WorkUnitID="{869DEC7F-0E1A-4630-BFB3-7D6383814CA9}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Stop_Calibration_Sequence" ID="{1BB7DA2C-8E96-4F52-AAEC-17213E761B4A}">
