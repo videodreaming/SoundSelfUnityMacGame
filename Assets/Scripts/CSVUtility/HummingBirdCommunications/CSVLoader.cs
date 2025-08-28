@@ -94,7 +94,7 @@ public class CSVLoader : MonoBehaviour
                 totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
                 wwiseVOManager.SetToNarrative();
             }
-            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Prepeation")
+            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
             {
                 totalTimeOfPostUnguidedVocalizationContent = (8.0f * 60.0f) + 06.0f; //8 min 6 seconds //July 7 2025, added 11 seconds
                 wwiseVOManager.SetToSurrender();
