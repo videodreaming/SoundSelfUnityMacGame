@@ -168,8 +168,6 @@ public class CSVLoader : MonoBehaviour
                     gameMode = decryptedGameMode;
                     subGameMode = decryptedSubGameMode;
                 }
-
-
             }
             else 
             {
