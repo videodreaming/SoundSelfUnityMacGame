@@ -214,6 +214,15 @@ public class StartButtonScript : MonoBehaviour
             {
                 imitoneVoiceIntepreter.SetGameOn(false);
             }
+            else if (musicSyncInfo.userCueName == "Cue_Calibration_Intro_End")
+            {
+                // TO DO - Move into the next portion of the calibration
+                Debug.Log("Calibration Intro End Cue Reached");
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Calibration_Instruction_OFF")
+            {
+                Debug.Log("Calibration Instruction OFF Cue Reached");
+            }
         }
     }
 }
