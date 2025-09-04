@@ -392,7 +392,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{A8A97A98-A083-358A-7D1A-3BF3C47C72FA}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{4785EA10-CBF1-F42F-20CD-47908B946B58}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -5245,7 +5245,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{7F8BF29D-B77D-6FF7-5A0D-1A830EA5EADC}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{017108D9-C135-8787-30BD-E6AA03A3FA63}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -5704,24 +5704,6 @@
 							<MediaRefs>
 								<MediaRef Id="305037647"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="21278335"/>
-									<PluginRef Id="56179526"/>
-									<PluginRef Id="145712967"/>
-									<PluginRef Id="393190976"/>
-									<PluginRef Id="409478190"/>
-									<PluginRef Id="559173273"/>
-									<PluginRef Id="632779657"/>
-									<PluginRef Id="725142564"/>
-								</Custom>
-								<ShareSets>
-									<PluginRef Id="28907203"/>
-									<PluginRef Id="28907229"/>
-									<PluginRef Id="1506222489"/>
-									<PluginRef Id="1506222490"/>
-								</ShareSets>
-							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="1182670510"/>
@@ -6008,24 +5990,6 @@
 							<MediaRefs>
 								<MediaRef Id="305037647"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="21278335"/>
-									<PluginRef Id="56179526"/>
-									<PluginRef Id="145712967"/>
-									<PluginRef Id="393190976"/>
-									<PluginRef Id="409478190"/>
-									<PluginRef Id="559173273"/>
-									<PluginRef Id="632779657"/>
-									<PluginRef Id="725142564"/>
-								</Custom>
-								<ShareSets>
-									<PluginRef Id="28907203"/>
-									<PluginRef Id="28907229"/>
-									<PluginRef Id="1506222489"/>
-									<PluginRef Id="1506222490"/>
-								</ShareSets>
-							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="1182670510"/>
@@ -7110,24 +7074,6 @@
 							<MediaRefs>
 								<MediaRef Id="305037647"/>
 							</MediaRefs>
-							<PluginRefs>
-								<Custom>
-									<PluginRef Id="21278335"/>
-									<PluginRef Id="56179526"/>
-									<PluginRef Id="145712967"/>
-									<PluginRef Id="393190976"/>
-									<PluginRef Id="409478190"/>
-									<PluginRef Id="559173273"/>
-									<PluginRef Id="632779657"/>
-									<PluginRef Id="725142564"/>
-								</Custom>
-								<ShareSets>
-									<PluginRef Id="28907203"/>
-									<PluginRef Id="28907229"/>
-									<PluginRef Id="1506222489"/>
-									<PluginRef Id="1506222490"/>
-								</ShareSets>
-							</PluginRefs>
 						</SwitchContainer>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="1182670510"/>
@@ -7504,7 +7450,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{CBC588C9-5988-01FD-B348-45B876053FC4}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{4D57B0DE-6A12-21E9-0684-60BCBA75E5B2}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -8831,7 +8777,7 @@
 						<MediaRef Id="999054356"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2767686943" Name="Play_VO_Wisdom" DurationType="OneShot" DurationMin="453.298" DurationMax="664.9247">
+				<Event Id="2767686943" Name="Play_VO_Wisdom" DurationType="OneShot" DurationMin="0" DurationMax="0">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="683317262" Id="1398814679" Default="true"/>
@@ -9046,7 +8992,7 @@
 				</AuxBus>
 			</AuxBusses>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{640FE91B-94F0-9A8E-EA20-CE3CA45DD2CA}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{DB5A0450-840C-E331-A940-433159BD36B9}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -13945,5 +13891,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{A3B4628C-35A7-2D08-C4D8-FE67F3B39817}</FileHash>
+	<FileHash>{FCBB00D9-9E28-F8D5-0B27-D3D570DACAB7}</FileHash>
 </SoundBanksInfo>

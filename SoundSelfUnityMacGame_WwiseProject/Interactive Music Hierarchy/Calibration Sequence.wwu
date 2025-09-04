@@ -119,39 +119,6 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{093091AA-7E60-4C8B-8CA1-6441FD16689B}" ShortID="68860606">
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{E907AFED-33CF-46A0-A54C-31A25C6195EE}" ShortID="930828287">
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{28AD581C-53BA-4E75-A567-D5E997CFEC94}" ShortID="23691098">
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_MIDI_Bass_Synthesizer" ID="{E52B5D22-0EEE-4FC6-9C3D-7773B2419D12}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -243,7 +210,7 @@
 											<MusicCue Name="Cue_AVS_Calibration_End" ID="{748540D7-CF17-4596-AF1F-A8F301249ACF}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="46.8024369388358"/>
+													<Property Name="TimeMs" Type="Real64" Value="4.36455835476278"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -483,48 +450,6 @@
 																</Reference>
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{7AE2F981-6FEA-42AA-BD97-8A027BC8D959}" ShortID="341342430">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="22741.7799875042"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{0471B250-316E-4972-BE0E-1BEE164A227F}" ShortID="896306867">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="24671.701472526"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{E1E10B79-0A91-4F42-BB5F-A8A8B31EE574}" ShortID="563409597">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="22105.6561508305"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Set_Calibration_Lights" ID="{8DC11C72-CA7C-4C2D-AA74-CF06BAF25381}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
 																		<MusicEventCue Name="" ID="{80DA093C-B0B2-4723-9EC0-33CBE7B9871E}" ShortID="321766115">
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -574,7 +499,7 @@
 											<MusicCue Name="Cue_AVS_Calibration_Start" ID="{4386AC87-8561-4983-B0F3-A6D99D0E049C}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="23286.8272853694"/>
+													<Property Name="TimeMs" Type="Real64" Value="23665.148320277"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
