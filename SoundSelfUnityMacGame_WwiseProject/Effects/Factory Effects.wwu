@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" SchemaVersion="119">
+<WwiseDocument Type="WorkUnit" ID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" SchemaVersion="123">
 	<Effects>
 		<WorkUnit Name="Factory Effects" ID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}" PersistMode="Standalone">
 			<ChildrenList>
@@ -222,41 +222,173 @@
 						</Effect>
 						<Effect Name="New_Mastering_Suite" ID="{76CFC61C-659F-4651-B56B-0FAD71ADB80B}" PluginName="Mastering Suite" CompanyID="0" PluginID="186" PluginType="3">
 							<PropertyList>
-								<Property Name="compressorBand1Attack" Type="Real32" Value="0.2"/>
-								<Property Name="compressorBand1MakeupGain" Type="Real32" Value="3"/>
-								<Property Name="compressorBand1Ratio" Type="Real32" Value="2.66"/>
-								<Property Name="compressorBand1Release" Type="Real32" Value="2.17"/>
-								<Property Name="compressorBand1Threshold" Type="Real32" Value="-12"/>
-								<Property Name="compressorBand3MakeupGain" Type="Real32" Value="-0.2"/>
-								<Property Name="limiterAttack" Type="Real32" Value="0.1"/>
-								<Property Name="limiterRelease" Type="Real32" Value="0.87"/>
-								<Property Name="limiterThreshold" Type="Real32" Value="-3"/>
-								<Property Name="masterVolumeChannel10" Type="Real32" Value="2"/>
-								<Property Name="masterVolumeChannel11" Type="Real32" Value="2"/>
-								<Property Name="masterVolumeChannel12" Type="Real32" Value="2"/>
-								<Property Name="masterVolumeChannel6" Type="Real32" Value="2"/>
-								<Property Name="masterVolumeChannel7" Type="Real32" Value="2"/>
-								<Property Name="masterVolumeChannel8" Type="Real32" Value="2"/>
-								<Property Name="masterVolumeChannel9" Type="Real32" Value="2"/>
-								<Property Name="paramBand1Frequency" Type="Real32" Value="52.76893"/>
-								<Property Name="paramBand1Gain" Type="Real32" Value="0.7407407"/>
-								<Property Name="paramBand2Frequency" Type="Real32" Value="239.7075"/>
-								<Property Name="paramBand2Gain" Type="Real32" Value="-1.399177"/>
-								<Property Name="paramBand3Frequency" Type="Real32" Value="77.7889"/>
-								<Property Name="paramBand3Gain" Type="Real32" Value="-1.069959"/>
-								<Property Name="paramBand4Frequency" Type="Real32" Value="1850.641"/>
-								<Property Name="paramBand4Gain" Type="Real32" Value="1.05"/>
-								<Property Name="paramBand5Enabled" Type="bool" Value="True"/>
-								<Property Name="paramBand5Frequency" Type="Real32" Value="192.3871"/>
-								<Property Name="paramBand5Gain" Type="Real32" Value="-2.55144"/>
-								<Property Name="paramBand5Resonance" Type="Real32" Value="3.13"/>
-								<Property Name="paramBand6Enabled" Type="bool" Value="True"/>
-								<Property Name="paramBand6Frequency" Type="Real32" Value="1007.575"/>
-								<Property Name="paramBand6Gain" Type="Real32" Value="1.234568"/>
-								<Property Name="paramBand6Resonance" Type="Real32" Value="3.69"/>
-								<Property Name="paramEqNumBands" Type="int32" Value="6"/>
+								<Property Name="compressorBand1Attack" Type="Real32">
+									<ValueList>
+										<Value>0.2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="compressorBand1MakeupGain" Type="Real32">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+								<Property Name="compressorBand1Ratio" Type="Real32">
+									<ValueList>
+										<Value>2.66</Value>
+									</ValueList>
+								</Property>
+								<Property Name="compressorBand1Release" Type="Real32">
+									<ValueList>
+										<Value>2.17</Value>
+									</ValueList>
+								</Property>
+								<Property Name="compressorBand1Threshold" Type="Real32">
+									<ValueList>
+										<Value>-12</Value>
+									</ValueList>
+								</Property>
+								<Property Name="compressorBand3MakeupGain" Type="Real32">
+									<ValueList>
+										<Value>-0.2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="limiterAttack" Type="Real32">
+									<ValueList>
+										<Value>0.1</Value>
+									</ValueList>
+								</Property>
+								<Property Name="limiterRelease" Type="Real32">
+									<ValueList>
+										<Value>0.87</Value>
+									</ValueList>
+								</Property>
+								<Property Name="limiterThreshold" Type="Real32">
+									<ValueList>
+										<Value>-3</Value>
+									</ValueList>
+								</Property>
+								<Property Name="masterVolumeChannel10" Type="Real32">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="masterVolumeChannel11" Type="Real32">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="masterVolumeChannel12" Type="Real32">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="masterVolumeChannel6" Type="Real32">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="masterVolumeChannel7" Type="Real32">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="masterVolumeChannel8" Type="Real32">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="masterVolumeChannel9" Type="Real32">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand1Frequency" Type="Real32">
+									<ValueList>
+										<Value>52.76893</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand1Gain" Type="Real32">
+									<ValueList>
+										<Value>0.7407407</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand2Frequency" Type="Real32">
+									<ValueList>
+										<Value>239.7075</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand2Gain" Type="Real32">
+									<ValueList>
+										<Value>-1.399177</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand3Frequency" Type="Real32">
+									<ValueList>
+										<Value>77.7889</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand3Gain" Type="Real32">
+									<ValueList>
+										<Value>-1.069959</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand4Frequency" Type="Real32">
+									<ValueList>
+										<Value>1850.641</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand4Gain" Type="Real32">
+									<ValueList>
+										<Value>1.05</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand5Enabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand5Frequency" Type="Real32">
+									<ValueList>
+										<Value>192.3871</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand5Gain" Type="Real32">
+									<ValueList>
+										<Value>-2.55144</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand5Resonance" Type="Real32">
+									<ValueList>
+										<Value>3.13</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand6Enabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand6Frequency" Type="Real32">
+									<ValueList>
+										<Value>1007.575</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand6Gain" Type="Real32">
+									<ValueList>
+										<Value>1.234568</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramBand6Resonance" Type="Real32">
+									<ValueList>
+										<Value>3.69</Value>
+									</ValueList>
+								</Property>
+								<Property Name="paramEqNumBands" Type="int32">
+									<ValueList>
+										<Value>6</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
-							<PluginData/>
+							<PluginData><PluginData/></PluginData>
 						</Effect>
 					</ChildrenList>
 				</Folder>

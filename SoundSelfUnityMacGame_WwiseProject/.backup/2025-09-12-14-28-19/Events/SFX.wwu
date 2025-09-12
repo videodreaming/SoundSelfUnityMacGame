@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="SFX" ID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_sfx_SoundSeed_BreathCycle" ID="{FE6B1099-4515-45DE-801F-62326CC3385B}">
+					<ChildrenList>
+						<Action Name="" ID="{DC657F66-09B1-4044-BD7C-282EF89FB734}" ShortID="673990019">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}">
+					<ChildrenList>
+						<Action Name="" ID="{E4DDCE5E-7555-4F75-A2BA-3455BCF1953B}" ShortID="603408995">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breathin" ID="{9B327402-07A7-405F-8EAA-29EE91F703C7}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_breatheout" ID="{947EFD45-76E4-4F61-8855-0A00FE87BC89}">
+					<ChildrenList>
+						<Action Name="" ID="{F2898BC6-0146-48E5-A2FC-6497B781550E}" ShortID="569718791">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath out" ID="{AFA1D476-C82D-45BF-B001-DF5BD24B1A76}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}">
+					<ChildrenList>
+						<Action Name="" ID="{653D3851-E418-452A-9E2F-741DB896EE87}" ShortID="873658869">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="12"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{E9D45B82-09A2-4209-9EFC-EC06B9301AEA}" ShortID="1013802003">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="8"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_Impact" ID="{0A5A8332-389F-452E-B07C-318CD4F7EDD5}">
+					<ChildrenList>
+						<Action Name="" ID="{B543CB52-D697-48AD-9736-F32EBEE434D1}" ShortID="825059182">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Impacts_Sequence" ID="{284B4166-15FA-4248-9C6C-BFED6EF1B1A2}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}">
+					<ChildrenList>
+						<Action Name="" ID="{159E6C1E-CCEA-464F-BE22-382774EBA675}" ShortID="387339877">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{7520821E-9FD7-46F7-8619-4012A2E68574}" ShortID="464801548">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="6">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{0716D24D-B67B-444D-8EC5-0A830BC5A083}"/>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{EBAE0891-0132-4C96-9A7B-EF1016907213}" ShortID="1041680366">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="12">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{568AEFC7-742A-457A-95A0-E2821F4730EA}">
+												<PropertyList>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{2A599627-120F-48BB-8A65-EA29B17708F7}" ShortID="883068406">
+							<PropertyList>
+								<Property Name="Delay" Type="Real64" Value="30">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{F6B1F966-5093-48A9-A7E8-84BC1C7E2B6C}">
+												<PropertyList>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}">
+					<ChildrenList>
+						<Action Name="" ID="{46B78FF4-FDE3-4A01-B21D-3169B456BFD2}" ShortID="203972915">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="6"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{875CD99C-B8EF-4104-8F37-C1016E53CC47}" ShortID="534528042">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="8"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{F2027554-0F82-4770-9AC7-CFFA7544821A}" ShortID="160949399">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="8">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{6B27E4BC-62CE-447C-9BA3-0DA6C56F87FB}">
+												<PropertyList>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{2AF0767C-6A39-4940-903B-F22FDEDF0476}" ShortID="277484690">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="10">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{9662F4D3-B4AE-4D78-A486-EE79BFCB6E8F}">
+												<PropertyList>
+													<Property Name="Max" Type="Real64" Value="30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}">
+					<ChildrenList>
+						<Action Name="" ID="{0253F643-8408-4A8D-A7AE-B6A8F933CAAC}" ShortID="1058149397">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{8558BBA8-D9C2-4E72-A2C7-1F6DE4E8A7EF}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{3D59C8E2-B286-421C-B5A4-6AC3B5C6C122}" ShortID="297607345">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="60"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="environment_wind" ID="{C654E020-3DDC-4C78-9702-0945A21B9CA3}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Unity_TransitionSFX" ID="{1E0E502D-1D20-4209-89C0-D28DB3052CFF}">
+					<ChildrenList>
+						<Action Name="" ID="{C87FD1BF-21F3-420D-9EFF-BBF515C3ACF1}" ShortID="759242245">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Nature_Random" ID="{CAFBF820-FBEB-4826-811F-9E51CB1170A8}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Inhale_Short" ID="{9ACF354A-3E4F-4249-89C4-8C49B0DFF12B}">
+					<ChildrenList>
+						<Action Name="" ID="{1703D022-8713-44A2-ABDA-5478E080110B}" ShortID="1036759606">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{6B73A636-CC17-4256-8140-2C0932FAA4D6}" ShortID="190652236">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="100"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Inhale_Medium" ID="{BB3BA8BB-FC94-42FB-8E1B-11EFB7F9EC68}">
+					<ChildrenList>
+						<Action Name="" ID="{CC962CD6-8C04-4D9F-B597-C654E3F5E7D4}" ShortID="971459319">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="50"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C7E1AADA-0D42-45A9-896E-1B37ACFC0C02}" ShortID="15386780">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Inhale_Long" ID="{4B9F2ACC-55FD-4285-952B-9206B5585121}">
+					<ChildrenList>
+						<Action Name="" ID="{C17BD1C8-3657-4AFD-936C-C07849C003C7}" ShortID="962445261">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{5572FB72-98FD-4A0A-BBFC-E0FB3FCC8C93}" ShortID="165365458">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_Inhales" ID="{465AF465-834E-49F5-80D0-AA1071BDB9E2}">
+					<ChildrenList>
+						<Action Name="" ID="{E657B100-4995-4DC9-A3B1-E5309CA2BE6B}" ShortID="121802071">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sfx_breath in" ID="{ABF3828A-B6D1-4484-8256-7B3ACDCA3283}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_Impact_AVS_Only" ID="{BFD987A0-47C4-42B5-877D-0397B90C2857}">
+					<ChildrenList>
+						<Action Name="" ID="{E738ED9A-64D5-4EC7-8CDC-6E599685D71A}" ShortID="572075731">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SFX_Impacts_Sequence_AVS_Only" ID="{DD6FAAED-CC76-4AA4-9EE3-16BCC05DD8D4}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_sfx_EndInteractive" ID="{0434785F-64FB-4AAF-9300-4EDF77019B5A}">
+					<ChildrenList>
+						<Action Name="" ID="{5AA47809-A20E-4099-949A-49021D5490F9}" ShortID="528747679">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="End Interactive SFX" ID="{A9BED808-170A-4678-99E1-DE23BFEBB9E1}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

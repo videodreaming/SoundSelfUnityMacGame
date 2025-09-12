@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Linear Music" ID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_MenuMusic" ID="{E4E9F51D-81DC-41C8-BA5D-AA250A570B32}">
+					<ChildrenList>
+						<Action Name="" ID="{0B504F76-2839-4CC8-BF98-6242EAD39831}" ShortID="106424597">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="menu_music_C Major" ID="{326F167E-A33B-47E3-BE45-F0E0B149F187}" WorkUnitID="{9781B7C5-4C90-4D16-9436-E69ABBCBD51D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_music_meditationSilent_E_Major_LOOP" ID="{CE09BEF8-2A60-4152-BE19-73FF50191240}">
+					<ChildrenList>
+						<Action Name="" ID="{23A4DEDC-BD0D-4B39-B138-7ADDFA249C8F}" ShortID="504608479">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_music_Duet_D_Major" ID="{81A8BE50-7F04-4DFC-BCBA-00A442A5995B}">
+					<ChildrenList>
+						<Action Name="" ID="{04606787-D794-4B4A-A599-978E625FA992}" ShortID="813354783">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="music_duet_D Major" ID="{91933EC4-8A47-4961-92DD-9DCB27CCFDC4}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_music_meditationSilent_E_Major_LOOP" ID="{7F68A849-DF59-4501-90DB-9BB1A586EB46}">
+					<ChildrenList>
+						<Action Name="" ID="{DE3625EF-3482-42FD-B027-621B4701CA55}" ShortID="699348260">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

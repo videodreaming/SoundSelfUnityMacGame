@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="VO" ID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_VO_SighElicitationFail1" ID="{847982D6-6BD0-458E-B7EF-8583C5E6353D}">
+					<ChildrenList>
+						<Action Name="" ID="{4AD1B98F-1DE9-4175-8AEC-97BAF8D1B5DD}" ShortID="46329265">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_SighElicitationFail1" ID="{C8221D4F-F9CA-42E7-9AB9-EE8B3880B8C8}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_SighElicitation1" ID="{2743CE95-A778-4676-A9E7-6E4BFF47E683}">
+					<ChildrenList>
+						<Action Name="" ID="{468E8B11-9053-4D15-8214-702E4A895F95}" ShortID="988372931">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_elicitSigh_opening" ID="{B898CA1F-0AD7-4604-A86A-5372BD2BCCA4}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_QueryElicitation1" ID="{3DDFBC62-EECA-414B-959A-6CD9FF50F414}">
+					<ChildrenList>
+						<Action Name="" ID="{EC02A0B0-C996-43DE-968A-616E298152DD}" ShortID="995062432">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_elicitQuery_opening" ID="{8B525864-1210-494D-AD2E-9B68775245E6}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_QueryElicitationFail1" ID="{0D6EC494-2781-4A56-8C83-A52071A455FA}">
+					<ChildrenList>
+						<Action Name="" ID="{B1B222D6-F4B0-4F37-89E7-B518E60E4F0D}" ShortID="125819518">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_QueryElicitationFail1" ID="{433F04E3-C32C-4A8B-A68E-DE58C1950D19}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_QueryElicitationPassThankYou1" ID="{DEC1D82D-0A4E-49C3-9AE1-1D4C421710EE}">
+					<ChildrenList>
+						<Action Name="" ID="{1153F75D-16C6-45EE-ABC0-520AAFBFEE5D}" ShortID="645882504">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_thankYou" ID="{BC9042D3-3DD5-4A0D-A366-56CE31FB14DF}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_ThematicContent" ID="{D602521A-6FF7-48C0-9307-06656786D26D}">
+					<ChildrenList>
+						<Action Name="" ID="{72F2E681-C9B1-46EC-9E01-A172C14DCDF5}" ShortID="758099035">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_THEMATIC CONTENT_SWITCH" ID="{63984121-BA3F-4D1F-87C9-BBF3782D85A4}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Somatic" ID="{2A323EE3-3873-4A12-BD6B-479D1A70CA48}">
+					<ChildrenList>
+						<Action Name="" ID="{06727E58-FAB4-47C0-B5F3-8E9EDDA10C51}" ShortID="277034948">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Somatic" ID="{EDB9FC8B-D05E-46C4-9C60-22556527DC84}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_GuidedVocalizationHum" ID="{FF863BD2-6C72-4EF3-9D32-B7A302EDEECC}">
+					<ChildrenList>
+						<Action Name="" ID="{677191DA-B742-46EF-BF28-2695EA398238}" ShortID="411796618">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_GuidedVocalizationsHum" ID="{4D57A566-1056-43BA-9F1A-3ADF518C9DCA}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_GuidedVocalizationAhh" ID="{B097EC3D-B020-41EF-AB70-7566952FCFC4}">
+					<ChildrenList>
+						<Action Name="" ID="{427C3D09-C43E-4FA6-B17E-A95C94AE3276}" ShortID="55096404">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_GuidedVocalizationAhh" ID="{DC9B5580-8731-4F13-854B-4E27536B4D75}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_GuidedVocalizationOhh" ID="{8E2E2C4B-F191-4B6C-B7F0-8643BFB84742}">
+					<ChildrenList>
+						<Action Name="" ID="{BAED68E6-92D6-49B9-965D-F88AD4B4DB44}" ShortID="757235464">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_GuidedVocalizationOhh" ID="{04C596E0-4692-477C-8931-F8ABECF5DE69}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_GuidedVocalizationAdvanced" ID="{CA09A92A-1919-4E7C-A1E2-A10D652F7F14}">
+					<ChildrenList>
+						<Action Name="" ID="{EA1FCD3C-D26F-437F-8235-6EB2CD88A323}" ShortID="878720182">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_GuidedVocalizationsAdvanced" ID="{BB6743A7-3ABD-423C-8354-3BDADD5D2BD7}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_ThematicSavasana" ID="{725978A3-4CB7-45CF-86E3-BD5BAE777DA1}">
+					<ChildrenList>
+						<Action Name="" ID="{E9AD23E6-49E1-4C3E-AD9C-12443F5651C8}" ShortID="132929971">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_ThematicSavasana" ID="{F106A05D-4AF9-44CC-8B08-7D18C47F2C53}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Wisdom" ID="{7FC7B841-292F-46E4-BB2A-7198FF57229B}">
+					<ChildrenList>
+						<Action Name="" ID="{4C77AA59-1156-455F-BD27-8E9A91943DD8}" ShortID="756086599">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_Wisdom" ID="{D8936C06-96C4-40E5-A689-EB2B35AE5BC2}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_Wakeup" ID="{8E31B5D4-53EF-4857-93D3-635F862C3583}">
+					<ChildrenList>
+						<Action Name="" ID="{E853DA9E-163C-478D-9482-38846F63D433}" ShortID="363030999">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_wakeUp" ID="{5E8C30DE-AAAB-425A-9686-C50D7E07AF38}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_EndingSoon" ID="{9E0D6496-82D7-4844-ACD7-8C31B52A9987}">
+					<ChildrenList>
+						<Action Name="" ID="{10CBEF05-D853-4ACD-B048-CBFBC08E7561}" ShortID="946800250">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_endingSoon" ID="{368C9F8B-8373-4546-B197-6AE9D661B1F5}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_SighElicitation2" ID="{37DF2B27-2FC6-4EDD-8549-BE6DC8CA14AA}">
+					<ChildrenList>
+						<Action Name="" ID="{9EFFA225-0C21-476F-B72F-52A90912023E}" ShortID="256400744">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_elicitSigh_closing" ID="{CDFC8713-B0D5-4ABA-A5C9-33A84618DD69}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_SighElicitationFail2" ID="{C24856F2-1326-487C-8349-C8A5075D0F2E}">
+					<ChildrenList>
+						<Action Name="" ID="{F593F838-7D95-4EE9-90A3-560DFEA6E7F7}" ShortID="224259674">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_elicitSighFail_any" ID="{3A1BB49C-302E-4E71-89EE-A0A693E3BFB3}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_QueryElicitation2" ID="{9C041F2C-C5FA-4650-A7FF-2589D7E2832D}">
+					<ChildrenList>
+						<Action Name="" ID="{91A82DFA-7B3B-4C10-A5EE-ECA080D08D42}" ShortID="787686429">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_elicitQuery_closing" ID="{BD2C286C-1478-451A-B953-B7BAB4E61591}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_QueryElicitationFail2" ID="{CAAD2BB8-41FE-4CDA-9277-9A649A763E03}">
+					<ChildrenList>
+						<Action Name="" ID="{81B93168-EB8A-440D-8E69-684A6B004F1A}" ShortID="690543604">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_QueryElicitationFail2" ID="{65CB6280-D992-408E-9AE0-215B63EA69E6}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_QueryElicitationPass2" ID="{89874443-E371-4BD5-833B-22293DBD6B7A}">
+					<ChildrenList>
+						<Action Name="" ID="{5A02A93C-D392-4897-87BF-D19A88498CE8}" ShortID="280082052">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_thankYou" ID="{BC9042D3-3DD5-4A0D-A366-56CE31FB14DF}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_ClosingGoodbye" ID="{E317C9D8-FCA4-41C2-BC26-F16E968EFAE1}">
+					<PropertyList>
+						<Property Name="Inclusion" Type="bool" Value="False"/>
+					</PropertyList>
+					<ChildrenList>
+						<Action Name="" ID="{736D7638-991E-46A5-9B7E-06048AA9F894}" ShortID="877815523">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_CLOSING_GOODBYE" ID="{8FB1D877-44D3-49AA-8EE3-10978E8749BB}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_VO_ClosingGoodbye" ID="{FC7E96EA-253A-45DA-860C-6D159A29245C}">
+					<ChildrenList>
+						<Action Name="" ID="{7541DAB8-EB82-4CB5-8204-95D9F1887078}" ShortID="141252374">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_CLOSING_GOODBYE" ID="{8FB1D877-44D3-49AA-8EE3-10978E8749BB}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Ahh" ID="{904550D5-AA58-4A1F-99C1-07E70EA2BDC5}">
+					<ChildrenList>
+						<Action Name="" ID="{2703CBF1-E8B2-4934-B264-9D3B2D36A9A8}" ShortID="625594133">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_ahh" ID="{9F801837-77CC-4BFD-9B5D-C0CF9D867F59}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Ohh" ID="{09601005-811E-4071-A42C-CE34AB039B9B}">
+					<ChildrenList>
+						<Action Name="" ID="{11F51598-40DB-4894-8DFB-8EFC803B45B4}" ShortID="980565661">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_ohh" ID="{AB014D5A-1807-451D-92BE-E8B8D2444BAF}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Hum" ID="{EEDEC037-D167-4CBE-9445-20BC3BA01658}">
+					<ChildrenList>
+						<Action Name="" ID="{2E875348-D9A4-4EF9-9D99-69C8A8ADDB42}" ShortID="247808975">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_hum" ID="{60BAB97F-33A5-4B1E-BF49-DD3BC4FFA455}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Extended" ID="{387BBF71-12BB-4EB6-85DF-4141273202DE}">
+					<ChildrenList>
+						<Action Name="" ID="{165B8591-F56E-4B1F-A7AF-56ECDDAE9B51}" ShortID="68047741">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_extended" ID="{8D70A9FD-1304-4614-901B-56D7850EBDB9}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testRepair_Succeed" ID="{8D479B7D-34C5-4B08-A76C-A77A148A4E52}">
+					<ChildrenList>
+						<Action Name="" ID="{01F94FB6-A29E-4C0B-9E27-772B09C97639}" ShortID="77889644">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="vo_testRepair_succeed" ID="{CF759797-30D3-4272-8D7B-144B27E1007C}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_CLOSING_GOODBYE" ID="{AF08258D-64D6-468F-8641-00152A884F0F}">
+					<ChildrenList>
+						<Action Name="" ID="{125410B3-E30B-46AE-BF7F-AEE8AC43220A}" ShortID="695586086">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_CLOSING_GOODBYE" ID="{8FB1D877-44D3-49AA-8EE3-10978E8749BB}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

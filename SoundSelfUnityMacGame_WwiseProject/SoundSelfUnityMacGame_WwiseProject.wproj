@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="Project" SchemaVersion="119" WwiseVersion="v2023.1.6" WwiseBuild="8555">
+<WwiseDocument Type="Project" SchemaVersion="123" WwiseVersion="v2023.1.6" WwiseBuild="8555">
 	<ProjectInfo>
 		<Project Name="SoundSelfUnityMacGame_WwiseProject" ID="{DA3E18A3-7A51-4313-8B32-6AA2527F3EA5}">
 			<Platforms>
@@ -16,8 +16,8 @@
 				<Property Name="AutoSoundBankEnabled" Type="bool" Value="True"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">
 					<ValueList>
-						<Value Platform="Windows"></Value>
-						<Value Platform="Mac"></Value>
+						<Value Platform="Windows"/>
+						<Value Platform="Mac"/>
 					</ValueList>
 				</Property>
 				<Property Name="ExternalSourcesOutputPath" Type="string">
@@ -46,26 +46,26 @@
 				</Property>
 				<Property Name="SoundBankPostGenerateCustomCmdDescription" Type="string">
 					<ValueList>
-						<Value Platform="Windows"></Value>
-						<Value Platform="Mac"></Value>
+						<Value Platform="Windows"/>
+						<Value Platform="Mac"/>
 					</ValueList>
 				</Property>
 				<Property Name="SoundBankPostGenerateCustomCmdLines" Type="string">
 					<ValueList>
-						<Value Platform="Windows"></Value>
-						<Value Platform="Mac"></Value>
+						<Value Platform="Windows"/>
+						<Value Platform="Mac"/>
 					</ValueList>
 				</Property>
 				<Property Name="SoundBankPreGenerateCustomCmdDescription" Type="string">
 					<ValueList>
-						<Value Platform="Windows"></Value>
-						<Value Platform="Mac"></Value>
+						<Value Platform="Windows"/>
+						<Value Platform="Mac"/>
 					</ValueList>
 				</Property>
 				<Property Name="SoundBankPreGenerateCustomCmdLines" Type="string">
 					<ValueList>
-						<Value Platform="Windows"></Value>
-						<Value Platform="Mac"></Value>
+						<Value Platform="Windows"/>
+						<Value Platform="Mac"/>
 					</ValueList>
 				</Property>
 				<Property Name="VolumeThreshold" Type="Real64">
@@ -851,12 +851,12 @@
 						</Property>
 						<Property Name="ExternalSourcesInputPath" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ExternalSourcesOutputPath" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="FilterBehavior" Type="int16">
@@ -891,7 +891,7 @@
 						</Property>
 						<Property Name="LicenseKey" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="LineEnding" Type="Uint16">
@@ -976,7 +976,7 @@
 						</Property>
 						<Property Name="SoundBankHeaderFilePath" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankIncludeSoundbankNamesStrings" Type="bool">
@@ -986,27 +986,27 @@
 						</Property>
 						<Property Name="SoundBankPaths" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankPostGenerateCustomCmdDescription" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankPostGenerateCustomCmdLines" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankPreGenerateCustomCmdDescription" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankPreGenerateCustomCmdLines" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankUpdateAudioFiles" Type="bool">
@@ -1051,7 +1051,7 @@
 						</Property>
 						<Property Name="WwiseVersionWhenCreated" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -3820,7 +3820,7 @@
 						</Property>
 						<Property Name="PropertyName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -5221,7 +5221,7 @@
 						</Property>
 						<Property Name="WAQL" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -5230,7 +5230,7 @@
 					<PropertyList>
 						<Property Name="Attenuation" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ConditionalOperator" Type="int16">
@@ -5240,7 +5240,7 @@
 						</Property>
 						<Property Name="Conversion" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="CurveType" Type="int16">
@@ -5255,17 +5255,17 @@
 						</Property>
 						<Property Name="DefaultSwitchState" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="Effect" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="EffectClassID" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="EventsReferencedInOperator" Type="int16">
@@ -5275,7 +5275,7 @@
 						</Property>
 						<Property Name="GameParameter" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="HasEmptyAssignation" Type="bool">
@@ -5325,12 +5325,12 @@
 						</Property>
 						<Property Name="Metadata" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="MetadataClassID" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="Mode" Type="int16">
@@ -5340,7 +5340,7 @@
 						</Property>
 						<Property Name="MusicSegment" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="NumericOperator" Type="int16">
@@ -5350,17 +5350,17 @@
 						</Property>
 						<Property Name="ObjectReferenced" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="OutputBus" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="PropertyName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="RTPCOperator" Type="int16">
@@ -5395,7 +5395,7 @@
 						</Property>
 						<Property Name="SourceAudioFormat" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SourceChannelsLFEOption" Type="int32">
@@ -5415,22 +5415,22 @@
 						</Property>
 						<Property Name="SourceLanguage" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SourceType" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="State" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="StateGroup" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="StatePropertyUsage" Type="int16">
@@ -5440,7 +5440,7 @@
 						</Property>
 						<Property Name="SwitchGroup" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SwitchingOperator" Type="int16">
@@ -5450,7 +5450,7 @@
 						</Property>
 						<Property Name="Trigger" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="UIntValue" Type="Uint32">
@@ -5460,7 +5460,7 @@
 						</Property>
 						<Property Name="UserString" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="UsingOperator" Type="int16">
@@ -6361,7 +6361,7 @@
 						</Property>
 						<Property Name="ExitSourceCustomCueMatchName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="IsFolder" Type="bool">
@@ -6376,7 +6376,7 @@
 						</Property>
 						<Property Name="JumpToCustomCueMatchName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="OverrideColor" Type="bool">
@@ -6425,7 +6425,7 @@
 						</Property>
 						<Property Name="CustomCueMatchName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="DontPlayAgainTime" Type="Real64">
@@ -6634,12 +6634,12 @@
 						</Property>
 						<Property Name="ExternalSourcesInputPath" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ExternalSourcesOutputPath" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ExternalSourcesOverrideInputPath" Type="bool">
@@ -6749,7 +6749,7 @@
 						</Property>
 						<Property Name="SoundBankHeaderFilePath" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankIncludeSoundbankNamesStrings" Type="bool">
@@ -6764,27 +6764,27 @@
 						</Property>
 						<Property Name="SoundBankPaths" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankPostGenerateCustomCmdDescription" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankPostGenerateCustomCmdLines" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankPreGenerateCustomCmdDescription" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankPreGenerateCustomCmdLines" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankUpdateAudioFiles" Type="bool">
@@ -6822,7 +6822,7 @@
 					<PropertyList>
 						<Property Name="DataFileName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -6851,7 +6851,7 @@
 						</Property>
 						<Property Name="MaxSampleRate" Type="int32">
 							<ValueList>
-								<Value>0</Value>
+								<Value>48000</Value>
 							</ValueList>
 						</Property>
 						<Property Name="MinSampleRate" Type="int32">
@@ -7406,7 +7406,7 @@
 						</Property>
 						<Property Name="HardwareControllerKey" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ObjectIndexInView" Type="int32">
@@ -7426,7 +7426,7 @@
 						</Property>
 						<Property Name="TargetName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="TargetType" Type="int16">
@@ -7450,7 +7450,7 @@
 						</Property>
 						<Property Name="HardwareControllerKey" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ObjectIndexInView" Type="int32">
@@ -7470,7 +7470,7 @@
 						</Property>
 						<Property Name="TargetName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="TargetType" Type="int16">
@@ -7660,7 +7660,7 @@
 						</Property>
 						<Property Name="Label" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="OverrideColor" Type="bool">
@@ -9979,7 +9979,7 @@
 						</Property>
 						<Property Name="GameFilename" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="Inclusion" Type="bool">
@@ -11674,7 +11674,7 @@
 					<PropertyList>
 						<Property Name="ModDisplayName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ModID" Type="int32">
@@ -11684,12 +11684,12 @@
 						</Property>
 						<Property Name="ModName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ParamDisplayName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ParamID" Type="int32">
@@ -11699,7 +11699,7 @@
 						</Property>
 						<Property Name="ParamName" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -12465,7 +12465,7 @@
 						</Property>
 						<Property Name="InsertToInsert" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="InsertWhat" Type="int16">
@@ -12505,12 +12505,12 @@
 						</Property>
 						<Property Name="ReplaceFindWhat" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="ReplaceReplaceWith" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -12685,7 +12685,7 @@
 						</Property>
 						<Property Name="GMEAuthBlob" Type="string">
 							<ValueList>
-								<Value></Value>
+								<Value/>
 							</ValueList>
 						</Property>
 						<Property Name="GMERoomID" Type="string">
@@ -12713,7 +12713,7 @@
 			</SharedValues>
 			<EnvironmentalSettings>
 				<ObsOccCurves>
-					<Comment></Comment>
+					<Comment/>
 					<ObsOccCurve CurveXType="Obstruction" CurveYType="Volume">
 						<PlatformCurve Platform="Linked" EnableCurve="true">
 							<Curve Name="" ID="{F17BA8F8-5ACB-4E6D-943D-9FF0BBFAA613}">
@@ -12840,7 +12840,127 @@
 							</Curve>
 						</PlatformCurve>
 					</ObsOccCurve>
-				</ObsOccCurves>
+				<ObsOccCurve CurveXType="Diffraction" CurveYType="Volume">
+						<PlatformCurve Platform="Linked" EnableCurve="true">
+							<Curve Name="" ID="{37F660C8-6BF0-492F-ACA8-C8BB2821C701}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="3"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>-200</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve><ObsOccCurve CurveXType="Diffraction" CurveYType="LPF">
+						<PlatformCurve Platform="Linked" EnableCurve="true">
+							<Curve Name="" ID="{40C08A33-289D-4C14-8DAB-032771AEDC73}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="1"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>100</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve><ObsOccCurve CurveXType="Diffraction" CurveYType="HPF">
+						<PlatformCurve Platform="Linked" EnableCurve="false">
+							<Curve Name="" ID="{A0EC2907-0713-4AED-8FEF-BDE44F526A04}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="1"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>100</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve><ObsOccCurve CurveXType="Transmission" CurveYType="Volume">
+						<PlatformCurve Platform="Linked" EnableCurve="true">
+							<Curve Name="" ID="{F8957619-C905-4F44-8A74-FA0270A3EE03}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="3"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>-200</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve><ObsOccCurve CurveXType="Transmission" CurveYType="LPF">
+						<PlatformCurve Platform="Linked" EnableCurve="true">
+							<Curve Name="" ID="{065EB110-DE83-4ED5-9EA7-3A0335326D0B}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="1"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>100</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve><ObsOccCurve CurveXType="Transmission" CurveYType="HPF">
+						<PlatformCurve Platform="Linked" EnableCurve="false">
+							<Curve Name="" ID="{7EA24D4C-AFCC-4D1A-8688-800A746E50D4}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="1"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>100</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve></ObsOccCurves>
 			</EnvironmentalSettings>
 			<LogCentralIgnoreList>
 				<IgnoreItem MessageId="None"/>

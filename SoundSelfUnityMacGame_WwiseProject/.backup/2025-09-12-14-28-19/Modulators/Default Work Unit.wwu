@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{B47702D1-19CF-4E70-B148-BA1D92505899}" SchemaVersion="119">
+	<Modulators>
+		<WorkUnit Name="Default Work Unit" ID="{B47702D1-19CF-4E70-B148-BA1D92505899}" PersistMode="Standalone">
+			<ChildrenList>
+				<ModulatorTime Name="Modulator_Time_PlaybackRate" ID="{D5D4C91A-1E5F-4417-80AD-52D75F42C22F}" ShortID="538079419">
+					<PropertyList>
+						<Property Name="TimeModDuration" Type="Real64" Value="10"/>
+					</PropertyList>
+				</ModulatorTime>
+				<ModulatorEnvelope Name="New Modulator Envelope" ID="{12BE3EDF-05A0-4C0B-84AD-0E75422A8B7D}" ShortID="850414921">
+					<PropertyList>
+						<Property Name="EnvelopeAttackCurve" Type="Real64" Value="0"/>
+						<Property Name="EnvelopeAttackTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeAutoRelease" Type="bool" Value="True"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeStopPlayback" Type="bool" Value="False"/>
+						<Property Name="EnvelopeSustainLevel" Type="Real64" Value="75.9"/>
+						<Property Name="EnvelopeSustainTime" Type="Real64" Value="1"/>
+					</PropertyList>
+				</ModulatorEnvelope>
+				<ModulatorLfo Name="New Modulator LFO" ID="{663082C2-4F7F-4EE0-A03E-D5440038FE54}" ShortID="55068381"/>
+				<ModulatorEnvelope Name="New Modulator Envelope_01" ID="{11A3BAAE-2B4E-4F6C-B4FC-BD0278E023D2}" ShortID="943122060">
+					<PropertyList>
+						<Property Name="EnvelopeAttackCurve" Type="Real64" Value="0"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="0"/>
+						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="0.137"/>
+						<Property Name="EnvelopeSustainLevel" Type="Real64" Value="4.2"/>
+					</PropertyList>
+				</ModulatorEnvelope>
+				<ModulatorEnvelope Name="ModulatorEnvelope_ToningLength" ID="{03B7D55F-F670-43B8-B406-26CF9E2D626D}" ShortID="345465289">
+					<PropertyList>
+						<Property Name="EnvelopeAttackCurve" Type="Real64" Value="100"/>
+						<Property Name="EnvelopeAttackTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="1"/>
+						<Property Name="EnvelopeSustainTime" Type="Real64" Value="1"/>
+						<Property Name="ModulatorScope" Type="int32" Value="0"/>
+					</PropertyList>
+				</ModulatorEnvelope>
+				<ModulatorTime Name="Toning_HPF_Env" ID="{4F5AB42A-C412-4DC8-A887-8E8A430FE016}" ShortID="384369097">
+					<PropertyList>
+						<Property Name="TimeModDuration" Type="Real64" Value="30"/>
+					</PropertyList>
+				</ModulatorTime>
+				<ModulatorLfo Name="AVS_Reference_Modulator" ID="{41820A0F-2817-48DD-8585-A9C50FFB943E}" ShortID="278681479">
+					<PropertyList>
+						<Property Name="LfoFrequency" Type="Real64" Value="40"/>
+						<Property Name="LfoPWM" Type="Real64" Value="12.5"/>
+						<Property Name="LfoWaveform" Type="int32" Value="2"/>
+					</PropertyList>
+				</ModulatorLfo>
+				<ModulatorEnvelope Name="New Modulator Envelope_02" ID="{1385BE79-804D-4DFA-AC35-BD210432673B}" ShortID="1035883610"/>
+				<ModulatorLfo Name="Modulator_LFO_SineWave" ID="{699EE222-6526-4C7D-A981-DC4505EA571B}" ShortID="1071040946">
+					<PropertyList>
+						<Property Name="LfoDepth" Type="Real64" Value="63.2"/>
+						<Property Name="LfoFrequency" Type="Real64" Value="0.2"/>
+					</PropertyList>
+				</ModulatorLfo>
+			</ChildrenList>
+		</WorkUnit>
+	</Modulators>
+</WwiseDocument>

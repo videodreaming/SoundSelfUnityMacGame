@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="AVS System" ID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}">
+					<ChildrenList>
+						<Action Name="" ID="{DD45F328-F186-4F4B-8EDF-16FFE2787988}" ShortID="274469782">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave1" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_Wave2" ID="{C83D5655-96B0-4B45-9B0B-C43858EDCE4A}">
+					<ChildrenList>
+						<Action Name="" ID="{1D88EAFC-38B0-4E13-B550-59C6B27A7067}" ShortID="352860626">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave2" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_Wave3" ID="{A7049BA2-D337-45C2-A567-C1AA527339D2}">
+					<ChildrenList>
+						<Action Name="" ID="{389598CB-BDD0-4E66-ABC7-55E0FD890E17}" ShortID="427642650">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave3" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}">
+					<ChildrenList>
+						<Action Name="" ID="{A2F4FFB9-C896-4668-92A9-4CE61AEB913D}" ShortID="93045481">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave1" ID="{20D88591-CD23-442E-B2DB-62B2079AF971}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_AVS_Wave2" ID="{D6DC2C44-177F-4753-9F7A-F2C5B5F99A86}">
+					<ChildrenList>
+						<Action Name="" ID="{0E96AB03-6B20-4E81-A3EC-CDB8A0858A7C}" ShortID="707164701">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="0"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave2" ID="{60632BCF-DF37-4F7E-9302-02728E33CD01}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_AVS_Wave3" ID="{5DCA70C8-A708-4EF9-9D93-EE185337CFE9}">
+					<ChildrenList>
+						<Action Name="" ID="{D2F91DA8-F714-4C54-851E-B7B0DFD897EE}" ShortID="1070202169">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_RGB_Stereo_Wave3" ID="{DC470BBA-B1D9-4F91-8FBD-60E3E2E7F41E}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}">
+					<ChildrenList>
+						<Action Name="" ID="{381A31F6-E48F-486A-BC38-7A369D731812}" ShortID="266220056">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}">
+					<ChildrenList>
+						<Action Name="" ID="{6885CB1D-C36D-4514-9118-0A4BDBAC4FD0}" ShortID="750303105">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_SineGenerators_REFERENCE" ID="{87B397F7-919A-4E4C-8E8D-4D9BF5CB15F4}" WorkUnitID="{C79EDAAD-DF89-4DA2-ABBC-1D418BB13FD6}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>
