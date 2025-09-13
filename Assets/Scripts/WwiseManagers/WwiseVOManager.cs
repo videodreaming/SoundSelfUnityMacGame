@@ -301,8 +301,10 @@ public class WwiseVOManager : MonoBehaviour
     }
     public void SetToSurrender()
     {
+        Debug.Log("Surrender Thematic Selected");
         AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
         AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
+        AkSoundEngine.SetSwitch("VO_THEMATICSAVASANA_SWITCH", "Surrender", gameObject);
     }
 
     public void firstTimeUser()

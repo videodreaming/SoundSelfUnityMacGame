@@ -24276,37 +24276,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1450867615
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1450867616}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1450867616
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1450867615}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1094.7451, y: 653.7235, z: -39.47261}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1458396902
 GameObject:
   m_ObjectHideFlags: 0
@@ -24516,6 +24485,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465005698}
   m_CullTransparentMesh: 1
+--- !u!1 &1465727358
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1465727360}
+  - component: {fileID: 1465727359}
+  m_Layer: 0
+  m_Name: VoiceClipManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1465727359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465727358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac385c82a19a6b440b204b902df7f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1465727360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465727358}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 991.3157, y: 744.392, z: 140.8201}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1465748863
 GameObject:
   m_ObjectHideFlags: 0
@@ -25424,10 +25437,8 @@ MonoBehaviour:
   savasana: {fileID: 1809294502}
   worldShuffler: {fileID: 1804684750}
   csvWriter: {fileID: 662335749}
-  _countdownToSavasana: 0
   _timeSinceTutorial: 0
   _countdownToWakeUpEnd: 120
-  _integrationEnd: 0
   endSoonFlag: 0
   twoMinMeditationTimer: 0
   timeInUnguidedVocalization: 0
@@ -30715,7 +30726,7 @@ MonoBehaviour:
   endTutorialButton: {fileID: 380622739}
   nextButton: {fileID: 1730165489}
   sequencer: {fileID: 1564575221}
-  lightControl: {fileID: 0}
+  lightControl: {fileID: 437048159}
   imitoneVoiceIntepreter: {fileID: 740096625}
   canvasManager: {fileID: 808198321}
   portionName: 
@@ -33737,4 +33748,4 @@ SceneRoots:
   - {fileID: 1809294501}
   - {fileID: 1804684751}
   - {fileID: 396706159}
-  - {fileID: 1450867616}
+  - {fileID: 1465727360}

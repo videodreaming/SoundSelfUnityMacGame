@@ -33,7 +33,6 @@ public class TimeLeftScript : MonoBehaviour
 
     public void SetTimeLeftSeconds(float timeLeft)
     {
-        Debug.Log("TimeLeftScript: Setting time left to " + minutes + " minutes " + seconds + " seconds");
         _timeLeft = timeLeft;
     }
 
