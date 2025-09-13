@@ -58,6 +58,10 @@ public class VoiceClipManager : MonoBehaviour
     public event Action<int, AudioClip> OnRecordingSaved;
     public event Action<int> OnRecordingCancelled;
     public event Action<int> OnRecordingStopped;
+    public event Action<int> OnPlaybackCompleted; // slot that just finished
+
+    private int _currentPlaybackSlot = -1;
+    private bool _isPlaying;
 
     public bool IsRecording => _isRecording;
     public int Capacity => _clips?.Length ?? 0;
@@ -171,6 +175,16 @@ public class VoiceClipManager : MonoBehaviour
                 // Nudge selection to a valid index
                 ClampSelected();
             }
+        }
+        // Check if playback finished
+        if (_isPlaying && !_player.isPlaying && !_player.loop && _player.clip != null)
+        {
+            int finishedSlot = _currentPlaybackSlot;
+            _isPlaying = false;
+            _currentPlaybackSlot = -1;
+
+            OnPlaybackCompleted?.Invoke(finishedSlot);
+            Debug.Log($"[VoiceClipManager] Playback completed for slot {finishedSlot}");
         }
     }
 
@@ -318,6 +332,9 @@ public class VoiceClipManager : MonoBehaviour
         _player.volume = Mathf.Clamp01(volume);
         _player.clip = clip;
         _player.Play();
+
+        _currentPlaybackSlot = slot;
+        _isPlaying = true;
         return true;
     }
 
