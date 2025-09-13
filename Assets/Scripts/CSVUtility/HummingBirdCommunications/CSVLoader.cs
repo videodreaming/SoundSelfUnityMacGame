@@ -85,18 +85,20 @@ public class CSVLoader : MonoBehaviour
             Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
-                totalTimeOfPostUnguidedVocalizationContent = (10.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
+                Debug.Log("CSVLoader: Mindfulness and Joy");
+                totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 11.0f; 
                 wwiseVOManager.SetToPeace();
             }
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
-                Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
+                Debug.Log("CSVLoader: Psychological Flexibility");
+                totalTimeOfPostUnguidedVocalizationContent = (8.0f * 60.0f) + 44.0f;
                 wwiseVOManager.SetToNarrative();
             }
             else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
             {
-                totalTimeOfPostUnguidedVocalizationContent = (8.0f * 60.0f) + 06.0f; //8 min 6 seconds //July 7 2025, added 11 seconds
+                Debug.Log("CSVLoader: Surrender Training");
+                totalTimeOfPostUnguidedVocalizationContent = (9.0f * 60.0f) + 17.0f;
                 wwiseVOManager.SetToSurrender();
             }
 
@@ -133,9 +135,7 @@ public class CSVLoader : MonoBehaviour
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
         }
-        sequencer._countdownToSavasana = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
-        sequencer._integrationEnd = timeLeftScript._timeLeft - 247.0f;
-        Debug.Log("countdownToSavasana: " + sequencer._countdownToSavasana);
+        sequencer.SetCountdownToSavasana(timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent);
     }
 
     void ReadSessionParams()

@@ -13,6 +13,8 @@ public class StartButtonScript : MonoBehaviour
 
     public Button nextButton;
     public Sequencer sequencer;
+    public LightControl lightControl;
+
 
     private int currentTutorialPortionIndex = 0;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;  
@@ -33,13 +35,15 @@ public class StartButtonScript : MonoBehaviour
 
     public GameObject mainText;
 
+    private bool flagLight = false;
+
     // Start is called before the first frame update
     void Start()
     {
         startButton.onClick.AddListener(OnStartButtonClicked);
         startConfigButton.onClick.AddListener(OnStartConfigButtonClicked);
         endTutorialButton.onClick.AddListener(OnEndTutorialButtonClicked);
-        nextButton.onClick.AddListener(OnNextButtonClicked);
+        nextButton.onClick.AddListener(AdvanceCalibration);
         endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button initially
         nextButton.gameObject.SetActive(false); // Hide the next button initially
         AkSoundEngine.PostEvent("Play_Calibration_Sequence", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, CalibrationCallBackFunction, null);
@@ -114,6 +118,7 @@ public class StartButtonScript : MonoBehaviour
 
     public void OnEndTutorialButtonClicked()
     {
+        CalibrateLights(false); // Turn off lights when tutorial ends
         Debug.Log("End Tutorial button clicked");
         mainText.SetActive(true); // Show the main text when the tutorial ends
         StartCoroutine(verticalLayoutGroupController.unScaleText(calibrationTexts[calibrationTextIndex], 1.1f));
@@ -127,7 +132,7 @@ public class StartButtonScript : MonoBehaviour
         isCalibrationStarted = false; // Reset the flag to allow starting the calibration again
     }
 
-    public void OnNextButtonClicked()
+    public void AdvanceCalibration()
     {
         calibrationTextIndex++;
         if (calibrationTextIndex < calibrationTexts.Count)
@@ -138,6 +143,7 @@ public class StartButtonScript : MonoBehaviour
             unhighlightMark(calibrationMarks[calibrationTextIndex - 1]); // Unhighlight the previous calibration mark
             verticalLayoutGroupController.unhighLightText(calibrationTexts[calibrationTextIndex - 1]); // Unhighlight the previous calibration text
             verticalLayoutGroupController.highLightText(calibrationTexts[calibrationTextIndex]); // Highlight the next calibration text
+            CalibrateLights(false);
 
             if (calibrationTextIndex == 1)
             {
@@ -215,15 +221,38 @@ public class StartButtonScript : MonoBehaviour
                 imitoneVoiceIntepreter.SetGameOn(false);
             }
             else if (musicSyncInfo.userCueName == "Cue_Calibration_Intro_End")
-            {
-                // TO DO - Move into the next portion of the calibration
+            { // TO DO - Move into the next portion of the calibration
                 Debug.Log("Calibration Intro End Cue Reached");
+                AdvanceCalibration(); 
             }
-            else if (musicSyncInfo.userCueName == "Cue_Calibration_Instruction_OFF")
+            else if (musicSyncInfo.userCueName == "Cue_AVS_Calibration_Start")
             {
-                Debug.Log("Calibration Instruction OFF Cue Reached");
+                Debug.Log("AVS Calibration Start Cue Reached");
+                CalibrateLights(true);
+
             }
         }
+    }
+
+
+    private void CalibrateLights(bool lightsOn)
+    {
+        if (lightsOn && !flagLight)
+        {
+            flagLight = true;
+            Debug.Log("Calibration: Lights ON");
+            lightControl.SetPreferredColor("White", 5.0f);
+            lightControl.SetStrobeRate(15.0f, 0.0f);
+        }
+        else if (flagLight)
+        {
+            flagLight = false;
+            Debug.Log("Calibration: Lights OFF");
+            lightControl.SetPreferredColor("Dark", 3.0f);
+            lightControl.SetStrobeRate(5.0f, 0.0f);
+        
+        }
+
     }
 }
 

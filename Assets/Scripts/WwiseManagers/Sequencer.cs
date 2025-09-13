@@ -33,12 +33,12 @@ public class Sequencer : MonoBehaviour
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
     //private float interactiveMusicExperienceTotalTime;
-    public float _countdownToSavasana;
+    private float _countdownToSavasana;
     public float _timeSinceTutorial;
     private bool savasanaTriggered = false; // Flag to control the event triggering
     private bool wakeUpTriggered = false;
     [SerializeField] public float _countdownToWakeUpEnd = 120f; 
-    [SerializeField] public float _integrationEnd; 
+    //[SerializeField] public float _integrationEnd; 
     [SerializeField] public bool endSoonFlag = false;
     //private float soundWorldChangeTime;
     //private float finalStagePreLogicTime;
@@ -666,5 +666,11 @@ public class Sequencer : MonoBehaviour
         {
             Debug.LogWarning("Sequencer: StartSilentMeditation() called, but twoMinMeditationTimer is already true.");
         }
+    }
+
+    public void SetCountdownToSavasana(float newTime)
+    {
+        Debug.Log("Sequencer: SetCountdownToSavasana() called. Setting _countdownToSavasana to " + newTime);
+        _countdownToSavasana = newTime;
     }
 }
