@@ -86,7 +86,7 @@ public class CSVLoader : MonoBehaviour
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
                 Debug.Log("CSVLoader: Mindfulness and Joy");
-                totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 11.0f; 
+                totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 11.0f;
                 wwiseVOManager.SetToPeace();
             }
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
@@ -95,13 +95,12 @@ public class CSVLoader : MonoBehaviour
                 totalTimeOfPostUnguidedVocalizationContent = (8.0f * 60.0f) + 44.0f;
                 wwiseVOManager.SetToNarrative();
             }
-            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
+            else if (subGameMode == "Surrender Response" || subGameMode == "Psychedelic Preparation")
             {
                 Debug.Log("CSVLoader: Surrender Training");
                 totalTimeOfPostUnguidedVocalizationContent = (9.0f * 60.0f) + 17.0f;
                 wwiseVOManager.SetToSurrender();
             }
-
             if (firstTimeUser)
             {
                 wwiseVOManager.firstTimeUser();
@@ -113,27 +112,37 @@ public class CSVLoader : MonoBehaviour
                 Debug.Log("CSVLoader: Not First Time User");
             }
         }
-        else if (gameMode == "Integration")
+        else if (gameMode == "Integration" || subGameMode == "Emotional Integration")
         {
             wwiseVOManager.notFirstTimeUser();
             Debug.Log("CSVLoader: Not First Time User");
-            //sequencer.totalTimeOfExperience = 1500.0f;
             timeLeftScript.SetTimeLeftSeconds(1500.0f);
             if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
             {
+                Debug.Log("SubGameMode Selected = Self Compassion");
                 wwiseVOManager.SetToFireflies();
                 totalTimeOfPostUnguidedVocalizationContent = 415.0f;
             }
             else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
             {
+                Debug.Log("SubGameMode Selected = Loving Kindness");
                 wwiseVOManager.SetToKindness();
                 totalTimeOfPostUnguidedVocalizationContent = 349.0f;
             }
-            else if (subGameMode == "Metta" || subGameMode == "Transitions")
+            else if (subGameMode == "Metta" || subGameMode == "Transitions (Grief and Appreciation)")
             {
+                Debug.Log("SubGameMode Selected = Transitions (Grief and Appreciation)");
                 wwiseVOManager.SetToMetta();
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
+            else
+            {
+                Debug.Log("CSVLoader: Unrecognized SubGame Mode");
+            }
+        }
+        else
+        {
+            Debug.Log("CSVLoader: Unrecognized GameMode Not Found");
         }
         sequencer.SetCountdownToSavasana(timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent);
     }
