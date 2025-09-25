@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{90D952FB-C720-4B00-8ADF-CE167B473814}" SchemaVersion="123" RootDocumentID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" ParentDocumentID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}">
+<WwiseDocument Type="WorkUnit" ID="{90D952FB-C720-4B00-8ADF-CE167B473814}" SchemaVersion="119" RootDocumentID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" ParentDocumentID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}">
 	<InteractiveMusic>
 		<WorkUnit Name="OPENING" ID="{90D952FB-C720-4B00-8ADF-CE167B473814}" OwnerID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}" PersistMode="Nested">
 			<ChildrenList>
@@ -1433,6 +1433,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_1Hz" ID="{BF5E8EA8-018D-41F4-8564-3C9CA1578F42}" ShortID="843496425">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -1657,6 +1662,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_20Hz" ID="{6BA431B2-A950-4D80-83C6-7F31695753DB}" ShortID="433592455">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -1793,6 +1803,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_SOLID" ID="{6514B99E-FC66-410D-A521-523A536563A1}" ShortID="714623083">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -2313,6 +2328,11 @@
 								</MusicTrack>
 								<MusicTrack Name="REFERENCE" ID="{6286B7C0-675E-4848-94F0-08990FC1DB08}" ShortID="133145029">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -4219,6 +4239,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_20Hz" ID="{FC679D5F-CE76-479B-AD6A-43C53A2E1CDD}" ShortID="648769832">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -4448,6 +4473,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_1Hz" ID="{D16B9C17-59A7-4756-B519-F773247FFAC6}" ShortID="614703727">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -4667,6 +4697,11 @@
 								</MusicTrack>
 								<MusicTrack Name="REFERENCE" ID="{A2BEF386-9FA1-4A01-AAF8-EFABEBA01FB7}" ShortID="642009927">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -4866,6 +4901,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_SOLID" ID="{82B1CA4B-470E-4919-820D-0C4251F2CAA3}" ShortID="517167763">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -8157,6 +8197,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_1Hz" ID="{AD72805C-E074-4182-83BD-C7B7FCC5E1A0}" ShortID="791785509">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -8381,6 +8426,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_20Hz" ID="{73AF3700-E2D5-4F1E-9B1C-51E0B56B546C}" ShortID="777204638">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -8517,6 +8567,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_SOLID" ID="{1ED7B538-2736-48CB-9233-4379456F3522}" ShortID="109331111">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -8942,6 +8997,11 @@
 								</MusicTrack>
 								<MusicTrack Name="REFERENCE" ID="{0540830E-5459-4389-9649-BD6124DB3FC3}" ShortID="360566209">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -10442,6 +10502,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_20Hz" ID="{9E6518FC-6554-4C1B-95E7-65ADBC8A5340}" ShortID="1047554324">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -10671,6 +10736,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_Iso_TRI_1Hz" ID="{7A2BEA3B-5A18-4D1D-A025-6867AFE89F1C}" ShortID="196352903">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -10890,6 +10960,11 @@
 								</MusicTrack>
 								<MusicTrack Name="REFERENCE" ID="{0647F3D9-50DE-4AD7-A353-74A227FC1081}" ShortID="135398273">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -11089,6 +11164,11 @@
 								</MusicTrack>
 								<MusicTrack Name="WHITE_SOLID" ID="{B94DA02A-F264-49D1-B1AA-A81828292BAB}" ShortID="926387914">
 									<PropertyList>
+										<Property Name="Inclusion" Type="bool">
+											<ValueList>
+												<Value>False</Value>
+											</ValueList>
+										</Property>
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
@@ -13013,6 +13093,11 @@
 						</MusicTrack>
 						<MusicTrack Name="WHITE_Iso_TRI_1Hz" ID="{E070CEF5-AE09-4B62-80F9-B01E50118A4F}" ShortID="718094515">
 							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
@@ -13237,6 +13322,11 @@
 						</MusicTrack>
 						<MusicTrack Name="WHITE_Iso_TRI_20Hz" ID="{560DBE43-6067-4B18-8E26-A4D372809CBE}" ShortID="1026631247">
 							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
@@ -13373,6 +13463,11 @@
 						</MusicTrack>
 						<MusicTrack Name="WHITE_SOLID" ID="{E4E08F93-90EF-484C-8F00-A80D9C621D43}" ShortID="103638038">
 							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
@@ -13893,6 +13988,11 @@
 						</MusicTrack>
 						<MusicTrack Name="REFERENCE" ID="{994C3BD1-D7AE-48ED-A208-66C1546A5CA8}" ShortID="780153925">
 							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
@@ -14670,6 +14770,11 @@
 						</MusicTrack>
 						<MusicTrack Name="WHITE_Iso_TRI_20Hz" ID="{C1939EE0-87BD-4317-A271-E0387FAE784C}" ShortID="859200766">
 							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
@@ -14811,6 +14916,11 @@
 						</MusicTrack>
 						<MusicTrack Name="WHITE_Iso_TRI_1Hz" ID="{837DD953-950D-425E-B8DC-DAFFC9BCB1FD}" ShortID="574847326">
 							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
@@ -14947,6 +15057,11 @@
 						</MusicTrack>
 						<MusicTrack Name="REFERENCE" ID="{09D55BBA-B9ED-4BC3-A8AA-854798C2CFB6}" ShortID="1073177828">
 							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
@@ -15073,6 +15188,11 @@
 						</MusicTrack>
 						<MusicTrack Name="WHITE_SOLID" ID="{47EEF699-E881-47E0-8C00-D8BB5D9912CE}" ShortID="53328542">
 							<PropertyList>
+								<Property Name="Inclusion" Type="bool">
+									<ValueList>
+										<Value>False</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
