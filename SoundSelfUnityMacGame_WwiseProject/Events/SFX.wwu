@@ -146,9 +146,8 @@
 						<Action Name="" ID="{46B78FF4-FDE3-4A01-B21D-3169B456BFD2}" ShortID="203972915">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="6"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="60"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -159,7 +158,6 @@
 						<Action Name="" ID="{875CD99C-B8EF-4104-8F37-C1016E53CC47}" ShortID="534528042">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="8"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
 								<Property Name="FadeTime" Type="Real64" Value="60"/>
 							</PropertyList>
@@ -172,7 +170,7 @@
 						<Action Name="" ID="{F2027554-0F82-4770-9AC7-CFFA7544821A}" ShortID="160949399">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="8">
+								<Property Name="Delay" Type="Real64">
 									<ModifierList>
 										<ModifierInfo>
 											<Modifier Name="" ID="{6B27E4BC-62CE-447C-9BA3-0DA6C56F87FB}">
@@ -195,7 +193,7 @@
 						<Action Name="" ID="{2AF0767C-6A39-4940-903B-F22FDEDF0476}" ShortID="277484690">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="10">
+								<Property Name="Delay" Type="Real64">
 									<ModifierList>
 										<ModifierInfo>
 											<Modifier Name="" ID="{9662F4D3-B4AE-4D78-A486-EE79BFCB6E8F}">
@@ -213,6 +211,46 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{962C5E20-19AD-4E42-B23A-14B31ACCC1E5}" ShortID="26952027">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator1" ID="{4E2AB925-A65D-41BA-A8C3-082791B9BB3B}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{B56D0FE1-B437-4E30-A0F6-8CAB22863A7D}" ShortID="836323587">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator2" ID="{A0AF4A64-9A1B-4DFA-855D-5AFB4F2F91CF}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{27291A8C-DECA-468F-B6AC-4569C34C676F}" ShortID="1052819975">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator3" ID="{50267ADD-15EE-4E74-8243-1D198EC51B17}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{93A58722-0138-4A21-9BDF-34ED0E46CDE3}" ShortID="408590952">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator4" ID="{E8CCE4F8-74A2-4433-8FE3-6E7B0375FE3B}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

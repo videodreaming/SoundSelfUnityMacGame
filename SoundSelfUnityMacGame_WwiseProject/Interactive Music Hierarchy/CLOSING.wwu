@@ -1199,7 +1199,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-1</Value>
+								<Value>-2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1484,6 +1484,11 @@
 								<Value>9</Value>
 							</ValueList>
 						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -1634,6 +1639,11 @@
 						<MusicSegment Name="vo_thematicSavasana_fireflies" ID="{E7D224BE-DDBC-44AE-BA31-38A113E6E762}" ShortID="521926460">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="280562.813255663"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1779,6 +1789,11 @@
 						<MusicSegment Name="vo_thematicSavasana_kindness" ID="{1C2002DA-5026-4E33-BF35-4CB3C13AF982}" ShortID="309328718">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="158775.620161901"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1794,6 +1809,11 @@
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2045,6 +2065,11 @@
 						<MusicSegment Name="vo_thematicSavasana_metta" ID="{30720632-210B-4060-932C-BD407D20EBBC}" ShortID="76942333">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="559624.709905071"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2060,6 +2085,11 @@
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2115,6 +2145,20 @@
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
 																					<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{92D665E1-5B2C-4F6A-B5BD-105F9E394266}" ShortID="71008595">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="350061.947602325"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
@@ -3483,6 +3527,11 @@
 				<MusicSegment Name="VO_EndSoon" ID="{891A873D-5D76-49C7-B874-558A99D27D12}" ShortID="947111686">
 					<PropertyList>
 						<Property Name="EndPosition" Type="Real64" Value="134236.816038661"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -3498,6 +3547,11 @@
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>
 										<Value>True</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3539,6 +3593,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="2738"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																		<Property Name="PlayAt" Type="Real64" Value="604.018761128898"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_endingSoon" ID="{AF251F71-6E1A-4B9B-A8C0-06EB8DD1C8EA}"/>
 																</MusicClip>
@@ -3567,6 +3622,20 @@
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
 																			<ObjectRef Name="Play_SIGH_QUERY_SEQUENCE_2" ID="{200A1DEF-E711-4697-A515-2AF0F737BF26}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{626F331F-84BD-406C-857E-D8E498BE5BBF}" ShortID="869485955">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="10010.8730692923"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 																		</Reference>
 																	</ReferenceList>
 																</MusicEventCue>

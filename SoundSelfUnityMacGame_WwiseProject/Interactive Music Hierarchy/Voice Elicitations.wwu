@@ -6,6 +6,11 @@
 				<MusicSegment Name="VOICE ELICITATION 1" ID="{2BFC1FE9-86CB-4DB1-9670-DB5429FC9B59}" ShortID="38452717">
 					<PropertyList>
 						<Property Name="EndPosition" Type="Real64" Value="233904.15376177"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -648,6 +653,11 @@
 				<MusicSegment Name="VOICE ELICITATION 2" ID="{24137D7A-7C64-4705-B28E-F7B3A0215AB5}" ShortID="862328926">
 					<PropertyList>
 						<Property Name="EndPosition" Type="Real64" Value="214709.403307815"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -856,7 +866,23 @@
 								<ObjectList Name="Sequences">
 									<Reference>
 										<Local>
-											<MusicTrackSequence Name="" ID="{E7630B53-1B80-4F2F-8576-E10F20A0EB40}"/>
+											<MusicTrackSequence Name="" ID="{E7630B53-1B80-4F2F-8576-E10F20A0EB40}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{BC947BA8-017D-45BB-AFA3-B3C937D37231}" ShortID="226742253">
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
 										</Local>
 									</Reference>
 								</ObjectList>
@@ -1051,6 +1077,17 @@
 																	<PropertyList>
 																		<Property Name="PlayAt" Type="Real64" Value="81281.5489861549"/>
 																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{FF57D519-9E70-4F00-88AE-859733E44D32}" ShortID="248189853">
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
 																			<ObjectRef Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
