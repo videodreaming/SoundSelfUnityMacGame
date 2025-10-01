@@ -135,7 +135,7 @@ public class CSVLoader : MonoBehaviour
             {
                 Debug.Log("SubGameMode Selected = Loving Kindness");
                 wwiseVOManager.SetToMetta();
-                totalTimeOfPostUnguidedVocalizationContent = 496.0f; //was 597
+                totalTimeOfPostUnguidedVocalizationContent = 490.0f; //was 597
             }
             else
             {
