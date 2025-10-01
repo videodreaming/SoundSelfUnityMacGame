@@ -14,8 +14,6 @@ public class StartButtonScript : MonoBehaviour
     public Button nextButton;
     public Sequencer sequencer;
     public LightControl lightControl;
-
-
     private int currentTutorialPortionIndex = 0;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;  
     public canvasSwitcher canvasManager;
@@ -67,14 +65,12 @@ public class StartButtonScript : MonoBehaviour
                 if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
                 {
                     Debug.Log("Setting up for Preperation or Skills Training");
-                    timeLeftScript.SetTimeLeftSeconds(2400.0f); // 40 minutes
                 }
                 else if (CSVLoader.gameMode == "Integration")
                 {
-                    Debug.Log("Setting up for Integration");
-                    timeLeftScript.SetTimeLeftSeconds(1200.0f); // 20 minutes
-                    
+                    Debug.Log("Setting up for Integration");                    
                 }
+                timeLeftScript.SetTimeLeftSeconds(CSVLoader.programDuration); // 40 minutes
             }
 
             currentTutorialPortionIndex = 0; // Reset tutorial portion

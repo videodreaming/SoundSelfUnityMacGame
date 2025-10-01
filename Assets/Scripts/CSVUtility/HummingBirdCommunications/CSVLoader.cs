@@ -16,6 +16,7 @@ public class CSVLoader : MonoBehaviour
     public static string subGameMode {get; private set;}
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
+    public float programDuration {get; private set;}
 
     public bool firstTimeUser {get; private set;} = true;
     private bool layingDown = true;
@@ -79,9 +80,10 @@ public class CSVLoader : MonoBehaviour
         // VO INITIALIZATION        
         //=======================================================================================================
         //GAME MODES
+        //TODO: Clean up game mode and sub game mode strings to match exactly what is in the CSV
         if (gameMode == "Preperation" || gameMode == "Skills Training")
         {
-            timeLeftScript.SetTimeLeftSeconds(2400.0f);
+            programDuration = 2400.0f;
             Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
@@ -116,24 +118,24 @@ public class CSVLoader : MonoBehaviour
         {
             wwiseVOManager.notFirstTimeUser();
             Debug.Log("CSVLoader: Not First Time User");
-            timeLeftScript.SetTimeLeftSeconds(1500.0f);
-            if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
+            programDuration = 1500.0f;
+            if (subGameMode == "Metta" || subGameMode == "Transitions (Grief and Appreciation)")
+            {
+                Debug.Log("SubGameMode Selected = Transition (Grief and Appreciation)");
+                wwiseVOManager.SetToFireflies();
+                totalTimeOfPostUnguidedVocalizationContent = 301.0f; //was 415
+            }
+            else if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
             {
                 Debug.Log("SubGameMode Selected = Self Compassion");
-                wwiseVOManager.SetToFireflies();
-                totalTimeOfPostUnguidedVocalizationContent = 415.0f;
+                wwiseVOManager.SetToKindness();
+                totalTimeOfPostUnguidedVocalizationContent = 237.0f;//was 349
             }
             else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
             {
                 Debug.Log("SubGameMode Selected = Loving Kindness");
-                wwiseVOManager.SetToKindness();
-                totalTimeOfPostUnguidedVocalizationContent = 349.0f;
-            }
-            else if (subGameMode == "Metta" || subGameMode == "Transitions (Grief and Appreciation)")
-            {
-                Debug.Log("SubGameMode Selected = Transitions (Grief and Appreciation)");
                 wwiseVOManager.SetToMetta();
-                totalTimeOfPostUnguidedVocalizationContent = 597.0f;
+                totalTimeOfPostUnguidedVocalizationContent = 496.0f; //was 597
             }
             else
             {
@@ -144,7 +146,9 @@ public class CSVLoader : MonoBehaviour
         {
             Debug.Log("CSVLoader: Unrecognized GameMode Not Found");
         }
-        sequencer.SetCountdownToSavasana(timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent);
+        
+        timeLeftScript.SetTimeLeftSeconds(programDuration);
+        sequencer.SetCountdownToSavasana(programDuration - totalTimeOfPostUnguidedVocalizationContent);
     }
 
     void ReadSessionParams()

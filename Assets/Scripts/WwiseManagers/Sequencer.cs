@@ -670,7 +670,7 @@ public class Sequencer : MonoBehaviour
 
     public void SetCountdownToSavasana(float newTime)
     {
-        Debug.Log("Sequencer: SetCountdownToSavasana() called. Setting _countdownToSavasana to " + newTime);
+        Debug.Log("Sequencer: SetCountdownToSavasana() called at [_timeLeft = " + timeLeftScript.GetTimeLeft() + "] and [_countdownToSavasana = " + _countdownToSavasana + "]. Setting _countdownToSavasana to " + newTime);
         _countdownToSavasana = newTime;
     }
 }

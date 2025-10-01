@@ -33,6 +33,7 @@ public class TimeLeftScript : MonoBehaviour
 
     public void SetTimeLeftSeconds(float timeLeft)
     {
+        Debug.Log("TimeLeft: SetTimeLeftSeconds() called. Previous time: " + _timeLeft + ". Setting _timeLeft to " + timeLeft);
         _timeLeft = timeLeft;
     }
 
