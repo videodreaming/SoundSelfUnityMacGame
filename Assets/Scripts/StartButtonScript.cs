@@ -35,6 +35,9 @@ public class StartButtonScript : MonoBehaviour
 
     private bool flagLight = false;
 
+    public TimeLeftScript TimeLeftScript;  
+    public CSVLoader CSVLoader;
+
     // Start is called before the first frame update
     void Start()
     {
