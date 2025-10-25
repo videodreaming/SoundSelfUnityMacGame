@@ -18,7 +18,6 @@ namespace imitone
                 throw new System.ArgumentException("Invalid imitone license activation text: #" + result);
         }
 
-
         /*
             Create an imitone voice with 'new ImitoneVoice( ... )' and keep it as a variable.
             
@@ -70,7 +69,6 @@ namespace imitone
         {
             return config;
         }
-
 
         /*
             Call this function to input some mono audio to imitone.
