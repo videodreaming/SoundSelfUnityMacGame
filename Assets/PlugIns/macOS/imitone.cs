@@ -13,6 +13,7 @@ namespace imitone
         */
         public static void ActivateLicense(string licenseText)
         {
+            Debug.LogWarning(licenseText);
             ulong result = imi_ActivateLicense(licenseText);
             if (result == 0)
                 throw new System.ArgumentException("Invalid imitone license activation text: #" + result);
