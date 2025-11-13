@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 #if ! (UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
 /*******************************************************************************
 The content of this file includes portions of the proprietary AUDIOKINETIC Wwise
@@ -13,7 +16,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 /// <summary>
@@ -131,6 +134,23 @@ public static class AkCallbackManager
 
 	private static EventCallbackPackage m_LastAddedEventPackage;
 
+	public static void RemoveEventCallback(EventCallbackPackage in_package)
+	{
+		if (in_package != null)
+		{
+			m_mapEventCallbacks.Remove(in_package.GetHashCode());
+			if (in_package.m_playingID != AkSoundEngine.AK_INVALID_PLAYING_ID)
+			{
+				AkSoundEnginePINVOKE.CSharp_CancelEventCallbackCookie((global::System.IntPtr) in_package.GetHashCode());
+			}
+		}
+	}
+
+	public static IEnumerable<EventCallbackPackage> GetEventCallbacks()
+	{
+		return m_mapEventCallbacks.Select(pacakge => pacakge.Value);
+	}
+
 	public static void RemoveEventCallback(uint in_playingID)
 	{
 		var cookiesToRemove = new System.Collections.Generic.List<int>();
@@ -147,7 +167,10 @@ public static class AkCallbackManager
 		for (var ii = 0; ii < Count; ++ii)
 			m_mapEventCallbacks.Remove(cookiesToRemove[ii]);
 
-		AkSoundEnginePINVOKE.CSharp_CancelEventCallback(in_playingID);
+		if (in_playingID != AkSoundEngine.AK_INVALID_PLAYING_ID)
+		{
+			AkSoundEnginePINVOKE.CSharp_CancelEventCallback(in_playingID);
+		}
 	}
 
 	public static void RemoveEventCallbackCookie(object in_cookie)
@@ -166,6 +189,11 @@ public static class AkCallbackManager
 			m_mapEventCallbacks.Remove(toRemove);
 			AkSoundEnginePINVOKE.CSharp_CancelEventCallbackCookie((System.IntPtr) toRemove);
 		}
+	}
+
+	public static IEnumerable<BankCallbackPackage> GetBankCallbacks()
+	{
+		return m_mapBankCallbacks.Select(pacakge => pacakge.Value);
 	}
 
 	public static void RemoveBankCallback(object in_cookie)
@@ -189,7 +217,9 @@ public static class AkCallbackManager
 	public static void SetLastAddedPlayingID(uint in_playingID)
 	{
 		if (m_LastAddedEventPackage != null && m_LastAddedEventPackage.m_playingID == 0)
+		{
 			m_LastAddedEventPackage.m_playingID = in_playingID;
+		}
 	}
 
 	private static MonitoringCallback m_MonitoringCB;
@@ -249,6 +279,21 @@ public static class AkCallbackManager
 		try
 		{
 			uint XmlTimeout = uint.Parse(AkWwiseEditorSettings.Instance.XMLTranslatorTimeout);
+			
+			//Check if SoundbanksInfo.xml exist. If not, let the user know that it was disabled.
+			if (XmlTimeout > 0)
+			{
+				
+				string soundBankPath = System.IO.Path.Combine(AkBasePathGetter.GetPlatformBasePath(), "SoundbanksInfo.xml");
+				if (!System.IO.File.Exists(soundBankPath))
+				{
+					
+					UnityEngine.Debug.LogWarning("The XMLTranslator has been disabled since the SoundbanksInfo.xml couldn't be located at " + soundBankPath + ". To remove the warning," +
+					                 " either disable the XMLTranslator by going to Project Settings -> Wwise Integration and setting XML Translator Timeout to 0 or generate the xml file by editing the wwise project settings.");
+					XmlTimeout = 0;
+				}
+			}
+			
 			uint WaapiTimeout = uint.Parse(AkWwiseEditorSettings.Instance.WaapiTranslatorTimeout);
 			uint portAsInt = uint.Parse(AkWwiseEditorSettings.Instance.WaapiPort);
 			string baseSoundBankPath = AkBasePathGetter.GetPlatformBasePath();
@@ -380,17 +425,18 @@ public static class AkCallbackManager
 								AkMonitoringCallbackInfo.playingID, AkMonitoringCallbackInfo.gameObjID, AkMonitoringCallbackInfo.message);
 						}
 #if UNITY_EDITOR
-					else if (IsLoggingEnabled)
-					{
-						AkMonitoringCallbackInfo.setCPtr(pData);
-						var msg = "Wwise: " + AkMonitoringCallbackInfo.message;
-						ParseCallbackInfoMessage(ref msg);
-						if (AkMonitoringCallbackInfo.errorLevel == AkMonitorErrorLevel.ErrorLevel_Error && AkMonitoringCallbackInfo.errorCode != AkMonitorErrorCode.ErrorCode_VoiceStarving)
-							UnityEngine.Debug.LogError(msg);
-						else
-							UnityEngine.Debug.Log(msg);
-					}
+						else if (IsLoggingEnabled)
+						{
+							AkMonitoringCallbackInfo.setCPtr(pData);
 
+							var msg = "Wwise: " + AkMonitoringCallbackInfo.message;
+							ParseCallbackInfoMessage(ref msg);
+
+							if (AkMonitoringCallbackInfo.errorLevel == AkMonitorErrorLevel.ErrorLevel_Error)
+								UnityEngine.Debug.LogError(msg);
+							else
+								UnityEngine.Debug.Log(msg);
+						}
 #endif
 						break;
 

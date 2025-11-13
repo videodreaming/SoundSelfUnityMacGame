@@ -12,12 +12,15 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
+
 internal class AkPlatformPluginList
 {
 	private static readonly Dictionary<string, System.DateTime> s_LastParsed = new Dictionary<string, System.DateTime>();
@@ -69,7 +72,8 @@ internal class AkPlatformPluginList
 			{
 				foreach (var pluginInfo in plugins)
 				{
-					if (pluginInfo.DllName == pluginName)
+					if (pluginInfo.DllName == pluginName ||
+					    (pluginInfo.StaticLibName == "AkMeterFX" && pluginName.Contains("AkSoundEngine")))
 					{
 						return true;
 					}
@@ -201,6 +205,18 @@ internal class AkPlatformPluginList
 		}
 	}
 
+	private static bool PlatformUsesStaticLibs(string platform)
+	{
+		var pair = AkPluginActivator.BuildTargetToPlatformPluginActivator.FirstOrDefault(x => x.Value.WwisePlatformName == platform);
+		
+		if (pair.Equals(default(KeyValuePair<BuildTarget, AkPlatformPluginActivator>)))
+		{
+			// Platform not found
+			return false;
+		}
+		return pair.Value.RequiresStaticPluginRegistration;
+	}
+
 	private static HashSet<AkPluginInfo> ParsePluginsXML(string platform, List<string> in_pluginFiles)
 	{
 		var newPlugins = new System.Collections.Generic.HashSet<AkPluginInfo>();
@@ -211,6 +227,8 @@ internal class AkPlatformPluginList
 			{
 				continue;
 			}
+
+			var usesStaticLibs = PlatformUsesStaticLibs(platform);
 
 			try
 			{
@@ -246,18 +264,11 @@ internal class AkPlatformPluginList
 
 					var dll = string.Empty;
 
-					if (platform == "Switch" || platform == "Web")
-					{
-						if (pluginID == AkPluginActivatorConstants.PluginID.AkMeter)
-						{
-							dll = "AkMeter";
-						}
-					}
-					else if (AkPluginActivatorConstants.builtInPluginIDs.Contains(pluginID))
+					if (!usesStaticLibs && AkPluginActivatorConstants.builtInPluginIDs.Contains(pluginID))
 					{
 						continue;
 					}
-
+					
 					if (string.IsNullOrEmpty(dll))
 					{
 						dll = node.GetAttribute("DLL", "");

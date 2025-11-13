@@ -13,8 +13,9 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
+using UnityEngine;
 
 [UnityEngine.AddComponentMenu("Wwise/AkGameObj")]
 [UnityEngine.DisallowMultipleComponent]
@@ -48,20 +49,25 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 	/// When not set to null, the position is offset relative to the Game Object position by the Position Offset
 	public AkGameObjPositionOffsetData m_positionOffsetData;
 
-	private float scalingFactor = -1f;
+	[UnityEngine.SerializeField]
+	private float scalingFactor = 1f;
 
 	public float ScalingFactor
 	{
 		get => scalingFactor;
 		set
 		{
-			if (value < 0)
+			if (value > 0)
 			{
-				scalingFactor = 0;
+				scalingFactor = value;
+				if (enabled)
+				{
+					AkSoundEngine.SetScalingFactor(gameObject, scalingFactor);
+				}
 			}
 			else
 			{
-				scalingFactor = value;
+				UnityEngine.Debug.LogError("Scaling Factor needs to be a positive value greater than 0.");
 			}
 		}
 	}
@@ -77,6 +83,11 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 	}
 
 	private bool isRegistered = false;
+
+	public bool GameObjIsRegistered()
+	{
+		return isRegistered;
+	}
 
 	internal void AddListener(AkAudioListener listener)
 	{
@@ -191,19 +202,14 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 			}
 
 			m_listeners.Init(this);
-			if (scalingFactor < 0f)
+			//The Listener will win for the scaling factor
+			if (gameObject.GetComponent<AkAudioListener>() == null)
 			{
-				var initializer = AkInitializer.GetAkInitializerGameObject();
-				if (initializer)
+				if (enabled)
 				{
-					scalingFactor = initializer.GetComponent<AkInitializer>().InitializationSettings.UserSettings.m_DefaultScalingFactor;
-				}
-				else
-				{
-					scalingFactor = 1f;
+					AkSoundEngine.SetScalingFactor(gameObject, ScalingFactor);				
 				}
 			}
-			AkSoundEngine.SetScalingFactor(gameObject, scalingFactor);
 		}
 	}
 
@@ -424,7 +430,11 @@ public class AkGameObj : UnityEngine.MonoBehaviour
 			var fullSceneListenerMask = 0;
 
 			// Get all AkAudioListeners in the scene.
+#if UNITY_6000_0_OR_NEWER
+			var listenerObjects = FindObjectsByType<AkAudioListener>(FindObjectsSortMode.None);
+#else
 			var listenerObjects = FindObjectsOfType<AkAudioListener>();
+#endif
 			foreach (var listener in listenerObjects)
 			{
 				// Add AkGameObj to AkAudioListeners

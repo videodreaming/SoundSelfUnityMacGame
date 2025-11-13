@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 public enum MultiPositionTypeLabel
@@ -119,7 +119,7 @@ public class AkAmbient : AkEvent
 		}
 	}
 
-	private void OnDisable()
+	private new void OnDisable()
 	{
 #if UNITY_EDITOR
         if (UnityEngine.Application.isBatchMode)
@@ -142,6 +142,14 @@ public class AkAmbient : AkEvent
 				var positionArray = BuildMultiDirectionArray(eventPosList);
 				AkSoundEngine.SetMultiplePositions(eventPosList.list[0].gameObject, positionArray, (ushort) positionArray.Count, MultiPositionType);
 			}
+		}
+	}
+	
+	protected new void OnDestroy()
+	{
+		if (multiPositionTypeLabel != MultiPositionTypeLabel.MultiPosition_Mode)
+		{
+			base.OnDestroy();
 		}
 	}
 

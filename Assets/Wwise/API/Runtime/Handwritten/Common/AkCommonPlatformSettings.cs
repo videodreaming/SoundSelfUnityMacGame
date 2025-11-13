@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 ﻿﻿public class AkBasePlatformSettings : UnityEngine.ScriptableObject
@@ -85,7 +85,7 @@ Copyright (c) 2024 Audiokinetic Inc.
 		get { return 0; }
 	}
 
-	public virtual float DefaultScalingFactor
+	public virtual float defaultListenerScalingFactor
 	{
 		get { return 1f; }
 	}
@@ -252,8 +252,8 @@ public partial class AkCommonUserSettings
 	[UnityEngine.Tooltip("Enable Wwise engine logging. This is used to turn on/off the logging of the Wwise engine.")]
 	public bool m_EngineLogging = AkCallbackManager.InitializationSettings.DefaultIsLoggingEnabled;
 
-	[UnityEngine.Tooltip("The default value of the \"Attenuation Scaling Factor\" when an AkComponent is created.")]
-	public float m_DefaultScalingFactor = 1.0f;
+	[UnityEngine.Tooltip("The default value of the \"Attenuation Scaling Factor\" when an AkAudioListener is created.")]
+	public float m_DefaultListenerScalingFactor = 1.0f;
 
 	[UnityEngine.Tooltip("Maximum number of automation paths for positioning sounds.")]
 	public uint m_MaximumNumberOfPositioningPaths = 255;
@@ -267,37 +267,7 @@ public partial class AkCommonUserSettings
 	[UnityEngine.Tooltip("Main output device settings.")]
 	public AkCommonOutputSettings m_MainOutputSettings;
 
-	protected static string GetPluginPath()
-	{
-#if UNITY_EDITOR_WIN
-		return System.IO.Path.GetFullPath(AkUtilities.GetPathInPackage(@"Runtime\Plugins\Windows\x86_64\DSP"));
-#elif UNITY_EDITOR_OSX
-		return System.IO.Path.GetFullPath(AkUtilities.GetPathInPackage("Runtime/Plugins/Mac/DSP"));
-#elif UNITY_STANDALONE_WIN
-		string potentialPath = System.IO.Path.Combine(UnityEngine.Application.dataPath, "Plugins" + System.IO.Path.DirectorySeparatorChar);
-		string architectureName = "x86";
-#if UNITY_64
-		architectureName += "_64";
-#endif
-		if(System.IO.File.Exists(System.IO.Path.Combine(potentialPath, "AkSoundEngine.dll")))
-		{
-			return potentialPath;
-		}
-		else if(System.IO.File.Exists(System.IO.Path.Combine(potentialPath, architectureName, "AkSoundEngine.dll")))
-		{
-			return System.IO.Path.Combine(potentialPath, architectureName);
-		}
-		else
-		{
-			UnityEngine.Debug.Log("Cannot find Wwise plugin path");
-			return null;
-		}
-#elif UNITY_ANDROID || UNITY_OPENHARMONY
-		return null;
-#else
-		return System.IO.Path.Combine(UnityEngine.Application.dataPath, "Plugins" + System.IO.Path.DirectorySeparatorChar);
-#endif
-	}
+	protected partial string GetPluginPath();
 
 	public virtual void CopyTo(AkInitSettings settings)
 	{
@@ -690,9 +660,9 @@ public abstract class AkCommonPlatformSettings : AkBasePlatformSettings
 		get { return GetAdvancedSettings().m_MemoryDebugLevel; }
 	}
 
-	public override float DefaultScalingFactor
+	public override float defaultListenerScalingFactor
 	{
-		get { return GetUserSettings().m_DefaultScalingFactor; }
+		get { return GetUserSettings().m_DefaultListenerScalingFactor; }
 	}
 
 	public override AkCommunicationSettings AkCommunicationSettings

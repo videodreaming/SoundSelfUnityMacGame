@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 public class DefaultHandles
@@ -38,7 +38,7 @@ public class DefaultHandles
 }
 
 [UnityEditor.CanEditMultipleObjects]
-[UnityEditor.CustomEditor(typeof(AkGameObj))]
+[UnityEditor.CustomEditor(typeof(AkGameObj), true)]
 public class AkGameObjectInspector : UnityEditor.Editor
 {
 	private bool hideDefaultHandle;
@@ -166,7 +166,10 @@ public class AkGameObjectInspector : UnityEditor.Editor
 			}
 			else
 			{
-				AkSoundEngine.SetScalingFactor(m_AkGameObject.gameObject, m_AkGameObject.ScalingFactor);
+				if (m_AkGameObject.enabled)
+				{
+					AkSoundEngine.SetScalingFactor(m_AkGameObject.gameObject, m_AkGameObject.ScalingFactor);
+				}
 			}
 		}
 		UnityEngine.GUILayout.Space(UnityEditor.EditorGUIUtility.standardVerticalSpacing);

@@ -240,6 +240,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.Log(e);
+            Debug.Log("Imitone: Exception during imitone voice creation.");
             throw;
         }
 

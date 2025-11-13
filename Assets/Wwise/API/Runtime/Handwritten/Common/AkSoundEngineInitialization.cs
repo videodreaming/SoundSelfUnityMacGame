@@ -12,16 +12,16 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
-
+using System;
 public class AkSoundEngineInitialization
 {
 	protected static AkSoundEngineInitialization m_Instance;
 
 	public delegate void InitializationDelegate();
 	public InitializationDelegate initializationDelegate;
-
+	
 	public delegate void TerminationDelegate();
 	public TerminationDelegate terminationDelegate;
 
@@ -40,9 +40,26 @@ public class AkSoundEngineInitialization
 
 	public bool InitializeSoundEngine()
 	{
-
 		UnityEngine.Debug.LogFormat("WwiseUnity: Wwise(R) SDK Version {0}.", AkSoundEngine.WwiseVersion);
+#if UNITY_ANDROID && ! UNITY_EDITOR
+		//Obtains the Android Java Object "currentActivity" in order to set it for the android io hook initialization
+		try
+		{
+			// Get the current Activity using AndroidJavaClass
+			using (var unityPlayer = new UnityEngine.AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+			{
+				UnityEngine.AndroidJavaObject activity = unityPlayer.GetStatic<UnityEngine.AndroidJavaObject>("currentActivity");
+				IntPtr rawActivityPtr = activity.GetRawObject(); // Get the JNI pointer
 
+				// Pass the raw pointer to the native side
+				AkSoundEngine.SetAndroidActivity(rawActivityPtr);
+			}
+		}
+		catch (Exception ex)
+		{
+			UnityEngine.Debug.LogError($"Failed to pass activity to native code: {ex.Message}");
+		}
+#endif
 		var ActivePlatformSettings = AkWwiseInitializationSettings.ActivePlatformSettings;
 		var initResult = AkSoundEngine.Init(ActivePlatformSettings.AkInitializationSettings);
 		if (initResult != AKRESULT.AK_Success)
@@ -74,7 +91,7 @@ public class AkSoundEngineInitialization
 
 		var persistentDataPath = akBasePathGetterInstance.PersistentDataPath;
 		var isBasePathSameAsPersistentPath = soundBankBasePath == persistentDataPath;
-
+		
 #if UNITY_ANDROID
 		var canSetBasePath = !isBasePathSameAsPersistentPath;
 		var canSetPersistentDataPath = true;
@@ -207,7 +224,7 @@ public class AkSoundEngineInitialization
 		{
 			return;
 		}
-
+		
 		AkSoundEngine.SetOfflineRendering(false);
 
 		// Stop everything, and make sure the callback buffer is empty. We try emptying as much as possible, and wait 10 ms before retrying.

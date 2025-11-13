@@ -13,11 +13,11 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 [UnityEditor.CanEditMultipleObjects]
-[UnityEditor.CustomEditor(typeof(AkEvent))]
+[UnityEditor.CustomEditor(typeof(AkEvent), true)]
 public class AkEventInspector : AkBaseInspector
 {
 	private readonly AkUnityEventHandlerInspector m_UnityEventHandlerInspector = new AkUnityEventHandlerInspector();
@@ -27,6 +27,7 @@ public class AkEventInspector : AkBaseInspector
 	private UnityEditor.SerializedProperty enableActionOnEvent;
 	private UnityEditor.SerializedProperty transitionDuration;
 	private UnityEditor.SerializedProperty useCallbacks;
+	private UnityEditor.SerializedProperty stopSoundOnDestroy;
 
 	public void OnEnable()
 	{
@@ -38,6 +39,7 @@ public class AkEventInspector : AkBaseInspector
 		transitionDuration = serializedObject.FindProperty("transitionDuration");
 		useCallbacks = serializedObject.FindProperty("useCallbacks");
 		callbackData = serializedObject.FindProperty("Callbacks");
+		stopSoundOnDestroy = serializedObject.FindProperty("stopSoundOnDestroy");
 
 		AkEditorEventPlayer.RefreshGUI += Repaint;
 	}
@@ -136,12 +138,21 @@ public class AkEventInspector : AkBaseInspector
 		}
 	}
 
+	private void DisplayStopSoundOnDestroy()
+	{
+		using (new UnityEditor.EditorGUILayout.VerticalScope("box"))
+		{
+			UnityEditor.EditorGUILayout.PropertyField(stopSoundOnDestroy, new UnityEngine.GUIContent("Stop Sound On Destroy: "));
+		}
+	}
+
 	public override void OnChildInspectorGUI()
 	{
 		m_UnityEventHandlerInspector.OnGUI();
 
 		DisplayActionOnEvent();
 		DisplayCallbackInformation();
+		DisplayStopSoundOnDestroy();
 
 		UnityEngine.GUILayout.Space(UnityEditor.EditorGUIUtility.standardVerticalSpacing);
 		using (new UnityEditor.EditorGUILayout.VerticalScope("box"))
