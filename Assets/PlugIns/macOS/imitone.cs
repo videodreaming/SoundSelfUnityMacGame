@@ -105,7 +105,7 @@ namespace imitone
         public string GetState()
         {
             string newState = imi_GetState(voice);
-
+            Debug.Log("Imitone: GetState() returned " + newState);
             if (newState.Length == 0)
                 throw new System.ArgumentException(String.Format("Could not get voice state: {0}", imi_GetError(voice)));
                 

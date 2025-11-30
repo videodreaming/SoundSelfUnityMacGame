@@ -10,7 +10,7 @@ public class VoiceClipManager : MonoBehaviour
     [Header("Recording Settings")]
     [SerializeField] private string deviceName = "";
     [SerializeField, Min(1)] private int maxDurationSeconds = 120;
-    [SerializeField] private int sampleRate = 44100;
+    [SerializeField] private int sampleRate = 48000;
 
     [Header("Storage")]
     [SerializeField, Range(1, 12)] private int capacity = 12;

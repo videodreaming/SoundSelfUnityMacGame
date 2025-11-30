@@ -209,7 +209,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
                 lengthSec: 1,
                 frequency: sampleRate
                 );
-
+                
+   
         if (inputBuffer == null)
         {
             //If mircophone fails to start
@@ -247,6 +248,9 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         if (imitone == null)
         {
             Debug.Log("Imitone: imitone was null after creation.");
+        } else 
+        {
+            Debug.Log("Imitone: imitone created successfully.");
         }
     }
 
@@ -533,7 +537,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
                                     _dbValue = (float)(10.0 * Math.Log10(power));
                                     imitoneActiveRaw = true;
                                     imitoneActive = gameOn ? true : false;
-                                    //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
+                                    Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
                                 }
 
                                 _level = (float)Math.Pow(10, _dbValue) * 0.05f;
