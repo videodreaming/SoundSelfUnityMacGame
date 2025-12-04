@@ -700,7 +700,26 @@
 								<ObjectList Name="Sequences">
 									<Reference>
 										<Local>
-											<MusicTrackSequence Name="" ID="{1413DB2D-7F2F-44C0-9FC3-7B9CAB29FFA7}"/>
+											<MusicTrackSequence Name="" ID="{1413DB2D-7F2F-44C0-9FC3-7B9CAB29FFA7}">
+												<ObjectLists>
+													<ObjectList Name="Clips">
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{DC323BB9-4EFE-459A-BD01-E46BDD4E9C79}" ShortID="529050961">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="1407.93051349387"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+													</ObjectList>
+												</ObjectLists>
+											</MusicTrackSequence>
 										</Local>
 									</Reference>
 								</ObjectList>
@@ -1005,11 +1024,6 @@
 									</ValueList>
 								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1164,11 +1178,6 @@
 									</ValueList>
 								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">

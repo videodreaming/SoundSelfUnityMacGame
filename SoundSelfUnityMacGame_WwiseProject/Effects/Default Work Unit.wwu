@@ -2269,6 +2269,11 @@
 						<Property Name="QFactorBand2" Type="Real32" Value="0.5"/>
 					</PropertyList>
 				</Effect>
+				<Effect Name="Master_Limiter" ID="{38CE9EDE-AFC3-4DDE-9616-FBE53AE44653}" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
+					<PropertyList>
+						<Property Name="Threshold" Type="Real32" Value="-2"/>
+					</PropertyList>
+				</Effect>
 			</ChildrenList>
 		</WorkUnit>
 	</Effects>

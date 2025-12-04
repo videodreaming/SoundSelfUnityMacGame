@@ -1361,18 +1361,18 @@
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>256.09847</XPos>
-																						<YPos>-1.07981</YPos>
+																						<XPos>256.4418</XPos>
+																						<YPos>-1.21628</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>297.52577</XPos>
-																						<YPos>-1.00071</YPos>
+																						<XPos>297.61386</XPos>
+																						<YPos>-1.13593</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>348.13512</XPos>
-																						<YPos>-0.97342</YPos>
+																						<XPos>348.5031</XPos>
+																						<YPos>-1.15361</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -1415,20 +1415,6 @@
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
 																			<ObjectRef Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{4ED80F48-6F5D-43F8-A619-1E31C2DD155C}" ShortID="926757085">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="379179.318415427"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_CrystalBowlGenerator" ID="{8B409F1A-41EA-4FD9-8855-6E165A2929F1}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 																		</Reference>
 																	</ReferenceList>
 																</MusicEventCue>
@@ -2258,9 +2244,9 @@
 																</Reference>
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{F7125560-B9B2-4F26-AA84-81589E6B15C3}" ShortID="453384195">
+																		<MusicEventCue Name="" ID="{0B725CD7-EEDF-4C44-A22A-403A4FBD1BE6}" ShortID="995515704">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="205958.003365382"/>
+																				<Property Name="PlayAt" Type="Real64" Value="207232.619262031"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -2398,9 +2384,9 @@
 																</Reference>
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{00574F1A-4EBA-4D05-9E53-7588FB0421A1}" ShortID="844995302">
+																		<MusicEventCue Name="" ID="{B6A25C14-8E27-43FF-9919-3A4A7731E118}" ShortID="1044914866">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="349496.677490704"/>
+																				<Property Name="PlayAt" Type="Real64" Value="349434.49981217"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -2780,9 +2766,9 @@
 																</Reference>
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{40573D80-E610-4A29-96CE-365EE980D159}" ShortID="520565537">
+																		<MusicEventCue Name="" ID="{0448A695-3434-4E65-8F03-2AE36199CEC5}" ShortID="810341545">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="234005.734277609"/>
+																				<Property Name="PlayAt" Type="Real64" Value="235554.937257229"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -3273,7 +3259,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>1</Value>
+										<Value>3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -3335,6 +3321,11 @@
 										<Value>True</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
@@ -3382,20 +3373,6 @@
 														</Reference>
 														<Reference>
 															<Local>
-																<MusicEventCue Name="" ID="{1618DA55-D99F-40E5-AC67-6E0AD1E2D057}" ShortID="429130274">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="26909.8519020578"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
 																<MusicEventCue Name="" ID="{25F35AFA-2B96-4457-B9ED-7B6A6677859D}" ShortID="976565274">
 																	<PropertyList>
 																		<Property Name="PlayAt" Type="Real64" Value="70082.2945083813"/>
@@ -3417,6 +3394,34 @@
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
 																			<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{14EAE9EE-165F-4840-A07E-C47B082B894B}" ShortID="230813534">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="13730.7015555279"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_CrystalBowlGenerator" ID="{97D73A5C-433E-4290-B073-BF488ECF89F7}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{8F5E9AD4-BEEE-4E7C-931F-5B33A158BF76}" ShortID="794832643">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="6865.35077776394"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Mute_SILENTMEDITATION_MUSIC" ID="{09DA13B4-9FE8-4A61-B8A9-84AE807A82C3}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 																		</Reference>
 																	</ReferenceList>
 																</MusicEventCue>
@@ -3500,6 +3505,11 @@
 										<Value>True</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
@@ -3539,6 +3549,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="2738"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																		<Property Name="PlayAt" Type="Real64" Value="3624.11256677339"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_endingSoon" ID="{AF251F71-6E1A-4B9B-A8C0-06EB8DD1C8EA}"/>
 																</MusicClip>
@@ -3603,6 +3614,7 @@
 									<MusicCue Name="Cue_VO_EndingSoon_Start" ID="{70746C13-2AA4-4683-BE32-AC1735A9558D}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
+											<Property Name="TimeMs" Type="Real64" Value="3624.11256677339"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>

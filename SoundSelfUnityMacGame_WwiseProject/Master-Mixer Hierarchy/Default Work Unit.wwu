@@ -4,6 +4,13 @@
 		<WorkUnit Name="Default Work Unit" ID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}" PersistMode="Standalone">
 			<ChildrenList>
 				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{69D60C99-E104-4F92-81B8-1C890CC95B06}" WorkUnitID="{20E15702-9916-45CB-8BCD-D7E3AE92AAE9}"/>
@@ -144,6 +151,13 @@
 							</ObjectLists>
 						</Bus>
 						<Bus Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>
@@ -213,7 +227,12 @@
 								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>7</Value>
+										<Value>5</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -398,23 +417,14 @@
 									</ValueList>
 								</Property>
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-3"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="Effects">
-									<Reference>
-										<Local>
-											<EffectSlot Name="" ID="{731E73FE-54B9-4F5C-AC95-AC40F378B874}" ShortID="753092907">
-												<PropertyList>
-													<Property Name="Bypass" Type="bool" Value="True"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="Effect" PluginName="Wwise Compressor" CompanyID="0" PluginID="108" PluginType="3">
-														<ObjectRef Name="Dialog_Too_Quiet" ID="{F9C77BF1-1CCC-415B-B93F-B048979CA620}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
-													</Reference>
-												</ReferenceList>
-											</EffectSlot>
-										</Local>
-									</Reference>
 									<Reference>
 										<Local>
 											<EffectSlot Name="" ID="{94D7886D-002A-47A5-9D46-A2F7F5BDD988}" ShortID="904651133">
@@ -496,6 +506,21 @@
 							</DuckingList>
 						</Bus>
 					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="Effects">
+							<Reference>
+								<Local>
+									<EffectSlot Name="" ID="{8DB301C2-AF23-46B8-AC37-8213F6058002}" ShortID="583311855">
+										<ReferenceList>
+											<Reference Name="Effect" PluginName="Wwise Peak Limiter" CompanyID="0" PluginID="110" PluginType="3">
+												<ObjectRef Name="Master_Limiter" ID="{38CE9EDE-AFC3-4DDE-9616-FBE53AE44653}" WorkUnitID="{9C6A7CDF-1EF9-4851-84D9-CEE0F480D243}"/>
+											</Reference>
+										</ReferenceList>
+									</EffectSlot>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
 				</Bus>
 				<Bus Name="AVS System" ID="{01AE7052-1762-4CED-975A-B966F98065DF}">
 					<PropertyList>

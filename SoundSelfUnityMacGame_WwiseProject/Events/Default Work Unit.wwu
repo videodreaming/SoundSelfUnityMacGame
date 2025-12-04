@@ -365,6 +365,18 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{A348AAC9-1EA3-4794-AD2D-FCE7B9ECE955}" ShortID="315370152">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="4"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_EXIT_MUSIC_PLAYLIST" ID="{493910F3-5E57-4570-B6D2-1ABEA929D925}">
@@ -540,6 +552,18 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{BFEA9A83-1BBB-43DC-B6B6-B686905B58F9}" ShortID="852062604">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="4"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Play_INTEGRATION_OPENING_SEQUENCE_SHORT" ID="{C738D77A-BEE4-4F80-9F36-BD97613A271A}">
@@ -686,7 +710,6 @@
 						<Action Name="" ID="{1AE9F01C-DBB8-4CD7-A291-11E5CD97FF47}" ShortID="776197538">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="45"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
 								<Property Name="FadeTime" Type="Real64" Value="60"/>
 							</PropertyList>
@@ -699,7 +722,6 @@
 						<Action Name="" ID="{CFAE454F-079B-4433-B4AE-EC9EA9FB9AEF}" ShortID="163349831">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="60"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
 								<Property Name="FadeTime" Type="Real64" Value="60"/>
 							</PropertyList>
@@ -733,7 +755,6 @@
 						<Action Name="" ID="{26EFDD10-60D3-4352-A998-AB6021A592D2}" ShortID="656266378">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="40"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
 								<Property Name="FadeTime" Type="Real64" Value="30"/>
 							</PropertyList>
@@ -743,16 +764,27 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{96FDA0B6-F97C-4D44-AE01-F034C307D202}" ShortID="941083814">
+						<Action Name="" ID="{4F2EAF08-CFE1-43A7-803F-1BEA3DA75682}" ShortID="186292018">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="60"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="45"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="SFX_SoundSeed_BreathCycle" ID="{77A1D13E-4F48-4191-99C3-50A34F8045CB}" WorkUnitID="{80D98F99-9777-4850-8D77-4EE1160C2C7C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{0D420C36-0359-4C08-AAA3-716663E99E35}" ShortID="687047564">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CrystalBowlGenerator1" ID="{85896205-A477-407B-B4E1-782C367E5E8B}" WorkUnitID="{3E25CEB3-234A-4169-872E-A1804A0F1B6F}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
