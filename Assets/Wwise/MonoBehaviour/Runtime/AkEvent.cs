@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 /// <summary>
@@ -71,8 +71,10 @@ public class AkEvent : AkDragDropTriggerHandler
 				GameObject.SendMessage(FunctionName, eventCallbackMsg);
 		}
 	}
-
+	
+	private UnityEngine.GameObject otherGameObject;
 	public bool useCallbacks = false;
+	public bool stopSoundOnDestroy = true;
 	public System.Collections.Generic.List<CallbackData> Callbacks = new System.Collections.Generic.List<CallbackData>();
 
 	public uint playingId = AkSoundEngine.AK_INVALID_PLAYING_ID;
@@ -131,6 +133,10 @@ public class AkEvent : AkDragDropTriggerHandler
 	{
 		var gameObj = useOtherObject && in_gameObject != null ? in_gameObject : gameObject;
 		soundEmitterObject = gameObj;
+		if (useOtherObject)
+		{
+			otherGameObject = in_gameObject;
+		}
 
 		if (enableActionOnEvent)
 		{
@@ -157,6 +163,16 @@ public class AkEvent : AkDragDropTriggerHandler
 		}
 
 		playingId = data.Post(gameObj);
+	}
+
+	protected new void OnDestroy()
+	{
+		var akGameObj = gameObject.GetComponent<AkGameObj>();
+		if (stopSoundOnDestroy && akGameObj != null && akGameObj.GameObjIsRegistered())
+		{
+			var gameObj = useOtherObject && otherGameObject != null ? otherGameObject : gameObject;
+			data.ExecuteAction(gameObj, AkActionOnEventType.AkActionOnEventType_Stop, (int)transitionDuration * 1000, curveInterpolation);
+		}
 	}
 
 	public void Stop(int _transitionDuration)

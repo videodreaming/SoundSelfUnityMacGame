@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 /// @brief Maintains the list of loaded SoundBanks loaded. This is currently used only with AkAmbient objects.
@@ -106,12 +106,9 @@ public static class AkBankManager
 				return;
 			}
 
-#if UNITY_SWITCH
-			// No bank decoding on Nintendo switch
-			handle = new BankHandle(name);
-#else
-			handle = decodeBank ? new DecodableBankHandle(name, saveDecodedBank) : new BankHandle(name);
-#endif
+			handle = decodeBank && AkSoundEngine.PlatformSupportsDecodeBank() ? 
+				new DecodableBankHandle(name, saveDecodedBank) : new BankHandle(name);
+
 			m_BankHandles.Add(name, handle);
 		}
 		handle.LoadBank();

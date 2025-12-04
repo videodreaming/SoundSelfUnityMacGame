@@ -5,26 +5,30 @@ The content of this file may not be used without valid licenses to the
 AUDIOKINETIC Wwise Technology.
 Note that the use of the game engine is subject to the Unity(R) Terms of
 Service at https://unity3d.com/legal/terms-of-service
- 
+
 License Usage
- 
+
 Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2024 Audiokinetic Inc.
+Copyright (c) 2025 Audiokinetic Inc.
 *******************************************************************************/
 
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.PackageManager;
+using UnityEngine;
+
 public class WwiseSetupWizard
 {
 	static Dictionary<int, string> WwiseAddressableDefines = new Dictionary<int, string>()
 	{
 		{2023, "WWISE_ADDRESSABLES_23_1_OR_LATER"},
 	};
+
 	public static void RunModify()
 	{
 		try
@@ -148,7 +152,11 @@ public class WwiseSetupWizard
 		foreach (var objectType in wwiseComponentTypes)
 		{
 			// Get all objects in the scene with the specified type.
+#if UNITY_6000_0_OR_NEWER
+			var objects = UnityEngine.Object.FindObjectsByType(objectType, FindObjectsSortMode.None);
+#else
 			var objects = UnityEngine.Object.FindObjectsOfType(objectType);
+#endif
 			if (objects != null && objects.Length > 0)
 				objectTypeMap[objectType] = objects;
 		}
@@ -563,9 +571,11 @@ public class WwiseSetupWizard
 		if (!SetSoundbankSettings())
 			UnityEngine.Debug.LogWarning("WwiseUnity: Could not modify Wwise Project to generate the header file!");
 
+#if !UNITY_2021_1_OR_NEWER
 		// 11. Activate XboxOne network sockets.
 		AkXboxOneUtils.EnableXboxOneNetworkSockets();
-		
+#endif
+
 		// 12. Add addressables version define
 		SetWwiseVersionDefines(WwiseAddressableDefines);
 	}
@@ -586,7 +596,8 @@ public class WwiseSetupWizard
 		{
 			foreach (var TargetGroup in AvailableBuildTargetGroups)
 			{
-				string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(TargetGroup);
+				var namedTarget = UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(TargetGroup);
+				string defines = PlayerSettings.GetScriptingDefineSymbols(namedTarget);
 				for (int i = 2023; i <= wwiseVersionAsInteger; ++i)
 				{
 					if (versionDefines.ContainsKey(i))
@@ -598,7 +609,7 @@ public class WwiseSetupWizard
 						}
 					}
 				}
-				PlayerSettings.SetScriptingDefineSymbolsForGroup(TargetGroup, defines);
+				PlayerSettings.SetScriptingDefineSymbols(namedTarget, defines);
 			}
 		}
 	}
@@ -608,7 +619,11 @@ public class WwiseSetupWizard
 	private static void CreateWwiseGlobalObject()
 	{
 		// Look for a game object which has the initializer component
+#if UNITY_6000_0_OR_NEWER
+		var AkInitializers = UnityEngine.Object.FindObjectsByType<AkInitializer>(FindObjectsSortMode.None);
+#else
 		var AkInitializers = UnityEngine.Object.FindObjectsOfType<AkInitializer>();
+#endif
 		if (AkInitializers.Length > 0)
 			UnityEditor.Undo.DestroyObjectImmediate(AkInitializers[0].gameObject);
 
@@ -616,9 +631,6 @@ public class WwiseSetupWizard
 
 		// attach initializer component
 		UnityEditor.Undo.AddComponent<AkInitializer>(WwiseGlobalGameObject);
-
-		// Set focus on WwiseGlobal
-		UnityEditor.Selection.activeGameObject = WwiseGlobalGameObject;
 	}
 
 	private static bool DisableBuiltInAudio()
@@ -671,7 +683,11 @@ public class WwiseSetupWizard
 		// on the first scene of a new project
 		if (camera == null)
 		{
+#if UNITY_6000_0_OR_NEWER
+			var cameraArray = UnityEngine.Object.FindObjectsByType<UnityEngine.Camera>(FindObjectsSortMode.None);
+#else
 			var cameraArray = UnityEngine.Object.FindObjectsOfType<UnityEngine.Camera>();
+#endif
 			if (cameraArray.Length > 0)
 			{
 				foreach (var entry in cameraArray)
