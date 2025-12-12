@@ -505,6 +505,47 @@
 								</DuckItem>
 							</DuckingList>
 						</Bus>
+						<Bus Name="Binaural Beats Generator" ID="{617D041A-3057-42AE-BA82-DD9F24E0164B}">
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{F621FE84-922B-4433-8407-6DB8230681F9}" ShortID="575762627">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="BusVolume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="BinauralGenerator_Bus_Volume" ID="{7C44CE53-A9EF-4DB6-BA33-A07A2F7F989C}" WorkUnitID="{4AB62059-2D74-4E1A-8CFF-8CEFDE2685E4}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{80C7F790-E53E-4918-8111-DEFD7EBAF8CF}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</Bus>
 					</ChildrenList>
 					<ObjectLists>
 						<ObjectList Name="Effects">

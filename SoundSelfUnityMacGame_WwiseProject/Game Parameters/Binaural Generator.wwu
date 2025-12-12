@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{BB91E302-D570-44F8-B42C-556E83B60E1C}" SchemaVersion="119">
+	<GameParameters>
+		<WorkUnit Name="Binaural Generator" ID="{BB91E302-D570-44F8-B42C-556E83B60E1C}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="BinauralGenerator_LEFT_Frequency" ID="{2A8F961D-14DC-4709-9FA8-35FC7A2D1138}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="200"/>
+						<Property Name="Max" Type="Real64" Value="1000"/>
+						<Property Name="Min" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="BinauralGenerator_RIGHT_Frequency" ID="{A77A823F-1B96-4B19-BFB7-BC35112F746C}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="200"/>
+						<Property Name="Max" Type="Real64" Value="1000"/>
+						<Property Name="Min" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

@@ -30,6 +30,11 @@
 				</GameParameter>
 				<GameParameter Name="Environment_Bus_Volume" ID="{1D24E900-FB6F-4998-98EA-E0BFA9B073C4}"/>
 				<GameParameter Name="ImpactsSub_Bus_Volume" ID="{A53321D0-A7F3-4341-ABFB-0BBD9CEE0D2B}"/>
+				<GameParameter Name="BinauralGenerator_Bus_Volume" ID="{7C44CE53-A9EF-4DB6-BA33-A07A2F7F989C}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="80"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

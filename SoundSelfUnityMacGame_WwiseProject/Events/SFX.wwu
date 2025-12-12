@@ -277,6 +277,35 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_BinauralGenerator" ID="{52381511-34EA-44F1-94EB-8DF86378F170}">
+					<ChildrenList>
+						<Action Name="" ID="{13B2A9CA-AE71-498E-A6C4-DEB8575FA975}" ShortID="764492062">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Binaural Generator SUM" ID="{5064A674-14B3-4E33-A27C-D72D41D38FCA}" WorkUnitID="{250C858D-79D8-43FD-97AD-E5E407B81DA0}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_BinauralGenerator" ID="{C51D1F3C-4C28-4DB1-A9BF-1B07152D2224}">
+					<ChildrenList>
+						<Action Name="" ID="{7CB19874-A9BA-4D1F-BBF3-47AC3EC3D196}" ShortID="117884053">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Binaural Generator SUM" ID="{5064A674-14B3-4E33-A27C-D72D41D38FCA}" WorkUnitID="{250C858D-79D8-43FD-97AD-E5E407B81DA0}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

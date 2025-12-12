@@ -23,6 +23,7 @@ namespace AK
         static const AkUniqueID PLAY_AVS_WAVE2 = 3630490448U;
         static const AkUniqueID PLAY_AVS_WAVE3 = 3630490449U;
         static const AkUniqueID PLAY_BASSSYNTH = 1347182731U;
+        static const AkUniqueID PLAY_BINAURALGENERATOR = 2050024707U;
         static const AkUniqueID PLAY_CALIBRATION_MUSIC = 3682980534U;
         static const AkUniqueID PLAY_CALIBRATION_SEQUENCE = 1731808482U;
         static const AkUniqueID PLAY_CALIBRATION_SILENTLOOPS = 3361879071U;
@@ -111,6 +112,7 @@ namespace AK
         static const AkUniqueID STOP_AVS_WAVE2 = 4138940082U;
         static const AkUniqueID STOP_AVS_WAVE3 = 4138940083U;
         static const AkUniqueID STOP_BASSSYNTH = 1502315953U;
+        static const AkUniqueID STOP_BINAURALGENERATOR = 2452192253U;
         static const AkUniqueID STOP_CALIBRATION_MUSIC = 1661327600U;
         static const AkUniqueID STOP_CALIBRATION_SEQUENCE = 2252226012U;
         static const AkUniqueID STOP_CRYSTALBOWLGENERATOR = 4041758113U;
@@ -457,6 +459,9 @@ namespace AK
         static const AkUniqueID AVS_RED_VOLUME_WAVE2 = 3922087662U;
         static const AkUniqueID AVS_RED_VOLUME_WAVE3 = 3922087663U;
         static const AkUniqueID AVS_REFERENCE_VOLUME = 2523786154U;
+        static const AkUniqueID BINAURALGENERATOR_BUS_VOLUME = 2626252250U;
+        static const AkUniqueID BINAURALGENERATOR_LEFT_FREQUENCY = 2033106885U;
+        static const AkUniqueID BINAURALGENERATOR_RIGHT_FREQUENCY = 732775546U;
         static const AkUniqueID BREATHECYCLE_VOLUME = 1662384195U;
         static const AkUniqueID BREATHIN_PLAYBACKRATE = 4191266472U;
         static const AkUniqueID CRYSTALBOWLGENERATOR_VOLUME = 3761161481U;
@@ -504,6 +509,7 @@ namespace AK
         static const AkUniqueID AVS_WAVE_1_SILENT = 1241127624U;
         static const AkUniqueID AVS_WAVE_2_TONING = 1128474843U;
         static const AkUniqueID AVS_WAVE_3_BREATH = 4079501339U;
+        static const AkUniqueID BINAURAL_BEATS_GENERATOR = 3511834067U;
         static const AkUniqueID ENVIRONMENT = 1229948536U;
         static const AkUniqueID IMPACTS_SUBACOUSTICS = 958096227U;
         static const AkUniqueID INTERACTIVEMUSIC_VOCAL_SILENT = 2579128390U;
