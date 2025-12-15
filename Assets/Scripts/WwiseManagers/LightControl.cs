@@ -27,7 +27,7 @@ public class LightControl : MonoBehaviour
     private int cycleWhite = 0;
     private int cycleTest = 0;
     public float _fxWave = 0f;
-    public float _strobeRate;
+    public float _strobeRate {get; private set;}
     public float _strobePWM    = 0.0f;
     public float _strobe1Smoothing = 0.0f;
     public float _gammaBurstMode = 0.0f;
@@ -300,6 +300,7 @@ public class LightControl : MonoBehaviour
         float _timeRemaining = cycleLength;
         
         SetStrobeRate(_end, cycleLength/2f, true);
+        MusicBinauralBeats.instance.NewBinauralBeatRate(_end, cycleLength/2f);
 
         while(_timeRemaining > (cycleLength/2f))
         {
@@ -308,6 +309,7 @@ public class LightControl : MonoBehaviour
         }
 
         SetStrobeRate(_start, cycleLength/2f, true);
+        MusicBinauralBeats.instance.NewBinauralBeatRate(_start, cycleLength/2f);
 
         while(_timeRemaining > 0)
         {
@@ -324,6 +326,11 @@ public class LightControl : MonoBehaviour
         {
             StopCoroutine(sawStrobeCoroutine);
             Debug.Log("Saw Strobe Coroutine stopped");
+        }
+
+        if (!partOfCoroutine)
+        {
+            MusicBinauralBeats.instance.NewBinauralBeatRate(_rate);
         }
 
         if (AVSStrobeCommand != "")

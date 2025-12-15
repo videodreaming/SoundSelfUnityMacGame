@@ -22,6 +22,7 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	1050949862	SFX_Bus_Volume			\Master Mixer\SFX_Bus_Volume	
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
 	2590911748	LinearMusic_Volume			\Master Mixer\LinearMusic_Volume	
+	2626252250	BinauralGenerator_Bus_Volume			\Master Mixer\BinauralGenerator_Bus_Volume	
 	3687478936	VO_Bus_Volume			\Master Mixer\VO_Bus_Volume	
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
@@ -36,6 +37,7 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	2218314507	SubAcoustics			\Default Work Unit\AVS System\SubAcoustics	
 	2479991680	InteractiveMusic_Vocal_Toning			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Toning	
 	2579128390	InteractiveMusic_Vocal_Silent			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Silent	
+	3511834067	Binaural Beats Generator			\Default Work Unit\Master Audio Bus\Binaural Beats Generator	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
 	4079501339	AVS_Wave 3_Breath			\Default Work Unit\AVS System\AVS\AVS_Wave 3_Breath	
@@ -48,12 +50,12 @@ Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	3331583377	Aux_Music			\Default Work Unit\AVS System\SubAcoustics\Aux_Music	
 
 Effect plug-ins	ID	Name	Type				Notes
-	59662939	Dialog_Too_Quiet	Wwise Compressor			
 	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
 	1182561210	Cut_3dB_10KHz	Wwise Parametric EQ			
 	2547645744	Boost_3dB_100Hz	Wwise Parametric EQ			
 	2652646462	Dialog_Leveler_Soft	Wwise Compressor			
 	3013737263	Bass_Remover_1	Wwise Parametric EQ			
+	3134687450	Master_Limiter	Wwise Peak Limiter			
 	3986712950	HighShelfReduction	Wwise Parametric EQ			
 
 Audio Devices	ID	Name	Type				Notes

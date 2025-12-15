@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using AK.Wwise;
-
+using ConversionUtilities;
 
 public class MusicSystem1 : MonoBehaviour
 {
@@ -538,6 +538,15 @@ public class MusicSystem1 : MonoBehaviour
         modeFreeplayFlag = freeplay;
         modeFrozenFreeplayFlag = frozenFreeplay;
         modeEnvironmentFlag = environment;
+
+        if(modeTutorialFlag || modeFreeplayFlag || modeFrozenFreeplayFlag)
+        {
+            MusicBinauralBeats.instance.SetVolume(60f);
+        }
+        else
+        {
+            MusicBinauralBeats.instance.SetVolume(0f);
+        }
     }
 
     
@@ -565,12 +574,13 @@ public class MusicSystem1 : MonoBehaviour
         {
             if(debugAllowLogs)
             {
-                Debug.Log("MUSIC 6: Fundamental Note Changing to " + ConvertIntToNote(fundamentalNote));
+                Debug.Log("MUSIC 6: Fundamental Note Changing to " + ConvertIntToNote(newFundamental));
             }
             
             director.ClearQueueOfType("fundamentalChange");
             fundamentalNote = newFundamental;
             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote), gameObject);
+            MusicBinauralBeats.instance.ChangeCenterFrequency(ConvertNoteToFrequencyA440(ConvertIntToNote(newFundamental)));
             ResetFundamentalTimers();
             directorStoredFundamental = newFundamental;
         }
@@ -897,6 +907,24 @@ public class MusicSystem1 : MonoBehaviour
         return (int)Enum.Parse(typeof(NoteName), noteName);
     }
 
+    //Utility method to convert note name to frequency in Hz, assuming A4 = 440Hz
+    public float ConvertNoteToFrequencyA440(string noteName)
+    {
+        int noteNumber = ConvertNoteToInt(noteName);
+        if (noteNumber == -1 || noteNumber == -2)
+        {
+            Debug.LogWarning("MUSIC: Cannot convert invalid note name to frequency: " + noteName);
+            return -1f;
+        }
+        // Calculate frequency using the formula for equal temperament tuning
+        // A4 (440 Hz) is the 9th note in the octave (0=C, 1=C#, 2=D, 3=D#, 4=E, 5=F, 6=F#, 7=G, 8=G#, 9=A, 10=A#, 11=B)
+        int semitoneDifference = noteNumber - 9; // Difference from A
+        float frequency = 440f * Mathf.Pow(2f, semitoneDifference / 12f);
+        return frequency;
+    }
+
+
+    
     public void SetMusicSilentLayerVolume(float _target, float fadeDuration = 0.1f)
     {
         int ms = (int) Mathf.RoundToInt(fadeDuration * 1000);

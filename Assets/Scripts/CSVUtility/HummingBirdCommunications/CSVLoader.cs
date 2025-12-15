@@ -14,10 +14,10 @@ public class CSVLoader : MonoBehaviour
     public TimeLeftScript timeLeftScript;
     public static string gameMode {get; private set;}
     public static string subGameMode {get; private set;}
+    public static string firstTimeUserString {get; private set;}
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
 
-    public bool firstTimeUser {get; private set;} = true;
     private bool layingDown = true;
     public static int currentSessionNumber = 0;
     private string baseSessionsFolderPath = "";
@@ -28,21 +28,24 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private string encryptedSubGameMode;
     [SerializeField] private string decryptedGameMode;
     [SerializeField] private string decryptedSubGameMode;
+    [SerializeField] private string encryptedFirstTimeUser;
+    [SerializeField] private string decryptedFirstTimeUser;
+
 
 
 
     void Awake()
     {
-#if UNITY_STANDALONE_OSX
-            string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
-            baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
-#elif UNITY_STANDALONE_WIN
-        baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
-        Debug.Log("Base path: " + baseSessionsFolderPath);
-#else
-            Debug.LogError("Unsupported platform");
-            return;
-#endif
+    #if UNITY_STANDALONE_OSX
+                string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+                baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
+    #elif UNITY_STANDALONE_WIN
+            baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
+            Debug.Log("Base path: " + baseSessionsFolderPath);
+    #else
+                Debug.LogError("Unsupported platform");
+                return;
+    #endif
 
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
@@ -86,21 +89,24 @@ public class CSVLoader : MonoBehaviour
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
                 totalTimeOfPostUnguidedVocalizationContent = (10.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
+                //Add 4mins 51 seconds on top the 9 mins 49 seconds for Mindfulness and Joy
                 wwiseVOManager.SetToPeace();
             }
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
                 Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
                 totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
+                // Add 4mins 51 seconds on top the 7 mins 33 seconds for Psychological Flexibility
                 wwiseVOManager.SetToNarrative();
             }
             else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
             {
                 totalTimeOfPostUnguidedVocalizationContent = (8.0f * 60.0f) + 06.0f; //8 min 6 seconds //July 7 2025, added 11 seconds
+                // Add 4mins 51 seconds on top the 8 mins 6 seconds for Psychedelic Preparation
                 wwiseVOManager.SetToSurrender();
             }
 
-            if (firstTimeUser)
+            if (firstTimeUserString == "First Time User")
             {
                 wwiseVOManager.firstTimeUser();
                 Debug.Log("CSVLoader: First Time User");
@@ -149,6 +155,7 @@ public class CSVLoader : MonoBehaviour
                 string[] data = File.ReadAllText(sessionsParams).Split(new string[] {",","\n"}, StringSplitOptions.None);
                 encryptedGameMode = data[0].Trim();
                 encryptedSubGameMode = data[1].Trim();
+                encryptedFirstTimeUser = data[2].Trim();
                 if(encryptedGameMode == "Set Levels")
                 {
                     Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
@@ -163,10 +170,12 @@ public class CSVLoader : MonoBehaviour
                 {
                     Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
                     Debug.Log("Encrypted Sub Game Mode: " + encryptedSubGameMode);
+                    decryptedFirstTimeUser = EncryptionHelper.Decrypt(encryptedFirstTimeUser);
                     decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
                     decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
                     gameMode = decryptedGameMode;
                     subGameMode = decryptedSubGameMode;
+                    firstTimeUserString = decryptedFirstTimeUser;
                 }
             }
             else 
@@ -184,5 +193,10 @@ public class CSVLoader : MonoBehaviour
     public string GetCurrentSubMode()
     {
         return subGameMode;
+    }
+
+    public string GetDecryptedFirstTimeUser()
+    {
+        return firstTimeUserString;
     }
 }

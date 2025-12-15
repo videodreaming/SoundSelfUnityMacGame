@@ -135,7 +135,7 @@ public class Sequencer : MonoBehaviour
         {
             if(CSVLoader.gameMode == "Preparation" || CSVLoader.gameMode == "Skills Training")
             {
-                if(csvLoader.firstTimeUser)
+                if(csvLoader.GetDecryptedFirstTimeUser() == "First Time User")
                 {
                     wwiseVOManager.PlayOpeningSequence("Preparation_Long");
                 }
