@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class canvasSwitcher : MonoBehaviour
 {
-    public DevelopmentMode developmentMode;
     public Canvas canvas1;
     public Canvas canvas2;
     public Canvas canvas3;
@@ -34,39 +33,32 @@ public class canvasSwitcher : MonoBehaviour
     {
         if (UIDevMode)
         {
-            if (developmentMode.configureMode)
+        
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                canvas1.enabled = true;
+                canvas2.enabled = false;
+                canvas3.enabled = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                canvas1.enabled = false;
+                canvas2.enabled = true;
+                canvas3.enabled = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                canvas1.enabled = false;
+                canvas2.enabled = false;
+                canvas3.enabled = true;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 canvas1.enabled = false;
                 canvas2.enabled = false;
                 canvas3.enabled = false;
             }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    canvas1.enabled = true;
-                    canvas2.enabled = false;
-                    canvas3.enabled = false;
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    canvas1.enabled = false;
-                    canvas2.enabled = true;
-                    canvas3.enabled = false;
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    canvas1.enabled = false;
-                    canvas2.enabled = false;
-                    canvas3.enabled = true;
-                }
-                if (Input.GetKeyDown(KeyCode.Alpha4))
-                {
-                    canvas1.enabled = false;
-                    canvas2.enabled = false;
-                    canvas3.enabled = false;
-                }
-            }
+            
         }
     }
 

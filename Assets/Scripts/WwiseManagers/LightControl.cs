@@ -8,7 +8,6 @@ using System;
 
 public class LightControl : MonoBehaviour
 {
-    public DevelopmentMode developmentMode;
     public WorldShuffler worldShuffler;
     [SerializeField] AkDeviceDescriptionArray m_devices;
     public GameObject gameObjectSystem2Listener;
@@ -48,23 +47,21 @@ public class LightControl : MonoBehaviour
     public Color breathWaveColor = new Color(0.0f, 0.0f, 0.0f);
     public int fxWaveKey = 0;
     public Dictionary <int, float> _fxWaveDict = new Dictionary<int, float>();
+    private bool developmentModeWarningFlag = false;
     
 
     void Awake()
     {
-        //INITIALIZE COLORS
-        if(developmentMode.configureMode)
-        {
-            SetColorWorldByType("White", 0.0f);
-            SetStrobeRate(8f, 0.0f);
-        }
-        else if(developmentMode.startAtStart) // Robin wonders why this is here
-        {
-            SetColorWorldByType("Dark", 0.0f);
-        }
-        //ulong gameObjectID = AkSoundEngine.GetAkGameObjectID(gameObject);
-        // Log the Game Object ID for tracking purposes
-        //Debug.Log($"Game Object '{gameObject.name}' registered with Wwise ID: {gameObjectID}");
+        //INITIALIZE COLORS (REMOVING THIS, 12/16/2025)
+        //if(DevelopmentMode.instance.configureMode)
+        //{
+        //    SetColorWorldByType("White", 0.0f);
+        //    SetStrobeRate(8f, 0.0f);
+        //}
+        //else if(DevelopmentMode.instance.startAtStart) // Robin wonders why this is here
+        //{
+        //    SetColorWorldByType("Dark", 0.0f);
+        //}
     }
     void Start()
     {
@@ -197,7 +194,7 @@ public class LightControl : MonoBehaviour
     void Update()
     {
         HandleFXWave();
-        if(developmentMode.developmentMode)
+        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
         {
 
             if (Input.GetKeyDown(KeyCode.K))
@@ -242,6 +239,11 @@ public class LightControl : MonoBehaviour
             {
                 Gamma(false);
             }
+        }
+        else if (DevelopmentMode.instance == null && !developmentModeWarningFlag)
+        {
+            Debug.LogWarning("LightControl: DevelopmentMode instance not found in scene.");
+            developmentModeWarningFlag = true;
         }
         
         // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
@@ -644,10 +646,6 @@ public class LightControl : MonoBehaviour
     public void Wwise_Strobe_ToneDisplay (float _input)
     {
         float _input2 = _input;
-        if(developmentMode.configureMode)
-        {
-            _input2 = 1.0f;
-        }
         float _m2 = Mathf.Max(Mathf.Min(_gammaBurstMode, 1.0f), 0.0f);
         float _m1 = 1.0f - _m2;
         float _i = Mathf.Max(Mathf.Min(_input2, 1.0f), 0.0f);
@@ -670,10 +668,7 @@ public class LightControl : MonoBehaviour
     public void Wwise_Strobe_ChargeDisplay (float _input) //RENAME THIS TO JUST BE WWISE_CHARGE
     {
         float _input2 = _input;
-        if(developmentMode.configureMode)
-        {
-            _input2 = 0.75f;
-        }
+       
         float _i = Mathf.Max(Mathf.Min(_input2, 1.0f), 0.0f);
         float _strobe1Smoothing = 100.0f - _i*100.0f;
         float _strobePWM = 25.0f + 50.0f * _i;

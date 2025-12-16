@@ -60,15 +60,15 @@ public class StartButtonScript : MonoBehaviour
             TimeLeftScript timeLeftScript = FindObjectOfType<TimeLeftScript>();
             if (timeLeftScript != null && experienceDurationDatabase != null)
             {
-                if(CSVLoader.gameMode == "Preperation" || CSVLoader.gameMode == "Skills Training")
+                if(CSVLoader.instance.gameMode == "Preperation" || CSVLoader.instance.gameMode == "Skills Training")
                 {
                     Debug.Log("Setting up for Preperation or Skills Training");
-                    timeLeftScript.SetTimeLeftSeconds(2400.0f); // 40 minutes
+                    //timeLeftScript.SetTimeLeftSeconds(2400.0f); // 40 minutes
                 }
-                else if (CSVLoader.gameMode == "Integration")
+                else if (CSVLoader.instance.gameMode == "Integration")
                 {
                     Debug.Log("Setting up for Integration");
-                    timeLeftScript.SetTimeLeftSeconds(1200.0f); // 20 minutes
+                    //timeLeftScript.SetTimeLeftSeconds(1200.0f); // 20 minutes
                     
                 }
             }

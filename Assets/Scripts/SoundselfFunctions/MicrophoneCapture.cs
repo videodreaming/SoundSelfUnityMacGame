@@ -4,11 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class MicrophoneManager : MonoBehaviour
 {
-    public DevelopmentMode developmentMode;
     private AudioSource audioSource;
     private bool isRecording = false;
     private AudioClip recordedClip;
     private string microphone;
+    private bool developmentModeWarningFlag = false;
 
     void Start()
     {
@@ -26,16 +26,16 @@ public class MicrophoneManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No microphone found to record audio.");
+            Debug.LogError("MicrophoneCapture: No microphone found to record audio.");
         }
     }
 
     void Update()
     {
-    if (Microphone.IsRecording(microphone))
-    {
-    }
-        if (developmentMode.developmentMode && Input.GetKeyDown(KeyCode.Space))
+        if (Microphone.IsRecording(microphone))
+        {
+        }
+        if ((DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode) && Input.GetKeyDown(KeyCode.Space))
         {
             if (!isRecording)
             {
@@ -47,33 +47,38 @@ public class MicrophoneManager : MonoBehaviour
                 SaveRecording();
             }
         }
+        else if (DevelopmentMode.instance == null && !developmentModeWarningFlag)
+        {
+            developmentModeWarningFlag = true;
+            Debug.LogWarning("MicrophoneCapture: DevelopmentMode instance is null.");
+        }
     }
 
     private void StartRecording()
     {
         recordedClip = Microphone.Start(microphone, true, 300, 44100);
         isRecording = true;
-        Debug.Log("Recording Started");
+        Debug.Log("MicrophoneCapture: Recording Started");
     }
 
     private void StopRecording()
     {
         Microphone.End(microphone);
         isRecording = false;
-        Debug.Log("Recording Stopped");
+        Debug.Log("MicrophoneCapture: Recording Stopped");
     }
 
     private void SaveRecording()
     {
         if (recordedClip == null)
         {
-            Debug.LogError("Audio clip is null");
+            Debug.LogError("MicrophoneCapture: Audio clip is null");
             return;
         }
 
         var filename = "RecordedAudio.wav";
         var filepath = System.IO.Path.Combine(Application.persistentDataPath, filename);
         SavWav.Save(filepath, recordedClip); // Using SavWav utility
-        Debug.Log("Recording saved: " + filepath);
+        Debug.Log("MicrophoneCapture: Recording saved: " + filepath);
     }
 }

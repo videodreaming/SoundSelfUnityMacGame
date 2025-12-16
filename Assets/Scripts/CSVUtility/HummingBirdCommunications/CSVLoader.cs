@@ -7,14 +7,13 @@ using System;
 
 public class CSVLoader : MonoBehaviour
 {
+    public static CSVLoader instance {get; private set;}
     public Sequencer sequencer;
     
     public WwiseVOManager wwiseVOManager;
-    public DevelopmentMode developmentMode;
-    public TimeLeftScript timeLeftScript;
-    public static string gameMode {get; private set;}
-    public static string subGameMode {get; private set;}
-    public static string firstTimeUserString {get; private set;}
+    public string gameMode {get; private set;}
+    public string subGameMode {get; private set;}
+    public string firstTimeUserString {get; private set;}
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
 
@@ -36,6 +35,20 @@ public class CSVLoader : MonoBehaviour
 
     void Awake()
     {
+        // --- Singleton guard ---
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
+        // Optional: persist across scenes (remove if you want per-scene behavior)
+        DontDestroyOnLoad(gameObject);
+
+        //=======================================================================================================
+        // READ SESSIONS.CSV TO GET CURRENT SESSION NUMBER
+        //=======================================================================================================
     #if UNITY_STANDALONE_OSX
                 string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
                 baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
@@ -84,7 +97,10 @@ public class CSVLoader : MonoBehaviour
         //GAME MODES
         if (gameMode == "Preperation" || gameMode == "Skills Training")
         {
-            timeLeftScript.SetTimeLeftSeconds(2400.0f);
+            if(TimeLeftScript.instance != null)
+            {
+                TimeLeftScript.instance.SetTimeLeftSeconds(2400.0f);
+            }
             Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
@@ -121,8 +137,12 @@ public class CSVLoader : MonoBehaviour
         {
             wwiseVOManager.notFirstTimeUser();
             Debug.Log("CSVLoader: Not First Time User");
+            
             //sequencer.totalTimeOfExperience = 1500.0f;
-            timeLeftScript.SetTimeLeftSeconds(1500.0f);
+            if(TimeLeftScript.instance != null)
+            {
+                TimeLeftScript.instance.SetTimeLeftSeconds(1500.0f);
+            }
             if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
             {
                 wwiseVOManager.SetToFireflies();
@@ -139,9 +159,17 @@ public class CSVLoader : MonoBehaviour
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
         }
-        sequencer._countdownToSavasana = timeLeftScript._timeLeft - totalTimeOfPostUnguidedVocalizationContent;
-        sequencer._integrationEnd = timeLeftScript._timeLeft - 247.0f;
-        Debug.Log("countdownToSavasana: " + sequencer._countdownToSavasana);
+        if(TimeLeftScript.instance != null)
+        {
+            sequencer.SetCountdownToSavasana(TimeLeftScript.instance._timeLeft - totalTimeOfPostUnguidedVocalizationContent);
+            sequencer.SetIntegrationEndTimer(TimeLeftScript.instance._timeLeft - 247.0f);
+            Debug.Log("countdownToSavasana: " + sequencer._countdownToSavasana);
+        }
+        else
+        {
+            Debug.LogWarning("TimeLeftScript instance is null, timing behaviors will not work properly, and _countdownToSavasana and _integrationEnd will not be set.");
+        }
+
     }
 
     void ReadSessionParams()
@@ -156,27 +184,16 @@ public class CSVLoader : MonoBehaviour
                 encryptedGameMode = data[0].Trim();
                 encryptedSubGameMode = data[1].Trim();
                 encryptedFirstTimeUser = data[2].Trim();
-                if(encryptedGameMode == "Set Levels")
-                {
-                    Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
-                    if(encryptedSubGameMode == "Set Levels")
-                    {
-                        Debug.Log("Encrypted Sub Game Mode: " + encryptedSubGameMode);
-                        developmentMode.configureMode = true;
-                        developmentMode.startInTutorial = true;
-                        developmentMode.startAtStart = false;
-                    }
-                } else
-                {
-                    Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
-                    Debug.Log("Encrypted Sub Game Mode: " + encryptedSubGameMode);
-                    decryptedFirstTimeUser = EncryptionHelper.Decrypt(encryptedFirstTimeUser);
-                    decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
-                    decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
-                    gameMode = decryptedGameMode;
-                    subGameMode = decryptedSubGameMode;
-                    firstTimeUserString = decryptedFirstTimeUser;
-                }
+                
+                Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
+                Debug.Log("Encrypted Sub Game Mode: " + encryptedSubGameMode);
+                decryptedFirstTimeUser = EncryptionHelper.Decrypt(encryptedFirstTimeUser);
+                decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
+                decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
+                gameMode = decryptedGameMode;
+                subGameMode = decryptedSubGameMode;
+                firstTimeUserString = decryptedFirstTimeUser;
+            
             }
             else 
             {

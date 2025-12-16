@@ -6,7 +6,6 @@ using System;
 
 public class WorldShuffler : MonoBehaviour
 {
-    public DevelopmentMode developmentMode;
     public MusicSystem1 musicSystem1;
     public LightControl lightControl;
     public RespirationTracker respirationTracker;

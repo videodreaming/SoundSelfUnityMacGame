@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using TMPro;
 
 public class Sequencer : MonoBehaviour
 {
-    public DevelopmentMode developmentMode;
     public CSVLoader csvLoader;
-    public TimeLeftScript timeLeftScript;
     public StartButtonScript startButtonScript;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    public MusicSystem1 musicSystem1;
+
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
     public WwiseVOManager wwiseVOManager;
@@ -21,6 +20,9 @@ public class Sequencer : MonoBehaviour
     public WorldShuffler worldShuffler;
     public CSVWriter csvWriter;
     private bool lightsInitialized = false;
+
+    public TMP_Dropdown startModeDropdown;
+
     
 
     //public uint playingId;
@@ -33,16 +35,14 @@ public class Sequencer : MonoBehaviour
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
     //private float interactiveMusicExperienceTotalTime;
-    public float _countdownToSavasana;
-    public float _timeSinceTutorial;
+    public float _countdownToSavasana {get; private set;} = 10000000.0f; //initialize at a basically infitite value.
+    private float _timeSinceTutorial;
     private bool savasanaTriggered = false; // Flag to control the event triggering
     private bool wakeUpTriggered = false;
     [SerializeField] public float _countdownToWakeUpEnd = 120f; 
-    [SerializeField] public float _integrationEnd; 
+    [SerializeField] public float _integrationEnd {get; private set;} = 500f; 
     [SerializeField] public bool endSoonFlag = false;
-    //private float soundWorldChangeTime;
-    //private float finalStagePreLogicTime;
-    //private bool finalStagePreLogicExecuted = false; 
+
     private bool flagTriggerStart1 = false;
     private bool flagTriggerStart2 = false;
     private bool flagTriggerEnd1 = false;
@@ -55,107 +55,107 @@ public class Sequencer : MonoBehaviour
     private Coroutine CoroutineDynamicDropTheta;
     private Coroutine CoroutineDynamicDropEnd;
     public bool twoMinMeditationTimer = false;
-
+    private bool developmentModeWarningFlag = false;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private int currentStage = 0; //As Sonoflore
+    private bool openingSequenceFlag = false;
     public float timeInUnguidedVocalization;
     
 
 
     void Awake()
     {
-        musicSystem1.SetSoundWorld("SonoFlore");
+        if(MusicSystem1.instance != null)
+        {
+            MusicSystem1.instance.SetSoundWorld("SonoFlore");  
+        }
 
-        if(!developmentMode.developmentMode)
+
+        if(!(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode))
         {
             d = 1f;
         }
+        else if(DevelopmentMode.instance == null)
+        {
+            Debug.LogWarning("Sequencer: DevelopmentMode instance is null in Awake().");
+        }
+        if (startModeDropdown != null)
+            startModeDropdown.onValueChanged.AddListener(OnStartModeDropdownChanged);
+        
+    }
+
+    private void OnDestroy()
+    {
+        if (startModeDropdown != null)
+            startModeDropdown.onValueChanged.RemoveListener(OnStartModeDropdownChanged);
     }
 
     void Start()
     {
-        
-        musicSystem1.SetSoundWorld("SonoFlore"); //duplicating this from Awake to try fixing something for Lorna. Untested, and not sure if necessary.
-        //These initializations should all be in CSVLoader.cs. Suggest not making _countdownToSavasana public, but initialize it with a public Method.
-        if (developmentMode.startRightBeforeSavasana)
-        {
-            tutorial.tutorialComplete = true;
-            worldShuffler.BeginShuffle(false);
-            _countdownToSavasana = 190f;
-            Debug.Log("Sequencer: ThematicSavasanaCountdown Counter set to " + _countdownToSavasana + " for debug.");
-            flagTriggerStart1 = true;
-            flagTriggerStart2 = true;
-        }
-        else if (developmentMode.startInSavasana)
-        {
-            tutorial.tutorialComplete = true;
-            _countdownToSavasana = 1f;
-            Debug.Log("Sequencer: ThematicSavasanaCountdown Counter set to " + _countdownToSavasana + " for debug.");
-            FadeOut();
 
-            flagTriggerStart1 = true;
-            flagTriggerStart2 = true;
-        }
-        else if (developmentMode.startInTutorial)
+        if (startModeDropdown != null)
+                OnStartModeDropdownChanged(startModeDropdown.value);
+
+        //MusicSystem1.instance.SetSoundWorld("SonoFlore"); //duplicating this from Awake to try fixing something for Lorna. Untested, and not sure if necessary. // 12/16/2025 removed for refactoring
+
+        //These initializations should all be in CSVLoader.cs. Suggest not making _countdownToSavasana public, but initialize it with a public Method.
+
+        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
         {
-            tutorial.StartTutorial();
-            InitializeLights();
-            worldShuffler.ExcludeColorWorld("Blue");
-            worldShuffler.ExcludeMusicWorld("Shadow");
-        }
-        else if (developmentMode.startInPlayground)
-        {
-            tutorial.tutorialComplete = true;
-            worldShuffler.BeginShuffle(false);
-            InitializeLights();
+            Debug.Log("Sequencer: Development Mode is ON. Game will not start until commanded.");
         }
         else
         {
-            musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
-            director.disable = true;
-            worldShuffler.ExcludeColorWorld("Blue");
-            worldShuffler.ExcludeMusicWorld("Shadow");
+            StartTrueStart();
         }
         
         Debug.Log("Sequencer: ThematicSavasanaCountdown Counter starts at " + _countdownToSavasana);
         
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         
-        if(!developmentMode.configureMode)
-        {
-            Debug.Log("AVS_Program_DynamicDrop_Start is starting");
-            CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
-        }
+        Debug.Log("AVS_Program_DynamicDrop_Start is starting");
+        CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
     }
-
+// if(DevelopmentMode.Instance != null && DevelopmentMode.Instance.developmentMode)
+ // {   //do something  }
     public void PlayFirstSequence()
     {
-        //PLAY OPENING SEQUENCE
-        if(!developmentMode.developmentMode || developmentMode.startAtStart)
+        Debug.Log("Sequencer: PlayFirstSequence() called.");
+        if(!openingSequenceFlag)
         {
-            if(CSVLoader.gameMode == "Preparation" || CSVLoader.gameMode == "Skills Training")
+            openingSequenceFlag = true;
+            //PLAY OPENING SEQUENCE
+            if(CSVLoader.instance != null)
             {
-                if(csvLoader.GetDecryptedFirstTimeUser() == "First Time User")
+                if(CSVLoader.instance.gameMode == "Preparation" || CSVLoader.instance.gameMode == "Skills Training")
                 {
-                    wwiseVOManager.PlayOpeningSequence("Preparation_Long");
+                    Debug.Log("Sequencer: Playing Skills Training Opening Sequence.");
+                    if(CSVLoader.instance.GetDecryptedFirstTimeUser() == "First Time User")
+                    {
+                        wwiseVOManager.PlayOpeningSequence("Preparation_Long");
+                    }
+                    else
+                    {
+                        wwiseVOManager.PlayOpeningSequence("Preparation_Short");
+                    }
+                }
+                else if (CSVLoader.instance.gameMode == "Integration")
+                {
+                    Debug.Log("Sequencer: Playing Integration Opening Sequence.");
+                    wwiseVOManager.PlayOpeningSequence("Integration_Short");
                 }
                 else
                 {
-                    wwiseVOManager.PlayOpeningSequence("Preparation_Short");
+                    Debug.LogWarning("Sequencer: No Opening Sequence for this game mode.");
                 }
-            }
-            else if (CSVLoader.gameMode == "Integration")
+            } else
             {
-                wwiseVOManager.PlayOpeningSequence("Integration_Short");
-            }
-            else
-            {
-                Debug.LogWarning("Sequencer: No Opening Sequence for this game mode.");
+                Debug.LogWarning("Sequencer: CSVLoader instance is null, cannot determine game mode for opening sequence.");
             }
         }
         else
         {
-            Debug.Log("Sequencer: (DEVELOPMENT) skipping opening sequence");
+            Debug.LogWarning("Sequencer: PlayFirstSequence() called, but opening sequence has already been played.");
         }
     }
    
@@ -163,13 +163,18 @@ public class Sequencer : MonoBehaviour
     void Update()
     {
         
-        if(developmentMode.developmentMode)
+        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
         {
             if(Input.GetKeyDown(KeyCode.L))
             {
                 _countdownToSavasana = 190f;
                 Debug.Log("Sequencer ThematicSavasanaCountdown Counter set to " + _countdownToSavasana);
             }
+        } 
+        else if (DevelopmentMode.instance == null && developmentModeWarningFlag == false)
+        {
+            Debug.LogWarning("Sequencer: DevelopmentMode instance is null in Update().");
+            developmentModeWarningFlag = true;
         }
         //add time to the _timeSinceTutorial counter, once the tutorial has been completed
         if(tutorial.tutorialComplete)
@@ -177,13 +182,13 @@ public class Sequencer : MonoBehaviour
             _timeSinceTutorial += Time.deltaTime;
         }
         //Early Behaviors
-        if(_timeSinceTutorial <= 60 && !flagTriggerStart1)
+        if(_timeSinceTutorial >= 60 && !flagTriggerStart1)
         {
             Debug.Log("Sequencer: Triggering Start1 Behaviors: Reset Music Worlds for Shuffle");
             worldShuffler.ResetMusicWorlds();
             flagTriggerStart1 = true;
         }
-        if(_timeSinceTutorial <= 300 && !flagTriggerStart2)
+        if(_timeSinceTutorial >= 300 && !flagTriggerStart2)
         {
             Debug.Log("Sequencer: Triggering Start2 Behaviors: Reset Color Worlds for Shuffle");
             worldShuffler.ResetColorWorlds();
@@ -191,46 +196,46 @@ public class Sequencer : MonoBehaviour
         }
 
         //End Behaviors
-        if(!developmentMode.startInSavasana)
+        if(_countdownToSavasana <= 300 && !flagTriggerEnd1)
         {
-            if(_countdownToSavasana <= 300 && !flagTriggerEnd1)
-            {
-                Debug.Log("Sequencer: Triggering End1 Behaviors: No Shadow or Shruti Allowed");
-                worldShuffler.ResetMusicWorlds();
-                worldShuffler.ExcludeMusicWorld("Shadow");
-                worldShuffler.ExcludeMusicWorld("Shruti"); //removing shruti, as we want it to go last
-                flagTriggerEnd1 = true;
-                flagTriggerStart1 = true;
-                flagTriggerStart2 = true;
-            }
-            if(_countdownToSavasana <= 180f && !flagTriggerEnd2)
-            {
-                Debug.Log("Sequencer: Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
-                //finally, queue shruti and prevent further queueing of shuffled sound worlds.
-                director.AddActionToQueue(musicSystem1.Action_SetSoundWorld("Shruti"), "SoundWorld", true, false, 180.0f, true, 2);
-                director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, true, 2);
-                worldShuffler.CloseMusicQueue();
-                CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
-                flagTriggerEnd2 = true;
-            }
-
-            if(_countdownToSavasana <= 60f && !flagTriggerEnd3)
-            {
-                Debug.Log("Sequencer: Triggering End3 Behaviors: Start Last Minute Behaviors");
-                StartCoroutine(LastMinute());
-                flagTriggerEnd3 = true;
-            }
+            Debug.Log("Sequencer: Triggering End1 Behaviors: No Shadow or Shruti Allowed");
+            worldShuffler.ResetMusicWorlds();
+            worldShuffler.ExcludeMusicWorld("Shadow");
+            worldShuffler.ExcludeMusicWorld("Shruti"); //removing shruti, as we want it to go last
+            flagTriggerEnd1 = true;
+            flagTriggerStart1 = true;
+            flagTriggerStart2 = true;
         }
+        if(_countdownToSavasana <= 180f && !flagTriggerEnd2)
+        {
+            Debug.Log("Sequencer: Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
+            //finally, queue shruti and prevent further queueing of shuffled sound worlds.
+            director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundWorld("Shruti"), "SoundWorld", true, false, 180.0f, true, 2);
+            director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, true, 2);
+            worldShuffler.CloseMusicQueue();
+            CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
+            flagTriggerEnd2 = true;
+        }
+
+        if(_countdownToSavasana <= 60f && !flagTriggerEnd3)
+        {
+            Debug.Log("Sequencer: Triggering End3 Behaviors: Start Last Minute Behaviors");
+            StartCoroutine(LastMinute());
+            flagTriggerEnd3 = true;
+        }
+    
         
         //THEMATIC SAVASANA TIMER AND TRIGGER
         
         if(_countdownToSavasana > 0f)
         {
-            if (startButtonScript.startedExperience)
+            if(startButtonScript != null)
             {
-                _countdownToSavasana -= Time.deltaTime;
+                if (startButtonScript.startedExperience)
+                {
+                    _countdownToSavasana -= Time.deltaTime;
+                }
             }
-
         }
         else if(_countdownToSavasana <= 0.0f && !savasanaTriggered)
         {
@@ -251,14 +256,17 @@ public class Sequencer : MonoBehaviour
         
         if(_countdownToWakeUpEnd <= 0.0 && !wakeUpTriggered)
         {
-            if(CSVLoader.gameMode != "Integration")
+            if(CSVLoader.instance != null)
             {
-                Debug.Log("Sequencer: Triggering Wake Up from Silent Meditation.");
-                
-                _countdownToWakeUpEnd = -1.0f;     
-                wakeUpTriggered = true;
-            }
-        }   
+                if(CSVLoader.instance.gameMode != "Integration")
+                {
+                    Debug.Log("Sequencer: Triggering Wake Up from Silent Meditation.");
+                    
+                    _countdownToWakeUpEnd = -1.0f;     
+                    wakeUpTriggered = true;
+                }
+            }   
+        }
     }
 
     //====================================================================================================
@@ -283,9 +291,9 @@ public class Sequencer : MonoBehaviour
         Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors. Wake Up Counter" + _countdownToSavasana);
         director.ActivateQueue(15f);
         director.disable = true;
-        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
 
-        //musicSystem1.PlaygroundMode(false);
+        //MusicSystem1.instance.PlaygroundMode(false);
 
         Debug.Log("Sequencer Last Minute: Starting Thematic Savasana.");
         yield return null;
@@ -301,12 +309,17 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         Debug.Log("Sequencer Last Minute: Starting Thematic Savasana, and ending coroutine");
-        timeLeftScript.SetTimeLeftSeconds(csvLoader.totalTimeOfPostUnguidedVocalizationContent);
+        if(CSVLoader.instance != null && TimeLeftScript.instance != null)
+        {
+            TimeLeftScript.instance.SetTimeLeftSeconds(CSVLoader.instance.totalTimeOfPostUnguidedVocalizationContent);
+        }
+
+
     }
 
     private void FadeOut()
     {
-        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Environment);
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Environment);
         lightControl.SetPreferredColor("Dark", 18f);
     }
     
@@ -333,11 +346,6 @@ public class Sequencer : MonoBehaviour
         yield return null;
        
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
-
-        if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
-        {
-            lightControl.SetColorWorldByType("Red", 0.0f);
-        }
 
         //WAIT UNTIL WE CHANGE TO A REAL COLOR TYPE, WHICH USUALLY HAPPENS ON THE FIRST HUM, IN WWISEVOMANAGER.
         while((lightControl.currentColorType == "Dark") || (lightControl.currentColorType == "BreathOnly"))
@@ -428,7 +436,7 @@ public class Sequencer : MonoBehaviour
 
     private bool AVS_Program_ManageThetaTransition()
     {
-        bool forceIt = developmentMode.developmentMode && Input.GetKeyDown(KeyCode.K);
+        bool forceIt = (DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode) && Input.GetKeyDown(KeyCode.K);
         bool forceItAfterTutorial= tutorial.testVocalizationType == "Advanced" ||  tutorial.tutorialComplete; // TODO: FIGURE OUT WHY ABSORPTION ISN'T WORKING, THEN REMOVE THIS TEST... or don't...
         if(((respirationTracker._absorption > _absorptionThreshold) || forceIt || forceItAfterTutorial) && !flagThetaCoroutine)
         {
@@ -655,16 +663,156 @@ public class Sequencer : MonoBehaviour
     //PUBLIC METHODS
     //====================================================================================================
 
+    public void SetCountdownToSavasana(float timeInSeconds)
+    {
+        _countdownToSavasana = timeInSeconds;
+        Debug.Log("Sequencer: ThematicSavasanaCountdown Counter set to " + _countdownToSavasana + " via SetCountdownToSavasana().");
+    }
+
+    public void SetIntegrationEndTimer(float timeInSeconds)
+    {
+        _integrationEnd = timeInSeconds;
+        Debug.Log("Sequencer: _integrationEnd Timer set to " + _integrationEnd + " via SetIntegrationEndTimer().");
+    }
+
+    //todo:
+    // - Check "ExcludeColorWorld" and "ExcludeMusicWorld" calls, make sure they are cleared.
+
+    //WOE TO YOU WHO USESE THESE START FUNCTIONS EXCEPT IN DEVELOPMENT MODE
+    //THEY ARE NOT MADE OR TESTED FOR THAT (YET), THOUGH PERHAPS THEY SHOULD BE.
+    //When these were first made, they were envisioned as a way to cheat the system into getting into the zone it should be at that moment.
+    //it is NOT running the actual logic of the experience, so using these outside of development mode may have unintended consequences.
+    //if you would like to use them that way, which would be more elegant, further development will be required.
+    public void StartTrueStart()
+    {
+        Debug.Log("Sequencer: Starting True Start Sequence.");
+        MusicSystem1.instance.SetSoundWorld("SonoFlore");
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+        MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeLow, 0.0f);
+        director.disable = true;
+        worldShuffler.ExcludeColorWorld("Blue");
+        worldShuffler.ExcludeMusicWorld("Shadow");
+        PlayFirstSequence();
+        //lightControl.SetColorWorldByType("Dark", 0.0f);
+    }
+    public void StartTutorialSequence()
+    {
+        Debug.Log("Sequencer: Starting Tutorial Sequence.");
+        tutorial.StartTutorial();
+        InitializeLights();
+        worldShuffler.ExcludeColorWorld("Blue");
+        worldShuffler.ExcludeMusicWorld("Shadow");
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
+        MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0.0f);
+        director.disable = true;
+    }
+    public void StartPlayground()
+    {
+        if(_timeSinceTutorial < 300f)
+        {
+            _timeSinceTutorial = 300f;
+        }
+        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
+        {
+            lightControl.SetColorWorldByType("Red", 0.0f);
+        }
+        Debug.Log("Sequencer: Starting Playground Sequence.");
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
+        director.disable = false;
+        MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0f);
+        tutorial.tutorialComplete = true;
+        worldShuffler.BeginShuffle(false);
+        InitializeLights(); 
+    }
+    public void StartRightBeforeSavasana()
+    {
+        if(_timeSinceTutorial < 300f)
+        {
+            _timeSinceTutorial = 300f;
+        }
+        Debug.Log("Sequencer: Starting 181s Before Savasana Sequence.");
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
+        director.disable = false;
+        MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0f);
+        tutorial.tutorialComplete = true;
+        worldShuffler.BeginShuffle(false);
+        _countdownToSavasana = 181f;
+        Debug.Log("Sequencer: ThematicSavasanaCountdown Counter set to " + _countdownToSavasana + " for debug.");
+        //flagTriggerStart1 = true;
+        //flagTriggerStart2 = true;
+        //flagTriggerEnd1 = true;
+        //flagTriggerEnd2 = false;
+        //flagTriggerEnd3 = false;
+
+        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
+        {
+            lightControl.SetColorWorldByType("Red", 0.0f);
+        }
+    }
+    
+    public void StartSavasana()
+    {
+        
+        if(_timeSinceTutorial < 300f)
+        {
+            _timeSinceTutorial = 300f;
+        }
+        Debug.Log("Sequencer: Starting Savasana Sequence in 1 Second.");
+        tutorial.tutorialComplete = true;
+        _countdownToSavasana = 1f;
+        Debug.Log("Sequencer: ThematicSavasanaCountdown Counter set to " + _countdownToSavasana + " for debug.");
+        FadeOut();
+
+        //flagTriggerStart1 = true;
+        //flagTriggerStart2 = true;
+        //flagTriggerEnd1 = true;
+        //flagTriggerEnd2 = false;
+        //flagTriggerEnd3 = false;
+    }
+    
     public void StartSilentMeditation()
     {
+        
+        if(_timeSinceTutorial < 300f)
+        {
+            _timeSinceTutorial = 300f;
+        }
+        
         if(twoMinMeditationTimer == false)
         {
-            Debug.Log("Sequencer: StartSilentMeditation() called. Starting two minute meditation timer.");
+            Debug.Log("Sequencer: StartSilentMeditation() called. Starting two minute meditation timer. We don't know if this system works yet.");
             twoMinMeditationTimer = true;
         }
         else
         {
             Debug.LogWarning("Sequencer: StartSilentMeditation() called, but twoMinMeditationTimer is already true.");
+        }
+    }
+    public void Initialize()
+    {
+        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
+        {
+            Debug.Log("Sequencer: Initialize() called in Development Mode. No action taken.");
+            return;
+        }
+        else if (DevelopmentMode.instance == null)
+        {
+            Debug.LogWarning("Sequencer: Initialize() called. This should only happen in developmentMode.");
+        }
+    }
+
+       private void OnStartModeDropdownChanged(int index)
+    {
+        switch (index)
+        {
+            case 0: Initialize(); Debug.Log("Initialize called.");  break;
+            case 1: StartTrueStart(); Debug.Log("StartTrueStart called."); break;
+            case 2: StartTutorialSequence(); Debug.Log("StartTutorialSequence called.");  break;
+            case 3: StartPlayground();Debug.Log("StartPlayground called.");  break;
+            case 4: StartRightBeforeSavasana(); Debug.Log("StartRightBeforeSavasana called."); break;
+            case 5: StartSavasana(); Debug.Log("StartSavasana called."); break;
+            case 6: StartSilentMeditation(); Debug.Log("StartSilentMeditation called."); break;
+            default: Initialize();  break;
         }
     }
 }

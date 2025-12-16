@@ -12,7 +12,6 @@ public class WwiseVOManager : MonoBehaviour
 {
     public CSVLoader csvLoader;
     public Sequencer sequencer;
-    public DevelopmentMode developmentMode;
     public Director director;
     //public CSVWriter CSVWriter;
     public LightControl lightControl;
@@ -34,6 +33,7 @@ public class WwiseVOManager : MonoBehaviour
     //public CSVWriter csvWriter;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private bool debugAllowLogs;
+    private bool developmentModeWarningFlag = false;
 
     public GameObject micPlayback;
     public AudioSource audioSource;
@@ -61,7 +61,7 @@ public class WwiseVOManager : MonoBehaviour
 
     void Update()
     {
-        if(developmentMode.developmentMode)
+        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
         {
             //toggle gameOn with the "G" button
             if (Input.GetKeyDown(KeyCode.G))
@@ -79,6 +79,11 @@ public class WwiseVOManager : MonoBehaviour
             {
                 StartCoroutine(MakeWWiseTone());
             }
+        }
+        else if (DevelopmentMode.instance == null && !developmentModeWarningFlag)
+        {
+            Debug.LogWarning("WwiseVOManager: DevelopmentMode instance is null");
+            developmentModeWarningFlag = true;
         }
     }
     

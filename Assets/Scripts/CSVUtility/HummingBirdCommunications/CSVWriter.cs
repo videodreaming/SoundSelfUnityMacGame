@@ -38,8 +38,8 @@ public class CSVWriter : MonoBehaviour
         Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
         currentSessionNumber = CSVLoader.currentSessionNumber; // Get session number from InitializationManager
         Debug.Log("Current session number: " + currentSessionNumber);
-        gameMode = CSVLoader.gameMode;
-        subGameMode = CSVLoader.subGameMode;
+        gameMode = CSVLoader.instance.gameMode;
+        subGameMode = CSVLoader.instance.subGameMode;
     }
     
     void Update()

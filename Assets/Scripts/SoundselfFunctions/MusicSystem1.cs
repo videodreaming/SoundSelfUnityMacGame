@@ -8,8 +8,8 @@ using ConversionUtilities;
 
 public class MusicSystem1 : MonoBehaviour
 {
+    public static MusicSystem1 instance {get; private set;}
     private bool debugAllowLogs = true;
-    public DevelopmentMode developmentMode;
     public Sequencer sequencer;
     public WwiseVOManager wwiseVOManager;
     public WorldShuffler worldShuffler;
@@ -93,26 +93,37 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeFrozenFreeplayFlag = false;
     private bool modeEnvironmentFlag = false;
 
+    void Awake()
+    {
+        if(instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
     void Start()
     {
-        if(developmentMode.startAtStart) //NORMAL START
-        {
-            SetMusicModeTo(MusicMode.Silent);
-            SetMusicSilentLayerVolume(_silentVolumeLow, 0f);          
-            director.disable = true;
-        }
-        else if (developmentMode.startInTutorial)
-        {
-            SetMusicModeTo(MusicMode.Tutorial);          
-            director.disable = true;
-            SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
-        }
-        else if(developmentMode.startInPlayground || developmentMode.startRightBeforeSavasana)
-        {
-            SetMusicModeTo(MusicMode.Freeplay);          
-            director.disable = false;
-            SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
-        }
+        //THESE DEVELOPMENT MODE INITIALIZATIONS ARE NOW DONE IN SEQUENCER, AND ARE PROBABLY NOT NECESSARY, BUT I'M LEAVING THEM HERE FOR NOW IN CASE THE TIMING OF START() MATTERS - ROBIN 12/16/2025
+        
+        //if(DevelopmentMode.instance.startAtStart) //NORMAL START
+        //{
+        //    SetMusicModeTo(MusicMode.Silent);
+        //    SetMusicSilentLayerVolume(_silentVolumeLow, 0f);          
+        //    director.disable = true;
+        //}
+        //else if (DevelopmentMode.instance.startInTutorial)
+        //{
+        //    SetMusicModeTo(MusicMode.Tutorial);          
+        //    director.disable = true;
+        //    SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
+        //}
+        //else if(DevelopmentMode.instance.startInPlayground || DevelopmentMode.instance.//startRightBeforeSavasana)
+        //{
+        //    SetMusicModeTo(MusicMode.Freeplay);          
+        //    director.disable = false;
+        //    SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
+        //}
         
         if(userObject != null)
         {

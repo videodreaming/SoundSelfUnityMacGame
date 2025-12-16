@@ -17,11 +17,9 @@ using imitone;
 public class ImitoneVoiceIntepreter : MonoBehaviour
 {
     //base variables pitch and midiNote
-    public DevelopmentMode developmentMode;
     public LightControl lightControl;
     public Director director;
     public UnityPlayBack unityPlaybackScript;
-    public MusicSystem1 musicSystem1;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
@@ -168,6 +166,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     private bool forceImitoneActive = false;
     private bool forceImitoneInactive = false;
+    private bool developmentModeWarningFlag = false;
 
     int sampleRate;
     ImitoneVoice imitone;
@@ -364,9 +363,14 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             }
         }
 
+        if (MusicSystem1.instance != null &&_vol1Sec > -1000.0f)
+        {
+            MusicSystem1.instance.SetMusicToningLayerVolume(80f + NormalizeVolume(_vol1Sec * 20f), 0f);
+        }
+
+        
         //Change the music volume based on the microphone input level
-        if (_vol1Sec > -1000.0f)
-            musicSystem1.SetMusicToningLayerVolume(80f + NormalizeVolume(_vol1Sec * 20f), 0f);
+
     }
 
     public float NormalizeVolume(float volume)
@@ -589,7 +593,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
                 //Debug.Log("No imitone voice to analyze audio.");
             }
             //Debug Beheviors
-            if (developmentMode.developmentMode == true)
+            if ((DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode) == true)
             {
                 //T = FORCE TONEACTIVE 
                 if (Input.GetKey(KeyCode.T))
@@ -617,6 +621,11 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
                     _dbValue = -75.0f;
                     imitoneActive = false;
                 }
+            }
+            else if (DevelopmentMode.instance == null && !developmentModeWarningFlag)
+            {
+                developmentModeWarningFlag = true;
+                Debug.LogWarning("Imitone: No DevelopmentMode instance found in scene.");
             }
         }
     }
@@ -980,11 +989,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     {
         float _input2 = _input;
         float _addition2 = _addition;
-        if(developmentMode.configureMode)
-        {
-            _input2 = 0.0f;
-            _addition2 = 0.0f;
-        }
+      
         float _i = Mathf.Max(Mathf.Min(_input2 + _addition2, 1.0f), 0.0f);
         float _waveValue = 0.0f + 100.0f * _i;
 

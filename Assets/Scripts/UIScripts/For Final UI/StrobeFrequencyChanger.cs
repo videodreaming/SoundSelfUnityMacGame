@@ -44,10 +44,14 @@ public class ImageChanger : MonoBehaviour
             frequencyUIImage.sprite = frequencySprites[0];
         }
 
-        if(timeLeftScript._timeLeft <= 0)
+        if(timeLeftScript != null)
         {
-            inGame = false;
-        } 
+            if(timeLeftScript._timeLeft <= 0)
+            {
+                inGame = false;
+            } 
+        }
+        
         if(inGame)
         {
             if(imitoneVoiceIntepreter.toneActive)

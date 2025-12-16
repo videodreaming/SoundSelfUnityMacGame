@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class DevelopmentMode : MonoBehaviour
 {
+
+    public static DevelopmentMode instance {get; private set;}
     public bool developmentMode = false;
-    public bool configureMode = false; //not actually a development mode, used for configuring light and sound.
     [Header("(Optional) Choose One to Modify Start Positiion:")]
     public bool startAtStart = true;
     public bool startInPlayground = false;
@@ -16,6 +17,18 @@ public class DevelopmentMode : MonoBehaviour
 
     void Awake()
     {
+
+        // --- Singleton guard ---
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
+        // Optional: persist across scenes (remove if you want per-scene behavior)
+        DontDestroyOnLoad(gameObject);
+
         awake = true;
         if(developmentMode)
         {

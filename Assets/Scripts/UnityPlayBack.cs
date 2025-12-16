@@ -6,7 +6,6 @@ public class UnityPlayBack : MonoBehaviour
 {
     private AudioSource audioSource;
     //public float targetVolume;
-    public DevelopmentMode developmentMode;
 
     void Start()
     {
