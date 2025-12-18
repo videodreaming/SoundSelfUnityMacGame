@@ -237,7 +237,6 @@ public class WwiseVOManager : MonoBehaviour
             {
                 UI_CurrentSession.Instance.currentSession = "Closing Teaching";
                 Debug.Log("Wwise_VO: Cue_ThematicSavasana_End");
-                sequencer.StartSilentMeditation();
 
             }
             else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation2_Start")
@@ -383,7 +382,7 @@ public class WwiseVOManager : MonoBehaviour
             Debug.Log("WWise_VO: Play Preparation Long Opening Sequence");
             break;
             case "Preparation_Short":
-            AkSoundEngine.PostEvent("Play_OPENING_SEQUENCE_SHORT", gameObject);
+            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             break;
             case "Integration_Short":
             AkSoundEngine.PostEvent("Play_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);

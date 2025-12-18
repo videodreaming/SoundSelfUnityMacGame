@@ -57,6 +57,7 @@ public class MusicBinauralBeats : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.I))
         {
+            AkSoundEngine.PostEvent("Stop_BinauralGenerator", gameObject);
             Debug.Log("Binaural Beats: Stopping Binaural Beats");
        }
         if(Input.GetKeyDown(KeyCode.O))

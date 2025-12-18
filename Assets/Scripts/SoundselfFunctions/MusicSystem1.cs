@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using AK.Wwise;
 using ConversionUtilities;
+using TMPro;
 
 public class MusicSystem1 : MonoBehaviour
 {
@@ -93,6 +94,8 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeFrozenFreeplayFlag = false;
     private bool modeEnvironmentFlag = false;
 
+    public TMP_Dropdown soundWorldDropdown;
+
     void Awake()
     {
         if(instance != null && instance != this)
@@ -101,6 +104,16 @@ public class MusicSystem1 : MonoBehaviour
             return;
         }
         instance = this;
+
+         if (soundWorldDropdown != null)
+            soundWorldDropdown.onValueChanged.AddListener(OnSoundWorldDropdownChanged);
+        
+    }
+
+        private void OnDestroy()
+    {
+        if (soundWorldDropdown != null)
+            soundWorldDropdown.onValueChanged.RemoveListener(OnSoundWorldDropdownChanged);
     }
     void Start()
     {
@@ -552,7 +565,7 @@ public class MusicSystem1 : MonoBehaviour
 
         if(modeTutorialFlag || modeFreeplayFlag || modeFrozenFreeplayFlag)
         {
-            MusicBinauralBeats.instance.SetVolume(60f);
+            MusicBinauralBeats.instance.SetVolume(30.0f);
         }
         else
         {
@@ -999,6 +1012,22 @@ public class MusicSystem1 : MonoBehaviour
             Debug.LogWarning("MUSIC: Environment is already initialized");
         }
     }
+
+    private void OnSoundWorldDropdownChanged(int index)
+        {
+            if(soundWorldDropdown != null)
+            {
+                switch (index)
+                {
+                    case 0: SetSoundWorld("SonoFlore"); Debug.Log("Initialize called.");  break;
+                    case 1: SetSoundWorld("Shadow"); Debug.Log("StartTrueStart called."); break;
+                    case 2: SetSoundWorld("Gentle"); Debug.Log("StartTutorialSequence called.");  break;
+                    case 3: SetSoundWorld("Shruti");Debug.Log("StartPlayground called.");  break;
+                    default: SetSoundWorld("SonoFlore");  break;
+                }
+            }
+            
+        }
 
     
     // ===== REWARD THUMPS =====

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using TMPro;
+using System.Security.Cryptography.X509Certificates;
 
 public class Sequencer : MonoBehaviour
 {
@@ -35,11 +36,9 @@ public class Sequencer : MonoBehaviour
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
     //private float interactiveMusicExperienceTotalTime;
-    public float _countdownToSavasana {get; private set;} = 10000000.0f; //initialize at a basically infitite value.
+    public float _countdownToSavasana {get; private set;} = 1000000.0f; //initialize at a basically infitite value.
     private float _timeSinceTutorial;
     private bool savasanaTriggered = false; // Flag to control the event triggering
-    private bool wakeUpTriggered = false;
-    [SerializeField] public float _countdownToWakeUpEnd = 120f; 
     [SerializeField] public float _integrationEnd {get; private set;} = 500f; 
     [SerializeField] public bool endSoonFlag = false;
 
@@ -54,7 +53,6 @@ public class Sequencer : MonoBehaviour
     private Coroutine CoroutineDynamicDropStart;
     private Coroutine CoroutineDynamicDropTheta;
     private Coroutine CoroutineDynamicDropEnd;
-    public bool twoMinMeditationTimer = false;
     private bool developmentModeWarningFlag = false;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private int currentStage = 0; //As Sonoflore
@@ -92,29 +90,32 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
+        
+        _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
+        if (_countdownToSavasana >= 999999.0f)
+        {
+            Debug.LogWarning("Sequencer: _countdownToSavasana was not initialized by CSVLoader or anything else. It's current value is " + _countdownToSavasana + ", which is stupid. Please ensure it is set properly.");
+        }
+        else
+        {
+            Debug.Log("Sequencer: ThematicSavasanaCountdown Counter starts at " + _countdownToSavasana);
+        }
 
         if (startModeDropdown != null)
                 OnStartModeDropdownChanged(startModeDropdown.value);
 
         //MusicSystem1.instance.SetSoundWorld("SonoFlore"); //duplicating this from Awake to try fixing something for Lorna. Untested, and not sure if necessary. // 12/16/2025 removed for refactoring
 
-        //These initializations should all be in CSVLoader.cs. Suggest not making _countdownToSavasana public, but initialize it with a public Method.
 
         if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
         {
-            Debug.Log("Sequencer: Development Mode is ON. Game will not start until commanded.");
+            Debug.Log("Sequencer: Development Mode is ON. Game will not start until commandeded.");
         }
         else
         {
             StartTrueStart();
         }
         
-        Debug.Log("Sequencer: ThematicSavasanaCountdown Counter starts at " + _countdownToSavasana);
-        
-        _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
-        
-        Debug.Log("AVS_Program_DynamicDrop_Start is starting");
-        CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
     }
 // if(DevelopmentMode.Instance != null && DevelopmentMode.Instance.developmentMode)
  // {   //do something  }
@@ -152,6 +153,9 @@ public class Sequencer : MonoBehaviour
             {
                 Debug.LogWarning("Sequencer: CSVLoader instance is null, cannot determine game mode for opening sequence.");
             }
+                
+            Debug.Log("AVS_Program_DynamicDrop_Start is starting");
+            CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
         }
         else
         {
@@ -244,28 +248,6 @@ public class Sequencer : MonoBehaviour
             wwiseVOManager.PlayThematicSavasana();
             _countdownToSavasana = -1.0f;
             savasanaTriggered = true;
-        }
-
-        //TODO: REMOVE THIS LOGIC WHEN LORNA CHANGES THE WWISE LOGIC
-        //READY TO REMOVE
-        //WAKE UP FROM SILENT MEDITATION TIMER AND TRIGGER
-        if((twoMinMeditationTimer == true) && (_countdownToWakeUpEnd > 0))
-        {
-            _countdownToWakeUpEnd -= Time.deltaTime;
-        }
-        
-        if(_countdownToWakeUpEnd <= 0.0 && !wakeUpTriggered)
-        {
-            if(CSVLoader.instance != null)
-            {
-                if(CSVLoader.instance.gameMode != "Integration")
-                {
-                    Debug.Log("Sequencer: Triggering Wake Up from Silent Meditation.");
-                    
-                    _countdownToWakeUpEnd = -1.0f;     
-                    wakeUpTriggered = true;
-                }
-            }   
         }
     }
 
@@ -675,15 +657,7 @@ public class Sequencer : MonoBehaviour
         Debug.Log("Sequencer: _integrationEnd Timer set to " + _integrationEnd + " via SetIntegrationEndTimer().");
     }
 
-    //todo:
-    // - Check "ExcludeColorWorld" and "ExcludeMusicWorld" calls, make sure they are cleared.
-
-    //WOE TO YOU WHO USESE THESE START FUNCTIONS EXCEPT IN DEVELOPMENT MODE
-    //THEY ARE NOT MADE OR TESTED FOR THAT (YET), THOUGH PERHAPS THEY SHOULD BE.
-    //When these were first made, they were envisioned as a way to cheat the system into getting into the zone it should be at that moment.
-    //it is NOT running the actual logic of the experience, so using these outside of development mode may have unintended consequences.
-    //if you would like to use them that way, which would be more elegant, further development will be required.
-    public void StartTrueStart()
+    public void StartTrueStart() //THIS ONE IS OK TO CALL IN NORMAL TIME (NON DEVELOPMENT MODE)
     {
         Debug.Log("Sequencer: Starting True Start Sequence.");
         MusicSystem1.instance.SetSoundWorld("SonoFlore");
@@ -695,6 +669,12 @@ public class Sequencer : MonoBehaviour
         PlayFirstSequence();
         //lightControl.SetColorWorldByType("Dark", 0.0f);
     }
+
+    //WOE TO YOU WHO USESE THESE START FUNCTIONS EXCEPT IN DEVELOPMENT MODE
+    //THEY ARE NOT MADE OR TESTED FOR THAT (YET), THOUGH PERHAPS THEY SHOULD BE.
+    //When these were first made, they were envisioned as a way to cheat the system into getting into the zone it should be at that moment.
+    //it is NOT running the actual logic of the experience, so using these outside of development mode may have unintended consequences.
+    //if you would like to use them that way, which would be more elegant, further development will be required.
     public void StartTutorialSequence()
     {
         Debug.Log("Sequencer: Starting Tutorial Sequence.");
@@ -770,24 +750,6 @@ public class Sequencer : MonoBehaviour
         //flagTriggerEnd3 = false;
     }
     
-    public void StartSilentMeditation()
-    {
-        
-        if(_timeSinceTutorial < 300f)
-        {
-            _timeSinceTutorial = 300f;
-        }
-        
-        if(twoMinMeditationTimer == false)
-        {
-            Debug.Log("Sequencer: StartSilentMeditation() called. Starting two minute meditation timer. We don't know if this system works yet.");
-            twoMinMeditationTimer = true;
-        }
-        else
-        {
-            Debug.LogWarning("Sequencer: StartSilentMeditation() called, but twoMinMeditationTimer is already true.");
-        }
-    }
     public void Initialize()
     {
         if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
@@ -801,18 +763,21 @@ public class Sequencer : MonoBehaviour
         }
     }
 
-       private void OnStartModeDropdownChanged(int index)
-    {
-        switch (index)
+        private void OnStartModeDropdownChanged(int index)
         {
-            case 0: Initialize(); Debug.Log("Initialize called.");  break;
-            case 1: StartTrueStart(); Debug.Log("StartTrueStart called."); break;
-            case 2: StartTutorialSequence(); Debug.Log("StartTutorialSequence called.");  break;
-            case 3: StartPlayground();Debug.Log("StartPlayground called.");  break;
-            case 4: StartRightBeforeSavasana(); Debug.Log("StartRightBeforeSavasana called."); break;
-            case 5: StartSavasana(); Debug.Log("StartSavasana called."); break;
-            case 6: StartSilentMeditation(); Debug.Log("StartSilentMeditation called."); break;
-            default: Initialize();  break;
+            if(startModeDropdown != null)
+            {
+                switch (index)
+                {
+                    case 0: Initialize(); Debug.Log("Initialize called.");  break;
+                    case 1: StartTrueStart(); Debug.Log("StartTrueStart called."); break;
+                    case 2: StartTutorialSequence(); Debug.Log("StartTutorialSequence called.");  break;
+                    case 3: StartPlayground();Debug.Log("StartPlayground called.");  break;
+                    case 4: StartRightBeforeSavasana(); Debug.Log("StartRightBeforeSavasana called."); break;
+                    case 5: StartSavasana(); Debug.Log("StartSavasana called."); break;
+                    default: Initialize();  break;
+                }
+            }
+            
         }
-    }
 }

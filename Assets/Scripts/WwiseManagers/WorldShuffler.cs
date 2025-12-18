@@ -38,7 +38,8 @@ public class WorldShuffler : MonoBehaviour
     private string currentColorWorld;
 
     void Awake ()
-    {}
+    {
+    }
 
     void Start ()
     {
@@ -270,19 +271,19 @@ public class WorldShuffler : MonoBehaviour
         //Reset all color worlds to be available for shuffling
         Dictionary<string, bool> updatedColorWorlds = new Dictionary<string, bool>(availableColorWorlds);
         foreach(KeyValuePair<string, bool> entry in availableColorWorlds)
-        {
+        { 
             updatedColorWorlds[entry.Key] = true;
         }
         availableColorWorlds = updatedColorWorlds;
     }
 
     
-    public void SetCurrentMusicWorld(string world)
+    public void SetCurrentMusicWorld(string world) //this is to tell the shuffler where we are now, it does not change the music
     {
         currentMusicWorld = world;
     }
 
-    public void SetCurrentColorWorld(string world)
+    public void SetCurrentColorWorld(string world) //this is to tell the shuffler where we are now, it does not change the color.
     {
         currentColorWorld = world;
     }

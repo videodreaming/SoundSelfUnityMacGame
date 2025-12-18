@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using AK.Wwise;
 using System;
+using TMPro;
 
 public class LightControl : MonoBehaviour
 {
@@ -48,6 +49,8 @@ public class LightControl : MonoBehaviour
     public int fxWaveKey = 0;
     public Dictionary <int, float> _fxWaveDict = new Dictionary<int, float>();
     private bool developmentModeWarningFlag = false;
+
+    public TMP_Dropdown ColorWorldDropdownChange;
     
 
     void Awake()
@@ -62,6 +65,14 @@ public class LightControl : MonoBehaviour
         //{
         //    SetColorWorldByType("Dark", 0.0f);
         //}
+        if (ColorWorldDropdownChange != null)
+            ColorWorldDropdownChange.onValueChanged.AddListener(OnColorWorldDropdownChanged);
+    }
+
+    void OnDestroy()
+    {
+        if (ColorWorldDropdownChange != null)
+            ColorWorldDropdownChange.onValueChanged.RemoveListener(OnColorWorldDropdownChanged);
     }
     void Start()
     {
@@ -504,16 +515,15 @@ public class LightControl : MonoBehaviour
             throw new ArgumentException($"Color name '{colorName}' not found in presets.");
         }
     }
+    //Red1, Red2, Red3, Blue1, Blue2, Blue3, White1, White2, White3, Dark
 
     private void SetColorWorldByNumbers(string colorName, (float, float, float) strobeColor, (float, float, float) waveColor, float transitionTimeSec = 2.0f, bool exponentialCurve = false)
     {
         int transitionTimeMS = (int)(transitionTimeSec * 1000);
         float _v = _brightness;
 
-        //colorName is a color ("Red" "Blue" or "White") followed by a number (1, 2, or 3)
-        //or is "Dark" or "BreathOnly"
-        //I need a variable that is the color name without the number
-
+     
+        //a variable that is the color name without the number
         if (colorName.Length > 0 && char.IsDigit(colorName[colorName.Length - 1]))
         {
             currentColorType = colorName.Substring(0, colorName.Length - 1);
@@ -814,6 +824,27 @@ public class LightControl : MonoBehaviour
             }
         }
     }
+
+        private void OnColorWorldDropdownChanged(int index)
+        {
+            if(ColorWorldDropdownChange != null)
+            {
+                switch (index)
+                {
+                    case 0: SetColorWorldByName("Dark"); break;
+                    case 1: SetColorWorldByName("Red1");  break;
+                    case 2: SetColorWorldByName("Red2");   break;
+                    case 3: SetColorWorldByName("Red3"); break;
+                    case 4: SetColorWorldByName("Blue1");  break;
+                    case 5: SetColorWorldByName("Blue2");  break;
+                    case 6: SetColorWorldByName("Blue3"); break;
+                    case 7: SetColorWorldByName("White1"); break;
+                    case 8: SetColorWorldByName("White2");  break;
+                    case 9: SetColorWorldByName("White3");  break;
+                    default: SetColorWorldByName("Dark");  break;
+                }
+            }
+        }
 
 
 

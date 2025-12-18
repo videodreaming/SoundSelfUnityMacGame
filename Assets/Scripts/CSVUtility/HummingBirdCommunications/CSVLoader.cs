@@ -104,21 +104,21 @@ public class CSVLoader : MonoBehaviour
             Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
-                totalTimeOfPostUnguidedVocalizationContent = (10.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
-                //Add 4mins 51 seconds on top the 9 mins 49 seconds for Mindfulness and Joy
+                totalTimeOfPostUnguidedVocalizationContent = (14.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
+                //Add 4mins to cut unguided 
                 wwiseVOManager.SetToPeace();
             }
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
                 Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContent = (7.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
-                // Add 4mins 51 seconds on top the 7 mins 33 seconds for Psychological Flexibility
+                totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
+                // // Added 4 mins to cut unguided 
                 wwiseVOManager.SetToNarrative();
             }
             else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
             {
-                totalTimeOfPostUnguidedVocalizationContent = (8.0f * 60.0f) + 06.0f; //8 min 6 seconds //July 7 2025, added 11 seconds
-                // Add 4mins 51 seconds on top the 8 mins 6 seconds for Psychedelic Preparation
+                totalTimeOfPostUnguidedVocalizationContent = (12.0f * 60.0f) + 06.0f; //8 min 6 seconds //July 7 2025, added 11 seconds
+                // Added 4 mins for to cut unguided 
                 wwiseVOManager.SetToSurrender();
             }
 
@@ -159,6 +159,7 @@ public class CSVLoader : MonoBehaviour
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
         }
+        
         if(TimeLeftScript.instance != null)
         {
             sequencer.SetCountdownToSavasana(TimeLeftScript.instance._timeLeft - totalTimeOfPostUnguidedVocalizationContent);
