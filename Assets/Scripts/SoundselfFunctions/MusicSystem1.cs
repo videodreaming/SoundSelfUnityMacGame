@@ -565,7 +565,7 @@ public class MusicSystem1 : MonoBehaviour
 
         if(modeTutorialFlag || modeFreeplayFlag || modeFrozenFreeplayFlag)
         {
-            MusicBinauralBeats.instance.SetVolume(30.0f);
+            MusicBinauralBeats.instance.SetVolume(50.0f);
         }
         else
         {

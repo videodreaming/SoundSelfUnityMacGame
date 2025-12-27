@@ -1951,7 +1951,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c240a24b08d9545e5b34ae66f4e30308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentMode: {fileID: 538272586}
   respirationRate: 0
   averageVolume: 0
   averagePitch: 0
@@ -3675,7 +3674,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 653818353}
   m_FillRect: {fileID: 213556135}
   m_HandleRect: {fileID: 653818352}
@@ -6779,7 +6778,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0976ab8168d14c19b667da35aa45d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentMode: {fileID: 538272586}
 --- !u!1 &403368098
 GameObject:
   m_ObjectHideFlags: 0
@@ -7419,7 +7417,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e48b2d0af0aa404c952888cbe95a612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentMode: {fileID: 538272586}
   worldShuffler: {fileID: 1804684750}
   gameObjectSystem2Listener: {fileID: 131127795}
   imitoneVoiceInterpreter: {fileID: 740096625}
@@ -7434,6 +7431,7 @@ MonoBehaviour:
   _rate: 0
   rtpcID: 0
   fxWaveKey: 0
+  ColorWorldDropdownChange: {fileID: 0}
 --- !u!1 &443228039
 GameObject:
   m_ObjectHideFlags: 0
@@ -8461,7 +8459,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   csvLoader: {fileID: 695725736}
   sequencer: {fileID: 1564575221}
-  developmentMode: {fileID: 538272586}
   director: {fileID: 1829208165}
   lightControl: {fileID: 437048159}
   musicSystem1: {fileID: 619104374}
@@ -9332,7 +9329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   developmentMode: 1
-  configureMode: 0
   startAtStart: 1
   startInPlayground: 0
   startInTutorial: 0
@@ -9708,7 +9704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a12f047d29ba3a47b11145e10d490f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentMode: {fileID: 538272586}
   sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
   worldShuffler: {fileID: 1804684750}
@@ -9728,6 +9723,7 @@ MonoBehaviour:
   harmonyNote: 0
   currentMusicMode: 0
   currentSwitchState: C
+  soundWorldDropdown: {fileID: 0}
 --- !u!4 &619104375
 Transform:
   m_ObjectHideFlags: 0
@@ -10370,7 +10366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &653818352
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11243,8 +11239,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
-  developmentMode: {fileID: 538272586}
-  timeLeftScript: {fileID: 1140148591}
   timeToPlayClosingGoodbye: 0
   totalTimeOfPostUnguidedVocalizationContent: 0
   encryptedReadyCheck: 
@@ -11836,11 +11830,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce06df8ab098394995c5c4862618d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentMode: {fileID: 538272586}
   lightControl: {fileID: 437048159}
   director: {fileID: 1829208165}
   unityPlaybackScript: {fileID: 396706160}
-  musicSystem1: {fileID: 619104374}
   pitch_hz: 0
   note_st: 0
   _dbThreshold: -25
@@ -11927,7 +11919,6 @@ MonoBehaviour:
   respirationTracker: {fileID: 740096627}
   wwiseGlobalManager: {fileID: 1229442214}
   imitoneVoiceInterpreter: {fileID: 740096625}
-  developmentMode: {fileID: 538272586}
 --- !u!114 &740096629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12796,7 +12787,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Please press stop\nbutton when\nuser has taken off\nglasses and \nheadphones"
+  m_text: 'When session has ended, please assist with removing the headphones and
+    the glasses. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 60e265bd5f98b4a8ea0d74e762378678, type: 2}
   m_sharedMaterial: {fileID: 7557194837298086393, guid: 60e265bd5f98b4a8ea0d74e762378678, type: 2}
@@ -13088,7 +13080,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f33ffd5e2921246ad5b80813e16462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggleTestBool: 0
 --- !u!4 &807153167
 Transform:
   m_ObjectHideFlags: 0
@@ -13133,7 +13124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0e705b9f0884777bb2413e14828875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentMode: {fileID: 538272586}
   canvas1: {fileID: 1172631974}
   canvas2: {fileID: 2103932347}
   canvas3: {fileID: 2096700603}
@@ -19101,7 +19091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9474638fe76ba499080b62583dbd3793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeTracker: {fileID: 1435489961}
   sequencer: {fileID: 1564575221}
   timeLeftText: {fileID: 1140148592}
   _timeLeft: 0
@@ -25434,12 +25423,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ec8f52d339795b4b814170dd9d5bd77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentMode: {fileID: 538272586}
   csvLoader: {fileID: 695725736}
-  timeLeftScript: {fileID: 1140148591}
   startButtonScript: {fileID: 1952398643}
   imitoneVoiceInterpreter: {fileID: 740096625}
-  musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
   wwiseVOManager: {fileID: 486583134}
@@ -25448,12 +25434,8 @@ MonoBehaviour:
   savasana: {fileID: 1809294502}
   worldShuffler: {fileID: 1804684750}
   csvWriter: {fileID: 662335749}
-  _countdownToSavasana: 0
-  _timeSinceTutorial: 0
-  _countdownToWakeUpEnd: 120
-  _integrationEnd: 0
+  startModeDropdown: {fileID: 0}
   endSoonFlag: 0
-  twoMinMeditationTimer: 0
   timeInUnguidedVocalization: 0
 --- !u!1 &1573501369
 GameObject:
@@ -29077,7 +29059,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e538f6e313ffe40bda960de778504709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  developmentMode: {fileID: 538272586}
   musicSystem1: {fileID: 619104374}
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}

@@ -184,7 +184,7 @@ public class CSVLoader : MonoBehaviour
                 string[] data = File.ReadAllText(sessionsParams).Split(new string[] {",","\n"}, StringSplitOptions.None);
                 encryptedGameMode = data[0].Trim();
                 encryptedSubGameMode = data[1].Trim();
-                encryptedFirstTimeUser = data[2].Trim();
+                encryptedFirstTimeUser = data[5].Trim();
                 
                 Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
                 Debug.Log("Encrypted Sub Game Mode: " + encryptedSubGameMode);
