@@ -158,6 +158,27 @@ public class CSVLoader : MonoBehaviour
                 wwiseVOManager.SetToMetta();
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
+        } else if (gameMode == "Esketamine")
+        {
+            wwiseVOManager.notFirstTimeUser();
+            Debug.Log(GetCurrentMode());
+            if(TimeLeftScript.instance != null)
+            {
+                //TimeLeftScript.instance.SetTimeLeftSeconds(900.0f);
+            }
+
+            if(subGameMode == "Esketamine")
+            {
+                //wwiseVOManager.SetToEsketamine();
+            }
+        } else if (gameMode == "Quick Dive")
+        {
+            wwiseVOManager.notFirstTimeUser();
+            Debug.Log(GetCurrentMode());
+            if (TimeLeftScript.instance != null)
+            {
+                //TimeLeftScript.instance.SetTimeLeftSeconds(900.0f);
+            }
         }
         
         if(TimeLeftScript.instance != null)

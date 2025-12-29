@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using AK.Wwise;
 using ConversionUtilities;
 using TMPro;
+using System.Linq;
 
 public class MusicSystem1 : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class MusicSystem1 : MonoBehaviour
     // IMITONE INTERPRETATION AND BASIC TONES
     private float musicNoteInputRaw; // The raw note input from voice interpretation
     private float musicNoteInput; // Adjusted musical note input after processing
-    public int musicNoteActivated = -1; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated    
+    public int musicNoteActivated {get; private set;} = -1; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated    
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
     private int directorStoredFundamental = -1;
@@ -308,9 +309,9 @@ public class MusicSystem1 : MonoBehaviour
                             if (debugAllowLogs)
                             {
                                 if (longTest)
-                                    Debug.Log("MUSIC: Long Test Instantly Triggering Fundamental Change to " + ConvertIntToNote(fundamentalNote));
+                                    Debug.Log("MUSIC: Long Test Instantly Triggering Fundamental Change to " + NoteUtils.IntToNoteString(fundamentalNote));
                                 else
-                                    Debug.Log("MUSIC: Longish Test Instantly Triggering Fundamental Change to " + ConvertIntToNote(fundamentalNote));
+                                    Debug.Log("MUSIC: Longish Test Instantly Triggering Fundamental Change to " + NoteUtils.IntToNoteString(fundamentalNote));
                             }
 
                             ChangeFundamental(key);
@@ -324,7 +325,7 @@ public class MusicSystem1 : MonoBehaviour
 
                             if (debugAllowLogs)
                             {
-                                Debug.Log("MUSIC: Short Test New Fundamental Queued: " + ConvertIntToNote(key));
+                                Debug.Log("MUSIC: Short Test New Fundamental Queued: " + NoteUtils.IntToNoteString(key));
                             }
                         }
                     }
@@ -381,10 +382,10 @@ public class MusicSystem1 : MonoBehaviour
             //Now play the tone
                             
             harmonyNote = (fundamentalNote + harmonization) % 12;
-            changeHarmony(ConvertIntToNote(harmonyNote)); 
+            changeHarmony(NoteUtils.IntToNoteString(harmonyNote)); 
             if (debugAllowLogs)
             {
-                Debug.Log("MUSIC: Harmony Played: " + ConvertIntToNote(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
+                Debug.Log("MUSIC: Harmony Played: " + NoteUtils.IntToNoteString(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
             }
         }
     }
@@ -598,13 +599,13 @@ public class MusicSystem1 : MonoBehaviour
         {
             if(debugAllowLogs)
             {
-                Debug.Log("MUSIC 6: Fundamental Note Changing to " + ConvertIntToNote(newFundamental));
+                Debug.Log("MUSIC 6: Fundamental Note Changing to " + NoteUtils.IntToNoteString(newFundamental));
             }
             
             director.ClearQueueOfType("fundamentalChange");
             fundamentalNote = newFundamental;
-            AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", ConvertIntToNote(fundamentalNote), gameObject);
-            MusicBinauralBeats.instance.ChangeCenterFrequency(ConvertNoteToFrequencyA440(ConvertIntToNote(newFundamental)));
+            AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.IntToNoteString(fundamentalNote), gameObject);
+            MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(NoteUtils.IntToNoteString(newFundamental)));
             ResetFundamentalTimers();
             directorStoredFundamental = newFundamental;
         }
@@ -619,7 +620,7 @@ public class MusicSystem1 : MonoBehaviour
     {
         if (doLock && !lockFundamental)
         {
-            ChangeFundamental(ConvertNoteToInt("C"));
+            ChangeFundamental(NoteUtils.NoteToInt("C"));
             lockFundamental = true;
             Debug.Log("MUSIC: Fundamental Locked to C");
         }
@@ -643,7 +644,7 @@ public class MusicSystem1 : MonoBehaviour
                 director.ClearQueueOfType("fundamentalChange");
                 director.AddActionToQueue(Action_ChangeFundamental(newFundamental), "fundamentalChange", true, false, 120f, true, 2);
                 directorStoredFundamental = newFundamental;
-                Debug.Log("MUSIC: New Fundamental Queued on Unlock: " + ConvertIntToNote(newFundamental));
+                Debug.Log("MUSIC: New Fundamental Queued on Unlock: " + NoteUtils.IntToNoteString(newFundamental));
             }
         }
         else if (doLock == lockFundamental)
@@ -757,11 +758,21 @@ public class MusicSystem1 : MonoBehaviour
         {
             foreach (var scaleNote in NoteTracker)
             {
-                float newActivationTimer = scaleNote.Value.ActivationTimer;
+                float localActivationTimer = scaleNote.Value.ActivationTimer;
                 //float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
                 bool isActive = scaleNote.Value.Active;
                 bool isHighestActivationTimer = false;
                 bool firstFrameActive = false;
+                bool anyNoteActive = false;
+
+                foreach (var note in NoteTracker) //REEF: THIS IS NEW, WE NEED TO TEST.
+                {
+                    if (note.Value.Active)
+                    {
+                        anyNoteActive = true;
+                        break;
+                    }
+                }
 
                 // FIRST, WE ARE GOING TO WORK REALLY HARD TO MAKE SURE WE ARE ACTIVELY TRACKING THE NOTE
                 // THE MOMENT THE MUSIC SYSTEM DETECTS IT... EVEN THOUGH THE CURRENT SYSTEM DOESN'T ACTUALLY
@@ -769,29 +780,28 @@ public class MusicSystem1 : MonoBehaviour
 
                 if (Mathf.Round(musicNoteInput) == scaleNote.Key)
                 {
-                    musicNoteActivated = scaleNote.Key; //here for debugging purposes.
-
-                    if(debugAllowLogs && (newActivationTimer == 0 || (Time.frameCount % 30 == 0)))
+                    if(debugAllowLogs && (localActivationTimer == 0 || (Time.frameCount % 30 == 0)))
                     {
-                        //Debug.Log("MUSIC 1: [COMPARE TONES] Key(" + scaleNote.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + newActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
+                        //musicNoteActivated = scaleNote.Key; 
+                        //Debug.Log("MUSIC 1: [COMPARE TONES] Key(" + scaleNote.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + localActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
                     }
-                    newActivationTimer += Time.deltaTime; // Increment active timer if current note input matches the tracker note
+                    localActivationTimer += Time.deltaTime; // Increment active timer if current note input matches the tracker note
 
-                    if (newActivationTimer >= highestActivationTimer && newActivationTimer != 0.0f)
+                    if (localActivationTimer >= highestActivationTimer && localActivationTimer != 0.0f)
                     {
                         if(debugAllowLogs)
                         {
-                            //Debug.Log("MUSIC 2: [ACTIVATION TIMER FOR " + ConvertIntToNote(note.Key) + "] " + newActivationTimer + " >= " + highestActivationTimer + " && " + newActivationTimer + " != 0.0f");
+                            //Debug.Log("MUSIC 2: [ACTIVATION TIMER FOR " + ConvertIntToNote(note.Key) + "] " + localActivationTimer + " >= " + highestActivationTimer + " && " + localActivationTimer + " != 0.0f");
                         }
-                        highestActivationTimer = newActivationTimer;
+                        highestActivationTimer = localActivationTimer;
                         isHighestActivationTimer = true;
                     }
                     
-                    if (newActivationTimer >= noteTrackerThreshold && isHighestActivationTimer)
+                    if (localActivationTimer >= noteTrackerThreshold && (anyNoteActive || isHighestActivationTimer))
                     {
                         if (debugAllowLogs && nextNote != scaleNote.Key)
                         {
-                            Debug.Log("MUSIC 3: nextNote changed to (" + scaleNote.Key + ") Activation Timer(" + newActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
+                            Debug.Log("MUSIC 3: nextNote changed to (" + scaleNote.Key + ") Activation Timer(" + localActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
                         }
                         nextNote = scaleNote.Key;
                         if (imitoneVoiceInterpreter.toneActiveBiasTrue) //now we change the actual tone!
@@ -806,11 +816,12 @@ public class MusicSystem1 : MonoBehaviour
                             activations[scaleNote.Key] = isActive;
                         }
                     }
-                    updates[scaleNote.Key] = (newActivationTimer, isActive, firstFrameActive, scaleNote.Value.ChangeFundamentalTimer);
+                    updates[scaleNote.Key] = (localActivationTimer, isActive, firstFrameActive, scaleNote.Value.ChangeFundamentalTimer);
                 }
                 else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
                 {
                     updates[scaleNote.Key] = (0, false, false, scaleNote.Value.ChangeFundamentalTimer);
+                    musicNoteActivated = -1;
                 }
             }
             // Apply the accumulated updates to the NoteTracker
@@ -837,31 +848,21 @@ public class MusicSystem1 : MonoBehaviour
                 }
                 highestActivationTimer = 0.0f;
             }
-
-            // Resets all ChangeFundamentalTimers in the NoteTracker dictionary to 0 if a fundamental change has been made
-            /*
-            if (fundamentalChanges.ContainsValue(true))
-            {
-                var keys = new List<int>(NoteTracker.Keys);
-
-                foreach (var key in keys)
-                {
-                    var currentValue = NoteTracker[key];
-                    NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, currentValue.FirstFrameActive, 0.0f);
-                    if(debugAllowLogs)
-                    {
-                        Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
-                    }
-                }
-                
-            }
-            */
         }
         
-        // else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
-        // {
-        //     musicNoteActivated = -1;
-        // }
+        // REEF: WE NEED TO CHECK THIS
+        // NOTE: For this to work clearly, in the below else if block, we have to reset the ActivationTimer, Active, FirstFrameActive, (but keep ChangeFundamentalTimer) for each note.
+        else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
+        {
+            //RESET ALL TONE ACTIVE TIMERS
+            //Optimization opportunity: add a flag here to just do this once, when the player stops toning.
+            foreach (var key in NoteTracker.Keys.ToList())
+            {
+                var current = NoteTracker[key];
+                NoteTracker[key] = (0f, false, false, current.ChangeFundamentalTimer);
+            }
+            musicNoteActivated = -1;
+        }
     }
 
     public void PostTheToningEvents()
@@ -883,70 +884,7 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    //REFACTOR THE BELOW INTO GLOBAL ENUMS AND METHODS
-    public enum NoteName
-    {
-        C,  //0
-        Cs, //1
-        D,  //2
-        Ds, //3
-        E,  //4
-        F,  //5
-        Fs, //6
-        G,  //7
-        Gs, //8
-        A,  //9
-        As, //10
-        B   //11
-    }
-
-    public string ConvertIntToNote(int noteNumber)
-    {
-        if (noteNumber >= 0 && noteNumber <= 11)
-        {
-            return Enum.GetName(typeof(NoteName), noteNumber);
-        }
-        else
-        {
-            Debug.LogWarning("MUSIC: Invalid note number " + noteNumber);
-            throw new ArgumentException("Invalid noteNumber value (MusicSystem1.cs)");
-            
-        }
-    }
-
-    public int ConvertNoteToInt(string noteName)
-    {
-        //if notename is empty or "none", return -1
-        if (string.IsNullOrEmpty(noteName) || noteName == "none")
-        {
-            return -1;
-        }
-        //if the notename is invalid, return -2 and print a warning
-        if (!Enum.IsDefined(typeof(NoteName), noteName))
-        {
-            Debug.LogWarning("MUSIC: Invalid note name " + noteName);
-            return -2;
-        }
-        //otherwise, return the integer value of the note
-        return (int)Enum.Parse(typeof(NoteName), noteName);
-    }
-
-    //Utility method to convert note name to frequency in Hz, assuming A4 = 440Hz
-    public float ConvertNoteToFrequencyA440(string noteName)
-    {
-        int noteNumber = ConvertNoteToInt(noteName);
-        if (noteNumber == -1 || noteNumber == -2)
-        {
-            Debug.LogWarning("MUSIC: Cannot convert invalid note name to frequency: " + noteName);
-            return -1f;
-        }
-        // Calculate frequency using the formula for equal temperament tuning
-        // A4 (440 Hz) is the 9th note in the octave (0=C, 1=C#, 2=D, 3=D#, 4=E, 5=F, 6=F#, 7=G, 8=G#, 9=A, 10=A#, 11=B)
-        int semitoneDifference = noteNumber - 9; // Difference from A
-        float frequency = 440f * Mathf.Pow(2f, semitoneDifference / 12f);
-        return frequency;
-    }
-
+  
 
     
     public void SetMusicSilentLayerVolume(float _target, float fadeDuration = 0.1f)

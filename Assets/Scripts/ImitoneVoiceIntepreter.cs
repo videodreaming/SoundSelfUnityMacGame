@@ -652,6 +652,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
             if (_imitoneActiveTimer >= positiveActiveThreshold1 && !toneActive)
             {
+                toneActiveRaw = true;
                 toneActive = gameOn ? true : false;
                 toneActiveBiasTrue = gameOn ? true : false;
                 toneActiveBiasTrueTimer += Time.deltaTime;
@@ -669,6 +670,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
             if (_imitoneInactiveTimer >= negativeActiveThreshold1)
             {
+                toneActiveRaw = false;
                 toneActive = false;
             }
             if (_imitoneInactiveTimer >= negativeActiveThreshold2)

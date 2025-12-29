@@ -12,8 +12,10 @@ using UnityEngine.UI;
 
 public class RespirationTracker : MonoBehaviour
 {
+    //_standardDeviationTone1min, _standardDeviationRest1min, _meanToneLength1min, _meanRestLength1min
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    private bool debugAllowLogs = false;
+    private bool debugAllowLogs = true;
+    private bool debugAllowVisuals = false;
     public float _respirationRate       {get; private set;} = 1.0f;   
     public float _respirationRateRaw        {get; private set;} = 1.0f; //uses either the 1min or 2min version, depending on validity, preferrring 1min
     public float _respirationRateMostRecentValid {get; private set;} = 1.0f; //this only updates if it is valid
@@ -23,25 +25,41 @@ public class RespirationTracker : MonoBehaviour
     public float _respirationRate2min       {get; private set;} = -1.0f;
     public bool toneActiveForRespirationRate {get; private set;} = false;
     public float _meanToneLength {get; private set;} = 0.0f;    //this only updates if it is valid
-    public float _meanToneLength1min {get; private set;} = 0.0f;
+
+    [SerializeField]
+    public float _meanToneLength1min = 0.0f;
     public float _meanToneLength2min {get; private set;} = 0.0f;
     public float _meanRestLength {get; private set;} = 0.0f;    //this only updates if it is valid
-    public float _meanRestLength1min {get; private set;} = 0.0f;
+
+    [SerializeField]
+    public float _meanRestLength1min  = 0.0f;
     public float _meanRestLength2min {get; private set;} = 0.0f;
     public float _meanCycleLength {get; private set;} = 0.0f;       //this only updates if it is valid
     public float _meanCycleLength1min {get; private set;} = 0.0f;
     public float _meanCycleLength2min {get; private set;} = 0.0f;
-    public float _standardDeviationTone1min {get; private set;} = 0.0f;
+
+    [SerializeField]
+    public float _standardDeviationTone1min = 0.0f;
     public float _standardDeviationTone2min {get; private set;} = 0.0f;
-    public float _standardDeviationRest1min {get; private set;} = 0.0f;
+
+    [SerializeField]
+    public float _standardDeviationRest1min  = 0.0f;
     public float _standardDeviationRest2min {get; private set;} = 0.0f;
-    public float _absorptionRespirationRateMultiplier1min {get; private set;} = 0.0f;
-    public float _absorptionRespirationRateMultiplier2min {get; private set;} = 0.0f;
-    public float _absorptionToneLengthMultiplier1min {get; private set;} = 0.0f;
-    public float _absorptionToneLengthMultiplier2min {get; private set;} = 0.0f;
-    public float _absorption {get; private set;} = 0.0f;
-    public float _absorptionRaw {get; private set;} = 0.0f;
-    public float _absorptionMostRecentValid {get; private set;} = 0.0f; //this only updates if it is valid
+    [SerializeField]
+
+    public float _absorptionRaw  = 0.0f;
+    [SerializeField]
+    public float _absorption  = 0.0f;
+    [SerializeField]
+    public float _absorptionMostRecentValid  = 0.0f; //this only updates if it is valid
+    [SerializeField]
+    public float _absorptionRespirationRateMultiplier1min  = 0.0f;    
+    [SerializeField]
+    public float _absorptionToneLengthMultiplier1min = 0.0f;
+    [SerializeField]
+    public float _absorptionRespirationRateMultiplier2min  = 0.0f;
+    [SerializeField]
+    public float _absorptionToneLengthMultiplier2min  = 0.0f;
     private bool frameGuardTone = false;
     public bool modePlayful     = true;
     public bool modeMeditative  = false;
@@ -52,12 +70,12 @@ public class RespirationTracker : MonoBehaviour
     private Vector3 startingPoint;
     private float amountToScale;
     private float amountToMove;
-    private float debugStackY = -100f;
-    public Canvas canvas;  
+    private float debugStackY = -100f; 
     public GameObject rectanglePrefab;
     public GameObject SelectedRectangle;
     private Dictionary<int, BreathCycleData> BreathCycleDictionary1 = new Dictionary<int, BreathCycleData>();
     private Dictionary<int, BreathCycleData> BreathCycleDictionary2 = new Dictionary<int, BreathCycleData>();
+    public Canvas canvas;
 
 
     public struct BreathCycleData
@@ -96,9 +114,9 @@ public class RespirationTracker : MonoBehaviour
             if (!frameGuardTone)
             {
                 // Start the coroutine to measure the duration of one tone/rest cycle, but do it just once per tone:
-                //Debug.Log("Start Respiration Cycle Coroutine");
-                StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary1,_respirationMeasurementWindow1, true, 0));
-                StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary2,_respirationMeasurementWindow2, true, 1));
+                
+                StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary1,_respirationMeasurementWindow1, debugAllowVisuals, 0));
+                StartCoroutine(RespirationCycleCoroutine(BreathCycleDictionary2,_respirationMeasurementWindow2, debugAllowVisuals, 1));
                 frameGuardTone = true;
             }
         }
@@ -129,7 +147,7 @@ public class RespirationTracker : MonoBehaviour
         _absorptionToneLengthMultiplier2min = Mathf.Lerp(0.5f, 1f, AbsorptionToneLengthComponent(_meanToneLength2min));
 
         //Update the game-chosen respiration values based on the validity of the 1min and 2min windows
-        if ((_respirationRate1min == -1f) && (_respirationRate2min != -1f))
+        if((_respirationRate2min != -1f)) 
         {
             //THIS WILL ONLY HAPPEN IF AT LEAST ONE OF THE WINDOWS IS VALID
             if (logGuard != 2) //this should happen once, on the first frame that the 2min window is valid
@@ -148,7 +166,7 @@ public class RespirationTracker : MonoBehaviour
             _absorptionRaw = Absorption(_respirationRateRaw2min, _standardDeviationTone2min, _standardDeviationRest2min, _meanToneLength2min, _meanRestLength2min, _absorptionRespirationRateMultiplier2min, _absorptionToneLengthMultiplier2min);
             _absorption = _absorptionRaw; //absorptionRaw will, in this if statement, be the same as absorption            
         }
-        else
+        else 
         {
             if (logGuard != 1)//this should happen once, on the first frame that the 1min window is valid
             {
@@ -177,6 +195,8 @@ public class RespirationTracker : MonoBehaviour
             }
         }
 
+        
+        
         if (_respirationRate != -1f)            
         _respirationRateMostRecentValid = _respirationRate;
         if (_absorption != -1f)
@@ -580,7 +600,8 @@ public class RespirationTracker : MonoBehaviour
 
     private float Absorption(float respirationRate, float toneDeviation, float restDeviation, float toneMean, float restMean, float respirationRateMultiplier, float toneLengthMultiplier)
     {
-        //first work with standard deviations
+    
+
         float value1 = toneDeviation / toneMean * 10f;
         float value2 = restDeviation / restMean * 9f; //original mult was 10f
         float value3 = Mathf.Log(Mathf.Max(value1, value2, 0.1f), 2f);

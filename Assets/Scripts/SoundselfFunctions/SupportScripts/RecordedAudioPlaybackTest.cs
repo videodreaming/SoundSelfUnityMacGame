@@ -1,42 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
+using UnityEngine.Networking;
+using ConversionUtilities;
 
 public class RecordedAudioPlaybackTest : MonoBehaviour
 {
     [Header("Core References")]
-    public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Assign your imitoneVoiceInterpreter in the Inspector
-    public Director director; // Assign your Director in the Inspector
-    public DevelopmentMode developmentMode; // Assign your DevelopmentMode in the Inspector
-    public MusicSystem1 musicSystem1; // Assign your MusicSystem1 in the Inspector
-    public AudioSource ThisObjectAudioSource; // Assign your AudioSource in the Inspector 
-    public RespirationTracker respirationTracker; // Assign your RespirationTracker in the Inspector
-    private string deviceName; // Store the selected microphone device
+    public ImitoneVoiceIntepreter imitoneVoiceInterpreter; 
+    public Director director; 
+    public DevelopmentMode developmentMode; 
+    public MusicSystem1 musicSystem1; 
+    public AudioSource ThisObjectAudioSource; 
+    public RespirationTracker respirationTracker; 
+    private string deviceName;
 
     
-    public int maxNotes = 12; 
-    private float recordingDuration = 120f; // Duration of the recording in seconds, plus time for user to stop toning
+    private int maxNotes = 12; 
+    private float _recordingDurationMin = 60f;
+    private int _recordingDurationBuffer = 110; // Duration of the recording in seconds, plus time for user to stop toning
+    private float _fadeTime = 5f;
     private bool recordMode = false;
     private bool playMode = false;
     private bool recordingLoopGuard = false;
-    private Dictionary<string, int> noteToIndex;
+
     private string[] noteNames = { "C", "Cs", "D", "Ds", "E", "F", "Fs", "G", "Gs", "A", "As", "B" };
 
-    // Change audioClips to a list of lists
-    private List<List<AudioClip>> audioClips = new List<List<AudioClip>>(); 
+    public List<List<AudioClip>> audioClips = new List<List<AudioClip>>(); 
     private int maxClipsPerNote = 3; // Maximum clips per note
-    private float _recordingDuration = 10f; // Duration of the recording in seconds
+    private float _recordingDurationTarget = 90f; // Duration of the recording in seconds
     
     private void Awake()
     {
-        // Initialize the dictionary to map notes to indices
-        noteToIndex = new Dictionary<string, int>
-        {
-            { "C", 0 }, { "Cs", 1 }, { "D", 2 }, { "Ds", 3 },
-            { "E", 4 }, { "F", 5 }, { "Fs", 6 }, { "G", 7 },
-            { "Gs", 8 }, { "A", 9 }, { "As", 10 }, { "B", 11 }
-        };
-        
+        audioClips.Clear();
+
+
+
+        int noteCount = Enum.GetValues(typeof(NoteName)).Length;
         // Initialize the audioClips list for each note
         for (int i = 0; i < noteNames.Length; i++)
         {
@@ -73,32 +75,42 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         // }
 
     //INFO NEEDED ON HOW TO DELETE OTHER RECORDED CLIPS // ROBIN: I took no steps here, not sure if you needed something from me.
-    public void SaveRecording(AudioClip recordedClip, string noteName)
+    public void SaveRecording(AudioClip recordedClip, NoteName note)
     {
-        //ROBIN: Also, what should happen here, if playmode == true, and there is nothing playing since this is the first recording in this note, start playing it.
-        //ROBIN: Also, make sure that you don't interfere with any currently playing recording, i.e. if deleting a recording would stop playback.
-        if (noteToIndex.TryGetValue(noteName, out int index))
+        int index = (int)note;
+        List<AudioClip> clipsForNote = audioClips[index];
+
+        bool saved = false;
+        for (int i = 0; i < maxClipsPerNote; i++)
         {
-            List<AudioClip> clipsForNote = audioClips[index];
-            bool saved = false;
-            for(int i = 0;i<maxClipsPerNote;i++)
+            if (clipsForNote[i] == null)
             {
-                if(clipsForNote[i] == null)
-                {
-                    clipsForNote[i] = recordedClip;
-                    saved = true;
-                    Debug.Log($"Recording saved for note {noteName} in slot {i}.");
-                    
-                    break;
-                }
-            }
-            if (!saved)
-            {
-                clipsForNote[0] = recordedClip; // Overwrite the first slot (you can implement more complex rotation logic if needed)
-                Debug.Log($"No free slot for note {noteName}. Overwriting the oldest clip.");
+                clipsForNote[i] = recordedClip;
+                saved = true;
+                Debug.Log($"Recording saved for note {note} in slot {i}.");
+                break;
             }
         }
+
+        if (!saved)
+        {
+            clipsForNote[0] = recordedClip; // overwrite oldest (your current behavior)
+            Debug.Log($"No free slot for note {note}. Overwriting the oldest clip.");
+        }
     }
+
+    public void SaveRecording(AudioClip recordedClip, string noteName)
+    {
+        // Keep this only if other code still passes strings around
+        if (!NoteUtils.TryParseNote(noteName, out var note))
+        {
+            Debug.LogWarning($"Recording: Invalid note name '{noteName}', not saving.");
+            return;
+        }
+
+        SaveRecording(recordedClip, note);
+    }
+
     
     public void StopRecording()
     {
@@ -134,10 +146,10 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         //Step 2: Start Recording
         FadeRecordingUp();
         Debug.Log("Recording: Begin recording...");
-        ThisObjectAudioSource.clip = Microphone.Start(deviceName, false, 600, 44100); // Record for up to 10 seconds OR this should be a dynamic number based on the length of the breath.
+        ThisObjectAudioSource.clip = Microphone.Start(deviceName, false, _recordingDurationBuffer, 44100); // Record for up to 10 seconds OR this should be a dynamic number based on the length of the breath.
         float _t = 0.0f;
         //wait for the "duration" amount of seconds
-        while (_t < _recordingDuration)
+        while (_t < _recordingDurationTarget)
         {
             _t += Time.deltaTime;
             if(testForFailure())
@@ -150,7 +162,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         //Step 3: Wait for the user to stop toning
         Debug.Log("Recording: Now wait for breath to stop recording...");
         _t = 0.0f;
-        while(imitoneVoiceInterpreter._tThisRest < 0.5f || _t < 20f)
+        while(imitoneVoiceInterpreter._tThisRest < 0.5f || _t < Mathf.Max((_recordingDurationBuffer - _recordingDurationTarget - _fadeTime), 0f))
         {
             if(testForFailure())
             {
@@ -165,7 +177,14 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             yield return null;
         }
         StopRecording();
-        SaveRecording(ThisObjectAudioSource.clip, musicSystem1.ConvertIntToNote(musicSystem1.fundamentalNote));
+        if (NoteUtils.TryIntToNote(musicSystem1.fundamentalNote, out var note))
+        {
+            SaveRecording(ThisObjectAudioSource.clip, note);
+        }
+        else
+        {
+            Debug.LogWarning($"Recording: Invalid fundamental note int: {musicSystem1.fundamentalNote}");
+        }
         recordingLoopGuard = false;
         StartCoroutine(RecordingCoroutine());
     }

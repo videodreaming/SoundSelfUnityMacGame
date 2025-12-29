@@ -2756,7 +2756,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &132454817
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3134,6 +3134,7 @@ RectTransform:
   - {fileID: 1346417550}
   - {fileID: 1857767538}
   - {fileID: 510784170}
+  - {fileID: 2078893505}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -32831,19 +32832,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2078893501}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 661057402}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 157077275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 960, y: 540}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2086384095
 GameObject:
   m_ObjectHideFlags: 0
@@ -33724,7 +33725,6 @@ SceneRoots:
   - {fileID: 107391162}
   - {fileID: 619104375}
   - {fileID: 1974369288}
-  - {fileID: 2078893505}
   - {fileID: 1060646674}
   - {fileID: 808198322}
   - {fileID: 2096700604}

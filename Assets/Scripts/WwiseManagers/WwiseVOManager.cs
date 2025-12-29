@@ -19,13 +19,6 @@ public class WwiseVOManager : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     public Tutorial tutorial;
     public WorldShuffler worldShuffler;
-    //public MusicSystem1 musicSystem1;
-    //public RTPC silentFundamentalrtpcvolume;
-    //public RTPC toningFundamentalrtpcvolume;
-    //public RTPC silentHarmonyrtpcvolume;
-    //public RTPC toningHarmonyrtpcvolume;
-    //public float fadeDuration = 54.0f;
-    //public float targetValue = 80.0f;
     private bool debugAllowMusicLogs = true;
     private bool pause = true;
     public bool layingDown = true;
