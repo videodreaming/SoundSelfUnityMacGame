@@ -955,7 +955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &132454817
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1085,6 +1085,9 @@ MonoBehaviour:
   musicSystem1: {fileID: 619104374}
   ThisObjectAudioSource: {fileID: 132454817}
   respirationTracker: {fileID: 740096627}
+  recordingsRootFolder: RecordedClips
+  createNewSessionFolderEachRun: 1
+  timestamp: 20251230_090513
 --- !u!1 &145451745
 GameObject:
   m_ObjectHideFlags: 0

@@ -84,6 +84,13 @@ public static class NoteUtils
         return (int)note;
     }
 
+    public static int NoteToInt(NoteName note)
+        {
+            if (!TryParseNote(note.ToString(), out var parsedNote))
+                return -1;
+            return (int)parsedNote;
+        }
+
     public static float NoteToFrequencyA440(NoteName note)
     {
         // note is within 0..11

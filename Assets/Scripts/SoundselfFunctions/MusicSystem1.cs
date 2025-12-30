@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using AK.Wwise;
-using ConversionUtilities;
 using TMPro;
+using ConversionUtilities;
 using System.Linq;
 
 public class MusicSystem1 : MonoBehaviour
 {
     public static MusicSystem1 instance {get; private set;}
-    private bool debugAllowLogs = true;
+    private bool debugAllowLogs = false;
     public Sequencer sequencer;
     public WwiseVOManager wwiseVOManager;
     public WorldShuffler worldShuffler;
