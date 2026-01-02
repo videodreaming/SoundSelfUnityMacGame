@@ -48,7 +48,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     [SerializeField] private AudioSource playbackSource; // used only for playback
     private string deviceName;
     private Coroutine playbackRoutine;
-    public List<List<ClipSlot>> clipSlots = new List<List<ClipSlot>>();
+    
     
     [Header("Audio Storage")]
     [SerializeField] private string recordingsRootFolder = "RecordedClips";
@@ -62,8 +62,10 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     private NoteName _activeRecordingFundamental;
     private bool _hasActiveRecordingFundamental = false;
     private AudioClip currentMicClip;
-    private string[] noteNames = { "C", "Cs", "D", "Ds", "E", "F", "Fs", "G", "Gs", "A", "As", "B" };
     public string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+    //clip slots is a list of lists of ClipSlot objects, organized by NoteName. So clipSlots is the master list
+    public List<List<ClipSlot>> clipSlots = new List<List<ClipSlot>>();
 
     [Header("Recording Settings")]
     private int maxNotes = 12; 
@@ -78,6 +80,8 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     
     private void Awake()
     {
+
+        //checks out whether this is a singleton
         if(Instance == null)
         {
             Instance = this;
@@ -90,30 +94,36 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
         if(ThisObjectAudioSource == null) //used for storing recordings
         {
+            //Sets this Component as the ThisObjectAudioSource NOTE that this is used later. Remember that this is the component that is attached to the GO
             ThisObjectAudioSource = GetComponent<AudioSource>();
         }
 
 
         if (playbackSource == null) //used for storing playback
         {
+            //This is adding a different Audio Source TODO : Check how necessary this really is?
             playbackSource = gameObject.AddComponent<AudioSource>();
+            //Ensuring that this playbacksource does not play on awake
             playbackSource.playOnAwake = false;
 
             if (ThisObjectAudioSource != null)
                 playbackSource.outputAudioMixerGroup = ThisObjectAudioSource.outputAudioMixerGroup;
         }
 
+        //Ensures that these two are not the same AudioSource
         if (ThisObjectAudioSource == playbackSource)
         {
             Debug.LogWarning("Recording/Playback are sharing the same AudioSource. Assign a separate playbackSource to avoid conflicts.");
         }
 
+        //Master list should be cleared of all lists
         clipSlots.Clear();
 
-        int noteCount = Enum.GetValues(typeof(NoteName)).Length;
         // Initialize the clipSlots list for each note
-        for (int i = 0; i < noteNames.Length; i++)
+        int noteCount = Enum.GetValues(typeof(NoteName)).Length;
+        for (int i = 0; i < noteCount; i++)
         {
+            //Create the new list
            var slotsForNote = new List<ClipSlot>(maxClipsPerNote);
             for (int j = 0; j < maxClipsPerNote; j++)
             {
@@ -125,6 +135,43 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         InitRecordingFolders();
     }
 
+    private void Start()
+    {
+        if (imitoneVoiceInterpreter == null || musicSystem1 == null || respirationTracker == null)
+        {
+            Debug.LogError("Recording: Missing required references! Disabling recording system.");
+            enabled = false;
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        // Stop microphone if recording
+        if (!string.IsNullOrEmpty(deviceName) && Microphone.IsRecording(deviceName))
+            Microphone.End(deviceName);
+        
+        // Stop all coroutines
+        StopAllCoroutines();
+        
+        // Cleanup playback
+        CleanupPlaybackClip();
+        CleanupMicClip();
+        
+        // Destroy all AudioClips in slots
+        foreach (var slotsForNote in clipSlots)
+        {
+            foreach (var slot in slotsForNote)
+            {
+                if (slot?.clip != null)
+                    Destroy(slot.clip);
+            }
+        }
+        clipSlots.Clear();
+        
+        // Clear pending state
+        pendingDeletePaths.Clear();
+        pendingFillTarget.Clear();
+    }
     void Update()
     {
         ProcessPendingDeletions();
@@ -164,7 +211,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
         Directory.CreateDirectory(currentSessionFolder);
 
-        foreach(var note in noteNames)
+        foreach(var note in Enum.GetNames(typeof(NoteName)))
         {
             Directory.CreateDirectory(Path.Combine(currentSessionFolder, note));
         }
@@ -210,7 +257,10 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         // Optional: clear in-memory slots too
         for (int n = 0; n < clipSlots.Count; n++)
             for (int s = 0; s < clipSlots[n].Count; s++)
-                clipSlots[n][s] = new ClipSlot();
+            {
+                ClearSlot((NoteName)n, s);
+            }
+                
 
         // Wait a frame so audio system settles
         yield return null;
@@ -245,7 +295,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     {
         if (Microphone.devices.Length > 0)
         {
-            deviceName = Microphone.devices[0]; // Use the first microphone device
+            deviceName = Microphone.devices[0]; // Use the first microphone device TODO Double check whether Audio clip is Microphone.devices
             Debug.Log("Recording: Recording Loop starting...");
             StartCoroutine(RecordingCoroutine());
         }
@@ -254,6 +304,17 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             Debug.LogWarning("Recording: No microphone detected!");
         }
     }
+
+    private void StartRecording(NoteName fundamental)
+        {
+            
+            _activeRecordingFundamental = fundamental;
+            _hasActiveRecordingFundamental = true;
+            Debug.Log("Recording: Begin recording on new tone...");
+            currentMicClip = Microphone.Start(deviceName, false, _recordingDurationBuffer, 44100);
+            //Set THIS audioSource's clip to currentMicClip so it is now stores in the ThisObjectAudioSource.clip
+            ThisObjectAudioSource.clip = currentMicClip;
+        }
 
      //A coroutine that is used to control audio recording - it records for a set amount of time and then stops recording
     private IEnumerator RecordingCoroutine()
@@ -321,162 +382,10 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         //StartCoroutine(RecordingCoroutine()); // COMMENTING THIS OUT BECAUSE UPDATE() WILL TAKE CARE OF IT NOW THAT THE LOOPGUARD IS OFF
     } 
 
-    private void StopAndSaveRecording()
-    {
-        //TODO: organize the location of the recording appropriately
-
-        //HERE WE NEED SOME LOGIC FOR WHERE TO PUT THE RECORDING - BASED ON THE TONE, AND HOW MANY OTHER RECORDINGS THERE ARE THERE. WE MAY HAVE TO DELETE A RECORDING, IF NEED BE, BUT OBV. NOT IF IT'S CURRENTLY PLAYING. 
-        Debug.Log("Recording: Stopping and saving the current recording at ");
-
-
-        if (!_hasActiveRecordingFundamental)
-        {
-            Debug.LogWarning("Recording: No active fundamental captured for this recording. Deleting instead.");
-            StopAndDeleteRecording();
-            return;
-        }
-
-        NoteName noteToSave = _activeRecordingFundamental;
-        _hasActiveRecordingFundamental = false;
-        SetRecordingLoopGuard(false);
-
-        AudioClip trimmed = StopRecordingAndGetTrimmedClip();
-        
-        if (trimmed == null)
-        {
-            Debug.LogWarning("Recording: trimmed clip is null in StopAndSaveRecording");
-            return;
-        }
-
-        SaveRecording(trimmed, noteToSave /*, score */);
-    }
+   
 
      //INFO NEEDED ON HOW TO DELETE OTHER RECORDED CLIPS // ROBIN: I took no steps here, not sure if you needed something from me.
-    private void SaveRecording(AudioClip recordedClip, NoteName note, int score = 0)
-    {
-        if (recordedClip == null)
-        {
-            Debug.LogWarning("Recording: recordedClip is null, not saving.");
-            return;
-        }
-        if (string.IsNullOrEmpty(currentSessionFolder))
-        {
-            Debug.LogWarning("Recording: currentSessionFolder not set. Did you call InitRecordingFolders()?");
-            return;
-        }
-
-        // CHOOSE THE RIGHT SLOT 
-        var slotsForNote = clipSlots[(int)note];
-
-        // RULE 4: If we are already waiting for a main slot to free, overwrite HOLD and keep waiting.
-        if (pendingFillTarget.ContainsKey(note))
-        {
-            // Overwrite HOLD (slot 3)
-            var hold = slotsForNote[HOLD_SLOT];
-            DeleteFileIfExists(hold.filePath);
-
-            string holdPath = MakeWavPath(note, HOLD_SLOT, isHold: true);
-            SavWav.Save(holdPath, recordedClip);
-
-            slotsForNote[HOLD_SLOT] = new ClipSlot
-            {
-                clip = recordedClip,
-                fundamental = note,
-                createdAtIso = DateTime.Now.ToString("o"),
-                duration = recordedClip.length,
-                markedForDeletion = false,
-                score = score,
-                filePath = holdPath
-            };
-
-            Debug.Log($"Recording: HOLD overwrite for {note} -> {holdPath} (waiting for slot {pendingFillTarget[note]})");
-            return;
-        }
-        else
-        {
-            Debug.LogWarning("Recording: Note not found in SaveRecording");
-        } //TODO: Check this
-        //Robin says - it looks like this logic is unnecessary with Rule 3 below.
-
-        // RULE 1: Search empty among main slots 0..2
-        int emptyMain = FindEmptyMainSlot(slotsForNote);
-        if (emptyMain != -1)
-        {
-            string newPath = MakeWavPath(note, emptyMain, isHold: false);
-            SavWav.Save(newPath, recordedClip);
-
-            slotsForNote[emptyMain] = new ClipSlot
-            {
-                clip = recordedClip,
-                fundamental = note,
-                createdAtIso = DateTime.Now.ToString("o"),
-                duration = recordedClip.length,
-                markedForDeletion = false,
-                score = score,
-                filePath = newPath
-            };
-
-            Debug.Log($"Recording: Saved {note} to main slot {emptyMain} -> {newPath}");
-            return;
-        }
-
-        // RULE 2/3: No empty main slots, target oldest main slot
-        int oldest = FindOldestMainSlot(slotsForNote);
-        var oldSlot = slotsForNote[oldest];
-
-        // If it isn't playing, delete and write into that slot (RULE 2)
-        if (!string.IsNullOrEmpty(oldSlot.filePath) && !IsFileCurrentlyPlaying(oldSlot.filePath))
-        {
-            DeleteFileIfExists(oldSlot.filePath);
-
-            string newPath = MakeWavPath(note, oldest, isHold: false);
-            SavWav.Save(newPath, recordedClip);
-
-            slotsForNote[oldest] = new ClipSlot
-            {
-                clip = recordedClip,
-                fundamental = note,
-                createdAtIso = DateTime.Now.ToString("o"),
-                duration = recordedClip.length,
-                markedForDeletion = false,
-                score = score,
-                filePath = newPath
-            };
-
-            Debug.Log($"Recording: Overwrote oldest main slot {oldest} for {note} -> {newPath}");
-            return;
-        }
-
-        // Otherwise it's playing (RULE 3): mark + queue deletion, save into HOLD, and remember target slot.
-        if (!string.IsNullOrEmpty(oldSlot.filePath))
-        {
-            oldSlot.markedForDeletion = true;
-            if (!pendingDeletePaths.Contains(oldSlot.filePath))
-                pendingDeletePaths.Add(oldSlot.filePath);
-        }
-
-        pendingFillTarget[note] = oldest;
-
-        // Write to HOLD slot 3 (temporary holding)
-        var holdSlot = slotsForNote[HOLD_SLOT];
-        DeleteFileIfExists(holdSlot.filePath);
-
-        string holdPath2 = MakeWavPath(note, HOLD_SLOT, isHold: true);
-        SavWav.Save(holdPath2, recordedClip);
-
-        slotsForNote[HOLD_SLOT] = new ClipSlot
-        {
-            clip = recordedClip,
-            fundamental = note,
-            createdAtIso = DateTime.Now.ToString("o"),
-            duration = recordedClip.length,
-            markedForDeletion = false,
-            score = score,
-            filePath = holdPath2
-        };
-
-        Debug.Log($"Recording: {note} oldest slot {oldest} is playing. Saved to HOLD -> {holdPath2} (will transfer later).");
-    }
+    
 
 
         /*
@@ -488,6 +397,41 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         */
 
 
+
+    private void StopAndSaveRecording()
+    {
+        //TODO: organize the location of the recording appropriately
+
+        //HERE WE NEED SOME LOGIC FOR WHERE TO PUT THE RECORDING - BASED ON THE TONE, AND HOW MANY OTHER RECORDINGS THERE ARE THERE. WE MAY HAVE TO DELETE A RECORDING, IF NEED BE, BUT OBV. NOT IF IT'S CURRENTLY PLAYING. 
+        Debug.Log("Recording: Stopping and saving the current recording at ");
+
+        //Checks to see if there is an Active Fundamental that is being corded
+        if (!_hasActiveRecordingFundamental)
+        {
+            //if not, then get the fuck out of this function
+            Debug.LogWarning("Recording: No active fundamental captured for this recording. Deleting instead.");
+            StopAndDeleteRecording();
+            return;
+        }
+
+        //find the _active Recording fundamental 
+        NoteName noteToSave = _activeRecordingFundamental;
+        //Alright, now that we know we need to be here. Let's reset the _hasActiveRecordingFundamental to false for next time that we need to check it. 
+        _hasActiveRecordingFundamental = false;
+        SetRecordingLoopGuard(false);
+
+        AudioClip trimmed = StopRecordingAndGetTrimmedClip();
+        //Got the trimmed clip
+
+        if (trimmed == null)
+        {
+            Debug.LogWarning("Recording: trimmed clip is null in StopAndSaveRecording");
+            return;
+        }
+
+        //Now Save it!
+        SaveRecording(trimmed, noteToSave /*, score */);
+    }
 
     private void StopAndDeleteRecording()
     {
@@ -504,18 +448,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             Destroy(trimmed);
     }
     
-    private void StartRecording(NoteName fundamental)
-    {
-        
-        _activeRecordingFundamental = fundamental;
-        _hasActiveRecordingFundamental = true;
-        Debug.Log("Recording: Begin recording on new tone...");
-        currentMicClip = Microphone.Start(deviceName, false, _recordingDurationBuffer, 44100);
-        ThisObjectAudioSource.clip = currentMicClip;
-    }
-
-
-    
+   
     private AudioClip StopRecordingAndGetTrimmedClip()
     {
         if (string.IsNullOrEmpty(deviceName))
@@ -534,10 +467,11 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             return null;
         }
 
-        int position = Microphone.GetPosition(deviceName); // BEFORE End
-        Microphone.End(deviceName); //TODO: IMPORTANT Where does this clip get saved? Double Check
+        int position = Microphone.GetPosition(deviceName); // BEFORE End Position is used to check how many frames are valid in our audio recording. THEN you can go ahead and end it on the same frame so that the End matches where teh position of the microphone is.
+        Microphone.End(deviceName); //TODO IMPORTANT Where does this clip get saved? Double Check
     
         // Use the mic clip we started with (do NOT trust AudioSource.clip)
+        //create the AudioClip called fullclip and set is as currentMicClip which is currently //THIS AudioSource's Mic Clip.
         AudioClip fullClip = currentMicClip;
         if (fullClip == null || position <= 0)
         {
@@ -566,25 +500,176 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         return trimmed;
     }
 
-    private void CleanupMicClip()
+    private void SaveRecording(AudioClip recordedClip, NoteName note, int score = 0)
     {
-        if (ThisObjectAudioSource != null) ThisObjectAudioSource.clip = null;
-
-        if (currentMicClip != null)
+        if (recordedClip == null)
         {
-            Destroy(currentMicClip);
-            currentMicClip = null;
+            Debug.LogWarning("Recording: recordedClip is null, not saving.");
+            return;
         }
+        if (string.IsNullOrEmpty(currentSessionFolder))
+        {
+            Debug.LogWarning("Recording: currentSessionFolder not set. Did you call InitRecordingFolders()?");
+            return;
+        }
+
+        // CHOOSE THE RIGHT SLOT in the master list based on the note that is being passed into this. 
+        var slotsForNote = clipSlots[(int)note];
+
+        // RULE 4: If we are already waiting for a main slot to free, overwrite HOLD and keep waiting.
+        if (pendingFillTarget.ContainsKey(note))
+        {
+            // Overwrite HOLD (slot 3)
+            var holdSlot = slotsForNote[HOLD_SLOT];
+            if (holdSlot.clip != null) Destroy(holdSlot.clip);
+            DeleteFileIfExists(holdSlot.filePath);
+
+            string holdPath = MakeWavPath(note, HOLD_SLOT, isHold: true);
+            try
+            {
+                SavWav.Save(holdPath, recordedClip);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Recording: Failed to save WAV to {holdPath}: {e.Message}");
+                if (recordedClip != null) Destroy(recordedClip);
+                return;
+            }
+
+            slotsForNote[HOLD_SLOT] = new ClipSlot
+            {
+                clip = recordedClip,
+                fundamental = note,
+                createdAtIso = DateTime.Now.ToString("o"),
+                duration = recordedClip.length,
+                markedForDeletion = false,
+                score = score,
+                filePath = holdPath
+            };
+
+            Debug.Log($"Recording: HOLD overwrite for {note} -> {holdPath} (waiting for slot {pendingFillTarget[note]})");
+            return;
+        }
+        //TODO: Check this
+        //Robin says - it looks like this logic is unnecessary with Rule 3 below.
+
+        // RULE 1: Search empty among main slots 0..2
+        int emptyMain = FindEmptyMainSlot(slotsForNote);
+        //FindEmptyMainSlot will return the index of an empty main slot or -1 if none are empty
+        if (emptyMain != -1)
+        {
+            string newPath = MakeWavPath(note, emptyMain, isHold: false);
+            try
+            {
+                SavWav.Save(holdPath, recordedClip);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Recording: Failed to save WAV to {holdPath}: {e.Message}");
+                if (recordedClip != null) Destroy(recordedClip);
+                return;
+            }
+
+            slotsForNote[emptyMain] = new ClipSlot
+            {
+                clip = recordedClip,
+                fundamental = note,
+                createdAtIso = DateTime.Now.ToString("o"),
+                duration = recordedClip.length,
+                markedForDeletion = false,
+                score = score,
+                filePath = newPath
+            };
+            Debug.Log($"Recording: Saved {note} to main slot {emptyMain} -> {newPath}");
+            return;
+        }
+
+        // RULE 2/3: No empty main slots, target oldest main slot
+        //FindOldestMainSlot will target the number of the oldest slot
+        int oldest = FindOldestMainSlot(slotsForNote);
+        //oldSlot will reference the actual ClipSlot that is in the oldest position.
+        var oldSlot = slotsForNote[oldest];
+
+        // If it isn't playing, delete and write into that slot (RULE 2)
+        if (!oldSlot.IsEmpty && !IsFileCurrentlyPlaying(oldSlot.filePath))
+        {
+
+            if (oldSlot.clip != null) Destroy(oldSlot.clip);
+            DeleteFileIfExists(oldSlot.filePath);
+
+            string newPath = MakeWavPath(note, oldest, isHold: false);
+            try
+            {
+                SavWav.Save(holdPath, recordedClip);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Recording: Failed to save WAV to {holdPath}: {e.Message}");
+                if (recordedClip != null) Destroy(recordedClip);
+                return;
+            }
+
+            slotsForNote[oldest] = new ClipSlot
+            {
+                clip = recordedClip,
+                fundamental = note,
+                createdAtIso = DateTime.Now.ToString("o"),
+                duration = recordedClip.length,
+                markedForDeletion = false,
+                score = score,
+                filePath = newPath
+            };
+
+            Debug.Log($"Recording: Overwrote oldest main slot {oldest} for {note} -> {newPath}");
+            return;
+        }
+
+        // Otherwise it's playing (RULE 3): mark + queue deletion, save into HOLD, and remember target slot.
+        if (!string.IsNullOrEmpty(oldSlot.filePath))
+        {
+            oldSlot.markedForDeletion = true;
+            if (!pendingDeletePaths.Contains(oldSlot.filePath))
+                pendingDeletePaths.Add(oldSlot.filePath);
+        }
+
+        pendingFillTarget[note] = oldest;
+
+        // Write to HOLD slot 3 (temporary holding)
+        // Set the HoldSlot to the index in the slotsforThisSpecificNote's HOLD_SLOT which should match the regular slot index.
+        var hold = slotsForNote[HOLD_SLOT];
+        if (hold.clip != null) Destroy(hold.clip);
+        DeleteFileIfExists(hold.filePath);
+
+
+        //Create the path of where this Wav is going to be held and save it there.
+        string holdPath2 = MakeWavPath(note, HOLD_SLOT, isHold: true);
+        SavWav.Save(holdPath2, recordedClip);
+
+        slotsForNote[HOLD_SLOT] = new ClipSlot
+        {
+            clip = recordedClip,
+            fundamental = note,
+            createdAtIso = DateTime.Now.ToString("o"),
+            duration = recordedClip.length,
+            markedForDeletion = false,
+            score = score,
+            filePath = holdPath2
+        };
+
+        Debug.Log($"Recording: {note} oldest slot {oldest} is playing. Saved to HOLD -> {holdPath2} (will transfer later).");
     }
 
     private void ProcessPendingDeletions()
     {
+        //Pending Delete Paths is empty, ignore this function
         if (pendingDeletePaths.Count == 0) return;
 
+        // Go through each pendingDeletePaths in reverse order to safely remove items while iterating
         for (int i = pendingDeletePaths.Count - 1; i >= 0; i--)
         {
             string path = pendingDeletePaths[i];
 
+            // Check if the file is currently playing; if so, skip deletion
             if (IsFileCurrentlyPlaying(path))
                 continue;
 
@@ -632,7 +717,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
                             score = hold.score,
                             filePath = newPath
                         };
-
+                        hold.clip = null;
                         // Clear HOLD
                         ClearSlot(note, HOLD_SLOT);
                     }
@@ -645,9 +730,18 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
     }
 
+   private void CleanupMicClip()
+    {
+        if (ThisObjectAudioSource != null) ThisObjectAudioSource.clip = null;
 
+        if (currentMicClip != null)
+        {
+            Destroy(currentMicClip);
+            currentMicClip = null;
+        }
+    }
     ///TODO: make the forceSuccess = false
-    /// TODO: Test "TestForFailure" with a keyboard command or something to make sure it's working right in the logic here.
+    // TODO: Test "TestForFailure" with a keyboard command or something to make sure it's working right in the logic here.
     private bool TestForFailure (bool forceSuccess = true) 
     {
         bool testAbsorption = respirationTracker._absorption > 0.1f; //ROBIN: We want to only record if player is "absorbed"
@@ -697,59 +791,72 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         Debug.Log("Recording: playbackLoopGuard set to " + value);
     }
     private void PlaybackUpdate()
+{
+    // Only start once
+    if (playbackRoutine != null) return;
+    playbackRoutine = StartCoroutine(PlaybackLoopCoroutine());
+}
+
+    private IEnumerator PlaybackLoopCoroutine()
     {
-        if(playbackLoopGuard) return;
-        if (playbackRoutine != null)
-        StopCoroutine(playbackRoutine);
+        SetPlaybackLoopGuard(true);
 
-        playbackRoutine = StartCoroutine(PlaybackUpdateCoroutine());
-    }
-
-    private IEnumerator PlaybackUpdateCoroutine()
-    {
-        playbackLoopGuard = true;
-
-        try
+        while (playMode)
         {
             if (string.IsNullOrEmpty(currentSessionFolder) || !Directory.Exists(currentSessionFolder))
             {
-                Debug.LogWarning("PlaybackUpdate: currentSessionFolder invalid. Did you call InitRecordingFolders()?");
-                yield break;
+                Debug.LogWarning("Playback: currentSessionFolder invalid. Did you call InitRecordingFolders()?");
+                yield return new WaitForSeconds(0.5f);
+                continue;
             }
 
-            foreach (NoteName note in Enum.GetValues(typeof(NoteName)))
+            // 1) Follow current fundamental
+            if (!NoteUtils.TryIntToNote(musicSystem1.fundamentalNote, out var currentFundamental))
             {
-                string noteFolder = Path.Combine(currentSessionFolder, note.ToString());
-                if (!Directory.Exists(noteFolder)) continue;
-
-                var wavFiles = Directory.GetFiles(noteFolder, "*.wav", SearchOption.TopDirectoryOnly);
-                if (wavFiles.Length == 0) continue;
-
-                // Don’t accidentally play HOLD files
-                wavFiles = Array.FindAll(wavFiles, p => !p.Contains("_HOLD", StringComparison.OrdinalIgnoreCase));
-                if (wavFiles.Length == 0) continue;
-
-                Array.Sort(wavFiles, StringComparer.OrdinalIgnoreCase);
-                string wavPath = wavFiles[0];
-
-                yield return LoadAndPlayWav(wavPath);
-                yield break; // plays the first found (C->B) and exits
+                yield return null;
+                continue;
             }
 
-            Debug.Log("PlaybackUpdate: No wav files found in any note folder (C->B).");
-            yield return new WaitForSeconds(2f);
+            // 2) Pick a playable wav for that note (exclude HOLD)
+            string wavPath = PickRandomMainWav(currentFundamental);
+            if (string.IsNullOrEmpty(wavPath))
+            {
+                // Nothing recorded for this fundamental yet
+                yield return new WaitForSeconds(0.25f);
+                continue;
+            }
+
+            // 3) Load + play
+            yield return LoadAndPlayWav(wavPath);
+
+            // 4) Wait until finished OR fundamental changes
+            while (playMode && playbackSource != null && playbackSource.isPlaying)
+            {
+                if (NoteUtils.TryIntToNote(musicSystem1.fundamentalNote, out var nowFundamental) &&
+                    nowFundamental != currentFundamental)
+                {
+                    playbackSource.Stop();
+                    break;
+                }
+                yield return null;
+            }
+
+            // Cleanup runtime playback clip to avoid leaks
+            CleanupPlaybackClip();
+            yield return null;
         }
-        finally
-        {
-            playbackLoopGuard = false;
-        }
+
+        // shutdown
+        CleanupPlaybackClip();
+        SetPlaybackLoopGuard(false);
+        playbackRoutine = null;
     }
 
     private IEnumerator LoadAndPlayWav(string fullPath)
     {
         if (playbackSource == null)
         {
-            Debug.LogWarning("PlaybackUpdate: playbackSource is not assigned.");
+            Debug.LogWarning("Playback: playbackSource is not assigned.");
             yield break;
         }
 
@@ -761,21 +868,47 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
             if (req.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"PlaybackUpdate: Failed to load WAV: {req.error}\nPath: {fullPath}");
+                Debug.LogError($"Playback: Failed to load WAV: {req.error}\nPath: {fullPath}");
                 yield break;
             }
 
-            AudioClip clip = DownloadHandlerAudioClip.GetContent(req);
+            AudioClip newClip = DownloadHandlerAudioClip.GetContent(req);
 
-            playbackSource.Stop();
-            //TODO:
-            //Right after it stops, it should check "am I marked for deletion", and if so, ()
-            playbackSource.clip = clip;
+            // Stop old playback + destroy old runtime clip
+            if (playbackSource.isPlaying) playbackSource.Stop();
+            if (playbackSource.clip != null) Destroy(playbackSource.clip);
+
+            playbackSource.clip = newClip;
             playbackSource.Play();
 
             currentPlayingFilePath = fullPath;
+            Debug.Log($"Playback: Playing {fullPath}");
+        }
+    }
 
-            Debug.Log($"PlaybackUpdate: Playing {fullPath}");
+    private string PickRandomMainWav(NoteName note)
+    {
+        string noteFolder = Path.Combine(currentSessionFolder, note.ToString());
+        if (!Directory.Exists(noteFolder)) return null;
+
+        var wavFiles = Directory.GetFiles(noteFolder, "*.wav", SearchOption.TopDirectoryOnly);
+        wavFiles = Array.FindAll(wavFiles, p => !p.Contains("_HOLD", StringComparison.OrdinalIgnoreCase));
+        if (wavFiles.Length == 0) return null;
+
+        return wavFiles[UnityEngine.Random.Range(0, wavFiles.Length)];
+    }
+
+    private void CleanupPlaybackClip()
+    {
+        if (playbackSource == null) return;
+
+        playbackSource.Stop();
+        currentPlayingFilePath = null;
+
+        if (playbackSource.clip != null)
+        {
+            Destroy(playbackSource.clip);
+            playbackSource.clip = null;
         }
     }
 
@@ -917,6 +1050,14 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
     private void ClearSlot(NoteName note, int slotIndex)
     {
+        var slot = clipSlots[(int)note][slotIndex];
+        if (slot != null && slot.clip != null)
+        {
+            // Don't destroy the playbackSource clip (separate runtime clip)
+            if (playbackSource == null || playbackSource.clip != slot.clip)
+                Destroy(slot.clip);
+        }
+
         clipSlots[(int)note][slotIndex] = new ClipSlot();
     }
 }
