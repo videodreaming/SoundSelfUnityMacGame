@@ -90,6 +90,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
 
     
+    /// <summary>
+    /// Initializes singleton, ensures audio sources, prepares clip slots, and creates session folders.
+    /// </summary>
     private void Awake()
     {
         // Basic singleton guard
@@ -141,6 +144,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         InitRecordingFolders();
     }
 
+    /// <summary>
+    /// Per-frame maintenance: delete safely-queued files, then spin up recording/playback loops when enabled.
+    /// </summary>
     void Update()
     {
         // Clean up any files/slots that became deletable since last frame
@@ -168,6 +174,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     //===================================================
     //STORAGE MANAGEMENT
     //===================================================
+    /// <summary>
+    /// Sets up the session folder structure under persistentDataPath and one subfolder per note.
+    /// </summary>
     private void InitRecordingFolders()
     {
         string rootFolderPath = Path.Combine(Application.persistentDataPath, recordingsRootFolder);
@@ -198,6 +207,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     }
 
     [ContextMenu("Open Recording Folder")]
+    /// <summary>
+    /// Opens the current session folder in the OS file browser.
+    /// </summary>
     private void OpenRecordingFolder()
     {
         if (Directory.Exists(currentSessionFolder))
@@ -210,11 +222,17 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Public entry to wipe all recordings for the current session.
+    /// </summary>
     public void DeleteAllRecordings()
     {
         StartCoroutine(DeleteAllRecordingsCoroutine());
     }
 
+    /// <summary>
+    /// Coroutine that stops playback, clears slot state, then deletes the session folder.
+    /// </summary>
     private IEnumerator DeleteAllRecordingsCoroutine()
     {
         // Stop playback immediately
@@ -262,6 +280,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     //TODO: Look for and secure memory leaks in recording.
     
     // Kick off the coroutine that waits for tone activity and captures audio
+    /// <summary>
+    /// Starts the recording coroutine if a microphone device is available.
+    /// </summary>
     private void StartRecordingLoop()
     {
         if (Microphone.devices.Length > 0)
@@ -282,6 +303,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     // 2) Capture fundamental at start, start mic recording
     // 3) Record for target duration
     // 4) Wait for rest (or timeout) then trim and save
+    /// <summary>
+    /// Waits for tone onset, records for a target window, waits for rest/timeout, then trims and saves.
+    /// </summary>
     private IEnumerator RecordingCoroutine()
     {
         if (recordingLoopGuard)
@@ -347,6 +371,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     } 
 
     // Stop mic capture, trim to the recorded length, then slot/save the clip.
+    /// <summary>
+    /// Stops mic capture, trims to recorded length, and persists via slotting rules.
+    /// </summary>
     private void StopAndSaveRecording()
     {
         Debug.Log("Recording: Stopping and saving the current recording.");
@@ -380,6 +407,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
      // 2) Otherwise, place in the first empty main slot (0-2).
      // 3) If full, overwrite the oldest main slot that is NOT currently playing.
      // 4) If the oldest is playing, mark it for deletion, save to HOLD, and queue transfer.
+    /// <summary>
+    /// Applies slotting rules (main/HOLD) for the clip and writes it to disk, freeing in-memory audio.
+    /// </summary>
     private void SaveRecording(AudioClip recordedClip, NoteName note, int score = 0)
     {
         if (recordedClip == null)
@@ -524,6 +554,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
 
 
+    /// <summary>
+    /// Cancels the current recording, releases buffers, and resets state without saving.
+    /// </summary>
     private void StopAndDeleteRecording()
     {
         Debug.Log("Recording: Stopping and deleting the current recording.");
@@ -539,6 +572,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             Destroy(trimmed);
     }
     
+    /// <summary>
+    /// Begins microphone capture and tags the current fundamental for the take.
+    /// </summary>
     private void StartRecording(NoteName fundamental)
     {
         
@@ -551,6 +587,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
 
     
+    /// <summary>
+    /// Stops the microphone, trims the captured buffer to the actual length, and returns a new AudioClip.
+    /// </summary>
     private AudioClip StopRecordingAndGetTrimmedClip()
     {
         if (string.IsNullOrEmpty(deviceName))
@@ -601,6 +640,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         return trimmed;
     }
 
+    /// <summary>
+    /// Clears references to the mic clip and destroys the buffer to free memory.
+    /// </summary>
     private void CleanupMicClip()
     {
         if (ThisObjectAudioSource != null) ThisObjectAudioSource.clip = null;
@@ -613,6 +655,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     }
 
     // Remove queued files once they are safe and promote HOLD clips into freed slots.
+    /// <summary>
+    /// Removes files queued for deletion when safe, and moves HOLD clips into newly freed main slots.
+    /// </summary>
     private void ProcessPendingDeletions()
     {
         if (pendingDeletePaths.Count == 0) return;
@@ -681,6 +726,10 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
     // Guards recording against unwanted states (absorption/tone length/etc.).
     // NOTE: forceSuccess currently defaults to true, so gating is effectively disabled.
+    /// <summary>
+    /// Returns true if recording should abort based on absorption/rest/tone/mode checks.
+    /// NOTE: forceSuccess currently defaults to true, effectively disabling the gate.
+    /// </summary>
     private bool TestForFailure (bool forceSuccess = true) 
     {
         bool testAbsorption = respirationTracker._absorption > 0.1f; //ROBIN: We want to only record if player is "absorbed"
@@ -730,6 +779,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         Debug.Log("Recording: playbackLoopGuard set to " + value);
     }
     
+    /// <summary>
+    /// Starts the playback loop if not already running.
+    /// </summary>
     private void PlaybackUpdate()
     {
         // Ensure only one playback loop is running
@@ -739,6 +791,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     }
 
     // Main playback loop: wait for an idle source, pick next wav, play, then wait for completion.
+    /// <summary>
+    /// Repeatedly waits for idle playback, selects the next wav, plays it, and waits for completion.
+    /// </summary>
     private IEnumerator PlaybackLoop()
     {
         playbackLoopGuard = true;
@@ -775,7 +830,38 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Scans note folders (C->B) for the first non-HOLD wav and returns its path, or null if none.
+    /// </summary>
+    private string FindFirstAvailableWav()
+    {
+        if (string.IsNullOrEmpty(currentSessionFolder) || !Directory.Exists(currentSessionFolder))
+            return null;
+
+        foreach (NoteName note in Enum.GetValues(typeof(NoteName)))
+        {
+            string noteFolder = Path.Combine(currentSessionFolder, note.ToString());
+            if (!Directory.Exists(noteFolder)) continue;
+
+            var wavFiles = Directory.GetFiles(noteFolder, "*.wav", SearchOption.TopDirectoryOnly);
+            if (wavFiles.Length == 0) continue;
+
+            // Don’t accidentally play HOLD files
+            wavFiles = Array.FindAll(wavFiles, p => !p.Contains("_HOLD", StringComparison.OrdinalIgnoreCase));
+            if (wavFiles.Length == 0) continue;
+
+            Array.Sort(wavFiles, StringComparer.OrdinalIgnoreCase);
+            return wavFiles[0];
+        }
+
+        Debug.Log("PlaybackUpdate: No wav files found in any note folder (C->B).");
+        return null;
+    }
+
     // Loads a wav from disk into the playback source and starts playback.
+    /// <summary>
+    /// Loads a wav from disk into the playback AudioSource, disposing any prior clip, then plays it.
+    /// </summary>
     private IEnumerator LoadAndPlayWav(string fullPath)
     {
         if (playbackSource == null)
@@ -821,6 +907,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
 
     //ROBIN: See "Sequencer.cs" and "MusicSystem1.cs" and "Tutorial.cs" for where these are called. I have RecordMode turned on before Playback Mode, so we can actually start capturing recordings during the tutorial, even if we aren't playing them yet. The system will have to be able to handle, therefore, the recording system "filling up" before playback begins, but I think the way you've built it works for that.
+    /// <summary>
+    /// External toggle for record mode; stopping clears the current recording.
+    /// </summary>
     public void SetRecordMode(bool localRecordMode) //this is now triggered in Tutorial, as well, so we can start recording a little earlier.
     {
         if (localRecordMode)
@@ -835,6 +924,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// External toggle for playback mode.
+    /// </summary>
     public void SetPlaybackMode(bool localPlayMode)
     {
         if (localPlayMode)
@@ -849,6 +941,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
     //Helper Functions
 
+    /// <summary>
+    /// Returns the first empty main slot index (0-2) or -1 if none are empty.
+    /// </summary>
     private int FindEmptyMainSlot(List<ClipSlot> slots)
     {
         for (int i = 0; i < MAIN_CAPACITY; i++)
@@ -863,6 +958,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         return -1;
     }
 
+    /// <summary>
+    /// Returns the main slot index (0-2) with the oldest timestamp, or 0 if none found.
+    /// </summary>
     private int FindOldestMainSlot(List<ClipSlot> slots)
     {
         int best = -1;
@@ -897,6 +995,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// True if the playback source is currently playing the given file path.
+    /// </summary>
     private bool IsFileCurrentlyPlaying(string path)
     {
         return playbackSource != null &&
@@ -906,6 +1007,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Deletes the file at path if it exists, with error logging on failure.
+    /// </summary>
     private void DeleteFileIfExists(string path)
     {
         if(string.IsNullOrEmpty(path)) return;
@@ -918,6 +1022,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Builds a unique wav path for a note/slot, tagging HOLD files with _HOLD.
+    /// </summary>
     private string MakeWavPath(NoteName note, int slotIndex, bool isHold)
     {
         string noteFolder = Path.Combine(currentSessionFolder, note.ToString());
@@ -928,6 +1035,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         return Path.Combine(noteFolder, $"{note}_{stamp}_slot{slotIndex}{holdTag}.wav");
     }
 
+    /// <summary>
+    /// Searches all slots for a matching file path; returns note and slot index if found.
+    /// </summary>
     private bool TryFindSlotByPath(string path, out NoteName note, out int slotIndex)
     {
         foreach (NoteName n in Enum.GetValues(typeof(NoteName)))
@@ -950,6 +1060,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Clears a slot in the clipSlots list.
+    /// </summary>
     private void ClearSlot(NoteName note, int slotIndex)
     {
         clipSlots[(int)note][slotIndex] = new ClipSlot();
