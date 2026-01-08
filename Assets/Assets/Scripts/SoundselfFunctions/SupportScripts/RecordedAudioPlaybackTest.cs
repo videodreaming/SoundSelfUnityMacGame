@@ -62,6 +62,8 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     [SerializeField] private AudioSource playbackSource; // dedicated playback source
     private string deviceName;                           // selected microphone name
     private Coroutine playbackRoutine;                   // running playback coroutine
+    private Coroutine volumeFadeRoutine;                 // running volume fade coroutine
+    private bool previousPlayMode = false;               // tracks previous play mode state for fade detection
     public List<List<ClipSlot>> clipSlots = new List<List<ClipSlot>>(); // master slots per note
     
     [Header("Audio Storage")]
@@ -70,28 +72,34 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     private string currentPlayingFilePath = null;             // path currently playing
     private readonly List<string> pendingDeletePaths = new List<string>(); // files to delete when safe
     private string currentSessionFolder;                      // active session folder
+    private Dictionary<NoteName, string> lastPlayedFilePath = new Dictionary<NoteName, string>(); // tracks last played file per note for cycling
     
     [Header("Clip Data")]
     private readonly Dictionary<NoteName, int> pendingFillTarget = new Dictionary<NoteName, int>(); // HOLD -> target mapping
     private NoteName _activeRecordingFundamental; // note captured at recording start
     private bool _hasActiveRecordingFundamental = false;
-    private AudioClip currentMicClip; // raw mic buffer (trimmed later)
+    private AudioClip currentMicClip; // raw mic buffer (trimmed later) - now references shared buffer
+    private int recordingStartPosition = 0; // position in shared buffer where recording started
+    private List<float> recordedSamples = new List<float>(); // accumulated samples from shared buffer
+    private int lastReadPosition = 0; // last position read from shared buffer
+    private int recordingChannels = 1; // channels from the shared buffer
+    private int recordingFrequency = 48000; // sample rate from the shared buffer
     private string[] noteNames = { "C", "Cs", "D", "Ds", "E", "F", "Fs", "G", "Gs", "A", "As", "B" };
     public string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss"); // session stamp
 
     [Header("Recording Settings")]
     private int maxNotes = 12; 
-    private float _recordingDurationTarget = 12f; // record this long, then wait for rest
+    private float _recordingDurationTarget = 6f; // record this long, then wait for rest //TODO: SET THIS TO 
     private int _recordingDurationBuffer = 35;    // max capture window before forced stop
+    
+    [Header("Playback Settings")]
+    [SerializeField] private float volumeFadeDuration = 1f; // duration in seconds for volume fade in/out
 
     private int maxClipsPerNote = 4;
     private const int MAIN_CAPACITY = 3;      // slots 0..2
     private const int HOLD_SLOT = 3;          // slot 3 (the “4th” holding zone)
-
-
     
-    /// <summary>
-    /// Initializes singleton, ensures audio sources, prepares clip slots, and creates session folders.
+    /// <summary>    /// Initializes singleton, ensures audio sources, prepares clip slots, and creates session folders.
     /// </summary>
     private void Awake()
     {
@@ -142,6 +150,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
 
         InitRecordingFolders();
+        
+        // Initialize previous play mode state to match current state
+        previousPlayMode = playMode;
     }
 
     /// <summary>
@@ -155,7 +166,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         // Recording loop: only start if allowed and no coroutine is already running
         if(recordMode)
         {
-            if(!TestForFailure() && !recordingLoopGuard)
+            if(!TestForFailure(musicSystem1.fundamentalNoteName) && !recordingLoopGuard)
             {  
                 StartRecordingLoop();
             }
@@ -235,6 +246,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     /// </summary>
     private IEnumerator DeleteAllRecordingsCoroutine()
     {
+        // NOTE: as currently written, this is not for "live" use, as it will interrupt whatever is currently playing.
         // Stop playback immediately
         if (playbackSource != null)
             playbackSource.Stop();
@@ -282,19 +294,26 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     // Kick off the coroutine that waits for tone activity and captures audio
     /// <summary>
     /// Starts the recording coroutine if a microphone device is available.
+    /// Uses the shared microphone from ImitoneVoiceIntepreter.
     /// </summary>
     private void StartRecordingLoop()
     {
-        if (Microphone.devices.Length > 0)
+        // Check if ImitoneVoiceIntepreter has the microphone set up
+        if (imitoneVoiceInterpreter == null)
         {
-            deviceName = Microphone.devices[0]; // Use the first microphone device
-            Debug.Log("Recording: Recording Loop starting...");
-            StartCoroutine(RecordingCoroutine());
+            Debug.LogWarning("Recording: ImitoneVoiceIntepreter reference is not set!");
+            return;
         }
-        else
+        
+        if (imitoneVoiceInterpreter.MicrophoneBuffer == null)
         {
-            Debug.LogWarning("Recording: No microphone detected!");
+            Debug.LogWarning("Recording: ImitoneVoiceIntepreter microphone buffer is not initialized!");
+            return;
         }
+        
+        deviceName = imitoneVoiceInterpreter.MicrophoneDeviceName;
+        Debug.Log("Recording: Recording Loop starting (using shared microphone)...");
+        StartCoroutine(RecordingCoroutine());
     }
 
      //A coroutine that is used to control audio recording - it records for a set amount of time and then stops recording
@@ -308,6 +327,8 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     /// </summary>
     private IEnumerator RecordingCoroutine()
     {
+        NoteName fundamentalAtRecordingStart = musicSystem1.fundamentalNoteName;
+
         if (recordingLoopGuard)
         {
             Debug.LogWarning("Recording: Recording coroutine loop already running, skipping...");
@@ -319,7 +340,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         Debug.Log("Recording: Coroutine start, Waiting for moment to record...");
         while(imitoneVoiceInterpreter.toneActive == false)
         {
-            if(TestForFailure())
+            if(TestForFailure(fundamentalAtRecordingStart))
             {
                 StopAndDeleteRecording();
                 yield break;
@@ -327,22 +348,16 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             yield return null;
         }
 
-        // Step 2: capture fundamental at start and begin mic capture
-        if (!NoteUtils.TryIntToNote(musicSystem1.fundamentalNote, out var fundamentalAtRecordingStart))
-        {
-            Debug.LogWarning($"Recording: Invalid fundamental note int at start: {musicSystem1.fundamentalNote}");
-            SetRecordingLoopGuard(false);
-            yield break;
-        }
-
+        // Step 2: begin mic capture (fundamental already captured at line 330)
         StartRecording(fundamentalAtRecordingStart);
 
-        // Step 3: record for the target window
+        // Step 3: record for the target window, continuously reading from shared buffer
         float _t = 0.0f;
         while (_t < _recordingDurationTarget)
         {
             _t += Time.deltaTime;
-            if(TestForFailure())
+            ReadFromSharedBuffer(); // Continuously accumulate samples from shared buffer
+            if(TestForFailure(fundamentalAtRecordingStart))
             {
                 StopAndDeleteRecording();
                 yield break;
@@ -350,21 +365,25 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             yield return null;
         }
 
-        // Step 4: wait for the user to stop toning or timeout
+        // Step 4: wait for the user to stop toning or timeout, still reading from buffer
         Debug.Log("Recording: Now wait for breath to stop recording or buffer to run out...");
         _t = 0.0f;
         float timeout = Mathf.Max((_recordingDurationBuffer - _recordingDurationTarget), 0f);
         while (imitoneVoiceInterpreter._tThisRest < 0.5f && _t < timeout)
         {
-            if (TestForFailure())
+            if (TestForFailure(fundamentalAtRecordingStart))
             {
                 StopAndDeleteRecording();
                 yield break;
             }
 
+            ReadFromSharedBuffer(); // Continue accumulating samples
             _t += Time.deltaTime;
             yield return null;
         }
+        
+        // Final read to capture any remaining samples
+        ReadFromSharedBuffer();
 
         // Trim and persist
         StopAndSaveRecording();
@@ -398,6 +417,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             return;
         }
 
+        Debug.Log($"[TEST] StopAndSaveRecording: note={noteToSave}, trimmed length={trimmed.length:F2}s");
         SaveRecording(trimmed, noteToSave /*, score */);
     }
 
@@ -449,7 +469,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
                 filePath = holdPath
             };
 
-            Debug.Log($"Recording: HOLD overwrite for {note} -> {holdPath} (waiting for slot {pendingFillTarget[note]})");
+            Debug.Log($"[TEST] SaveRecording: RULE 4 - HOLD overwrite for {note} -> {holdPath} (waiting for slot {pendingFillTarget[note]})");
             Destroy(recordedClip);
             return;
         }
@@ -474,7 +494,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
                 filePath = newPath
             };
 
-            Debug.Log($"Recording: Saved {note} to main slot {emptyMain} -> {newPath}");
+            Debug.Log($"[TEST] SaveRecording: RULE 1 - Saved {note} to empty main slot {emptyMain} -> {newPath}");
             Destroy(recordedClip);
             return;
         }
@@ -483,8 +503,11 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         int oldest = FindOldestMainSlot(slotsForNote);
         var oldSlot = slotsForNote[oldest];
 
+        bool isPlaying = !string.IsNullOrEmpty(oldSlot.filePath) && IsFileCurrentlyPlaying(oldSlot.filePath);
+        Debug.Log($"[TEST] SaveRecording: RULE 2/3 - oldest={oldest}, isPlaying={isPlaying}, filePath={oldSlot.filePath}");
+
         // If it isn't playing, delete and write into that slot (RULE 2)
-        if (!string.IsNullOrEmpty(oldSlot.filePath) && !IsFileCurrentlyPlaying(oldSlot.filePath))
+        if (!string.IsNullOrEmpty(oldSlot.filePath) && !isPlaying)
         {
             DeleteFileIfExists(oldSlot.filePath);
 
@@ -504,7 +527,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
                 filePath = newPath
             };
 
-            Debug.Log($"Recording: Overwrote oldest main slot {oldest} for {note} -> {newPath}");
+            Debug.Log($"[TEST] SaveRecording: RULE 2 - Overwrote oldest main slot {oldest} for {note} -> {newPath}");
             Destroy(recordedClip);
             return;
         }
@@ -539,7 +562,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             filePath = holdPath2
         };
 
-        Debug.Log($"Recording: {note} oldest slot {oldest} is playing. Saved to HOLD -> {holdPath2} (will transfer later).");
+        Debug.Log($"[TEST] SaveRecording: RULE 3 - {note} oldest slot {oldest} is playing. Saved to HOLD -> {holdPath2} (will transfer later).");
         Destroy(recordedClip);
     }
 
@@ -574,84 +597,198 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     
     /// <summary>
     /// Begins microphone capture and tags the current fundamental for the take.
+    /// Uses the shared microphone buffer from ImitoneVoiceIntepreter instead of starting its own.
+    /// Continuously reads from the shared buffer and accumulates samples.
     /// </summary>
     private void StartRecording(NoteName fundamental)
     {
-        
         _activeRecordingFundamental = fundamental;
         _hasActiveRecordingFundamental = true;
-        Debug.Log("Recording: Begin recording on new tone...");
-        currentMicClip = Microphone.Start(deviceName, false, _recordingDurationBuffer, 44100);
+        
+        // Use the shared microphone buffer from ImitoneVoiceIntepreter
+        if (imitoneVoiceInterpreter == null || imitoneVoiceInterpreter.MicrophoneBuffer == null)
+        {
+            Debug.LogError("Recording: Cannot start recording - ImitoneVoiceIntepreter microphone buffer is not available!");
+            return;
+        }
+        
+        // Initialize recording state
+        deviceName = imitoneVoiceInterpreter.MicrophoneDeviceName;
+        currentMicClip = imitoneVoiceInterpreter.MicrophoneBuffer;
+        recordingChannels = currentMicClip.channels;
+        recordingFrequency = imitoneVoiceInterpreter.MicrophoneSampleRate;
+        
+        // Get the current microphone position as our recording start point
+        recordingStartPosition = Microphone.GetPosition(deviceName);
+        lastReadPosition = recordingStartPosition;
+        
+        // Clear any previous recording samples
+        recordedSamples.Clear();
+        
         ThisObjectAudioSource.clip = currentMicClip;
+        
+        Debug.Log($"[TEST] StartRecording: fundamental={fundamental}, device={deviceName}, startPos={recordingStartPosition}, channels={recordingChannels}, freq={recordingFrequency}");
     }
 
 
     
     /// <summary>
+    /// Continuously reads new samples from the shared microphone buffer and accumulates them.
+    /// This allows recording longer than the 1-second buffer length.
+    /// Uses the same pattern as ImitoneVoiceIntepreter for reading from the looping buffer.
+    /// </summary>
+    private void ReadFromSharedBuffer()
+    {
+        if (currentMicClip == null || string.IsNullOrEmpty(deviceName))
+            return;
+
+        int micPosWrite = Microphone.GetPosition(deviceName);
+        
+        // Validate micPosWrite is within valid range
+        if (micPosWrite < 0 || micPosWrite >= currentMicClip.samples)
+        {
+            Debug.LogWarning($"Recording: Invalid micPosWrite ({micPosWrite}), skipping read.");
+            return;
+        }
+        
+        // Ensure lastReadPosition is valid (in case of initialization issues)
+        if (lastReadPosition < 0 || lastReadPosition >= currentMicClip.samples)
+        {
+            lastReadPosition = micPosWrite;
+            return;
+        }
+        
+        // Calculate how many samples to read (handling wrap-around with modulo)
+        // This matches the pattern used in ImitoneVoiceIntepreter
+        int samplesToRead = (currentMicClip.samples + micPosWrite - lastReadPosition) % currentMicClip.samples;
+        
+        // Safety check: if samplesToRead is suspiciously large, something went wrong
+        if (samplesToRead > currentMicClip.samples)
+        {
+            Debug.LogWarning($"Recording: Calculated samplesToRead ({samplesToRead}) exceeds buffer size ({currentMicClip.samples}). Resetting.");
+            lastReadPosition = micPosWrite;
+            return;
+        }
+        
+        if (samplesToRead <= 0)
+            return;
+
+        int channels = recordingChannels;
+        
+        try
+        {
+            // Read the audio data, handling wrap-around
+            // GetData requires: valid offset (0 to samples-1) and array size matching exactly what we want to read
+            if (lastReadPosition + samplesToRead <= currentMicClip.samples)
+            {
+                // Simple case: no wrap-around, read directly
+                float[] capturedSamples = new float[samplesToRead * channels];
+                currentMicClip.GetData(capturedSamples, lastReadPosition);
+                recordedSamples.AddRange(capturedSamples);
+                lastReadPosition += samplesToRead;
+                
+                // Ensure lastReadPosition stays within bounds (shouldn't exceed, but safety check)
+                if (lastReadPosition >= currentMicClip.samples)
+                    lastReadPosition = lastReadPosition % currentMicClip.samples;
+            }
+            else
+            {
+                // Wrap-around case: read in two parts
+                int samplesToEnd = currentMicClip.samples - lastReadPosition;
+                int samplesFromStart = samplesToRead - samplesToEnd;
+                
+                // Validate both parts before reading
+                if (samplesToEnd <= 0 || samplesFromStart <= 0)
+                {
+                    Debug.LogWarning($"Recording: Invalid wrap-around calculation (samplesToEnd={samplesToEnd}, samplesFromStart={samplesFromStart}). Resetting.");
+                    lastReadPosition = micPosWrite;
+                    return;
+                }
+                
+                // Read first part: from lastReadPosition to end of buffer
+                if (samplesToEnd > 0 && lastReadPosition >= 0 && lastReadPosition < currentMicClip.samples)
+                {
+                    float[] part1 = new float[samplesToEnd * channels];
+                    currentMicClip.GetData(part1, lastReadPosition);
+                    recordedSamples.AddRange(part1);
+                }
+                
+                // Read second part: from start of buffer
+                if (samplesFromStart > 0 && samplesFromStart <= micPosWrite)
+                {
+                    float[] part2 = new float[samplesFromStart * channels];
+                    currentMicClip.GetData(part2, 0);
+                    recordedSamples.AddRange(part2);
+                }
+                
+                lastReadPosition = samplesFromStart;
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Recording: Error reading from shared buffer: {e.Message}. Resetting read position.");
+            lastReadPosition = micPosWrite;
+        }
+    }
+
+    /// <summary>
     /// Stops the microphone, trims the captured buffer to the actual length, and returns a new AudioClip.
+    /// Uses accumulated samples from the shared microphone buffer.
     /// </summary>
     private AudioClip StopRecordingAndGetTrimmedClip()
     {
-        if (string.IsNullOrEmpty(deviceName))
+        if (currentMicClip == null)
         {
-            if (Microphone.devices.Length > 0) deviceName = Microphone.devices[0];
-            else
-            {
-                Debug.LogWarning("Recording: No microphone devices found when trying to stop.");
-                return null;
-            }
-        }
-
-        if (!Microphone.IsRecording(deviceName))
-        {
-            Debug.LogWarning("Recording: Stop requested, but microphone is not recording.");
-            return null;
-        }
-
-        int position = Microphone.GetPosition(deviceName); // BEFORE End
-        Microphone.End(deviceName); //TODO: IMPORTANT Where does this clip get saved? Double Check
-    
-        // Use the mic clip we started with (do NOT trust AudioSource.clip)
-        AudioClip fullClip = currentMicClip;
-        if (fullClip == null || position <= 0)
-        {
-            Debug.LogWarning("Recording: No audio captured (mic clip null or position <= 0).");
+            Debug.LogWarning("Recording: No audio buffer available (mic clip is null).");
             CleanupMicClip();
             return null;
         }
 
-        int channels = fullClip.channels;
-        float[] data = new float[position * channels];
-        fullClip.GetData(data, 0);
+        // Final read to capture any remaining samples
+        ReadFromSharedBuffer();
+
+        if (recordedSamples.Count == 0)
+        {
+            Debug.LogWarning("Recording: No audio samples were captured.");
+            CleanupMicClip();
+            return null;
+        }
+
+        // Create AudioClip from accumulated samples
+        int totalSamples = recordedSamples.Count / recordingChannels;
+        float[] data = recordedSamples.ToArray();
 
         AudioClip trimmed = AudioClip.Create(
-            fullClip.name + "_trimmed",
-            position,
-            channels,
-            fullClip.frequency,
+            "RecordedClip_trimmed",
+            totalSamples,
+            recordingChannels,
+            recordingFrequency,
             false
         );
 
         trimmed.SetData(data, 0);
 
-        // IMPORTANT cleanup: release the big 600s mic buffer
+        Debug.Log($"[TEST] StopRecordingAndGetTrimmedClip: Created clip with {totalSamples} samples ({totalSamples / (float)recordingFrequency:F2}s), channels={recordingChannels}, freq={recordingFrequency}");
+
+        // IMPORTANT: Don't destroy the shared buffer, just clear our reference
         CleanupMicClip();
 
         return trimmed;
     }
 
     /// <summary>
-    /// Clears references to the mic clip and destroys the buffer to free memory.
+    /// Clears references to the mic clip. Does NOT destroy the buffer since it's shared with ImitoneVoiceIntepreter.
     /// </summary>
     private void CleanupMicClip()
     {
         if (ThisObjectAudioSource != null) ThisObjectAudioSource.clip = null;
 
-        if (currentMicClip != null)
-        {
-            Destroy(currentMicClip);
-            currentMicClip = null;
-        }
+        // Don't destroy currentMicClip - it's the shared buffer from ImitoneVoiceIntepreter
+        // Just clear our reference
+        currentMicClip = null;
+        recordingStartPosition = 0;
+        lastReadPosition = 0;
+        recordedSamples.Clear();
     }
 
     // Remove queued files once they are safe and promote HOLD clips into freed slots.
@@ -668,8 +805,12 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             string path = pendingDeletePaths[i];
 
             // Skip if the file is still playing
-            if (IsFileCurrentlyPlaying(path))
+            bool isPlaying = IsFileCurrentlyPlaying(path);
+            if (isPlaying)
+            {
+                Debug.Log($"[TEST] ProcessPendingDeletions: skipping {Path.GetFileName(path)} - still playing");
                 continue;
+            }
 
             DeleteFileIfExists(path);
 
@@ -686,6 +827,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
                     if (!hold.IsEmpty)
                     {
                         string newPath = MakeWavPath(note, targetSlot, isHold: false);
+                        Debug.Log($"[TEST] ProcessPendingDeletions: promoting HOLD to slot {targetSlot} for note {note}");
 
                         if (!string.IsNullOrEmpty(hold.filePath) && File.Exists(hold.filePath))
                         {
@@ -693,6 +835,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
                             {
                                 if (File.Exists(newPath)) File.Delete(newPath);
                                 File.Move(hold.filePath, newPath);
+                                Debug.Log($"[TEST] ProcessPendingDeletions: moved {hold.filePath} -> {newPath}");
                             }
                             catch (Exception e)
                             {
@@ -730,24 +873,24 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     /// Returns true if recording should abort based on absorption/rest/tone/mode checks.
     /// NOTE: forceSuccess currently defaults to true, effectively disabling the gate.
     /// </summary>
-    private bool TestForFailure (bool forceSuccess = true) 
+    private bool TestForFailure (NoteName fundamentalCompare, bool forceSuccess = true) 
     {
         bool testAbsorption = respirationTracker._absorption > 0.1f; //ROBIN: We want to only record if player is "absorbed"
         bool testRest = imitoneVoiceInterpreter._tThisRest <= 20f; //ROBIN: We want to only record if player is consistently toning
         bool testTone = imitoneVoiceInterpreter._tThisTone <= 40f; //ROBIN: a tone longer than 40 seconds is obviously a refrigerator.
         bool testMode = recordMode; //ROBIN: We want to break recording if the recordMode turns off.
-        bool testFundamental = true; //REEF: We want to break recording if the fundamental changes. 
+        bool testFundamental = fundamentalCompare == musicSystem1.fundamentalNoteName; //REEF: We want to break recording if the fundamental changes. 
         //NEW NOTE: WE SHOULD --NOT-- BREAK RECORDING IF THE FUNDAMENTAL CHANGE IS A PERFECT FIFTH
         //TODO: add fundamental logic
 
-        if(forceSuccess || (testAbsorption && testRest && testTone && testFundamental && testMode))
+        if((forceSuccess && testFundamental && testMode) || (testAbsorption && testRest && testTone && testFundamental && testMode))
         {
-            Debug.Log("Recording: TestForFailure FALSE");
+            //Debug.Log("Recording: TestForFailure FALSE");
             return false;
         }
         else
         {
-            Debug.Log("Recording: TestForFailure TRUE");
+            //Debug.Log("Recording: TestForFailure TRUE");
             return true;
         }
     }
@@ -797,6 +940,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     private IEnumerator PlaybackLoop()
     {
         playbackLoopGuard = true;
+        //NoteName fundamentalAtPlaybackStart = musicSystem1.fundamentalNoteName
         try
         {
             while (playMode) // loop while playback mode is enabled
@@ -808,8 +952,8 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
                     continue;
                 }
 
-                // Find next wav (scans notes C->B)
-                string nextPath = FindFirstAvailableWav();
+                // Find next wav in chronological order (scans notes C->B, cycles through files)
+                string nextPath = FindNextAvailableWav();
                 if (string.IsNullOrEmpty(nextPath))
                 {
                     yield return new WaitForSeconds(1f);
@@ -829,11 +973,13 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             playbackLoopGuard = false;
         }
     }
+    
 
     /// <summary>
-    /// Scans note folders (C->B) for the first non-HOLD wav and returns its path, or null if none.
+    /// Scans note folders (C->B) for the next non-HOLD wav in chronological order and returns its path, or null if none.
+    /// Cycles through files from oldest to newest, then back to oldest.
     /// </summary>
-    private string FindFirstAvailableWav()
+    private string FindNextAvailableWav()
     {
         if (string.IsNullOrEmpty(currentSessionFolder) || !Directory.Exists(currentSessionFolder))
             return null;
@@ -846,12 +992,75 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             var wavFiles = Directory.GetFiles(noteFolder, "*.wav", SearchOption.TopDirectoryOnly);
             if (wavFiles.Length == 0) continue;
 
-            // Don’t accidentally play HOLD files
+            // Don't accidentally play HOLD files
             wavFiles = Array.FindAll(wavFiles, p => !p.Contains("_HOLD", StringComparison.OrdinalIgnoreCase));
             if (wavFiles.Length == 0) continue;
 
-            Array.Sort(wavFiles, StringComparer.OrdinalIgnoreCase);
-            return wavFiles[0];
+            // Sort by file creation time (oldest first) for proper chronological ordering
+            Array.Sort(wavFiles, (a, b) =>
+            {
+                var fileInfoA = new FileInfo(a);
+                var fileInfoB = new FileInfo(b);
+                return fileInfoA.CreationTime.CompareTo(fileInfoB.CreationTime);
+            });
+
+            // Get the last played file for this note
+            string lastPlayed = lastPlayedFilePath.ContainsKey(note) ? lastPlayedFilePath[note] : null;
+
+            // Find the index of the last played file
+            int lastIndex = -1;
+            if (!string.IsNullOrEmpty(lastPlayed) && File.Exists(lastPlayed))
+            {
+                lastIndex = Array.IndexOf(wavFiles, lastPlayed);
+                // If file was deleted or not found in current list, reset tracking
+                if (lastIndex < 0)
+                {
+                    lastPlayedFilePath.Remove(note);
+                    lastPlayed = null;
+                }
+            }
+
+            // Find the next file to play
+            string nextPath = null;
+            if (lastIndex >= 0 && lastIndex < wavFiles.Length - 1)
+            {
+                // Play the next file in sequence
+                nextPath = wavFiles[lastIndex + 1];
+            }
+            else
+            {
+                // Cycle back to the oldest file (or start from beginning)
+                nextPath = wavFiles[0];
+            }
+
+            // Verify the file still exists (might have been deleted)
+            if (!File.Exists(nextPath))
+            {
+                // File was deleted, try to find the next valid file
+                int startIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+                bool foundValid = false;
+                for (int i = 0; i < wavFiles.Length; i++)
+                {
+                    int checkIndex = (startIndex + i) % wavFiles.Length;
+                    if (File.Exists(wavFiles[checkIndex]))
+                    {
+                        nextPath = wavFiles[checkIndex];
+                        foundValid = true;
+                        break;
+                    }
+                }
+                // If no valid file found, try next note
+                if (!foundValid)
+                {
+                    continue;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(nextPath) && File.Exists(nextPath))
+            {
+                Debug.Log($"[TEST] FindNextAvailableWav: found {wavFiles.Length} files for {note}, playing next: {Path.GetFileName(nextPath)}");
+                return nextPath;
+            }
         }
 
         Debug.Log("PlaybackUpdate: No wav files found in any note folder (C->B).");
@@ -870,7 +1079,46 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             yield break;
         }
 
-        string uri = new Uri(fullPath).AbsoluteUri;
+        // Verify file exists
+        if (!File.Exists(fullPath))
+        {
+            Debug.LogError($"PlaybackUpdate: WAV file does not exist: {fullPath}");
+            yield break;
+        }
+
+        // Format URI properly for Windows
+        // UnityWebRequestMultimedia.GetAudioClip needs proper file:// URI format
+        string uri;
+        try
+        {
+            // Use Uri class to properly format the path
+            if (Path.IsPathRooted(fullPath))
+            {
+                // Absolute path - convert to file:// URI
+                uri = new Uri(fullPath).AbsoluteUri;
+            }
+            else
+            {
+                // Relative path - make absolute first
+                string absolutePath = Path.GetFullPath(fullPath);
+                uri = new Uri(absolutePath).AbsoluteUri;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[TEST] LoadAndPlayWav: Failed to format URI: {ex.Message}");
+            // Fallback: manual formatting
+            uri = fullPath.Replace("\\", "/");
+            if (!uri.StartsWith("file://"))
+            {
+                if (!uri.StartsWith("/"))
+                    uri = "/" + uri;
+                uri = "file://" + uri;
+            }
+        }
+
+        Debug.Log($"[TEST] LoadAndPlayWav: Loading from path: {fullPath}");
+        Debug.Log($"[TEST] LoadAndPlayWav: Loading from URI: {uri}");
 
         using (var req = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.WAV))
         {
@@ -878,11 +1126,21 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
             if (req.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"PlaybackUpdate: Failed to load WAV: {req.error}\nPath: {fullPath}");
+                Debug.LogError($"PlaybackUpdate: Failed to load WAV: {req.error}\nPath: {fullPath}\nURI: {uri}");
                 yield break;
             }
 
             AudioClip clip = DownloadHandlerAudioClip.GetContent(req);
+
+            if (clip == null)
+            {
+                Debug.LogError($"PlaybackUpdate: Downloaded clip is null for path: {fullPath}");
+                yield break;
+            }
+
+            // Set clip name explicitly (this helps with Inspector display)
+            string clipName = Path.GetFileNameWithoutExtension(fullPath);
+            Debug.Log($"[TEST] LoadAndPlayWav: Clip loaded - name: {clip.name}, length: {clip.length:F2}s, channels: {clip.channels}, frequency: {clip.frequency}");
 
             playbackSource.Stop();
             //TODO:
@@ -891,12 +1149,87 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             {
                 Destroy(playbackSource.clip);
             }
+            
+            // Ensure AudioSource is configured for playback
             playbackSource.clip = clip;
+            playbackSource.loop = false;
+            
+            // Verify AudioSource and GameObject are active
+            if (!playbackSource.enabled)
+            {
+                Debug.LogWarning("[TEST] LoadAndPlayWav: AudioSource component is disabled!");
+                playbackSource.enabled = true;
+            }
+            if (!playbackSource.gameObject.activeInHierarchy)
+            {
+                Debug.LogWarning("[TEST] LoadAndPlayWav: AudioSource GameObject is not active in hierarchy!");
+            }
+            
+            // Verify AudioSource settings
+            // If play mode is ON and volume is low, fade in instead of setting immediately
+            // But only if we're not already fading (don't interrupt fade out)
+            if (playbackSource.volume <= 0 && playMode && volumeFadeRoutine == null)
+            {
+                Debug.Log("[TEST] LoadAndPlayWav: Starting fade in from 0 to 1");
+                volumeFadeRoutine = StartCoroutine(FadeVolume(0f, 1f));
+            }
+            else if (playbackSource.volume <= 0 && playMode && volumeFadeRoutine != null)
+            {
+                Debug.Log("[TEST] LoadAndPlayWav: Fade already in progress, not overriding");
+            }
+            else if (playbackSource.volume <= 0 && !playMode)
+            {
+                // Don't set volume if playMode is off - let the fade handle it
+                Debug.Log("[TEST] LoadAndPlayWav: PlayMode is off, not setting volume");
+            }
+            else if (playbackSource.volume <= 0)
+            {
+                Debug.LogWarning($"[TEST] LoadAndPlayWav: AudioSource volume is {playbackSource.volume}, setting to 1.0!");
+                playbackSource.volume = 1.0f;
+            }
+            if (playbackSource.mute)
+            {
+                Debug.LogWarning("[TEST] LoadAndPlayWav: AudioSource is muted, unmuting!");
+                playbackSource.mute = false;
+            }
+
+            // Ensure clip is valid before playing
+            if (clip.length <= 0)
+            {
+                Debug.LogError($"[TEST] LoadAndPlayWav: Clip has invalid length: {clip.length}");
+                yield break;
+            }
+
             playbackSource.Play();
 
             currentPlayingFilePath = fullPath;
 
-            Debug.Log($"PlaybackUpdate: Playing {fullPath}");
+            // Track which file was played for cycling through files
+            // Extract note name from the file path (format: NoteName_timestamp_slotX.wav)
+            string fileName = Path.GetFileName(fullPath);
+            string directoryName = Path.GetFileName(Path.GetDirectoryName(fullPath));
+            
+            // Try to parse the note from the directory name first (most reliable)
+            if (Enum.TryParse<NoteName>(directoryName, out NoteName note))
+            {
+                lastPlayedFilePath[note] = fullPath;
+                Debug.Log($"[TEST] LoadAndPlayWav: Tracked playback for note {note}: {fileName}");
+            }
+            else
+            {
+                // Fallback: try to extract from filename (format: NoteName_timestamp_slotX.wav)
+                string[] parts = fileName.Split('_');
+                if (parts.Length > 0 && Enum.TryParse<NoteName>(parts[0], out NoteName noteFromFile))
+                {
+                    lastPlayedFilePath[noteFromFile] = fullPath;
+                    Debug.Log($"[TEST] LoadAndPlayWav: Tracked playback for note {noteFromFile} (from filename): {fileName}");
+                }
+            }
+
+            // Wait a frame to ensure playback started
+            yield return null;
+
+            Debug.Log($"[TEST] LoadAndPlayWav: Playback started - clip: {clip.name}, length: {clip.length:F2}s, isPlaying: {playbackSource.isPlaying}, volume: {playbackSource.volume}, time: {playbackSource.time:F3}s");
         }
     }
 
@@ -919,24 +1252,137 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
         else
         {
-            StopAndDeleteRecording(); //TODO: Replace this with StopAndDeleteRecording
+            StopAndDeleteRecording();
             recordMode = false;
         }
     }
 
     /// <summary>
-    /// External toggle for playback mode.
+    /// External toggle for playback mode. Triggers volume fade in/out when state changes.
     /// </summary>
     public void SetPlaybackMode(bool localPlayMode)
     {
-        if (localPlayMode)
+        Debug.Log($"[TEST] SetPlaybackMode: Called with {localPlayMode}, previousPlayMode={previousPlayMode}, playMode={playMode}");
+        
+        // Only trigger fade if play mode state actually changed
+        if (localPlayMode != previousPlayMode)
         {
-            playMode = true;
+            // Stop any existing fade coroutine
+            if (volumeFadeRoutine != null)
+            {
+                StopCoroutine(volumeFadeRoutine);
+                volumeFadeRoutine = null;
+                Debug.Log("[TEST] SetPlaybackMode: Stopped existing fade coroutine");
+            }
+
+            if (localPlayMode)
+            {
+                playMode = true;
+                // Fade in if something is playing
+                if (playbackSource != null && playbackSource.isPlaying)
+                {
+                    Debug.Log($"[TEST] SetPlaybackMode: Fading IN from volume {playbackSource.volume}");
+                    volumeFadeRoutine = StartCoroutine(FadeVolume(playbackSource.volume, 1f));
+                }
+                else
+                {
+                    // Set volume immediately if nothing is playing yet
+                    if (playbackSource != null)
+                    {
+                        playbackSource.volume = 1f;
+                        Debug.Log("[TEST] SetPlaybackMode: Set volume to 1.0 immediately (nothing playing)");
+                    }
+                }
+            }
+            else
+            {
+                playMode = false;
+                // Always fade out if playbackSource exists and has volume > 0
+                if (playbackSource != null)
+                {
+                    float currentVolume = playbackSource.volume;
+                    if (currentVolume > 0f)
+                    {
+                        Debug.Log($"[TEST] SetPlaybackMode: Fading OUT from volume {currentVolume}, isPlaying={playbackSource.isPlaying}, clip={(playbackSource.clip != null ? playbackSource.clip.name : "null")}");
+                        volumeFadeRoutine = StartCoroutine(FadeVolume(currentVolume, 0f));
+                    }
+                    else
+                    {
+                        // Volume is already 0, just ensure it stays at 0
+                        playbackSource.volume = 0f;
+                        Debug.Log("[TEST] SetPlaybackMode: Volume already at 0, setting to 0");
+                    }
+                }
+            }
+
+            previousPlayMode = localPlayMode;
         }
         else
         {
-            playMode = false;
+            Debug.Log("[TEST] SetPlaybackMode: No state change, skipping fade");
         }
+    }
+
+    /// <summary>
+    /// Coroutine that smoothly fades the playback source volume from startVolume to targetVolume.
+    /// </summary>
+    private IEnumerator FadeVolume(float startVolume, float targetVolume)
+    {
+        if (playbackSource == null)
+        {
+            volumeFadeRoutine = null;
+            yield break;
+        }
+
+        float elapsed = 0f;
+        float startVol = startVolume;
+        bool isFadingOut = targetVolume < startVolume;
+
+        Debug.Log($"[TEST] FadeVolume: Starting fade from {startVolume} to {targetVolume} over {volumeFadeDuration}s");
+
+        while (elapsed < volumeFadeDuration)
+        {
+            if (playbackSource == null)
+            {
+                Debug.LogWarning("[TEST] FadeVolume: playbackSource became null during fade");
+                volumeFadeRoutine = null;
+                yield break;
+            }
+
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / volumeFadeDuration);
+            float newVolume = Mathf.Lerp(startVol, targetVolume, t);
+            playbackSource.volume = newVolume;
+            
+            // Log progress every 0.2 seconds for debugging
+            if (Mathf.FloorToInt(elapsed * 5f) != Mathf.FloorToInt((elapsed - Time.deltaTime) * 5f))
+            {
+                Debug.Log($"[TEST] FadeVolume: Progress {t:P0} - Volume: {newVolume:F3}");
+            }
+            
+            yield return null;
+        }
+
+        // Ensure we end exactly at the target volume
+        if (playbackSource != null)
+        {
+            playbackSource.volume = targetVolume;
+            Debug.Log($"[TEST] FadeVolume: Fade complete, volume set to {targetVolume}");
+            
+            // If fading out and playMode is off, stop playback after fade completes
+            if (isFadingOut && !playMode && playbackSource.isPlaying)
+            {
+                playbackSource.Stop();
+                Debug.Log("[TEST] FadeVolume: Fade out complete, stopping playback");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[TEST] FadeVolume: playbackSource became null at end of fade");
+        }
+
+        volumeFadeRoutine = null;
+        Debug.Log($"[TEST] FadeVolume: Coroutine finished");
     }
 
     //Helper Functions
@@ -1067,5 +1513,136 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     {
         clipSlots[(int)note][slotIndex] = new ClipSlot();
     }
+
+    //=======================================================================================================
+    //TESTING HELPERS
+    //=======================================================================================================
+
+    /// <summary>
+    /// TESTING: Prints current status of all slots for debugging.
+    /// </summary>
+    [ContextMenu("Print Slot Status")]
+    public void PrintSlotStatus()
+    {
+        Debug.Log("=== SLOT STATUS ===");
+        for (int n = 0; n < clipSlots.Count; n++)
+        {
+            var note = (NoteName)n;
+            var slots = clipSlots[n];
+            int filledCount = 0;
+            for (int s = 0; s < slots.Count; s++)
+            {
+                if (!slots[s].IsEmpty) filledCount++;
+            }
+            if (filledCount > 0)
+            {
+                Debug.Log($"Note {note} ({filledCount} slots filled):");
+                for (int s = 0; s < slots.Count; s++)
+                {
+                    var slot = slots[s];
+                    string slotType = s == HOLD_SLOT ? "HOLD" : $"MAIN_{s}";
+                    Debug.Log($"  [{slotType}] Empty={slot.IsEmpty}, Path={slot.filePath ?? "null"}, Created={slot.createdAtIso ?? "null"}, Duration={slot.duration:F2}s");
+                }
+            }
+        }
+        Debug.Log($"Pending Deletions: {pendingDeletePaths.Count}");
+        Debug.Log($"Pending Fill Targets: {pendingFillTarget.Count}");
+        Debug.Log($"Current Playing: {currentPlayingFilePath ?? "none"}");
+        Debug.Log("===================");
+    }
+
+    /// <summary>
+    /// TESTING: Lists all WAV files in the current session folder.
+    /// </summary>
+    [ContextMenu("List All Recorded Files")]
+    public void ListAllRecordedFiles()
+    {
+        if (string.IsNullOrEmpty(currentSessionFolder) || !Directory.Exists(currentSessionFolder))
+        {
+            Debug.LogWarning("[TEST] Current session folder does not exist.");
+            return;
+        }
+
+        Debug.Log("=== RECORDED FILES ===");
+        foreach (NoteName note in Enum.GetValues(typeof(NoteName)))
+        {
+            string noteFolder = Path.Combine(currentSessionFolder, note.ToString());
+            if (!Directory.Exists(noteFolder)) continue;
+
+            var wavFiles = Directory.GetFiles(noteFolder, "*.wav", SearchOption.TopDirectoryOnly);
+            if (wavFiles.Length > 0)
+            {
+                Debug.Log($"Note {note}: {wavFiles.Length} files");
+                foreach (var file in wavFiles)
+                {
+                    var fileInfo = new FileInfo(file);
+                    Debug.Log($"  {Path.GetFileName(file)} ({fileInfo.Length / 1024}KB, {fileInfo.CreationTime})");
+                }
+            }
+        }
+        Debug.Log("=====================");
+    }
+
+    /// <summary>
+    /// TESTING: Manually triggers a test recording (bypasses tone detection).
+    /// </summary>
+    [ContextMenu("Manual Test Recording (6s)")]
+    public void ManualTestRecording()
+    {
+        if (Microphone.devices.Length == 0)
+        {
+            Debug.LogError("[TEST] No microphone detected!");
+            return;
+        }
+
+        if (recordingLoopGuard)
+        {
+            Debug.LogWarning("[TEST] Recording already in progress!");
+            return;
+        }
+
+        Debug.Log("[TEST] Starting manual test recording...");
+        NoteName testNote = musicSystem1 != null && NoteUtils.TryIntToNote(musicSystem1.fundamentalNote, out var note) 
+            ? note 
+            : NoteName.C;
+        
+        StartCoroutine(ManualTestRecordingCoroutine(testNote));
+    }
+
+    private IEnumerator ManualTestRecordingCoroutine(NoteName note)
+    {
+        SetRecordingLoopGuard(true);
+        StartRecording(note);
+        Debug.Log($"[TEST] Recording for 6 seconds on note {note}...");
+        yield return new WaitForSeconds(6f);
+        StopAndSaveRecording();
+        Debug.Log("[TEST] Manual test recording complete.");
+    }
+
+
+    /// <summary>
+    /// TESTING: Gets count of recordings per note.
+    /// </summary>
+    public void GetRecordingCounts()
+    {
+        Debug.Log("=== RECORDING COUNTS ===");
+        for (int n = 0; n < clipSlots.Count; n++)
+        {
+            var note = (NoteName)n;
+            var slots = clipSlots[n];
+            int mainCount = 0;
+            bool holdFilled = false;
+            for (int s = 0; s < MAIN_CAPACITY; s++)
+            {
+                if (!slots[s].IsEmpty) mainCount++;
+            }
+            if (!slots[HOLD_SLOT].IsEmpty) holdFilled = true;
+            Debug.Log($"Note {note}: {mainCount}/3 main slots, HOLD={(holdFilled ? "FILLED" : "empty")}");
+        }
+        Debug.Log("========================");
+    }
 }
+
+
+
 

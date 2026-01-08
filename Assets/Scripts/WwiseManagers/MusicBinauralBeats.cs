@@ -28,7 +28,7 @@ public class MusicBinauralBeats : MonoBehaviour
     private float _centerFrequency = 261f; // Default center frequency (C4)
     private float _beatRate = 4f; // Last frame's binaural beat rate
     private bool instantUpdate = false;
-    private float _volume = 0f;
+    public float _volume = 0f;
     // Start is called before the first frame update
 
     private void Awake()
@@ -50,41 +50,22 @@ public class MusicBinauralBeats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.U))
-        {
-            Debug.Log("Binaural Beats: Starting Binaural Beats");
-            AkSoundEngine.PostEvent("Play_BinauralGenerator", gameObject);
-        }
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            AkSoundEngine.PostEvent("Stop_BinauralGenerator", gameObject);
-            Debug.Log("Binaural Beats: Stopping Binaural Beats");
-       }
-        if(Input.GetKeyDown(KeyCode.O))
-        {
-            float newRate = Random.Range(4f, 8f);
-            Debug.Log("Binaural Beats: Changing Binaural Beat Rate to " + newRate + " Hz");
-            NewBinauralBeatRate(newRate, 4.0f);
-        }
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            if(_volume < 50f)
-            {
-                Debug.Log("Binaural Beats: Fading In Binaural Beats");
-                SetVolume(100f, 2.0f);
-            }
-            else
-            {
-                Debug.Log("Binaural Beats: Fading Out Binaural Beats");
-                SetVolume(0f, 2.0f);
-            }
-        }
+
         // Sending out information from this     
         // When the center frequency changes, we need to fade out the signal, then change the actual frequencies of the output, and then fade it back up.
         // Practically speaking, we can achieve this most easily by stopping and starting the generator, which has a 4 second fade time in WWise.
     }
        
     //FUNCTION CALLS
+    public void PlayBinauralBeats()
+    {
+        AkSoundEngine.PostEvent("Play_BinauralGenerator", gameObject);
+    }
+    public void StopBinauralBeats()
+    {
+        AkSoundEngine.PostEvent("Stop_BinauralGenerator", gameObject);
+    }
+
     //A Function for changing the center frequency (half way between left and right)
     //We need to transform the inRate to be within the acceptable range, which should be one octave centered around 261hz
 

@@ -7,6 +7,7 @@ namespace ConversionUtilities
 {
     public enum NoteName
     {
+        None, // -1
         C,  //0
         Cs, //1
         D,  //2

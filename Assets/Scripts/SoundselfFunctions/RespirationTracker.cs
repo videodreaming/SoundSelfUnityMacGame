@@ -14,7 +14,7 @@ public class RespirationTracker : MonoBehaviour
 {
     //_standardDeviationTone1min, _standardDeviationRest1min, _meanToneLength1min, _meanRestLength1min
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    private bool debugAllowLogs = true;
+    public bool debugAllowLogs = false;
     private bool debugAllowVisuals = false;
     public float _respirationRate       {get; private set;} = 1.0f;   
     public float _respirationRateRaw        {get; private set;} = 1.0f; //uses either the 1min or 2min version, depending on validity, preferrring 1min
@@ -103,10 +103,7 @@ public class RespirationTracker : MonoBehaviour
 
     void Update()
     {
-        //if(Input.GetKeyDown(KeyCode.K))
-        //{
-        //    debugAllowLogs = !debugAllowLogs;
-        //}
+
         if (imitoneVoiceInterpreter.toneActiveVeryConfidentRaw)
         {
            //return the total of all the cycle counts in the dictionary:

@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+//TODO Look Into Deleting This Script
 public class GameManager : MonoBehaviour
 {
     public Text modeText; // Reference to the UI text displaying the current mode
@@ -13,14 +15,7 @@ public class GameManager : MonoBehaviour
         UpdateModeText();
     }
 
-    void Update()
-    {
-        HandleModeSwitchingInput();
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            StartGame();
-        }
-    }
+
 
     public void StartGame()
     {
@@ -70,17 +65,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void HandleModeSwitchingInput()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            SwitchMode(-1); // Switch to the previous mode
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            SwitchMode(1); // Switch to the next mode
-        }
-    }
+
 
     private void SwitchMode(int direction)
     {

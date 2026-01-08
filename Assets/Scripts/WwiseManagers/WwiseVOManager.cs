@@ -29,7 +29,6 @@ public class WwiseVOManager : MonoBehaviour
     private bool developmentModeWarningFlag = false;
 
     public GameObject micPlayback;
-    public AudioSource audioSource;
     //public UnityPlayBack unityPlaybackScript;
     //private bool silentPlaying = false;
 
@@ -38,7 +37,7 @@ public class WwiseVOManager : MonoBehaviour
         //NOTE ABOUT WWISE:
         //THE GAMEOBJECT POINTS TO *THIS* GAMEOBJECT. SO WE CAN'T START
         //IT FROM ONE GAMEOBJECT AND THEN STOP IT FROM ANOTHER. IT HAS TO BE THE SAME GAMEOBJECT
-        audioSource = micPlayback.GetComponent<AudioSource>();
+
 
         if (layingDown)
         {
@@ -52,33 +51,7 @@ public class WwiseVOManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
-        {
-            //toggle gameOn with the "G" button
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                if (imitoneVoiceIntepreter.gameOn)
-                {
-                    imitoneVoiceIntepreter.gameOn = false;
-                }
-                else
-                {
-                    imitoneVoiceIntepreter.gameOn = true;
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                StartCoroutine(MakeWWiseTone());
-            }
-        }
-        else if (DevelopmentMode.instance == null && !developmentModeWarningFlag)
-        {
-            Debug.LogWarning("WwiseVOManager: DevelopmentMode instance is null");
-            developmentModeWarningFlag = true;
-        }
-    }
+
     
 
     public void VOCallbackFunction(object in_cookie, AkCallbackType in_type, object in_info)

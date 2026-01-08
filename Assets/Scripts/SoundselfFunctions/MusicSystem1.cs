@@ -8,6 +8,8 @@ using TMPro;
 using ConversionUtilities;
 using System.Linq;
 
+//TODO: Simplify this system by just using NoteName, and doing away with ints and strings.
+
 public class MusicSystem1 : MonoBehaviour
 {
     public static MusicSystem1 instance {get; private set;}
@@ -18,9 +20,8 @@ public class MusicSystem1 : MonoBehaviour
     public RespirationTracker respirationTracker;
     public Director director;
     public GameValues gameValues;
-    public User userObject;
     public LightControl lightControl;
-    public AudioSource userAudioSource;
+    public AudioSource monitoringAudioSource;
     public Tutorial tutorial;
     public SavasanaPlayer SavasanaPlayer;
    // public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
@@ -55,6 +56,7 @@ public class MusicSystem1 : MonoBehaviour
     private float _queueFundamentalChangeThreshold = 12f;
     private float _initiateImminentFundamentalChangeThreshold = 22f; //was 35f, changed on 4/4/2025
     public int fundamentalNote = 9; // Base note around which other notes are calculated
+    public NoteName fundamentalNoteName = NoteName.A;
     private int fundamentalNoteCompare = -1; //this is used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNote for the purpose of changing the fundamental
     public int harmonyNote; // Note that plays in harmony with the fundamental note
     private float fundamentalTimeSinceLastTrigger   = 0f;
@@ -96,6 +98,9 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeEnvironmentFlag = false;
 
     public TMP_Dropdown soundWorldDropdown;
+
+    public NoteName permanentlySetFundamental = NoteName.None;
+
 
     void Awake()
     {
@@ -139,11 +144,6 @@ public class MusicSystem1 : MonoBehaviour
         //    SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
         //}
         
-        if(userObject != null)
-        {
-            userAudioSource = userObject.GetComponent<AudioSource>();
-            userAudioSource.volume = 0.0f;
-        }
 
         // Initialize the NoteTracker dictionary with 12 keys for each note in an octave
         for (int i = 0; i < 12; i++)
@@ -246,7 +246,7 @@ public class MusicSystem1 : MonoBehaviour
             _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, 1.0f);
         }
 
-        userAudioSource.volume = _gameOnLerp * (1.0f - _chargeLerp * 0.5f) * gameValues._chantLerpFast;
+        monitoringAudioSource.volume = _gameOnLerp * (1.0f - _chargeLerp * 0.5f) * gameValues._chantLerpFast;
     }
 
     //Take the fundamental behaviors in the InterpretImitonUpdate method and move them here for clarity
@@ -604,8 +604,21 @@ public class MusicSystem1 : MonoBehaviour
             
             director.ClearQueueOfType("fundamentalChange");
             fundamentalNote = newFundamental;
+            if (!NoteUtils.TryIntToNote(newFundamental, out fundamentalNoteName))
+            {
+                Debug.LogWarning($"MUSIC: Invalid fundamental note int: {newFundamental}, defaulting to A");
+                fundamentalNoteName = NoteName.A;
+            }
             AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.IntToNoteString(fundamentalNote), gameObject);
-            MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(NoteUtils.IntToNoteString(newFundamental)));
+            if (MusicBinauralBeats.instance != null)
+            {
+                MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(NoteUtils.IntToNoteString(newFundamental)));
+            }
+            else
+            {
+                Debug.LogWarning("MUSIC: MusicBinauralBeats.instance is null - binaural beats not initialized yet.");
+            }
+
             ResetFundamentalTimers();
             directorStoredFundamental = newFundamental;
         }
@@ -613,6 +626,20 @@ public class MusicSystem1 : MonoBehaviour
         {
             Debug.LogWarning("MUSIC: Tried to change the fundamental, but it was locked. This shouldn't happen, and probably indicates a logic flaw in the code.");
         }
+    }
+    //TODO: ADD DEVELOPMENT MODE CHECK
+    private void OnValidate()
+    {
+        if (permanentlySetFundamental == NoteName.None) return; // "null"
+        PermanentlySetFundamental(permanentlySetFundamental);
+    }
+
+    private void PermanentlySetFundamental(NoteName note = NoteName.C)
+    {
+        lockFundamental = false; // 1) Unlock
+        ChangeFundamental(NoteUtils.NoteToInt(note)); // 2) Change
+        lockFundamental = true; // 3) Lock again
+        Debug.Log($"MUSIC: Permanently set and locked fundamental to {note}, (DEVELOPMENT ONLY)");
     }
 
     

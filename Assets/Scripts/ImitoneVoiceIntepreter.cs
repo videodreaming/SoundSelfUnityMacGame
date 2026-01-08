@@ -19,7 +19,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     //base variables pitch and midiNote
     public LightControl lightControl;
     public Director director;
-    public UnityPlayBack unityPlaybackScript;
     public float pitch_hz = 0f;
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
@@ -109,8 +108,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     [SerializeField] public float _timbre = 0.0f;
     [SerializeField] public float _level;
     private const int SAMPLE_SIZE = 1024;
-    public AudioSource _audioSource;
-    [SerializeField] private AudioClip _audioClip;
 
     private string _selectedDevice;
     private int _sampleRate;
@@ -175,12 +172,12 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     AudioClip inputBuffer;
     int micPosRead = 0;
     float[] capturedInput;
+    
+    // Public accessors for shared microphone usage
+    public AudioClip MicrophoneBuffer => inputBuffer;
+    public string MicrophoneDeviceName => microphoneName;
+    public int MicrophoneSampleRate => sampleRate;
 
-    public GameObject audioReceiver2;
-    private AudioSource source2;
-
-    public GameObject audioReceiver3;
-    private AudioSource source3;
 
 
     void Start()
@@ -216,19 +213,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             return;
         }
 
-        _audioSource.clip = inputBuffer;
-        _audioSource.loop = true;
 
-        source2 = audioReceiver2.GetComponent<AudioSource>();
-        source2.clip = inputBuffer;
-        source2.loop = true;
-
-
-
-        while (!(Microphone.GetPosition(microphoneName) > 0))
-        {
-            source2.Play();
-        }
 
         try
         {
@@ -591,41 +576,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             else
             {
                 //Debug.Log("No imitone voice to analyze audio.");
-            }
-            //Debug Beheviors
-            if ((DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode) == true)
-            {
-                //T = FORCE TONEACTIVE 
-                if (Input.GetKey(KeyCode.T))
-                {
-                    if (gameOn && forceImitoneActive == false)
-                    {
-                        Debug.Log("Imitone: Force Tone");
-                        forceImitoneActive = true;
-                        forceImitoneInactive = false;
-                    }
-                }
-                else if (gameOn && !Input.GetKey(KeyCode.T) && forceImitoneActive)
-                {
-                    Debug.Log("Imitone: Force No-Tone");
-                    forceImitoneActive = false;
-                    forceImitoneInactive = true;
-                }
-                if (forceImitoneActive)
-                {
-                    _dbValue = -25.0f;
-                    imitoneActive = gameOn ? true : false;
-                }
-                if (forceImitoneInactive)
-                {
-                    _dbValue = -75.0f;
-                    imitoneActive = false;
-                }
-            }
-            else if (DevelopmentMode.instance == null && !developmentModeWarningFlag)
-            {
-                developmentModeWarningFlag = true;
-                Debug.LogWarning("Imitone: No DevelopmentMode instance found in scene.");
+                //FORCE TONE LOGIC WAS HERE (look in Code Snippets in Notion)
             }
         }
     }
@@ -976,13 +927,11 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         if (monitorOn)
         {
             Debug.Log("Imitone: Monitoring start");
-            _audioSource.volume = 1.0f;
             gameOn = true;
         }
         else
         {
             Debug.Log("Imitone: Monitoring stop");
-            _audioSource.volume = 0.0f;
             gameOn = false;
         }
     }

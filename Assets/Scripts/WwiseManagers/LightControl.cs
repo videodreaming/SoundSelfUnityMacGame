@@ -205,57 +205,6 @@ public class LightControl : MonoBehaviour
     void Update()
     {
         HandleFXWave();
-        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
-        {
-
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                PopulateDevicesList();
-            }
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                printDevicesList();
-            }
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                preferredColor = "Test";
-                NextPreferredColorWorld(3f, true);
-            }
-            else if (Input.GetKeyUp(KeyCode.C))
-            {
-                NextPreferredColorWorld(7f, true);
-            }
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                Strobe_MonoStereo(true);
-            }
-            else if (Input.GetKeyUp(KeyCode.V))
-            {
-                Strobe_MonoStereo(false);
-            }
-
-            if(Input.GetKeyDown(KeyCode.W))
-            {
-                SetStrobeRate(15f, 5f);
-            }
-            if(Input.GetKeyUp(KeyCode.W))
-            {
-                SetStrobeRate(5f, 0f);
-            }
-            if(Input.GetKeyDown(KeyCode.R))
-            {
-                Gamma(true);
-            }
-            if(Input.GetKeyUp(KeyCode.R))
-            {
-                Gamma(false);
-            }
-        }
-        else if (DevelopmentMode.instance == null && !developmentModeWarningFlag)
-        {
-            Debug.LogWarning("LightControl: DevelopmentMode instance not found in scene.");
-            developmentModeWarningFlag = true;
-        }
         
         // Start and Stop the Reference Signal, depending on the AVS color world (dark turns off)
         if (playReference && !playReferenceLastFrame)
@@ -307,6 +256,7 @@ public class LightControl : MonoBehaviour
         sawStrobeCoroutine = StartCoroutine(SawStrobeCoroutine(_start, _end, cycleLength));
     }
 
+    //NOTING THAT THIS CODE IS UGLY AS FUQ
     private IEnumerator SawStrobeCoroutine(float _start, float _end, float cycleLength)
     {
         yield return null; //wait one frame to ensure that AVSStrobeCommand can update.

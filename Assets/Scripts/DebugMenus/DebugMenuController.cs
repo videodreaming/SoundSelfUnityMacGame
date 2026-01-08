@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class DebugMenuController : MonoBehaviour
 {
+
+    public static DebugMenuController instance {get; private set;}
     public GameObject menu1;
     //public GameObject menu2;
     //public GameObject menu3;
 
     private int currentMenu = 1;
+
+    void Awake()
+    {
+        if(instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
     void Start(){
         menu1.SetActive(false);
       //  menu2.SetActive(false);
@@ -16,13 +28,8 @@ public class DebugMenuController : MonoBehaviour
     }
     void Update()
     {
-        // Check for Tab key press
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            SwitchDebugMenu();
-        }
     }
-    void SwitchDebugMenu()
+    public void SwitchDebugMenu()
     {
         // Disable current menu
         switch (currentMenu)

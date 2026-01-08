@@ -166,20 +166,6 @@ public class Sequencer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
-        {
-            if(Input.GetKeyDown(KeyCode.L))
-            {
-                _countdownToSavasana = 190f;
-                Debug.Log("Sequencer ThematicSavasanaCountdown Counter set to " + _countdownToSavasana);
-            }
-        } 
-        else if (DevelopmentMode.instance == null && developmentModeWarningFlag == false)
-        {
-            Debug.LogWarning("Sequencer: DevelopmentMode instance is null in Update().");
-            developmentModeWarningFlag = true;
-        }
         //add time to the _timeSinceTutorial counter, once the tutorial has been completed
         if(tutorial.tutorialComplete)
         {
@@ -418,9 +404,8 @@ public class Sequencer : MonoBehaviour
 
     private bool AVS_Program_ManageThetaTransition()
     {
-        bool forceIt = (DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode) && Input.GetKeyDown(KeyCode.K);
-        bool forceItAfterTutorial= tutorial.testVocalizationType == "Advanced" ||  tutorial.tutorialComplete; // TODO: FIGURE OUT WHY ABSORPTION ISN'T WORKING, THEN REMOVE THIS TEST... or don't...
-        if(((respirationTracker._absorption > _absorptionThreshold) || forceIt || forceItAfterTutorial) && !flagThetaCoroutine)
+        
+        if(((respirationTracker._absorption > _absorptionThreshold)) && !flagThetaCoroutine)
         {
             flagThetaCoroutine = true;
             CoroutineDynamicDropTheta = StartCoroutine(AVS_Program_DynamicDrop_Theta());
