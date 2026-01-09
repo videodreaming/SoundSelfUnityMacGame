@@ -19,11 +19,6 @@
 					<ChildrenList>
 						<Bus Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}">
 							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
 										<Value>12</Value>
@@ -78,9 +73,9 @@
 								<DuckItem>
 									<BusRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}"/>
 									<DuckingParam>
-										<Volume>0</Volume>
+										<Volume>-2</Volume>
 										<FadeInTime>0.5</FadeInTime>
-										<FadeOutTime>0</FadeOutTime>
+										<FadeOutTime>0.5</FadeOutTime>
 										<FadeCurve>FadeLog1</FadeCurve>
 										<TargetProp>BusVolume</TargetProp>
 									</DuckingParam>
@@ -220,19 +215,9 @@
 						</Bus>
 						<Bus Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}">
 							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
 										<Value>5</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -506,6 +491,18 @@
 							</DuckingList>
 						</Bus>
 						<Bus Name="Binaural Beats Generator" ID="{617D041A-3057-42AE-BA82-DD9F24E0164B}">
+							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>-6</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>

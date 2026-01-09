@@ -14,7 +14,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>3</Value>
+										<Value>4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -52,113 +52,6 @@
 										</Local>
 									</Reference>
 								</ObjectList>
-								<ObjectList Name="RTPC">
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{011DF52C-5A72-467E-BE7B-679E01F21AC9}" ShortID="998494815">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="Volume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="BreatheCycle_Volume" ID="{6054B844-CB45-4C59-9436-ECB992881033}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{1E19DFEB-FB10-4690-B419-B23DF7A13B61}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-200</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{9FEF33FB-5365-4154-AD34-4A5D28FDA898}" ShortID="486074404">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="Pitch"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{E9B95977-0A35-4E4B-ABD6-660B627BD342}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="65537"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-400</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>1059</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<RTPC Name="" ID="{DEEFF446-7EF6-4899-B419-2DF495CCE320}" ShortID="34752661">
-												<PropertyList>
-													<Property Name="PropertyName" Type="string" Value="Volume"/>
-												</PropertyList>
-												<ReferenceList>
-													<Reference Name="ControlInput">
-														<ObjectRef Name="Unity_Inhale" ID="{5E526CB9-50C4-4507-9B59-B79FAA4746BD}" WorkUnitID="{8649C7CA-1610-46BD-8DCA-C9F447D3C666}"/>
-													</Reference>
-													<Reference Name="Curve">
-														<Custom>
-															<Curve Name="" ID="{100CA40A-7EBB-4634-9FBF-709DD7F034BB}">
-																<PropertyList>
-																	<Property Name="Flags" Type="int32" Value="3"/>
-																</PropertyList>
-																<PointList>
-																	<Point>
-																		<XPos>0</XPos>
-																		<YPos>-7.47509</YPos>
-																		<Flags>5</Flags>
-																	</Point>
-																	<Point>
-																		<XPos>100</XPos>
-																		<YPos>0</YPos>
-																		<Flags>37</Flags>
-																	</Point>
-																</PointList>
-															</Curve>
-														</Custom>
-													</Reference>
-												</ReferenceList>
-											</RTPC>
-										</Local>
-									</Reference>
-								</ObjectList>
 							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="sfx_breath in" ID="{6FA8E62E-2ED4-4329-9B31-75505A8EC08C}" Platform="Linked"/>
@@ -166,9 +59,9 @@
 						</Sound>
 						<Sound Name="sfx_breath out" ID="{AFA1D476-C82D-45BF-B001-DF5BD24B1A76}" ShortID="765441504">
 							<PropertyList>
-								<Property Name="Volume" Type="Real64">
+								<Property Name="Highpass" Type="int16">
 									<ValueList>
-										<Value>3</Value>
+										<Value>36</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -182,6 +75,10 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="sfx_breath out" ID="{E867245D-B7ED-4F7A-BCBA-FE0F82894FB6}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="1.50325097529259"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>sfx_breath out.wav</AudioFile>
 									<MediaIDList>
@@ -189,6 +86,21 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="Effects">
+									<Reference>
+										<Local>
+											<EffectSlot Name="" ID="{BD032411-CA3A-4AA9-91F3-51A9775F899D}" ShortID="296392064">
+												<ReferenceList>
+													<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+														<ObjectRef Name="Hall_Large_Bright" ID="{CB602948-2D1D-4977-A8D5-378184293E80}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+													</Reference>
+												</ReferenceList>
+											</EffectSlot>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="sfx_breath out" ID="{E867245D-B7ED-4F7A-BCBA-FE0F82894FB6}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -1110,7 +1022,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-5</Value>
+								<Value>-8</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1149,7 +1061,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-8</Value>
+										<Value>-5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1167,13 +1079,12 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>45</Value>
+												<Value>13</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{51D554DF-A497-4F19-BEE6-0899F798A494}">
 														<PropertyList>
-															<Property Name="Enabled" Type="bool" Value="True"/>
 															<Property Name="Max" Type="Real64" Value="15"/>
 															<Property Name="Min" Type="Real64" Value="-14"/>
 														</PropertyList>
@@ -1183,7 +1094,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-10</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1202,7 +1113,6 @@
 												<Property Name="ChannelMask" Type="int32" Value="2"/>
 												<Property Name="Duration" Type="Real64" Value="10"/>
 												<Property Name="FrequencyScale" Type="Real32" Value="0.1"/>
-												<Property Name="GainOffset" Type="Real32" Value="-2.2"/>
 												<Property Name="GainOffsetRandom" Type="Real32" Value="3.8"/>
 												<Property Name="MinDistance" Type="Real32" Value="100"/>
 												<Property Name="NoiseColor" Type="int16" Value="1"/>
@@ -1342,11 +1252,7 @@
 								<CustomStateList>
 									<CustomState>
 										<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-										<CustomState Name="" ID="{35650294-4FCD-48A4-9C3E-4653F065D37D}" ShortID="1046038147">
-											<PropertyList>
-												<Property Name="Volume" Type="Real64" Value="3"/>
-											</PropertyList>
-										</CustomState>
+										<CustomState Name="" ID="{35650294-4FCD-48A4-9C3E-4653F065D37D}" ShortID="1046038147"/>
 									</CustomState>
 									<CustomState>
 										<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
@@ -1355,6 +1261,10 @@
 												<Property Name="Volume" Type="Real64" Value="-20"/>
 											</PropertyList>
 										</CustomState>
+									</CustomState>
+									<CustomState>
+										<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
+										<CustomState Name="" ID="{E491F154-3829-45C4-AEB9-A7E8EB77A860}" ShortID="657367539"/>
 									</CustomState>
 								</CustomStateList>
 							</StateInfo>
@@ -1377,6 +1287,10 @@
 														<CustomState>
 															<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 															<CustomState Name="" ID="{569DE21D-89D1-4585-A7D7-898C4C15CB0D}" ShortID="529405920"/>
+														</CustomState>
+														<CustomState>
+															<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
+															<CustomState Name="" ID="{8C21619E-E401-459D-B66D-E208A6B42FE1}" ShortID="525767433"/>
 														</CustomState>
 													</CustomStateList>
 												</StateInfo>
@@ -1424,6 +1338,35 @@
 							</ObjectLists>
 						</BlendContainer>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
+								<CustomState Name="" ID="{CF4B8F62-EB5E-4CC7-87B9-74CC678C531F}" ShortID="13027509"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
+								<CustomState Name="" ID="{DE98B012-5818-400A-BDCE-FF6B43D6D49E}" ShortID="736253231">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-26"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
+								<CustomState Name="" ID="{1DEE1850-EF2E-44C3-A74A-C2A00189F709}" ShortID="591876262">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-12"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 				</ActorMixer>
 				<Folder Name="Archive" ID="{1C35A8F7-D72E-4935-AACD-67D2F5ED0449}" ShortID="548759014">
 					<ChildrenList>

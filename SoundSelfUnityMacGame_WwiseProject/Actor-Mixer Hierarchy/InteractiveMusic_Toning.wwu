@@ -24446,6 +24446,11 @@
 								<Value>10</Value>
 							</ValueList>
 						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -24460,6 +24465,9 @@
 					</ReferenceList>
 					<ChildrenList>
 						<BlendContainer Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" ShortID="487420332">
+							<PropertyList>
+								<Property Name="BlendBehavior" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -26560,7 +26568,7 @@
 												<StateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
 												<CustomState Name="" ID="{5199D061-6701-480A-A9E9-EAA4A8653C00}" ShortID="649043827">
 													<PropertyList>
-														<Property Name="Volume" Type="Real64" Value="-85"/>
+														<Property Name="Volume" Type="Real64" Value="-108"/>
 													</PropertyList>
 												</CustomState>
 											</CustomState>
@@ -27815,7 +27823,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-2</Value>
+																<Value>-1</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -27898,7 +27906,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-15</Value>
+																<Value>-96</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -28759,11 +28767,7 @@
 											</CustomState>
 											<CustomState>
 												<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
-												<CustomState Name="" ID="{A90A5CC1-914E-4BFF-9B32-F0F19B8A5FB2}" ShortID="278393094">
-													<PropertyList>
-														<Property Name="Volume" Type="Real64" Value="1"/>
-													</PropertyList>
-												</CustomState>
+												<CustomState Name="" ID="{A90A5CC1-914E-4BFF-9B32-F0F19B8A5FB2}" ShortID="278393094"/>
 											</CustomState>
 										</CustomStateList>
 									</StateInfo>
@@ -31368,6 +31372,7 @@
 												<CustomState Name="" ID="{1FF4D6DD-DA97-46E5-B3F8-AFAD1FE4EA68}" ShortID="690981898">
 													<PropertyList>
 														<Property Name="Highpass" Type="int16" Value="1"/>
+														<Property Name="Volume" Type="Real64" Value="-4"/>
 													</PropertyList>
 												</CustomState>
 											</CustomState>
@@ -31375,7 +31380,7 @@
 												<StateRef Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
 												<CustomState Name="" ID="{50AD597B-448C-4BB9-A7EC-A111444BACC0}" ShortID="235880709">
 													<PropertyList>
-														<Property Name="Volume" Type="Real64" Value="-108"/>
+														<Property Name="Volume" Type="Real64" Value="-33"/>
 													</PropertyList>
 												</CustomState>
 											</CustomState>
@@ -31714,7 +31719,7 @@
 										<Property Name="SwitchBehavior" Type="int16" Value="1"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -32850,7 +32855,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32865,7 +32870,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32880,7 +32885,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32895,7 +32900,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32910,7 +32915,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32925,7 +32930,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32940,7 +32945,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32955,7 +32960,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32970,7 +32975,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -32985,7 +32990,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -33000,7 +33005,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -33015,7 +33020,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -33278,6 +33283,14 @@
 								<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 								<CustomState Name="" ID="{071E20DF-251A-4819-9356-EC6DA66E32B7}" ShortID="107289862"/>
 							</CustomState>
+							<CustomState>
+								<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
+								<CustomState Name="" ID="{D6A95E5F-6B90-4793-AB02-BBBF89DB4883}" ShortID="963818347">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
 						</CustomStateList>
 					</StateInfo>
 				</ActorMixer>
@@ -33286,6 +33299,11 @@
 						<Property Name="UserAuxSendVolume0" Type="Real64">
 							<ValueList>
 								<Value>6</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -40084,7 +40102,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40099,7 +40117,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40114,7 +40132,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40129,7 +40147,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40144,7 +40162,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40159,7 +40177,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40174,7 +40192,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40189,7 +40207,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40204,7 +40222,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40219,7 +40237,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40234,7 +40252,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40249,7 +40267,7 @@
 												<PropertyList>
 													<Property Name="FadeInTime" Type="Real64">
 														<ValueList>
-															<Value>1</Value>
+															<Value>2</Value>
 														</ValueList>
 													</Property>
 													<Property Name="FadeOutTime" Type="Real64">
@@ -40511,6 +40529,14 @@
 							<CustomState>
 								<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 								<CustomState Name="" ID="{E7A9D0D1-C7A7-4C3F-93EE-C5E79E45C5EF}" ShortID="429569439"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
+								<CustomState Name="" ID="{A4D3D5C9-6934-4C8B-AB07-AF44CFB3264E}" ShortID="55822142">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
 							</CustomState>
 						</CustomStateList>
 					</StateInfo>

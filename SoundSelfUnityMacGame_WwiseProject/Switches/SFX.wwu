@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}" SchemaVersion="119">
 	<Switches>
-		<WorkUnit Name="SFX" ID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}" PersistMode="Standalone"/>
+		<WorkUnit Name="SFX" ID="{F3132F63-1C5B-4C6E-AF89-D68030A98081}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="BreathworkCycle" ID="{C44AE037-6841-40A8-9E1C-B8FB74F151AD}">
+					<ChildrenList>
+						<Switch Name="BreathworkCycle_10s" ID="{39CFAF0F-F7D8-4FB5-AF6E-1F572D2B2745}"/>
+						<Switch Name="BreathworkCycle_12s" ID="{E4AD6D22-0158-47D6-AE42-51FC033D17BA}"/>
+						<Switch Name="BreathworkCycle_14s" ID="{2EE9507D-E4A8-4CB1-A342-B89AA3398DEF}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</Switches>
 </WwiseDocument>

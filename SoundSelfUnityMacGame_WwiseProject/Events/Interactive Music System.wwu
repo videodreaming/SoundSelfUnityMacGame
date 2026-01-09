@@ -122,9 +122,9 @@
 						<Action Name="" ID="{66107550-3E37-49C6-86BA-77B088C99950}" ShortID="203503832">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="6"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="20"/>
+								<Property Name="Delay" Type="Real64" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="15"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -135,13 +135,22 @@
 						<Action Name="" ID="{0551BB31-209E-49DA-8D1D-BC4D0490AD20}" ShortID="438085709">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="Delay" Type="Real64" Value="4"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="5"/>
-								<Property Name="FadeTime" Type="Real64" Value="25"/>
+								<Property Name="FadeTime" Type="Real64" Value="15"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{10A161CB-6A4D-4E3D-9414-A4410F4AC860}" ShortID="363738660">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -152,7 +161,7 @@
 						<Action Name="" ID="{58BDAF0F-F07C-4A20-93EB-FFA5A99DBDC4}" ShortID="222677706">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -163,6 +172,7 @@
 						<Action Name="" ID="{56A17E65-1662-4D77-8B16-FA48AC47E1BB}" ShortID="833413273">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -173,7 +183,7 @@
 						<Action Name="" ID="{A31E182F-686A-46C2-B984-599C11AD20E6}" ShortID="516226700">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="6"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -184,7 +194,7 @@
 						<Action Name="" ID="{A1322292-86D7-46B9-A82D-1897010B5D6F}" ShortID="977654873">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="6"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -195,7 +205,7 @@
 						<Action Name="" ID="{55988534-9379-4103-8FDF-4B790FDB1092}" ShortID="531853945">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="6"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -309,7 +319,7 @@
 					<ChildrenList>
 						<Action Name="" ID="{8DB79BB8-EE26-4E0C-991E-405D14725503}" ShortID="283210465">
 							<PropertyList>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -319,7 +329,7 @@
 						</Action>
 						<Action Name="" ID="{22094D49-9616-45C0-BBB6-F9E5EF1BE1E6}" ShortID="177538598">
 							<PropertyList>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
+								<Property Name="FadeTime" Type="Real64" Value="10"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -332,6 +342,10 @@
 				<Event Name="Play_Toning" ID="{75280AE4-0427-4BE0-A4E1-3F0B4AD82E9B}">
 					<ChildrenList>
 						<Action Name="" ID="{4CDACC0D-74B7-4DEF-A33B-AE88020DFBC2}" ShortID="944517782">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_Toning_v3_12_FundamentalOnly" ID="{4F3160DA-57BC-407E-85AE-A7F939371164}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
@@ -339,9 +353,24 @@
 							</ReferenceList>
 						</Action>
 						<Action Name="" ID="{D2725F05-3811-44BA-8A1E-934F196306FB}" ShortID="318211526">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="InteractiveMusic_Toning_v3_12_HarmonyOnly" ID="{309BF30F-79AB-471D-B2F2-C8674118450D}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{3A1AA564-CA26-41B7-AFA8-DE07C164B5DE}" ShortID="379830414">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bass Synth Pitch Switch" ID="{526255D6-7209-4CCB-96E5-E43A5F1C794E}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

@@ -23066,7 +23066,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>1</Value>
+								<Value>2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -23085,6 +23085,11 @@
 						<SwitchContainer Name="InteractiveMusic_SilentLoops_v3_12_FundamentalOnly" ID="{97EDAC84-4160-4D45-98EB-09C95A231C0A}" ShortID="753489320">
 							<PropertyList>
 								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -25256,7 +25261,7 @@
 												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-4</Value>
+														<Value>-15</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -25291,7 +25296,7 @@
 												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
-														<Value>-4</Value>
+														<Value>-2</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -30710,6 +30715,14 @@
 								<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 								<CustomState Name="" ID="{272031D7-42F2-4E86-AD0E-2310E94FF446}" ShortID="870796079"/>
 							</CustomState>
+							<CustomState>
+								<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
+								<CustomState Name="" ID="{35D65D53-832F-4AC4-AF7E-891102BEE182}" ShortID="802144187">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
 						</CustomStateList>
 					</StateInfo>
 				</ActorMixer>
@@ -30718,6 +30731,11 @@
 						<Property Name="UserAuxSendVolume0" Type="Real64">
 							<ValueList>
 								<Value>10</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -37854,6 +37872,14 @@
 							<CustomState>
 								<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
 								<CustomState Name="" ID="{F9E7A18C-7058-4D38-AC5E-A790C9F4433F}" ShortID="654374980"/>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
+								<CustomState Name="" ID="{3A2A4086-8D1F-4EDD-833E-9B73207E5976}" ShortID="826742795">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
 							</CustomState>
 						</CustomStateList>
 					</StateInfo>

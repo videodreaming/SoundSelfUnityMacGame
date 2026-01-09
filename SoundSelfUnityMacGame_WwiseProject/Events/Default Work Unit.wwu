@@ -373,7 +373,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -398,7 +398,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+									<ObjectRef Name="music_meditationSilent_E Major_LOOP" ID="{DD072E05-E2FC-4760-9A88-211766E53C6B}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -560,7 +560,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{E2C3B857-9B85-40F1-9BB1-CFA5BE1FA991}"/>
+									<ObjectRef Name="CrystalBowlGenerator" ID="{4CE5BDF0-FD03-421F-9B9B-1AB36C9A73B8}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -688,7 +688,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="MUSIC PLAYLIST SWITCH" ID="{49FABB18-683D-46DC-B846-C051B49957B0}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+									<ObjectRef Name="MUSIC PLAYLIST SWITCH" ID="{49FABB18-683D-46DC-B846-C051B49957B0}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -947,6 +947,10 @@
 				<Event Name="Play_BassSynth" ID="{F494310D-2CEE-4F4C-B355-614678F37AC9}">
 					<ChildrenList>
 						<Action Name="" ID="{1E71D2C8-C25A-4EB3-8B60-7FF7A61CA0E4}" ShortID="618516701">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="7"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Bass Synth Pitch Switch" ID="{526255D6-7209-4CCB-96E5-E43A5F1C794E}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -960,7 +964,8 @@
 						<Action Name="" ID="{3DDBACE0-8E54-4BFB-9367-47867D06A9FA}" ShortID="585921775">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="4"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -974,7 +979,6 @@
 					<ChildrenList>
 						<Action Name="" ID="{9F47DF93-8F46-4CEE-8D04-4A155F6AD891}" ShortID="665036185">
 							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="1"/>
 								<Property Name="FadeTime" Type="Real64" Value="4"/>
 							</PropertyList>
 							<ReferenceList>
@@ -1120,6 +1124,17 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AVS_RED_Volume_Wave1" ID="{B3F2C2AA-E626-4A82-8484-48F42E99BD97}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_ASCENDING_OPENING" ID="{53B4AEA3-76C7-42E7-BD4D-CB4AB1D14F3B}">
+					<ChildrenList>
+						<Action Name="" ID="{6DA31889-D30D-40D9-969F-296262F76F34}" ShortID="590779632">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="OPENING_ASCENDING" ID="{69385CE9-4677-4CC4-A897-3BF92936ECBD}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

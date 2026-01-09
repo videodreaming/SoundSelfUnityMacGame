@@ -11,8 +11,11 @@
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
+						<Reference Name="MidiTarget">
+							<ObjectRef Name="MIDI Bass Synthesizer" ID="{9632FC71-6F6A-41B6-9866-C06DEF5A034E}" WorkUnitID="{E278CC99-6E9A-4CDD-A0F2-45CA19E01AD2}"/>
+						</Reference>
 						<Reference Name="OutputBus">
-							<ObjectRef Name="Impacts_SubAcoustics" ID="{9D8CD6C9-CA7C-4961-BD11-AF2A2C52A1F4}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 						<Reference Name="TransitionRoot">
 							<Custom>
@@ -23,6 +26,8 @@
 									<ChildrenList>
 										<MusicTransition Name="Transition" ID="{BDE7B2EC-5AE2-4AE8-853E-832BBB1386A0}">
 											<PropertyList>
+												<Property Name="DestinationJumpPositionPreset" Type="int16" Value="1"/>
+												<Property Name="DestinationPlaylistJumpTo" Type="int16" Value="1"/>
 												<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
 												<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
 												<Property Name="EnableTransitionFadeIn" Type="bool" Value="True"/>
@@ -45,8 +50,9 @@
 												<DestinationFadeIn>
 													<MusicFade Name="Destination Fade-in" ID="{B8640E4A-2514-4575-907A-978BB0A8615A}">
 														<PropertyList>
-															<Property Name="FadeCurve" Type="int16" Value="0"/>
-															<Property Name="FadeTime" Type="Real64" Value="2"/>
+															<Property Name="FadeCurve" Type="int16" Value="1"/>
+															<Property Name="FadeOffset" Type="Real64" Value="-4"/>
+															<Property Name="FadeTime" Type="Real64" Value="4"/>
 														</PropertyList>
 													</MusicFade>
 												</DestinationFadeIn>
@@ -66,7 +72,7 @@
 							</Custom>
 						</Reference>
 						<Reference Name="UserAuxSend0">
-							<ObjectRef Name="Aux_Toning" ID="{619F7D95-78F4-4AA5-AEC9-AB6251E1BF93}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+							<ObjectRef Name="Aux_ImpactsSub" ID="{BFC0F763-D969-48F0-AAAB-0642BCB3F556}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -84,10 +90,6 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="A" ID="{8C1AEDEA-7311-4A43-A378-3F1D162507B4}" ShortID="991787774">
-									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
-										<Property Name="OverrideMidiTarget" Type="bool" Value="True"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="DefaultSwitchOrState">
 											<ObjectRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
@@ -187,7 +189,6 @@
 							<ChildrenList>
 								<MusicTrack Name="B" ID="{D7036F22-C594-4FDB-AC7B-825EDBCDA35D}" ShortID="1039097481">
 									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
 										<Property Name="OverrideMidiTarget" Type="bool" Value="True"/>
 									</PropertyList>
 									<ReferenceList>
@@ -289,7 +290,6 @@
 							<ChildrenList>
 								<MusicTrack Name="C" ID="{4AD2C44B-4665-45F5-A6FF-20ED0672FA74}" ShortID="396035359">
 									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
 										<Property Name="OverrideMidiTarget" Type="bool" Value="True"/>
 									</PropertyList>
 									<ReferenceList>
@@ -391,7 +391,6 @@
 							<ChildrenList>
 								<MusicTrack Name="D" ID="{FEA676A7-38B4-4EC0-A137-6562AA907255}" ShortID="925155469">
 									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
 										<Property Name="OverrideMidiTarget" Type="bool" Value="True"/>
 									</PropertyList>
 									<ReferenceList>
@@ -493,7 +492,6 @@
 							<ChildrenList>
 								<MusicTrack Name="E" ID="{E01208CE-EEEE-4B81-BCA6-A33AEBA99E1B}" ShortID="793613888">
 									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
 										<Property Name="OverrideMidiTarget" Type="bool" Value="True"/>
 									</PropertyList>
 									<ReferenceList>
@@ -595,7 +593,6 @@
 							<ChildrenList>
 								<MusicTrack Name="F" ID="{101BE9E6-4E1B-4793-9785-E82ACF614648}" ShortID="549174457">
 									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
 										<Property Name="OverrideMidiTarget" Type="bool" Value="True"/>
 									</PropertyList>
 									<ReferenceList>
@@ -697,7 +694,6 @@
 							<ChildrenList>
 								<MusicTrack Name="G" ID="{09D8758E-9D2B-4E77-BDBB-052F586A8C19}" ShortID="176017810">
 									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
 										<Property Name="OverrideMidiTarget" Type="bool" Value="True"/>
 									</PropertyList>
 									<ReferenceList>
@@ -798,9 +794,6 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="A#Bb" ID="{15B97238-7392-46F0-A95C-E51D2AD7383A}" ShortID="578620100">
-									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="DefaultSwitchOrState">
 											<ObjectRef Name="AsharpBflat" ID="{79B5F3C5-FF3F-4294-B409-A38714AEB2FE}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
@@ -896,9 +889,6 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="C#Bb" ID="{079624EE-F6A9-4443-A0F9-C34E642446F6}" ShortID="580024203">
-									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="DefaultSwitchOrState">
 											<ObjectRef Name="CsharpDflat" ID="{AFC6A3A8-C60A-4307-B511-8F7CAE00A9FC}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
@@ -994,9 +984,6 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="D#Eb" ID="{C7B24C9C-15B9-4779-AC8F-B250AC056D92}" ShortID="10828204">
-									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="DefaultSwitchOrState">
 											<ObjectRef Name="DsharpEflat" ID="{2C6C81F0-3A7B-4D81-8B3F-DBD2AAB7EA78}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
@@ -1092,9 +1079,6 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="F#Gb" ID="{BBE88EC0-7C73-4D61-BD4F-B73D896A909A}" ShortID="585609808">
-									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="DefaultSwitchOrState">
 											<ObjectRef Name="FsharpGflat" ID="{BEB64C80-C6CB-44F4-B375-F9E927DC812E}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
@@ -1190,9 +1174,6 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="G#Ab" ID="{98300623-39FE-4946-ADFB-75D82A10B172}" ShortID="763119813">
-									<PropertyList>
-										<Property Name="MusicTrackType" Type="int16" Value="3"/>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="DefaultSwitchOrState">
 											<ObjectRef Name="GsharpAflat" ID="{D576CB4F-0381-410F-BF96-D3C1123EF5C8}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>

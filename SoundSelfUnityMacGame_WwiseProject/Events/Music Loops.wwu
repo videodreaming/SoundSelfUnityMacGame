@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{3353BB75-D5EF-44EF-A600-B06130E39B37}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Music Loops" ID="{3353BB75-D5EF-44EF-A600-B06130E39B37}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_MusicLoops" ID="{6908C4E3-6D0E-4B26-87FA-E01A43EAB94C}">
+					<ChildrenList>
+						<Action Name="" ID="{DC98A1E6-91CE-443A-9F6A-3423F6F2559D}" ShortID="885672672">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music Loops Switch Container" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_MusicLoops" ID="{7A19FEB5-4851-40F3-ADDD-9D15D8E3714C}">
+					<ChildrenList>
+						<Action Name="" ID="{D49D95AD-37EC-461C-9B18-6005F634C2AD}" ShortID="692018257">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music Loops Switch Container" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

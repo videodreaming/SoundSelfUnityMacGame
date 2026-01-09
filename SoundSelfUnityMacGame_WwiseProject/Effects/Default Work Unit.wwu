@@ -385,7 +385,7 @@
 				</Effect>
 				<Effect Name="New_Time_Stretch" ID="{62A6607D-D22A-41C0-8039-BDCC7EC5AB8D}" PluginName="Wwise Time Stretch" CompanyID="0" PluginID="130" PluginType="3">
 					<PropertyList>
-						<Property Name="TimeStretch" Type="Real32" Value="1600"/>
+						<Property Name="TimeStretch" Type="Real32" Value="99"/>
 					</PropertyList>
 				</Effect>
 				<Effect Name="New_Stereo_Delay" ID="{C991DD10-25FB-4935-B205-9DC03906DDD8}" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
@@ -2262,10 +2262,12 @@
 				</Effect>
 				<Effect Name="HighShelfReduction" ID="{AFAFA943-EF02-4E89-9EAE-A35949700A4B}" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
 					<PropertyList>
+						<Property Name="FrequencyBand1" Type="Real32" Value="287"/>
 						<Property Name="FrequencyBand2" Type="Real32" Value="500"/>
-						<Property Name="FrequencyBand3" Type="Real32" Value="150"/>
-						<Property Name="GainBand2" Type="Real32" Value="-4"/>
-						<Property Name="GainBand3" Type="Real32" Value="-16"/>
+						<Property Name="FrequencyBand3" Type="Real32" Value="8105"/>
+						<Property Name="GainBand1" Type="Real32" Value="-0.5"/>
+						<Property Name="GainBand2" Type="Real32" Value="-0.5"/>
+						<Property Name="GainBand3" Type="Real32" Value="-2.5"/>
 						<Property Name="QFactorBand2" Type="Real32" Value="0.5"/>
 					</PropertyList>
 				</Effect>

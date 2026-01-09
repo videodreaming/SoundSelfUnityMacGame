@@ -35,6 +35,11 @@
 						<Property Name="InitialValue" Type="Real64" Value="80"/>
 					</PropertyList>
 				</GameParameter>
+				<GameParameter Name="MusicLoops_Volume" ID="{6AF07051-B0D4-4DCE-A923-8C854E030ACC}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="80"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

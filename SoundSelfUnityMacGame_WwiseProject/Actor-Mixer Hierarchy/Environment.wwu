@@ -245,11 +245,6 @@
 												<Value>True</Value>
 											</ValueList>
 										</Property>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-3</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -290,6 +285,10 @@
 														<Property Name="Volume" Type="Real64" Value="-42"/>
 													</PropertyList>
 												</CustomState>
+											</CustomState>
+											<CustomState>
+												<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
+												<CustomState Name="" ID="{DF7EB408-F2D0-48DF-BA62-795CE7125C5A}" ShortID="702626047"/>
 											</CustomState>
 										</CustomStateList>
 									</StateInfo>
