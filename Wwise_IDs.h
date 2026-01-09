@@ -15,9 +15,11 @@ namespace AK
     {
         static const AkUniqueID MUTE_OPENING_MUSIC = 2146852899U;
         static const AkUniqueID MUTE_SILENTMEDITATION_MUSIC = 236202206U;
+        static const AkUniqueID NEW_EVENT = 3050945240U;
         static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_LONG = 640169525U;
         static const AkUniqueID PLAY_ADJUNCT_OPENING_SEQUENCE_SHORT = 593266067U;
         static const AkUniqueID PLAY_AMBIENT_ENVIRONMENT_LOOP = 3981260521U;
+        static const AkUniqueID PLAY_ASCENDING_OPENING = 6240749U;
         static const AkUniqueID PLAY_AVS_SINEGENERATORS_REFERENCE = 3449237142U;
         static const AkUniqueID PLAY_AVS_WAVE1 = 3630490451U;
         static const AkUniqueID PLAY_AVS_WAVE2 = 3630490448U;
@@ -47,12 +49,15 @@ namespace AK
         static const AkUniqueID PLAY_MUSIC_DUET_D_MAJOR = 1226520867U;
         static const AkUniqueID PLAY_MUSIC_MEDITATIONSILENT_E_MAJOR_LOOP = 3359246268U;
         static const AkUniqueID PLAY_MUSIC_PLAYLIST_SWITCH = 711060179U;
+        static const AkUniqueID PLAY_MUSICLOOPS = 3409568304U;
         static const AkUniqueID PLAY_NEWENDING = 2562807417U;
         static const AkUniqueID PLAY_PASSIVE_OPENING_SEQUENCE = 4125756612U;
         static const AkUniqueID PLAY_PREPARATION_OPENING_SEQUENCE_LONG = 589034621U;
         static const AkUniqueID PLAY_PREPARATION_OPENING_SEQUENCE_SHORT = 2916823035U;
         static const AkUniqueID PLAY_SFX_BREATHEIN = 3830600368U;
         static const AkUniqueID PLAY_SFX_BREATHEOUT = 77468567U;
+        static const AkUniqueID PLAY_SFX_BREATHINOUT = 4173816975U;
+        static const AkUniqueID PLAY_SFX_BREATHWORKCYCLE = 1941733943U;
         static const AkUniqueID PLAY_SFX_ENDINTERACTIVE = 1425422979U;
         static const AkUniqueID PLAY_SFX_IMPACT = 2908297336U;
         static const AkUniqueID PLAY_SFX_IMPACT_AVS_ONLY = 160921230U;
@@ -122,7 +127,9 @@ namespace AK
         static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
         static const AkUniqueID STOP_MIDI_BASS_SYNTHESIZER = 940955664U;
         static const AkUniqueID STOP_MUSIC_MEDITATIONSILENT_E_MAJOR_LOOP = 2938179890U;
+        static const AkUniqueID STOP_MUSICLOOPS = 1761697258U;
         static const AkUniqueID STOP_OPENING_SEQUENCE = 670049528U;
+        static const AkUniqueID STOP_SFX_BREATHWORKCYCLE = 4041051749U;
         static const AkUniqueID STOP_SFX_SOUNDSEED_BREATHCYCLEWIND = 674892661U;
         static const AkUniqueID STOP_SIGH_QUERY_SEQUENCE_1 = 2071903768U;
         static const AkUniqueID STOP_SIGH_QUERY_SEQUENCE_2 = 2071903771U;
@@ -157,6 +164,7 @@ namespace AK
             {
                 static const AkUniqueID ENVIRONMENT = 1229948536U;
                 static const AkUniqueID INTERACTIVEMUSICSYSTEM = 1817215723U;
+                static const AkUniqueID MUSICLOOPS = 3375574707U;
                 static const AkUniqueID NONE = 748895195U;
             } // namespace STATE
         } // namespace INTERACTIVEMUSICMODE
@@ -179,6 +187,18 @@ namespace AK
 
     namespace SWITCHES
     {
+        namespace BREATHWORKCYCLE
+        {
+            static const AkUniqueID GROUP = 2687325598U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID BREATHWORKCYCLE_10S = 1552125181U;
+                static const AkUniqueID BREATHWORKCYCLE_12S = 1518569755U;
+                static const AkUniqueID BREATHWORKCYCLE_14S = 1619235497U;
+            } // namespace SWITCH
+        } // namespace BREATHWORKCYCLE
+
         namespace CALIBRATION_SEQUENCE
         {
             static const AkUniqueID GROUP = 3689261721U;
@@ -300,20 +320,44 @@ namespace AK
             } // namespace SWITCH
         } // namespace MENU_SESSIONMODE
 
+        namespace MUSICLOOPS_SWITCH
+        {
+            static const AkUniqueID GROUP = 3861178606U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID AMBIENTLOOP = 3018331789U;
+                static const AkUniqueID AWEATMOSPHERE = 931091870U;
+                static const AkUniqueID BREATHWORKHANDPAN = 1837644484U;
+                static const AkUniqueID CELESTIALDREAMSCAPE = 2710806120U;
+                static const AkUniqueID COSMICAIR = 2973005081U;
+                static const AkUniqueID ENVIRONMENT = 1229948536U;
+                static const AkUniqueID MYSTICALVISION = 3550392237U;
+                static const AkUniqueID PINKNOISEATMOSPHERE = 1568978605U;
+                static const AkUniqueID SHIFTINGEARTH = 3175422271U;
+                static const AkUniqueID SILENCE = 3041563226U;
+                static const AkUniqueID SINGINGBOWLS = 1397804359U;
+                static const AkUniqueID SITARAMBIENCE = 6971574U;
+            } // namespace SWITCH
+        } // namespace MUSICLOOPS_SWITCH
+
         namespace MUSICPLAYLIST_SWITCH
         {
             static const AkUniqueID GROUP = 1496240431U;
 
             namespace SWITCH
             {
-                static const AkUniqueID CHAKAPA = 829625860U;
-                static const AkUniqueID COSMICAIR = 2973005081U;
-                static const AkUniqueID CRYSTALBOWLS = 3876742708U;
-                static const AkUniqueID METTA = 2692078280U;
-                static const AkUniqueID NATURECHIMES = 395563099U;
-                static const AkUniqueID RADIANCE = 3794542990U;
-                static const AkUniqueID SHRUTI = 4267886810U;
-                static const AkUniqueID SONOFLORE = 1467691068U;
+                static const AkUniqueID CHAKAPA_4M = 841411210U;
+                static const AkUniqueID DUETSONOFLORE_5M = 3198811659U;
+                static const AkUniqueID GUIDEDTUTORIAL_111HZ_5M = 1816202284U;
+                static const AkUniqueID INHARMONY_MUSICSFX_25M = 1672318622U;
+                static const AkUniqueID METTA_5M = 2389211517U;
+                static const AkUniqueID NATURECHIMES_6M = 510174857U;
+                static const AkUniqueID NATURECHIMESSAXOPHONE_6M = 1589520792U;
+                static const AkUniqueID OPENINGMEDITATION_AMAJOR_4M = 3368719192U;
+                static const AkUniqueID OPENINGORIENTATION_3M = 3997136470U;
+                static const AkUniqueID RADIANCE_9M = 4054988975U;
+                static const AkUniqueID SHRUTIFEMVOX_7M = 1827068784U;
             } // namespace SWITCH
         } // namespace MUSICPLAYLIST_SWITCH
 
@@ -459,6 +503,7 @@ namespace AK
         static const AkUniqueID AVS_RED_VOLUME_WAVE2 = 3922087662U;
         static const AkUniqueID AVS_RED_VOLUME_WAVE3 = 3922087663U;
         static const AkUniqueID AVS_REFERENCE_VOLUME = 2523786154U;
+        static const AkUniqueID BASSSYNTHESIZER_VOLUME = 2398552911U;
         static const AkUniqueID BINAURALGENERATOR_BUS_VOLUME = 2626252250U;
         static const AkUniqueID BINAURALGENERATOR_LEFT_FREQUENCY = 2033106885U;
         static const AkUniqueID BINAURALGENERATOR_RIGHT_FREQUENCY = 732775546U;
@@ -475,6 +520,7 @@ namespace AK
         static const AkUniqueID INTERACTIVEMUSIC_BUS_VOLUME = 609474916U;
         static const AkUniqueID LINEARMUSIC_VOLUME = 2590911748U;
         static const AkUniqueID MASTER_VOLUME = 4179668880U;
+        static const AkUniqueID MUSICLOOPS_VOLUME = 467704492U;
         static const AkUniqueID SFX_BUS_VOLUME = 1050949862U;
         static const AkUniqueID SILENT_VOLUME = 3070055575U;
         static const AkUniqueID TONING_PLAYER_VOLUME = 2438365033U;
