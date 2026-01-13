@@ -111,6 +111,15 @@ public class MusicSystem1 : MonoBehaviour
         }
         instance = this;
 
+        // Ensure AkGameObj component exists for Wwise registration
+        if (GetComponent<AkGameObj>() == null)
+        {
+            gameObject.AddComponent<AkGameObj>();
+        } else 
+        {
+            Debug.Log("MUSIC: AkGameObj component already exists");
+        }
+
          if (soundWorldDropdown != null)
             soundWorldDropdown.onValueChanged.AddListener(OnSoundWorldDropdownChanged);
         

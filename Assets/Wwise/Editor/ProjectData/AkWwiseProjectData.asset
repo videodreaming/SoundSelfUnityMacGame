@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584360423895242738
+    m_lastTime: -8584332847006324716
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584360423895182999
+    m_lastTime: -8584332846999966150
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -650,7 +650,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584360423997398034
+    m_lastTime: -8584332847007586236
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -734,6 +734,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: cb6fb65d1c06e543880d2c319ad8a094
       Path: Events\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_ASCENDING_OPENING
+      guid: a3aeb453c776e742bd4dcb4ab1d14f3b
+      id: 6240749
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Play_ASCENDING_OPENING
+        ObjectType: 3
+        guid: a3aeb453c776e742bd4dcb4ab1d14f3b
+      Path: Events\Default Work Unit\Play_ASCENDING_OPENING
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1526,7 +1543,7 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584360423997378033
+    m_lastTime: -8584332847007486215
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -1777,7 +1794,7 @@ MonoBehaviour:
     ParentPath: Events\Linear Music
     guid: ae874db4035f664c8db73b3cfbfee75e
     GuidInternal: 
-    m_lastTime: -8584360423997368028
+    m_lastTime: -8584332847007396189
     List:
     - name: Play_MenuMusic
       guid: 1df5e9e4dc81c841ba5daa250a570b32
@@ -1847,6 +1864,53 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 117.802315
       minDuration: 117.802315
+  - PhysicalPath: Events\Music Loops.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Music Loops
+      ObjectType: 12
+      guid: 75bb5333efd5ef44a600b06130e39b37
+    ParentPath: Events\Music Loops
+    guid: 75bb5333efd5ef44a600b06130e39b37
+    GuidInternal: 
+    m_lastTime: -8584332847007304668
+    List:
+    - name: Play_MusicLoops
+      guid: e3c408690e6d264b87fae01a43eab94c
+      id: 3409568304
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Play_MusicLoops
+        ObjectType: 3
+        guid: e3c408690e6d264b87fae01a43eab94c
+      Path: Events\Music Loops\Play_MusicLoops
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_MusicLoops
+      guid: b5fe197a5148f340addd9d15d8e3714c
+      id: 1761697258
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Stop_MusicLoops
+        ObjectType: 3
+        guid: b5fe197a5148f340addd9d15d8e3714c
+      Path: Events\Music Loops\Stop_MusicLoops
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\SFX.wwu
     PathAndIcons:
     - ElementName: Events
@@ -1858,8 +1922,25 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584360423997358027
+    m_lastTime: -8584332847007214673
     List:
+    - name: New_Event
+      guid: b0e748853f865a469d90e479ca2f8ec2
+      id: 3050945240
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: New_Event
+        ObjectType: 3
+        guid: b0e748853f865a469d90e479ca2f8ec2
+      Path: Events\SFX\New_Event
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_BinauralGenerator
       guid: 11153852ea34f14494eb8df86378f170
       id: 2050024707
@@ -1979,6 +2060,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 4
       minDuration: 4
+    - name: Play_sfx_breathinout
+      guid: c71e78ed1a70794f9e17ba86dde9f592
+      id: 4173816975
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_breathinout
+        ObjectType: 3
+        guid: c71e78ed1a70794f9e17ba86dde9f592
+      Path: Events\SFX\Play_sfx_breathinout
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_sfx_breathworkcycle
+      guid: 11b8e180a7308c43adbec264d16a171f
+      id: 1941733943
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Play_sfx_breathworkcycle
+        ObjectType: 3
+        guid: 11b8e180a7308c43adbec264d16a171f
+      Path: Events\SFX\Play_sfx_breathworkcycle
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_sfx_EndInteractive
       guid: 5f783404fb64af4a93004edf77019b5a
       id: 1425422979
@@ -2115,6 +2230,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_sfx_breathworkcycle
+      guid: c0b01cc1f239da4c9192cce7c7243727
+      id: 4041051749
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 5832c42f0bb4dc4fbcadfaa5eef44194
+      - ElementName: Stop_sfx_breathworkcycle
+        ObjectType: 3
+        guid: c0b01cc1f239da4c9192cce7c7243727
+      Path: Events\SFX\Stop_sfx_breathworkcycle
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_sfx_SoundSeed_BreathCycleWind
       guid: ba913102b25a9a429c53b3a0c009be7b
       id: 674892661
@@ -3444,7 +3576,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Master Mixer
     guid: 5920b64a742d1a4e8cff8cefde2685e4
     GuidInternal: 
-    m_lastTime: -8584360423997308766
+    m_lastTime: -8584332847007137717
     List:
     - name: BinauralGenerator_Bus_Volume
       guid: 53ce447cefa9b64dba33a07a2f7f989c
@@ -3530,6 +3662,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: 04c9625a073bab468226655481b0f80e
       Path: Game Parameters\Master Mixer\Master_Volume
+    - name: MusicLoops_Volume
+      guid: 5170f06ad4b0ce4da9238c854e030acc
+      id: 467704492
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Master Mixer
+        ObjectType: 12
+        guid: 5920b64a742d1a4e8cff8cefde2685e4
+      - ElementName: MusicLoops_Volume
+        ObjectType: 13
+        guid: 5170f06ad4b0ce4da9238c854e030acc
+      Path: Game Parameters\Master Mixer\MusicLoops_Volume
     - name: SFX_Bus_Volume
       guid: 56995eed68cb3847ac5ba953c216ce6d
       id: 1050949862
@@ -3569,8 +3715,22 @@ MonoBehaviour:
     ParentPath: Game Parameters\SFX
     guid: 22725a575c2b944694ea3cb75aedb4cc
     GuidInternal: 
-    m_lastTime: -8584360423997308766
+    m_lastTime: -8584332847007067771
     List:
+    - name: BassSynthesizer_Volume
+      guid: 734ed52d6fb79e43a27890e208bdb630
+      id: 2398552911
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 22725a575c2b944694ea3cb75aedb4cc
+      - ElementName: BassSynthesizer_Volume
+        ObjectType: 13
+        guid: 734ed52d6fb79e43a27890e208bdb630
+      Path: Game Parameters\SFX\BassSynthesizer_Volume
     - name: BreatheCycle_Volume
       guid: 44b8546045cb594c9436ecb992881033
       id: 1662384195
@@ -3750,7 +3910,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584360423894852933
+    m_lastTime: -8584332846999538770
     List:
     - name: AbsorptionMode
       guid: 56187ed435247e4fafedb57a575f601a
@@ -3865,6 +4025,22 @@ MonoBehaviour:
         - ElementName: InteractiveMusicSystem
           ObjectType: 8
           guid: 8fc7d2918fabdf49a9c4375b7878706c
+      - name: MusicLoops
+        guid: 9e061147d3e0f24dbdbb7bf64a14fcc5
+        id: 3375574707
+        PathAndIcons:
+        - ElementName: States
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Default Work Unit
+          ObjectType: 12
+          guid: 7ce132b6a0022f428482f3c8e97d00be
+        - ElementName: InteractiveMusicMode
+          ObjectType: 9
+          guid: ff16d21ee376594bb02f58bf638de405
+        - ElementName: MusicLoops
+          ObjectType: 8
+          guid: 9e061147d3e0f24dbdbb7bf64a14fcc5
       - name: None
         guid: f7580fefd152d043b13d474f5210cc18
         id: 748895195
@@ -5021,7 +5197,7 @@ MonoBehaviour:
     ParentPath: Switches\Linear Music
     guid: 4559fdf6c456f549993933ab507a3928
     GuidInternal: 
-    m_lastTime: -8584360423894822925
+    m_lastTime: -8584332846999458749
     List:
     - name: LinearMusic_Opening
       guid: ad701a433214144398da4e5c38930442
@@ -5104,9 +5280,9 @@ MonoBehaviour:
         guid: a40d9f25c6e78e4fa79e52d83d1a8402
       Path: Switches\Linear Music\MusicPlaylist_Switch
       values:
-      - name: Chakapa
+      - name: Chakapa_4m
         guid: af73ffdbbb6bcd4ab9ce47ef148244fc
-        id: 829625860
+        id: 841411210
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
@@ -5117,121 +5293,392 @@ MonoBehaviour:
         - ElementName: MusicPlaylist_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
-        - ElementName: Chakapa
+        - ElementName: Chakapa_4m
           ObjectType: 10
           guid: af73ffdbbb6bcd4ab9ce47ef148244fc
+      - name: DuetSonoFlore_5m
+        guid: 1fa8b4a6e16f814a837056aa6077003a
+        id: 3198811659
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: DuetSonoFlore_5m
+          ObjectType: 10
+          guid: 1fa8b4a6e16f814a837056aa6077003a
+      - name: GuidedTutorial_111Hz_5m
+        guid: a1b121edaf650343ac4900ab4a0c3e5f
+        id: 1816202284
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: GuidedTutorial_111Hz_5m
+          ObjectType: 10
+          guid: a1b121edaf650343ac4900ab4a0c3e5f
+      - name: inHarmony_MusicSFX_25m
+        guid: 32aa202c46f1814d830e5283f4470df5
+        id: 1672318622
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: inHarmony_MusicSFX_25m
+          ObjectType: 10
+          guid: 32aa202c46f1814d830e5283f4470df5
+      - name: Metta_5m
+        guid: 07e5cfa3ffb5574384950dcd7d5bb0ac
+        id: 2389211517
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: Metta_5m
+          ObjectType: 10
+          guid: 07e5cfa3ffb5574384950dcd7d5bb0ac
+      - name: NatureChimes_6m
+        guid: 2a9c7368dc05214489adb5b0b1b8dc03
+        id: 510174857
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: NatureChimes_6m
+          ObjectType: 10
+          guid: 2a9c7368dc05214489adb5b0b1b8dc03
+      - name: NatureChimesSaxophone_6m
+        guid: 5f9e0a9d6354b7499998310106fee28a
+        id: 1589520792
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: NatureChimesSaxophone_6m
+          ObjectType: 10
+          guid: 5f9e0a9d6354b7499998310106fee28a
+      - name: OpeningMeditation_AMajor_4m
+        guid: f862a0c565daa247ab5757f6d3803a82
+        id: 3368719192
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: OpeningMeditation_AMajor_4m
+          ObjectType: 10
+          guid: f862a0c565daa247ab5757f6d3803a82
+      - name: OpeningOrientation_3m
+        guid: 468e6b7127fe824d9697d2771948a8ca
+        id: 3997136470
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: OpeningOrientation_3m
+          ObjectType: 10
+          guid: 468e6b7127fe824d9697d2771948a8ca
+      - name: Radiance_9m
+        guid: 226fd44c1296f14c99e16462399ed8cf
+        id: 4054988975
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: Radiance_9m
+          ObjectType: 10
+          guid: 226fd44c1296f14c99e16462399ed8cf
+      - name: ShrutiFemVox_7m
+        guid: 98abbd004e5be6469aa51cc2a2b9fb50
+        id: 1827068784
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Linear Music
+          ObjectType: 12
+          guid: 4559fdf6c456f549993933ab507a3928
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+        - ElementName: ShrutiFemVox_7m
+          ObjectType: 10
+          guid: 98abbd004e5be6469aa51cc2a2b9fb50
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+  - PhysicalPath: Switches\Music Loops.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Music Loops
+      ObjectType: 12
+      guid: 156fa4da81cf6c43a7ee0f1794958384
+    ParentPath: Switches\Music Loops
+    guid: 156fa4da81cf6c43a7ee0f1794958384
+    GuidInternal: 
+    m_lastTime: -8584332846999378731
+    List:
+    - name: MusicLoops_Switch
+      guid: 7eb92896dd424f4fb707f2504de3d841
+      id: 3861178606
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 156fa4da81cf6c43a7ee0f1794958384
+      - ElementName: MusicLoops_Switch
+        ObjectType: 11
+        guid: 7eb92896dd424f4fb707f2504de3d841
+      Path: Switches\Music Loops\MusicLoops_Switch
+      values:
+      - name: AmbientLoop
+        guid: 1ced3be69353a445b5b32faa05dc3cc5
+        id: 3018331789
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Music Loops
+          ObjectType: 12
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
+          ObjectType: 11
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: AmbientLoop
+          ObjectType: 10
+          guid: 1ced3be69353a445b5b32faa05dc3cc5
+      - name: AweAtmosphere
+        guid: 782f70c0ba07d54dba626988de370f36
+        id: 931091870
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Music Loops
+          ObjectType: 12
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
+          ObjectType: 11
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: AweAtmosphere
+          ObjectType: 10
+          guid: 782f70c0ba07d54dba626988de370f36
+      - name: BreathworkHandpan
+        guid: d98c5f964f6e234d86751ad7462d79a8
+        id: 1837644484
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Music Loops
+          ObjectType: 12
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
+          ObjectType: 11
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: BreathworkHandpan
+          ObjectType: 10
+          guid: d98c5f964f6e234d86751ad7462d79a8
+      - name: CelestialDreamscape
+        guid: 37bb5395c8f7e1438c50ff52596eeba8
+        id: 2710806120
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Music Loops
+          ObjectType: 12
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
+          ObjectType: 11
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: CelestialDreamscape
+          ObjectType: 10
+          guid: 37bb5395c8f7e1438c50ff52596eeba8
       - name: CosmicAir
-        guid: f4c31b7790477c49b7a3c90f9a1edb3d
+        guid: 5ed7e5e56bd4004f9adbbb9a23284fe2
         id: 2973005081
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Linear Music
+        - ElementName: Music Loops
           ObjectType: 12
-          guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
           ObjectType: 11
-          guid: a40d9f25c6e78e4fa79e52d83d1a8402
+          guid: 7eb92896dd424f4fb707f2504de3d841
         - ElementName: CosmicAir
           ObjectType: 10
-          guid: f4c31b7790477c49b7a3c90f9a1edb3d
-      - name: CrystalBowls
-        guid: 0e386b90fef76a4399fff5d8cf22e86d
-        id: 3876742708
+          guid: 5ed7e5e56bd4004f9adbbb9a23284fe2
+      - name: Environment
+        guid: ac7ae7d8ce852d4a98f5139867cd1569
+        id: 1229948536
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Linear Music
+        - ElementName: Music Loops
           ObjectType: 12
-          guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
           ObjectType: 11
-          guid: a40d9f25c6e78e4fa79e52d83d1a8402
-        - ElementName: CrystalBowls
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: Environment
           ObjectType: 10
-          guid: 0e386b90fef76a4399fff5d8cf22e86d
-      - name: Metta
-        guid: 07e5cfa3ffb5574384950dcd7d5bb0ac
-        id: 2692078280
+          guid: ac7ae7d8ce852d4a98f5139867cd1569
+      - name: MysticalVision
+        guid: a9751b5b832ee64baf38356db405c67e
+        id: 3550392237
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Linear Music
+        - ElementName: Music Loops
           ObjectType: 12
-          guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
           ObjectType: 11
-          guid: a40d9f25c6e78e4fa79e52d83d1a8402
-        - ElementName: Metta
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: MysticalVision
           ObjectType: 10
-          guid: 07e5cfa3ffb5574384950dcd7d5bb0ac
-      - name: NatureChimes
-        guid: 2a9c7368dc05214489adb5b0b1b8dc03
-        id: 395563099
+          guid: a9751b5b832ee64baf38356db405c67e
+      - name: PinkNoiseAtmosphere
+        guid: f987009466a3c749bbd9de4a421c5e8e
+        id: 1568978605
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Linear Music
+        - ElementName: Music Loops
           ObjectType: 12
-          guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
           ObjectType: 11
-          guid: a40d9f25c6e78e4fa79e52d83d1a8402
-        - ElementName: NatureChimes
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: PinkNoiseAtmosphere
           ObjectType: 10
-          guid: 2a9c7368dc05214489adb5b0b1b8dc03
-      - name: Radiance
-        guid: 226fd44c1296f14c99e16462399ed8cf
-        id: 3794542990
+          guid: f987009466a3c749bbd9de4a421c5e8e
+      - name: ShiftingEarth
+        guid: 2606ef3b50d3ce43a1bfa94c9490b1c2
+        id: 3175422271
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Linear Music
+        - ElementName: Music Loops
           ObjectType: 12
-          guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
           ObjectType: 11
-          guid: a40d9f25c6e78e4fa79e52d83d1a8402
-        - ElementName: Radiance
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: ShiftingEarth
           ObjectType: 10
-          guid: 226fd44c1296f14c99e16462399ed8cf
-      - name: Shruti
-        guid: 98abbd004e5be6469aa51cc2a2b9fb50
-        id: 4267886810
+          guid: 2606ef3b50d3ce43a1bfa94c9490b1c2
+      - name: Silence
+        guid: d8fad53a3e5c0349b9a0984bf5af1237
+        id: 3041563226
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Linear Music
+        - ElementName: Music Loops
           ObjectType: 12
-          guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
           ObjectType: 11
-          guid: a40d9f25c6e78e4fa79e52d83d1a8402
-        - ElementName: Shruti
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: Silence
           ObjectType: 10
-          guid: 98abbd004e5be6469aa51cc2a2b9fb50
-      - name: SonoFlore
-        guid: 1fa8b4a6e16f814a837056aa6077003a
-        id: 1467691068
+          guid: d8fad53a3e5c0349b9a0984bf5af1237
+      - name: SingingBowls
+        guid: 1326606073834044815ddd9c467328f2
+        id: 1397804359
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Linear Music
+        - ElementName: Music Loops
           ObjectType: 12
-          guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
           ObjectType: 11
-          guid: a40d9f25c6e78e4fa79e52d83d1a8402
-        - ElementName: SonoFlore
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: SingingBowls
           ObjectType: 10
-          guid: 1fa8b4a6e16f814a837056aa6077003a
+          guid: 1326606073834044815ddd9c467328f2
+      - name: SitarAmbience
+        guid: 3909cbceb6f6404d858eaa754e576f14
+        id: 6971574
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Music Loops
+          ObjectType: 12
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicLoops_Switch
+          ObjectType: 11
+          guid: 7eb92896dd424f4fb707f2504de3d841
+        - ElementName: SitarAmbience
+          ObjectType: 10
+          guid: 3909cbceb6f6404d858eaa754e576f14
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -5246,8 +5693,74 @@ MonoBehaviour:
     ParentPath: Switches\SFX
     guid: 632f13f35b1c6e4caf89d68030a98081
     GuidInternal: 
-    m_lastTime: -8584360423894822925
-    List: []
+    m_lastTime: -8584332846999299014
+    List:
+    - name: BreathworkCycle
+      guid: 37e04ac44168a8409e1cb8fb74f151ad
+      id: 2687325598
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: SFX
+        ObjectType: 12
+        guid: 632f13f35b1c6e4caf89d68030a98081
+      - ElementName: BreathworkCycle
+        ObjectType: 11
+        guid: 37e04ac44168a8409e1cb8fb74f151ad
+      Path: Switches\SFX\BreathworkCycle
+      values:
+      - name: BreathworkCycle_10s
+        guid: 0fafcf39d8f7b54faf6e1f572d2b2745
+        id: 1552125181
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: SFX
+          ObjectType: 12
+          guid: 632f13f35b1c6e4caf89d68030a98081
+        - ElementName: BreathworkCycle
+          ObjectType: 11
+          guid: 37e04ac44168a8409e1cb8fb74f151ad
+        - ElementName: BreathworkCycle_10s
+          ObjectType: 10
+          guid: 0fafcf39d8f7b54faf6e1f572d2b2745
+      - name: BreathworkCycle_12s
+        guid: 226dade45801d647ae4251fc033d17ba
+        id: 1518569755
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: SFX
+          ObjectType: 12
+          guid: 632f13f35b1c6e4caf89d68030a98081
+        - ElementName: BreathworkCycle
+          ObjectType: 11
+          guid: 37e04ac44168a8409e1cb8fb74f151ad
+        - ElementName: BreathworkCycle_12s
+          ObjectType: 10
+          guid: 226dade45801d647ae4251fc033d17ba
+      - name: BreathworkCycle_14s
+        guid: 7d50e92ea8e4b14ca342b89aa3398def
+        id: 1619235497
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: SFX
+          ObjectType: 12
+          guid: 632f13f35b1c6e4caf89d68030a98081
+        - ElementName: BreathworkCycle
+          ObjectType: 11
+          guid: 37e04ac44168a8409e1cb8fb74f151ad
+        - ElementName: BreathworkCycle_14s
+          ObjectType: 10
+          guid: 7d50e92ea8e4b14ca342b89aa3398def
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   - PhysicalPath: Switches\Unity Imitone.wwu
     PathAndIcons:
     - ElementName: Switches
@@ -5959,7 +6472,7 @@ MonoBehaviour:
         guid: c760786d07938d41a39c332de5c52dab
       Path: Triggers\Default Work Unit\Test
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 0600000007000000590000005a000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

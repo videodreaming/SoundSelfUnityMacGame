@@ -158,7 +158,7 @@ public class CSVLoader : MonoBehaviour
                 wwiseVOManager.SetToMetta();
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
             }
-        } else if (gameMode == "Esketamine")
+        } else if (gameMode == "Protocol Stacks")
         {
             wwiseVOManager.notFirstTimeUser();
             Debug.Log(GetCurrentMode());
@@ -189,6 +189,7 @@ public class CSVLoader : MonoBehaviour
         {
             sequencer.SetCountdownToSavasana(TimeLeftScript.instance._timeLeft - totalTimeOfPostUnguidedVocalizationContent);
             sequencer.SetIntegrationEndTimer(TimeLeftScript.instance._timeLeft - 247.0f);
+            
             Debug.Log("countdownToSavasana: " + sequencer._countdownToSavasana);
         }
         else

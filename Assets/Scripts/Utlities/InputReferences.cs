@@ -6,6 +6,8 @@ public class InputReferences : MonoBehaviour
 {
     
     public static InputReferences instance;
+
+    public bool setStateInteractiveMusicMode = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +63,7 @@ public class InputReferences : MonoBehaviour
             float newRate = Random.Range(4f, 8f);
             MusicBinauralBeats.instance.NewBinauralBeatRate(newRate, 4.0f);
         }
-        if(Input.GetKeyDown(KeyCode.B))
+        if(Input.GetKeyDown(KeyCode.P))
         {
             if(MusicBinauralBeats.instance._volume < 50f)
             {
@@ -103,7 +105,7 @@ public class InputReferences : MonoBehaviour
         }
 
         // Delete All Recordings
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             if (RecordedAudioPlaybackTest.Instance != null)
             {
@@ -113,7 +115,7 @@ public class InputReferences : MonoBehaviour
         }
 
         // Print Slot Status (for debugging)
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             if (RecordedAudioPlaybackTest.Instance != null)
             {
@@ -147,18 +149,130 @@ public class InputReferences : MonoBehaviour
                 RecordedAudioPlaybackTest.Instance.GetRecordingCounts();
             }
         }
-
-
         // ===================================================================
         // KEYBOARD SHORTCUT REFERENCE:
         // ===================================================================
         // R - Toggle Record Mode
-        // B - Toggle Playback Mode (B for "Back" or "Broadcast")
-        // X - Delete All Recordings
-        // S - Print Slot Status
+        // P - Toggle Playback Mode
+        // S - Delete All Recordings
+        // A - Print Slot Status
         // L - List All Recorded Files
         // M - Manual Test Recording (5 seconds)
         // C - Get Recording Counts
         // ===================================================================
+    
+        // Wwise Music Controls
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (MusicSystem1.instance != null)
+            {
+                AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+                AkSoundEngine.SetRTPCValue("MusicLoops_Volume", 80.0f);
+            }
+            else
+            {
+                Debug.LogWarning("[Input] MusicSystem1.instance is null, cannot set Wwise state");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (MusicSystem1.instance != null && MusicSystem1.instance.gameObject != null)
+            {
+                AkSoundEngine.SetSwitch("MusicLoops_Switch", "SitarAmbience", MusicSystem1.instance.gameObject);
+            }
+            else
+            {
+                Debug.LogWarning("[Input] MusicSystem1.instance or gameObject is null, cannot set Wwise switch");
+            }
+        }
+
+        // Play_MusicLoops - using Shift+C to avoid conflict with GetRecordingCounts (C)
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.LeftShift))
+        {
+            if (MusicSystem1.instance != null && MusicSystem1.instance.gameObject != null)
+            {
+                uint eventId = AkSoundEngine.GetIDFromString("Play_MusicLoops");
+                if (eventId != 0)
+                {
+                    AkSoundEngine.PostEvent("Play_MusicLoops", MusicSystem1.instance.gameObject);
+                    Debug.Log("[Input] Posted Wwise event: Play_MusicLoops");
+                    Debug.Log("Event ID: " + eventId);
+                }
+                else
+                {
+                    Debug.LogError("[Input] Wwise event 'Play_MusicLoops' not found. Check Wwise project - event may not exist or Wwise banks not loaded.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[Input] MusicSystem1.instance or gameObject is null, cannot post Wwise event");
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            if (MusicSystem1.instance != null && MusicSystem1.instance.gameObject != null)
+            {
+                uint eventId = AkSoundEngine.GetIDFromString("Stop_MusicLoops");
+                if (eventId != 0)
+                {
+                    AkSoundEngine.PostEvent("Stop_MusicLoops", MusicSystem1.instance.gameObject);
+                    Debug.Log("[Input] Posted Wwise event: Stop_MusicLoops");
+                }
+                else
+                {
+                    Debug.LogError("[Input] Wwise event 'Stop_MusicLoops' not found. Check Wwise project - event may not exist or Wwise banks not loaded.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[Input] MusicSystem1.instance or gameObject is null, cannot post Wwise event");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (MusicSystem1.instance != null && MusicSystem1.instance.gameObject != null)
+            {
+
+                uint eventId = AkSoundEngine.GetIDFromString("Play_SilentLoops");
+                if (eventId != 0)
+                {
+                    AkSoundEngine.PostEvent("Play_SilentLoops", MusicSystem1.instance.gameObject);
+                    Debug.Log("[Input] Posted Wwise event: Play_SilentLoops");
+                }
+                else
+                {
+                    Debug.LogError("[Input] Wwise event 'Play_SilentLoops' not found. Check Wwise project - event may not exist or Wwise banks not loaded.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[Input] MusicSystem1.instance or gameObject is null, cannot post Wwise event");
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            if (MusicSystem1.instance != null && MusicSystem1.instance.gameObject != null)
+            {
+                uint eventId = AkSoundEngine.GetIDFromString("Stop_SilentLoops");
+                if (eventId != 0)
+                {
+                    AkSoundEngine.PostEvent("Stop_SilentLoops", MusicSystem1.instance.gameObject);
+                    Debug.Log("[Input] Posted Wwise event: Stop_SilentLoops");
+                }
+                else
+                {
+                    Debug.LogError("[Input] Wwise event 'Stop_SilentLoops' not found. Check Wwise project - event may not exist or Wwise banks not loaded.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[Input] MusicSystem1.instance or gameObject is null, cannot post Wwise event");
+            }
+        }
     }
+
 }
