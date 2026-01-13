@@ -124,7 +124,7 @@
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="Delay" Type="Real64" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="15"/>
+								<Property Name="FadeTime" Type="Real64" Value="14"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -135,8 +135,9 @@
 						<Action Name="" ID="{0551BB31-209E-49DA-8D1D-BC4D0490AD20}" ShortID="438085709">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="Delay" Type="Real64" Value="2"/>
 								<Property Name="FadeOutCurve" Type="int16" Value="5"/>
-								<Property Name="FadeTime" Type="Real64" Value="15"/>
+								<Property Name="FadeTime" Type="Real64" Value="14"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">

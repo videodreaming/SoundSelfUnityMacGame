@@ -1686,6 +1686,16 @@
 				<MusicSwitchContainer Name="Music Loops Switch Container" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" ShortID="372704988">
 					<PropertyList>
 						<Property Name="ContinuePlay" Type="bool" Value="False"/>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>-96</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -1705,12 +1715,13 @@
 											<PropertyList>
 												<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
 												<Property Name="ExitSourceAt" Type="int16" Value="0"/>
+												<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
 											</PropertyList>
 											<TransitionInfo>
 												<SourceFadeOut>
 													<MusicFade Name="Source Fade-out" ID="{59E3EBC1-C28A-4D07-9E44-C271FDA951FD}">
 														<PropertyList>
-															<Property Name="FadeCurve" Type="int16" Value="2"/>
+															<Property Name="FadeCurve" Type="int16" Value="3"/>
 															<Property Name="FadeOffset" Type="Real64" Value="10"/>
 															<Property Name="FadeTime" Type="Real64" Value="10"/>
 															<Property Name="FadeType" Type="int16" Value="1"/>
@@ -1731,9 +1742,20 @@
 					<ChildrenList>
 						<MusicPlaylistContainer Name="PinkNoiseAtmosphere" ID="{6013E6BB-546C-4F7B-9010-0A62A27EF620}" ShortID="57702830">
 							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>11</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>-96</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-3</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1778,6 +1800,9 @@
 										</MusicTransition>
 									</Custom>
 								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
 							</ReferenceList>
 							<ChildrenList>
 								<MusicSegment Name="PinkNoiseAtmosphere_Loop" ID="{E1EF36D5-930C-4723-95CC-B48311DC422A}" ShortID="99233197">
@@ -1785,7 +1810,7 @@
 										<Property Name="EndPosition" Type="Real64" Value="87006.2580213336"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2016,9 +2041,15 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="ShiftingEarth" ID="{34C9F748-E1CB-4F6B-917A-CEF0BD595661}" ShortID="800078986">
 							<PropertyList>
-								<Property Name="Volume" Type="Real64">
+								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>31</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>-96</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2062,6 +2093,9 @@
 											<TransitionInfo/>
 										</MusicTransition>
 									</Custom>
+								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -2222,6 +2256,24 @@
 							</ChildrenList>
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="SitarAmbience" ID="{E856D678-0F10-477F-9086-A2402EAA4AAA}" ShortID="391707041">
+							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>18</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>6</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2263,6 +2315,9 @@
 										</MusicTransition>
 									</Custom>
 								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
 							</ReferenceList>
 							<ChildrenList>
 								<MusicSegment Name="SitarAmbience_Loop" ID="{F97C4167-1BE8-4F22-A5A3-6A458874F762}" ShortID="1043551152">
@@ -2270,7 +2325,7 @@
 										<Property Name="EndPosition" Type="Real64" Value="65333.3333333333"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2479,9 +2534,10 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="CelestialDreamscape" ID="{6CF6132B-5CB4-4015-AD50-19816DF64E62}" ShortID="648342834">
 							<PropertyList>
-								<Property Name="Volume" Type="Real64">
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-8</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2526,12 +2582,20 @@
 										</MusicTransition>
 									</Custom>
 								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
 							</ReferenceList>
 							<ChildrenList>
 								<MusicSegment Name="Celestial Dreamscape_loop" ID="{754F24D6-9DB2-41FC-AB95-809401E48EB1}" ShortID="325068241">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="464000"/>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2684,9 +2748,20 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="SingingBowls" ID="{2656B536-2BE2-436D-97ED-541A14B6C3AD}" ShortID="693423683">
 							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>24</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2733,11 +2808,19 @@
 										</MusicTransition>
 									</Custom>
 								</Reference>
+								<Reference Name="UserAuxSend0">
+									<ObjectRef Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+								</Reference>
 							</ReferenceList>
 							<ChildrenList>
 								<MusicSegment Name="SingingBowls" ID="{D747FD4B-6A48-455A-B6D0-584203178AD4}" ShortID="114555919">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="96160"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -5037,9 +5120,20 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="Breathwork_Handpan_140bpm_Loop" ID="{0BD6B417-3D23-4414-A14C-F2B1C69DECE9}" ShortID="674985409">
 							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>13</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>12</Value>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5095,6 +5189,11 @@
 										<Property Name="GridFrequencyPreset" Type="int16" Value="51"/>
 										<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 										<Property Name="Tempo" Type="Real64" Value="140"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -5193,9 +5292,20 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="MysticalVision_Loop" ID="{EAD34773-C595-4954-B2AE-520E3A133817}" ShortID="873475318">
 							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>9</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>12</Value>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5253,6 +5363,11 @@
 										<Property Name="UserAuxSendVolume0" Type="Real64">
 											<ValueList>
 												<Value>12</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -5352,9 +5467,20 @@
 						</MusicPlaylistContainer>
 						<MusicPlaylistContainer Name="AweAtmosphere_Loop" ID="{7CDA255F-9D34-4B59-BBEA-06EFFFA7BA1D}" ShortID="62383385">
 							<PropertyList>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>11</Value>
+									</ValueList>
+								</Property>
+								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>12</Value>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5407,6 +5533,11 @@
 								<MusicSegment Name="The Awe of it All_Bminor" ID="{EDCC5467-185B-4106-9A3B-F83FB412DF9B}" ShortID="727893759">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="86000"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">

@@ -4,13 +4,6 @@
 		<WorkUnit Name="Default Work Unit" ID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}" PersistMode="Standalone">
 			<ChildrenList>
 				<Bus Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}">
-					<PropertyList>
-						<Property Name="Volume" Type="Real64">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="AudioDevice" PluginName="System" CompanyID="0" PluginID="174" PluginType="7">
 							<ObjectRef Name="System" ID="{69D60C99-E104-4F92-81B8-1C890CC95B06}" WorkUnitID="{20E15702-9916-45CB-8BCD-D7E3AE92AAE9}"/>
@@ -19,9 +12,19 @@
 					<ChildrenList>
 						<Bus Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}">
 							<PropertyList>
+								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>12</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -94,9 +97,14 @@
 						</Bus>
 						<Bus Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}">
 							<PropertyList>
-								<Property Name="UserAuxSendVolume0" Type="Real64">
+								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
-										<Value>12</Value>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -148,6 +156,11 @@
 						<Bus Name="SFX" ID="{E8FDE1E4-D027-4B6D-903A-2E8E41698E0E}">
 							<PropertyList>
 								<Property Name="BusVolume" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Lowpass" Type="int16">
 									<ValueList>
 										<Value>3</Value>
 									</ValueList>
@@ -217,7 +230,12 @@
 							<PropertyList>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>5</Value>
+										<Value>10</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -309,11 +327,6 @@
 						</Bus>
 						<Bus Name="Impacts_SubAcoustics" ID="{9D8CD6C9-CA7C-4961-BD11-AF2A2C52A1F4}">
 							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>-4</Value>
-									</ValueList>
-								</Property>
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-1"/>
 							</PropertyList>
 							<ObjectLists>
@@ -402,11 +415,6 @@
 									</ValueList>
 								</Property>
 								<Property Name="MaxDuckVolume" Type="Real64" Value="-3"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>3</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="Effects">
@@ -482,9 +490,9 @@
 								<DuckItem>
 									<BusRef Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}"/>
 									<DuckingParam>
-										<Volume>-1</Volume>
-										<FadeInTime>1</FadeInTime>
-										<FadeOutTime>1</FadeOutTime>
+										<Volume>-2</Volume>
+										<FadeInTime>0.5</FadeInTime>
+										<FadeOutTime>0.5</FadeOutTime>
 										<FadeCurve>FadeLinear</FadeCurve>
 									</DuckingParam>
 								</DuckItem>
@@ -499,7 +507,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -578,7 +586,7 @@
 							<PropertyList>
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
