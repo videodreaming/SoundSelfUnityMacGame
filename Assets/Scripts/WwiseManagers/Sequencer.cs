@@ -144,6 +144,16 @@ public class Sequencer : MonoBehaviour
                 {
                     Debug.Log("Sequencer: Playing Integration Opening Sequence.");
                     wwiseVOManager.PlayOpeningSequence("Integration_Short");
+                } else if (CSVLoader.instance.gameMode == "Esketamine_Ascending")
+                {
+                    //TODO: Change the name above
+                    Debug.Log("Sequencer: Playing Esketamine Opening Sequence.");
+                    wwiseVOManager.PlayOpeningSequence("Esketamine_Ascending");
+                } else if (CSVLoader.instance.gameMode == "Esketamine_Descending")
+                {
+                    //TODO: Change the name above
+                    Debug.Log("Sequencer: Playing Esketamine Opening Sequence.");
+                    wwiseVOManager.PlayOpeningSequence("Esketamine_Descending");
                 }
                 else
                 {

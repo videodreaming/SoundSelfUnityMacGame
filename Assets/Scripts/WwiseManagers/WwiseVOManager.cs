@@ -275,6 +275,11 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
     }
 
+    public void SetToEsketamineAscending()
+    {
+        //TODO: Implement this
+    }
+
     public void firstTimeUser()
     {
         AkSoundEngine.SetSwitch("VO_Somatic","Long",gameObject);
@@ -353,6 +358,8 @@ public class WwiseVOManager : MonoBehaviour
             case "Integration_Short":
             AkSoundEngine.PostEvent("Play_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             break;
+            case "Esketamine_Ascending":
+            AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             default:
             Debug.LogError("WWise_VO: Invalid openingSequenceType: " + openingSequenceType);
             break;

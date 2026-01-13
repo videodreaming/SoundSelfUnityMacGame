@@ -167,9 +167,13 @@ public class CSVLoader : MonoBehaviour
                 //TimeLeftScript.instance.SetTimeLeftSeconds(900.0f);
             }
 
-            if(subGameMode == "Esketamine")
+            if(subGameMode == "Ascending")
             {
-                //wwiseVOManager.SetToEsketamine();
+                wwiseVOManager.SetToEsketamineAscending();
+            }
+            else if(subGameMode == "Descending")
+            {
+                wwiseVOManager.SetToEsketamineDescending();
             }
         } else if (gameMode == "Quick Dive")
         {
