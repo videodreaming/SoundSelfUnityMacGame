@@ -272,7 +272,7 @@ public class Sequencer : MonoBehaviour
         else if(_countdownToSavasana <= 0.0f && !savasanaTriggered)
         {
             Debug.Log("Sequencer: Triggering Thematic Savasana.");
-            musicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+            MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
  
             wwiseVOManager.PlayThematicSavasana();
             _countdownToSavasana = -1.0f;

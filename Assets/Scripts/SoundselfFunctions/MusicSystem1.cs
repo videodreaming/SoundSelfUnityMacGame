@@ -1063,7 +1063,7 @@ public class MusicSystem1 : MonoBehaviour
         if(!interactiveMusicFlag)
         {
             interactiveMusicFlag = true;
-            AkSoundengine.PostEvent("Play_SilentLoops", gameObject); //this should do both fundamentals and harmonies
+            AkSoundEngine.PostEvent("Play_SilentLoops", gameObject); //this should do both fundamentals and harmonies
             //AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
             //AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
             AkSoundEngine.PostEvent("Play_MusicLoops", gameObject);
