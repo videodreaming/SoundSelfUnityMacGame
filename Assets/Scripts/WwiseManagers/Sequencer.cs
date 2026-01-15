@@ -203,7 +203,7 @@ public class Sequencer : MonoBehaviour
     //UPDATE() SEQUENCES
     //====================================================================================================
 
-    private void ProtocolStacksPlaygroundStart()
+    public void ProtocolStacksPlaygroundStart()
     {
         //STEP 1: Opening Sequence Ends, as reported by a cue, play Shifting Earth.
         //TODO: (with Reef): implement this from a cue from Wwise.
