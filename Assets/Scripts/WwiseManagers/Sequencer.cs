@@ -203,14 +203,56 @@ public class Sequencer : MonoBehaviour
     //UPDATE() SEQUENCES
     //====================================================================================================
 
-    private void ProtocolStacksSequenceUpdate()
+    private void ProtocolStacksPlaygroundStart()
     {
-        //STEP 1: Opening Sequence Ends, play Shifting Earth.
+        //STEP 1: Opening Sequence Ends, as reported by a cue, play Shifting Earth.
         //TODO: (with Reef): implement this from a cue from Wwise.
-
-
+        
     }
 
+    //A coroutine that moves through several steps, depending on _timeSinceTutorial and _countdownToSavasana.
+    private IEnumerator ProtocolStacksCoroutine()
+    {
+        // Step 1 at 10 seconds
+        while (_timeSinceTutorial < 10f)
+        {
+            yield return null;
+        }
+        Debug.Log("Sequencer: ProtocolStack Step 1");
+        // musicSystem.SetMusicModeTo(MusicMode.Freeplay);
+
+        // Step 2 at 45 seconds
+        while (_timeSinceTutorial < 45f)
+        {
+            yield return null;
+        }
+        Debug.Log("Sequencer: ProtocolStack Step 2");
+        // wwiseVOManager.PlayOpeningSequence("SomeSequenceName");
+
+        // Step 3 at 110 seconds
+        while (_timeSinceTutorial < 110f)
+        {
+            yield return null;
+        }
+        Debug.Log("Sequencer: ProtocolStack Step 3");
+        // worldShuffler.QueueWorldShuffle();
+
+        // Step 4 at 180 seconds
+        while (_timeSinceTutorial < 180f)
+        {
+            yield return null;
+        }
+        Debug.Log("Sequencer: ProtocolStack Step 4");
+        // director.AddActionToQueue(...);
+
+        // Step 5 at 280 seconds
+        while (_timeSinceTutorial < 280f)
+        {
+            yield return null;
+        }
+        Debug.Log("Sequencer: ProtocolStack Step 5");
+        // StartCoroutine(SpecialProtocolEndingRoutine());
+    }
     private void StandardSequenceUpdate()
     {
         //Early Behaviors
