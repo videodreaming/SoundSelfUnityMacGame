@@ -379,11 +379,6 @@ public class WwiseVOManager : MonoBehaviour
         }
     }         
 
-    public void Stop_InteractiveMusicSystem()
-    {
-        AkSoundEngine.PostEvent("Stop_InteractiveMusicSystem", gameObject);
-        Debug.Log("WWise_VO: Stop Interactive Music System");
-    }
     //TUTORIAL VO CALLS
     public void PlayTutorialGuidance(string guidanceType)
     {

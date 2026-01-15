@@ -167,13 +167,20 @@ public class CSVLoader : MonoBehaviour
                 //TimeLeftScript.instance.SetTimeLeftSeconds(900.0f);
             }
 
+            if(TimeLeftScript.instance != null)
+            {
+                TimeLeftScript.instance.SetTimeLeftSeconds(2400.0f); //40 minutes
+            }
+
             if(subGameMode == "Ascending")
             {
                 wwiseVOManager.SetToEsketamineAscending();
+                totalTimeOfPostUnguidedVocalizationContent = 900.0f; //15 minutes
             }
             else if(subGameMode == "Descending")
             {
                 wwiseVOManager.SetToEsketamineDescending();
+                totalTimeOfPostUnguidedVocalizationContent = 900.0f; //15 minutes
             }
         } else if (gameMode == "Quick Dive")
         {

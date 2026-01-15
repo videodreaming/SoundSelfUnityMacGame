@@ -12,14 +12,14 @@ public class WorldShuffler : MonoBehaviour
     public Director director;
     private int debugWorldCount = 0;
     public bool shuffling {get; private set;} = false;
-    public bool musicQueueOpen = true;
+    private bool soundscapeQueueOpen = true;
     private bool waiting = false; // for when a world change has been added to the director queue, but not triggered yet.
     private float _shuffleInterval = 120.0f; //will be effectively half this if absorption is 0. After this much time, world shuffle will be added to the director queue.
     private float _shuffleTimer = 0.0f;
 
     //options available for shuffling
     // Dictionaries to store available options and their availability status
-    public Dictionary<string, bool> availableMusicWorlds = new Dictionary<string, bool>
+    public Dictionary<string, bool> availableSoundscapes = new Dictionary<string, bool>
     {
         { "Gentle", true },
         { "Shadow", true },
@@ -34,7 +34,7 @@ public class WorldShuffler : MonoBehaviour
         { "White", true }
     };
 
-    private string currentMusicWorld;
+    private string currentSoundscape;
     private string currentColorWorld;
 
     void Awake ()
@@ -47,7 +47,7 @@ public class WorldShuffler : MonoBehaviour
 
     void Update ()
     {
-        //in playground mode, when I press the M button, cycle to the next music world (Gentle, Shadow, Shruti, Sonoflore)
+        //in playground mode, when I press the M button, cycle to the next soundscape (Gentle, Shadow, Shruti, Sonoflore)
         
         if(shuffling)
         {
@@ -69,22 +69,22 @@ public class WorldShuffler : MonoBehaviour
     //====================================================================================================
     public void ShuffleWorldsNow()
     {
-        ShuffleMusicWorld();
+        ShuffleSoundscape();
         ShuffleColorWorld();
         StartTimer();
     }
-    private void ShuffleMusicWorld()
+    private void ShuffleSoundscape()
     {
         if (!shuffling)
         {
-            Debug.LogWarning("WorldShuffler: Attempted to shuffle music world, but shuffling is disabled.");
+            Debug.LogWarning("WorldShuffler: Attempted to shuffle soundscape, but shuffling is disabled.");
             return;
         }
-        //Shuffle the music world to a random available music world, excluding the current one
+        //Shuffle the soundscape to a random available soundscape, excluding the current one
         List<string> availableWorlds = new List<string>();
-        foreach(KeyValuePair<string, bool> entry in availableMusicWorlds)
+        foreach(KeyValuePair<string, bool> entry in availableSoundscapes)
         {
-            if(entry.Value && entry.Key != currentMusicWorld)
+            if(entry.Value && entry.Key != currentSoundscape)
             {
                 availableWorlds.Add(entry.Key);
             }
@@ -92,12 +92,12 @@ public class WorldShuffler : MonoBehaviour
         if(availableWorlds.Count > 0)
         {
             int randomIndex = UnityEngine.Random.Range(0, availableWorlds.Count);
-            musicSystem1.SetSoundWorld(availableWorlds[randomIndex]);
+            musicSystem1.SetSoundscape(availableWorlds[randomIndex]);
             director.PlayTransitionSound();
         }
         else
         {
-            Debug.LogError("WorldShuffler: No available music worlds to shuffle to.");
+            Debug.LogError("WorldShuffler: No available soundscapes to shuffle to.");
         }
         StartTimer();
     }
@@ -154,22 +154,29 @@ public class WorldShuffler : MonoBehaviour
     {
         
         Debug.Log("WorldShuffler: Queuing World Shuffle");
-        if(musicQueueOpen)
+        if(soundscapeQueueOpen)
         {
-            director.AddActionToQueue(Action_ShuffleSoundWorld(), "SoundWorld", true, false, _seconds, true, 1);
+            if(!director.SearchQueueForType("Soundscape"))
+            {
+                director.AddActionToQueue(Action_ShuffleSoundscape(), "SoundscapeShuffle", true, false, _seconds, true, 1);
+            }
+            else
+            {
+                Debug.LogWarning("WorldShuffler: Attempted to queue SoundscapeShuffle, but director queue already has a specific SoundScape in it.");
+            }
         }
         else
         {
             Debug.LogWarning("WorldShuffler: Attempted to queue sound world shuffle, but music queue is closed.");
         }
-        director.AddActionToQueue(Action_ShuffleColorWorld(), "ColorPreference", false, true, _seconds, true, 1);
+        director.AddActionToQueue(Action_ShuffleColorWorld(), "ColorWorldShuffle", false, true, _seconds, true, 1);
         
         WaitForNextShuffle();
     }
 
-    private Action Action_ShuffleSoundWorld()
+    private Action Action_ShuffleSoundscape()
     {
-        return () => ShuffleMusicWorld();
+        return () => ShuffleSoundscape();
     }
 
     private Action Action_ShuffleColorWorld()
@@ -186,7 +193,7 @@ public class WorldShuffler : MonoBehaviour
         if(!shuffling)
         {
             shuffling = true;
-            musicQueueOpen = true;
+            soundscapeQueueOpen = true;
             if(shuffleNow)
             {
                 Debug.Log("WorldShuffler: Beginning shuffle immediately.");
@@ -209,7 +216,7 @@ public class WorldShuffler : MonoBehaviour
         if(shuffling)
         {
             shuffling = false;
-            musicQueueOpen = false;
+            soundscapeQueueOpen = false;
             _shuffleTimer = 0.0f;
             Debug.Log("WorldShuffler: Stopping shuffle.");
         }
@@ -219,23 +226,23 @@ public class WorldShuffler : MonoBehaviour
         }
     }
 
-    public void CloseMusicQueue()
+    public void CloseSoundscapeQueue()
     {
-        musicQueueOpen = false;
+        soundscapeQueueOpen = false;
     }
 
 
-    public void ExcludeMusicWorld(string world)
+    public void ExcludeSoundscape(string world)
     {
-        Debug.Log("WorldShuffler: Excluding Music World -" + world + "- from shuffle.");
-        //Exclude a music world from the shuffle, turning it "false" in the dictionary. If the world is not correctly named, log an error
-        if(availableMusicWorlds.ContainsKey(world))
+        Debug.Log("WorldShuffler: Excluding Soundscape -" + world + "- from shuffle.");
+        //Exclude a soundscape from the shuffle, turning it "false" in the dictionary. If the world is not correctly named, log an error
+        if(availableSoundscapes.ContainsKey(world))
         {
-            availableMusicWorlds[world] = false;
+            availableSoundscapes[world] = false;
         }
         else
         {
-            Debug.LogError("WorldShuffler: Cannot exclude Music World -" + world + "- as that is not a valid music world name.");
+            Debug.LogError("WorldShuffler: Cannot exclude Soundscape -" + world + "- as that is not a valid soundscape name in the shuffler.");
         }
     }
 
@@ -253,16 +260,16 @@ public class WorldShuffler : MonoBehaviour
         }
     }
 
-    public void ResetMusicWorlds()
+    public void ResetSoundscapeExclusions()
     {
-        Debug.Log("WorldShuffler: Resetting all music worlds to be available for shuffling.");
-        //Reset all music worlds to be available for shuffling
-        Dictionary<string, bool> updatedMusicWorlds = new Dictionary<string, bool>(availableMusicWorlds);
-        foreach(KeyValuePair<string, bool> entry in availableMusicWorlds)
+        Debug.Log("WorldShuffler: Resetting all soundscapes to be available for shuffling.");
+        //Reset all soundscapes to be available for shuffling
+        Dictionary<string, bool> updatedAvailableSoundscapes = new Dictionary<string, bool>(availableSoundscapes);
+        foreach(KeyValuePair<string, bool> entry in availableSoundscapes)
         {
-            updatedMusicWorlds[entry.Key] = true;
+            updatedAvailableSoundscapes[entry.Key] = true;
         }
-        availableMusicWorlds = updatedMusicWorlds;
+        availableSoundscapes = updatedAvailableSoundscapes;
     }
 
     public void ResetColorWorlds()
@@ -278,9 +285,9 @@ public class WorldShuffler : MonoBehaviour
     }
 
     
-    public void SetCurrentMusicWorld(string world) //this is to tell the shuffler where we are now, it does not change the music
+    public void SetCurrentSoundscape(string world) //this is to tell the shuffler where we are now, it does not change the music
     {
-        currentMusicWorld = world;
+        currentSoundscape = world;
     }
 
     public void SetCurrentColorWorld(string world) //this is to tell the shuffler where we are now, it does not change the color.
@@ -288,9 +295,9 @@ public class WorldShuffler : MonoBehaviour
         currentColorWorld = world;
     }
 
-    public void ClearCurrentMusicWorld()
+    public void ClearCurrentSoundscape()
     {
-        currentMusicWorld = "";
+        currentSoundscape = "";
     }
     public void ClearCurrentColorWorld()
     {
