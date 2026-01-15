@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 05d53899a8c68e4fb3bf417ea35907a3
     GuidInternal: 
-    m_lastTime: -8584360423894792920
+    m_lastTime: -8584340500774049551
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584331827500917434
+    m_lastTime: -8584330977150773521
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584331627204173906
+    m_lastTime: -8584330977146715004
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -501,7 +501,7 @@ MonoBehaviour:
     ParentPath: Events\AVS System
     guid: 8dda26975fba794392b0097b08fbff76
     GuidInternal: 
-    m_lastTime: -8584360423997398034
+    m_lastTime: -8584340500781109691
     List:
     - name: Play_AVS_SineGenerators_REFERENCE
       guid: 2241cc075f82884483bb65d548a393f8
@@ -650,7 +650,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584331827501664786
+    m_lastTime: -8584330977203043546
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -1343,7 +1343,7 @@ MonoBehaviour:
     ParentPath: Events\Environment
     guid: 3ffbeff2adf5b844b3827d55048249ec
     GuidInternal: 
-    m_lastTime: -8584331627204419658
+    m_lastTime: -8584330977203029768
     List:
     - name: Play_environment_anyQueryRepeat1
       guid: 78543b158da14a44a12803d2d86547b2
@@ -1560,7 +1560,7 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584331627204409651
+    m_lastTime: -8584330977202906502
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -1811,7 +1811,7 @@ MonoBehaviour:
     ParentPath: Events\Linear Music
     guid: ae874db4035f664c8db73b3cfbfee75e
     GuidInternal: 
-    m_lastTime: -8584332847007396189
+    m_lastTime: -8584330977202794482
     List:
     - name: Play_MenuMusic
       guid: 1df5e9e4dc81c841ba5daa250a570b32
@@ -1892,7 +1892,7 @@ MonoBehaviour:
     ParentPath: Events\Music Loops
     guid: 75bb5333efd5ef44a600b06130e39b37
     GuidInternal: 
-    m_lastTime: -8584332847007304668
+    m_lastTime: -8584330977202676009
     List:
     - name: Play_MusicLoops
       guid: e3c408690e6d264b87fae01a43eab94c
@@ -1939,7 +1939,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584332847007214673
+    m_lastTime: -8584330977202563720
     List:
     - name: New_Event
       guid: b0e748853f865a469d90e479ca2f8ec2
@@ -2309,7 +2309,7 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584360423997348021
+    m_lastTime: -8584340500780746573
     List:
     - name: Play_VO_CLOSING_GOODBYE
       guid: 8d2508afd6648f46864100152a884f0f
@@ -2799,7 +2799,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\AVS System
     guid: 33c2cba45d7021408c88e244225aa913
     GuidInternal: 
-    m_lastTime: -8584360423997338023
+    m_lastTime: -8584340500780726154
     List:
     - name: AVS_BLUE_Volume_Wave1
       guid: 7bb67256f951734384840f7d6cc7fd2e
@@ -3429,7 +3429,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Binaural Generator
     guid: 02e391bb70d5f844b42c556e83b60e1c
     GuidInternal: 
-    m_lastTime: -8584360423997338023
+    m_lastTime: -8584340500780585660
     List:
     - name: BinauralGenerator_LEFT_Frequency
       guid: 1d968f2adc1409479fa835fc7a2d1138
@@ -3470,7 +3470,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 08fd3303aa3c7f468178c0764211feaf
     GuidInternal: 
-    m_lastTime: -8584360423997328018
+    m_lastTime: -8584340500780575628
     List: []
   - PhysicalPath: Game Parameters\Environment.wwu
     PathAndIcons:
@@ -3483,7 +3483,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Environment
     guid: 68706b1d86fc5f4cab899effe052e5a3
     GuidInternal: 
-    m_lastTime: -8584360423997328018
+    m_lastTime: -8584340500780564680
     List: []
   - PhysicalPath: Game Parameters\Interactive Music System.wwu
     PathAndIcons:
@@ -3496,7 +3496,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Interactive Music System
     guid: 7fec9d861a0e3046bfb37d6383814ca9
     GuidInternal: 
-    m_lastTime: -8584360423997317835
+    m_lastTime: -8584340500780544527
     List:
     - name: FundamentalSilentVolume
       guid: f8f04df21ddf8144bd237a969d9e8269
@@ -3593,7 +3593,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Master Mixer
     guid: 5920b64a742d1a4e8cff8cefde2685e4
     GuidInternal: 
-    m_lastTime: -8584332847007137717
+    m_lastTime: -8584330977202460662
     List:
     - name: BinauralGenerator_Bus_Volume
       guid: 53ce447cefa9b64dba33a07a2f7f989c
@@ -3732,7 +3732,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\SFX
     guid: 22725a575c2b944694ea3cb75aedb4cc
     GuidInternal: 
-    m_lastTime: -8584332847007067771
+    m_lastTime: -8584330977202313424
     List:
     - name: BassSynthesizer_Volume
       guid: 734ed52d6fb79e43a27890e208bdb630
@@ -3815,7 +3815,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Unity Imitone
     guid: cac749861016bd468dcac9f447d3c666
     GuidInternal: 
-    m_lastTime: -8584360423997298849
+    m_lastTime: -8584340500780396927
     List:
     - name: TONING_Player_Volume
       guid: 2be8aa0241c86d48a07e07b93954dbcf
@@ -3927,7 +3927,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584332846999538770
+    m_lastTime: -8584330977146121341
     List:
     - name: AbsorptionMode
       guid: 56187ed435247e4fafedb57a575f601a
@@ -4187,8 +4187,231 @@ MonoBehaviour:
     ParentPath: Switches\AVS
     guid: 77a4ddce2990b345b04090db07cd3c46
     GuidInternal: 
-    m_lastTime: -8584360423894852933
+    m_lastTime: -8584340500774132569
     List: []
+  - PhysicalPath: Switches\BassSynth.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: BassSynth
+      ObjectType: 12
+      guid: deaa22306d5bfd4e89db888c59cd3011
+    ParentPath: Switches\BassSynth
+    guid: deaa22306d5bfd4e89db888c59cd3011
+    GuidInternal: 
+    m_lastTime: -8584330977145967131
+    List:
+    - name: BassSynth_PitchSwitch
+      guid: dd4d4e56071e0c4d948e54fef1b69309
+      id: 2950571229
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: BassSynth
+        ObjectType: 12
+        guid: deaa22306d5bfd4e89db888c59cd3011
+      - ElementName: BassSynth_PitchSwitch
+        ObjectType: 11
+        guid: dd4d4e56071e0c4d948e54fef1b69309
+      Path: Switches\BassSynth\BassSynth_PitchSwitch
+      values:
+      - name: A
+        guid: 83b279a202464749867294d46c389bfa
+        id: 84696446
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: A
+          ObjectType: 10
+          guid: 83b279a202464749867294d46c389bfa
+      - name: AsharpBflat
+        guid: 05c759cb4bc3ff4f8b71723cbf50e160
+        id: 3050272541
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: AsharpBflat
+          ObjectType: 10
+          guid: 05c759cb4bc3ff4f8b71723cbf50e160
+      - name: B
+        guid: aa6383c582ecc544894d753ee2272b6b
+        id: 84696445
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: B
+          ObjectType: 10
+          guid: aa6383c582ecc544894d753ee2272b6b
+      - name: C
+        guid: 6a2fa06d6485094a85d669ac384bd2ed
+        id: 84696444
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: C
+          ObjectType: 10
+          guid: 6a2fa06d6485094a85d669ac384bd2ed
+      - name: CsharpDflat
+        guid: 35aaaa41cbe325438237d3b0aa592b46
+        id: 3800083777
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: CsharpDflat
+          ObjectType: 10
+          guid: 35aaaa41cbe325438237d3b0aa592b46
+      - name: D
+        guid: 8f4f961416f740419d47453c8ebd2ee7
+        id: 84696443
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: D
+          ObjectType: 10
+          guid: 8f4f961416f740419d47453c8ebd2ee7
+      - name: DsharpEflat
+        guid: ae9656119003bb408a6536af078f83b9
+        id: 791737535
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: DsharpEflat
+          ObjectType: 10
+          guid: ae9656119003bb408a6536af078f83b9
+      - name: E
+        guid: 6f8f8a3927454445a910bdbaa85ac9f3
+        id: 84696442
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: E
+          ObjectType: 10
+          guid: 6f8f8a3927454445a910bdbaa85ac9f3
+      - name: F
+        guid: 1c4933122be5db4490639644329f8068
+        id: 84696441
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: F
+          ObjectType: 10
+          guid: 1c4933122be5db4490639644329f8068
+      - name: FsharpGflat
+        guid: e84050b564dc564993c1c14aa0c39521
+        id: 156517199
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: FsharpGflat
+          ObjectType: 10
+          guid: e84050b564dc564993c1c14aa0c39521
+      - name: G
+        guid: b481c6ed1f4e014396ab7379ce5b8533
+        id: 84696440
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: G
+          ObjectType: 10
+          guid: b481c6ed1f4e014396ab7379ce5b8533
+      - name: GsharpAflat
+        guid: afd0f92ad9563241b43a11014bc6de7a
+        id: 3573977648
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: BassSynth
+          ObjectType: 12
+          guid: deaa22306d5bfd4e89db888c59cd3011
+        - ElementName: BassSynth_PitchSwitch
+          ObjectType: 11
+          guid: dd4d4e56071e0c4d948e54fef1b69309
+        - ElementName: GsharpAflat
+          ObjectType: 10
+          guid: afd0f92ad9563241b43a11014bc6de7a
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   - PhysicalPath: Switches\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Switches
@@ -4200,7 +4423,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: b649101cab38b141861f0be6c57cc1d3
     GuidInternal: 
-    m_lastTime: -8584360423894842931
+    m_lastTime: -8584340500774120324
     List:
     - name: Calibration_Sequence
       guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4441,7 +4664,7 @@ MonoBehaviour:
     ParentPath: Switches\Interactive Music System
     guid: a70b5ef296c6e5488bce779e710a3892
     GuidInternal: 
-    m_lastTime: -8584360423894832924
+    m_lastTime: -8584340500774110290
     List:
     - name: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
       guid: 028067d9e2606b4b89c73087a452a4a2
@@ -5214,7 +5437,7 @@ MonoBehaviour:
     ParentPath: Switches\Linear Music
     guid: 4559fdf6c456f549993933ab507a3928
     GuidInternal: 
-    m_lastTime: -8584332846999458749
+    m_lastTime: -8584330977145863712
     List:
     - name: LinearMusic_Opening
       guid: ad701a433214144398da4e5c38930442
@@ -5487,7 +5710,7 @@ MonoBehaviour:
     ParentPath: Switches\Music Loops
     guid: 156fa4da81cf6c43a7ee0f1794958384
     GuidInternal: 
-    m_lastTime: -8584332846999378731
+    m_lastTime: -8584330977145723926
     List:
     - name: MusicLoops_Switch
       guid: 7eb92896dd424f4fb707f2504de3d841
@@ -5710,7 +5933,7 @@ MonoBehaviour:
     ParentPath: Switches\SFX
     guid: 632f13f35b1c6e4caf89d68030a98081
     GuidInternal: 
-    m_lastTime: -8584332846999299014
+    m_lastTime: -8584330977145581761
     List:
     - name: BreathworkCycle
       guid: 37e04ac44168a8409e1cb8fb74f151ad
@@ -5789,7 +6012,7 @@ MonoBehaviour:
     ParentPath: Switches\Unity Imitone
     guid: 03c51979dd6dc443bbf5588afb1af394
     GuidInternal: 
-    m_lastTime: -8584360423894812484
+    m_lastTime: -8584340500774069643
     List:
     - name: ToneActive
       guid: 3ce342ef55475f458960a54b73f37659
@@ -5852,7 +6075,7 @@ MonoBehaviour:
     ParentPath: Switches\VO
     guid: 64d0b0ac8a9e0840a3f6580a8631c66d
     GuidInternal: 
-    m_lastTime: -8584360423894812484
+    m_lastTime: -8584340500774069643
     List:
     - name: VO_ClosingGoodbye
       guid: 23795947d066d74cb40d1bb0c14d37bf
@@ -6472,7 +6695,7 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 2e22794f9054df4dba29a333b79a5f59
     GuidInternal: 
-    m_lastTime: -8584360423894802924
+    m_lastTime: -8584340500774059611
     List:
     - name: Test
       guid: c760786d07938d41a39c332de5c52dab

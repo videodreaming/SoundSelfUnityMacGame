@@ -183,7 +183,11 @@ public class WwiseVOManager : MonoBehaviour
             }
             else if (musicSyncInfo.userCueName == "Cue_StartInteractive")
             {
-
+                sequencer.ProtocolStacksPlaygroundStart();
+            }
+            else if (musicSyncInfo.userCueName == "Cue_WaitForButton")
+            {
+                //TODO: Please implement the button to show up, and the logic to wait for it to be pressed.
             }
             else
             {
@@ -355,17 +359,22 @@ public class WwiseVOManager : MonoBehaviour
     //INTRO VO CALLS
     public void PlayOpeningSequence(string openingSequenceType)
     {
+        Debug.Log("WWise_VO: Play Opening Sequence: " + openingSequenceType);
         switch (openingSequenceType)
         {
             case "Preparation_Long":
-            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            //AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             Debug.Log("WWise_VO: Play Preparation Long Opening Sequence");
             break;
             case "Preparation_Short":
-            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            //AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            Debug.Log("WWise_VO: Play Preparation Short Opening Sequence");
             break;
             case "Integration_Short":
             AkSoundEngine.PostEvent("Play_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            Debug.Log("WWise_VO: Play Integration Short Opening Sequence");
             break;
             case "Ascending":
             AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);

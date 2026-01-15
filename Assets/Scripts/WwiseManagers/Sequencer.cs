@@ -134,7 +134,7 @@ public class Sequencer : MonoBehaviour
             }
             else if(CSVLoader.instance.gameMode == "Protocol Stacks")
             {
-                ProtocolStacksSequenceUpdate();
+                //ProtocolStacksSequenceUpdate();
             }
         }
         else
