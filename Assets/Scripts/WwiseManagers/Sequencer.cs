@@ -24,11 +24,7 @@ public class Sequencer : MonoBehaviour
 
     public TMP_Dropdown startModeDropdown;
 
-    
 
-    //public uint playingId;
-    //[SerializeField]
-    //private int currentStage = 0; // Tracks the current stage of the sound world
     // AVS Controls
     private float _absorptionThreshold;
     private float d = 1f; //debug timer mult, higher makes it go faster for testing
@@ -65,7 +61,7 @@ public class Sequencer : MonoBehaviour
     {
         if(MusicSystem1.instance != null)
         {
-            MusicSystem1.instance.SetSoundWorld("SonoFlore");  
+            MusicSystem1.instance.SetSoundscape("SonoFlore");  
         }
 
 
@@ -104,7 +100,7 @@ public class Sequencer : MonoBehaviour
         if (startModeDropdown != null)
                 OnStartModeDropdownChanged(startModeDropdown.value);
 
-        //MusicSystem1.instance.SetSoundWorld("SonoFlore"); //duplicating this from Awake to try fixing something for Lorna. Untested, and not sure if necessary. // 12/16/2025 removed for refactoring
+        //MusicSystem1.instance.SetSoundscape("SonoFlore"); //duplicating this from Awake to try fixing something for Lorna. Untested, and not sure if necessary. // 12/16/2025 removed for refactoring
 
 
         if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
@@ -119,6 +115,37 @@ public class Sequencer : MonoBehaviour
     }
 // if(DevelopmentMode.Instance != null && DevelopmentMode.Instance.developmentMode)
  // {   //do something  }
+    
+   
+    // Update is called once per frame
+    void Update()
+    {
+        //add time to the _timeSinceTutorial counter, once the tutorial has been completed
+        if(tutorial.tutorialComplete)
+        {
+            _timeSinceTutorial += Time.deltaTime;
+        }
+
+        if(CSVLoader.instance != null)
+        {
+            if(CSVLoader.instance.gameMode == "Integration" || CSVLoader.instance.gameMode == "Preparation" || CSVLoader.instance.gameMode == "Skills Training")
+            {
+                StandardSequenceUpdate();
+            }
+            else if(CSVLoader.instance.gameMode == "Protocol Stacks")
+            {
+                ProtocolStacksSequenceUpdate();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("CSVLoader instance is null, cannot determine game mode for update sequences.");
+        }
+    }
+
+    //====================================================================================================
+    //START THE SEQUENCE
+    //====================================================================================================
     public void PlayFirstSequence()
     {
         Debug.Log("Sequencer: PlayFirstSequence() called.");
@@ -172,25 +199,30 @@ public class Sequencer : MonoBehaviour
             Debug.LogWarning("Sequencer: PlayFirstSequence() called, but opening sequence has already been played.");
         }
     }
-   
-    // Update is called once per frame
-    void Update()
+    //====================================================================================================
+    //UPDATE() SEQUENCES
+    //====================================================================================================
+
+    private void ProtocolStacksSequenceUpdate()
     {
-        //add time to the _timeSinceTutorial counter, once the tutorial has been completed
-        if(tutorial.tutorialComplete)
-        {
-            _timeSinceTutorial += Time.deltaTime;
-        }
+        //STEP 1: Opening Sequence Ends, play Shifting Earth.
+        //TODO: (with Reef): implement this from a cue from Wwise.
+
+
+    }
+
+    private void StandardSequenceUpdate()
+    {
         //Early Behaviors
         if(_timeSinceTutorial >= 60 && !flagTriggerStart1)
         {
-            Debug.Log("Sequencer: Triggering Start1 Behaviors: Reset Music Worlds for Shuffle");
-            worldShuffler.ResetMusicWorlds();
+            Debug.Log("Sequencer: Triggering Start1 Behaviors: Reset Soundscape Exclusions for Shuffle");
+            worldShuffler.ResetSoundscapeExclusions();
             flagTriggerStart1 = true;
         }
         if(_timeSinceTutorial >= 300 && !flagTriggerStart2)
         {
-            Debug.Log("Sequencer: Triggering Start2 Behaviors: Reset Color Worlds for Shuffle");
+            Debug.Log("Sequencer: Triggering Start2 Behaviors: Reset Color Exclusions for Shuffle");
             worldShuffler.ResetColorWorlds();
             flagTriggerStart2 = true;
         }
@@ -199,9 +231,9 @@ public class Sequencer : MonoBehaviour
         if(_countdownToSavasana <= 300 && !flagTriggerEnd1)
         {
             Debug.Log("Sequencer: Triggering End1 Behaviors: No Shadow or Shruti Allowed");
-            worldShuffler.ResetMusicWorlds();
-            worldShuffler.ExcludeMusicWorld("Shadow");
-            worldShuffler.ExcludeMusicWorld("Shruti"); //removing shruti, as we want it to go last
+            worldShuffler.ResetSoundscapeExclusions();
+            worldShuffler.ExcludeSoundscape("Shadow");
+            worldShuffler.ExcludeSoundscape("Shruti"); //removing shruti, as we want it to go last
             flagTriggerEnd1 = true;
             flagTriggerStart1 = true;
             flagTriggerStart2 = true;
@@ -209,10 +241,10 @@ public class Sequencer : MonoBehaviour
         if(_countdownToSavasana <= 180f && !flagTriggerEnd2)
         {
             Debug.Log("Sequencer: Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
-            //finally, queue shruti and prevent further queueing of shuffled sound worlds.
-            director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundWorld("Shruti"), "SoundWorld", true, false, 180.0f, true, 2);
+            //finally, queue shruti and prevent further queueing of shuffled soundscapes.
+            director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
             director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, true, 2);
-            worldShuffler.CloseMusicQueue();
+            worldShuffler.CloseSoundscapeQueue();
             CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End());
             flagTriggerEnd2 = true;
         }
@@ -240,7 +272,8 @@ public class Sequencer : MonoBehaviour
         else if(_countdownToSavasana <= 0.0f && !savasanaTriggered)
         {
             Debug.Log("Sequencer: Triggering Thematic Savasana.");
-            wwiseVOManager.Stop_InteractiveMusicSystem();
+            musicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+ 
             wwiseVOManager.PlayThematicSavasana();
             _countdownToSavasana = -1.0f;
             savasanaTriggered = true;
@@ -655,12 +688,12 @@ public class Sequencer : MonoBehaviour
     public void StartTrueStart() //THIS ONE IS OK TO CALL IN NORMAL TIME (NON DEVELOPMENT MODE)
     {
         Debug.Log("Sequencer: Starting True Start Sequence.");
-        MusicSystem1.instance.SetSoundWorld("SonoFlore");
+        MusicSystem1.instance.SetSoundscape("SonoFlore");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeLow, 0.0f);
         director.disable = true;
         worldShuffler.ExcludeColorWorld("Blue");
-        worldShuffler.ExcludeMusicWorld("Shadow");
+        worldShuffler.ExcludeSoundscape("Shadow");
         PlayFirstSequence();
         //lightControl.SetColorWorldByType("Dark", 0.0f);
     }
@@ -676,7 +709,7 @@ public class Sequencer : MonoBehaviour
         tutorial.StartTutorial();
         InitializeLights();
         worldShuffler.ExcludeColorWorld("Blue");
-        worldShuffler.ExcludeMusicWorld("Shadow");
+        worldShuffler.ExcludeSoundscape("Shadow");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0.0f);
         director.disable = true;

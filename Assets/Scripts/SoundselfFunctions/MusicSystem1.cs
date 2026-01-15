@@ -83,7 +83,8 @@ public class MusicSystem1 : MonoBehaviour
     private bool thisTonesImpactPlayed = false;
     private float UserNotToningThreshold = 30.0f; //controls environment shift.
     public MusicMode currentMusicMode;
-    private bool initializeInteractiveMusicFlag = false;
+    public InteractionType currentInteractionType = InteractionType.SoundWorld; // so when we shift into a mode that plays interactive music, we are using the right sub-system. This is getting complicated. Will be less so when we use environment as a musicLoop or something. 
+    private bool interactiveMusicFlag = false;
     private bool initializeEnvironmentFlag = false;
     public string currentSwitchState = "C";
 
@@ -97,7 +98,25 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeFrozenFreeplayFlag = false;
     private bool modeEnvironmentFlag = false;
 
-    public TMP_Dropdown soundWorldDropdown;
+    public TMP_Dropdown soundscapeDropdown;
+
+    //SOUNDSCAPE LISTS
+    // SoundWorlds work with any fundamental note
+    private static readonly List<string> soundWorlds = new List<string>
+    {
+        "SonoFlore",
+        "Shadow",
+        "Gentle",
+        "Shruti"
+    };
+
+    // MusicLoops only work with specific fundamental notes (compatibility checking not implemented yet)
+    private static readonly List<string> musicLoops = new List<string>
+    {
+        "ShiftingEarth",
+        "SitarAmbience",
+        "PinkNoiseAtmosphere"
+    };
 
     public NoteName permanentlySetFundamental = NoteName.None;
 
@@ -120,15 +139,15 @@ public class MusicSystem1 : MonoBehaviour
             Debug.Log("MUSIC: AkGameObj component already exists");
         }
 
-         if (soundWorldDropdown != null)
-            soundWorldDropdown.onValueChanged.AddListener(OnSoundWorldDropdownChanged);
+         if (soundscapeDropdown != null)
+            soundscapeDropdown.onValueChanged.AddListener(OnSoundscapeDropdownChanged);
         
     }
 
         private void OnDestroy()
     {
-        if (soundWorldDropdown != null)
-            soundWorldDropdown.onValueChanged.RemoveListener(OnSoundWorldDropdownChanged);
+        if (soundscapeDropdown != null)
+            soundscapeDropdown.onValueChanged.RemoveListener(OnSoundscapeDropdownChanged);
     }
     void Start()
     {
@@ -461,6 +480,12 @@ public class MusicSystem1 : MonoBehaviour
         Environment
     }
 
+    public enum InteractionType
+    {
+        SoundWorld,
+        MusicLoop
+    }
+
 
     public void SetMusicModeTo(MusicMode mode)
     {
@@ -475,8 +500,9 @@ public class MusicSystem1 : MonoBehaviour
                 SetMusicModeFlags(true, false, false, false, false);      
                 
                 imitoneVoiceInterpreter.gameOn = false;
-                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-                Debug.Log("MUSIC: Music Mode Set to Silent  (WWise: InteractiveMusicSystem)");
+                StopInteractiveMusic();
+                RecoverInteractiveMusicModeFromInteractionType();
+                Debug.Log("MUSIC: Music Mode Set to Silent (WWise: " + currentInteractionType + ")");
             }
             else
             {
@@ -489,12 +515,13 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeTutorialFlag)
             {
                 SetMusicModeFlags(false, true, false, false, false);    
-                Debug.Log("MUSIC: Music Mode Set to Tutorial  (WWise: InteractiveMusicSystem)");
+                Debug.Log("MUSIC: Music Mode Set to Tutorial");
 
-                InteractiveMusicInitializations(); 
+                StartInteractiveMusic(); 
                 
                 LockToC(true);
-                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+                
+                RecoverInteractiveMusicModeFromInteractionType();
                 
                 SetMusicSilentLayerVolume(_silentVolumeHigh, 30f);
 
@@ -510,14 +537,14 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeFreeplayFlag)
             {
                 SetMusicModeFlags(false, false, true, false, false);    
-                Debug.Log("MUSIC: Music Mode Set to Freeplay (WWise: InteractiveMusicSystem)");
+                Debug.Log("MUSIC: Music Mode Set to Freeplay");
 
                 LockToC(false);
-                InteractiveMusicInitializations();
+                StartInteractiveMusic();
                 imitoneVoiceInterpreter.gameOn = true;
                 SetMusicSilentLayerVolume(_silentVolumeHigh, 40f);  
 
-                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+                RecoverInteractiveMusicModeFromInteractionType();
             }
             else
             {
@@ -530,11 +557,12 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeFrozenFreeplayFlag)
             {
                 SetMusicModeFlags(false, false, false, true, false);    
-                Debug.Log("MUSIC: Music Mode Set to FrozenFreeplay (WWise: InteractiveMusicSystem)");
+                Debug.Log("MUSIC: Music Mode Set to FrozenFreeplay");
 
                 LockToC(true);
                 imitoneVoiceInterpreter.gameOn = false;
-                AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+                
+                RecoverInteractiveMusicModeFromInteractionType();
             }
             else
             {
@@ -564,6 +592,20 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
+    private void RecoverInteractiveMusicModeFromInteractionType()
+    {
+        if(currentInteractionType == InteractionType.SoundWorld)
+        {
+            AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+            Debug.Log("MUSIC: Interactive Music Mode Recovered to InteractiveMusicSystem because Interaction Type is SoundWorld");
+        }
+        else if(currentInteractionType == InteractionType.MusicLoop)
+        {
+            AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+            Debug.Log("MUSIC: Interactive Music Mode Recovered to MusicLoops because Interaction Type is MusicLoop");
+        }
+    }
+
     //A method for easily setting the flags, to replace the code in each of the case statements above.
     private void SetMusicModeFlags(bool silent, bool tutorial, bool freeplay, bool frozenFreeplay, bool environment)
     {
@@ -582,20 +624,76 @@ public class MusicSystem1 : MonoBehaviour
             MusicBinauralBeats.instance.SetVolume(0f);
         }
     }
-
     
-    public Action Action_SetSoundWorld(string soundWorld)
+    public Action Action_SetSoundscape(string soundscape)
     {
-        return () => SetSoundWorld(soundWorld);
+        return () => SetSoundscape(soundscape);
+    }   
+    public void SetSoundscape(string soundscape)
+    {
+        // Check which type of soundscape this is
+        bool isSoundWorld = soundWorlds.Contains(soundscape);
+        bool isMusicLoop = musicLoops.Contains(soundscape);
+        
+        if (!isSoundWorld && !isMusicLoop)
+        {
+            Debug.LogWarning("MUSIC: Unknown soundscape type requested: " + soundscape + " is neither soundWorld or musicLoop.");
+            return;
+        }
+        
+        
+        // Log the soundscape type for debugging
+        if (isSoundWorld)
+        {
+            SetSoundWorld(soundscape);
+        }
+        else if (isMusicLoop)
+        {
+            SetMusicLoop(soundscape);
+        }
     }
+
+    //public Action Action_SetSoundWorld(string soundWorld)
+    //{
+    //    return () => SetSoundWorld(soundWorld);
+    //}
 
     public void SetSoundWorld(string soundWorld)
     {
+        if(currentMusicMode != MusicMode.Environment)
+        {
+            AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+        }
+        else
+        {
+            Debug.LogWarning($"MUSIC: Changing SoundWorld to '{soundWorld}', but current mode is '{currentMusicMode}' (Environment or Silent) -- this change will not be audible.");
+        }
+        
+        currentInteractionType = InteractionType.SoundWorld;
         AkSoundEngine.SetState("SoundWorldMode", soundWorld);
-        worldShuffler.SetCurrentMusicWorld(soundWorld);
-        Debug.Log("MUSIC: Sound World Set To: " + soundWorld);
+        worldShuffler.SetCurrentSoundscape(soundWorld);
+        Debug.Log("MUSIC: Soundscape Set To: " + soundWorld + " (SoundWorld)");
     }
 
+    //public Action Action_SetMusicLoop(string musicLoop)
+    //{
+    //    return () => SetMusicLoop(musicLoop);
+    //}
+    public void SetMusicLoop(string musicLoop)
+    {
+        if(currentMusicMode != MusicMode.Environment)
+        {
+            AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+        }
+        else
+        {
+            Debug.LogWarning($"MUSIC: Changing MusicLoop to '{musicLoop}', but current mode is '{currentMusicMode}' (Environment or Silent) -- this change will not be audible.");
+        }
+        currentInteractionType = InteractionType.MusicLoop;
+        AkSoundEngine.SetSwitch("MusicLoops_Switch", musicLoop, gameObject);
+        worldShuffler.SetCurrentSoundscape(musicLoop);
+        Debug.Log("MUSIC: Soundscape Set To: " + musicLoop + " (MusicLoop)");
+    }
 
     private Action Action_ChangeFundamental(int scaleNoteKey)
     {
@@ -960,17 +1058,40 @@ public class MusicSystem1 : MonoBehaviour
     }
 
     
-    private void InteractiveMusicInitializations()
+    private void StartInteractiveMusic()
     {
-        if(!initializeInteractiveMusicFlag)
+        if(!interactiveMusicFlag)
         {
-            initializeInteractiveMusicFlag = true;
-            AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
-            AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+            interactiveMusicFlag = true;
+            AkSoundengine.PostEvent("Play_SilentLoops", gameObject); //this should do both fundamentals and harmonies
+            //AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
+            //AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
+            AkSoundEngine.PostEvent("Play_MusicLoops", gameObject);
+            //AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
+            Debug.Log("MUSIC: InteractiveMusic started");
         }
         else
         {
-            Debug.LogWarning("MUSIC: InteractiveMusicSystem is already initialized");
+            Debug.LogWarning("MUSIC: InteractiveMusic is already started");
+        }
+    }
+
+    private void StopInteractiveMusic(bool suppressStoppingMusicLoops = false)
+    {
+        if(interactiveMusicFlag)
+        {
+            interactiveMusicFlag = false;
+            AkSoundEngine.PostEvent("Stop_InteractiveMusicSystem", gameObject);
+            if(!suppressStoppingMusicLoops)
+            {
+                AkSoundEngine.PostEvent("Stop_MusicLoops", gameObject);
+            }
+            //AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
+            Debug.Log("MUSIC: InteractiveMusic stopped" + (suppressStoppingMusicLoops ? " (MusicLoops not stopped by request)" : ""));
+        }
+        else
+        {
+            Debug.LogWarning("MUSIC: InteractiveMusic is not started");
         }
     }
 
@@ -987,21 +1108,24 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    private void OnSoundWorldDropdownChanged(int index)
+    private void OnSoundscapeDropdownChanged(int index)
+    {
+        if(soundscapeDropdown != null)
         {
-            if(soundWorldDropdown != null)
+            switch (index)
             {
-                switch (index)
-                {
-                    case 0: SetSoundWorld("SonoFlore"); Debug.Log("Initialize called.");  break;
-                    case 1: SetSoundWorld("Shadow"); Debug.Log("StartTrueStart called."); break;
-                    case 2: SetSoundWorld("Gentle"); Debug.Log("StartTutorialSequence called.");  break;
-                    case 3: SetSoundWorld("Shruti");Debug.Log("StartPlayground called.");  break;
-                    default: SetSoundWorld("SonoFlore");  break;
-                }
+                case 0: SetSoundscape("SonoFlore"); Debug.Log("Initialize called.");  break;
+                case 1: SetSoundscape("Shadow"); Debug.Log("StartTrueStart called."); break;
+                case 2: SetSoundscape("Gentle"); Debug.Log("StartTutorialSequence called.");  break;
+                case 3: SetSoundscape("Shruti");Debug.Log("StartPlayground called.");  break;
+                case 4: SetSoundscape("ShiftingEarth"); Debug.Log("StartShiftingEarth called."); break;
+                case 5: SetSoundscape("SitarAmbience"); Debug.Log("StartSitarAmbience called."); break;
+                case 6: SetSoundscape("PinkNoiseAtmosphere"); Debug.Log("StartPinkNoiseAtmosphere called."); break;
+                default: SetSoundscape("SonoFlore");  break;
             }
-            
         }
+        
+    }
 
     
     // ===== REWARD THUMPS =====

@@ -30,6 +30,10 @@ public class Director : MonoBehaviour
     private int audioTweakCounter = 0;
     public bool disable = false;
     private bool disableLast = false;
+    
+    // Transition sound cooldown
+    private bool canPlayTransitionSound = true;
+    private Coroutine transitionSoundCooldownCoroutine = null;
 
     // Start is called before the first frame update
     void Start()
@@ -238,13 +242,19 @@ public class Director : MonoBehaviour
         return false;
     }
 
-    public void ClearQueueOfType(string type)
+    public float ClearQueueOfType(string type) //returns the shortest time left of the cleared items, or -1 if nothing was cleared
     {
+        float shortestTimeLeft = float.MaxValue;
         List<int> keysToRemove = new List<int>();
         foreach (var item in queue)
         {
             if(item.Value.Item2 == type)
             {
+                // Track shortest time
+                if (item.Value.timeLeft < shortestTimeLeft)
+                {
+                    shortestTimeLeft = item.Value.timeLeft;
+                }
                 keysToRemove.Add(item.Key);
             }
         }
@@ -255,6 +265,9 @@ public class Director : MonoBehaviour
         LogQueue();
         Debug.Log("Director Queue: Removed all " + type + " items from director queue.");
         LogQueue();
+        
+        // Return shortest time (or -1 if nothing was cleared)
+        return shortestTimeLeft == float.MaxValue ? -1f : shortestTimeLeft;
     }
 
     //====================================================================================================
@@ -264,8 +277,34 @@ public class Director : MonoBehaviour
     //PUBLIC
     public void PlayTransitionSound()
     {
+        if (!canPlayTransitionSound)
+        {
+            Debug.Log("Director: Transition Sound requested but still on cooldown. Ignoring request.");
+            return;
+        }
+        
         AkSoundEngine.PostEvent("Unity_TransitionSFX", gameObject);
         Debug.Log("Director: Transition Sound Played");
+        
+        // Start cooldown
+        canPlayTransitionSound = false;
+        
+        // Stop existing cooldown coroutine if one is running
+        if (transitionSoundCooldownCoroutine != null)
+        {
+            StopCoroutine(transitionSoundCooldownCoroutine);
+        }
+        
+        // Start new cooldown coroutine
+        transitionSoundCooldownCoroutine = StartCoroutine(TransitionSoundCooldown(5.0f));
+    }
+    
+    private IEnumerator TransitionSoundCooldown(float _cooldownSeconds = 5.0f)
+    {
+        yield return new WaitForSeconds(_cooldownSeconds);
+        canPlayTransitionSound = true;
+        transitionSoundCooldownCoroutine = null;
+        Debug.Log("Director: Transition Sound cooldown expired - can play again.");
     }
 
     public Action Action_PlayTransitionSound()
