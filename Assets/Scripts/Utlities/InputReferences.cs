@@ -8,6 +8,25 @@ public class InputReferences : MonoBehaviour
     public static InputReferences instance;
 
     public bool setStateInteractiveMusicMode = false;
+    
+    // MusicLoops_Switch values to cycle through
+    private readonly string[] musicLoopsSwitchValues = new string[]
+    {
+        "AmbientLoop",
+        "AweAtmosphere",
+        "BreathworkHandpan",
+        "CelestialDreamscape",
+        "CosmicAir",
+        "Environment",
+        "MysticalVision",
+        "PinkNoiseAtmosphere",
+        "ShiftingEarth",
+        "Silence",
+        "SingingBowls",
+        "SitarAmbience"
+    };
+    
+    private int currentMusicLoopsSwitchIndex = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -159,6 +178,9 @@ public class InputReferences : MonoBehaviour
         // L - List All Recorded Files
         // M - Manual Test Recording (5 seconds)
         // C - Get Recording Counts
+        // N - Stop Music Loops
+        // SHIFT + V - Cycle through MusicLoops_Switch values
+        // B - Play Silent Loops
         // ===================================================================
     
         // Wwise Music Controls
@@ -210,7 +232,7 @@ public class InputReferences : MonoBehaviour
             }
         }
         
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.N))
         {
             if (MusicSystem1.instance != null && MusicSystem1.instance.gameObject != null)
             {
@@ -228,6 +250,24 @@ public class InputReferences : MonoBehaviour
             else
             {
                 Debug.LogWarning("[Input] MusicSystem1.instance or gameObject is null, cannot post Wwise event");
+            }
+        }
+
+        // Cycle through MusicLoops_Switch values with Shift+V
+        if (Input.GetKeyDown(KeyCode.V) && Input.GetKey(KeyCode.LeftShift))
+        {
+            if (MusicSystem1.instance != null && MusicSystem1.instance.gameObject != null)
+            {
+                // Increment index and wrap around
+                currentMusicLoopsSwitchIndex = (currentMusicLoopsSwitchIndex + 1) % musicLoopsSwitchValues.Length;
+                string switchValue = musicLoopsSwitchValues[currentMusicLoopsSwitchIndex];
+                
+                AkSoundEngine.SetSwitch("MusicLoops_Switch", switchValue, MusicSystem1.instance.gameObject);
+                Debug.Log($"[Input] MusicLoops_Switch cycled to: {switchValue} ({currentMusicLoopsSwitchIndex + 1}/{musicLoopsSwitchValues.Length})");
+            }
+            else
+            {
+                Debug.LogWarning("[Input] MusicSystem1.instance or gameObject is null, cannot set Wwise switch");
             }
         }
 

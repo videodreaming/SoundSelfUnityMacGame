@@ -1,74 +1,118 @@
 Event	ID	Name			Wwise Object Path	Notes
 	77468567	Play_sfx_breatheout			\SFX\Play_sfx_breatheout	
+	186032212	Play_VO_QueryElicitationPassThankYou1			\VO\Play_VO_QueryElicitationPassThankYou1	
 	236202206	Mute_SILENTMEDITATION_MUSIC			\Default Work Unit\Mute_SILENTMEDITATION_MUSIC	
+	237216068	Stop_Inhales			\SFX\Stop_Inhales	
 	247426471	Play_VO_ThematicSavasana			\VO\Play_VO_ThematicSavasana	
 	322188649	Play_VO_Wakeup			\VO\Play_VO_Wakeup	
 	333136496	Stop_environment_wind			\Environment\Stop_environment_wind	
-	362704004	Play_environment_openingMeditation			\Environment\Play_environment_openingMeditation	
 	410054881	Play_SIGH_QUERY_SEQUENCE_2			\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_2	
 	452547817	Stop_All			\Default Work Unit\Stop_All	
 	603425291	Play_sfx_SoundSeed_BreathCycleWind			\SFX\Play_sfx_SoundSeed_BreathCycleWind	
 	674892661	Stop_sfx_SoundSeed_BreathCycleWind			\SFX\Stop_sfx_SoundSeed_BreathCycleWind	
 	711060179	Play_MUSIC_PLAYLIST_SWITCH			\Default Work Unit\Play_MUSIC_PLAYLIST_SWITCH	
+	767717232	Stop_AVS_SineGenerators_REFERENCE			\AVS System\Stop_AVS_SineGenerators_REFERENCE	
 	769398012	Play_Inhale_Long			\SFX\Play_Inhale_Long	
-	772188046	Play_environment_openingQueryRepeat1			\Environment\Play_environment_openingQueryRepeat1	
 	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP	
 	936790198	Play_VO_EndingSoon			\VO\Play_VO_EndingSoon	
+	1024713720	Play_VO_SighElicitationFail2			\VO\Play_VO_SighElicitationFail2	
+	1024713723	Play_VO_SighElicitationFail1			\VO\Play_VO_SighElicitationFail1	
+	1051170748	Play_VO_QueryElicitationPass2			\VO\Play_VO_QueryElicitationPass2	
 	1088180278	Play_THEMATIC_SAVASANA_SEQUENCE			\Default Work Unit\Play_THEMATIC_SAVASANA_SEQUENCE	
 	1226520867	Play_music_Duet_D_Major			\Linear Music\Play_music_Duet_D_Major	
 	1252315619	Play_Inhale_Medium			\SFX\Play_Inhale_Medium	
+	1347182731	Play_BassSynth			\Default Work Unit\Play_BassSynth	
+	1422850325	Play_VO_QueryElicitationFail2			\VO\Play_VO_QueryElicitationFail2	
+	1422850326	Play_VO_QueryElicitationFail1			\VO\Play_VO_QueryElicitationFail1	
 	1425422979	Play_sfx_EndInteractive			\SFX\Play_sfx_EndInteractive	
 	1488609145	Play_VO_QueryElicitation2			\VO\Play_VO_QueryElicitation2	
-	1747587664	Stop_SOMATIC_SEQUENCE			\Default Work Unit\Stop_SOMATIC_SEQUENCE	
+	1502315953	Stop_BassSynth			\Default Work Unit\Stop_BassSynth	
+	1761697258	Stop_MusicLoops			\Music Loops\Stop_MusicLoops	
 	1774847782	Stop_environment_crickets			\Environment\Stop_environment_crickets	
-	2071903771	Stop_SIGH_QUERY_SEQUENCE_2			\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_2	
+	1941733943	Play_sfx_breathworkcycle			\SFX\Play_sfx_breathworkcycle	
 	2110561540	Play_Inhale_Short			\SFX\Play_Inhale_Short	
 	2138093880	Play_VO_SighElicitation2			\VO\Play_VO_SighElicitation2	
-	2767686943	Play_VO_Wisdom			\VO\Play_VO_Wisdom	
+	2452192253	Stop_BinauralGenerator			\SFX\Stop_BinauralGenerator	
 	2811342292	Stop_THEMATIC_SAVASANA_SEQUENCE			\Default Work Unit\Stop_THEMATIC_SAVASANA_SEQUENCE	
-	2849654864	Play_environment_openingWelcome			\Environment\Play_environment_openingWelcome	
-	2917442959	Play_CrystalBowlGenerator			\SFX\Play_CrystalBowlGenerator	
 	2929327982	Play_environment_wind			\Environment\Play_environment_wind	
 	2938179890	Stop_music_meditationSilent_E_Major_LOOP			\Linear Music\Stop_music_meditationSilent_E_Major_LOOP	
-	2987132208	Play_environment_openingQuery			\Environment\Play_environment_openingQuery	
 	3042067738	Stop_VO_ClosingGoodbye			\VO\Stop_VO_ClosingGoodbye	
 	3359246268	Play_music_meditationSilent_E_Major_LOOP			\Linear Music\Play_music_meditationSilent_E_Major_LOOP	
+	3409568304	Play_MusicLoops			\Music Loops\Play_MusicLoops	
 	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
+	3449237142	Play_AVS_SineGenerators_REFERENCE			\AVS System\Play_AVS_SineGenerators_REFERENCE	
 	3451051880	Play_environment_crickets			\Environment\Play_environment_crickets	
 	3484562951	Play_EXIT_MUSIC_PLAYLIST			\Default Work Unit\Play_EXIT_MUSIC_PLAYLIST	
 	3561899656	Play_EndSoon_SEQUENCE			\Default Work Unit\Play_EndSoon_SEQUENCE	
+	3630490448	Play_AVS_Wave2			\AVS System\Play_AVS_Wave2	
+	3630490449	Play_AVS_Wave3			\AVS System\Play_AVS_Wave3	
+	3630490451	Play_AVS_Wave1			\AVS System\Play_AVS_Wave1	
 	3724822780	Play_environment_anyQueryRepeat1			\Environment\Play_environment_anyQueryRepeat1	
 	3724822783	Play_environment_anyQueryRepeat2			\Environment\Play_environment_anyQueryRepeat2	
 	3820138711	Play_VO_CLOSING_GOODBYE			\VO\Play_VO_CLOSING_GOODBYE	
 	3830600368	Play_sfx_breathein			\SFX\Play_sfx_breathein	
+	3913696011	Unity_TransitionSFX			\SFX\Unity_TransitionSFX	
 	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP	
 	4021535955	Play_WakeUpEndSoon_SEQUENCE			\Default Work Unit\Play_WakeUpEndSoon_SEQUENCE	
+	4041051749	Stop_sfx_breathworkcycle			\SFX\Stop_sfx_breathworkcycle	
 	4041758113	Stop_CrystalBowlGenerator			\SFX\Stop_CrystalBowlGenerator	
+	4138940081	Stop_AVS_Wave1			\AVS System\Stop_AVS_Wave1	
+	4138940082	Stop_AVS_Wave2			\AVS System\Stop_AVS_Wave2	
+	4138940083	Stop_AVS_Wave3			\AVS System\Stop_AVS_Wave3	
+	4173816975	Play_sfx_breathinout			\SFX\Play_sfx_breathinout	
 	4209841698	Set_State_InteractiveMusicMode_Environment			\Environment\Set_State_InteractiveMusicMode_Environment	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
-	683317262	VO_Wisdom			\VO\VO_Wisdom	
 	1496240431	MusicPlaylist_Switch			\Linear Music\MusicPlaylist_Switch	
 	1815817025	VO_ClosingGoodbye			\VO\VO_ClosingGoodbye	
+	2687325598	BreathworkCycle			\SFX\BreathworkCycle	
+	3505294094	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly	
+	3861178606	MusicLoops_Switch			\Music Loops\MusicLoops_Switch	
 	4155508698	VO_ThematicSavasana			\VO\VO_ThematicSavasana	
 
 Switch	ID	Name	Switch Group			Notes
-	1057915111	NotKnowing	VO_Wisdom			
-	1398814679	Jaguar	VO_Wisdom			
-	1743886715	Peru	VO_Wisdom			
-	2721896533	DieWell	VO_Wisdom			
-	395563099	NatureChimes	MusicPlaylist_Switch			
-	829625860	Chakapa	MusicPlaylist_Switch			
-	1467691068	SonoFlore	MusicPlaylist_Switch			
-	2692078280	Metta	MusicPlaylist_Switch			
-	2973005081	CosmicAir	MusicPlaylist_Switch			
-	3794542990	Radiance	MusicPlaylist_Switch			
-	3876742708	CrystalBowls	MusicPlaylist_Switch			
-	4267886810	Shruti	MusicPlaylist_Switch			
+	510174857	NatureChimes_6m	MusicPlaylist_Switch			
+	841411210	Chakapa_4m	MusicPlaylist_Switch			
+	1589520792	NatureChimesSaxophone_6m	MusicPlaylist_Switch			
+	1672318622	inHarmony_MusicSFX_25m	MusicPlaylist_Switch			
+	1816202284	GuidedTutorial_111Hz_5m	MusicPlaylist_Switch			
+	1827068784	ShrutiFemVox_7m	MusicPlaylist_Switch			
+	2389211517	Metta_5m	MusicPlaylist_Switch			
+	3198811659	DuetSonoFlore_5m	MusicPlaylist_Switch			
+	3368719192	OpeningMeditation_AMajor_4m	MusicPlaylist_Switch			
+	3997136470	OpeningOrientation_3m	MusicPlaylist_Switch			
+	4054988975	Radiance_9m	MusicPlaylist_Switch			
 	674228435	Long	VO_ClosingGoodbye			
 	1927133646	Anchoring	VO_ClosingGoodbye			
 	2585211341	Short	VO_ClosingGoodbye			
 	3041563226	Silence	VO_ClosingGoodbye			
+	1518569755	BreathworkCycle_12s	BreathworkCycle			
+	1552125181	BreathworkCycle_10s	BreathworkCycle			
+	1619235497	BreathworkCycle_14s	BreathworkCycle			
+	84696440	G	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	84696441	F	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	84696442	E	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	84696443	D	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	84696444	C	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	84696445	B	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	84696446	A	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	156517199	FsharpGflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	791737535	DsharpEflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	3050272541	AsharpBflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	3573977648	GsharpAflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	3800083777	CsharpDflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	6971574	SitarAmbience	MusicLoops_Switch			
+	931091870	AweAtmosphere	MusicLoops_Switch			
+	1229948536	Environment	MusicLoops_Switch			
+	1397804359	SingingBowls	MusicLoops_Switch			
+	1568978605	PinkNoiseAtmosphere	MusicLoops_Switch			
+	1837644484	BreathworkHandpan	MusicLoops_Switch			
+	2710806120	CelestialDreamscape	MusicLoops_Switch			
+	2973005081	CosmicAir	MusicLoops_Switch			
+	3018331789	AmbientLoop	MusicLoops_Switch			
+	3041563226	Silence	MusicLoops_Switch			
+	3175422271	ShiftingEarth	MusicLoops_Switch			
+	3550392237	MysticalVision	MusicLoops_Switch			
 	103389341	Peace	VO_ThematicSavasana			
 	674228435	Long	VO_ThematicSavasana			
 	1047870521	Narrative	VO_ThematicSavasana			
@@ -88,8 +132,13 @@ State	ID	Name	State Group			Notes
 	748895195	None	InteractiveMusicMode			
 	1229948536	Environment	InteractiveMusicMode			
 	1817215723	InteractiveMusicSystem	InteractiveMusicMode			
+	3375574707	MusicLoops	InteractiveMusicMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
+	54156856	AVS_MasterVolume_Wave2			\AVS System\WAVE 2\AVS_MasterVolume_Wave2	
+	54156857	AVS_MasterVolume_Wave3			\AVS System\WAVE 3\AVS_MasterVolume_Wave3	
+	54156859	AVS_MasterVolume_Wave1			\AVS System\WAVE 1\AVS_MasterVolume_Wave1	
+	467704492	MusicLoops_Volume			\Master Mixer\MusicLoops_Volume	
 	1209148328	AVS_Modulation_PWM_Wave1			\AVS System\WAVE 1\AVS_Modulation_PWM_Wave1	
 	1209148330	AVS_Modulation_PWM_Wave3			\AVS System\WAVE 3\AVS_Modulation_PWM_Wave3	
 	1209148331	AVS_Modulation_PWM_Wave2			\AVS System\WAVE 2\AVS_Modulation_PWM_Wave2	
@@ -100,7 +149,9 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	2189202576	AVS_Modulation_Frequency_Wave3			\AVS System\WAVE 3\AVS_Modulation_Frequency_Wave3	
 	2189202577	AVS_Modulation_Frequency_Wave2			\AVS System\WAVE 2\AVS_Modulation_Frequency_Wave2	
 	2189202578	AVS_Modulation_Frequency_Wave1			\AVS System\WAVE 1\AVS_Modulation_Frequency_Wave1	
+	2398552911	BassSynthesizer_Volume			\SFX\BassSynthesizer_Volume	
 	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
+	2523786154	AVS_REFERENCE_Volume			\AVS System\AVS_REFERENCE_Volume	
 	2591147252	AVS_Modulation_Waveform_Wave2			\AVS System\WAVE 2\AVS_Modulation_Waveform_Wave2	
 	2591147253	AVS_Modulation_Waveform_Wave3			\AVS System\WAVE 3\AVS_Modulation_Waveform_Wave3	
 	2591147255	AVS_Modulation_Waveform_Wave1			\AVS System\WAVE 1\AVS_Modulation_Waveform_Wave1	
@@ -110,234 +161,162 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	3133219852	AVS_Modulation_Depth_Wave2			\AVS System\WAVE 2\AVS_Modulation_Depth_Wave2	
 	3133219853	AVS_Modulation_Depth_Wave3			\AVS System\WAVE 3\AVS_Modulation_Depth_Wave3	
 	3133219855	AVS_Modulation_Depth_Wave1			\AVS System\WAVE 1\AVS_Modulation_Depth_Wave1	
-	3489928398	Unity_Inhale			\Unity Imitone\Unity_Inhale	
-	3761161481	CrystalBowlGenerator_Volume			\SFX\CrystalBowlGenerator_Volume	
-	4191266472	BreathIn_PlaybackRate			\SFX\BreathIn_PlaybackRate	
+	3244028900	AVS_BLUE_Volume_Wave3			\AVS System\WAVE 3\AVS_BLUE_Volume_Wave3	
+	3244028901	AVS_BLUE_Volume_Wave2			\AVS System\WAVE 2\AVS_BLUE_Volume_Wave2	
+	3244028902	AVS_BLUE_Volume_Wave1			\AVS System\WAVE 1\AVS_BLUE_Volume_Wave1	
+	3740547865	AVS_Modulation_BypassEffect_Wave1			\AVS System\WAVE 1\AVS_Modulation_BypassEffect_Wave1	
+	3740547866	AVS_Modulation_BypassEffect_Wave2			\AVS System\WAVE 2\AVS_Modulation_BypassEffect_Wave2	
+	3740547867	AVS_Modulation_BypassEffect_Wave3			\AVS System\WAVE 3\AVS_Modulation_BypassEffect_Wave3	
+	3922087661	AVS_RED_Volume_Wave1			\AVS System\WAVE 1\AVS_RED_Volume_Wave1	
+	3922087662	AVS_RED_Volume_Wave2			\AVS System\WAVE 2\AVS_RED_Volume_Wave2	
+	3922087663	AVS_RED_Volume_Wave3			\AVS System\WAVE 3\AVS_RED_Volume_Wave3	
+	4221340217	AVS_GREEN_Volume_Wave1			\AVS System\WAVE 1\AVS_GREEN_Volume_Wave1	
+	4221340218	AVS_GREEN_Volume_Wave2			\AVS System\WAVE 2\AVS_GREEN_Volume_Wave2	
+	4221340219	AVS_GREEN_Volume_Wave3			\AVS System\WAVE 3\AVS_GREEN_Volume_Wave3	
+
+Modulator LFO	ID	Name			Wwise Object Path	Notes
+	1071040946	Modulator_LFO_SineWave			\Default Work Unit\Modulator_LFO_SineWave	
 
 Effect plug-ins	ID	Name	Type				Notes
-	4496003	Dirty_Washing_Machine	Wwise RoomVerb			
 	28907203	AVS_Tremolo_Reference_R	Wwise Tremolo			
 	28907229	AVS_Tremolo_Reference_L	Wwise Tremolo			
-	48620415	Have_U_Ever_Been_Outside	Wwise RoomVerb			
-	59662939	Dialog_Too_Quiet	Wwise Compressor			
-	86245554	Attack_Remover	Wwise Compressor			
-	131511410	Let_The_Power_Fall	Wwise Stereo Delay			
-	136714882	_500ms_Per_Hour	Wwise Stereo Delay			
-	145028528	Static_Sibilance_Remover_Female	Wwise Parametric EQ			
-	176439046	Caught_in_a_loop	Wwise Stereo Delay			
-	199095971	Dialog_Through_AC_Vents	Wwise Parametric EQ			
-	389252396	Next_Room	Wwise Parametric EQ			
-	400317747	Hall_Large_TooBright	Wwise RoomVerb			
-	415841907	Space_Garage	Wwise RoomVerb			
-	418265525	Gentle_Program_Compressor_Minus_14dB_RMS	Wwise Compressor			
-	484890516	Church_Small_Wood	Wwise RoomVerb			
-	506891147	Plate_Small	Wwise RoomVerb			
-	535667444	Bathroom1	Wwise Matrix Reverb			
-	602546716	Room_Large	Wwise RoomVerb			
-	654807232	Chipmunk	Wwise Pitch Shifter			
-	701863527	Inside_My_Head	Wwise RoomVerb			
-	702543456	Tunnel1	Wwise Matrix Reverb			
-	776837744	Born_In_1950	Wwise Parametric EQ			
-	927250686	Rhythmic_Talk	Wwise Tremolo			
-	992902880	Small_Tiled_Room1	Wwise Matrix Reverb			
-	1008402193	Low_Pass_20KHz	Wwise Parametric EQ			
-	1110677034	Underwater_Echoes	Wwise Stereo Delay			
-	1125262053	Blue_Distant_Echoes	Wwise Stereo Delay			
-	1144018367	Plate_Large	Wwise RoomVerb			
-	1159390747	Room_Medium_Tiled	Wwise RoomVerb			
-	1182561210	Cut_3dB_10KHz	Wwise Parametric EQ			
-	1198215643	Boomerang	Wwise Tremolo			
-	1203617187	Machine_Gun_Hangar	Wwise RoomVerb			
-	1232017842	LR_Slap_with_CrossFeed	Wwise Stereo Delay			
-	1237275451	Octave_Up	Wwise Pitch Shifter			
-	1293178626	In_My_Car	Wwise Parametric EQ			
-	1416967478	All_Buttons_IN	Wwise Compressor			
-	1431209347	One_Tap_One_Second	Wwise Delay			
-	1431265797	Monsterize	Wwise Pitch Shifter			
 	1443902288	_1_Second_Delay	Wwise Stereo Delay			
-	1459522457	Brick_Wall_Minus_1dB_Peak_Fast_Release	Wwise Peak Limiter			
 	1506222489	AVS_Modulation_Wave1_01	Wwise Tremolo			
 	1506222490	AVS_Modulation_Wave1_02	Wwise Tremolo			
-	1520064353	Hall_Medium_Bright	Wwise RoomVerb			
-	1551236760	Small_Wooden_Room1	Wwise Matrix Reverb			
-	1588715066	Echoes_Linear	Wwise Delay			
-	1590660382	Nearly_Forever	Wwise Delay			
-	1655770832	High_Freq_Cut_11	Wwise Parametric EQ			
-	1655770833	High_Freq_Cut_10	Wwise Parametric EQ			
-	1675424737	Extreme_Limiting_1	Wwise Peak Limiter			
-	1675424738	Extreme_Limiting_2	Wwise Peak Limiter			
-	1675424739	Extreme_Limiting_3	Wwise Peak Limiter			
-	1706684651	Plate_Medium	Wwise RoomVerb			
-	1735130781	Aliasing	Wwise Tremolo			
-	1866712626	High_Freq_Cut_8	Wwise Parametric EQ			
-	1866712627	High_Freq_Cut_9	Wwise Parametric EQ			
-	1866712632	High_Freq_Cut_2	Wwise Parametric EQ			
-	1866712633	High_Freq_Cut_3	Wwise Parametric EQ			
-	1866712635	High_Freq_Cut_1	Wwise Parametric EQ			
-	1866712636	High_Freq_Cut_6	Wwise Parametric EQ			
-	1866712637	High_Freq_Cut_7	Wwise Parametric EQ			
-	1866712638	High_Freq_Cut_4	Wwise Parametric EQ			
-	1866712639	High_Freq_Cut_5	Wwise Parametric EQ			
-	1904434771	Medium_Room1	Wwise Matrix Reverb			
-	1990128658	Room_Medium	Wwise RoomVerb			
-	2038996943	Plate_Sizzle	Wwise RoomVerb			
-	2080872166	Brick_Wall_Minus_6dB_Peak_Fast_Release	Wwise Peak Limiter			
-	2098638826	Underground_Parking1	Wwise Matrix Reverb			
-	2135883084	Nasty_Radio	Wwise Peak Limiter			
-	2157017419	Cut_2_dB_100Hz	Wwise Parametric EQ			
-	2171127646	Hall_Conversation	Wwise RoomVerb			
-	2171939413	Dialog_Leveler_Hard	Wwise Compressor			
-	2180422931	One_Tap_Quarter_Second	Wwise Delay			
-	2230265344	Very_Bad_Connection	Wwise Tremolo			
-	2258521792	Brick_Wall_Minus_1dB_Peak_Slow_Release	Wwise Peak Limiter			
-	2265839006	Not_A_Yellow_Submarine	Wwise RoomVerb			
-	2394809124	Very_Slow_Modulation	Wwise Tremolo			
 	2513915904	Hall_Large	Wwise RoomVerb			
-	2547645744	Boost_3dB_100Hz	Wwise Parametric EQ			
-	2648499661	Hall_Medium_Dark	Wwise RoomVerb			
 	2652646462	Dialog_Leveler_Soft	Wwise Compressor			
-	2656259783	PA_Announcement1	Wwise Matrix Reverb			
-	2662085913	Large_Church1	Wwise Matrix Reverb			
-	2667647788	Single_Band_1Khz_Wide	Wwise Parametric EQ			
-	2755291684	Pumping_and_Breathing_1	Wwise Compressor			
-	2755291686	Pumping_and_Breathing_3	Wwise Compressor			
-	2755291687	Pumping_and_Breathing_2	Wwise Compressor			
-	2781261543	Brick_Wall_Minus_6dB_Peak_Slow_Release	Wwise Peak Limiter			
-	2791153688	Hall_Small	Wwise RoomVerb			
-	2849147824	Medium	Wwise RoomVerb			
-	2891462749	Room_Medium_High_Absorbtion	Wwise RoomVerb			
-	2900412812	Robotic_Trash	Wwise RoomVerb			
 	2943759360	AVS_Modulation_Wave3_02	Wwise Tremolo			
 	2943759363	AVS_Modulation_Wave3_01	Wwise Tremolo			
-	2945072214	My_Closet	Wwise RoomVerb			
-	2949243095	Hall_Small_Bright	Wwise RoomVerb			
-	2952825346	Dual_Filters_Radio_Comm	Wwise Parametric EQ			
-	2995775460	Room_Small	Wwise RoomVerb			
-	2998002419	Boost_3dB_10KHz	Wwise Parametric EQ			
-	3013737254	Bass_Remover_8	Wwise Parametric EQ			
-	3013737255	Bass_Remover_9	Wwise Parametric EQ			
-	3013737256	Bass_Remover_6	Wwise Parametric EQ			
-	3013737257	Bass_Remover_7	Wwise Parametric EQ			
-	3013737258	Bass_Remover_4	Wwise Parametric EQ			
-	3013737259	Bass_Remover_5	Wwise Parametric EQ			
-	3013737260	Bass_Remover_2	Wwise Parametric EQ			
-	3013737261	Bass_Remover_3	Wwise Parametric EQ			
-	3013737263	Bass_Remover_1	Wwise Parametric EQ			
-	3036946058	Inside_Your_Head	Wwise RoomVerb			
-	3043085106	High_Impact	Wwise Compressor			
 	3164629247	Holy	Wwise RoomVerb			
-	3209444191	Static_Sibilance_Remover_Male	Wwise Parametric EQ			
-	3216246379	Space_Dreaming	Wwise RoomVerb			
-	3250156175	Say_what	Wwise Tremolo			
-	3290519051	Aluminium_Tank	Wwise RoomVerb			
-	3354577677	Fast_LF_Tremolo	Wwise Tremolo			
-	3395979371	Straight_Delay	Wwise Stereo Delay			
-	3407225994	Phone_Booth	Wwise RoomVerb			
-	3442768367	Hall_Large_Dark	Wwise RoomVerb			
-	3451596814	Hall_Medium	Wwise RoomVerb			
-	3487820010	One_Tap_Half_Second	Wwise Delay			
-	3491912472	Club_Music_Distant_02	Wwise Parametric EQ			
-	3491912473	Club_Music_Distant_03	Wwise Parametric EQ			
-	3491912475	Club_Music_Distant_01	Wwise Parametric EQ			
-	3491912478	Club_Music_Distant_04	Wwise Parametric EQ			
-	3497757918	Fast_LF_Tremolo_No_Smoothing	Wwise Tremolo			
-	3546444380	Big_Garage1	Wwise Matrix Reverb			
-	3559982155	Hall_Stop_Screaming	Wwise RoomVerb			
 	3561977548	AVS_Modulation_Wave2_01	Wwise Tremolo			
 	3561977551	AVS_Modulation_Wave2_02	Wwise Tremolo			
-	3563901164	Halfway_There	Wwise Tremolo			
-	3604890626	High_Pass_60Hz	Wwise Parametric EQ			
-	3614057183	_1_Frame_Delay	Wwise Stereo Delay			
-	3673681183	Large_Bright_Chamber1	Wwise Matrix Reverb			
 	3701691487	Hall_Large_Bright	Wwise RoomVerb			
-	3796564934	Hard_Knee_Minus_3dB_RMS	Wwise Compressor			
-	3900114836	Metal_Hangar	Wwise RoomVerb			
-	3948262040	Octave_Down	Wwise Pitch Shifter			
 	3986712950	HighShelfReduction	Wwise Parametric EQ			
-	4113267698	Hall_Guns	Wwise RoomVerb			
-	4143868620	Bass_Remover_11	Wwise Parametric EQ			
-	4143868621	Bass_Remover_10	Wwise Parametric EQ			
-	4185773483	Dual_Filters_Reset	Wwise Parametric EQ			
-	4190220820	Voice_CenterOnly_Lowered	Wwise Pitch Shifter			
-	4212217734	Personnel_Advisor	Wwise Stereo Delay			
-	4239446561	Dual_Filters_Narrow_Bandwidth	Wwise Parametric EQ			
-	4286906788	Gentle_Program_Compressor_Minus_20dB_RMS	Wwise Compressor			
+
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	21278335	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\RED\RED\Sine	
+	53771986	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_LEFT_Inhale\GREEN\GREEN\Sine	
+	56179526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_REFERENCE\Reference_SignalGenerator_R\Sine	
+	99381280	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_RIGHT_Inhale\RED\RED\Sine	
+	145712967	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\BLUE\BLUE\Sine	
+	282040115	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_RIGHT_Inhale\GREEN\GREEN\Sine	
+	294071551	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_RIGHT_Toning\BLUE\BLUE\Sine	
+	393190976	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\GREEN\GREEN\Sine	
+	396058618	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_RIGHT_Toning\RED\RED\Sine	
+	409478190	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\BLUE\BLUE\Sine	
+	434151753	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\BLUE\BLUE\Sine	
+	469381759	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_RIGHT_Inhale\BLUE\BLUE\Sine	
+	559173273	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\GREEN\GREEN\Sine	
+	572865908	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\RED\RED\Sine	
+	599365106	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_LEFT_Inhale\BLUE\BLUE\Sine	
+	609153636	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave3\AVS_SineGenerators_RGB_Stereo_Wave3\AVS_SineGenerators_RGB_LEFT_Inhale\RED\RED\Sine	
+	632779657	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_REFERENCE\Reference_SignalGenerator_L\Sine	
+	725142564	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\RED\RED\Sine	
+	879675526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_RIGHT_Toning\GREEN\GREEN\Sine	
+	947492082	Synth One	Wwise Synth One		\Actor-Mixer Hierarchy\Bass Synthesizer\MIDI Bass Synthesizer\MIDI Bass Synthesizer\Synth One	
+	1006973361	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\GREEN\GREEN\Sine	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	464203531	sfx_breath out	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath out_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
+	105163780	Wind - cold - short - looping	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Wind - cold - short - looping_D7C0AC88.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\Wind - cold - short - looping		2564192
+	112641813	BREATHWORK_SFX_120bpm	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\BREATHWORK_SFX_120bpm_FBC78EF0.wem		\Interactive Music Hierarchy\SFX\Breathwork_Cycle\Breathwork Cycle_10s\Breathwork1\BREATHWORK_SFX_120bpm		10608096
+	142502747	D	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\D_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\D\D		74
+	251817723	G	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\G_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\G\G		74
+	273367130	E	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\E_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\E\E		74
+	279448768	B	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\B_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\B\B		74
+	292416456	F	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\F_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\F\F		74
+	320884047	C	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\C_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\C\C		74
+	339955301	C#Bb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\C#Bb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\C#Db\C#Bb		74
+	464203531	sfx_breath out	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath out_1ED5DAAD.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
 	466210932	sfx_breath in	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_C3F4FBB0.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612056
+	493065678	SO_AM_90_ambience_rain_muladhara	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SO_AM_90_ambience_rain_muladhara_4AD9E582.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_90_ambience_rain_muladhara		3387488
+	521907833	A#Bb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\A#Bb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\A#Bb\A#Bb		74
 	525152423	End Interactive SFX	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\GIO_HEAL_bowls_wide_29FB70CC.wem		\Actor-Mixer Hierarchy\SFX\Extra Samples\End Interactive SFX		7414520
+	650293573	sfx_breath in	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath in		612056
+	657858480	D#Eb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\D#Eb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\D#Eb\D#Eb		74
+	928485249	OceanWavesSlowSurf_BWU_685	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\OceanWavesSlowSurf_BWU.685_D997D5F6.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\OceanWavesSlowSurf_BWU_685		3659872
+	929296902	A	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\A_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\A\A		74
+	948390285	SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_E0F51DE2.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj		865416
+	977341665	sfx_breath out	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath out_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath out		768096
+	987362858	SO_AM_80_ambience_birds_creek_ashby	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SO_AM_80_ambience_birds_creek_ashby_76ED12B3.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_80_ambience_birds_creek_ashby		2490464
+	1056289911	G#Ab	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\G#Ab_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\G#Ab\G#Ab		74
+	1071905058	F#Gb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\F#Gb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\F#Gb\F#Gb		74
 
 Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
-	9176103	vo_thematicSavasana_gratitude	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_gratitude_818F3B66.wem	9176103.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_gratitude	
+	9176103	vo_thematicSavasana_gratitude	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_gratitude_818F3B66.wem	9176103.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_gratitude	
+	17273079	ShiftingEarth	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\ShiftingEarth_FBC78EF0.wem	17273079.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\ShiftingEarth\ShiftingEarth_Loop\ShiftingEarth	
 	30291822	vo_endingSoon	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_endingSoon_FBC78EF0.wem	30291822.wem	\Interactive Music Hierarchy\CLOSING\VO_WakeUp&EndSoon\vo_endingSoon	
-	39430341	vo_elicitQuery_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQuery_closing_818F3B66.wem	39430341.wem	\Actor-Mixer Hierarchy\VO\VO\VO_QueryElicitation2\vo_elicitQuery_closing	
+	37376512	Opening_Bowls, Nature, BinauralBeats	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Opening_Bowls, Nature, BinauralBeats_4.24.24_FBC78EF0.wem	37376512.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\Opening_Bowls, Nature\Opening_Bowls, Nature, BinauralBeats	
+	37850875	Breathwork_Handpan_140bpmLoop	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\_BREATHWORK REFERENCE_140 bpm_FBC78EF0.wem	37850875.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\Breathwork_Handpan_140bpm_Loop\Breathwork_Handpan_140bpmloop\Breathwork_Handpan_140bpmLoop	
+	39430341	vo_elicitQuery_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQuery_closing_818F3B66.wem	39430341.wem	\Actor-Mixer Hierarchy\VO\VO_QueryElicitation2\vo_elicitQuery_closing	
 	54796230	vo_goodbye_short	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_short_FBC78EF0.wem	54796230.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_short\vo_goodbye_short	
 	80906255	vo_thematicSavasana_surrender	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_surrender_FBC78EF0.wem	80906255.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_surrender\vo_thematicSavasana_surrender	
-	125495837	SoundCeremony_Crystal Bowl_oneshot	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_Crystal Bowl_oneshot_FBC78EF0.wem	125495837.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_Crystal Bowl_oneshot\SoundCeremony_Crystal Bowl_oneshot	
-	137392073	ThematicSavasana_MUSIC_METTA	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\ThematicSavasana_MUSIC_METTA_FBC78EF0.wem	137392073.wem	\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\MusicDemo_Metta_Edit2\ThematicSavasana_MUSIC_METTA	
-	147201971	environment_openingQuery	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingQuery_818F3B66.wem	147201971.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_openingQuery	
+	100218319	Metta	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\ThematicSavasana_Metta_MusicDemo_5.2.24_FBC78EF0.wem	100218319.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\Metta\Metta	
+	141708242	vo_thankYou	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thankYou_818F3B66.wem	141708242.wem	\Actor-Mixer Hierarchy\VO\VO_thankyou\vo_thankYou	
 	163565718	environment_crickets	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_crickets_FBC78EF0.wem	163565718.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\environment_crickets	
-	171769046	vo_thematicSavasana_silence	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_silence_818F3B66.wem	171769046.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_silence	
+	171769046	vo_thematicSavasana_silence	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_silence_818F3B66.wem	171769046.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_silence	
 	172072923	vo_thematicSavasana_short	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_short_FBC78EF0.wem	172072923.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_short\vo_thematicSavasana_short	
+	182072962	vo_elicitQueryFail_any2	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any2_818F3B66.wem	182072962.wem	\Actor-Mixer Hierarchy\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_any2	
 	184811278	vo_thematicSavasana_metta	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_metta_FBC78EF0.wem	184811278.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_metta\vo_thematicSavasana_metta	
-	191501674	vo_thematicSavasana_anchoring	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_anchoring_818F3B66.wem	191501674.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_anchoring	
-	209545666	vo_thematicSavasana_fireflies	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_fireflies_818F3B66.wem	209545666.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_fireflies	
-	234819779	environment_openingMeditation	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingMeditation_FBC78EF0.wem	234819779.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_openingMeditation	
-	248401807	vo_thematicSavasana_peace	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_peace_818F3B66.wem	248401807.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_peace	
+	191501674	vo_thematicSavasana_anchoring	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_anchoring_818F3B66.wem	191501674.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_anchoring	
+	206283718	Sitar Ambience_MIX_no vox	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Sitar Ambience_MIX_no vox_FBC78EF0.wem	206283718.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\SitarAmbience\SitarAmbience_Loop\Sitar Ambience_MIX_no vox	
+	206902360	music_OpeningMeditationLong_A Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\music_OpeningMeditationLong_A Major_FBC78EF0.wem	206902360.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\SomaticMusic_GuidedTutorial\music_OpeningMeditationLong_A Major_5m\music_OpeningMeditationLong_A Major	
+	209545666	vo_thematicSavasana_fireflies	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_fireflies_818F3B66.wem	209545666.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_fireflies	
+	248401807	vo_thematicSavasana_peace	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_peace_818F3B66.wem	248401807.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_peace	
 	248741514	vo_goodbye_anchoring	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_anchoring_FBC78EF0.wem	248741514.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_anchoring\vo_goodbye_anchoring	
 	251627468	vo_thematicSavasana_peace	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_peace_FBC78EF0.wem	251627468.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_peace\vo_thematicSavasana_peace	
-	270879250	vo_thematicSavasana_narrative	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_narrative_818F3B66.wem	270879250.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_narrative	
-	338851527	vo_wisdom_notknowing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wisdom_notknowing_818F3B66.wem	338851527.wem	\Actor-Mixer Hierarchy\VO\VO\VO_Wisdom\VO_Wisdom\vo_wisdom_notknowing	
+	270879250	vo_thematicSavasana_narrative	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_narrative_818F3B66.wem	270879250.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_narrative	
+	291736870	Radiance	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\MusicArrangement_Radiance_9.6.23_FBC78EF0.wem	291736870.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\Radiance_9m\Radiance	
+	297480391	vo_elicitQueryFail_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_closing_818F3B66.wem	297480391.wem	\Actor-Mixer Hierarchy\VO\VO_QueryElicitationFail2\VO_QueryElicitationFail2\vo_elicitQueryFail_closing	
+	311017954	SingingBowls	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SingingBowls_FBC78EF0.wem	311017954.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\SingingBowls\SingingBowls\SingingBowls	
 	351785776	vo_goodbye_silence	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_silence_FBC78EF0.wem	351785776.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_silence\vo_goodbye_silence	
+	359783349	Pink Noise Ambience_VOX_FX	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Pink Noise Ambience_VOX_FX_FBC78EF0.wem	359783349.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\PinkNoiseAtmosphere\PinkNoiseAtmosphere_Loop\Pink Noise Ambience_VOX_FX	
 	366636977	environment_anyQueryRepeat2	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_anyQueryRepeat2_FBC78EF0.wem	366636977.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_anyQueryRepeat2	
-	382946237	SoundCeremony_CrystalBowl_11	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_11_FBC78EF0.wem	382946237.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_11\SoundCeremony_CrystalBowl_11	
-	412214530	SoundCeremony_CrystalBowl_08	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_08_FBC78EF0.wem	412214530.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_08\SoundCeremony_CrystalBowl_08	
+	369988848	vo_elicitQueryFail_opening1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_opening1_818F3B66.wem	369988848.wem	\Actor-Mixer Hierarchy\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_opening1	
 	425147260	vo_thematicSavasana_fireflies	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_fireflies_FBC78EF0.wem	425147260.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_fireflies\vo_thematicSavasana_fireflies	
 	437973430	vo_thematicSavasana_Gratitude_Edit2	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Jaya_ThematicSavasana_Gratitude_Edit2_FBC78EF0.wem	437973430.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_gratitude\vo_thematicSavasana_Gratitude_Edit2	
-	456722588	SoundCeremony_CrystalBowl_05	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_05_FBC78EF0.wem	456722588.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_05\SoundCeremony_CrystalBowl_05	
 	473964817	vo_goodbye_long	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_goodbye_long_FBC78EF0.wem	473964817.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_long\vo_goodbye_long	
-	494111603	vo_elicitSigh_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSigh_closing_818F3B66.wem	494111603.wem	\Actor-Mixer Hierarchy\VO\VO\VO_SighElicitation2\vo_elicitSigh_closing	
-	515336261	environment_openingQueryRepeat1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingQueryRepeat1_FBC78EF0.wem	515336261.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_openingQueryRepeat1	
-	517296307	environment_openingWelcome	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingWelcome_FBC78EF0.wem	517296307.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_openingWelcome	
-	518332124	SoundCeremony_CrystalBowl_03	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_03_FBC78EF0.wem	518332124.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_03\SoundCeremony_CrystalBowl_03	
+	494111603	vo_elicitSigh_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSigh_closing_818F3B66.wem	494111603.wem	\Actor-Mixer Hierarchy\VO\VO_SighElicitation2\vo_elicitSigh_closing	
+	517296307	environment_openingWelcome	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingWelcome_FBC78EF0.wem	517296307.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\Environment\environment_openingWelcome\environment_openingWelcome	
+	528578437	MysticalVision_Gm_85bpm	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Mystical Vision_MIX_no vox_FBC78EF0.wem	528578437.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\MysticalVision_Loop\MysticalVision_Gm\MysticalVision_Gm_85bpm	
+	540044471	GuidedTutorial_111Hz_5m	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundSelf_Guided Tutorial_Demo 2_Lorna Dune_111 Hz_Extended_5m_FBC78EF0.wem	540044471.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\SomaticMusic_GuidedTutorial\GuidedTutorial_111Hz_5m\GuidedTutorial_111Hz_5m	
 	541654321	vo_thematicSavasana_anchoring	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_anchoring_FBC78EF0.wem	541654321.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_anchoring\vo_thematicSavasana_anchoring	
 	543585764	vo_elicitSigh_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSigh_closing_FBC78EF0.wem	543585764.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\vo_elicitSigh_closing	
 	570701755	environment_anyQueryRepeat1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_anyQueryRepeat1_FBC78EF0.wem	570701755.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_anyQueryRepeat1	
 	579672527	sfx_start	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_start_FBC78EF0.wem	579672527.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_start	
-	587565267	vo_thematicSavasana_long	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_long_818F3B66.wem	587565267.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_long	
-	592303975	vo_wisdom_jaguar	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wisdom_jaguar_818F3B66.wem	592303975.wem	\Actor-Mixer Hierarchy\VO\VO\VO_Wisdom\VO_Wisdom\vo_wisdom_jaguar	
+	587565267	vo_thematicSavasana_long	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_long_818F3B66.wem	587565267.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_long	
+	606593135	Pink Noise Ambience_MIX_no vox	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Pink Noise Ambience_MIX_no vox_FBC78EF0.wem	606593135.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\PinkNoiseAtmosphere\PinkNoiseAtmosphere_Loop\Pink Noise Ambience_MIX_no vox	
 	618347590	vo_thematicSavasana_gratitude	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_gratitude_FBC78EF0.wem	618347590.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_gratitude\vo_thematicSavasana_gratitude	
 	623436931	sfx_stop_v2	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\RKU_LHH2_Percussion_Tingsha_2_FBC78EF0.wem	623436931.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_stop_v2	
 	629816663	vo_wakeUp	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wakeUp_FBC78EF0.wem	629816663.wem	\Interactive Music Hierarchy\CLOSING\VO_WakeUp&EndSoon\vo_wakeUp	
-	650293573	sfx_breath in	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath in_FBC78EF0.wem	650293573.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath in	
-	655141054	vo_thematicSavasana_short	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_short_818F3B66.wem	655141054.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_short	
-	656133757	vo_wisdom_peru	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wisdom_peru_818F3B66.wem	656133757.wem	\Actor-Mixer Hierarchy\VO\VO\VO_Wisdom\VO_Wisdom\vo_wisdom_peru	
+	648810886	vo_elicitSighFail_opening1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSighFail_opening1_818F3B66.wem	648810886.wem	\Actor-Mixer Hierarchy\VO\VO_SighElicitationFail1\VO_SighElicitationFail1\vo_elicitSighFail_opening1	
+	655141054	vo_thematicSavasana_short	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_short_818F3B66.wem	655141054.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_short	
 	658131175	vo_thematicSavasana_silence	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_silence_FBC78EF0.wem	658131175.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_silence\vo_thematicSavasana_silence	
 	665576698	sfx_stop	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_stop_FBC78EF0.wem	665576698.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_stop	
-	671858453	vo_thematicSavasana_surrender	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_surrender_818F3B66.wem	671858453.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_surrender	
-	687186124	SoundCeremony_CrystalBowl_01	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_01_FBC78EF0.wem	687186124.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_01\SoundCeremony_CrystalBowl_01	
+	671858453	vo_thematicSavasana_surrender	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_surrender_818F3B66.wem	671858453.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_surrender	
+	685689043	STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12.21.23 [2024-05-06 214206]_FBC78EF0.wem	685689043.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\OpeningOrientation_3m\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]	
+	719008266	vo_elicitQueryFail_any3	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any3_818F3B66.wem	719008266.wem	\Actor-Mixer Hierarchy\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_any3	
 	745939041	menu_music_C Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\menu_music_C Major_FBC78EF0.wem	745939041.wem	\Interactive Music Hierarchy\CLOSING\EXIT MUSIC PLAYLIST\menu_music_C Major\menu_music_C Major	
-	755912331	vo_thematicSavasana_metta	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_metta_818F3B66.wem	755912331.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_metta	
+	755912331	vo_thematicSavasana_metta	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_metta_818F3B66.wem	755912331.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_metta	
 	756450229	ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24_FBC78EF0.wem	756450229.wem	\Interactive Music Hierarchy\CLOSING\THEMATIC SAVASANA MUSIC\ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24	
+	763851565	Opening_Bowls, Nature, Saxophone	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\MusicDemo_Sax,Bowls,Nature.4.24.24_FBC78EF0.wem	763851565.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\Opening_Bowls, Nature, Saxophone\Opening_Bowls, Nature, Saxophone	
+	785774053	inHarmony_Music+SFX_25m	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\inHarmony_Music & SFX ONLY_Edit 2_9.22.23_v2_F7510FCE.wem	785774053.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\inHarmony_Music+SFX_25m\inHarmony_Music+SFX_25m	
+	785864859	AweAtmosphere	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundSelf_Guided Tutorial_Demo 1_Lorna Dune_B minor_FBC78EF0.wem	785864859.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\AweAtmosphere_Loop\The Awe of it All_Bminor\AweAtmosphere	
 	789751157	environment_wind	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_wind_FD032056.wem	789751157.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\environment_wind	
+	799748149	Sitar Ambience_VOX_FX	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\Sitar Ambience_VOX_FX_FBC78EF0.wem	799748149.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\SitarAmbience\SitarAmbience_Loop\Sitar Ambience_VOX_FX	
+	838651350	vo_elicitSighFail_any	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitSighFail_any_818F3B66.wem	838651350.wem	\Actor-Mixer Hierarchy\VO\VO_SighElicitationFail1\VO_SighElicitationFail1\vo_elicitSighFail_any	
 	870294765	vo_thematicSavasana_long	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_long_FBC78EF0.wem	870294765.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_long\vo_thematicSavasana_long	
 	883996255	environment_wind	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_wind_FBC78EF0.wem	883996255.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_wind	
 	901997753	music_duet_D Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\music_duet_D Major_FBC78EF0.wem	901997753.wem	\Interactive Music Hierarchy\CLOSING\EXIT MUSIC PLAYLIST\music_duet_D Major\music_duet_D Major	
-	919567912	vo_thematicSavasana_kindness	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_kindness_818F3B66.wem	919567912.wem	\Actor-Mixer Hierarchy\VO\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_kindness	
-	931830422	SoundCeremony_CrystalBowl_12	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_12_FBC78EF0.wem	931830422.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_12\SoundCeremony_CrystalBowl_12	
-	936199836	SoundCeremony_CrystalBowl_13	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_13_FBC78EF0.wem	936199836.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_13\SoundCeremony_CrystalBowl_13	
-	965535147	SoundCeremony_CrystalBowl_07	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_07_FBC78EF0.wem	965535147.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_07\SoundCeremony_CrystalBowl_07	
+	919567912	vo_thematicSavasana_kindness	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_kindness_818F3B66.wem	919567912.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_kindness	
 	973516209	vo_thematicSavasana_narrative	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_narrative_FBC78EF0.wem	973516209.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_narrative\vo_thematicSavasana_narrative	
-	977341665	sfx_breath out	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\sfx_breath out_FBC78EF0.wem	977341665.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath out	
+	978918934	menu_ambient loop_extra_C Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\menu_ambient loop_extra_C Major_FBC78EF0.wem	978918934.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\AmbientMenu_CMajor_Loop\menu_ambient loop_extra_C Major\menu_ambient loop_extra_C Major	
+	989778452	CelestialDreamscape	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\CelestialDreamscape_FBC78EF0.wem	989778452.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\CelestialDreamscape\Celestial Dreamscape_loop\CelestialDreamscape	
 	997677863	vo_thankYou	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thankYou_FBC78EF0.wem	997677863.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\vo_thankYou	
-	999054356	vo_wakeUp	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wakeUp_818F3B66.wem	999054356.wem	\Actor-Mixer Hierarchy\VO\VO\VO_Wakeup\vo_wakeUp	
-	1005627719	SoundCeremony_CrystalBowl_02	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_02_FBC78EF0.wem	1005627719.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_02\SoundCeremony_CrystalBowl_02	
+	999054356	vo_wakeUp	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_wakeUp_818F3B66.wem	999054356.wem	\Actor-Mixer Hierarchy\VO\VO_Wakeup\vo_wakeUp	
 	1006284074	environment_openingQuery	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\environment_openingQuery_FBC78EF0.wem	1006284074.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\environment_openingQuery	
 	1026406862	vo_thematicSavasana_kindness	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_thematicSavasana_kindness_FBC78EF0.wem	1026406862.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_kindness\vo_thematicSavasana_kindness	
-	1029397453	SoundCeremony_CrystalBowl_09	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_09_FBC78EF0.wem	1029397453.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_09\SoundCeremony_CrystalBowl_09	
-	1031434375	SoundCeremony_CrystalBowl_10	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\SoundCeremony_CrystalBowl_10_FBC78EF0.wem	1031434375.wem	\Interactive Music Hierarchy\Default Work Unit\GenerativeInstruments\CrystalBowlGenerator\SoundCeremony_CrystalBowl_10\SoundCeremony_CrystalBowl_10	
-	1050281884	music_meditationSilent_E Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\music_meditationSilent_E Major_FBC78EF0.wem	1050281884.wem	\Interactive Music Hierarchy\Default Work Unit\MUSIC PLAYLIST SWITCH\CosmicAir\music_meditationSilent_E Major_LOOP\music_meditationSilent_E Major	
-	1059101541	vo_endingSoon	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_endingSoon_818F3B66.wem	1059101541.wem	\Actor-Mixer Hierarchy\VO\VO\VO_EndingSoon\vo_endingSoon	
+	1028451859	vo_elicitQueryFail_any1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQueryFail_any1_818F3B66.wem	1028451859.wem	\Actor-Mixer Hierarchy\VO\VO_QueryElicitationFail1\VO_QueryElicitationFail1\vo_elicitQueryFail_any1	
+	1050281884	music_meditationSilent_E Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\music_meditationSilent_E Major_FBC78EF0.wem	1050281884.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\CosmicAir_AMajor_Loop\music_meditationSilent_E Major_LOOP\music_meditationSilent_E Major	
+	1059101541	vo_endingSoon	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_endingSoon_818F3B66.wem	1059101541.wem	\Actor-Mixer Hierarchy\VO\VO_EndingSoon\vo_endingSoon	
 	1070561637	vo_elicitQuery_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Mac\SFX\vo_elicitQuery_closing_FBC78EF0.wem	1070561637.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\vo_elicitQuery_closing	
 
