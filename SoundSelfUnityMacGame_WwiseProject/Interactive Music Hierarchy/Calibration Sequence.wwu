@@ -6,6 +6,11 @@
 				<MusicSwitchContainer Name="Calibration Sequence" ID="{EDABCE0F-E53E-4EF1-8364-D25F9A524D73}" ShortID="281107690">
 					<PropertyList>
 						<Property Name="ContinuePlay" Type="bool" Value="False"/>
+						<Property Name="Lowpass" Type="int16">
+							<ValueList>
+								<Value>4</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
 								<Value>-2</Value>
@@ -239,6 +244,11 @@
 								<MusicTrack Name="VO_Calibration_Intro_v1" ID="{0F0FB5AA-C48B-4E88-B04E-FF07F91F2FE5}" ShortID="1061251058">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -390,7 +400,7 @@
 								<Property Name="EndPosition" Type="Real64" Value="35153.725174732"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -460,10 +470,13 @@
 																</Reference>
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{80DA093C-B0B2-4723-9EC0-33CBE7B9871E}" ShortID="321766115">
+																		<MusicEventCue Name="" ID="{E18D8B0D-1459-4C7C-961C-BA97EE5B78AD}" ShortID="843547854">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="138.137016987118"/>
+																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_MIDI_Bass_Synthesizer" ID="{E52B5D22-0EEE-4FC6-9C3D-7773B2419D12}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																					<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
@@ -622,7 +635,7 @@
 								<Property Name="EndPosition" Type="Real64" Value="13375.9533046758"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1044,7 +1057,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1155,13 +1168,13 @@
 																</Reference>
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{1CEE5316-4DF9-4A36-AD1E-5B5D973C8798}" ShortID="347900677">
+																		<MusicEventCue Name="" ID="{28A9599C-1A95-49A3-90A9-436E101A7E27}" ShortID="476266733">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="4247.31767931414"/>
+																				<Property Name="PlayAt" Type="Real64" Value="4179.58749077239"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_MIDI_Bass_Synthesizer" ID="{C255A655-CDD0-4BE3-99B9-995835D578AE}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																					<ObjectRef Name="Play_BassSynth" ID="{F494310D-2CEE-4F4C-B355-614678F37AC9}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
@@ -1261,7 +1274,7 @@
 								<Property Name="EndPosition" Type="Real64" Value="15023.1713515508"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

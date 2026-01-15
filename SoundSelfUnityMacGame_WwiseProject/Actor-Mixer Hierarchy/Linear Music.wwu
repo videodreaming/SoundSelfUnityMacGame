@@ -413,6 +413,16 @@
 						<Sound Name="CalibrationSequence_Music" ID="{1F2233D8-F099-4356-BCE4-04DF2F661497}" ShortID="14749120">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="IsStreamingEnabled" Type="bool">
+									<ValueList>
+										<Value>True</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>5</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -430,7 +440,7 @@
 										<Property Name="TrimEnd" Type="Real64" Value="392.713712818403"/>
 										<Property Name="VolumeOffset" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
