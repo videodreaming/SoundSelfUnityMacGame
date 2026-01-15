@@ -89,7 +89,7 @@ public class MusicSystem1 : MonoBehaviour
     public string currentSwitchState = "C";
 
     //PLAYBACK AND INITIALIZATION
-    private bool environmentFlag = false;
+    //private bool environmentFlag = false;
     private bool interactiveFlag = false;
     
     private bool modeSilentFlag = false;
@@ -209,7 +209,7 @@ public class MusicSystem1 : MonoBehaviour
         else if(currentMusicMode == MusicMode.Freeplay) 
         { 
             DynamicMusicSystem();
-            CheckForModeSwitchToEnvironment();
+            InactivitySwitchToEnvironment();
         }
         else if (currentMusicMode == MusicMode.FrozenFreeplay)
         {
@@ -441,9 +441,9 @@ public class MusicSystem1 : MonoBehaviour
     }
     
     //private void MusicModeUpdate()
-    private void CheckForModeSwitchToEnvironment()
+    private void InactivitySwitchToEnvironment()
     {
-        if(!environmentFlag && imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold)
+        if(imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold && currentInteractionType != InteractionType.MusicLoop)
         {
             Debug.Log("MUSIC: Environment Mode : because " + imitoneVoiceInterpreter._tThisRestConfident + " > " + UserNotToningThreshold);
             SetMusicModeTo(MusicMode.Environment);
