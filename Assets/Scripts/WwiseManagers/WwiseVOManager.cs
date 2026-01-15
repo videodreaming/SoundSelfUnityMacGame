@@ -181,6 +181,10 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
                 tutorial.EndTutorialNaturally();
             }
+            else if (musicSyncInfo.userCueName == "Cue_StartInteractive")
+            {
+
+            }
             else
             {
                 Debug.LogWarning("WWise_VO_CUE: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);

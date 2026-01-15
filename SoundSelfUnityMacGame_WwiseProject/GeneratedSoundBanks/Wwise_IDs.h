@@ -532,7 +532,6 @@ namespace AK
         static const AkUniqueID CLOSING = 2930224074U;
         static const AkUniqueID INTERACTIVE = 3481447043U;
         static const AkUniqueID OPENING = 1831982039U;
-        static const AkUniqueID TEST = 3157003241U;
     } // namespace BANKS
 
     namespace BUSSES

@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584332847006324716
+    m_lastTime: -8584331827500917434
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584332846999966150
+    m_lastTime: -8584331627204173906
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -650,7 +650,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584332847007586236
+    m_lastTime: -8584331827501664786
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -1343,7 +1343,7 @@ MonoBehaviour:
     ParentPath: Events\Environment
     guid: 3ffbeff2adf5b844b3827d55048249ec
     GuidInternal: 
-    m_lastTime: -8584360423997388034
+    m_lastTime: -8584331627204419658
     List:
     - name: Play_environment_anyQueryRepeat1
       guid: 78543b158da14a44a12803d2d86547b2
@@ -1481,6 +1481,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: Play_PondFrogs
+      guid: 0309450f3c1c5b4283ac6152960166dd
+      id: 707002428
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Environment
+        ObjectType: 12
+        guid: 3ffbeff2adf5b844b3827d55048249ec
+      - ElementName: Play_PondFrogs
+        ObjectType: 3
+        guid: 0309450f3c1c5b4283ac6152960166dd
+      Path: Events\Environment\Play_PondFrogs
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Set_State_InteractiveMusicMode_Environment
       guid: 0f7c4acd772a73419ade8f9245e4a072
       id: 4209841698
@@ -1543,7 +1560,7 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584332847007486215
+    m_lastTime: -8584331627204409651
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -6472,7 +6489,7 @@ MonoBehaviour:
         guid: c760786d07938d41a39c332de5c52dab
       Path: Triggers\Default Work Unit\Test
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 0600000007000000590000005a000000
+  ExpandedWaapiItemIds: 060000001000000059000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

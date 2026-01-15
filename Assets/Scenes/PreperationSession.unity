@@ -2894,6 +2894,7 @@ MonoBehaviour:
   recordingsRootFolder: RecordedClips
   createNewSessionFolderEachRun: 1
   timestamp: 20260107_140124
+  volumeFadeDuration: 1
 --- !u!1 &139949110
 GameObject:
   m_ObjectHideFlags: 0
@@ -9584,6 +9585,7 @@ MonoBehaviour:
   _silentVolumeLow: 65
   _silentVolumeHigh: 80
   fundamentalNote: 0
+  fundamentalNoteName: 10
   harmonyNote: 0
   currentMusicMode: 0
   currentSwitchState: C

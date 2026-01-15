@@ -316,7 +316,7 @@ Test that playback works correctly the following conditions:
 
 ---
 
-### TEST 8: Multiple Notes - Isolation
+### TEST 8: Multiple Notes - Isolation CHECK
 **Goal**: Verify recordings are isolated per note.
 
 **Setup**:
@@ -345,7 +345,7 @@ Debug.Log($"[TEST] SaveRecording: note={note}, slotsForNote has {slotsForNote.Co
 
 ---
 
-### TEST 9: Deletion Safety - File Currently Playing
+### TEST 9: Deletion Safety - File Currently Playing CHECK
 **Goal**: Verify files aren't deleted while playing.
 
 **Setup**:
@@ -374,7 +374,7 @@ Debug.Log($"[TEST] IsFileCurrentlyPlaying: path={path}, currentPlaying={currentP
 
 ---
 
-### TEST 10: Cleanup & Memory Management
+### TEST 10: Cleanup & Memory Management CHECK
 **Goal**: Verify memory is freed after saving.
 
 **Setup**:
@@ -399,7 +399,7 @@ Debug.Log($"[TEST] SaveRecording: destroyed clip, slot.clip is now null={slotsFo
 
 ---
 
-### TEST 11: Delete All Recordings
+### TEST 11: Delete All Recordings CHECK
 **Goal**: Verify `DeleteAllRecordings` clears everything.
 
 **Keyboard Commands**:
