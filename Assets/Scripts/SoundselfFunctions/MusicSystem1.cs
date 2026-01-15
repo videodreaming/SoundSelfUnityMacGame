@@ -501,7 +501,7 @@ public class MusicSystem1 : MonoBehaviour
                 
                 imitoneVoiceInterpreter.gameOn = false;
                 StopInteractiveMusic();
-                RecoverInteractiveMusicModeFromInteractionType();
+                //RecoverInteractiveMusicModeFromInteractionType();
                 Debug.Log("MUSIC: Music Mode Set to Silent (WWise: " + currentInteractionType + ")");
             }
             else

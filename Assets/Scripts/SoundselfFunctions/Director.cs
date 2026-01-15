@@ -159,6 +159,17 @@ public class Director : MonoBehaviour
         return queueIndex - 1;
     }
 
+    public int ReplaceActionInQueue(Action newAction, string newActionType, string oldActionType, bool newActionIsAudioAction, bool newActionIsVisualAction, float newMaximumTimeLimit, bool newActivateAtEnd)
+    {
+        //Uses AddActionToQueue() to add the new action to the queue, using exclusivity behavior 2, but first clears the queue of both the old action type and the new action type, and sets the new action's time limit to the minimum of the old action's time limit and the new maximum time limit.
+        float shortestTimeOld = ClearQueueOfType(oldActionType);
+        float shortestTimeNew = ClearQueueOfType(newActionType);
+        shortestTimeOld = shortestTimeOld == -1f ? float.MaxValue : shortestTimeOld;
+        shortestTimeNew = shortestTimeNew == -1f ? float.MaxValue : shortestTimeNew;
+        float newTimeLimit = Mathf.Min(shortestTimeOld, shortestTimeNew, newMaximumTimeLimit);
+        return AddActionToQueue(newAction, newActionType, newActionIsAudioAction, newActionIsVisualAction, newTimeLimit, newActivateAtEnd, 0);
+    }
+
     
     public void ActivateQueue(float transitionTimeForFlourishes = 5.0f)
     {
