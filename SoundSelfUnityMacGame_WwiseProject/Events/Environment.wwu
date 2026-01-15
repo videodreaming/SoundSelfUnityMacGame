@@ -167,6 +167,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_PondFrogs" ID="{0F450903-1C3C-425B-83AC-6152960166DD}">
+					<ChildrenList>
+						<Action Name="" ID="{3F66CFF3-635B-400A-9252-9D69B920AF8D}" ShortID="387164233">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BRS_Atmos_Pond_Frogs-Birds_In_Reeds_Peaceful_2" ID="{4D2CEAAB-7C84-4982-B22A-619175EC877D}" WorkUnitID="{5004F2F8-B2AC-4084-9ADC-C9E4EAEEC25F}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

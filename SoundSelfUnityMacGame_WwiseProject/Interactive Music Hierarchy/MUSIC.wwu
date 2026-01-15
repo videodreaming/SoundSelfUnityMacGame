@@ -491,6 +491,11 @@
 							<ChildrenList>
 								<MusicTrack Name="inHarmony_Music+SFX_25m" ID="{77C7919B-04BF-4F37-AA9D-4AB71695C2B9}" ShortID="403737196">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
@@ -700,6 +705,11 @@
 									<ChildrenList>
 										<MusicTrack Name="GuidedTutorial_111Hz_5m" ID="{FC45DA97-8993-4FC3-96D5-673CCB45FDA3}" ShortID="924502591">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-15</Value>
@@ -997,6 +1007,11 @@
 							<ChildrenList>
 								<MusicTrack Name="Metta" ID="{3D37019A-86E4-458B-9DDC-0766B73E2FB4}" ShortID="823521389">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-1</Value>
@@ -1151,6 +1166,11 @@
 							<ChildrenList>
 								<MusicTrack Name="Opening_Bowls, Nature, BinauralBeats" ID="{B6FE2486-6B7F-440C-A9D5-333D70F2722B}" ShortID="74528014">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -1244,6 +1264,11 @@
 							<ChildrenList>
 								<MusicTrack Name="Opening_Bowls, Nature, Saxophone" ID="{27648723-670B-4486-BFDD-7D3C50149730}" ShortID="561881021">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-2</Value>
@@ -1337,6 +1362,11 @@
 							<ChildrenList>
 								<MusicTrack Name="Radiance" ID="{FD1A5E6F-1A76-4A81-87E2-1A695619D49C}" ShortID="124810722">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-1</Value>
@@ -1825,6 +1855,11 @@
 									<ChildrenList>
 										<MusicTrack Name="Pink Noise Ambience_MIX_no vox" ID="{C2F7A7B2-660C-4B88-9749-97C500437CA4}" ShortID="519866625">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-1</Value>
@@ -1955,6 +1990,11 @@
 										</MusicTrack>
 										<MusicTrack Name="Pink Noise Ambience_VOX_FX" ID="{F652FE05-FB3A-44DF-8C35-06897A5A7765}" ShortID="775377344">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-6</Value>
@@ -2114,6 +2154,11 @@
 									<ChildrenList>
 										<MusicTrack Name="ShiftingEarth" ID="{62B51532-376E-419F-B6C9-CA9F8079F869}" ShortID="182756686">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-1</Value>
@@ -2339,6 +2384,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<MusicTrack Name="Sitar Ambience_MIX_no vox" ID="{4FA6EF98-BDF2-45C4-B77A-71C19C937872}" ShortID="129231789">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2392,6 +2444,11 @@
 										</MusicTrack>
 										<MusicTrack Name="Sitar Ambience_VOX_FX" ID="{60CA757A-BCD5-471F-8E25-9EBBC833CC7C}" ShortID="355444091">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-10</Value>
@@ -2607,6 +2664,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<MusicTrack Name="CelestialDreamscape" ID="{DCF726DA-EFFD-49CC-8F77-6A5DF23E2A19}" ShortID="345913269">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -2833,6 +2897,11 @@
 									<ChildrenList>
 										<MusicTrack Name="SingingBowls" ID="{D520AFD0-C1A8-44FA-87C0-04C3D5552C77}" ShortID="254173129">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>2</Value>
@@ -5155,7 +5224,7 @@
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Segment">
-															<ObjectRef Name="Breathwork_Handpant_140bpmloop" ID="{03114618-5543-48A7-B880-D18BBB8148ED}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+															<ObjectRef Name="Breathwork_Handpan_140bpmloop" ID="{03114618-5543-48A7-B880-D18BBB8148ED}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 														</Reference>
 													</ReferenceList>
 												</MusicPlaylistItem>
@@ -5183,7 +5252,7 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<MusicSegment Name="Breathwork_Handpant_140bpmloop" ID="{03114618-5543-48A7-B880-D18BBB8148ED}" ShortID="432325454">
+								<MusicSegment Name="Breathwork_Handpan_140bpmloop" ID="{03114618-5543-48A7-B880-D18BBB8148ED}" ShortID="432325454">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="85007.8971723156"/>
 										<Property Name="GridFrequencyPreset" Type="int16" Value="51"/>
@@ -5204,8 +5273,13 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<MusicTrack Name="New Music Track" ID="{6BEAC755-EC6E-45EF-B6BA-686D0C286A8D}" ShortID="993621335">
+										<MusicTrack Name="Breathwork_Handpan_140bpmLoop" ID="{6BEAC755-EC6E-45EF-B6BA-686D0C286A8D}" ShortID="993621335">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-4</Value>
@@ -5385,6 +5459,11 @@
 									<ChildrenList>
 										<MusicTrack Name="MysticalVision_Gm_85bpm" ID="{DC6B28DD-AACB-4925-8EED-AA6824FAEC6A}" ShortID="521258601">
 											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
 												<Property Name="Volume" Type="Real64">
 													<ValueList>
 														<Value>-10</Value>
@@ -5549,6 +5628,13 @@
 									</ReferenceList>
 									<ChildrenList>
 										<MusicTrack Name="AweAtmosphere" ID="{7C7DFF2D-6455-4545-A0AB-800D72303E09}" ShortID="111738783">
+											<PropertyList>
+												<Property Name="IsStreamingEnabled" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
 											<ReferenceList>
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>

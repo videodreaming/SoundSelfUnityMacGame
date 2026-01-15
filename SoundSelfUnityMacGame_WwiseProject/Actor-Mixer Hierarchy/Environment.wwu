@@ -339,6 +339,28 @@
 						</BlendContainer>
 					</ChildrenList>
 				</ActorMixer>
+				<Sound Name="BRS_Atmos_Pond_Frogs-Birds_In_Reeds_Peaceful_2" ID="{4D2CEAAB-7C84-4982-B22A-619175EC877D}" ShortID="747574564">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="BRS_Atmos_Pond_Frogs-Birds_In_Reeds_Peaceful_2" ID="{AC3BE481-2659-4172-A495-D09D2992A393}">
+							<Language>SFX</Language>
+							<AudioFile>BRS_Atmos_Pond_Frogs-Birds_In_Reeds_Peaceful_2.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="841140157"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="BRS_Atmos_Pond_Frogs-Birds_In_Reeds_Peaceful_2" ID="{AC3BE481-2659-4172-A495-D09D2992A393}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>
