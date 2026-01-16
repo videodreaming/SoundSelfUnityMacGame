@@ -156,36 +156,67 @@ public class MusicSystem1 : MonoBehaviour
             soundscapeDropdown.onValueChanged.RemoveListener(OnSoundscapeDropdownChanged);
     }
 
-    
-    //TODO: ADD DEVELOPMENT MODE CHECK
-    private void OnValidate()
+    public void OnPermanentlySetFundamentalChanged(int index)
     {
-        if (permanentlySetFundamental == NoteName.None) return; // "null"
-        SetFundamentalDebugLock(permanentlySetFundamental);
+        switch(index)
+        {
+            case 1:
+                SetFundamentalDebugLock(NoteName.C);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to C");
+                break;
+            case 2:
+                SetFundamentalDebugLock(NoteName.Cs);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to Cs");
+                break;
+            case 3:
+                SetFundamentalDebugLock(NoteName.D);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to D");
+                break;
+            case 4:
+                SetFundamentalDebugLock(NoteName.Ds);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to Ds");
+                break;
+            case 5:
+                SetFundamentalDebugLock(NoteName.E);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to E");
+                break;
+            case 6:
+                SetFundamentalDebugLock(NoteName.F);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to F");
+                break;
+            case 7:
+                SetFundamentalDebugLock(NoteName.Fs);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to Fs");
+                break;
+            case 8:
+                SetFundamentalDebugLock(NoteName.G);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to G");
+                break;
+            case 9:
+                SetFundamentalDebugLock(NoteName.Gs);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to Gs");
+                break;
+            case 10:
+                SetFundamentalDebugLock(NoteName.A);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to A");
+                break;
+            case 11:
+                SetFundamentalDebugLock(NoteName.As);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to As");
+                break;
+            case 12:
+                SetFundamentalDebugLock(NoteName.B);
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to B");
+                break;
+            default:
+                SetFundamentalDebugLock(null); // Clear debug lock
+                Debug.Log("MUSIC: Permanently Set Fundamental Changed to None (debug lock cleared)");
+                break;
+        }
     }
+
     void Start()
     {
-        //THESE DEVELOPMENT MODE INITIALIZATIONS ARE NOW DONE IN SEQUENCER, AND ARE PROBABLY NOT NECESSARY, BUT I'M LEAVING THEM HERE FOR NOW IN CASE THE TIMING OF START() MATTERS - ROBIN 12/16/2025
-        
-        //if(DevelopmentMode.instance.startAtStart) //NORMAL START
-        //{
-        //    SetMusicModeTo(MusicMode.Silent);
-        //    SetMusicSilentLayerVolume(_silentVolumeLow, 0f);          
-        //    director.disable = true;
-        //}
-        //else if (DevelopmentMode.instance.startInTutorial)
-        //{
-        //    SetMusicModeTo(MusicMode.Tutorial);          
-        //    director.disable = true;
-        //    SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
-        //}
-        //else if(DevelopmentMode.instance.startInPlayground || DevelopmentMode.instance.//startRightBeforeSavasana)
-        //{
-        //    SetMusicModeTo(MusicMode.Freeplay);          
-        //    director.disable = false;
-        //    SetMusicSilentLayerVolume(_silentVolumeHigh, 0f); //Robin thinks this is redundant. (It's not because it does it instantly here)
-        //}
-        
 
         // Initialize the NoteTracker dictionary with 12 keys for each note in an octave
         for (int i = 0; i < 12; i++)
@@ -665,6 +696,8 @@ public class MusicSystem1 : MonoBehaviour
         {
             SetMusicLoop(soundscape);
         }
+        
+        Debug.Log($"MUSIC TEST: currentInteractionType after SetSoundscape: {currentInteractionType}");
     }
 
     //public Action Action_SetSoundWorld(string soundWorld)
@@ -689,7 +722,6 @@ public class MusicSystem1 : MonoBehaviour
         
         // Clear content lock since SoundWorlds work with any fundamental
         SetFundamentalContentLock(null);
-        
         Debug.Log("MUSIC: Soundscape Set To: " + soundWorld + " (SoundWorld)");
     }
 
@@ -751,6 +783,264 @@ public class MusicSystem1 : MonoBehaviour
         return musicLoops.ContainsKey(soundscapeName);
     }
 
+    
+    // ====================================================================================================
+    // FUNDAMENTAL CHANGE SYSTEM - Core Fundamental Change Methods
+    // ====================================================================================================
+
+    private void ResetFundamentalTimers()
+    {
+        var keys = new List<int>(NoteTracker.Keys);
+
+        foreach (var key in keys)
+        {
+            var currentValue = NoteTracker[key];
+            NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, currentValue.FirstFrameActive, 0.0f);
+            if (debugAllowLogs)
+            {
+                Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
+            }
+        }
+        fundamentalTimeSinceLastTrigger = 0f;
+    }
+
+    /// <summary>
+    /// Sets the fundamental note directly without checking locks.
+    /// Used internally when we need to force a change (e.g., to match an active lock).
+    /// </summary>
+    public void SetFundamentalDirect(int newFundamental)
+    {
+        if(debugAllowLogs)
+        {
+            Debug.Log("MUSIC 6: Fundamental Note Changing to " + NoteUtils.IntToNoteString(newFundamental));
+        }
+        
+        director.ClearQueueOfType("fundamentalChange");
+        fundamentalNote = newFundamental;
+        if (!NoteUtils.TryIntToNote(newFundamental, out fundamentalNoteName))
+        {
+            Debug.LogWarning($"MUSIC: Invalid fundamental note int: {newFundamental}, defaulting to A");
+            fundamentalNoteName = NoteName.A;
+        }
+
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.IntToNoteString(fundamentalNote), gameObject);
+        if (MusicBinauralBeats.instance != null)
+        {
+            MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(NoteUtils.IntToNoteString(newFundamental)));
+        }
+        else
+        {
+            Debug.LogWarning("MUSIC: MusicBinauralBeats.instance is null - binaural beats not initialized yet.");
+        }
+
+        ResetFundamentalTimers();
+        directorStoredFundamental = newFundamental;
+    }
+
+    private Action Action_ChangeFundamental(int scaleNoteKey)
+    {
+        return () => ChangeFundamental(scaleNoteKey);
+    }
+   
+    public void ChangeFundamental(int newFundamental)
+    {
+        if(!IsFundamentalLocked())
+        {
+            SetFundamentalDirect(newFundamental);
+        }
+        else
+        {
+            NoteName? lockedNote = GetLockedFundamental();
+            string lockInfo = lockedNote.HasValue ? $" (locked to {lockedNote.Value})" : " (unknown lock)";
+            Debug.LogWarning("MUSIC: Tried to change the fundamental, but it was locked" + lockInfo + ". This shouldn't happen, and probably indicates a logic flaw in the code.");
+        }
+    }
+
+    // ====================================================================================================
+    // FUNDAMENTAL LOCKING SYSTEM - Lock Setter Methods (Priority: Debug > Content > Mode)
+    // ====================================================================================================
+    
+    /// <summary>
+    /// Sets or updates the debug fundamental lock (highest priority - development mode only)
+    /// This lock overrides all other locks and forces the fundamental to a specific note
+    /// </summary>
+    /// <param name="note">The note to lock to</param>
+    public void SetFundamentalDebugLock(NoteName? note = null)
+    {
+        bool currentlyLocked = fundamentalDebugLock.HasValue;
+        
+        if (!note.HasValue)
+        {
+            // Clear the debug lock
+            if (currentlyLocked)
+            {
+                fundamentalDebugLock = null;
+                Debug.Log("MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock cleared");
+                
+                // Resolve fundamental: apply lower priority locks or queue based on tracking
+                ResolveFundamentalOnUnlock();
+            }
+            else
+            {
+                Debug.Log("MUSIC FUNDAMENTAL-DEBUG-LOCK: Tried to clear debug lock, but it was already cleared");
+            }
+            return;
+        }
+        
+        NoteName lockNote = note.Value;
+        
+        // Safety check: don't allow locking to None
+        if (lockNote == NoteName.None)
+        {
+            Debug.LogWarning("MUSIC FUNDAMENTAL-DEBUG-LOCK: Cannot set debug lock to NoteName.None - ignoring request");
+            return;
+        }
+        
+        // Optimization: if debug lock is already set to the requested note, skip work
+        if (currentlyLocked && fundamentalDebugLock.Value == lockNote)
+        {
+            Debug.Log($"MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock already set to {lockNote} - skipping update");
+            return;
+        }
+        
+        // Store any existing content/mode locks temporarily
+        NoteName? tempContentLock = fundamentalContentLock;
+        NoteName? tempModeLock = fundamentalModeLock;
+        
+        // Clear all locks temporarily to allow fundamental change
+        fundamentalDebugLock = null;
+        fundamentalContentLock = null;
+        fundamentalModeLock = null;
+        
+        // Change the fundamental (now unlocked)
+        ChangeFundamental(NoteUtils.NoteToInt(lockNote));
+        
+        // Set debug lock (highest priority)
+        fundamentalDebugLock = lockNote;
+        
+        // Restore other locks (they will be inactive due to debug lock priority)
+        fundamentalContentLock = tempContentLock;
+        fundamentalModeLock = tempModeLock;
+        
+        Debug.Log($"MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock set and locked fundamental to {lockNote} (DEVELOPMENT ONLY - highest priority)");
+    }
+
+    /// <summary>
+    /// Sets or clears the content-based fundamental lock (for MusicLoop compatibility)
+    /// </summary>
+    /// <param name="note">The note to lock to, or null to unlock</param>
+    public void SetFundamentalContentLock(NoteName? note)
+    {
+        bool currentlyLocked = fundamentalContentLock.HasValue;
+
+        if (note.HasValue)
+        {
+            // Lock: Set content lock and change fundamental if needed
+            NoteName lockNote = note.Value;
+            
+            // Safety check: don't allow locking to None
+            if (lockNote == NoteName.None)
+            {
+                Debug.LogWarning("MUSIC FUNDAMENTAL-CONTENT-LOCK: Cannot set content lock to NoteName.None - ignoring request");
+                return;
+            }
+
+            // Always set or update the lock and change fundamental, even if already locked
+            NoteName? oldLockValue = currentlyLocked ? fundamentalContentLock : null;
+            bool wasLockedTo = currentlyLocked && oldLockValue.Value == lockNote;
+            fundamentalContentLock = lockNote;
+
+            // Only change fundamental if content lock is the active lock (not overridden by debug lock)
+            // If there's a debug lock, it takes priority and we shouldn't change the fundamental
+            NoteName? activeLock = GetLockedFundamental();
+            bool contentLockIsActive = !fundamentalDebugLock.HasValue;
+            
+            if (contentLockIsActive)
+            {
+                ChangeFundamental(NoteUtils.NoteToInt(lockNote));
+            }
+            else if (activeLock.HasValue)
+            {
+                Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Content lock set to {lockNote}, but higher priority lock active ({activeLock.Value}) - fundamental unchanged");
+            }
+
+            if (currentlyLocked && !wasLockedTo)
+                Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Lock changed from {oldLockValue.Value} to {lockNote}");
+            else if (!currentlyLocked)
+                Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Locked to {lockNote}");
+            else
+                Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content relocked to {lockNote}");
+        }
+        else if (!note.HasValue && currentlyLocked)
+        {
+            // Unlock: Clear the lock
+            fundamentalContentLock = null;
+            Debug.Log("MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Unlocked");
+            
+            // Resolve fundamental: apply lower priority locks or queue based on tracking
+            ResolveFundamentalOnUnlock();
+        }
+        else if (!note.HasValue && !currentlyLocked)
+        {
+            Debug.Log("MUSIC FUNDAMENTAL-CONTENT-LOCK: Tried to unlock fundamental content, but it was already unlocked");
+        }
+    }
+
+    
+    /// <summary>
+    /// Sets or clears the mode-based fundamental lock (for Tutorial, FrozenFreeplay, etc.)
+    /// </summary>
+    /// <param name="doLock">True to lock, false to unlock</param>
+    /// <param name="note">The note to lock to (defaults to C)</param>
+    public void SetFundamentalModeLock(bool doLock, NoteName note = NoteName.C)
+    {
+        bool currentlyLocked = fundamentalModeLock.HasValue;
+
+        if (doLock)
+        {
+            // Always set or update the lock and change fundamental, even if already locked
+            NoteName? oldLockValue = currentlyLocked ? fundamentalModeLock : null;
+            bool wasLockedTo = currentlyLocked && oldLockValue.Value == note;
+            fundamentalModeLock = note;
+
+            // Only change fundamental if mode lock is the active lock (not overridden by higher priority locks)
+            // If there's a debug or content lock, they take priority and we shouldn't change the fundamental
+            NoteName? activeLock = GetLockedFundamental();
+            bool modeLockIsActive = !fundamentalDebugLock.HasValue && !fundamentalContentLock.HasValue;
+            
+            if (modeLockIsActive)
+            {
+                ChangeFundamental(NoteUtils.NoteToInt(note));
+            }
+            else if (activeLock.HasValue)
+            {
+                Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Mode lock set to {note}, but higher priority lock active ({activeLock.Value}) - fundamental unchanged");
+            }
+
+            if (currentlyLocked && !wasLockedTo)
+                Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Lock changed from {oldLockValue.Value} to {note}");
+            else if (!currentlyLocked)
+                Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Locked to {note}");
+            else
+                Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode relocked to {note}");
+        }
+        else if (!doLock && currentlyLocked)
+        {
+            // Unlock: Clear the lock
+            fundamentalModeLock = null;
+            Debug.Log("MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Unlocked");
+            
+            // Resolve fundamental: apply lower priority locks or queue based on tracking
+            ResolveFundamentalOnUnlock();
+        }
+        else if (!doLock && !currentlyLocked)
+        {
+            // Already unlocked
+            Debug.Log("MUSIC FUNDAMENTAL-MODE-LOCK: Tried to unlock fundamental mode, but it was already unlocked");
+        }
+    }
+
+     
     // ====================================================================================================
     // FUNDAMENTAL LOCKING SYSTEM - Unified Lock Checks
     // ====================================================================================================
@@ -799,7 +1089,7 @@ public class MusicSystem1 : MonoBehaviour
             // A lower priority lock is active, set fundamental to it
             // Use SetFundamentalDirect to bypass lock check since we're setting to match the active lock
             SetFundamentalDirect(NoteUtils.NoteToInt(activeLock.Value));
-            Debug.Log($"MUSIC: Lower priority lock active ({activeLock.Value}) - fundamental set accordingly");
+            Debug.Log($"MUSIC FUNDAMENTAL MODE UNLOCK: Lower priority lock active ({activeLock.Value}) - fundamental set accordingly");
         }
         else
         {
@@ -827,7 +1117,7 @@ public class MusicSystem1 : MonoBehaviour
                     // Timer is high enough for immediate change - trigger it now
                     ChangeFundamental(newFundamental);
                     director.ActivateQueue(5.0f);
-                    Debug.Log("MUSIC: Fundamental Changed Immediately on Unlock (high threshold): " + NoteUtils.IntToNoteString(newFundamental));
+                    Debug.Log("MUSIC FUNDAMENTAL MODE UNLOCK: Fundamental Changed Immediately on Unlock (high threshold): " + NoteUtils.IntToNoteString(newFundamental));
                 }
                 else
                 {
@@ -835,250 +1125,19 @@ public class MusicSystem1 : MonoBehaviour
                     director.ClearQueueOfType("fundamentalChange");
                     director.AddActionToQueue(Action_ChangeFundamental(newFundamental), "fundamentalChange", true, false, 120f, true, 2);
                     directorStoredFundamental = newFundamental;
-                    Debug.Log("MUSIC: New Fundamental Queued on Unlock: " + NoteUtils.IntToNoteString(newFundamental));
+                    Debug.Log("MUSIC FUNDAMENNTAL MODE UNLOCK: New Fundamental Queued on Unlock: " + NoteUtils.IntToNoteString(newFundamental));
                 }
             }
             else if (highestFundamentalTimer >= _queueFundamentalChangeThreshold && newFundamental == -1)
             {
-                Debug.LogWarning("MUSIC: Threshold met but no valid fundamental found in NoteTracker - skipping queue");
+                Debug.LogWarning("MUSIC FUNDAMENTAL MODE UNLOCK: Threshold met but no valid fundamental found in NoteTracker - skipping queue");
             }
         }
     }
 
-    // ====================================================================================================
-    // FUNDAMENTAL CHANGE SYSTEM - Core Fundamental Change Methods
-    // ====================================================================================================
-
-    private void ResetFundamentalTimers()
-    {
-        var keys = new List<int>(NoteTracker.Keys);
-
-        foreach (var key in keys)
-        {
-            var currentValue = NoteTracker[key];
-            NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, currentValue.FirstFrameActive, 0.0f);
-            if (debugAllowLogs)
-            {
-                Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
-            }
-        }
-        fundamentalTimeSinceLastTrigger = 0f;
-    }
-
-    /// <summary>
-    /// Sets the fundamental note directly without checking locks.
-    /// Used internally when we need to force a change (e.g., to match an active lock).
-    /// </summary>
-    private void SetFundamentalDirect(int newFundamental)
-    {
-        if(debugAllowLogs)
-        {
-            Debug.Log("MUSIC 6: Fundamental Note Changing to " + NoteUtils.IntToNoteString(newFundamental));
-        }
-        
-        director.ClearQueueOfType("fundamentalChange");
-        fundamentalNote = newFundamental;
-        if (!NoteUtils.TryIntToNote(newFundamental, out fundamentalNoteName))
-        {
-            Debug.LogWarning($"MUSIC: Invalid fundamental note int: {newFundamental}, defaulting to A");
-            fundamentalNoteName = NoteName.A;
-        }
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.IntToNoteString(fundamentalNote), gameObject);
-        if (MusicBinauralBeats.instance != null)
-        {
-            MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(NoteUtils.IntToNoteString(newFundamental)));
-        }
-        else
-        {
-            Debug.LogWarning("MUSIC: MusicBinauralBeats.instance is null - binaural beats not initialized yet.");
-        }
-
-        ResetFundamentalTimers();
-        directorStoredFundamental = newFundamental;
-    }
-
-
-    private Action Action_ChangeFundamental(int scaleNoteKey)
-    {
-        return () => ChangeFundamental(scaleNoteKey);
-    }
-    private void ChangeFundamental(int newFundamental)
-    {
-        if(!IsFundamentalLocked())
-        {
-            SetFundamentalDirect(newFundamental);
-        }
-        else
-        {
-            NoteName? lockedNote = GetLockedFundamental();
-            string lockInfo = lockedNote.HasValue ? $" (locked to {lockedNote.Value})" : " (unknown lock)";
-            Debug.LogWarning("MUSIC: Tried to change the fundamental, but it was locked" + lockInfo + ". This shouldn't happen, and probably indicates a logic flaw in the code.");
-        }
-    }
-
-    // ====================================================================================================
-    // FUNDAMENTAL LOCKING SYSTEM - Lock Setter Methods (Priority: Debug > Content > Mode)
-    // ====================================================================================================
-    
-    /// <summary>
-    /// Sets or updates the debug fundamental lock (highest priority - development mode only)
-    /// This lock overrides all other locks and forces the fundamental to a specific note
-    /// </summary>
-    /// <param name="note">The note to lock to</param>
-    private void SetFundamentalDebugLock(NoteName note = NoteName.C)
-    {
-        // Safety check: don't allow locking to None
-        if (note == NoteName.None)
-        {
-            Debug.LogWarning("MUSIC: Cannot set debug lock to NoteName.None - ignoring request");
-            return;
-        }
-        
-        // Optimization: if debug lock is already set to the requested note, skip work
-        if (fundamentalDebugLock.HasValue && fundamentalDebugLock.Value == note)
-        {
-            Debug.Log($"MUSIC: Debug lock already set to {note} - skipping update");
-            return;
-        }
-        
-        // Store any existing content/mode locks temporarily
-        NoteName? tempContentLock = fundamentalContentLock;
-        NoteName? tempModeLock = fundamentalModeLock;
-        
-        // Clear all locks temporarily to allow fundamental change
-        fundamentalDebugLock = null;
-        fundamentalContentLock = null;
-        fundamentalModeLock = null;
-        
-        // Change the fundamental (now unlocked)
-        ChangeFundamental(NoteUtils.NoteToInt(note));
-        
-        // Set debug lock (highest priority)
-        fundamentalDebugLock = note;
-        
-        // Restore other locks (they will be inactive due to debug lock priority)
-        fundamentalContentLock = tempContentLock;
-        fundamentalModeLock = tempModeLock;
-        
-        Debug.Log($"MUSIC: Debug lock set and locked fundamental to {note} (DEVELOPMENT ONLY - highest priority)");
-    }
-
-    /// <summary>
-    /// Sets or clears the content-based fundamental lock (for MusicLoop compatibility)
-    /// </summary>
-    /// <param name="note">The note to lock to, or null to unlock</param>
-    public void SetFundamentalContentLock(NoteName? note)
-    {
-        bool currentlyLocked = fundamentalContentLock.HasValue;
-
-        if (note.HasValue)
-        {
-            // Lock: Set content lock and change fundamental if needed
-            NoteName lockNote = note.Value;
-            
-            // Safety check: don't allow locking to None
-            if (lockNote == NoteName.None)
-            {
-                Debug.LogWarning("MUSIC: Cannot set content lock to NoteName.None - ignoring request");
-                return;
-            }
-
-            // Always set or update the lock and change fundamental, even if already locked
-            NoteName? oldLockValue = currentlyLocked ? fundamentalContentLock : null;
-            bool wasLockedTo = currentlyLocked && oldLockValue.Value == lockNote;
-            fundamentalContentLock = lockNote;
-
-            // Only change fundamental if content lock is the active lock (not overridden by debug lock)
-            // If there's a debug lock, it takes priority and we shouldn't change the fundamental
-            NoteName? activeLock = GetLockedFundamental();
-            bool contentLockIsActive = !fundamentalDebugLock.HasValue;
-            
-            if (contentLockIsActive)
-            {
-                ChangeFundamental(NoteUtils.NoteToInt(lockNote));
-            }
-            else if (activeLock.HasValue)
-            {
-                Debug.Log($"MUSIC: Content lock set to {lockNote}, but higher priority lock active ({activeLock.Value}) - fundamental unchanged");
-            }
-
-            if (currentlyLocked && !wasLockedTo)
-                Debug.Log($"MUSIC: Fundamental Content Lock changed from {oldLockValue.Value} to {lockNote}");
-            else if (!currentlyLocked)
-                Debug.Log($"MUSIC: Fundamental Content Locked to {lockNote}");
-            else
-                Debug.Log($"MUSIC: Fundamental Content relocked to {lockNote}");
-        }
-        else if (!note.HasValue && currentlyLocked)
-        {
-            // Unlock: Clear the lock
-            fundamentalContentLock = null;
-            Debug.Log("MUSIC: Fundamental Content Unlocked");
-            
-            // Resolve fundamental: apply lower priority locks or queue based on tracking
-            ResolveFundamentalOnUnlock();
-        }
-        else if (!note.HasValue && !currentlyLocked)
-        {
-            Debug.Log("MUSIC: Tried to unlock fundamental content, but it was already unlocked");
-        }
-    }
-
-    
-    /// <summary>
-    /// Sets or clears the mode-based fundamental lock (for Tutorial, FrozenFreeplay, etc.)
-    /// </summary>
-    /// <param name="doLock">True to lock, false to unlock</param>
-    /// <param name="note">The note to lock to (defaults to C)</param>
-    public void SetFundamentalModeLock(bool doLock, NoteName note = NoteName.C)
-    {
-        bool currentlyLocked = fundamentalModeLock.HasValue;
-
-        if (doLock)
-        {
-            // Always set or update the lock and change fundamental, even if already locked
-            NoteName? oldLockValue = currentlyLocked ? fundamentalModeLock : null;
-            bool wasLockedTo = currentlyLocked && oldLockValue.Value == note;
-            fundamentalModeLock = note;
-
-            // Only change fundamental if mode lock is the active lock (not overridden by higher priority locks)
-            // If there's a debug or content lock, they take priority and we shouldn't change the fundamental
-            NoteName? activeLock = GetLockedFundamental();
-            bool modeLockIsActive = !fundamentalDebugLock.HasValue && !fundamentalContentLock.HasValue;
-            
-            if (modeLockIsActive)
-            {
-                ChangeFundamental(NoteUtils.NoteToInt(note));
-            }
-            else if (activeLock.HasValue)
-            {
-                Debug.Log($"MUSIC: Mode lock set to {note}, but higher priority lock active ({activeLock.Value}) - fundamental unchanged");
-            }
-
-            if (currentlyLocked && !wasLockedTo)
-                Debug.Log($"MUSIC: Fundamental Mode Lock changed from {oldLockValue.Value} to {note}");
-            else if (!currentlyLocked)
-                Debug.Log($"MUSIC: Fundamental Mode Locked to {note}");
-            else
-                Debug.Log($"MUSIC: Fundamental Mode relocked to {note}");
-        }
-        else if (!doLock && currentlyLocked)
-        {
-            // Unlock: Clear the lock
-            fundamentalModeLock = null;
-            Debug.Log("MUSIC: Fundamental Mode Unlocked");
-            
-            // Resolve fundamental: apply lower priority locks or queue based on tracking
-            ResolveFundamentalOnUnlock();
-        }
-        else if (!doLock && !currentlyLocked)
-        {
-            // Already unlocked
-            Debug.Log("MUSIC: Tried to unlock fundamental mode, but it was already unlocked");
-        }
-    }
-
-     
+    //=================================================================================
+    //BASIC TONING METHODS
+    //=================================================================================
 
 
 
@@ -1316,19 +1375,6 @@ public class MusicSystem1 : MonoBehaviour
     //====================================================================================================
     //PLAYGROUND
     //====================================================================================================
-    public void PlaygroundMode(bool on, float _transitionSecs = 0f)
-    {
-        if(on) //used to trigger playground mode
-        {
-        }
-        else
-        {
-            Debug.Log("Sequencer: PLAYGROUND OFF");
-            SetFundamentalModeLock(true, NoteName.C);
-            imitoneVoiceInterpreter.gameOn = false;
-            director.disable = true;
-        }
-    }
 
     
     private void StartInteractiveMusic()
@@ -1381,23 +1427,24 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    private void OnSoundscapeDropdownChanged(int index)
+    public void OnSoundscapeDropdownChanged(int index)
     {
+        Debug.Log("MUSIC DROPDOWN: OnSoundscapeDropdownChanged triggered with index: " + index);
         if(soundscapeDropdown != null)
         {
             switch (index)
             {
-                case 0: SetSoundscape("SonoFlore"); Debug.Log("Initialize called.");  break;
-                case 1: SetSoundscape("Shadow"); Debug.Log("StartTrueStart called."); break;
-                case 2: SetSoundscape("Gentle"); Debug.Log("StartTutorialSequence called.");  break;
-                case 3: SetSoundscape("Shruti");Debug.Log("StartPlayground called.");  break;
-                case 4: SetSoundscape("ShiftingEarth"); Debug.Log("StartShiftingEarth called."); break;
-                case 5: SetSoundscape("SitarAmbience"); Debug.Log("StartSitarAmbience called."); break;
-                case 6: SetSoundscape("PinkNoiseAtmosphere"); Debug.Log("StartPinkNoiseAtmosphere called."); break;
-                default: SetSoundscape("SonoFlore");  break;
+                case 0: SetSoundscape("SonoFlore"); Debug.Log("MUSIC DROPDOWN: Sonoflore"); break;
+                case 1: SetSoundscape("Shadow"); Debug.Log("MUSIC DROPDOWN: Shadow"); break;
+                case 2: SetSoundscape("Gentle"); Debug.Log("MUSIC DROPDOWN: Gentle"); break;
+                case 3: SetSoundscape("Shruti"); Debug.Log("MUSIC DROPDOWN: Shruti"); break;
+                case 4: SetSoundscape("ShiftingEarth"); Debug.Log("MUSIC DROPDOWN: ShiftingEarth"); break;
+                case 5: SetSoundscape("SitarAmbience"); Debug.Log("MUSIC DROPDOWN: SitarAmbience"); break;
+                case 6: SetSoundscape("PinkNoiseAtmosphere"); Debug.Log("MUSIC DROPDOWN: PinkNoiseAtmosphere"); break;
+                case 7: worldShuffler.ShuffleWorldsNow(); Debug.Log("MUSIC DROPDOWN: ShuffleWorldsNow triggered"); break;
+                default: SetSoundscape("SonoFlore"); break;
             }
         }
-        
     }
 
     

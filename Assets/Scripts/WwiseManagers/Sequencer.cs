@@ -346,7 +346,6 @@ public class Sequencer : MonoBehaviour
         director.disable = true;
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
 
-        //MusicSystem1.instance.PlaygroundMode(false);
 
         Debug.Log("Sequencer Last Minute: Starting Thematic Savasana.");
         yield return null;

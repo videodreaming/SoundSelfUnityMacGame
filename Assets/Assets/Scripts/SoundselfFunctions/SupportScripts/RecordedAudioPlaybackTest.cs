@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Dependencies.Sqlite;
 
+
 [System.Serializable]
 public class ClipSlot
 {
@@ -30,6 +31,14 @@ public class ClipSlot
     // Convenience: slot is empty if nothing in memory and no file path
     public bool IsEmpty => clip == null && string.IsNullOrEmpty(filePath);
 }
+
+
+//======================================================
+//TODO:
+// - Add fades in and out on playback or recording
+// - Add volume control, per the design document in canva
+//======================================================
+
 
 /// <summary>
 /// Manages microphone recording, on-disk storage, slot rotation, and playback of
@@ -1642,6 +1651,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         Debug.Log("========================");
     }
 }
+
 
 
 

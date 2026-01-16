@@ -184,10 +184,12 @@ public class WwiseVOManager : MonoBehaviour
             else if (musicSyncInfo.userCueName == "Cue_StartInteractive")
             {
                 sequencer.ProtocolStacksPlaygroundStart();
+                Debug.Log("WWise_VO_CUE: Cue_StartInteractive");
             }
             else if (musicSyncInfo.userCueName == "Cue_WaitForButton")
             {
                 //TODO: Please implement the button to show up, and the logic to wait for it to be pressed.
+                Debug.Log("WWise_VO_CUE: Cue_WaitForButton");
             }
             else
             {

@@ -12,7 +12,7 @@ public class WorldShuffler : MonoBehaviour
     public Director director;
     private int debugWorldCount = 0;
     public bool shuffling {get; private set;} = false;
-    private bool soundscapeQueueOpen = true;
+    private bool soundscapeQueueOpen = true; 
     private bool waiting = false; // for when a world change has been added to the director queue, but not triggered yet.
     private float _shuffleInterval = 120.0f; //will be effectively half this if absorption is 0. After this much time, world shuffle will be added to the director queue.
     private float _shuffleTimer = 0.0f;

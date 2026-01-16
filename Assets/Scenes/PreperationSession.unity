@@ -9588,8 +9588,9 @@ MonoBehaviour:
   fundamentalNoteName: 10
   harmonyNote: 0
   currentMusicMode: 0
+  currentInteractionType: 0
   currentSwitchState: C
-  soundWorldDropdown: {fileID: 0}
+  soundscapeDropdown: {fileID: 0}
   permanentlySetFundamental: 0
 --- !u!4 &619104375
 Transform:
@@ -29289,7 +29290,6 @@ MonoBehaviour:
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
   director: {fileID: 1829208165}
-  musicQueueOpen: 1
 --- !u!4 &1804684751
 Transform:
   m_ObjectHideFlags: 0
