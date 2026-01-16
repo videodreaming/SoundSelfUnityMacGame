@@ -173,7 +173,7 @@ public class Tutorial : MonoBehaviour
             Debug.Log("Tutorial: Provide Correction, playing guidance...");
         }
         
-        musicSystem1.LockToC(true);
+        musicSystem1.SetFundamentalModeLock(true, NoteName.C);
 
         wwiseVOManager.PlayCorrectionGuidance(testVocalizationType); 
         //Wait one second, to give room for the cue to be triggered.
@@ -224,7 +224,7 @@ public class Tutorial : MonoBehaviour
         }
         if(testVocalizationType != "Hum")
         {
-            musicSystem1.LockToC(false);
+            musicSystem1.SetFundamentalModeLock(false);
         }
         wwiseVOManager.PlayCorrectionConfirmationVO();
         testCoroutine = StartCoroutine(VoiceTestCoroutine());

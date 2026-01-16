@@ -151,19 +151,19 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO_CUE: Cue Change to Ahh");
                 tutorial.SetTestVocalizationType("Ahh");
-                musicSystem1.LockToC(false);
+                musicSystem1.SetFundamentalModeLock(false);
             }
             else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
             {
                 Debug.Log("WWise_VO_CUE: Cue Change to Ohh");
                 tutorial.SetTestVocalizationType("Ohh");
-                musicSystem1.LockToC(false);
+                musicSystem1.SetFundamentalModeLock(false);
             }
             else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
             {
                 Debug.Log("WWise_VO_CUE: Cue Change to Advanced");
                 tutorial.SetTestVocalizationType("Advanced");
-                musicSystem1.LockToC(false);
+                musicSystem1.SetFundamentalModeLock(false);
                 if (!worldShuffler.shuffling)
                 {
                     worldShuffler.BeginShuffle();
