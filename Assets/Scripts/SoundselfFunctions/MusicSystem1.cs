@@ -110,12 +110,13 @@ public class MusicSystem1 : MonoBehaviour
         "Shruti"
     };
 
-    // MusicLoops only work with specific fundamental notes (compatibility checking not implemented yet)
-    private static readonly List<string> musicLoops = new List<string>
+    // MusicLoops only work with specific fundamental notes
+    // Dictionary maps MusicLoop name to its required fundamental NoteName
+    private static readonly Dictionary<string, NoteName> musicLoops = new Dictionary<string, NoteName>
     {
-        "ShiftingEarth",
-        "SitarAmbience",
-        "PinkNoiseAtmosphere"
+        { "ShiftingEarth", NoteName.C },      // TODO: Set correct fundamental for each MusicLoop
+        { "SitarAmbience", NoteName.C },      // TODO: Set correct fundamental for each MusicLoop
+        { "PinkNoiseAtmosphere", NoteName.As }  // TODO: Set correct fundamental for each MusicLoop
     };
 
     public NoteName permanentlySetFundamental = NoteName.None;
@@ -633,7 +634,7 @@ public class MusicSystem1 : MonoBehaviour
     {
         // Check which type of soundscape this is
         bool isSoundWorld = soundWorlds.Contains(soundscape);
-        bool isMusicLoop = musicLoops.Contains(soundscape);
+        bool isMusicLoop = musicLoops.ContainsKey(soundscape);
         
         if (!isSoundWorld && !isMusicLoop)
         {
@@ -693,6 +694,22 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.SetSwitch("MusicLoops_Switch", musicLoop, gameObject);
         worldShuffler.SetCurrentSoundscape(musicLoop);
         Debug.Log("MUSIC: Soundscape Set To: " + musicLoop + " (MusicLoop)");
+    }
+
+    /// <summary>
+    /// Gets the fundamental NoteName for a MusicLoop, or NoteName.None if not found
+    /// </summary>
+    public NoteName GetMusicLoopFundamental(string musicLoopName)
+    {
+        return musicLoops.TryGetValue(musicLoopName, out NoteName fundamental) ? fundamental : NoteName.None;
+    }
+
+    /// <summary>
+    /// Checks if a soundscape name is a MusicLoop
+    /// </summary>
+    public bool IsMusicLoop(string soundscapeName)
+    {
+        return musicLoops.ContainsKey(soundscapeName);
     }
 
     private Action Action_ChangeFundamental(int scaleNoteKey)

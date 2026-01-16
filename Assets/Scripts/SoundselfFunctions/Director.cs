@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using System.Linq;
 
 public class Director : MonoBehaviour
 {
@@ -186,6 +187,15 @@ public class Director : MonoBehaviour
 
         // Copy out the queue’s items first
         var queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>(queue.Values);
+
+    
+
+        // Prioritize "fundamentalChange" actions to front of the queue
+        var fundamentalChangeItems = queuedItems.Where(item => item.type == "fundamentalChange").ToList();
+        var otherItems = queuedItems.Where(item => item.type != "fundamentalChange").ToList();
+        queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
+        queuedItems.AddRange(fundamentalChangeItems);
+        queuedItems.AddRange(otherItems);
 
         // Now iterate over the COPY
         foreach (var item in queuedItems)
