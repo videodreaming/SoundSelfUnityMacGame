@@ -98,19 +98,26 @@ public class MusicBinauralBeats : MonoBehaviour
     // ChangeCenterFrequency(float newCenterFrequency)
     public void ChangeCenterFrequency(float _inFrequency)
     {
+        
+        if (_inFrequency <= 0f || float.IsNaN(_inFrequency) || float.IsInfinity(_inFrequency))
+        {
+            Debug.LogError($"Invalid frequency for ChangeCenterFrequency: {_inFrequency} (input was {_inFrequency})");
+            return;
+        }
+        
         float _newCenterFrequency = _inFrequency;
         
         //viable range centering on 261 is 185hz to 370hz
     
-        while (_inFrequency < 185f)
+        while (_newCenterFrequency < 185f)
         {
             _newCenterFrequency *= 2f;
         }
-        while (_inFrequency > 370f)
+        while (_newCenterFrequency > 370f)
         {
             _newCenterFrequency /= 2f;
         }
-
+        
         if(_newCenterFrequency != _centerFrequency)
         {
             StopCoroutine("changeFrequencyCoroutine");

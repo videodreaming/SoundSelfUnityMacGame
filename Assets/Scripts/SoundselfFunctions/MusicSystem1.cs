@@ -826,7 +826,7 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.IntToNoteString(fundamentalNote), gameObject);
         if (MusicBinauralBeats.instance != null)
         {
-            MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(NoteUtils.IntToNoteString(newFundamental)));
+            MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(fundamentalNoteName));
         }
         else
         {

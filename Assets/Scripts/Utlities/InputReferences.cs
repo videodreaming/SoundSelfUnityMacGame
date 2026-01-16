@@ -153,7 +153,7 @@ public class InputReferences : MonoBehaviour
         // Press key to SET the lock, adjacent key to CLEAR the lock
         // ===================================================================
         // DEBUG LOCK (I = Set Debug Lock to C, O = Clear Debug Lock)
-        /*
+        
         if (Input.GetKeyDown(KeyCode.I))
         {
             if (MusicSystem1.instance != null)
@@ -206,7 +206,6 @@ public class InputReferences : MonoBehaviour
                 Debug.Log("[LOCK] Mode fundamental lock cleared via M");
             }
         }
-        */
 
         // ===================================================================
         // TESTING KEYBOARD COMMANDS FOR InputReferences.cs

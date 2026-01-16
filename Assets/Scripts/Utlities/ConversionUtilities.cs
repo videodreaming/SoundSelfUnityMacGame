@@ -85,20 +85,51 @@ public static class NoteUtils
         return (int)note;
     }
 
+    /// <summary>
+    /// Converts NoteName enum directly to int (0-11). Much more efficient than string conversion.
+    /// </summary>
     public static int NoteToInt(NoteName note)
-        {
-            if (!TryParseNote(note.ToString(), out var parsedNote))
-                return -1;
-            return (int)parsedNote;
-        }
+    {
+        // Direct cast - no string conversion needed!
+        if (note == NoteName.None)
+            return -1;
+        return (int)note;
+    }
 
+    /// <summary>
+    /// Converts NoteName enum to frequency in Hz (A440 standard).
+    /// </summary>
     public static float NoteToFrequencyA440(NoteName note)
     {
+        if (note == NoteName.None)
+        {
+            Debug.LogWarning("MUSIC: Cannot convert NoteName.None to frequency");
+            return -1f;
+        }
         // note is within 0..11
         int semitoneDifferenceFromA = ((int)note) - 9;
         return 440f * Mathf.Pow(2f, semitoneDifferenceFromA / 12f);
     }
 
+    /// <summary>
+    /// Converts int (0-11) directly to frequency in Hz (A440 standard). 
+    /// Most efficient path for int -> frequency conversion.
+    /// </summary>
+    public static float NoteToFrequencyA440(int noteNumber)
+    {
+        if (noteNumber < 0 || noteNumber > 11)
+        {
+            Debug.LogWarning($"MUSIC: Invalid note number {noteNumber} for frequency conversion");
+            return -1f;
+        }
+        int semitoneDifferenceFromA = noteNumber - 9;
+        return 440f * Mathf.Pow(2f, semitoneDifferenceFromA / 12f);
+    }
+
+    /// <summary>
+    /// Converts string note name to frequency in Hz (A440 standard).
+    /// For direct int conversion, use NoteToFrequencyA440(int) instead.
+    /// </summary>
     public static float NoteToFrequencyA440(string noteName)
     {
         if (!TryParseNote(noteName, out var note))
