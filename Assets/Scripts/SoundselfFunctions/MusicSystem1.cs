@@ -150,10 +150,18 @@ public class MusicSystem1 : MonoBehaviour
         
     }
 
-        private void OnDestroy()
+    private void OnDestroy()
     {
         if (soundscapeDropdown != null)
             soundscapeDropdown.onValueChanged.RemoveListener(OnSoundscapeDropdownChanged);
+    }
+
+    
+    //TODO: ADD DEVELOPMENT MODE CHECK
+    private void OnValidate()
+    {
+        if (permanentlySetFundamental == NoteName.None) return; // "null"
+        SetFundamentalDebugLock(permanentlySetFundamental);
     }
     void Start()
     {
@@ -776,10 +784,6 @@ public class MusicSystem1 : MonoBehaviour
         return null; // Not locked
     }
 
-    private Action Action_ChangeFundamental(int scaleNoteKey)
-    {
-        return () => ChangeFundamental(scaleNoteKey);
-    }
 
     /// <summary>
     /// Resolves the fundamental when a lock is released.
@@ -841,6 +845,26 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
+    // ====================================================================================================
+    // FUNDAMENTAL CHANGE SYSTEM - Core Fundamental Change Methods
+    // ====================================================================================================
+
+    private void ResetFundamentalTimers()
+    {
+        var keys = new List<int>(NoteTracker.Keys);
+
+        foreach (var key in keys)
+        {
+            var currentValue = NoteTracker[key];
+            NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, currentValue.FirstFrameActive, 0.0f);
+            if (debugAllowLogs)
+            {
+                Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
+            }
+        }
+        fundamentalTimeSinceLastTrigger = 0f;
+    }
+
     /// <summary>
     /// Sets the fundamental note directly without checking locks.
     /// Used internally when we need to force a change (e.g., to match an active lock).
@@ -873,6 +897,11 @@ public class MusicSystem1 : MonoBehaviour
         directorStoredFundamental = newFundamental;
     }
 
+
+    private Action Action_ChangeFundamental(int scaleNoteKey)
+    {
+        return () => ChangeFundamental(scaleNoteKey);
+    }
     private void ChangeFundamental(int newFundamental)
     {
         if(!IsFundamentalLocked())
@@ -886,13 +915,11 @@ public class MusicSystem1 : MonoBehaviour
             Debug.LogWarning("MUSIC: Tried to change the fundamental, but it was locked" + lockInfo + ". This shouldn't happen, and probably indicates a logic flaw in the code.");
         }
     }
-    //TODO: ADD DEVELOPMENT MODE CHECK
-    private void OnValidate()
-    {
-        if (permanentlySetFundamental == NoteName.None) return; // "null"
-        SetFundamentalDebugLock(permanentlySetFundamental);
-    }
 
+    // ====================================================================================================
+    // FUNDAMENTAL LOCKING SYSTEM - Lock Setter Methods (Priority: Debug > Content > Mode)
+    // ====================================================================================================
+    
     /// <summary>
     /// Sets or updates the debug fundamental lock (highest priority - development mode only)
     /// This lock overrides all other locks and forces the fundamental to a specific note
@@ -1053,22 +1080,6 @@ public class MusicSystem1 : MonoBehaviour
 
      
 
-
-    private void ResetFundamentalTimers()
-    {
-        var keys = new List<int>(NoteTracker.Keys);
-
-        foreach (var key in keys)
-        {
-            var currentValue = NoteTracker[key];
-            NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, currentValue.FirstFrameActive, 0.0f);
-            if (debugAllowLogs)
-            {
-                Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
-            }
-        }
-        fundamentalTimeSinceLastTrigger = 0f;
-    }
 
 
     private void BasicToningUpdate()
