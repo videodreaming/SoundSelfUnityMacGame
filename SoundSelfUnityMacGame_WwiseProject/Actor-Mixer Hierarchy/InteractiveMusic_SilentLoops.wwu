@@ -23058,6 +23058,13 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="InteractiveMusic_SilentLoops_v3_12_FundamentalOnly" ID="{986F7A7E-23D9-4970-A6EB-4317C429C75B}" ShortID="671654195">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -31025,6 +31032,13 @@
 					</StateInfo>
 				</ActorMixer>
 				<ActorMixer Name="InteractiveMusic_SilentLoops_v3_12_HarmonyOnly" ID="{51F3B850-BB4A-4F3D-8780-81ED7DC8254C}" ShortID="275085095">
+					<PropertyList>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>2</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -31040,11 +31054,6 @@
 						<SwitchContainer Name="InteractiveMusic_SilentLoops_v3_12_HarmonyOnly" ID="{7BB210F7-2DC1-4EA8-9966-75666822B3E1}" ShortID="455553095">
 							<PropertyList>
 								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">

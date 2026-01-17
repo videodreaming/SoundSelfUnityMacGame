@@ -1140,6 +1140,32 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_ASCENDING_CLOSING" ID="{66D1BBE2-CA67-4E89-885C-268162AD44C8}">
+					<ChildrenList>
+						<Action Name="" ID="{588E432C-9121-4365-8C41-D5FAC2B2B90F}" ShortID="834865604">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ASCENDING_CLOSING" ID="{E95B5A8C-A6CC-4BB7-9FE0-3766D5E074CF}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_ASCENDING_CLOSING" ID="{A7C6B3C8-F15E-447F-8210-AF13E51ED08E}">
+					<ChildrenList>
+						<Action Name="" ID="{13137EB6-A669-43D1-8D3E-42C7109D2E33}" ShortID="839135662">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ASCENDING_CLOSING" ID="{E95B5A8C-A6CC-4BB7-9FE0-3766D5E074CF}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

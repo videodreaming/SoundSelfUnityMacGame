@@ -1022,7 +1022,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-8</Value>
+								<Value>-4</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -1061,7 +1061,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1079,7 +1079,7 @@
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>13</Value>
+												<Value>18</Value>
 											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
@@ -1094,7 +1094,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-10</Value>
+												<Value>-6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1351,19 +1351,11 @@
 							</CustomState>
 							<CustomState>
 								<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-								<CustomState Name="" ID="{DE98B012-5818-400A-BDCE-FF6B43D6D49E}" ShortID="736253231">
-									<PropertyList>
-										<Property Name="Volume" Type="Real64" Value="-26"/>
-									</PropertyList>
-								</CustomState>
+								<CustomState Name="" ID="{DE98B012-5818-400A-BDCE-FF6B43D6D49E}" ShortID="736253231"/>
 							</CustomState>
 							<CustomState>
 								<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
-								<CustomState Name="" ID="{1DEE1850-EF2E-44C3-A74A-C2A00189F709}" ShortID="591876262">
-									<PropertyList>
-										<Property Name="Volume" Type="Real64" Value="-12"/>
-									</PropertyList>
-								</CustomState>
+								<CustomState Name="" ID="{1DEE1850-EF2E-44C3-A74A-C2A00189F709}" ShortID="591876262"/>
 							</CustomState>
 						</CustomStateList>
 					</StateInfo>
