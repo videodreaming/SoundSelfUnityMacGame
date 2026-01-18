@@ -94,7 +94,7 @@ public class InputReferences : MonoBehaviour
         // StartCoroutine(TestSoundscapeShuffleRejected());
         
         // Test 15: Director Queue Priority System - ReplaceActionInQueue Expiration Time (2.3)
-        // StartCoroutine(TestReplaceActionInQueueExpirationTime());
+        StartCoroutine(TestReplaceActionInQueueExpirationTime());
         
         // Test 16: Silent Mode Behavior (6.1 - 6.3)
         // StartCoroutine(TestSilentModeBehavior());
