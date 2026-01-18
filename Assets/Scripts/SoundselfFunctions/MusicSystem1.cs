@@ -57,6 +57,10 @@ public class MusicSystem1 : MonoBehaviour
     private float fundamentalRetriggerThreshold = 18f; // minimum time between fundamental retriggering
     private float harmonyRetriggerThreshold = 6f; // minimum time between harmony retriggering
 
+    // BASSSYNTH CONTROL
+    private bool bassSynthPlaying = false; // Whether BassSynth is currently playing
+    private NoteName? currentBassSynthPitch = null; // Current pitch switch value for BassSynth
+
     //HARMONY SEQUENCES
     List<int> harmonySequence1 = new List<int> {5, 7, 5, 7, 5, 7, 5, 7};
     List<int> harmonySequence2 = new List<int> {5, 12, 5, 12, 5, 12, 5, 12};
@@ -1177,6 +1181,7 @@ public class MusicSystem1 : MonoBehaviour
             }
 
             PostTheToningEvents();
+            PostTheBassSynthEvent();
 
         } else if (!localToneOn && previousLocalToneOn)
         {
@@ -1186,12 +1191,77 @@ public class MusicSystem1 : MonoBehaviour
             }
             StopWwiseToning();
         }
+
+        // Update BassSynth pitch while toning is active
+        if (localToneOn)
+        {
+            NoteName targetPitch = NoteName.None;
+            
+            if (currentInteractionType == InteractionType.MusicLoop)
+            {
+                // In MusicLoop mode, use musicNoteActivated (skip if None)
+                if (musicNoteActivated != NoteName.None)
+                {
+                    targetPitch = musicNoteActivated;
+                }
+            }
+            else if (currentInteractionType == InteractionType.SoundWorld)
+            {
+                // In SoundWorld mode, use fundamentalNoteName (skip if None)
+                if (fundamentalNoteName != NoteName.None)
+                {
+                    targetPitch = fundamentalNoteName;
+                }
+            }
+
+            // If we have a valid target pitch, update BassSynth
+            if (targetPitch != NoteName.None)
+            {
+                // Check if BassSynth needs to be started (if it wasn't started in PostTheBassSynthEvent due to missing pitch)
+                if (!bassSynthPlaying)
+                {
+                    // Start BassSynth with the current pitch
+                    // Set pitch switch BEFORE playing (ensures correct pitch on start)
+                    AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", NoteUtils.NoteToWwiseString(targetPitch), gameObject);
+                    currentBassSynthPitch = targetPitch;
+                    AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
+                    bassSynthPlaying = true;
+                    
+                    if(debugAllowLogs)
+                    {
+                        Debug.Log("MUSIC: BassSynth started with pitch " + NoteUtils.NoteToWwiseString(targetPitch) + " (delayed start - InteractionType: " + currentInteractionType + ")");
+                    }
+                }
+                else
+                {
+                    // BassSynth is already playing, update pitch if it changed
+                    // UpdateBassSynthPitchSwitch() will skip if pitch hasn't changed
+                    UpdateBassSynthPitchSwitch(targetPitch);
+                }
+            }
+            // Edge case: If targetPitch is None, we skip pitch update (use last valid pitch)
+            // This handles cases where musicNoteActivated or fundamentalNoteName is None
+        }
+
         previousLocalToneOn = localToneOn;
     }
 
     public void StopWwiseToning()
     {
         AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+
+        // Stop BassSynth
+        if (bassSynthPlaying)
+        {
+            AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
+            bassSynthPlaying = false;
+            currentBassSynthPitch = null; // Clear current pitch
+
+            if(debugAllowLogs)
+            {
+                Debug.Log("MUSIC: BassSynth stopped");
+            }
+        }
     }
 
     /// <summary>
@@ -1397,6 +1467,89 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
         AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
     }
+
+    public void PostTheBassSynthEvent()
+    {
+        // Start BassSynth with appropriate initial pitch based on interaction type
+        NoteName initialPitch = NoteName.None;
+        
+        if (currentInteractionType == InteractionType.MusicLoop)
+        {
+            // In MusicLoop mode, use musicNoteActivated (if not None)
+            if (musicNoteActivated != NoteName.None)
+            {
+                initialPitch = musicNoteActivated;
+            }
+            else
+            {
+                if(debugAllowLogs)
+                {
+                    Debug.LogWarning("MUSIC: Cannot start BassSynth in MusicLoop mode - musicNoteActivated is None. Will start when note is detected.");
+                }
+                // Don't start BassSynth yet - Step 4 will handle starting it when a valid note is detected
+                return;
+            }
+        }
+        else if (currentInteractionType == InteractionType.SoundWorld)
+        {
+            // In SoundWorld mode, use fundamentalNoteName
+            if (fundamentalNoteName != NoteName.None)
+            {
+                initialPitch = fundamentalNoteName;
+            }
+            else
+            {
+                if(debugAllowLogs)
+                {
+                    Debug.LogWarning("MUSIC: Cannot start BassSynth in SoundWorld mode - fundamentalNoteName is None. Will start when fundamental is set.");
+                }
+                // Don't start BassSynth yet - Step 4 will handle starting it when a valid fundamental is set
+                return;
+            }
+        }
+        else
+        {
+            // Defensive check: InteractionType should only be MusicLoop or SoundWorld
+            if(debugAllowLogs)
+            {
+                Debug.LogWarning("MUSIC: Unknown InteractionType: " + currentInteractionType + " - cannot determine BassSynth pitch");
+            }
+            return;
+        }
+
+        // Validate that we have a valid pitch before proceeding
+        if (initialPitch == NoteName.None)
+        {
+            if(debugAllowLogs)
+            {
+                Debug.LogWarning("MUSIC: initialPitch is None after determining pitch - cannot start BassSynth");
+            }
+            return;
+        }
+
+        // Ensure BassSynth isn't already playing (edge case protection)
+        if (bassSynthPlaying)
+        {
+            if(debugAllowLogs)
+            {
+                Debug.LogWarning("MUSIC: BassSynth is already playing - skipping duplicate Play_BassSynth event");
+            }
+            return;
+        }
+
+        // Set initial pitch switch BEFORE playing (ensures correct pitch on start)
+        AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", NoteUtils.NoteToWwiseString(initialPitch), gameObject);
+        currentBassSynthPitch = initialPitch;
+
+        // Post Play_BassSynth event
+        AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
+        bassSynthPlaying = true;
+
+        if(debugAllowLogs)
+        {
+            Debug.Log("MUSIC: BassSynth started with pitch " + NoteUtils.NoteToWwiseString(initialPitch) + " (InteractionType: " + currentInteractionType + ")");
+        }
+    }
     
     private void changeHarmony(NoteName harmonyNote)
     {
@@ -1405,6 +1558,70 @@ public class MusicSystem1 : MonoBehaviour
         {
             Debug.Log("MUSIC: Harmony Note Set To: " + NoteUtils.NoteToWwiseString(harmonyNote));
         }
+    }
+
+    /// <summary>
+    /// Updates the Wwise BassSynth_PitchSwitch to the new pitch.
+    /// This method handles the stop-change-play sequence to ensure smooth pitch transitions.
+    /// Called while toning is active to change pitch dynamically.
+    /// </summary>
+    /// <param name="newPitch">The NoteName to set the BassSynth pitch to. Must not be NoteName.None.</param>
+    /// <remarks>
+    /// Conversion point: NoteName enum is converted to string for Wwise API via NoteUtils.NoteToWwiseString().
+    /// </remarks>
+    private void UpdateBassSynthPitchSwitch(NoteName newPitch)
+    {
+        // Validate input - reject NoteName.None
+        if (newPitch == NoteName.None)
+        {
+            Debug.LogWarning("MUSIC: Attempted to set BassSynth pitch to NoteName.None - ignoring");
+            return;
+        }
+
+        // Check if pitch has changed
+        if (currentBassSynthPitch.HasValue && currentBassSynthPitch.Value == newPitch)
+        {
+            // Pitch hasn't changed, no need to update
+            return;
+        }
+
+        // Store whether BassSynth was playing before the change
+        bool wasPlaying = bassSynthPlaying;
+
+        // Stop BassSynth if it's currently playing
+        if (wasPlaying)
+        {
+            AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
+            if(debugAllowLogs)
+            {
+                Debug.Log("MUSIC: Stopping BassSynth to change pitch switch");
+            }
+        }
+
+        // Set the pitch switch
+        AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", NoteUtils.NoteToWwiseString(newPitch), gameObject);
+        
+        // Update current pitch
+        currentBassSynthPitch = newPitch;
+
+        if(debugAllowLogs)
+        {
+            Debug.Log("MUSIC: BassSynth pitch switch set to " + NoteUtils.NoteToWwiseString(newPitch));
+        }
+
+        // Play BassSynth again if it was playing before
+        // Note: If wasPlaying was false, we just update the switch for when BassSynth does start
+        if (wasPlaying)
+        {
+            AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
+            if(debugAllowLogs)
+            {
+                Debug.Log("MUSIC: Restarting BassSynth after pitch change");
+            }
+        }
+        // Note: We don't update bassSynthPlaying here because:
+        // - If wasPlaying was true, bassSynthPlaying is still true (we're restarting)
+        // - If wasPlaying was false, bassSynthPlaying stays false (we're just setting switch for future start)
     }
 
   
