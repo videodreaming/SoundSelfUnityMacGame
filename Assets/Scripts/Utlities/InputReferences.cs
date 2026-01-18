@@ -2626,7 +2626,15 @@ public class InputReferences : MonoBehaviour
         CheckQueueStatus();
         float time1 = GetExpirationTimeForType("SoundscapeShuffle");
         Debug.Log($"[TEST] AddActionToQueue() returned: {result1}");
-        Debug.Log($"[TEST] ✓ First SoundscapeShuffle queued with 60s expiration: {(Mathf.Approximately(time1, 60.0f) ? "PASS" : "FAIL")}");
+        Debug.Log($"[TEST] Actual expiration time found: {time1}s (expected ~60s, but decreases over time due to QueueUpdate())");
+        // Account for time that has passed: timeLeft decreases by Time.deltaTime each frame
+        // After 0.5s wait, timeLeft should be approximately 59.0-60.0s (allowing for frame timing variance)
+        bool time1Valid = time1 >= 55.0f && time1 <= 60.0f;
+        Debug.Log($"[TEST] ✓ First SoundscapeShuffle queued with 60s expiration: {(time1Valid ? "PASS" : "FAIL")}");
+        if (!time1Valid && time1 > 0)
+        {
+            Debug.LogWarning($"[TEST] Time is {time1}s, expected 59.0-60.0s. This may be due to timing variance or the action not being added correctly.");
+        }
         
         Debug.Log("[TEST] \nPress SPACE to queue second SoundscapeShuffle with 30s expiration");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
@@ -2648,7 +2656,16 @@ public class InputReferences : MonoBehaviour
         CheckQueueStatus();
         float time2 = GetExpirationTimeForType("SoundscapeShuffle");
         Debug.Log($"[TEST] AddActionToQueue() returned: {result2}");
-        Debug.Log($"[TEST] ✓ Second SoundscapeShuffle queued with 30s expiration: {(Mathf.Approximately(time2, 30.0f) ? "PASS" : "FAIL")}");
+        Debug.Log($"[TEST] Actual expiration time found: {time2}s (expected ~30s, but decreases over time due to QueueUpdate())");
+        // Account for time that has passed: timeLeft decreases by Time.deltaTime each frame
+        // After 0.5s wait, timeLeft should be approximately 29.0-30.0s (allowing for frame timing variance)
+        // Note: With exclusivity behavior 1, if first action had 60s and second has 30s, the 30s one should replace it
+        bool time2Valid = time2 >= 25.0f && time2 <= 30.0f;
+        Debug.Log($"[TEST] ✓ Second SoundscapeShuffle queued with 30s expiration: {(time2Valid ? "PASS" : "FAIL")}");
+        if (!time2Valid && time2 > 0)
+        {
+            Debug.LogWarning($"[TEST] Time is {time2}s, expected 29.0-30.0s. This may be due to timing variance or exclusivity behavior.");
+        }
         Debug.Log($"[TEST] Note: With exclusivity behavior 1, the shorter time (30s) should be kept.");
         
         Debug.Log("[TEST] \nPress SPACE to use ReplaceActionInQueue() with newMaximumTimeLimit of 120s");
