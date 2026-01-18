@@ -104,7 +104,7 @@ public class Director : MonoBehaviour
         foreach (int key in keysToRemove)
         {
             queue.Remove(key);
-            LogQueue();
+            // LogQueue();
         }
     }
     
@@ -150,7 +150,7 @@ public class Director : MonoBehaviour
                         if(item.Value.timeLeft <= timeLimit)
                         {
                             Debug.Log("Director Queue: Action " + type + " already exists in director queue with shorter timeLeft, not adding new one per exclusivity rules.");
-                            LogQueue();
+                            // LogQueue();
                             return -1; //return -1 to indicate that the action was not added
                         }
                     }
@@ -165,7 +165,7 @@ public class Director : MonoBehaviour
         queue.Add(queueIndex++, (action, type, isAudioAction, isVisualAction, timeLimit, activateAtEnd));
 
         Debug.Log("Director Queue: Added " + (queueIndex - 1) + " " + type + " to director queue.");
-        LogQueue();
+        // LogQueue();
 
         return queueIndex - 1;
     }
@@ -193,9 +193,9 @@ public class Director : MonoBehaviour
             return;
         }
 
-        LogQueue();
+        // LogQueue();
 
-        // Copy out the queue’s items first
+        // Copy out the queue's items first
         var queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>(queue.Values);
 
     
@@ -245,20 +245,18 @@ public class Director : MonoBehaviour
 
         // Clear the dictionary at the end
         queue.Clear();
-        LogQueue();
+        // LogQueue();
     }
 
     public void LogQueue()
     {
         //outputs a single log line, with the following format: "Director Queue: <index> <type>, <index> <type>, <index> <type>..."
-        /*
         string logString = "Director Queue Contents: ";
         foreach (var item in queue)
         {
             logString += "<" + item.Key + " " + item.Value.type + ", " + item.Value.timeLeft + "s> ";
         }
         Debug.Log(logString);
-        */
     }
 
     public bool SearchQueueForType(string type)
@@ -293,9 +291,9 @@ public class Director : MonoBehaviour
         {
             queue.Remove(key);
         }
-        LogQueue();
+        // LogQueue();
         Debug.Log("Director Queue: Removed all " + type + " items from director queue.");
-        LogQueue();
+        // LogQueue();
         
         // Return shortest time (or -1 if nothing was cleared)
         return shortestTimeLeft == float.MaxValue ? -1f : shortestTimeLeft;

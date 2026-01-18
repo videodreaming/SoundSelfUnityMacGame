@@ -86,6 +86,15 @@ public class InputReferences : MonoBehaviour
         
         // Test 12: ResolveFundamentalOnUnlock Below Threshold (11.4)
         // StartCoroutine(TestUnlockResolutionBelowThreshold());
+        
+        // Test 13: Director Queue Priority System - ReplaceActionInQueue (2.1)
+        // StartCoroutine(TestReplaceActionInQueue());
+        
+        // Test 14: Director Queue Priority System - SoundscapeShuffle Rejected (2.2)
+        // StartCoroutine(TestSoundscapeShuffleRejected());
+        
+        // Test 15: Director Queue Priority System - ReplaceActionInQueue Expiration Time (2.3)
+        // StartCoroutine(TestReplaceActionInQueueExpirationTime());
     }
 
     // A sample coroutine for testing, acting as a skeleton for future tests
@@ -2203,5 +2212,468 @@ public class InputReferences : MonoBehaviour
         Debug.Log("\nNOTE: This test requires manual voice input and timing.");
         Debug.Log("Ensure you toned note D for < 12 seconds (briefly).");
         Debug.Log("Review console logs above for detailed results.");
+    }
+    
+    /// <summary>
+    /// Test 13: Director Queue Priority System - ReplaceActionInQueue (Test 2.1)
+    /// Tests that ReplaceActionInQueue clears "SoundscapeShuffle" actions when replacing with "Soundscape".
+    /// </summary>
+    private IEnumerator TestReplaceActionInQueue()
+    {
+        Debug.Log("[TEST] === TEST 13: DIRECTOR QUEUE PRIORITY SYSTEM - REPLACEACTIONINQUEUE (Test 2.1) ===");
+        Debug.Log("[TEST] This test verifies ReplaceActionInQueue clears SoundscapeShuffle when replacing with Soundscape.");
+        Debug.Log("[TEST] \nCONTROLS:");
+        Debug.Log("[TEST] SPACE - Proceed to next test stage");
+        Debug.Log("[TEST] ========================================\n");
+        
+        if (MusicSystem1.instance == null)
+        {
+            Debug.LogError("[TEST] MusicSystem1.instance is null - cannot run test");
+            yield break;
+        }
+        
+        if (MusicSystem1.instance.director == null)
+        {
+            Debug.LogError("[TEST] Director is null - cannot run test");
+            yield break;
+        }
+        
+        if (MusicSystem1.instance.worldShuffler == null)
+        {
+            Debug.LogError("[TEST] WorldShuffler is null - cannot run test");
+            yield break;
+        }
+        
+        // Helper method to check queue status
+        void CheckQueueStatus()
+        {
+            bool hasSoundscapeShuffle = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+            bool hasSoundscape = MusicSystem1.instance.director.SearchQueueForType("Soundscape");
+            Debug.Log($"[TEST] Queue Status - SoundscapeShuffle: {(hasSoundscapeShuffle ? "PRESENT" : "NOT PRESENT")}, Soundscape: {(hasSoundscape ? "PRESENT" : "NOT PRESENT")}");
+        }
+        
+        // Ensure WorldShuffler is stopped and queue is clear
+        MusicSystem1.instance.worldShuffler.StopShuffle();
+        yield return new WaitForSeconds(0.5f);
+        
+        // ===================================================================
+        // TEST 2.1: ReplaceActionInQueue Clears SoundscapeShuffle
+        // ===================================================================
+        Debug.Log("[TEST] \n=== TEST 2.1: REPLACEACTIONINQUEUE CLEARS SOUNDSCAPESHUFFLE ===");
+        Debug.Log("[TEST] Objective: Verify ReplaceActionInQueue() clears SoundscapeShuffle actions when replacing with Soundscape");
+        
+        Debug.Log("[TEST] \nPress SPACE to start WorldShuffler shuffling (should queue SoundscapeShuffle action)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.worldShuffler.BeginShuffle(false); // false = queue it, don't shuffle immediately
+        yield return new WaitForSeconds(0.5f);
+        
+        CheckQueueStatus();
+        bool hasShuffleBefore = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+        Debug.Log($"[TEST] WorldShuffler shuffling started");
+        Debug.Log($"[TEST] ✓ SoundscapeShuffle queued: {(hasShuffleBefore ? "PASS" : "FAIL")}");
+        Debug.Log("[TEST] Check console for: 'WorldShuffler: Beginning shuffle with director queue.'");
+        Debug.Log("[TEST] Check console for: 'WorldShuffler: Queuing World Shuffle'");
+        Debug.Log("[TEST] Check console for: 'Director Queue: Added [index] SoundscapeShuffle to director queue.'");
+        
+        if (!hasShuffleBefore)
+        {
+            Debug.LogWarning("[TEST] WARNING: SoundscapeShuffle was not queued. The test may not work correctly.");
+            Debug.LogWarning("[TEST] Press SPACE to continue anyway, or restart the test.");
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        }
+        
+        Debug.Log("[TEST] \nPress SPACE to use ReplaceActionInQueue() to replace SoundscapeShuffle with Soundscape");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        Debug.Log("[TEST] Calling ReplaceActionInQueue()...");
+        Debug.Log("[TEST] Replacing SoundscapeShuffle with Soundscape 'Shruti'");
+        
+        int result = MusicSystem1.instance.director.ReplaceActionInQueue(
+            MusicSystem1.instance.Action_SetSoundscape("Shruti"),
+            "Soundscape",
+            "SoundscapeShuffle",
+            true,
+            false,
+            180.0f,
+            true
+        );
+        
+        yield return new WaitForSeconds(0.5f);
+        
+        CheckQueueStatus();
+        bool hasShuffleAfter = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+        bool hasSoundscapeAfter = MusicSystem1.instance.director.SearchQueueForType("Soundscape");
+        
+        Debug.Log($"[TEST] ReplaceActionInQueue() returned: {result} (should be >= 0 if successful)");
+        Debug.Log($"[TEST] ✓ SoundscapeShuffle cleared: {(!hasShuffleAfter ? "PASS" : "FAIL")}");
+        Debug.Log($"[TEST] ✓ Soundscape added: {(hasSoundscapeAfter ? "PASS" : "FAIL")}");
+        
+        if (!hasShuffleAfter && hasSoundscapeAfter)
+        {
+            Debug.Log("[TEST] ✓ ReplaceActionInQueue() worked correctly: PASS");
+        }
+        else
+        {
+            Debug.LogWarning("[TEST] ✗ ReplaceActionInQueue() did not work as expected: FAIL");
+            if (hasShuffleAfter)
+            {
+                Debug.LogWarning("[TEST] SoundscapeShuffle was not cleared from queue");
+            }
+            if (!hasSoundscapeAfter)
+            {
+                Debug.LogWarning("[TEST] Soundscape was not added to queue");
+            }
+        }
+        
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - 'Director Queue: Removed all SoundscapeShuffle items from director queue.'");
+        Debug.Log("[TEST]   - 'Director Queue: Removed all Soundscape items from director queue.' (if any existed)");
+        Debug.Log("[TEST]   - 'Director Queue: Added [index] Soundscape to director queue.'");
+        Debug.Log("[TEST]   - Expiration time should be minimum of: cleared SoundscapeShuffle time, cleared Soundscape time (if any), and 180.0f");
+        
+        // ===================================================================
+        // CLEANUP
+        // ===================================================================
+        Debug.Log("[TEST] \n=== CLEANUP ===");
+        Debug.Log("[TEST] Press SPACE to stop WorldShuffler and complete test");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.worldShuffler.StopShuffle();
+        yield return new WaitForSeconds(0.5f);
+        CheckQueueStatus();
+        
+        Debug.Log("[TEST] \n=== TEST 13 COMPLETE ===");
+        Debug.Log("[TEST] Summary:");
+        Debug.Log("[TEST] ✓ Test 2.1: ReplaceActionInQueue Clears SoundscapeShuffle");
+        Debug.Log("[TEST] \nReview console logs above for detailed results.");
+    }
+    
+    /// <summary>
+    /// Test 14: Director Queue Priority System - SoundscapeShuffle Rejected (Test 2.2)
+    /// Tests that SoundscapeShuffle cannot be added if Soundscape already exists in the queue.
+    /// </summary>
+    private IEnumerator TestSoundscapeShuffleRejected()
+    {
+        Debug.Log("[TEST] === TEST 14: DIRECTOR QUEUE PRIORITY SYSTEM - SOUNDSCAPESHUFFLE REJECTED (Test 2.2) ===");
+        Debug.Log("[TEST] This test verifies SoundscapeShuffle cannot be added if Soundscape already exists.");
+        Debug.Log("[TEST] \nCONTROLS:");
+        Debug.Log("[TEST] SPACE - Proceed to next test stage");
+        Debug.Log("[TEST] ========================================\n");
+        
+        if (MusicSystem1.instance == null)
+        {
+            Debug.LogError("[TEST] MusicSystem1.instance is null - cannot run test");
+            yield break;
+        }
+        
+        if (MusicSystem1.instance.director == null)
+        {
+            Debug.LogError("[TEST] Director is null - cannot run test");
+            yield break;
+        }
+        
+        if (MusicSystem1.instance.worldShuffler == null)
+        {
+            Debug.LogError("[TEST] WorldShuffler is null - cannot run test");
+            yield break;
+        }
+        
+        // Helper method to check queue status and log it
+        void CheckQueueStatus()
+        {
+            bool hasSoundscapeShuffle = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+            bool hasSoundscape = MusicSystem1.instance.director.SearchQueueForType("Soundscape");
+            Debug.Log($"[TEST] Queue Status - SoundscapeShuffle: {(hasSoundscapeShuffle ? "PRESENT" : "NOT PRESENT")}, Soundscape: {(hasSoundscape ? "PRESENT" : "NOT PRESENT")}");
+            Debug.Log("[TEST] Full queue contents:");
+            MusicSystem1.instance.director.LogQueue();
+        }
+        
+        // Ensure WorldShuffler is stopped and queue is clear
+        MusicSystem1.instance.worldShuffler.StopShuffle();
+        yield return new WaitForSeconds(0.5f);
+        
+        // ===================================================================
+        // TEST 2.2: SoundscapeShuffle Rejected When Soundscape Exists
+        // ===================================================================
+        Debug.Log("[TEST] \n=== TEST 2.2: SOUNDSCAPESHUFFLE REJECTED WHEN SOUNDSCAPE EXISTS ===");
+        Debug.Log("[TEST] Objective: Verify SoundscapeShuffle cannot be added if Soundscape exists");
+        
+        Debug.Log("[TEST] \nPress SPACE to queue a Soundscape action first");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        Debug.Log("[TEST] Queuing Soundscape 'Shruti' action...");
+        int soundscapeResult = MusicSystem1.instance.director.AddActionToQueue(
+            MusicSystem1.instance.Action_SetSoundscape("Shruti"),
+            "Soundscape",
+            true,
+            false,
+            180.0f,
+            true,
+            0 // No exclusivity behavior - just add it
+        );
+        
+        yield return new WaitForSeconds(0.5f);
+        
+        CheckQueueStatus();
+        bool hasSoundscapeBefore = MusicSystem1.instance.director.SearchQueueForType("Soundscape");
+        bool hasShuffleBefore = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+        
+        Debug.Log($"[TEST] AddActionToQueue() returned: {soundscapeResult} (should be >= 0 if successful)");
+        Debug.Log($"[TEST] ✓ Soundscape queued: {(hasSoundscapeBefore ? "PASS" : "FAIL")}");
+        Debug.Log($"[TEST] ✓ SoundscapeShuffle not present: {(!hasShuffleBefore ? "PASS" : "FAIL")}");
+        
+        if (!hasSoundscapeBefore)
+        {
+            Debug.LogWarning("[TEST] WARNING: Soundscape was not queued. The test may not work correctly.");
+            Debug.LogWarning("[TEST] Press SPACE to continue anyway, or restart the test.");
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        }
+        
+        Debug.Log("[TEST] \nPress SPACE to attempt to queue SoundscapeShuffle (should be rejected)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        Debug.Log("[TEST] Attempting to queue SoundscapeShuffle via WorldShuffler.BeginShuffle(false)...");
+        MusicSystem1.instance.worldShuffler.BeginShuffle(false); // false = queue it, don't shuffle immediately
+        yield return new WaitForSeconds(0.5f);
+        
+        CheckQueueStatus();
+        bool hasSoundscapeAfter = MusicSystem1.instance.director.SearchQueueForType("Soundscape");
+        bool hasShuffleAfter = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+        
+        Debug.Log($"[TEST] After attempting to queue SoundscapeShuffle:");
+        Debug.Log($"[TEST] ✓ Soundscape still present: {(hasSoundscapeAfter ? "PASS" : "FAIL")}");
+        Debug.Log($"[TEST] ✓ SoundscapeShuffle NOT added: {(!hasShuffleAfter ? "PASS" : "FAIL")}");
+        
+        if (!hasShuffleAfter && hasSoundscapeAfter)
+        {
+            Debug.Log("[TEST] ✓ SoundscapeShuffle correctly rejected: PASS");
+            Debug.Log("[TEST] WorldShuffler's SearchQueueForType('Soundscape') check worked correctly.");
+        }
+        else
+        {
+            Debug.LogWarning("[TEST] ✗ SoundscapeShuffle was not rejected correctly: FAIL");
+            if (hasShuffleAfter)
+            {
+                Debug.LogWarning("[TEST] SoundscapeShuffle was incorrectly added to queue");
+            }
+            if (!hasSoundscapeAfter)
+            {
+                Debug.LogWarning("[TEST] Soundscape was removed from queue (unexpected)");
+            }
+        }
+        
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - 'WorldShuffler: Attempted to queue SoundscapeShuffle, but director queue already has a specific SoundScape in it.'");
+        Debug.Log("[TEST]   - Director queue logs showing only Soundscape action (no SoundscapeShuffle)");
+        
+        // ===================================================================
+        // CLEANUP
+        // ===================================================================
+        Debug.Log("[TEST] \n=== CLEANUP ===");
+        Debug.Log("[TEST] Press SPACE to stop WorldShuffler and clear queue");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.worldShuffler.StopShuffle();
+        MusicSystem1.instance.director.ClearQueueOfType("Soundscape");
+        MusicSystem1.instance.director.ClearQueueOfType("SoundscapeShuffle");
+        yield return new WaitForSeconds(0.5f);
+        CheckQueueStatus();
+        
+        Debug.Log("[TEST] \n=== TEST 14 COMPLETE ===");
+        Debug.Log("[TEST] Summary:");
+        Debug.Log("[TEST] ✓ Test 2.2: SoundscapeShuffle Rejected When Soundscape Exists");
+        Debug.Log("[TEST] \nReview console logs above for detailed results.");
+    }
+    
+    /// <summary>
+    /// Test 15: Director Queue Priority System - ReplaceActionInQueue Expiration Time (Test 2.3)
+    /// Tests that ReplaceActionInQueue preserves the shortest expiration time correctly.
+    /// </summary>
+    private IEnumerator TestReplaceActionInQueueExpirationTime()
+    {
+        Debug.Log("[TEST] === TEST 15: DIRECTOR QUEUE PRIORITY SYSTEM - REPLACEACTIONINQUEUE EXPIRATION TIME (Test 2.3) ===");
+        Debug.Log("[TEST] This test verifies ReplaceActionInQueue preserves shortest expiration time correctly.");
+        Debug.Log("[TEST] \nCONTROLS:");
+        Debug.Log("[TEST] SPACE - Proceed to next test stage");
+        Debug.Log("[TEST] ========================================\n");
+        
+        if (MusicSystem1.instance == null)
+        {
+            Debug.LogError("[TEST] MusicSystem1.instance is null - cannot run test");
+            yield break;
+        }
+        
+        if (MusicSystem1.instance.director == null)
+        {
+            Debug.LogError("[TEST] Director is null - cannot run test");
+            yield break;
+        }
+        
+        if (MusicSystem1.instance.worldShuffler == null)
+        {
+            Debug.LogError("[TEST] WorldShuffler is null - cannot run test");
+            yield break;
+        }
+        
+        // Helper method to get expiration time for a specific action type
+        float GetExpirationTimeForType(string type)
+        {
+            float shortestTime = float.MaxValue;
+            bool found = false;
+            foreach (var item in MusicSystem1.instance.director.queue)
+            {
+                if (item.Value.type == type)
+                {
+                    found = true;
+                    if (item.Value.timeLeft < shortestTime)
+                    {
+                        shortestTime = item.Value.timeLeft;
+                    }
+                }
+            }
+            return found ? shortestTime : -1f;
+        }
+        
+        // Helper method to check queue status and log it
+        void CheckQueueStatus()
+        {
+            bool hasSoundscapeShuffle = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+            bool hasSoundscape = MusicSystem1.instance.director.SearchQueueForType("Soundscape");
+            Debug.Log($"[TEST] Queue Status - SoundscapeShuffle: {(hasSoundscapeShuffle ? "PRESENT" : "NOT PRESENT")}, Soundscape: {(hasSoundscape ? "PRESENT" : "NOT PRESENT")}");
+            if (hasSoundscapeShuffle)
+            {
+                float shuffleTime = GetExpirationTimeForType("SoundscapeShuffle");
+                Debug.Log($"[TEST] SoundscapeShuffle expiration time: {shuffleTime}s");
+            }
+            if (hasSoundscape)
+            {
+                float soundscapeTime = GetExpirationTimeForType("Soundscape");
+                Debug.Log($"[TEST] Soundscape expiration time: {soundscapeTime}s");
+            }
+            Debug.Log("[TEST] Full queue contents:");
+            MusicSystem1.instance.director.LogQueue();
+        }
+        
+        // Ensure WorldShuffler is stopped and queue is clear
+        MusicSystem1.instance.worldShuffler.StopShuffle();
+        MusicSystem1.instance.director.ClearQueueOfType("SoundscapeShuffle");
+        MusicSystem1.instance.director.ClearQueueOfType("Soundscape");
+        yield return new WaitForSeconds(0.5f);
+        
+        // ===================================================================
+        // TEST 2.3: ReplaceActionInQueue Expiration Time Matching
+        // ===================================================================
+        Debug.Log("[TEST] \n=== TEST 2.3: REPLACEACTIONINQUEUE EXPIRATION TIME MATCHING ===");
+        Debug.Log("[TEST] Objective: Verify ReplaceActionInQueue preserves shortest expiration time correctly");
+        
+        Debug.Log("[TEST] \nPress SPACE to queue first SoundscapeShuffle with 60s expiration");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        Debug.Log("[TEST] Queuing SoundscapeShuffle with 60s expiration...");
+        // Create action inline since Action_ShuffleSoundscape() is private
+        System.Action shuffleAction1 = () => MusicSystem1.instance.worldShuffler.ShuffleWorldsNow();
+        int result1 = MusicSystem1.instance.director.AddActionToQueue(
+            shuffleAction1,
+            "SoundscapeShuffle",
+            true,
+            false,
+            60.0f,
+            true,
+            1 // Exclusivity behavior 1: prefer lowest time left
+        );
+        
+        yield return new WaitForSeconds(0.5f);
+        CheckQueueStatus();
+        float time1 = GetExpirationTimeForType("SoundscapeShuffle");
+        Debug.Log($"[TEST] AddActionToQueue() returned: {result1}");
+        Debug.Log($"[TEST] ✓ First SoundscapeShuffle queued with 60s expiration: {(Mathf.Approximately(time1, 60.0f) ? "PASS" : "FAIL")}");
+        
+        Debug.Log("[TEST] \nPress SPACE to queue second SoundscapeShuffle with 30s expiration");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        Debug.Log("[TEST] Queuing second SoundscapeShuffle with 30s expiration...");
+        // Create action inline since Action_ShuffleSoundscape() is private
+        System.Action shuffleAction2 = () => MusicSystem1.instance.worldShuffler.ShuffleWorldsNow();
+        int result2 = MusicSystem1.instance.director.AddActionToQueue(
+            shuffleAction2,
+            "SoundscapeShuffle",
+            true,
+            false,
+            30.0f,
+            true,
+            1 // Exclusivity behavior 1: prefer lowest time left
+        );
+        
+        yield return new WaitForSeconds(0.5f);
+        CheckQueueStatus();
+        float time2 = GetExpirationTimeForType("SoundscapeShuffle");
+        Debug.Log($"[TEST] AddActionToQueue() returned: {result2}");
+        Debug.Log($"[TEST] ✓ Second SoundscapeShuffle queued with 30s expiration: {(Mathf.Approximately(time2, 30.0f) ? "PASS" : "FAIL")}");
+        Debug.Log($"[TEST] Note: With exclusivity behavior 1, the shorter time (30s) should be kept.");
+        
+        Debug.Log("[TEST] \nPress SPACE to use ReplaceActionInQueue() with newMaximumTimeLimit of 120s");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        Debug.Log("[TEST] Calling ReplaceActionInQueue()...");
+        Debug.Log("[TEST] Replacing SoundscapeShuffle with Soundscape 'Shruti'");
+        Debug.Log("[TEST] Expected expiration time: Mathf.Min(30f, 60f, 120f) = 30f");
+        
+        int replaceResult = MusicSystem1.instance.director.ReplaceActionInQueue(
+            MusicSystem1.instance.Action_SetSoundscape("Shruti"),
+            "Soundscape",
+            "SoundscapeShuffle",
+            true,
+            false,
+            120.0f, // newMaximumTimeLimit
+            true
+        );
+        
+        yield return new WaitForSeconds(0.5f);
+        CheckQueueStatus();
+        
+        float soundscapeTime = GetExpirationTimeForType("Soundscape");
+        bool hasShuffleAfter = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+        bool hasSoundscapeAfter = MusicSystem1.instance.director.SearchQueueForType("Soundscape");
+        
+        Debug.Log($"[TEST] ReplaceActionInQueue() returned: {replaceResult}");
+        Debug.Log($"[TEST] ✓ SoundscapeShuffle cleared: {(!hasShuffleAfter ? "PASS" : "FAIL")}");
+        Debug.Log($"[TEST] ✓ Soundscape added: {(hasSoundscapeAfter ? "PASS" : "FAIL")}");
+        Debug.Log($"[TEST] Soundscape expiration time: {soundscapeTime}s");
+        
+        float expectedTime = Mathf.Min(30f, 60f, 120f); // Should be 30f
+        if (Mathf.Approximately(soundscapeTime, expectedTime))
+        {
+            Debug.Log($"[TEST] ✓ Expiration time is correct ({soundscapeTime}s = {expectedTime}s): PASS");
+            Debug.Log("[TEST] ReplaceActionInQueue() correctly calculated: Mathf.Min(shortestTimeOld, shortestTimeNew, newMaximumTimeLimit)");
+        }
+        else
+        {
+            Debug.LogWarning($"[TEST] ✗ Expiration time is incorrect: FAIL");
+            Debug.LogWarning($"[TEST] Expected: {expectedTime}s, Got: {soundscapeTime}s");
+            Debug.LogWarning("[TEST] ReplaceActionInQueue() should use: Mathf.Min(30f, 60f, 120f) = 30f");
+        }
+        
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - Director queue logs showing Soundscape expiration time");
+        Debug.Log("[TEST]   - Verify the math: Mathf.Min(30f, 60f, 120f) = 30f");
+        
+        // ===================================================================
+        // CLEANUP
+        // ===================================================================
+        Debug.Log("[TEST] \n=== CLEANUP ===");
+        Debug.Log("[TEST] Press SPACE to stop WorldShuffler and clear queue");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.worldShuffler.StopShuffle();
+        MusicSystem1.instance.director.ClearQueueOfType("SoundscapeShuffle");
+        MusicSystem1.instance.director.ClearQueueOfType("Soundscape");
+        yield return new WaitForSeconds(0.5f);
+        CheckQueueStatus();
+        
+        Debug.Log("[TEST] \n=== TEST 15 COMPLETE ===");
+        Debug.Log("[TEST] Summary:");
+        Debug.Log("[TEST] ✓ Test 2.3: ReplaceActionInQueue Expiration Time Matching");
+        Debug.Log("[TEST] \nReview console logs above for detailed results.");
     }
 }
