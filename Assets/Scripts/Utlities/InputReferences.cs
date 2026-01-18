@@ -2378,7 +2378,11 @@ public class InputReferences : MonoBehaviour
         Debug.Log("[TEST] This test verifies SoundscapeShuffle cannot be added if Soundscape already exists.");
         Debug.Log("[TEST] \nCONTROLS:");
         Debug.Log("[TEST] SPACE - Proceed to next test stage");
+        Debug.Log("[TEST] Review Director Queue Contents Now:");
         Debug.Log("[TEST] ========================================\n");
+
+        Debug.Log("[TEST] Change into playground mode, wait 5 seconds, then press SPACE.");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         if (MusicSystem1.instance == null)
         {
@@ -2407,10 +2411,23 @@ public class InputReferences : MonoBehaviour
             Debug.Log("[TEST] Full queue contents:");
             MusicSystem1.instance.director.LogQueue();
         }
-        
+        CheckQueueStatus();
         // Ensure WorldShuffler is stopped and queue is clear
+        // Note: StopShuffle() now always clears the queue, but we also need to ensure
+        // that if StartPlayground() was called, it doesn't re-queue after we clear
         MusicSystem1.instance.worldShuffler.StopShuffle();
         yield return new WaitForSeconds(0.5f);
+        
+        CheckQueueStatus();
+        // Double-check that queue is clear after StopShuffle
+        // (StartPlayground() may have queued SoundscapeShuffle before StopShuffle was called)
+        bool hasShuffleAfterStop = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
+        if (hasShuffleAfterStop)
+        {
+            Debug.LogWarning("[TEST] WARNING: SoundscapeShuffle still present after StopShuffle() - clearing manually");
+            MusicSystem1.instance.director.ClearQueueOfType("SoundscapeShuffle");
+            yield return new WaitForSeconds(0.1f);
+        }
         
         // ===================================================================
         // TEST 2.2: SoundscapeShuffle Rejected When Soundscape Exists
