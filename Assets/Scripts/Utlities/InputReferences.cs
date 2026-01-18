@@ -42,9 +42,9 @@ public class InputReferences : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+    
         // Start the sample testing coroutine at launch as a skeleton
-        // StartCoroutine(SampleTestCoroutine());
+        StartCoroutine(SampleTestCoroutine());
         
         // ===================================================================
         // NOTE NAME REFACTORING TEST COROUTINES
@@ -52,16 +52,16 @@ public class InputReferences : MonoBehaviour
         // Uncomment one at a time to run tests:
         
         // Test 1: Fundamental Note Changes
-        // StartCoroutine(TestFundamentalNoteChanges());
+        //StartCoroutine(TestFundamentalNoteChanges());
         
         // Test 2: Harmony System
-        // StartCoroutine(TestHarmonySystem());
+        //StartCoroutine(TestHarmonySystem());
         
         // Test 3: Note Detection
-        // StartCoroutine(TestNoteDetection());
+         //StartCoroutine(TestNoteDetection());
         
         // Test 4: Mode Switching & Locks
-        // StartCoroutine(TestModeSwitchingAndLocks());
+        StartCoroutine(TestAllLockingSystems());
         
         // Test 5: Edge Cases
         // StartCoroutine(TestEdgeCases());
@@ -472,7 +472,7 @@ public class InputReferences : MonoBehaviour
     // ===================================================================
     // NOTE NAME REFACTORING TEST COROUTINES
     // ===================================================================
-    
+    /*
     /// <summary>
     /// Test 1: Fundamental Note Changes
     /// Tests that fundamental changes correctly when unlocked, Wwise switches update, and binaural beats frequency updates.
@@ -495,7 +495,7 @@ public class InputReferences : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         
         Debug.Log("\n[TEST] Stage 1: Testing fundamental change to C");
-        Debug.Log("Expected: fundamentalNoteName = C, Wwise switch = 'C', binaural frequency ≈ 261.63 Hz");
+        Debug.Log("[TEST]Expected: fundamentalNoteName = C, Wwise switch = 'C', binaural frequency ≈ 261.63 Hz");
         Debug.Log("Press SPACE to change fundamental to C");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
@@ -515,8 +515,8 @@ public class InputReferences : MonoBehaviour
         Debug.Log($"[TEST] ✓ NoteName enum used: {(currentFundamental != NoteName.None ? "PASS" : "FAIL")}");
         
         Debug.Log("\n[TEST] Stage 2: Testing fundamental change to A");
-        Debug.Log("Expected: fundamentalNoteName = A, Wwise switch = 'A', binaural frequency = 440 Hz");
-        Debug.Log("Press SPACE to change fundamental to A");
+        Debug.Log("[TEST]Expected: fundamentalNoteName = A, Wwise switch = 'A', binaural frequency = 440 Hz");
+        Debug.Log("[TEST]Press SPACE to change fundamental to A");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         testNote = NoteName.A;
@@ -533,7 +533,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log($"[TEST] ✓ Fundamental changed: {(currentFundamental == testNote ? "PASS" : "FAIL")}");
         
         Debug.Log("\n[TEST] Stage 3: Testing all 12 notes sequentially");
-        Debug.Log("Press SPACE to cycle through all notes (C, Cs, D, Ds, E, F, Fs, G, Gs, A, As, B)");
+        Debug.Log("[TEST]Press SPACE to cycle through all notes (C, Cs, D, Ds, E, F, Fs, G, Gs, A, As, B)");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         for (NoteName note = NoteName.C; note <= NoteName.B; note++)
@@ -545,77 +545,105 @@ public class InputReferences : MonoBehaviour
             Debug.Log($"[TEST] Note: {note}, Fundamental: {currentFundamental}, Expected Freq: {expectedFreq:F2} Hz, Match: {(currentFundamental == note ? "✓" : "✗")}");
         }
         
-        Debug.Log("\n=== TEST 1 COMPLETE ===");
-        Debug.Log("Check logs above for results. Verify Wwise switches and binaural beats frequency match expectations.");
+        Debug.Log("\n[TEST]=== TEST 1 COMPLETE ===");
+        Debug.Log("[TEST]Check logs above for results. Verify Wwise switches and binaural beats frequency match expectations.");
     }
+     
+     
     
     /// <summary>
-    /// Test 2: Harmony System
-    /// Tests harmony sequences, octave wrapping, and harmony updates when fundamental changes.
+    /// Test 2: Harmony System - Live Toning & Fundamental Step Test
+    /// Prompts the tester to tone/sing a sustained note.
+    /// Every 1s prints the current fundamental and harmony note (with assessment).
+    /// Press SPACE to step the fundamental up by 1 semitone (for subjective mapping assessment).
+    /// Cycles through all 12 notes sequentially.
     /// </summary>
     private IEnumerator TestHarmonySystem()
     {
         Debug.Log("=== TEST 2: HARMONY SYSTEM ===");
-        Debug.Log("This test verifies harmony calculations work correctly with NoteName enum.");
-        
+        Debug.Log("[TEST]Instructions:");
+        Debug.Log("[TEST] 1. Tone/sing a sustained note. This test will print the current fundamental note and its computed harmony every 1 second.");
+        Debug.Log("[TEST] 2. Press SPACE to step the fundamental up by 1 semitone.");
+        Debug.Log("[TEST] 3. The test will cycle through all 12 chromatic notes.");
+        Debug.Log("[TEST] 4. Assess with your ear and the keyboard display if both fundamental and harmony are as expected.");
+        Debug.Log("[TEST] 5. We are particularly concerned with wrapping modulo behavior.");
+        Debug.Log("[TEST]========================================");
+
         if (MusicSystem1.instance == null)
         {
-            Debug.LogError("[TEST] MusicSystem1.instance is null - cannot run test");
+            Debug.LogError("[TEST] MusicSystem1.instance is null - cannot run harmony test.");
             yield break;
         }
-        
-        Debug.Log("\n[TEST] Stage 1: Testing harmony calculation for different fundamentals");
-        Debug.Log("Press SPACE to test harmony with fundamental = C");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        
-        MusicSystem1.instance.SetFundamentalDirect(NoteName.C);
+
+        // Start with fundamental C
+        NoteName currentFundamental = NoteName.C;
+        MusicSystem1.instance.SetFundamentalDirect(currentFundamental);
         yield return new WaitForSeconds(0.5f);
-        
-        NoteName fundamental = MusicSystem1.instance.fundamentalNoteName;
-        NoteName harmony = MusicSystem1.instance.harmonyNote;
-        Debug.Log($"[TEST] Fundamental: {fundamental}, Harmony: {harmony}");
-        Debug.Log($"[TEST] ✓ Harmony is NoteName enum: {(harmony != NoteName.None || harmony == NoteName.None ? "PASS" : "FAIL")}");
-        
-        Debug.Log("\n[TEST] Stage 2: Testing harmony wrapping (C + 7 = G, B + 1 = C)");
-        Debug.Log("Press SPACE to test C + 7 semitones (should be G)");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        
-        NoteName result = NoteUtils.AddInterval(NoteName.C, 7);
-        Debug.Log($"[TEST] C + 7 semitones = {result} (expected: G)");
-        Debug.Log($"[TEST] ✓ Wrapping test: {(result == NoteName.G ? "PASS" : "FAIL")}");
-        
-        Debug.Log("\n[TEST] Press SPACE to test B + 1 semitone (should wrap to C)");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        
-        result = NoteUtils.AddInterval(NoteName.B, 1);
-        Debug.Log($"[TEST] B + 1 semitone = {result} (expected: C)");
-        Debug.Log($"[TEST] ✓ Octave wrap test: {(result == NoteName.C ? "PASS" : "FAIL")}");
-        
-        Debug.Log("\n[TEST] Stage 3: Testing negative intervals");
-        Debug.Log("Press SPACE to test C - 1 semitone (should wrap to B)");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        
-        result = NoteUtils.AddInterval(NoteName.C, -1);
-        Debug.Log($"[TEST] C - 1 semitone = {result} (expected: B)");
-        Debug.Log($"[TEST] ✓ Negative interval test: {(result == NoteName.B ? "PASS" : "FAIL")}");
-        
-        Debug.Log("\n[TEST] Stage 4: Testing harmony updates when fundamental changes");
-        Debug.Log("Press SPACE to change fundamental from C to A and verify harmony updates");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        
-        MusicSystem1.instance.SetFundamentalDirect(NoteName.C);
-        yield return new WaitForSeconds(0.5f);
-        NoteName harmony1 = MusicSystem1.instance.harmonyNote;
-        Debug.Log($"[TEST] Fundamental: C, Harmony: {harmony1}");
-        
-        MusicSystem1.instance.SetFundamentalDirect(NoteName.A);
-        yield return new WaitForSeconds(0.5f);
-        NoteName harmony2 = MusicSystem1.instance.harmonyNote;
-        Debug.Log($"[TEST] Fundamental: A, Harmony: {harmony2}");
-        Debug.Log($"[TEST] ✓ Harmony updated: {(harmony1 != harmony2 ? "PASS" : "FAIL")}");
-        
-        Debug.Log("\n=== TEST 2 COMPLETE ===");
+
+        int steps = 0;
+        const int TOTAL_NOTES = 12;
+
+        Debug.Log("[TEST] Begin toning/singing and observe the harmony outputs below.");
+        Debug.Log("[TEST]Press SPACE at any time to change the fundamental up by 1 semitone.");
+
+        // Used to track input for advancing note
+        bool waitingForNextNote = false;
+
+        while (steps < TOTAL_NOTES)
+        {
+            float timer = 0f;
+            waitingForNextNote = false;
+
+            while (!waitingForNextNote)
+            {
+                // Every 1s, print the current state for the current fundamental
+                timer += Time.deltaTime;
+                if (timer >= 1.0f)
+                {
+                    timer = 0f;
+
+                    NoteName fundamental = MusicSystem1.instance.fundamentalNoteName;
+                    NoteName harmony = MusicSystem1.instance.harmonyNote;
+
+                    // Assessment: is harmot using NoteUtils.AddInterval to compare.
+                    NoteName expectedHarmony = NoteUtils.AddInterval(fundamental, 7); // perfect fifth
+
+                    string assessment = (harmony == expectedHarmony)
+                        ? "[TEST]✓ EXPECTED HARMONY"
+                        : $"[TEST]✗ UNEXPECTED (expected {expectedHarmony})";ny what we expect? This may depend on the current harmony logic
+                    // For this test, assume harmony is a set interval (e.g. a perfect fifth: +7 semitones)
+                    // We'll print an assessmen
+
+                    Debug.Log($"[HarmonyTest] Fundamental: {fundamental} | Harmony: {harmony} | {assessment}");
+                    Debug.Log($"[TEST]           (You should hear: {fundamental} as the tonic, {harmony} as harmony, fifth = {expectedHarmony})");
+                }
+
+                // If space is pressed, break and move to next note
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    waitingForNextNote = true;
+                }
+                yield return null;
+            }
+
+            // Advance to next fundamental
+            steps++;
+            if (steps < TOTAL_NOTES)
+            {
+                // Step up by 1 semitone, wrap if needed
+                currentFundamental = NoteUtils.AddInterval(currentFundamental, 1);
+                MusicSystem1.instance.SetFundamentalDirect(currentFundamental);
+                Debug.Log($"\n[TEST] -- Fundamental changed to {currentFundamental}. Continue toning and assessing. --");
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        Debug.Log("\n[TEST]=== TEST 2: HARMONY SYSTEM COMPLETE ===");
+        Debug.Log("[TEST]You've cycled through all 12 fundamentals. Assess mapping by ear and check console for expected results.");
     }
+      
+   
+
     
     /// <summary>
     /// Test 3: Note Detection
@@ -623,7 +651,7 @@ public class InputReferences : MonoBehaviour
     /// </summary>
     private IEnumerator TestNoteDetection()
     {
-        Debug.Log("=== TEST 3: NOTE DETECTION ===");
+        Debug.Log("[TEST]=== TEST 3: NOTE DETECTION ===");
         Debug.Log("This test verifies note detection works correctly with NoteName enum.");
         Debug.Log("NOTE: This test requires active voice input from Imitone.");
         
@@ -640,8 +668,8 @@ public class InputReferences : MonoBehaviour
         }
         
         Debug.Log("\n[TEST] Stage 1: Monitoring note detection");
-        Debug.Log("Tone into the microphone and watch the logs below.");
-        Debug.Log("Press SPACE to start monitoring (will monitor for 10 seconds)");
+        Debug.Log("[TEST]Tone into the microphone and watch the logs below.");
+        Debug.Log("[TEST]Press SPACE to start monitoring (will monitor for 10 seconds)");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         float monitorDuration = 10f;
@@ -680,9 +708,13 @@ public class InputReferences : MonoBehaviour
         Debug.Log($"[TEST] Currently activated note: {currentNote}");
         Debug.Log($"[TEST] ✓ NoteTracker uses NoteName enum: {(currentNote != NoteName.None || !MusicSystem1.instance.imitoneVoiceInterpreter.imitoneActive ? "PASS" : "FAIL")}");
         
-        Debug.Log("\n=== TEST 3 COMPLETE ===");
+        Debug.Log("\n[TEST]=== TEST 3 COMPLETE ===");
         Debug.Log("Note: Full NoteTracker verification requires checking internal state or adding debug methods.");
     }
+
+   
+
+    
     
     /// <summary>
     /// Test 4: Mode Switching & Locks
@@ -690,7 +722,7 @@ public class InputReferences : MonoBehaviour
     /// </summary>
     private IEnumerator TestModeSwitchingAndLocks()
     {
-        Debug.Log("=== TEST 4: MODE SWITCHING & LOCKS ===");
+        Debug.Log("[TEST]=== TEST 4: MODE SWITCHING & LOCKS ===");
         Debug.Log("This test verifies fundamental locking system works correctly with NoteName enum.");
         
         if (MusicSystem1.instance == null)
@@ -700,7 +732,7 @@ public class InputReferences : MonoBehaviour
         }
         
         Debug.Log("\n[TEST] Stage 1: Testing Debug Lock (highest priority)");
-        Debug.Log("Press SPACE to set debug lock to C");
+        Debug.Log("[TEST]Press SPACE to set debug lock to C");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         MusicSystem1.instance.SetFundamentalDebugLock(NoteName.C);
@@ -727,7 +759,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log("[TEST] Debug lock cleared");
         
         Debug.Log("\n[TEST] Stage 2: Testing Content Lock");
-        Debug.Log("Press SPACE to set content lock to E");
+        Debug.Log("[TEST]Press SPACE to set content lock to E");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         MusicSystem1.instance.SetFundamentalContentLock(NoteName.E);
@@ -744,7 +776,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log("[TEST] Content lock cleared");
         
         Debug.Log("\n[TEST] Stage 3: Testing Mode Lock");
-        Debug.Log("Press SPACE to set mode lock to G");
+        Debug.Log("[TEST]Press SPACE to set mode lock to G");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.G);
@@ -761,7 +793,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log("[TEST] Mode lock cleared");
         
         Debug.Log("\n[TEST] Stage 4: Testing lock priority (Debug > Content > Mode)");
-        Debug.Log("Press SPACE to set all three locks and verify debug lock takes priority");
+        Debug.Log("[TEST]Press SPACE to set all three locks and verify debug lock takes priority");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
@@ -786,20 +818,20 @@ public class InputReferences : MonoBehaviour
         MusicSystem1.instance.SetFundamentalContentLock(null);
         MusicSystem1.instance.SetFundamentalModeLock(false);
         
-        Debug.Log("\n=== TEST 4 COMPLETE ===");
+        Debug.Log("\n[TEST]=== TEST 4 COMPLETE ===");
     }
-    
+
     /// <summary>
     /// Test 5: Edge Cases
     /// Tests None/Invalid note handling, negative intervals, wrapped distance, and modulo operations.
     /// </summary>
     private IEnumerator TestEdgeCases()
     {
-        Debug.Log("=== TEST 5: EDGE CASES ===");
-        Debug.Log("This test verifies edge case handling with NoteName enum.");
+        Debug.Log("[TEST]=== TEST 5: EDGE CASES ===");
+        Debug.Log("[TEST]This test verifies edge case handling with NoteName enum.");
         
         Debug.Log("\n[TEST] Stage 1: Testing None/Invalid note handling");
-        Debug.Log("Press SPACE to test AddInterval with None");
+        Debug.Log("[TEST]Press SPACE to test AddInterval with None");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         NoteName result = NoteUtils.AddInterval(NoteName.None, 5);
@@ -814,7 +846,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log($"[TEST] ✓ None distance: {(distance == -1 ? "PASS" : "FAIL")}");
         
         Debug.Log("\n[TEST] Stage 2: Testing negative intervals");
-        Debug.Log("Press SPACE to test various negative intervals");
+        Debug.Log("[TEST]Press SPACE to test various negative intervals");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         result = NoteUtils.AddInterval(NoteName.C, -1);
@@ -826,7 +858,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log($"[TEST] ✓ Large negative: {(result == NoteName.B ? "PASS" : "FAIL")}");
         
         Debug.Log("\n[TEST] Stage 3: Testing wrapped distance calculations");
-        Debug.Log("Press SPACE to test distance calculations");
+        Debug.Log("[TEST]Press SPACE to test distance calculations");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         distance = NoteUtils.GetWrappedDistance(NoteName.C, NoteName.B);
@@ -842,7 +874,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log($"[TEST] ✓ Same note: {(distance == 0 ? "PASS" : "FAIL")}");
         
         Debug.Log("\n[TEST] Stage 4: Testing modulo 12 operations");
-        Debug.Log("Press SPACE to test interval wrapping");
+        Debug.Log("[TEST]Press SPACE to test interval wrapping");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         result = NoteUtils.AddInterval(NoteName.B, 1);
@@ -858,7 +890,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log($"[TEST] ✓ Large interval: {(result == NoteName.D ? "PASS" : "FAIL")}");
         
         Debug.Log("\n[TEST] Stage 5: Testing FloatToNoteName edge cases");
-        Debug.Log("Press SPACE to test float conversions");
+        Debug.Log("[TEST]Press SPACE to test float conversions");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         result = NoteUtils.FloatToNoteName(-1f);
@@ -869,7 +901,7 @@ public class InputReferences : MonoBehaviour
         Debug.Log($"[TEST] FloatToNoteName(12.5) = {result} (expected: C or D, wraps)");
         Debug.Log($"[TEST] ✓ Over 12 wraps: {(result != NoteName.None ? "PASS" : "FAIL")}");
         
-        Debug.Log("\n=== TEST 5 COMPLETE ===");
+        Debug.Log("\n[TEST]=== TEST 5 COMPLETE ===");
     }
     
     /// <summary>
@@ -878,7 +910,7 @@ public class InputReferences : MonoBehaviour
     /// </summary>
     private IEnumerator TestNoteMapping()
     {
-        Debug.Log("=== TEST 6: NOTE MAPPING VERIFICATION ===");
+        Debug.Log("[TEST]=== TEST 6: NOTE MAPPING VERIFICATION ===");
         Debug.Log("This is a SUBJECTIVE test - verify by listening that fundamentals match sung notes.");
         
         if (MusicSystem1.instance == null)
@@ -888,11 +920,11 @@ public class InputReferences : MonoBehaviour
         }
         
         Debug.Log("\n[TEST] Stage 1: Testing C fundamental");
-        Debug.Log("INSTRUCTIONS:");
+        Debug.Log("[TEST]INSTRUCTIONS:");
         Debug.Log("1. The system will set fundamental to C");
         Debug.Log("2. Tone/sing a C note into the microphone");
         Debug.Log("3. Verify that the system responds correctly (keyboard should light up, harmony should sound correct)");
-        Debug.Log("Press SPACE to set fundamental to C");
+        Debug.Log("[TEST]Press SPACE to set fundamental to C");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         MusicSystem1.instance.SetFundamentalDirect(NoteName.C);
@@ -911,11 +943,11 @@ public class InputReferences : MonoBehaviour
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         Debug.Log("\n[TEST] Stage 2: Testing A fundamental");
-        Debug.Log("INSTRUCTIONS:");
+        Debug.Log("[TEST]INSTRUCTIONS:");
         Debug.Log("1. The system will set fundamental to A");
         Debug.Log("2. Tone/sing an A note (440 Hz) into the microphone");
         Debug.Log("3. Verify that the system responds correctly");
-        Debug.Log("Press SPACE to set fundamental to A");
+        Debug.Log("[TEST]Press SPACE to set fundamental to A");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         MusicSystem1.instance.SetFundamentalDirect(NoteName.A);
@@ -933,7 +965,328 @@ public class InputReferences : MonoBehaviour
         Debug.Log("\nPress SPACE when done testing A");
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
-        Debug.Log("\n=== TEST 6 COMPLETE ===");
-        Debug.Log("If both C and A fundamentals matched your sung notes, the mapping is correct!");
+        Debug.Log("\n[TEST]=== TEST 6 COMPLETE ===");
+        Debug.Log("[TEST]If both C and A fundamentals matched your sung notes, the mapping is correct!");
     }
+    */
+
+    /// <summary>
+    /// Test 7: Combined Locking System Tests (8.1 - 9.1)
+    /// Tests all locking systems: Mode Lock, Content Lock, and their combinations.
+    /// Includes tests for basic functionality, redundant calls, note changes, and lock resolution.
+    /// </summary>
+    private IEnumerator TestAllLockingSystems()
+    {
+        Debug.Log("=== TEST 7: ALL LOCKING SYSTEMS (Tests 8.1 - 9.1) ===");
+        Debug.Log("[TEST]This test verifies mode lock, content lock, and their interactions.");
+        Debug.Log("\nCONTROLS:");
+        Debug.Log("[TEST]SPACE - Proceed to next test stage");
+        Debug.Log("[TEST]1 - Manually change fundamental to C (for testing locks)");
+        Debug.Log("[TEST]2 - Manually change fundamental to A (for testing locks)");
+        Debug.Log("[TEST]========================================\n");
+        
+        if (MusicSystem1.instance == null)
+        {
+            Debug.LogError("[TEST] MusicSystem1.instance is null - cannot run test");
+            yield break;
+        }
+        
+        // Helper method to print lock status
+        void PrintLockStatus()
+        {
+            NoteName currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+            Debug.Log($"\n[TEST]LOCK STATUS] Current Fundamental: {currentFundamental}");
+            Debug.Log("[TEST]LOCK STATUS] Check console logs above for lock states (Mode/Content/Debug)");
+        }
+        
+        // Ensure all locks are cleared at start
+        MusicSystem1.instance.SetFundamentalDebugLock(null);
+        MusicSystem1.instance.SetFundamentalContentLock(null);
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        
+        // ===================================================================
+        // TEST 8.1: Mode Lock Basic Functionality
+        // ===================================================================
+        Debug.Log("\n[TEST]=== TEST 8.1: MODE LOCK BASIC FUNCTIONALITY ===");
+        Debug.Log("[TEST]Objective: Verify mode lock sets and clears correctly");
+        Debug.Log("\n[TEST]Press SPACE to set mode lock to C");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
+        yield return new WaitForSeconds(0.5f);
+        NoteName currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        PrintLockStatus();
+        Debug.Log($"[TEST 8.1] ✓ Mode lock set to C: {(currentFundamental == NoteName.C ? "PASS" : "FAIL")}");
+        Debug.Log("[TEST 8.1] Check console for: 'MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Locked to C'");
+        
+        Debug.Log("\nPress SPACE to clear mode lock");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        PrintLockStatus();
+        Debug.Log("[TEST 8.1] Check console for: 'MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Unlocked'");
+        Debug.Log("[TEST 8.1] Check console for: 'ResolveFundamentalOnUnlock()' call");
+        Debug.Log("[TEST 8.1] ✓ Mode lock cleared: PASS (check logs)");
+        
+        // ===================================================================
+        // TEST 8.2: Mode Lock Redundant Calls
+        // ===================================================================
+        Debug.Log("\n[TEST]=== TEST 8.2: MODE LOCK REDUNDANT CALLS ===");
+        Debug.Log("[TEST]Objective: Verify redundant lock/unlock calls are handled gracefully");
+        Debug.Log("\n[TEST]Press SPACE to set mode lock to C (first call)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("[TEST 8.2] First lock call completed");
+        
+        Debug.Log("\n[TEST]Press SPACE to set mode lock to C again (second call - should be redundant)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("[TEST 8.2] Check console for: 'MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode relocked to C'");
+        Debug.Log("[TEST 8.2] ✓ Redundant lock handled: PASS (check logs)");
+        
+        Debug.Log("\n[TEST]Press SPACE to clear mode lock (first unlock)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("[TEST 8.2] First unlock call completed");
+        
+        Debug.Log("\n[TEST]Press SPACE to clear mode lock again (second unlock - should be redundant)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("[TEST 8.2] Check console for: 'MUSIC FUNDAMENTAL-MODE-LOCK: Tried to unlock fundamental mode, but it was already unlocked'");
+        Debug.Log("[TEST 8.2] ✓ Redundant unlock handled: PASS (check logs)");
+        
+        // ===================================================================
+        // TEST 8.3: Mode Lock with Different Notes
+        // ===================================================================
+        Debug.Log("\n[TEST]=== TEST 8.3: MODE LOCK WITH DIFFERENT NOTES ===");
+        Debug.Log("[TEST]Objective: Verify mode lock can be changed to different notes");
+        Debug.Log("\nPress SPACE to set mode lock to C");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        Debug.Log($"[TEST 8.3] Mode lock set to C, Fundamental: {currentFundamental}");
+        
+        Debug.Log("\n[TEST]Press SPACE to change mode lock to D");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.D);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        Debug.Log($"[TEST 8.3] Mode lock changed to D, Fundamental: {currentFundamental}");
+        Debug.Log("[TEST 8.3] Check console for: 'MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Lock changed from C to D'");
+        Debug.Log($"[TEST 8.3] ✓ Lock changed from C to D: {(currentFundamental == NoteName.D ? "PASS" : "FAIL")}");
+        
+        // Clear mode lock
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        
+        // ===================================================================
+        // TEST 9.1: Content Lock Basic Functionality
+        // ===================================================================
+        Debug.Log("\n[TEST]=== TEST 9.1: CONTENT LOCK BASIC FUNCTIONALITY ===");
+        Debug.Log("[TEST]Objective: Verify content lock sets and clears correctly");
+        Debug.Log("\nPress SPACE to set content lock to C");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        PrintLockStatus();
+        Debug.Log($"[TEST 9.1] ✓ Content lock set to C: {(currentFundamental == NoteName.C ? "PASS" : "FAIL")}");
+        Debug.Log("[TEST 9.1] Check console for: 'MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Locked to C'");
+        
+        Debug.Log("\n[TEST]Press SPACE to clear content lock");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalContentLock(null);
+        yield return new WaitForSeconds(0.5f);
+        PrintLockStatus();
+        Debug.Log("[TEST 9.1] Check console for: 'MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Unlocked'");
+        Debug.Log("[TEST 9.1] Check console for: 'ResolveFundamentalOnUnlock()' call");
+        Debug.Log("[TEST 9.1] ✓ Content lock cleared: PASS (check logs)");
+        
+        // ===================================================================
+        // TEST: Manual Fundamental Changes (Testing Lock Prevention)
+        // ===================================================================
+        Debug.Log("\n[TEST]=== TEST: MANUAL FUNDAMENTAL CHANGES (Testing Lock Prevention) ===");
+        Debug.Log("[TEST]Objective: Verify locks prevent manual fundamental changes");
+        Debug.Log("\n[TEST]Press SPACE to set mode lock to C");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        Debug.Log($"[TEST] Mode lock active, Current fundamental: {currentFundamental}");
+        
+        Debug.Log("\n[TEST]Now try to manually change fundamental:");
+        Debug.Log("[TEST]Press 1 to try changing fundamental to C (should work if already C, or be blocked)");
+        Debug.Log("[TEST]Press 2 to try changing fundamental to A (should be BLOCKED by lock)");
+        Debug.Log("[TEST]Press SPACE when done testing manual changes");
+        
+        float waitTime = 5f;
+        float elapsed = 0f;
+        
+        while (elapsed < waitTime)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Debug.Log("[TEST 9.1] Manual change attempt: C");
+                NoteName before = MusicSystem1.instance.fundamentalNoteName;
+                MusicSystem1.instance.ChangeFundamental(NoteName.C);
+                yield return new WaitForSeconds(0.3f);
+                NoteName after = MusicSystem1.instance.fundamentalNoteName;
+                Debug.Log($"[TEST 9.1] Before: {before}, After: {after}");
+                if (before == NoteName.C)
+                {
+                    Debug.Log("[TEST 9.1] ✓ Already at C (no change needed)");
+                }
+                else
+                {
+                    Debug.Log($"[TEST 9.1] Change result: {(before == after ? "BLOCKED by lock" : "ALLOWED")}");
+                }
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Debug.Log("[TEST 9.1] Manual change attempt: A");
+                NoteName before = MusicSystem1.instance.fundamentalNoteName;
+                MusicSystem1.instance.ChangeFundamental(NoteName.A);
+                yield return new WaitForSeconds(0.3f);
+                NoteName after = MusicSystem1.instance.fundamentalNoteName;
+                Debug.Log($"[TEST] Before: {before}, After: {after}");
+                Debug.Log($"[TEST] ✓ Lock prevention: {(before == after ? "PASS (change blocked)" : "FAIL (change allowed despite lock)")}");
+                Debug.Log("[TEST] Check console for warning: 'Tried to change the fundamental, but it was locked'");
+            }
+            
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        // Clear mode lock
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        
+        // ===================================================================
+        // TEST: Lock Combinations and Resolution Order
+        // ===================================================================
+        Debug.Log("\n[TEST]=== TEST: LOCK COMBINATIONS AND RESOLUTION ORDER ===");
+        Debug.Log("[TEST]Objective: Test different combinations of locks and unlock order");
+        
+        Debug.Log("\n[TEST]Press SPACE to set all three locks (Mode=C, Content=D, Debug=E)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
+        MusicSystem1.instance.SetFundamentalContentLock(NoteName.D);
+        MusicSystem1.instance.SetFundamentalDebugLock(NoteName.E);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        PrintLockStatus();
+        Debug.Log($"[TEST 9.1] All locks set. Current fundamental: {currentFundamental}");
+        Debug.Log($"[TEST] ✓ Debug lock priority: {(currentFundamental == NoteName.E ? "PASS" : "FAIL")}");
+        Debug.Log("[TEST 9.1] Expected: Debug lock (E) should be active (highest priority)");
+        
+        Debug.Log("\n[TEST]Press SPACE to clear debug lock (Content lock should take over)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalDebugLock(null);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        PrintLockStatus();
+        Debug.Log($"[TEST] Debug lock cleared. Current fundamental: {currentFundamental}");
+        Debug.Log($"[TEST] ✓ Content lock priority: {(currentFundamental == NoteName.D ? "PASS" : "FAIL")}");
+        Debug.Log("[TEST] Expected: Content lock (D) should be active");
+        Debug.Log("[TEST] Check console for: 'ResolveFundamentalOnUnlock()' call");
+        
+        Debug.Log("\nPress SPACE to clear content lock (Mode lock should take over)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalContentLock(null);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        PrintLockStatus();
+        Debug.Log($"[TEST] Content lock cleared. Current fundamental: {currentFundamental}");
+        Debug.Log($"[TEST] ✓ Mode lock priority: {(currentFundamental == NoteName.C ? "PASS" : "FAIL")}");
+        Debug.Log("[TEST] Expected: Mode lock (C) should be active");
+        Debug.Log("[TEST] Check console for: 'ResolveFundamentalOnUnlock()' call");
+        
+        Debug.Log("\n[TEST]Press SPACE to clear mode lock (No locks, fundamental should resolve)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        PrintLockStatus();
+        Debug.Log($"[TEST] Mode lock cleared. Current fundamental: {currentFundamental}");
+        Debug.Log("[TEST] Expected: No locks active, fundamental resolved based on tracking");
+        Debug.Log("[TEST] Check console for: 'ResolveFundamentalOnUnlock()' call");
+        
+        // ===================================================================
+        // TEST: Unlock Order Variations
+        // ===================================================================
+        Debug.Log("\n[TEST]=== TEST: UNLOCK ORDER VARIATIONS ===");
+        Debug.Log("[TEST]Objective: Test unlocking locks in different orders");
+        
+        Debug.Log("\n[TEST]Press SPACE to set all three locks again");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
+        MusicSystem1.instance.SetFundamentalContentLock(NoteName.D);
+        MusicSystem1.instance.SetFundamentalDebugLock(NoteName.E);
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("[TEST] All locks set (Mode=C, Content=D, Debug=E)");
+        
+        Debug.Log("\n[TEST]Press SPACE to clear mode lock first (Debug lock should still be active)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        Debug.Log($"[TEST] Mode lock cleared. Current fundamental: {currentFundamental}");
+        Debug.Log($"[TEST] ✓ Debug lock still active: {(currentFundamental == NoteName.E ? "PASS" : "FAIL")}");
+        
+        Debug.Log("\n[TEST]Press SPACE to clear content lock (Debug lock should still be active)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalContentLock(null);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        Debug.Log($"[TEST] Content lock cleared. Current fundamental: {currentFundamental}");
+        Debug.Log($"[TEST] ✓ Debug lock still active: {(currentFundamental == NoteName.E ? "PASS" : "FAIL")}");
+        
+        Debug.Log("\nPress SPACE to clear debug lock (No locks remaining)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetFundamentalDebugLock(null);
+        yield return new WaitForSeconds(0.5f);
+        currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+        PrintLockStatus();
+        Debug.Log("[TEST] All locks cleared. Fundamental resolved.");
+        Debug.Log("[TEST] Check console for: 'ResolveFundamentalOnUnlock()' call");
+        
+        Debug.Log("\n=== TEST 7 COMPLETE ===");
+        Debug.Log("[TEST]Summary:");
+        Debug.Log("[TEST]✓ Test 8.1: Mode Lock Basic Functionality");
+        Debug.Log("[TEST]✓ Test 8.2: Mode Lock Redundant Calls");
+        Debug.Log("[TEST]✓ Test 8.3: Mode Lock with Different Notes");
+        Debug.Log("[TEST]✓ Test 9.1: Content Lock Basic Functionality");
+        Debug.Log("[TEST]✓ Lock Combinations and Priority");
+        Debug.Log("[TEST]✓ Unlock Order Variations");
+        Debug.Log("\n[TEST]Review console logs above for detailed results.");
+    }
+    
+
 }

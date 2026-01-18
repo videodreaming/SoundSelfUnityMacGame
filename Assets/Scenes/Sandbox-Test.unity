@@ -4388,14 +4388,13 @@ MonoBehaviour:
   imitoneVoiceInterpreter: {fileID: 740096625}
   _silentVolumeLow: 65
   _silentVolumeHigh: 80
-  fundamentalNote: 3
-  fundamentalNoteName: 3
+  fundamentalNoteName: 0
   harmonyNote: 0
   currentMusicMode: 0
   currentInteractionType: 0
   currentSwitchState: C
   soundscapeDropdown: {fileID: 652141629}
-  permanentlySetFundamental: 3
+  permanentlySetFundamental: 0
 --- !u!4 &619104375
 Transform:
   m_ObjectHideFlags: 0
@@ -8450,6 +8449,8 @@ MonoBehaviour:
     - m_Text: As
       m_Image: {fileID: 0}
     - m_Text: B
+      m_Image: {fileID: 0}
+    - m_Text: Empty
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
