@@ -8,8 +8,6 @@ using TMPro;
 using ConversionUtilities;
 using System.Linq;
 
-//TODO: Simplify this system by just using NoteName, and doing away with ints and strings.
-
 public class MusicSystem1 : MonoBehaviour
 {
     public static MusicSystem1 instance {get; private set;}
@@ -31,10 +29,6 @@ public class MusicSystem1 : MonoBehaviour
     // ActivationTimer: Time duration the note has been active
     // Active: Whether the note is currently active
     // ChangeFundamentalTimer: Timer for changing the fundamental note
-
-    //THE TWO DICTIONARIES BELOW NOT USED ANY MORE, WE SHOULD DELETE THEM WHEN WE ARE SURE WE DON'T NEED THEM
-    //private Dictionary<int, bool> Fundamentals = new Dictionary<int, bool>(); // Tracks if a note is a fundamental tone
-    //private Dictionary<int, bool> Harmonies = new Dictionary<int, bool>(); // Tracks if a note is a harmony
     
     // IMITONE INTERPRETATION AND BASIC TONES
     private float musicNoteInputRaw; // The raw note input from voice interpretation
@@ -42,7 +36,7 @@ public class MusicSystem1 : MonoBehaviour
     public NoteName musicNoteActivated {get; private set;} = NoteName.None; // The note that has been activated (while we are toneActiveBiasTrue), None if no note is activated    
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
-    private int directorStoredFundamental = -1;
+    private NoteName? directorStoredFundamental = null;
     private NoteName nextNote = NoteName.None; // Next note to activate
     private float highestActivationTimer = 0.0f;
     public bool localToneOn {get; private set;} = false;
@@ -354,8 +348,14 @@ public class MusicSystem1 : MonoBehaviour
                     // Use fundamentalNoteName field directly
                     if (key != fundamentalNoteName)
                     {
+                        // Conversion point: NoteName -> int for distance calculation
+                        // GetWrappedDistance() handles NoteName enum internally, converts to int for arithmetic
                         // Calculate the wrapped distance between key and fundamentalNoteName using utility function
                         int d = NoteUtils.GetWrappedDistance(key, fundamentalNoteName);
+                        if (d < 0)
+                        {
+                            Debug.LogWarning($"MUSIC: GetWrappedDistance() returned -1 (indicating None was passed) for key={key}, fundamentalNoteName={fundamentalNoteName} - distance calculation may be incorrect");
+                        }
 
                         // Change timer rate based on absorption and wrapped distance from fundamental
                         float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(respirationTracker._absorption, 0, 1) * -1);
@@ -367,10 +367,7 @@ public class MusicSystem1 : MonoBehaviour
                         bool isHighestFundamentalTimer = newChangeFundamentalTimer >= highestFundamentalTimer;
                         bool retriggerTest = (fundamentalTimeSinceLastTrigger >= fundamentalRetriggerThreshold);
                         bool test = !IsFundamentalLocked() && retriggerTest && isHighestFundamentalTimer;
-                        // TODO Step 1.5: Temporary conversion - directorStoredFundamental will be converted to NoteName? in Step 1.5
-                        // Convert directorStoredFundamental (int) to NoteName for comparison with key (NoteName)
-                        NoteName directorStoredFundamentalNote = NoteUtils.TryIntToNote(directorStoredFundamental, out NoteName dsf) ? dsf : NoteName.None;
-                        bool directorMatchTest = directorStoredFundamentalNote != key;
+                        bool directorMatchTest = directorStoredFundamental != key;
 
                         bool highThresholdPass = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold);
                         bool highThresholdPass_variation = newChangeFundamentalTimer >= (_initiateImminentFundamentalChangeThreshold - 5.0f);
@@ -397,8 +394,7 @@ public class MusicSystem1 : MonoBehaviour
                         {
                             director.ClearQueueOfType("fundamentalChange");
                             director.AddActionToQueue(Action_ChangeFundamental(key), "fundamentalChange", true, false, 9999f, false, 2);
-                            // TODO Step 1.5: Temporary conversion - directorStoredFundamental will be NoteName? in Step 1.5, so this will become: directorStoredFundamental = key;
-                            directorStoredFundamental = NoteUtils.NoteToInt(key);
+                            directorStoredFundamental = key;
 
                             if (debugAllowLogs)
                             {
@@ -458,8 +454,14 @@ public class MusicSystem1 : MonoBehaviour
 
             //Now play the tone
                             
+            // Conversion point: NoteName arithmetic - AddInterval() handles NoteName enum internally
+            // Converts to int for modulo arithmetic, then back to NoteName enum
             // Calculate harmony note by adding interval to fundamental note
             harmonyNote = NoteUtils.AddInterval(fundamentalNoteName, harmonization);
+            if (harmonyNote == NoteName.None)
+            {
+                Debug.LogWarning($"MUSIC: AddInterval() returned NoteName.None for fundamentalNoteName={fundamentalNoteName}, harmonization={harmonization} - harmony will not play correctly");
+            }
             changeHarmony(harmonyNote); 
             if (debugAllowLogs)
             {
@@ -812,7 +814,13 @@ public class MusicSystem1 : MonoBehaviour
     /// <summary>
     /// Sets the fundamental note directly without checking locks.
     /// Used internally when we need to force a change (e.g., to match an active lock).
+    /// Updates Wwise switches and binaural beats frequency based on the new fundamental.
     /// </summary>
+    /// <param name="newFundamental">The NoteName to set as the fundamental. Must not be NoteName.None.</param>
+    /// <remarks>
+    /// Conversion point: NoteName enum is converted to string for Wwise API via NoteUtils.NoteToWwiseString().
+    /// Conversion point: NoteName enum is converted to frequency (Hz) for binaural beats via NoteUtils.NoteToFrequencyA440().
+    /// </remarks>
     public void SetFundamentalDirect(NoteName newFundamental)
     {
         // Validate that we're not setting fundamental to None
@@ -841,15 +849,26 @@ public class MusicSystem1 : MonoBehaviour
         }
 
         ResetFundamentalTimers();
-        // TODO Step 1.5: Temporary - directorStoredFundamental will be NoteName? in Step 1.5, so this will become: directorStoredFundamental = newFundamental;
-        directorStoredFundamental = NoteUtils.NoteToInt(newFundamental);
+        directorStoredFundamental = newFundamental;
     }
 
+    /// <summary>
+    /// Creates an Action delegate that will change the fundamental note when invoked.
+    /// Used for queuing fundamental changes in the Director system.
+    /// </summary>
+    /// <param name="scaleNoteKey">The NoteName to change the fundamental to.</param>
+    /// <returns>An Action delegate that calls ChangeFundamental with the specified note.</returns>
     private Action Action_ChangeFundamental(NoteName scaleNoteKey)
     {
         return () => ChangeFundamental(scaleNoteKey);
     }
    
+    /// <summary>
+    /// Changes the fundamental note, respecting any active locks.
+    /// If the fundamental is locked, logs a warning and does not change it.
+    /// If unlocked, calls SetFundamentalDirect to perform the change.
+    /// </summary>
+    /// <param name="newFundamental">The NoteName to change the fundamental to. Must not be NoteName.None.</param>
     public void ChangeFundamental(NoteName newFundamental)
     {
         if(!IsFundamentalLocked())
@@ -869,10 +888,11 @@ public class MusicSystem1 : MonoBehaviour
     // ====================================================================================================
     
     /// <summary>
-    /// Sets or updates the debug fundamental lock (highest priority - development mode only)
-    /// This lock overrides all other locks and forces the fundamental to a specific note
+    /// Sets or updates the debug fundamental lock (highest priority - development mode only).
+    /// This lock overrides all other locks and forces the fundamental to a specific note.
+    /// Pass null to clear the debug lock.
     /// </summary>
-    /// <param name="note">The note to lock to</param>
+    /// <param name="note">The NoteName to lock to, or null to unlock. Must not be NoteName.None.</param>
     public void SetFundamentalDebugLock(NoteName? note = null)
     {
         bool currentlyLocked = fundamentalDebugLock.HasValue;
@@ -934,9 +954,11 @@ public class MusicSystem1 : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets or clears the content-based fundamental lock (for MusicLoop compatibility)
+    /// Sets or clears the content-based fundamental lock (for MusicLoop compatibility).
+    /// This lock ensures the fundamental matches the required note for the current MusicLoop.
+    /// Priority: Lower than debug lock, higher than mode lock.
     /// </summary>
-    /// <param name="note">The note to lock to, or null to unlock</param>
+    /// <param name="note">The NoteName to lock to, or null to unlock. Must not be NoteName.None.</param>
     public void SetFundamentalContentLock(NoteName? note)
     {
         bool currentlyLocked = fundamentalContentLock.HasValue;
@@ -996,10 +1018,12 @@ public class MusicSystem1 : MonoBehaviour
 
     
     /// <summary>
-    /// Sets or clears the mode-based fundamental lock (for Tutorial, FrozenFreeplay, etc.)
+    /// Sets or clears the mode-based fundamental lock (for Tutorial, FrozenFreeplay modes).
+    /// This lock ensures the fundamental stays at a specific note during certain game modes.
+    /// Priority: Lowest priority lock (overridden by content and debug locks).
     /// </summary>
-    /// <param name="doLock">True to lock, false to unlock</param>
-    /// <param name="note">The note to lock to (defaults to C)</param>
+    /// <param name="doLock">If true, locks to the specified note. If false, unlocks.</param>
+    /// <param name="note">The NoteName to lock to (defaults to C). Must not be NoteName.None.</param>
     public void SetFundamentalModeLock(bool doLock, NoteName note = NoteName.C)
     {
         bool currentlyLocked = fundamentalModeLock.HasValue;
@@ -1132,8 +1156,7 @@ public class MusicSystem1 : MonoBehaviour
                     // Timer is above queue threshold but below immediate threshold - queue it
                     director.ClearQueueOfType("fundamentalChange");
                     director.AddActionToQueue(Action_ChangeFundamental(newFundamental.Value), "fundamentalChange", true, false, 120f, true, 2);
-                    // TODO Step 1.5: Temporary conversion - directorStoredFundamental will be NoteName? in Step 1.5
-                    directorStoredFundamental = NoteUtils.NoteToInt(newFundamental.Value);
+                    directorStoredFundamental = newFundamental.Value;
                     Debug.Log("MUSIC FUNDAMENNTAL MODE UNLOCK: New Fundamental Queued on Unlock: " + NoteUtils.NoteToWwiseString(newFundamental.Value));
                 }
             }
@@ -1177,6 +1200,17 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.PostEvent("Stop_Toning",gameObject);
     }
 
+    /// <summary>
+    /// Processes raw Imitone voice input and converts it to NoteName-based data for the music system.
+    /// This is the primary conversion point from external float-based note input (Imitone) to internal NoteName representation.
+    /// </summary>
+    /// <remarks>
+    /// Conversion points:
+    /// - Input: Imitone provides note_st as float (0-11 range after modulo 12)
+    /// - Internal: Uses NoteName enum for all note tracking and comparisons
+    /// - Math operations: Temporarily converts NoteName to int (0-11) for distance calculations
+    /// - Output: Sets musicNoteActivated as NoteName enum
+    /// </remarks>
     private void InterpretImitoneUpdate()
     {
          // ========================================================
@@ -1194,7 +1228,8 @@ public class MusicSystem1 : MonoBehaviour
             return;
         }
 
-        // Convert fundamentalNoteName to int for math operations (temporary conversion for calculations)
+        // Conversion point: NoteName enum -> int for math operations (distance calculations)
+        // This is a temporary conversion contained within this method for arithmetic only
         int fundamentalNoteInt = NoteUtils.NoteToInt(fundamentalNoteName);
 
         // IN CASE OF DISHARMONIC RELATIONSHIP, REPLACE WITH HARMONIC RELATIONSHIP
@@ -1264,8 +1299,14 @@ public class MusicSystem1 : MonoBehaviour
                 // THE MOMENT THE MUSIC SYSTEM DETECTS IT... EVEN THOUGH THE CURRENT SYSTEM DOESN'T ACTUALLY
                 // CARE WHAT THE NOTE IS EXCEPT FOR AS IT PERTAINS TO CHANGING THE FUNDAMENTAL.
 
-                // Convert musicNoteInput (float) to NoteName for comparison with scaleNote.Key
+                // Conversion point: float -> NoteName for comparison with NoteTracker keys (NoteName enum)
+                // musicNoteInput is a float (0-11 range) from harmonic adjustment calculations
+                // Converted to NoteName enum to match the NoteTracker dictionary key type
                 NoteName musicNoteInputNote = NoteUtils.FloatToNoteName(musicNoteInput);
+                if (musicNoteInputNote == NoteName.None)
+                {
+                    Debug.LogWarning($"MUSIC: FloatToNoteName() returned NoteName.None for musicNoteInput={musicNoteInput} - note detection may be incorrect");
+                }
                 if (musicNoteInputNote == scaleNote.Key)
                 {
                     if(debugAllowLogs && (localActivationTimer == 0 || (Time.frameCount % 30 == 0)))

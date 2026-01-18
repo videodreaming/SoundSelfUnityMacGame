@@ -55,17 +55,6 @@ public static class NoteUtils
         return false;
     }
 
-    public static string IntToNoteString(int noteNumber)
-    {
-        if (!TryIntToNote(noteNumber, out var note))
-        {
-            Debug.LogWarning($"MUSIC: Invalid note number {noteNumber}");
-            return "none";
-        }
-
-        return note.ToString();
-    }
-
     public static bool TryParseNote(string noteName, out NoteName note)
     {
         if (string.IsNullOrWhiteSpace(noteName) || noteName.Equals("none", StringComparison.OrdinalIgnoreCase))
@@ -75,14 +64,6 @@ public static class NoteUtils
         }
 
         return ParseMap.TryGetValue(noteName.Trim(), out note) && (int)note >= 0;
-    }
-
-    public static int NoteToInt(string noteName)
-    {
-        if (!TryParseNote(noteName, out var note))
-            return -1; // your convention for empty/none/invalid
-
-        return (int)note;
     }
 
     /// <summary>

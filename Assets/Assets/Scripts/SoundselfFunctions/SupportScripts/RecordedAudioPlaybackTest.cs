@@ -93,11 +93,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     private int lastReadPosition = 0; // last position read from shared buffer
     private int recordingChannels = 1; // channels from the shared buffer
     private int recordingFrequency = 48000; // sample rate from the shared buffer
-    private string[] noteNames = { "C", "Cs", "D", "Ds", "E", "F", "Fs", "G", "Gs", "A", "As", "B" };
     public string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss"); // session stamp
 
-    [Header("Recording Settings")]
-    private int maxNotes = 12; 
+    [Header("Recording Settings")] 
     private float _recordingDurationTarget = 6f; // record this long, then wait for rest //TODO: SET THIS TO 
     private int _recordingDurationBuffer = 35;    // max capture window before forced stop
     
@@ -148,7 +146,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
         // Prepare slot structure: 12 notes * 4 slots each (0-2 main, 3 HOLD)
         clipSlots.Clear();
-        for (int i = 0; i < noteNames.Length; i++)
+        for (NoteName note = NoteName.C; note <= NoteName.B; note++)
         {
            var slotsForNote = new List<ClipSlot>(maxClipsPerNote);
             for (int j = 0; j < maxClipsPerNote; j++)
@@ -213,9 +211,9 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
         Directory.CreateDirectory(currentSessionFolder);
 
-        foreach(var note in noteNames)
+        for (NoteName note = NoteName.C; note <= NoteName.B; note++)
         {
-            Directory.CreateDirectory(Path.Combine(currentSessionFolder, note));
+            Directory.CreateDirectory(Path.Combine(currentSessionFolder, note.ToString()));
         }
 
         Debug.Log($"Recording: Initialized recording folders at {currentSessionFolder}");
@@ -995,6 +993,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
         foreach (NoteName note in Enum.GetValues(typeof(NoteName)))
         {
+            if (note == NoteName.None) continue; // Skip None - it's not a valid note
             string noteFolder = Path.Combine(currentSessionFolder, note.ToString());
             if (!Directory.Exists(noteFolder)) continue;
 
@@ -1497,6 +1496,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     {
         foreach (NoteName n in Enum.GetValues(typeof(NoteName)))
         {
+            if (n == NoteName.None) continue; // Skip None - it's not a valid note index
             var slots = clipSlots[(int)n];
             for (int i = 0; i < slots.Count; i++)
             {
@@ -1575,6 +1575,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         Debug.Log("=== RECORDED FILES ===");
         foreach (NoteName note in Enum.GetValues(typeof(NoteName)))
         {
+            if (note == NoteName.None) continue; // Skip None - it's not a valid note
             string noteFolder = Path.Combine(currentSessionFolder, note.ToString());
             if (!Directory.Exists(noteFolder)) continue;
 
@@ -1611,9 +1612,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
 
         Debug.Log("[TEST] Starting manual test recording...");
-        NoteName testNote = musicSystem1 != null && NoteUtils.TryIntToNote(musicSystem1.fundamentalNote, out var note) 
-            ? note 
-            : NoteName.C;
+        NoteName testNote = musicSystem1 != null ? musicSystem1.fundamentalNoteName : NoteName.C;
         
         StartCoroutine(ManualTestRecordingCoroutine(testNote));
     }

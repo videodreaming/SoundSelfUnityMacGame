@@ -11,9 +11,9 @@ public class DebugKeyBoardIlluminator : MonoBehaviour
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
 
     [SerializeField]
-    private int fundamentalNote; // TODO: Will be updated to use fundamentalNoteName in Phase 3
+    private NoteName fundamentalNote; // Current fundamental note for debug display
     [SerializeField]
-    private int musicNoteActivated; // Stored as int for serialization, converted from NoteName
+    private NoteName musicNoteActivated; // Current activated note for debug display
     [SerializeField]
     private bool imitoneActive;
     [SerializeField]
@@ -24,9 +24,8 @@ public class DebugKeyBoardIlluminator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // TODO Phase 3: Update to use fundamentalNoteName
-        fundamentalNote = NoteUtils.NoteToInt(MusicSystem1.instance.fundamentalNoteName);
-        musicNoteActivated = NoteUtils.NoteToInt(MusicSystem1.instance.musicNoteActivated);
+        fundamentalNote = MusicSystem1.instance.fundamentalNoteName;
+        musicNoteActivated = MusicSystem1.instance.musicNoteActivated;
         imitoneActive = imitoneVoiceInterpreter.imitoneActive;
         toneActiveBiasTrue = imitoneVoiceInterpreter.toneActiveBiasTrue;
 
@@ -38,36 +37,14 @@ public class DebugKeyBoardIlluminator : MonoBehaviour
             Image keyImage = key.GetComponent<Image>(); // Get the Image component
             if (keyImage != null) // Check if the Image component is found
             {
-                // Check if the current key should be set to blue
-                // TODO Phase 3: Update to use fundamentalNoteName directly
-                int fundamentalNoteInt = NoteUtils.NoteToInt(MusicSystem1.instance.fundamentalNoteName);
-                bool isBlue = (fundamentalNoteInt == 0 && key.name == "C") ||
-                              (fundamentalNoteInt == 1 && key.name == "C#") ||
-                              (fundamentalNoteInt == 2 && key.name == "D") ||
-                              (fundamentalNoteInt == 3 && key.name == "D#") ||
-                              (fundamentalNoteInt == 4 && key.name == "E") ||
-                              (fundamentalNoteInt == 5 && key.name == "F") ||
-                              (fundamentalNoteInt == 6 && key.name == "F#") ||
-                              (fundamentalNoteInt == 7 && key.name == "G") ||
-                              (fundamentalNoteInt == 8 && key.name == "G#") ||
-                              (fundamentalNoteInt == 9 && key.name == "A") ||
-                              (fundamentalNoteInt == 10 && key.name == "A#") ||
-                              (fundamentalNoteInt == 11 && key.name == "B");
+                // Convert key name to NoteName for comparison
+                NoteName keyNote = GetNoteNameFromKeyName(key.name);
+                
+                // Check if the current key should be set to blue (fundamental note)
+                bool isBlue = fundamentalNote != NoteName.None && fundamentalNote == keyNote;
 
-                // Check if the current key should be set to yellow
-                int musicNoteActivatedInt = NoteUtils.NoteToInt(MusicSystem1.instance.musicNoteActivated);
-                bool isYellow = (musicNoteActivatedInt == 0 && key.name == "C") ||
-                                (musicNoteActivatedInt == 1 && key.name == "C#") ||
-                                (musicNoteActivatedInt == 2 && key.name == "D") ||
-                                (musicNoteActivatedInt == 3 && key.name == "D#") ||
-                                (musicNoteActivatedInt == 4 && key.name == "E") ||
-                                (musicNoteActivatedInt == 5 && key.name == "F") ||
-                                (musicNoteActivatedInt == 6 && key.name == "F#") ||
-                                (musicNoteActivatedInt == 7 && key.name == "G") ||
-                                (musicNoteActivatedInt == 8 && key.name == "G#") ||
-                                (musicNoteActivatedInt == 9 && key.name == "A") ||
-                                (musicNoteActivatedInt == 10 && key.name == "A#") ||
-                                (musicNoteActivatedInt == 11 && key.name == "B");
+                // Check if the current key should be set to yellow (activated note)
+                bool isYellow = musicNoteActivated != NoteName.None && musicNoteActivated == keyNote;
 
                 if (isYellow) // If isYellow is true, set the color to yellow
                 {
@@ -87,5 +64,18 @@ public class DebugKeyBoardIlluminator : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Converts a piano key GameObject name to NoteName enum.
+    /// Handles both "C#" and "Cs" style naming conventions.
+    /// </summary>
+    private NoteName GetNoteNameFromKeyName(string keyName)
+    {
+        if (NoteUtils.TryParseNote(keyName, out NoteName note))
+        {
+            return note;
+        }
+        return NoteName.None;
     }
 }
