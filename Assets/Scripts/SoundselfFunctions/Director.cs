@@ -60,6 +60,16 @@ public class Director : MonoBehaviour
         }
     }
 
+    public void Disable()
+    {
+        disable = true;
+    }
+
+    public void Enable()
+    {
+        disable = false;
+    }
+
     private void QueueUpdate()
     {
         if(disable)

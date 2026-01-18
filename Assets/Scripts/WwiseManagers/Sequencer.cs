@@ -232,30 +232,71 @@ public class Sequencer : MonoBehaviour
         director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
        
        //FROM HERE ON, THE STEPS ARE LAID OUT AS AN ARBITRARY SKELETON, WITH ARBITRARY TIMES. YOU CAN USE THIS SKELETON FOR TIMING LOGIC
-       // Step 3 at 110 seconds
-        while (_timeSinceTutorial < 110f)
+       // Step 3 should be 17 minutes and 30 seconds before the end of the sequence.
+        while (_countdownToSavasana < (16f * 60f + 30f))
         {
-            
             yield return null;
         }
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
         Debug.Log("Sequencer: ProtocolStack Step 3");
         // worldShuffler.QueueWorldShuffle();
 
         // Step 4 at 180 seconds
-        while (_timeSinceTutorial < 180f)
+        while (_countdownToSavasana < (14f * 60f))
         {
             yield return null;
         }
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
         Debug.Log("Sequencer: ProtocolStack Step 4");
         // director.AddActionToQueue(...);
 
         // Step 5 at 280 seconds
-        while (_timeSinceTutorial < 280f)
+        while (_countdownToSavasana < (11f * 60f))
         {
             yield return null;
         }
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
         Debug.Log("Sequencer: ProtocolStack Step 5");
         // StartCoroutine(SpecialProtocolEndingRoutine());
+
+        while (_countdownToSavasana < (8f * 60f))
+        {
+            yield return null;
+        }
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+        Debug.Log("Sequencer: ProtocolStack Step 6");
+
+        while (_countdownToSavasana < (5f * 60f))
+        {
+            yield return null;
+        }
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Gentle"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+        Debug.Log("Sequencer: ProtocolStack Step 7");
+
+        while (_countdownToSavasana < (2f * 60f))
+        {
+            yield return null;
+        }
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Sonoflore"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+        Debug.Log("Sequencer: ProtocolStack Step 8");
+
+        while(_countdownToSavasana < 0f)
+        {
+            yield return null;
+        }
+
+        //Turn off Director 
+        //Turn off World Shuffler
+        MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
+        director.Disable();
+        worldShuffler.StopShuffle();
+
+
+        AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+        AkSoundEngine.SetSwitch("MusicLoops_Switch", "Silence", MusicSystem1.instance.gameObject);
+        wwiseVOManager.PlayAscendingClosing();
+        _countdownToSavasana = -1.0f;
+        
     }
     private void StandardSequenceUpdate()
     {
@@ -347,7 +388,7 @@ public class Sequencer : MonoBehaviour
         yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || _countdownToSavasana <= 30f);
         Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors. Wake Up Counter" + _countdownToSavasana);
         director.ActivateQueue(15f);
-        director.disable = true;
+        director.Disable();
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
 
 
@@ -736,7 +777,7 @@ public class Sequencer : MonoBehaviour
         MusicSystem1.instance.SetSoundscape("SonoFlore");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeLow, 0.0f);
-        director.disable = true;
+        director.Disable();
         worldShuffler.ExcludeColorWorld("Blue");
         worldShuffler.ExcludeSoundscape("Shadow");
         PlayFirstSequence();
@@ -757,7 +798,7 @@ public class Sequencer : MonoBehaviour
         worldShuffler.ExcludeSoundscape("Shadow");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0.0f);
-        director.disable = true;
+        director.Disable();
     }
     public void StartPlayground()
     {
@@ -771,7 +812,7 @@ public class Sequencer : MonoBehaviour
         }
         Debug.Log("Sequencer: Starting Playground Sequence.");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
-        director.disable = false;
+        director.Enable();
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0f);
         tutorial.tutorialComplete = true;
         worldShuffler.BeginShuffle(false);
@@ -785,7 +826,7 @@ public class Sequencer : MonoBehaviour
         }
         Debug.Log("Sequencer: Starting 181s Before Savasana Sequence.");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
-        director.disable = false;
+        director.Enable();
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0f);
         tutorial.tutorialComplete = true;
         worldShuffler.BeginShuffle(false);

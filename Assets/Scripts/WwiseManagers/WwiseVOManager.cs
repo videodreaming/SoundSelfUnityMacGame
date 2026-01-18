@@ -174,7 +174,7 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Cue_FreePlay");
                 UI_CurrentSession.Instance.currentSession = "Free Interaction";
                 musicSystem1.SetMusicSilentLayerVolume(musicSystem1._silentVolumeHigh, 40f);
-                director.disable = false;
+                director.Enable();
             }
             else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
             {
@@ -238,6 +238,10 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO_CUE: Cue Mic OFF");
                 imitoneVoiceIntepreter.SetGameOn(false);
+            } else if (musicSyncInfo.userCueName == "Cue_Stop_Interactive")
+            {
+                Debug.Log("WWise_VO: Cue_Stop_Interactive");
+                MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
             }
         }
     }
@@ -457,6 +461,11 @@ public class WwiseVOManager : MonoBehaviour
     {
 
         AkSoundEngine.PostEvent("Play_THEMATIC_SAVASANA_SEQUENCE", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
+    }
+
+    public void PlayAscendingClosing()
+    {
+        AkSoundEngine.PostEvent("Play_ASCENDING_CLOSING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
     }
 
     private void InitializeLightsWithDelay()
