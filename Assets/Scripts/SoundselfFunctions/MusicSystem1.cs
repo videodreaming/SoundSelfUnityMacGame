@@ -782,6 +782,7 @@ public class MusicSystem1 : MonoBehaviour
         return musicLoops.TryGetValue(musicLoopName, out NoteName fundamental) ? fundamental : NoteName.None;
     }
 
+
     /// <summary>
     /// Checks if a soundscape name is a MusicLoop
     /// </summary>

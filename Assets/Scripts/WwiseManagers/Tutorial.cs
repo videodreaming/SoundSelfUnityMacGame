@@ -240,7 +240,7 @@ public class Tutorial : MonoBehaviour
         {
             worldShuffler.BeginShuffle();
         }
-        director.disable = false;
+        director.Enable();
         Debug.Log("TUTORIAL: END naturally with " + TimeTrackerScript.TotalElapsedTime);
     }
 

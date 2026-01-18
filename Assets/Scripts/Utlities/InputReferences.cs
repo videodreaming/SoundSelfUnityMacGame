@@ -208,6 +208,22 @@ public class InputReferences : MonoBehaviour
         }
 
         // ===================================================================
+        // TEST 8.1: Mode Lock Basic Functionality Test
+        // ===================================================================
+        // Spacebar: Run Test 8.1 - Mode Lock Basic Functionality
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (MusicSystem1.instance != null)
+            {
+                StartCoroutine(Test8_1_ModeLockBasicFunctionality());
+            }
+            else
+            {
+                Debug.LogWarning("[TEST 8.1] MusicSystem1.instance is null - cannot run test");
+            }
+        }
+
+        // ===================================================================
         // TESTING KEYBOARD COMMANDS FOR InputReferences.cs
         // ===================================================================
         // Add these commands to the Update() method in InputReferences.cs
@@ -404,5 +420,59 @@ public class InputReferences : MonoBehaviour
         }
         
     }*/
+    }
+
+    // ===================================================================
+    // TEST 8.1: Mode Lock Basic Functionality Coroutine
+    // ===================================================================
+    /// <summary>
+    /// Tests Mode Lock Basic Functionality as specified in Test Suite 8, Test 8.1
+    /// Objective: Verify mode lock sets and clears correctly
+    /// </summary>
+    private IEnumerator Test8_1_ModeLockBasicFunctionality()
+    {
+        Debug.Log("========================================");
+        Debug.Log("[TEST 8.1] Starting Mode Lock Basic Functionality Test");
+        Debug.Log("[TEST 8.1] Objective: Verify mode lock sets and clears correctly");
+        Debug.Log("========================================");
+
+        // Step 1: Call SetFundamentalModeLock(true, NoteName.C)
+        Debug.Log("[TEST 8.1] Step 1: Setting mode lock to C...");
+        MusicSystem1.instance.SetFundamentalModeLock(true, NoteName.C);
+        
+        // Wait for logs to appear and system to process
+        yield return new WaitForSeconds(1.0f);
+        
+        // Step 2: Verify lock is set (check console for expected log)
+        Debug.Log("[TEST 8.1] Step 2: Verifying lock is set...");
+        Debug.Log("[TEST 8.1] Expected: 'MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Locked to C'");
+        Debug.Log("[TEST 8.1] Expected: Fundamental changes to C (if no higher priority locks)");
+        yield return new WaitForSeconds(0.5f);
+
+        // Step 3: Call SetFundamentalModeLock(false)
+        Debug.Log("[TEST 8.1] Step 3: Clearing mode lock...");
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        
+        // Wait for logs to appear and system to process
+        yield return new WaitForSeconds(1.0f);
+        
+        // Step 4: Verify lock is cleared (check console for expected log)
+        Debug.Log("[TEST 8.1] Step 4: Verifying lock is cleared...");
+        Debug.Log("[TEST 8.1] Expected: 'MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Unlocked'");
+        Debug.Log("[TEST 8.1] Expected: ResolveFundamentalOnUnlock() is called");
+        yield return new WaitForSeconds(0.5f);
+
+        // Test completion
+        Debug.Log("========================================");
+        Debug.Log("[TEST 8.1] Test Complete!");
+        Debug.Log("[TEST 8.1] Check console logs above for:");
+        Debug.Log("[TEST 8.1]   - Lock/unlock debug logs");
+        Debug.Log("[TEST 8.1]   - Fundamental change logs (if applicable)");
+        Debug.Log("[TEST 8.1] Expected Results:");
+        Debug.Log("[TEST 8.1]   ✓ Mode lock is set (fundamentalModeLock = NoteName.C)");
+        Debug.Log("[TEST 8.1]   ✓ Fundamental changes to C (if no higher priority locks)");
+        Debug.Log("[TEST 8.1]   ✓ Mode lock is cleared (fundamentalModeLock = null)");
+        Debug.Log("[TEST 8.1]   ✓ ResolveFundamentalOnUnlock() is called");
+        Debug.Log("========================================");
     }
 }
