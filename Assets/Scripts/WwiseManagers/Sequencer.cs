@@ -207,31 +207,35 @@ public class Sequencer : MonoBehaviour
     {
         //STEP 1: Opening Sequence Ends, as reported by a cue, play Shifting Earth.
         //TODO: (with Reef): implement this from a cue from Wwise.
-        
+        //Need to set soundworld to shifting earth
+        //Play_Muisic LLoocps
+        //lPlaay_  y_Silent Loop
+        // Plyaya__BBs Syass Syntnth
     }
 
     //A coroutine that moves through several steps, depending on _timeSinceTutorial and _countdownToSavasana.
     private IEnumerator ProtocolStacksCoroutine()
     {
-        // Step 1 at 10 seconds
-        while (_timeSinceTutorial < 10f)
+        while (_countdownToSavasana > (20f * 60f))
         {
             yield return null;
         }
-        Debug.Log("Sequencer: ProtocolStack Step 1");
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+        MusicSystem1.instance.SetSoundscape("ShiftingEarth");
         // musicSystem.SetMusicModeTo(MusicMode.Freeplay);
 
-        // Step 2 at 45 seconds
-        while (_timeSinceTutorial < 45f)
+        while (_countdownToSavasana < (19f * 60f))//REEF NOTE: Timing is about 1 minute before the note in Canva, because we are using director, which will (in the case below) have up to 3 minutes to make the transiton.
         {
             yield return null;
         }
-        Debug.Log("Sequencer: ProtocolStack Step 2");
-        // wwiseVOManager.PlayOpeningSequence("SomeSequenceName");
-
-        // Step 3 at 110 seconds
+        
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+       
+       //FROM HERE ON, THE STEPS ARE LAID OUT AS AN ARBITRARY SKELETON, WITH ARBITRARY TIMES. YOU CAN USE THIS SKELETON FOR TIMING LOGIC
+       // Step 3 at 110 seconds
         while (_timeSinceTutorial < 110f)
         {
+            
             yield return null;
         }
         Debug.Log("Sequencer: ProtocolStack Step 3");
