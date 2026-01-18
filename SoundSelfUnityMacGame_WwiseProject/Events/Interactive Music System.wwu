@@ -35,49 +35,10 @@
 				</Event>
 				<Event Name="Stop_InteractiveMusicSystem" ID="{11D2DC73-E209-45B4-89FD-F87C94F55B6D}">
 					<ChildrenList>
-						<Action Name="" ID="{3CDA193E-20E4-4C66-AC4F-43B6EE862635}" ShortID="394729532">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning_v1_7_Linked" ID="{4872EF82-C20E-408B-8D4D-EB1903F7300C}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{14EF1F01-AEAA-4E3C-B0AB-476C5FEC94A0}" ShortID="118479163">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops_v1_7_Linked" ID="{81019CA7-7C75-450F-A37B-149A5BE06CCA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{5BC486F1-661C-48DA-A776-15420048CC4F}" ShortID="905785057">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_Toning_v2_12_Linked" ID="{53B86C24-D9F8-4F9B-8623-84735FEFD702}" WorkUnitID="{1450B6B3-FD34-4D0B-9646-18441FDBA415}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{953DF0B4-BC0A-49EA-93BB-FFB8AA1ECB85}" ShortID="1015632257">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="2"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="InteractiveMusic_SilentLoops_v2_12_Linked" ID="{F3EF0664-E768-4112-A031-62FF827076CA}" WorkUnitID="{DAE95A24-C1E5-4C98-A8E9-0161643A9F35}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{2AB9F3AD-7DB2-4229-91DA-F62EF5C80638}" ShortID="452986155">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -88,6 +49,7 @@
 						<Action Name="" ID="{0E78974E-4180-412C-8990-B690EE0B05F3}" ShortID="31037792">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -98,6 +60,7 @@
 						<Action Name="" ID="{67FF183C-DDCE-443F-8402-8E544107459E}" ShortID="1060206569">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -108,6 +71,7 @@
 						<Action Name="" ID="{618A8770-2B92-4019-A81C-3891E5FE310D}" ShortID="676106033">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="20"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">

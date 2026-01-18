@@ -16109,17 +16109,12 @@
 								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>10</Value>
+										<Value>17</Value>
 									</ValueList>
 								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
-									<ValueList>
-										<Value>10</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>7</Value>
 									</ValueList>
@@ -16889,7 +16884,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-12</Value>
+										<Value>-13</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -17014,7 +17009,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{765907A6-66F3-4FEC-959C-3EF85E3CC7DD}" ShortID="488945107">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="177717.240068568"/>
+																		<Property Name="PlayAt" Type="Real64" Value="178000"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -17492,7 +17487,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-13</Value>
+										<Value>-14</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -18039,6 +18034,11 @@
 						<MusicTrack Name="Linear Breath in &amp; Sigh" ID="{BD64C266-E1B9-40AD-A099-BE3C83BB19FB}" ShortID="452981970">
 							<PropertyList>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
@@ -18533,7 +18533,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>1</Value>
+										<Value>3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

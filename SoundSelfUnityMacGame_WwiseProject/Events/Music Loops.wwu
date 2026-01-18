@@ -33,6 +33,90 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Set_MusicLoops_Silence" ID="{D22A033B-4005-44ED-A869-922E8697C219}">
+					<ChildrenList>
+						<Action Name="" ID="{6AC8903B-D6A2-48DD-A1A8-B37353BB1017}" ShortID="502808035">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Silence" ID="{3AD5FAD8-5C3E-4903-B9A0-984BF5AF1237}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_MusicLoops_SingingBowls" ID="{C8D6FF99-7129-4477-90A8-845EAF22D780}">
+					<ChildrenList>
+						<Action Name="" ID="{06D9D18E-96FC-4242-91B4-E09885A8FA5C}" ShortID="886387485">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SingingBowls" ID="{60602613-8373-4440-815D-DD9C467328F2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_MusicLoops_CelestialDreamscape" ID="{A78909AB-20E5-4251-AEBD-77AC6ED67F9C}">
+					<ChildrenList>
+						<Action Name="" ID="{3E8E6DED-552E-428E-B64F-2AE5E8407E67}" ShortID="188504750">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CelestialDreamscape" ID="{9553BB37-F7C8-43E1-8C50-FF52596EEBA8}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_MusicLoops_CosmicAir" ID="{8BDA321F-C939-4656-9A00-432193DF87A8}">
+					<ChildrenList>
+						<Action Name="" ID="{1CEFE2FA-60B7-406C-969E-FFEAFD6EA062}" ShortID="737398868">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="CosmicAir" ID="{E5E5D75E-D46B-4F00-9ADB-BB9A23284FE2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_MusicLoops_Environment" ID="{40A72927-1F5A-4A4C-9136-E2198E2653CD}">
+					<ChildrenList>
+						<Action Name="" ID="{E3CD6028-04C4-40EB-B601-FF449E2D7018}" ShortID="895353340">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Environment" ID="{D8E77AAC-85CE-4A2D-98F5-139867CD1569}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_State_MusicLoops" ID="{1A13EC81-4F40-4F77-83F3-461E073BE4BB}">
+					<ChildrenList>
+						<Action Name="" ID="{528AFE2F-2743-42A7-9C26-81AEC659A1D9}" ShortID="814411702">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="22"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}" WorkUnitID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

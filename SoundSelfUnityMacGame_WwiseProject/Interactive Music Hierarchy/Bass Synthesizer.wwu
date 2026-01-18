@@ -1256,7 +1256,7 @@
 						<ObjectList Name="Entries">
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{90420E72-6037-4073-BE9E-B60AA218DB9D}">
+									<MultiSwitchEntry Name="" ID="{7739392A-5701-4E58-B427-C5C59F0450DB}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="A" ID="{3FF0AC71-37A1-4383-95BE-362B5F606B61}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1274,7 +1274,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{DB5608D0-C032-4451-BF84-70954416EA6C}">
+									<MultiSwitchEntry Name="" ID="{18A23E8D-B56D-4541-8225-1E7104A13E98}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="A#Bb" ID="{673A4FEB-5E32-4ACC-B67F-05A80E6AA85B}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1292,7 +1292,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{3824BD0B-AD04-4821-8CE2-5BF3EDE19020}">
+									<MultiSwitchEntry Name="" ID="{78CE6A9E-D5E5-4580-819F-27BA4D45A909}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="B" ID="{996F0108-74BC-457C-85CB-A75806C67435}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1310,7 +1310,25 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{55DA69E9-644D-4B30-9320-56BDF615EC5D}">
+									<MultiSwitchEntry Name="" ID="{AFC8B382-21BB-448A-97E4-68D76B9EEBA3}">
+										<ReferenceList>
+											<Reference Name="AudioNode">
+												<ObjectRef Name="C" ID="{5DCFDD29-131E-4C82-9BCC-3C4A1D5455A5}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
+											</Reference>
+										</ReferenceList>
+										<ObjectLists>
+											<ObjectList Name="EntryPath">
+												<Reference>
+													<ObjectRef Name="C" ID="{6DA02F6A-8564-4A09-85D6-69AC384BD2ED}" WorkUnitID="{3022AADE-5B6D-4EFD-89DB-888C59CD3011}"/>
+												</Reference>
+											</ObjectList>
+										</ObjectLists>
+									</MultiSwitchEntry>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MultiSwitchEntry Name="" ID="{B764D285-0112-46F0-ABFE-00A31BD5C3D5}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="C#Db" ID="{8E9094B8-F540-49A4-887D-C0337A9743C4}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1328,7 +1346,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{FC2AA5E4-6E49-4C74-A6AD-680E6FEA1ECE}">
+									<MultiSwitchEntry Name="" ID="{2BC8D561-5E00-4433-93B3-1D3C979BA154}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="D" ID="{91CA070A-120E-4CF7-96DB-34C1D1D53E70}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1346,7 +1364,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{CE47CD8D-4BCE-442E-9711-A04D66B89C7A}">
+									<MultiSwitchEntry Name="" ID="{7B7B1753-6ABD-446B-9E0F-AE4B542749D7}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="D#Eb" ID="{73151E1C-D537-4D07-86BD-9E66BCE2623A}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1364,7 +1382,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{44766CC2-07F9-4261-8105-C09AC0A8B3EC}">
+									<MultiSwitchEntry Name="" ID="{B41DAF08-F260-437E-81FB-7C6D3DDCF19A}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="E" ID="{01D84511-C288-49C7-A062-3961C7CF664D}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1382,7 +1400,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{C9E66205-796B-432C-BE11-D57D97D2C5F5}">
+									<MultiSwitchEntry Name="" ID="{022799A9-8525-4BEB-A168-AE9044111A30}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="F" ID="{361BB759-7A83-4788-80C3-4C80FA808DEB}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1400,7 +1418,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{23EBEC1A-DC3C-4E7C-A96B-7F8512820F53}">
+									<MultiSwitchEntry Name="" ID="{8B9041E9-EADC-4DDF-A14A-548DCE7DAF54}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="F#Gb" ID="{B6E5A982-2743-4246-BC6D-7BFC865A3030}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1418,7 +1436,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{35760C7F-2DC3-4B81-BC2A-7CB27E263C1A}">
+									<MultiSwitchEntry Name="" ID="{71C0DB6D-6730-4D15-B46F-00D281642D74}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="G" ID="{3C2EFED0-2881-4166-9796-BF3AD8B2AA79}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
@@ -1436,7 +1454,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{7340F364-419F-499A-8513-0770C166EF37}">
+									<MultiSwitchEntry Name="" ID="{FC9AACB9-7E71-48C5-9D51-EE22787BB3E9}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="G#Ab" ID="{51CFB7B8-2A98-4269-92DB-CC49FAE1285E}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
