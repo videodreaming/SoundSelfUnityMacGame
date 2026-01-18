@@ -213,14 +213,16 @@ public class WorldShuffler : MonoBehaviour
 
     public void StopShuffle()
     {
+        // Always clear queued shuffle actions from the director queue, regardless of shuffling state
+        // This ensures cleanup even if shuffling was already stopped
+        director.ClearQueueOfType("SoundscapeShuffle");
+        director.ClearQueueOfType("ColorWorldShuffle");
+        
         if(shuffling)
         {
             shuffling = false;
             soundscapeQueueOpen = false;
             _shuffleTimer = 0.0f;
-            // Clear any queued shuffle actions from the director queue
-            director.ClearQueueOfType("SoundscapeShuffle");
-            director.ClearQueueOfType("ColorWorldShuffle");
             Debug.Log("WorldShuffler: Stopping shuffle.");
         }
         else
