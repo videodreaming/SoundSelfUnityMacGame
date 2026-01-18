@@ -133,6 +133,9 @@ public class WwiseVOManager : MonoBehaviour
                 InitializeLightsWithDelay();
                 //sequencer.InitializeLights();
                 StartCoroutine(MakeWWiseTone());
+            } else if(musicSyncInfo.userCueName == "Cue_LinearHum")
+            {
+                
             }
             else if (musicSyncInfo.userCueName == "Cue_StartTutorial") //This is called from the end of the Somatic Sequence, near the end. He says "Humming and toning should first come from a relaxed place. Breathe in, and hum"
             {
