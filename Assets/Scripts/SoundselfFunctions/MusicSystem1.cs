@@ -39,11 +39,11 @@ public class MusicSystem1 : MonoBehaviour
     // IMITONE INTERPRETATION AND BASIC TONES
     private float musicNoteInputRaw; // The raw note input from voice interpretation
     private float musicNoteInput; // Adjusted musical note input after processing
-    public int musicNoteActivated {get; private set;} = -1; // The note that has been activated (while we are toneActiveBiasTrue), -1 if no note is activated    
+    public NoteName musicNoteActivated {get; private set;} = NoteName.None; // The note that has been activated (while we are toneActiveBiasTrue), None if no note is activated    
     private float _constWiggleRoomPerfect = 0.5f; // Tolerance for note variation
     private float _constWiggleRoomUnison = 1.5f;
     private int directorStoredFundamental = -1;
-    private int nextNote = -1; // Next note to activate
+    private NoteName nextNote = NoteName.None; // Next note to activate
     private float highestActivationTimer = 0.0f;
     public bool localToneOn {get; private set;} = false;
     private bool previousLocalToneOn = false;
@@ -55,10 +55,9 @@ public class MusicSystem1 : MonoBehaviour
     // FUNDAMENTAL AND HARMONY CONTROL
     private float _queueFundamentalChangeThreshold = 12f;
     private float _initiateImminentFundamentalChangeThreshold = 22f; //was 35f, changed on 4/4/2025
-    public int fundamentalNote = 9; // Base note around which other notes are calculated
-    public NoteName fundamentalNoteName = NoteName.A;
-    private int fundamentalNoteCompare = -1; //this is used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNote for the purpose of changing the fundamental
-    public int harmonyNote; // Note that plays in harmony with the fundamental note
+    public NoteName fundamentalNoteName = NoteName.A; // Base note around which other notes are calculated
+    private NoteName? fundamentalNoteCompare = null; // Used to catch changes that are not triggered in this script, and to compare with the previous fundamentalNoteName for the purpose of changing the fundamental
+    public NoteName harmonyNote = NoteName.None; // Note that plays in harmony with the fundamental note
     private float fundamentalTimeSinceLastTrigger   = 0f;
     private float harmonyTimeSinceLastTrigger = 0f;
     private float fundamentalRetriggerThreshold = 18f; // minimum time between fundamental retriggering
@@ -352,7 +351,7 @@ public class MusicSystem1 : MonoBehaviour
 
                 if (scaleNote.Active)
                 {
-                    // Use existing fundamentalNoteName field directly (already kept in sync with fundamentalNote)
+                    // Use fundamentalNoteName field directly
                     if (key != fundamentalNoteName)
                     {
                         // Calculate the wrapped distance between key and fundamentalNoteName using utility function
@@ -386,26 +385,24 @@ public class MusicSystem1 : MonoBehaviour
                             if (debugAllowLogs)
                             {
                                 if (longTest)
-                                    Debug.Log("MUSIC: Long Test Instantly Triggering Fundamental Change to " + NoteUtils.IntToNoteString(fundamentalNote));
+                                    Debug.Log("MUSIC: Long Test Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(key));
                                 else
-                                    Debug.Log("MUSIC: Longish Test Instantly Triggering Fundamental Change to " + NoteUtils.IntToNoteString(fundamentalNote));
+                                    Debug.Log("MUSIC: Longish Test Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(key));
                             }
 
-                            // Convert NoteName key to int for ChangeFundamental (will be converted to NoteName in Step 1.2)
-                            ChangeFundamental(NoteUtils.NoteToInt(key));
+                            ChangeFundamental(key);
                             director.ActivateQueue(5.0f);
                         }
                         else if (shortTest)
                         {
                             director.ClearQueueOfType("fundamentalChange");
-                            // Convert NoteName key to int for Action_ChangeFundamental (will be converted to NoteName in Step 1.2)
-                            director.AddActionToQueue(Action_ChangeFundamental(NoteUtils.NoteToInt(key)), "fundamentalChange", true, false, 9999f, false, 2);
+                            director.AddActionToQueue(Action_ChangeFundamental(key), "fundamentalChange", true, false, 9999f, false, 2);
                             // TODO Step 1.5: Temporary conversion - directorStoredFundamental will be NoteName? in Step 1.5, so this will become: directorStoredFundamental = key;
                             directorStoredFundamental = NoteUtils.NoteToInt(key);
 
                             if (debugAllowLogs)
                             {
-                                Debug.Log("MUSIC: Short Test New Fundamental Queued: " + NoteUtils.IntToNoteString(key));
+                                Debug.Log("MUSIC: Short Test New Fundamental Queued: " + NoteUtils.NoteToWwiseString(key));
                             }
                         }
                     }
@@ -461,11 +458,12 @@ public class MusicSystem1 : MonoBehaviour
 
             //Now play the tone
                             
-            harmonyNote = (fundamentalNote + harmonization) % 12;
-            changeHarmony(NoteUtils.IntToNoteString(harmonyNote)); 
+            // Calculate harmony note by adding interval to fundamental note
+            harmonyNote = NoteUtils.AddInterval(fundamentalNoteName, harmonization);
+            changeHarmony(harmonyNote); 
             if (debugAllowLogs)
             {
-                Debug.Log("MUSIC: Harmony Played: " + NoteUtils.IntToNoteString(harmonyNote) + " ~ (fundamentalNote + " + harmonization + ")");
+                Debug.Log("MUSIC: Harmony Played: " + NoteUtils.NoteToWwiseString(harmonyNote) + " ~ (fundamentalNoteName + " + harmonization + ")");
             }
         }
     }
@@ -815,22 +813,24 @@ public class MusicSystem1 : MonoBehaviour
     /// Sets the fundamental note directly without checking locks.
     /// Used internally when we need to force a change (e.g., to match an active lock).
     /// </summary>
-    public void SetFundamentalDirect(int newFundamental)
+    public void SetFundamentalDirect(NoteName newFundamental)
     {
+        // Validate that we're not setting fundamental to None
+        if (newFundamental == NoteName.None)
+        {
+            Debug.LogWarning("MUSIC: Attempted to set fundamental to None - ignoring");
+            return;
+        }
+
         if(debugAllowLogs)
         {
-            Debug.Log("MUSIC 6: Fundamental Note Changing to " + NoteUtils.IntToNoteString(newFundamental));
+            Debug.Log("MUSIC 6: Fundamental Note Changing to " + NoteUtils.NoteToWwiseString(newFundamental));
         }
         
         director.ClearQueueOfType("fundamentalChange");
-        fundamentalNote = newFundamental;
-        if (!NoteUtils.TryIntToNote(newFundamental, out fundamentalNoteName))
-        {
-            Debug.LogWarning($"MUSIC: Invalid fundamental note int: {newFundamental}, defaulting to A");
-            fundamentalNoteName = NoteName.A;
-        }
+        fundamentalNoteName = newFundamental;
 
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.IntToNoteString(fundamentalNote), gameObject);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.NoteToWwiseString(fundamentalNoteName), gameObject);
         if (MusicBinauralBeats.instance != null)
         {
             MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(fundamentalNoteName));
@@ -842,16 +842,15 @@ public class MusicSystem1 : MonoBehaviour
 
         ResetFundamentalTimers();
         // TODO Step 1.5: Temporary - directorStoredFundamental will be NoteName? in Step 1.5, so this will become: directorStoredFundamental = newFundamental;
-        // (newFundamental parameter will be NoteName in Step 1.2)
-        directorStoredFundamental = newFundamental;
+        directorStoredFundamental = NoteUtils.NoteToInt(newFundamental);
     }
 
-    private Action Action_ChangeFundamental(int scaleNoteKey)
+    private Action Action_ChangeFundamental(NoteName scaleNoteKey)
     {
         return () => ChangeFundamental(scaleNoteKey);
     }
    
-    public void ChangeFundamental(int newFundamental)
+    public void ChangeFundamental(NoteName newFundamental)
     {
         if(!IsFundamentalLocked())
         {
@@ -922,7 +921,7 @@ public class MusicSystem1 : MonoBehaviour
         fundamentalModeLock = null;
         
         // Change the fundamental (now unlocked)
-        ChangeFundamental(NoteUtils.NoteToInt(lockNote));
+        ChangeFundamental(lockNote);
         
         // Set debug lock (highest priority)
         fundamentalDebugLock = lockNote;
@@ -966,7 +965,7 @@ public class MusicSystem1 : MonoBehaviour
             
             if (contentLockIsActive)
             {
-                ChangeFundamental(NoteUtils.NoteToInt(lockNote));
+                ChangeFundamental(lockNote);
             }
             else if (activeLock.HasValue)
             {
@@ -1019,7 +1018,7 @@ public class MusicSystem1 : MonoBehaviour
             
             if (modeLockIsActive)
             {
-                ChangeFundamental(NoteUtils.NoteToInt(note));
+                ChangeFundamental(note);
             }
             else if (activeLock.HasValue)
             {
@@ -1097,14 +1096,14 @@ public class MusicSystem1 : MonoBehaviour
         {
             // A lower priority lock is active, set fundamental to it
             // Use SetFundamentalDirect to bypass lock check since we're setting to match the active lock
-            SetFundamentalDirect(NoteUtils.NoteToInt(activeLock.Value));
+            SetFundamentalDirect(activeLock.Value);
             Debug.Log($"MUSIC FUNDAMENTAL MODE UNLOCK: Lower priority lock active ({activeLock.Value}) - fundamental set accordingly");
         }
         else
         {
             // No locks are active, queue fundamental change based on tracking data
             // Find the note with the highest ChangeFundamentalTimer
-            int newFundamental = -1;
+            NoteName? newFundamental = null;
             float highestFundamentalTimer = 0;
             
             foreach (var trackedNote in NoteTracker)
@@ -1112,35 +1111,33 @@ public class MusicSystem1 : MonoBehaviour
                 if (trackedNote.Value.ChangeFundamentalTimer > highestFundamentalTimer)
                 {
                     highestFundamentalTimer = trackedNote.Value.ChangeFundamentalTimer;
-                    // Convert NoteName key to int (will be converted to NoteName in Step 1.2)
-                    newFundamental = NoteUtils.NoteToInt(trackedNote.Key);
+                    newFundamental = trackedNote.Key;
                 }
             }
             
             // Change fundamental if above threshold and valid note found
-            if (highestFundamentalTimer >= _queueFundamentalChangeThreshold && newFundamental != -1)
+            if (highestFundamentalTimer >= _queueFundamentalChangeThreshold && newFundamental.HasValue)
             {
                 // If timer is above immediate threshold, trigger change immediately
                 // Otherwise, queue it for later execution
                 if (highestFundamentalTimer >= _initiateImminentFundamentalChangeThreshold)
                 {
                     // Timer is high enough for immediate change - trigger it now
-                    ChangeFundamental(newFundamental);
+                    ChangeFundamental(newFundamental.Value);
                     director.ActivateQueue(5.0f);
-                    Debug.Log("MUSIC FUNDAMENTAL MODE UNLOCK: Fundamental Changed Immediately on Unlock (high threshold): " + NoteUtils.IntToNoteString(newFundamental));
+                    Debug.Log("MUSIC FUNDAMENTAL MODE UNLOCK: Fundamental Changed Immediately on Unlock (high threshold): " + NoteUtils.NoteToWwiseString(newFundamental.Value));
                 }
                 else
                 {
                     // Timer is above queue threshold but below immediate threshold - queue it
                     director.ClearQueueOfType("fundamentalChange");
-                    director.AddActionToQueue(Action_ChangeFundamental(newFundamental), "fundamentalChange", true, false, 120f, true, 2);
+                    director.AddActionToQueue(Action_ChangeFundamental(newFundamental.Value), "fundamentalChange", true, false, 120f, true, 2);
                     // TODO Step 1.5: Temporary conversion - directorStoredFundamental will be NoteName? in Step 1.5
-                    // newFundamental is currently int (converted from NoteName key), will need to store NoteName directly
-                    directorStoredFundamental = newFundamental;
-                    Debug.Log("MUSIC FUNDAMENNTAL MODE UNLOCK: New Fundamental Queued on Unlock: " + NoteUtils.IntToNoteString(newFundamental));
+                    directorStoredFundamental = NoteUtils.NoteToInt(newFundamental.Value);
+                    Debug.Log("MUSIC FUNDAMENNTAL MODE UNLOCK: New Fundamental Queued on Unlock: " + NoteUtils.NoteToWwiseString(newFundamental.Value));
                 }
             }
-            else if (highestFundamentalTimer >= _queueFundamentalChangeThreshold && newFundamental == -1)
+            else if (highestFundamentalTimer >= _queueFundamentalChangeThreshold && !newFundamental.HasValue)
             {
                 Debug.LogWarning("MUSIC FUNDAMENTAL MODE UNLOCK: Threshold met but no valid fundamental found in NoteTracker - skipping queue");
             }
@@ -1189,18 +1186,29 @@ public class MusicSystem1 : MonoBehaviour
         // Modulo 12 on the interpreted note to get the position within an octave
         musicNoteInputRaw = imitoneVoiceInterpreter.note_st % 12;
 
+        // Safety check: if fundamentalNoteName is None, use raw input without harmonic adjustments
+        if (fundamentalNoteName == NoteName.None)
+        {
+            Debug.LogWarning("MUSIC: fundamentalNoteName is None in InterpretImitoneUpdate - using raw input without harmonic adjustments");
+            musicNoteInput = musicNoteInputRaw;
+            return;
+        }
+
+        // Convert fundamentalNoteName to int for math operations (temporary conversion for calculations)
+        int fundamentalNoteInt = NoteUtils.NoteToInt(fundamentalNoteName);
+
         // IN CASE OF DISHARMONIC RELATIONSHIP, REPLACE WITH HARMONIC RELATIONSHIP
-        if (Mathf.Abs(musicNoteInputRaw - fundamentalNote) < _constWiggleRoomUnison) //CLOSE TO UNISON
+        if (Mathf.Abs(musicNoteInputRaw - fundamentalNoteInt) < _constWiggleRoomUnison) //CLOSE TO UNISON
         {
-            musicNoteInput = fundamentalNote;
+            musicNoteInput = fundamentalNoteInt;
         }
-        else if (Mathf.Abs(musicNoteInputRaw - fundamentalNote) > (12.0f - _constWiggleRoomUnison)) //CLOSE TO OCTAVE
+        else if (Mathf.Abs(musicNoteInputRaw - fundamentalNoteInt) > (12.0f - _constWiggleRoomUnison)) //CLOSE TO OCTAVE
         {
-            musicNoteInput = fundamentalNote;
+            musicNoteInput = fundamentalNoteInt;
         }
-        else if (Mathf.Abs(musicNoteInputRaw - fundamentalNote + 6) < _constWiggleRoomPerfect) //CLOSE TO TRITONE
+        else if (Mathf.Abs(musicNoteInputRaw - fundamentalNoteInt + 6) < _constWiggleRoomPerfect) //CLOSE TO TRITONE
         {
-            musicNoteInput = fundamentalNote + 5;
+            musicNoteInput = fundamentalNoteInt + 5;
         }
         else
         {
@@ -1283,8 +1291,7 @@ public class MusicSystem1 : MonoBehaviour
                         {
                             Debug.Log("MUSIC 3: nextNote changed to (" + scaleNote.Key + ") Activation Timer(" + localActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
                         }
-                        // Convert NoteName key to int for nextNote (will be converted to NoteName in Step 1.4)
-                        nextNote = NoteUtils.NoteToInt(scaleNote.Key);
+                        nextNote = scaleNote.Key;
                         if (imitoneVoiceInterpreter.toneActiveBiasTrue) //now we change the actual tone!
                         {
                             if(debugAllowLogs && !isActive)
@@ -1293,8 +1300,7 @@ public class MusicSystem1 : MonoBehaviour
                             }
                             firstFrameActive = !isActive; //this will only be true on the first frame that the note is activated
                             isActive = true;
-                            // Convert NoteName key to int for musicNoteActivated (will be converted to NoteName in Step 1.4)
-                            musicNoteActivated = NoteUtils.NoteToInt(scaleNote.Key);
+                            musicNoteActivated = scaleNote.Key;
                             activations[scaleNote.Key] = isActive;
                         }
                     }
@@ -1303,7 +1309,7 @@ public class MusicSystem1 : MonoBehaviour
                 else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
                 {
                     updates[scaleNote.Key] = (0, false, false, scaleNote.Value.ChangeFundamentalTimer);
-                    musicNoteActivated = -1;
+                    musicNoteActivated = NoteName.None;
                 }
             }
             // Apply the accumulated updates to the NoteTracker
@@ -1318,9 +1324,7 @@ public class MusicSystem1 : MonoBehaviour
                 foreach (var scaleNote in activations)
                 {
                     //When one note becomes active, deactivate others.
-                    // Convert nextNote (int) to NoteName for comparison
-                    NoteName nextNoteName = NoteUtils.TryIntToNote(nextNote, out NoteName nn) ? nn : NoteName.None;
-                    if (scaleNote.Key != nextNoteName && scaleNote.Value == true)
+                    if (scaleNote.Key != nextNote && scaleNote.Value == true)
                     {
                         var currentValue = NoteTracker[scaleNote.Key];
                         NoteTracker[scaleNote.Key] = (0.0f, false, false, currentValue.ChangeFundamentalTimer);
@@ -1345,7 +1349,7 @@ public class MusicSystem1 : MonoBehaviour
                 var current = NoteTracker[key];
                 NoteTracker[key] = (0f, false, false, current.ChangeFundamentalTimer);
             }
-            musicNoteActivated = -1;
+            musicNoteActivated = NoteName.None;
         }
     }
 
@@ -1359,12 +1363,12 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
     }
     
-    private void changeHarmony(string harmonyNote)
+    private void changeHarmony(NoteName harmonyNote)
     {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", harmonyNote, gameObject);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", NoteUtils.NoteToWwiseString(harmonyNote), gameObject);
         if(debugAllowLogs)
         {
-            Debug.Log("MUSIC: Harmony Note Set To: " + harmonyNote);
+            Debug.Log("MUSIC: Harmony Note Set To: " + NoteUtils.NoteToWwiseString(harmonyNote));
         }
     }
 

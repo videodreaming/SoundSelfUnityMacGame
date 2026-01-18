@@ -133,7 +133,7 @@ public class InputReferences : MonoBehaviour
             {
                 Debug.Log("[TEST] MusicSystem1.instance is not null");
                 // Change fundamental to C (ordinal 0)
-                MusicSystem1.instance.SetFundamentalDirect(0);
+                MusicSystem1.instance.SetFundamentalDirect(NoteName.C);
                 Debug.Log("[TEST] Music fundamental changed to C via keyboard (C)");
             }
         }
@@ -142,7 +142,7 @@ public class InputReferences : MonoBehaviour
             if (MusicSystem1.instance != null)
             {
                 // Change fundamental to G (ordinal 7)
-                MusicSystem1.instance.SetFundamentalDirect(7);
+                MusicSystem1.instance.SetFundamentalDirect(NoteName.G);
                 Debug.Log("[TEST] Music fundamental changed to G via keyboard (G)");
             }
         }
