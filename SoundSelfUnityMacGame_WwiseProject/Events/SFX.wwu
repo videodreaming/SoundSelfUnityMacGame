@@ -331,6 +331,9 @@
 				<Event Name="Play_sfx_breathworkcycle" ID="{80E1B811-30A7-438C-ADBE-C264D16A171F}">
 					<ChildrenList>
 						<Action Name="" ID="{6B5080ED-A11B-4B4A-A828-406CFEC4B651}" ShortID="772647103">
+							<PropertyList>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="Breathwork Cycle_10s" ID="{39510346-18D5-4F41-82B8-3382FE7C0D2A}" WorkUnitID="{64D7BC8E-6B44-4AAA-B0B1-807AE7A5B8A4}"/>

@@ -3634,7 +3634,7 @@
 				</MusicSegment>
 				<MusicSegment Name="ASCENDING_CLOSING" ID="{E95B5A8C-A6CC-4BB7-9FE0-3766D5E074CF}" ShortID="1006043861">
 					<PropertyList>
-						<Property Name="EndPosition" Type="Real64" Value="1024000"/>
+						<Property Name="EndPosition" Type="Real64" Value="1104868.99936606"/>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
@@ -3652,6 +3652,11 @@
 										<Value>True</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>4</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
@@ -3661,7 +3666,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>3</Value>
+										<Value>5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -4090,6 +4095,34 @@
 																</MusicEventCue>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{B5771464-7EA0-42FF-82EC-8B66F0321151}" ShortID="248328624">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="16000"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_MusicLoops" ID="{7A19FEB5-4851-40F3-ADDD-9D15D8E3714C}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{FAB69D6C-886F-496B-B9CC-769C74F1E470}" ShortID="77401895">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="376000"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_MusicLoops" ID="{6908C4E3-6D0E-4B26-87FA-E01A43EAB94C}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -4105,16 +4138,16 @@
 										<Value>True</Value>
 									</ValueList>
 								</Property>
+								<Property Name="Lowpass" Type="int16">
+									<ValueList>
+										<Value>13</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
+										<Value>4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5252,7 +5285,7 @@
 									<MusicCue Name="Exit Cue" ID="{D1F7A97A-A8CA-48FD-B7B4-73961CA7D98A}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="1"/>
-											<Property Name="TimeMs" Type="Real64" Value="1019221.96595149"/>
+											<Property Name="TimeMs" Type="Real64" Value="1102900.10204618"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>
