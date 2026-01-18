@@ -932,24 +932,13 @@ public class MusicSystem1 : MonoBehaviour
             return;
         }
         
-        // Store any existing content/mode locks temporarily
-        NoteName? tempContentLock = fundamentalContentLock;
-        NoteName? tempModeLock = fundamentalModeLock;
-        
-        // Clear all locks temporarily to allow fundamental change
-        fundamentalDebugLock = null;
-        fundamentalContentLock = null;
-        fundamentalModeLock = null;
-        
-        // Change the fundamental (now unlocked)
-        ChangeFundamental(lockNote);
-        
         // Set debug lock (highest priority)
         fundamentalDebugLock = lockNote;
         
-        // Restore other locks (they will be inactive due to debug lock priority)
-        fundamentalContentLock = tempContentLock;
-        fundamentalModeLock = tempModeLock;
+        // Use SetFundamentalDirect instead of ChangeFundamental because we're the lock system
+        // requesting the change - we need to bypass the lock check
+        // Debug lock has highest priority, so it always takes effect
+        SetFundamentalDirect(lockNote);
         
         Debug.Log($"MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock set and locked fundamental to {lockNote} (DEVELOPMENT ONLY - highest priority)");
     }
@@ -988,7 +977,9 @@ public class MusicSystem1 : MonoBehaviour
             
             if (contentLockIsActive)
             {
-                ChangeFundamental(lockNote);
+                // Use SetFundamentalDirect instead of ChangeFundamental because we're the lock system
+                // requesting the change - we need to bypass the lock check
+                SetFundamentalDirect(lockNote);
             }
             else if (activeLock.HasValue)
             {
@@ -1043,7 +1034,9 @@ public class MusicSystem1 : MonoBehaviour
             
             if (modeLockIsActive)
             {
-                ChangeFundamental(note);
+                // Use SetFundamentalDirect instead of ChangeFundamental because we're the lock system
+                // requesting the change - we need to bypass the lock check
+                SetFundamentalDirect(note);
             }
             else if (activeLock.HasValue)
             {
