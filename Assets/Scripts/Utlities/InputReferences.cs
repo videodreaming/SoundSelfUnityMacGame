@@ -2533,6 +2533,9 @@ public class InputReferences : MonoBehaviour
         Debug.Log("[TEST] \nCONTROLS:");
         Debug.Log("[TEST] SPACE - Proceed to next test stage");
         Debug.Log("[TEST] ========================================\n");
+
+        Debug.Log("[TEST] Press SPACE to proceed to the next stage...");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         
         if (MusicSystem1.instance == null)
         {
