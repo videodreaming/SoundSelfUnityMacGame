@@ -1611,9 +1611,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
 
         Debug.Log("[TEST] Starting manual test recording...");
-        NoteName testNote = musicSystem1 != null && NoteUtils.TryIntToNote(musicSystem1.fundamentalNote, out var note) 
-            ? note 
-            : NoteName.C;
+        NoteName testNote = musicSystem1 != null ? musicSystem1.fundamentalNoteName : NoteName.C;
         
         StartCoroutine(ManualTestRecordingCoroutine(testNote));
     }

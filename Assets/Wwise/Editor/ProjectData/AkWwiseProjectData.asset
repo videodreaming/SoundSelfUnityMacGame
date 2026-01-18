@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584331827500917434
+    m_lastTime: -8584329080065886079
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584331627204173906
+    m_lastTime: -8584329080062638344
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -650,7 +650,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584331827501664786
+    m_lastTime: -8584329080066626236
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -734,6 +734,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: cb6fb65d1c06e543880d2c319ad8a094
       Path: Events\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_ASCENDING_CLOSING
+      guid: e2bbd16667ca894e885c268162ad44c8
+      id: 530138156
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Play_ASCENDING_CLOSING
+        ObjectType: 3
+        guid: e2bbd16667ca894e885c268162ad44c8
+      Path: Events\Default Work Unit\Play_ASCENDING_CLOSING
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1162,6 +1179,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_ASCENDING_CLOSING
+      guid: c8b3c6a75ef17f448210af13e51ed08e
+      id: 2224816138
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Stop_ASCENDING_CLOSING
+        ObjectType: 3
+        guid: c8b3c6a75ef17f448210af13e51ed08e
+      Path: Events\Default Work Unit\Stop_ASCENDING_CLOSING
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_BassSynth
       guid: 666989eb779d0844a902cc27888b188e
       id: 1502315953
@@ -1560,7 +1594,7 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584330152621271045
+    m_lastTime: -8584329080066526215
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -1892,7 +1926,7 @@ MonoBehaviour:
     ParentPath: Events\Music Loops
     guid: 75bb5333efd5ef44a600b06130e39b37
     GuidInternal: 
-    m_lastTime: -8584332847007304668
+    m_lastTime: -8584329080066426200
     List:
     - name: Play_MusicLoops
       guid: e3c408690e6d264b87fae01a43eab94c
@@ -1908,6 +1942,108 @@ MonoBehaviour:
         ObjectType: 3
         guid: e3c408690e6d264b87fae01a43eab94c
       Path: Events\Music Loops\Play_MusicLoops
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_CelestialDreamscape
+      guid: ab0989a7e5205142aebd77ac6ed67f9c
+      id: 3413019722
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_CelestialDreamscape
+        ObjectType: 3
+        guid: ab0989a7e5205142aebd77ac6ed67f9c
+      Path: Events\Music Loops\Set_MusicLoops_CelestialDreamscape
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_CosmicAir
+      guid: 1f32da8b39c956469a00432193df87a8
+      id: 781384595
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_CosmicAir
+        ObjectType: 3
+        guid: 1f32da8b39c956469a00432193df87a8
+      Path: Events\Music Loops\Set_MusicLoops_CosmicAir
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_Environment
+      guid: 2729a7405a1f4c4a9136e2198e2653cd
+      id: 1998418046
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_Environment
+        ObjectType: 3
+        guid: 2729a7405a1f4c4a9136e2198e2653cd
+      Path: Events\Music Loops\Set_MusicLoops_Environment
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_Silence
+      guid: 3b032ad20540ed44a869922e8697c219
+      id: 259224804
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_Silence
+        ObjectType: 3
+        guid: 3b032ad20540ed44a869922e8697c219
+      Path: Events\Music Loops\Set_MusicLoops_Silence
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_SingingBowls
+      guid: 99ffd6c82971774490a8845eaf22d780
+      id: 1455411157
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_SingingBowls
+        ObjectType: 3
+        guid: 99ffd6c82971774490a8845eaf22d780
+      Path: Events\Music Loops\Set_MusicLoops_SingingBowls
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_State_MusicLoops
+      guid: 81ec131a404f774f83f3461e073be4bb
+      id: 1245878726
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_State_MusicLoops
+        ObjectType: 3
+        guid: 81ec131a404f774f83f3461e073be4bb
+      Path: Events\Music Loops\Set_State_MusicLoops
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
