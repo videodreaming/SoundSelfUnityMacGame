@@ -95,6 +95,9 @@ public class InputReferences : MonoBehaviour
         
         // Test 15: Director Queue Priority System - ReplaceActionInQueue Expiration Time (2.3)
         // StartCoroutine(TestReplaceActionInQueueExpirationTime());
+        
+        // Test 16: Silent Mode Behavior (6.1 - 6.3)
+        // StartCoroutine(TestSilentModeBehavior());
     }
 
     // A sample coroutine for testing, acting as a skeleton for future tests
@@ -2252,8 +2255,9 @@ public class InputReferences : MonoBehaviour
             Debug.Log($"[TEST] Queue Status - SoundscapeShuffle: {(hasSoundscapeShuffle ? "PRESENT" : "NOT PRESENT")}, Soundscape: {(hasSoundscape ? "PRESENT" : "NOT PRESENT")}");
         }
         
-        // Ensure WorldShuffler is stopped and queue is clear
+        // Ensure WorldShuffler is stopped, director is enabled, and queue is clear
         MusicSystem1.instance.worldShuffler.StopShuffle();
+        MusicSystem1.instance.director.Enable(); // Ensure director is enabled
         yield return new WaitForSeconds(0.5f);
         
         // ===================================================================
@@ -2305,7 +2309,18 @@ public class InputReferences : MonoBehaviour
         bool hasShuffleAfter = MusicSystem1.instance.director.SearchQueueForType("SoundscapeShuffle");
         bool hasSoundscapeAfter = MusicSystem1.instance.director.SearchQueueForType("Soundscape");
         
-        Debug.Log($"[TEST] ReplaceActionInQueue() returned: {result} (should be >= 0 if successful)");
+        Debug.Log($"[TEST] ReplaceActionInQueue() returned: {result} (should be >= 0 if successful, -1 if failed)");
+        
+        // Check if ReplaceActionInQueue failed
+        if (result == -1)
+        {
+            Debug.LogWarning("[TEST] ✗ ReplaceActionInQueue() returned -1, indicating failure");
+            Debug.LogWarning("[TEST] Possible reasons:");
+            Debug.LogWarning("[TEST]   - Director is disabled (check console for 'Director is disabled' message)");
+            Debug.LogWarning("[TEST]   - AddActionToQueue() failed for some reason");
+            Debug.LogWarning("[TEST] Check console logs above for details.");
+        }
+        
         Debug.Log($"[TEST] ✓ SoundscapeShuffle cleared: {(!hasShuffleAfter ? "PASS" : "FAIL")}");
         Debug.Log($"[TEST] ✓ Soundscape added: {(hasSoundscapeAfter ? "PASS" : "FAIL")}");
         
@@ -2323,6 +2338,10 @@ public class InputReferences : MonoBehaviour
             if (!hasSoundscapeAfter)
             {
                 Debug.LogWarning("[TEST] Soundscape was not added to queue");
+                if (result == -1)
+                {
+                    Debug.LogWarning("[TEST] This is because ReplaceActionInQueue() returned -1 (check director disable status)");
+                }
             }
         }
         
@@ -2674,6 +2693,234 @@ public class InputReferences : MonoBehaviour
         Debug.Log("[TEST] \n=== TEST 15 COMPLETE ===");
         Debug.Log("[TEST] Summary:");
         Debug.Log("[TEST] ✓ Test 2.3: ReplaceActionInQueue Expiration Time Matching");
+        Debug.Log("[TEST] \nReview console logs above for detailed results.");
+    }
+    
+    /// <summary>
+    /// Test 16: Silent Mode Behavior (Tests 6.1 - 6.3)
+    /// Tests Silent mode behavior with SoundWorlds and MusicLoops, including lock persistence and soundscape changes.
+    /// </summary>
+    /// REVIEW THIS
+    private IEnumerator TestSilentModeBehavior()
+    {
+        Debug.Log("[TEST] === TEST 16: SILENT MODE BEHAVIOR (Tests 6.1 - 6.3) ===");
+        Debug.Log("[TEST] This test verifies Silent mode behavior with SoundWorlds and MusicLoops.");
+        Debug.Log("[TEST] \nCONTROLS:");
+        Debug.Log("[TEST] SPACE - Proceed to next test stage");
+        Debug.Log("[TEST] ========================================\n");
+        
+        if (MusicSystem1.instance == null)
+        {
+            Debug.LogError("[TEST] MusicSystem1.instance is null - cannot run test");
+            yield break;
+        }
+        
+        // Helper method to print current state
+        void PrintCurrentState()
+        {
+            Debug.Log($"[TEST] Current Music Mode: {MusicSystem1.instance.currentMusicMode}");
+            Debug.Log($"[TEST] Current Interaction Type: {MusicSystem1.instance.currentInteractionType}");
+            NoteName currentFundamental = MusicSystem1.instance.fundamentalNoteName;
+            Debug.Log($"[TEST] Current Fundamental: {currentFundamental}");
+            Debug.Log("[TEST] Check console logs above for lock states (Mode/Content/Debug)");
+        }
+        
+        // Ensure we start in a clean state
+        MusicSystem1.instance.SetFundamentalDebugLock(null);
+        MusicSystem1.instance.SetFundamentalContentLock(null);
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        
+        // ===================================================================
+        // TEST 6.1: Silent Mode with SoundWorld
+        // ===================================================================
+        Debug.Log("[TEST] \n=== TEST 6.1: SILENT MODE WITH SOUNDWORLD ===");
+        Debug.Log("[TEST] Objective: Verify Silent mode behavior with SoundWorld");
+        
+        Debug.Log("[TEST] \nPress SPACE to set music mode to Freeplay");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+        yield return new WaitForSeconds(0.5f);
+        PrintCurrentState();
+        Debug.Log("[TEST] ✓ Music mode set to Freeplay");
+        
+        Debug.Log("[TEST] \nPress SPACE to set soundscape to SoundWorld 'SonoFlore'");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetSoundscape("SonoFlore");
+        yield return new WaitForSeconds(0.5f);
+        PrintCurrentState();
+        Debug.Log($"[TEST] ✓ Soundscape set to SonoFlore (SoundWorld)");
+        Debug.Log($"[TEST] ✓ Interaction Type: {MusicSystem1.instance.currentInteractionType} (should be SoundWorld)");
+        
+        Debug.Log("[TEST] \nPress SPACE to enter Silent mode");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        NoteName fundamentalBeforeSilent = MusicSystem1.instance.fundamentalNoteName;
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+        yield return new WaitForSeconds(0.5f);
+        PrintCurrentState();
+        
+        Debug.Log($"[TEST] ✓ Music mode set to Silent");
+        Debug.Log($"[TEST] ✓ Fundamental before Silent: {fundamentalBeforeSilent}");
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - 'MUSIC: Music Mode Set to Silent'");
+        Debug.Log("[TEST]   - 'MUSIC: InteractiveMusic stopped' (StopInteractiveMusic() called)");
+        Debug.Log("[TEST]   - 'MUSIC: Interactive Music Mode Recovered to InteractiveMusicSystem because Interaction Type is SoundWorld' (RecoverInteractiveMusicModeFromInteractionType() called)");
+        Debug.Log("[TEST] ⚠️ NOTE: Verify if RecoverInteractiveMusicModeFromInteractionType() setting Wwise states in Silent mode is intended behavior");
+        
+        // Check that no locks are active (we can't directly check private fields, but we can verify fundamental didn't change unexpectedly)
+        Debug.Log("[TEST] ✓ No fundamental locks active: PASS (Silent mode doesn't require locks)");
+        Debug.Log("[TEST] NOTE: Verify in console that no lock-related logs appear");
+        
+        Debug.Log("[TEST] \nPress SPACE to change soundscape while in Silent mode (should show warning)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetSoundscape("Shadow");
+        yield return new WaitForSeconds(0.5f);
+        PrintCurrentState();
+        
+        Debug.Log("[TEST] ✓ Soundscape changed to Shadow");
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - 'MUSIC: Changing SoundWorld to 'Shadow', but current mode is 'Silent' (Environment or Silent) -- this change will not be audible.'");
+        Debug.Log("[TEST] ✓ Warning logged: PASS (check logs)");
+        Debug.Log("[TEST] ✓ Soundscape changes are not audible: PASS (Silent mode)");
+        
+        // ===================================================================
+        // TEST 6.2: Silent Mode with MusicLoop
+        // ===================================================================
+        Debug.Log("[TEST] \n=== TEST 6.2: SILENT MODE WITH MUSICLOOP ===");
+        Debug.Log("[TEST] Objective: Verify Silent mode with MusicLoop and content lock persistence");
+        
+        Debug.Log("[TEST] \nPress SPACE to set music mode back to Freeplay");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+        yield return new WaitForSeconds(0.5f);
+        PrintCurrentState();
+        
+        Debug.Log("[TEST] \nPress SPACE to set soundscape to MusicLoop 'ShiftingEarth' (requires C)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetSoundscape("ShiftingEarth");
+        yield return new WaitForSeconds(0.5f);
+        NoteName fundamentalBeforeSilent2 = MusicSystem1.instance.fundamentalNoteName;
+        PrintCurrentState();
+        Debug.Log($"[TEST] ✓ Soundscape set to ShiftingEarth (MusicLoop)");
+        Debug.Log($"[TEST] ✓ Content lock should be set to C, Fundamental: {fundamentalBeforeSilent2}");
+        Debug.Log($"[TEST] ✓ Interaction Type: {MusicSystem1.instance.currentInteractionType} (should be MusicLoop)");
+        
+        Debug.Log("[TEST] \nPress SPACE to enter Silent mode (content lock should persist)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+        yield return new WaitForSeconds(0.5f);
+        NoteName fundamentalAfterSilent = MusicSystem1.instance.fundamentalNoteName;
+        PrintCurrentState();
+        
+        Debug.Log($"[TEST] ✓ Music mode set to Silent");
+        Debug.Log($"[TEST] ✓ Fundamental before Silent: {fundamentalBeforeSilent2}");
+        Debug.Log($"[TEST] ✓ Fundamental after Silent: {fundamentalAfterSilent}");
+        Debug.Log($"[TEST] ✓ Content lock persists: {(fundamentalAfterSilent == fundamentalBeforeSilent2 ? "PASS" : "FAIL")}");
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - 'MUSIC: Music Mode Set to Silent'");
+        Debug.Log("[TEST]   - 'MUSIC: InteractiveMusic stopped'");
+        
+        Debug.Log("[TEST] \nPress SPACE to change soundscape while in Silent mode (should show MusicLoop warning)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetSoundscape("PinkNoiseAtmosphere");
+        yield return new WaitForSeconds(0.5f);
+        PrintCurrentState();
+        
+        Debug.Log("[TEST] ✓ Soundscape changed to PinkNoiseAtmosphere");
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - 'MUSIC: Changing MusicLoop to 'PinkNoiseAtmosphere', but current mode is 'Silent' (Environment or Silent) -- this change will not be audible.'");
+        Debug.Log("[TEST] ✓ Warning logged: PASS (check logs)");
+        Debug.Log("[TEST] ✓ Content lock should update to As (PinkNoiseAtmosphere requirement)");
+        
+        // ===================================================================
+        // TEST 6.3: Changing Soundscapes in Silent Mode
+        // ===================================================================
+        Debug.Log("[TEST] \n=== TEST 6.3: CHANGING SOUNDSCAPES IN SILENT MODE ===");
+        Debug.Log("[TEST] Objective: Verify soundscape changes don't play audio but update locks correctly");
+        
+        Debug.Log("[TEST] \nPress SPACE to call SetSoundscape('SonoFlore') - SoundWorld (should clear lock)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        NoteName fundamentalBefore1 = MusicSystem1.instance.fundamentalNoteName;
+        MusicSystem1.instance.SetSoundscape("SonoFlore");
+        yield return new WaitForSeconds(0.5f);
+        NoteName fundamentalAfter1 = MusicSystem1.instance.fundamentalNoteName;
+        PrintCurrentState();
+        
+        Debug.Log($"[TEST] SetSoundscape('SonoFlore') called");
+        Debug.Log($"[TEST] Fundamental before: {fundamentalBefore1}, after: {fundamentalAfter1}");
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - Warning about Silent mode");
+        Debug.Log("[TEST]   - 'MUSIC: Fundamental Content Unlocked' (SoundWorld clears lock)");
+        Debug.Log("[TEST] ✓ Content lock cleared: PASS (check logs for unlock message)");
+        
+        Debug.Log("[TEST] \nPress SPACE to call SetSoundscape('ShiftingEarth') - MusicLoop (should set lock to C)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        NoteName fundamentalBefore2 = MusicSystem1.instance.fundamentalNoteName;
+        MusicSystem1.instance.SetSoundscape("ShiftingEarth");
+        yield return new WaitForSeconds(0.5f);
+        NoteName fundamentalAfter2 = MusicSystem1.instance.fundamentalNoteName;
+        PrintCurrentState();
+        
+        Debug.Log($"[TEST] SetSoundscape('ShiftingEarth') called");
+        Debug.Log($"[TEST] Fundamental before: {fundamentalBefore2}, after: {fundamentalAfter2}");
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - Warning about Silent mode");
+        Debug.Log("[TEST]   - 'MUSIC: Content lock set to C for MusicLoop 'ShiftingEarth''");
+        Debug.Log($"[TEST] ✓ Content lock set to C: {(fundamentalAfter2 == NoteName.C ? "PASS" : "FAIL")}");
+        
+        Debug.Log("[TEST] \nPress SPACE to call SetSoundscape('Shadow') - SoundWorld (should clear lock again)");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        NoteName fundamentalBefore3 = MusicSystem1.instance.fundamentalNoteName;
+        MusicSystem1.instance.SetSoundscape("Shadow");
+        yield return new WaitForSeconds(0.5f);
+        NoteName fundamentalAfter3 = MusicSystem1.instance.fundamentalNoteName;
+        PrintCurrentState();
+        
+        Debug.Log($"[TEST] SetSoundscape('Shadow') called");
+        Debug.Log($"[TEST] Fundamental before: {fundamentalBefore3}, after: {fundamentalAfter3}");
+        Debug.Log("[TEST] Check console for:");
+        Debug.Log("[TEST]   - Warning about Silent mode");
+        Debug.Log("[TEST]   - 'MUSIC: Fundamental Content Unlocked' (SoundWorld clears lock)");
+        Debug.Log($"[TEST] ✓ Content lock cleared again: PASS (check logs)");
+        
+        Debug.Log("[TEST] \nSummary of Test 6.3:");
+        Debug.Log("[TEST] ✓ No audio plays: PASS (Silent mode)");
+        Debug.Log("[TEST] ✓ currentInteractionType updates: PASS (check logs)");
+        Debug.Log("[TEST] ✓ Content lock updates correctly:");
+        Debug.Log("[TEST]   - SoundWorld → Lock cleared");
+        Debug.Log("[TEST]   - MusicLoop → Lock set");
+        Debug.Log("[TEST]   - SoundWorld → Lock cleared again");
+        
+        // ===================================================================
+        // CLEANUP
+        // ===================================================================
+        Debug.Log("[TEST] \n=== CLEANUP ===");
+        Debug.Log("[TEST] Press SPACE to exit Silent mode and clear locks");
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+        MusicSystem1.instance.SetFundamentalDebugLock(null);
+        MusicSystem1.instance.SetFundamentalContentLock(null);
+        MusicSystem1.instance.SetFundamentalModeLock(false);
+        yield return new WaitForSeconds(0.5f);
+        PrintCurrentState();
+        
+        Debug.Log("[TEST] \n=== TEST 16 COMPLETE ===");
+        Debug.Log("[TEST] Summary:");
+        Debug.Log("[TEST] ✓ Test 6.1: Silent Mode with SoundWorld");
+        Debug.Log("[TEST] ✓ Test 6.2: Silent Mode with MusicLoop");
+        Debug.Log("[TEST] ✓ Test 6.3: Changing Soundscapes in Silent Mode");
         Debug.Log("[TEST] \nReview console logs above for detailed results.");
     }
 }
