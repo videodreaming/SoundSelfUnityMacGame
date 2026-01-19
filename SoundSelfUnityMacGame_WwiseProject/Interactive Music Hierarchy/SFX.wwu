@@ -636,7 +636,7 @@
 					<PropertyList>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-4</Value>
+								<Value>-8</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -740,7 +740,7 @@
 											<Language>SFX</Language>
 											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="112641813"/>
+												<MediaID ID="499041883"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
@@ -860,7 +860,7 @@
 											<Language>SFX</Language>
 											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="112641813"/>
+												<MediaID ID="499041883"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
@@ -973,7 +973,7 @@
 											<Language>SFX</Language>
 											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="112641813"/>
+												<MediaID ID="499041883"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
@@ -1131,7 +1131,7 @@
 											<Language>SFX</Language>
 											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="112641813"/>
+												<MediaID ID="499041883"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
@@ -1251,7 +1251,7 @@
 											<Language>SFX</Language>
 											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="112641813"/>
+												<MediaID ID="499041883"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
@@ -1364,7 +1364,7 @@
 											<Language>SFX</Language>
 											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="112641813"/>
+												<MediaID ID="499041883"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
@@ -1486,6 +1486,61 @@
 							</ObjectLists>
 						</MusicSegment>
 					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="Effects">
+							<Reference>
+								<Local>
+									<EffectSlot Name="" ID="{E0E60A2C-A0BC-4683-B80A-069312BB4D82}" ShortID="649040833">
+										<PropertyList>
+											<Property Name="Render" Type="bool" Value="True"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="Effect" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3">
+												<ObjectRef Name="Space_Dreaming" ID="{4FF7C4B2-37B0-4DFF-8E8A-1420102AE2DD}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+											</Reference>
+										</ReferenceList>
+									</EffectSlot>
+								</Local>
+							</Reference>
+						</ObjectList>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{486CA7C7-1C83-4EFB-982E-2A3EC028A22D}" ShortID="532526021">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Volume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="BreatheCycle_Volume" ID="{6054B844-CB45-4C59-9436-ECB992881033}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{788F0E40-2B5E-4546-B72F-2954C86DDBA1}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
 				</MusicPlaylistContainer>
 			</ChildrenList>
 		</WorkUnit>

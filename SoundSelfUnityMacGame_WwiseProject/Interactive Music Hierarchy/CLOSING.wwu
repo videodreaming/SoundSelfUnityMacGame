@@ -3635,6 +3635,11 @@
 				<MusicSegment Name="ASCENDING_CLOSING" ID="{E95B5A8C-A6CC-4BB7-9FE0-3766D5E074CF}" ShortID="1006043861">
 					<PropertyList>
 						<Property Name="EndPosition" Type="Real64" Value="1104868.99936606"/>
+						<Property Name="Volume" Type="Real64">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
