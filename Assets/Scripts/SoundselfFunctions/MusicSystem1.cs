@@ -8,6 +8,10 @@ using TMPro;
 using ConversionUtilities;
 using System.Linq;
 
+//todo: when we are in a MusicLoop, we should not be able to transition into Environment mode.
+//todo: and if we transtion into a MusicLoop, we should transition out of Environment mode.
+//todo: ultimately, though, environment mode should just be run as a MusicLoop.
+//todo: and we should use it in conjunction with other MusicLoop type content.
 public class MusicSystem1 : MonoBehaviour
 {
     public static MusicSystem1 instance {get; private set;}
@@ -609,6 +613,7 @@ public class MusicSystem1 : MonoBehaviour
             break;
             
             case MusicMode.FrozenFreeplay:
+            //TODO: likely we don't need this mode anymore, and this can be a bespoke implementation.
             currentMusicMode = mode;
             if(!modeFrozenFreeplayFlag)
             {
