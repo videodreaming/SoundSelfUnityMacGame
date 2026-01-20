@@ -53,7 +53,7 @@ public class Sequencer : MonoBehaviour
     private Coroutine CoroutineDynamicDropEnd;
     private bool developmentModeWarningFlag = false;
     private Coroutine countdownCoroutine; // Reference to the coroutines
-    private int currentStage = 0; //As Sonoflore
+    private int currentStage = 0; //As SonoFlore
     private bool openingSequenceFlag = false;
     public float timeInUnguidedVocalization;
     
@@ -296,7 +296,7 @@ public class Sequencer : MonoBehaviour
         }
         //director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
         Debug.Log("Sequencer: ProtocolStack Step 6");
-        worldShuffler.ExcludeSoundscape("Sonoflore");
+        worldShuffler.ExcludeSoundscape("SonoFlore");
 
         while (_countdownToSavasana > (4f * 60f))
         {
@@ -305,7 +305,7 @@ public class Sequencer : MonoBehaviour
         Debug.Log("Sequencer: ProtocolStack Step 8");
         worldShuffler.StopShuffle();
         worldShuffler.CloseSoundscapeQueue();
-        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Sonoflore"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
 
         while (_countdownToSavasana > 60f)
         {
