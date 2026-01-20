@@ -1713,7 +1713,7 @@ public class MusicSystem1 : MonoBehaviour
         {
             switch (index)
             {
-                case 0: SetSoundscape("SonoFlore"); Debug.Log("MUSIC DROPDOWN: Sonoflore"); break;
+                case 0: SetSoundscape("SonoFlore"); Debug.Log("MUSIC DROPDOWN: SonoFlore"); break;
                 case 1: SetSoundscape("Shadow"); Debug.Log("MUSIC DROPDOWN: Shadow"); break;
                 case 2: SetSoundscape("Gentle"); Debug.Log("MUSIC DROPDOWN: Gentle"); break;
                 case 3: SetSoundscape("Shruti"); Debug.Log("MUSIC DROPDOWN: Shruti"); break;

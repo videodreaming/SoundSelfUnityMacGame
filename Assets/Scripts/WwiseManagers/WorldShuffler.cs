@@ -47,7 +47,7 @@ public class WorldShuffler : MonoBehaviour
 
     void Update ()
     {
-        //in playground mode, when I press the M button, cycle to the next soundscape (Gentle, Shadow, Shruti, Sonoflore)
+        //in playground mode, when I press the M button, cycle to the next soundscape (Gentle, Shadow, Shruti, SonoFlore)
         
         if(shuffling)
         {
