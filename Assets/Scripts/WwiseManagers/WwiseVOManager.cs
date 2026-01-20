@@ -131,7 +131,6 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO_CUE: Cue_LinearHum_Start");
                 InitializeLightsWithDelay();
-                //sequencer.InitializeLights();
                 StartCoroutine(MakeWWiseTone());
             } else if(musicSyncInfo.userCueName == "Cue_LinearHum")
             {
