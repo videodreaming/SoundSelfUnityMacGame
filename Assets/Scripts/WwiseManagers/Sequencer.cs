@@ -276,7 +276,7 @@ public class Sequencer : MonoBehaviour
         {
             yield return null;
         }
-        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true, 2);
+        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
         director.AddActionToQueue(lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, true, 2);
         Debug.Log("Sequencer: ProtocolStack Step 4");
         // director.AddActionToQueue(...);
