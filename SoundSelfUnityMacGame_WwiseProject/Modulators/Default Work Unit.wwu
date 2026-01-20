@@ -58,6 +58,11 @@
 						<Property Name="LfoFrequency" Type="Real64" Value="0.2"/>
 					</PropertyList>
 				</ModulatorLfo>
+				<ModulatorLfo Name="Slow LFO" ID="{92455C4B-2B72-44B9-94AE-D329A91C2674}" ShortID="346671244">
+					<PropertyList>
+						<Property Name="LfoFrequency" Type="Real64" Value="0.1"/>
+					</PropertyList>
+				</ModulatorLfo>
 			</ChildrenList>
 		</WorkUnit>
 	</Modulators>

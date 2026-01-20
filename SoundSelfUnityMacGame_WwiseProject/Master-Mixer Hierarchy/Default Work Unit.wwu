@@ -732,7 +732,7 @@
 										</Property>
 									</PropertyList>
 								</Bus>
-								<Bus Name="AVS_Wave 1_Silent" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}">
+								<Bus Name="AVS_Wave 1" ID="{67252BD4-7B5F-4DAE-8BBC-C967668B1B15}">
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
@@ -742,7 +742,7 @@
 										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
 									</PropertyList>
 								</Bus>
-								<Bus Name="AVS_Wave 2_Toning" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}">
+								<Bus Name="AVS_Wave 2" ID="{A9E12B8C-9BAA-4B40-B8EC-0E821D2C0B79}">
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
@@ -752,7 +752,7 @@
 										<Property Name="RecoveryTime" Type="Real64" Value="0"/>
 									</PropertyList>
 								</Bus>
-								<Bus Name="AVS_Wave 3_Breath" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}">
+								<Bus Name="AVS_Wave 3" ID="{1D559EF5-082F-4531-8475-5928A839DD2D}">
 									<PropertyList>
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
