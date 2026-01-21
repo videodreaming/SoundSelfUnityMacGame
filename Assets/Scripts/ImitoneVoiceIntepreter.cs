@@ -78,9 +78,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     [SerializeField]
     public float _tThisRestConfident;
 
-    private float _durLastTone;
-    public bool _advanceToNextTutorialKey = false;
-
     //BREATH
     [SerializeField] private float _breathHoldTimeBeforeInhale;
     //public float _inhaleDuration;
@@ -88,7 +85,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     public float _tNextInhaleDuration = 0.0f;
     public float _breathVolume;
     private bool resetToneFrame = false; //the first frame that !toneActive && !imitoneActive, before toneActive is true again.
-    private bool endBreathVolumes = false; //THIS SYSTEM CAN DEFINITELY BE CLEANED UP QUITE EASILY...
+    private bool endBreathVolumesRequested = false; //THIS SYSTEM CAN DEFINITELY BE CLEANED UP QUITE EASILY...
     private bool breathSoundFlag = false;
 
     //public int MostRecentSemitone => _semitone;
@@ -674,48 +671,21 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             else if (!resetToneFrame) //TRIGGER INHALE aka BREATHVOLUME
             {
                 resetToneFrame = true;
-                float currentInhaleDuration = Mathf.Clamp(_tNextInhaleDuration, 0f, 7.0f);
-                if (currentInhaleDuration >= 1.0f)
+                float newInhaleEffectTargetDuration = Mathf.Clamp(_tNextInhaleDuration, 0f, 7.0f);
+                if (newInhaleEffectTargetDuration >= 1.0f)
                 {
-                    endBreathVolumes = false;
-                    //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and currentInhaleDuration = " + currentInhaleDuration);
-                    StartCoroutine(BreathVolumeCoroutine(Mathf.Max(1.76f, currentInhaleDuration)));
+                    //BREATHE-IN LIGHT AND SOUND CONTROL
+                    endBreathVolumesRequested = false;
+                    //Debug.Log("BreathVolumeCoroutine Started, _tNextInhaleDuration = " + _tNextInhaleDuration + " and newInhaleEffectTargetDuration = " + newInhaleEffectTargetDuration);
                     StartCoroutine(EndBreathVolumesOnNextTone()); //no issue having multiple of these.
-                    if (currentInhaleDuration > 5.0f)
-                    {
-                        AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
-                        Debug.Log("Imitone: SFX: Play_Inhale_Long (" + currentInhaleDuration + ")");
-                        //Logging the Duration of the Inhale that just ended
-                        _durLastTone = currentInhaleDuration;
-                    }
-
-                    else if (currentInhaleDuration > 3.0f)
-                    {
-                        AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
-                        Debug.Log("Imitone: SFX: Play_Inhale_Medium(" + currentInhaleDuration + ")");
-                        //Logging the Duration of the Inhale that just ended
-                        _durLastTone = currentInhaleDuration;
-                    }
-                    else if (currentInhaleDuration >= 1.0f)
-                    {
-                        AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
-                        Debug.Log("Imitone: SFX: Play_Inhale_Short (" + currentInhaleDuration + ")");
-                        //Logging the Duration of the Inhale that just ended
-                        _durLastTone = currentInhaleDuration;
-                    }
-                }
-                //if the duration of the just finished tone is greater than 1.5 seconds, the tutorial can advance to the next segment. 
-                //But the Tutorial will only check for this TutorialKey after a slight delay after "Cue_VO_GuidedVocalization_End" is done.
-                if (_durLastTone >= 1.5f || currentInhaleDuration >= 1.5f)
-                {
-                    _advanceToNextTutorialKey = true;
+                    
+                    StartCoroutine(StartInhaleEffectWithDelay(newInhaleEffectTargetDuration));
                 }
             }
 
             if (_tThisRest > _activeThreshold3)
             {
                 toneActiveVeryConfident = false;
-                EndBreathVolumesOnNextTone();
             }
         }
 
@@ -808,9 +778,51 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         //Debug.Log("EndBreathVolumesOnNextTone: ending breath volumes");
 
         _tNextInhaleDuration = 0.0f; //DECOUPLING THIS FROM TONEACTIVE COULD BE AWKWARD, but I think it will get best results. If this is awkward, put it in the (!resetToneFrame) if statement above.
-        endBreathVolumes = true;
+        endBreathVolumesRequested = true;
         AkSoundEngine.PostEvent("Stop_Inhales", gameObject);
     }
+
+    private IEnumerator StartInhaleEffectWithDelay(float newInhaleEffectTargetDuration)
+    {
+        float delayDuration = newInhaleEffectTargetDuration / 10f;
+        float elapsedTime = 0f;
+        
+        // Wait for delay, checking for abort request each frame
+        while (elapsedTime < delayDuration)
+        {
+            if (endBreathVolumesRequested)
+            {
+                yield break; // Abort if cancellation requested
+            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        // Check one more time after delay completes (handles race condition on final frame)
+        if (endBreathVolumesRequested)
+        {
+            yield break; // Abort if cancellation requested
+        }
+        
+        // If we reach here, delay completed without abort - execute the effect
+        StartCoroutine(BreathVolumeCoroutine(Mathf.Max(1.76f, newInhaleEffectTargetDuration)));
+        if (newInhaleEffectTargetDuration > 5.0f)
+        {
+            AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
+            Debug.Log("Imitone: SFX: Play_Inhale_Long (" + newInhaleEffectTargetDuration + ")");
+        }
+        else if (newInhaleEffectTargetDuration > 3.0f)
+        {
+            AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
+            Debug.Log("Imitone: SFX: Play_Inhale_Medium(" + newInhaleEffectTargetDuration + ")");
+        }
+        else if (newInhaleEffectTargetDuration >= 1.0f)
+        {
+            AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
+            Debug.Log("Imitone: SFX: Play_Inhale_Short (" + newInhaleEffectTargetDuration + ")");
+        }
+    }
+
     private IEnumerator BreathVolumeCoroutine(float inhaleDuration)
     {
         int coroutineID = _coroutineCounter++;
@@ -828,7 +840,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
 
         //Debug.Log("BreathVolumeCoroutine: Starting with Inhale Duration of " + inhaleDuration + " and _v of " + _v);
-        while (normalizedTime <= _v && !endBreathVolumes)
+        while (normalizedTime <= _v && !endBreathVolumesRequested)
         { //Stage 1 - rapid increase, can be interrupted by tone
             normalizedTime += Time.deltaTime / inhaleDuration;
             float _progress = Mathf.Min(normalizedTime / _v / 2.0f, 0.5f); // will get half way through when normalizedTime = _v
