@@ -412,6 +412,11 @@
 						</RandomSequenceContainer>
 						<Sound Name="CalibrationSequence_Music" ID="{1F2233D8-F099-4356-BCE4-04DF2F661497}" ShortID="14749120">
 							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>9</Value>
+									</ValueList>
+								</Property>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="IsStreamingEnabled" Type="bool">
 									<ValueList>

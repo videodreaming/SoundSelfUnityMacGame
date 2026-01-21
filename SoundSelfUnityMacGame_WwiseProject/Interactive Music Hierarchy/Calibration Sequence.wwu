@@ -6,6 +6,11 @@
 				<MusicSwitchContainer Name="Calibration Sequence" ID="{EDABCE0F-E53E-4EF1-8364-D25F9A524D73}" ShortID="281107690">
 					<PropertyList>
 						<Property Name="ContinuePlay" Type="bool" Value="False"/>
+						<Property Name="Highpass" Type="int16">
+							<ValueList>
+								<Value>6</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>4</Value>

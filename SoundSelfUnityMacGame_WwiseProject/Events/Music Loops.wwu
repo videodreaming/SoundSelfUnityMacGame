@@ -117,6 +117,62 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Set_MusicLoops_AweAtmosphere" ID="{4F5A6D12-59F5-4B38-88D5-882C8EB1EEDA}">
+					<ChildrenList>
+						<Action Name="" ID="{6879B4D2-85AD-478D-AF66-954DF055C1BB}" ShortID="114107110">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AweAtmosphere" ID="{C0702F78-07BA-4DD5-BA62-6988DE370F36}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_MusicLoops_BreathworkHandpan" ID="{BD163E85-E647-462C-8D9D-865A10CFABC5}">
+					<ChildrenList>
+						<Action Name="" ID="{091849AF-6149-44D3-8060-6535EC75A1D2}" ShortID="192088418">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="BreathworkHandpan" ID="{965F8CD9-6E4F-4D23-8675-1AD7462D79A8}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_MusicLoops_MysticalVision" ID="{E57CD9C2-7F3F-4531-8C06-D532FA1DA63B}">
+					<ChildrenList>
+						<Action Name="" ID="{87FAFB16-4BBF-40E1-A48A-31F7BEE6920B}" ShortID="276659851">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MysticalVision" ID="{5B1B75A9-2E83-4BE6-AF38-356DB405C67E}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_AmbientLoop" ID="{69EF16F9-8544-4D8D-BFA1-F2E93DA6DE9F}">
+					<ChildrenList>
+						<Action Name="" ID="{D4201FD8-EED6-45AA-9F73-A68C1A1C04B6}" ShortID="822022377">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AmbientLoop" ID="{E63BED1C-5393-45A4-B5B3-2FAA05DC3CC5}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

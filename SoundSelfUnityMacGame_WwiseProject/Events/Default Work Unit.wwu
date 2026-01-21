@@ -49,7 +49,7 @@
 						<Action Name="" ID="{C53C60B4-C84D-4630-A8FD-372BF7A57061}" ShortID="78722735">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="SOMATIC_SWITCH" ID="{29EC6BD4-AA95-44B6-9259-B9DE29F21203}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+									<ObjectRef Name="SOMATIC_SWITCH" ID="{29EC6BD4-AA95-44B6-9259-B9DE29F21203}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -159,7 +159,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="SOMATIC_SWITCH" ID="{29EC6BD4-AA95-44B6-9259-B9DE29F21203}" WorkUnitID="{5BA313DB-C209-4442-98E7-0DA9D6C71BB1}"/>
+									<ObjectRef Name="SOMATIC_SWITCH" ID="{29EC6BD4-AA95-44B6-9259-B9DE29F21203}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -688,7 +688,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="MUSIC PLAYLIST SWITCH" ID="{49FABB18-683D-46DC-B846-C051B49957B0}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+									<ObjectRef Name="MUSIC_SWITCH" ID="{49FABB18-683D-46DC-B846-C051B49957B0}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

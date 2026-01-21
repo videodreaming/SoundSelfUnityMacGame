@@ -10,7 +10,7 @@
 						<Switch Name="openingPassive" ID="{28442BAC-A4FD-4DAB-9E46-E9136FA82350}"/>
 					</ChildrenList>
 				</SwitchGroup>
-				<SwitchGroup Name="MusicPlaylist_Switch" ID="{259F0DA4-E7C6-4F8E-A79E-52D83D1A8402}">
+				<SwitchGroup Name="Music_Switch" ID="{259F0DA4-E7C6-4F8E-A79E-52D83D1A8402}">
 					<ChildrenList>
 						<Switch Name="Metta_5m" ID="{A3CFE507-B5FF-4357-8495-0DCD7D5BB0AC}"/>
 						<Switch Name="ShrutiFemVox_7m" ID="{00BDAB98-5B4E-46E6-9AA5-1CC2A2B9FB50}"/>
@@ -23,6 +23,12 @@
 						<Switch Name="GuidedTutorial_111Hz_5m" ID="{ED21B1A1-65AF-4303-AC49-00AB4A0C3E5F}"/>
 						<Switch Name="OpeningOrientation_3m" ID="{716B8E46-FE27-4D82-9697-D2771948A8CA}"/>
 						<Switch Name="inHarmony_MusicSFX_25m" ID="{2C20AA32-F146-4D81-830E-5283F4470DF5}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="Music_Playlist_Switch" ID="{2707E2FA-B13E-4A67-9A8B-3BB1CB70A0ED}">
+					<ChildrenList>
+						<Switch Name="_60m" ID="{E3D983C5-AB8E-4013-AF1B-A1786A1CE846}"/>
+						<Switch Name="_40m" ID="{9B176422-1A59-4E7F-A244-2237BAC758E2}"/>
 					</ChildrenList>
 				</SwitchGroup>
 			</ChildrenList>

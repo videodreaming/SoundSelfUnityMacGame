@@ -228,9 +228,19 @@
 						</Bus>
 						<Bus Name="Music" ID="{F48D4373-E67F-4AF6-8CD3-1CD46406F853}">
 							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>6</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>10</Value>
+										<Value>7</Value>
+									</ValueList>
+								</Property>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>-96</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
