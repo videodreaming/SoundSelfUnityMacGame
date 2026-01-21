@@ -38,7 +38,7 @@ public class Sequencer : MonoBehaviour
     private bool savasanaCountdownCompleteFlag = false; // Flag to control the event triggering
     [SerializeField] public float _integrationEnd {get; private set;} = 500f; 
     [SerializeField] public bool endSoonFlag = false;
-
+    private bool startButtonFlag = false;
     private bool flagTriggerStart1 = false;
     private bool flagTriggerStart2 = false;
     private bool flagTriggerEnd1 = false;
@@ -101,18 +101,6 @@ public class Sequencer : MonoBehaviour
 
         if (startModeDropdown != null)
                 OnStartModeDropdownChanged(startModeDropdown.value);
-
-        //MusicSystem1.instance.SetSoundscape("SonoFlore"); //duplicating this from Awake to try fixing something for Lorna. Untested, and not sure if necessary. // 12/16/2025 removed for refactoring
-
-
-        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
-        {
-            Debug.Log("Sequencer: Development Mode is ON. Game will not start until commandeded.");
-        }
-        else
-        {
-            StartTrueStart();
-        }        
     }
 // if(DevelopmentMode.Instance != null && DevelopmentMode.Instance.developmentMode)
  // {   //do something  }
@@ -146,6 +134,18 @@ public class Sequencer : MonoBehaviour
                     if (startButtonScript.startedExperience)
                     {
                         _countdownToSavasana -= Time.deltaTime;
+                        if(startButtonFlag == false)
+                        {
+                            if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
+                            {
+                                Debug.Log("Sequencer: Development Mode is ON. Game will not start until commandeded.");
+                            }
+                            else
+                            {
+                                StartTrueStart();
+                            }        
+                            startButtonFlag = true;
+                        }
                     }
                 }
             }
@@ -189,16 +189,20 @@ public class Sequencer : MonoBehaviour
                 {
                     Debug.Log("Sequencer: Playing Integration Opening Sequence.");
                     wwiseVOManager.PlayOpeningSequence("Integration_Short");
-                } else if (CSVLoader.instance.gameMode == "Esketamine_Ascending")
+                } else if (CSVLoader.instance.gameMode == "Protocol Stacks")
                 {
-                    //TODO: Change the name above
-                    Debug.Log("Sequencer: Playing Esketamine Opening Sequence.");
-                    wwiseVOManager.PlayOpeningSequence("Esketamine_Ascending");
-                } else if (CSVLoader.instance.gameMode == "Esketamine_Descending")
-                {
-                    //TODO: Change the name above
-                    Debug.Log("Sequencer: Playing Esketamine Opening Sequence.");
-                    wwiseVOManager.PlayOpeningSequence("Esketamine_Descending");
+                    if(CSVLoader.instance.subGameMode == "Ascending")
+                    {
+                        wwiseVOManager.PlayOpeningSequence("Ascending");
+                        //wwiseVOManager.PlayOpeningSequence("Esketamine_Ascending");
+                        //Debug.Log("Sequencer: Playing Esketamine Ascending Opening Sequence.");
+                    }
+                    else if(CSVLoader.instance.subGameMode == "Descending")
+                    {
+                        wwiseVOManager.PlayOpeningSequence("Descending");
+                        //wwiseVOManager.PlayOpeningSequence("Esketamine_Descending");
+                        //Debug.Log("Sequencer: Playing Esketamine Descending Opening Sequence.");
+                    }
                 }
                 else
                 {
@@ -248,10 +252,11 @@ public class Sequencer : MonoBehaviour
     private IEnumerator ProtocolStacksCoroutine()
     {
         Debug.Log("Sequencer: ProtocolStacksCoroutine");
+        MusicSystem1.instance.StopBreathworkCycle();
         while (_countdownToSavasana > (20f * 60f))
         {
             yield return null;
-        }        
+        }
         Debug.Log("Sequencer: ProtocolStack Step 1");
         //tutorial.tutorialComplete = true; // set in StartPlayground()
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
@@ -339,6 +344,12 @@ public class Sequencer : MonoBehaviour
     //====================================================================================================
     private void StandardSequenceUpdate()
     {
+        // Guard: Only run for standard sequences, not Protocol Stacks
+        if(CSVLoader.instance != null && CSVLoader.instance.gameMode == "Protocol Stacks")
+        {
+            return; // Protocol Stacks uses ProtocolStacksCoroutine() instead
+        }
+        
         //Early Behaviors
         if(_timeSinceTutorial >= 60 && !flagTriggerStart1)
         {
@@ -384,6 +395,12 @@ public class Sequencer : MonoBehaviour
 
         if(_countdownToSavasana <= 0f && !flagTriggerEnd4)
         {
+            // Only trigger savasana for standard sequences, not Protocol Stacks
+            if(CSVLoader.instance != null && CSVLoader.instance.gameMode == "Protocol Stacks")
+            {
+                Debug.LogWarning("Sequencer: Attempted to trigger Thematic Savasana in Protocol Stacks mode - this should not happen!");
+                return;
+            }
            
             Debug.Log("Sequencer: Triggering Thematic Savasana."); 
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent); 

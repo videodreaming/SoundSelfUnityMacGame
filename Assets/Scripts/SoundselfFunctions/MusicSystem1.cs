@@ -550,6 +550,13 @@ public class MusicSystem1 : MonoBehaviour
     public void SetMusicModeTo(MusicMode mode)
     {
         Debug.Log("MUSIC: Please set Music Mode to " + mode + "...");
+        
+        // Stop breathwork cycle when transitioning from Environment to any other mode
+        if (currentMusicMode == MusicMode.Environment && mode != MusicMode.Environment)
+        {
+            StopBreathworkCycle();
+        }
+        
         switch (mode)
         {
             
@@ -639,6 +646,7 @@ public class MusicSystem1 : MonoBehaviour
 
                 EnvironmentInitializations();
                 AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
+                PlayBreathworkCycle();
             }
             else
             {
@@ -1648,6 +1656,18 @@ public class MusicSystem1 : MonoBehaviour
         //Debug.Log("MUSIC: Set Toning Volume to " + _target);
         //TONING_Volume (opposite of SILENT_Volume) is set in ImitoneVoiceInterpreter, and is dynamic with player volume.
 
+    }
+
+    public void PlayBreathworkCycle()
+    {
+        AkSoundEngine.PostEvent("Play_sfx_breathworkcycle", gameObject);
+        Debug.Log("MUSIC: Play_sfx_breathworkcycle");
+    }
+
+    public void StopBreathworkCycle()
+    {
+        AkSoundEngine.PostEvent("Stop_sfx_breathworkcycle", gameObject);
+        Debug.Log("MUSIC: Stop_sfx_breathworkcycle");
     }
 
     

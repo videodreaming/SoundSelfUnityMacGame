@@ -223,8 +223,11 @@ public class CSVLoader : MonoBehaviour
                 decryptedFirstTimeUser = EncryptionHelper.Decrypt(encryptedFirstTimeUser);
                 decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
                 decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
-                gameMode = decryptedGameMode;
-                subGameMode = decryptedSubGameMode;
+                //gameMode = decryptedGameMode;
+                //subGameMode = decryptedSubGameMode;
+                gameMode = "Protocol Stacks";
+                subGameMode = "Ascending";
+                Debug.LogWarning("HACK: Overriding gameMode and subGameMode to 'Protocol Stacks'/'Ascending' for development purposes.");
                 firstTimeUserString = decryptedFirstTimeUser;
             
             }

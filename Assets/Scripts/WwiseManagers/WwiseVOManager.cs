@@ -354,7 +354,7 @@ public class WwiseVOManager : MonoBehaviour
     private void breathInBehaviour()
     {
         lightControl.FXWave(0.6f, 5f, 0.25f, true, false);
-        AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
+        //AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
     }
         
     IEnumerator StartSighElicitationTimer()
@@ -376,13 +376,11 @@ public class WwiseVOManager : MonoBehaviour
         switch (openingSequenceType)
         {
             case "Preparation_Long":
-            AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
-            //AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_LONG", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             Debug.Log("WWise_VO: Play Preparation Long Opening Sequence");
             break;
             case "Preparation_Short":
-            AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
-            //AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            AkSoundEngine.PostEvent("Play_PREPARATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             Debug.Log("WWise_VO: Play Preparation Short Opening Sequence");
             break;
             case "Integration_Short":
