@@ -112,8 +112,7 @@ public class Sequencer : MonoBehaviour
         else
         {
             StartTrueStart();
-        }
-        
+        }        
     }
 // if(DevelopmentMode.Instance != null && DevelopmentMode.Instance.developmentMode)
  // {   //do something  }
@@ -818,14 +817,39 @@ public class Sequencer : MonoBehaviour
     public void StartTrueStart() //THIS ONE IS OK TO CALL IN NORMAL TIME (NON DEVELOPMENT MODE)
     {
         Debug.Log("Sequencer: Starting True Start Sequence.");
-        MusicSystem1.instance.SetSoundscape("SonoFlore");
-        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeLow, 0.0f);
         director.Disable();
-        worldShuffler.ExcludeColorWorld("Blue");
-        worldShuffler.ExcludeSoundscape("Shadow");
+        if(csvLoader != null)
+        {
+            if(csvLoader.gameMode == "Protocol Stacks")
+            {
+                ProtocolStacksInitialization();
+            }
+            else if(csvLoader.gameMode == "Integration" || csvLoader.gameMode == "Preparation" || csvLoader.gameMode == "Skills Training")
+            {
+                SkillsTrainingOrIntegrationInitialization();
+            }
+        }
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);        
         PlayFirstSequence();
         //lightControl.SetColorWorldByType("Dark", 0.0f);
+    }
+
+    public void ProtocolStacksInitialization()
+    {
+        Debug.Log("Sequencer: Protocol Stacks mode detected. Initializing Protocol Stacks.");
+        MusicSystem1.instance.SetSoundWorld("Shadow");
+        MusicSystem1.instance.SetSoundscape("ShiftingEarth");
+        worldShuffler.ExcludeColorWorld("Blue");
+        worldShuffler.ExcludeSoundscape("Shadow");
+    }
+
+    public void SkillsTrainingOrIntegrationInitialization()
+    {
+        Debug.Log("Sequencer: Standard mode detected. Initializing Standard.");
+        MusicSystem1.instance.SetSoundscape("SonoFlore");
+        worldShuffler.ExcludeColorWorld("Blue");
+        worldShuffler.ExcludeSoundscape("Shadow");
     }
 
     //WOE TO YOU WHO USESE THESE START FUNCTIONS EXCEPT IN DEVELOPMENT MODE
