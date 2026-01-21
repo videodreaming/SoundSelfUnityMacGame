@@ -293,7 +293,12 @@ public class WwiseVOManager : MonoBehaviour
 
     public void SetToEsketamineAscending()
     {
-        //TODO: Implement this
+        AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+        AkSoundEngine.SetSwitch("MusicLoops_Switch", "ShiftingEarth", MusicSystem1.instance.gameObject);
+
+        AkSoundEngine.SetState("SoundWorldMode", "Gentle");
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", "C", MusicSystem1.instance.gameObject);
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "G", MusicSystem1.instance.gameObject);
     }
 
     public void SetToEsketamineDescending()
@@ -467,6 +472,7 @@ public class WwiseVOManager : MonoBehaviour
 
     public void PlayAscendingClosing()
     {
+        Debug.Log("WWise_VO: Play Ascending Closing");
         AkSoundEngine.PostEvent("Play_ASCENDING_CLOSING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
     }
 

@@ -33,7 +33,7 @@ public class Sequencer : MonoBehaviour
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
     //private float interactiveMusicExperienceTotalTime;
-    public float _countdownToSavasana {get; private set;} = 1000000.0f; //initialize at a basically infitite value.
+    public float _countdownToSavasana = 1000000.0f; //initialize at a basically infitite value.
     private float _timeSinceTutorial;
     private bool savasanaCountdownCompleteFlag = false; // Flag to control the event triggering
     [SerializeField] public float _integrationEnd {get; private set;} = 500f; 
@@ -233,6 +233,7 @@ public class Sequencer : MonoBehaviour
 
     public void ProtocolStacksPlaygroundStart()
     {
+        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart");
         //STEP 1: Opening Sequence Ends, as reported by a cue, play Shifting Earth.
         //TODO: (with Reef): implement this from a cue from Wwise.
         //Need to set soundworld to shifting earth
@@ -246,6 +247,7 @@ public class Sequencer : MonoBehaviour
     //A coroutine that moves through several steps, depending on _timeSinceTutorial and _countdownToSavasana.
     private IEnumerator ProtocolStacksCoroutine()
     {
+        Debug.Log("Sequencer: ProtocolStacksCoroutine");
         while (_countdownToSavasana > (20f * 60f))
         {
             yield return null;

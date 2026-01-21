@@ -109,7 +109,8 @@ public class CSVLoader : MonoBehaviour
             else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
             {
                 Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
+                totalTimeOfPostUnguidedVocalizationContent = 900.0f; //15 minutes
+                //totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
                 // // Added 4 mins to cut unguided 
                 wwiseVOManager.SetToNarrative();
             }

@@ -1665,6 +1665,7 @@ public class MusicSystem1 : MonoBehaviour
             //AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
             //AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
             AkSoundEngine.PostEvent("Play_MusicLoops", gameObject);
+            AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
             //AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
             Debug.Log("MUSIC: InteractiveMusic started");
         }
