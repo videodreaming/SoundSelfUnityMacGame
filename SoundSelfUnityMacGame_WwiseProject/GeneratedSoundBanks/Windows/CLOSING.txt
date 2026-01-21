@@ -1,18 +1,22 @@
 Event	ID	Name			Wwise Object Path	Notes
 	77468567	Play_sfx_breatheout			\SFX\Play_sfx_breatheout	
+	114893642	Stop_InteractiveMusicSystem			\Interactive Music System\Stop_InteractiveMusicSystem	
 	186032212	Play_VO_QueryElicitationPassThankYou1			\VO\Play_VO_QueryElicitationPassThankYou1	
 	236202206	Mute_SILENTMEDITATION_MUSIC			\Default Work Unit\Mute_SILENTMEDITATION_MUSIC	
 	237216068	Stop_Inhales			\SFX\Stop_Inhales	
 	247426471	Play_VO_ThematicSavasana			\VO\Play_VO_ThematicSavasana	
+	259224804	Set_MusicLoops_Silence			\Music Loops\Set_MusicLoops_Silence	
 	322188649	Play_VO_Wakeup			\VO\Play_VO_Wakeup	
 	333136496	Stop_environment_wind			\Environment\Stop_environment_wind	
 	410054881	Play_SIGH_QUERY_SEQUENCE_2			\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_2	
 	452547817	Stop_All			\Default Work Unit\Stop_All	
+	530138156	Play_ASCENDING_CLOSING			\Default Work Unit\Play_ASCENDING_CLOSING	
 	603425291	Play_sfx_SoundSeed_BreathCycleWind			\SFX\Play_sfx_SoundSeed_BreathCycleWind	
 	674892661	Stop_sfx_SoundSeed_BreathCycleWind			\SFX\Stop_sfx_SoundSeed_BreathCycleWind	
 	711060179	Play_MUSIC_PLAYLIST_SWITCH			\Default Work Unit\Play_MUSIC_PLAYLIST_SWITCH	
 	767717232	Stop_AVS_SineGenerators_REFERENCE			\AVS System\Stop_AVS_SineGenerators_REFERENCE	
 	769398012	Play_Inhale_Long			\SFX\Play_Inhale_Long	
+	781384595	Set_MusicLoops_CosmicAir			\Music Loops\Set_MusicLoops_CosmicAir	
 	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP	
 	936790198	Play_VO_EndingSoon			\VO\Play_VO_EndingSoon	
 	1024713720	Play_VO_SighElicitationFail2			\VO\Play_VO_SighElicitationFail2	
@@ -20,18 +24,22 @@ Event	ID	Name			Wwise Object Path	Notes
 	1051170748	Play_VO_QueryElicitationPass2			\VO\Play_VO_QueryElicitationPass2	
 	1088180278	Play_THEMATIC_SAVASANA_SEQUENCE			\Default Work Unit\Play_THEMATIC_SAVASANA_SEQUENCE	
 	1226520867	Play_music_Duet_D_Major			\Linear Music\Play_music_Duet_D_Major	
+	1245878726	Set_State_MusicLoops			\Music Loops\Set_State_MusicLoops	
 	1252315619	Play_Inhale_Medium			\SFX\Play_Inhale_Medium	
 	1347182731	Play_BassSynth			\Default Work Unit\Play_BassSynth	
 	1422850325	Play_VO_QueryElicitationFail2			\VO\Play_VO_QueryElicitationFail2	
 	1422850326	Play_VO_QueryElicitationFail1			\VO\Play_VO_QueryElicitationFail1	
 	1425422979	Play_sfx_EndInteractive			\SFX\Play_sfx_EndInteractive	
+	1455411157	Set_MusicLoops_SingingBowls			\Music Loops\Set_MusicLoops_SingingBowls	
 	1488609145	Play_VO_QueryElicitation2			\VO\Play_VO_QueryElicitation2	
 	1502315953	Stop_BassSynth			\Default Work Unit\Stop_BassSynth	
 	1761697258	Stop_MusicLoops			\Music Loops\Stop_MusicLoops	
 	1774847782	Stop_environment_crickets			\Environment\Stop_environment_crickets	
 	1941733943	Play_sfx_breathworkcycle			\SFX\Play_sfx_breathworkcycle	
+	1998418046	Set_MusicLoops_Environment			\Music Loops\Set_MusicLoops_Environment	
 	2110561540	Play_Inhale_Short			\SFX\Play_Inhale_Short	
 	2138093880	Play_VO_SighElicitation2			\VO\Play_VO_SighElicitation2	
+	2224816138	Stop_ASCENDING_CLOSING			\Default Work Unit\Stop_ASCENDING_CLOSING	
 	2452192253	Stop_BinauralGenerator			\SFX\Stop_BinauralGenerator	
 	2811342292	Stop_THEMATIC_SAVASANA_SEQUENCE			\Default Work Unit\Stop_THEMATIC_SAVASANA_SEQUENCE	
 	2929327982	Play_environment_wind			\Environment\Play_environment_wind	
@@ -39,6 +47,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3042067738	Stop_VO_ClosingGoodbye			\VO\Stop_VO_ClosingGoodbye	
 	3359246268	Play_music_meditationSilent_E_Major_LOOP			\Linear Music\Play_music_meditationSilent_E_Major_LOOP	
 	3409568304	Play_MusicLoops			\Music Loops\Play_MusicLoops	
+	3413019722	Set_MusicLoops_CelestialDreamscape			\Music Loops\Set_MusicLoops_CelestialDreamscape	
 	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
 	3449237142	Play_AVS_SineGenerators_REFERENCE			\AVS System\Play_AVS_SineGenerators_REFERENCE	
 	3451051880	Play_environment_crickets			\Environment\Play_environment_crickets	
@@ -65,8 +74,7 @@ Event	ID	Name			Wwise Object Path	Notes
 Switch Group	ID	Name			Wwise Object Path	Notes
 	1496240431	MusicPlaylist_Switch			\Linear Music\MusicPlaylist_Switch	
 	1815817025	VO_ClosingGoodbye			\VO\VO_ClosingGoodbye	
-	2687325598	BreathworkCycle			\SFX\BreathworkCycle	
-	3505294094	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly	
+	2950571229	BassSynth_PitchSwitch			\BassSynth\BassSynth_PitchSwitch	
 	3861178606	MusicLoops_Switch			\Music Loops\MusicLoops_Switch	
 	4155508698	VO_ThematicSavasana			\VO\VO_ThematicSavasana	
 
@@ -86,21 +94,18 @@ Switch	ID	Name	Switch Group			Notes
 	1927133646	Anchoring	VO_ClosingGoodbye			
 	2585211341	Short	VO_ClosingGoodbye			
 	3041563226	Silence	VO_ClosingGoodbye			
-	1518569755	BreathworkCycle_12s	BreathworkCycle			
-	1552125181	BreathworkCycle_10s	BreathworkCycle			
-	1619235497	BreathworkCycle_14s	BreathworkCycle			
-	84696440	G	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696441	F	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696442	E	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696443	D	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696444	C	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696445	B	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696446	A	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	156517199	FsharpGflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	791737535	DsharpEflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3050272541	AsharpBflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3573977648	GsharpAflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3800083777	CsharpDflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	84696440	G	BassSynth_PitchSwitch			
+	84696441	F	BassSynth_PitchSwitch			
+	84696442	E	BassSynth_PitchSwitch			
+	84696443	D	BassSynth_PitchSwitch			
+	84696444	C	BassSynth_PitchSwitch			
+	84696445	B	BassSynth_PitchSwitch			
+	84696446	A	BassSynth_PitchSwitch			
+	156517199	FsharpGflat	BassSynth_PitchSwitch			
+	791737535	DsharpEflat	BassSynth_PitchSwitch			
+	3050272541	AsharpBflat	BassSynth_PitchSwitch			
+	3573977648	GsharpAflat	BassSynth_PitchSwitch			
+	3800083777	CsharpDflat	BassSynth_PitchSwitch			
 	6971574	SitarAmbience	MusicLoops_Switch			
 	931091870	AweAtmosphere	MusicLoops_Switch			
 	1229948536	Environment	MusicLoops_Switch			
@@ -175,6 +180,7 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	4221340219	AVS_GREEN_Volume_Wave3			\AVS System\WAVE 3\AVS_GREEN_Volume_Wave3	
 
 Modulator LFO	ID	Name			Wwise Object Path	Notes
+	346671244	Slow LFO			\Default Work Unit\Slow LFO	
 	1071040946	Modulator_LFO_SineWave			\Default Work Unit\Modulator_LFO_SineWave	
 
 Effect plug-ins	ID	Name	Type				Notes
@@ -217,27 +223,30 @@ Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	1006973361	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\GREEN\GREEN\Sine	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	105163780	Wind - cold - short - looping	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Wind - cold - short - looping_D7C0AC88.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\Wind - cold - short - looping		2564192
-	112641813	BREATHWORK_SFX_120bpm	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\BREATHWORK_SFX_120bpm_FBC78EF0.wem		\Interactive Music Hierarchy\SFX\Breathwork_Cycle\Breathwork Cycle_10s\Breathwork1\BREATHWORK_SFX_120bpm		10608096
+	105163780	Wind - cold - short - looping	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Wind - cold - short - looping_905F42E4.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\Wind - cold - short - looping		2564192
+	112641813	BREATHWORK_SFX_120bpm	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\BREATHWORK_SFX_120bpm_FBC78EF0.wem		\Interactive Music Hierarchy\SFX\sfx_breathinout\BREATHWORK_SFX_120bpm		10608096
 	142502747	D	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\D_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\D\D		74
 	251817723	G	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\G_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\G\G		74
 	273367130	E	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\E_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\E\E		74
 	279448768	B	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\B_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\B\B		74
 	292416456	F	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\F_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\F\F		74
 	320884047	C	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\C_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\C\C		74
+	333036348	RED	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\RED_Solid_FBC78EF0.wem		\Interactive Music Hierarchy\CLOSING\ASCENDING_CLOSING\RED		192096
 	339955301	C#Bb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\C#Bb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\C#Db\C#Bb		74
 	464203531	sfx_breath out	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath out_1ED5DAAD.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
 	466210932	sfx_breath in	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_C3F4FBB0.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612056
-	493065678	SO_AM_90_ambience_rain_muladhara	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_90_ambience_rain_muladhara_4AD9E582.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_90_ambience_rain_muladhara		3387488
+	493065678	SO_AM_90_ambience_rain_muladhara	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_90_ambience_rain_muladhara_8F984C26.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_90_ambience_rain_muladhara		3387488
+	499041883	BREATHWORK_SFX_120bpm	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\BREATHWORK_SFX_120bpm_BD69EC6A.wem		\Interactive Music Hierarchy\SFX\Breathwork Cycle_10s\Breathwork1\BREATHWORK_SFX_120bpm		11763808
 	521907833	A#Bb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\A#Bb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\A#Bb\A#Bb		74
 	525152423	End Interactive SFX	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\GIO_HEAL_bowls_wide_29FB70CC.wem		\Actor-Mixer Hierarchy\SFX\Extra Samples\End Interactive SFX		7414520
 	650293573	sfx_breath in	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath in		612056
 	657858480	D#Eb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\D#Eb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\D#Eb\D#Eb		74
-	928485249	OceanWavesSlowSurf_BWU_685	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\OceanWavesSlowSurf_BWU.685_D997D5F6.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\OceanWavesSlowSurf_BWU_685		3659872
+	765074154	BLUE	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\BLUE_SOLID_FBC78EF0.wem		\Interactive Music Hierarchy\CLOSING\ASCENDING_CLOSING\BLUE		192096
+	928485249	OceanWavesSlowSurf_BWU_685	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\OceanWavesSlowSurf_BWU.685_4DD21BDA.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\OceanWavesSlowSurf_BWU_685		3659872
 	929296902	A	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\A_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\A\A		74
 	948390285	SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj_E0F51DE2.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_97_ambience_frog_storm_filtered_ajna_Fmaj		865416
 	977341665	sfx_breath out	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath out_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath out		768096
-	987362858	SO_AM_80_ambience_birds_creek_ashby	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_80_ambience_birds_creek_ashby_76ED12B3.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_80_ambience_birds_creek_ashby		2490464
+	987362858	SO_AM_80_ambience_birds_creek_ashby	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SO_AM_80_ambience_birds_creek_ashby_94F99FD3.wem		\Actor-Mixer Hierarchy\SFX\New SFX Ideas\SFX_Nature_Random\SO_AM_80_ambience_birds_creek_ashby		2490464
 	1056289911	G#Ab	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\G#Ab_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\G#Ab\G#Ab		74
 	1071905058	F#Gb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\F#Gb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\F#Gb\F#Gb		74
 
@@ -291,6 +300,7 @@ Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	
 	648810886	vo_elicitSighFail_opening1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_elicitSighFail_opening1_818F3B66.wem	648810886.wem	\Actor-Mixer Hierarchy\VO\VO_SighElicitationFail1\VO_SighElicitationFail1\vo_elicitSighFail_opening1	
 	655141054	vo_thematicSavasana_short	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_short_818F3B66.wem	655141054.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_short	
 	658131175	vo_thematicSavasana_silence	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_silence_FBC78EF0.wem	658131175.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_silence\vo_thematicSavasana_silence	
+	659943345	vo_internalize	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_internalize_FBC78EF0.wem	659943345.wem	\Interactive Music Hierarchy\CLOSING\ASCENDING_CLOSING\vo_internalize	
 	665576698	sfx_stop	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_stop_FBC78EF0.wem	665576698.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_stop	
 	671858453	vo_thematicSavasana_surrender	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_surrender_818F3B66.wem	671858453.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_surrender	
 	685689043	STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12.21.23 [2024-05-06 214206]_FBC78EF0.wem	685689043.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\OpeningOrientation_3m\STEM_MUSIC+SFX_SoundSelf_inHarmony_Edit 4_12_21_23 [2024-05-06 214206]	
@@ -299,6 +309,7 @@ Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	
 	755912331	vo_thematicSavasana_metta	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_metta_818F3B66.wem	755912331.wem	\Actor-Mixer Hierarchy\VO\VO_ThematicSavasana\VO_ThematicSavasana\vo_thematicSavasana_metta	
 	756450229	ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24_FBC78EF0.wem	756450229.wem	\Interactive Music Hierarchy\CLOSING\THEMATIC SAVASANA MUSIC\ThematicSavasana_Shruti, Monochord, FemaleVox_4_24_24	
 	763851565	Opening_Bowls, Nature, Saxophone	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\MusicDemo_Sax,Bowls,Nature.4.24.24_FBC78EF0.wem	763851565.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\Opening_Bowls, Nature, Saxophone\Opening_Bowls, Nature, Saxophone	
+	766078755	vo_goodbye_kind	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_goodbye_kindness_FBC78EF0.wem	766078755.wem	\Interactive Music Hierarchy\CLOSING\ASCENDING_CLOSING\vo_goodbye_kind	
 	785774053	inHarmony_Music+SFX_25m	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\inHarmony_Music & SFX ONLY_Edit 2_9.22.23_v2_F7510FCE.wem	785774053.wem	\Interactive Music Hierarchy\MUSIC\MUSIC PLAYLIST SWITCH\inHarmony_Music+SFX_25m\inHarmony_Music+SFX_25m	
 	785864859	AweAtmosphere	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\SoundSelf_Guided Tutorial_Demo 1_Lorna Dune_B minor_FBC78EF0.wem	785864859.wem	\Interactive Music Hierarchy\MUSIC\Music Loops Switch Container\AweAtmosphere_Loop\The Awe of it All_Bminor\AweAtmosphere	
 	789751157	environment_wind	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_wind_FD032056.wem	789751157.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\environment_wind	

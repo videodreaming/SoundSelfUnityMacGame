@@ -31,9 +31,7 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	393239870	SFX			\Default Work Unit\Master Audio Bus\SFX	
 	433461193	AVS_Reference			\Default Work Unit\AVS System\AVS\AVS_Reference	
 	958096227	Impacts_SubAcoustics			\Default Work Unit\Master Audio Bus\Impacts_SubAcoustics	
-	1128474843	AVS_Wave 2_Toning			\Default Work Unit\AVS System\AVS\AVS_Wave 2_Toning	
 	1229948536	Environment			\Default Work Unit\Master Audio Bus\Environment	
-	1241127624	AVS_Wave 1_Silent			\Default Work Unit\AVS System\AVS\AVS_Wave 1_Silent	
 	1534528548	VO			\Default Work Unit\Master Audio Bus\VO	
 	2218314507	SubAcoustics			\Default Work Unit\AVS System\SubAcoustics	
 	2479991680	InteractiveMusic_Vocal_Toning			\Default Work Unit\Master Audio Bus\InteractiveMusic_Vocal_Toning	
@@ -41,7 +39,9 @@ Audio Bus	ID	Name			Wwise Object Path	Notes
 	3511834067	Binaural Beats Generator			\Default Work Unit\Master Audio Bus\Binaural Beats Generator	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
-	4079501339	AVS_Wave 3_Breath			\Default Work Unit\AVS System\AVS\AVS_Wave 3_Breath	
+	4090393748	AVS_Wave 1			\Default Work Unit\AVS System\AVS\AVS_Wave 1	
+	4090393750	AVS_Wave 3			\Default Work Unit\AVS System\AVS\AVS_Wave 3	
+	4090393751	AVS_Wave 2			\Default Work Unit\AVS System\AVS\AVS_Wave 2	
 
 Auxiliary Bus	ID	Name			Wwise Object Path	Notes
 	183653145	Aux_Toning			\Default Work Unit\AVS System\SubAcoustics\Aux_Toning	

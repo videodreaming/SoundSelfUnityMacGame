@@ -74,8 +74,7 @@ Event	ID	Name			Wwise Object Path	Notes
 Switch Group	ID	Name			Wwise Object Path	Notes
 	184547165	VO_Posture			\VO\VO_Posture	
 	1815817025	VO_ClosingGoodbye			\VO\VO_ClosingGoodbye	
-	2687325598	BreathworkCycle			\SFX\BreathworkCycle	
-	3505294094	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly	
+	2950571229	BassSynth_PitchSwitch			\BassSynth\BassSynth_PitchSwitch	
 	3813349969	VO_Somatic			\VO\VO_Somatic	
 	3861178606	MusicLoops_Switch			\Music Loops\MusicLoops_Switch	
 	3925841397	VO_ThematicContent			\VO\VO_ThematicContent	
@@ -88,21 +87,18 @@ Switch	ID	Name	Switch Group			Notes
 	1927133646	Anchoring	VO_ClosingGoodbye			
 	2585211341	Short	VO_ClosingGoodbye			
 	3041563226	Silence	VO_ClosingGoodbye			
-	1518569755	BreathworkCycle_12s	BreathworkCycle			
-	1552125181	BreathworkCycle_10s	BreathworkCycle			
-	1619235497	BreathworkCycle_14s	BreathworkCycle			
-	84696440	G	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696441	F	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696442	E	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696443	D	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696444	C	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696445	B	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696446	A	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	156517199	FsharpGflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	791737535	DsharpEflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3050272541	AsharpBflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3573977648	GsharpAflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3800083777	CsharpDflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
+	84696440	G	BassSynth_PitchSwitch			
+	84696441	F	BassSynth_PitchSwitch			
+	84696442	E	BassSynth_PitchSwitch			
+	84696443	D	BassSynth_PitchSwitch			
+	84696444	C	BassSynth_PitchSwitch			
+	84696445	B	BassSynth_PitchSwitch			
+	84696446	A	BassSynth_PitchSwitch			
+	156517199	FsharpGflat	BassSynth_PitchSwitch			
+	791737535	DsharpEflat	BassSynth_PitchSwitch			
+	3050272541	AsharpBflat	BassSynth_PitchSwitch			
+	3573977648	GsharpAflat	BassSynth_PitchSwitch			
+	3800083777	CsharpDflat	BassSynth_PitchSwitch			
 	674228435	Long	VO_Somatic			
 	2585211341	Short	VO_Somatic			
 	6971574	SitarAmbience	MusicLoops_Switch			
@@ -220,7 +216,7 @@ Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
 	1006973361	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave2\AVS_SineGenerators_RGB_Stereo_Wave2\AVS_SineGenerators_RGB_LEFT_Toning\GREEN\GREEN\Sine	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	112641813	BREATHWORK_SFX_120bpm	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\BREATHWORK_SFX_120bpm_FBC78EF0.wem		\Interactive Music Hierarchy\SFX\Breathwork_Cycle\Breathwork Cycle_10s\Breathwork1\BREATHWORK_SFX_120bpm		10608096
+	112641813	BREATHWORK_SFX_120bpm	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\BREATHWORK_SFX_120bpm_FBC78EF0.wem		\Interactive Music Hierarchy\SFX\sfx_breathinout\BREATHWORK_SFX_120bpm		10608096
 	142502747	D	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\D_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\D\D		74
 	226852051	sfx_subkick	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_subkick_818F3B66.wem		\Actor-Mixer Hierarchy\SFX\SFX_Impacts_Sequence\SFX_Impacts_Sequence_AVS_Only\sfx_subkick		876456
 	236372146	vo_testHum	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_testHum_FBC78EF0.wem		\Interactive Music Hierarchy\OPENING\OPENING_ASCENDING\vo_testHum		816096
@@ -235,6 +231,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	461789593	sfx_breathin_sigh	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breathin_sigh_FBC78EF0.wem		\Interactive Music Hierarchy\OPENING\OPENING_ASCENDING\sfx_breathin_sigh		2797664
 	464203531	sfx_breath out	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath out_1ED5DAAD.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath out		768096
 	466210932	sfx_breath in	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_C3F4FBB0.wem		\Actor-Mixer Hierarchy\SFX\Ozone SFX\sfx_breath in		612056
+	499041883	BREATHWORK_SFX_120bpm	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\BREATHWORK_SFX_120bpm_BD69EC6A.wem		\Interactive Music Hierarchy\SFX\Breathwork Cycle_10s\Breathwork1\BREATHWORK_SFX_120bpm		11763808
 	521785949	vo_VeryGood	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_VeryGood_FBC78EF0.wem		\Interactive Music Hierarchy\OPENING\OPENING_ASCENDING\vo_VeryGood		656928
 	521907833	A#Bb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\A#Bb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\A#Bb\A#Bb		74
 	634544068	Linear Hums Ahhs	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Linear Hums Ahhs_FBC78EF0.wem		\Interactive Music Hierarchy\OPENING\OPENING_ASCENDING\Linear Hums Ahhs		56780896

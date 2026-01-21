@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584329080065886079
+    m_lastTime: -8584326710236026439
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -191,9 +191,9 @@ MonoBehaviour:
         ObjectType: 2
         guid: 3a27fb4e0c028449b70a0df0ad87e170
       Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS\AVS_Reference
-    - name: AVS_Wave 1_Silent
+    - name: AVS_Wave 1
       guid: d42b25675f7bae4d8bbcc967668b1b15
-      id: 1241127624
+      id: 4090393748
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -207,13 +207,13 @@ MonoBehaviour:
       - ElementName: AVS
         ObjectType: 4
         guid: 44ccd4305f654244b9c82eb2013bcb12
-      - ElementName: AVS_Wave 1_Silent
+      - ElementName: AVS_Wave 1
         ObjectType: 2
         guid: d42b25675f7bae4d8bbcc967668b1b15
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS\AVS_Wave 1_Silent
-    - name: AVS_Wave 2_Toning
+      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS\AVS_Wave 1
+    - name: AVS_Wave 2
       guid: 8c2be1a9aa9b404bb8ec0e821d2c0b79
-      id: 1128474843
+      id: 4090393751
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -227,13 +227,13 @@ MonoBehaviour:
       - ElementName: AVS
         ObjectType: 4
         guid: 44ccd4305f654244b9c82eb2013bcb12
-      - ElementName: AVS_Wave 2_Toning
+      - ElementName: AVS_Wave 2
         ObjectType: 2
         guid: 8c2be1a9aa9b404bb8ec0e821d2c0b79
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS\AVS_Wave 2_Toning
-    - name: AVS_Wave 3_Breath
+      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS\AVS_Wave 2
+    - name: AVS_Wave 3
       guid: f59e551d2f08314584755928a839dd2d
-      id: 4079501339
+      id: 4090393750
       PathAndIcons:
       - ElementName: Master-Mixer Hierarchy
         ObjectType: 5
@@ -247,10 +247,10 @@ MonoBehaviour:
       - ElementName: AVS
         ObjectType: 4
         guid: 44ccd4305f654244b9c82eb2013bcb12
-      - ElementName: AVS_Wave 3_Breath
+      - ElementName: AVS_Wave 3
         ObjectType: 2
         guid: f59e551d2f08314584755928a839dd2d
-      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS\AVS_Wave 3_Breath
+      Path: Master-Mixer Hierarchy\Default Work Unit\AVS System\AVS\AVS_Wave 3
     - name: Binaural Beats Generator
       guid: 1a047d615730ae42ba82dd9f24e0164b
       id: 3511834067
@@ -752,8 +752,8 @@ MonoBehaviour:
         guid: e2bbd16667ca894e885c268162ad44c8
       Path: Events\Default Work Unit\Play_ASCENDING_CLOSING
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 1102.9001
+      minDuration: 1102.9001
     - name: Play_ASCENDING_OPENING
       guid: a3aeb453c776e742bd4dcb4ab1d14f3b
       id: 6240749
@@ -769,8 +769,8 @@ MonoBehaviour:
         guid: a3aeb453c776e742bd4dcb4ab1d14f3b
       Path: Events\Default Work Unit\Play_ASCENDING_OPENING
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 446.41766
+      minDuration: 446.41766
     - name: Play_BassSynth
       guid: 0d3194f4ee2c4c4fb355614678f37ac9
       id: 1347182731
@@ -1194,8 +1194,8 @@ MonoBehaviour:
         guid: c8b3c6a75ef17f448210af13e51ed08e
       Path: Events\Default Work Unit\Stop_ASCENDING_CLOSING
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_BassSynth
       guid: 666989eb779d0844a902cc27888b188e
       id: 1502315953
@@ -1530,8 +1530,8 @@ MonoBehaviour:
         guid: 0309450f3c1c5b4283ac6152960166dd
       Path: Events\Environment\Play_PondFrogs
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 113.02313
+      minDuration: 113.02313
     - name: Set_State_InteractiveMusicMode_Environment
       guid: 0f7c4acd772a73419ade8f9245e4a072
       id: 4209841698
@@ -1960,8 +1960,8 @@ MonoBehaviour:
         guid: ab0989a7e5205142aebd77ac6ed67f9c
       Path: Events\Music Loops\Set_MusicLoops_CelestialDreamscape
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_CosmicAir
       guid: 1f32da8b39c956469a00432193df87a8
       id: 781384595
@@ -1977,8 +1977,8 @@ MonoBehaviour:
         guid: 1f32da8b39c956469a00432193df87a8
       Path: Events\Music Loops\Set_MusicLoops_CosmicAir
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_Environment
       guid: 2729a7405a1f4c4a9136e2198e2653cd
       id: 1998418046
@@ -1994,8 +1994,8 @@ MonoBehaviour:
         guid: 2729a7405a1f4c4a9136e2198e2653cd
       Path: Events\Music Loops\Set_MusicLoops_Environment
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_Silence
       guid: 3b032ad20540ed44a869922e8697c219
       id: 259224804
@@ -2011,8 +2011,8 @@ MonoBehaviour:
         guid: 3b032ad20540ed44a869922e8697c219
       Path: Events\Music Loops\Set_MusicLoops_Silence
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_SingingBowls
       guid: 99ffd6c82971774490a8845eaf22d780
       id: 1455411157
@@ -2028,8 +2028,8 @@ MonoBehaviour:
         guid: 99ffd6c82971774490a8845eaf22d780
       Path: Events\Music Loops\Set_MusicLoops_SingingBowls
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_State_MusicLoops
       guid: 81ec131a404f774f83f3461e073be4bb
       id: 1245878726
@@ -2045,8 +2045,8 @@ MonoBehaviour:
         guid: 81ec131a404f774f83f3461e073be4bb
       Path: Events\Music Loops\Set_State_MusicLoops
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_MusicLoops
       guid: b5fe197a5148f340addd9d15d8e3714c
       id: 1761697258
@@ -2062,8 +2062,8 @@ MonoBehaviour:
         guid: b5fe197a5148f340addd9d15d8e3714c
       Path: Events\Music Loops\Stop_MusicLoops
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
   - PhysicalPath: Events\SFX.wwu
     PathAndIcons:
     - ElementName: Events
@@ -2075,7 +2075,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584332847007214673
+    m_lastTime: -8584326730158966280
     List:
     - name: New_Event
       guid: b0e748853f865a469d90e479ca2f8ec2
@@ -2194,8 +2194,8 @@ MonoBehaviour:
         guid: 3bb9951731f13247805529bc37e9b579
       Path: Events\SFX\Play_sfx_breathein
       maxAttenuation: 0
-      maxDuration: 3.1872919
-      minDuration: 3.1872919
+      maxDuration: 3.1872916
+      minDuration: 3.1872916
     - name: Play_sfx_breatheout
       guid: 45fd7e94e476614f88550a00fe87bc89
       id: 77468567
@@ -2228,8 +2228,8 @@ MonoBehaviour:
         guid: c71e78ed1a70794f9e17ba86dde9f592
       Path: Events\SFX\Play_sfx_breathinout
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 10.666325
+      minDuration: 10.666325
     - name: Play_sfx_breathworkcycle
       guid: 11b8e180a7308c43adbec264d16a171f
       id: 1941733943
@@ -2347,8 +2347,8 @@ MonoBehaviour:
         guid: 3c1f1dc5284cb14da9bf1b07152d2224
       Path: Events\SFX\Stop_BinauralGenerator
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_CrystalBowlGenerator
       guid: 5c3ad7973e439042b073bf488ecf89f7
       id: 4041758113
@@ -2398,8 +2398,8 @@ MonoBehaviour:
         guid: c0b01cc1f239da4c9192cce7c7243727
       Path: Events\SFX\Stop_sfx_breathworkcycle
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_sfx_SoundSeed_BreathCycleWind
       guid: ba913102b25a9a429c53b3a0c009be7b
       id: 674892661
@@ -2700,8 +2700,8 @@ MonoBehaviour:
         guid: 272bdf37c62fdd4e8549be6dc8ca14aa
       Path: Events\VO\Play_VO_SighElicitation2
       maxAttenuation: 0
-      maxDuration: 20.487333
-      minDuration: 20.487333
+      maxDuration: 34.237354
+      minDuration: 34.237354
     - name: Play_VO_SighElicitationFail1
       guid: d6827984d06b8e45b7ef8583c5e6353d
       id: 1024713723
@@ -6069,74 +6069,8 @@ MonoBehaviour:
     ParentPath: Switches\SFX
     guid: 632f13f35b1c6e4caf89d68030a98081
     GuidInternal: 
-    m_lastTime: -8584332846999299014
-    List:
-    - name: BreathworkCycle
-      guid: 37e04ac44168a8409e1cb8fb74f151ad
-      id: 2687325598
-      PathAndIcons:
-      - ElementName: Switches
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: SFX
-        ObjectType: 12
-        guid: 632f13f35b1c6e4caf89d68030a98081
-      - ElementName: BreathworkCycle
-        ObjectType: 11
-        guid: 37e04ac44168a8409e1cb8fb74f151ad
-      Path: Switches\SFX\BreathworkCycle
-      values:
-      - name: BreathworkCycle_10s
-        guid: 0fafcf39d8f7b54faf6e1f572d2b2745
-        id: 1552125181
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: SFX
-          ObjectType: 12
-          guid: 632f13f35b1c6e4caf89d68030a98081
-        - ElementName: BreathworkCycle
-          ObjectType: 11
-          guid: 37e04ac44168a8409e1cb8fb74f151ad
-        - ElementName: BreathworkCycle_10s
-          ObjectType: 10
-          guid: 0fafcf39d8f7b54faf6e1f572d2b2745
-      - name: BreathworkCycle_12s
-        guid: 226dade45801d647ae4251fc033d17ba
-        id: 1518569755
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: SFX
-          ObjectType: 12
-          guid: 632f13f35b1c6e4caf89d68030a98081
-        - ElementName: BreathworkCycle
-          ObjectType: 11
-          guid: 37e04ac44168a8409e1cb8fb74f151ad
-        - ElementName: BreathworkCycle_12s
-          ObjectType: 10
-          guid: 226dade45801d647ae4251fc033d17ba
-      - name: BreathworkCycle_14s
-        guid: 7d50e92ea8e4b14ca342b89aa3398def
-        id: 1619235497
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: SFX
-          ObjectType: 12
-          guid: 632f13f35b1c6e4caf89d68030a98081
-        - ElementName: BreathworkCycle
-          ObjectType: 11
-          guid: 37e04ac44168a8409e1cb8fb74f151ad
-        - ElementName: BreathworkCycle_14s
-          ObjectType: 10
-          guid: 7d50e92ea8e4b14ca342b89aa3398def
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
+    m_lastTime: -8584326730152052090
+    List: []
   - PhysicalPath: Switches\Unity Imitone.wwu
     PathAndIcons:
     - ElementName: Switches

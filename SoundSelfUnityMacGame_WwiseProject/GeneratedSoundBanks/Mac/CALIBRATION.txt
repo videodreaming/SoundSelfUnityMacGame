@@ -12,10 +12,23 @@ Event	ID	Name			Wwise Object Path	Notes
 	4293537666	Set_Calibration_Lights			\Default Work Unit\Set_Calibration_Lights	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
+	2950571229	BassSynth_PitchSwitch			\BassSynth\BassSynth_PitchSwitch	
 	3505294094	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly	
 	3689261721	Calibration_Sequence			\Default Work Unit\Calibration_Sequence	
 
 Switch	ID	Name	Switch Group			Notes
+	84696440	G	BassSynth_PitchSwitch			
+	84696441	F	BassSynth_PitchSwitch			
+	84696442	E	BassSynth_PitchSwitch			
+	84696443	D	BassSynth_PitchSwitch			
+	84696444	C	BassSynth_PitchSwitch			
+	84696445	B	BassSynth_PitchSwitch			
+	84696446	A	BassSynth_PitchSwitch			
+	156517199	FsharpGflat	BassSynth_PitchSwitch			
+	791737535	DsharpEflat	BassSynth_PitchSwitch			
+	3050272541	AsharpBflat	BassSynth_PitchSwitch			
+	3573977648	GsharpAflat	BassSynth_PitchSwitch			
+	3800083777	CsharpDflat	BassSynth_PitchSwitch			
 	84696440	G	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
 	84696441	F	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
 	84696442	E	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
