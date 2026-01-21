@@ -103,6 +103,7 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeFreeplayFlag = false;
     private bool modeFrozenFreeplayFlag = false;
     private bool modeEnvironmentFlag = false;
+    private bool modeMusicLoopSilentFlag = false;
 
     public TMP_Dropdown soundscapeDropdown;
 
@@ -537,7 +538,8 @@ public class MusicSystem1 : MonoBehaviour
         Tutorial,
         Freeplay,
         FrozenFreeplay,
-        Environment
+        Environment,
+        MusicLoopSilent //this is a temporary mode for a musicloop version of silent mode, before we merge the two silent modes.
     }
 
     public enum InteractionType
@@ -559,7 +561,26 @@ public class MusicSystem1 : MonoBehaviour
         
         switch (mode)
         {
-            
+
+            case MusicMode.MusicLoopSilent:
+            currentMusicMode = mode;
+            if(!modeMusicLoopSilentFlag)
+            {
+                SetMusicModeFlags(false, false, false, false, false, true);
+                Debug.Log("MUSIC: Music Mode Set to MusicLoopSilent, which is a temporary mode for a musicloop version of silent mode, before we merge the two silent modes.");
+                //imitoneVoiceInterpreter.gameOn = false; //peculaiarity of Ascending/Descending, we are keeping gameOn true for now. This will have to be addressed in the future.
+                // Set state to MusicLoops and ensure interaction type is MusicLoop (required for this mode)
+                //RecoverInteractiveMusicModeFromInteractionType(); //this may be necessary in futrue...
+                currentInteractionType = InteractionType.MusicLoop;
+                AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+                AkSoundEngine.SetSwitch("MusicLoops_Switch", "Silence", gameObject);
+            }
+            else
+            {
+                Debug.LogWarning("MUSIC: Tried to set Music Mode to MusicLoopSilent, but it was already set to MusicLoopSilent");
+            }
+            break;
+
             case MusicMode.Silent:
             currentMusicMode = mode;
             if(!modeSilentFlag)
@@ -676,13 +697,14 @@ public class MusicSystem1 : MonoBehaviour
     }
 
     //A method for easily setting the flags, to replace the code in each of the case statements above.
-    private void SetMusicModeFlags(bool silent, bool tutorial, bool freeplay, bool frozenFreeplay, bool environment)
+    private void SetMusicModeFlags(bool silent, bool tutorial, bool freeplay, bool frozenFreeplay, bool environment, bool musicLoopSilent = false)
     {
         modeSilentFlag = silent;
         modeTutorialFlag = tutorial;
         modeFreeplayFlag = freeplay;
         modeFrozenFreeplayFlag = frozenFreeplay;
         modeEnvironmentFlag = environment;
+        modeMusicLoopSilentFlag = musicLoopSilent; //this is a temporary flag for a musicloop version of silent mode, before we merge the two silent modes.
 
         if(modeTutorialFlag || modeFreeplayFlag || modeFrozenFreeplayFlag)
         {
@@ -729,7 +751,7 @@ public class MusicSystem1 : MonoBehaviour
     //    return () => SetSoundWorld(soundWorld);
     //}
 
-    public void SetSoundWorld(string soundWorld)
+    public void SetSoundWorld(string soundWorld) //NOTE: this will currently break the MusicLoopSilent mode, which is a temporary mode. 
     {
         if(currentMusicMode != MusicMode.Environment)
         {
@@ -737,7 +759,7 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"MUSIC: Changing SoundWorld to '{soundWorld}', but current mode is '{currentMusicMode}' (Environment or Silent) -- this change will not be audible.");
+            Debug.LogWarning($"MUSIC: Changing SoundWorld to '{soundWorld}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
         }
         
         currentInteractionType = InteractionType.SoundWorld;
@@ -753,7 +775,7 @@ public class MusicSystem1 : MonoBehaviour
     //{
     //    return () => SetMusicLoop(musicLoop);
     //}
-    public void SetMusicLoop(string musicLoop)
+    public void SetMusicLoop(string musicLoop) //NOTE: this will currently break the MusicLoopSilent mode, which is a temporary mode. 
     {
         // Validate that this is a legitimate MusicLoop before proceeding
         if (!musicLoops.ContainsKey(musicLoop))
@@ -768,7 +790,7 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"MUSIC: Changing MusicLoop to '{musicLoop}', but current mode is '{currentMusicMode}' (Environment or Silent) -- this change will not be audible.");
+            Debug.LogWarning($"MUSIC: Changing MusicLoop to '{musicLoop}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
         }
         currentInteractionType = InteractionType.MusicLoop;
         AkSoundEngine.SetSwitch("MusicLoops_Switch", musicLoop, gameObject);

@@ -331,9 +331,7 @@ public class Sequencer : MonoBehaviour
         //TODO: move these to about 60 seconds before "it's time now to internalize your sound..."
         director.ActivateQueue(15f);
         director.Disable();
-
-        AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
-        AkSoundEngine.SetSwitch("MusicLoops_Switch", "Silence", MusicSystem1.instance.gameObject);
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
         wwiseVOManager.PlayAscendingClosing(); //this is basically the savasana.
         _countdownToSavasana = -1.0f;
         
