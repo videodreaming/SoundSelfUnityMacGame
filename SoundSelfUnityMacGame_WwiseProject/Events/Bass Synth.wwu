@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Bass Synth" ID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}">
+					<ChildrenList>
+						<Action Name="" ID="{3DDBACE0-8E54-4BFB-9367-47867D06A9FA}" ShortID="585921775">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MIDI Bass Synthesizer" ID="{9632FC71-6F6A-41B6-9866-C06DEF5A034E}" WorkUnitID="{E278CC99-6E9A-4CDD-A0F2-45CA19E01AD2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_BassSynth" ID="{F494310D-2CEE-4F4C-B355-614678F37AC9}">
+					<ChildrenList>
+						<Action Name="" ID="{1E71D2C8-C25A-4EB3-8B60-7FF7A61CA0E4}" ShortID="618516701">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Bass Synth Pitch Switch" ID="{526255D6-7209-4CCB-96E5-E43A5F1C794E}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_BassSynth_C" ID="{B154E71C-E4BA-4D22-A7B5-84126CA8CF41}">
+					<ChildrenList>
+						<Action Name="" ID="{24F02F9F-6743-4886-B7D7-07ED9D519472}" ShortID="261598804">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="C" ID="{6DA02F6A-8564-4A09-85D6-69AC384BD2ED}" WorkUnitID="{3022AADE-5B6D-4EFD-89DB-888C59CD3011}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

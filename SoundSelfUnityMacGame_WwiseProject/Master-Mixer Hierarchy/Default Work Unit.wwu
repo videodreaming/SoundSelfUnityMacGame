@@ -596,7 +596,7 @@
 							<PropertyList>
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
-										<Value>-6</Value>
+										<Value>-1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -626,13 +626,6 @@
 									</ObjectLists>
 								</AuxBus>
 								<AuxBus Name="Aux_Music" ID="{4B3C039A-5CC0-4796-ACD0-A8D86EC1B749}">
-									<PropertyList>
-										<Property Name="BusVolume" Type="Real64">
-											<ValueList>
-												<Value>-1</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
 									<ObjectLists>
 										<ObjectList Name="Effects">
 											<Reference>

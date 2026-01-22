@@ -18,7 +18,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-4</Value>
+								<Value>-2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -127,6 +127,34 @@
 																			</PropertyList>
 																			<AudioSourceRef Name="VO_Calibration_End_v1" ID="{B853B464-2614-49CC-B3B9-0432DA1E3730}"/>
 																		</MusicClip>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{E38A5B10-A932-4E65-8745-FA0D63528A2A}" ShortID="721584251">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="226.050026298039"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{4D312D14-6FDD-483E-8A77-2F082ED1BA14}" ShortID="974091981">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="10.586897128686"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
 																	</Local>
 																</Reference>
 															</ObjectList>
@@ -481,7 +509,49 @@
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																					<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{89DD2E11-7199-4C14-AE5C-7A43BC96DBCE}" ShortID="730937568">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="22375"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Set_Calibration_Lights" ID="{8DC11C72-CA7C-4C2D-AA74-CF06BAF25381}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{4C8BF7D4-CB6E-4307-930B-2ED7BD28004D}" ShortID="129489292">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="23665.148320277"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{67668445-2D45-4D5A-8BEC-3E3ACFB3399B}" ShortID="850554739">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="23875"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
@@ -1173,13 +1243,27 @@
 																</Reference>
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{28A9599C-1A95-49A3-90A9-436E101A7E27}" ShortID="476266733">
+																		<MusicEventCue Name="" ID="{E89C4FE9-D2ED-4436-9F34-FB522C9E8ED8}" ShortID="957612132">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="4179.58749077239"/>
+																				<Property Name="PlayAt" Type="Real64" Value="3750"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_BassSynth" ID="{F494310D-2CEE-4F4C-B355-614678F37AC9}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+																					<ObjectRef Name="Set_BassSynth_C" ID="{B154E71C-E4BA-4D22-A7B5-84126CA8CF41}" WorkUnitID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}"/>
+																				</Reference>
+																			</ReferenceList>
+																		</MusicEventCue>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicEventCue Name="" ID="{0F36E98F-09FC-4A69-9372-E6E517601779}" ShortID="538812859">
+																			<PropertyList>
+																				<Property Name="PlayAt" Type="Real64" Value="4169.13972060375"/>
+																			</PropertyList>
+																			<ReferenceList>
+																				<Reference Name="PostEventTarget">
+																					<ObjectRef Name="Play_BassSynth" ID="{F494310D-2CEE-4F4C-B355-614678F37AC9}" WorkUnitID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
@@ -1276,7 +1360,7 @@
 						</MusicSegment>
 						<MusicSegment Name="Calibration_Volume" ID="{4828448F-DBD1-48F0-BA6C-160B00C97505}" ShortID="738143592">
 							<PropertyList>
-								<Property Name="EndPosition" Type="Real64" Value="15023.1713515508"/>
+								<Property Name="EndPosition" Type="Real64" Value="57429.8141010267"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-5</Value>
@@ -1406,18 +1490,124 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="New Music Track" ID="{BE5A32E8-754A-4097-B248-05F2C3A1EA09}" ShortID="526985790">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{F3E631FB-89B8-406A-B6DF-EE3264B32F54}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fundamental_[C]_toning_shruti" ID="{13917B11-DF4C-45AE-A21A-ED07AA6B25FE}">
+											<Language>SFX</Language>
+											<AudioFile>fundamental_[C]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="229112935"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{3FB779CB-B358-4C79-A81D-8EAD616F7B33}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
 																<Reference>
 																	<Local>
-																		<MusicEventCue Name="" ID="{5FC091E6-FE10-46EC-97ED-CB675E4A69B5}" ShortID="23563055">
+																		<MusicClip Name="fundamental_[C]_toning_shruti" ID="{1A1A296E-CA6C-4242-9C72-9DA3DD554696}">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="4700.47637954779"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="15000"/>
+																				<Property Name="FadeInDuration" Type="Real64" Value="698.99691465272"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="668.605744450428"/>
+																				<Property Name="PlayAt" Type="Real64" Value="4929.81410102669"/>
 																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_Calibration_SilentLoops" ID="{88A44F0E-EB0E-4B81-A6A2-2AFDA49FC43C}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
+																			<AudioSourceRef Name="fundamental_[C]_toning_shruti" ID="{13917B11-DF4C-45AE-A21A-ED07AA6B25FE}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="New Music Track_01" ID="{F3A23B00-7A76-4938-8B3C-F9B0C19A5A61}" ShortID="871302911">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{CA406F7C-3084-42D1-94BB-53BADEC58217}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="harmony_[G]_toning_shruti" ID="{D18B1157-2632-444B-8C3F-426F46224646}">
+											<Language>SFX</Language>
+											<AudioFile>harmony_[G]_toning_shruti.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="423702346"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{3FA9C04E-BBF4-488D-BCCC-C1FEE17F4181}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="harmony_[G]_toning_shruti" ID="{E8A0E74E-07ED-4300-9415-259E2DA3BDB7}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="15000"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="607.823404045843"/>
+																				<Property Name="PlayAt" Type="Real64" Value="4929.81410102669"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="harmony_[G]_toning_shruti" ID="{D18B1157-2632-444B-8C3F-426F46224646}"/>
+																		</MusicClip>
 																	</Local>
 																</Reference>
 															</ObjectList>

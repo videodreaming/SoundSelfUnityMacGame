@@ -7,7 +7,7 @@
 					<PropertyList>
 						<Property Name="UserAuxSendVolume0" Type="Real64">
 							<ValueList>
-								<Value>-2</Value>
+								<Value>-6</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -55,11 +55,13 @@
 							<ChildrenList>
 								<SourcePlugin Name="Synth One" ID="{FAA7FDCC-2C3A-46BF-83AE-FBF2BFF6BD62}" ShortID="947492082" PluginName="Wwise Synth One" CompanyID="0" PluginID="148">
 									<PropertyList>
-										<Property Name="BaseFrequency" Type="Real32" Value="32.7"/>
+										<Property Name="BaseFrequency" Type="Real32" Value="62"/>
 										<Property Name="FrequencyMode" Type="int32" Value="1"/>
 										<Property Name="NoiseShape" Type="int32" Value="1"/>
+										<Property Name="Osc1Level" Type="Real32" Value="0"/>
 										<Property Name="Osc1Transpose" Type="int32" Value="-1200"/>
-										<Property Name="OutputLevel" Type="Real32" Value="-8"/>
+										<Property Name="Osc2Level" Type="Real32" Value="0"/>
+										<Property Name="OutputLevel" Type="Real32" Value="-12"/>
 										<Property Name="OverSampling" Type="bool" Value="False"/>
 									</PropertyList>
 									<ObjectLists>
@@ -168,6 +170,45 @@
 									</CustomState>
 								</CustomStateList>
 							</StateInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{B5232FE1-687C-47AB-A182-ACBE60D87E1B}" ShortID="611711832">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="Slow Attack Bass" ID="{94780709-5D92-4909-AA8E-1DD17B914243}" WorkUnitID="{B47702D1-19CF-4E70-B148-BA1D92505899}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{960D8E14-E88B-439C-A723-9624E0A27795}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>21</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>1</XPos>
+																		<YPos>0</YPos>
+																		<Flags>53</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="Synth One" ID="{FAA7FDCC-2C3A-46BF-83AE-FBF2BFF6BD62}" Platform="Linked"/>
 							</ActiveSourceList>

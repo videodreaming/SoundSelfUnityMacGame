@@ -65,6 +65,9 @@
 								</MusicTransition>
 							</Custom>
 						</Reference>
+						<Reference Name="UserAuxSend0">
+							<ObjectRef Name="Aux_ImpactsSub" ID="{BFC0F763-D969-48F0-AAAB-0642BCB3F556}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+						</Reference>
 					</ReferenceList>
 					<ChildrenList>
 						<MusicSegment Name="A" ID="{3FF0AC71-37A1-4383-95BE-362B5F606B61}" ShortID="493524303">
@@ -1468,6 +1471,43 @@
 											</ObjectList>
 										</ObjectLists>
 									</MultiSwitchEntry>
+								</Local>
+							</Reference>
+						</ObjectList>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{03AAC70A-61C8-417A-A2D7-EC6BA588101C}" ShortID="718995350">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Volume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="Slow Attack Bass" ID="{94780709-5D92-4909-AA8E-1DD17B914243}" WorkUnitID="{B47702D1-19CF-4E70-B148-BA1D92505899}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{97136B7D-4FB1-447C-B3DB-5CFF8E579E80}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>21</Flags>
+															</Point>
+															<Point>
+																<XPos>1</XPos>
+																<YPos>0</YPos>
+																<Flags>53</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
 								</Local>
 							</Reference>
 						</ObjectList>
