@@ -45,6 +45,8 @@ public class MusicSystem1 : MonoBehaviour
     private float highestActivationTimer = 0.0f;
     public bool localToneOn {get; private set;} = false;
     private bool previousLocalToneOn = false;
+    private bool localBassSynthToneOn = false; // Controls BassSynth based on toneActiveConfident
+    private bool previousLocalBassSynthToneOn = false;
 
     
     public float _silentVolumeLow = 65f; //this was 50f, Robin changed it on 4/4/2025
@@ -61,9 +63,11 @@ public class MusicSystem1 : MonoBehaviour
     private float fundamentalRetriggerThreshold = 18f; // minimum time between fundamental retriggering
     private float harmonyRetriggerThreshold = 6f; // minimum time between harmony retriggering
 
-    // BASSSYNTH CONTROL
+    // BASSSYNTH CONTROL AND OTHER SUBACOUSTIC SOUNDS
     private bool bassSynthPlaying = false; // Whether BassSynth is currently playing
     private NoteName? currentBassSynthPitch = null; // Current pitch switch value for BassSynth
+    private bool bassSynthNonePitchWarningLogged = false; // Track if we've already logged the None pitch warning
+    private bool impactSoundFlag = false; // Track if the impact sound has been played
 
     //HARMONY SEQUENCES
     List<int> harmonySequence1 = new List<int> {5, 7, 5, 7, 5, 7, 5, 7};
@@ -79,8 +83,6 @@ public class MusicSystem1 : MonoBehaviour
     float _gameOnLerp = 0.0f;
     float _chargeLerp = 0.0f;
 
-    //REFACTORED FROM SEQUENCER and WWISEVOMANAGER
-    private bool thisTonesImpactPlayed = false;
     
     // FUNDAMENTAL LOCKING SYSTEM
     // Three separate lock types with priority: DebugLock > ContentLock > ModeLock
@@ -244,6 +246,7 @@ public class MusicSystem1 : MonoBehaviour
     void Update()
     {
         localToneOn = imitoneVoiceInterpreter.toneActiveBiasTrue;
+        localBassSynthToneOn = imitoneVoiceInterpreter.toneActiveConfident; // BassSynth uses toneActiveConfident
 
         if (currentMusicMode == MusicMode.Silent)
         {
@@ -279,6 +282,7 @@ public class MusicSystem1 : MonoBehaviour
     {
         InterpretImitoneUpdate();
         BasicToningUpdate();
+        BassSynthUpdate();
         FundamentalUpdate();
         HarmonyUpdate();
     }
@@ -481,21 +485,21 @@ public class MusicSystem1 : MonoBehaviour
 
     private void ThumpUpdate ()
     {
-        if(gameValues._chantCharge < 1.0f)
+        if(gameValues._chantCharge < 0.5f)
         {
-            thisTonesImpactPlayed = false;
+            impactSoundFlag = false;
         }
 
-        if(gameValues._chantCharge >= 1.0f)
+        if(gameValues._chantCharge >= 0.95f)
         {
-            if(!thisTonesImpactPlayed)
+            if(!impactSoundFlag)
             {
                 if(debugAllowLogs)
                 {
                     Debug.Log("MUSIC: impact");
                 }
                 AkSoundEngine.PostEvent("Play_sfx_Impact",gameObject);
-                thisTonesImpactPlayed = true;   
+                impactSoundFlag = true;   
                 lightControl.FXWave(0.8f, 1.5f, 0.1f, true);
             }
         }
@@ -1216,7 +1220,6 @@ public class MusicSystem1 : MonoBehaviour
             }
 
             PostTheToningEvents();
-            PostTheBassSynthEvent();
 
         } else if (!localToneOn && previousLocalToneOn)
         {
@@ -1227,8 +1230,41 @@ public class MusicSystem1 : MonoBehaviour
             StopWwiseToning();
         }
 
-        // Update BassSynth pitch while toning is active
-        if (localToneOn)
+        previousLocalToneOn = localToneOn;
+    }
+
+    private void BassSynthUpdate()
+    {
+        // BassSynth control based on toneActiveConfident
+        if(localBassSynthToneOn && !previousLocalBassSynthToneOn)
+        {
+            if(debugAllowLogs)
+            {
+                Debug.Log("MUSIC: BassSynth Start (toneActiveConfident)");
+            }
+            PostTheBassSynthEvent();
+        }
+        else if (!localBassSynthToneOn && previousLocalBassSynthToneOn)
+        {
+            if(debugAllowLogs)
+            {
+                Debug.Log("MUSIC: BassSynth Stop (toneActiveConfident)");
+            }
+            // Stop BassSynth when toneActiveConfident becomes false
+            if (bassSynthPlaying)
+            {
+                AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
+                bassSynthPlaying = false;
+                currentBassSynthPitch = null;
+                if(debugAllowLogs)
+                {
+                    Debug.Log("MUSIC: BassSynth stopped (toneActiveConfident became false)");
+                }
+            }
+        }
+
+        // Update BassSynth pitch while toneActiveConfident is active
+        if (localBassSynthToneOn)
         {
             NoteName targetPitch = NoteName.None;
             
@@ -1278,25 +1314,15 @@ public class MusicSystem1 : MonoBehaviour
             // This handles cases where musicNoteActivated or fundamentalNoteName is None
         }
 
-        previousLocalToneOn = localToneOn;
+        previousLocalBassSynthToneOn = localBassSynthToneOn;
     }
 
     public void StopWwiseToning()
     {
         AkSoundEngine.PostEvent("Stop_Toning",gameObject);
 
-        // Stop BassSynth
-        if (bassSynthPlaying)
-        {
-            AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
-            bassSynthPlaying = false;
-            currentBassSynthPitch = null; // Clear current pitch
-
-            if(debugAllowLogs)
-            {
-                Debug.Log("MUSIC: BassSynth stopped");
-            }
-        }
+        // Note: BassSynth is now controlled separately by toneActiveConfident, not stopped here
+        // BassSynth will stop automatically when toneActiveConfident becomes false
     }
 
     /// <summary>
@@ -1505,6 +1531,16 @@ public class MusicSystem1 : MonoBehaviour
 
     public void PostTheBassSynthEvent()
     {
+        // Early exit if BassSynth is already playing (most common case - prevents unnecessary pitch determination)
+        if (bassSynthPlaying)
+        {
+            if(debugAllowLogs)
+            {
+                Debug.LogWarning("MUSIC: BassSynth is already playing - skipping duplicate Play_BassSynth event");
+            }
+            return;
+        }
+
         // Start BassSynth with appropriate initial pitch based on interaction type
         NoteName initialPitch = NoteName.None;
         
@@ -1521,7 +1557,7 @@ public class MusicSystem1 : MonoBehaviour
                 {
                     Debug.LogWarning("MUSIC: Cannot start BassSynth in MusicLoop mode - musicNoteActivated is None. Will start when note is detected.");
                 }
-                // Don't start BassSynth yet - Step 4 will handle starting it when a valid note is detected
+                // Don't start BassSynth yet - delayed start logic will handle starting it when a valid note is detected
                 return;
             }
         }
@@ -1538,7 +1574,7 @@ public class MusicSystem1 : MonoBehaviour
                 {
                     Debug.LogWarning("MUSIC: Cannot start BassSynth in SoundWorld mode - fundamentalNoteName is None. Will start when fundamental is set.");
                 }
-                // Don't start BassSynth yet - Step 4 will handle starting it when a valid fundamental is set
+                // Don't start BassSynth yet - delayed start logic will handle starting it when a valid fundamental is set
                 return;
             }
         }
@@ -1558,16 +1594,6 @@ public class MusicSystem1 : MonoBehaviour
             if(debugAllowLogs)
             {
                 Debug.LogWarning("MUSIC: initialPitch is None after determining pitch - cannot start BassSynth");
-            }
-            return;
-        }
-
-        // Ensure BassSynth isn't already playing (edge case protection)
-        if (bassSynthPlaying)
-        {
-            if(debugAllowLogs)
-            {
-                Debug.LogWarning("MUSIC: BassSynth is already playing - skipping duplicate Play_BassSynth event");
             }
             return;
         }
@@ -1609,8 +1635,18 @@ public class MusicSystem1 : MonoBehaviour
         // Validate input - reject NoteName.None
         if (newPitch == NoteName.None)
         {
-            Debug.LogWarning("MUSIC: Attempted to set BassSynth pitch to NoteName.None - ignoring");
+            if(debugAllowLogs && !bassSynthNonePitchWarningLogged)
+            {
+                Debug.LogWarning("MUSIC: Attempted to set BassSynth pitch to NoteName.None - ignoring (this warning will only appear once)");
+                bassSynthNonePitchWarningLogged = true;
+            }
             return;
+        }
+        
+        // Reset warning flag if we successfully set a valid pitch (allows warning again if issue reoccurs)
+        if (bassSynthNonePitchWarningLogged && newPitch != NoteName.None)
+        {
+            bassSynthNonePitchWarningLogged = false;
         }
 
         // Check if pitch has changed
@@ -1623,9 +1659,11 @@ public class MusicSystem1 : MonoBehaviour
         // Store whether BassSynth was playing before the change
         bool wasPlaying = bassSynthPlaying;
 
-        // Stop BassSynth if it's currently playing
+        // Only perform stop/change/play sequence if BassSynth is actually playing
+        // This prevents unnecessary Wwise calls and potential sound buildup
         if (wasPlaying)
         {
+            // Stop BassSynth before changing pitch switch (prevents overlapping sounds)
             AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
             if(debugAllowLogs)
             {
@@ -1707,8 +1745,8 @@ public class MusicSystem1 : MonoBehaviour
             //AkSoundEngine.PostEvent("Play_SilentLoops_v3_FundamentalOnly",gameObject);
             //AkSoundEngine.PostEvent("Play_SilentLoops_v3_HarmonyOnly",gameObject);
             AkSoundEngine.PostEvent("Play_MusicLoops", gameObject);
-            AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
-            //AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
+            // Note: BassSynth is now controlled by toneActiveConfident system, not started here
+            // This prevents duplicate Play_BassSynth events that could cause sound buildup
             Debug.Log("MUSIC: InteractiveMusic started");
         }
         else
