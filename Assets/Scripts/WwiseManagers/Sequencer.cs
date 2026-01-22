@@ -237,13 +237,18 @@ public class Sequencer : MonoBehaviour
 
     public void ProtocolStacksPlaygroundStart()
     {
-        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart");
-        //STEP 1: Opening Sequence Ends, as reported by a cue, play Shifting Earth.
-        //TODO: (with Reef): implement this from a cue from Wwise.
-        //Need to set soundworld to shifting earth
-        //Play_Muisic LLoocps
-        //lPlaay_  y_Silent Loop
-        // Plyaya__BBs Syass Syntnth
+        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Called when opening sequence ends");
+        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Current countdown: " + _countdownToSavasana + " seconds (" + (_countdownToSavasana / 60f) + " minutes)");
+        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Current music mode: " + MusicSystem1.instance.currentMusicMode);
+        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - startedExperience: " + (startButtonScript != null ? startButtonScript.startedExperience.ToString() : "startButtonScript is null"));
+        // Called when opening sequence ends (via Cue_StartInteractive cue from Wwise)
+        // Starts the ProtocolStacksCoroutine which manages timed behaviors based on _countdownToSavasana
+        // IMPORTANT: The coroutine will wait until _countdownToSavasana <= 20 minutes before executing Step 1
+        // This means Step 1 does NOT happen immediately - it waits for the countdown to reach the threshold
+        //Expected behviors:
+        // - play Shifting Earth.
+        // - play Music Loop.
+        // - play Silent Loop.
         StartCoroutine(ProtocolStacksCoroutine());
 
     }
@@ -251,13 +256,33 @@ public class Sequencer : MonoBehaviour
     //A coroutine that moves through several steps, depending on _timeSinceTutorial and _countdownToSavasana.
     private IEnumerator ProtocolStacksCoroutine()
     {
-        Debug.Log("Sequencer: ProtocolStacksCoroutine");
-        MusicSystem1.instance.StopBreathworkCycle();
-        while (_countdownToSavasana > (20f * 60f))
+        Debug.Log("Sequencer: ProtocolStacksCoroutine STARTED - Current countdown: " + _countdownToSavasana + " seconds (" + (_countdownToSavasana / 60f) + " minutes)");
+        
+        // STEP 1: Wait until we have 20 minutes or less remaining in the countdown
+        // This ensures Step 1 happens at the right time based on countdown, not immediately when coroutine starts
+        // When this threshold is reached, we start the interactive music system:
+        //   - Stop breathwork cycle
+        //   - Set music mode to Freeplay (exits Silent mode)
+        //   - Set soundscape to ShiftingEarth (MusicLoop)
+        //   - Start playground (enables director, begins shuffle, etc.)
+        float step1Threshold = 20f * 60f; // 1200 seconds = 20 minutes
+        Debug.Log("Sequencer: ProtocolStacksCoroutine - Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + _countdownToSavasana);
+        
+        int frameCount = 0;
+        while (_countdownToSavasana > step1Threshold)
         {
+            frameCount++;
+            // Log every 10 seconds to help diagnose if countdown is decrementing
+            if (frameCount % 600 == 0) // ~10 seconds at 60fps
+            {
+                Debug.Log("Sequencer: ProtocolStacksCoroutine - Still waiting. Countdown: " + _countdownToSavasana + " seconds (" + (_countdownToSavasana / 60f) + " minutes). Threshold: " + step1Threshold);
+            }
             yield return null;
         }
-        Debug.Log("Sequencer: ProtocolStack Step 1");
+        
+        Debug.Log("Sequencer: ProtocolStacksCoroutine - Threshold reached! Countdown: " + _countdownToSavasana + " seconds. Proceeding to Step 1.");
+        Debug.Log("Sequencer: ProtocolStack Step 1 - Starting interactive music (20 minutes or less remaining)");
+        MusicSystem1.instance.StopBreathworkCycle();
         //tutorial.tutorialComplete = true; // set in StartPlayground()
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
         MusicSystem1.instance.SetSoundscape("ShiftingEarth");
@@ -266,12 +291,12 @@ public class Sequencer : MonoBehaviour
         worldShuffler.ExcludeSoundscape("Shadow");
         // musicSystem.SetMusicModeTo(MusicMode.Freeplay);
 
+        // STEP 2: Wait until we have 19 minutes - 30 seconds (18.5 minutes) remaining
         while (_countdownToSavasana > (19f * 60f - 30f))
         {
             yield return null;
         }
         
-      
         Debug.Log("Sequencer: ProtocolStack Step 2");
         
         director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
@@ -332,7 +357,7 @@ public class Sequencer : MonoBehaviour
         director.ActivateQueue(15f);
         director.Disable();
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
-        wwiseVOManager.PlayAscendingClosing(); //this is basically the savasana.
+        wwiseVOManager.PlayAscendingClosing(); //this is basically the ProtocolStacks version of savasana.
         _countdownToSavasana = -1.0f;
         
     }

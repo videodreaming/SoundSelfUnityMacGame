@@ -183,10 +183,10 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
                 tutorial.EndTutorialNaturally();
             }
-            else if (musicSyncInfo.userCueName == "Cue_StartInteractive")
+            else if (musicSyncInfo.userCueName == "Cue_StartInteractive") //@Reef, this probably broke something, as this call now only serves our needs for Protocol Stacks. Can you review the changes, and put the original cue response in comments here, for me to look at?
             {
                 sequencer.ProtocolStacksPlaygroundStart();
-                Debug.Log("WWise_VO_CUE: Cue_StartInteractive");
+                Debug.Log("WWise_VO_CUE: Cue_StartInteractive"); 
             }
             else if (musicSyncInfo.userCueName == "Cue_WaitForButton")
             {
