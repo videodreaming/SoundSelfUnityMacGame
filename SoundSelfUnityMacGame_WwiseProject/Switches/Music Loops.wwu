@@ -19,6 +19,12 @@
 						<Switch Name="Environment" ID="{D8E77AAC-85CE-4A2D-98F5-139867CD1569}"/>
 					</ChildrenList>
 				</SwitchGroup>
+				<SwitchGroup Name="MusicPlaylist_Switch" ID="{2707E2FA-B13E-4A67-9A8B-3BB1CB70A0ED}">
+					<ChildrenList>
+						<Switch Name="_60m" ID="{E3D983C5-AB8E-4013-AF1B-A1786A1CE846}"/>
+						<Switch Name="_40m" ID="{9B176422-1A59-4E7F-A244-2237BAC758E2}"/>
+					</ChildrenList>
+				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</Switches>

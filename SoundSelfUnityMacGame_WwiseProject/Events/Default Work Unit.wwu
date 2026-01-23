@@ -679,21 +679,6 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_MUSIC_PLAYLIST_SWITCH" ID="{0E2DD44A-8C71-4DCE-AA45-3716DD52E231}">
-					<ChildrenList>
-						<Action Name="" ID="{90F37690-0CA8-4338-ACB1-EFB2B6913032}" ShortID="92615751">
-							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="MUSIC_SWITCH" ID="{49FABB18-683D-46DC-B846-C051B49957B0}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="Play_PASSIVE_OPENING_SEQUENCE" ID="{04DAF832-81FE-48B8-8B57-BE2E117BFAAB}">
 					<ChildrenList>
 						<Action Name="" ID="{403ADEE7-19FA-4D03-A94E-A54312692674}" ShortID="719469308">

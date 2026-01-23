@@ -16,20 +16,6 @@
 				</Event>
 				<Event Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}">
 					<ChildrenList>
-						<Action Name="" ID="{E4DDCE5E-7555-4F75-A2BA-3455BCF1953B}" ShortID="603408995">
-							<PropertyList>
-								<Property Name="Inclusion" Type="bool">
-									<ValueList>
-										<Value>False</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="sfx_breathin" ID="{9B327402-07A7-405F-8EAA-29EE91F703C7}" WorkUnitID="{64D7BC8E-6B44-4AAA-B0B1-807AE7A5B8A4}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{76A5C2BF-1708-4F28-81F9-64B444D5187C}" ShortID="104120360">
 							<ReferenceList>
 								<Reference Name="Target">

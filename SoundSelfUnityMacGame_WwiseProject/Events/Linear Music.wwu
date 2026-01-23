@@ -55,17 +55,6 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Play_MusicPlaylist" ID="{C94CB728-A488-4C56-A21C-C3980EF62E41}">
-					<ChildrenList>
-						<Action Name="" ID="{DC370606-4F30-4BA0-895E-9909B94F3174}" ShortID="302783546">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="MUSIC_PLAYLIST_SWITCH" ID="{EFA9794F-6FC7-4421-B5CC-9155B4B8907B}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

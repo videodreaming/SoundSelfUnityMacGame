@@ -11,7 +11,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Music Loops Switch Container" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+									<ObjectRef Name="MusicLoops_Switch" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -27,7 +27,7 @@
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="Music Loops Switch Container" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+									<ObjectRef Name="MusicLoops_Switch" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -159,7 +159,7 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Set_AmbientLoop" ID="{69EF16F9-8544-4D8D-BFA1-F2E93DA6DE9F}">
+				<Event Name="Set_MusicLoops_AmbientLoop" ID="{69EF16F9-8544-4D8D-BFA1-F2E93DA6DE9F}">
 					<ChildrenList>
 						<Action Name="" ID="{D4201FD8-EED6-45AA-9F73-A68C1A1C04B6}" ShortID="822022377">
 							<PropertyList>
@@ -168,6 +168,79 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AmbientLoop" ID="{E63BED1C-5393-45A4-B5B3-2FAA05DC3CC5}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_PinkNoiseAtmosphere" ID="{4EDCE982-E32C-423F-9662-091C8B83803D}">
+					<ChildrenList>
+						<Action Name="" ID="{FBCDF29F-6639-4FC3-94B1-F5185F7DBBCB}" ShortID="139224027">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="PinkNoiseAtmosphere" ID="{940087F9-A366-49C7-BBD9-DE4A421C5E8E}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop_MusicPlaylist" ID="{F9C4CEE0-3660-4DB4-A3F4-B615470CC1A9}">
+					<ChildrenList>
+						<Action Name="" ID="{A414943C-7047-4553-8FBB-8F2CD68FA29F}" ShortID="732598310">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MusicPlaylist_Switch" ID="{EFA9794F-6FC7-4421-B5CC-9155B4B8907B}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_MusicLoops_ShiftingEarth" ID="{D506FAF7-F510-4408-8629-7670A7A37117}">
+					<ChildrenList>
+						<Action Name="" ID="{3E3E4AAC-42CC-418D-BBB8-24D0E3ECBE39}" ShortID="479325362">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="ShiftingEarth" ID="{3BEF0626-D350-43CE-A1BF-A94C9490B1C2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Set_MusicLoops_SitarAmbience" ID="{C5537F8C-4A1E-4ABE-8C24-12F1EBB66ACB}">
+					<ChildrenList>
+						<Action Name="" ID="{A55367CE-9734-4C89-AFB8-F8771853FE7A}" ShortID="898505432">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="23"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="SitarAmbience" ID="{CECB0939-F6B6-4D40-858E-AA754E576F14}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_MusicPlaylist" ID="{0E2DD44A-8C71-4DCE-AA45-3716DD52E231}">
+					<ChildrenList>
+						<Action Name="" ID="{90F37690-0CA8-4338-ACB1-EFB2B6913032}" ShortID="92615751">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="4"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="MusicPlaylist_Switch" ID="{EFA9794F-6FC7-4421-B5CC-9155B4B8907B}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
