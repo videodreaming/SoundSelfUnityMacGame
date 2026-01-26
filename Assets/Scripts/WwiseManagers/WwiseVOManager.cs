@@ -294,16 +294,13 @@ public class WwiseVOManager : MonoBehaviour
     public void SetToEsketamineAscending()
     {
         AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
-        AkSoundEngine.SetSwitch("MusicLoops_Switch", "ShiftingEarth", MusicSystem1.instance.gameObject);
-
         AkSoundEngine.SetState("SoundWorldMode", "Gentle");
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", "C", MusicSystem1.instance.gameObject);
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "G", MusicSystem1.instance.gameObject);
     }
 
     public void SetToEsketamineDescending()
     {
         //TODO: Implement this
+        Debug.LogWarning("WWise_VO: SetToEsketamineDescending is not yet implemented.");
     }
 
     public void firstTimeUser()

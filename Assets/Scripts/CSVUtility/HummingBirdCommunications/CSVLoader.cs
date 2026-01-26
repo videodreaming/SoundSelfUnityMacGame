@@ -89,120 +89,8 @@ public class CSVLoader : MonoBehaviour
         //OTHER VO INITIALIZATIONS
 
         ReadSessionParams();
-        //=======================================================================================================
-        // VO INITIALIZATION        
-        //=======================================================================================================
-        //GAME MODES
-        if (gameMode == "Preperation" || gameMode == "Skills Training")
-        {
-            if(TimeLeftScript.instance != null)
-            {
-                TimeLeftScript.instance.SetTimeLeftSeconds(2400.0f);
-            }
-            Debug.Log("CSVLoader: Setting up for Preperation or Skills Training");
-            if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
-            {
-                totalTimeOfPostUnguidedVocalizationContent = (14.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
-                //Add 4mins to cut unguided 
-                wwiseVOManager.SetToPeace();
-            }
-            else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
-            {
-                Debug.Log("CSVLoader: Psychological Flexibility or Narrative");
-                totalTimeOfPostUnguidedVocalizationContent = 900.0f; //15 minutes
-                //totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
-                // // Added 4 mins to cut unguided 
-                wwiseVOManager.SetToNarrative();
-            }
-            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
-            {
-                totalTimeOfPostUnguidedVocalizationContent = (12.0f * 60.0f) + 06.0f; //8 min 6 seconds //July 7 2025, added 11 seconds
-                // Added 4 mins for to cut unguided 
-                wwiseVOManager.SetToSurrender();
-            }
-
-            if (firstTimeUserString == "First Time User")
-            {
-                wwiseVOManager.firstTimeUser();
-                Debug.Log("CSVLoader: First Time User");
-            }
-            else
-            {
-                wwiseVOManager.notFirstTimeUser();
-                Debug.Log("CSVLoader: Not First Time User");
-            }
-        }
-        else if (gameMode == "Integration")
-        {
-            wwiseVOManager.notFirstTimeUser();
-            Debug.Log("CSVLoader: Not First Time User");
-            
-            //sequencer.totalTimeOfExperience = 1500.0f;
-            if(TimeLeftScript.instance != null)
-            {
-                TimeLeftScript.instance.SetTimeLeftSeconds(1500.0f);
-            }
-            if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
-            {
-                wwiseVOManager.SetToFireflies();
-                totalTimeOfPostUnguidedVocalizationContent = 415.0f;
-            }
-            else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
-            {
-                wwiseVOManager.SetToKindness();
-                totalTimeOfPostUnguidedVocalizationContent = 349.0f;
-            }
-            else if (subGameMode == "Metta" || subGameMode == "Transitions")
-            {
-                wwiseVOManager.SetToMetta();
-                totalTimeOfPostUnguidedVocalizationContent = 597.0f;
-            }
-        } else if (gameMode == "Protocol Stacks")
-        {
-            wwiseVOManager.notFirstTimeUser();
-            Debug.Log(GetCurrentMode());
-            if(TimeLeftScript.instance != null)
-            {
-                //TimeLeftScript.instance.SetTimeLeftSeconds(900.0f);
-            }
-
-            if(TimeLeftScript.instance != null)
-            {
-                TimeLeftScript.instance.SetTimeLeftSeconds(2400.0f); //40 minutes
-            }
-
-            if(subGameMode == "Ascending")
-            {
-                wwiseVOManager.SetToEsketamineAscending();
-                totalTimeOfPostUnguidedVocalizationContent = 900.0f; //15 minutes
-            }
-            else if(subGameMode == "Descending")
-            {
-                wwiseVOManager.SetToEsketamineDescending();
-                totalTimeOfPostUnguidedVocalizationContent = 900.0f; //15 minutes
-            }
-        } else if (gameMode == "Quick Dive")
-        {
-            wwiseVOManager.notFirstTimeUser();
-            Debug.Log(GetCurrentMode());
-            if (TimeLeftScript.instance != null)
-            {
-                //TimeLeftScript.instance.SetTimeLeftSeconds(900.0f);
-            }
-        }
-        
-        if(TimeLeftScript.instance != null)
-        {
-            sequencer.SetCountdownToSavasana(TimeLeftScript.instance._timeLeft - totalTimeOfPostUnguidedVocalizationContent);
-            sequencer.SetIntegrationEndTimer(TimeLeftScript.instance._timeLeft - 247.0f);
-            
-            Debug.Log("countdownToSavasana: " + sequencer._countdownToSavasana);
-        }
-        else
-        {
-            Debug.LogWarning("TimeLeftScript instance is null, timing behaviors will not work properly, and _countdownToSavasana and _integrationEnd will not be set.");
-        }
-
+        VOInitializations();
+        TimeLeftInitializations();
     }
 
     void ReadSessionParams()
@@ -227,7 +115,7 @@ public class CSVLoader : MonoBehaviour
                 //subGameMode = decryptedSubGameMode;
                 gameMode = "Protocol Stacks";
                 subGameMode = "Ascending";
-                Debug.LogWarning("HACK: Overriding gameMode and subGameMode to 'Protocol Stacks'/'Ascending' for development purposes.");
+                
                 firstTimeUserString = decryptedFirstTimeUser;
             
             }
@@ -236,7 +124,207 @@ public class CSVLoader : MonoBehaviour
                 Debug.LogError("CSV file not found at: " + sessionsParams);
             }
         }
+        else
+        {
+            Debug.LogError("CSVLoader: No session number found");
+        }
+        Debug.Log("CSVLoader: modes set to: Game Mode(" + GetCurrentMode() + ") Sub Mode(" + GetCurrentSubMode() + ")");
+
     }
+
+    private void VOInitializations()
+    {
+        if (wwiseVOManager == null)
+        {
+            Debug.LogError("CSVLoader: VOInitializations() - wwiseVOManager is null! Cannot initialize VO.");
+            return;
+        }
+
+        //GAME MODES
+        if (gameMode == "Preperation" || gameMode == "Skills Training")
+        {
+            if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
+            {
+                wwiseVOManager.SetToPeace();
+            }
+            else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
+            {
+                wwiseVOManager.SetToNarrative();
+            }
+            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
+            {
+                wwiseVOManager.SetToSurrender();
+            }
+            else
+            {
+                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. VO content not set.");
+            }
+
+            if (firstTimeUserString == "First Time User")
+            {
+                wwiseVOManager.firstTimeUser();
+            }
+            else
+            {
+                wwiseVOManager.notFirstTimeUser();
+            }
+        }
+        else if (gameMode == "Integration")
+        {
+            wwiseVOManager.notFirstTimeUser();
+            
+            if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
+            {
+                wwiseVOManager.SetToFireflies();
+            }
+            else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
+            {
+                wwiseVOManager.SetToKindness();
+            }
+            else if (subGameMode == "Metta" || subGameMode == "Transitions")
+            {
+                wwiseVOManager.SetToMetta();
+            }
+            else
+            {
+                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. VO content not set.");
+            }
+        } 
+        else if (gameMode == "Protocol Stacks")
+        {
+            wwiseVOManager.notFirstTimeUser();
+
+            if(subGameMode == "Ascending")
+            {
+                wwiseVOManager.SetToEsketamineAscending();
+            }
+            else if(subGameMode == "Descending")
+            {
+                wwiseVOManager.SetToEsketamineDescending();
+            }
+            else
+            {
+                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. VO content not set.");
+            }
+        } 
+        else if (gameMode == "Quick Dive")
+        {
+            wwiseVOManager.notFirstTimeUser();
+        }
+        else
+        {
+            Debug.LogWarning("CSVLoader: VOInitializations() - Unknown gameMode '" + gameMode + "'. No VO initialization performed.");
+        }
+    }
+
+    private void TimeLeftInitializations()
+    {
+        if (sequencer == null)
+        {
+            Debug.LogError("CSVLoader: TimeLeftInitializations() - sequencer is null! Cannot set countdown.");
+            return;
+        }
+        
+        if(TimeLeftScript.instance == null)
+        {
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - TimeLeftScript.instance is null. Timing behaviors will not work properly.");
+            return;
+        }
+        
+        // Set TimeLeft and totalTimeOfPostUnguidedVocalizationContent based on game mode
+        if (gameMode == "Preperation" || gameMode == "Skills Training")
+        {
+            TimeLeftScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
+            
+            if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
+            {
+                totalTimeOfPostUnguidedVocalizationContent = (14.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
+                //Add 4mins to cut unguided 
+            }
+            else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
+            {
+                totalTimeOfPostUnguidedVocalizationContent = 900.0f; //15 minutes
+                //totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
+                // // Added 4 mins to cut unguided 
+            }
+            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
+            {
+                totalTimeOfPostUnguidedVocalizationContent = (12.0f * 60.0f) + 06.0f; // 12 minutes 6 seconds
+            }
+            else
+            {
+                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+            }
+        }
+        else if (gameMode == "Integration")
+        {
+            TimeLeftScript.instance.SetTimeLeftSeconds(1500.0f); // 25 minutes
+            
+            if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
+            {
+                totalTimeOfPostUnguidedVocalizationContent = 415.0f;
+            }
+            else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
+            {
+                totalTimeOfPostUnguidedVocalizationContent = 349.0f;
+            }
+            else if (subGameMode == "Metta" || subGameMode == "Transitions")
+            {
+                totalTimeOfPostUnguidedVocalizationContent = 597.0f;
+            }
+            else
+            {
+                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+            }
+        } 
+        else if (gameMode == "Protocol Stacks")
+        {
+            TimeLeftScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
+
+            if(subGameMode == "Ascending" || subGameMode == "Descending")
+            {
+                totalTimeOfPostUnguidedVocalizationContent = 900.0f; // 15 minutes
+            }
+            else
+            {
+                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+            }
+        } 
+        else if (gameMode == "Quick Dive")
+        {
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Quick Dive mode does not set TimeLeft or totalTimeOfPostUnguidedVocalizationContent.");
+        }
+        else
+        {
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown gameMode '" + gameMode + "'. No TimeLeft initialization performed.");
+        }
+
+        // Set countdown after TimeLeft and totalTimeOfPostUnguidedVocalizationContent are set
+        float timeLeft = TimeLeftScript.instance._timeLeft;
+        float calculatedCountdown = timeLeft - totalTimeOfPostUnguidedVocalizationContent;
+        
+        if (timeLeft <= 0f)
+        {
+            Debug.LogError("CSVLoader: TimeLeftInitializations() - timeLeft is " + timeLeft + " (should be > 0). Countdown will not be set.");
+            return;
+        }
+        
+        if (totalTimeOfPostUnguidedVocalizationContent <= 0f)
+        {
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - totalTimeOfPostUnguidedVocalizationContent is " + totalTimeOfPostUnguidedVocalizationContent + " (should be > 0). Countdown calculation may be incorrect.");
+        }
+        
+        if (calculatedCountdown <= 0f)
+        {
+            Debug.LogError("CSVLoader: TimeLeftInitializations() - Calculated countdown is " + calculatedCountdown + " (should be > 0). This will cause ProtocolStacksCoroutine to hang!");
+        }
+        
+        sequencer.SetCountdownToSavasana(calculatedCountdown);
+        
+        Debug.Log("CSVLoader: TimeLeftInitializations() - countdownToSavasana set to " + sequencer._countdownToSavasana + " seconds (" + (sequencer._countdownToSavasana / 60f) + " minutes). timeLeft=" + timeLeft + ", totalTimeOfPostUnguidedVocalizationContent=" + totalTimeOfPostUnguidedVocalizationContent);
+    }
+
+
 
     public string GetCurrentMode()
     {

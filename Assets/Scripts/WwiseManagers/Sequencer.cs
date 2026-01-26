@@ -36,7 +36,6 @@ public class Sequencer : MonoBehaviour
     public float _countdownToSavasana = 1000000.0f; //initialize at a basically infitite value.
     private float _timeSinceTutorial;
     private bool savasanaCountdownCompleteFlag = false; // Flag to control the event triggering
-    [SerializeField] public float _integrationEnd {get; private set;} = 500f; 
     [SerializeField] public bool endSoonFlag = false;
     private bool startButtonFlag = false;
     private bool flagTriggerStart1 = false;
@@ -267,7 +266,7 @@ public class Sequencer : MonoBehaviour
         //   - Start playground (enables director, begins shuffle, etc.)
         float step1Threshold = 20f * 60f; // 1200 seconds = 20 minutes
         Debug.Log("Sequencer: ProtocolStacksCoroutine - Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + _countdownToSavasana);
-        
+
         int frameCount = 0;
         while (_countdownToSavasana > step1Threshold)
         {
@@ -848,12 +847,6 @@ public class Sequencer : MonoBehaviour
     {
         _countdownToSavasana = timeInSeconds;
         Debug.Log("Sequencer: ThematicSavasanaCountdown Counter set to " + _countdownToSavasana + " via SetCountdownToSavasana().");
-    }
-
-    public void SetIntegrationEndTimer(float timeInSeconds)
-    {
-        _integrationEnd = timeInSeconds;
-        Debug.Log("Sequencer: _integrationEnd Timer set to " + _integrationEnd + " via SetIntegrationEndTimer().");
     }
 
     public void StartTrueStart() //THIS ONE IS OK TO CALL IN NORMAL TIME (NON DEVELOPMENT MODE)

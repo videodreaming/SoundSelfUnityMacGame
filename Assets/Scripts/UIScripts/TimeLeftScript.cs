@@ -51,8 +51,11 @@ public class TimeLeftScript : MonoBehaviour
 
     public void SetTimeLeftSeconds(float timeLeft)
     {
-        Debug.Log("TimeLeftScript: Setting time left to " + minutes + " minutes " + seconds + " seconds");
         _timeLeft = timeLeft;
+        // Recalculate minutes and seconds from the new value for logging
+        int newMinutes = Mathf.FloorToInt(_timeLeft / 60);
+        int newSeconds = Mathf.FloorToInt(_timeLeft % 60);
+        Debug.Log("TimeLeftScript: Setting time left to " + newMinutes + " minutes " + newSeconds + " seconds");
     }
 
     public float GetTimeLeft()
