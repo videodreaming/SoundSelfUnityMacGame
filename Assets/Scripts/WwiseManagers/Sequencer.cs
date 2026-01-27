@@ -71,7 +71,6 @@ public class Sequencer : MonoBehaviour
             MusicSystem1.instance.SetSoundscape("SonoFlore");  
         }
 
-
         if(!(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode))
         {
             d = 1f;
@@ -377,7 +376,6 @@ public class Sequencer : MonoBehaviour
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
         wwiseVOManager.PlayAscendingClosing(); //this is basically the ProtocolStacks version of savasana.
         _countdownToSavasana = -1.0f;
-        
     }
 
     //====================================================================================================
