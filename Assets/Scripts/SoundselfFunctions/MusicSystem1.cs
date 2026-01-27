@@ -1570,7 +1570,7 @@ public class MusicSystem1 : MonoBehaviour
     public void StopWwiseToning()
     {
         AkSoundEngine.PostEvent("Stop_Toning",gameObject);
-        if (debugAllowToningLogs)
+        if (debugAllowBasicToningLogs)
         {
             Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
         }
