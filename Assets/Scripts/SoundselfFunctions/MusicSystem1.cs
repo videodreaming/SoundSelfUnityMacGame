@@ -2000,7 +2000,7 @@ public class MusicSystem1 : MonoBehaviour
     //====================================================================================================
 
     
-    private void StartInteractiveMusic()
+    public void StartInteractiveMusic()
     {
         if(!interactiveMusicFlag)
         {
@@ -2025,7 +2025,7 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    private void StopInteractiveMusic(bool suppressStoppingMusicLoops = false)
+    public void StopInteractiveMusic(bool suppressStoppingMusicLoops = false)
     {
         if(interactiveMusicFlag)
         {
@@ -2100,6 +2100,196 @@ public class MusicSystem1 : MonoBehaviour
     //At that point, the fundamental should change to whatever tone has the highest ChangeFundamentalTimer at that time (and all timers reset)
     //I think it's okay for us to disregard, for this behavior, the possibility of needing to enter a repair cycle, where Jaya does indeed tone... but if you want to be thorough, you can switch back to Jaya's fundamental (A = Key.[9]), temporarily, for the repair sequence.
  
+
+    // ====================================================================================================
+    // UNITY BUTTON TEST METHODS - Public methods for testing Wwise events via Unity UI buttons
+    // ====================================================================================================
+    
+    /// <summary>
+    /// Plays the impact sound effect. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_PlayImpactSound()
+    {
+        AkSoundEngine.PostEvent("Play_sfx_Impact", gameObject);
+        if(debugAllowSFXLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Play_sfx_Impact");
+        }
+    }
+
+    /// <summary>
+    /// Plays the toning fundamental event. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_PlayToningFundamental()
+    {
+        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly", gameObject);
+        if(debugAllowBasicToningLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Play_Toning_v3_FundamentalOnly");
+        }
+    }
+
+    /// <summary>
+    /// Plays the toning harmony event. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_PlayToningHarmony()
+    {
+        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly", gameObject);
+        if(debugAllowBasicToningLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Play_Toning_v3_HarmonyOnly");
+        }
+    }
+
+    /// <summary>
+    /// Stops all toning events. Can be called from Unity UI buttons.
+    /// Note: This is the same as StopWwiseToning() which is already public.
+    /// </summary>
+    public void Button_StopToning()
+    {
+        StopWwiseToning();
+        if(debugAllowBasicToningLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Stop_Toning");
+        }
+    }
+
+    /// <summary>
+    /// Plays the BassSynth event. Can be called from Unity UI buttons.
+    /// Note: This uses the same logic as PostTheBassSynthEvent() but is simpler for button testing.
+    /// </summary>
+    public void Button_PlayBassSynth()
+    {
+        PostTheBassSynthEvent();
+        if(debugAllowBassSynthLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Play_BassSynth");
+        }
+    }
+
+    /// <summary>
+    /// Stops the BassSynth event. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_StopBassSynth()
+    {
+        AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
+        bassSynthPlaying = false;
+        currentBassSynthPitch = null;
+        if(debugAllowBassSynthLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Stop_BassSynth");
+        }
+    }
+
+    /// <summary>
+    /// Plays the SilentLoops event. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_PlaySilentLoops()
+    {
+        AkSoundEngine.PostEvent("Play_SilentLoops", gameObject);
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Play_SilentLoops");
+        }
+    }
+
+    /// <summary>
+    /// Plays the MusicLoops event. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_PlayMusicLoops()
+    {
+        AkSoundEngine.PostEvent("Play_MusicLoops", gameObject);
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Play_MusicLoops");
+        }
+    }
+
+    /// <summary>
+    /// Stops the InteractiveMusicSystem event. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_StopInteractiveMusicSystem()
+    {
+        AkSoundEngine.PostEvent("Stop_InteractiveMusicSystem", gameObject);
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Stop_InteractiveMusicSystem");
+        }
+    }
+
+    /// <summary>
+    /// Stops the MusicLoops event. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_StopMusicLoops()
+    {
+        AkSoundEngine.PostEvent("Stop_MusicLoops", gameObject);
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Stop_MusicLoops");
+        }
+    }
+
+    /// <summary>
+    /// Plays the ambient environment loop. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_PlayAmbientEnvironmentLoop()
+    {
+        AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP", gameObject);
+        if(debugAllowMusicModeLogs)
+        {
+            Debug.Log("MUSIC BUTTON: Play_AMBIENT_ENVIRONMENT_LOOP");
+        }
+    }
+
+    /// <summary>
+    /// Starts interactive music (plays SilentLoops and MusicLoops). Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_StartInteractiveMusic()
+    {
+        StartInteractiveMusic();
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC BUTTON: StartInteractiveMusic");
+        }
+    }
+
+    /// <summary>
+    /// Stops interactive music. Can be called from Unity UI buttons.
+    /// </summary>
+    public void Button_StopInteractiveMusic()
+    {
+        StopInteractiveMusic();
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC BUTTON: StopInteractiveMusic");
+        }
+    }
+
+    /// <summary>
+    /// Plays the breathwork cycle. Can be called from Unity UI buttons.
+    /// Note: This is the same as PlayBreathworkCycle() which is already public.
+    /// </summary>
+    public void Button_PlayBreathworkCycle()
+    {
+        PlayBreathworkCycle();
+        if(debugAllowSFXLogs)
+        {
+            Debug.Log("MUSIC BUTTON: PlayBreathworkCycle");
+        }
+    }
+
+    /// <summary>
+    /// Stops the breathwork cycle. Can be called from Unity UI buttons.
+    /// Note: This is the same as StopBreathworkCycle() which is already public.
+    /// </summary>
+    public void Button_StopBreathworkCycle()
+    {
+        StopBreathworkCycle();
+        if(debugAllowSFXLogs)
+        {
+            Debug.Log("MUSIC BUTTON: StopBreathworkCycle");
+        }
+    }
 
 }
 
