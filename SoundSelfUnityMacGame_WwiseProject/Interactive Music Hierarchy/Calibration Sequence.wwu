@@ -18,7 +18,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-2</Value>
+								<Value>-1</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -64,6 +64,7 @@
 						<MusicSegment Name="Calibration_End" ID="{76045CA4-203B-48B0-B92D-56E1EA3AF6C6}" ShortID="10200579">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="21893.7582951768"/>
+								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-8</Value>
@@ -1132,7 +1133,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-4</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1361,6 +1362,7 @@
 						<MusicSegment Name="Calibration_Volume" ID="{4828448F-DBD1-48F0-BA6C-160B00C97505}" ShortID="738143592">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="57429.8141010267"/>
+								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-5</Value>
@@ -1372,7 +1374,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+									<ObjectRef Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1381,7 +1383,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1502,7 +1504,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>1</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1542,9 +1544,9 @@
 																		<MusicClip Name="fundamental_[C]_toning_shruti" ID="{1A1A296E-CA6C-4242-9C72-9DA3DD554696}">
 																			<PropertyList>
 																				<Property Name="EndTrimOffset" Type="Real64" Value="15000"/>
-																				<Property Name="FadeInDuration" Type="Real64" Value="698.99691465272"/>
+																				<Property Name="FadeInDuration" Type="Real64" Value="2133.15623649888"/>
 																				<Property Name="FadeOutDuration" Type="Real64" Value="668.605744450428"/>
-																				<Property Name="PlayAt" Type="Real64" Value="4929.81410102669"/>
+																				<Property Name="PlayAt" Type="Real64" Value="4500"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="fundamental_[C]_toning_shruti" ID="{13917B11-DF4C-45AE-A21A-ED07AA6B25FE}"/>
 																		</MusicClip>
@@ -1562,7 +1564,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>1</Value>
+												<Value>5</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1602,9 +1604,9 @@
 																		<MusicClip Name="harmony_[G]_toning_shruti" ID="{E8A0E74E-07ED-4300-9415-259E2DA3BDB7}">
 																			<PropertyList>
 																				<Property Name="EndTrimOffset" Type="Real64" Value="15000"/>
-																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeInDuration" Type="Real64" Value="1728.34584940435"/>
 																				<Property Name="FadeOutDuration" Type="Real64" Value="607.823404045843"/>
-																				<Property Name="PlayAt" Type="Real64" Value="4929.81410102669"/>
+																				<Property Name="PlayAt" Type="Real64" Value="6500"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="harmony_[G]_toning_shruti" ID="{D18B1157-2632-444B-8C3F-426F46224646}"/>
 																		</MusicClip>

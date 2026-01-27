@@ -594,14 +594,9 @@
 					<ChildrenList>
 						<Bus Name="SubAcoustics" ID="{AFC8777D-03BE-435C-9D8D-3000A1F105FB}">
 							<PropertyList>
-								<Property Name="BusVolume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
-									</ValueList>
-								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>53</Value>
+										<Value>34</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

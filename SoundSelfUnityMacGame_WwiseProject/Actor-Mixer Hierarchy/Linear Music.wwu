@@ -423,6 +423,11 @@
 										<Value>True</Value>
 									</ValueList>
 								</Property>
+								<Property Name="UserAuxSendVolume0" Type="Real64">
+									<ValueList>
+										<Value>3</Value>
+									</ValueList>
+								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>8</Value>
@@ -448,7 +453,7 @@
 										<Property Name="TrimEnd" Type="Real64" Value="392.713712818403"/>
 										<Property Name="VolumeOffset" Type="Real64">
 											<ValueList>
-												<Value>4</Value>
+												<Value>6</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>

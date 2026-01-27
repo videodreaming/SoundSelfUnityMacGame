@@ -16116,12 +16116,12 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>7</Value>
+										<Value>9</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>4</Value>
+										<Value>5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -17064,34 +17064,6 @@
 														</Reference>
 														<Reference>
 															<Local>
-																<MusicEventCue Name="" ID="{ECB1D45A-CEF3-4E53-9183-CA874105E9C9}" ShortID="890391179">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="224000"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{0FB04856-0930-4B3E-B02C-5D4FBBF579E5}" ShortID="628441103">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="235000"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
 																<MusicClip Name="vo_orientation_short" ID="{1EB80031-216B-4BD3-9EA1-49AD623488AB}">
 																	<PropertyList>
 																		<Property Name="BeginTrimOffset" Type="Real64" Value="27962.9171471213"/>
@@ -17467,76 +17439,6 @@
 																		</PropertyCurve>
 																	</PropertyCurveList>
 																</MusicClip>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{FFDD21B3-91F8-4FAF-8C11-6F34DCD5A577}" ShortID="302703777">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="246000"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{A19B3160-2CC6-4CE0-A8F7-32DE60B7B328}" ShortID="705414815">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="257897.424582257"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{D9E94BA8-C0D0-4D03-8BAE-DEAD9BB39172}" ShortID="163083701">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="268000"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{25BF8A42-3F03-4BA2-A9E8-EF5C2A4FA140}" ShortID="943324131">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="279000"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{77A03D51-B451-48CC-AB35-84E769788C93}" ShortID="793731989">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="291000"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
 															</Local>
 														</Reference>
 													</ObjectList>
@@ -21091,7 +20993,7 @@
 									<MusicCue Name="Cue_BreathIn_Start" ID="{ED08B4EE-C04E-4CA0-BDE3-0C22B302D51C}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
-											<Property Name="TimeMs" Type="Real64" Value="291489.694829706"/>
+											<Property Name="TimeMs" Type="Real64" Value="291000"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>

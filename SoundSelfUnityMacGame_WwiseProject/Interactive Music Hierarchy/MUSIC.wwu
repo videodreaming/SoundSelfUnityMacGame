@@ -1714,14 +1714,6 @@
 					</ObjectLists>
 				</MusicSwitchContainer>
 				<MusicSwitchContainer Name="MusicLoops_Switch" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" ShortID="372704988">
-					<PropertyList>
-						<Property Name="ContinuePlay" Type="bool" Value="False"/>
-						<Property Name="UserAuxSendVolume0" Type="Real64">
-							<ValueList>
-								<Value>-96</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1739,20 +1731,22 @@
 										<MusicTransition Name="Transition" ID="{D263A22F-3991-4524-89CD-499F8D45C296}">
 											<PropertyList>
 												<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
-												<Property Name="ExitSourceAt" Type="int16" Value="0"/>
-												<Property Name="PlaySourcePostExit" Type="bool" Value="False"/>
+												<Property Name="ExitSourceAt" Type="int16" Value="3"/>
 											</PropertyList>
 											<TransitionInfo>
 												<SourceFadeOut>
 													<MusicFade Name="Source Fade-out" ID="{59E3EBC1-C28A-4D07-9E44-C271FDA951FD}">
 														<PropertyList>
-															<Property Name="FadeCurve" Type="int16" Value="3"/>
-															<Property Name="FadeOffset" Type="Real64" Value="11"/>
-															<Property Name="FadeTime" Type="Real64" Value="11"/>
+															<Property Name="FadeCurve" Type="int16" Value="1"/>
+															<Property Name="FadeOffset" Type="Real64" Value="10"/>
+															<Property Name="FadeTime" Type="Real64" Value="10"/>
 															<Property Name="FadeType" Type="int16" Value="1"/>
 														</PropertyList>
 													</MusicFade>
 												</SourceFadeOut>
+												<DestinationFadeIn>
+													<MusicFade Name="Destination Fade-in" ID="{72F29B46-CF6C-4FA8-B3D0-BAE51F93679D}"/>
+												</DestinationFadeIn>
 											</TransitionInfo>
 										</MusicTransition>
 									</ChildrenList>
@@ -1775,12 +1769,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
+										<Value>-12</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1833,11 +1822,6 @@
 								<MusicSegment Name="PinkNoiseAtmosphere_Loop" ID="{E1EF36D5-930C-4723-95CC-B48311DC422A}" ShortID="99233197">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="87006.2580213336"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-2</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2154,11 +2138,6 @@
 														<Value>True</Value>
 													</ValueList>
 												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-1</Value>
-													</ValueList>
-												</Property>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="OutputBus">
@@ -2303,16 +2282,6 @@
 									</ValueList>
 								</Property>
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
-								<Property Name="UserAuxSendVolume0" Type="Real64">
-									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2363,11 +2332,6 @@
 								<MusicSegment Name="SitarAmbience_Loop" ID="{F97C4167-1BE8-4F22-A5A3-6A458874F762}" ShortID="1043551152">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="65333.3333333333"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-6</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -2589,7 +2553,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>-2</Value>
+										<Value>-8</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2645,7 +2609,7 @@
 										<Property Name="OverrideEffect" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -2818,11 +2782,6 @@
 										<Value>-1</Value>
 									</ValueList>
 								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2875,11 +2834,6 @@
 								<MusicSegment Name="SingingBowls" ID="{D747FD4B-6A48-455A-B6D0-584203178AD4}" ShortID="114555919">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="96160"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-2</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -4820,7 +4774,7 @@
 										<Property Name="EndPosition" Type="Real64" Value="117802.3125"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>1</Value>
+												<Value>2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -4980,6 +4934,11 @@
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
 										<Value>12</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5195,11 +5154,6 @@
 										<Value>2</Value>
 									</ValueList>
 								</Property>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -5253,11 +5207,6 @@
 										<Property Name="GridFrequencyPreset" Type="int16" Value="51"/>
 										<Property Name="OverrideClockSettings" Type="bool" Value="True"/>
 										<Property Name="Tempo" Type="Real64" Value="140"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-2</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -5273,11 +5222,6 @@
 												<Property Name="IsStreamingEnabled" Type="bool">
 													<ValueList>
 														<Value>True</Value>
-													</ValueList>
-												</Property>
-												<Property Name="Volume" Type="Real64">
-													<ValueList>
-														<Value>-4</Value>
 													</ValueList>
 												</Property>
 											</PropertyList>
@@ -5426,7 +5370,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -5537,11 +5481,6 @@
 									</ValueList>
 								</Property>
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
-								<Property Name="UserAuxSendVolume0" Type="Real64">
-									<ValueList>
-										<Value>-1</Value>
-									</ValueList>
-								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -5592,11 +5531,6 @@
 								<MusicSegment Name="The Awe of it All_Bminor" ID="{EDCC5467-185B-4106-9A3B-F83FB412DF9B}" ShortID="727893759">
 									<PropertyList>
 										<Property Name="EndPosition" Type="Real64" Value="86000"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-2</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -6101,97 +6035,7 @@
 						<ObjectList Name="Entries">
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{A42120B4-8D12-4969-9D07-84B59E662400}">
-										<ReferenceList>
-											<Reference Name="AudioNode">
-												<ObjectRef Name="PinkNoiseAtmosphere" ID="{6013E6BB-546C-4F7B-9010-0A62A27EF620}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
-											</Reference>
-										</ReferenceList>
-										<ObjectLists>
-											<ObjectList Name="EntryPath">
-												<Reference>
-													<ObjectRef Name="PinkNoiseAtmosphere" ID="{940087F9-A366-49C7-BBD9-DE4A421C5E8E}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
-												</Reference>
-											</ObjectList>
-										</ObjectLists>
-									</MultiSwitchEntry>
-								</Local>
-							</Reference>
-							<Reference>
-								<Local>
-									<MultiSwitchEntry Name="" ID="{6D4EDA4C-C572-4344-AAA1-47E114D9D8B8}">
-										<ReferenceList>
-											<Reference Name="AudioNode">
-												<ObjectRef Name="ShiftingEarth" ID="{34C9F748-E1CB-4F6B-917A-CEF0BD595661}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
-											</Reference>
-										</ReferenceList>
-										<ObjectLists>
-											<ObjectList Name="EntryPath">
-												<Reference>
-													<ObjectRef Name="ShiftingEarth" ID="{3BEF0626-D350-43CE-A1BF-A94C9490B1C2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
-												</Reference>
-											</ObjectList>
-										</ObjectLists>
-									</MultiSwitchEntry>
-								</Local>
-							</Reference>
-							<Reference>
-								<Local>
-									<MultiSwitchEntry Name="" ID="{2618BC96-22CD-4BEC-B169-5F4F7AE0DD4C}">
-										<ReferenceList>
-											<Reference Name="AudioNode">
-												<ObjectRef Name="SitarAmbience" ID="{E856D678-0F10-477F-9086-A2402EAA4AAA}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
-											</Reference>
-										</ReferenceList>
-										<ObjectLists>
-											<ObjectList Name="EntryPath">
-												<Reference>
-													<ObjectRef Name="SitarAmbience" ID="{CECB0939-F6B6-4D40-858E-AA754E576F14}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
-												</Reference>
-											</ObjectList>
-										</ObjectLists>
-									</MultiSwitchEntry>
-								</Local>
-							</Reference>
-							<Reference>
-								<Local>
-									<MultiSwitchEntry Name="" ID="{97B995F6-BF33-4915-BF63-495BECD0FB35}">
-										<ReferenceList>
-											<Reference Name="AudioNode">
-												<ObjectRef Name="CelestialDreamscape" ID="{6CF6132B-5CB4-4015-AD50-19816DF64E62}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
-											</Reference>
-										</ReferenceList>
-										<ObjectLists>
-											<ObjectList Name="EntryPath">
-												<Reference>
-													<ObjectRef Name="CelestialDreamscape" ID="{9553BB37-F7C8-43E1-8C50-FF52596EEBA8}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
-												</Reference>
-											</ObjectList>
-										</ObjectLists>
-									</MultiSwitchEntry>
-								</Local>
-							</Reference>
-							<Reference>
-								<Local>
-									<MultiSwitchEntry Name="" ID="{58F55EDE-9F69-4AFD-BDE9-712BC92C7723}">
-										<ReferenceList>
-											<Reference Name="AudioNode">
-												<ObjectRef Name="SingingBowls" ID="{2656B536-2BE2-436D-97ED-541A14B6C3AD}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
-											</Reference>
-										</ReferenceList>
-										<ObjectLists>
-											<ObjectList Name="EntryPath">
-												<Reference>
-													<ObjectRef Name="SingingBowls" ID="{60602613-8373-4440-815D-DD9C467328F2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
-												</Reference>
-											</ObjectList>
-										</ObjectLists>
-									</MultiSwitchEntry>
-								</Local>
-							</Reference>
-							<Reference>
-								<Local>
-									<MultiSwitchEntry Name="" ID="{52C20567-972F-4080-B5B0-C07183BF6CF9}">
+									<MultiSwitchEntry Name="" ID="{B7C6C929-6884-4367-AE2A-C3C148B6A1A2}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="AmbientMenu_CMajor_Loop" ID="{1936F24F-32C7-4421-9CD8-7A650DC00E60}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
@@ -6209,7 +6053,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{93EF2CD2-BD57-4583-A605-7D3FA0369264}">
+									<MultiSwitchEntry Name="" ID="{6B51BE38-8D29-4602-848F-88A18E2D1BAD}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="AweAtmosphere_Loop" ID="{7CDA255F-9D34-4B59-BBEA-06EFFFA7BA1D}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
@@ -6227,7 +6071,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{9E93F803-F5EA-4CDC-AD18-7153693C498D}">
+									<MultiSwitchEntry Name="" ID="{D4EE2A57-C3A7-47DC-AB25-CCC4D2D1E24D}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="Breathwork_Handpan_140bpm_Loop" ID="{0BD6B417-3D23-4414-A14C-F2B1C69DECE9}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
@@ -6245,16 +6089,16 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{3B335473-4EAB-4228-B0ED-75A3E78B7C5C}">
+									<MultiSwitchEntry Name="" ID="{90AF5BFE-6BAB-4AE5-88BA-EC79C28FD2AD}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
-												<ObjectRef Name="CosmicAir_AMajor_Loop" ID="{EC14E5C2-81AA-48AD-A674-6AA448EDF681}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+												<ObjectRef Name="CelestialDreamscape" ID="{6CF6132B-5CB4-4015-AD50-19816DF64E62}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 											</Reference>
 										</ReferenceList>
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
-													<ObjectRef Name="CosmicAir" ID="{E5E5D75E-D46B-4F00-9ADB-BB9A23284FE2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+													<ObjectRef Name="CelestialDreamscape" ID="{9553BB37-F7C8-43E1-8C50-FF52596EEBA8}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>
@@ -6263,25 +6107,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{E27B7AAF-0C3D-41CC-840E-C13AC7D666FB}">
-										<ReferenceList>
-											<Reference Name="AudioNode">
-												<ObjectRef Name="MysticalVision_Loop" ID="{EAD34773-C595-4954-B2AE-520E3A133817}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
-											</Reference>
-										</ReferenceList>
-										<ObjectLists>
-											<ObjectList Name="EntryPath">
-												<Reference>
-													<ObjectRef Name="MysticalVision" ID="{5B1B75A9-2E83-4BE6-AF38-356DB405C67E}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
-												</Reference>
-											</ObjectList>
-										</ObjectLists>
-									</MultiSwitchEntry>
-								</Local>
-							</Reference>
-							<Reference>
-								<Local>
-									<MultiSwitchEntry Name="" ID="{B3B5FD99-E505-4F0B-8796-1739FAF9F13B}">
+									<MultiSwitchEntry Name="" ID="{DE339BE7-1538-4B44-B219-788D673A5826}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="Environment" ID="{AD7D6597-2CE7-40A4-BC55-10C9B329913E}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
@@ -6299,7 +6125,61 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MultiSwitchEntry Name="" ID="{56CBBE3B-02DB-4453-9478-81D7BADAA77E}">
+									<MultiSwitchEntry Name="" ID="{CDA77109-0B5F-4312-9B2A-B0845F107005}">
+										<ReferenceList>
+											<Reference Name="AudioNode">
+												<ObjectRef Name="MysticalVision_Loop" ID="{EAD34773-C595-4954-B2AE-520E3A133817}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+											</Reference>
+										</ReferenceList>
+										<ObjectLists>
+											<ObjectList Name="EntryPath">
+												<Reference>
+													<ObjectRef Name="MysticalVision" ID="{5B1B75A9-2E83-4BE6-AF38-356DB405C67E}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+												</Reference>
+											</ObjectList>
+										</ObjectLists>
+									</MultiSwitchEntry>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MultiSwitchEntry Name="" ID="{128E74D9-3A6E-45B9-8398-F7BCB76A093B}">
+										<ReferenceList>
+											<Reference Name="AudioNode">
+												<ObjectRef Name="PinkNoiseAtmosphere" ID="{6013E6BB-546C-4F7B-9010-0A62A27EF620}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+											</Reference>
+										</ReferenceList>
+										<ObjectLists>
+											<ObjectList Name="EntryPath">
+												<Reference>
+													<ObjectRef Name="PinkNoiseAtmosphere" ID="{940087F9-A366-49C7-BBD9-DE4A421C5E8E}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+												</Reference>
+											</ObjectList>
+										</ObjectLists>
+									</MultiSwitchEntry>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MultiSwitchEntry Name="" ID="{3722454A-31AE-434A-AEB1-8AC9223A6C34}">
+										<ReferenceList>
+											<Reference Name="AudioNode">
+												<ObjectRef Name="ShiftingEarth" ID="{34C9F748-E1CB-4F6B-917A-CEF0BD595661}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+											</Reference>
+										</ReferenceList>
+										<ObjectLists>
+											<ObjectList Name="EntryPath">
+												<Reference>
+													<ObjectRef Name="ShiftingEarth" ID="{3BEF0626-D350-43CE-A1BF-A94C9490B1C2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+												</Reference>
+											</ObjectList>
+										</ObjectLists>
+									</MultiSwitchEntry>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MultiSwitchEntry Name="" ID="{4E11BEB8-D8CF-488E-B70D-9485483913F2}">
 										<ReferenceList>
 											<Reference Name="AudioNode">
 												<ObjectRef Name="Silence" ID="{4C1AB4DF-6881-40A7-9124-FC9867CE4E86}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
@@ -6309,6 +6189,42 @@
 											<ObjectList Name="EntryPath">
 												<Reference>
 													<ObjectRef Name="Silence" ID="{3AD5FAD8-5C3E-4903-B9A0-984BF5AF1237}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+												</Reference>
+											</ObjectList>
+										</ObjectLists>
+									</MultiSwitchEntry>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MultiSwitchEntry Name="" ID="{823560EE-A062-4BA6-968E-13ED6CA8767D}">
+										<ReferenceList>
+											<Reference Name="AudioNode">
+												<ObjectRef Name="SingingBowls" ID="{2656B536-2BE2-436D-97ED-541A14B6C3AD}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+											</Reference>
+										</ReferenceList>
+										<ObjectLists>
+											<ObjectList Name="EntryPath">
+												<Reference>
+													<ObjectRef Name="SingingBowls" ID="{60602613-8373-4440-815D-DD9C467328F2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+												</Reference>
+											</ObjectList>
+										</ObjectLists>
+									</MultiSwitchEntry>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MultiSwitchEntry Name="" ID="{2F50A325-C03B-4D24-8E90-FD3F4819E2F1}">
+										<ReferenceList>
+											<Reference Name="AudioNode">
+												<ObjectRef Name="SitarAmbience" ID="{E856D678-0F10-477F-9086-A2402EAA4AAA}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+											</Reference>
+										</ReferenceList>
+										<ObjectLists>
+											<ObjectList Name="EntryPath">
+												<Reference>
+													<ObjectRef Name="SitarAmbience" ID="{CECB0939-F6B6-4D40-858E-AA754E576F14}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>
@@ -7230,17 +7146,17 @@
 																							</Point>
 																							<Point>
 																								<XPos>484.53005</XPos>
-																								<YPos>-0</YPos>
+																								<YPos>0</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>725.13043</XPos>
-																								<YPos>-0</YPos>
+																								<YPos>0</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>
 																								<XPos>973.70651</XPos>
-																								<YPos>-0</YPos>
+																								<YPos>0</YPos>
 																								<Flags>0</Flags>
 																							</Point>
 																							<Point>

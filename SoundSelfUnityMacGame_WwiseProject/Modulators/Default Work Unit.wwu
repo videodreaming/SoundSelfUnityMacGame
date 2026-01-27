@@ -66,6 +66,7 @@
 				<ModulatorEnvelope Name="Slow Attack Bass" ID="{94780709-5D92-4909-AA8E-1DD17B914243}" ShortID="522368039">
 					<PropertyList>
 						<Property Name="EnvelopeAttackTime" Type="Real64" Value="2.002"/>
+						<Property Name="EnvelopeDecayTime" Type="Real64" Value="0.158"/>
 						<Property Name="EnvelopeReleaseTime" Type="Real64" Value="2"/>
 					</PropertyList>
 				</ModulatorEnvelope>

@@ -5,10 +5,7 @@
 			<ChildrenList>
 				<Event Name="Play_MusicLoops" ID="{6908C4E3-6D0E-4B26-87FA-E01A43EAB94C}">
 					<ChildrenList>
-						<Action Name="" ID="{DC98A1E6-91CE-443A-9F6A-3423F6F2559D}" ShortID="885672672">
-							<PropertyList>
-								<Property Name="FadeInCurve" Type="int16" Value="1"/>
-							</PropertyList>
+						<Action Name="" ID="{2D633C30-4655-42BD-967F-E8F1623EA890}" ShortID="39711442">
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="MusicLoops_Switch" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>

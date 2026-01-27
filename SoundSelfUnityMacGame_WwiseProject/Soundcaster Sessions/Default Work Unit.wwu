@@ -248,6 +248,7 @@
 						<CurrentSwitchRef Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
 						<CurrentSwitchRef Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
+						<CurrentSwitchRef Name="_40m" ID="{9B176422-1A59-4E7F-A244-2237BAC758E2}"/>
 						<CurrentSwitchRef Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="A" ID="{A279B283-4602-4947-8672-94D46C389BFA}"/>
@@ -699,17 +700,19 @@
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
-						<CurrentSwitchRef Name="D" ID="{F382FB7C-3DC1-4CA4-960E-677CB4038B33}"/>
+						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
 						<CurrentSwitchRef Name="Resting" ID="{FC479A56-69C9-4A20-98C2-C8B295600A13}"/>
 						<CurrentSwitchRef Name="Preparation" ID="{ACC0C5B6-BF2F-4593-A6A0-17A99FE8BAE5}"/>
 						<CurrentSwitchRef Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
+						<CurrentSwitchRef Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
 						<CurrentSwitchRef Name="_40m" ID="{9B176422-1A59-4E7F-A244-2237BAC758E2}"/>
 						<CurrentSwitchRef Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
+						<CurrentSwitchRef Name="A" ID="{A279B283-4602-4947-8672-94D46C389BFA}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="Peace" ID="{94BB8323-C29A-4FDB-8145-8499790D4345}"/>
@@ -754,6 +757,10 @@
 						<Module>
 							<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
 							<Position X="2" Y="3"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_All" ID="{39821E91-31F4-47D3-B1AF-E42968AA6D28}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<Position X="3" Y="1"/>
 						</Module>
 					</ModuleList>
 					<RTPCValueList ShowAll="true">
@@ -816,7 +823,7 @@
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
-						<CurrentSwitchRef Name="Environment" ID="{D8E77AAC-85CE-4A2D-98F5-139867CD1569}"/>
+						<CurrentSwitchRef Name="SitarAmbience" ID="{CECB0939-F6B6-4D40-858E-AA754E576F14}"/>
 						<CurrentSwitchRef Name="Chakapa_4m" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>
@@ -851,6 +858,10 @@
 							<Position X="1" Y="2"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="Play_Toning" ID="{75280AE4-0427-4BE0-A4E1-3F0B4AD82E9B}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
+							<Position X="1" Y="3"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="Stop_MusicLoops" ID="{7A19FEB5-4851-40F3-ADDD-9D15D8E3714C}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
 							<Position X="2" Y="0"/>
 						</Module>
@@ -865,10 +876,6 @@
 						<Module>
 							<ObjectRef Name="Unity_TransitionSFX" ID="{1E0E502D-1D20-4209-89C0-D28DB3052CFF}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 							<Position X="2" Y="3"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_Toning" ID="{75280AE4-0427-4BE0-A4E1-3F0B4AD82E9B}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
-							<Position X="3" Y="0"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
@@ -1162,8 +1169,8 @@
 						</RTPCValue>
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
-						<CurrentStateRef Name="None" ID="{9463C806-3C7C-4455-BC97-8C40968228B0}"/>
-						<CurrentStateRef Name="None" ID="{EF0F58F7-52D1-43D0-B13D-474F5210CC18}"/>
+						<CurrentStateRef Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
+						<CurrentStateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
@@ -1182,7 +1189,7 @@
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
-						<CurrentSwitchRef Name="CosmicAir" ID="{E5E5D75E-D46B-4F00-9ADB-BB9A23284FE2}"/>
+						<CurrentSwitchRef Name="CelestialDreamscape" ID="{9553BB37-F7C8-43E1-8C50-FF52596EEBA8}"/>
 						<CurrentSwitchRef Name="Chakapa_4m" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>
@@ -1345,8 +1352,11 @@
 						<CurrentStateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
+						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
+						<CurrentSwitchRef Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}"/>
 						<CurrentSwitchRef Name="_40m" ID="{9B176422-1A59-4E7F-A244-2237BAC758E2}"/>
-						<CurrentSwitchRef Name="MysticalVision" ID="{5B1B75A9-2E83-4BE6-AF38-356DB405C67E}"/>
+						<CurrentSwitchRef Name="C" ID="{6DA02F6A-8564-4A09-85D6-69AC384BD2ED}"/>
+						<CurrentSwitchRef Name="AmbientLoop" ID="{E63BED1C-5393-45A4-B5B3-2FAA05DC3CC5}"/>
 						<CurrentSwitchRef Name="Chakapa_4m" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>
