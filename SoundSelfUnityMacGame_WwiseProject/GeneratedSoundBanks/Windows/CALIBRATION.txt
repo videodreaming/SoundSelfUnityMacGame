@@ -1,22 +1,39 @@
 Event	ID	Name			Wwise Object Path	Notes
-	452547817	Stop_All			\Default Work Unit\Stop_All	
-	1347182731	Play_BassSynth			\Default Work Unit\Play_BassSynth	
-	1502315953	Stop_BassSynth			\Default Work Unit\Stop_BassSynth	
-	1661327600	Stop_Calibration_Music			\Default Work Unit\Stop_Calibration_Music	
-	1731808482	Play_Calibration_Sequence			\Default Work Unit\Play_Calibration_Sequence	
-	2185482934	Play_SilentLoops_v3_FundamentalOnly			\Interactive Music System\Play_SilentLoops_v3_FundamentalOnly	
-	2252226012	Stop_Calibration_Sequence			\Default Work Unit\Stop_Calibration_Sequence	
+	236202206	Mute_SILENTMEDITATION_MUSIC			\Default Work Unit\Mute_SILENTMEDITATION_MUSIC	
+	360118433	Set_BassSynth_C			\Bass Synth\Set_BassSynth_C	
+	410054881	Play_SIGH_QUERY_SEQUENCE_2			\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_2	
+	603425291	Play_sfx_SoundSeed_BreathCycleWind			\SFX\Play_sfx_SoundSeed_BreathCycleWind	
+	674892661	Stop_sfx_SoundSeed_BreathCycleWind			\SFX\Stop_sfx_SoundSeed_BreathCycleWind	
+	767717232	Stop_AVS_SineGenerators_REFERENCE			\AVS System\Stop_AVS_SineGenerators_REFERENCE	
+	1347182731	Play_BassSynth			\Bass Synth\Play_BassSynth	
+	1502315953	Stop_BassSynth			\Bass Synth\Stop_BassSynth	
+	1661327600	Stop_Calibration_Music			\Calibration\Stop_Calibration_Music	
+	1731808482	Play_Calibration_Sequence			\Calibration\Play_Calibration_Sequence	
+	2252226012	Stop_Calibration_Sequence			\Calibration\Stop_Calibration_Sequence	
+	2811342292	Stop_THEMATIC_SAVASANA_SEQUENCE			\Default Work Unit\Stop_THEMATIC_SAVASANA_SEQUENCE	
 	2822016348	Stop_SilentLoops			\Interactive Music System\Stop_SilentLoops	
-	3361879071	Play_Calibration_SilentLoops			\Default Work Unit\Play_Calibration_SilentLoops	
-	3682980534	Play_Calibration_Music			\Default Work Unit\Play_Calibration_Music	
-	4293537666	Set_Calibration_Lights			\Default Work Unit\Set_Calibration_Lights	
+	3359246268	Play_music_meditationSilent_E_Major_LOOP			\Linear Music\Play_music_meditationSilent_E_Major_LOOP	
+	3431547933	Play_sfx_SoundSeed_BreathCycle			\SFX\Play_sfx_SoundSeed_BreathCycle	
+	3449237142	Play_AVS_SineGenerators_REFERENCE			\AVS System\Play_AVS_SineGenerators_REFERENCE	
+	3484562951	Play_EXIT_MUSIC_PLAYLIST			\Default Work Unit\Play_EXIT_MUSIC_PLAYLIST	
+	3561899656	Play_EndSoon_SEQUENCE			\Calibration\Play_EndSoon_SEQUENCE	
+	3630490451	Play_AVS_Wave1			\AVS System\Play_AVS_Wave1	
+	3682980534	Play_Calibration_Music			\Calibration\Play_Calibration_Music	
+	3820138711	Play_VO_CLOSING_GOODBYE			\VO\Play_VO_CLOSING_GOODBYE	
+	4138940081	Stop_AVS_Wave1			\AVS System\Stop_AVS_Wave1	
+	4293537666	Set_Calibration_Lights			\Calibration\Set_Calibration_Lights	
 
 Switch Group	ID	Name			Wwise Object Path	Notes
+	1815817025	VO_ClosingGoodbye			\VO\VO_ClosingGoodbye	
 	2950571229	BassSynth_PitchSwitch			\BassSynth\BassSynth_PitchSwitch	
-	3505294094	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			\Interactive Music System\InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly	
 	3689261721	Calibration_Sequence			\Default Work Unit\Calibration_Sequence	
+	3861178606	MusicLoops_Switch			\Music Loops\MusicLoops_Switch	
 
 Switch	ID	Name	Switch Group			Notes
+	674228435	Long	VO_ClosingGoodbye			
+	1927133646	Anchoring	VO_ClosingGoodbye			
+	2585211341	Short	VO_ClosingGoodbye			
+	3041563226	Silence	VO_ClosingGoodbye			
 	84696440	G	BassSynth_PitchSwitch			
 	84696441	F	BassSynth_PitchSwitch			
 	84696442	E	BassSynth_PitchSwitch			
@@ -29,18 +46,6 @@ Switch	ID	Name	Switch Group			Notes
 	3050272541	AsharpBflat	BassSynth_PitchSwitch			
 	3573977648	GsharpAflat	BassSynth_PitchSwitch			
 	3800083777	CsharpDflat	BassSynth_PitchSwitch			
-	84696440	G	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696441	F	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696442	E	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696443	D	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696444	C	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696445	B	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	84696446	A	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	156517199	FsharpGflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	791737535	DsharpEflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3050272541	AsharpBflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3573977648	GsharpAflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
-	3800083777	CsharpDflat	InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly			
 	529726532	End	Calibration_Sequence			
 	1125500713	Intro	Calibration_Sequence			
 	1182670510	Mic	Calibration_Sequence			
@@ -48,37 +53,74 @@ Switch	ID	Name	Switch Group			Notes
 	2957293210	TechnicalIssues	Calibration_Sequence			
 	3192784746	Lights	Calibration_Sequence			
 	4241968201	Vibration	Calibration_Sequence			
+	6971574	SitarAmbience	MusicLoops_Switch			
+	931091870	AweAtmosphere	MusicLoops_Switch			
+	1229948536	Environment	MusicLoops_Switch			
+	1397804359	SingingBowls	MusicLoops_Switch			
+	1568978605	PinkNoiseAtmosphere	MusicLoops_Switch			
+	1837644484	BreathworkHandpan	MusicLoops_Switch			
+	2710806120	CelestialDreamscape	MusicLoops_Switch			
+	2973005081	CosmicAir	MusicLoops_Switch			
+	3018331789	AmbientLoop	MusicLoops_Switch			
+	3041563226	Silence	MusicLoops_Switch			
+	3175422271	ShiftingEarth	MusicLoops_Switch			
+	3550392237	MysticalVision	MusicLoops_Switch			
 
 State Group	ID	Name			Wwise Object Path	Notes
 	361224273	InteractiveMusicMode			\Default Work Unit\InteractiveMusicMode	
-	3090474987	SoundWorldMode			\Default Work Unit\SoundWorldMode	
 
 State	ID	Name	State Group			Notes
 	748895195	None	InteractiveMusicMode			
 	1229948536	Environment	InteractiveMusicMode			
 	1817215723	InteractiveMusicSystem	InteractiveMusicMode			
 	3375574707	MusicLoops	InteractiveMusicMode			
-	748895195	None	SoundWorldMode			
-	1467691068	SonoFlore	SoundWorldMode			
-	2193720742	Gentle	SoundWorldMode			
-	3140781661	Shadow	SoundWorldMode			
-	4267886810	Shruti	SoundWorldMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
-	2144346671	FundamentalSilentVolume			\Interactive Music System\FundamentalSilentVolume	
+	54156859	AVS_MasterVolume_Wave1			\AVS System\WAVE 1\AVS_MasterVolume_Wave1	
+	467704492	MusicLoops_Volume			\Master Mixer\MusicLoops_Volume	
+	1209148328	AVS_Modulation_PWM_Wave1			\AVS System\WAVE 1\AVS_Modulation_PWM_Wave1	
+	1662384195	BreatheCycle_Volume			\SFX\BreatheCycle_Volume	
+	2075358266	AVS_Modulation_Smoothing_Wave1			\AVS System\WAVE 1\AVS_Modulation_Smoothing_Wave1	
+	2189202578	AVS_Modulation_Frequency_Wave1			\AVS System\WAVE 1\AVS_Modulation_Frequency_Wave1	
 	2398552911	BassSynthesizer_Volume			\SFX\BassSynthesizer_Volume	
-	3070055575	SILENT_Volume			\Interactive Music System\SILENT_Volume	
+	2456559820	Environment_Bus_Volume			\Master Mixer\Environment_Bus_Volume	
+	2523786154	AVS_REFERENCE_Volume			\AVS System\AVS_REFERENCE_Volume	
+	2591147255	AVS_Modulation_Waveform_Wave1			\AVS System\WAVE 1\AVS_Modulation_Waveform_Wave1	
+	3000490607	AVS_Modulation_MonoStereo_Wave1			\AVS System\WAVE 1\AVS_Modulation_MonoStereo_Wave1	
+	3133219855	AVS_Modulation_Depth_Wave1			\AVS System\WAVE 1\AVS_Modulation_Depth_Wave1	
+	3244028902	AVS_BLUE_Volume_Wave1			\AVS System\WAVE 1\AVS_BLUE_Volume_Wave1	
+	3740547865	AVS_Modulation_BypassEffect_Wave1			\AVS System\WAVE 1\AVS_Modulation_BypassEffect_Wave1	
+	3922087661	AVS_RED_Volume_Wave1			\AVS System\WAVE 1\AVS_RED_Volume_Wave1	
+	4221340217	AVS_GREEN_Volume_Wave1			\AVS System\WAVE 1\AVS_GREEN_Volume_Wave1	
 
 Modulator LFO	ID	Name			Wwise Object Path	Notes
 	1071040946	Modulator_LFO_SineWave			\Default Work Unit\Modulator_LFO_SineWave	
 
+Modulator Envelope	ID	Name			Wwise Object Path	Notes
+	522368039	Slow Attack Bass			\Default Work Unit\Slow Attack Bass	
+
+Effect plug-ins	ID	Name	Type				Notes
+	28907203	AVS_Tremolo_Reference_R	Wwise Tremolo			
+	28907229	AVS_Tremolo_Reference_L	Wwise Tremolo			
+	1506222489	AVS_Modulation_Wave1_01	Wwise Tremolo			
+	1506222490	AVS_Modulation_Wave1_02	Wwise Tremolo			
+
 Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	21278335	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\RED\RED\Sine	
+	56179526	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_REFERENCE\Reference_SignalGenerator_R\Sine	
+	145712967	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\BLUE\BLUE\Sine	
+	393190976	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\GREEN\GREEN\Sine	
+	409478190	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\BLUE\BLUE\Sine	
+	559173273	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_RIGHT_Silent\GREEN\GREEN\Sine	
+	632779657	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_REFERENCE\Reference_SignalGenerator_L\Sine	
+	725142564	Sine	Wwise Sine		\Actor-Mixer Hierarchy\AVS System\AVS_SineGenerators_RGB_Wave1\AVS_SineGenerators_RGB_Stereo_Wave1\AVS_SineGenerators_RGB_LEFT_Silent\RED\RED\Sine	
 	947492082	Synth One	Wwise Synth One		\Actor-Mixer Hierarchy\Bass Synthesizer\MIDI Bass Synthesizer\MIDI Bass Synthesizer\Synth One	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	6985824	VO_Calibration_Vibration_v1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\VO_Calibration_Vibration_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Calibration Sequence\Calibration Sequence\Calibration_Vibration\VO_Calibration_Vibration_v1		3744096
 	142502747	D	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\D_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\D\D		74
 	191826148	VO_Calibration_Volume_v1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\VO_Calibration_Volume_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Calibration Sequence\Calibration Sequence\Calibration_Volume\VO_Calibration_Volume_v1		3408096
+	229112935	New Music Track	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_toning_shruti_FBC78EF0.wem		\Interactive Music Hierarchy\Calibration Sequence\Calibration Sequence\Calibration_Volume\New Music Track		2880096
 	251817723	G	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\G_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\G\G		74
 	273367130	E	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\E_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\E\E		74
 	279448768	B	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\B_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\B\B		74
@@ -86,32 +128,36 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	305037647	VO_Calibration_Lights_v1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\VO_Calibration_Lights_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Calibration Sequence\Calibration Sequence\Calibration_Lights\VO_Calibration_Lights_v1		6576096
 	320884047	C	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\C_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\C\C		74
 	339955301	C#Bb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\C#Bb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\C#Db\C#Bb		74
+	423702346	New Music Track_01	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[G]_toning_shruti_FBC78EF0.wem		\Interactive Music Hierarchy\Calibration Sequence\Calibration Sequence\Calibration_Volume\New Music Track_01		2880096
 	447549247	VO_Calibration_Intro_v1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\VO_Calibration_Intro_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Calibration Sequence\Calibration Sequence\Calibration_Intro\VO_Calibration_Intro_v1		3288096
 	470655207	VO_Calibration_Mic_v1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\VO_Calibration_Mic_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Calibration Sequence\Calibration Sequence\Calibration_Mic\VO_Calibration_Mic_v1		3744096
 	521907833	A#Bb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\A#Bb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\A#Bb\A#Bb		74
+	650293573	sfx_breath in	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath in_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath in		612056
 	657858480	D#Eb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\D#Eb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\D#Eb\D#Eb		74
 	673999802	VO_Calibration_End_v1	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\VO_Calibration_End_v1_FBC78EF0.wem		\Interactive Music Hierarchy\Calibration Sequence\Calibration Sequence\Calibration_End\VO_Calibration_End_v1		4032096
 	929296902	A	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\A_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\A\A		74
+	977341665	sfx_breath out	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_breath out_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_breath out		768096
 	1056289911	G#Ab	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\G#Ab_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\G#Ab\G#Ab		74
 	1071905058	F#Gb	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\F#Gb_E3FF52BF.wem		\Interactive Music Hierarchy\Bass Synthesizer\Bass Synth Pitch Switch\F#Gb\F#Gb		74
 
 Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	Notes
-	91575132	fundamental_[F]_silent_sonoflore	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_silent_sono flore_FBC78EF0.wem	91575132.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[F]_silent_sonoflore\fundamental_[F]_silent_sonoflore	
-	119872313	fundamental_[E]_silent_shruti	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_silent_shruti_loop_FBC78EF0.wem	119872313.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[E]_silent_shruti	
-	130835513	fundamental_[B]_silent_gentle	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_silent_gentle_11A93380.wem	130835513.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[B]_silent_gentle	
-	160721409	fundamental_[C]_silent_shadow	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_silent_shadow_FBC78EF0.wem	160721409.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[C]_silent_shadow\fundamental_[C]_silent_shadow	
-	287831762	fundamental_[B]_silent_shadow	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_silent_shadow_FBC78EF0.wem	287831762.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[B]_silent_shadow\fundamental_[B]_silent_shadow	
-	348501288	fundamental_[G]_silent_shadow_01	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_silent_shadow_FBC78EF0.wem	348501288.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[E]_silent_shadow\fundamental_[G]_silent_shadow_01	
-	349667166	fundamental_[A]_silent_gentle	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_silent_gentle_818F3B66.wem	349667166.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[A]_silent_gentle	
-	383782895	fundamental_[E]_silent_shadow	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_silent_shadow_FBC78EF0.wem	383782895.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[E]_silent_shadow\fundamental_[E]_silent_shadow	
-	430598173	fundamental_[C]_silent_gentle	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_silent_gentle_FBC78EF0.wem	430598173.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[C]_silent_gentle	
-	533405318	fundamental_[C]_silent_sonoflore	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_silent_sono flore_FBC78EF0.wem	533405318.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[C]_silent_sonoflore\fundamental_[C]_silent_sonoflore	
-	555063014	fundamental_[B]_silent_sonoflore	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_silent_sono flore_FBC78EF0.wem	555063014.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[B]_silent_sonoflore	
-	597643613	fundamental_[B]_silent_shruti	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[B]_silent_shruti_loop_11A93380.wem	597643613.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[B]_silent_shruti	
-	600400528	fundamental_[F]_silent_shruti	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_silent_shruti_loop_FBC78EF0.wem	600400528.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[F]_silent_shruti	
-	612543880	fundamental_[C]_silent_shruti	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_silent_shruti_loop_FBC78EF0.wem	612543880.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[C]_silent_shruti	
-	682265836	fundamental_[E]_silent_gentle	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_silent_gentle_FBC78EF0.wem	682265836.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[E]_silent_gentle	
+	30291822	vo_endingSoon	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_endingSoon_FBC78EF0.wem	30291822.wem	\Interactive Music Hierarchy\CLOSING\VO_EndSoon\vo_endingSoon	
+	54796230	vo_goodbye_short	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_goodbye_short_FBC78EF0.wem	54796230.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_short\vo_goodbye_short	
+	163565718	environment_crickets	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_crickets_FBC78EF0.wem	163565718.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\environment_crickets	
+	248741514	vo_goodbye_anchoring	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_goodbye_anchoring_FBC78EF0.wem	248741514.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_anchoring\vo_goodbye_anchoring	
+	351785776	vo_goodbye_silence	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_goodbye_silence_FBC78EF0.wem	351785776.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_silence\vo_goodbye_silence	
+	473964817	vo_goodbye_long	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_goodbye_long_FBC78EF0.wem	473964817.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_long\vo_goodbye_long	
+	543585764	vo_elicitSigh_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_elicitSigh_closing_FBC78EF0.wem	543585764.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\vo_elicitSigh_closing	
+	579672527	sfx_start	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_start_FBC78EF0.wem	579672527.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_start	
+	623436931	sfx_stop_v2	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\RKU_LHH2_Percussion_Tingsha_2_FBC78EF0.wem	623436931.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_stop_v2	
+	665576698	sfx_stop	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\sfx_stop_FBC78EF0.wem	665576698.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\sfx_stop	
+	745939041	menu_music_C Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\menu_music_C Major_FBC78EF0.wem	745939041.wem	\Interactive Music Hierarchy\CLOSING\EXIT MUSIC PLAYLIST\menu_music_C Major\menu_music_C Major	
 	749900744	CalibrationSequence_Music	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\ThematicSavasana_MUSIC_20F507AD.wem	749900744.wem	\Actor-Mixer Hierarchy\Linear Music\Music\CalibrationSequence_Music	
-	882598793	fundamental_[E]_silent_sonoflore	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_silent_sono flore_FBC78EF0.wem	882598793.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[E]_silent_sonoflore	
-	955040453	fundamental_[F]_silent_gentle	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[G]_silent_gentle_FBC78EF0.wem	955040453.wem	\Actor-Mixer Hierarchy\InteractiveMusic_SilentLoops\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\InteractiveMusic_SilentLoops_v3_12_FundamentalOnly\fundamental_[F]_silent_gentle	
+	789751157	environment_wind	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_wind_FD032056.wem	789751157.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\environment_wind	
+	883996255	environment_wind	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_wind_FBC78EF0.wem	883996255.wem	\Actor-Mixer Hierarchy\Environment\Ozone_Environment\Ozone_Environment\environment_wind	
+	901997753	music_duet_D Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\music_duet_D Major_FBC78EF0.wem	901997753.wem	\Interactive Music Hierarchy\CLOSING\EXIT MUSIC PLAYLIST\music_duet_D Major\music_duet_D Major	
+	997677863	vo_thankYou	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thankYou_FBC78EF0.wem	997677863.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\vo_thankYou	
+	1006284074	environment_openingQuery	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_openingQuery_FBC78EF0.wem	1006284074.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\environment_openingQuery	
+	1050281884	music_meditationSilent_E Major	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\music_meditationSilent_E Major_FBC78EF0.wem	1050281884.wem	\Interactive Music Hierarchy\MUSIC\MusicLoops_Switch\CosmicAir_AMajor_Loop\music_meditationSilent_E Major_LOOP\music_meditationSilent_E Major	
+	1070561637	vo_elicitQuery_closing	C:\Users\deyin\Desktop\Soundself\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_elicitQuery_closing_FBC78EF0.wem	1070561637.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\vo_elicitQuery_closing	
 

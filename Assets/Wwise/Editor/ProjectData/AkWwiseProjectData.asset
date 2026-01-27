@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584326710236026439
+    m_lastTime: -8584322334312141030
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584329080062638344
+    m_lastTime: -8584322334311989457
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -639,6 +639,185 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+  - PhysicalPath: Events\Bass Synth.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Bass Synth
+      ObjectType: 12
+      guid: 125c7739e98ed3418d9a7f9af67863d6
+    ParentPath: Events\Bass Synth
+    guid: 125c7739e98ed3418d9a7f9af67863d6
+    GuidInternal: 
+    m_lastTime: -8584325425868173769
+    List:
+    - name: Play_BassSynth
+      guid: 0d3194f4ee2c4c4fb355614678f37ac9
+      id: 1347182731
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Bass Synth
+        ObjectType: 12
+        guid: 125c7739e98ed3418d9a7f9af67863d6
+      - ElementName: Play_BassSynth
+        ObjectType: 3
+        guid: 0d3194f4ee2c4c4fb355614678f37ac9
+      Path: Events\Bass Synth\Play_BassSynth
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_BassSynth_C
+      guid: 1ce754b1bae4224da7b584126ca8cf41
+      id: 360118433
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Bass Synth
+        ObjectType: 12
+        guid: 125c7739e98ed3418d9a7f9af67863d6
+      - ElementName: Set_BassSynth_C
+        ObjectType: 3
+        guid: 1ce754b1bae4224da7b584126ca8cf41
+      Path: Events\Bass Synth\Set_BassSynth_C
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_BassSynth
+      guid: 666989eb779d0844a902cc27888b188e
+      id: 1502315953
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Bass Synth
+        ObjectType: 12
+        guid: 125c7739e98ed3418d9a7f9af67863d6
+      - ElementName: Stop_BassSynth
+        ObjectType: 3
+        guid: 666989eb779d0844a902cc27888b188e
+      Path: Events\Bass Synth\Stop_BassSynth
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+  - PhysicalPath: Events\Calibration.wwu
+    PathAndIcons:
+    - ElementName: Events
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Calibration
+      ObjectType: 12
+      guid: 549d80ea6cfc8c41acca68baa9e812b4
+    ParentPath: Events\Calibration
+    guid: 549d80ea6cfc8c41acca68baa9e812b4
+    GuidInternal: 
+    m_lastTime: -8584325425868083749
+    List:
+    - name: Play_Calibration_Music
+      guid: afa6ee7a5b6981408e9065c9cdb2be06
+      id: 3682980534
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Calibration
+        ObjectType: 12
+        guid: 549d80ea6cfc8c41acca68baa9e812b4
+      - ElementName: Play_Calibration_Music
+        ObjectType: 3
+        guid: afa6ee7a5b6981408e9065c9cdb2be06
+      Path: Events\Calibration\Play_Calibration_Music
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_Calibration_Sequence
+      guid: d7ebeb5bc0243442944819865473ad57
+      id: 1731808482
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Calibration
+        ObjectType: 12
+        guid: 549d80ea6cfc8c41acca68baa9e812b4
+      - ElementName: Play_Calibration_Sequence
+        ObjectType: 3
+        guid: d7ebeb5bc0243442944819865473ad57
+      Path: Events\Calibration\Play_Calibration_Sequence
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_EndSoon_SEQUENCE
+      guid: 4d79fe912423754c8f4c9f79330eaf86
+      id: 3561899656
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Calibration
+        ObjectType: 12
+        guid: 549d80ea6cfc8c41acca68baa9e812b4
+      - ElementName: Play_EndSoon_SEQUENCE
+        ObjectType: 3
+        guid: 4d79fe912423754c8f4c9f79330eaf86
+      Path: Events\Calibration\Play_EndSoon_SEQUENCE
+      maxAttenuation: 0
+      maxDuration: 134.23682
+      minDuration: 134.23682
+    - name: Set_Calibration_Lights
+      guid: 721cc18d7cca2d4caa74cf06baf25381
+      id: 4293537666
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Calibration
+        ObjectType: 12
+        guid: 549d80ea6cfc8c41acca68baa9e812b4
+      - ElementName: Set_Calibration_Lights
+        ObjectType: 3
+        guid: 721cc18d7cca2d4caa74cf06baf25381
+      Path: Events\Calibration\Set_Calibration_Lights
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Stop_Calibration_Music
+      guid: 6e97a07c7d7c4048b3bd51950c7526f7
+      id: 1661327600
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Calibration
+        ObjectType: 12
+        guid: 549d80ea6cfc8c41acca68baa9e812b4
+      - ElementName: Stop_Calibration_Music
+        ObjectType: 3
+        guid: 6e97a07c7d7c4048b3bd51950c7526f7
+      Path: Events\Calibration\Stop_Calibration_Music
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Stop_Calibration_Sequence
+      guid: 2cdab71b968e524faaec17213e761b4a
+      id: 2252226012
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Calibration
+        ObjectType: 12
+        guid: 549d80ea6cfc8c41acca68baa9e812b4
+      - ElementName: Stop_Calibration_Sequence
+        ObjectType: 3
+        guid: 2cdab71b968e524faaec17213e761b4a
+      Path: Events\Calibration\Stop_Calibration_Sequence
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
@@ -650,7 +829,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584329080066626236
+    m_lastTime: -8584322334313361305
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -771,91 +950,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 446.41766
       minDuration: 446.41766
-    - name: Play_BassSynth
-      guid: 0d3194f4ee2c4c4fb355614678f37ac9
-      id: 1347182731
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_BassSynth
-        ObjectType: 3
-        guid: 0d3194f4ee2c4c4fb355614678f37ac9
-      Path: Events\Default Work Unit\Play_BassSynth
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_Calibration_Music
-      guid: afa6ee7a5b6981408e9065c9cdb2be06
-      id: 3682980534
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_Calibration_Music
-        ObjectType: 3
-        guid: afa6ee7a5b6981408e9065c9cdb2be06
-      Path: Events\Default Work Unit\Play_Calibration_Music
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_Calibration_Sequence
-      guid: d7ebeb5bc0243442944819865473ad57
-      id: 1731808482
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_Calibration_Sequence
-        ObjectType: 3
-        guid: d7ebeb5bc0243442944819865473ad57
-      Path: Events\Default Work Unit\Play_Calibration_Sequence
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_Calibration_SilentLoops
-      guid: 0e4fa4880eeb814ba6a22afda49fc43c
-      id: 3361879071
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_Calibration_SilentLoops
-        ObjectType: 3
-        guid: 0e4fa4880eeb814ba6a22afda49fc43c
-      Path: Events\Default Work Unit\Play_Calibration_SilentLoops
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: Play_EndSoon_SEQUENCE
-      guid: 4d79fe912423754c8f4c9f79330eaf86
-      id: 3561899656
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_EndSoon_SEQUENCE
-        ObjectType: 3
-        guid: 4d79fe912423754c8f4c9f79330eaf86
-      Path: Events\Default Work Unit\Play_EndSoon_SEQUENCE
-      maxAttenuation: 0
-      maxDuration: 134.23682
-      minDuration: 134.23682
     - name: Play_EXIT_MUSIC_PLAYLIST
       guid: f3103949575e7045b6d21abea929d925
       id: 3484562951
@@ -890,40 +984,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 471.42188
       minDuration: 471.42188
-    - name: Play_MIDI_Bass_Synthesizer
-      guid: 55a655c2d0cde34b99b9995835d578ae
-      id: 3170198134
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_MIDI_Bass_Synthesizer
-        ObjectType: 3
-        guid: 55a655c2d0cde34b99b9995835d578ae
-      Path: Events\Default Work Unit\Play_MIDI_Bass_Synthesizer
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_MUSIC_PLAYLIST_SWITCH
-      guid: 4ad42d0e718cce4daa453716dd52e231
-      id: 711060179
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Play_MUSIC_PLAYLIST_SWITCH
-        ObjectType: 3
-        guid: 4ad42d0e718cce4daa453716dd52e231
-      Path: Events\Default Work Unit\Play_MUSIC_PLAYLIST_SWITCH
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
     - name: Play_PASSIVE_OPENING_SEQUENCE
       guid: 32f8da04fe81b8488b57be2e117bfaab
       id: 4125756612
@@ -939,8 +999,8 @@ MonoBehaviour:
         guid: 32f8da04fe81b8488b57be2e117bfaab
       Path: Events\Default Work Unit\Play_PASSIVE_OPENING_SEQUENCE
       maxAttenuation: 0
-      maxDuration: 310.5156
-      minDuration: 310.5156
+      maxDuration: -1
+      minDuration: -1
     - name: Play_PREPARATION_OPENING_SEQUENCE_LONG
       guid: a82983929bbfc746a5d8defd50ee76e9
       id: 589034621
@@ -1128,23 +1188,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Set_Calibration_Lights
-      guid: 721cc18d7cca2d4caa74cf06baf25381
-      id: 4293537666
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Set_Calibration_Lights
-        ObjectType: 3
-        guid: 721cc18d7cca2d4caa74cf06baf25381
-      Path: Events\Default Work Unit\Set_Calibration_Lights
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
     - name: Stop_All
       guid: 911e8239f431d347b1afe42968aa6d28
       id: 452547817
@@ -1193,74 +1236,6 @@ MonoBehaviour:
         ObjectType: 3
         guid: c8b3c6a75ef17f448210af13e51ed08e
       Path: Events\Default Work Unit\Stop_ASCENDING_CLOSING
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: Stop_BassSynth
-      guid: 666989eb779d0844a902cc27888b188e
-      id: 1502315953
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Stop_BassSynth
-        ObjectType: 3
-        guid: 666989eb779d0844a902cc27888b188e
-      Path: Events\Default Work Unit\Stop_BassSynth
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: Stop_Calibration_Music
-      guid: 6e97a07c7d7c4048b3bd51950c7526f7
-      id: 1661327600
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Stop_Calibration_Music
-        ObjectType: 3
-        guid: 6e97a07c7d7c4048b3bd51950c7526f7
-      Path: Events\Default Work Unit\Stop_Calibration_Music
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: Stop_Calibration_Sequence
-      guid: 2cdab71b968e524faaec17213e761b4a
-      id: 2252226012
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Stop_Calibration_Sequence
-        ObjectType: 3
-        guid: 2cdab71b968e524faaec17213e761b4a
-      Path: Events\Default Work Unit\Stop_Calibration_Sequence
-      maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
-    - name: Stop_MIDI_Bass_Synthesizer
-      guid: 225d2be5ee0ec64f9c3d7773b2419d12
-      id: 940955664
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
-      - ElementName: Stop_MIDI_Bass_Synthesizer
-        ObjectType: 3
-        guid: 225d2be5ee0ec64f9c3d7773b2419d12
-      Path: Events\Default Work Unit\Stop_MIDI_Bass_Synthesizer
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1845,7 +1820,7 @@ MonoBehaviour:
     ParentPath: Events\Linear Music
     guid: ae874db4035f664c8db73b3cfbfee75e
     GuidInternal: 
-    m_lastTime: -8584332847007396189
+    m_lastTime: -8584322334313221269
     List:
     - name: Play_MenuMusic
       guid: 1df5e9e4dc81c841ba5daa250a570b32
@@ -1926,7 +1901,7 @@ MonoBehaviour:
     ParentPath: Events\Music Loops
     guid: 75bb5333efd5ef44a600b06130e39b37
     GuidInternal: 
-    m_lastTime: -8584329080066426200
+    m_lastTime: -8584322334313061241
     List:
     - name: Play_MusicLoops
       guid: e3c408690e6d264b87fae01a43eab94c
@@ -1942,6 +1917,74 @@ MonoBehaviour:
         ObjectType: 3
         guid: e3c408690e6d264b87fae01a43eab94c
       Path: Events\Music Loops\Play_MusicLoops
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Play_MusicPlaylist
+      guid: 4ad42d0e718cce4daa453716dd52e231
+      id: 2585924577
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Play_MusicPlaylist
+        ObjectType: 3
+        guid: 4ad42d0e718cce4daa453716dd52e231
+      Path: Events\Music Loops\Play_MusicPlaylist
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_AmbientLoop
+      guid: f916ef6944858d4dbfa1f2e93da6de9f
+      id: 993002611
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_AmbientLoop
+        ObjectType: 3
+        guid: f916ef6944858d4dbfa1f2e93da6de9f
+      Path: Events\Music Loops\Set_MusicLoops_AmbientLoop
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_AweAtmosphere
+      guid: 126d5a4ff559384b88d5882c8eb1eeda
+      id: 2623730532
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_AweAtmosphere
+        ObjectType: 3
+        guid: 126d5a4ff559384b88d5882c8eb1eeda
+      Path: Events\Music Loops\Set_MusicLoops_AweAtmosphere
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_BreathworkHandpan
+      guid: 853e16bd47e62c468d9d865a10cfabc5
+      id: 1663197090
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_BreathworkHandpan
+        ObjectType: 3
+        guid: 853e16bd47e62c468d9d865a10cfabc5
+      Path: Events\Music Loops\Set_MusicLoops_BreathworkHandpan
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1996,6 +2039,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Set_MusicLoops_MysticalVision
+      guid: c2d97ce53f7f31458c06d532fa1da63b
+      id: 3251828151
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_MysticalVision
+        ObjectType: 3
+        guid: c2d97ce53f7f31458c06d532fa1da63b
+      Path: Events\Music Loops\Set_MusicLoops_MysticalVision
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_MusicLoops_ShiftingEarth
+      guid: f7fa06d510f5084486297670a7a37117
+      id: 1381748841
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_ShiftingEarth
+        ObjectType: 3
+        guid: f7fa06d510f5084486297670a7a37117
+      Path: Events\Music Loops\Set_MusicLoops_ShiftingEarth
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Set_MusicLoops_Silence
       guid: 3b032ad20540ed44a869922e8697c219
       id: 259224804
@@ -2030,6 +2107,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Set_MusicLoops_SitarAmbience
+      guid: 8c7f53c51e4abe4a8c2412f1ebb66acb
+      id: 1230555096
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_MusicLoops_SitarAmbience
+        ObjectType: 3
+        guid: 8c7f53c51e4abe4a8c2412f1ebb66acb
+      Path: Events\Music Loops\Set_MusicLoops_SitarAmbience
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Set_PinkNoiseAtmosphere
+      guid: 82e9dc4e2ce33f429662091c8b83803d
+      id: 3933660492
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Set_PinkNoiseAtmosphere
+        ObjectType: 3
+        guid: 82e9dc4e2ce33f429662091c8b83803d
+      Path: Events\Music Loops\Set_PinkNoiseAtmosphere
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Set_State_MusicLoops
       guid: 81ec131a404f774f83f3461e073be4bb
       id: 1245878726
@@ -2064,6 +2175,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_MusicPlaylist
+      guid: e0cec4f96036b44da3f4b615470cc1a9
+      id: 825137487
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 75bb5333efd5ef44a600b06130e39b37
+      - ElementName: Stop_MusicPlaylist
+        ObjectType: 3
+        guid: e0cec4f96036b44da3f4b615470cc1a9
+      Path: Events\Music Loops\Stop_MusicPlaylist
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\SFX.wwu
     PathAndIcons:
     - ElementName: Events
@@ -2075,7 +2203,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584326730158966280
+    m_lastTime: -8584322334312921210
     List:
     - name: New_Event
       guid: b0e748853f865a469d90e479ca2f8ec2
@@ -2126,8 +2254,8 @@ MonoBehaviour:
         guid: 1a9f408bea41d94f88556e165a2929f1
       Path: Events\SFX\Play_CrystalBowlGenerator
       maxAttenuation: 0
-      maxDuration: 385.44745
-      minDuration: 385.44745
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Inhale_Long
       guid: cc2a9f4bfd558542952b9206b5585121
       id: 769398012
@@ -5573,7 +5701,7 @@ MonoBehaviour:
     ParentPath: Switches\Linear Music
     guid: 4559fdf6c456f549993933ab507a3928
     GuidInternal: 
-    m_lastTime: -8584332846999458749
+    m_lastTime: -8584322334311400865
     List:
     - name: LinearMusic_Opening
       guid: ad701a433214144398da4e5c38930442
@@ -5641,9 +5769,9 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: MusicPlaylist_Switch
+    - name: LinearMusic_Switch
       guid: a40d9f25c6e78e4fa79e52d83d1a8402
-      id: 1496240431
+      id: 597707478
       PathAndIcons:
       - ElementName: Switches
         ObjectType: 5
@@ -5651,10 +5779,10 @@ MonoBehaviour:
       - ElementName: Linear Music
         ObjectType: 12
         guid: 4559fdf6c456f549993933ab507a3928
-      - ElementName: MusicPlaylist_Switch
+      - ElementName: LinearMusic_Switch
         ObjectType: 11
         guid: a40d9f25c6e78e4fa79e52d83d1a8402
-      Path: Switches\Linear Music\MusicPlaylist_Switch
+      Path: Switches\Linear Music\LinearMusic_Switch
       values:
       - name: Chakapa_4m
         guid: af73ffdbbb6bcd4ab9ce47ef148244fc
@@ -5666,7 +5794,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: Chakapa_4m
@@ -5682,7 +5810,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: DuetSonoFlore_5m
@@ -5698,7 +5826,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: GuidedTutorial_111Hz_5m
@@ -5714,7 +5842,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: inHarmony_MusicSFX_25m
@@ -5730,7 +5858,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: Metta_5m
@@ -5746,7 +5874,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: NatureChimes_6m
@@ -5762,7 +5890,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: NatureChimesSaxophone_6m
@@ -5778,7 +5906,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: OpeningMeditation_AMajor_4m
@@ -5794,7 +5922,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: OpeningOrientation_3m
@@ -5810,7 +5938,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: Radiance_9m
@@ -5826,7 +5954,7 @@ MonoBehaviour:
         - ElementName: Linear Music
           ObjectType: 12
           guid: 4559fdf6c456f549993933ab507a3928
-        - ElementName: MusicPlaylist_Switch
+        - ElementName: LinearMusic_Switch
           ObjectType: 11
           guid: a40d9f25c6e78e4fa79e52d83d1a8402
         - ElementName: ShrutiFemVox_7m
@@ -5846,7 +5974,7 @@ MonoBehaviour:
     ParentPath: Switches\Music Loops
     guid: 156fa4da81cf6c43a7ee0f1794958384
     GuidInternal: 
-    m_lastTime: -8584332846999378731
+    m_lastTime: -8584322334311280835
     List:
     - name: MusicLoops_Switch
       guid: 7eb92896dd424f4fb707f2504de3d841
@@ -6055,6 +6183,56 @@ MonoBehaviour:
         - ElementName: SitarAmbience
           ObjectType: 10
           guid: 3909cbceb6f6404d858eaa754e576f14
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: MusicPlaylist_Switch
+      guid: fae207273eb1674a9a8b3bb1cb70a0ed
+      id: 1496240431
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Music Loops
+        ObjectType: 12
+        guid: 156fa4da81cf6c43a7ee0f1794958384
+      - ElementName: MusicPlaylist_Switch
+        ObjectType: 11
+        guid: fae207273eb1674a9a8b3bb1cb70a0ed
+      Path: Switches\Music Loops\MusicPlaylist_Switch
+      values:
+      - name: _40m
+        guid: 2264179b591a7f4ea2442237bac758e2
+        id: 802424873
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Music Loops
+          ObjectType: 12
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: fae207273eb1674a9a8b3bb1cb70a0ed
+        - ElementName: _40m
+          ObjectType: 10
+          guid: 2264179b591a7f4ea2442237bac758e2
+      - name: _60m
+        guid: c583d9e38eab1340af1ba1786a1ce846
+        id: 2614701851
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Music Loops
+          ObjectType: 12
+          guid: 156fa4da81cf6c43a7ee0f1794958384
+        - ElementName: MusicPlaylist_Switch
+          ObjectType: 11
+          guid: fae207273eb1674a9a8b3bb1cb70a0ed
+        - ElementName: _60m
+          ObjectType: 10
+          guid: c583d9e38eab1340af1ba1786a1ce846
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []

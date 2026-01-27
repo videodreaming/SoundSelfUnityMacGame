@@ -28,7 +28,6 @@ namespace AK
         static const AkUniqueID PLAY_BINAURALGENERATOR = 2050024707U;
         static const AkUniqueID PLAY_CALIBRATION_MUSIC = 3682980534U;
         static const AkUniqueID PLAY_CALIBRATION_SEQUENCE = 1731808482U;
-        static const AkUniqueID PLAY_CALIBRATION_SILENTLOOPS = 3361879071U;
         static const AkUniqueID PLAY_ENDSOON_SEQUENCE = 3561899656U;
         static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT1 = 3724822780U;
         static const AkUniqueID PLAY_ENVIRONMENT_ANYQUERYREPEAT2 = 3724822783U;
@@ -46,8 +45,8 @@ namespace AK
         static const AkUniqueID PLAY_MENUMUSIC = 2570041344U;
         static const AkUniqueID PLAY_MUSIC_DUET_D_MAJOR = 1226520867U;
         static const AkUniqueID PLAY_MUSIC_MEDITATIONSILENT_E_MAJOR_LOOP = 3359246268U;
-        static const AkUniqueID PLAY_MUSIC_PLAYLIST_SWITCH = 711060179U;
         static const AkUniqueID PLAY_MUSICLOOPS = 3409568304U;
+        static const AkUniqueID PLAY_MUSICPLAYLIST = 2585924577U;
         static const AkUniqueID PLAY_NEWENDING = 2562807417U;
         static const AkUniqueID PLAY_PONDFROGS = 707002428U;
         static const AkUniqueID PLAY_PREPARATION_OPENING_SEQUENCE_LONG = 589034621U;
@@ -98,12 +97,20 @@ namespace AK
         static const AkUniqueID PLAY_VO_THEMATICSAVASANA = 247426471U;
         static const AkUniqueID PLAY_VO_WAKEUP = 322188649U;
         static const AkUniqueID PLAY_WAKEUPENDSOON_SEQUENCE = 4021535955U;
+        static const AkUniqueID SET_BASSSYNTH_C = 360118433U;
         static const AkUniqueID SET_CALIBRATION_LIGHTS = 4293537666U;
+        static const AkUniqueID SET_MUSICLOOPS_AMBIENTLOOP = 993002611U;
+        static const AkUniqueID SET_MUSICLOOPS_AWEATMOSPHERE = 2623730532U;
+        static const AkUniqueID SET_MUSICLOOPS_BREATHWORKHANDPAN = 1663197090U;
         static const AkUniqueID SET_MUSICLOOPS_CELESTIALDREAMSCAPE = 3413019722U;
         static const AkUniqueID SET_MUSICLOOPS_COSMICAIR = 781384595U;
         static const AkUniqueID SET_MUSICLOOPS_ENVIRONMENT = 1998418046U;
+        static const AkUniqueID SET_MUSICLOOPS_MYSTICALVISION = 3251828151U;
+        static const AkUniqueID SET_MUSICLOOPS_SHIFTINGEARTH = 1381748841U;
         static const AkUniqueID SET_MUSICLOOPS_SILENCE = 259224804U;
         static const AkUniqueID SET_MUSICLOOPS_SINGINGBOWLS = 1455411157U;
+        static const AkUniqueID SET_MUSICLOOPS_SITARAMBIENCE = 1230555096U;
+        static const AkUniqueID SET_PINKNOISEATMOSPHERE = 3933660492U;
         static const AkUniqueID SET_STATE_MUSICLOOPS = 1245878726U;
         static const AkUniqueID STOP_ALL = 452547817U;
         static const AkUniqueID STOP_AMBIENT_ENVIRONMENT_LOOP = 828034871U;
@@ -122,6 +129,7 @@ namespace AK
         static const AkUniqueID STOP_INTERACTIVEMUSICSYSTEM = 114893642U;
         static const AkUniqueID STOP_MUSIC_MEDITATIONSILENT_E_MAJOR_LOOP = 2938179890U;
         static const AkUniqueID STOP_MUSICLOOPS = 1761697258U;
+        static const AkUniqueID STOP_MUSICPLAYLIST = 825137487U;
         static const AkUniqueID STOP_OPENING_SEQUENCE = 670049528U;
         static const AkUniqueID STOP_SFX_BREATHWORKCYCLE = 4041051749U;
         static const AkUniqueID STOP_SFX_SOUNDSEED_BREATHCYCLEWIND = 674892661U;
@@ -309,6 +317,26 @@ namespace AK
             } // namespace SWITCH
         } // namespace LINEARMUSIC_OPENING
 
+        namespace LINEARMUSIC_SWITCH
+        {
+            static const AkUniqueID GROUP = 597707478U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID CHAKAPA_4M = 841411210U;
+                static const AkUniqueID DUETSONOFLORE_5M = 3198811659U;
+                static const AkUniqueID GUIDEDTUTORIAL_111HZ_5M = 1816202284U;
+                static const AkUniqueID INHARMONY_MUSICSFX_25M = 1672318622U;
+                static const AkUniqueID METTA_5M = 2389211517U;
+                static const AkUniqueID NATURECHIMES_6M = 510174857U;
+                static const AkUniqueID NATURECHIMESSAXOPHONE_6M = 1589520792U;
+                static const AkUniqueID OPENINGMEDITATION_AMAJOR_4M = 3368719192U;
+                static const AkUniqueID OPENINGORIENTATION_3M = 3997136470U;
+                static const AkUniqueID RADIANCE_9M = 4054988975U;
+                static const AkUniqueID SHRUTIFEMVOX_7M = 1827068784U;
+            } // namespace SWITCH
+        } // namespace LINEARMUSIC_SWITCH
+
         namespace MENU_SESSIONMODE
         {
             static const AkUniqueID GROUP = 2585035832U;
@@ -350,17 +378,8 @@ namespace AK
 
             namespace SWITCH
             {
-                static const AkUniqueID CHAKAPA_4M = 841411210U;
-                static const AkUniqueID DUETSONOFLORE_5M = 3198811659U;
-                static const AkUniqueID GUIDEDTUTORIAL_111HZ_5M = 1816202284U;
-                static const AkUniqueID INHARMONY_MUSICSFX_25M = 1672318622U;
-                static const AkUniqueID METTA_5M = 2389211517U;
-                static const AkUniqueID NATURECHIMES_6M = 510174857U;
-                static const AkUniqueID NATURECHIMESSAXOPHONE_6M = 1589520792U;
-                static const AkUniqueID OPENINGMEDITATION_AMAJOR_4M = 3368719192U;
-                static const AkUniqueID OPENINGORIENTATION_3M = 3997136470U;
-                static const AkUniqueID RADIANCE_9M = 4054988975U;
-                static const AkUniqueID SHRUTIFEMVOX_7M = 1827068784U;
+                static const AkUniqueID _40M = 802424873U;
+                static const AkUniqueID _60M = 2614701851U;
             } // namespace SWITCH
         } // namespace MUSICPLAYLIST_SWITCH
 
