@@ -36,6 +36,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     public bool imitoneActiveRaw { get; private set; } = false;
 
     [Tooltip("Toning With False Positive Logic")]
+    private bool toneActiveBiasTrueLastFrame = false;
+    private bool toneActiveConfidentLastFrame = false;
     public bool toneActive { get; private set; } = false;
     public int toneActiveCounter { get; private set; } = 0;
     public bool toneActiveRaw { get; private set; } = false;
@@ -750,10 +752,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         {
             if (!toneActiveBiasTrueFrameFlag)
             {
-                if(debugAllowToneActiveVariationsLogs)
-                {
-                    Debug.Log("Imitone: Tone Active Bias True Frame");
-                }
                 toneActiveBiasTrueFrame = true;
                 toneActiveBiasTrueFrameFlag = true;
             }
@@ -788,6 +786,54 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             _tThisToneBiasTrue += Time.deltaTime;
         else
             _tThisToneBiasTrue = 0.0f;
+        // Custom debug for biasTrue and Confident ON/OFF states
+        if (toneActiveBiasTrue != toneActiveBiasTrueLastFrame)
+        {
+            if (debugAllowToneActiveVariationsLogs)
+            {
+                if (toneActiveBiasTrue)
+                {
+                    Debug.Log("Imitone: toneActiveBiasTrue --ON--");
+                }
+                else
+                {
+                    Debug.Log("Imitone: toneActiveBiasTrue --off--");
+                }
+            }
+        }
+        if (toneActiveConfident != toneActiveConfidentLastFrame)
+        {
+            if (debugAllowToneActiveVariationsLogs)
+            {
+                if (toneActiveConfident)
+                {
+                    Debug.Log("Imitone: toneActiveConfident --ON--");
+                }
+                else
+                {
+                    Debug.Log("Imitone: toneActiveConfident --off--");
+                }
+            }
+        }
+        // Track state changes for debugging (at end of CheckToning())
+        if (toneActiveBiasTrue != toneActiveBiasTrueLastFrame)
+        {
+            if(debugAllowToneActiveVariationsLogs)
+            {
+                Debug.Log("Imitone: toneActiveBiasTrue changed to " + toneActiveBiasTrue);
+            }
+        }
+        if (toneActiveConfident != toneActiveConfidentLastFrame)
+        {
+            if(debugAllowToneActiveVariationsLogs)
+            {
+                Debug.Log("Imitone: toneActiveConfident changed to " + toneActiveConfident);
+            }
+        }
+        
+        // Update previous frame state at the end of CheckToning()
+        toneActiveBiasTrueLastFrame = toneActiveBiasTrue;
+        toneActiveConfidentLastFrame = toneActiveConfident;
     }
 
 

@@ -295,6 +295,7 @@ public class WwiseVOManager : MonoBehaviour
     {
         AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
         AkSoundEngine.SetState("SoundWorldMode", "Gentle");
+        musicSystem1.SetSoundWorldFlag();
     }
 
     public void SetToEsketamineDescending()

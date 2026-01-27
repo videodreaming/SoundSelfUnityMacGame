@@ -144,6 +144,8 @@ public class MusicSystem1 : MonoBehaviour
         { "PinkNoiseAtmosphere", NoteName.As }  // TODO: Set correct fundamental for each MusicLoop
     };
 
+    private bool haveSetSoundWorldFlag = false;
+
     public NoteName permanentlySetFundamental = NoteName.None;
 
 
@@ -299,6 +301,13 @@ public class MusicSystem1 : MonoBehaviour
         };
 
         currentSequenceIndex = random.Next(sequences.Count);
+
+        // If the sound world has not yet been set, set it to Gentle to prevent bug.
+        if (!haveSetSoundWorldFlag)
+        {
+            AkSoundEngine.SetState("SoundWorldMode", "Gentle");
+            SetSoundWorldFlag();
+        }
     }
 
     void Update()
@@ -895,10 +904,18 @@ public class MusicSystem1 : MonoBehaviour
                 Debug.LogWarning($"MUSIC: Changing SoundWorld to '{soundWorld}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
             }
         }
-        
+        if (!soundWorlds.Contains(soundWorld))
+        {
+            if (debugAllowWarnings || debugAllowSoundscapeLogs)
+            {
+                Debug.LogWarning($"MUSIC: SetSoundWorld called with invalid soundWorld '{soundWorld}'");
+            }
+            return;
+        }
         currentInteractionType = InteractionType.SoundWorld;
         AkSoundEngine.SetState("SoundWorldMode", soundWorld);
         worldShuffler.SetCurrentSoundscape(soundWorld);
+        SetSoundWorldFlag();
         
         // Clear content lock since SoundWorlds work with any fundamental
         SetFundamentalContentLock(null);
@@ -1449,19 +1466,10 @@ public class MusicSystem1 : MonoBehaviour
     {       
         if(localToneOn && !previousLocalToneOn)
         {
-            if(debugAllowBasicToningLogs)
-            {
-                Debug.Log("MUSIC: Post Toning Events to Wwise");
-            }
-
             PostTheToningEvents();
 
         } else if (!localToneOn && previousLocalToneOn)
         {
-            if(debugAllowBasicToningLogs)
-            {
-                Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
-            }
             StopWwiseToning();
         }
 
@@ -1562,6 +1570,10 @@ public class MusicSystem1 : MonoBehaviour
     public void StopWwiseToning()
     {
         AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+        if (debugAllowToningLogs)
+        {
+            Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
+        }
 
         // Note: BassSynth is now controlled separately by toneActiveConfident, not stopped here
         // BassSynth will stop automatically when toneActiveConfident becomes false
@@ -1625,15 +1637,15 @@ public class MusicSystem1 : MonoBehaviour
         float noteTrackerThreshold;
         if (imitoneVoiceInterpreter.toneActiveVeryConfident)
         {
-            noteTrackerThreshold = imitoneVoiceInterpreter._activeThreshold3; //0.75f
+            noteTrackerThreshold = imitoneVoiceInterpreter._activeThreshold3 * 2.0f; //1.5f
         }   
         else if (imitoneVoiceInterpreter.toneActiveConfident)
         {
-            noteTrackerThreshold = imitoneVoiceInterpreter.positiveActiveThreshold2; // 0.2f
+            noteTrackerThreshold = imitoneVoiceInterpreter._activeThreshold3; // 0.75f
         }
         else if (imitoneVoiceInterpreter.toneActive)
         {
-            noteTrackerThreshold = imitoneVoiceInterpreter.positiveActiveThreshold1; //0.05f
+            noteTrackerThreshold = imitoneVoiceInterpreter.positiveActiveThreshold2; //0.2f
         }
         else
         {
@@ -1649,7 +1661,7 @@ public class MusicSystem1 : MonoBehaviour
         {
             foreach (var scaleNote in NoteTracker)
             {
-                float localActivationTimer = scaleNote.Value.ActivationTimer;
+                float thisActivationTimer = scaleNote.Value.ActivationTimer;
                 //float newChangeFundamentalTimer = scaleNote.Value.ChangeFundamentalTimer;
                 bool isActive = scaleNote.Value.Active;
                 bool isHighestActivationTimer = false;
@@ -1673,7 +1685,7 @@ public class MusicSystem1 : MonoBehaviour
                 // musicNoteInput is a float (0-11 range) from harmonic adjustment calculations
                 // Converted to NoteName enum to match the NoteTracker dictionary key type
                 NoteName musicNoteInputNote = NoteUtils.FloatToNoteName(musicNoteInput);
-                    if (musicNoteInputNote == NoteName.None)
+                if (musicNoteInputNote == NoteName.None)
                 {
                     if(debugAllowWarnings || debugAllowImitoneUpdateLogs)
                     {
@@ -1682,28 +1694,30 @@ public class MusicSystem1 : MonoBehaviour
                 }
                 if (musicNoteInputNote == scaleNote.Key)
                 {
-                    if(debugAllowImitoneUpdateLogs && (localActivationTimer == 0 || (Time.frameCount % 30 == 0)))
+                    if(debugAllowImitoneUpdateLogs && (thisActivationTimer == 0 || (Time.frameCount % 30 == 0)))
                     {
                         //musicNoteActivated = scaleNote.Key; 
-                        //Debug.Log("MUSIC 1: [COMPARE TONES] Key(" + scaleNote.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + localActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
+                        //Debug.Log("MUSIC 1: [COMPARE TONES] Key(" + scaleNote.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + thisActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
                     }
-                    localActivationTimer += Time.deltaTime; // Increment active timer if current note input matches the tracker note
+                    thisActivationTimer += Time.deltaTime; // Increment active timer if current note input matches the tracker note
 
-                    if (localActivationTimer >= highestActivationTimer && localActivationTimer != 0.0f)
+                    // FIRST: CHECK IF THIS IS THE HIGHEST ACTIVATION TIMER YET
+                    if (thisActivationTimer >= highestActivationTimer && thisActivationTimer != 0.0f)
                     {
                         if(debugAllowImitoneUpdateLogs)
                         {
-                            //Debug.Log("MUSIC 2: [ACTIVATION TIMER FOR " + ConvertIntToNote(note.Key) + "] " + localActivationTimer + " >= " + highestActivationTimer + " && " + localActivationTimer + " != 0.0f");
+                            //Debug.Log("MUSIC 2: [ACTIVATION TIMER FOR " + ConvertIntToNote(note.Key) + "] " + thisActivationTimer + " >= " + highestActivationTimer + " && " + thisActivationTimer + " != 0.0f");
                         }
-                        highestActivationTimer = localActivationTimer;
+                        highestActivationTimer = thisActivationTimer;
                         isHighestActivationTimer = true;
                     }
                     
-                    if (localActivationTimer >= noteTrackerThreshold && (anyNoteActive || isHighestActivationTimer))
+                    bool allowNewActivation = (anyNoteActive || isHighestActivationTimer); //either this one is highest, or we are already in an active state.
+                    if (thisActivationTimer >= noteTrackerThreshold && allowNewActivation)
                     {
                         if (debugAllowImitoneUpdateLogs && nextNote != scaleNote.Key)
                         {
-                            Debug.Log("MUSIC 3: nextNote changed to (" + scaleNote.Key + ") Activation Timer(" + localActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
+                            Debug.Log("MUSIC 3: nextNote changed to (" + scaleNote.Key + ") Activation Timer(" + thisActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
                         }
                         nextNote = scaleNote.Key;
                         if (imitoneVoiceInterpreter.toneActiveBiasTrue) //now we change the actual tone!
@@ -1718,12 +1732,16 @@ public class MusicSystem1 : MonoBehaviour
                             activations[scaleNote.Key] = isActive;
                         }
                     }
-                    updates[scaleNote.Key] = (localActivationTimer, isActive, firstFrameActive, scaleNote.Value.ChangeFundamentalTimer);
+                    updates[scaleNote.Key] = (thisActivationTimer, isActive, firstFrameActive, scaleNote.Value.ChangeFundamentalTimer);
                 }
-                else if (!imitoneVoiceInterpreter.toneActiveBiasTrue)
+                else if (!imitoneVoiceInterpreter.toneActiveBiasTrue) 
                 {
+                    //When imitoneActive is true, but toneActiveBiasTrue is false (possible false positive state)
+                    //Then for notes other than the note that imitone thinks we are toning,
+                    //Reset the activation timer, active flat, and first frame active flat.
+
                     updates[scaleNote.Key] = (0, false, false, scaleNote.Value.ChangeFundamentalTimer);
-                    musicNoteActivated = NoteName.None;
+                    musicNoteActivated = NoteName.None; 
                 }
             }
             // Apply the accumulated updates to the NoteTracker
@@ -2087,6 +2105,11 @@ public class MusicSystem1 : MonoBehaviour
                 default: SetSoundscape("SonoFlore"); break;
             }
         }
+    }
+
+    public void SetSoundWorldFlag() //THIS IS IMPORTANT, BECAUSE IF WE NEVER SET THE SOUND WORLD, WWISE WILL DEFAULT TO PLAYING ALL OF THEM AT ONCE.
+    {
+        haveSetSoundWorldFlag = true;
     }
 
     
