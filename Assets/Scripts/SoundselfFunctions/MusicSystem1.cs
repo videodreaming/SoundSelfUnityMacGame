@@ -84,6 +84,12 @@ public class MusicSystem1 : MonoBehaviour
     private NoteName? currentBassSynthPitch = null; // Current pitch switch value for BassSynth
     private bool bassSynthNonePitchWarningLogged = false; // Track if we've already logged the None pitch warning
     private bool impactSoundFlag = false; // Track if the impact sound has been played
+    
+    // BassSynth cooldown system (4 second cooldown between start/pitch changes)
+    private const float BASS_SYNTH_COOLDOWN = 4.0f;
+    private float bassSynthCooldownTimer = 0f; // Time since last start/pitch change action
+    private bool pendingBassSynthStart = false; // Start action pending during cooldown
+    private NoteName? pendingBassSynthPitch = null; // Pitch change pending during cooldown
 
     //HARMONY SEQUENCES
     List<int> harmonySequence1 = new List<int> {5, 7, 5, 7, 5, 7, 5, 7};
@@ -1478,6 +1484,41 @@ public class MusicSystem1 : MonoBehaviour
 
     private void BassSynthUpdate()
     {
+        // Update cooldown timer
+        bassSynthCooldownTimer += Time.deltaTime;
+        
+        // Check if cooldown has expired and execute pending actions
+        // Pitch change executes first (so start can use the updated pitch)
+        if (bassSynthCooldownTimer >= BASS_SYNTH_COOLDOWN)
+        {
+            if (pendingBassSynthPitch != null)
+            {
+                // Execute pending pitch change first
+                NoteName pitchToChange = pendingBassSynthPitch.Value;
+                pendingBassSynthPitch = null;
+                if(debugAllowBassSynthLogs)
+                {
+                    Debug.Log("Music: BassSynth pitch change executing after cooldown (to " + NoteUtils.NoteToWwiseString(pitchToChange) + ")");
+                }
+                UpdateBassSynthPitchSwitch(pitchToChange);
+                // Note: UpdateBassSynthPitchSwitch resets cooldown timer, but we still want to check for pending start
+                // If start is also pending, it should execute immediately after pitch change (no additional cooldown wait)
+            }
+            
+            // Check for pending start separately (after pitch change if it executed)
+            // This allows start to execute immediately after pitch change in the same frame
+            if (pendingBassSynthStart)
+            {
+                // Execute pending start (after pitch change if it was pending)
+                pendingBassSynthStart = false;
+                if(debugAllowBassSynthLogs)
+                {
+                    Debug.Log("Music: BassSynth Start executing after cooldown");
+                }
+                PostTheBassSynthEvent();
+            }
+        }
+        
         // BassSynth control based on toneActiveConfident
         if(localBassSynthToneOn && !previousLocalBassSynthToneOn)
         {
@@ -1485,7 +1526,22 @@ public class MusicSystem1 : MonoBehaviour
             {
                 Debug.Log("Music: BassSynth Start requested (toneActiveConfident became true)");
             }
-            PostTheBassSynthEvent();
+            
+            // Check cooldown before starting
+            if (bassSynthCooldownTimer >= BASS_SYNTH_COOLDOWN)
+            {
+                // Cooldown expired, start immediately
+                PostTheBassSynthEvent();
+            }
+            else
+            {
+                // In cooldown, queue start for later (pitch change will execute first if also pending)
+                pendingBassSynthStart = true;
+                if(debugAllowBassSynthLogs)
+                {
+                    Debug.Log("Music: BassSynth Start queued (cooldown active, " + (BASS_SYNTH_COOLDOWN - bassSynthCooldownTimer).ToString("F2") + "s remaining)");
+                }
+            }
         }
         else if (!localBassSynthToneOn && previousLocalBassSynthToneOn)
         {
@@ -1493,6 +1549,11 @@ public class MusicSystem1 : MonoBehaviour
             {
                 Debug.Log("Music: BassSynth Stop requested (toneActiveConfident became false)");
             }
+            
+            // Stop bypasses cooldown - execute immediately and clear pending actions
+            pendingBassSynthStart = false;
+            pendingBassSynthPitch = null;
+            
             // Stop BassSynth when toneActiveConfident becomes false
             if (bassSynthPlaying)
             {
@@ -1543,21 +1604,56 @@ public class MusicSystem1 : MonoBehaviour
                 if (!bassSynthPlaying)
                 {
                     // Start BassSynth with the current pitch
-                    // Set pitch switch BEFORE playing (ensures correct pitch on start)
-                    AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", NoteUtils.NoteToWwiseString(targetPitch), gameObject);
-                    currentBassSynthPitch = targetPitch;
-                    AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
-                    bassSynthPlaying = true;
-                    if(debugAllowBassSynthLogs)
+                    // Check cooldown before starting
+                    if (bassSynthCooldownTimer >= BASS_SYNTH_COOLDOWN)
                     {
-                        Debug.Log("Music: BassSynth Start event posted (delayed start - pitch: " + NoteUtils.NoteToWwiseString(targetPitch) + ", InteractionType: " + currentInteractionType + ")");
+                        // Cooldown expired, start immediately
+                        // Set pitch switch BEFORE playing (ensures correct pitch on start)
+                        AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", NoteUtils.NoteToWwiseString(targetPitch), gameObject);
+                        currentBassSynthPitch = targetPitch;
+                        AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
+                        bassSynthPlaying = true;
+                        bassSynthCooldownTimer = 0f; // Reset cooldown after starting
+                        if(debugAllowBassSynthLogs)
+                        {
+                            Debug.Log("Music: BassSynth Start event posted (delayed start - pitch: " + NoteUtils.NoteToWwiseString(targetPitch) + ", InteractionType: " + currentInteractionType + ")");
+                        }
+                    }
+                    else
+                    {
+                        // In cooldown, queue both pitch switch and start (pitch change will execute first)
+                        pendingBassSynthStart = true;
+                        pendingBassSynthPitch = targetPitch;
+                        if(debugAllowBassSynthLogs)
+                        {
+                            Debug.Log("Music: BassSynth Start queued (delayed start, cooldown active, " + (BASS_SYNTH_COOLDOWN - bassSynthCooldownTimer).ToString("F2") + "s remaining, pitch " + NoteUtils.NoteToWwiseString(targetPitch) + " will be set when cooldown expires)");
+                        }
                     }
                 }
                 else
                 {
                     // BassSynth is already playing, update pitch if it changed
-                    // UpdateBassSynthPitchSwitch() will skip if pitch hasn't changed
-                    UpdateBassSynthPitchSwitch(targetPitch);
+                    // Check if pitch actually changed before checking cooldown
+                    if (!currentBassSynthPitch.HasValue || currentBassSynthPitch.Value != targetPitch)
+                    {
+                        // Pitch changed - check cooldown before updating
+                        // Note: UpdateBassSynthPitchSwitch() will also check cooldown internally, but we check here to queue it properly
+                        if (bassSynthCooldownTimer >= BASS_SYNTH_COOLDOWN)
+                        {
+                            // Cooldown expired, change pitch immediately
+                            // UpdateBassSynthPitchSwitch() will handle the stop-change-play sequence and reset cooldown
+                            UpdateBassSynthPitchSwitch(targetPitch);
+                        }
+                        else
+                        {
+                            // In cooldown, queue pitch change for later (will execute before pending start if both are pending)
+                            pendingBassSynthPitch = targetPitch;
+                            if(debugAllowBassSynthLogs)
+                            {
+                                Debug.Log("Music: BassSynth pitch change queued (from " + (currentBassSynthPitch.HasValue ? NoteUtils.NoteToWwiseString(currentBassSynthPitch.Value) : "None") + " to " + NoteUtils.NoteToWwiseString(targetPitch) + ", cooldown active, " + (BASS_SYNTH_COOLDOWN - bassSynthCooldownTimer).ToString("F2") + "s remaining)");
+                            }
+                        }
+                    }
                 }
             }
             // Edge case: If targetPitch is None, we skip pitch update (use last valid pitch)
@@ -1875,6 +1971,7 @@ public class MusicSystem1 : MonoBehaviour
         // Post Play_BassSynth event
         AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
         bassSynthPlaying = true;
+        bassSynthCooldownTimer = 0f; // Reset cooldown after starting
         if(debugAllowBassSynthLogs)
         {
             Debug.Log("Music: BassSynth Start event posted (pitch: " + NoteUtils.NoteToWwiseString(initialPitch) + ", InteractionType: " + currentInteractionType + ")");
@@ -1928,6 +2025,17 @@ public class MusicSystem1 : MonoBehaviour
             return;
         }
 
+        // Check cooldown before setting pitch switch (pitch switch changes are also limited by cooldown)
+        if (bassSynthCooldownTimer < BASS_SYNTH_COOLDOWN)
+        {
+            // In cooldown - this shouldn't happen if called from pending execution, but handle it gracefully
+            if(debugAllowWarnings || debugAllowBassSynthLogs)
+            {
+                Debug.LogWarning("Music: BassSynth pitch change requested during cooldown (this should be queued instead). Cooldown remaining: " + (BASS_SYNTH_COOLDOWN - bassSynthCooldownTimer).ToString("F2") + "s");
+            }
+            return;
+        }
+
         // Store whether BassSynth was playing before the change
         bool wasPlaying = bassSynthPlaying;
 
@@ -1943,7 +2051,7 @@ public class MusicSystem1 : MonoBehaviour
             }
         }
 
-        // Set the pitch switch
+        // Set the pitch switch (cooldown check passed above)
         AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", newPitchStr, gameObject);
         if(debugAllowBassSynthLogs)
         {
@@ -1960,11 +2068,14 @@ public class MusicSystem1 : MonoBehaviour
         if (wasPlaying)
         {
             AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
+            bassSynthCooldownTimer = 0f; // Reset cooldown after changing pitch and triggering Play_BassSynth
             if(debugAllowBassSynthLogs)
             {
                 Debug.Log("Music: BassSynth Start event posted (pitch change complete - new pitch: " + newPitchStr + ")");
             }
         }
+        // Note: If wasPlaying is false, we don't reset cooldown because no Play_BassSynth event was triggered
+        // The switch is just set for when BassSynth starts later
         // Note: We don't update bassSynthPlaying here because:
         // - If wasPlaying was true, bassSynthPlaying is still true (we're restarting)
         // - If wasPlaying was false, bassSynthPlaying stays false (we're just setting switch for future start)
