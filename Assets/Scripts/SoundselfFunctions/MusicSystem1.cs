@@ -272,6 +272,7 @@ public class MusicSystem1 : MonoBehaviour
                 if(debugAllowFundamentalLockLogs)
                 {
                     Debug.Log("MUSIC: Debug Override Fundamental Changed to None (debug lock cleared)");
+                }
                 break;
         }
     }
