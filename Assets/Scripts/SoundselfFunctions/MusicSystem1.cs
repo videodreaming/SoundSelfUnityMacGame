@@ -15,7 +15,23 @@ using System.Linq;
 public class MusicSystem1 : MonoBehaviour
 {
     public static MusicSystem1 instance {get; private set;}
-    private bool debugAllowLogs = false;
+    
+    // Debug log category flags
+    private bool debugAllowBassSynthLogs = true;
+    private bool debugAllowBasicToningLogs = true;
+    private bool debugAllowFundamentalLockLogs = true;
+    private bool debugAllowFundamentalLogicLogs = false;
+    private bool debugAllowFundamentalChangeLogs = true;
+    private bool debugAllowHarmonyLogicLogs = false;
+    private bool debugAllowHarmonyChangeLogs = true;
+    private bool debugAllowMusicModeLogs = true;
+    private bool debugAllowSoundscapeLogs = true;
+    private bool debugAllowImitoneUpdateLogs = false;
+    private bool debugAllowMixVolumeLogs = true;
+    private bool debugAllowSFXLogs = true; // Includes ThumpUpdate and Breathwork
+    private bool debugAllowInitializationLogs = true;
+    private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
+    
     public Sequencer sequencer;
     public WwiseVOManager wwiseVOManager;
     public WorldShuffler worldShuffler;
@@ -146,7 +162,10 @@ public class MusicSystem1 : MonoBehaviour
             gameObject.AddComponent<AkGameObj>();
         } else 
         {
-            Debug.Log("MUSIC: AkGameObj component already exists");
+            if(debugAllowInitializationLogs)
+            {
+                Debug.Log("MUSIC: AkGameObj component already exists");
+            }
         }
 
          if (soundscapeDropdown != null)
@@ -166,55 +185,93 @@ public class MusicSystem1 : MonoBehaviour
         {
             case 1:
                 SetFundamentalDebugLock(NoteName.C);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to C");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to C");
+                }
                 break;
             case 2:
                 SetFundamentalDebugLock(NoteName.Cs);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to Cs");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to Cs");
+                }
                 break;
             case 3:
                 SetFundamentalDebugLock(NoteName.D);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to D");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to D");
+                }
                 break;
             case 4:
                 SetFundamentalDebugLock(NoteName.Ds);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to Ds");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to Ds");
+                }
                 break;
             case 5:
                 SetFundamentalDebugLock(NoteName.E);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to E");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to E");
+                }
                 break;
             case 6:
                 SetFundamentalDebugLock(NoteName.F);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to F");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to F");
+                }
                 break;
             case 7:
                 SetFundamentalDebugLock(NoteName.Fs);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to Fs");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to Fs");
+                }
                 break;
             case 8:
                 SetFundamentalDebugLock(NoteName.G);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to G");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to G");
+                }
                 break;
             case 9:
                 SetFundamentalDebugLock(NoteName.Gs);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to Gs");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to Gs");
+                }
                 break;
             case 10:
                 SetFundamentalDebugLock(NoteName.A);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to A");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to A");
+                }
                 break;
             case 11:
                 SetFundamentalDebugLock(NoteName.As);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to As");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to As");
+                }
                 break;
             case 12:
                 SetFundamentalDebugLock(NoteName.B);
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to B");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to B");
+                }
                 break;
             default:
                 SetFundamentalDebugLock(null); // Clear debug lock
-                Debug.Log("MUSIC: Permanently Set Fundamental Changed to None (debug lock cleared)");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC: Debug Override Fundamental Changed to None (debug lock cleared)");
                 break;
         }
     }
@@ -367,7 +424,10 @@ public class MusicSystem1 : MonoBehaviour
                         int d = NoteUtils.GetWrappedDistance(key, fundamentalNoteName);
                         if (d < 0)
                         {
-                            Debug.LogWarning($"MUSIC: GetWrappedDistance() returned -1 (indicating None was passed) for key={key}, fundamentalNoteName={fundamentalNoteName} - distance calculation may be incorrect");
+                            if(debugAllowWarnings || debugAllowFundamentalLogicLogs)
+                            {
+                                Debug.LogWarning($"MUSIC: GetWrappedDistance() returned -1 (indicating None was passed) for key={key}, fundamentalNoteName={fundamentalNoteName} - distance calculation may be incorrect");
+                            }
                         }
 
                         // Change timer rate based on absorption and wrapped distance from fundamental
@@ -392,7 +452,7 @@ public class MusicSystem1 : MonoBehaviour
 
                         if (longTest || longishTest)
                         {
-                            if (debugAllowLogs)
+                            if (debugAllowFundamentalLogicLogs)
                             {
                                 if (longTest)
                                     Debug.Log("MUSIC: Long Test Instantly Triggering Fundamental Change to " + NoteUtils.NoteToWwiseString(key));
@@ -409,7 +469,7 @@ public class MusicSystem1 : MonoBehaviour
                             director.AddActionToQueue(Action_ChangeFundamental(key), "fundamentalChange", true, false, 9999f, false, 2);
                             directorStoredFundamental = key;
 
-                            if (debugAllowLogs)
+                            if (debugAllowFundamentalLogicLogs)
                             {
                                 Debug.Log("MUSIC: Short Test New Fundamental Queued: " + NoteUtils.NoteToWwiseString(key));
                             }
@@ -462,7 +522,10 @@ public class MusicSystem1 : MonoBehaviour
             {
                 currentSequenceIndex = random.Next(sequences.Count);
                 currentHarmonyIndex = 0;
-                Debug.Log("MUSIC: New Harmony Sequence Selected:" + currentSequenceIndex);
+                if(debugAllowHarmonyLogicLogs)
+                {
+                    Debug.Log("MUSIC: New Harmony Sequence Selected:" + currentSequenceIndex);
+                }
             }
 
             //Now play the tone
@@ -473,10 +536,13 @@ public class MusicSystem1 : MonoBehaviour
             harmonyNote = NoteUtils.AddInterval(fundamentalNoteName, harmonization);
             if (harmonyNote == NoteName.None)
             {
-                Debug.LogWarning($"MUSIC: AddInterval() returned NoteName.None for fundamentalNoteName={fundamentalNoteName}, harmonization={harmonization} - harmony will not play correctly");
+                if(debugAllowWarnings || debugAllowHarmonyChangeLogs)
+                {
+                    Debug.LogWarning($"MUSIC: AddInterval() returned NoteName.None for fundamentalNoteName={fundamentalNoteName}, harmonization={harmonization} - harmony will not play correctly");
+                }
             }
             changeHarmony(harmonyNote); 
-            if (debugAllowLogs)
+            if (debugAllowHarmonyChangeLogs)
             {
                 Debug.Log("MUSIC: Harmony Played: " + NoteUtils.NoteToWwiseString(harmonyNote) + " ~ (fundamentalNoteName + " + harmonization + ")");
             }
@@ -494,7 +560,7 @@ public class MusicSystem1 : MonoBehaviour
         {
             if(!impactSoundFlag)
             {
-                if(debugAllowLogs)
+                if(debugAllowSFXLogs)
                 {
                     Debug.Log("MUSIC: impact");
                 }
@@ -510,7 +576,10 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold && currentInteractionType != InteractionType.MusicLoop)
         {
-            Debug.Log("MUSIC: Environment Mode : because " + imitoneVoiceInterpreter._tThisRestConfident + " > " + UserNotToningThreshold);
+            if(debugAllowMusicModeLogs)
+            {
+                Debug.Log("MUSIC: Environment Mode : because " + imitoneVoiceInterpreter._tThisRestConfident + " > " + UserNotToningThreshold);
+            }
             SetMusicModeTo(MusicMode.Environment);
         }
     }
@@ -519,7 +588,10 @@ public class MusicSystem1 : MonoBehaviour
     {
         if (!interactiveFlag && imitoneVoiceInterpreter.toneActiveVeryConfident)
         {
-            Debug.Log("MUSIC: Interactive Music System Mode because toneActiveVeryConfident");
+            if(debugAllowMusicModeLogs)
+            {
+                Debug.Log("MUSIC: Interactive Music System Mode because toneActiveVeryConfident");
+            }
             SetMusicModeTo(MusicMode.Freeplay);
         }
     }
@@ -555,7 +627,10 @@ public class MusicSystem1 : MonoBehaviour
 
     public void SetMusicModeTo(MusicMode mode)
     {
-        Debug.Log("MUSIC: Please set Music Mode to " + mode + "...");
+        if(debugAllowMusicModeLogs)
+        {
+            Debug.Log("MUSIC: Please set Music Mode to " + mode + "...");
+        }
         
         // Stop breathwork cycle when transitioning from Environment to any other mode
         if (currentMusicMode == MusicMode.Environment && mode != MusicMode.Environment)
@@ -571,7 +646,10 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeMusicLoopSilentFlag)
             {
                 SetMusicModeFlags(false, false, false, false, false, true);
-                Debug.Log("MUSIC: Music Mode Set to MusicLoopSilent, which is a temporary mode for a musicloop version of silent mode, before we merge the two silent modes.");
+                if(debugAllowMusicModeLogs)
+                {
+                    Debug.Log("MUSIC: Music Mode Set to MusicLoopSilent, which is a temporary mode for a musicloop version of silent mode, before we merge the two silent modes.");
+                }
                 //imitoneVoiceInterpreter.gameOn = false; //peculaiarity of Ascending/Descending, we are keeping gameOn true for now. This will have to be addressed in the future.
                 // Set state to MusicLoops and ensure interaction type is MusicLoop (required for this mode)
                 //RecoverInteractiveMusicModeFromInteractionType(); //this may be necessary in futrue...
@@ -581,7 +659,10 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("MUSIC: Tried to set Music Mode to MusicLoopSilent, but it was already set to MusicLoopSilent");
+                if(debugAllowWarnings || debugAllowMusicModeLogs)
+                {
+                    Debug.LogWarning("MUSIC: Tried to set Music Mode to MusicLoopSilent, but it was already set to MusicLoopSilent");
+                }
             }
             break;
 
@@ -594,11 +675,17 @@ public class MusicSystem1 : MonoBehaviour
                 imitoneVoiceInterpreter.gameOn = false;
                 StopInteractiveMusic();
                 //RecoverInteractiveMusicModeFromInteractionType();
-                Debug.Log("MUSIC: Music Mode Set to Silent (WWise: " + currentInteractionType + ")");
+                if(debugAllowMusicModeLogs)
+                {
+                    Debug.Log("MUSIC: Music Mode Set to Silent (WWise: " + currentInteractionType + ")");
+                }
             }
             else
             {
-                Debug.LogWarning("MUSIC: Tried to set Music Mode to Silent, but it was already set to Silent");
+                if(debugAllowWarnings || debugAllowMusicModeLogs)
+                {
+                    Debug.LogWarning("MUSIC: Tried to set Music Mode to Silent, but it was already set to Silent");
+                }
             }
             break;
             
@@ -607,7 +694,10 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeTutorialFlag)
             {
                 SetMusicModeFlags(false, true, false, false, false);    
-                Debug.Log("MUSIC: Music Mode Set to Tutorial");
+                if(debugAllowMusicModeLogs)
+                {
+                    Debug.Log("MUSIC: Music Mode Set to Tutorial");
+                }
 
                 StartInteractiveMusic(); 
                 
@@ -620,7 +710,10 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("MUSIC: Tried to set Music Mode to Tutorial, but it was already set to Tutorial");
+                if(debugAllowWarnings || debugAllowMusicModeLogs)
+                {
+                    Debug.LogWarning("MUSIC: Tried to set Music Mode to Tutorial, but it was already set to Tutorial");
+                }
             }
             break;
             
@@ -629,7 +722,10 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeFreeplayFlag)
             {
                 SetMusicModeFlags(false, false, true, false, false);    
-                Debug.Log("MUSIC: Music Mode Set to Freeplay");
+                if(debugAllowMusicModeLogs)
+                {
+                    Debug.Log("MUSIC: Music Mode Set to Freeplay");
+                }
 
                 SetFundamentalModeLock(false);
                 StartInteractiveMusic();
@@ -640,7 +736,10 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("MUSIC: Tried to set Music Mode to Freeplay, but it was already set to Freeplay");
+                if(debugAllowWarnings || debugAllowMusicModeLogs)
+                {
+                    Debug.LogWarning("MUSIC: Tried to set Music Mode to Freeplay, but it was already set to Freeplay");
+                }
             }
             break;
             
@@ -650,7 +749,10 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeFrozenFreeplayFlag)
             {
                 SetMusicModeFlags(false, false, false, true, false);    
-                Debug.Log("MUSIC: Music Mode Set to FrozenFreeplay");
+                if(debugAllowMusicModeLogs)
+                {
+                    Debug.Log("MUSIC: Music Mode Set to FrozenFreeplay");
+                }
 
                 SetFundamentalModeLock(true, NoteName.C);
                 imitoneVoiceInterpreter.gameOn = false;
@@ -659,7 +761,10 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("MUSIC: Tried to set Music Mode to FrozenFreeplay, but it was already set to FrozenFreeplay");
+                if(debugAllowWarnings || debugAllowMusicModeLogs)
+                {
+                    Debug.LogWarning("MUSIC: Tried to set Music Mode to FrozenFreeplay, but it was already set to FrozenFreeplay");
+                }
             }
             break;
             case MusicMode.Environment:
@@ -667,7 +772,10 @@ public class MusicSystem1 : MonoBehaviour
             if(!modeEnvironmentFlag)
             {
                 SetMusicModeFlags(false, false, false, false, true);    
-                Debug.Log("MUSIC: Music Mode Set to Environment  (WWise: Environment)");
+                if(debugAllowMusicModeLogs)
+                {
+                    Debug.Log("MUSIC: Music Mode Set to Environment  (WWise: Environment)");
+                }
 
                 EnvironmentInitializations();
                 AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
@@ -675,13 +783,19 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("MUSIC: Tried to set Music Mode to Environment, but it was already set to Environment");
+                if(debugAllowWarnings || debugAllowMusicModeLogs)
+                {
+                    Debug.LogWarning("MUSIC: Tried to set Music Mode to Environment, but it was already set to Environment");
+                }
             }
             break;
             
             default:
             currentMusicMode = mode;
-                Debug.Log("MUSIC: Invalid Music Mode: " + mode);
+                if(debugAllowWarnings || debugAllowMusicModeLogs)
+                {
+                    Debug.Log("MUSIC: Invalid Music Mode: " + mode);
+                }
             break;
         }
     }
@@ -691,12 +805,18 @@ public class MusicSystem1 : MonoBehaviour
         if(currentInteractionType == InteractionType.SoundWorld)
         {
             AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
-            Debug.Log("MUSIC: Interactive Music Mode Recovered to InteractiveMusicSystem because Interaction Type is SoundWorld");
+            if(debugAllowSoundscapeLogs)
+            {
+                Debug.Log("MUSIC: Interactive Music Mode Recovered to InteractiveMusicSystem because Interaction Type is SoundWorld");
+            }
         }
         else if(currentInteractionType == InteractionType.MusicLoop)
         {
             AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
-            Debug.Log("MUSIC: Interactive Music Mode Recovered to MusicLoops because Interaction Type is MusicLoop");
+            if(debugAllowSoundscapeLogs)
+            {
+                Debug.Log("MUSIC: Interactive Music Mode Recovered to MusicLoops because Interaction Type is MusicLoop");
+            }
         }
     }
 
@@ -732,7 +852,10 @@ public class MusicSystem1 : MonoBehaviour
         
         if (!isSoundWorld && !isMusicLoop)
         {
-            Debug.LogWarning("MUSIC: Unknown soundscape type requested: " + soundscape + " is neither soundWorld or musicLoop.");
+            if(debugAllowWarnings || debugAllowSoundscapeLogs)
+            {
+                Debug.LogWarning("MUSIC: Unknown soundscape type requested: " + soundscape + " is neither soundWorld or musicLoop.");
+            }
             return;
         }
         
@@ -747,7 +870,10 @@ public class MusicSystem1 : MonoBehaviour
             SetMusicLoop(soundscape);
         }
         
-        Debug.Log($"MUSIC TEST: currentInteractionType after SetSoundscape: {currentInteractionType}");
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log($"MUSIC TEST: currentInteractionType after SetSoundscape: {currentInteractionType}");
+        }
     }
 
     //public Action Action_SetSoundWorld(string soundWorld)
@@ -763,7 +889,10 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"MUSIC: Changing SoundWorld to '{soundWorld}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
+            if(debugAllowWarnings || debugAllowSoundscapeLogs)
+            {
+                Debug.LogWarning($"MUSIC: Changing SoundWorld to '{soundWorld}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
+            }
         }
         
         currentInteractionType = InteractionType.SoundWorld;
@@ -772,7 +901,10 @@ public class MusicSystem1 : MonoBehaviour
         
         // Clear content lock since SoundWorlds work with any fundamental
         SetFundamentalContentLock(null);
-        Debug.Log("MUSIC: Soundscape Set To: " + soundWorld + " (SoundWorld)");
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC: Soundscape Set To: " + soundWorld + " (SoundWorld)");
+        }
     }
 
     //public Action Action_SetMusicLoop(string musicLoop)
@@ -784,7 +916,10 @@ public class MusicSystem1 : MonoBehaviour
         // Validate that this is a legitimate MusicLoop before proceeding
         if (!musicLoops.ContainsKey(musicLoop))
         {
-            Debug.LogWarning($"MUSIC: MusicLoop '{musicLoop}' not found in musicLoops dictionary - aborting SetMusicLoop()");
+            if(debugAllowWarnings || debugAllowSoundscapeLogs)
+            {
+                Debug.LogWarning($"MUSIC: MusicLoop '{musicLoop}' not found in musicLoops dictionary - aborting SetMusicLoop()");
+            }
             return;
         }
         
@@ -794,7 +929,10 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"MUSIC: Changing MusicLoop to '{musicLoop}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
+            if(debugAllowWarnings || debugAllowSoundscapeLogs)
+            {
+                Debug.LogWarning($"MUSIC: Changing MusicLoop to '{musicLoop}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
+            }
         }
         currentInteractionType = InteractionType.MusicLoop;
         AkSoundEngine.SetSwitch("MusicLoops_Switch", musicLoop, gameObject);
@@ -804,17 +942,26 @@ public class MusicSystem1 : MonoBehaviour
         NoteName requiredNote = GetMusicLoopFundamental(musicLoop);
         if (requiredNote == NoteName.None)
         {
-            Debug.LogWarning($"MUSIC: GetMusicLoopFundamental() returned NoteName.None for '{musicLoop}' - clearing content lock to avoid stale lock");
+            if(debugAllowWarnings || debugAllowFundamentalLockLogs || debugAllowSoundscapeLogs)
+            {
+                Debug.LogWarning($"MUSIC: GetMusicLoopFundamental() returned NoteName.None for '{musicLoop}' - clearing content lock to avoid stale lock");
+            }
             // Clear content lock since we can't determine the required fundamental
             SetFundamentalContentLock(null);
         }
         else
         {
             SetFundamentalContentLock(requiredNote);
-            Debug.Log($"MUSIC: Content lock set to {requiredNote} for MusicLoop '{musicLoop}'");
+            if(debugAllowFundamentalLockLogs || debugAllowSoundscapeLogs)
+            {
+                Debug.Log($"MUSIC: Content lock set to {requiredNote} for MusicLoop '{musicLoop}'");
+            }
         }
         
-        Debug.Log("MUSIC: Soundscape Set To: " + musicLoop + " (MusicLoop)");
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC: Soundscape Set To: " + musicLoop + " (MusicLoop)");
+        }
     }
 
     /// <summary>
@@ -847,7 +994,7 @@ public class MusicSystem1 : MonoBehaviour
         {
             var currentValue = NoteTracker[key];
             NoteTracker[key] = (currentValue.ActivationTimer, currentValue.Active, currentValue.FirstFrameActive, 0.0f);
-            if (debugAllowLogs)
+            if (debugAllowFundamentalLogicLogs)
             {
                 Debug.Log("MUSIC 8: Key(" + key + ": ChangeFundamentalTimer reset");
             }
@@ -870,11 +1017,14 @@ public class MusicSystem1 : MonoBehaviour
         // Validate that we're not setting fundamental to None
         if (newFundamental == NoteName.None)
         {
-            Debug.LogWarning("MUSIC: Attempted to set fundamental to None - ignoring");
+            if(debugAllowWarnings || debugAllowFundamentalChangeLogs)
+            {
+                Debug.LogWarning("MUSIC: Attempted to set fundamental to None - ignoring");
+            }
             return;
         }
 
-        if(debugAllowLogs)
+        if(debugAllowFundamentalChangeLogs)
         {
             Debug.Log("MUSIC 6: Fundamental Note Changing to " + NoteUtils.NoteToWwiseString(newFundamental));
         }
@@ -889,7 +1039,10 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("MUSIC: MusicBinauralBeats.instance is null - binaural beats not initialized yet.");
+            if(debugAllowWarnings || debugAllowFundamentalChangeLogs)
+            {
+                Debug.LogWarning("MUSIC: MusicBinauralBeats.instance is null - binaural beats not initialized yet.");
+            }
         }
 
         ResetFundamentalTimers();
@@ -923,7 +1076,10 @@ public class MusicSystem1 : MonoBehaviour
         {
             NoteName? lockedNote = GetLockedFundamental();
             string lockInfo = lockedNote.HasValue ? $" (locked to {lockedNote.Value})" : " (unknown lock)";
-            Debug.LogWarning("MUSIC: Tried to change the fundamental, but it was locked" + lockInfo + ". This shouldn't happen, and probably indicates a logic flaw in the code.");
+            if(debugAllowWarnings || debugAllowFundamentalChangeLogs || debugAllowFundamentalLockLogs)
+            {
+                Debug.LogWarning("MUSIC: Tried to change the fundamental, but it was locked" + lockInfo + ". This shouldn't happen, and probably indicates a logic flaw in the code.");
+            }
         }
     }
 
@@ -947,14 +1103,20 @@ public class MusicSystem1 : MonoBehaviour
             if (currentlyLocked)
             {
                 fundamentalDebugLock = null;
-                Debug.Log("MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock cleared");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock cleared");
+                }
                 
                 // Resolve fundamental: apply lower priority locks or queue based on tracking
                 ResolveFundamentalOnUnlock();
             }
             else
             {
-                Debug.Log("MUSIC FUNDAMENTAL-DEBUG-LOCK: Tried to clear debug lock, but it was already cleared");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log("MUSIC FUNDAMENTAL-DEBUG-LOCK: Tried to clear debug lock, but it was already cleared");
+                }
             }
             return;
         }
@@ -964,14 +1126,20 @@ public class MusicSystem1 : MonoBehaviour
         // Safety check: don't allow locking to None
         if (lockNote == NoteName.None)
         {
-            Debug.LogWarning("MUSIC FUNDAMENTAL-DEBUG-LOCK: Cannot set debug lock to NoteName.None - ignoring request");
+            if(debugAllowWarnings || debugAllowFundamentalLockLogs)
+            {
+                Debug.LogWarning("MUSIC FUNDAMENTAL-DEBUG-LOCK: Cannot set debug lock to NoteName.None - ignoring request");
+            }
             return;
         }
         
         // Optimization: if debug lock is already set to the requested note, skip work
         if (currentlyLocked && fundamentalDebugLock.Value == lockNote)
         {
-            Debug.Log($"MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock already set to {lockNote} - skipping update");
+            if(debugAllowFundamentalLockLogs)
+            {
+                Debug.Log($"MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock already set to {lockNote} - skipping update");
+            }
             return;
         }
         
@@ -983,7 +1151,10 @@ public class MusicSystem1 : MonoBehaviour
         // Debug lock has highest priority, so it always takes effect
         SetFundamentalDirect(lockNote);
         
-        Debug.Log($"MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock set and locked fundamental to {lockNote} (DEVELOPMENT ONLY - highest priority)");
+        if(debugAllowFundamentalLockLogs)
+        {
+            Debug.Log($"MUSIC FUNDAMENTAL-DEBUG-LOCK: Debug lock set and locked fundamental to {lockNote} (DEVELOPMENT ONLY - highest priority)");
+        }
     }
 
     /// <summary>
@@ -1004,7 +1175,10 @@ public class MusicSystem1 : MonoBehaviour
             // Safety check: don't allow locking to None
             if (lockNote == NoteName.None)
             {
-                Debug.LogWarning("MUSIC FUNDAMENTAL-CONTENT-LOCK: Cannot set content lock to NoteName.None - ignoring request");
+                if(debugAllowWarnings || debugAllowFundamentalLockLogs)
+                {
+                    Debug.LogWarning("MUSIC FUNDAMENTAL-CONTENT-LOCK: Cannot set content lock to NoteName.None - ignoring request");
+                }
                 return;
             }
 
@@ -1026,28 +1200,52 @@ public class MusicSystem1 : MonoBehaviour
             }
             else if (activeLock.HasValue)
             {
-                Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Content lock set to {lockNote}, but higher priority lock active ({activeLock.Value}) - fundamental unchanged");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Content lock set to {lockNote}, but higher priority lock active ({activeLock.Value}) - fundamental unchanged");
+                }
             }
 
             if (currentlyLocked && !wasLockedTo)
-                Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Lock changed from {oldLockValue.Value} to {lockNote}");
+            {
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Lock changed from {oldLockValue.Value} to {lockNote}");
+                }
+            }
             else if (!currentlyLocked)
-                Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Locked to {lockNote}");
+            {
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Locked to {lockNote}");
+                }
+            }
             else
-                Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content relocked to {lockNote}");
+            {
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log($"MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content relocked to {lockNote}");
+                }
+            }
         }
         else if (!note.HasValue && currentlyLocked)
         {
             // Unlock: Clear the lock
             fundamentalContentLock = null;
-            Debug.Log("MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Unlocked");
+            if(debugAllowFundamentalLockLogs)
+            {
+                Debug.Log("MUSIC FUNDAMENTAL-CONTENT-LOCK: Fundamental Content Unlocked");
+            }
             
             // Resolve fundamental: apply lower priority locks or queue based on tracking
             ResolveFundamentalOnUnlock();
         }
         else if (!note.HasValue && !currentlyLocked)
         {
-            Debug.Log("MUSIC FUNDAMENTAL-CONTENT-LOCK: Tried to unlock fundamental content, but it was already unlocked");
+            if(debugAllowFundamentalLockLogs)
+            {
+                Debug.Log("MUSIC FUNDAMENTAL-CONTENT-LOCK: Tried to unlock fundamental content, but it was already unlocked");
+            }
         }
     }
 
@@ -1083,21 +1281,42 @@ public class MusicSystem1 : MonoBehaviour
             }
             else if (activeLock.HasValue)
             {
-                Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Mode lock set to {note}, but higher priority lock active ({activeLock.Value}) - fundamental unchanged");
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Mode lock set to {note}, but higher priority lock active ({activeLock.Value}) - fundamental unchanged");
+                }
             }
 
             if (currentlyLocked && !wasLockedTo)
-                Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Lock changed from {oldLockValue.Value} to {note}");
+            {
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Lock changed from {oldLockValue.Value} to {note}");
+                }
+            }
             else if (!currentlyLocked)
-                Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Locked to {note}");
+            {
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Locked to {note}");
+                }
+            }
             else
-                Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode relocked to {note}");
+            {
+                if(debugAllowFundamentalLockLogs)
+                {
+                    Debug.Log($"MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode relocked to {note}");
+                }
+            }
         }
         else if (!doLock && currentlyLocked)
         {
             // Unlock: Clear the lock
             fundamentalModeLock = null;
-            Debug.Log("MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Unlocked");
+            if(debugAllowFundamentalLockLogs)
+            {
+                Debug.Log("MUSIC FUNDAMENTAL-MODE-LOCK: Fundamental Mode Unlocked");
+            }
             
             // Resolve fundamental: apply lower priority locks or queue based on tracking
             ResolveFundamentalOnUnlock();
@@ -1105,7 +1324,10 @@ public class MusicSystem1 : MonoBehaviour
         else if (!doLock && !currentlyLocked)
         {
             // Already unlocked
-            Debug.Log("MUSIC FUNDAMENTAL-MODE-LOCK: Tried to unlock fundamental mode, but it was already unlocked");
+            if(debugAllowFundamentalLockLogs)
+            {
+                Debug.Log("MUSIC FUNDAMENTAL-MODE-LOCK: Tried to unlock fundamental mode, but it was already unlocked");
+            }
         }
     }
 
@@ -1158,7 +1380,10 @@ public class MusicSystem1 : MonoBehaviour
             // A lower priority lock is active, set fundamental to it
             // Use SetFundamentalDirect to bypass lock check since we're setting to match the active lock
             SetFundamentalDirect(activeLock.Value);
-            Debug.Log($"MUSIC FUNDAMENTAL MODE UNLOCK: Lower priority lock active ({activeLock.Value}) - fundamental set accordingly");
+            if(debugAllowFundamentalLockLogs)
+            {
+                Debug.Log($"MUSIC FUNDAMENTAL MODE UNLOCK: Lower priority lock active ({activeLock.Value}) - fundamental set accordingly");
+            }
         }
         else
         {
@@ -1186,7 +1411,10 @@ public class MusicSystem1 : MonoBehaviour
                     // Timer is high enough for immediate change - trigger it now
                     ChangeFundamental(newFundamental.Value);
                     director.ActivateQueue(5.0f);
-                    Debug.Log("MUSIC FUNDAMENTAL MODE UNLOCK: Fundamental Changed Immediately on Unlock (high threshold): " + NoteUtils.NoteToWwiseString(newFundamental.Value));
+                    if(debugAllowFundamentalLockLogs || debugAllowFundamentalChangeLogs)
+                    {
+                        Debug.Log("MUSIC FUNDAMENTAL MODE UNLOCK: Fundamental Changed Immediately on Unlock (high threshold): " + NoteUtils.NoteToWwiseString(newFundamental.Value));
+                    }
                 }
                 else
                 {
@@ -1194,12 +1422,18 @@ public class MusicSystem1 : MonoBehaviour
                     director.ClearQueueOfType("fundamentalChange");
                     director.AddActionToQueue(Action_ChangeFundamental(newFundamental.Value), "fundamentalChange", true, false, 120f, true, 2);
                     directorStoredFundamental = newFundamental.Value;
-                    Debug.Log("MUSIC FUNDAMENNTAL MODE UNLOCK: New Fundamental Queued on Unlock: " + NoteUtils.NoteToWwiseString(newFundamental.Value));
+                    if(debugAllowFundamentalLockLogs || debugAllowFundamentalChangeLogs)
+                    {
+                        Debug.Log("MUSIC FUNDAMENNTAL MODE UNLOCK: New Fundamental Queued on Unlock: " + NoteUtils.NoteToWwiseString(newFundamental.Value));
+                    }
                 }
             }
             else if (highestFundamentalTimer >= _queueFundamentalChangeThreshold && !newFundamental.HasValue)
             {
-                Debug.LogWarning("MUSIC FUNDAMENTAL MODE UNLOCK: Threshold met but no valid fundamental found in NoteTracker - skipping queue");
+                if(debugAllowWarnings || debugAllowFundamentalLockLogs || debugAllowFundamentalChangeLogs)
+                {
+                    Debug.LogWarning("MUSIC FUNDAMENTAL MODE UNLOCK: Threshold met but no valid fundamental found in NoteTracker - skipping queue");
+                }
             }
         }
     }
@@ -1214,7 +1448,7 @@ public class MusicSystem1 : MonoBehaviour
     {       
         if(localToneOn && !previousLocalToneOn)
         {
-            if(debugAllowLogs)
+            if(debugAllowBasicToningLogs)
             {
                 Debug.Log("MUSIC: Post Toning Events to Wwise");
             }
@@ -1223,7 +1457,7 @@ public class MusicSystem1 : MonoBehaviour
 
         } else if (!localToneOn && previousLocalToneOn)
         {
-            if(debugAllowLogs)
+            if(debugAllowBasicToningLogs)
             {
                 Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
             }
@@ -1238,27 +1472,35 @@ public class MusicSystem1 : MonoBehaviour
         // BassSynth control based on toneActiveConfident
         if(localBassSynthToneOn && !previousLocalBassSynthToneOn)
         {
-            if(debugAllowLogs)
+            if(debugAllowBassSynthLogs)
             {
-                Debug.Log("MUSIC: BassSynth Start (toneActiveConfident)");
+                Debug.Log("Music: BassSynth Start requested (toneActiveConfident became true)");
             }
             PostTheBassSynthEvent();
         }
         else if (!localBassSynthToneOn && previousLocalBassSynthToneOn)
         {
-            if(debugAllowLogs)
+            if(debugAllowBassSynthLogs)
             {
-                Debug.Log("MUSIC: BassSynth Stop (toneActiveConfident)");
+                Debug.Log("Music: BassSynth Stop requested (toneActiveConfident became false)");
             }
             // Stop BassSynth when toneActiveConfident becomes false
             if (bassSynthPlaying)
             {
                 AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
+                string previousPitch = currentBassSynthPitch.HasValue ? NoteUtils.NoteToWwiseString(currentBassSynthPitch.Value) : "None";
                 bassSynthPlaying = false;
                 currentBassSynthPitch = null;
-                if(debugAllowLogs)
+                if(debugAllowBassSynthLogs)
                 {
-                    Debug.Log("MUSIC: BassSynth stopped (toneActiveConfident became false)");
+                    Debug.Log("Music: BassSynth Stop event posted (previous pitch: " + previousPitch + ")");
+                }
+            }
+            else
+            {
+                if(debugAllowBassSynthLogs)
+                {
+                    Debug.Log("Music: BassSynth Stop requested but BassSynth was not playing");
                 }
             }
         }
@@ -1297,10 +1539,9 @@ public class MusicSystem1 : MonoBehaviour
                     currentBassSynthPitch = targetPitch;
                     AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
                     bassSynthPlaying = true;
-                    
-                    if(debugAllowLogs)
+                    if(debugAllowBassSynthLogs)
                     {
-                        Debug.Log("MUSIC: BassSynth started with pitch " + NoteUtils.NoteToWwiseString(targetPitch) + " (delayed start - InteractionType: " + currentInteractionType + ")");
+                        Debug.Log("Music: BassSynth Start event posted (delayed start - pitch: " + NoteUtils.NoteToWwiseString(targetPitch) + ", InteractionType: " + currentInteractionType + ")");
                     }
                 }
                 else
@@ -1348,7 +1589,10 @@ public class MusicSystem1 : MonoBehaviour
         // Safety check: if fundamentalNoteName is None, use raw input without harmonic adjustments
         if (fundamentalNoteName == NoteName.None)
         {
-            Debug.LogWarning("MUSIC: fundamentalNoteName is None in InterpretImitoneUpdate - using raw input without harmonic adjustments");
+            if(debugAllowWarnings || debugAllowImitoneUpdateLogs)
+            {
+                Debug.LogWarning("MUSIC: fundamentalNoteName is None in InterpretImitoneUpdate - using raw input without harmonic adjustments");
+            }
             musicNoteInput = musicNoteInputRaw;
             return;
         }
@@ -1428,13 +1672,16 @@ public class MusicSystem1 : MonoBehaviour
                 // musicNoteInput is a float (0-11 range) from harmonic adjustment calculations
                 // Converted to NoteName enum to match the NoteTracker dictionary key type
                 NoteName musicNoteInputNote = NoteUtils.FloatToNoteName(musicNoteInput);
-                if (musicNoteInputNote == NoteName.None)
+                    if (musicNoteInputNote == NoteName.None)
                 {
-                    Debug.LogWarning($"MUSIC: FloatToNoteName() returned NoteName.None for musicNoteInput={musicNoteInput} - note detection may be incorrect");
+                    if(debugAllowWarnings || debugAllowImitoneUpdateLogs)
+                    {
+                        Debug.LogWarning($"MUSIC: FloatToNoteName() returned NoteName.None for musicNoteInput={musicNoteInput} - note detection may be incorrect");
+                    }
                 }
                 if (musicNoteInputNote == scaleNote.Key)
                 {
-                    if(debugAllowLogs && (localActivationTimer == 0 || (Time.frameCount % 30 == 0)))
+                    if(debugAllowImitoneUpdateLogs && (localActivationTimer == 0 || (Time.frameCount % 30 == 0)))
                     {
                         //musicNoteActivated = scaleNote.Key; 
                         //Debug.Log("MUSIC 1: [COMPARE TONES] Key(" + scaleNote.Key + ") from musicNoteInputRaw (" + musicNoteInputRaw + ") ~~~~~ isActive(" + isActive + ") ActivationTimer(" + localActivationTimer + ") isHighestActivationTimer (" + isHighestActivationTimer + ")");
@@ -1443,7 +1690,7 @@ public class MusicSystem1 : MonoBehaviour
 
                     if (localActivationTimer >= highestActivationTimer && localActivationTimer != 0.0f)
                     {
-                        if(debugAllowLogs)
+                        if(debugAllowImitoneUpdateLogs)
                         {
                             //Debug.Log("MUSIC 2: [ACTIVATION TIMER FOR " + ConvertIntToNote(note.Key) + "] " + localActivationTimer + " >= " + highestActivationTimer + " && " + localActivationTimer + " != 0.0f");
                         }
@@ -1453,14 +1700,14 @@ public class MusicSystem1 : MonoBehaviour
                     
                     if (localActivationTimer >= noteTrackerThreshold && (anyNoteActive || isHighestActivationTimer))
                     {
-                        if (debugAllowLogs && nextNote != scaleNote.Key)
+                        if (debugAllowImitoneUpdateLogs && nextNote != scaleNote.Key)
                         {
                             Debug.Log("MUSIC 3: nextNote changed to (" + scaleNote.Key + ") Activation Timer(" + localActivationTimer + ") >= Threshold(" + noteTrackerThreshold + ")");
                         }
                         nextNote = scaleNote.Key;
                         if (imitoneVoiceInterpreter.toneActiveBiasTrue) //now we change the actual tone!
                         {
-                            if(debugAllowLogs && !isActive)
+                            if(debugAllowImitoneUpdateLogs && !isActive)
                             {
                                 Debug.Log("MUSIC 4: Voice Input Key (" + scaleNote.Key + ")!");
                             }
@@ -1494,7 +1741,7 @@ public class MusicSystem1 : MonoBehaviour
                     {
                         var currentValue = NoteTracker[scaleNote.Key];
                         NoteTracker[scaleNote.Key] = (0.0f, false, false, currentValue.ChangeFundamentalTimer);
-                        if(debugAllowLogs)
+                        if(debugAllowImitoneUpdateLogs)
                         {
                             Debug.Log("MUSIC 7: Key(" + scaleNote.Key + ": deactivated (and highestActivationTimer reset)");
                         }
@@ -1521,7 +1768,7 @@ public class MusicSystem1 : MonoBehaviour
 
     public void PostTheToningEvents()
     {
-        if(debugAllowLogs)
+        if(debugAllowBasicToningLogs)
         {
             Debug.Log("MUSIC: Post Toning Events to Wwise");
         }
@@ -1534,9 +1781,9 @@ public class MusicSystem1 : MonoBehaviour
         // Early exit if BassSynth is already playing (most common case - prevents unnecessary pitch determination)
         if (bassSynthPlaying)
         {
-            if(debugAllowLogs)
+            if(debugAllowWarnings || debugAllowBassSynthLogs)
             {
-                Debug.LogWarning("MUSIC: BassSynth is already playing - skipping duplicate Play_BassSynth event");
+                Debug.LogWarning("Music: BassSynth Start requested but already playing - skipping duplicate Play_BassSynth event");
             }
             return;
         }
@@ -1553,9 +1800,9 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
-                if(debugAllowLogs)
+                if(debugAllowWarnings || debugAllowBassSynthLogs)
                 {
-                    Debug.LogWarning("MUSIC: Cannot start BassSynth in MusicLoop mode - musicNoteActivated is None. Will start when note is detected.");
+                    Debug.LogWarning("Music: BassSynth Start requested but musicNoteActivated is None (MusicLoop mode) - will start when note is detected");
                 }
                 // Don't start BassSynth yet - delayed start logic will handle starting it when a valid note is detected
                 return;
@@ -1570,9 +1817,9 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
-                if(debugAllowLogs)
+                if(debugAllowWarnings || debugAllowBassSynthLogs)
                 {
-                    Debug.LogWarning("MUSIC: Cannot start BassSynth in SoundWorld mode - fundamentalNoteName is None. Will start when fundamental is set.");
+                    Debug.LogWarning("Music: BassSynth Start requested but fundamentalNoteName is None (SoundWorld mode) - will start when fundamental is set");
                 }
                 // Don't start BassSynth yet - delayed start logic will handle starting it when a valid fundamental is set
                 return;
@@ -1581,9 +1828,9 @@ public class MusicSystem1 : MonoBehaviour
         else
         {
             // Defensive check: InteractionType should only be MusicLoop or SoundWorld
-            if(debugAllowLogs)
+            if(debugAllowWarnings || debugAllowBassSynthLogs)
             {
-                Debug.LogWarning("MUSIC: Unknown InteractionType: " + currentInteractionType + " - cannot determine BassSynth pitch");
+                Debug.LogWarning("Music: BassSynth Start requested but unknown InteractionType: " + currentInteractionType + " - cannot determine pitch");
             }
             return;
         }
@@ -1591,9 +1838,9 @@ public class MusicSystem1 : MonoBehaviour
         // Validate that we have a valid pitch before proceeding
         if (initialPitch == NoteName.None)
         {
-            if(debugAllowLogs)
+            if(debugAllowWarnings || debugAllowBassSynthLogs)
             {
-                Debug.LogWarning("MUSIC: initialPitch is None after determining pitch - cannot start BassSynth");
+                Debug.LogWarning("Music: BassSynth Start requested but initialPitch is None after determining pitch - cannot start");
             }
             return;
         }
@@ -1601,21 +1848,24 @@ public class MusicSystem1 : MonoBehaviour
         // Set initial pitch switch BEFORE playing (ensures correct pitch on start)
         AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", NoteUtils.NoteToWwiseString(initialPitch), gameObject);
         currentBassSynthPitch = initialPitch;
+        if(debugAllowBassSynthLogs)
+        {
+            Debug.Log("Music: BassSynth pitch switch set to " + NoteUtils.NoteToWwiseString(initialPitch) + " (before start)");
+        }
 
         // Post Play_BassSynth event
         AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
         bassSynthPlaying = true;
-
-        if(debugAllowLogs)
+        if(debugAllowBassSynthLogs)
         {
-            Debug.Log("MUSIC: BassSynth started with pitch " + NoteUtils.NoteToWwiseString(initialPitch) + " (InteractionType: " + currentInteractionType + ")");
+            Debug.Log("Music: BassSynth Start event posted (pitch: " + NoteUtils.NoteToWwiseString(initialPitch) + ", InteractionType: " + currentInteractionType + ")");
         }
     }
     
     private void changeHarmony(NoteName harmonyNote)
     {
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", NoteUtils.NoteToWwiseString(harmonyNote), gameObject);
-        if(debugAllowLogs)
+        if(debugAllowHarmonyChangeLogs)
         {
             Debug.Log("MUSIC: Harmony Note Set To: " + NoteUtils.NoteToWwiseString(harmonyNote));
         }
@@ -1635,9 +1885,9 @@ public class MusicSystem1 : MonoBehaviour
         // Validate input - reject NoteName.None
         if (newPitch == NoteName.None)
         {
-            if(debugAllowLogs && !bassSynthNonePitchWarningLogged)
+            if((debugAllowWarnings || debugAllowBassSynthLogs) && !bassSynthNonePitchWarningLogged)
             {
-                Debug.LogWarning("MUSIC: Attempted to set BassSynth pitch to NoteName.None - ignoring (this warning will only appear once)");
+                Debug.LogWarning("Music: BassSynth pitch change requested but newPitch is None - ignoring (this warning will only appear once)");
                 bassSynthNonePitchWarningLogged = true;
             }
             return;
@@ -1650,6 +1900,9 @@ public class MusicSystem1 : MonoBehaviour
         }
 
         // Check if pitch has changed
+        string currentPitchStr = currentBassSynthPitch.HasValue ? NoteUtils.NoteToWwiseString(currentBassSynthPitch.Value) : "None";
+        string newPitchStr = NoteUtils.NoteToWwiseString(newPitch);
+        
         if (currentBassSynthPitch.HasValue && currentBassSynthPitch.Value == newPitch)
         {
             // Pitch hasn't changed, no need to update
@@ -1665,31 +1918,32 @@ public class MusicSystem1 : MonoBehaviour
         {
             // Stop BassSynth before changing pitch switch (prevents overlapping sounds)
             AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
-            if(debugAllowLogs)
+            if(debugAllowBassSynthLogs)
             {
-                Debug.Log("MUSIC: Stopping BassSynth to change pitch switch");
+                Debug.Log("Music: BassSynth Stop event posted (changing pitch from " + currentPitchStr + " to " + newPitchStr + ")");
             }
         }
 
         // Set the pitch switch
-        AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", NoteUtils.NoteToWwiseString(newPitch), gameObject);
+        AkSoundEngine.SetSwitch("BassSynth_PitchSwitch", newPitchStr, gameObject);
+        if(debugAllowBassSynthLogs)
+        {
+            Debug.Log("Music: BassSynth pitch switch changed from " + currentPitchStr + " to " + newPitchStr);
+        }
+
         
         // Update current pitch
         currentBassSynthPitch = newPitch;
 
-        if(debugAllowLogs)
-        {
-            Debug.Log("MUSIC: BassSynth pitch switch set to " + NoteUtils.NoteToWwiseString(newPitch));
-        }
 
         // Play BassSynth again if it was playing before
         // Note: If wasPlaying was false, we just update the switch for when BassSynth does start
         if (wasPlaying)
         {
             AkSoundEngine.PostEvent("Play_BassSynth", gameObject);
-            if(debugAllowLogs)
+            if(debugAllowBassSynthLogs)
             {
-                Debug.Log("MUSIC: Restarting BassSynth after pitch change");
+                Debug.Log("Music: BassSynth Start event posted (pitch change complete - new pitch: " + newPitchStr + ")");
             }
         }
         // Note: We don't update bassSynthPlaying here because:
@@ -1705,7 +1959,10 @@ public class MusicSystem1 : MonoBehaviour
         int ms = (int) Mathf.RoundToInt(fadeDuration * 1000);
 
         AkSoundEngine.SetRTPCValue("SILENT_Volume", _target, gameObject, ms);
-        Debug.Log("MUSIC: Set Silent Volume to " + _target);
+        if(debugAllowMixVolumeLogs)
+        {
+            Debug.Log("MUSIC: Set Silent Volume to " + _target);
+        }
     }
 
     public void SetMusicToningLayerVolume(float _target, float fadeDuration = 0.1f)
@@ -1721,13 +1978,19 @@ public class MusicSystem1 : MonoBehaviour
     public void PlayBreathworkCycle()
     {
         AkSoundEngine.PostEvent("Play_sfx_breathworkcycle", gameObject);
-        Debug.Log("MUSIC: Play_sfx_breathworkcycle");
+        if(debugAllowSFXLogs)
+        {
+            Debug.Log("MUSIC: Play_sfx_breathworkcycle");
+        }
     }
 
     public void StopBreathworkCycle()
     {
         AkSoundEngine.PostEvent("Stop_sfx_breathworkcycle", gameObject);
-        Debug.Log("MUSIC: Stop_sfx_breathworkcycle");
+        if(debugAllowSFXLogs)
+        {
+            Debug.Log("MUSIC: Stop_sfx_breathworkcycle");
+        }
     }
 
     
@@ -1747,11 +2010,17 @@ public class MusicSystem1 : MonoBehaviour
             AkSoundEngine.PostEvent("Play_MusicLoops", gameObject);
             // Note: BassSynth is now controlled by toneActiveConfident system, not started here
             // This prevents duplicate Play_BassSynth events that could cause sound buildup
-            Debug.Log("MUSIC: InteractiveMusic started");
+            if(debugAllowSoundscapeLogs)
+            {
+                Debug.Log("MUSIC: InteractiveMusic started");
+            }
         }
         else
         {
-            Debug.LogWarning("MUSIC: InteractiveMusic is already started");
+            if(debugAllowWarnings || debugAllowSoundscapeLogs)
+            {
+                Debug.LogWarning("MUSIC: InteractiveMusic is already started");
+            }
         }
     }
 
@@ -1766,11 +2035,17 @@ public class MusicSystem1 : MonoBehaviour
                 AkSoundEngine.PostEvent("Stop_MusicLoops", gameObject);
             }
             //AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
-            Debug.Log("MUSIC: InteractiveMusic stopped" + (suppressStoppingMusicLoops ? " (MusicLoops not stopped by request)" : ""));
+            if(debugAllowSoundscapeLogs)
+            {
+                Debug.Log("MUSIC: InteractiveMusic stopped" + (suppressStoppingMusicLoops ? " (MusicLoops not stopped by request)" : ""));
+            }
         }
         else
         {
-            Debug.LogWarning("MUSIC: InteractiveMusic is not started");
+            if(debugAllowWarnings || debugAllowSoundscapeLogs)
+            {
+                Debug.LogWarning("MUSIC: InteractiveMusic is not started");
+            }
         }
     }
 
@@ -1783,25 +2058,31 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("MUSIC: Environment is already initialized");
+            if(debugAllowWarnings || debugAllowMusicModeLogs)
+            {
+                Debug.LogWarning("MUSIC: Environment is already initialized");
+            }
         }
     }
 
     public void OnSoundscapeDropdownChanged(int index)
     {
-        Debug.Log("MUSIC DROPDOWN: OnSoundscapeDropdownChanged triggered with index: " + index);
+        if(debugAllowSoundscapeLogs)
+        {
+            Debug.Log("MUSIC DROPDOWN: OnSoundscapeDropdownChanged triggered with index: " + index);
+        }
         if(soundscapeDropdown != null)
         {
             switch (index)
             {
-                case 0: SetSoundscape("SonoFlore"); Debug.Log("MUSIC DROPDOWN: SonoFlore"); break;
-                case 1: SetSoundscape("Shadow"); Debug.Log("MUSIC DROPDOWN: Shadow"); break;
-                case 2: SetSoundscape("Gentle"); Debug.Log("MUSIC DROPDOWN: Gentle"); break;
-                case 3: SetSoundscape("Shruti"); Debug.Log("MUSIC DROPDOWN: Shruti"); break;
-                case 4: SetSoundscape("ShiftingEarth"); Debug.Log("MUSIC DROPDOWN: ShiftingEarth"); break;
-                case 5: SetSoundscape("SitarAmbience"); Debug.Log("MUSIC DROPDOWN: SitarAmbience"); break;
-                case 6: SetSoundscape("PinkNoiseAtmosphere"); Debug.Log("MUSIC DROPDOWN: PinkNoiseAtmosphere"); break;
-                case 7: worldShuffler.ShuffleWorldsNow(); Debug.Log("MUSIC DROPDOWN: ShuffleWorldsNow triggered"); break;
+                case 0: SetSoundscape("SonoFlore"); if(debugAllowSoundscapeLogs) { Debug.Log("MUSIC DROPDOWN: SonoFlore"); } break;
+                case 1: SetSoundscape("Shadow"); if(debugAllowSoundscapeLogs) { Debug.Log("MUSIC DROPDOWN: Shadow"); } break;
+                case 2: SetSoundscape("Gentle"); if(debugAllowSoundscapeLogs) { Debug.Log("MUSIC DROPDOWN: Gentle"); } break;
+                case 3: SetSoundscape("Shruti"); if(debugAllowSoundscapeLogs) { Debug.Log("MUSIC DROPDOWN: Shruti"); } break;
+                case 4: SetSoundscape("ShiftingEarth"); if(debugAllowSoundscapeLogs) { Debug.Log("MUSIC DROPDOWN: ShiftingEarth"); } break;
+                case 5: SetSoundscape("SitarAmbience"); if(debugAllowSoundscapeLogs) { Debug.Log("MUSIC DROPDOWN: SitarAmbience"); } break;
+                case 6: SetSoundscape("PinkNoiseAtmosphere"); if(debugAllowSoundscapeLogs) { Debug.Log("MUSIC DROPDOWN: PinkNoiseAtmosphere"); } break;
+                case 7: worldShuffler.ShuffleWorldsNow(); if(debugAllowSoundscapeLogs) { Debug.Log("MUSIC DROPDOWN: ShuffleWorldsNow triggered"); } break;
                 default: SetSoundscape("SonoFlore"); break;
             }
         }
