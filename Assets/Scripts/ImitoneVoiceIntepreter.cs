@@ -175,7 +175,14 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     public string MicrophoneDeviceName => microphoneName;
     public int MicrophoneSampleRate => sampleRate;
 
-
+    // Debug log category flags
+    private bool debugAllowInitializationLogs = true;
+   // private bool debugAllowToneActiveLogs = true;
+    private bool debugAllowToneActiveVariationsLogs = true;
+    private bool debugAllowSFXLogs = true;
+    private bool debugAllowVolumeTrackingLogs = true;
+    private bool debugAllowMonitoringLogs = true;
+    private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
 
     void Start()
     {
@@ -186,10 +193,16 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         { microphoneName = device; break; }
         if (microphoneName.Length == 0)
         {
-            Debug.Log("Imitone: No microphone was available for pitch tracking.");
+            if(debugAllowInitializationLogs || debugAllowWarnings)
+            {
+                Debug.LogError("Imitone: No microphone was available for pitch tracking.");
+            }
             return;
         }
-        Debug.Log("Imitone: Chose microphone: " + microphoneName);
+        if(debugAllowInitializationLogs)
+        {
+            Debug.Log("Imitone: Chose microphone: " + microphoneName);
+        }
         // NOTE: Unity doesn't give us a way to query native samplerate.
         //  Converting to 48khz may degrade audio quality slightly.
         sampleRate = 48000;
@@ -206,7 +219,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         if (inputBuffer == null)
         {
             //If mircophone fails to start
-            Debug.Log("Imitone: PitchTracker failed to Start recording from Microphone!");
+            if(debugAllowInitializationLogs || debugAllowWarnings)
+            {
+                Debug.LogError("Imitone: PitchTracker failed to Start recording from Microphone!");
+            }
             return;
         }
 
@@ -220,13 +236,19 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.Log(e);
+            if(debugAllowWarnings || debugAllowInitializationLogs)
+            {
+                Debug.Log(e);
+            }
             throw;
         }
 
         if (imitone == null)
         {
-            Debug.Log("Imitone: imitone was null after creation.");
+            if(debugAllowInitializationLogs || debugAllowWarnings)
+            {
+                Debug.LogError("Imitone: imitone was null after creation.");
+            }
         }
     }
 
@@ -242,11 +264,17 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         {
             if (gameOn)
             {
-                Debug.Log("Imitone: Game On");
+                if(debugAllowMonitoringLogs)
+                {
+                    Debug.Log("Imitone: Game On");
+                }
             }
             else
             {
-                Debug.Log("Imitone: Game Off");
+                if(debugAllowMonitoringLogs)
+                {
+                    Debug.Log("Imitone: Game Off");
+                }
             }
             gameOnLastFrame = gameOn;
         }
@@ -314,7 +342,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         bool captureThreshold = _secsCapturedBaseline > 15f;
         if (captureThreshold && (_vol1Sec > (_anomalyBaseline + _volumeAnomalyThresholdDb)))
         {
-            Debug.Log("Imitone: Director Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
+            if(debugAllowVolumeTrackingLogs)
+            {
+                Debug.Log("Imitone: Director Volume Anomaly Detected: " + _vol1Sec + " > " + _anomalyBaseline + " + " + _volumeAnomalyThresholdDb);
+            }
             _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
             director.ActivateQueue(1.75f);
@@ -464,7 +495,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     { //WE NEED RAW VALUES FOR THIS
         if (!inputBuffer)
         {
-            Debug.Log("Imitone: No Input Buffer");
+            if(debugAllowInitializationLogs || debugAllowWarnings)
+            {
+                Debug.LogError("Imitone: No Input Buffer");
+            }
             return;
         }
 
@@ -564,7 +598,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
                 }
                 catch (Exception e)
                 {
-                    Debug.Log(e);
+                    if(debugAllowWarnings || debugAllowInitializationLogs)
+                    {
+                        Debug.Log(e);
+                    }
                     pitch_hz = -1f;
                     note_st = -1f;
                 }
@@ -713,7 +750,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         {
             if (!toneActiveBiasTrueFrameFlag)
             {
-                Debug.Log("Imitone: Tone Active Bias True Frame");
+                if(debugAllowToneActiveVariationsLogs)
+                {
+                    Debug.Log("Imitone: Tone Active Bias True Frame");
+                }
                 toneActiveBiasTrueFrame = true;
                 toneActiveBiasTrueFrameFlag = true;
             }
@@ -809,17 +849,26 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         if (newInhaleEffectTargetDuration > 5.0f)
         {
             AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);
-            Debug.Log("Imitone: SFX: Play_Inhale_Long (" + newInhaleEffectTargetDuration + ")");
+            if(debugAllowSFXLogs)
+            {
+                Debug.Log("Imitone: SFX: Play_Inhale_Long (" + newInhaleEffectTargetDuration + ")");
+            }
         }
         else if (newInhaleEffectTargetDuration > 3.0f)
         {
             AkSoundEngine.PostEvent("Play_Inhale_Medium", gameObject);
-            Debug.Log("Imitone: SFX: Play_Inhale_Medium(" + newInhaleEffectTargetDuration + ")");
+            if(debugAllowSFXLogs)
+            {
+                Debug.Log("Imitone: SFX: Play_Inhale_Medium(" + newInhaleEffectTargetDuration + ")");
+            }
         }
         else if (newInhaleEffectTargetDuration >= 1.0f)
         {
             AkSoundEngine.PostEvent("Play_Inhale_Short", gameObject);
-            Debug.Log("Imitone: SFX: Play_Inhale_Short (" + newInhaleEffectTargetDuration + ")");
+            if(debugAllowSFXLogs)
+            {
+                Debug.Log("Imitone: SFX: Play_Inhale_Short (" + newInhaleEffectTargetDuration + ")");
+            }
         }
     }
 
@@ -938,12 +987,18 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     {
         if (monitorOn)
         {
-            Debug.Log("Imitone: Monitoring start");
+            if(debugAllowMonitoringLogs)
+            {
+                Debug.Log("Imitone: Monitoring start");
+            }
             gameOn = true;
         }
         else
         {
-            Debug.Log("Imitone: Monitoring stop");
+            if(debugAllowMonitoringLogs)
+            {
+                Debug.Log("Imitone: Monitoring stop");
+            }
             gameOn = false;
         }
     }
@@ -964,7 +1019,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
             if (breathSoundFlag)
             {
-                Debug.LogWarning("Warning: AVS Breath Response (SOUND) already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+                if(debugAllowWarnings || debugAllowSFXLogs)
+                {
+                    Debug.LogWarning("Warning: AVS Breath Response (SOUND) already set this frame. Proceeding with new configuration. But this is really only meant to happen once per frame.");
+                }
             }
         breathSoundFlag = true;
     }

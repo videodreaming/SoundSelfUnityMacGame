@@ -375,13 +375,13 @@ public class Sequencer : MonoBehaviour
         //Early Behaviors
         if(_timeSinceTutorial >= 60 && !flagTriggerStart1)
         {
-            Debug.Log("Sequencer: Triggering Start1 Behaviors: Reset Soundscape Exclusions for Shuffle");
+            Debug.Log("Sequencer: StandardSequence Triggering Start1 Behaviors: Reset Soundscape Exclusions for Shuffle");
             worldShuffler.ResetSoundscapeExclusions();
             flagTriggerStart1 = true;
         }
         if(_timeSinceTutorial >= 300 && !flagTriggerStart2)
         {
-            Debug.Log("Sequencer: Triggering Start2 Behaviors: Reset Color Exclusions for Shuffle");
+            Debug.Log("Sequencer: StandardSequence Triggering Start2 Behaviors: Reset Color Exclusions for Shuffle");
             worldShuffler.ResetColorWorlds();
             flagTriggerStart2 = true;
         }
@@ -389,7 +389,7 @@ public class Sequencer : MonoBehaviour
         //End Behaviors
         if(_countdownToSavasana <= 300 && !flagTriggerEnd1)
         {
-            Debug.Log("Sequencer: Triggering End1 Behaviors: No Shadow or Shruti Allowed");
+            Debug.Log("Sequencer: StandardSequence Triggering End1 Behaviors: No Shadow or Shruti Allowed");
             worldShuffler.ResetSoundscapeExclusions();
             worldShuffler.ExcludeSoundscape("Shadow");
             worldShuffler.ExcludeSoundscape("Shruti"); //removing shruti, as we want it to go last
@@ -399,7 +399,7 @@ public class Sequencer : MonoBehaviour
         }
         if(_countdownToSavasana <= 180f && !flagTriggerEnd2)
         {
-            Debug.Log("Sequencer: Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
+            Debug.Log("Sequencer: StandardSequence Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
             //finally, queue shruti and prevent further queueing of shuffled soundscapes.
             director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
             director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, true, 2);
@@ -410,7 +410,7 @@ public class Sequencer : MonoBehaviour
 
         if(_countdownToSavasana <= 60f && !flagTriggerEnd3)
         {
-            Debug.Log("Sequencer: Triggering End3 Behaviors: Start Last Minute Behaviors");
+            Debug.Log("Sequencer: StandardSequence Triggering End3 Behaviors: Start Last Minute Behaviors");
             StartCoroutine(LastMinute());
             flagTriggerEnd3 = true;
         }
@@ -420,11 +420,11 @@ public class Sequencer : MonoBehaviour
             // Only trigger savasana for standard sequences, not Protocol Stacks
             if(CSVLoader.instance != null && CSVLoader.instance.gameMode == "Protocol Stacks")
             {
-                Debug.LogWarning("Sequencer: Attempted to trigger Thematic Savasana in Protocol Stacks mode - this should not happen!");
+                Debug.LogWarning("Sequencer: StandardSequence Attempted to trigger Thematic Savasana in Protocol Stacks mode - this should not happen!");
                 return;
             }
            
-            Debug.Log("Sequencer: Triggering Thematic Savasana."); 
+            Debug.Log("Sequencer: StandardSequence Triggering Thematic Savasana."); 
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent); 
 
             wwiseVOManager.PlayThematicSavasana();
