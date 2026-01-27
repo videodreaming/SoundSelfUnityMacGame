@@ -557,7 +557,7 @@ public class MusicSystem1 : MonoBehaviour
             impactSoundFlag = false;
         }
 
-        if(gameValues._chantCharge >= 0.95f)
+        if(gameValues._chantCharge >= 0.99f)
         {
             if(!impactSoundFlag)
             {

@@ -24,7 +24,10 @@ public class Director : MonoBehaviour
     public DevelopmentMode developmentMode;
     public LightControl lightControl;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    private bool debugAllowLogs = false;
+    
+    // Debug log category flags
+    private bool debugAllowLogs = true;
+    private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
     
     public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
     public int queueIndex = 0;
@@ -50,11 +53,17 @@ public class Director : MonoBehaviour
         {
             if(disable)
             {
-                Debug.Log("Director Queue: Director Disabled");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("Director Queue: Director Disabled");
+                }
             }
             else
             {
-                Debug.Log("Director Queue: Director Enabled");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("Director Queue: Director Enabled");
+                }
             }
             disableLast = disable;
         }
@@ -91,12 +100,18 @@ public class Director : MonoBehaviour
                 //only execute the action if its "expires" bool is false
                 if(value.activateAtEnd)
                 {
-                    Debug.Log("Director Queue: Action " + key + " " + value.type + " expired...");
+                    if(debugAllowLogs)
+                    {
+                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired...");
+                    }
                     StartCoroutine(ActivateOnTone(value.action, key, value.type));
                 }
                 else
                 {
-                    Debug.Log("Director Queue: Action " + key + " " + value.type + " expired without executing");
+                    if(debugAllowLogs)
+                    {
+                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired without executing");
+                    }
                 }
                 keysToRemove.Add(key);
             }
@@ -110,7 +125,10 @@ public class Director : MonoBehaviour
     
     private IEnumerator ActivateOnTone(Action action, int id = -1, string type = "(unknown type)")
     {
-        Debug.Log("Director Queue: Action " + id + " " + type + " will activate when next tone begins");
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director Queue: Action " + id + " " + type + " will activate when next tone begins");
+        }
         //first, if we are toning, wait for this tone to finish...
         while (imitoneVoiceInterpreter.toneActiveConfident)
         {
@@ -122,7 +140,10 @@ public class Director : MonoBehaviour
             yield return null;
         }
         //then run the action
-        Debug.Log("Director Queue: Action " + id + " " + type + " activating with tone");
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director Queue: Action " + id + " " + type + " activating with tone");
+        }
 
         action();
     }
@@ -136,7 +157,10 @@ public class Director : MonoBehaviour
         //2: ALWAYS REPLACE - Clear all actions of the same type from the queue, then add the action
         if(disable)
         {
-            Debug.LogWarning("Director Queue: Director is disabled, not adding action to queue.");
+            if(debugAllowWarnings || debugAllowLogs)
+            {
+                Debug.LogWarning("Director Queue: Director is disabled, not adding action to queue.");
+            }
             return -1;
         }
         if(exclusivityBehavior == 1)
@@ -149,7 +173,10 @@ public class Director : MonoBehaviour
                     {
                         if(item.Value.timeLeft <= timeLimit)
                         {
-                            Debug.Log("Director Queue: Action " + type + " already exists in director queue with shorter timeLeft, not adding new one per exclusivity rules.");
+                            if(debugAllowLogs)
+                            {
+                                Debug.Log("Director Queue: Action " + type + " already exists in director queue with shorter timeLeft, not adding new one per exclusivity rules.");
+                            }
                             // LogQueue();
                             return -1; //return -1 to indicate that the action was not added
                         }
@@ -164,7 +191,10 @@ public class Director : MonoBehaviour
         }
         queue.Add(queueIndex++, (action, type, isAudioAction, isVisualAction, timeLimit, activateAtEnd));
 
-        Debug.Log("Director Queue: Added " + (queueIndex - 1) + " " + type + " to director queue.");
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director Queue: Added " + (queueIndex - 1) + " " + type + " to director queue.");
+        }
         // LogQueue();
 
         return queueIndex - 1;
@@ -189,7 +219,10 @@ public class Director : MonoBehaviour
 
         if (disable)
         {
-            Debug.LogWarning("Director Queue: Director is disabled, not activating queue.");
+            if(debugAllowWarnings || debugAllowLogs)
+            {
+                Debug.LogWarning("Director Queue: Director is disabled, not activating queue.");
+            }
             return;
         }
 
@@ -219,7 +252,10 @@ public class Director : MonoBehaviour
             if (item.isVisualAction)
                 countVisualEvents++;
 
-            Debug.Log($"Director Queue: Action {item.type} executed from process-all");
+            if(debugAllowLogs)
+            {
+                Debug.Log($"Director Queue: Action {item.type} executed from process-all");
+            }
         }
 
         // Once done, we can safely clear the queue 
@@ -229,7 +265,10 @@ public class Director : MonoBehaviour
             // If no audio events, do an audio flourish
             if (countAudioEvents == 0 && countVisualEvents != 0)
             {
-                Debug.Log("Director Queue: No Audio Actions Queued, triggering one to complete syncresis");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("Director Queue: No Audio Actions Queued, triggering one to complete syncresis");
+                }
                 TweakAudio(transitionTimeForFlourishes);
                 PlayTransitionSound();
             }
@@ -237,7 +276,10 @@ public class Director : MonoBehaviour
             // If no visual events, do a visual flourish
             if (countVisualEvents == 0 && countAudioEvents != 0)
             {
-                Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
+                if(debugAllowLogs)
+                {
+                    Debug.Log("Director Queue: No Visual Actions Queued, Triggering one to complete syncresis");
+                }
                 lightControl.NextPreferredColorWorld(transitionTimeForFlourishes);
                 lightControl.FXWave(0.75f, 15.0f, 0.1f, true);
             }
@@ -256,7 +298,10 @@ public class Director : MonoBehaviour
         {
             logString += "<" + item.Key + " " + item.Value.type + ", " + item.Value.timeLeft + "s> ";
         }
-        Debug.Log(logString);
+        if(debugAllowLogs)
+        {
+            Debug.Log(logString);
+        }
     }
 
     public bool SearchQueueForType(string type)
@@ -292,7 +337,10 @@ public class Director : MonoBehaviour
             queue.Remove(key);
         }
         // LogQueue();
-        Debug.Log("Director Queue: Removed all " + type + " items from director queue.");
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director Queue: Removed all " + type + " items from director queue.");
+        }
         // LogQueue();
         
         // Return shortest time (or -1 if nothing was cleared)
@@ -308,12 +356,18 @@ public class Director : MonoBehaviour
     {
         if (!canPlayTransitionSound)
         {
-            Debug.Log("Director: Transition Sound requested but still on cooldown. Ignoring request.");
+            if(debugAllowLogs)
+            {
+                Debug.Log("Director: Transition Sound requested but still on cooldown. Ignoring request.");
+            }
             return;
         }
         
         AkSoundEngine.PostEvent("Unity_TransitionSFX", gameObject);
-        Debug.Log("Director: Transition Sound Played");
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director: Transition Sound Played");
+        }
         
         // Start cooldown
         canPlayTransitionSound = false;
@@ -333,7 +387,10 @@ public class Director : MonoBehaviour
         yield return new WaitForSeconds(_cooldownSeconds);
         canPlayTransitionSound = true;
         transitionSoundCooldownCoroutine = null;
-        Debug.Log("Director: Transition Sound cooldown expired - can play again.");
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director: Transition Sound cooldown expired - can play again.");
+        }
     }
 
     public Action Action_PlayTransitionSound()
@@ -349,7 +406,10 @@ public class Director : MonoBehaviour
 
     private void DirectorTest(string print)
     {
-        Debug.Log("Director Test: " + print);
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director Test: " + print);
+        }
     }
 
     private void TweakAudio(float _seconds)
@@ -360,7 +420,10 @@ public class Director : MonoBehaviour
         int ms = (int)(_seconds * 1000.0f);
         
         AkSoundEngine.SetRTPCValue("Unity_SoundTweak", _rtpcTarget, gameObject, ms);
-        Debug.Log("Director: Audio Tweak to " + _rtpcTarget + " in " + ms + "ms (this isn't in wwise yet, I think)");
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director: Audio Tweak to " + _rtpcTarget + " in " + ms + "ms (this isn't in wwise yet, I think)");
+        }
     }
     
     // private Action Action_TweakAudio(float _seconds)

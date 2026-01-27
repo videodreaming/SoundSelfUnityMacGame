@@ -56,6 +56,12 @@ public class Sequencer : MonoBehaviour
     private bool openingSequenceFlag = false;
     public float timeInUnguidedVocalization;
     
+    // Debug log category flags
+    private bool debugAllowTimingLogs = true;
+    
+    // Time tracking for debug logs
+    private float _timeSinceStart = 0f;
+    private float _lastTimingLogTime = 0f;
 
 
     void Awake()
@@ -108,6 +114,19 @@ public class Sequencer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Track time since start for debug logging
+        _timeSinceStart += Time.deltaTime;
+        
+        // Log timestamp every 1 second as minutes:seconds
+        if(debugAllowTimingLogs && _timeSinceStart - _lastTimingLogTime >= 1.0f)
+        {
+            int totalSeconds = Mathf.RoundToInt(_timeSinceStart);
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+            Debug.Log($"Sequencer: [tick] {minutes}:{seconds:D2}");
+            _lastTimingLogTime = _timeSinceStart;
+        }
+        
         //add time to the _timeSinceTutorial counter, once the tutorial has been completed
         if(tutorial.tutorialComplete)
         {
