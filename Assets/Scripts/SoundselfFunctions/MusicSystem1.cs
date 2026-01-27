@@ -32,6 +32,7 @@ public class MusicSystem1 : MonoBehaviour
     private bool debugAllowInitializationLogs = true;
     private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
     
+    
     public Sequencer sequencer;
     public WwiseVOManager wwiseVOManager;
     public WorldShuffler worldShuffler;
@@ -128,7 +129,6 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeFrozenFreeplayFlag = false;
     private bool modeEnvironmentFlag = false;
     private bool modeMusicLoopSilentFlag = false;
-
     public TMP_Dropdown soundscapeDropdown;
 
     //SOUNDSCAPE LISTS
@@ -151,8 +151,16 @@ public class MusicSystem1 : MonoBehaviour
     };
 
     private bool haveSetSoundWorldFlag = false;
-
     public NoteName permanentlySetFundamental = NoteName.None;
+    
+    // SIMPLIFICATION SWITCHES - Debug flags to disable systems for troubleshooting
+    private bool enableFundamentalTracking = true;
+    private bool enableHarmonyTracking = true;
+    private bool enableBassSynth = true;
+    private bool enableBasicToning = true;
+    private bool enableDirectVoiceMonitoring = true;
+    private bool enableThumpSFX = true;
+    private bool enableImitoneInterpretation = true;
 
 
     void Awake()
@@ -347,17 +355,38 @@ public class MusicSystem1 : MonoBehaviour
             }
         }
 
-        DirectVoiceMonitoring();
-        ThumpUpdate();
+        if(enableDirectVoiceMonitoring)
+        {
+            DirectVoiceMonitoring();
+        }
+        if(enableThumpSFX)
+        {
+            ThumpUpdate();
+        }
     }
 
     private void DynamicMusicSystem()
     {
-        InterpretImitoneUpdate();
-        BasicToningUpdate();
-        BassSynthUpdate();
-        FundamentalUpdate();
-        HarmonyUpdate();
+        if(enableImitoneInterpretation)
+        {
+            InterpretImitoneUpdate();
+        }
+        if(enableBasicToning)
+        {
+            BasicToningUpdate();
+        }
+        if(enableBassSynth)
+        {
+            BassSynthUpdate();
+        }
+        if(enableFundamentalTracking)
+        {
+            FundamentalUpdate();
+        }
+        if(enableHarmonyTracking)
+        {
+            HarmonyUpdate();
+        }
     }
 
     private void DirectVoiceMonitoring()
@@ -1622,11 +1651,21 @@ public class MusicSystem1 : MonoBehaviour
                     else
                     {
                         // In cooldown, queue both pitch switch and start (pitch change will execute first)
-                        pendingBassSynthStart = true;
-                        pendingBassSynthPitch = targetPitch;
-                        if(debugAllowBassSynthLogs)
+                        // Only log if we're not already queued (prevents spam every frame)
+                       
+                        if (!pendingBassSynthStart)
                         {
-                            Debug.Log("Music: BassSynth Start queued (delayed start, cooldown active, " + (BASS_SYNTH_COOLDOWN - bassSynthCooldownTimer).ToString("F2") + "s remaining, pitch " + NoteUtils.NoteToWwiseString(targetPitch) + " will be set when cooldown expires)");
+                            pendingBassSynthStart = true;
+                            pendingBassSynthPitch = targetPitch;
+                            if(debugAllowBassSynthLogs)
+                            {
+                                Debug.Log("Music: BassSynth Start queued (delayed start, cooldown active, " + (BASS_SYNTH_COOLDOWN - bassSynthCooldownTimer).ToString("F2") + "s remaining, pitch " + NoteUtils.NoteToWwiseString(targetPitch) + " will be set when cooldown expires)");
+                            }
+                        }
+                        else
+                        {
+                            // Already queued, just update pitch if it changed
+                            pendingBassSynthPitch = targetPitch;
                         }
                     }
                 }
@@ -2221,6 +2260,148 @@ public class MusicSystem1 : MonoBehaviour
     public void SetSoundWorldFlag() //THIS IS IMPORTANT, BECAUSE IF WE NEVER SET THE SOUND WORLD, WWISE WILL DEFAULT TO PLAYING ALL OF THEM AT ONCE.
     {
         haveSetSoundWorldFlag = true;
+    }
+
+    //====================================================================================================
+    //SIMPLIFICATION SWITCHES
+    //====================================================================================================
+    
+    /// <summary>
+    /// Enables or disables fundamental tracking system
+    /// </summary>
+    public void SetFundamentalTrackingEnabled(bool enabled)
+    {
+        enableFundamentalTracking = enabled;
+        LogSimplificationStatus();
+    }
+    
+    /// <summary>
+    /// Enables or disables harmony tracking and changes system
+    /// </summary>
+    public void SetHarmonyTrackingEnabled(bool enabled)
+    {
+        enableHarmonyTracking = enabled;
+        if (!enabled)
+        {
+            // Reset harmony note when disabling (harmony won't play if system is disabled)
+            harmonyNote = NoteName.None;
+        }
+        LogSimplificationStatus();
+    }
+    
+    /// <summary>
+    /// Enables or disables BassSynth system
+    /// </summary>
+    public void SetBassSynthEnabled(bool enabled)
+    {
+        enableBassSynth = enabled;
+        if (!enabled)
+        {
+            // Stop BassSynth when disabling
+            if (bassSynthPlaying)
+            {
+                AkSoundEngine.PostEvent("Stop_BassSynth", gameObject);
+                bassSynthPlaying = false;
+                currentBassSynthPitch = null;
+                if(debugAllowBassSynthLogs)
+                {
+                    Debug.Log("Music: BassSynth stopped (system disabled)");
+                }
+            }
+            // Clear pending actions
+            pendingBassSynthStart = false;
+            pendingBassSynthPitch = null;
+        }
+        LogSimplificationStatus();
+    }
+    
+    /// <summary>
+    /// Enables or disables basic toning behaviors (BasicToningUpdate)
+    /// </summary>
+    public void SetBasicToningEnabled(bool enabled)
+    {
+        enableBasicToning = enabled;
+        if (!enabled)
+        {
+            // Stop toning when disabling
+            StopWwiseToning();
+        }
+        LogSimplificationStatus();
+    }
+    
+    /// <summary>
+    /// Enables or disables direct voice monitoring system
+    /// </summary>
+    public void SetDirectVoiceMonitoringEnabled(bool enabled)
+    {
+        enableDirectVoiceMonitoring = enabled;
+        if (!enabled)
+        {
+            // Reset monitoring audio source volume when disabling
+            if (monitoringAudioSource != null)
+            {
+                monitoringAudioSource.volume = 0f;
+            }
+        }
+        LogSimplificationStatus();
+    }
+    
+    /// <summary>
+    /// Enables or disables Thump SFX system
+    /// </summary>
+    public void SetThumpSFXEnabled(bool enabled)
+    {
+        enableThumpSFX = enabled;
+        if (!enabled)
+        {
+            // Reset impact sound flag when disabling
+            impactSoundFlag = false;
+        }
+        LogSimplificationStatus();
+    }
+    
+    /// <summary>
+    /// Enables or disables Imitone interpretation system
+    /// </summary>
+    public void SetImitoneInterpretationEnabled(bool enabled)
+    {
+        enableImitoneInterpretation = enabled;
+        if (!enabled)
+        {
+            // Reset note tracking when disabling
+            foreach (var key in NoteTracker.Keys.ToList())
+            {
+                var current = NoteTracker[key];
+                NoteTracker[key] = (0f, false, false, current.ChangeFundamentalTimer);
+            }
+            musicNoteActivated = NoteName.None;
+        }
+        LogSimplificationStatus();
+    }
+    
+    /// <summary>
+    /// Logs a list of all systems that are currently disabled
+    /// </summary>
+    private void LogSimplificationStatus()
+    {
+        List<string> disabledSystems = new List<string>();
+        
+        if (!enableFundamentalTracking) disabledSystems.Add("Fundamental Tracking");
+        if (!enableHarmonyTracking) disabledSystems.Add("Harmony Tracking");
+        if (!enableBassSynth) disabledSystems.Add("Bass Synth");
+        if (!enableBasicToning) disabledSystems.Add("Basic Toning");
+        if (!enableDirectVoiceMonitoring) disabledSystems.Add("Direct Voice Monitoring");
+        if (!enableThumpSFX) disabledSystems.Add("Thump SFX");
+        if (!enableImitoneInterpretation) disabledSystems.Add("Imitone Interpretation");
+        
+        if (disabledSystems.Count > 0)
+        {
+            Debug.Log("Music: SIMPLIFICATION - Disabled Systems: " + string.Join(", ", disabledSystems));
+        }
+        else
+        {
+            Debug.Log("Music: SIMPLIFICATION - All systems enabled");
+        }
     }
 
     

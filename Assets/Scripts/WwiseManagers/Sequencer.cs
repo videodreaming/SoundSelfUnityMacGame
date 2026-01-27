@@ -303,7 +303,7 @@ public class Sequencer : MonoBehaviour
         //tutorial.tutorialComplete = true; // set in StartPlayground()
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
         MusicSystem1.instance.SetSoundscape("ShiftingEarth");
-        StartPlayground(false, false);
+        StartPlayground(false, false, true);
         
         worldShuffler.ExcludeSoundscape("Shadow");
         // musicSystem.SetMusicModeTo(MusicMode.Freeplay);
@@ -927,7 +927,7 @@ public class Sequencer : MonoBehaviour
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0.0f);
         director.Disable();
     }
-    public void StartPlayground(bool setTimeSinceTutorial = false, bool beginShuffle = true, float transitionTime = 20f)
+    public void StartPlayground(bool setTimeSinceTutorial = false, bool beginShuffle = true, bool directorEnabled = true, float transitionTime = 20f)
     {
         if(setTimeSinceTutorial && _timeSinceTutorial < 300f)
         {
@@ -939,7 +939,10 @@ public class Sequencer : MonoBehaviour
         }
         Debug.Log("Sequencer: Starting Playground Sequence.");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
-        director.Enable();
+        if(directorEnabled)
+        {
+            director.Enable();
+        }
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, transitionTime);
         tutorial.tutorialComplete = true;
         if(beginShuffle)
@@ -1016,7 +1019,7 @@ public class Sequencer : MonoBehaviour
                     case 0: Initialize(); Debug.Log("Initialize called.");  break;
                     case 1: StartTrueStart(); Debug.Log("StartTrueStart called."); break;
                     case 2: StartTutorialSequence(); Debug.Log("StartTutorialSequence called.");  break;
-                    case 3: StartPlayground(true, false, 0.5f);Debug.Log("StartPlayground called.");  break;
+                    case 3: StartPlayground(true, false, false, 0.5f);Debug.Log("StartPlayground called.");  break; //TODO: this should be true,false,true (removed for simplification test)
                     case 4: StartRightBeforeSavasana(); Debug.Log("StartRightBeforeSavasana called."); break;
                     case 5: StartSavasana(); Debug.Log("StartSavasana called."); break;
                     default: Initialize();  break;
