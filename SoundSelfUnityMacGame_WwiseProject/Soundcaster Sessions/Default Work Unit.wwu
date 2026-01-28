@@ -858,10 +858,6 @@
 							<Position X="1" Y="2"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Play_Toning" ID="{75280AE4-0427-4BE0-A4E1-3F0B4AD82E9B}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
-							<Position X="1" Y="3"/>
-						</Module>
-						<Module>
 							<ObjectRef Name="Stop_MusicLoops" ID="{7A19FEB5-4851-40F3-ADDD-9D15D8E3714C}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
 							<Position X="2" Y="0"/>
 						</Module>
@@ -876,6 +872,10 @@
 						<Module>
 							<ObjectRef Name="Unity_TransitionSFX" ID="{1E0E502D-1D20-4209-89C0-D28DB3052CFF}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 							<Position X="2" Y="3"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Play_Toning" ID="{75280AE4-0427-4BE0-A4E1-3F0B4AD82E9B}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
+							<Position X="3" Y="0"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_sfx_breathein" ID="{1795B93B-F131-4732-8055-29BC37E9B579}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
@@ -917,7 +917,7 @@
 					<RTPCValueList ShowAll="true">
 						<RTPCValue>
 							<GameParameterRef Name="TONING_Volume" ID="{9C381C54-7CB7-4027-ADB1-2E43F1FCF463}"/>
-							<Value>80</Value>
+							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="AVS_GREEN_Volume_Wave2" ID="{FE6FE12F-5023-403D-8404-B296CAAB678D}"/>
@@ -961,7 +961,7 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="SILENT_Volume" ID="{3B8E3436-642E-42DD-B54A-B5F158016E34}"/>
-							<Value>80</Value>
+							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="ImpactsSub_Bus_Volume" ID="{A53321D0-A7F3-4341-ABFB-0BBD9CEE0D2B}"/>
@@ -1057,7 +1057,7 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="SFX_Bus_Volume" ID="{ED5E9956-CB68-4738-AC5B-A953C216CE6D}"/>
-							<Value>100</Value>
+							<Value>90</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="AVS_Modulation_PWM_Wave3" ID="{96A530E8-8FAC-476F-A6ED-BA17AB4D36CE}"/>
@@ -1077,7 +1077,7 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="TONING_Player_Volume" ID="{02AAE82B-C841-486D-A07E-07B93954DBCF}"/>
-							<Value>50</Value>
+							<Value>100</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="AVS_Modulation_Frequency_Wave2" ID="{0B0D5E78-2D81-4925-8938-2D61600EC511}"/>
@@ -1174,7 +1174,7 @@
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
-						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
+						<CurrentSwitchRef Name="E" ID="{B36D2519-6D75-437C-8663-714113F27B89}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
@@ -1187,9 +1187,9 @@
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="A" ID="{A279B283-4602-4947-8672-94D46C389BFA}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
-						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
+						<CurrentSwitchRef Name="B" ID="{52F0BEA8-4CAC-42FB-8E97-C550C429D529}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
-						<CurrentSwitchRef Name="CelestialDreamscape" ID="{9553BB37-F7C8-43E1-8C50-FF52596EEBA8}"/>
+						<CurrentSwitchRef Name="AweAtmosphere" ID="{C0702F78-07BA-4DD5-BA62-6988DE370F36}"/>
 						<CurrentSwitchRef Name="Chakapa_4m" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>

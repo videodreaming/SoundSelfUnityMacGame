@@ -1714,6 +1714,13 @@
 					</ObjectLists>
 				</MusicSwitchContainer>
 				<MusicSwitchContainer Name="MusicLoops_Switch" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" ShortID="372704988">
+					<PropertyList>
+						<Property Name="UserAuxSendVolume0" Type="Real64">
+							<ValueList>
+								<Value>-15</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1769,7 +1776,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
 									<ValueList>
-										<Value>-12</Value>
+										<Value>-17</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
