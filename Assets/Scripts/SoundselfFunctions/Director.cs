@@ -18,7 +18,7 @@ public class Director : MonoBehaviour
     //It collects actions.
     //One of three things can happen:
     //1. If "ActivateQueue()" is called, all the actions execute. We do this (mostly) when the system detects a change in player behavior
-    //2. If the time limit is reached, actions with "activateAtEnd" will activate on the next tone. Otherwise, they will expire. (See "QueueUpdate()")
+    //2. If the time limit is reached, actions with activationBehavior 1 will activate on the next tone, actions with activationBehavior 2 will activate the entire queue on the next tone, and actions with activationBehavior 0 will expire. (See "QueueUpdate()")
     //3. The queue can also be cleared.
 
     public DevelopmentMode developmentMode;
@@ -29,7 +29,7 @@ public class Director : MonoBehaviour
     private bool debugAllowLogs = true;
     private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
     
-    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
+    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, int activationBehavior)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, int activationBehavior)>();
     public int queueIndex = 0;
     private int audioTweakCounter = 0;
     public bool disable = false;
@@ -38,6 +38,9 @@ public class Director : MonoBehaviour
     // Transition sound cooldown
     private bool canPlayTransitionSound = true;
     private Coroutine transitionSoundCooldownCoroutine = null;
+    
+    // Track if ActivateQueueOnTone coroutine is already running to prevent multiple simultaneous activations
+    private bool activateQueueOnToneRunning = false;
 
     // Start is called before the first frame update
     void Start()
@@ -97,20 +100,41 @@ public class Director : MonoBehaviour
             }
             else
             {
-                //only execute the action if its "expires" bool is false
-                if(value.activateAtEnd)
+                //activationBehavior: 0 = expire without executing, 1 = execute this action on next tone, 2 = execute all queue on next tone
+                if(value.activationBehavior == 1)
                 {
                     if(debugAllowLogs)
                     {
-                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired...");
+                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate on next tone...");
                     }
                     StartCoroutine(ActivateOnTone(value.action, key, value.type));
                 }
-                else
+                else if(value.activationBehavior == 2)
+                {
+                    if(debugAllowLogs)
+                    {
+                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate entire queue on next tone...");
+                    }
+                    // Only start coroutine if one isn't already running (prevents multiple simultaneous activations)
+                    if(!activateQueueOnToneRunning)
+                    {
+                        activateQueueOnToneRunning = true;
+                        StartCoroutine(ActivateQueueOnTone());
+                    }
+                }
+                else if(value.activationBehavior == 0)
                 {
                     if(debugAllowLogs)
                     {
                         Debug.Log("Director Queue: Action " + key + " " + value.type + " expired without executing");
+                    }
+                }
+                else
+                {
+                    // Invalid activationBehavior value
+                    if(debugAllowWarnings || debugAllowLogs)
+                    {
+                        Debug.LogWarning("Director Queue: Action " + key + " " + value.type + " has invalid activationBehavior value: " + value.activationBehavior + " (expected 0, 1, or 2). Treating as 0 (expire without executing).");
                     }
                 }
                 keysToRemove.Add(key);
@@ -145,16 +169,108 @@ public class Director : MonoBehaviour
             Debug.Log("Director Queue: Action " + id + " " + type + " activating with tone");
         }
 
-        action();
+        try
+        {
+            if(action != null)
+            {
+                action();
+            }
+            else
+            {
+                if(debugAllowWarnings || debugAllowLogs)
+                {
+                    Debug.LogWarning("Director Queue: Action " + id + " " + type + " is null, cannot execute");
+                }
+            }
+        }
+        catch(System.Exception ex)
+        {
+            if(debugAllowWarnings || debugAllowLogs)
+            {
+                Debug.LogError("Director Queue: Exception executing action " + id + " " + type + ": " + ex.Message);
+            }
+        }
+    }
+    
+    private IEnumerator ActivateQueueOnTone()
+    {
+        if(debugAllowLogs)
+        {
+            Debug.Log("Director Queue: Entire queue will activate when next tone begins");
+        }
+        try
+        {
+            // Check for null reference
+            if(imitoneVoiceInterpreter == null)
+            {
+                if(debugAllowWarnings || debugAllowLogs)
+                {
+                    Debug.LogError("Director Queue: imitoneVoiceInterpreter is null, cannot wait for tone");
+                }
+                return;
+            }
+            
+            //first, if we are toning, wait for this tone to finish...
+            while (imitoneVoiceInterpreter.toneActiveConfident)
+            {
+                yield return null;
+            }
+            //then, wait for the next tone to start
+            while(!imitoneVoiceInterpreter.toneActiveConfident)
+            {
+                yield return null;
+            }
+            //then activate the entire queue (only if queue is not empty)
+            if(queue.Count > 0)
+            {
+                if(debugAllowLogs)
+                {
+                    Debug.Log("Director Queue: Activating entire queue with tone");
+                }
+                ActivateQueue();
+            }
+            else
+            {
+                if(debugAllowLogs)
+                {
+                    Debug.Log("Director Queue: Queue activation requested but queue is empty (may have been cleared)");
+                }
+            }
+        }
+        finally
+        {
+            // Always reset flag, even if coroutine is stopped or exception occurs
+            activateQueueOnToneRunning = false;
+        }
     }
 
-    public int AddActionToQueue(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLimit, bool activateAtEnd, int exclusivityBehavior = 1)
+    public int AddActionToQueue(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLimit, int activationBehavior, int exclusivityBehavior = 1)
     {
         //exclusivity behavior works like this:
         //0: NONE - No exclusivity, just add the action to the queue
         //1: PREFER LOWEST TIME LEFT - Check if there are any actions of the same type in the queue. If there are, only add (replace) the action if the new action has less time left than the existing action.
         // Code below:        
         //2: ALWAYS REPLACE - Clear all actions of the same type from the queue, then add the action
+        
+        // Validate parameters
+        if(action == null)
+        {
+            if(debugAllowWarnings || debugAllowLogs)
+            {
+                Debug.LogWarning("Director Queue: Cannot add null action to queue");
+            }
+            return -1;
+        }
+        
+        if(activationBehavior < 0 || activationBehavior > 2)
+        {
+            if(debugAllowWarnings || debugAllowLogs)
+            {
+                Debug.LogWarning("Director Queue: Invalid activationBehavior " + activationBehavior + " (must be 0, 1, or 2). Using 0 (expire without executing).");
+            }
+            activationBehavior = 0;
+        }
+        
         if(disable)
         {
             if(debugAllowWarnings || debugAllowLogs)
@@ -189,7 +305,7 @@ public class Director : MonoBehaviour
         {
             ClearQueueOfType(type);
         }
-        queue.Add(queueIndex++, (action, type, isAudioAction, isVisualAction, timeLimit, activateAtEnd));
+        queue.Add(queueIndex++, (action, type, isAudioAction, isVisualAction, timeLimit, activationBehavior));
 
         if(debugAllowLogs)
         {
@@ -200,16 +316,6 @@ public class Director : MonoBehaviour
         return queueIndex - 1;
     }
 
-    public int ReplaceActionInQueue(Action newAction, string newActionType, string oldActionType, bool newActionIsAudioAction, bool newActionIsVisualAction, float newMaximumTimeLimit, bool newActivateAtEnd)
-    {
-        //Uses AddActionToQueue() to add the new action to the queue, using exclusivity behavior 2, but first clears the queue of both the old action type and the new action type, and sets the new action's time limit to the minimum of the old action's time limit and the new maximum time limit.
-        float shortestTimeOld = ClearQueueOfType(oldActionType);
-        float shortestTimeNew = ClearQueueOfType(newActionType);
-        shortestTimeOld = shortestTimeOld == -1f ? float.MaxValue : shortestTimeOld;
-        shortestTimeNew = shortestTimeNew == -1f ? float.MaxValue : shortestTimeNew;
-        float newTimeLimit = Mathf.Min(shortestTimeOld, shortestTimeNew, newMaximumTimeLimit);
-        return AddActionToQueue(newAction, newActionType, newActionIsAudioAction, newActionIsVisualAction, newTimeLimit, newActivateAtEnd, 0);
-    }
 
     
     public void ActivateQueue(float transitionTimeForFlourishes = 5.0f)
@@ -226,18 +332,34 @@ public class Director : MonoBehaviour
             return;
         }
 
+        // Early return if queue is empty
+        if(queue.Count == 0)
+        {
+            if(debugAllowLogs)
+            {
+                Debug.Log("Director Queue: ActivateQueue called but queue is empty");
+            }
+            return;
+        }
+
         // LogQueue();
 
         // Copy out the queue's items first
-        var queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>(queue.Values);
+        var queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, int activationBehavior)>(queue.Values);
 
-    
+        // The order of execution matters. 
+        // By default, the queue is executed in the order it was added.
+        // However, we prioritize fundamentalChange, SoundscapeShuffle, and ColorWorldShuffle to the front of the queue first.
 
-        // Prioritize "fundamentalChange" actions to front of the queue
-        var fundamentalChangeItems = queuedItems.Where(item => item.type == "fundamentalChange").ToList();
-        var otherItems = queuedItems.Where(item => item.type != "fundamentalChange").ToList();
-        queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, bool activateAtEnd)>();
+        // Separate and reorder the queue: fundamentalChange, then SoundscapeShuffle, then ColorWorldShuffle, then all others
+        var fundamentalChangeItems = queuedItems.Where(item => item.type == "fundamentalChange").ToList(); //prioritized so that this comes ahead of any instrument change
+        var soundscapeShuffleItems = queuedItems.Where(item => item.type == "SoundscapeShuffle").ToList(); //prioritized so this comes ahead of any specific soundscape change
+        var colorWorldShuffleItems = queuedItems.Where(item => item.type == "ColorWorldShuffle").ToList();
+        var otherItems = queuedItems.Where(item => item.type != "fundamentalChange" && item.type != "SoundscapeShuffle" && item.type != "ColorWorldShuffle").ToList();
+        queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, int activationBehavior)>();
         queuedItems.AddRange(fundamentalChangeItems);
+        queuedItems.AddRange(soundscapeShuffleItems);
+        queuedItems.AddRange(colorWorldShuffleItems);
         queuedItems.AddRange(otherItems);
 
         // Now iterate over the COPY
@@ -308,7 +430,7 @@ public class Director : MonoBehaviour
     {
         foreach (var item in queue)
         {
-            if(item.Value.Item2 == type)
+            if(item.Value.type == type)
             {
                 return true;
             }
@@ -322,7 +444,7 @@ public class Director : MonoBehaviour
         List<int> keysToRemove = new List<int>();
         foreach (var item in queue)
         {
-            if(item.Value.Item2 == type)
+            if(item.Value.type == type)
             {
                 // Track shortest time
                 if (item.Value.timeLeft < shortestTimeLeft)
