@@ -12,7 +12,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>1</Value>
+								<Value>-5</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -205,7 +205,7 @@
 						<Property Name="SpeakerPanning" Type="int16" Value="1"/>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-4</Value>
+								<Value>-6</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -632,11 +632,11 @@
 						</ObjectList>
 					</ObjectLists>
 				</MusicSegment>
-				<MusicPlaylistContainer Name="Breathwork Cycle_10s" ID="{39510346-18D5-4F41-82B8-3382FE7C0D2A}" ShortID="886942121">
+				<MusicPlaylistContainer Name="Breathwork Cycle_12s" ID="{39510346-18D5-4F41-82B8-3382FE7C0D2A}" ShortID="886942121">
 					<PropertyList>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-10</Value>
+								<Value>-12</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -665,13 +665,13 @@
 												</Reference>
 											</ReferenceList>
 										</MusicPlaylistItem>
-										<MusicPlaylistItem Name="" ID="{2FE97CAE-5665-4EE3-8170-C0252B8A57B6}" ShortID="713981677">
+										<MusicPlaylistItem Name="" ID="{7915116E-43EB-4029-9B45-6D295D1EE53F}" ShortID="606536262">
 											<PropertyList>
 												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Segment">
-													<ObjectRef Name="Breathwork2" ID="{AE28DBDE-9969-4493-BE22-E8DA67F313E8}" WorkUnitID="{64D7BC8E-6B44-4AAA-B0B1-807AE7A5B8A4}"/>
+													<ObjectRef Name="Breathwork2" ID="{1920CDD1-9B15-4792-B729-5B90E1E8A082}" WorkUnitID="{64D7BC8E-6B44-4AAA-B0B1-807AE7A5B8A4}"/>
 												</Reference>
 											</ReferenceList>
 										</MusicPlaylistItem>
@@ -711,7 +711,7 @@
 								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -725,6 +725,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<MusicTrack Name="BREATHWORK_SFX_120bpm" ID="{61D13CD4-F9B2-437D-8793-DD62DC26D2B4}" ShortID="816533636">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -761,7 +768,7 @@
 																		<MusicClip Name="BREATHWORK_SFX_120bpm" ID="{06A5EC37-43A2-47FE-90F3-AFE4CA464DDB}">
 																			<PropertyList>
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="261.101025592786"/>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="6000"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="6761.1010255928"/>
 																				<Property Name="FadeInMode" Type="int16" Value="0"/>
 																				<Property Name="FadeOutDuration" Type="Real64" Value="2242.39704332628"/>
 																				<Property Name="PlayAt" Type="Real64" Value="-261.101025592786"/>
@@ -780,7 +787,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>6</XPos>
+																								<XPos>6.7611</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -799,7 +806,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>6</XPos>
+																								<XPos>6.7611</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -818,7 +825,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>6</XPos>
+																								<XPos>6.7611</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -841,7 +848,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>-2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -880,11 +887,11 @@
 																	<Local>
 																		<MusicClip Name="BREATHWORK_SFX_120bpm" ID="{EB60B636-4E06-42FD-935C-4105F537F42E}">
 																			<PropertyList>
-																				<Property Name="BeginTrimOffset" Type="Real64" Value="4744.82938187688"/>
+																				<Property Name="BeginTrimOffset" Type="Real64" Value="4008.04757973737"/>
 																				<Property Name="EndTrimOffset" Type="Real64" Value="12494.8293818769"/>
-																				<Property Name="FadeInDuration" Type="Real64" Value="2260.03967456705"/>
+																				<Property Name="FadeInDuration" Type="Real64" Value="1562.94447699751"/>
 																				<Property Name="FadeOutDuration" Type="Real64" Value="2395.98588191027"/>
-																				<Property Name="PlayAt" Type="Real64" Value="-2744.82938187688"/>
+																				<Property Name="PlayAt" Type="Real64" Value="-1008.04757973737"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="BREATHWORK_SFX_120bpm" ID="{8BC042F2-333B-4FE4-BCC0-665BDD46EB35}"/>
 																			<PropertyCurveList>
@@ -895,7 +902,7 @@
 																						</PropertyList>
 																						<PointList>
 																							<Point>
-																								<XPos>4.74483</XPos>
+																								<XPos>4.00805</XPos>
 																								<YPos>0</YPos>
 																								<Flags>5</Flags>
 																							</Point>
@@ -914,7 +921,7 @@
 																						</PropertyList>
 																						<PointList>
 																							<Point>
-																								<XPos>4.74483</XPos>
+																								<XPos>4.00805</XPos>
 																								<YPos>0</YPos>
 																								<Flags>5</Flags>
 																							</Point>
@@ -933,7 +940,7 @@
 																						</PropertyList>
 																						<PointList>
 																							<Point>
-																								<XPos>4.74483</XPos>
+																								<XPos>4.00805</XPos>
 																								<YPos>0</YPos>
 																								<Flags>5</Flags>
 																							</Point>
@@ -997,7 +1004,7 @@
 																				<Property Name="EndTrimOffset" Type="Real64" Value="15319.6395249503"/>
 																				<Property Name="FadeInDuration" Type="Real64" Value="993.719785638427"/>
 																				<Property Name="FadeOutDuration" Type="Real64" Value="2458.23394229108"/>
-																				<Property Name="PlayAt" Type="Real64" Value="-4114.35535433597"/>
+																				<Property Name="PlayAt" Type="Real64" Value="-2282.33850562394"/>
 																			</PropertyList>
 																			<AudioSourceRef Name="BREATHWORK_SFX_120bpm" ID="{F3C1F1DD-CCD1-4FB1-B2A5-3955C53F9307}"/>
 																			<PropertyCurveList>
@@ -1091,7 +1098,7 @@
 											<MusicCue Name="Exit Cue" ID="{19B5D735-F4F1-47FF-A3FE-DF1BD87FBB7F}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="10000"/>
+													<Property Name="TimeMs" Type="Real64" Value="12000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1099,7 +1106,7 @@
 								</ObjectList>
 							</ObjectLists>
 						</MusicSegment>
-						<MusicSegment Name="Breathwork2" ID="{AE28DBDE-9969-4493-BE22-E8DA67F313E8}" ShortID="842189426">
+						<MusicSegment Name="Breathwork2" ID="{1920CDD1-9B15-4792-B729-5B90E1E8A082}" ShortID="1026352429">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="62000"/>
 								<Property Name="GridOffsetPreset" Type="int16" Value="50"/>
@@ -1107,7 +1114,7 @@
 								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-1</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1120,124 +1127,11 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<MusicTrack Name="BREATHWORK_SFX_120bpm" ID="{6B33D690-E302-47C6-A782-F82F00152A61}" ShortID="176203632">
-									<ReferenceList>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-										<Reference Name="TransitionRoot">
-											<Custom>
-												<MusicTransition Name="Root" ID="{9ED61B9A-8036-4281-ADB2-D2FE39148662}">
-													<PropertyList>
-														<Property Name="IsFolder" Type="bool" Value="True"/>
-													</PropertyList>
-													<TransitionInfo/>
-												</MusicTransition>
-											</Custom>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="BREATHWORK_SFX_120bpm" ID="{3C44BDD9-6D00-46DC-9792-46C3E0625513}">
-											<Language>SFX</Language>
-											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="499041883"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ObjectLists>
-										<ObjectList Name="Sequences">
-											<Reference>
-												<Local>
-													<MusicTrackSequence Name="" ID="{852BCD9D-37CA-4749-A395-81DA50640A3F}">
-														<ObjectLists>
-															<ObjectList Name="Clips">
-																<Reference>
-																	<Local>
-																		<MusicClip Name="BREATHWORK_SFX_120bpm" ID="{4784D35C-10EC-4CF9-A0BF-3279AD41BBA0}">
-																			<PropertyList>
-																				<Property Name="BeginTrimOffset" Type="Real64" Value="261.101025592786"/>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="6000"/>
-																				<Property Name="FadeInMode" Type="int16" Value="0"/>
-																				<Property Name="FadeOutDuration" Type="Real64" Value="2242.39704332628"/>
-																				<Property Name="PlayAt" Type="Real64" Value="-261.101025592786"/>
-																			</PropertyList>
-																			<AudioSourceRef Name="BREATHWORK_SFX_120bpm" ID="{3C44BDD9-6D00-46DC-9792-46C3E0625513}"/>
-																			<PropertyCurveList>
-																				<PropertyCurve PropertyName="Highpass">
-																					<Curve Name="" ID="{7BA46D6C-7691-48ED-B05C-479FD41ACD84}">
-																						<PropertyList>
-																							<Property Name="Flags" Type="int32" Value="1"/>
-																						</PropertyList>
-																						<PointList>
-																							<Point>
-																								<XPos>0.2611</XPos>
-																								<YPos>0</YPos>
-																								<Flags>5</Flags>
-																							</Point>
-																							<Point>
-																								<XPos>6</XPos>
-																								<YPos>0</YPos>
-																								<Flags>37</Flags>
-																							</Point>
-																						</PointList>
-																					</Curve>
-																				</PropertyCurve>
-																				<PropertyCurve PropertyName="Lowpass">
-																					<Curve Name="" ID="{6B9F435D-9A1E-4E9C-B5BB-82B6AFED5B23}">
-																						<PropertyList>
-																							<Property Name="Flags" Type="int32" Value="1"/>
-																						</PropertyList>
-																						<PointList>
-																							<Point>
-																								<XPos>0.2611</XPos>
-																								<YPos>0</YPos>
-																								<Flags>5</Flags>
-																							</Point>
-																							<Point>
-																								<XPos>6</XPos>
-																								<YPos>0</YPos>
-																								<Flags>37</Flags>
-																							</Point>
-																						</PointList>
-																					</Curve>
-																				</PropertyCurve>
-																				<PropertyCurve PropertyName="Volume">
-																					<Curve Name="" ID="{221C1386-8FC2-48E2-B858-8517656AE835}">
-																						<PropertyList>
-																							<Property Name="Flags" Type="int32" Value="3"/>
-																						</PropertyList>
-																						<PointList>
-																							<Point>
-																								<XPos>0.2611</XPos>
-																								<YPos>0</YPos>
-																								<Flags>5</Flags>
-																							</Point>
-																							<Point>
-																								<XPos>6</XPos>
-																								<YPos>0</YPos>
-																								<Flags>37</Flags>
-																							</Point>
-																						</PointList>
-																					</Curve>
-																				</PropertyCurve>
-																			</PropertyCurveList>
-																		</MusicClip>
-																	</Local>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MusicTrackSequence>
-												</Local>
-											</Reference>
-										</ObjectList>
-									</ObjectLists>
-								</MusicTrack>
-								<MusicTrack Name="Exhale" ID="{D99655F9-2B13-4EF8-B719-DAF897F9428C}" ShortID="492480711">
+								<MusicTrack Name="BREATHWORK_SFX_120bpm" ID="{C237FD5E-D02F-42CA-A64F-CC7B05412790}" ShortID="624288056">
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-1</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1247,7 +1141,7 @@
 										</Reference>
 										<Reference Name="TransitionRoot">
 											<Custom>
-												<MusicTransition Name="Root" ID="{A73AB2CF-3046-4BB4-A6D5-08ED99E2B369}">
+												<MusicTransition Name="Root" ID="{36C0AC49-DF35-44CE-846F-17F8C131CF0B}">
 													<PropertyList>
 														<Property Name="IsFolder" Type="bool" Value="True"/>
 													</PropertyList>
@@ -1257,7 +1151,7 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="BREATHWORK_SFX_120bpm" ID="{4D668984-74B1-4AE8-8186-16CA6F450A6A}">
+										<AudioFileSource Name="BREATHWORK_SFX_120bpm" ID="{8D8ACB69-3C11-4DD5-BC6D-6B8E35A1E0AA}">
 											<Language>SFX</Language>
 											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
 											<MediaIDList>
@@ -1269,29 +1163,149 @@
 										<ObjectList Name="Sequences">
 											<Reference>
 												<Local>
-													<MusicTrackSequence Name="" ID="{98B430E5-7137-4D9F-8B1B-B02286890D3E}">
+													<MusicTrackSequence Name="" ID="{F8A11CE7-BF46-41C9-B2A1-D7BEB55CD627}">
 														<ObjectLists>
 															<ObjectList Name="Clips">
 																<Reference>
 																	<Local>
-																		<MusicClip Name="BREATHWORK_SFX_120bpm" ID="{7B261E95-4A47-4BF3-B615-7EE4E6D10CDD}">
+																		<MusicClip Name="BREATHWORK_SFX_120bpm" ID="{D1347483-C108-4F74-858E-238F21245784}">
 																			<PropertyList>
-																				<Property Name="BeginTrimOffset" Type="Real64" Value="4744.82938187688"/>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="12494.8293818769"/>
-																				<Property Name="FadeInDuration" Type="Real64" Value="2260.03967456705"/>
-																				<Property Name="FadeOutDuration" Type="Real64" Value="2395.98588191027"/>
-																				<Property Name="PlayAt" Type="Real64" Value="-2744.82938187688"/>
+																				<Property Name="BeginTrimOffset" Type="Real64" Value="261.101025592786"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="6761.1010255928"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="2242.39704332628"/>
+																				<Property Name="PlayAt" Type="Real64" Value="-261.101025592786"/>
 																			</PropertyList>
-																			<AudioSourceRef Name="BREATHWORK_SFX_120bpm" ID="{4D668984-74B1-4AE8-8186-16CA6F450A6A}"/>
+																			<AudioSourceRef Name="BREATHWORK_SFX_120bpm" ID="{8D8ACB69-3C11-4DD5-BC6D-6B8E35A1E0AA}"/>
 																			<PropertyCurveList>
 																				<PropertyCurve PropertyName="Highpass">
-																					<Curve Name="" ID="{871AAFCC-532D-497E-B361-7A6FA462BB6D}">
+																					<Curve Name="" ID="{8E644805-9216-411A-9E12-1AB9A8626801}">
 																						<PropertyList>
 																							<Property Name="Flags" Type="int32" Value="1"/>
 																						</PropertyList>
 																						<PointList>
 																							<Point>
-																								<XPos>4.74483</XPos>
+																								<XPos>0.2611</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>6.7611</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Lowpass">
+																					<Curve Name="" ID="{21789246-44B2-4AD5-A606-2435A688EF78}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0.2611</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>6.7611</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Volume">
+																					<Curve Name="" ID="{5E55FAF9-A949-4F5D-B3A0-A7567A5C7DEA}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0.2611</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>6.7611</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																			</PropertyCurveList>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+								<MusicTrack Name="Exhale" ID="{DB5F710B-E0C4-4AB6-A061-AE1079356A24}" ShortID="427159606">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{27B93E62-794E-4CC7-BC5B-BB5B79D1CDEE}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="BREATHWORK_SFX_120bpm" ID="{760B4D33-4B08-469B-8F2E-59B590384CB0}">
+											<Language>SFX</Language>
+											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="499041883"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{DD2FF4A7-69BD-44F6-A01B-FCC0802369CD}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="BREATHWORK_SFX_120bpm" ID="{82EA642B-7CDA-4FAB-83E8-F18FE8BBFF46}">
+																			<PropertyList>
+																				<Property Name="BeginTrimOffset" Type="Real64" Value="4008.04757973737"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="12494.8293818769"/>
+																				<Property Name="FadeInDuration" Type="Real64" Value="1562.94447699751"/>
+																				<Property Name="FadeOutDuration" Type="Real64" Value="2395.98588191027"/>
+																				<Property Name="PlayAt" Type="Real64" Value="-1008.04757973737"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="BREATHWORK_SFX_120bpm" ID="{760B4D33-4B08-469B-8F2E-59B590384CB0}"/>
+																			<PropertyCurveList>
+																				<PropertyCurve PropertyName="Highpass">
+																					<Curve Name="" ID="{2AF472E3-BA85-463D-8F28-157C5291A4A8}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>4.00805</XPos>
 																								<YPos>0</YPos>
 																								<Flags>5</Flags>
 																							</Point>
@@ -1304,13 +1318,13 @@
 																					</Curve>
 																				</PropertyCurve>
 																				<PropertyCurve PropertyName="Lowpass">
-																					<Curve Name="" ID="{5B4A9190-8EAD-45AC-A53E-9E5E163C8FC3}">
+																					<Curve Name="" ID="{13C45065-6B61-465F-A72E-9F6B998A50E4}">
 																						<PropertyList>
 																							<Property Name="Flags" Type="int32" Value="1"/>
 																						</PropertyList>
 																						<PointList>
 																							<Point>
-																								<XPos>4.74483</XPos>
+																								<XPos>4.00805</XPos>
 																								<YPos>0</YPos>
 																								<Flags>5</Flags>
 																							</Point>
@@ -1323,13 +1337,13 @@
 																					</Curve>
 																				</PropertyCurve>
 																				<PropertyCurve PropertyName="Volume">
-																					<Curve Name="" ID="{3E3E3C6D-CDC5-4449-BFA0-943A4DB08890}">
+																					<Curve Name="" ID="{88FC7AF0-22DD-477E-BDE2-C7FBBCF44AAE}">
 																						<PropertyList>
 																							<Property Name="Flags" Type="int32" Value="3"/>
 																						</PropertyList>
 																						<PointList>
 																							<Point>
-																								<XPos>4.74483</XPos>
+																								<XPos>4.00805</XPos>
 																								<YPos>0</YPos>
 																								<Flags>5</Flags>
 																							</Point>
@@ -1353,14 +1367,14 @@
 										</ObjectList>
 									</ObjectLists>
 								</MusicTrack>
-								<MusicTrack Name="Exhale Echo" ID="{955D2D06-314C-4CD9-B7CE-DCA3F8D85BCE}" ShortID="630388957">
+								<MusicTrack Name="Exhale Echo" ID="{2017CC6A-C824-4E08-AE5C-1F76F8877E95}" ShortID="425851600">
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 										</Reference>
 										<Reference Name="TransitionRoot">
 											<Custom>
-												<MusicTransition Name="Root" ID="{D78E197B-0036-4135-B5B9-45A730815CC7}">
+												<MusicTransition Name="Root" ID="{10EF8685-9195-4F94-BEEC-586FF13FEDE4}">
 													<PropertyList>
 														<Property Name="IsFolder" Type="bool" Value="True"/>
 													</PropertyList>
@@ -1370,7 +1384,7 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="BREATHWORK_SFX_120bpm" ID="{3551751C-56BE-4926-84D7-0D9D3535CBA5}">
+										<AudioFileSource Name="BREATHWORK_SFX_120bpm" ID="{F72924C5-4A35-4281-A4CA-B11648F3ACE3}">
 											<Language>SFX</Language>
 											<AudioFile>BREATHWORK_SFX_120bpm.wav</AudioFile>
 											<MediaIDList>
@@ -1382,23 +1396,23 @@
 										<ObjectList Name="Sequences">
 											<Reference>
 												<Local>
-													<MusicTrackSequence Name="" ID="{EF87C0A7-AD59-4BC8-82CD-B2695CCAE4B5}">
+													<MusicTrackSequence Name="" ID="{9C6B3420-92C5-459B-BD7E-BC80E5A07677}">
 														<ObjectLists>
 															<ObjectList Name="Clips">
 																<Reference>
 																	<Local>
-																		<MusicClip Name="BREATHWORK_SFX_120bpm" ID="{99F45E67-119D-4B1D-AE6C-A966CB0D4A18}">
+																		<MusicClip Name="BREATHWORK_SFX_120bpm" ID="{7C117337-C621-4CEA-8BD5-AEA5135AD9D8}">
 																			<PropertyList>
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="9114.35535433597"/>
 																				<Property Name="EndTrimOffset" Type="Real64" Value="15319.6395249503"/>
 																				<Property Name="FadeInDuration" Type="Real64" Value="993.719785638427"/>
 																				<Property Name="FadeOutDuration" Type="Real64" Value="2458.23394229108"/>
-																				<Property Name="PlayAt" Type="Real64" Value="-4114.35535433597"/>
+																				<Property Name="PlayAt" Type="Real64" Value="-2282.33850562394"/>
 																			</PropertyList>
-																			<AudioSourceRef Name="BREATHWORK_SFX_120bpm" ID="{3551751C-56BE-4926-84D7-0D9D3535CBA5}"/>
+																			<AudioSourceRef Name="BREATHWORK_SFX_120bpm" ID="{F72924C5-4A35-4281-A4CA-B11648F3ACE3}"/>
 																			<PropertyCurveList>
 																				<PropertyCurve PropertyName="Highpass">
-																					<Curve Name="" ID="{6D46A7FC-A03A-4B6C-9B49-2C7291FCC688}">
+																					<Curve Name="" ID="{A4597E14-3E9B-41D7-8A59-263BC34FAB37}">
 																						<PropertyList>
 																							<Property Name="Flags" Type="int32" Value="1"/>
 																						</PropertyList>
@@ -1417,7 +1431,7 @@
 																					</Curve>
 																				</PropertyCurve>
 																				<PropertyCurve PropertyName="Lowpass">
-																					<Curve Name="" ID="{F4EFEE61-5DC4-4BBE-968E-4D6120A4C920}">
+																					<Curve Name="" ID="{E03A080D-F761-40BA-B679-BE0714069AFA}">
 																						<PropertyList>
 																							<Property Name="Flags" Type="int32" Value="1"/>
 																						</PropertyList>
@@ -1436,7 +1450,7 @@
 																					</Curve>
 																				</PropertyCurve>
 																				<PropertyCurve PropertyName="Volume">
-																					<Curve Name="" ID="{29D8C0C9-B0EB-4E3C-89BE-8CA64E6BFCFC}">
+																					<Curve Name="" ID="{786F4FD8-185A-4021-B933-EB33646DD8DD}">
 																						<PropertyList>
 																							<Property Name="Flags" Type="int32" Value="3"/>
 																						</PropertyList>
@@ -1468,7 +1482,7 @@
 								</MusicTrack>
 							</ChildrenList>
 							<PositioningInfo>
-								<Panner Name="" ID="{128EF3B4-C629-4767-91A7-964D3379E1D6}">
+								<Panner Name="" ID="{E9822FD2-8731-47A3-9E18-8375C0C6BFB2}">
 									<PropertyList>
 										<Property Name="PanX" Type="Real64" Value="-27.8985507246377"/>
 										<Property Name="PanY" Type="Real64" Value="24.609375"/>
@@ -1479,15 +1493,15 @@
 								<ObjectList Name="Cues">
 									<Reference>
 										<Local>
-											<MusicCue Name="Entry Cue" ID="{CEAC67CB-23CE-43DE-ABE9-29FBF0C31419}"/>
+											<MusicCue Name="Entry Cue" ID="{63BDC54F-BE52-40C9-8092-FACE3633DCE3}"/>
 										</Local>
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Exit Cue" ID="{3218709E-0B36-4998-BE19-1D177570DDA9}">
+											<MusicCue Name="Exit Cue" ID="{9CD9752C-3390-4D86-BE15-F0F2C56BFC8E}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="10000"/>
+													<Property Name="TimeMs" Type="Real64" Value="12000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

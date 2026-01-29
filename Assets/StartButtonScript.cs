@@ -76,7 +76,7 @@ public class StartButtonScript : MonoBehaviour
             currentTutorialPortionIndex = 0; // Reset tutorial portion
             SetTutorialSwitch();
             startButton.gameObject.SetActive(false); // Hide the start button when the game starts
-            canvasManager.SwitchToMainCanvas(); // Switch to the calibration canvas
+            canvasManager.SwitchToCanvas4(); // Switch to canvas4 (new main canvas)
         }
 
     }

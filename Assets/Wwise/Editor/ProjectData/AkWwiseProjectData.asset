@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 05d53899a8c68e4fb3bf417ea35907a3
     GuidInternal: 
-    m_lastTime: -8584360423894792920
+    m_lastTime: -8584340500774049551
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584320259039061412
+    m_lastTime: -8584319565738547800
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584322334311989457
+    m_lastTime: -8584319565738403026
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -501,7 +501,7 @@ MonoBehaviour:
     ParentPath: Events\AVS System
     guid: 8dda26975fba794392b0097b08fbff76
     GuidInternal: 
-    m_lastTime: -8584360423997398034
+    m_lastTime: -8584340500781109691
     List:
     - name: Play_AVS_SineGenerators_REFERENCE
       guid: 2241cc075f82884483bb65d548a393f8
@@ -650,7 +650,7 @@ MonoBehaviour:
     ParentPath: Events\Bass Synth
     guid: 125c7739e98ed3418d9a7f9af67863d6
     GuidInternal: 
-    m_lastTime: -8584325425868173769
+    m_lastTime: -8584321280162318788
     List:
     - name: Play_BassSynth
       guid: 0d3194f4ee2c4c4fb355614678f37ac9
@@ -714,7 +714,7 @@ MonoBehaviour:
     ParentPath: Events\Calibration
     guid: 549d80ea6cfc8c41acca68baa9e812b4
     GuidInternal: 
-    m_lastTime: -8584325425868083749
+    m_lastTime: -8584319565740065312
     List:
     - name: Play_Calibration_Music
       guid: afa6ee7a5b6981408e9065c9cdb2be06
@@ -750,23 +750,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: Play_EndSoon_SEQUENCE
-      guid: 4d79fe912423754c8f4c9f79330eaf86
-      id: 3561899656
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Calibration
-        ObjectType: 12
-        guid: 549d80ea6cfc8c41acca68baa9e812b4
-      - ElementName: Play_EndSoon_SEQUENCE
-        ObjectType: 3
-        guid: 4d79fe912423754c8f4c9f79330eaf86
-      Path: Events\Calibration\Play_EndSoon_SEQUENCE
-      maxAttenuation: 0
-      maxDuration: 134.23682
-      minDuration: 134.23682
     - name: Set_Calibration_Lights
       guid: 721cc18d7cca2d4caa74cf06baf25381
       id: 4293537666
@@ -829,7 +812,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584322334313361305
+    m_lastTime: -8584319565739910735
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -950,6 +933,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 446.41766
       minDuration: 446.41766
+    - name: Play_EndSoon_SEQUENCE
+      guid: 4d79fe912423754c8f4c9f79330eaf86
+      id: 3561899656
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Play_EndSoon_SEQUENCE
+        ObjectType: 3
+        guid: 4d79fe912423754c8f4c9f79330eaf86
+      Path: Events\Default Work Unit\Play_EndSoon_SEQUENCE
+      maxAttenuation: 0
+      maxDuration: 134.23682
+      minDuration: 134.23682
     - name: Play_EXIT_MUSIC_PLAYLIST
       guid: f3103949575e7045b6d21abea929d925
       id: 3484562951
@@ -1352,7 +1352,7 @@ MonoBehaviour:
     ParentPath: Events\Environment
     guid: 3ffbeff2adf5b844b3827d55048249ec
     GuidInternal: 
-    m_lastTime: -8584331627204419658
+    m_lastTime: -8584330977203029768
     List:
     - name: Play_environment_anyQueryRepeat1
       guid: 78543b158da14a44a12803d2d86547b2
@@ -1569,7 +1569,7 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584329080066526215
+    m_lastTime: -8584326773949229386
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -1705,8 +1705,8 @@ MonoBehaviour:
         guid: 113f849040658c4ab5532767e329b988
       Path: Events\Interactive Music System\Play_Toning_v1_7Pitch_Linked
       maxAttenuation: 0
-      maxDuration: 35.676212
-      minDuration: 25.017094
+      maxDuration: -1
+      minDuration: -1
     - name: Play_Toning_v2_12Pitch_Linked
       guid: 3edf4117d250ee4fbf9b528e101620d8
       id: 296236610
@@ -1901,7 +1901,7 @@ MonoBehaviour:
     ParentPath: Events\Music Loops
     guid: 75bb5333efd5ef44a600b06130e39b37
     GuidInternal: 
-    m_lastTime: -8584320259039670385
+    m_lastTime: -8584320520883233032
     List:
     - name: Play_MusicLoops
       guid: e3c408690e6d264b87fae01a43eab94c
@@ -2203,7 +2203,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584322334312921210
+    m_lastTime: -8584321280161730639
     List:
     - name: New_Event
       guid: b0e748853f865a469d90e479ca2f8ec2
@@ -2573,7 +2573,7 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584360423997348021
+    m_lastTime: -8584340500780746573
     List:
     - name: Play_VO_CLOSING_GOODBYE
       guid: 8d2508afd6648f46864100152a884f0f
@@ -3032,8 +3032,8 @@ MonoBehaviour:
         guid: 41b8c77f2f29e446bb2a7198ff57229b
       Path: Events\VO\Play_VO_Wisdom
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_VO_ClosingGoodbye
       guid: ea967efc3a25da45860c6d159a29245c
       id: 3042067738
@@ -3063,7 +3063,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\AVS System
     guid: 33c2cba45d7021408c88e244225aa913
     GuidInternal: 
-    m_lastTime: -8584360423997338023
+    m_lastTime: -8584340500780726154
     List:
     - name: AVS_BLUE_Volume_Wave1
       guid: 7bb67256f951734384840f7d6cc7fd2e
@@ -3693,7 +3693,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Binaural Generator
     guid: 02e391bb70d5f844b42c556e83b60e1c
     GuidInternal: 
-    m_lastTime: -8584360423997338023
+    m_lastTime: -8584340500780585660
     List:
     - name: BinauralGenerator_LEFT_Frequency
       guid: 1d968f2adc1409479fa835fc7a2d1138
@@ -3734,7 +3734,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 08fd3303aa3c7f468178c0764211feaf
     GuidInternal: 
-    m_lastTime: -8584360423997328018
+    m_lastTime: -8584340500780575628
     List: []
   - PhysicalPath: Game Parameters\Environment.wwu
     PathAndIcons:
@@ -3747,7 +3747,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Environment
     guid: 68706b1d86fc5f4cab899effe052e5a3
     GuidInternal: 
-    m_lastTime: -8584360423997328018
+    m_lastTime: -8584340500780564680
     List: []
   - PhysicalPath: Game Parameters\Interactive Music System.wwu
     PathAndIcons:
@@ -3760,7 +3760,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Interactive Music System
     guid: 7fec9d861a0e3046bfb37d6383814ca9
     GuidInternal: 
-    m_lastTime: -8584360423997317835
+    m_lastTime: -8584340500780544527
     List:
     - name: FundamentalSilentVolume
       guid: f8f04df21ddf8144bd237a969d9e8269
@@ -3857,7 +3857,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Master Mixer
     guid: 5920b64a742d1a4e8cff8cefde2685e4
     GuidInternal: 
-    m_lastTime: -8584332847007137717
+    m_lastTime: -8584330977202460662
     List:
     - name: BinauralGenerator_Bus_Volume
       guid: 53ce447cefa9b64dba33a07a2f7f989c
@@ -3996,7 +3996,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\SFX
     guid: 22725a575c2b944694ea3cb75aedb4cc
     GuidInternal: 
-    m_lastTime: -8584332847007067771
+    m_lastTime: -8584330977202313424
     List:
     - name: BassSynthesizer_Volume
       guid: 734ed52d6fb79e43a27890e208bdb630
@@ -4079,7 +4079,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Unity Imitone
     guid: cac749861016bd468dcac9f447d3c666
     GuidInternal: 
-    m_lastTime: -8584360423997298849
+    m_lastTime: -8584340500780396927
     List:
     - name: TONING_Player_Volume
       guid: 2be8aa0241c86d48a07e07b93954dbcf
@@ -4191,7 +4191,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584332846999538770
+    m_lastTime: -8584330977146121341
     List:
     - name: AbsorptionMode
       guid: 56187ed435247e4fafedb57a575f601a
@@ -4451,7 +4451,7 @@ MonoBehaviour:
     ParentPath: Switches\AVS
     guid: 77a4ddce2990b345b04090db07cd3c46
     GuidInternal: 
-    m_lastTime: -8584360423894852933
+    m_lastTime: -8584340500774132569
     List: []
   - PhysicalPath: Switches\BassSynth.wwu
     PathAndIcons:
@@ -4687,7 +4687,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: b649101cab38b141861f0be6c57cc1d3
     GuidInternal: 
-    m_lastTime: -8584360423894842931
+    m_lastTime: -8584340500774120324
     List:
     - name: Calibration_Sequence
       guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4928,7 +4928,7 @@ MonoBehaviour:
     ParentPath: Switches\Interactive Music System
     guid: a70b5ef296c6e5488bce779e710a3892
     GuidInternal: 
-    m_lastTime: -8584360423894832924
+    m_lastTime: -8584340500774110290
     List:
     - name: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
       guid: 028067d9e2606b4b89c73087a452a4a2
@@ -5701,7 +5701,7 @@ MonoBehaviour:
     ParentPath: Switches\Linear Music
     guid: 4559fdf6c456f549993933ab507a3928
     GuidInternal: 
-    m_lastTime: -8584322334311400865
+    m_lastTime: -8584321280158336727
     List:
     - name: LinearMusic_Opening
       guid: ad701a433214144398da4e5c38930442
@@ -5974,7 +5974,7 @@ MonoBehaviour:
     ParentPath: Switches\Music Loops
     guid: 156fa4da81cf6c43a7ee0f1794958384
     GuidInternal: 
-    m_lastTime: -8584322334311280835
+    m_lastTime: -8584321280158203363
     List:
     - name: MusicLoops_Switch
       guid: 7eb92896dd424f4fb707f2504de3d841
@@ -6260,7 +6260,7 @@ MonoBehaviour:
     ParentPath: Switches\Unity Imitone
     guid: 03c51979dd6dc443bbf5588afb1af394
     GuidInternal: 
-    m_lastTime: -8584360423894812484
+    m_lastTime: -8584340500774069643
     List:
     - name: ToneActive
       guid: 3ce342ef55475f458960a54b73f37659
@@ -6323,7 +6323,7 @@ MonoBehaviour:
     ParentPath: Switches\VO
     guid: 64d0b0ac8a9e0840a3f6580a8631c66d
     GuidInternal: 
-    m_lastTime: -8584360423894812484
+    m_lastTime: -8584340500774069643
     List:
     - name: VO_ClosingGoodbye
       guid: 23795947d066d74cb40d1bb0c14d37bf
@@ -6943,7 +6943,7 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 2e22794f9054df4dba29a333b79a5f59
     GuidInternal: 
-    m_lastTime: -8584360423894802924
+    m_lastTime: -8584340500774059611
     List:
     - name: Test
       guid: c760786d07938d41a39c332de5c52dab

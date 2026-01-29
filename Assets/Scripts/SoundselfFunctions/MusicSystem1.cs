@@ -569,7 +569,7 @@ public class MusicSystem1 : MonoBehaviour
                         else if (shortTest)
                         {
                             director.ClearQueueOfType("fundamentalChange");
-                            director.AddActionToQueue(Action_ChangeFundamental(key), "fundamentalChange", true, false, 9999f, false, 2);
+                            director.AddActionToQueue(Action_ChangeFundamental(key), "fundamentalChange", true, false, 9999f, 0, 2);
                             directorStoredFundamental = key;
 
                             if (debugAllowFundamentalLogicLogs)
@@ -1531,7 +1531,7 @@ public class MusicSystem1 : MonoBehaviour
                 {
                     // Timer is above queue threshold but below immediate threshold - queue it
                     director.ClearQueueOfType("fundamentalChange");
-                    director.AddActionToQueue(Action_ChangeFundamental(newFundamental.Value), "fundamentalChange", true, false, 120f, true, 2);
+                    director.AddActionToQueue(Action_ChangeFundamental(newFundamental.Value), "fundamentalChange", true, false, 120f, 1, 2);
                     directorStoredFundamental = newFundamental.Value;
                     if(debugAllowFundamentalLockLogs || debugAllowFundamentalChangeLogs)
                     {

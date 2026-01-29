@@ -316,7 +316,7 @@ public class Sequencer : MonoBehaviour
         
         Debug.Log("Sequencer: ProtocolStack Step 2");
         
-        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, 2, 2);
         
         // worldShuffler.QueueWorldShuffle();
 
@@ -324,8 +324,8 @@ public class Sequencer : MonoBehaviour
         {
             yield return null;
         }
-        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
-        director.AddActionToQueue(lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, true, 2);
+        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, 2, 2);
+        director.AddActionToQueue(lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
         Debug.Log("Sequencer: ProtocolStack Step 4");
         // director.AddActionToQueue(...);
 
@@ -334,7 +334,7 @@ public class Sequencer : MonoBehaviour
         {
             yield return null;
         }
-        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, 2, 2);
         Debug.Log("Sequencer: ProtocolStack Step 5");
         // StartCoroutine(SpecialProtocolEndingRoutine());
 
@@ -349,7 +349,7 @@ public class Sequencer : MonoBehaviour
         {
             yield return null;
         }
-        //director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+        //director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, 1);
         Debug.Log("Sequencer: ProtocolStack Step 6");
         worldShuffler.ExcludeSoundscape("SonoFlore");
 
@@ -360,7 +360,7 @@ public class Sequencer : MonoBehaviour
         Debug.Log("Sequencer: ProtocolStack Step 8");
         worldShuffler.StopShuffle();
         worldShuffler.CloseSoundscapeQueue();
-        director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
+        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, 2, 2);
 
         while (_countdownToSavasana > 60f)
         {
@@ -425,8 +425,8 @@ public class Sequencer : MonoBehaviour
         {
             Debug.Log("Sequencer: StandardSequence Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
             //finally, queue shruti and prevent further queueing of shuffled soundscapes.
-            director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, true);
-            director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, true, 2);
+            director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", true, false, 180.0f, 2, 2);
+            director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, 1, 2);
             worldShuffler.CloseSoundscapeQueue();
             CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End(180f));
             flagTriggerEnd2 = true;
@@ -604,7 +604,7 @@ public class Sequencer : MonoBehaviour
                 flag2 = false;
                 if(!flag1)
                 {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, false, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, 0, 2));
                     flag1 = true;
                 }
             }
@@ -613,7 +613,7 @@ public class Sequencer : MonoBehaviour
                 flag1 = false;
                 if(!flag2)
                 {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, 1, 2));
                     flag2 = true;
                 }
             }
@@ -650,7 +650,7 @@ public class Sequencer : MonoBehaviour
         //add mono to queue, if we're in bilateral
         if(lightControl.bilateral)
         {
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, true, 2));
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, 1, 2));
             Debug.Log(_countdownToSavasana + " Sequencer Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
             director.LogQueue();
         }
@@ -671,20 +671,20 @@ public class Sequencer : MonoBehaviour
         //CYCLE THROUGH BILATERAL ONCE
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, 1, 2));
         while(!lightControl.bilateral)
         {
             yield return null;
         }
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, 1, 2));
         while(lightControl.bilateral)
         {
             yield return null;
         }
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, 1, 2));
         while(lightControl.bilateral)
         {
             yield return null;
@@ -700,7 +700,7 @@ public class Sequencer : MonoBehaviour
         }
         //GAMMA BURSTS, THEN HANG HERE. 
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, 1, 2));
         _timer = 180f / d;
         while(_timer > 0)
         {
@@ -708,7 +708,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f/d, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f/d, 1, 2));
         _timer = 180f / d;
         while(_timer > 0)
         {
@@ -744,7 +744,7 @@ public class Sequencer : MonoBehaviour
                 flag2 = false;
                 if(!flag1)
                 {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, true, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, 1, 2));
                     flag1 = true;
                     Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
                 }
@@ -754,7 +754,7 @@ public class Sequencer : MonoBehaviour
                 flag1 = false;
                 if(!flag2)
                 {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f/d, true, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f/d, 1, 2));
                     flag2 = true;
                     Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
                 }
@@ -792,12 +792,12 @@ public class Sequencer : MonoBehaviour
         if(!lightControl.bilateral)
         {
             float queueTime1 = 30.0f * timeScale;
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, queueTime1, true, 2));
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, queueTime1, 1, 2));
         }
         if(lightControl._gammaBurstMode != 0.0f)
         {
             float queueTime2 = 30.0f * timeScale;
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, queueTime2, true, 2));
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, queueTime2, 1, 2));
         }
 
         // Phase 1: Initial wait (proportional to original 70 seconds)
@@ -809,7 +809,7 @@ public class Sequencer : MonoBehaviour
         }
         Debug.Log("Sequencer | AVS Program: DynamicDrop_End. Stabilizing before dramatic rise. Elapsed: " + elapsedTime + "s / " + transitionTime + "s");
         float queueTime3 = 10.0f * timeScale;
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, queueTime3, true, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, queueTime3, 1, 2));
 
         // Phase 2: Wait before strobe transition (proportional to original 20 seconds)
         while(elapsedTime < phase1Duration + phase2Duration)

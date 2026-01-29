@@ -125,6 +125,54 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Stop_AVS" ID="{E51F17AF-49B4-4865-8B8D-ACD6D8D65123}">
+					<ChildrenList>
+						<Action Name="" ID="{38398B0E-702F-4069-8B9C-875185CB4F1C}" ShortID="233914850">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_MasterVolume_Wave1" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C0F30936-265F-4922-B2C9-D904997A1797}" ShortID="153759526">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_MasterVolume_Wave2" ID="{5183B639-6BF6-4EBC-8DC9-CB8C7A1318FA}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{E7A4F146-D94F-4062-B02F-96E75D5A7540}" ShortID="706046785">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_MasterVolume_Wave3" ID="{007BAC2C-11FC-41A6-959D-D6242397F2BF}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{7D8C5D81-7AA2-4EB4-80AD-5CE0AB1779C7}" ShortID="38788042">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="FadeTime" Type="Real64" Value="6"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_REFERENCE_Volume" ID="{A08B1B20-A881-4DE6-8A49-B6DCA4AC8FFD}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

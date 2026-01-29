@@ -16603,6 +16603,20 @@
 																</MusicClip>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{35751672-8339-4154-84E6-AB60473C089A}" ShortID="99616225">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="349653.240247934"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_sfx_breathworkcycle" ID="{C11CB0C0-39F2-4CDA-9192-CCE7C7243727}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -17990,7 +18004,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="1647.232608797"/>
 																		<Property Name="FadeInDuration" Type="Real64" Value="145.070947950473"/>
 																		<Property Name="FadeOutDuration" Type="Real64" Value="32.2379884334223"/>
-																		<Property Name="PlayAt" Type="Real64" Value="164500"/>
+																		<Property Name="PlayAt" Type="Real64" Value="164759.59801376"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_testHum" ID="{25D11950-7A35-445C-8F7E-ACEA8CAC3FD1}"/>
 																	<PropertyCurveList>
@@ -18063,7 +18077,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="4250"/>
 																		<Property Name="FadeInDuration" Type="Real64" Value="64.4759768668737"/>
 																		<Property Name="FadeOutDuration" Type="Real64" Value="177.308936383924"/>
-																		<Property Name="PlayAt" Type="Real64" Value="166055.555539052"/>
+																		<Property Name="PlayAt" Type="Real64" Value="165630.758789263"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_testHum" ID="{25D11950-7A35-445C-8F7E-ACEA8CAC3FD1}"/>
 																</MusicClip>
@@ -19928,7 +19942,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="7750"/>
 																		<Property Name="FadeInDuration" Type="Real64" Value="217.519543063187"/>
 																		<Property Name="FadeOutDuration" Type="Real64" Value="60.5521946533117"/>
-																		<Property Name="PlayAt" Type="Real64" Value="203625"/>
+																		<Property Name="PlayAt" Type="Real64" Value="203375"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_testAhh" ID="{A2FA53BF-3BBA-450F-B333-A00BA5A558EE}"/>
 																</MusicClip>
@@ -19990,7 +20004,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="1394.15820383067"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="201500"/>
+																		<Property Name="PlayAt" Type="Real64" Value="200500"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_VeryGood" ID="{87B7563B-587B-48A2-A3D2-B2731D6F5F8A}"/>
 																	<PropertyCurveList>
@@ -20309,7 +20323,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="8882"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="206318.207365797"/>
+																		<Property Name="PlayAt" Type="Real64" Value="205857.204131199"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_test07tone" ID="{2D478820-3413-48ED-94EB-6CFFDF746136}"/>
 																	<PropertyCurveList>
@@ -20860,7 +20874,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MusicCue Name="Cue_LInearHum_Start" ID="{3C7A8388-7E75-4B91-B80E-BCDB9125937D}">
+									<MusicCue Name="Cue_LinearHum_Start" ID="{3C7A8388-7E75-4B91-B80E-BCDB9125937D}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
 											<Property Name="TimeMs" Type="Real64" Value="169500"/>

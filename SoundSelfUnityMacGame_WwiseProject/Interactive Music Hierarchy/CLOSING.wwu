@@ -1689,7 +1689,7 @@
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}"/>
+																					<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
@@ -1834,7 +1834,7 @@
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}"/>
+																					<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
@@ -2100,7 +2100,7 @@
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}"/>
+																					<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
@@ -3851,7 +3851,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{BC883A5B-FC0F-484C-85F3-BAE22E769B99}" ShortID="799919690">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="339846.898320873"/>
+																		<Property Name="PlayAt" Type="Real64" Value="388000"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -3865,7 +3865,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{DD5877F8-6CB2-4F18-80ED-E6860CA28954}" ShortID="263282126">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="388000"/>
+																		<Property Name="PlayAt" Type="Real64" Value="416000"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -3879,7 +3879,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{DDD9532E-08CE-4146-BB66-A5EFAAC84488}" ShortID="112653071">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="480000"/>
+																		<Property Name="PlayAt" Type="Real64" Value="458707.381063435"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -3917,6 +3917,17 @@
 																</MusicEventCue>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{DC13A2FF-D879-4F4B-9D7B-1DCAF4B05BEC}" ShortID="354294603">
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -3940,7 +3951,7 @@
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-12</Value>
+										<Value>-13</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -4281,6 +4292,20 @@
 																</MusicEventCue>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{9D626ED9-5DA1-42D5-AD3C-AC486F6095BC}" ShortID="265327283">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="567251.10314672"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_BinauralGenerator" ID="{C51D1F3C-4C28-4DB1-A9BF-1B07152D2224}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -4304,7 +4329,7 @@
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-12</Value>
+										<Value>-13</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -4779,6 +4804,20 @@
 																</MusicClip>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{38C293B6-03E0-4F09-AEAA-BA271D9B4EDB}" ShortID="194218097">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="864000"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_AVS" ID="{E51F17AF-49B4-4865-8B8D-ACD6D8D65123}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -4802,7 +4841,7 @@
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-13</Value>
+										<Value>-14</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -5313,6 +5352,11 @@
 						<MusicTrack Name="BLUE" ID="{248C75C5-0D53-4451-96CC-AE30DACCEA25}" ShortID="357232355">
 							<PropertyList>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">
@@ -5465,6 +5509,11 @@
 						<MusicTrack Name="RED" ID="{FB5E4B1C-7BBD-4686-A175-28A6752E2E66}" ShortID="702775001">
 							<PropertyList>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="OutputBus">

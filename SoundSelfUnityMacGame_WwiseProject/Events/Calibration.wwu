@@ -3,27 +3,6 @@
 	<Events>
 		<WorkUnit Name="Calibration" ID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}">
-					<ChildrenList>
-						<Action Name="" ID="{2681F180-3A39-4282-9214-B9A02EF55D00}" ShortID="704583303">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="41"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Mute_SILENTMEDITATION_MUSIC" ID="{09DA13B4-9FE8-4A61-B8A9-84AE807A82C3}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{77A9D139-619D-4972-A17F-A0F44D7456CE}" ShortID="611323938">
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="VO_EndSoon" ID="{891A873D-5D76-49C7-B874-558A99D27D12}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Event Name="Play_Calibration_Sequence" ID="{5BEBEBD7-24C0-4234-9448-19865473AD57}">
 					<ChildrenList>
 						<Action Name="" ID="{A3188CF2-0165-4ACB-BCCE-7E8728CBF192}" ShortID="1039559044">
@@ -114,7 +93,7 @@
 						<Action Name="" ID="{245B35ED-701D-4319-A4EF-FAAAB59CFBA3}" ShortID="959716781">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="38"/>
-								<Property Name="GameParameterValue" Type="Real64" Value="20"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="50"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -217,6 +196,17 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AVS_RED_Volume_Wave1" ID="{B3F2C2AA-E626-4A82-8484-48F42E99BD97}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{FD2D678E-DF5B-4DDA-825A-B1A98D4CDF40}" ShortID="87878793">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="100"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_MasterVolume_Wave1" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
