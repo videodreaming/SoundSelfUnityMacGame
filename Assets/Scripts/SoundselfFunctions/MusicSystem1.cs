@@ -363,6 +363,64 @@ public class MusicSystem1 : MonoBehaviour
         {
             ThumpUpdate();
         }
+
+        // Keyboard shortcuts for toggling systems (Keys 1-7)
+        HandleKeyboardToggles();
+    }
+
+    /// <summary>
+    /// Handles keyboard input for toggling system features (Keys 1-7)
+    /// </summary>
+    private void HandleKeyboardToggles()
+    {
+        // Key 1: Toggle Fundamental Tracking
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetFundamentalTrackingEnabled(!enableFundamentalTracking);
+            Debug.Log($"MUSIC KEYBOARD: Fundamental Tracking toggled to {(enableFundamentalTracking ? "ON" : "OFF")}");
+        }
+
+        // Key 2: Toggle Harmony Tracking
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetHarmonyTrackingEnabled(!enableHarmonyTracking);
+            Debug.Log($"MUSIC KEYBOARD: Harmony Tracking toggled to {(enableHarmonyTracking ? "ON" : "OFF")}");
+        }
+
+        // Key 3: Toggle BassSynth
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SetBassSynthEnabled(!enableBassSynth);
+            Debug.Log($"MUSIC KEYBOARD: BassSynth toggled to {(enableBassSynth ? "ON" : "OFF")}");
+        }
+
+        // Key 4: Toggle Basic Toning
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SetBasicToningEnabled(!enableBasicToning);
+            Debug.Log($"MUSIC KEYBOARD: Basic Toning toggled to {(enableBasicToning ? "ON" : "OFF")}");
+        }
+
+        // Key 5: Toggle Direct Voice Monitoring
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SetDirectVoiceMonitoringEnabled(!enableDirectVoiceMonitoring);
+            Debug.Log($"MUSIC KEYBOARD: Direct Voice Monitoring toggled to {(enableDirectVoiceMonitoring ? "ON" : "OFF")}");
+        }
+
+        // Key 6: Toggle Thump SFX
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            SetThumpSFXEnabled(!enableThumpSFX);
+            Debug.Log($"MUSIC KEYBOARD: Thump SFX toggled to {(enableThumpSFX ? "ON" : "OFF")}");
+        }
+
+        // Key 7: Toggle Imitone Interpretation
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            SetImitoneInterpretationEnabled(!enableImitoneInterpretation);
+            Debug.Log($"MUSIC KEYBOARD: Imitone Interpretation toggled to {(enableImitoneInterpretation ? "ON" : "OFF")}");
+        }
     }
 
     private void DynamicMusicSystem()
@@ -2605,6 +2663,8 @@ public class MusicSystem1 : MonoBehaviour
             Debug.Log("MUSIC BUTTON: StopBreathworkCycle");
         }
     }
+
+    
 
 }
 

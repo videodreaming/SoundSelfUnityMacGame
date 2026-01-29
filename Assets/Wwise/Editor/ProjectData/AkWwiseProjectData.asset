@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584322334312141030
+    m_lastTime: -8584320259039061412
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -684,8 +684,8 @@ MonoBehaviour:
         guid: 1ce754b1bae4224da7b584126ca8cf41
       Path: Events\Bass Synth\Set_BassSynth_C
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_BassSynth
       guid: 666989eb779d0844a902cc27888b188e
       id: 1502315953
@@ -1901,7 +1901,7 @@ MonoBehaviour:
     ParentPath: Events\Music Loops
     guid: 75bb5333efd5ef44a600b06130e39b37
     GuidInternal: 
-    m_lastTime: -8584322334313061241
+    m_lastTime: -8584320259039670385
     List:
     - name: Play_MusicLoops
       guid: e3c408690e6d264b87fae01a43eab94c
@@ -1952,8 +1952,8 @@ MonoBehaviour:
         guid: f916ef6944858d4dbfa1f2e93da6de9f
       Path: Events\Music Loops\Set_MusicLoops_AmbientLoop
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_AweAtmosphere
       guid: 126d5a4ff559384b88d5882c8eb1eeda
       id: 2623730532
@@ -1969,8 +1969,8 @@ MonoBehaviour:
         guid: 126d5a4ff559384b88d5882c8eb1eeda
       Path: Events\Music Loops\Set_MusicLoops_AweAtmosphere
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_BreathworkHandpan
       guid: 853e16bd47e62c468d9d865a10cfabc5
       id: 1663197090
@@ -1986,8 +1986,8 @@ MonoBehaviour:
         guid: 853e16bd47e62c468d9d865a10cfabc5
       Path: Events\Music Loops\Set_MusicLoops_BreathworkHandpan
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_CelestialDreamscape
       guid: ab0989a7e5205142aebd77ac6ed67f9c
       id: 3413019722
@@ -2054,8 +2054,8 @@ MonoBehaviour:
         guid: c2d97ce53f7f31458c06d532fa1da63b
       Path: Events\Music Loops\Set_MusicLoops_MysticalVision
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_ShiftingEarth
       guid: f7fa06d510f5084486297670a7a37117
       id: 1381748841
@@ -2071,8 +2071,8 @@ MonoBehaviour:
         guid: f7fa06d510f5084486297670a7a37117
       Path: Events\Music Loops\Set_MusicLoops_ShiftingEarth
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_MusicLoops_Silence
       guid: 3b032ad20540ed44a869922e8697c219
       id: 259224804
@@ -2122,8 +2122,8 @@ MonoBehaviour:
         guid: 8c7f53c51e4abe4a8c2412f1ebb66acb
       Path: Events\Music Loops\Set_MusicLoops_SitarAmbience
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_PinkNoiseAtmosphere
       guid: 82e9dc4e2ce33f429662091c8b83803d
       id: 3933660492
@@ -2139,8 +2139,8 @@ MonoBehaviour:
         guid: 82e9dc4e2ce33f429662091c8b83803d
       Path: Events\Music Loops\Set_PinkNoiseAtmosphere
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Set_State_MusicLoops
       guid: 81ec131a404f774f83f3461e073be4bb
       id: 1245878726
@@ -2190,8 +2190,8 @@ MonoBehaviour:
         guid: e0cec4f96036b44da3f4b615470cc1a9
       Path: Events\Music Loops\Stop_MusicPlaylist
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
   - PhysicalPath: Events\SFX.wwu
     PathAndIcons:
     - ElementName: Events
