@@ -93,7 +93,7 @@
 						<Action Name="" ID="{245B35ED-701D-4319-A4EF-FAAAB59CFBA3}" ShortID="959716781">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="38"/>
-								<Property Name="GameParameterValue" Type="Real64" Value="20"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="50"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -196,6 +196,17 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="AVS_RED_Volume_Wave1" ID="{B3F2C2AA-E626-4A82-8484-48F42E99BD97}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{FD2D678E-DF5B-4DDA-825A-B1A98D4CDF40}" ShortID="87878793">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="38"/>
+								<Property Name="GameParameterValue" Type="Real64" Value="100"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="AVS_MasterVolume_Wave1" ID="{610000C6-2EFB-4184-9E90-3554537A9CD3}" WorkUnitID="{A4CBC233-705D-4021-8C88-E244225AA913}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
