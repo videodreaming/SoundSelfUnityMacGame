@@ -207,7 +207,7 @@ public class Director : MonoBehaviour
                 {
                     Debug.LogError("Director Queue: imitoneVoiceInterpreter is null, cannot wait for tone");
                 }
-                return;
+                yield break;
             }
             
             //first, if we are toning, wait for this tone to finish...
@@ -467,6 +467,64 @@ public class Director : MonoBehaviour
         
         // Return shortest time (or -1 if nothing was cleared)
         return shortestTimeLeft == float.MaxValue ? -1f : shortestTimeLeft;
+    }
+
+    public int ReplaceActionInQueue(Action action, string newType, string oldType, bool isAudioAction, bool isVisualAction, float newMaximumTimeLimit, bool activationBehavior)
+    {
+        // ReplaceActionInQueue clears actions of both oldType and newType, then adds the new action
+        // The expiration time is set to the minimum of:
+        // - shortestTimeLeft of cleared oldType actions
+        // - shortestTimeLeft of cleared newType actions  
+        // - newMaximumTimeLimit
+        
+        // Validate parameters
+        if(action == null)
+        {
+            if(debugAllowWarnings || debugAllowLogs)
+            {
+                Debug.LogWarning("Director Queue: Cannot replace with null action");
+            }
+            return -1;
+        }
+        
+        if(disable)
+        {
+            if(debugAllowWarnings || debugAllowLogs)
+            {
+                Debug.LogWarning("Director Queue: Director is disabled, not replacing action in queue.");
+            }
+            return -1;
+        }
+        
+        // Clear old type and get shortest time left
+        float shortestTimeOld = ClearQueueOfType(oldType);
+        if(shortestTimeOld == -1f)
+        {
+            shortestTimeOld = float.MaxValue; // If nothing was cleared, use MaxValue so it doesn't affect the min calculation
+        }
+        
+        // Clear new type and get shortest time left
+        float shortestTimeNew = ClearQueueOfType(newType);
+        if(shortestTimeNew == -1f)
+        {
+            shortestTimeNew = float.MaxValue; // If nothing was cleared, use MaxValue so it doesn't affect the min calculation
+        }
+        
+        // Calculate the minimum expiration time
+        float calculatedTimeLimit = Mathf.Min(shortestTimeOld, shortestTimeNew, newMaximumTimeLimit);
+        
+        // Convert bool activationBehavior to int (true = 1, false = 0)
+        int activationBehaviorInt = activationBehavior ? 1 : 0;
+        
+        // Add the new action with the calculated time limit
+        int result = AddActionToQueue(action, newType, isAudioAction, isVisualAction, calculatedTimeLimit, activationBehaviorInt, 0);
+        
+        if(debugAllowLogs)
+        {
+            Debug.Log($"Director Queue: ReplaceActionInQueue cleared '{oldType}' and '{newType}', added '{newType}' with timeLimit={calculatedTimeLimit}s (min of old={shortestTimeOld}, new={shortestTimeNew}, max={newMaximumTimeLimit})");
+        }
+        
+        return result;
     }
 
     //====================================================================================================

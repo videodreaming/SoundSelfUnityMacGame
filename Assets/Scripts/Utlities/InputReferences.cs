@@ -2445,7 +2445,7 @@ public class InputReferences : MonoBehaviour
             true,
             false,
             180.0f,
-            true,
+            1, // activationBehavior: 1 = execute on next tone
             0 // No exclusivity behavior - just add it
         );
         
@@ -2618,7 +2618,7 @@ public class InputReferences : MonoBehaviour
             true,
             false,
             60.0f,
-            true,
+            1, // activationBehavior: 1 = execute on next tone
             1 // Exclusivity behavior 1: prefer lowest time left
         );
         
@@ -2648,7 +2648,7 @@ public class InputReferences : MonoBehaviour
             true,
             false,
             30.0f,
-            true,
+            1, // activationBehavior: 1 = execute on next tone
             1 // Exclusivity behavior 1: prefer lowest time left
         );
         

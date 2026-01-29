@@ -8,6 +8,7 @@ public class canvasSwitcher : MonoBehaviour
     public Canvas canvas1;
     public Canvas canvas2;
     public Canvas canvas3;
+    public Canvas canvas4;
     public Canvas mainCanvas;
 
     public Canvas calibrationCanvas;
@@ -30,9 +31,11 @@ public class canvasSwitcher : MonoBehaviour
         canvas1 = GameObject.Find("Canvas1").GetComponent<Canvas>();
         canvas2 = GameObject.Find("Canvas2").GetComponent<Canvas>();
         canvas3 = GameObject.Find("Canvas3").GetComponent<Canvas>();
+        canvas4 = GameObject.Find("Canvas4").GetComponent<Canvas>();
         canvas1.enabled = false;
         canvas2.enabled = false;
         canvas3.enabled = false;
+        canvas4.enabled = false;
         calibrationCanvas.enabled = false;
         mainCanvas.enabled = false;
         buttonCanvas.enabled = true;
@@ -66,6 +69,7 @@ public class canvasSwitcher : MonoBehaviour
                 canvas1.enabled = false;
                 canvas2.enabled = false;
                 canvas3.enabled = false;
+                canvas4.enabled = true;
                 break;
             default:
                 // Optionally do nothing or disable all canvases
@@ -78,8 +82,20 @@ public class canvasSwitcher : MonoBehaviour
         canvas1.enabled = false;
         canvas2.enabled = false;
         canvas3.enabled = false;
+        canvas4.enabled = false;
         mainCanvas.enabled = true;
         calibrationCanvas.enabled = false;
+    }
+
+    public void SwitchToCanvas4()
+    {
+        canvas1.enabled = false;
+        canvas2.enabled = false;
+        canvas3.enabled = false;
+        canvas4.enabled = true;
+        mainCanvas.enabled = false;
+        calibrationCanvas.enabled = false;
+        buttonCanvas.enabled = false;
     }
 
     public void SwitchToCalibrationCanvas()
@@ -87,6 +103,7 @@ public class canvasSwitcher : MonoBehaviour
         canvas1.enabled = false;
         canvas2.enabled = false;
         canvas3.enabled = false;
+        canvas4.enabled = false;
         mainCanvas.enabled = false;
         calibrationCanvas.enabled = true;
     }
