@@ -5716,7 +5716,7 @@
 									<MusicCue Name="Cue_Microphone_OFF" ID="{F54C2427-5D12-428F-9156-D5F4D88607B1}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
-											<Property Name="TimeMs" Type="Real64" Value="388000"/>
+											<Property Name="TimeMs" Type="Real64" Value="387928.607436687"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>
@@ -5757,6 +5757,16 @@
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
 											<Property Name="TimeMs" Type="Real64" Value="208000"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Cue_Start_ClosingMeditation" ID="{BA4102D4-99A3-4110-82C7-57411A180440}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="2"/>
+											<Property Name="TimeMs" Type="Real64" Value="388000"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>

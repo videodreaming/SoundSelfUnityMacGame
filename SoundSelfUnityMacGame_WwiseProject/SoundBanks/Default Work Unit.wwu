@@ -155,6 +155,7 @@
 						<ObjectRef Name="Stop_ASCENDING_CLOSING" ID="{A7C6B3C8-F15E-447F-8210-AF13E51ED08E}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Set_MusicLoops_Silence" ID="{D22A033B-4005-44ED-A869-922E8697C219}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_BinauralGenerator" ID="{52381511-34EA-44F1-94EB-8DF86378F170}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_music_meditationSilent_E_Major_LOOP" ID="{7F68A849-DF59-4501-90DB-9BB1A586EB46}" WorkUnitID="{B44D87AE-5F03-4C66-8DB7-3B3CFBFEE75E}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Set_MusicLoops_MysticalVision" ID="{E57CD9C2-7F3F-4531-8C06-D532FA1DA63B}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_EXIT_MUSIC_PLAYLIST" ID="{493910F3-5E57-4570-B6D2-1ABEA929D925}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
@@ -174,6 +175,7 @@
 						<ObjectRef Name="Stop_All" ID="{39821E91-31F4-47D3-B1AF-E42968AA6D28}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_EndingSoon" ID="{9E0D6496-82D7-4844-ACD7-8C31B52A9987}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_Wakeup" ID="{8E31B5D4-53EF-4857-93D3-635F862C3583}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_AVS" ID="{E51F17AF-49B4-4865-8B8D-ACD6D8D65123}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_WakeUpEndSoon_SEQUENCE" ID="{9094666F-2F0C-486B-B702-268AE17352DD}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_VO_SighElicitationFail2" ID="{C24856F2-1326-487C-8349-C8A5075D0F2E}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_environment_wind" ID="{6977A2C2-5B52-499B-86EC-4482937D7AB0}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
@@ -223,6 +225,7 @@
 						<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_Calibration_Music" ID="{7CA0976E-7C7D-4840-B3BD-51950C7526F7}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_AVS" ID="{E51F17AF-49B4-4865-8B8D-ACD6D8D65123}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Set_Calibration_Lights" ID="{8DC11C72-CA7C-4C2D-AA74-CF06BAF25381}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_EndSoon_SEQUENCE" ID="{91FE794D-2324-4C75-8F4C-9F79330EAF86}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
