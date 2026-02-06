@@ -534,6 +534,16 @@ public class Sequencer : MonoBehaviour
        
         Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
 
+        // Ensure lights are Dark at the start (in case calibration left them in a different state)
+        // This prevents premature triggering if calibration sequence was interrupted
+        if(lightControl.currentColorType != "Dark" && lightControl.currentColorType != "BreathOnly")
+        {
+            Debug.Log(_countdownToSavasana + "Sequencer | AVS Program: DynamicDropStart. Lights not Dark at start, resetting to Dark first.");
+            lightControl.SetPreferredColor("Dark", 0.1f);
+            lightControl.SetStrobeRate(0f, 0.1f);
+            yield return new WaitForSeconds(0.15f); // Brief wait for transition
+        }
+
         //WAIT UNTIL WE CHANGE TO A REAL COLOR TYPE, WHICH USUALLY HAPPENS ON THE FIRST HUM, IN WWISEVOMANAGER.
         while((lightControl.currentColorType == "Dark") || (lightControl.currentColorType == "BreathOnly"))
         {
