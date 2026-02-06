@@ -193,18 +193,6 @@ public class WwiseVOManager : MonoBehaviour
                 //TODO: Please implement the button to show up, and the logic to wait for it to be pressed.
                 Debug.Log("WWise_VO_CUE: Cue_WaitForButton");
             }
-            else if (musicSyncInfo.userCueName == "Cue_AVS_Calibration_Start")
-            {
-                Debug.Log("WWise_VO_CUE: Cue_AVS_Calibration_Start");                
-                lightControl.SetPreferredColor("White", 5.0f);
-                lightControl.SetStrobeRate(10f, 0.0f);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_AVS_Calibration_End")
-            {
-                Debug.Log("WWise_VO_CUE: Cue_AVS_Calibration_End");
-                lightControl.SetPreferredColor("Dark", 5.0f);
-                lightControl.SetStrobeRate(0f, 5.0f);
-            }
             else
             {
                 Debug.LogWarning("WWise_VO_CUE: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);

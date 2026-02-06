@@ -17,6 +17,7 @@ public class StartButtonScript : MonoBehaviour
     private int currentTutorialPortionIndex = 0;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;  
     public canvasSwitcher canvasManager;
+    public LightControl lightControl;
 
     public string portionName;
 
@@ -208,11 +209,30 @@ public class StartButtonScript : MonoBehaviour
             AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
             if (musicSyncInfo.userCueName == "Cue_Microphone_ON")
             {
+                Debug.Log("Calibration:  Turn ON GameOn for Mic");
                 imitoneVoiceIntepreter.SetGameOn(true);
             }
             else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
-            {
+            {                
+                Debug.Log("Calibration:  Turn off GameOn for Mic");                
+
                 imitoneVoiceIntepreter.SetGameOn(false);
+            }
+            else if (musicSyncInfo.userCueName == "Cue_AVS_Calibration_Start")
+            {
+                Debug.Log("Calibration:  Cue_AVS_Calibration_Start");                
+                lightControl.SetPreferredColor("White", 5.0f);
+                lightControl.SetStrobeRate(10f, 0.0f);
+            }
+            else if (musicSyncInfo.userCueName == "Cue_AVS_Calibration_End")
+            {
+                Debug.Log("Calibration:  Cue_AVS_Calibration_End");
+                lightControl.SetPreferredColor("Dark", 5.0f);
+                lightControl.SetStrobeRate(0f, 5.0f);
+            }
+            else
+            {
+                Debug.LogWarning("Calibration:  Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
             }
         }
     }
