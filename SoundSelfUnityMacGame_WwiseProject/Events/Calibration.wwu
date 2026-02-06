@@ -75,6 +75,16 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
+						<Action Name="" ID="{3E0C1F44-8100-429A-990C-D3FF838ABC09}" ShortID="757343827">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_AVS_All" ID="{72826F52-727F-4413-9303-FAF0795A222B}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
 					</ChildrenList>
 				</Event>
 				<Event Name="Set_Calibration_Lights" ID="{8DC11C72-CA7C-4C2D-AA74-CF06BAF25381}">

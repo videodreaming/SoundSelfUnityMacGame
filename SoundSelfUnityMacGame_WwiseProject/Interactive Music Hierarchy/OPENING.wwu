@@ -16121,7 +16121,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>5</Value>
+										<Value>6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -16165,7 +16165,7 @@
 																	<PropertyList>
 																		<Property Name="BeginTrimOffset" Type="Real64" Value="351.071694040144"/>
 																		<Property Name="EndTrimOffset" Type="Real64" Value="348000"/>
-																		<Property Name="FadeInDuration" Type="Real64" Value="4385.92344318181"/>
+																		<Property Name="FadeInDuration" Type="Real64" Value="3018.7180316079"/>
 																		<Property Name="FadeOutDuration" Type="Real64" Value="24680.4049943226"/>
 																		<Property Name="PlayAt" Type="Real64" Value="-351.071694040144"/>
 																	</PropertyList>
@@ -16221,8 +16221,8 @@
 																						<Flags>5</Flags>
 																					</Point>
 																					<Point>
-																						<XPos>15.92708</XPos>
-																						<YPos>-1.0718</YPos>
+																						<XPos>15.57779</XPos>
+																						<YPos>-0</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
@@ -16798,7 +16798,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{688FA2AC-4421-4759-82E3-14F186FF51C2}" ShortID="782023991">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="121262.372423438"/>
+																		<Property Name="PlayAt" Type="Real64" Value="121000"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -17474,7 +17474,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-14</Value>
+										<Value>-13</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -20727,7 +20727,7 @@
 									<MusicCue Name="Cue_Microphone_ON" ID="{C8D97012-0374-4D06-A592-414E085BFF7E}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
-											<Property Name="TimeMs" Type="Real64" Value="108806.065146245"/>
+											<Property Name="TimeMs" Type="Real64" Value="109000"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>
@@ -21028,6 +21028,25 @@
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
 											<Property Name="TimeMs" Type="Real64" Value="294774.022901684"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Cue_Introduction_Start" ID="{D4664E85-0B14-4C29-8D82-B1B623E1CEC3}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="2"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Cue_GuidedVocalization_Start" ID="{FCDFD3A8-E6C9-42B7-8266-9403367160FF}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="2"/>
+											<Property Name="TimeMs" Type="Real64" Value="163625"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>

@@ -5763,10 +5763,40 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MusicCue Name="Cue_Start_ClosingMeditation" ID="{BA4102D4-99A3-4110-82C7-57411A180440}">
+									<MusicCue Name="Cue_SilentMeditation_Start" ID="{BA4102D4-99A3-4110-82C7-57411A180440}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
 											<Property Name="TimeMs" Type="Real64" Value="388000"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Cue_PassiveMusic_Start" ID="{698110B7-BB49-4309-ACDC-61BD49B9E7BD}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="2"/>
+											<Property Name="TimeMs" Type="Real64" Value="587000"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Cue_ClosingSequence_Start" ID="{F1B395C9-3FA4-4741-B439-F8925666C9F8}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="2"/>
+											<Property Name="TimeMs" Type="Real64" Value="826000"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Cue_SessionEnd" ID="{8A67DFDD-9208-41BD-9F5E-C862D65D4105}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="2"/>
+											<Property Name="TimeMs" Type="Real64" Value="899947.145684208"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>

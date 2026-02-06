@@ -173,6 +173,50 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Stop_AVS_All" ID="{72826F52-727F-4413-9303-FAF0795A222B}">
+					<ChildrenList>
+						<Action Name="" ID="{1AD0F7B9-0E3B-484B-8811-984B45B0B3A7}" ShortID="265915348">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{3415AB62-5438-4A7D-936F-711EEEAC2C29}" ShortID="929748846">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{86A2E9B3-8AA8-4519-9BAF-2875790E10A9}" ShortID="88037615">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_AVS_Wave2" ID="{D6DC2C44-177F-4753-9F7A-F2C5B5F99A86}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{C9216614-F615-40D2-8303-993D7F7C9E3E}" ShortID="802500040">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="41"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Stop_AVS_Wave3" ID="{5DCA70C8-A708-4EF9-9D93-EE185337CFE9}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

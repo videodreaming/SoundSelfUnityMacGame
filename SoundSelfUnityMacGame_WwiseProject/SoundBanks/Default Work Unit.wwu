@@ -21,6 +21,7 @@
 						<ObjectRef Name="Play_environment_openingQueryRepeat1" ID="{691FF2B3-CFD3-43C9-B7C1-CDC5DB950BE5}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AMBIENT_ENVIRONMENT_LOOP" ID="{5DB66FCB-061C-43E5-880D-2C319AD8A094}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_AVS_All" ID="{72826F52-727F-4413-9303-FAF0795A222B}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_environment_anyQueryRepeat1" ID="{153B5478-A18D-444A-A128-03D2D86547B2}" WorkUnitID="{F2EFFB3F-F5AD-44B8-B382-7D55048249EC}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_SIGH_QUERY_SEQUENCE_1" ID="{79E8399A-5E4C-4461-A5A4-926F23585C1C}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
@@ -93,6 +94,7 @@
 						<ObjectRef Name="Stop_SilentLoops" ID="{37C30047-AF5A-43B9-896D-68E3F2AA7D3A}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AMBIENT_ENVIRONMENT_LOOP" ID="{5DB66FCB-061C-43E5-880D-2C319AD8A094}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_AVS_All" ID="{72826F52-727F-4413-9303-FAF0795A222B}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_BinauralGenerator" ID="{52381511-34EA-44F1-94EB-8DF86378F170}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_sfx_Impact" ID="{0A5A8332-389F-452E-B07C-318CD4F7EDD5}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}" Origin="Manual" Filter="7"/>
@@ -223,6 +225,7 @@
 						<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_Calibration_Sequence" ID="{5BEBEBD7-24C0-4234-9448-19865473AD57}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop_AVS_All" ID="{72826F52-727F-4413-9303-FAF0795A222B}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_Calibration_Music" ID="{7CA0976E-7C7D-4840-B3BD-51950C7526F7}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Stop_AVS" ID="{E51F17AF-49B4-4865-8B8D-ACD6D8D65123}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}" Origin="Manual" Filter="7"/>

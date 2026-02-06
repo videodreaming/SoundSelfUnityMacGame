@@ -130,34 +130,6 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{E38A5B10-A932-4E65-8745-FA0D63528A2A}" ShortID="721584251">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="226.050026298039"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_AVS_SineGenerators_REFERENCE" ID="{70FE9CEB-6B96-40E6-8A80-DDAA41FFD559}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{4D312D14-6FDD-483E-8A77-2F082ED1BA14}" ShortID="974091981">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="10.586897128686"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_AVS_Wave1" ID="{5FFAAC87-2F6C-4C76-835B-639293412C44}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -511,48 +483,6 @@
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
 																					<ObjectRef Name="Stop_BassSynth" ID="{EB896966-9D77-4408-A902-CC27888B188E}" WorkUnitID="{39775C12-8EE9-41D3-8D9A-7F9AF67863D6}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{89DD2E11-7199-4C14-AE5C-7A43BC96DBCE}" ShortID="730937568">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="22375"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Set_Calibration_Lights" ID="{8DC11C72-CA7C-4C2D-AA74-CF06BAF25381}" WorkUnitID="{EA809D54-FC6C-418C-ACCA-68BAA9E812B4}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{4C8BF7D4-CB6E-4307-930B-2ED7BD28004D}" ShortID="129489292">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="23665.148320277"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_AVS_SineGenerators_REFERENCE" ID="{07CC4122-825F-4488-83BB-65D548A393F8}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{67668445-2D45-4D5A-8BEC-3E3ACFB3399B}" ShortID="850554739">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="23875"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Play_AVS_Wave1" ID="{732E999E-C47B-4D08-952E-F582FD997B5C}" WorkUnitID="{9726DA8D-BA5F-4379-92B0-097B08FBFF76}"/>
 																				</Reference>
 																			</ReferenceList>
 																		</MusicEventCue>
