@@ -10,7 +10,7 @@ using ConversionUtilities;
 public class Sequencer : MonoBehaviour
 {
     public CSVLoader csvLoader;
-    public StartButtonScript startButtonScript;
+    public CalibrationMenu calibrationMenu;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
 
     public LightControl lightControl;
@@ -57,7 +57,7 @@ public class Sequencer : MonoBehaviour
     public float timeInUnguidedVocalization;
     
     // Debug log category flags
-    private bool debugAllowTimingLogs = true;
+    private bool debugAllowTimingLogs = false;
     
     // Time tracking for debug logs
     private float _timeSinceStart = 0f;
@@ -146,9 +146,9 @@ public class Sequencer : MonoBehaviour
             //controlTiming        
             if(_countdownToSavasana > 0f)
             {
-                if(startButtonScript != null)
+                if(calibrationMenu != null)
                 {
-                    if (startButtonScript.startedExperience)
+                    if (calibrationMenu.startedExperience)
                     {
                         _countdownToSavasana -= Time.deltaTime;
                         if(startButtonFlag == false)
@@ -186,9 +186,15 @@ public class Sequencer : MonoBehaviour
         Debug.Log("Sequencer: PlayFirstSequence() called.");
         if(!openingSequenceFlag)
         {
+            if(lightControl == null)
+            {
+                Debug.LogError("Sequencer: lightControl is null! Cannot initialize lights.");
+                return;
+            }
+            lightControl.LightSettingsInitialization(5.0f);
             openingSequenceFlag = true;
             //PLAY OPENING SEQUENCE
-            if(CSVLoader.instance != null)
+            if(CSVLoader.instance != null && wwiseVOManager != null)
             {
                 if(CSVLoader.instance.gameMode == "Preparation" || CSVLoader.instance.gameMode == "Skills Training")
                 {
@@ -225,9 +231,17 @@ public class Sequencer : MonoBehaviour
                 {
                     Debug.LogWarning("Sequencer: No Opening Sequence for this game mode.");
                 }
-            } else
+            }
+            else
             {
-                Debug.LogWarning("Sequencer: CSVLoader instance is null, cannot determine game mode for opening sequence.");
+                if(CSVLoader.instance == null)
+                {
+                    Debug.LogWarning("Sequencer: CSVLoader instance is null, cannot determine game mode for opening sequence.");
+                }
+                if(wwiseVOManager == null)
+                {
+                    Debug.LogError("Sequencer: wwiseVOManager is null! Cannot play opening sequence.");
+                }
             }
                 
             Debug.Log("AVS_Program_DynamicDrop_Start is starting");
@@ -257,7 +271,7 @@ public class Sequencer : MonoBehaviour
         Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Called when opening sequence ends");
         Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Current countdown: " + _countdownToSavasana + " seconds (" + (_countdownToSavasana / 60f) + " minutes)");
         Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Current music mode: " + MusicSystem1.instance.currentMusicMode);
-        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - startedExperience: " + (startButtonScript != null ? startButtonScript.startedExperience.ToString() : "startButtonScript is null"));
+        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - startedExperience: " + (calibrationMenu != null ? calibrationMenu.startedExperience.ToString() : "calibrationMenu is null"));
         // Called when opening sequence ends (via Cue_StartInteractive cue from Wwise)
         // Starts the ProtocolStacksCoroutine which manages timed behaviors based on _countdownToSavasana
         // IMPORTANT: The coroutine will wait until _countdownToSavasana <= 20 minutes before executing Step 1
@@ -517,11 +531,11 @@ public class Sequencer : MonoBehaviour
     //====================================================================================================
 
     
-    public void InitializeLights()
+    public void StartLights()
     {
         if(!lightsInitialized)
         {
-            Debug.Log("Sequencer: InitializeLights");
+            Debug.Log("Sequencer: StartLights");
             lightControl.SetPreferredColor("Red", 5.0f);
             lightsInitialized = true;
         }
@@ -930,7 +944,7 @@ public class Sequencer : MonoBehaviour
     {
         Debug.Log("Sequencer: Starting Tutorial Sequence.");
         tutorial.StartTutorial();
-        InitializeLights();
+        StartLights();
         worldShuffler.ExcludeColorWorld("Blue");
         worldShuffler.ExcludeSoundscape("Shadow");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
@@ -959,7 +973,7 @@ public class Sequencer : MonoBehaviour
         {
             worldShuffler.BeginShuffle(false);
         }
-        InitializeLights(); 
+        StartLights(); 
     }
     public void StartRightBeforeSavasana()
     {

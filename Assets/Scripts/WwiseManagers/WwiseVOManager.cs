@@ -130,7 +130,7 @@ public class WwiseVOManager : MonoBehaviour
             else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue_LinearHum_Start");
-                InitializeLightsWithDelay();
+                StartLightsWithDelay();
                 StartCoroutine(MakeWWiseTone());
             } else if(musicSyncInfo.userCueName == "Cue_LinearHum")
             {
@@ -472,15 +472,15 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.PostEvent("Play_ASCENDING_CLOSING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
     }
 
-    private void InitializeLightsWithDelay()
+    private void StartLightsWithDelay()
     {
-        StartCoroutine(InitializeLightsCoroutine());
+        StartCoroutine(StartLightsCoroutine());
     }
 
-    private IEnumerator InitializeLightsCoroutine()
+    private IEnumerator StartLightsCoroutine()
     {
         yield return new WaitForSeconds(1f);
-        sequencer.InitializeLights();
+        sequencer.StartLights();
     }
 }
 

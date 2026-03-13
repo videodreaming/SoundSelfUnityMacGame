@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584319565738547800
+    m_lastTime: -8584312023666763863
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584319565738403026
+    m_lastTime: -8584312023666754071
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -501,7 +501,7 @@ MonoBehaviour:
     ParentPath: Events\AVS System
     guid: 8dda26975fba794392b0097b08fbff76
     GuidInternal: 
-    m_lastTime: -8584340500781109691
+    m_lastTime: -8584312023666897682
     List:
     - name: Play_AVS_SineGenerators_REFERENCE
       guid: 2241cc075f82884483bb65d548a393f8
@@ -568,6 +568,40 @@ MonoBehaviour:
         ObjectType: 3
         guid: a29b04a737d3c245a567c1aa527339d2
       Path: Events\AVS System\Play_AVS_Wave3
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_AVS
+      guid: af171fe5b44965488b8dacd6d8d65123
+      id: 821655380
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 8dda26975fba794392b0097b08fbff76
+      - ElementName: Stop_AVS
+        ObjectType: 3
+        guid: af171fe5b44965488b8dacd6d8d65123
+      Path: Events\AVS System\Stop_AVS
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_AVS_All
+      guid: 526f82727f7213449303faf0795a222b
+      id: 842157536
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: AVS System
+        ObjectType: 12
+        guid: 8dda26975fba794392b0097b08fbff76
+      - ElementName: Stop_AVS_All
+        ObjectType: 3
+        guid: 526f82727f7213449303faf0795a222b
+      Path: Events\AVS System\Stop_AVS_All
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -714,7 +748,7 @@ MonoBehaviour:
     ParentPath: Events\Calibration
     guid: 549d80ea6cfc8c41acca68baa9e812b4
     GuidInternal: 
-    m_lastTime: -8584319565740065312
+    m_lastTime: -8584312023666897682
     List:
     - name: Play_Calibration_Music
       guid: afa6ee7a5b6981408e9065c9cdb2be06
@@ -812,7 +846,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584319565739910735
+    m_lastTime: -8584312084853557747
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -1820,7 +1854,7 @@ MonoBehaviour:
     ParentPath: Events\Linear Music
     guid: ae874db4035f664c8db73b3cfbfee75e
     GuidInternal: 
-    m_lastTime: -8584322334313221269
+    m_lastTime: -8584321584353935160
     List:
     - name: Play_MenuMusic
       guid: 1df5e9e4dc81c841ba5daa250a570b32
@@ -1901,7 +1935,7 @@ MonoBehaviour:
     ParentPath: Events\Music Loops
     guid: 75bb5333efd5ef44a600b06130e39b37
     GuidInternal: 
-    m_lastTime: -8584320520883233032
+    m_lastTime: -8584319846316875375
     List:
     - name: Play_MusicLoops
       guid: e3c408690e6d264b87fae01a43eab94c
@@ -2203,7 +2237,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584321280161730639
+    m_lastTime: -8584312084853495856
     List:
     - name: New_Event
       guid: b0e748853f865a469d90e479ca2f8ec2

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class StartButtonScript : MonoBehaviour
+public class CalibrationMenu : MonoBehaviour
 {
     public ExperienceDurationDatabase experienceDurationDatabase;
     public Button startButton;
@@ -51,15 +51,33 @@ public class StartButtonScript : MonoBehaviour
         if(!startedExperience)
         {
             startedExperience = true; // Set the flag to true to prevent multiple clicks
-            mainText.SetActive(false); // Hide the main text when the calibration starts
+            
+            // Null checks to prevent crashes
+            if (mainText != null)
+            {
+                mainText.SetActive(false); // Hide the main text when the calibration starts
+            }
+            else
+            {
+                Debug.LogWarning("CalibrationMenu: mainText is null!");
+            }
+            
             isCalibrationStarted = true; // Set the flag to true to prevent multiple clicks
             endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button when the game starts
             startConfigButton.gameObject.SetActive(false); // Show the start config button when the game starts
             AkSoundEngine.PostEvent("Stop_Calibration_Sequence", gameObject);
 
-            sequencer.PlayFirstSequence(); // Start the first sequence in the sequencer
+            if (sequencer != null)
+            {
+                sequencer.PlayFirstSequence(); // Start the first sequence in the sequencer
+            }
+            else
+            {
+                Debug.LogError("CalibrationMenu: sequencer is null! Cannot start sequence.");
+                return; // Exit early if sequencer is null
+            }
             TimeLeftScript timeLeftScript = FindObjectOfType<TimeLeftScript>();
-            if (timeLeftScript != null && experienceDurationDatabase != null)
+            if (timeLeftScript != null && experienceDurationDatabase != null && CSVLoader.instance != null)
             {
                 if(CSVLoader.instance.gameMode == "Preperation" || CSVLoader.instance.gameMode == "Skills Training")
                 {
@@ -73,11 +91,23 @@ public class StartButtonScript : MonoBehaviour
                     
                 }
             }
+            else if (CSVLoader.instance == null)
+            {
+                Debug.LogError("CalibrationMenu: CSVLoader.instance is null! Cannot determine game mode.");
+            }
 
             currentTutorialPortionIndex = 0; // Reset tutorial portion
             SetTutorialSwitch();
             startButton.gameObject.SetActive(false); // Hide the start button when the game starts
-            canvasManager.SwitchToCanvas4(); // Switch to canvas4 (new main canvas)
+            
+            if (canvasManager != null)
+            {
+                canvasManager.SwitchToCanvas4(); // Switch to canvas4 (new main canvas)
+            }
+            else
+            {
+                Debug.LogError("CalibrationMenu: canvasManager is null! Cannot switch canvas.");
+            }
         }
 
     }
@@ -98,6 +128,7 @@ public class StartButtonScript : MonoBehaviour
             nextButton.gameObject.SetActive(true); // Show the next button when the start config button is clicked
             startButton.gameObject.SetActive(false); // Hide the start button when the start config button is clicked
             startConfigButton.gameObject.SetActive(false); // Hide the start config button when the start config button is clicked
+            imitoneVoiceIntepreter.SetGameOn(false);
         }
     }
 
@@ -126,11 +157,13 @@ public class StartButtonScript : MonoBehaviour
         endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button when the tutorial ends
         canvasManager.calibrationCanvas.enabled= false; // Switch back to the main canvas
         isCalibrationStarted = false; // Reset the flag to allow starting the calibration again
+        lightControl.LightSettingsInitialization(5.0f);
     }
 
     public void OnNextButtonClicked()
     {
         calibrationTextIndex++;
+        lightControl.LightSettingsInitialization(5.0f);
         if (calibrationTextIndex < calibrationTexts.Count)
         {
             StartCoroutine(verticalLayoutGroupController.scaleText(calibrationTexts[calibrationTextIndex], 1.1f));
@@ -220,15 +253,28 @@ public class StartButtonScript : MonoBehaviour
             }
             else if (musicSyncInfo.userCueName == "Cue_AVS_Calibration_Start")
             {
-                Debug.Log("Calibration:  Cue_AVS_Calibration_Start");                
-                lightControl.SetPreferredColor("White", 5.0f);
-                lightControl.SetStrobeRate(10f, 0.0f);
+                Debug.Log("Calibration:  Cue_AVS_Calibration_Start");
+                if (lightControl != null && lightControl.gameObject.activeInHierarchy)
+                {
+                    lightControl.SetPreferredColor("White", 5.0f);
+                    lightControl.SetStrobeRate(10f, 0.0f);
+                }
+                else
+                {
+                    Debug.LogError($"Calibration: lightControl is null or inactive! lightControl={lightControl}, activeInHierarchy={lightControl?.gameObject.activeInHierarchy}. Cannot turn on lights.");
+                }
             }
             else if (musicSyncInfo.userCueName == "Cue_AVS_Calibration_End")
             {
                 Debug.Log("Calibration:  Cue_AVS_Calibration_End");
-                lightControl.SetPreferredColor("Dark", 5.0f);
-                lightControl.SetStrobeRate(0f, 5.0f);
+                if (lightControl != null && lightControl.gameObject.activeInHierarchy)
+                {
+                    lightControl.LightSettingsInitialization(5.0f);
+                }
+                else
+                {
+                    Debug.LogError($"Calibration: lightControl is null or inactive! lightControl={lightControl}, activeInHierarchy={lightControl?.gameObject.activeInHierarchy}. Cannot turn off lights.");
+                }
             }
             else
             {

@@ -113,7 +113,7 @@ public class CSVLoader : MonoBehaviour
                 decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
                 //gameMode = decryptedGameMode;
                 //subGameMode = decryptedSubGameMode;
-                gameMode = "Protocol Stacks";
+                gameMode = "Protocol Stacks"; //TODO: REMOVE THIS AFTER TESTING PROTOCOL STACKS
                 subGameMode = "Ascending";
                 
                 firstTimeUserString = decryptedFirstTimeUser;

@@ -17,10 +17,10 @@ public class MusicSystem1 : MonoBehaviour
     public static MusicSystem1 instance {get; private set;}
     
     // Debug log category flags
-    private bool debugAllowBassSynthLogs = true;
-    private bool debugAllowBasicToningLogs = true;
+    private bool debugAllowBassSynthLogs = false;
+    private bool debugAllowBasicToningLogs = false;
     private bool debugAllowFundamentalLockLogs = true;
-    private bool debugAllowFundamentalLogicLogs = false;
+    private bool debugAllowFundamentalLogicLogs = true;
     private bool debugAllowFundamentalChangeLogs = true;
     private bool debugAllowHarmonyLogicLogs = false;
     private bool debugAllowHarmonyChangeLogs = true;
@@ -28,7 +28,7 @@ public class MusicSystem1 : MonoBehaviour
     private bool debugAllowSoundscapeLogs = true;
     private bool debugAllowImitoneUpdateLogs = false;
     private bool debugAllowMixVolumeLogs = true;
-    private bool debugAllowSFXLogs = true; // Includes ThumpUpdate and Breathwork
+    private bool debugAllowSFXLogs = false; // Includes ThumpUpdate and Breathwork
     private bool debugAllowInitializationLogs = true;
     private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
     

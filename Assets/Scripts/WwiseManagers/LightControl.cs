@@ -20,7 +20,7 @@ public class LightControl : MonoBehaviour
     public string AVSColorCommand  = "";
     public string AVSStrobeCommand = "";
     public string currentColorType = "Dark";
-    public string preferredColor = "Red";
+    public string preferredColor = "Dark";
     private float  _brightness = 0.6f;
     private int cycleRed = 0;
     private int cycleBlue = 0;
@@ -55,16 +55,6 @@ public class LightControl : MonoBehaviour
 
     void Awake()
     {
-        //INITIALIZE COLORS (REMOVING THIS, 12/16/2025)
-        //if(DevelopmentMode.instance.configureMode)
-        //{
-        //    SetColorWorldByType("White", 0.0f);
-        //    SetStrobeRate(8f, 0.0f);
-        //}
-        //else if(DevelopmentMode.instance.startAtStart) // Robin wonders why this is here
-        //{
-        //    SetColorWorldByType("Dark", 0.0f);
-        //}
         if (ColorWorldDropdownChange != null)
             ColorWorldDropdownChange.onValueChanged.AddListener(OnColorWorldDropdownChanged);
     }
@@ -779,26 +769,32 @@ public class LightControl : MonoBehaviour
         }
     }
 
-        private void OnColorWorldDropdownChanged(int index)
+    public void LightSettingsInitialization(float transitionTimeSec = 0.0f)
+    {
+        SetPreferredColor("Dark", transitionTimeSec);
+        SetStrobeRate(0f, transitionTimeSec);
+    }
+
+    private void OnColorWorldDropdownChanged(int index)
+    {
+        if(ColorWorldDropdownChange != null)
         {
-            if(ColorWorldDropdownChange != null)
+            switch (index)
             {
-                switch (index)
-                {
-                    case 0: SetColorWorldByName("Dark"); break;
-                    case 1: SetColorWorldByName("Red1");  break;
-                    case 2: SetColorWorldByName("Red2");   break;
-                    case 3: SetColorWorldByName("Red3"); break;
-                    case 4: SetColorWorldByName("Blue1");  break;
-                    case 5: SetColorWorldByName("Blue2");  break;
-                    case 6: SetColorWorldByName("Blue3"); break;
-                    case 7: SetColorWorldByName("White1"); break;
-                    case 8: SetColorWorldByName("White2");  break;
-                    case 9: SetColorWorldByName("White3");  break;
-                    default: SetColorWorldByName("Dark");  break;
-                }
+                case 0: SetColorWorldByName("Dark"); break;
+                case 1: SetColorWorldByName("Red1");  break;
+                case 2: SetColorWorldByName("Red2");   break;
+                case 3: SetColorWorldByName("Red3"); break;
+                case 4: SetColorWorldByName("Blue1");  break;
+                case 5: SetColorWorldByName("Blue2");  break;
+                case 6: SetColorWorldByName("Blue3"); break;
+                case 7: SetColorWorldByName("White1"); break;
+                case 8: SetColorWorldByName("White2");  break;
+                case 9: SetColorWorldByName("White3");  break;
+                default: SetColorWorldByName("Dark");  break;
             }
         }
+    }
 
 
 

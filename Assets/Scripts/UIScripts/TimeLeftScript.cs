@@ -12,7 +12,7 @@ public class TimeLeftScript : MonoBehaviour
     public float _timeLeft;
     int minutes;
     int seconds;
-    public StartButtonScript startButtonScript;
+    public CalibrationMenu calibrationMenu;
 
     private void Awake()
     {
@@ -29,9 +29,9 @@ public class TimeLeftScript : MonoBehaviour
     }
     void Update()
     {
-        if(startButtonScript != null)
+        if(calibrationMenu != null)
         {
-        if(startButtonScript.startedExperience)
+        if(calibrationMenu.startedExperience)
         {
             UpdateTimeLeft();
         }

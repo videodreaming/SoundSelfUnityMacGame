@@ -28,7 +28,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     // Are we using this action? Robin doesn't understand how an action works.
     public Action<float> OnNewTone;
-    public bool gameOn = true;
+    public bool gameOn = false;
     private bool gameOnLastFrame = true;
 
     [Tooltip("imitoneActive when toning.")]
@@ -214,7 +214,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         inputBuffer = Microphone.Start(
                 deviceName: microphoneName,
                 loop: true,
-                lengthSec: 1,
+                lengthSec: 6,
                 frequency: sampleRate
                 );
 
