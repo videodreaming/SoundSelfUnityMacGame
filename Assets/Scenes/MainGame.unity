@@ -19614,7 +19614,7 @@ MonoBehaviour:
   sequencer: {fileID: 1564575221}
   timeLeftText: {fileID: 1140148592}
   _timeLeft: 0
-  startButtonScript: {fileID: 1952398643}
+  calibrationMenu: {fileID: 0}
 --- !u!114 &1140148592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26076,7 +26076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   csvLoader: {fileID: 695725736}
-  startButtonScript: {fileID: 1952398643}
+  calibrationMenu: {fileID: 0}
   imitoneVoiceInterpreter: {fileID: 740096625}
   lightControl: {fileID: 437048159}
   respirationTracker: {fileID: 740096627}
@@ -31521,6 +31521,7 @@ MonoBehaviour:
   sequencer: {fileID: 1564575221}
   imitoneVoiceIntepreter: {fileID: 740096625}
   canvasManager: {fileID: 808198321}
+  lightControl: {fileID: 0}
   portionName: 
   verticalLayoutGroupController: {fileID: 230817868}
   calibrationTexts:

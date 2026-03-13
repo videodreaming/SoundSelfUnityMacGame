@@ -146,17 +146,55 @@ public class MusicBinauralBeats : MonoBehaviour
 
 
     //A function for changing the binaural beat rate (adds half to the left, subtracts half from the right) for new Binaural beat rate. 
-    public void NewBinauralBeatRate(float _inRate, float duration = 8.0f)
+    public void NewBinauralBeatRate(float _inRate, float duration = 8.0f, string waveType = "theta")
     {
-        //the binarual beat rate should always be between 4hz (min) and 8 hz(maximum). 
-        float _newBinauralBeatRate = _inRate;
-        while (_newBinauralBeatRate < 4f)
+        // Set min/max based on waveType
+        float minRate;
+        float maxRate;
+        switch(waveType.ToLower())
         {
-            _newBinauralBeatRate *= 2f;
+            case "alpha":
+                minRate = 8f;
+                maxRate = 16f;
+                break;
+            case "delta":
+                minRate = 2f;
+                maxRate = 4f;
+                break;
+            case "theta":
+            default:
+                minRate = 4f;
+                maxRate = 8f;
+                break;
         }
-        while (_newBinauralBeatRate > 8f)
+        
+        //the binarual beat rate should always be within the specified range for the wave type
+        float _newBinauralBeatRate = _inRate;
+        
+        // Handle zero or negative rates - set to minimum for the wave type
+        if(_newBinauralBeatRate <= 0f)
         {
-            _newBinauralBeatRate /= 2f;
+            Debug.LogWarning("MusicBinauralBeats: Rate is " + _newBinauralBeatRate + " (<= 0), setting to minimum " + minRate + "Hz for waveType " + waveType);
+            _newBinauralBeatRate = minRate;
+        }
+        else
+        {
+            // Normalize rate to be within the wave type's range
+            while (_newBinauralBeatRate < minRate)
+            {
+                _newBinauralBeatRate *= 2f;
+                // Safety check to prevent infinite loop (shouldn't happen now, but good to have)
+                if(_newBinauralBeatRate == 0f)
+                {
+                    Debug.LogWarning("MusicBinauralBeats: Rate normalization resulted in 0, setting to minimum " + minRate + "Hz");
+                    _newBinauralBeatRate = minRate;
+                    break;
+                }
+            }
+            while (_newBinauralBeatRate > maxRate)
+            {
+                _newBinauralBeatRate /= 2f;
+            }
         }
 
         StopCoroutine("lerpNewBinauralBeatRate");
@@ -171,7 +209,7 @@ public class MusicBinauralBeats : MonoBehaviour
             {
                 _beatRate = _newBinauralBeatRate;
                 SetBinauralFrequencies();
-                Debug.Log("Binaural Beats: New Rate is (instantly) " + _newBinauralBeatRate);
+                Debug.Log("Binaural Beats: New Rate is (instantly) " + _newBinauralBeatRate + " Hz for waveType " + waveType);
             }
         }
     } 

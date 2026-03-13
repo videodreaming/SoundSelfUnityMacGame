@@ -283,7 +283,38 @@ public class LightControl : MonoBehaviour
 
         if (!partOfCoroutine)
         {
-            MusicBinauralBeats.instance.NewBinauralBeatRate(_rate);
+            if(MusicBinauralBeats.instance == null)
+            {
+                Debug.LogError("MusicBinauralBeats.instance is null! Skipping NewBinauralBeatRate call.");
+            }
+            else
+            {
+                // Check if the MonoBehaviour is enabled and GameObject is active
+                MonoBehaviour mb = MusicBinauralBeats.instance as MonoBehaviour;
+                if(mb == null)
+                {
+                    Debug.LogError("MusicBinauralBeats.instance is not a MonoBehaviour! Skipping NewBinauralBeatRate call.");
+                }
+                else if(!mb.enabled)
+                {
+                    Debug.LogWarning("MusicBinauralBeats MonoBehaviour is disabled! Skipping NewBinauralBeatRate call to prevent crash.");
+                }
+                else if(!mb.gameObject.activeInHierarchy)
+                {
+                    Debug.LogWarning("MusicBinauralBeats GameObject is not active in hierarchy! Skipping NewBinauralBeatRate call to prevent crash.");
+                }
+                else
+                {
+                    try
+                    {
+                        MusicBinauralBeats.instance.NewBinauralBeatRate(_rate);
+                    }
+                    catch(System.Exception ex)
+                    {
+                        Debug.LogError("Exception calling NewBinauralBeatRate: " + ex.Message + "\n" + ex.StackTrace);
+                    }
+                }
+            }
         }
 
         if (AVSStrobeCommand != "")
@@ -292,7 +323,14 @@ public class LightControl : MonoBehaviour
         }
 
         int transitionTimeMS = (int)(transitionTimeSec * 1000);
-        AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave1", _rate, gameObjectSystem2Listener, transitionTimeMS);
+        if(gameObjectSystem2Listener == null)
+        {
+            Debug.LogError("gameObjectSystem2Listener is null! Cannot set RTPC value.");
+        }
+        else
+        {
+            AkSoundEngine.SetRTPCValue("AVS_Modulation_Frequency_Wave1", _rate, gameObjectSystem2Listener, transitionTimeMS);
+        }
         //Get RPTC Value of the StrobeRate and then use that as the strobe rate
         //Start a coroutineSetStrobeRate that always reports what _rate is, and stores that into another variable from other scripts
         //_currentStrobeRate
@@ -400,7 +438,14 @@ public class LightControl : MonoBehaviour
                 break;
             case "Dark":
                 SetColorWorldByName("Dark", transitionTimeSec);
-                worldShuffler.ClearCurrentColorWorld();
+                if(worldShuffler == null)
+                {
+                    Debug.LogError("worldShuffler is null! Cannot clear current color world.");
+                }
+                else
+                {
+                    worldShuffler.ClearCurrentColorWorld();
+                }
                 break;
         }
 
