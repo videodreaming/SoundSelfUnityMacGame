@@ -250,10 +250,10 @@
 				</Event>
 				<Event Name="Play_VO_testRepair_Ahh" ID="{904550D5-AA58-4A1F-99C1-07E70EA2BDC5}">
 					<ChildrenList>
-						<Action Name="" ID="{2703CBF1-E8B2-4934-B264-9D3B2D36A9A8}" ShortID="625594133">
+						<Action Name="" ID="{EBCBE0F0-02E2-4688-B89A-8B205667A7FD}" ShortID="1025867517">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="vo_testRepair_ahh" ID="{9F801837-77CC-4BFD-9B5D-C0CF9D867F59}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+									<ObjectRef Name="vo_testRepair_ahh_switch" ID="{B826E271-6A19-4765-8976-17F8469C1FB5}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -286,7 +286,7 @@
 						<Action Name="" ID="{165B8591-F56E-4B1F-A7AF-56ECDDAE9B51}" ShortID="68047741">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="vo_testRepair_extended" ID="{8D70A9FD-1304-4614-901B-56D7850EBDB9}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+									<ObjectRef Name="vo_testRepair_extended_A" ID="{8D70A9FD-1304-4614-901B-56D7850EBDB9}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -309,6 +309,28 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="VO_CLOSING_GOODBYE" ID="{8FB1D877-44D3-49AA-8EE3-10978E8749BB}" WorkUnitID="{8E548F8F-47E6-4491-B12B-227D3B4BF45C}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_testAhh" ID="{804C3568-B5F4-4C23-8358-CE060F69A891}">
+					<ChildrenList>
+						<Action Name="" ID="{6B8F7C5A-F474-403E-A2F2-017AA7C33E80}" ShortID="57674948">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_testAhh_C" ID="{2AF03DF4-0AFE-4CE6-B7BF-85C01732D04F}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_VO_KeepGoing" ID="{388FCDF1-C7F4-4060-B6C2-107FD0B27F8C}">
+					<ChildrenList>
+						<Action Name="" ID="{3B5E169A-C12C-43D6-B0CE-0EA90870E460}" ShortID="909068677">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_KeepGoing" ID="{67B74BC7-65CD-4F3D-A80F-C018CDB47D61}" WorkUnitID="{CDFCA4FF-B1C5-4DA1-80A9-0EFD325A8F7A}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

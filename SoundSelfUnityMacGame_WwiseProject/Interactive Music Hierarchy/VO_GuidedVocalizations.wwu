@@ -99,6 +99,11 @@
 						<MusicSegment Name="vo_test01hum" ID="{1F477D84-5782-4F45-A96E-49D2BC747D6B}" ShortID="735711363">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="10930"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -278,6 +283,13 @@
 							</ObjectLists>
 						</MusicSegment>
 						<MusicSegment Name="vo_test02hum" ID="{279CB824-2F87-439D-AD23-B94C20D019E9}" ShortID="915219961">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -400,6 +412,11 @@
 						<MusicSegment Name="vo_test03hum" ID="{D15E20D9-F455-4894-8C20-33EE5F1CA020}" ShortID="553674124">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="8497.20059325177"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -651,6 +668,11 @@
 						<MusicSegment Name="vo_test04tone" ID="{A61562C8-F98C-45D0-9D21-7F188C4C50F8}" ShortID="1019108865">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="14552.4127372547"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -888,6 +910,11 @@
 						<MusicSegment Name="vo_test05tone" ID="{6652F286-F1C3-4C0D-9983-08BF6ECFAF31}" ShortID="349340125">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="8199.33333333333"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -999,6 +1026,13 @@
 							</ObjectLists>
 						</MusicSegment>
 						<MusicSegment Name="vo_test06tone" ID="{17B65782-D1BB-4535-A667-0ACCE6B7992F}" ShortID="282346077">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -1110,6 +1144,11 @@
 						<MusicSegment Name="vo_test07tone" ID="{F4147DE9-2BC5-439A-B2A5-490CF20CFBAB}" ShortID="324908426">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="8882"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1232,6 +1271,11 @@
 						<MusicSegment Name="vo_test08tone" ID="{E2C4C20F-5DF6-4F6A-B82F-8E3DA63B840F}" ShortID="915237369">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="17756.6666666667"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1354,6 +1398,11 @@
 						<MusicSegment Name="vo_test09tone" ID="{3756852F-B1ED-4531-A068-427CF5281C91}" ShortID="965225924">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="13660.6666666667"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1476,6 +1525,11 @@
 						<MusicSegment Name="vo_test10tone" ID="{AA16544A-8BB8-4F5F-B6C9-042F8772D10F}" ShortID="632435110">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="13660.6666666667"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1693,6 +1747,11 @@
 						<MusicSegment Name="vo_test12tone" ID="{0753DEA7-DA0E-4AD0-B0A7-73F65418FAFC}" ShortID="434135008">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="15026"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1825,6 +1884,11 @@
 						<MusicSegment Name="vo_test13tone" ID="{F824E0DA-E303-4594-8652-BCBD16054F1D}" ShortID="608373947">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="16000"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1947,6 +2011,11 @@
 						<MusicSegment Name="vo_test14tone" ID="{02190CC5-EE37-4394-B956-EE94FB43CE78}" ShortID="301523693">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="19122"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2069,6 +2138,11 @@
 						<MusicSegment Name="vo_test15tone" ID="{386BC31C-52A2-415E-9C3E-C5D4A3253179}" ShortID="599721550">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="17423.9037578656"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2582,6 +2656,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<MusicSegment Name="vo_test16tone" ID="{5B2E2EB4-DB1E-4FFF-A5BB-112A48B2F07F}" ShortID="356379471">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2691,6 +2772,13 @@
 							</ObjectLists>
 						</MusicSegment>
 						<MusicSegment Name="vo_test17tone" ID="{EE9F4882-A2D7-458C-94DB-640A67DC865C}" ShortID="134178182">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2800,6 +2888,13 @@
 							</ObjectLists>
 						</MusicSegment>
 						<MusicSegment Name="vo_test18tone" ID="{4C59FBFF-95D7-4F20-8346-30132986CABA}" ShortID="353641858">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -2909,6 +3004,13 @@
 							</ObjectLists>
 						</MusicSegment>
 						<MusicSegment Name="vo_test19tone" ID="{C54DC6A6-ACA4-4AF4-BB3F-F1DE48AFF0B0}" ShortID="305980339">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -3028,6 +3130,13 @@
 							</ObjectLists>
 						</MusicSegment>
 						<MusicSegment Name="vo_test20tone" ID="{3051AD17-46C2-4708-AF07-29F7094B64C5}" ShortID="568976402">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>

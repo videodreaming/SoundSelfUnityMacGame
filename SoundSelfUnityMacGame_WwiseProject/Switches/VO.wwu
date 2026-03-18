@@ -61,6 +61,12 @@
 						<Switch Name="Long" ID="{844C5211-96AF-4162-9BA5-48B12E4C5DB0}"/>
 					</ChildrenList>
 				</SwitchGroup>
+				<SwitchGroup Name="VO_testRepair" ID="{BD0D5914-78A8-42ED-874A-797F1CEF75F3}">
+					<ChildrenList>
+						<Switch Name="A" ID="{2F572B86-152E-4C8F-81FD-6C185990F356}"/>
+						<Switch Name="C" ID="{36BF8738-90B1-4A22-9D49-C338EE9859F8}"/>
+					</ChildrenList>
+				</SwitchGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</Switches>
