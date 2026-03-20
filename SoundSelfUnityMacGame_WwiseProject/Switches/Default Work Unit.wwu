@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}" SchemaVersion="119">
 	<Switches>
-		<WorkUnit Name="Default Work Unit" ID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}" PersistMode="Standalone">
-			<ChildrenList>
-				<SwitchGroup Name="MENU_SESSIONMODE" ID="{2E1B53B9-C5F2-459A-A67F-8FEFF77EABC7}">
-					<ChildrenList>
-						<Switch Name="Preparation" ID="{ACC0C5B6-BF2F-4593-A6A0-17A99FE8BAE5}"/>
-						<Switch Name="Adjunct" ID="{0126A9C1-6FFA-4A43-9581-09218884C0A2}"/>
-						<Switch Name="Integration" ID="{1E4D13BB-2E20-43AF-89BC-640691F68896}"/>
-						<Switch Name="Wisdom" ID="{8801CB1D-E3DF-45DB-B23F-DC1073AEA7BD}"/>
-						<Switch Name="Passive" ID="{9EB99DDD-5D47-44F0-8344-ACFBFBBC62AA}"/>
-					</ChildrenList>
-				</SwitchGroup>
-				<SwitchGroup Name="Calibration_Sequence" ID="{2DCBC357-B82B-47A0-AF1E-E8D7136B7129}">
-					<ChildrenList>
-						<Switch Name="Intro" ID="{A6DC5394-36CC-4904-B476-EA2B46C28E4B}"/>
-						<Switch Name="Volume" ID="{3D8A2515-A863-45DB-AD11-D92189BC94CC}"/>
-						<Switch Name="Mic" ID="{1BA21A20-119E-4E36-80D4-8E83D86D81DE}"/>
-						<Switch Name="Lights" ID="{1BD4B695-6603-4D02-90B3-CB80D84CC8D1}"/>
-						<Switch Name="Vibration" ID="{10D885F4-6E5E-43D2-92A3-7CB74AD33B25}"/>
-						<Switch Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}"/>
-						<Switch Name="TechnicalIssues" ID="{9C9FA979-E523-4CE2-9A9A-A4CDAEA206DD}"/>
-					</ChildrenList>
-				</SwitchGroup>
-			</ChildrenList>
-		</WorkUnit>
+		<WorkUnit Name="Default Work Unit" ID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}" PersistMode="Standalone"/>
 	</Switches>
 </WwiseDocument>

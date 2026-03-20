@@ -3,33 +3,6 @@
 	<Switches>
 		<WorkUnit Name="Interactive Music System" ID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}" PersistMode="Standalone">
 			<ChildrenList>
-				<SwitchGroup Name="InteractiveMusicSwitchGroup1_7Pitches_Linked5ths" ID="{D9678002-60E2-4B6B-89C7-3087A452A4A2}">
-					<ChildrenList>
-						<Switch Name="C" ID="{7FC46AB3-D32F-41AC-9E18-8935DDA24B18}"/>
-						<Switch Name="E" ID="{5B3A6E70-AAF8-426B-B9DD-E72B43C98983}"/>
-						<Switch Name="G" ID="{25CAEDC2-995C-4044-B4A4-38361F607D0F}"/>
-						<Switch Name="B" ID="{5DE309E9-CAD8-4AD3-9C7D-556DD4935594}"/>
-						<Switch Name="A" ID="{BCA98BB9-D91F-4680-81F8-B1A108A2132F}"/>
-						<Switch Name="D" ID="{D67282D2-8D19-47DF-88E3-4A72816E38D3}"/>
-						<Switch Name="F" ID="{E6FD04DE-8122-4751-9F2E-5BF973766D5A}"/>
-					</ChildrenList>
-				</SwitchGroup>
-				<SwitchGroup Name="InteractiveMusicSwitchGroup2_12Pitches_Linked5ths" ID="{0A2F401E-F984-460F-811D-A40A29448345}">
-					<ChildrenList>
-						<Switch Name="C" ID="{D99245E6-4BAD-40CA-A007-C0EE95AE7EA8}"/>
-						<Switch Name="E" ID="{8C8F7A44-900B-4D6F-A8A8-C1B775AA91B9}"/>
-						<Switch Name="G" ID="{4B55AD25-77FF-4818-AFAD-FFAD4C5F96D4}"/>
-						<Switch Name="B" ID="{7B5787CE-DF51-4B9D-B898-5D492524FBC7}"/>
-						<Switch Name="A" ID="{79EDFB1D-7DE7-49AC-94C2-78412CA12EAF}"/>
-						<Switch Name="D" ID="{FE85FB55-15E6-4DD1-879A-3534A84ED7F4}"/>
-						<Switch Name="F" ID="{598CC7B2-8053-4D07-9BC5-3AC301DBFD52}"/>
-						<Switch Name="AsharpBflat" ID="{71B110C4-A00D-4B2C-B7FA-1B54BEC45F2C}"/>
-						<Switch Name="CsharpDflat" ID="{2077A148-B8E7-4721-98F2-670886CA40C1}"/>
-						<Switch Name="DsharpEflat" ID="{1CBFD9E7-D616-44C7-892B-04142CE625AC}"/>
-						<Switch Name="FsharpGflat" ID="{F02CC64C-3928-4959-A0D3-A4FE351C24BB}"/>
-						<Switch Name="GsharpAflat" ID="{20F251FB-E392-4E94-845D-D8F4CE5B8EE9}"/>
-					</ChildrenList>
-				</SwitchGroup>
 				<SwitchGroup Name="InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly" ID="{6D106BFF-2F64-4302-9EBE-15077B75210A}">
 					<ChildrenList>
 						<Switch Name="C" ID="{C3284F5C-2FBA-4D95-AF46-52056CD77674}"/>
@@ -60,6 +33,20 @@
 						<Switch Name="DsharpEflat" ID="{C3FDC66C-14F4-41BF-8D57-EC8DB7AAFC02}"/>
 						<Switch Name="FsharpGflat" ID="{0E050C98-ACD0-4815-9C83-040F04A449E3}"/>
 						<Switch Name="GsharpAflat" ID="{0FBF54AF-E932-4ABB-A729-CE506D354AB1}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="InteractiveMusicMode_Switch" ID="{E139BFA8-019C-4027-B688-E72CEA692A21}">
+					<ChildrenList>
+						<Switch Name="InteractiveMusicSystem" ID="{61AC98F4-162A-433E-B785-39651E569A91}"/>
+						<Switch Name="MusicLoops" ID="{5F81887F-FB67-4568-BD49-08F059BE5EF0}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="SoundWorldMode_Switch" ID="{0AC9BB8E-211F-4764-9DF8-C47A5A0FA975}">
+					<ChildrenList>
+						<Switch Name="Gentle" ID="{48CF4848-A1FD-48BE-931D-5A718351F5D3}"/>
+						<Switch Name="Shadow" ID="{55F5D095-92EF-4956-9E7E-3FBE97792798}"/>
+						<Switch Name="Shruti" ID="{B58C5FB0-5145-4F0D-8B6D-3D6B854E6FF0}"/>
+						<Switch Name="SonoFlore" ID="{A10D9DE7-EF36-4A00-B171-D92FF9CEC4CA}"/>
 					</ChildrenList>
 				</SwitchGroup>
 			</ChildrenList>

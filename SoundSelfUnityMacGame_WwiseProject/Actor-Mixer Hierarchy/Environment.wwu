@@ -263,35 +263,6 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<StateInfo>
-										<StateGroupList>
-											<StateGroupInfo>
-												<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
-											</StateGroupInfo>
-										</StateGroupList>
-										<CustomStateList>
-											<CustomState>
-												<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-												<CustomState Name="" ID="{9C747395-2C18-4CCF-898B-6A94274E2A2E}" ShortID="1059864338">
-													<PropertyList>
-														<Property Name="Volume" Type="Real64" Value="4"/>
-													</PropertyList>
-												</CustomState>
-											</CustomState>
-											<CustomState>
-												<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-												<CustomState Name="" ID="{36674068-F71C-4B0E-814B-2836163CF97C}" ShortID="819966606">
-													<PropertyList>
-														<Property Name="Volume" Type="Real64" Value="-4"/>
-													</PropertyList>
-												</CustomState>
-											</CustomState>
-											<CustomState>
-												<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
-												<CustomState Name="" ID="{DF7EB408-F2D0-48DF-BA62-795CE7125C5A}" ShortID="702626047"/>
-											</CustomState>
-										</CustomStateList>
-									</StateInfo>
 									<ActiveSourceList>
 										<ActiveSource Name="environment_wind" ID="{AAE12B97-4E1C-4CFC-A1A8-AF3785D1A841}" Platform="Linked"/>
 									</ActiveSourceList>

@@ -1238,31 +1238,6 @@
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
-							<StateInfo>
-								<StateGroupList>
-									<StateGroupInfo>
-										<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
-									</StateGroupInfo>
-								</StateGroupList>
-								<CustomStateList>
-									<CustomState>
-										<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-										<CustomState Name="" ID="{35650294-4FCD-48A4-9C3E-4653F065D37D}" ShortID="1046038147"/>
-									</CustomState>
-									<CustomState>
-										<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-										<CustomState Name="" ID="{6EACDEC7-3981-4871-BDAB-766F3979BBB4}" ShortID="748828904">
-											<PropertyList>
-												<Property Name="Volume" Type="Real64" Value="-20"/>
-											</PropertyList>
-										</CustomState>
-									</CustomState>
-									<CustomState>
-										<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
-										<CustomState Name="" ID="{E491F154-3829-45C4-AEB9-A7E8EB77A860}" ShortID="657367539"/>
-									</CustomState>
-								</CustomStateList>
-							</StateInfo>
 							<ObjectLists>
 								<ObjectList Name="Effects">
 									<Reference>
@@ -1273,22 +1248,6 @@
 														<ObjectRef Name="Caught_in_a_loop" ID="{8FC64215-9A75-4BE3-A33A-584C8CA49963}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
 													</Reference>
 												</ReferenceList>
-												<StateInfo>
-													<CustomStateList>
-														<CustomState>
-															<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-															<CustomState Name="" ID="{A3D76CF7-1991-470F-A130-5D3392536794}" ShortID="21223921"/>
-														</CustomState>
-														<CustomState>
-															<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-															<CustomState Name="" ID="{569DE21D-89D1-4585-A7D7-898C4C15CB0D}" ShortID="529405920"/>
-														</CustomState>
-														<CustomState>
-															<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
-															<CustomState Name="" ID="{8C21619E-E401-459D-B66D-E208A6B42FE1}" ShortID="525767433"/>
-														</CustomState>
-													</CustomStateList>
-												</StateInfo>
 											</EffectSlot>
 										</Local>
 									</Reference>
@@ -1333,27 +1292,6 @@
 							</ObjectLists>
 						</BlendContainer>
 					</ChildrenList>
-					<StateInfo>
-						<StateGroupList>
-							<StateGroupInfo>
-								<StateGroupRef Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}"/>
-							</StateGroupInfo>
-						</StateGroupList>
-						<CustomStateList>
-							<CustomState>
-								<StateRef Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-								<CustomState Name="" ID="{CF4B8F62-EB5E-4CC7-87B9-74CC678C531F}" ShortID="13027509"/>
-							</CustomState>
-							<CustomState>
-								<StateRef Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-								<CustomState Name="" ID="{DE98B012-5818-400A-BDCE-FF6B43D6D49E}" ShortID="736253231"/>
-							</CustomState>
-							<CustomState>
-								<StateRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
-								<CustomState Name="" ID="{1DEE1850-EF2E-44C3-A74A-C2A00189F709}" ShortID="591876262"/>
-							</CustomState>
-						</CustomStateList>
-					</StateInfo>
 				</ActorMixer>
 				<Folder Name="Archive" ID="{1C35A8F7-D72E-4935-AACD-67D2F5ED0449}" ShortID="548759014"/>
 				<Folder Name="New SFX Ideas" ID="{13301C64-0FAD-4C46-9F59-EAAA8E5F1140}" ShortID="450525894">

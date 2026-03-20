@@ -24710,19 +24710,19 @@
 										</Property>
 										<Property Name="Lowpass" Type="int16">
 											<ValueList>
-												<Value>8</Value>
+												<Value>3</Value>
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 										<Property Name="UserAuxSendVolume0" Type="Real64">
 											<ValueList>
-												<Value>9</Value>
+												<Value>11</Value>
 											</ValueList>
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -24871,6 +24871,11 @@
 										<Property Name="Highpass" Type="int16">
 											<ValueList>
 												<Value>9</Value>
+											</ValueList>
+										</Property>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
 											</ValueList>
 										</Property>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
@@ -25229,6 +25234,11 @@
 								<MusicTrack Name="sfx_breathin_sigh" ID="{14B32700-0C25-43A4-A8A9-80276C04FBBD}" ShortID="191023239">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
@@ -25357,7 +25367,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{8276E8A6-66A2-4BB0-B317-4CA172C249A2}" ShortID="286563002">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="44500"/>
+																				<Property Name="PlayAt" Type="Real64" Value="46445.1771179147"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -28694,7 +28704,7 @@
 											<MusicCue Name="Cue_GuidedVocalization_Start" ID="{CFA57509-EFCC-4E78-8C91-3A574BB939FE}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="245000"/>
+													<Property Name="TimeMs" Type="Real64" Value="248000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -29622,6 +29632,11 @@
 								</MusicTrack>
 								<MusicTrack Name="vo_test04tone" ID="{D4B1BD9B-AB31-445E-B191-4941A131A0D6}" ShortID="515395555">
 									<PropertyList>
+										<Property Name="IsStreamingEnabled" Type="bool">
+											<ValueList>
+												<Value>True</Value>
+											</ValueList>
+										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>5</Value>

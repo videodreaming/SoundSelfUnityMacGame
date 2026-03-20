@@ -3,55 +3,6 @@
 	<States>
 		<WorkUnit Name="Default Work Unit" ID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}" PersistMode="Standalone">
 			<ChildrenList>
-				<StateGroup Name="SoundWorldMode" ID="{A088D110-0E30-4245-89A8-3F1A4F31424E}">
-					<PropertyList>
-						<Property Name="DefaultTransitionTime" Type="Real64" Value="15"/>
-					</PropertyList>
-					<ChildrenList>
-						<State Name="None" ID="{9463C806-3C7C-4455-BC97-8C40968228B0}"/>
-						<State Name="Gentle" ID="{8ED518F7-ADA3-4332-B9C4-AE56A295A9D1}"/>
-						<State Name="Shadow" ID="{CB1A5CB4-7951-4AC5-9316-BD8014323F0D}"/>
-						<State Name="Shruti" ID="{DDA639A9-07F9-4EA9-9071-59BC8543FA2B}"/>
-						<State Name="SonoFlore" ID="{8C1B1E2B-3273-4A46-A3E0-5DE51128FF04}"/>
-					</ChildrenList>
-				</StateGroup>
-				<StateGroup Name="InteractiveMusicMode" ID="{1ED216FF-76E3-4B59-B02F-58BF638DE405}">
-					<PropertyList>
-						<Property Name="DefaultTransitionTime" Type="Real64" Value="30"/>
-					</PropertyList>
-					<ChildrenList>
-						<State Name="None" ID="{EF0F58F7-52D1-43D0-B13D-474F5210CC18}"/>
-						<State Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-						<State Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-						<State Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
-					</ChildrenList>
-					<TransitionList>
-						<Transition>
-							<StartState Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-							<EndState Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-							<Time>60</Time>
-							<IsShared>false</IsShared>
-						</Transition>
-						<Transition>
-							<StartState Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-							<EndState Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
-							<Time>30</Time>
-							<IsShared>false</IsShared>
-						</Transition>
-						<Transition>
-							<StartState Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}"/>
-							<EndState Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-							<Time>30</Time>
-							<IsShared>false</IsShared>
-						</Transition>
-						<Transition>
-							<StartState Name="Environment" ID="{3E33F615-3C16-404A-8318-DD7F85CC06A8}"/>
-							<EndState Name="InteractiveMusicSystem" ID="{91D2C78F-AB8F-49DF-A9C4-375B7878706C}"/>
-							<Time>10</Time>
-							<IsShared>false</IsShared>
-						</Transition>
-					</TransitionList>
-				</StateGroup>
 				<StateGroup Name="AbsorptionMode" ID="{D47E1856-2435-4F7E-AFED-B57A575F601A}">
 					<ChildrenList>
 						<State Name="None" ID="{712C4FF5-7867-4FAF-BF87-DDAB5DDDBCB2}"/>

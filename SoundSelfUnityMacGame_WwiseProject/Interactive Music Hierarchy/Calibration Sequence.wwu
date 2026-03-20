@@ -83,6 +83,11 @@
 								<MusicTrack Name="VO_Calibration_End_v1" ID="{1A41AC2D-EF4C-404E-B33A-971E7F66B4D1}" ShortID="60403155">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -252,7 +257,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -659,7 +664,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1313,7 +1318,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-2</Value>
+												<Value>-3</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1431,13 +1436,6 @@
 									</ObjectLists>
 								</MusicTrack>
 								<MusicTrack Name="New Music Track" ID="{BE5A32E8-754A-4097-B248-05F2C3A1EA09}" ShortID="526985790">
-									<PropertyList>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>4</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
 									<ReferenceList>
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -1635,7 +1633,7 @@
 					<ObjectLists>
 						<ObjectList Name="Arguments">
 							<Reference>
-								<ObjectRef Name="Calibration_Sequence" ID="{2DCBC357-B82B-47A0-AF1E-E8D7136B7129}" WorkUnitID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}"/>
+								<ObjectRef Name="Calibration_Sequence" ID="{2DCBC357-B82B-47A0-AF1E-E8D7136B7129}" WorkUnitID="{7B30FE2F-BF48-4A67-BBB6-FBA2ED272373}"/>
 							</Reference>
 						</ObjectList>
 						<ObjectList Name="Entries">
@@ -1650,7 +1648,7 @@
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
-													<ObjectRef Name="Intro" ID="{A6DC5394-36CC-4904-B476-EA2B46C28E4B}" WorkUnitID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}"/>
+													<ObjectRef Name="Intro" ID="{A6DC5394-36CC-4904-B476-EA2B46C28E4B}" WorkUnitID="{7B30FE2F-BF48-4A67-BBB6-FBA2ED272373}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>
@@ -1668,7 +1666,7 @@
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
-													<ObjectRef Name="Lights" ID="{1BD4B695-6603-4D02-90B3-CB80D84CC8D1}" WorkUnitID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}"/>
+													<ObjectRef Name="Lights" ID="{1BD4B695-6603-4D02-90B3-CB80D84CC8D1}" WorkUnitID="{7B30FE2F-BF48-4A67-BBB6-FBA2ED272373}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>
@@ -1686,7 +1684,7 @@
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
-													<ObjectRef Name="Mic" ID="{1BA21A20-119E-4E36-80D4-8E83D86D81DE}" WorkUnitID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}"/>
+													<ObjectRef Name="Mic" ID="{1BA21A20-119E-4E36-80D4-8E83D86D81DE}" WorkUnitID="{7B30FE2F-BF48-4A67-BBB6-FBA2ED272373}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>
@@ -1704,7 +1702,7 @@
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
-													<ObjectRef Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}" WorkUnitID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}"/>
+													<ObjectRef Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}" WorkUnitID="{7B30FE2F-BF48-4A67-BBB6-FBA2ED272373}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>
@@ -1722,7 +1720,7 @@
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
-													<ObjectRef Name="Vibration" ID="{10D885F4-6E5E-43D2-92A3-7CB74AD33B25}" WorkUnitID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}"/>
+													<ObjectRef Name="Vibration" ID="{10D885F4-6E5E-43D2-92A3-7CB74AD33B25}" WorkUnitID="{7B30FE2F-BF48-4A67-BBB6-FBA2ED272373}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>
@@ -1740,7 +1738,7 @@
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
-													<ObjectRef Name="Volume" ID="{3D8A2515-A863-45DB-AD11-D92189BC94CC}" WorkUnitID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}"/>
+													<ObjectRef Name="Volume" ID="{3D8A2515-A863-45DB-AD11-D92189BC94CC}" WorkUnitID="{7B30FE2F-BF48-4A67-BBB6-FBA2ED272373}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>
@@ -1758,7 +1756,7 @@
 										<ObjectLists>
 											<ObjectList Name="EntryPath">
 												<Reference>
-													<ObjectRef Name="TechnicalIssues" ID="{9C9FA979-E523-4CE2-9A9A-A4CDAEA206DD}" WorkUnitID="{1C1049B6-38AB-41B1-861F-0BE6C57CC1D3}"/>
+													<ObjectRef Name="TechnicalIssues" ID="{9C9FA979-E523-4CE2-9A9A-A4CDAEA206DD}" WorkUnitID="{7B30FE2F-BF48-4A67-BBB6-FBA2ED272373}"/>
 												</Reference>
 											</ObjectList>
 										</ObjectLists>

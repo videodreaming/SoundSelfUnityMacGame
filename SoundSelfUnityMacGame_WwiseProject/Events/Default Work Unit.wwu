@@ -833,6 +833,21 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Stop_ASCENDING_OPENING" ID="{E24A3F2C-FC57-4E4F-AECC-3AE5054B15B6}">
+					<ChildrenList>
+						<Action Name="" ID="{1E9CBCE2-B4CD-44EC-B84C-71FF95F88D8E}" ShortID="343374135">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="2"/>
+								<Property Name="FadeTime" Type="Real64" Value="30"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="OPENING_ASCENDING" ID="{69385CE9-4677-4CC4-A897-3BF92936ECBD}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

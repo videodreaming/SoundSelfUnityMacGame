@@ -13,6 +13,7 @@
 				<Language Name="SFX" ID="{14E1FAC8-FA2D-46D6-B8C0-FFA1100E545F}"/>
 			</LanguageList>
 			<PropertyList>
+				<Property Name="CopyLooseStreamedMedia" Type="bool" Value="False"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">
 					<ValueList>
 						<Value Platform="Windows"></Value>

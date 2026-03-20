@@ -5,10 +5,14 @@
 			<ChildrenList>
 				<Event Name="Play_MusicLoops" ID="{6908C4E3-6D0E-4B26-87FA-E01A43EAB94C}">
 					<ChildrenList>
-						<Action Name="" ID="{2D633C30-4655-42BD-967F-E8F1623EA890}" ShortID="39711442">
+						<Action Name="" ID="{C3347B7A-AAF9-467F-823D-92DB807842B8}" ShortID="245213390">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="MusicLoops_Switch" ID="{A995151F-30AF-417C-977C-860E1DD89AAE}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+									<ObjectRef Name="MusicLoops_Switch" ID="{F1879E65-B8BD-4A19-B4B6-17E0D039C2C4}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
@@ -100,15 +104,15 @@
 						</Action>
 					</ChildrenList>
 				</Event>
-				<Event Name="Set_State_MusicLoops" ID="{1A13EC81-4F40-4F77-83F3-461E073BE4BB}">
+				<Event Name="Set_Switch_MusicLoops" ID="{1A13EC81-4F40-4F77-83F3-461E073BE4BB}">
 					<ChildrenList>
-						<Action Name="" ID="{528AFE2F-2743-42A7-9C26-81AEC659A1D9}" ShortID="814411702">
+						<Action Name="" ID="{3A8825F6-0BCF-4E80-B88F-31186BA96FEF}" ShortID="564283242">
 							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="22"/>
+								<Property Name="ActionType" Type="int16" Value="23"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="MusicLoops" ID="{4711069E-E0D3-4DF2-BDBB-7BF64A14FCC5}" WorkUnitID="{B632E17C-02A0-422F-8482-F3C8E97D00BE}"/>
+									<ObjectRef Name="MusicLoops" ID="{5F81887F-FB67-4568-BD49-08F059BE5EF0}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

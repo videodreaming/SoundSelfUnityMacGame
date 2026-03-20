@@ -283,10 +283,10 @@
 				</Event>
 				<Event Name="Play_VO_testRepair_Extended" ID="{387BBF71-12BB-4EB6-85DF-4141273202DE}">
 					<ChildrenList>
-						<Action Name="" ID="{165B8591-F56E-4B1F-A7AF-56ECDDAE9B51}" ShortID="68047741">
+						<Action Name="" ID="{5716ACED-BCD2-494B-A940-0E44A4C38830}" ShortID="688269638">
 							<ReferenceList>
 								<Reference Name="Target">
-									<ObjectRef Name="vo_testRepair_extended_A" ID="{8D70A9FD-1304-4614-901B-56D7850EBDB9}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
+									<ObjectRef Name="vo_testRepair_extended_switch" ID="{5C0DFCDE-72C1-43A8-8B86-C1B019E46107}" WorkUnitID="{F3A61519-F564-4ED1-B60D-3F30CAA67F32}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
