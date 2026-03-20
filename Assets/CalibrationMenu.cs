@@ -34,6 +34,7 @@ public class CalibrationMenu : MonoBehaviour
 
     public GameObject mainText;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,7 +70,7 @@ public class CalibrationMenu : MonoBehaviour
 
             if (sequencer != null)
             {
-                sequencer.PlayFirstSequence(); // Start the first sequence in the sequencer
+                sequencer.StartTrueStart(); // Start the first sequence in the sequencer
             }
             else
             {
@@ -81,14 +82,13 @@ public class CalibrationMenu : MonoBehaviour
             {
                 if(CSVLoader.instance.gameMode == "Preperation" || CSVLoader.instance.gameMode == "Skills Training")
                 {
-                    Debug.Log("Setting up for Preperation or Skills Training");
+                    Debug.LogWarning("CalibrationMenu: Setting up for Preperation or Skills Training (WARNING, THIS DOESN'T CURRENTLY DO ANYTHING)");
                     //timeLeftScript.SetTimeLeftSeconds(2400.0f); // 40 minutes
                 }
                 else if (CSVLoader.instance.gameMode == "Integration")
                 {
-                    Debug.Log("Setting up for Integration");
+                    Debug.LogWarning("CalibrationMenu: Setting up for Integration (WARNING, THIS DOESN'T CURRENTLY DO ANYTHING)");
                     //timeLeftScript.SetTimeLeftSeconds(1200.0f); // 20 minutes
-                    
                 }
             }
             else if (CSVLoader.instance == null)

@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584312023666763863
+    m_lastTime: -8584277482925628964
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -2607,7 +2607,7 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584340500780746573
+    m_lastTime: -8584277482925725307
     List:
     - name: Play_VO_CLOSING_GOODBYE
       guid: 8d2508afd6648f46864100152a884f0f
@@ -2728,6 +2728,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 19.122
       minDuration: 15.026
+    - name: Play_VO_KeepGoing
+      guid: f1cd8f38f4c76040b6c2107fd0b27f8c
+      id: 3441959749
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: VO
+        ObjectType: 12
+        guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
+      - ElementName: Play_VO_KeepGoing
+        ObjectType: 3
+        guid: f1cd8f38f4c76040b6c2107fd0b27f8c
+      Path: Events\VO\Play_VO_KeepGoing
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_VO_QueryElicitation1
       guid: 62bcdf3dcaee4b41959a6cd9ff50f414
       id: 1488609146
@@ -2915,6 +2932,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 236.89267
       minDuration: 96.946
+    - name: Play_VO_testAhh
+      guid: 68354c80f4b5234c8358ce060f69a891
+      id: 3968628359
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: VO
+        ObjectType: 12
+        guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
+      - ElementName: Play_VO_testAhh
+        ObjectType: 3
+        guid: 68354c80f4b5234c8358ce060f69a891
+      Path: Events\VO\Play_VO_testAhh
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_VO_testRepair_Ahh
       guid: d550459058aa1f4a99c107e70ea2bdc5
       id: 3560104941
@@ -6357,7 +6391,7 @@ MonoBehaviour:
     ParentPath: Switches\VO
     guid: 64d0b0ac8a9e0840a3f6580a8631c66d
     GuidInternal: 
-    m_lastTime: -8584340500774069643
+    m_lastTime: -8584277482921300479
     List:
     - name: VO_ClosingGoodbye
       guid: 23795947d066d74cb40d1bb0c14d37bf
@@ -6604,6 +6638,56 @@ MonoBehaviour:
         - ElementName: Short
           ObjectType: 10
           guid: 1f1bdf25891e5c4b93566bee287fabbb
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+    - name: VO_testRepair
+      guid: 14590dbda878ed42874a797f1cef75f3
+      id: 4213636952
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: VO
+        ObjectType: 12
+        guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+      - ElementName: VO_testRepair
+        ObjectType: 11
+        guid: 14590dbda878ed42874a797f1cef75f3
+      Path: Switches\VO\VO_testRepair
+      values:
+      - name: A
+        guid: 862b572f2e158f4c81fd6c185990f356
+        id: 84696446
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: VO
+          ObjectType: 12
+          guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+        - ElementName: VO_testRepair
+          ObjectType: 11
+          guid: 14590dbda878ed42874a797f1cef75f3
+        - ElementName: A
+          ObjectType: 10
+          guid: 862b572f2e158f4c81fd6c185990f356
+      - name: C
+        guid: 3887bf36b190224a9d49c338ee9859f8
+        id: 84696444
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: VO
+          ObjectType: 12
+          guid: 64d0b0ac8a9e0840a3f6580a8631c66d
+        - ElementName: VO_testRepair
+          ObjectType: 11
+          guid: 14590dbda878ed42874a797f1cef75f3
+        - ElementName: C
+          ObjectType: 10
+          guid: 3887bf36b190224a9d49c338ee9859f8
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []

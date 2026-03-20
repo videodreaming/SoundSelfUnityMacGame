@@ -171,6 +171,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     AudioClip inputBuffer;
     int micPosRead = 0;
     float[] capturedInput;
+    // Reusable buffer for chunking audio to imitone. Imitone's internal feed_buffer holds max 1 second (sampleRate samples).
+    private float[] _imitoneChunkBuffer;
     
     // Public accessors for shared microphone usage
     public AudioClip MicrophoneBuffer => inputBuffer;
@@ -180,11 +182,11 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     // Debug log category flags
     private bool debugAllowInitializationLogs = true;
    // private bool debugAllowToneActiveLogs = true;
-    private bool debugAllowToneActiveVariationsLogs = true;
-    private bool debugAllowSFXLogs = true;
-    private bool debugAllowVolumeTrackingLogs = true;
-    private bool debugAllowMonitoringLogs = true;
-    private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
+    private bool debugAllowToneActiveVariationsLogs = false;
+    private bool debugAllowSFXLogs = false;
+    private bool debugAllowVolumeTrackingLogs = false;
+    private bool debugAllowMonitoringLogs = false;
+    private bool debugAllowWarnings = false; // Warnings show if this OR the category flag is true
 
     void Start()
     {
@@ -530,7 +532,32 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
                 //Debug.Log(String.Format("Analyzing mic samples x {0}, peak amplitude {1}", capturedInput.Length, peakAmplitude));
                 _dbMicrophone = (float)(10.0 * Math.Log10(meanAmplitude * meanAmplitude));
 
-                imitone.InputAudio(capturedInput);
+                // CHUNKING: imitone's feed_buffer holds max 1 second (sampleRate samples). When inputBuffer was 1 second,
+                // capturedInput never exceeded that. After increasing inputBuffer to 6 seconds, we can read up to ~6 sec
+                // in one frame (e.g. after startup lag or frame spike), causing IndexOutOfRangeException in imitone.
+                // We process in chunks of sampleRate, oldest-first, so imitone receives all audio in order.
+                // TO REVERT: remove the chunking block below and restore: imitone.InputAudio(capturedInput);
+                if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
+                    _imitoneChunkBuffer = new float[sampleRate];
+                for (int offset = 0; offset < capturedInput.Length; offset += sampleRate)
+                {
+                    int chunkSize = Math.Min(sampleRate, capturedInput.Length - offset);
+                    float[] chunkToPass;
+                    if (chunkSize == sampleRate)
+                    {
+                        Array.Copy(capturedInput, offset, _imitoneChunkBuffer, 0, chunkSize);
+                        chunkToPass = _imitoneChunkBuffer;
+                    }
+                    else
+                    {
+                        chunkToPass = new float[chunkSize];
+                        Array.Copy(capturedInput, offset, chunkToPass, 0, chunkSize);
+                    }
+                    imitone.InputAudio(chunkToPass);
+                }
+                //imitone.InputAudio(capturedInput); //Old Behavior
+                //END CHUNKING
+
                 imitoneState = imitone.GetState();
                 try
                 {

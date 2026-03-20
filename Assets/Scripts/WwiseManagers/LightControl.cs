@@ -61,6 +61,8 @@ public class LightControl : MonoBehaviour
 
     void OnDestroy()
     {
+        Debug.LogWarning("LightControl: OnDestroy called - LightControl (or its GameObject) is being destroyed.");
+
         if (ColorWorldDropdownChange != null)
             ColorWorldDropdownChange.onValueChanged.RemoveListener(OnColorWorldDropdownChanged);
     }

@@ -897,7 +897,7 @@ public class MusicSystem1 : MonoBehaviour
             currentMusicMode = mode;
                 if(debugAllowWarnings || debugAllowMusicModeLogs)
                 {
-                    Debug.Log("MUSIC: Invalid Music Mode: " + mode);
+                    Debug.LogWarning("MUSIC: Invalid Music Mode: " + mode);
                 }
             break;
         }
@@ -2012,9 +2012,9 @@ public class MusicSystem1 : MonoBehaviour
             }
             else
             {
-                if(debugAllowWarnings || debugAllowBassSynthLogs)
+                if(debugAllowBassSynthLogs)
                 {
-                    Debug.LogWarning("Music: BassSynth Start requested but musicNoteActivated is None (MusicLoop mode) - will start when note is detected");
+                    Debug.Log("Music: BassSynth Start requested but musicNoteActivated is None (MusicLoop mode) - will start when note is detected");
                 }
                 // Don't start BassSynth yet - delayed start logic will handle starting it when a valid note is detected
                 return;

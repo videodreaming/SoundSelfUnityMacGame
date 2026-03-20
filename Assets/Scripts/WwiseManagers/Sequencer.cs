@@ -7,12 +7,20 @@ using TMPro;
 using System.Security.Cryptography.X509Certificates;
 using ConversionUtilities;
 
+/// <summary>Wwise sound banks that can be unloaded via UnloadBank.</summary>
+public enum SequencerBank
+{
+    CALIBRATION,
+    OPENING,
+    INTERACTIVE,
+    CLOSING
+}
+
 public class Sequencer : MonoBehaviour
 {
     public CSVLoader csvLoader;
     public CalibrationMenu calibrationMenu;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-
     public LightControl lightControl;
     public RespirationTracker respirationTracker;
     public WwiseVOManager wwiseVOManager;
@@ -228,13 +236,13 @@ public class Sequencer : MonoBehaviour
                     {
                         wwiseVOManager.PlayOpeningSequence("Ascending");
                         //wwiseVOManager.PlayOpeningSequence("Esketamine_Ascending");
-                        //Debug.Log("Sequencer: Playing Esketamine Ascending Opening Sequence.");
+                        Debug.Log("Sequencer: Playing Esketamine Ascending Opening Sequence.");
                     }
                     else if(CSVLoader.instance.subGameMode == "Descending")
                     {
                         wwiseVOManager.PlayOpeningSequence("Descending");
                         //wwiseVOManager.PlayOpeningSequence("Esketamine_Descending");
-                        //Debug.Log("Sequencer: Playing Esketamine Descending Opening Sequence.");
+                        Debug.Log("Sequencer: Playing Esketamine Descending Opening Sequence.");
                     }
                 }
                 else
@@ -262,6 +270,17 @@ public class Sequencer : MonoBehaviour
             Debug.LogWarning("Sequencer: PlayFirstSequence() called, but opening sequence has already been played.");
         }
     }
+
+    /// <summary>Unloads a Wwise sound bank by enum. Use this to free memory when a bank is no longer needed.</summary>
+    /// <param name="bank">The bank to unload (CALIBRATION, CLOSING, OPENING, or INTERACTIVE).</param>
+    /// //TODO: UNLOAD THE BANKS WHEN CALIBRATION ETC. IS COMPLETE.
+    public void UnloadBank(SequencerBank bank)
+    {
+        string bankName = bank.ToString() + ".bnk";
+        AkBankManager.UnloadBank(bankName);
+        Debug.Log("Sequencer: Unloaded WWise AKSoundEngine bank: " + bankName);
+    }
+
     //====================================================================================================
     //Protocol Stacks Sequence
     //====================================================================================================
@@ -298,36 +317,29 @@ public class Sequencer : MonoBehaviour
     // YOU GOT HERE - TESTING THIS COROUTINE FOR WHEN THE MUSIC STOPS
     //====================================================================================================
 
-    // DEBUG HELPER: Wait for key press (used for debugging ProtocolStacksCoroutine)
-    // Set DEBUG_KEYBOARD_MODE to false to revert to countdown-based timing
-    private IEnumerator WaitForKeyPress(string key)
+    // Debug helper: set to true to advance ProtocolStacksCoroutine past the current wait (countdown or step)
+    private bool _forceSequenceAdvanceRequested = false;
+
+    /// <summary>
+    /// Advances the ProtocolStacksCoroutine past the current wait. Call from InputReferences or elsewhere for debug stepping.
+    /// The coroutine waits for either the countdown threshold OR this call—whichever comes first.
+    /// </summary>
+    public void ForceSequenceAdvance()
     {
-        KeyCode keyCode = KeyCode.K; // Default to 'k' key
-        if(key.ToLower() == "k")
-        {
-            keyCode = KeyCode.K;
-        }
-        Debug.Log("DEBUG: Waiting for '" + key + "' key press...");
-        while (!Input.GetKeyDown(keyCode))
-        {
-            yield return null;
-        }
-        Debug.Log("DEBUG: '" + key + "' key pressed, proceeding...");
+        _forceSequenceAdvanceRequested = true;
+        Debug.Log("Sequencer: ForceSequenceAdvance() called - advancing to next step.");
     }
 
     //A coroutine that moves through several steps, depending on _timeSinceTutorial and _countdownToSavasana.
     private IEnumerator ProtocolStacksCoroutine()
     {
-        // DEBUG MODE: Set to true to use keyboard input ("k") instead of countdown timers
-        bool DEBUG_KEYBOARD_MODE = true;
-        
         Debug.Log("Sequencer: ProtocolStacksCoroutine STARTED - Current countdown: " + _countdownToSavasana + " seconds (" + (_countdownToSavasana / 60f) + " minutes)");
-        if(DEBUG_KEYBOARD_MODE)
-        {
-            Debug.Log("DEBUG MODE: ProtocolStacksCoroutine using keyboard input ('k' key) instead of countdown timers");
-        }
         
-        // STEP 1: Wait until we have 20 minutes or less remaining in the countdown
+        if(calibrationMenu.startedExperience != true)
+        {
+            Debug.LogWarning("Sequencer: ProtocolStacksCoroutine - Experience not started yet (calibrationMenu.startedExperience != true). The sequence will not progress.");
+        }
+        // STEP 1: Wait until we have 20 minutes or less remaining in the countdown (or ForceSequenceAdvance() is called)
         // This ensures Step 1 happens at the right time based on countdown, not immediately when coroutine starts
         // When this threshold is reached, we start the interactive music system:
         //   - Stop breathwork cycle
@@ -336,26 +348,19 @@ public class Sequencer : MonoBehaviour
         //   - Start playground (enables director, begins shuffle, etc.)
         float step1Threshold = 20f * 60f; // 1200 seconds = 20 minutes
         
-        if(DEBUG_KEYBOARD_MODE)
+        Debug.Log("Sequencer: ProtocolStacksCoroutine - Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + _countdownToSavasana + " (or call ForceSequenceAdvance() to skip)");
+        int frameCount = 0;
+        while (_countdownToSavasana > step1Threshold && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to proceed to Step 1");
-            yield return WaitForKeyPress("k");
-        }
-        else
-        {
-            Debug.Log("Sequencer: ProtocolStacksCoroutine - Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + _countdownToSavasana);
-            int frameCount = 0;
-            while (_countdownToSavasana > step1Threshold)
+            frameCount++;
+            // Log every 10 seconds to help diagnose if countdown is decrementing
+            if (frameCount % 600 == 0) // ~10 seconds at 60fps
             {
-                frameCount++;
-                // Log every 10 seconds to help diagnose if countdown is decrementing
-                if (frameCount % 600 == 0) // ~10 seconds at 60fps
-                {
-                    Debug.Log("Sequencer: ProtocolStacksCoroutine - Still waiting. Countdown: " + _countdownToSavasana + " seconds (" + (_countdownToSavasana / 60f) + " minutes). Threshold: " + step1Threshold);
-                }
-                yield return null;
+                Debug.Log("Sequencer: ProtocolStacksCoroutine - Still waiting. Countdown: " + _countdownToSavasana + " seconds (" + (_countdownToSavasana / 60f) + " minutes). Threshold: " + step1Threshold);
             }
+            yield return null;
         }
+        _forceSequenceAdvanceRequested = false;
         
         Debug.Log("Sequencer: ProtocolStacksCoroutine - Threshold reached! Countdown: " + _countdownToSavasana + " seconds. Proceeding to Step 1.");
         Debug.Log("Sequencer: ProtocolStack Step 1 - Starting interactive music (20 minutes or less remaining)");
@@ -368,19 +373,12 @@ public class Sequencer : MonoBehaviour
         worldShuffler.ExcludeSoundscape("Shadow");
         // musicSystem.SetMusicModeTo(MusicMode.Freeplay);
 
-        // STEP 2: Wait until we have 19 minutes - 30 seconds (18.5 minutes) remaining
-        if(DEBUG_KEYBOARD_MODE)
+        // STEP 2: Wait until we have 19 minutes - 30 seconds (18.5 minutes) remaining (or ForceSequenceAdvance())
+        while (_countdownToSavasana > (19f * 60f - 30f) && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to proceed to Step 2");
-            yield return WaitForKeyPress("k");
+            yield return null;
         }
-        else
-        {
-            while (_countdownToSavasana > (19f * 60f - 30f))
-            {
-                yield return null;
-            }
-        }
+        _forceSequenceAdvanceRequested = false;
         
         Debug.Log("Sequencer: ProtocolStack Step 2");
         
@@ -388,113 +386,64 @@ public class Sequencer : MonoBehaviour
         
         // worldShuffler.QueueWorldShuffle();
 
-        if(DEBUG_KEYBOARD_MODE)
+        while (_countdownToSavasana > (16f * 60f) && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to proceed to Step 4");
-            yield return WaitForKeyPress("k");
+            yield return null;
         }
-        else
-        {
-            while (_countdownToSavasana > (16f * 60f))
-            {
-                yield return null;
-            }
-        }
+        _forceSequenceAdvanceRequested = false;
         director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, 2, 2);
         director.AddActionToQueue(lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
         Debug.Log("Sequencer: ProtocolStack Step 4");
         // director.AddActionToQueue(...);
 
         // Step 5 at 280 seconds
-        if(DEBUG_KEYBOARD_MODE)
+        while (_countdownToSavasana > (13f * 60f) && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to proceed to Step 5");
-            yield return WaitForKeyPress("k");
+            yield return null;
         }
-        else
-        {
-            while (_countdownToSavasana > (13f * 60f))
-            {
-                yield return null;
-            }
-        }
+        _forceSequenceAdvanceRequested = false;
         director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, 2, 2);
         Debug.Log("Sequencer: ProtocolStack Step 5");
         // StartCoroutine(SpecialProtocolEndingRoutine());
 
-        if(DEBUG_KEYBOARD_MODE)
+        while (_countdownToSavasana > (12f * 60f) && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to start shuffle (Step 6)");
-            yield return WaitForKeyPress("k");
+            yield return null;
         }
-        else
-        {
-            while (_countdownToSavasana > (12f * 60f))
-            {
-                yield return null;
-            }
-        }
+        _forceSequenceAdvanceRequested = false;
 
         worldShuffler.BeginShuffle(false);
         
-        if(DEBUG_KEYBOARD_MODE)
+        while (_countdownToSavasana > (10f * 60f) && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to proceed after shuffle start");
-            yield return WaitForKeyPress("k");
+            yield return null;
         }
-        else
-        {
-            while (_countdownToSavasana > (10f * 60f))
-            {
-                yield return null;
-            }
-        }
+        _forceSequenceAdvanceRequested = false;
         //director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, 1);
         Debug.Log("Sequencer: ProtocolStack Step 6");
         worldShuffler.ExcludeSoundscape("SonoFlore");
 
-        if(DEBUG_KEYBOARD_MODE)
+        while (_countdownToSavasana > (4f * 60f) && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to proceed to Step 8");
-            yield return WaitForKeyPress("k");
+            yield return null;
         }
-        else
-        {
-            while (_countdownToSavasana > (4f * 60f))
-            {
-                yield return null;
-            }
-        }
+        _forceSequenceAdvanceRequested = false;
         Debug.Log("Sequencer: ProtocolStack Step 8");
         worldShuffler.StopShuffle();
         worldShuffler.CloseSoundscapeQueue();
         director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, 2, 2);
 
-        if(DEBUG_KEYBOARD_MODE)
+        while (_countdownToSavasana > 60f && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to proceed to final step");
-            yield return WaitForKeyPress("k");
+            yield return null;
         }
-        else
-        {
-            while (_countdownToSavasana > 60f)
-            {
-                yield return null;
-            }
-        }
+        _forceSequenceAdvanceRequested = false;
 
-        if(DEBUG_KEYBOARD_MODE)
+        while(_countdownToSavasana > 0f && !_forceSequenceAdvanceRequested)
         {
-            Debug.Log("DEBUG: Press 'k' to proceed to end");
-            yield return WaitForKeyPress("k");
+            yield return null;
         }
-        else
-        {
-            while(_countdownToSavasana > 0f)
-            {
-                yield return null;
-            }
-        }
+        _forceSequenceAdvanceRequested = false;
 
         //Turn off Director 
         //Turn off World Shuffler

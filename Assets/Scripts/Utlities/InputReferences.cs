@@ -28,8 +28,13 @@ public class InputReferences : MonoBehaviour
     };
     
     private int currentMusicLoopsSwitchIndex = 0;
-    // Start is called before the first frame update
 
+    [Header("Debug: Protocol Stacks Sequence Advance (F key)")]
+    [SerializeField] private Sequencer sequencer;
+    [SerializeField] private Director director;
+    private Coroutine _sequenceAdvanceCountdownCoroutine;
+
+    // Start is called before the first frame update
     void Start()
     {
         if (instance == null)
@@ -41,6 +46,27 @@ public class InputReferences : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        if (sequencer == null) sequencer = FindObjectOfType<Sequencer>();
+        if (director == null) director = FindObjectOfType<Director>();
+    }
+
+    private IEnumerator SequenceAdvanceAndCountdownCoroutine()
+    {
+        if (sequencer == null || director == null)
+        {
+            Debug.LogWarning("[Input] F key: Sequencer or Director not found. Assign in Inspector or ensure they exist in scene.");
+            yield break;
+        }
+        sequencer.ForceSequenceAdvance();
+        Debug.Log("[Input] F key: Sequence advanced. Countdown 10 seconds to director queue activation...");
+        for (int i = 10; i >= 1; i--)
+        {
+            Debug.Log("[Input] F key: Director queue in " + i + " seconds...");
+            yield return new WaitForSeconds(1f);
+        }
+        director.ActivateQueue(15f);
+        Debug.Log("[Input] F key: Director queue activated.");
+        _sequenceAdvanceCountdownCoroutine = null;
     }
 
     //================================
@@ -73,6 +99,37 @@ public class InputReferences : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // F key: Force sequence advance, then 10s countdown, then activate director queue
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("[Input] F key pressed.");
+            if (_sequenceAdvanceCountdownCoroutine == null)
+            {
+                Debug.Log("[Input] Starting SequenceAdvanceAndCountdownCoroutine logic for F key...");
+                _sequenceAdvanceCountdownCoroutine = StartCoroutine(SequenceAdvanceAndCountdownCoroutine());
+            }
+            else
+            {
+                Debug.Log("[Input] F key: Countdown already in progress.");
+            }
+        }
+
+        // "D" key: Activate director queue immediately (no countdown)
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Debug.Log("[Input] D key pressed.");
+            if (director != null)
+            {
+                Debug.Log("[Input] Running logic for D key: Activating director queue immediately...");
+                director.ActivateQueue(10f); // 10 seconds as seen in other contexts; adjust duration as needed
+                Debug.Log("[Input] D key: Director queue activated immediately.");
+            }
+            else
+            {
+                Debug.LogWarning("[Input] D key: Director reference is null!");
+            }
+        }
+
         // List All Recorded Files
         /*
         if (Input.GetKeyDown(KeyCode.L))
@@ -319,7 +376,7 @@ public class InputReferences : MonoBehaviour
         // SHIFT + V - Cycle through MusicLoops_Switch values
         // B - Play Silent Loops
         // ===================================================================
-    
+        
         // Wwise Music Controls
         /*
         if (Input.GetKeyDown(KeyCode.Z))
