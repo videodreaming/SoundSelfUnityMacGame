@@ -540,8 +540,7 @@ public class InputReferences : MonoBehaviour
         {
             if (MusicSystem1.instance != null)
             {
-                AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
-                AkSoundEngine.SetRTPCValue("MusicLoops_Volume", 80.0f);
+                MusicSystem1.instance.SetInteractiveMusicModeToMusicLoops(80f);
             }
             else
             {

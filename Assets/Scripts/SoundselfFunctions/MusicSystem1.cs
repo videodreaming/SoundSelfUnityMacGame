@@ -319,7 +319,7 @@ public class MusicSystem1 : MonoBehaviour
         // If the sound world has not yet been set, set it to Gentle to prevent bug.
         if (!haveSetSoundWorldFlag)
         {
-            AkSoundEngine.SetState("SoundWorldMode", "Gentle");
+            AkSoundEngine.SetSwitch("SoundWorldMode_Switch", "Gentle", gameObject);
             SetSoundWorldFlag();
         }
     }
@@ -757,7 +757,7 @@ public class MusicSystem1 : MonoBehaviour
                 // Set state to MusicLoops and ensure interaction type is MusicLoop (required for this mode)
                 //RecoverInteractiveMusicModeFromInteractionType(); //this may be necessary in futrue...
                 currentInteractionType = InteractionType.MusicLoop;
-                AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+                AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
                 AkSoundEngine.SetSwitch("MusicLoops_Switch", "Silence", gameObject);
             }
             else
@@ -881,7 +881,7 @@ public class MusicSystem1 : MonoBehaviour
                 }
 
                 EnvironmentInitializations();
-                AkSoundEngine.SetState("InteractiveMusicMode", "Environment");
+                AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "Environment", gameObject);
                 PlayBreathworkCycle();
             }
             else
@@ -907,7 +907,7 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(currentInteractionType == InteractionType.SoundWorld)
         {
-            AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "InteractiveMusicSystem", gameObject);
             if(debugAllowSoundscapeLogs)
             {
                 Debug.Log("MUSIC: Interactive Music Mode Recovered to InteractiveMusicSystem because Interaction Type is SoundWorld");
@@ -915,7 +915,7 @@ public class MusicSystem1 : MonoBehaviour
         }
         else if(currentInteractionType == InteractionType.MusicLoop)
         {
-            AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
             if(debugAllowSoundscapeLogs)
             {
                 Debug.Log("MUSIC: Interactive Music Mode Recovered to MusicLoops because Interaction Type is MusicLoop");
@@ -988,7 +988,7 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(currentMusicMode != MusicMode.Environment)
         {
-            AkSoundEngine.SetState("InteractiveMusicMode", "InteractiveMusicSystem");
+            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "InteractiveMusicSystem", gameObject);
         }
         else
         {
@@ -1006,7 +1006,7 @@ public class MusicSystem1 : MonoBehaviour
             return;
         }
         currentInteractionType = InteractionType.SoundWorld;
-        AkSoundEngine.SetState("SoundWorldMode", soundWorld);
+        AkSoundEngine.SetSwitch("SoundWorldMode_Switch", soundWorld, gameObject);
         worldShuffler.SetCurrentSoundscape(soundWorld);
         SetSoundWorldFlag();
         
@@ -1036,7 +1036,7 @@ public class MusicSystem1 : MonoBehaviour
         
         if(currentMusicMode != MusicMode.Environment)
         {
-            AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
+            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
         }
         else
         {
@@ -2318,6 +2318,21 @@ public class MusicSystem1 : MonoBehaviour
     public void SetSoundWorldFlag() //THIS IS IMPORTANT, BECAUSE IF WE NEVER SET THE SOUND WORLD, WWISE WILL DEFAULT TO PLAYING ALL OF THEM AT ONCE.
     {
         haveSetSoundWorldFlag = true;
+    }
+
+    /// <summary>Sets Wwise switches for Protocol Stacks Ascending defaults (MusicLoops, Gentle). Call from WwiseVOManager when entering Ascending mode.</summary>
+    public void SetProtocolStacksAscendingDefaults()
+    {
+        AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
+        AkSoundEngine.SetSwitch("SoundWorldMode_Switch", "Gentle", gameObject);
+        SetSoundWorldFlag();
+    }
+
+    /// <summary>Sets InteractiveMusicMode_Switch to MusicLoops and optionally MusicLoops_Volume. Call from InputReferences or debug controls.</summary>
+    public void SetInteractiveMusicModeToMusicLoops(float volumePercent = 80f)
+    {
+        AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
+        AkSoundEngine.SetRTPCValue("MusicLoops_Volume", volumePercent);
     }
 
     //====================================================================================================

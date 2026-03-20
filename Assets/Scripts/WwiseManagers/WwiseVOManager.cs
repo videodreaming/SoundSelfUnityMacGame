@@ -302,9 +302,10 @@ public class WwiseVOManager : MonoBehaviour
 
     public void SetToEsketamineAscending()
     {
-        AkSoundEngine.SetState("InteractiveMusicMode", "MusicLoops");
-        AkSoundEngine.SetState("SoundWorldMode", "Gentle");
-        musicSystem1.SetSoundWorldFlag();
+        if (musicSystem1 != null)
+            musicSystem1.SetProtocolStacksAscendingDefaults();
+        else
+            Debug.LogWarning("WwiseVOManager: musicSystem1 is null, cannot set Protocol Stacks Ascending defaults.");
     }
 
     public void SetToEsketamineDescending()
