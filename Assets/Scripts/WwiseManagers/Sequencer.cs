@@ -6,6 +6,7 @@ using System;
 using TMPro;
 using System.Security.Cryptography.X509Certificates;
 using ConversionUtilities;
+using SoundSelf.Sequence;
 
 /// <summary>Wwise sound banks that can be unloaded via UnloadBank.</summary>
 public enum SequencerBank
@@ -63,7 +64,18 @@ public class Sequencer : MonoBehaviour
     private int currentStage = 0; //As SonoFlore
     private bool openingSequenceFlag = false;
     public float timeInUnguidedVocalization;
-    
+
+    [SerializeField] private SequenceRunner sequenceRunner;
+    private OpeningStageHandler _openingHandler;
+    private PlaygroundStageHandler _playgroundHandler;
+    private SavasanaStageHandler _savasanaHandler;
+    private TutorialStageHandler _tutorialHandler;
+    private WaitForInputStageHandler _waitForInputHandler;
+    private MusicPlaylistStageHandler _musicPlaylistHandler;
+    private InquiryStageHandler _inquiryHandler;
+    private EndStageHandler _endHandler;
+    private LinearAudioStageHandler _linearAudioHandler;
+
     // Debug log category flags
     private bool debugAllowTimingLogs = false;
     
@@ -89,7 +101,19 @@ public class Sequencer : MonoBehaviour
         }
         if (startModeDropdown != null)
             startModeDropdown.onValueChanged.AddListener(OnStartModeDropdownChanged);
-        
+
+        if (sequenceRunner == null)
+            sequenceRunner = gameObject.GetComponent<SequenceRunner>() ?? gameObject.AddComponent<SequenceRunner>();
+        _openingHandler = new OpeningStageHandler(this);
+        _playgroundHandler = new PlaygroundStageHandler(this);
+        _savasanaHandler = new SavasanaStageHandler(this);
+        _tutorialHandler = new TutorialStageHandler();
+        _waitForInputHandler = new WaitForInputStageHandler();
+        _musicPlaylistHandler = new MusicPlaylistStageHandler();
+        _inquiryHandler = new InquiryStageHandler();
+        _endHandler = new EndStageHandler();
+        _linearAudioHandler = new LinearAudioStageHandler();
+        sequenceRunner.SetHandlers(new IStageHandler[] { _openingHandler, _playgroundHandler, _savasanaHandler, _tutorialHandler, _waitForInputHandler, _musicPlaylistHandler, _inquiryHandler, _endHandler, _linearAudioHandler });
     }
 
     private void OnDestroy()
@@ -295,6 +319,26 @@ public class Sequencer : MonoBehaviour
 
 
 
+    /// <summary>Dispatches cue to current handler if watching. Returns true if handled. Caller does legacy when false. StartInteractive has built-in legacy (ProtocolStacksPlaygroundStart) when not in sequence.</summary>
+    public bool HandleCue(CueType cue)
+    {
+        if (cue == CueType.StartInteractive && (sequenceRunner == null || sequenceRunner.CurrentStageIndex < 0))
+        {
+            Debug.LogWarning("Cue_StartInteractive: Using legacy behavior (sequenceRunner is null or not in a sequence).");
+            ProtocolStacksPlaygroundStart();
+            return true;
+        }
+        if (sequenceRunner == null || sequenceRunner.CurrentStageIndex < 0)
+            return false;
+        if (sequenceRunner.TryNotifyCue(cue))
+        {
+            Debug.Log(cue + ": Handled by current stage (" + sequenceRunner.CurrentStage + "). Sequence will advance on next poll.");
+            return true;
+        }
+        Debug.LogWarning(cue + " fired but it's not being watched for, so nothing is happening.");
+        return false;
+    }
+
     public void ProtocolStacksPlaygroundStart()
     {
         Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Called when opening sequence ends");
@@ -317,8 +361,11 @@ public class Sequencer : MonoBehaviour
     // YOU GOT HERE - TESTING THIS COROUTINE FOR WHEN THE MUSIC STOPS
     //====================================================================================================
 
-    // Debug helper: set to true to advance ProtocolStacksCoroutine past the current wait (countdown or step)
+    // Debug helper: set to true to advance ProtocolStacksCoroutine/PlaygroundStageHandler past the current wait (countdown or step)
     private bool _forceSequenceAdvanceRequested = false;
+
+    /// <summary>For PlaygroundStageHandler and debug stepping. Get/set the force-advance flag.</summary>
+    public bool ForceSequenceAdvanceRequested { get => _forceSequenceAdvanceRequested; set => _forceSequenceAdvanceRequested = value; }
 
     /// <summary>
     /// Advances the ProtocolStacksCoroutine past the current wait. Call from InputReferences or elsewhere for debug stepping.
@@ -597,6 +644,13 @@ public class Sequencer : MonoBehaviour
             lightControl.SetPreferredColor("Red", 5.0f);
             lightsInitialized = true;
         }
+    }
+
+    /// <summary>Starts the AVS opening program coroutine. Called by OpeningStageHandler.</summary>
+    public void StartOpeningAVSProgram()
+    {
+        Debug.Log("Sequencer: StartOpeningAVSProgram - AVS_Program_DynamicDrop_Start is starting");
+        CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
     }
 
     IEnumerator AVS_Program_DynamicDrop_Start()
@@ -971,8 +1025,24 @@ public class Sequencer : MonoBehaviour
                 SkillsTrainingOrIntegrationInitialization();
             }
         }
-        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);        
-        PlayFirstSequence();
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+        if (csvLoader != null && csvLoader.gameMode == "Protocol Stacks" && sequenceRunner != null)
+        {
+            var def = csvLoader.GetSequenceDefinitionForProtocolStacks();
+            if (def != null)
+                sequenceRunner.StartSequence(def);
+            else
+                Debug.LogError("Sequencer: No SequenceDefinition for Protocol Stacks. Assign protocolStacksAscendingDefinition (or Descending) in CSVLoader.");
+        }
+        else
+        {
+            string reason = csvLoader == null ? "csvLoader is null"
+                : csvLoader.gameMode != "Protocol Stacks" ? "gameMode is not Protocol Stacks (" + csvLoader.gameMode + ")"
+                : sequenceRunner == null ? "sequenceRunner is null"
+                : "unknown";
+            Debug.LogWarning("Sequencer: Using legacy PlayFirstSequence because " + reason + ".");
+            PlayFirstSequence();
+        }
         //lightControl.SetColorWorldByType("Dark", 0.0f);
     }
 

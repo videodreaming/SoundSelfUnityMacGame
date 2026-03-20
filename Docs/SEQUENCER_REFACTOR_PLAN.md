@@ -12,13 +12,16 @@ This plan migrates the Protocol Stacks Ascending sequence to a **Stage Pipeline*
 |-------|-------|---------|-------------|
 | 0 | **Calibration** | User in CalibrationMenu | (Pre-sequence; user clicks Start) |
 | 1 | **Opening** | `PlayFirstSequence()` | Light init, `PlayOpeningSequence("Ascending")`, `AVS_Program_DynamicDrop_Start()` |
-| 2 | **Tutorial** | Wwise cue TBD | Various tests, similar to current tutorial sequence called by standard sequence |
+| 2 | **Tutorial** | Wwise cue `Cue_Break_Tests` or `Cue_StartInteractive` | Various tests; completes on Break_Tests (natural end) or StartInteractive (skip to Playground) |
 | 3 | **Playground** | Wwise cue `Cue_StartInteractive` → `ProtocolStacksPlaygroundStart()` | `ProtocolStacksCoroutine()` runs timed steps |
 | 4 | **Savasana** | Countdown reaches 0 | `PlayAscendingClosing()` |
-| 5 | **WaitForInput** | Wwise cue TBD | User presses a button to play music |
-| 6 | **Music** | User presses the button in the pause section | No action, simple countdown timer to end.
+| 5 | **WaitForInput** | Wwise cue `Cue_WaitForButton` | User presses a button to play music |
+| 6 | **Music** | User presses the button in the pause section | No action, simple countdown timer to end. |
+| — | **Inquiry** | TBD | Asks player how they are feeling; records the answer. Stub until implementation. |
+| — | **End** | End of sequence | End stage; happens at the end. Stub until implementation. |
+| — | **LinearAudio** | TBD | Multi-purpose linear audio stage. Stub until implementation. |
 
-(Note that steps 2, 4, and 5 are considered, but not built yet. We should create stub scripts for them, to be completed later)
+(Note that steps 2, 4, and 5 are considered, but not built yet. Inquiry, End, and LinearAudio are additional stub stages.)
 
 **Playground sub-steps (countdown-based):**
 - ≤20 min: Start interactive music, ShiftingEarth, StartPlayground
@@ -45,19 +48,40 @@ IStageHandler
   └── Enter(variant)
   └── Exit()
   └── IsComplete / OnComplete callback
+  └── WatchesCue(cue) / NotifyCue(cue)  — optional; handlers declare which Wwise cues they watch for completion
 ```
+
+---
+
+## Cue-Watching System (Added Beyond Original Plan)
+
+Stages can complete when a Wwise cue fires. Handlers declare `WatchesCue(CueType)` and receive `NotifyCue(CueType)` when the cue fires. Sequencer dispatches via `HandleCue(CueType)`; WwiseVOManager calls it for each cue. If no handler is watching, legacy behavior runs (or a warning logs).
+
+**CueType enum:** `StartInteractive`, `Break_Tests`, `WaitForButton`, `ThematicSavasana_End`
+
+| Cue | Stage(s) that watch | Legacy when not watched |
+|-----|----------------------|--------------------------|
+| StartInteractive | Opening, Tutorial | ProtocolStacksPlaygroundStart (when not in sequence) |
+| Break_Tests | Tutorial | tutorial.EndTutorialNaturally() |
+| WaitForButton | WaitForInput | TODO: button logic |
+| ThematicSavasana_End | (Savasana optional) | — |
 
 ---
 
 ## Phase 1: Create Core Types (No Behavior Change)
 
-### 1.1 Create `StageType` enum and `SequenceStage` struct
+### 1.1 Create `StageType`, `CueType` enums and `SequenceStage` struct
 
 **File:** `Assets/Scripts/WwiseManagers/Sequence/StageTypes.cs` (new)
 
 ```csharp
 namespace SoundSelf.Sequence
 {
+    public enum CueType
+    {
+        StartInteractive, Break_Tests, WaitForButton, ThematicSavasana_End
+    }
+
     public enum StageType
     {
         Calibration,   // Pre-sequence; user hasn't started
@@ -66,14 +90,17 @@ namespace SoundSelf.Sequence
         Playground,
         Savasana,
         WaitForInput,
-        MusicPlaylist
+        MusicPlaylist,
+        Inquiry,      // Asks player how they are feeling; records answer. Stub until implementation.
+        End,          // End stage; happens at the end of a sequence.
+        LinearAudio   // Multi-purpose linear audio stage. Stub until implementation.
     }
 
     [System.Serializable]
     public struct SequenceStage
     {
         public StageType type;
-        public string variant;  // e.g. "Ascending", "Preparation_Long", null = default
+        public string variant;  // e.g. "PS_Ascending", "Preparation_Long", null = default
     }
 }
 ```
@@ -118,9 +145,9 @@ namespace SoundSelf.Sequence
 2. After adding the script, create asset: **Right-click in Project → Create → SoundSelf → Sequence Definition**
 3. Name it `ProtocolStacksAscending`
 4. Set stages:
-   - [0] type=Opening, variant="Ascending"
+   - [0] type=Opening, variant="PS_Ascending"
    - [1] type=Playground, variant="" (or null)
-   - [2] type=Savasana, variant="Ascending"
+   - [2] type=Savasana, variant="PS_Ascending"
 
 ---
 
@@ -176,7 +203,7 @@ namespace SoundSelf.Sequence
 
 **Responsibilities (extracted from `PlayFirstSequence`):**
 - Light init
-- Call `wwiseVOManager.PlayOpeningSequence(variant)` (e.g. "Ascending")
+- Call `wwiseVOManager.PlayOpeningSequence(variant)` (e.g. "PS_Ascending")
 - Start `AVS_Program_DynamicDrop_Start()` — **keep this coroutine in Sequencer**; handler calls `sequencer.StartOpeningAVSProgram()` to avoid moving 200+ lines of AVS logic
 - **Completion:** Wwise cue `Cue_StartInteractive` (event-driven; handler sets `IsComplete` when cue received)
 
@@ -192,11 +219,15 @@ namespace SoundSelf.Sequence
 
 **Implementation approach:** Keep as coroutine internally, but wrapped in handler. Handler's `IsComplete` returns true when coroutine finishes.
 
-### 3.3 Create stub handlers (Tutorial, WaitForInput, MusicPlaylist)
+### 3.3 Create stub handlers (Tutorial, WaitForInput, MusicPlaylist, Inquiry, End, LinearAudio)
 
-**Files:** `TutorialStageHandler.cs`, `WaitForInputStageHandler.cs`, `MusicPlaylistStageHandler.cs` (new)
+**Files:** `TutorialStageHandler.cs`, `WaitForInputStageHandler.cs`, `MusicPlaylistStageHandler.cs`, `InquiryStageHandler.cs`, `EndStageHandler.cs`, `LinearAudioStageHandler.cs` (new)
 
 Create stub implementations that satisfy `IStageHandler` but do minimal work (e.g. `Enter` logs, `IsComplete` returns true immediately or after a short delay). To be completed later.
+
+- **Inquiry:** Asks player how they are feeling and records the answer.
+- **End:** End stage; happens at the end of a sequence.
+- **LinearAudio:** Multi-purpose linear audio stage.
 
 ### 3.4 Create `SavasanaStageHandler`
 
@@ -223,12 +254,17 @@ Create stub implementations that satisfy `IStageHandler` but do minimal work (e.
 - Instead of calling `PlayFirstSequence()` directly, call `sequenceRunner.StartSequence(protocolStacksAscendingDefinition)` (or similar)
 - SequenceRunner advances through stages; each handler performs the work
 
-### 4.2 Wire Wwise Cue to SequenceRunner
+### 4.2 Wire Wwise Cues to SequenceRunner (Cue-Watching System)
 
-**In WwiseVOManager.cs:**
-- When `Cue_StartInteractive` fires: call `sequenceRunner.AdvanceToNextStage()` (advance to next stage)
-- **Validation:** If the next stage is not Playground, log a warning (e.g. `Debug.LogWarning("Cue_StartInteractive: Expected next stage Playground, got " + nextStage)`)
-- The OpeningStageHandler registers for this cue and sets `IsComplete = true`, which triggers SequenceRunner to advance
+**Cue-watching flow:** WwiseVOManager calls `sequencer.HandleCue(CueType)` for each cue. Sequencer dispatches to current handler via `TryNotifyCue`. If a handler is watching, it marks complete; SequenceRunner advances on next poll. If not handled, legacy runs or warning logs.
+
+**Cues wired:**
+- `Cue_StartInteractive` → `HandleCue(StartInteractive)` (legacy: ProtocolStacksPlaygroundStart when not in sequence)
+- `Cue_Break_Tests` → `HandleCue(Break_Tests)`; legacy: `tutorial.EndTutorialNaturally()`
+- `Cue_WaitForButton` → `HandleCue(WaitForButton)`
+- `Cue_ThematicSavasana_End` → `HandleCue(ThematicSavasana_End)` (ClosingCallBackFunction)
+
+**Handlers:** OpeningStageHandler, TutorialStageHandler watch StartInteractive; TutorialStageHandler also watches Break_Tests; WaitForInputStageHandler watches WaitForButton.
 
 ### 4.3 Wire CSVLoader to Sequence Definition
 
@@ -242,9 +278,9 @@ Create stub implementations that satisfy `IStageHandler` but do minimal work (e.
 
 ---
 
-## Phase 5: Implement SequenceRunner Logic
+## Phase 5: Implement SequenceRunner Logic ✅
 
-### 5.1 Stage lifecycle
+### 5.1 Stage lifecycle (implemented in SequenceRunner.cs)
 
 ```
 AdvanceToStage(n):
@@ -253,8 +289,8 @@ AdvanceToStage(n):
   3. Get handler for stages[n].type
   4. handler.Enter(stages[n].variant)
   5. Fire OnStageChanged(n, stages[n].type)
-  6. Start polling handler.IsComplete (or subscribe to completion)
-  7. When complete: AdvanceToStage(n+1) or end sequence
+  6. Start polling handler.IsComplete (Update loop)
+  7. When complete: AdvanceToStage(n+1) or end sequence (MarkSequenceComplete)
 ```
 
 ### 5.2 Handler registration
@@ -263,15 +299,38 @@ AdvanceToStage(n):
 - Sequencer passes handlers to SequenceRunner via `SetHandlers()` — **prefer script-based setup**; minimize Unity Editor wiring
 - SequenceRunner looks up handler by `StageType` when advancing
 
+### 5.3 Phase 5 additions
+
+- **OnSequenceComplete** event — fired when all stages finish; for UI subscription (Phase 6)
+- **IsSequenceComplete** property — true when sequence has ended
+- **MarkSequenceComplete()** — centralizes completion logic; fires OnSequenceComplete
+
 ---
 
-## Phase 6: Add OnStageChanged for UI
+## Phase 6: Add OnStageChanged for UI ✅
 
-### 6.1 UI subscription (deferred)
+### 6.1 Stage-change logging
 
-**For now:** Use `Debug.Log` in SequenceRunner when `OnStageChanged` fires (e.g. `Debug.Log($"Sequence: Entered stage {index} ({stageType})")`). This allows verification without building UI.
+- **SequenceRunner** already logs when `OnStageChanged` fires: `Debug.Log($"Sequence: Entered stage {index} ({stageType})")`
+- **MarkSequenceComplete** logs: `"SequenceRunner: Sequence complete."`
 
-**Future:** Create `SequenceProgressUI` component that subscribes to `sequenceRunner.OnStageChanged` and updates canvas elements (stage labels, progress dots) based on `(index, stageType)`. Assign `sequenceRunner` reference in Inspector.
+### 6.2 SequenceProgressUI component
+
+**File:** `Assets/Scripts/WwiseManagers/Sequence/SequenceProgressUI.cs`
+
+- Subscribes to `OnStageChanged` and `OnSequenceComplete` in `OnEnable`; unsubscribes in `OnDisable`
+- Logs stage changes and sequence complete for verification
+- Optional `stageLabel` (TMP_Text): shows current stage name when assigned
+- Optional `progressLabel` (TMP_Text): shows progress (e.g. `1/3`) when assigned; `—` when complete
+
+**Unity Editor:**
+1. Add `SequenceProgressUI` component to a GameObject (e.g. Canvas or UI panel)
+2. Assign `sequenceRunner` reference (e.g. from Sequencer’s GameObject)
+3. Optionally assign `stageLabel` and `progressLabel` for visual feedback
+
+### 6.3 SequenceRunner additions for UI
+
+- **StageCount** property — returns `definition.StagesOrEmpty.Length` for progress display (e.g. `1/3`)
 
 ---
 
@@ -283,6 +342,7 @@ AdvanceToStage(n):
 - Remove `ProtocolStacksPlaygroundStart()` (replaced by stage transition)
 - Simplify `PlayFirstSequence()` to only run when not using SequenceRunner, or remove if fully migrated
 - Remove `StandardSequenceUpdate()` Protocol Stacks guard (no longer needed)
+- **HandleCue(StartInteractive):** Remove the legacy fallback. Once Protocol Stacks always uses SequenceRunner, simplify to dispatch only.
 
 ---
 
@@ -296,9 +356,9 @@ AdvanceToStage(n):
 4. **Unity Editor:** Create ScriptableObject: Right-click → Create → SoundSelf → Sequence Definition → name `ProtocolStacksAscending`
 5. In Inspector for `ProtocolStacksAscending`:
    - Size = 3
-   - [0] type=Opening, variant=Ascending
+   - [0] type=Opening, variant=PS_Ascending
    - [1] type=Playground, variant=
-   - [2] type=Savasana, variant=Ascending
+   - [2] type=Savasana, variant=PS_Ascending
 
 ### Step 2: Create SequenceRunner skeleton
 
@@ -324,7 +384,7 @@ AdvanceToStage(n):
 
 ### Step 5: Create stub handlers and implement SavasanaStageHandler
 
-1. Create stub handlers: `TutorialStageHandler.cs`, `WaitForInputStageHandler.cs`, `MusicPlaylistStageHandler.cs` — each implements `IStageHandler` with minimal logic (log on Enter, IsComplete returns true)
+1. Create stub handlers: `TutorialStageHandler.cs`, `WaitForInputStageHandler.cs`, `MusicPlaylistStageHandler.cs`, `InquiryStageHandler.cs`, `EndStageHandler.cs`, `LinearAudioStageHandler.cs` — each implements `IStageHandler` with minimal logic (log on Enter, IsComplete returns true)
 2. Create `SavasanaStageHandler.cs`
 3. `Enter(variant)`: Run the logic from the end of ProtocolStacksCoroutine (SetFundamentalContentLock, ActivateQueue, Disable, SetMusicModeTo, PlayAscendingClosing)
 4. `IsComplete`: True immediately (savasana plays to end; no need to block) or when closing callback fires
@@ -340,6 +400,12 @@ AdvanceToStage(n):
    private OpeningStageHandler _openingHandler;
    private PlaygroundStageHandler _playgroundHandler;
    private SavasanaStageHandler _savasanaHandler;
+   private TutorialStageHandler _tutorialHandler;
+   private WaitForInputStageHandler _waitForInputHandler;
+   private MusicPlaylistStageHandler _musicPlaylistHandler;
+   private InquiryStageHandler _inquiryHandler;
+   private EndStageHandler _endHandler;
+   private LinearAudioStageHandler _linearAudioHandler;
    ```
 2. In `Awake` or `Start`: Instantiate handlers, inject dependencies, call `sequenceRunner.SetHandlers(...)`
 3. In `StartTrueStart()` when gameMode == "Protocol Stacks": Call `sequenceRunner.StartSequence(protocolStacksAscendingDefinition)` instead of `PlayFirstSequence()`
@@ -355,16 +421,17 @@ AdvanceToStage(n):
 2. Verify: Calibration → Start → Opening plays → Cue_StartInteractive → Playground runs → Countdown 0 → Savasana (Ascending Closing)
 3. Use `ForceSequenceAdvance()` during Playground to ensure it still works (may need to expose it through the handler)
 
-### Step 8: Add stage-change logging (UI deferred)
+### Step 8: Add stage-change logging and SequenceProgressUI ✅
 
-1. In SequenceRunner, when `OnStageChanged` fires: `Debug.Log($"Sequence: Entered stage {index} ({stageType})")`
-2. (Future) Create `SequenceProgressUI.cs` and wire to canvas when ready
+1. SequenceRunner logs when `OnStageChanged` fires
+2. `SequenceProgressUI.cs` created; add to scene and assign `sequenceRunner` in Inspector
 
 ### Step 9: Cleanup
 
 1. Remove `ProtocolStacksCoroutine`, `ProtocolStacksPlaygroundStart` from Sequencer
 2. Remove or simplify `PlayFirstSequence` (keep only for non–Protocol Stacks if not yet migrated)
 3. Remove Protocol Stacks–specific branches from `StandardSequenceUpdate` if redundant
+4. **HandleCue(StartInteractive):** Remove the legacy fallback to `ProtocolStacksPlaygroundStart`. Simplify to dispatch only.
 
 ---
 
@@ -399,7 +466,7 @@ Handlers receive `SequenceContext` in `Enter()`. Cleaner, more testable.
 
 | File | Purpose |
 |------|---------|
-| `Sequence/StageTypes.cs` | StageType enum, SequenceStage struct |
+| `Sequence/StageTypes.cs` | StageType enum, CueType enum, SequenceStage struct |
 | `Sequence/IStageHandler.cs` | Interface |
 | `Sequence/SequenceDefinition.cs` | ScriptableObject |
 | `Sequence/SequenceRunner.cs` | Orchestrator |
@@ -409,7 +476,10 @@ Handlers receive `SequenceContext` in `Enter()`. Cleaner, more testable.
 | `Sequence/Handlers/TutorialStageHandler.cs` | Stub (to complete later) |
 | `Sequence/Handlers/WaitForInputStageHandler.cs` | Stub (to complete later) |
 | `Sequence/Handlers/MusicPlaylistStageHandler.cs` | Stub (to complete later) |
-| `Sequence/SequenceProgressUI.cs` | (Future) UI — use logs for now |
+| `Sequence/Handlers/InquiryStageHandler.cs` | Stub — asks player how they are feeling, records answer |
+| `Sequence/Handlers/EndStageHandler.cs` | Stub — end stage at end of sequence |
+| `Sequence/Handlers/LinearAudioStageHandler.cs` | Stub — multi-purpose linear audio stage |
+| `Sequence/SequenceProgressUI.cs` | UI — subscribes to OnStageChanged/OnSequenceComplete; optional labels |
 
 ---
 

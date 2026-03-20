@@ -4,6 +4,7 @@ using System.Data.Common;
 using UnityEngine;
 using AK.Wwise;
 using Unity.VisualScripting;
+using SoundSelf.Sequence;
 
 //REFACTORING THOUGHTS FROM ROBIN
 //WE SHOULD ENSURE THAT THE USERAUDIOSOURCE IS ONLY REFERENCED AND CONTROLLED FROM ONE SCRIPT
@@ -181,18 +182,24 @@ public class WwiseVOManager : MonoBehaviour
             else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
             {
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
-                tutorial.EndTutorialNaturally();
+                if (sequencer == null || !sequencer.HandleCue(CueType.Break_Tests))
+                    tutorial.EndTutorialNaturally();
             }
-            else if (musicSyncInfo.userCueName == "Cue_StartInteractive") //@Reef, this probably broke something, as this call now only serves our needs for Protocol Stacks. Can you review the changes, and put the original cue response in comments here, for me to look at?
+            else if (musicSyncInfo.userCueName == "Cue_StartInteractive")
             {
-                sequencer.ProtocolStacksPlaygroundStart();
                 Debug.Log("WWise_VO_CUE: Cue_StartInteractive");
+                if (sequencer != null)
+                    sequencer.HandleCue(CueType.StartInteractive);
+                else
+                    Debug.LogError("WwiseVOManager: sequencer is null. Cannot handle Cue_StartInteractive.");
                 Debug.LogWarning("WWise_VO_CUE: (This is hard coded for Protocol Stacks right now)");
             }
             else if (musicSyncInfo.userCueName == "Cue_WaitForButton")
             {
-                //TODO: Please implement the button to show up, and the logic to wait for it to be pressed.
                 Debug.Log("WWise_VO_CUE: Cue_WaitForButton");
+                if (sequencer != null)
+                    sequencer.HandleCue(CueType.WaitForButton);
+                //TODO: Legacy — implement the button to show up, and the logic to wait for it to be pressed.
             }
             else
             {
@@ -216,7 +223,8 @@ public class WwiseVOManager : MonoBehaviour
             {
                 UI_CurrentSession.Instance.currentSession = "Closing Teaching";
                 Debug.Log("Wwise_VO: Cue_ThematicSavasana_End");
-
+                if (sequencer != null)
+                    sequencer.HandleCue(CueType.ThematicSavasana_End);
             }
             else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation2_Start")
             {
@@ -387,6 +395,7 @@ public class WwiseVOManager : MonoBehaviour
             Debug.Log("WWise_VO: Play Integration Short Opening Sequence");
             break;
             case "Ascending":
+            case "PS_Ascending":
             AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             break;
             case "Descending":

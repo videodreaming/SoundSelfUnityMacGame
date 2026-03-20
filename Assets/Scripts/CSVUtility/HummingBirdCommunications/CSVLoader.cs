@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement; // For scene loading
 using System.IO;
 using System;
+using SoundSelf.Sequence;
 
 public class CSVLoader : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private string encryptedFirstTimeUser;
     [SerializeField] private string decryptedFirstTimeUser;
 
+    [SerializeField] private SequenceDefinition protocolStacksAscendingDefinition;
+    [SerializeField] private SequenceDefinition protocolStacksDescendingDefinition;
 
     void Awake()
     {
@@ -91,6 +94,13 @@ public class CSVLoader : MonoBehaviour
         ReadSessionParams();
         VOInitializations();
         TimeLeftInitializations();
+    }
+
+    /// <summary>Returns the SequenceDefinition for Protocol Stacks based on subGameMode. Single source of truth — assign definitions here only.</summary>
+    public SequenceDefinition GetSequenceDefinitionForProtocolStacks()
+    {
+        if (gameMode != "Protocol Stacks") return null;
+        return subGameMode == "Descending" ? protocolStacksDescendingDefinition : protocolStacksAscendingDefinition;
     }
 
     void ReadSessionParams()
