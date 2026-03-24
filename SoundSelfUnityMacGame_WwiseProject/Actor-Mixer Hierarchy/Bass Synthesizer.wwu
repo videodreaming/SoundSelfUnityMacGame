@@ -7,7 +7,7 @@
 					<PropertyList>
 						<Property Name="UserAuxSendVolume0" Type="Real64">
 							<ValueList>
-								<Value>-10</Value>
+								<Value>-14</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -61,7 +61,7 @@
 										<Property Name="Osc1Level" Type="Real32" Value="0"/>
 										<Property Name="Osc1Transpose" Type="int32" Value="-1200"/>
 										<Property Name="Osc2Level" Type="Real32" Value="0"/>
-										<Property Name="OutputLevel" Type="Real32" Value="-12"/>
+										<Property Name="OutputLevel" Type="Real32" Value="-9"/>
 										<Property Name="OverSampling" Type="bool" Value="False"/>
 									</PropertyList>
 									<ObjectLists>

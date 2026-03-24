@@ -150,16 +150,6 @@
 				</Event>
 				<Event Name="Play_Toning_v3_FundamentalOnly" ID="{DA00B1EF-1DD6-4F48-AD92-5DA76BC5F7C1}">
 					<ChildrenList>
-						<Action Name="" ID="{54E0DC08-A639-4CFB-9F9C-26D319F540FC}" ShortID="351658748">
-							<PropertyList>
-								<Property Name="FadeTime" Type="Real64" Value="0.5"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Bass Synth Pitch Switch" ID="{526255D6-7209-4CCB-96E5-E43A5F1C794E}" WorkUnitID="{8B97F319-1FFC-4669-8617-342B598A1A10}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{F39D5BAD-0328-43EF-BC02-8E7C7E368D3E}" ShortID="864190738">
 							<PropertyList>
 								<Property Name="FadeInCurve" Type="int16" Value="1"/>
@@ -289,11 +279,11 @@
 				</Event>
 				<Event Name="Stop_Toning_v3_FundamentalOnly" ID="{D3873BAE-C829-4FCC-AF57-C6FCA68B4965}">
 					<ChildrenList>
-						<Action Name="" ID="{E0FA2DAB-51A7-4FF4-985A-0ADEB99C15F7}" ShortID="66954103">
+						<Action Name="" ID="{5F8FD212-7A6F-40E2-AB5A-C7C719C18E64}" ShortID="506367414">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="2"/>
 								<Property Name="Delay" Type="Real64" Value="2"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
+								<Property Name="FadeOutCurve" Type="int16" Value="1"/>
 								<Property Name="FadeTime" Type="Real64" Value="10"/>
 							</PropertyList>
 							<ReferenceList>
