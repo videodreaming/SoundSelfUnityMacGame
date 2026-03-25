@@ -23,9 +23,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     private const double A4 = 440.0; //Reference Frequency
     public float note_st = 0f;
     public float _dbThreshold;
-
-     public GameObject sequencerGameObject;
-
     // Are we using this action? Robin doesn't understand how an action works.
     public Action<float> OnNewTone;
     public bool gameOn = false;
@@ -275,7 +272,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         GetRawVoiceData();
         CheckToning();
         TrackMicVolume();
-        Wwise_BreathSound(_breathVolume, lightControl._fxWave);
+        //Wwise_BreathSound(_breathVolume, lightControl._fxWave);
 
         if (gameOn != gameOnLastFrame)
         {
@@ -1129,7 +1126,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         }
     }
 
-    private void Wwise_BreathSound (float _input, float _addition = 0.0f)
+    private void Wwise_BreathSound (float _input, float _addition = 0.0f) //THIS LOOKS PRETTY BROKEN TO ME
     {
         float _input2 = _input;
         float _addition2 = _addition;
@@ -1137,7 +1134,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         float _i = Mathf.Max(Mathf.Min(_input2 + _addition2, 1.0f), 0.0f);
         float _waveValue = 0.0f + 100.0f * _i;
 
-        AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, sequencerGameObject); //TODO: Make sure this is the correct game object.
+        AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, gameObject); //TODO: Make sure this is the correct game object.
         lightControl.Wwise_BreathDisplay(_waveValue);
         
         if (_i != 0.0f)
