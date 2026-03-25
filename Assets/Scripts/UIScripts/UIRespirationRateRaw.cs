@@ -4,10 +4,9 @@ using UnityEngine;
 using TMPro;
 public class UIRespirationRateRaw : MonoBehaviour
 {
-    public RespirationTracker RespirationTracker;
     [SerializeField] private TextMeshProUGUI noteText;
     public void Update(){
         //replace line below with the value you want to display.
-        noteText.text = RespirationTracker._respirationRateRaw.ToString();
+        noteText.text = RespirationTracker.instance != null ? RespirationTracker.instance._respirationRateRaw.ToString() : "-";
     }
 }

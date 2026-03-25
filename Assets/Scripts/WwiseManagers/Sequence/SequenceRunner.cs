@@ -27,6 +27,7 @@ namespace SoundSelf.Sequence
         private bool _sequenceComplete;
 
         public void SetDefinition(SequenceDefinition def) => definition = def;
+        public SequenceDefinition Definition => definition;
         public void SetHandlers(IStageHandler[] handlers) => _handlers = handlers;
 
         /// <summary>Notifies the current handler of a cue. Returns true if a handler was watching and handled it.</summary>

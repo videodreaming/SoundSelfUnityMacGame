@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 05d53899a8c68e4fb3bf417ea35907a3
     GuidInternal: 
-    m_lastTime: -8584340500774049551
+    m_lastTime: -8584360314372357326
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: dd3e190cfb4d16499f593fc858e3694d
     GuidInternal: 
-    m_lastTime: -8584277482925628964
+    m_lastTime: -8584272230556037183
     List:
     - name: Aux_ImpactsSub
       guid: 63f7c0bf69d9f048aaab0642bcb3f556
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584312023666754071
+    m_lastTime: -8584275651646688509
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -684,7 +684,7 @@ MonoBehaviour:
     ParentPath: Events\Bass Synth
     guid: 125c7739e98ed3418d9a7f9af67863d6
     GuidInternal: 
-    m_lastTime: -8584321280162318788
+    m_lastTime: -8584272230556818258
     List:
     - name: Play_BassSynth
       guid: 0d3194f4ee2c4c4fb355614678f37ac9
@@ -846,7 +846,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584312084853557747
+    m_lastTime: -8584275651646908724
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -1273,6 +1273,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_ASCENDING_OPENING
+      guid: 2c3f4ae257fc4f4eaecc3ae5054b15b6
+      id: 4209368599
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: b6a5e8ad495ca74db8bd27d43edd9d9a
+      - ElementName: Stop_ASCENDING_OPENING
+        ObjectType: 3
+        guid: 2c3f4ae257fc4f4eaecc3ae5054b15b6
+      Path: Events\Default Work Unit\Stop_ASCENDING_OPENING
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_OPENING_SEQUENCE
       guid: 3880d8431034894ebd1dd4d496c2a6b3
       id: 670049528
@@ -1386,7 +1403,7 @@ MonoBehaviour:
     ParentPath: Events\Environment
     guid: 3ffbeff2adf5b844b3827d55048249ec
     GuidInternal: 
-    m_lastTime: -8584330977203029768
+    m_lastTime: -8584275651646897118
     List:
     - name: Play_environment_anyQueryRepeat1
       guid: 78543b158da14a44a12803d2d86547b2
@@ -1603,7 +1620,7 @@ MonoBehaviour:
     ParentPath: Events\Interactive Music System
     guid: e3fca33b7e95e0428b60263055648e4a
     GuidInternal: 
-    m_lastTime: -8584326773949229386
+    m_lastTime: -8584272230556747164
     List:
     - name: Play_NewEnding
       guid: ce484e1f58344e419ccdb73901fa46cf
@@ -1636,40 +1653,6 @@ MonoBehaviour:
         ObjectType: 3
         guid: c4fdcbeb421dc146af154a03e05840a9
       Path: Events\Interactive Music System\Play_SilentLoops
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_SilentLoops_v1_7Pitch_Linked
-      guid: 0cb89a07d3ce784183dd41e8abf2bae5
-      id: 1486999246
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Interactive Music System
-        ObjectType: 12
-        guid: e3fca33b7e95e0428b60263055648e4a
-      - ElementName: Play_SilentLoops_v1_7Pitch_Linked
-        ObjectType: 3
-        guid: 0cb89a07d3ce784183dd41e8abf2bae5
-      Path: Events\Interactive Music System\Play_SilentLoops_v1_7Pitch_Linked
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_SilentLoops_v2_12Pitch_Linked
-      guid: 6996796e00d00944aa90f73b8ecf6353
-      id: 835136671
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Interactive Music System
-        ObjectType: 12
-        guid: e3fca33b7e95e0428b60263055648e4a
-      - ElementName: Play_SilentLoops_v2_12Pitch_Linked
-        ObjectType: 3
-        guid: 6996796e00d00944aa90f73b8ecf6353
-      Path: Events\Interactive Music System\Play_SilentLoops_v2_12Pitch_Linked
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1721,40 +1704,6 @@ MonoBehaviour:
         ObjectType: 3
         guid: e40a28752704e04ba4e13f0b4ad82e9b
       Path: Events\Interactive Music System\Play_Toning
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_Toning_v1_7Pitch_Linked
-      guid: 113f849040658c4ab5532767e329b988
-      id: 3415983401
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Interactive Music System
-        ObjectType: 12
-        guid: e3fca33b7e95e0428b60263055648e4a
-      - ElementName: Play_Toning_v1_7Pitch_Linked
-        ObjectType: 3
-        guid: 113f849040658c4ab5532767e329b988
-      Path: Events\Interactive Music System\Play_Toning_v1_7Pitch_Linked
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: Play_Toning_v2_12Pitch_Linked
-      guid: 3edf4117d250ee4fbf9b528e101620d8
-      id: 296236610
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Interactive Music System
-        ObjectType: 12
-        guid: e3fca33b7e95e0428b60263055648e4a
-      - ElementName: Play_Toning_v2_12Pitch_Linked
-        ObjectType: 3
-        guid: 3edf4117d250ee4fbf9b528e101620d8
-      Path: Events\Interactive Music System\Play_Toning_v2_12Pitch_Linked
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -1826,6 +1775,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_SilentLoops_v3_FundamentalOnly
+      guid: d0b1d5c73e44f1428ba4b21cd8c9d328
+      id: 4080801332
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: e3fca33b7e95e0428b60263055648e4a
+      - ElementName: Stop_SilentLoops_v3_FundamentalOnly
+        ObjectType: 3
+        guid: d0b1d5c73e44f1428ba4b21cd8c9d328
+      Path: Events\Interactive Music System\Stop_SilentLoops_v3_FundamentalOnly
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_SilentLoops_v3_HarmonyOnly
+      guid: 5c7b80ce669b3c4282e41a59159eaea9
+      id: 2840510975
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: e3fca33b7e95e0428b60263055648e4a
+      - ElementName: Stop_SilentLoops_v3_HarmonyOnly
+        ObjectType: 3
+        guid: 5c7b80ce669b3c4282e41a59159eaea9
+      Path: Events\Interactive Music System\Stop_SilentLoops_v3_HarmonyOnly
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_Toning
       guid: 95bc9dbcec1f2440914947e42f23d96e
       id: 955662865
@@ -1843,6 +1826,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Stop_Toning_v3_FundamentalOnly
+      guid: ae3b87d329c8cc4faf57c6fca68b4965
+      id: 3269921139
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: e3fca33b7e95e0428b60263055648e4a
+      - ElementName: Stop_Toning_v3_FundamentalOnly
+        ObjectType: 3
+        guid: ae3b87d329c8cc4faf57c6fca68b4965
+      Path: Events\Interactive Music System\Stop_Toning_v3_FundamentalOnly
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Stop_Toning_v3_HarmonyOnly
+      guid: f3f0f60e45b5e34fb9641e7733b69542
+      id: 1554058672
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: e3fca33b7e95e0428b60263055648e4a
+      - ElementName: Stop_Toning_v3_HarmonyOnly
+        ObjectType: 3
+        guid: f3f0f60e45b5e34fb9641e7733b69542
+      Path: Events\Interactive Music System\Stop_Toning_v3_HarmonyOnly
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\Linear Music.wwu
     PathAndIcons:
     - ElementName: Events
@@ -1935,7 +1952,7 @@ MonoBehaviour:
     ParentPath: Events\Music Loops
     guid: 75bb5333efd5ef44a600b06130e39b37
     GuidInternal: 
-    m_lastTime: -8584319846316875375
+    m_lastTime: -8584275651646872003
     List:
     - name: Play_MusicLoops
       guid: e3c408690e6d264b87fae01a43eab94c
@@ -2175,9 +2192,9 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
-    - name: Set_State_MusicLoops
+    - name: Set_Switch_MusicLoops
       guid: 81ec131a404f774f83f3461e073be4bb
-      id: 1245878726
+      id: 2944344671
       PathAndIcons:
       - ElementName: Events
         ObjectType: 5
@@ -2185,13 +2202,13 @@ MonoBehaviour:
       - ElementName: Music Loops
         ObjectType: 12
         guid: 75bb5333efd5ef44a600b06130e39b37
-      - ElementName: Set_State_MusicLoops
+      - ElementName: Set_Switch_MusicLoops
         ObjectType: 3
         guid: 81ec131a404f774f83f3461e073be4bb
-      Path: Events\Music Loops\Set_State_MusicLoops
+      Path: Events\Music Loops\Set_Switch_MusicLoops
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_MusicLoops
       guid: b5fe197a5148f340addd9d15d8e3714c
       id: 1761697258
@@ -2607,7 +2624,7 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584277482925725307
+    m_lastTime: -8584275651646872003
     List:
     - name: Play_VO_CLOSING_GOODBYE
       guid: 8d2508afd6648f46864100152a884f0f
@@ -3131,7 +3148,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\AVS System
     guid: 33c2cba45d7021408c88e244225aa913
     GuidInternal: 
-    m_lastTime: -8584340500780726154
+    m_lastTime: -8584360314617210408
     List:
     - name: AVS_BLUE_Volume_Wave1
       guid: 7bb67256f951734384840f7d6cc7fd2e
@@ -3761,7 +3778,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Binaural Generator
     guid: 02e391bb70d5f844b42c556e83b60e1c
     GuidInternal: 
-    m_lastTime: -8584340500780585660
+    m_lastTime: -8584360314617205110
     List:
     - name: BinauralGenerator_LEFT_Frequency
       guid: 1d968f2adc1409479fa835fc7a2d1138
@@ -3802,7 +3819,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 08fd3303aa3c7f468178c0764211feaf
     GuidInternal: 
-    m_lastTime: -8584340500780575628
+    m_lastTime: -8584360314617199262
     List: []
   - PhysicalPath: Game Parameters\Environment.wwu
     PathAndIcons:
@@ -3815,7 +3832,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Environment
     guid: 68706b1d86fc5f4cab899effe052e5a3
     GuidInternal: 
-    m_lastTime: -8584340500780564680
+    m_lastTime: -8584360314617199262
     List: []
   - PhysicalPath: Game Parameters\Interactive Music System.wwu
     PathAndIcons:
@@ -3828,7 +3845,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Interactive Music System
     guid: 7fec9d861a0e3046bfb37d6383814ca9
     GuidInternal: 
-    m_lastTime: -8584340500780544527
+    m_lastTime: -8584360314617194050
     List:
     - name: FundamentalSilentVolume
       guid: f8f04df21ddf8144bd237a969d9e8269
@@ -3925,7 +3942,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Master Mixer
     guid: 5920b64a742d1a4e8cff8cefde2685e4
     GuidInternal: 
-    m_lastTime: -8584330977202460662
+    m_lastTime: -8584331851321546903
     List:
     - name: BinauralGenerator_Bus_Volume
       guid: 53ce447cefa9b64dba33a07a2f7f989c
@@ -4064,7 +4081,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\SFX
     guid: 22725a575c2b944694ea3cb75aedb4cc
     GuidInternal: 
-    m_lastTime: -8584330977202313424
+    m_lastTime: -8584331851321439362
     List:
     - name: BassSynthesizer_Volume
       guid: 734ed52d6fb79e43a27890e208bdb630
@@ -4147,7 +4164,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Unity Imitone
     guid: cac749861016bd468dcac9f447d3c666
     GuidInternal: 
-    m_lastTime: -8584340500780396927
+    m_lastTime: -8584360314617172393
     List:
     - name: TONING_Player_Volume
       guid: 2be8aa0241c86d48a07e07b93954dbcf
@@ -4259,7 +4276,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: 7ce132b6a0022f428482f3c8e97d00be
     GuidInternal: 
-    m_lastTime: -8584330977146121341
+    m_lastTime: -8584275651646608577
     List:
     - name: AbsorptionMode
       guid: 56187ed435247e4fafedb57a575f601a
@@ -4327,186 +4344,6 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: InteractiveMusicMode
-      guid: ff16d21ee376594bb02f58bf638de405
-      id: 361224273
-      PathAndIcons:
-      - ElementName: States
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 7ce132b6a0022f428482f3c8e97d00be
-      - ElementName: InteractiveMusicMode
-        ObjectType: 9
-        guid: ff16d21ee376594bb02f58bf638de405
-      Path: States\Default Work Unit\InteractiveMusicMode
-      values:
-      - name: Environment
-        guid: 15f6333e163c4a408318dd7f85cc06a8
-        id: 1229948536
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: InteractiveMusicMode
-          ObjectType: 9
-          guid: ff16d21ee376594bb02f58bf638de405
-        - ElementName: Environment
-          ObjectType: 8
-          guid: 15f6333e163c4a408318dd7f85cc06a8
-      - name: InteractiveMusicSystem
-        guid: 8fc7d2918fabdf49a9c4375b7878706c
-        id: 1817215723
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: InteractiveMusicMode
-          ObjectType: 9
-          guid: ff16d21ee376594bb02f58bf638de405
-        - ElementName: InteractiveMusicSystem
-          ObjectType: 8
-          guid: 8fc7d2918fabdf49a9c4375b7878706c
-      - name: MusicLoops
-        guid: 9e061147d3e0f24dbdbb7bf64a14fcc5
-        id: 3375574707
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: InteractiveMusicMode
-          ObjectType: 9
-          guid: ff16d21ee376594bb02f58bf638de405
-        - ElementName: MusicLoops
-          ObjectType: 8
-          guid: 9e061147d3e0f24dbdbb7bf64a14fcc5
-      - name: None
-        guid: f7580fefd152d043b13d474f5210cc18
-        id: 748895195
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: InteractiveMusicMode
-          ObjectType: 9
-          guid: ff16d21ee376594bb02f58bf638de405
-        - ElementName: None
-          ObjectType: 8
-          guid: f7580fefd152d043b13d474f5210cc18
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
-    - name: SoundWorldMode
-      guid: 10d188a0300e454289a83f1a4f31424e
-      id: 3090474987
-      PathAndIcons:
-      - ElementName: States
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 7ce132b6a0022f428482f3c8e97d00be
-      - ElementName: SoundWorldMode
-        ObjectType: 9
-        guid: 10d188a0300e454289a83f1a4f31424e
-      Path: States\Default Work Unit\SoundWorldMode
-      values:
-      - name: Gentle
-        guid: f718d58ea3ad3243b9c4ae56a295a9d1
-        id: 2193720742
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: SoundWorldMode
-          ObjectType: 9
-          guid: 10d188a0300e454289a83f1a4f31424e
-        - ElementName: Gentle
-          ObjectType: 8
-          guid: f718d58ea3ad3243b9c4ae56a295a9d1
-      - name: None
-        guid: 06c863947c3c5544bc978c40968228b0
-        id: 748895195
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: SoundWorldMode
-          ObjectType: 9
-          guid: 10d188a0300e454289a83f1a4f31424e
-        - ElementName: None
-          ObjectType: 8
-          guid: 06c863947c3c5544bc978c40968228b0
-      - name: Shadow
-        guid: b45c1acb5179c54a9316bd8014323f0d
-        id: 3140781661
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: SoundWorldMode
-          ObjectType: 9
-          guid: 10d188a0300e454289a83f1a4f31424e
-        - ElementName: Shadow
-          ObjectType: 8
-          guid: b45c1acb5179c54a9316bd8014323f0d
-      - name: Shruti
-        guid: a939a6ddf907a94e907159bc8543fa2b
-        id: 4267886810
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: SoundWorldMode
-          ObjectType: 9
-          guid: 10d188a0300e454289a83f1a4f31424e
-        - ElementName: Shruti
-          ObjectType: 8
-          guid: a939a6ddf907a94e907159bc8543fa2b
-      - name: SonoFlore
-        guid: 2b1e1b8c7332464aa3e05de51128ff04
-        id: 1467691068
-        PathAndIcons:
-        - ElementName: States
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: 7ce132b6a0022f428482f3c8e97d00be
-        - ElementName: SoundWorldMode
-          ObjectType: 9
-          guid: 10d188a0300e454289a83f1a4f31424e
-        - ElementName: SonoFlore
-          ObjectType: 8
-          guid: 2b1e1b8c7332464aa3e05de51128ff04
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
   SwitchWwu:
   - PhysicalPath: Switches\AVS.wwu
     PathAndIcons:
@@ -4519,7 +4356,7 @@ MonoBehaviour:
     ParentPath: Switches\AVS
     guid: 77a4ddce2990b345b04090db07cd3c46
     GuidInternal: 
-    m_lastTime: -8584340500774132569
+    m_lastTime: -8584360314372507987
     List: []
   - PhysicalPath: Switches\BassSynth.wwu
     PathAndIcons:
@@ -4532,7 +4369,7 @@ MonoBehaviour:
     ParentPath: Switches\BassSynth
     guid: deaa22306d5bfd4e89db888c59cd3011
     GuidInternal: 
-    m_lastTime: -8584330152620612450
+    m_lastTime: -8584330962324420547
     List:
     - name: BassSynth_PitchSwitch
       guid: dd4d4e56071e0c4d948e54fef1b69309
@@ -4744,18 +4581,18 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-  - PhysicalPath: Switches\Default Work Unit.wwu
+  - PhysicalPath: Switches\Calibration.wwu
     PathAndIcons:
     - ElementName: Switches
       ObjectType: 5
       guid: 00000000000000000000000000000000
-    - ElementName: Default Work Unit
+    - ElementName: Calibration
       ObjectType: 12
-      guid: b649101cab38b141861f0be6c57cc1d3
-    ParentPath: Switches\Default Work Unit
-    guid: b649101cab38b141861f0be6c57cc1d3
+      guid: 2ffe307b48bf674abbb6fba2ed272373
+    ParentPath: Switches\Calibration
+    guid: 2ffe307b48bf674abbb6fba2ed272373
     GuidInternal: 
-    m_lastTime: -8584340500774120324
+    m_lastTime: -8584275651646608577
     List:
     - name: Calibration_Sequence
       guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4764,13 +4601,13 @@ MonoBehaviour:
       - ElementName: Switches
         ObjectType: 5
         guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
+      - ElementName: Calibration
         ObjectType: 12
-        guid: b649101cab38b141861f0be6c57cc1d3
+        guid: 2ffe307b48bf674abbb6fba2ed272373
       - ElementName: Calibration_Sequence
         ObjectType: 11
         guid: 57c3cb2d2bb8a047af1ee8d7136b7129
-      Path: Switches\Default Work Unit\Calibration_Sequence
+      Path: Switches\Calibration\Calibration_Sequence
       values:
       - name: End
         guid: 34a6c8211094814baca1dd4982baeb8b
@@ -4779,9 +4616,9 @@ MonoBehaviour:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
+        - ElementName: Calibration
           ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
+          guid: 2ffe307b48bf674abbb6fba2ed272373
         - ElementName: Calibration_Sequence
           ObjectType: 11
           guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4795,9 +4632,9 @@ MonoBehaviour:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
+        - ElementName: Calibration
           ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
+          guid: 2ffe307b48bf674abbb6fba2ed272373
         - ElementName: Calibration_Sequence
           ObjectType: 11
           guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4811,9 +4648,9 @@ MonoBehaviour:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
+        - ElementName: Calibration
           ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
+          guid: 2ffe307b48bf674abbb6fba2ed272373
         - ElementName: Calibration_Sequence
           ObjectType: 11
           guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4827,9 +4664,9 @@ MonoBehaviour:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
+        - ElementName: Calibration
           ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
+          guid: 2ffe307b48bf674abbb6fba2ed272373
         - ElementName: Calibration_Sequence
           ObjectType: 11
           guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4843,9 +4680,9 @@ MonoBehaviour:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
+        - ElementName: Calibration
           ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
+          guid: 2ffe307b48bf674abbb6fba2ed272373
         - ElementName: Calibration_Sequence
           ObjectType: 11
           guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4859,9 +4696,9 @@ MonoBehaviour:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
+        - ElementName: Calibration
           ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
+          guid: 2ffe307b48bf674abbb6fba2ed272373
         - ElementName: Calibration_Sequence
           ObjectType: 11
           guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4875,9 +4712,9 @@ MonoBehaviour:
         - ElementName: Switches
           ObjectType: 5
           guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
+        - ElementName: Calibration
           ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
+          guid: 2ffe307b48bf674abbb6fba2ed272373
         - ElementName: Calibration_Sequence
           ObjectType: 11
           guid: 57c3cb2d2bb8a047af1ee8d7136b7129
@@ -4887,104 +4724,19 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
-    - name: MENU_SESSIONMODE
-      guid: b9531b2ef2c59a45a67f8feff77eabc7
-      id: 2585035832
-      PathAndIcons:
-      - ElementName: Switches
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: b649101cab38b141861f0be6c57cc1d3
-      - ElementName: MENU_SESSIONMODE
-        ObjectType: 11
-        guid: b9531b2ef2c59a45a67f8feff77eabc7
-      Path: Switches\Default Work Unit\MENU_SESSIONMODE
-      values:
-      - name: Adjunct
-        guid: c1a92601fa6f434a958109218884c0a2
-        id: 2534402132
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
-        - ElementName: MENU_SESSIONMODE
-          ObjectType: 11
-          guid: b9531b2ef2c59a45a67f8feff77eabc7
-        - ElementName: Adjunct
-          ObjectType: 10
-          guid: c1a92601fa6f434a958109218884c0a2
-      - name: Integration
-        guid: bb134d1e202eaf4389bc640691f68896
-        id: 4094247797
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
-        - ElementName: MENU_SESSIONMODE
-          ObjectType: 11
-          guid: b9531b2ef2c59a45a67f8feff77eabc7
-        - ElementName: Integration
-          ObjectType: 10
-          guid: bb134d1e202eaf4389bc640691f68896
-      - name: Passive
-        guid: dd9db99e475df0448344acfbfbbc62aa
-        id: 2595709632
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
-        - ElementName: MENU_SESSIONMODE
-          ObjectType: 11
-          guid: b9531b2ef2c59a45a67f8feff77eabc7
-        - ElementName: Passive
-          ObjectType: 10
-          guid: dd9db99e475df0448344acfbfbbc62aa
-      - name: Preparation
-        guid: b6c5c0ac2fbf9345a6a017a99fe8bae5
-        id: 3147549296
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
-        - ElementName: MENU_SESSIONMODE
-          ObjectType: 11
-          guid: b9531b2ef2c59a45a67f8feff77eabc7
-        - ElementName: Preparation
-          ObjectType: 10
-          guid: b6c5c0ac2fbf9345a6a017a99fe8bae5
-      - name: Wisdom
-        guid: 1dcb0188dfe3db45b23fdc1073aea7bd
-        id: 4033993124
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Default Work Unit
-          ObjectType: 12
-          guid: b649101cab38b141861f0be6c57cc1d3
-        - ElementName: MENU_SESSIONMODE
-          ObjectType: 11
-          guid: b9531b2ef2c59a45a67f8feff77eabc7
-        - ElementName: Wisdom
-          ObjectType: 10
-          guid: 1dcb0188dfe3db45b23fdc1073aea7bd
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
+  - PhysicalPath: Switches\Default Work Unit.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Default Work Unit
+      ObjectType: 12
+      guid: b649101cab38b141861f0be6c57cc1d3
+    ParentPath: Switches\Default Work Unit
+    guid: b649101cab38b141861f0be6c57cc1d3
+    GuidInternal: 
+    m_lastTime: -8584275651646593438
+    List: []
   - PhysicalPath: Switches\Interactive Music System.wwu
     PathAndIcons:
     - ElementName: Switches
@@ -4996,11 +4748,11 @@ MonoBehaviour:
     ParentPath: Switches\Interactive Music System
     guid: a70b5ef296c6e5488bce779e710a3892
     GuidInternal: 
-    m_lastTime: -8584340500774110290
+    m_lastTime: -8584275651646583389
     List:
-    - name: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
-      guid: 028067d9e2606b4b89c73087a452a4a2
-      id: 2905423286
+    - name: InteractiveMusicMode_Switch
+      guid: a8bf39e19c012740b688e72cea692a21
+      id: 3282688384
       PathAndIcons:
       - ElementName: Switches
         ObjectType: 5
@@ -5008,14 +4760,14 @@ MonoBehaviour:
       - ElementName: Interactive Music System
         ObjectType: 12
         guid: a70b5ef296c6e5488bce779e710a3892
-      - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
+      - ElementName: InteractiveMusicMode_Switch
         ObjectType: 11
-        guid: 028067d9e2606b4b89c73087a452a4a2
-      Path: Switches\Interactive Music System\InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
+        guid: a8bf39e19c012740b688e72cea692a21
+      Path: Switches\Interactive Music System\InteractiveMusicMode_Switch
       values:
-      - name: A
-        guid: b98ba9bc1fd9804681f8b1a108a2132f
-        id: 84696446
+      - name: InteractiveMusicSystem
+        guid: f498ac612a163e43b78539651e569a91
+        id: 1817215723
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
@@ -5023,15 +4775,15 @@ MonoBehaviour:
         - ElementName: Interactive Music System
           ObjectType: 12
           guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
+        - ElementName: InteractiveMusicMode_Switch
           ObjectType: 11
-          guid: 028067d9e2606b4b89c73087a452a4a2
-        - ElementName: A
+          guid: a8bf39e19c012740b688e72cea692a21
+        - ElementName: InteractiveMusicSystem
           ObjectType: 10
-          guid: b98ba9bc1fd9804681f8b1a108a2132f
-      - name: B
-        guid: e909e35dd8cad34a9c7d556dd4935594
-        id: 84696445
+          guid: f498ac612a163e43b78539651e569a91
+      - name: MusicLoops
+        guid: 7f88815f67fb6845bd4908f059be5ef0
+        id: 3375574707
         PathAndIcons:
         - ElementName: Switches
           ObjectType: 5
@@ -5039,302 +4791,12 @@ MonoBehaviour:
         - ElementName: Interactive Music System
           ObjectType: 12
           guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
+        - ElementName: InteractiveMusicMode_Switch
           ObjectType: 11
-          guid: 028067d9e2606b4b89c73087a452a4a2
-        - ElementName: B
+          guid: a8bf39e19c012740b688e72cea692a21
+        - ElementName: MusicLoops
           ObjectType: 10
-          guid: e909e35dd8cad34a9c7d556dd4935594
-      - name: C
-        guid: b36ac47f2fd3ac419e188935dda24b18
-        id: 84696444
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
-          ObjectType: 11
-          guid: 028067d9e2606b4b89c73087a452a4a2
-        - ElementName: C
-          ObjectType: 10
-          guid: b36ac47f2fd3ac419e188935dda24b18
-      - name: D
-        guid: d28272d6198ddf4788e34a72816e38d3
-        id: 84696443
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
-          ObjectType: 11
-          guid: 028067d9e2606b4b89c73087a452a4a2
-        - ElementName: D
-          ObjectType: 10
-          guid: d28272d6198ddf4788e34a72816e38d3
-      - name: E
-        guid: 706e3a5bf8aa6b42b9dde72b43c98983
-        id: 84696442
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
-          ObjectType: 11
-          guid: 028067d9e2606b4b89c73087a452a4a2
-        - ElementName: E
-          ObjectType: 10
-          guid: 706e3a5bf8aa6b42b9dde72b43c98983
-      - name: F
-        guid: de04fde6228151479f2e5bf973766d5a
-        id: 84696441
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
-          ObjectType: 11
-          guid: 028067d9e2606b4b89c73087a452a4a2
-        - ElementName: F
-          ObjectType: 10
-          guid: de04fde6228151479f2e5bf973766d5a
-      - name: G
-        guid: c2edca255c994440b4a438361f607d0f
-        id: 84696440
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup1_7Pitches_Linked5ths
-          ObjectType: 11
-          guid: 028067d9e2606b4b89c73087a452a4a2
-        - ElementName: G
-          ObjectType: 10
-          guid: c2edca255c994440b4a438361f607d0f
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
-    - name: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-      guid: 1e402f0a84f90f46811da40a29448345
-      id: 2195370387
-      PathAndIcons:
-      - ElementName: Switches
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Interactive Music System
-        ObjectType: 12
-        guid: a70b5ef296c6e5488bce779e710a3892
-      - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-        ObjectType: 11
-        guid: 1e402f0a84f90f46811da40a29448345
-      Path: Switches\Interactive Music System\InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-      values:
-      - name: A
-        guid: 1dfbed79e77dac4994c278412ca12eaf
-        id: 84696446
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: A
-          ObjectType: 10
-          guid: 1dfbed79e77dac4994c278412ca12eaf
-      - name: AsharpBflat
-        guid: c410b1710da02c4bb7fa1b54bec45f2c
-        id: 3050272541
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: AsharpBflat
-          ObjectType: 10
-          guid: c410b1710da02c4bb7fa1b54bec45f2c
-      - name: B
-        guid: ce87577b51df9d4bb8985d492524fbc7
-        id: 84696445
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: B
-          ObjectType: 10
-          guid: ce87577b51df9d4bb8985d492524fbc7
-      - name: C
-        guid: e64592d9ad4bca40a007c0ee95ae7ea8
-        id: 84696444
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: C
-          ObjectType: 10
-          guid: e64592d9ad4bca40a007c0ee95ae7ea8
-      - name: CsharpDflat
-        guid: 48a17720e7b8214798f2670886ca40c1
-        id: 3800083777
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: CsharpDflat
-          ObjectType: 10
-          guid: 48a17720e7b8214798f2670886ca40c1
-      - name: D
-        guid: 55fb85fee615d14d879a3534a84ed7f4
-        id: 84696443
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: D
-          ObjectType: 10
-          guid: 55fb85fee615d14d879a3534a84ed7f4
-      - name: DsharpEflat
-        guid: e7d9bf1c16d6c744892b04142ce625ac
-        id: 791737535
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: DsharpEflat
-          ObjectType: 10
-          guid: e7d9bf1c16d6c744892b04142ce625ac
-      - name: E
-        guid: 447a8f8c0b906f4da8a8c1b775aa91b9
-        id: 84696442
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: E
-          ObjectType: 10
-          guid: 447a8f8c0b906f4da8a8c1b775aa91b9
-      - name: F
-        guid: b2c78c595380074d9bc53ac301dbfd52
-        id: 84696441
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: F
-          ObjectType: 10
-          guid: b2c78c595380074d9bc53ac301dbfd52
-      - name: FsharpGflat
-        guid: 4cc62cf028395949a0d3a4fe351c24bb
-        id: 156517199
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: FsharpGflat
-          ObjectType: 10
-          guid: 4cc62cf028395949a0d3a4fe351c24bb
-      - name: G
-        guid: 25ad554bff771848afadffad4c5f96d4
-        id: 84696440
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: G
-          ObjectType: 10
-          guid: 25ad554bff771848afadffad4c5f96d4
-      - name: GsharpAflat
-        guid: fb51f22092e3944e845dd8f4ce5b8ee9
-        id: 3573977648
-        PathAndIcons:
-        - ElementName: Switches
-          ObjectType: 5
-          guid: 00000000000000000000000000000000
-        - ElementName: Interactive Music System
-          ObjectType: 12
-          guid: a70b5ef296c6e5488bce779e710a3892
-        - ElementName: InteractiveMusicSwitchGroup2_12Pitches_Linked5ths
-          ObjectType: 11
-          guid: 1e402f0a84f90f46811da40a29448345
-        - ElementName: GsharpAflat
-          ObjectType: 10
-          guid: fb51f22092e3944e845dd8f4ce5b8ee9
+          guid: 7f88815f67fb6845bd4908f059be5ef0
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
@@ -5758,6 +5220,88 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
+    - name: SoundWorldMode_Switch
+      guid: 8ebbc90a1f2164479df8c47a5a0fa975
+      id: 1081559142
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Interactive Music System
+        ObjectType: 12
+        guid: a70b5ef296c6e5488bce779e710a3892
+      - ElementName: SoundWorldMode_Switch
+        ObjectType: 11
+        guid: 8ebbc90a1f2164479df8c47a5a0fa975
+      Path: Switches\Interactive Music System\SoundWorldMode_Switch
+      values:
+      - name: Gentle
+        guid: 4848cf48fda1be48931d5a718351f5d3
+        id: 2193720742
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: SoundWorldMode_Switch
+          ObjectType: 11
+          guid: 8ebbc90a1f2164479df8c47a5a0fa975
+        - ElementName: Gentle
+          ObjectType: 10
+          guid: 4848cf48fda1be48931d5a718351f5d3
+      - name: Shadow
+        guid: 95d0f555ef9256499e7e3fbe97792798
+        id: 3140781661
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: SoundWorldMode_Switch
+          ObjectType: 11
+          guid: 8ebbc90a1f2164479df8c47a5a0fa975
+        - ElementName: Shadow
+          ObjectType: 10
+          guid: 95d0f555ef9256499e7e3fbe97792798
+      - name: Shruti
+        guid: b05f8cb545510d4f8b6d3d6b854e6ff0
+        id: 4267886810
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: SoundWorldMode_Switch
+          ObjectType: 11
+          guid: 8ebbc90a1f2164479df8c47a5a0fa975
+        - ElementName: Shruti
+          ObjectType: 10
+          guid: b05f8cb545510d4f8b6d3d6b854e6ff0
+      - name: SonoFlore
+        guid: e79d0da136ef004ab171d92ff9cec4ca
+        id: 1467691068
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Interactive Music System
+          ObjectType: 12
+          guid: a70b5ef296c6e5488bce779e710a3892
+        - ElementName: SoundWorldMode_Switch
+          ObjectType: 11
+          guid: 8ebbc90a1f2164479df8c47a5a0fa975
+        - ElementName: SonoFlore
+          ObjectType: 10
+          guid: e79d0da136ef004ab171d92ff9cec4ca
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   - PhysicalPath: Switches\Linear Music.wwu
     PathAndIcons:
     - ElementName: Switches
@@ -5769,7 +5313,7 @@ MonoBehaviour:
     ParentPath: Switches\Linear Music
     guid: 4559fdf6c456f549993933ab507a3928
     GuidInternal: 
-    m_lastTime: -8584321280158336727
+    m_lastTime: -8584321584352854582
     List:
     - name: LinearMusic_Opening
       guid: ad701a433214144398da4e5c38930442
@@ -6042,7 +5586,7 @@ MonoBehaviour:
     ParentPath: Switches\Music Loops
     guid: 156fa4da81cf6c43a7ee0f1794958384
     GuidInternal: 
-    m_lastTime: -8584321280158203363
+    m_lastTime: -8584321584352788966
     List:
     - name: MusicLoops_Switch
       guid: 7eb92896dd424f4fb707f2504de3d841
@@ -6315,7 +5859,7 @@ MonoBehaviour:
     ParentPath: Switches\SFX
     guid: 632f13f35b1c6e4caf89d68030a98081
     GuidInternal: 
-    m_lastTime: -8584326730152052090
+    m_lastTime: -8584328182023785611
     List: []
   - PhysicalPath: Switches\Unity Imitone.wwu
     PathAndIcons:
@@ -6328,7 +5872,7 @@ MonoBehaviour:
     ParentPath: Switches\Unity Imitone
     guid: 03c51979dd6dc443bbf5588afb1af394
     GuidInternal: 
-    m_lastTime: -8584340500774069643
+    m_lastTime: -8584360314372407670
     List:
     - name: ToneActive
       guid: 3ce342ef55475f458960a54b73f37659
@@ -7061,7 +6605,7 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 2e22794f9054df4dba29a333b79a5f59
     GuidInternal: 
-    m_lastTime: -8584340500774059611
+    m_lastTime: -8584360314372357326
     List:
     - name: Test
       guid: c760786d07938d41a39c332de5c52dab

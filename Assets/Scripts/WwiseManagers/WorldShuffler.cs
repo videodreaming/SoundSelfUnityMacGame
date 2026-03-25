@@ -53,7 +53,7 @@ public class WorldShuffler : MonoBehaviour
         {
             if(!waiting)
             {
-                _shuffleTimer += (Time.deltaTime * Mathf.Pow(2, (1-Mathf.Clamp(respirationTracker._absorption, 0, 1))));
+                _shuffleTimer += (Time.deltaTime * Mathf.Pow(2, (1-Mathf.Clamp(RespirationTracker.instance._absorption, 0, 1))));
                 if(_shuffleTimer >= _shuffleInterval)
                 {
                     Debug.Log("WorldShuffler: Time to shuffle worlds.");

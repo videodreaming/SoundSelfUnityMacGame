@@ -760,7 +760,7 @@ public class Sequencer : MonoBehaviour
     private bool AVS_Program_ManageThetaTransition()
     {
         
-        if(((respirationTracker._absorption > _absorptionThreshold)) && !flagThetaCoroutine)
+        if(((RespirationTracker.instance._absorption > _absorptionThreshold)) && !flagThetaCoroutine)
         {
             flagThetaCoroutine = true;
             CoroutineDynamicDropTheta = StartCoroutine(AVS_Program_DynamicDrop_Theta());

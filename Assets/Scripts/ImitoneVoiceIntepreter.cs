@@ -53,10 +53,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     public bool toneActiveVeryConfidentRaw { get; private set; } = false;
     public float positiveActiveThreshold1 { get; private set; } = 0.05f; //for toneActive 
     public float positiveActiveThreshold2 { get; private set; } = 0.2f; //for toneActiveConfident
-    public float negativeActiveThreshold1 { get; private set; } = 0.1f; //for toneActive
-    public float negativeActiveThreshold2 { get; private set; } = 0.33f; //for toneActiveConfident
+    public float negativeActiveThreshold1 { get; private set; } = 0.2f; //for toneActive
+    public float negativeActiveThreshold2 { get; private set; } = 0.4f; //for toneActiveConfident
     public float _activeThreshold3 { get; private set; } = 0.75f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
-    public float _activeThreshold4 { get; private set; } = 7.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
+    //public float _activeThreshold4 { get; private set; } = 7.0f; //positive and negative are the same... used for respiration rate (toneActiveVeryConfident)
     public bool exceptionFlag = false;
 
     //TODO: using these vars
@@ -173,7 +173,20 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     float[] capturedInput;
     // Reusable buffer for chunking audio to imitone. Imitone's internal feed_buffer holds max 1 second (sampleRate samples).
     private float[] _imitoneChunkBuffer;
-    
+
+    [Header("High Pass Filter")]
+    [Tooltip("Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. 80 Hz is typical for voice.")]
+    [SerializeField] private bool _highPassFilterEnabled = true;
+    [SerializeField] private float _highPassCutoffHz = 80f;
+    private float _hpPrevInput;
+    private float _hpPrevOutput;
+
+    [Header("Low Pass Filter")]
+    [Tooltip("Removes high-frequency hiss and overtones above voice range. 520 Hz keeps tenor fundamentals.")]
+    [SerializeField] private bool _lowPassFilterEnabled = true;
+    [SerializeField] private float _lowPassCutoffHz = 520f;
+    private float _lpPrevOutput;
+
     // Public accessors for shared microphone usage
     public AudioClip MicrophoneBuffer => inputBuffer;
     public string MicrophoneDeviceName => microphoneName;
@@ -495,6 +508,40 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     }
 
 
+
+    /// <summary>First-order high-pass filter in-place. Removes rumble below cutoff. State persists across calls.</summary>
+    private void ApplyHighPassFilter(float[] samples)
+    {
+        if (samples == null || samples.Length == 0 || sampleRate <= 0) return;
+        float rc = 1f / (2f * Mathf.PI * _highPassCutoffHz);
+        float dt = 1f / sampleRate;
+        float alpha = rc / (rc + dt);
+        for (int i = 0; i < samples.Length; i++)
+        {
+            float x = samples[i];
+            float y = alpha * (_hpPrevOutput + x - _hpPrevInput);
+            _hpPrevInput = x;
+            _hpPrevOutput = y;
+            samples[i] = y;
+        }
+    }
+
+    /// <summary>First-order low-pass filter in-place. Attenuates frequencies above cutoff. State persists across calls.</summary>
+    private void ApplyLowPassFilter(float[] samples)
+    {
+        if (samples == null || samples.Length == 0 || sampleRate <= 0) return;
+        float rc = 1f / (2f * Mathf.PI * _lowPassCutoffHz);
+        float dt = 1f / sampleRate;
+        float alpha = dt / (rc + dt);
+        for (int i = 0; i < samples.Length; i++)
+        {
+            float x = samples[i];
+            float y = alpha * x + (1f - alpha) * _lpPrevOutput;
+            _lpPrevOutput = y;
+            samples[i] = y;
+        }
+    }
+
     private void GetRawVoiceData()
     { //WE NEED RAW VALUES FOR THIS
         if (!inputBuffer)
@@ -514,6 +561,12 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             // Read the latest audio data, beginning from where we left off and wrapping around as needed.
             inputBuffer.GetData(capturedInput, micPosRead);
             micPosRead = (micPosRead + capturedInput.Length) % inputBuffer.samples;
+
+            if (_highPassFilterEnabled && _highPassCutoffHz > 0f)
+                ApplyHighPassFilter(capturedInput);
+            if (_lowPassFilterEnabled && _lowPassCutoffHz > 0f)
+                ApplyLowPassFilter(capturedInput);
+
             // Analyze the captured audio with imitone.
             if (imitone != null)
             {

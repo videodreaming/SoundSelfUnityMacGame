@@ -68,27 +68,27 @@ public class DataOutput : MonoBehaviour
                          $"{AVSStrobeCommand}," +
                          $"{AVSColorCommand}," +
                          $"{imitoneVoiceInterprter.gameOn}," +
-                         $"{respirationTracker._respirationRate}," +
-                         $"{respirationTracker._meanToneLength}," +
-                         $"{respirationTracker._meanRestLength}," +
-                         $"{respirationTracker._respirationRate1min}," +
-                         $"{respirationTracker._respirationRate2min}," +
-                         $"{respirationTracker._respirationRateRaw1min}," +
-                         $"{respirationTracker._respirationRateRaw2min}," +
-                         $"{respirationTracker._meanToneLength1min}," +
-                         $"{respirationTracker._meanToneLength2min}," +
-                         $"{respirationTracker._meanRestLength1min}," +
-                         $"{respirationTracker._meanRestLength2min}," +
-                         $"{respirationTracker._absorption}," +
-                         $"{respirationTracker._absorptionRaw}," +
-                         $"{respirationTracker._standardDeviationTone1min}," +
-                         $"{respirationTracker._standardDeviationTone2min}," +
-                         $"{respirationTracker._standardDeviationRest1min}," +
-                         $"{respirationTracker._standardDeviationRest2min}," +
-                         $"{respirationTracker._absorptionRespirationRateMultiplier1min}," +
-                         $"{respirationTracker._absorptionRespirationRateMultiplier2min}," +
-                         $"{respirationTracker._absorptionToneLengthMultiplier1min}," +
-                         $"{respirationTracker._absorptionToneLengthMultiplier2min},");
+                         $"{RespirationTracker.instance._respirationRate}," +
+                         $"{RespirationTracker.instance._meanToneLength}," +
+                         $"{RespirationTracker.instance._meanRestLength}," +
+                         $"{RespirationTracker.instance._respirationRate1min}," +
+                         $"{RespirationTracker.instance._respirationRate2min}," +
+                         $"{RespirationTracker.instance._respirationRateRaw1min}," +
+                         $"{RespirationTracker.instance._respirationRateRaw2min}," +
+                         $"{RespirationTracker.instance._meanToneLength1min}," +
+                         $"{RespirationTracker.instance._meanToneLength2min}," +
+                         $"{RespirationTracker.instance._meanRestLength1min}," +
+                         $"{RespirationTracker.instance._meanRestLength2min}," +
+                         $"{RespirationTracker.instance._absorption}," +
+                         $"{RespirationTracker.instance._absorptionRaw}," +
+                         $"{RespirationTracker.instance._standardDeviationTone1min}," +
+                         $"{RespirationTracker.instance._standardDeviationTone2min}," +
+                         $"{RespirationTracker.instance._standardDeviationRest1min}," +
+                         $"{RespirationTracker.instance._standardDeviationRest2min}," +
+                         $"{RespirationTracker.instance._absorptionRespirationRateMultiplier1min}," +
+                         $"{RespirationTracker.instance._absorptionRespirationRateMultiplier2min}," +
+                         $"{RespirationTracker.instance._absorptionToneLengthMultiplier1min}," +
+                         $"{RespirationTracker.instance._absorptionToneLengthMultiplier2min},");
 
         AVSColorCommand = "";
         AVSStrobeCommand = "";

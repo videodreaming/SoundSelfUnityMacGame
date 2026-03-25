@@ -4,11 +4,12 @@ using UnityEngine;
 using TMPro;
 public class UIRespirationMeans : MonoBehaviour
 {
-    public RespirationTracker RespirationTracker;
     [SerializeField] private TextMeshProUGUI noteText;
     public void Update()
     {
         // Replace line below with the value you want to display.
-        noteText.text = $"{RespirationTracker._meanToneLength:F2} / {RespirationTracker._meanRestLength:F2} / {RespirationTracker._meanCycleLength:F2}";
+        noteText.text = RespirationTracker.instance != null
+            ? $"{RespirationTracker.instance._meanToneLength:F2} / {RespirationTracker.instance._meanRestLength:F2} / {RespirationTracker.instance._meanCycleLength:F2}"
+            : "- / - / -";
     }
 }

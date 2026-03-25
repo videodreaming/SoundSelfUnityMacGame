@@ -38,7 +38,6 @@ public class MusicSystem1 : MonoBehaviour
     public WorldShuffler worldShuffler;
     public RespirationTracker respirationTracker;
     public Director director;
-    public GameValues gameValues;
     public LightControl lightControl;
     public AudioSource monitoringAudioSource;
     public Tutorial tutorial;
@@ -61,6 +60,10 @@ public class MusicSystem1 : MonoBehaviour
     private NoteName nextNote = NoteName.None; // Next note to activate
     private float highestActivationTimer = 0.0f;
     public bool localToneOn {get; private set;} = false;
+    /// <summary>Wwise Play_Toning_v3_FundamentalOnly / Stop_Toning_v3_FundamentalOnly state (see also ToningV3HarmonyPlaying).</summary>
+    public bool ToningV3FundamentalPlaying { get; private set; } = false;
+    /// <summary>Wwise Play_Toning_v3_HarmonyOnly / Stop_Toning_v3_HarmonyOnly state.</summary>
+    public bool ToningV3HarmonyPlaying { get; private set; } = false;
     private bool previousLocalToneOn = false;
     private bool localBassSynthToneOn = false; // Controls BassSynth based on toneActiveConfident
     private bool previousLocalBassSynthToneOn = false;
@@ -319,7 +322,7 @@ public class MusicSystem1 : MonoBehaviour
         // If the sound world has not yet been set, set it to Gentle to prevent bug.
         if (!haveSetSoundWorldFlag)
         {
-            AkSoundEngine.SetSwitch("SoundWorldMode_Switch", "Gentle", gameObject);
+            SetSwitchRestoreToningV3("SoundWorldMode_Switch", "Gentle");
             SetSoundWorldFlag();
         }
     }
@@ -464,19 +467,19 @@ public class MusicSystem1 : MonoBehaviour
         //then get a lerp for the charge state
         if(imitoneVoiceInterpreter.toneActive)
         {
-            if (gameValues._chantCharge > _chargeLerp)
+            if (GameValues.instance._chantCharge > _chargeLerp)
             {
                 _chargeLerp += Time.deltaTime;
-                _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, gameValues._chantCharge);
+                _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, GameValues.instance._chantCharge);
             }
-            else if (gameValues._chantCharge < _chargeLerp)
+            else if (GameValues.instance._chantCharge < _chargeLerp)
             {
                 _chargeLerp -= Time.deltaTime;
-                _chargeLerp = Mathf.Clamp(_chargeLerp, gameValues._chantCharge, 1.0f);
+                _chargeLerp = Mathf.Clamp(_chargeLerp, GameValues.instance._chantCharge, 1.0f);
             }
             else
             {
-                _chargeLerp = gameValues._chantCharge;
+                _chargeLerp = GameValues.instance._chantCharge;
             }
         }
         else
@@ -485,7 +488,7 @@ public class MusicSystem1 : MonoBehaviour
             _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, 1.0f);
         }
 
-        monitoringAudioSource.volume = _gameOnLerp * (1.0f - _chargeLerp * 0.5f) * gameValues._chantLerpFast;
+        monitoringAudioSource.volume = _gameOnLerp * (1.0f - _chargeLerp * 0.5f) * GameValues.instance._chantLerpFast;
     }
 
     //Take the fundamental behaviors in the InterpretImitonUpdate method and move them here for clarity
@@ -534,7 +537,7 @@ public class MusicSystem1 : MonoBehaviour
                         }
 
                         // Change timer rate based on absorption and wrapped distance from fundamental
-                        float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(respirationTracker._absorption, 0, 1) * -1);
+                        float _slowWhenHighAbsorption = Mathf.Pow(2, Mathf.Clamp(RespirationTracker.instance._absorption, 0, 1) * -1);
                         float _fastWhenVeryDifferent = (d > 4 ? 2.0f : 1.0f);
                         float _newChangeMultiplier = _slowWhenHighAbsorption * _fastWhenVeryDifferent;
                         newChangeFundamentalTimer += (Time.deltaTime * _newChangeMultiplier);
@@ -654,12 +657,12 @@ public class MusicSystem1 : MonoBehaviour
 
     private void ThumpUpdate ()
     {
-        if(gameValues._chantCharge < 0.5f)
+        if(GameValues.instance._chantCharge < 0.5f)
         {
             impactSoundFlag = false;
         }
 
-        if(gameValues._chantCharge >= 0.99f)
+        if(GameValues.instance._chantCharge >= 0.99f)
         {
             if(!impactSoundFlag)
             {
@@ -757,8 +760,11 @@ public class MusicSystem1 : MonoBehaviour
                 // Set state to MusicLoops and ensure interaction type is MusicLoop (required for this mode)
                 //RecoverInteractiveMusicModeFromInteractionType(); //this may be necessary in futrue...
                 currentInteractionType = InteractionType.MusicLoop;
-                AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
-                AkSoundEngine.SetSwitch("MusicLoops_Switch", "Silence", gameObject);
+                RunWithToningRestoredAfterInteractiveSwitch(() =>
+                {
+                    AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
+                    AkSoundEngine.SetSwitch("MusicLoops_Switch", "Silence", gameObject);
+                });
             }
             else
             {
@@ -881,7 +887,7 @@ public class MusicSystem1 : MonoBehaviour
                 }
 
                 EnvironmentInitializations();
-                AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "Environment", gameObject);
+                SetSwitchRestoreToningV3("InteractiveMusicMode_Switch", "Environment");
                 PlayBreathworkCycle();
             }
             else
@@ -905,22 +911,25 @@ public class MusicSystem1 : MonoBehaviour
 
     private void RecoverInteractiveMusicModeFromInteractionType()
     {
-        if(currentInteractionType == InteractionType.SoundWorld)
+        RunWithToningRestoredAfterInteractiveSwitch(() =>
         {
-            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "InteractiveMusicSystem", gameObject);
-            if(debugAllowSoundscapeLogs)
+            if(currentInteractionType == InteractionType.SoundWorld)
             {
-                Debug.Log("MUSIC: Interactive Music Mode Recovered to InteractiveMusicSystem because Interaction Type is SoundWorld");
+                AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "InteractiveMusicSystem", gameObject);
+                if(debugAllowSoundscapeLogs)
+                {
+                    Debug.Log("MUSIC: Interactive Music Mode Recovered to InteractiveMusicSystem because Interaction Type is SoundWorld");
+                }
             }
-        }
-        else if(currentInteractionType == InteractionType.MusicLoop)
-        {
-            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
-            if(debugAllowSoundscapeLogs)
+            else if(currentInteractionType == InteractionType.MusicLoop)
             {
-                Debug.Log("MUSIC: Interactive Music Mode Recovered to MusicLoops because Interaction Type is MusicLoop");
+                AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
+                if(debugAllowSoundscapeLogs)
+                {
+                    Debug.Log("MUSIC: Interactive Music Mode Recovered to MusicLoops because Interaction Type is MusicLoop");
+                }
             }
-        }
+        });
     }
 
     //A method for easily setting the flags, to replace the code in each of the case statements above.
@@ -986,9 +995,11 @@ public class MusicSystem1 : MonoBehaviour
 
     public void SetSoundWorld(string soundWorld) //NOTE: this will currently break the MusicLoopSilent mode, which is a temporary mode. 
     {
+        bool ToningV3WasAlreadyRestored = false;
         if(currentMusicMode != MusicMode.Environment)
         {
-            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "InteractiveMusicSystem", gameObject);
+            SetSwitchRestoreToningV3("InteractiveMusicMode_Switch", "InteractiveMusicSystem");
+            ToningV3WasAlreadyRestored = true;
         }
         else
         {
@@ -1006,7 +1017,10 @@ public class MusicSystem1 : MonoBehaviour
             return;
         }
         currentInteractionType = InteractionType.SoundWorld;
-        AkSoundEngine.SetSwitch("SoundWorldMode_Switch", soundWorld, gameObject);
+        if(!ToningV3WasAlreadyRestored)
+        {
+            SetSwitchRestoreToningV3("SoundWorldMode_Switch", soundWorld);
+        }
         worldShuffler.SetCurrentSoundscape(soundWorld);
         SetSoundWorldFlag();
         
@@ -1034,19 +1048,22 @@ public class MusicSystem1 : MonoBehaviour
             return;
         }
         
-        if(currentMusicMode != MusicMode.Environment)
+        RunWithToningRestoredAfterInteractiveSwitch(() =>
         {
-            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
-        }
-        else
-        {
-            if(debugAllowWarnings || debugAllowSoundscapeLogs)
+            if(currentMusicMode != MusicMode.Environment)
             {
-                Debug.LogWarning($"MUSIC: Changing MusicLoop to '{musicLoop}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
+                AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
             }
-        }
-        currentInteractionType = InteractionType.MusicLoop;
-        AkSoundEngine.SetSwitch("MusicLoops_Switch", musicLoop, gameObject);
+            else
+            {
+                if(debugAllowWarnings || debugAllowSoundscapeLogs)
+                {
+                    Debug.LogWarning($"MUSIC: Changing MusicLoop to '{musicLoop}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
+                }
+            }
+            currentInteractionType = InteractionType.MusicLoop;
+            AkSoundEngine.SetSwitch("MusicLoops_Switch", musicLoop, gameObject);
+        });
         worldShuffler.SetCurrentSoundscape(musicLoop);
         
         // Set content lock to the required fundamental for this MusicLoop
@@ -1143,7 +1160,7 @@ public class MusicSystem1 : MonoBehaviour
         director.ClearQueueOfType("fundamentalChange");
         fundamentalNoteName = newFundamental;
 
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.NoteToWwiseString(fundamentalNoteName), gameObject);
+        SetSwitchRestoreToningV3("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.NoteToWwiseString(fundamentalNoteName));
         if (MusicBinauralBeats.instance != null)
         {
             MusicBinauralBeats.instance.ChangeCenterFrequency(NoteUtils.NoteToFrequencyA440(fundamentalNoteName));
@@ -1762,7 +1779,16 @@ public class MusicSystem1 : MonoBehaviour
 
     public void StopWwiseToning()
     {
-        AkSoundEngine.PostEvent("Stop_Toning",gameObject);
+        if (ToningV3FundamentalPlaying)
+        {
+            AkSoundEngine.PostEvent("Stop_Toning_v3_FundamentalOnly", gameObject);
+            ToningV3FundamentalPlaying = false;
+        }
+        if (ToningV3HarmonyPlaying)
+        {
+            AkSoundEngine.PostEvent("Stop_Toning_v3_HarmonyOnly", gameObject);
+            ToningV3HarmonyPlaying = false;
+        }
         if (debugAllowBasicToningLogs)
         {
             Debug.Log("MUSIC: Post Toning Events STOP to Wwise");
@@ -1770,6 +1796,38 @@ public class MusicSystem1 : MonoBehaviour
 
         // Note: BassSynth is now controlled separately by toneActiveConfident, not stopped here
         // BassSynth will stop automatically when toneActiveConfident becomes false
+    }
+
+    /// <summary>Reposts Play for layers that were active before a SetSwitch on interactive-music switch groups (Wwise can drop those voices when switches change).</summary>
+    private void RestartToningV3LayersAfterSwitchIfNeeded(bool wasFundamentalPlaying, bool wasHarmonyPlaying)
+    {
+        if (wasFundamentalPlaying)
+        {
+            AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly", gameObject);
+            ToningV3FundamentalPlaying = true;
+        }
+        if (wasHarmonyPlaying)
+        {
+            AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly", gameObject);
+            ToningV3HarmonyPlaying = true;
+        }
+    }
+
+    private void SetSwitchRestoreToningV3(string switchGroup, string switchValue)
+    {
+        bool wasF = ToningV3FundamentalPlaying;
+        bool wasH = ToningV3HarmonyPlaying;
+        AkSoundEngine.SetSwitch(switchGroup, switchValue, gameObject);
+        RestartToningV3LayersAfterSwitchIfNeeded(wasF, wasH);
+    }
+
+    /// <summary>Use when applying one or more SetSwitch calls on SoundWorldMode / InteractiveMusicMode / MusicLoops / 12-pitch groups; toning is restarted once afterward if it was playing.</summary>
+    public void RunWithToningRestoredAfterInteractiveSwitch(Action apply)
+    {
+        bool wasF = ToningV3FundamentalPlaying;
+        bool wasH = ToningV3HarmonyPlaying;
+        apply?.Invoke();
+        RestartToningV3LayersAfterSwitchIfNeeded(wasF, wasH);
     }
 
     /// <summary>
@@ -1980,12 +2038,25 @@ public class MusicSystem1 : MonoBehaviour
 
     public void PostTheToningEvents()
     {
+        if (ToningV3FundamentalPlaying && ToningV3HarmonyPlaying)
+        {
+            return;
+        }
+
         if(debugAllowBasicToningLogs)
         {
             Debug.Log("MUSIC: Post Toning Events to Wwise");
         }
-        AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly",gameObject);
-        AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly",gameObject);
+        if (!ToningV3FundamentalPlaying)
+        {
+            AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly", gameObject);
+            ToningV3FundamentalPlaying = true;
+        }
+        if (!ToningV3HarmonyPlaying)
+        {
+            AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly", gameObject);
+            ToningV3HarmonyPlaying = true;
+        }
     }
 
     public void PostTheBassSynthEvent()
@@ -2077,7 +2148,7 @@ public class MusicSystem1 : MonoBehaviour
     
     private void changeHarmony(NoteName harmonyNote)
     {
-        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", NoteUtils.NoteToWwiseString(harmonyNote), gameObject);
+        SetSwitchRestoreToningV3("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", NoteUtils.NoteToWwiseString(harmonyNote));
         if(debugAllowHarmonyChangeLogs)
         {
             Debug.Log("MUSIC: Harmony Note Set To: " + NoteUtils.NoteToWwiseString(harmonyNote));
@@ -2323,15 +2394,18 @@ public class MusicSystem1 : MonoBehaviour
     /// <summary>Sets Wwise switches for Protocol Stacks Ascending defaults (MusicLoops, Gentle). Call from WwiseVOManager when entering Ascending mode.</summary>
     public void SetProtocolStacksAscendingDefaults()
     {
-        AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
-        AkSoundEngine.SetSwitch("SoundWorldMode_Switch", "Gentle", gameObject);
+        RunWithToningRestoredAfterInteractiveSwitch(() =>
+        {
+            AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
+            AkSoundEngine.SetSwitch("SoundWorldMode_Switch", "Gentle", gameObject);
+        });
         SetSoundWorldFlag();
     }
 
     /// <summary>Sets InteractiveMusicMode_Switch to MusicLoops and optionally MusicLoops_Volume. Call from InputReferences or debug controls.</summary>
     public void SetInteractiveMusicModeToMusicLoops(float volumePercent = 80f)
     {
-        AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
+        SetSwitchRestoreToningV3("InteractiveMusicMode_Switch", "MusicLoops");
         AkSoundEngine.SetRTPCValue("MusicLoops_Volume", volumePercent);
     }
 
@@ -2510,7 +2584,12 @@ public class MusicSystem1 : MonoBehaviour
     /// </summary>
     public void Button_PlayToningFundamental()
     {
+        if (ToningV3FundamentalPlaying)
+        {
+            return;
+        }
         AkSoundEngine.PostEvent("Play_Toning_v3_FundamentalOnly", gameObject);
+        ToningV3FundamentalPlaying = true;
         if(debugAllowBasicToningLogs)
         {
             Debug.Log("MUSIC BUTTON: Play_Toning_v3_FundamentalOnly");
@@ -2522,7 +2601,12 @@ public class MusicSystem1 : MonoBehaviour
     /// </summary>
     public void Button_PlayToningHarmony()
     {
+        if (ToningV3HarmonyPlaying)
+        {
+            return;
+        }
         AkSoundEngine.PostEvent("Play_Toning_v3_HarmonyOnly", gameObject);
+        ToningV3HarmonyPlaying = true;
         if(debugAllowBasicToningLogs)
         {
             Debug.Log("MUSIC BUTTON: Play_Toning_v3_HarmonyOnly");

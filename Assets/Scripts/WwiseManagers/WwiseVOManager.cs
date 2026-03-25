@@ -29,7 +29,7 @@ public class WwiseVOManager : MonoBehaviour
     private bool debugAllowLogs;
     private bool developmentModeWarningFlag = false;
 
-    public GameObject micPlayback;
+    //public GameObject micPlayback;
     //public UnityPlayBack unityPlaybackScript;
     //private bool silentPlaying = false;
 

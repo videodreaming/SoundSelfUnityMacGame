@@ -12,6 +12,8 @@ using UnityEngine.UI;
 
 public class RespirationTracker : MonoBehaviour
 {
+    public static RespirationTracker instance { get; private set; }
+
     //_standardDeviationTone1min, _standardDeviationRest1min, _meanToneLength1min, _meanRestLength1min
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
     public bool debugAllowLogs = false;
@@ -91,6 +93,16 @@ public class RespirationTracker : MonoBehaviour
         public GameObject inhaleRectangle;
         public GameObject exhaleRectangle;
     }
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
+
     void Start()
     {
         amountToScale = 0.03f;

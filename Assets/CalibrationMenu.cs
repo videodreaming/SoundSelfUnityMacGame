@@ -163,7 +163,7 @@ public class CalibrationMenu : MonoBehaviour
     public void OnNextButtonClicked()
     {
         calibrationTextIndex++;
-        lightControl.LightSettingsInitialization(5.0f);
+        //lightControl.LightSettingsInitialization(5.0f);
         if (calibrationTextIndex < calibrationTexts.Count)
         {
             StartCoroutine(verticalLayoutGroupController.scaleText(calibrationTexts[calibrationTextIndex], 1.1f));

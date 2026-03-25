@@ -32,6 +32,7 @@ public class InputReferences : MonoBehaviour
 
     [Header("Debug: Protocol Stacks Sequence Advance (F key)")]
     [SerializeField] private Sequencer sequencer;
+    [SerializeField] private LightControl lightControl;
     [SerializeField] private Director director;
     private Coroutine _sequenceAdvanceCountdownCoroutine;
 
@@ -48,6 +49,7 @@ public class InputReferences : MonoBehaviour
             return;
         }
         if (sequencer == null) sequencer = FindObjectOfType<Sequencer>();
+        if (lightControl == null) lightControl = FindObjectOfType<LightControl>();
         if (director == null) director = FindObjectOfType<Director>();
     }
 
@@ -86,137 +88,6 @@ public class InputReferences : MonoBehaviour
     }
     */
 
-    //================================
-    // SEQUENCE REFACTOR TEST PLAN
-    //================================
-    // To run a test: Uncomment ONE trigger in Update() below. Coroutines stay uncommented.
-    // Keys: 7=Test1, 8=Test2, 9=Test3, 0=Test4, Minus=Test5, Equals=Test6
-    //================================
-
-    // TEST 1: SequenceRunner and CSVLoader wiring
-    // LOOK FOR: SequenceRunner and SequenceDefinition are reachable; StageCount correct.
-    // SUCCESS: StageCount = 3 (Protocol Stacks Ascending), CurrentStageIndex = -1 before start, no null refs.
-    // FAILURE: Null refs, StageCount 0, or CSVLoader/Sequencer not in scene.
-    private IEnumerator Test1_SequenceRunnerAndCSVLoaderWiring()
-    {
-        Debug.Log("[Test1] === SEQUENCE REFACTOR TEST 1: SequenceRunner and CSVLoader wiring ===");
-        Debug.Log("[Test1] INSTRUCTIONS: Verify Console output. Press Space to proceed through steps.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-
-        var runner = sequencer != null ? sequencer.GetComponent<SequenceRunner>() : null;
-        if (runner == null)
-        {
-            Debug.LogError("[Test1] FAIL: SequenceRunner not found. Ensure Sequencer has SequenceRunner on same GameObject.");
-            yield break;
-        }
-        Debug.Log("[Test1] OK: SequenceRunner found.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-
-        var csvLoader = CSVLoader.instance;
-        if (csvLoader == null)
-        {
-            Debug.LogError("[Test1] FAIL: CSVLoader.instance is null. Ensure CSVLoader is in scene.");
-            yield break;
-        }
-        Debug.Log("[Test1] OK: CSVLoader found. gameMode=" + csvLoader.gameMode + ", subGameMode=" + csvLoader.subGameMode);
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-
-        var def = csvLoader.GetSequenceDefinitionForProtocolStacks();
-        if (def == null)
-        {
-            Debug.LogWarning("[Test1] WARN: GetSequenceDefinitionForProtocolStacks() returned null. Is gameMode 'Protocol Stacks'?");
-        }
-        else
-        {
-            Debug.Log("[Test1] OK: SequenceDefinition found. displayName=" + def.displayName + ", StageCount=" + def.StagesOrEmpty.Length);
-        }
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-
-        Debug.Log("[Test1] runner.StageCount=" + runner.StageCount + ", CurrentStageIndex=" + runner.CurrentStageIndex + ", IsSequenceComplete=" + runner.IsSequenceComplete);
-        Debug.Log("[Test1] === TEST 1 COMPLETE. Press Space to finish. ===");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-    }
-
-    // TEST 2: StartSequence
-    // LOOK FOR: StartSequence advances to stage 0 (Opening); Console shows "Sequence: Entered stage 0 (Opening)".
-    // SUCCESS: CurrentStageIndex = 0, CurrentStage = Opening, opening VO/AVS starts.
-    // FAILURE: CurrentStageIndex stays -1, no stage log, or null ref.
-    private IEnumerator Test2_StartSequence()
-    {
-        Debug.Log("[Test2] === SEQUENCE REFACTOR TEST 2: StartSequence ===");
-        Debug.Log("[Test2] INSTRUCTIONS: Ensure gameMode is Protocol Stacks. Press Space to call StartSequence.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-
-        var runner = sequencer != null ? sequencer.GetComponent<SequenceRunner>() : null;
-        var def = CSVLoader.instance?.GetSequenceDefinitionForProtocolStacks();
-        if (runner == null || def == null) { Debug.LogError("[Test2] FAIL: runner or def null."); yield break; }
-
-        runner.StartSequence(def);
-        Debug.Log("[Test2] StartSequence called. Check Console for 'Sequence: Entered stage 0 (Opening)'. CurrentStageIndex=" + runner.CurrentStageIndex);
-        Debug.Log("[Test2] SUCCESS = stage 0, Opening plays. FAILURE = stuck at -1. Press Space to finish.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-    }
-
-    // TEST 3: Cue handling (HandleCue StartInteractive)
-    // LOOK FOR: When in Opening, HandleCue(StartInteractive) advances to Playground.
-    // SUCCESS: Console shows "StartInteractive: Handled by current stage (Opening)", then "Sequence: Entered stage 1 (Playground)".
-    // FAILURE: "not being watched" warning, or no advance.
-    private IEnumerator Test3_CueHandling()
-    {
-        Debug.Log("[Test3] === SEQUENCE REFACTOR TEST 3: Cue handling ===");
-        Debug.Log("[Test3] INSTRUCTIONS: Start sequence first (Test 2 or normal flow). When in Opening, press Space to simulate Cue_StartInteractive.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-
-        var runner = sequencer != null ? sequencer.GetComponent<SequenceRunner>() : null;
-        if (runner == null || runner.CurrentStageIndex != 0) { Debug.LogWarning("[Test3] SKIP: Must be in Opening (stage 0). CurrentStageIndex=" + (runner?.CurrentStageIndex ?? -999)); yield break; }
-
-        bool handled = sequencer.HandleCue(CueType.StartInteractive);
-        Debug.Log("[Test3] HandleCue(StartInteractive) returned " + handled + ". Next frame should advance to Playground. Check Console.");
-        Debug.Log("[Test3] Press Space to finish.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-    }
-
-    // TEST 4: ForceSequenceAdvance in Playground
-    // LOOK FOR: F key (or ForceSequenceAdvance) skips Playground countdown steps.
-    // SUCCESS: Playground advances through steps faster; eventually reaches Savasana.
-    // FAILURE: Nothing happens, or sequence breaks.
-    private IEnumerator Test4_ForceSequenceAdvance()
-    {
-        Debug.Log("[Test4] === SEQUENCE REFACTOR TEST 4: ForceSequenceAdvance ===");
-        Debug.Log("[Test4] INSTRUCTIONS: Be in Playground stage. Press Space to call ForceSequenceAdvance().");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-
-        sequencer.ForceSequenceAdvance();
-        Debug.Log("[Test4] ForceSequenceAdvance() called. Playground should skip current wait. Press F repeatedly to skip more, or wait for countdown.");
-        Debug.Log("[Test4] Press Space to finish.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-    }
-
-    // TEST 5: Full sequence to completion
-    // LOOK FOR: Sequence runs Opening -> Playground -> Savasana -> complete; OnSequenceComplete fires.
-    // SUCCESS: Console shows "SequenceRunner: Sequence complete.", IsSequenceComplete = true.
-    // FAILURE: Stuck in a stage, no completion log, or crash.
-    private IEnumerator Test5_FullSequenceToCompletion()
-    {
-        Debug.Log("[Test5] === SEQUENCE REFACTOR TEST 5: Full sequence to completion ===");
-        Debug.Log("[Test5] INSTRUCTIONS: Start from Calibration. Click Start to begin. Use F key to ForceSequenceAdvance through Playground.");
-        Debug.Log("[Test5] Watch for: Opening -> Cue_StartInteractive -> Playground -> countdown 0 -> Savasana -> Sequence complete.");
-        Debug.Log("[Test5] Press Space to acknowledge and finish.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-    }
-
-    // TEST 6: SequenceProgressUI
-    // LOOK FOR: If SequenceProgressUI is in scene, it logs "SequenceProgressUI: Stage X" and "Sequence complete." when sequence runs.
-    // SUCCESS: SequenceProgressUI logs appear alongside SequenceRunner logs.
-    // FAILURE: No SequenceProgressUI logs (component missing or sequenceRunner not assigned).
-    private IEnumerator Test6_SequenceProgressUI()
-    {
-        Debug.Log("[Test6] === SEQUENCE REFACTOR TEST 6: SequenceProgressUI ===");
-        Debug.Log("[Test6] INSTRUCTIONS: Add SequenceProgressUI to a GameObject, assign sequenceRunner. Run sequence. Check for 'SequenceProgressUI:' logs.");
-        Debug.Log("[Test6] SUCCESS = duplicate logs (SequenceRunner + SequenceProgressUI). FAILURE = only SequenceRunner logs.");
-        Debug.Log("[Test6] Press Space to finish.");
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-    }
 
     //================================
     //UPDATE METHOD
@@ -225,36 +96,6 @@ public class InputReferences : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ============================================
-        // SEQUENCE REFACTOR TESTS (7, 8, 9, 0, Minus, Equals)
-        // Uncomment ONE test trigger at a time.
-        // ============================================
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            StartCoroutine(Test1_SequenceRunnerAndCSVLoaderWiring());
-        }
-        /*
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            StartCoroutine(Test2_StartSequence());
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            StartCoroutine(Test3_CueHandling());
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            StartCoroutine(Test4_ForceSequenceAdvance());
-        }
-        if (Input.GetKeyDown(KeyCode.Minus))
-        {
-            StartCoroutine(Test5_FullSequenceToCompletion());
-        }
-        if (Input.GetKeyDown(KeyCode.Equals))
-        {
-            StartCoroutine(Test6_SequenceProgressUI());
-        }
-        */
 
         // F key: Force sequence advance, then 10s countdown, then activate director queue
         if (Input.GetKeyDown(KeyCode.F))
@@ -284,6 +125,34 @@ public class InputReferences : MonoBehaviour
             else
             {
                 Debug.LogWarning("[Input] D key: Director reference is null!");
+            }
+        }
+
+        // K key: Initialize lights to Dark immediately
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (lightControl != null)
+            {
+                lightControl.LightSettingsInitialization(0.0f);
+                Debug.Log("[Input] K key: lightControl.LightSettingsInitialization(0.0f)");
+            }
+            else
+            {
+                Debug.LogWarning("[Input] K key: lightControl reference is null!");
+            }
+        }
+
+        // L key: Trigger sequencer StartLights
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (sequencer != null)
+            {
+                sequencer.StartLights();
+                Debug.Log("[Input] L key: sequencer.StartLights()");
+            }
+            else
+            {
+                Debug.LogWarning("[Input] L key: sequencer reference is null!");
             }
         }
 

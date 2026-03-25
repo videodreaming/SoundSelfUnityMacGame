@@ -882,7 +882,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     /// </summary>
     private bool TestForFailure (NoteName fundamentalCompare, bool forceSuccess = true) 
     {
-        bool testAbsorption = respirationTracker._absorption > 0.1f; //ROBIN: We want to only record if player is "absorbed"
+        bool testAbsorption = RespirationTracker.instance._absorption > 0.1f; //ROBIN: We want to only record if player is "absorbed"
         bool testRest = imitoneVoiceInterpreter._tThisRest <= 20f; //ROBIN: We want to only record if player is consistently toning
         bool testTone = imitoneVoiceInterpreter._tThisTone <= 40f; //ROBIN: a tone longer than 40 seconds is obviously a refrigerator.
         bool testMode = recordMode; //ROBIN: We want to break recording if the recordMode turns off.

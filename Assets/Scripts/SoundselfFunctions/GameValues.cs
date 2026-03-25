@@ -15,6 +15,8 @@ using imitone;
 
 public class GameValues : MonoBehaviour
 {
+    public static GameValues instance { get; private set; }
+
     public DevelopmentMode developmentMode;
     public Director director;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
@@ -96,6 +98,16 @@ public class GameValues : MonoBehaviour
     private float _windlassSpreadGrowthPerMinute_Init = 0.03f;
     private float _anchorSpreadShrinkPerMinute_Init = 0.02f; 
     private float _anchorSetMult = 2.5f; //was 2.0f
+
+    void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
 
     void Start()
     {
@@ -206,7 +218,7 @@ public class GameValues : MonoBehaviour
     {
 
         //Set interpoloation speeds
-        _meanToneLengthLerp = LerpUtilities.DampTool("meanToneLengthLerp", _meanToneLengthLerp, respirationTracker._meanToneLength, 0.036f, 0.018f, 0.0001f);
+        _meanToneLengthLerp = LerpUtilities.DampTool("meanToneLengthLerp", _meanToneLengthLerp, RespirationTracker.instance._meanToneLength, 0.036f, 0.018f, 0.0001f);
 
         // the quicker values were painstakingly set to match the original soundself defaults
         _chantLerpSlowDamp1 = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.036f, 0.025f, true);
@@ -277,7 +289,7 @@ public class GameValues : MonoBehaviour
             }
             else
             {
-                _chantChargeDuration = Mathf.Clamp((respirationTracker._meanToneLength * 0.8f), 5f, 20f);
+                _chantChargeDuration = Mathf.Clamp((RespirationTracker.instance._meanToneLength * 0.8f), 5f, 20f);
             }
             StartCoroutine(ChantChargeMemberCoroutine(_chantChargeDuration));
         }
@@ -326,8 +338,8 @@ public class GameValues : MonoBehaviour
 
     private void changeDetection()
     {
-        _windlassSpreadGrowthPerMinute = _windlassSpreadGrowthPerMinute_Init * Mathf.Pow(2, (1-Mathf.Clamp(respirationTracker._absorption, 0, 1)));
-        _anchorSpreadShrinkPerMinute = _anchorSpreadShrinkPerMinute_Init * Mathf.Pow(2,(1-Mathf.Clamp(respirationTracker._absorption, 0, 1)));
+        _windlassSpreadGrowthPerMinute = _windlassSpreadGrowthPerMinute_Init * Mathf.Pow(2, (1-Mathf.Clamp(RespirationTracker.instance._absorption, 0, 1)));
+        _anchorSpreadShrinkPerMinute = _anchorSpreadShrinkPerMinute_Init * Mathf.Pow(2,(1-Mathf.Clamp(RespirationTracker.instance._absorption, 0, 1)));
 
         // Track the three most recent tone and breath durations from imitoneVoiceInterpreter using a library of the last 3 values
         if (imitoneVoiceInterpreter.toneActiveConfident)
