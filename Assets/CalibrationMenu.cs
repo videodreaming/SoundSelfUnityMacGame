@@ -234,6 +234,11 @@ public class CalibrationMenu : MonoBehaviour
         }
     }
 
+    public void StopCalibrationSequence()
+    {
+        AkSoundEngine.PostEvent("Stop_Calibration_Sequence", gameObject);
+    }
+
 
     public void CalibrationCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {

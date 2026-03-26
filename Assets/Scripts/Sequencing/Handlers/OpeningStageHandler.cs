@@ -29,6 +29,9 @@ namespace SoundSelf.Sequence
             
             bool isFirstTimeUser = _sequencer.csvLoader.IsFirstTimeUser;
 
+            //CLEAN UP PREVIOUS THINGS
+            _sequencer.calibrationMenu.StopCalibrationSequence();
+
             //DO NULL CHECKS
             
             if(string.IsNullOrEmpty(variant))
