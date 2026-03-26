@@ -83,7 +83,6 @@ public class LightControl : MonoBehaviour
         // Return the device with the specified name on the system. This is where you will either put you logic to enumarate all the Device and let the user decide, or force a specified device directly.
         string wantedDevice1;
         string wantedDevice2;
-        string wantedDevice;
 
         // We set the wantedDevice to the name of the device we want to use. This is the name of the device as it appears in the Wwise Audio Device Manager.
         #if UNITY_STANDALONE_OSX

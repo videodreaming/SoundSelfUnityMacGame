@@ -8,7 +8,6 @@ using System.Collections.Generic;
 public class ImageChanger : MonoBehaviour
 {
     public LightControl lightControl;
-    public TimeLeftScript timeLeftScript;
     public ImitoneVoiceIntepreter imitoneVoiceIntepreter;
     private bool inGame = true;
 
@@ -44,13 +43,12 @@ public class ImageChanger : MonoBehaviour
             frequencyUIImage.sprite = frequencySprites[0];
         }
 
-        if(timeLeftScript != null)
+        
+        if(TimeTrackerScript.instance != null && TimeTrackerScript.instance.GetTimeLeftSeconds() <= 0)
         {
-            if(timeLeftScript._timeLeft <= 0)
-            {
-                inGame = false;
-            } 
-        }
+            inGame = false;
+        } 
+    
         
         if(inGame)
         {

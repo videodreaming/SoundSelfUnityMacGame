@@ -3249,7 +3249,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightControl: {fileID: 437048159}
-  timeLeftScript: {fileID: 1140148591}
   imitoneVoiceIntepreter: {fileID: 740096625}
   frequencyUIImage: {fileID: 327068910}
   experienceUIImage: {fileID: 1851724846}
@@ -3728,7 +3727,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a0b3909a40ff49d3801dc086d879a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLeftScript: {fileID: 1140148591}
   progressBar: {fileID: 196964323}
 --- !u!114 &196964323
 MonoBehaviour:
@@ -9021,7 +9019,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 510784171}
-  timeLeftScript: {fileID: 1140148591}
 --- !u!1 &511886542
 GameObject:
   m_ObjectHideFlags: 0
@@ -9575,7 +9572,7 @@ GameObject:
   - component: {fileID: 554302998}
   - component: {fileID: 554302997}
   m_Layer: 0
-  m_Name: WwiseRenderer
+  m_Name: Global_WwiseRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9606,7 +9603,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1735253858}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &559108327
 GameObject:
@@ -11383,7 +11380,7 @@ GameObject:
   - component: {fileID: 695725735}
   - component: {fileID: 695725736}
   m_Layer: 0
-  m_Name: CSVLoader
+  m_Name: Global_CSVLoader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11398,11 +11395,11 @@ Transform:
   m_GameObject: {fileID: 695725734}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -57.15161, y: 505.29987, z: -32.983276}
+  m_LocalPosition: {x: 1037.1322, y: 976.6184, z: -41.123314}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1974369288}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &695725736
 MonoBehaviour:
@@ -11428,8 +11425,6 @@ MonoBehaviour:
   decryptedSubGameMode: 
   encryptedFirstTimeUser: 
   decryptedFirstTimeUser: 
-  protocolStacksAscendingDefinition: {fileID: 11400000, guid: 011ef49db7b2eb9458d137e50527f632, type: 2}
-  protocolStacksDescendingDefinition: {fileID: 0}
 --- !u!1 &711763176
 GameObject:
   m_ObjectHideFlags: 0
@@ -13448,10 +13443,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0e705b9f0884777bb2413e14828875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas1: {fileID: 1172631974}
-  canvas2: {fileID: 2103932347}
-  canvas3: {fileID: 2096700603}
-  canvas4: {fileID: 1702931192}
+  canvas1: {fileID: 0}
+  canvas2: {fileID: 0}
+  canvas3: {fileID: 0}
+  canvas4: {fileID: 0}
   mainCanvas: {fileID: 157077274}
   calibrationCanvas: {fileID: 1352508921}
   buttonCanvas: {fileID: 1653928374}
@@ -13505,9 +13500,7 @@ Transform:
   - {fileID: 619104375}
   - {fileID: 437048155}
   - {fileID: 807153167}
-  - {fileID: 1229442212}
   - {fileID: 486583130}
-  - {fileID: 1735253858}
   - {fileID: 1804684751}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19566,10 +19559,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9474638fe76ba499080b62583dbd3793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sequencer: {fileID: 1564575221}
   timeLeftText: {fileID: 1140148592}
-  _timeLeft: 0
-  calibrationMenu: {fileID: 0}
+  timeTracker: {fileID: 0}
 --- !u!114 &1140148592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21426,7 +21417,7 @@ GameObject:
   - component: {fileID: 1229442216}
   - component: {fileID: 1229442217}
   m_Layer: 0
-  m_Name: WwiseGlobal
+  m_Name: Global_WWise
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21470,7 +21461,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 811322662}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1229442213
 MonoBehaviour:
@@ -24012,7 +24003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1361076058}
   m_Layer: 0
-  m_Name: Canvas_Debug_OLD
+  m_Name: Canvas_Debug_OLD_please_delete_me
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24945,6 +24936,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TotalElapsedTime: 0
   DisplayTime: 
+  _timeLeftSeconds: 0
+  calibrationMenu: {fileID: 0}
 --- !u!4 &1435489962
 Transform:
   m_ObjectHideFlags: 0
@@ -26081,6 +26074,14 @@ MonoBehaviour:
   endSoonFlag: 0
   timeInUnguidedVocalization: 0
   sequenceRunner: {fileID: 1564575222}
+  protocolStacksAscendingDefinition: {fileID: 11400000, guid: 011ef49db7b2eb9458d137e50527f632, type: 2}
+  protocolStacksDescendingDefinition: {fileID: 0}
+  peaceDefinition: {fileID: 0}
+  narrativeDefinition: {fileID: 0}
+  surrenderDefinition: {fileID: 0}
+  firefliesDefinition: {fileID: 0}
+  kindnessDefinition: {fileID: 0}
+  mettaDefinition: {fileID: 0}
 --- !u!114 &1564575222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26093,8 +26094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e70816d4212284d9134d20409fa19b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  definition: {fileID: 0}
-  autoStartOnAwake: 0
+  startDefinition: {fileID: 0}
 --- !u!1 &1573501369
 GameObject:
   m_ObjectHideFlags: 0
@@ -29361,14 +29361,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735253857}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 554302998}
   - {fileID: 131127799}
-  m_Father: {fileID: 811322662}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1756974764
 PrefabInstance:
@@ -32314,7 +32313,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 662335748}
-  - {fileID: 695725735}
   - {fileID: 268359546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -34652,6 +34650,10 @@ SceneRoots:
   m_Roots:
   - {fileID: 309873391}
   - {fileID: 1348706026}
+  - {fileID: 1229442212}
+  - {fileID: 554302998}
+  - {fileID: 1735253858}
+  - {fileID: 695725735}
   - {fileID: 538272587}
   - {fileID: 1974369288}
   - {fileID: 811322662}

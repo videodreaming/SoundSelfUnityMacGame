@@ -39,7 +39,6 @@ public class MusicBinauralBeats : MonoBehaviour
             return;
         }
         instance = this;
-        DontDestroyOnLoad(gameObject);
         Debug.Log("Binaural Beats: Initializing Binaural Beats Manager");
     }
     void Start()

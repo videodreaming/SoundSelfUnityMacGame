@@ -62,10 +62,24 @@ public class Sequencer : MonoBehaviour
     private bool developmentModeWarningFlag = false;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private int currentStage = 0; //As SonoFlore
-    private bool openingSequenceFlag = false;
     public float timeInUnguidedVocalization;
 
     [SerializeField] private SequenceRunner sequenceRunner;
+    
+    [Header("Sequence Definitions (Inspector)")]
+     [Header("Protocol Stacks")]
+    [SerializeField] private SequenceDefinition protocolStacksAscendingDefinition;
+    [SerializeField] private SequenceDefinition protocolStacksDescendingDefinition;
+    
+    [Header("SkillsTraining")]
+    [SerializeField] private SequenceDefinition peaceDefinition;
+    [SerializeField] private SequenceDefinition narrativeDefinition;
+    [SerializeField] private SequenceDefinition surrenderDefinition;
+    [Header("Integration")]
+    [SerializeField] private SequenceDefinition firefliesDefinition;
+    [SerializeField] private SequenceDefinition kindnessDefinition;
+    [SerializeField] private SequenceDefinition mettaDefinition;
+
     private OpeningStageHandler _openingHandler;
     private PlaygroundStageHandler _playgroundHandler;
     private SavasanaStageHandler _savasanaHandler;
@@ -104,6 +118,10 @@ public class Sequencer : MonoBehaviour
 
         if (sequenceRunner == null)
             sequenceRunner = gameObject.GetComponent<SequenceRunner>() ?? gameObject.AddComponent<SequenceRunner>();
+
+        // This is the StageType -> IStageHandler registration map SequenceRunner uses to dispatch Enter/Exit and completion checks.
+        // It's primary use is to pass the sequencer instance to the handlers, so they can access the countdownToSavasana, startPlayground, etc.
+        // We do it like this, instead of using singletons, to prevent null references and other issues.
         _openingHandler = new OpeningStageHandler(this);
         _playgroundHandler = new PlaygroundStageHandler(this);
         _savasanaHandler = new SavasanaStageHandler(this);
@@ -207,91 +225,6 @@ public class Sequencer : MonoBehaviour
         else
         {
             Debug.LogWarning("CSVLoader instance is null, cannot determine game mode for update sequences.");
-        }
-    }
-
-    //====================================================================================================
-    //START THE SEQUENCE
-    //====================================================================================================
-    public void PlayFirstSequence()
-    {
-        Debug.Log("Sequencer: PlayFirstSequence() called.");
-        if(!openingSequenceFlag)
-        {
-            if(lightControl == null)
-            {
-                Debug.LogError("Sequencer: lightControl is null! Cannot initialize lights.");
-                return;
-            }
-            try
-            {
-                lightControl.LightSettingsInitialization(5.0f);
-            }
-            catch(System.Exception ex)
-            {
-                Debug.LogError("Sequencer: CRASH in LightSettingsInitialization! Exception: " + ex.Message);
-                Debug.LogError("Stack trace: " + ex.StackTrace);
-                throw; // Re-throw to see full crash details
-            }
-            
-            openingSequenceFlag = true;
-            //PLAY OPENING SEQUENCE
-            if(CSVLoader.instance != null && wwiseVOManager != null)
-            {
-                if(CSVLoader.instance.gameMode == "Preparation" || CSVLoader.instance.gameMode == "Skills Training")
-                {
-                    Debug.Log("Sequencer: Playing Skills Training Opening Sequence.");
-                    if(CSVLoader.instance.GetDecryptedFirstTimeUser() == "First Time User")
-                    {
-                        wwiseVOManager.PlayOpeningSequence("Preparation_Long");
-                    }
-                    else
-                    {
-                        wwiseVOManager.PlayOpeningSequence("Preparation_Short");
-                    }
-                }
-                else if (CSVLoader.instance.gameMode == "Integration")
-                {
-                    Debug.Log("Sequencer: Playing Integration Opening Sequence.");
-                    wwiseVOManager.PlayOpeningSequence("Integration_Short");
-                } else if (CSVLoader.instance.gameMode == "Protocol Stacks")
-                {
-                    if(CSVLoader.instance.subGameMode == "Ascending")
-                    {
-                        wwiseVOManager.PlayOpeningSequence("Ascending");
-                        //wwiseVOManager.PlayOpeningSequence("Esketamine_Ascending");
-                        Debug.Log("Sequencer: Playing Esketamine Ascending Opening Sequence.");
-                    }
-                    else if(CSVLoader.instance.subGameMode == "Descending")
-                    {
-                        wwiseVOManager.PlayOpeningSequence("Descending");
-                        //wwiseVOManager.PlayOpeningSequence("Esketamine_Descending");
-                        Debug.Log("Sequencer: Playing Esketamine Descending Opening Sequence.");
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("Sequencer: No Opening Sequence for this game mode.");
-                }
-            }
-            else
-            {
-                if(CSVLoader.instance == null)
-                {
-                    Debug.LogWarning("Sequencer: CSVLoader instance is null, cannot determine game mode for opening sequence.");
-                }
-                if(wwiseVOManager == null)
-                {
-                    Debug.LogError("Sequencer: wwiseVOManager is null! Cannot play opening sequence.");
-                }
-            }
-                
-            Debug.Log("AVS_Program_DynamicDrop_Start is starting");
-            CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
-        }
-        else
-        {
-            Debug.LogWarning("Sequencer: PlayFirstSequence() called, but opening sequence has already been played.");
         }
     }
 
@@ -615,9 +548,9 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         Debug.Log("Sequencer Last Minute: Starting Thematic Savasana, and ending coroutine");
-        if(CSVLoader.instance != null && TimeLeftScript.instance != null)
+        if(CSVLoader.instance != null && TimeTrackerScript.instance != null)
         {
-            TimeLeftScript.instance.SetTimeLeftSeconds(CSVLoader.instance.totalTimeOfPostUnguidedVocalizationContent);
+            TimeTrackerScript.instance.SetTimeLeftSeconds(CSVLoader.instance.totalTimeOfPostUnguidedVocalizationContent);
         }
 
 
@@ -647,6 +580,7 @@ public class Sequencer : MonoBehaviour
     }
 
     /// <summary>Starts the AVS opening program coroutine. Called by OpeningStageHandler.</summary>
+    /// TODO: Move this into an AVS program handler.
     public void StartOpeningAVSProgram()
     {
         Debug.Log("Sequencer: StartOpeningAVSProgram - AVS_Program_DynamicDrop_Start is starting");
@@ -1012,55 +946,35 @@ public class Sequencer : MonoBehaviour
     public void StartTrueStart() //THIS ONE IS OK TO CALL IN NORMAL TIME (NON DEVELOPMENT MODE)
     {
         Debug.Log("Sequencer: Starting True Start Sequence.");
-        MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeLow, 0.0f);
-        director.Disable();
-        if(csvLoader != null)
+        if (sequenceRunner != null)
         {
-            if(csvLoader.gameMode == "Protocol Stacks")
-            {
-                ProtocolStacksInitialization();
-            }
-            else if(csvLoader.gameMode == "Integration" || csvLoader.gameMode == "Preparation" || csvLoader.gameMode == "Skills Training")
-            {
-                SkillsTrainingOrIntegrationInitialization();
-            }
-        }
-        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
-        if (csvLoader != null && csvLoader.gameMode == "Protocol Stacks" && sequenceRunner != null)
-        {
-            var def = csvLoader.GetSequenceDefinitionForProtocolStacks();
+            var def = GetSequenceDefinitionForProtocolStacks();
             if (def != null)
                 sequenceRunner.StartSequence(def);
             else
-                Debug.LogError("Sequencer: No SequenceDefinition for Protocol Stacks. Assign protocolStacksAscendingDefinition (or Descending) in CSVLoader.");
+                Debug.LogError("Sequencer: No SequenceDefinition for StartTrueStart().");
         }
         else
         {
-            string reason = csvLoader == null ? "csvLoader is null"
-                : csvLoader.gameMode != "Protocol Stacks" ? "gameMode is not Protocol Stacks (" + csvLoader.gameMode + ")"
-                : sequenceRunner == null ? "sequenceRunner is null"
-                : "unknown";
-            Debug.LogWarning("Sequencer: Using legacy PlayFirstSequence because " + reason + ".");
-            PlayFirstSequence();
+            string reason = sequenceRunner == null ? "sequenceRunner is null" : "unknown";
+            Debug.LogWarning("Sequencer: Cannot start opening sequence because " + reason + ".");
         }
-        //lightControl.SetColorWorldByType("Dark", 0.0f);
     }
 
-    public void ProtocolStacksInitialization()
+    /// <summary>
+    /// Returns the SequenceDefinition for Protocol Stacks based on CSVLoader gameMode/subGameMode.
+    /// Sequencer owns the ScriptableObject references (assigned in inspector).
+    /// </summary>
+    private SequenceDefinition GetSequenceDefinitionForProtocolStacks()
     {
-        Debug.Log("Sequencer: Protocol Stacks mode detected. Initializing Protocol Stacks.");
-        MusicSystem1.instance.SetSoundWorld("Shadow");
-        MusicSystem1.instance.SetSoundscape("ShiftingEarth");
-        worldShuffler.ExcludeColorWorld("Blue");
-        worldShuffler.ExcludeSoundscape("Shadow");
-    }
+        // Prefer the explicit reference if present; fall back to singleton if needed.
+        var loader = csvLoader != null ? csvLoader : CSVLoader.instance;
+        if (loader == null) return null;
+        if (loader.gameMode != "Protocol Stacks") return null;
 
-    public void SkillsTrainingOrIntegrationInitialization()
-    {
-        Debug.Log("Sequencer: Standard mode detected. Initializing Standard.");
-        MusicSystem1.instance.SetSoundscape("SonoFlore");
-        worldShuffler.ExcludeColorWorld("Blue");
-        worldShuffler.ExcludeSoundscape("Shadow");
+        return loader.subGameMode == "Descending"
+            ? protocolStacksDescendingDefinition
+            : protocolStacksAscendingDefinition;
     }
 
     //WOE TO YOU WHO USESE THESE START FUNCTIONS EXCEPT IN DEVELOPMENT MODE

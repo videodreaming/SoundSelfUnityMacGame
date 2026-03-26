@@ -49,7 +49,7 @@ public class Canvas4UIScript : MonoBehaviour
         // Update time left until end of sequence
         if (timeLeftText != null && sequencer != null)
         {
-            float timeLeft = TimeLeftScript.instance.GetTimeLeft();
+            float timeLeft = TimeTrackerScript.instance != null ? TimeTrackerScript.instance.GetTimeLeftSeconds() : 0f;
             if (timeLeft < 999999.0f && timeLeft > 0f)
             {
                 int minutes = Mathf.FloorToInt(timeLeft / 60f);

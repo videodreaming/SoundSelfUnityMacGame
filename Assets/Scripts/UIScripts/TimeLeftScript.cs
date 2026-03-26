@@ -6,67 +6,14 @@ using TMPro;
 
 public class TimeLeftScript : MonoBehaviour
 {
-    public static TimeLeftScript instance { get; private set; }
-    public Sequencer sequencer;
     public TextMeshProUGUI timeLeftText;
-    public float _timeLeft;
-    int minutes;
-    int seconds;
-    public CalibrationMenu calibrationMenu;
-
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        instance = this;
-
-        // Optional: only if you want it to persist across scenes
-        DontDestroyOnLoad(gameObject);
-    }
+    public TimeTrackerScript timeTracker;
     void Update()
     {
-        if(calibrationMenu != null)
-        {
-        if(calibrationMenu.startedExperience)
-        {
-            UpdateTimeLeft();
-        }
-        }
-    }
+        if (timeTracker == null)
+            timeTracker = TimeTrackerScript.instance;
+        if (timeTracker == null || timeLeftText == null) return;
 
-    private void UpdateTimeLeft()
-    {
-        _timeLeft -= Time.deltaTime;
-        minutes = Mathf.FloorToInt(_timeLeft / 60);
-        seconds = Mathf.FloorToInt(_timeLeft % 60);
-        if(timeLeftText != null)
-        {
-            timeLeftText.text = $"{minutes} minutes {seconds} seconds";
-        }
-    }
-
-    public void SetTimeLeftSeconds(float timeLeft)
-    {
-        _timeLeft = timeLeft;
-        // Recalculate minutes and seconds from the new value for logging
-        int newMinutes = Mathf.FloorToInt(_timeLeft / 60);
-        int newSeconds = Mathf.FloorToInt(_timeLeft % 60);
-        Debug.Log("TimeLeftScript: Setting time left to " + newMinutes + " minutes " + newSeconds + " seconds");
-    }
-
-    public float GetTimeLeft()
-    {
-        return _timeLeft;
-    }
-
-    public string GetTimeLeftFormattedToMinutesAndSeconds()
-    {
-        int minutes = Mathf.FloorToInt(_timeLeft / 60);
-        int seconds = Mathf.FloorToInt(_timeLeft % 60);
-        return $"{minutes} minutes {seconds} seconds";
+        timeLeftText.text = timeTracker.GetTimeLeftFormattedToMinutesAndSeconds();
     }
 }

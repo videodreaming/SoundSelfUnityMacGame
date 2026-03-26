@@ -60,6 +60,11 @@ public class WwiseVOManager : MonoBehaviour
             // NOT-YET INTEGRATED ONES
             // BreatheOut_Start
             // Cue_ThematicOpening_End
+
+        if (sequencer == null)
+        {
+            Debug.LogError("WwiseVOManager: 'sequencer' reference is missing!");
+        }
         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
         {
             Debug.Log("WWise_VO_CUE: Callback triggered: " + in_type);
@@ -91,15 +96,20 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Cue Mic OFF");
                 imitoneVoiceIntepreter.SetGameOn(false);
             }
+            else if (musicSyncInfo.userCueName == "Cue_GuidedVocalization_Start" || musicSyncInfo.userCueName == "Cue_Start_Tutorial") //TODO: remove "GuidedVocalization_Start" as it is deprecated, once Lorna commits change.
+            {
+                Debug.Log($"WWise_VO_CUE: {musicSyncInfo.userCueName} (should be Cue_Start_Tutorial)");
+                sequencer.HandleCue(CueType.StartTutorial);  
+            }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
             {
                 UI_CurrentSession.Instance.currentSession = "Opening Teaching";
-                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
+                Debug.LogWarning("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start (Robin expects we won't see this as it's usually called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
                 imitoneVoiceIntepreter.gameOn = false;
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
             {
-                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_End (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
+                Debug.LogWarning("WWise_VO_CUE: Cue_VO_GuidedVocalization_End (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
                 imitoneVoiceIntepreter.gameOn = true;
             }
             else if (musicSyncInfo.userCueName == "Cue_Somatic_Start")
@@ -395,12 +405,8 @@ public class WwiseVOManager : MonoBehaviour
             AkSoundEngine.PostEvent("Play_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             Debug.Log("WWise_VO: Play Integration Short Opening Sequence");
             break;
-            case "Ascending":
             case "PS_Ascending":
             AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
-            break;
-            case "Descending":
-            AkSoundEngine.PostEvent("Play_DESCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
             break;
             default:
             Debug.LogError("WWise_VO: Invalid openingSequenceType: " + openingSequenceType);

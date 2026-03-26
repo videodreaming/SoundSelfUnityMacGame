@@ -102,7 +102,7 @@ public class CalibrationMenu : MonoBehaviour
             
             if (canvasManager != null)
             {
-                canvasManager.SwitchToCanvas4(); // Switch to canvas4 (new main canvas)
+                canvasManager.SwitchToMainCanvas(); // Switch to canvas4 (new main canvas)
             }
             else
             {

@@ -26,6 +26,18 @@ namespace SoundSelf.Sequence
             }
             _hasEntered = true;
             IsComplete = false;
+            
+            bool isFirstTimeUser = _sequencer.csvLoader.IsFirstTimeUser;
+
+            //DO NULL CHECKS
+            
+            if(string.IsNullOrEmpty(variant))
+            {
+                Debug.LogError("OpeningStageHandler: Variant is null. Skipping to prevent crash.");
+                _hasEntered = false;
+                IsComplete = true;
+                return;
+            }
 
             if (_sequencer == null)
             {
@@ -51,6 +63,15 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            if (_sequencer.worldShuffler == null)
+            {
+                Debug.LogError("OpeningStageHandler: worldShuffler is null. Cannot initialize soundscape/color exclusions.");
+                _hasEntered = false;
+                IsComplete = true;
+                return;
+            }
+            
+            //INITIALIZE LIGHTS
             try
             {
                 _sequencer.lightControl.LightSettingsInitialization(5.0f);
@@ -64,15 +85,64 @@ namespace SoundSelf.Sequence
                 return;
             }
 
-            string openingVariant = string.IsNullOrEmpty(variant) ? "PS_Ascending" : variant;
-
-            if (_sequencer.csvLoader != null && _sequencer.csvLoader.subGameMode == "Descending" && (openingVariant == "PS_Ascending" || openingVariant == "Ascending"))
-                Debug.LogWarning("Ascending sequence is playing but subGameMode is Descending. Descending sequence not yet implemented.");
+            //INITIALIZE MUSIC AND DIRECTOR
             
-            _sequencer.wwiseVOManager.PlayOpeningSequence(openingVariant);
-            Debug.Log("OpeningStageHandler: Playing opening sequence: " + openingVariant);
+            MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeLow, 0.0f);
+            _sequencer.director.Disable();
+            MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+            _sequencer.worldShuffler.ExcludeColorWorld("Blue");
+            _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
 
+            if (variant == "PS_Ascending")
+            {
+                Debug.Log("OpeningStageHandler: Protocol Stacks mode detected. Initializing Protocol Stacks.");
+                MusicSystem1.instance.SetSoundWorld("Shadow");
+                MusicSystem1.instance.SetSoundscape("ShiftingEarth");
+            }
+            else
+            {
+                Debug.Log("OpeningStageHandler: Standard mode detected. Initializing Standard.");
+                MusicSystem1.instance.SetSoundscape("SonoFlore");
+            }
+
+
+            //PLAY OPENING MUSIC AND VO
+            if (variant == "PS_Ascending")
+            {
+                _sequencer.wwiseVOManager.PlayOpeningSequence("PS_Ascending");
+                Debug.Log("OpeningStageHandler: Playing opening sequence: PS_Ascending");
+
+            }
+            else if(variant == "Preparation" || variant == "Skills Training")
+            {
+                Debug.Log("OpeningStageHandler: Playing Skills Training Opening Sequence.");
+                if(isFirstTimeUser)
+                {
+                    _sequencer.wwiseVOManager.PlayOpeningSequence("Preparation_Long");
+                    Debug.Log("OpeningStageHandler: Playing Preparation Long Opening Sequence.");
+                }
+                else
+                {
+                    _sequencer.wwiseVOManager.PlayOpeningSequence("Preparation_Short");
+                    Debug.Log("OpeningStageHandler: Playing Preparation Short Opening Sequence.");
+                }
+            }
+            else if (variant == "Integration")
+            {
+                _sequencer.wwiseVOManager.PlayOpeningSequence("Integration_Short");
+                Debug.Log("OpeningStageHandler: Playing Integration Opening Sequence.");
+            }
+            else
+            {
+                Debug.LogError("OpeningStageHandler: Invalid opening variant: " + variant + ". Skipping to prevent crash.");
+                _hasEntered = false;
+                IsComplete = true;
+                return;
+            }
+
+            //INITIALIZE AVS PROGRAM
             _sequencer.StartOpeningAVSProgram();
+
         }
 
         public void Exit()
@@ -82,11 +152,11 @@ namespace SoundSelf.Sequence
         }
 
 
-        public bool WatchesCue(CueType cue) => cue == CueType.StartInteractive;
+        public bool WatchesCue(CueType cue) => cue == CueType.StartInteractive || cue == CueType.StartTutorial;
 
         public void NotifyCue(CueType cue)
         {
-            if (cue == CueType.StartInteractive)
+            if (cue == CueType.StartInteractive || cue == CueType.StartTutorial)
                 MarkComplete();
         }
 
@@ -95,6 +165,7 @@ namespace SoundSelf.Sequence
         {
             if (IsComplete) return;
             IsComplete = true;
+            Debug.Log("OpeningStageHandler: Marking stage complete. Note that audio may still be playing from this stage.");
         }
     }
 }

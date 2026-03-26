@@ -7,19 +7,23 @@ using TMPro;
 public class TimerUIScript : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
-    public TimeLeftScript timeLeftScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        timerText = GetComponent<TextMeshProUGUI>();
-        timerText.fontSize = 24;
+        if (timerText == null)
+            timerText = GetComponent<TextMeshProUGUI>();
+        if (timerText != null)
+            timerText.fontSize = 24;
     }
     
 
     // Update is called once per frame
     void Update()
     {
-        timerText.text = "Time Left: " + timeLeftScript.GetTimeLeftFormattedToMinutesAndSeconds();
+        if (timerText == null) return;
+        timerText.text = TimeTrackerScript.instance != null
+            ? "Time Left: " + TimeTrackerScript.instance.GetTimeLeftFormattedToMinutesAndSeconds()
+            : "Time Left: --:--";
     }
 }

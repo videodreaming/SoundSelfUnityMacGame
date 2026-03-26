@@ -1,12 +1,18 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SoundSelf.Sequence
 {
     public class SequenceRunner : MonoBehaviour
     {
-        [SerializeField] private SequenceDefinition definition;
-        [SerializeField] private bool autoStartOnAwake;
+        // If assigned in the inspector, the sequence will begin automatically when this component wakes.
+        // Formerly serialized as `definition` to keep existing inspector assignments.
+        [SerializeField]
+        private SequenceDefinition startDefinition;
+
+        // Current active definition (can change at runtime via StartSequence/SetDefinition).
+        private SequenceDefinition definition;
 
         public int CurrentStageIndex { get; private set; } = -1;
         public StageType? CurrentStage => CurrentStageIndex >= 0 && definition != null && CurrentStageIndex < definition.StagesOrEmpty.Length
@@ -124,10 +130,12 @@ namespace SoundSelf.Sequence
                 AdvanceToNextStage();
         }
 
-        private void Awake()
+        private void Start()
         {
-            if (autoStartOnAwake && definition != null)
-                StartSequence();
+            // If an inspector start definition exists, trigger startup during Start().
+            // This avoids Unity Awake-order issues with handler registration in Sequencer.Awake().
+            if (startDefinition != null)
+                StartSequence(startDefinition);
         }
 
         private void Update()

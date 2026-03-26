@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ProgressBar : MonoBehaviour
 {
     private float totalTime;  // 40 minutes in seconds
-    public TimeLeftScript timeLeftScript;
 
     private float currentTime = 0f;
     public Slider progressBar;
 
     private void Start()
     {
-        totalTime = timeLeftScript.GetTimeLeft(); // Set this to the desired total time in seconds
+        totalTime = TimeTrackerScript.instance != null ? TimeTrackerScript.instance.GetTimeLeftSeconds() : 0f; // total duration in seconds
         if (progressBar == null)
         {
             progressBar = GetComponent<Slider>();

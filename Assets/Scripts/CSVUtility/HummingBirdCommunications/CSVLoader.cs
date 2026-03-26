@@ -15,6 +15,7 @@ public class CSVLoader : MonoBehaviour
     public string gameMode {get; private set;}
     public string subGameMode {get; private set;}
     public string firstTimeUserString {get; private set;}
+    public bool IsFirstTimeUser {get; private set;}
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
 
@@ -30,9 +31,6 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private string decryptedSubGameMode;
     [SerializeField] private string encryptedFirstTimeUser;
     [SerializeField] private string decryptedFirstTimeUser;
-
-    [SerializeField] private SequenceDefinition protocolStacksAscendingDefinition;
-    [SerializeField] private SequenceDefinition protocolStacksDescendingDefinition;
 
     void Awake()
     {
@@ -96,13 +94,6 @@ public class CSVLoader : MonoBehaviour
         TimeLeftInitializations();
     }
 
-    /// <summary>Returns the SequenceDefinition for Protocol Stacks based on subGameMode. Single source of truth — assign definitions here only.</summary>
-    public SequenceDefinition GetSequenceDefinitionForProtocolStacks()
-    {
-        if (gameMode != "Protocol Stacks") return null;
-        return subGameMode == "Descending" ? protocolStacksDescendingDefinition : protocolStacksAscendingDefinition;
-    }
-
     void ReadSessionParams()
     {
         if(currentSessionNumber != 0)
@@ -127,7 +118,7 @@ public class CSVLoader : MonoBehaviour
                 subGameMode = "Ascending";
                 
                 firstTimeUserString = decryptedFirstTimeUser;
-            
+                IsFirstTimeUser = firstTimeUserString == "First Time User";
             }
             else 
             {
@@ -235,16 +226,16 @@ public class CSVLoader : MonoBehaviour
             return;
         }
         
-        if(TimeLeftScript.instance == null)
+        if(TimeTrackerScript.instance == null)
         {
-            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - TimeLeftScript.instance is null. Timing behaviors will not work properly.");
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - TimeTrackerScript.instance is null. Timing behaviors will not work properly.");
             return;
         }
         
         // Set TimeLeft and totalTimeOfPostUnguidedVocalizationContent based on game mode
         if (gameMode == "Preperation" || gameMode == "Skills Training")
         {
-            TimeLeftScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
+            TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
             
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
@@ -268,7 +259,8 @@ public class CSVLoader : MonoBehaviour
         }
         else if (gameMode == "Integration")
         {
-            TimeLeftScript.instance.SetTimeLeftSeconds(1500.0f); // 25 minutes
+            if (TimeTrackerScript.instance != null)
+                TimeTrackerScript.instance.SetTimeLeftSeconds(1500.0f); // 25 minutes
             
             if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
             {
@@ -289,7 +281,8 @@ public class CSVLoader : MonoBehaviour
         } 
         else if (gameMode == "Protocol Stacks")
         {
-            TimeLeftScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
+            if (TimeTrackerScript.instance != null)
+                TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
 
             if(subGameMode == "Ascending" || subGameMode == "Descending")
             {
@@ -310,7 +303,7 @@ public class CSVLoader : MonoBehaviour
         }
 
         // Set countdown after TimeLeft and totalTimeOfPostUnguidedVocalizationContent are set
-        float timeLeft = TimeLeftScript.instance._timeLeft;
+        float timeLeft = TimeTrackerScript.instance != null ? TimeTrackerScript.instance.GetTimeLeftSeconds() : 0f;
         float calculatedCountdown = timeLeft - totalTimeOfPostUnguidedVocalizationContent;
         
         if (timeLeft <= 0f)
