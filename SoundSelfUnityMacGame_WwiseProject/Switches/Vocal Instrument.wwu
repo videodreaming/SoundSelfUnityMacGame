@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{D959E85E-5440-4AE3-ABB4-121E72309641}" SchemaVersion="119">
+	<Switches>
+		<WorkUnit Name="Vocal Instrument" ID="{D959E85E-5440-4AE3-ABB4-121E72309641}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="VocalInstrument_PitchSwitch" ID="{FFF7F7CB-087D-4B01-9219-881C8B8FD7BB}">
+					<ChildrenList>
+						<Switch Name="A" ID="{A41C41A1-007A-416E-A18C-4A47D2F1F72B}"/>
+						<Switch Name="AsharpBflat" ID="{5C1499C8-C2F5-4C3F-A88B-C89400D813AE}"/>
+						<Switch Name="B" ID="{E6BB8D79-69AC-4F66-99DA-F6BB284A98A3}"/>
+						<Switch Name="C" ID="{AD865C66-B7B6-4D89-A379-B6B4F57E780D}"/>
+						<Switch Name="CsharpDflat" ID="{1FC7831F-9B28-47B9-BBC2-56FBF046DE53}"/>
+						<Switch Name="D" ID="{4A40D22D-F625-4CF2-9D88-287D9AFAD268}"/>
+						<Switch Name="DsharpEflat" ID="{16E0B30C-5D21-462F-A518-8F184A8D980A}"/>
+						<Switch Name="E" ID="{33C53D55-262E-403C-8CCA-E99986C57CB9}"/>
+						<Switch Name="F" ID="{52C5327C-1E4A-40C0-9F2A-7935AC04EAAF}"/>
+						<Switch Name="FsharpGflat" ID="{71E39298-397C-4D74-9F60-CB84214EE461}"/>
+						<Switch Name="G" ID="{52F732D8-3BED-4FFA-AF19-FF0C4CCBF101}"/>
+						<Switch Name="GsharpAflat" ID="{A5D68D4F-5EC1-4471-972F-DFA02D602E73}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
+	</Switches>
+</WwiseDocument>
