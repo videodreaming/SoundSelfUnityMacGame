@@ -7,12 +7,11 @@ namespace SoundSelf.Sequence
     public class PlaygroundStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
-        private bool _isComplete;
         private Coroutine _playgroundCoroutine;
 
         public StageType StageType => StageType.Playground;
 
-        public bool IsComplete => _isComplete;
+        public bool IsComplete { get; private set; }
 
         public PlaygroundStageHandler(Sequencer sequencer)
         {
@@ -21,11 +20,11 @@ namespace SoundSelf.Sequence
 
         public void Enter(string variant)
         {
-            _isComplete = false;
+            IsComplete = false;
             if (_sequencer == null)
             {
                 Debug.LogError("PlaygroundStageHandler: Sequencer is null.");
-                _isComplete = true;
+                MarkComplete();
                 return;
             }
             if (_playgroundCoroutine != null)
@@ -35,15 +34,6 @@ namespace SoundSelf.Sequence
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
             _playgroundCoroutine = _sequencer.StartCoroutine(PlaygroundCoroutine());
-        }
-
-        public void Exit()
-        {
-            if (_playgroundCoroutine != null && _sequencer != null)
-            {
-                _sequencer.StopCoroutine(_playgroundCoroutine);
-                _playgroundCoroutine = null;
-            }
         }
 
         private IEnumerator PlaygroundCoroutine()
@@ -63,7 +53,7 @@ namespace SoundSelf.Sequence
             {
                 Debug.LogError("PlaygroundStageHandler: worldShuffler, director, or lightControl is null. Cannot run Playground stage.");
                 _playgroundCoroutine = null;
-                _isComplete = true;
+                MarkComplete();
                 yield break;
             }
 
@@ -157,7 +147,51 @@ namespace SoundSelf.Sequence
 
             Debug.Log("PlaygroundStageHandler: Countdown reached 0. Playground complete.");
             _playgroundCoroutine = null;
-            _isComplete = true;
+            MarkComplete();
         }
+
+        //--------------------------------
+        // Lifecycle after main work: complete -> (optional) transition-out tail -> Exit
+        // SequenceRunner owns BeginTransitionOut / Exit timing; handlers should not call those locally.
+        //--------------------------------
+
+        // Completion: PlaygroundCoroutine calls MarkComplete() when countdown logic finishes; runner then calls TransitionToNextStage().
+        /// <summary>Main phase done. Does not start transition-out; that begins when the runner advances.</summary>
+        private void MarkComplete()
+        {
+            if (IsComplete) return;
+            IsComplete = true;
+            Debug.Log("PlaygroundStageHandler: Marking stage complete.");
+            // Next: On the next SequenceRunner.Update(), the runner sees IsComplete and calls TransitionToNextStage().
+            // That calls AdvanceToStage(next), which invokes BeginTransitionOut() on this handler (tail / fade start),
+            // then enters the next stage. Cleanup when this stage is fully retired belongs in Exit() (via LocalCleanup).
+            // Exit() is invoked by the runner when this stage leaves the tracked window, e.g. a jump skips past it
+            // (older than immediate previous), StartSequence resets, or similar — not necessarily on every linear step.
+        }
+
+
+        /// <summary>Runner-only: start transition-out (tail) while the next stage is already entering.</summary>
+        public void BeginTransitionOut()
+        {
+            // Tail-only: fades, VO tails, etc. Final teardown stays in Exit() -> LocalCleanup() so it runs once when retired.
+            // No tail yet for Playground; IStageHandler default is also no-op — explicit method documents intent.
+        }
+
+        /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
+        private void LocalCleanup()
+        {
+            if (_playgroundCoroutine != null && _sequencer != null)
+            {
+                _sequencer.StopCoroutine(_playgroundCoroutine);
+                _playgroundCoroutine = null;
+            }
+        }
+
+        /// <summary>Runner-only: final retirement; safe if called more than once.</summary>
+        public void Exit()
+        {
+            LocalCleanup();
+        }
+
     }
 }

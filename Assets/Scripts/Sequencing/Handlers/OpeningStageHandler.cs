@@ -7,6 +7,7 @@ namespace SoundSelf.Sequence
     {
         private readonly Sequencer _sequencer;
         private bool _hasEntered;
+        private bool _variantForcesTone = false;
 
         public StageType StageType => StageType.Opening;
 
@@ -38,7 +39,7 @@ namespace SoundSelf.Sequence
             {
                 Debug.LogError("OpeningStageHandler: Variant is null. Skipping to prevent crash.");
                 _hasEntered = false;
-                IsComplete = true;
+                MarkComplete();
                 return;
             }
 
@@ -46,7 +47,7 @@ namespace SoundSelf.Sequence
             {
                 Debug.LogError("OpeningStageHandler: Sequencer is null.");
                 _hasEntered = false;
-                IsComplete = true;
+                MarkComplete();
                 return;
             }
 
@@ -54,7 +55,7 @@ namespace SoundSelf.Sequence
             {
                 Debug.LogError("OpeningStageHandler: lightControl is null. Cannot initialize lights.");
                 _hasEntered = false;
-                IsComplete = true;
+                MarkComplete();
                 return;
             }
 
@@ -62,7 +63,7 @@ namespace SoundSelf.Sequence
             {
                 Debug.LogError("OpeningStageHandler: wwiseVOManager is null. Cannot play opening sequence.");
                 _hasEntered = false;
-                IsComplete = true;
+                MarkComplete();
                 return;
             }
 
@@ -70,7 +71,7 @@ namespace SoundSelf.Sequence
             {
                 Debug.LogError("OpeningStageHandler: worldShuffler is null. Cannot initialize soundscape/color exclusions.");
                 _hasEntered = false;
-                IsComplete = true;
+                MarkComplete();
                 return;
             }
             
@@ -84,7 +85,7 @@ namespace SoundSelf.Sequence
                 Debug.LogError("OpeningStageHandler: LightSettingsInitialization failed: " + ex.Message);
                 Debug.LogError("Stack trace: " + ex.StackTrace);
                 _hasEntered = false;
-                IsComplete = true;
+                MarkComplete();
                 return;
             }
 
@@ -129,17 +130,19 @@ namespace SoundSelf.Sequence
                     _sequencer.wwiseVOManager.PlayOpeningSequence("Preparation_Short");
                     Debug.Log("OpeningStageHandler: Playing Preparation Short Opening Sequence.");
                 }
+                _variantForcesTone = true;
             }
             else if (variant == "Integration")
             {
                 _sequencer.wwiseVOManager.PlayOpeningSequence("Integration_Short");
                 Debug.Log("OpeningStageHandler: Playing Integration Opening Sequence.");
+                _variantForcesTone = true;
             }
             else
             {
                 Debug.LogError("OpeningStageHandler: Invalid opening variant: " + variant + ". Skipping to prevent crash.");
                 _hasEntered = false;
-                IsComplete = true;
+                MarkComplete();
                 return;
             }
 
@@ -148,27 +151,65 @@ namespace SoundSelf.Sequence
 
         }
 
-        public void Exit()
+
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) => sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.StartTutorial || sequenceCommand == SequenceCommand.FirstVocalizationStart;
+
+        public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
-            _hasEntered = false;  // Allow re-enter on sequence restart
-            // AVS coroutine continues running in parallel; no cleanup needed when advancing to Playground
-        }
-
-
-        public bool WatchesCue(CueType cue) => cue == CueType.StartInteractive || cue == CueType.StartTutorial;
-
-        public void NotifyCue(CueType cue)
-        {
-            if (cue == CueType.StartInteractive || cue == CueType.StartTutorial)
+            if (sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.StartTutorial)
                 MarkComplete();
+
+            if (sequenceCommand == SequenceCommand.FirstVocalizationStart)
+            {
+                _sequencer.StartLightsWithDelay();
+                
+                if(_variantForcesTone)
+                {
+                    Debug.Log("OpeningStageHandler: Making Wwise Tone");
+                    _sequencer.MakeWwiseTone();
+                }
+            }
         }
 
-        /// <summary>Marks the stage complete; SequenceRunner advances on next poll. Idempotent.</summary>
+        //--------------------------------
+        // Lifecycle after main work: complete -> (optional) transition-out tail -> Exit
+        // SequenceRunner owns BeginTransitionOut / Exit timing; handlers should not call those locally.
+        //--------------------------------
+
+        /// <summary>Main phase done. Does not start transition-out; that begins when the runner advances.</summary>
         private void MarkComplete()
         {
             if (IsComplete) return;
             IsComplete = true;
             Debug.Log("OpeningStageHandler: Marking stage complete. Note that audio may still be playing from this stage.");
+            // Next: On the next SequenceRunner.Update(), the runner sees IsComplete and calls TransitionToNextStage().
+            // That calls AdvanceToStage(next), which invokes BeginTransitionOut() on this handler (tail / fade start),
+            // then enters the next stage. Cleanup when this stage is fully retired belongs in Exit() (via LocalCleanup).
+            // Exit() is invoked by the runner when this stage leaves the tracked window, e.g. a jump skips past it
+            // (older than immediate previous), StartSequence resets, or similar — not necessarily on every linear step.
         }
+
+
+        /// <summary>Runner-only: start transition-out (tail) while the next stage is already entering.</summary>
+        public void BeginTransitionOut()
+        {
+            Debug.Log("OpeningStageHandler: BeginTransitionOut, no tail behavior required.");
+            // Tail-only: fades, VO tails, etc. Final teardown stays in Exit() -> LocalCleanup() so it runs once when retired.
+            // No tail yet for Opening; IStageHandler default is also no-op — explicit method documents intent.
+        }
+
+        /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
+        private void LocalCleanup()
+        {
+            _sequencer.wwiseVOManager.StopOpeningSequence();
+        }
+
+        /// <summary>Runner-only: final retirement; safe if called more than once.</summary>
+        public void Exit()
+        {
+            _hasEntered = false;  // Allow re-enter on sequence restart
+            LocalCleanup();
+        }
+
     }
 }

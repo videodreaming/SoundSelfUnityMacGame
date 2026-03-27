@@ -11,7 +11,7 @@ namespace SoundSelf.Sequence
 
         public StageType StageType => StageType.Savasana;
 
-        public bool IsComplete => true;
+        public bool IsComplete { get; private set; }
 
         public SavasanaStageHandler(Sequencer sequencer)
         {
@@ -27,29 +27,34 @@ namespace SoundSelf.Sequence
                 return;
             }
             _hasEntered = true;
+            IsComplete = false;
 
             if (_sequencer == null)
             {
                 Debug.LogError("SavasanaStageHandler: Sequencer is null. _countdownToSavasana not set (Sequencer unavailable).");
                 _hasEntered = false;
+                MarkComplete();
                 return;
             }
             if (_sequencer.director == null)
             {
                 Debug.LogError("SavasanaStageHandler: director is null. _countdownToSavasana not set. Current value: " + _sequencer._countdownToSavasana);
                 _hasEntered = false;
+                MarkComplete();
                 return;
             }
             if (_sequencer.wwiseVOManager == null)
             {
                 Debug.LogError("SavasanaStageHandler: wwiseVOManager is null. _countdownToSavasana not set. Current value: " + _sequencer._countdownToSavasana);
                 _hasEntered = false;
+                MarkComplete();
                 return;
             }
             if (MusicSystem1.instance == null)
             {
                 Debug.LogError("SavasanaStageHandler: MusicSystem1.instance is null. _countdownToSavasana not set. Current value: " + _sequencer._countdownToSavasana);
                 _hasEntered = false;
+                MarkComplete();
                 return;
             }
 
@@ -61,11 +66,45 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
             _sequencer.wwiseVOManager.PlayAscendingClosing();
             _sequencer._countdownToSavasana = -1.0f;
+
+            MarkComplete();
         }
 
+        //--------------------------------
+        // Lifecycle after main work: complete -> (optional) transition-out tail -> Exit
+        // SequenceRunner owns BeginTransitionOut / Exit timing; handlers should not call those locally.
+        //--------------------------------
+
+        /// <summary>Main phase done (or unrecoverable error path). Does not start transition-out; that begins when the runner advances.</summary>
+        private void MarkComplete()
+        {
+            if (IsComplete) return;
+            IsComplete = true;
+            Debug.Log("SavasanaStageHandler: Marking stage complete.");
+            // Next: On the next SequenceRunner.Update(), the runner sees IsComplete and calls TransitionToNextStage().
+            // That calls AdvanceToStage(next), which invokes BeginTransitionOut() on this handler (tail / fade start),
+            // then enters the next stage. Cleanup when this stage is fully retired belongs in Exit() (via LocalCleanup).
+            // Exit() is invoked by the runner when this stage leaves the tracked window, e.g. a jump skips past it
+            // (older than immediate previous), StartSequence resets, or similar — not necessarily on every linear step.
+        }
+
+        /// <summary>Runner-only: start transition-out (tail) while the next stage is already entering.</summary>
+        public void BeginTransitionOut()
+        {
+            // Tail-only: fades, VO tails, etc. Final teardown stays in Exit() -> LocalCleanup() so it runs once when retired.
+            // No tail yet for Savasana; IStageHandler default is also no-op — explicit method documents intent.
+        }
+
+        /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
+        private void LocalCleanup()
+        {
+        }
+
+        /// <summary>Runner-only: final retirement; safe if called more than once.</summary>
         public void Exit()
         {
             _hasEntered = false;  // Allow re-enter on sequence restart
+            LocalCleanup();
         }
     }
 }

@@ -48,14 +48,14 @@ IStageHandler
   └── Enter(variant)
   └── Exit()
   └── IsComplete / OnComplete callback
-  └── WatchesCue(cue) / NotifyCue(cue)  — optional; handlers declare which Wwise cues they watch for completion
+  └── WatchesSequenceCommand(sequenceCommand) / NotifySequenceCommand(sequenceCommand)  — optional; handlers declare which Wwise cues they watch for completion
 ```
 
 ---
 
 ## Cue-Watching System (Added Beyond Original Plan)
 
-Stages can complete when a Wwise cue fires. Handlers declare `WatchesCue(CueType)` and receive `NotifyCue(CueType)` when the cue fires. Sequencer dispatches via `HandleCue(CueType)`; WwiseVOManager calls it for each cue. If no handler is watching, legacy behavior runs (or a warning logs).
+Stages can complete when a Wwise cue fires. Handlers declare `WatchesSequenceCommand(CueType)` and receive `NotifySequenceCommand(CueType)` when the cue fires. Sequencer dispatches via `HandleCue(CueType)`; WwiseVOManager calls it for each cue. If no handler is watching, legacy behavior runs (or a warning logs).
 
 **CueType enum:** `StartInteractive`, `Break_Tests`, `WaitForButton`, `ThematicSavasana_End`
 
@@ -256,7 +256,7 @@ Create stub implementations that satisfy `IStageHandler` but do minimal work (e.
 
 ### 4.2 Wire Wwise Cues to SequenceRunner (Cue-Watching System)
 
-**Cue-watching flow:** WwiseVOManager calls `sequencer.HandleCue(CueType)` for each cue. Sequencer dispatches to current handler via `TryNotifyCue`. If a handler is watching, it marks complete; SequenceRunner advances on next poll. If not handled, legacy runs or warning logs.
+**Cue-watching flow:** WwiseVOManager calls `sequencer.HandleCue(CueType)` for each cue. Sequencer dispatches to current handler via `TryNotifySequenceCommand`. If a handler is watching, it marks complete; SequenceRunner advances on next poll. If not handled, legacy runs or warning logs.
 
 **Cues wired:**
 - `Cue_StartInteractive` → `HandleCue(StartInteractive)` (legacy: ProtocolStacksPlaygroundStart when not in sequence)

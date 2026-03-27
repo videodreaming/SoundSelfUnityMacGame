@@ -1,9 +1,10 @@
 namespace SoundSelf.Sequence
 {
-    /// <summary>Wwise cues that stages may watch for completion. Handlers declare WatchesCue; Sequencer dispatches via HandleCue.</summary>
-    public enum CueType
+    /// <summary>Commands dispatched from Wwise (and similar) into the sequence. Handlers declare WatchesSequenceCommand; Sequencer dispatches via HandleSequenceCommand.</summary>
+    public enum SequenceCommand
     {
         StartTutorial,
+        FirstVocalizationStart,
         StartInteractive,   // Opening, Tutorial → transition to Playground
         Break_Tests,        // Tutorial → ends naturally (end of "Keep going" instruction)
         WaitForButton,      // WaitForInput → user presses button to play music

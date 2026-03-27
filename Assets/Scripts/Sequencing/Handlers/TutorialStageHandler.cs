@@ -2,36 +2,62 @@ using UnityEngine;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Stub handler for the Tutorial stage. Completes immediately; WatchesCue/NotifyCue in place for when implementation is added.</summary>
+    /// <summary>Stub handler for the Tutorial stage. Completes immediately; WatchesSequenceCommand/ExecuteSequenceCommand in place for when implementation is added.</summary>
     public class TutorialStageHandler : IStageHandler
     {
         public StageType StageType => StageType.Tutorial;
 
         public bool IsComplete { get; private set; }
 
-        public bool WatchesCue(CueType cue) => cue == CueType.StartInteractive || cue == CueType.Break_Tests;
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) => sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.Break_Tests;
 
-        public void NotifyCue(CueType cue)
+        public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
-            if (cue == CueType.StartInteractive || cue == CueType.Break_Tests)
+            if (sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.Break_Tests)
                 MarkComplete();
         }
 
         public void Enter(string variant)
         {
-            IsComplete = true;  // Stub: complete immediately; cue-watching in place for when implementation is added
+            IsComplete = false;
             Debug.Log("TutorialStageHandler: Enter (stub - skipping until implementation added)");
+            MarkComplete(); // Stub: complete immediately; cue-watching in place for when implementation is added
         }
 
-        public void Exit()
-        {
-            // Stub - no cleanup
-        }
+        //--------------------------------
+        // Lifecycle after main work: complete -> (optional) transition-out tail -> Exit
+        // SequenceRunner owns BeginTransitionOut / Exit timing; handlers should not call those locally.
+        //--------------------------------
 
+        /// <summary>Main phase done. Does not start transition-out; that begins when the runner advances.</summary>
         private void MarkComplete()
         {
             if (IsComplete) return;
             IsComplete = true;
+            Debug.Log("TutorialStageHandler: Marking stage complete.");
+            // Next: On the next SequenceRunner.Update(), the runner sees IsComplete and calls TransitionToNextStage().
+            // That calls AdvanceToStage(next), which invokes BeginTransitionOut() on this handler (tail / fade start),
+            // then enters the next stage. Cleanup when this stage is fully retired belongs in Exit() (via LocalCleanup).
+            // Exit() is invoked by the runner when this stage leaves the tracked window, e.g. a jump skips past it
+            // (older than immediate previous), StartSequence resets, or similar — not necessarily on every linear step.
+        }
+
+        /// <summary>Runner-only: start transition-out (tail) while the next stage is already entering.</summary>
+        public void BeginTransitionOut()
+        {
+            // Tail-only: fades, VO tails, etc. Final teardown stays in Exit() -> LocalCleanup() so it runs once when retired.
+            // Stub — IStageHandler default is no-op; explicit method documents intent.
+        }
+
+        /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
+        private void LocalCleanup()
+        {
+        }
+
+        /// <summary>Runner-only: final retirement; safe if called more than once.</summary>
+        public void Exit()
+        {
+            LocalCleanup();
         }
     }
 }

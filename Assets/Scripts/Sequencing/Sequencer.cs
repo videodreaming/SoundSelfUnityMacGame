@@ -253,9 +253,9 @@ public class Sequencer : MonoBehaviour
 
 
     /// <summary>Dispatches cue to current handler if watching. Returns true if handled. Caller does legacy when false. StartInteractive has built-in legacy (ProtocolStacksPlaygroundStart) when not in sequence.</summary>
-    public bool HandleCue(CueType cue)
+    public bool HandleSequenceCommand(SequenceCommand sequenceCommand)
     {
-        if (cue == CueType.StartInteractive && (sequenceRunner == null || sequenceRunner.CurrentStageIndex < 0))
+        if (sequenceCommand == SequenceCommand.StartInteractive && (sequenceRunner == null || sequenceRunner.CurrentStageIndex < 0))
         {
             Debug.LogWarning("Cue_StartInteractive: Using legacy behavior (sequenceRunner is null or not in a sequence).");
             ProtocolStacksPlaygroundStart();
@@ -263,13 +263,24 @@ public class Sequencer : MonoBehaviour
         }
         if (sequenceRunner == null || sequenceRunner.CurrentStageIndex < 0)
             return false;
-        if (sequenceRunner.TryNotifyCue(cue))
+        if (sequenceRunner.TryExecuteSequenceCommand(sequenceCommand))
         {
-            Debug.Log(cue + ": Handled by current stage (" + sequenceRunner.CurrentStage + "). Sequence will advance on next poll.");
+            Debug.Log(sequenceCommand + ": Handled by sequence stages (current and/or transitioning-out).");
             return true;
         }
-        Debug.LogWarning(cue + " fired but it's not being watched for, so nothing is happening.");
+        Debug.LogWarning(sequenceCommand + " fired but it's not being watched for, so nothing is happening.");
         return false;
+    }
+
+    /// <summary>Starts next stage now and leaves current stage in transition-out tail.</summary>
+    public void TransitionToNextStage()
+    {
+        if (sequenceRunner == null)
+        {
+            Debug.LogWarning("Sequencer: Cannot transition to next stage because sequenceRunner is null.");
+            return;
+        }
+        sequenceRunner.TransitionToNextStage();
     }
 
     public void ProtocolStacksPlaygroundStart()
@@ -576,6 +587,10 @@ public class Sequencer : MonoBehaviour
             Debug.Log("Sequencer: StartLights");
             lightControl.SetPreferredColor("Red", 5.0f);
             lightsInitialized = true;
+        }
+        else
+        {
+            Debug.Log("Sequencer: StartLights already initialized, skipping");
         }
     }
 
@@ -1076,21 +1091,62 @@ public class Sequencer : MonoBehaviour
         }
     }
 
-        private void OnStartModeDropdownChanged(int index)
+    private void OnStartModeDropdownChanged(int index)
+    {
+        if(startModeDropdown != null)
         {
-            if(startModeDropdown != null)
+            switch (index)
             {
-                switch (index)
-                {
-                    case 0: Initialize(); Debug.Log("Initialize called.");  break;
-                    case 1: StartTrueStart(); Debug.Log("StartTrueStart called."); break;
-                    case 2: StartTutorialSequence(); Debug.Log("StartTutorialSequence called.");  break;
-                    case 3: StartPlayground(true, false, false, 0.5f);Debug.Log("StartPlayground called.");  break; //TODO: this should be true,false,true (removed for simplification test)
-                    case 4: StartRightBeforeSavasana(); Debug.Log("StartRightBeforeSavasana called."); break;
-                    case 5: StartSavasana(); Debug.Log("StartSavasana called."); break;
-                    default: Initialize();  break;
-                }
+                case 0: Initialize(); Debug.Log("Initialize called.");  break;
+                case 1: StartTrueStart(); Debug.Log("StartTrueStart called."); break;
+                case 2: StartTutorialSequence(); Debug.Log("StartTutorialSequence called.");  break;
+                case 3: StartPlayground(true, false, false, 0.5f);Debug.Log("StartPlayground called.");  break; //TODO: this should be true,false,true (removed for simplification test)
+                case 4: StartRightBeforeSavasana(); Debug.Log("StartRightBeforeSavasana called."); break;
+                case 5: StartSavasana(); Debug.Log("StartSavasana called."); break;
+                default: Initialize();  break;
             }
-            
         }
+        
+    }
+
+    public void StartLightsWithDelay()
+    {
+        Debug.Log("Sequencer: Starting Lights with Delay");
+        StartCoroutine(StartLightsCoroutine());
+    }
+
+    private IEnumerator StartLightsCoroutine()
+    {
+        Debug.Log("Sequencer: Waiting for 1 second before starting lights");
+        yield return new WaitForSeconds(1f);
+        StartLights();
+    }
+
+    public void MakeWwiseTone()
+    {
+        StartCoroutine(MakeWWiseToneCoroutine());
+    }
+    private IEnumerator MakeWWiseToneCoroutine()
+    {
+        Debug.Log("Sequencer: Triggering a False Tone in WWise");
+        MusicSystem1.instance.PostTheToningEvents();
+        float _t = 4f;
+        while (_t > 0)
+        {
+            if(MusicSystem1.instance.localToneOn)
+            {   //if an actual music system tone comes on, break the loop, so we don't de-activate it here.
+                yield break;
+            }
+            _t -= Time.deltaTime;
+            yield return null;
+        }
+        
+        if(MusicSystem1.instance.localToneOn)
+        { //just in case this would end on the exact frame that the tone starts, check again...
+            yield break;
+        }
+
+        Debug.Log("Sequencer: Stopping a False Tone in WWise");
+        MusicSystem1.instance.StopWwiseToning();
+    }
 }

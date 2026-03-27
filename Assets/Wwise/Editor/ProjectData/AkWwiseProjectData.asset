@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584270425415936315
+    m_lastTime: -8584269649731723533
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -2624,7 +2624,7 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584271430938132602
+    m_lastTime: -8584269649732012315
     List:
     - name: Play_VO_CLOSING_GOODBYE
       guid: 8d2508afd6648f46864100152a884f0f
@@ -2728,6 +2728,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 13.660667
       minDuration: 2.738
+    - name: Play_VO_GuidedVocalizationLite
+      guid: 5d184825b7f1d24cb4e224b51a821cd9
+      id: 3707193523
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: VO
+        ObjectType: 12
+        guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
+      - ElementName: Play_VO_GuidedVocalizationLite
+        ObjectType: 3
+        guid: 5d184825b7f1d24cb4e224b51a821cd9
+      Path: Events\VO\Play_VO_GuidedVocalizationLite
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Play_VO_GuidedVocalizationOhh
       guid: 4b2c2e8e91f16c4bb7f08643bfb84742
       id: 1350331786

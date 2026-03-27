@@ -96,10 +96,10 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Cue Mic OFF");
                 imitoneVoiceIntepreter.SetGameOn(false);
             }
-            else if (musicSyncInfo.userCueName == "Cue_GuidedVocalization_Start" || musicSyncInfo.userCueName == "Cue_Start_Tutorial") //TODO: remove "GuidedVocalization_Start" as it is deprecated, once Lorna commits change.
+            else if (musicSyncInfo.userCueName == "Cue_Start_Tutorial" || musicSyncInfo.userCueName == "Cue_Tutorial_Start" || musicSyncInfo.userCueName == "Cue_StartTutorial") //TODO: remove "GuidedVocalization_Start" as it is deprecated, once Lorna commits change.
             {
-                Debug.Log($"WWise_VO_CUE: {musicSyncInfo.userCueName} (should be Cue_Start_Tutorial)");
-                sequencer.HandleCue(CueType.StartTutorial);  
+                Debug.Log($"WWise_VO_CUE: {musicSyncInfo.userCueName} (expected is Cue_Tutorial_Start, variations allowed for backward compatibilty)");
+                sequencer.HandleSequenceCommand(SequenceCommand.StartTutorial);  
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
             {
@@ -141,15 +141,10 @@ public class WwiseVOManager : MonoBehaviour
             else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue_LinearHum_Start");
-                StartLightsWithDelay();
-                StartCoroutine(MakeWWiseTone());
+                sequencer.HandleSequenceCommand(SequenceCommand.FirstVocalizationStart);
             } else if(musicSyncInfo.userCueName == "Cue_LinearHum")
             {
                 
-            }
-            else if (musicSyncInfo.userCueName == "Cue_StartTutorial") //This is called from the end of the Somatic Sequence, near the end. He says "Humming and toning should first come from a relaxed place. Breathe in, and hum"
-            {
-                tutorial.StartTutorial();
             }
             else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
             {
@@ -192,23 +187,22 @@ public class WwiseVOManager : MonoBehaviour
             else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
             {
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
-                if (sequencer == null || !sequencer.HandleCue(CueType.Break_Tests))
+                if (sequencer == null || !sequencer.HandleSequenceCommand(SequenceCommand.Break_Tests))
                     tutorial.EndTutorialNaturally();
             }
             else if (musicSyncInfo.userCueName == "Cue_StartInteractive")
             {
                 Debug.Log("WWise_VO_CUE: Cue_StartInteractive");
                 if (sequencer != null)
-                    sequencer.HandleCue(CueType.StartInteractive);
+                    sequencer.HandleSequenceCommand(SequenceCommand.StartInteractive);
                 else
                     Debug.LogError("WwiseVOManager: sequencer is null. Cannot handle Cue_StartInteractive.");
-                Debug.LogWarning("WWise_VO_CUE: (This is hard coded for Protocol Stacks right now)");
             }
             else if (musicSyncInfo.userCueName == "Cue_WaitForButton")
             {
                 Debug.Log("WWise_VO_CUE: Cue_WaitForButton");
                 if (sequencer != null)
-                    sequencer.HandleCue(CueType.WaitForButton);
+                    sequencer.HandleSequenceCommand(SequenceCommand.WaitForButton);
                 //TODO: Legacy — implement the button to show up, and the logic to wait for it to be pressed.
             }
             else
@@ -234,7 +228,7 @@ public class WwiseVOManager : MonoBehaviour
                 UI_CurrentSession.Instance.currentSession = "Closing Teaching";
                 Debug.Log("Wwise_VO: Cue_ThematicSavasana_End");
                 if (sequencer != null)
-                    sequencer.HandleCue(CueType.ThematicSavasana_End);
+                    sequencer.HandleSequenceCommand(SequenceCommand.ThematicSavasana_End);
             }
             else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation2_Start")
             {
@@ -335,29 +329,6 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.SetSwitch("VO_Somatic","Short",gameObject);
         AkSoundEngine.SetSwitch("VO_ClosingGoodbye","Short",gameObject);
     }
-    private IEnumerator MakeWWiseTone()
-    {
-        Debug.Log("WWise_VO: Triggering a False Tone in WWise");
-        musicSystem1.PostTheToningEvents();
-        float _t = 4f;
-        while (_t > 0)
-        {
-            if(musicSystem1.localToneOn)
-            {   //if an actual music system tone comes on, break the loop, so we don't de-activate it here.
-                yield break;
-            }
-            _t -= Time.deltaTime;
-            yield return null;
-        }
-        
-        if(musicSystem1.localToneOn)
-        { //just in case this would end on the exact frame that the tone starts, check again...
-            yield break;
-        }
-
-        Debug.Log("WWise_VO: Stopping a False Tone in WWise");
-        musicSystem1.StopWwiseToning();
-    }
 
     
     private float GetRTPCValue(RTPC rtpc)
@@ -412,7 +383,16 @@ public class WwiseVOManager : MonoBehaviour
             Debug.LogError("WWise_VO: Invalid openingSequenceType: " + openingSequenceType);
             break;
         }
-    }         
+    }      
+
+    public void StopOpeningSequence()
+    {
+        Debug.Log("WWise_VO: Stop Opening Sequence");
+        AkSoundEngine.PostEvent("Stop_PREPARATION_OPENING_SEQUENCE_LONG", gameObject);
+        AkSoundEngine.PostEvent("Stop_PREPARATION_OPENING_SEQUENCE_SHORT", gameObject);
+        AkSoundEngine.PostEvent("Stop_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject);
+        AkSoundEngine.PostEvent("Stop_ASCENDING_OPENING", gameObject);
+    }
 
     //TUTORIAL VO CALLS
     public void PlayTutorialGuidance(string guidanceType)
@@ -489,15 +469,5 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.PostEvent("Play_ASCENDING_CLOSING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
     }
 
-    private void StartLightsWithDelay()
-    {
-        StartCoroutine(StartLightsCoroutine());
-    }
-
-    private IEnumerator StartLightsCoroutine()
-    {
-        yield return new WaitForSeconds(1f);
-        sequencer.StartLights();
-    }
 }
 

@@ -1,7 +1,7 @@
 # Cue System & Cue-Watching Review
 
 **Date:** March 18, 2025  
-**Scope:** Cue firing, `HandleCue`, `TryNotifyCue`, handler `WatchesCue`/`NotifyCue`, and legacy fallbacks.
+**Scope:** Cue firing, `HandleCue`, `TryNotifySequenceCommand`, handler `WatchesSequenceCommand`/`NotifySequenceCommand`, and legacy fallbacks.
 
 ---
 
@@ -12,19 +12,20 @@
 ```
 Wwise cue fires
     → WwiseVOManager (VOCallbackFunction or ClosingCallBackFunction)
-    → sequencer.HandleCue(CueType)
+    → sequencer.HandleCue(SequenceCommand)
     → [if StartInteractive && not in sequence] ProtocolStacksPlaygroundStart()
-    → [else] sequenceRunner.TryNotifyCue(cue)
-        → currentHandler.WatchesCue(cue)?
-            → handler.NotifyCue(cue) → MarkComplete()
+    → [else] sequenceRunner.TryNotifySequenceCommand(sequenceCommand)
+        → currentHandler.WatchesSequenceCommand(sequenceCommand)?
+            → handler.NotifySequenceCommand(sequenceCommand) → MarkComplete()
     → [if Break_Tests && HandleCue returned false] tutorial.EndTutorialNaturally()
 ```
 
-### 1.2 Cue Types (`StageTypes.cs`)
+### 1.2 Sequence commands (`SequenceCommand` in `StageTypes.cs`)
 
-| CueType | Wwise Cue Name | Handlers That Watch | Legacy Fallback |
+| SequenceCommand | Wwise Cue Name | Handlers That Watch | Legacy Fallback |
 |---------|----------------|---------------------|-----------------|
-| `StartInteractive` | Cue_StartInteractive | OpeningStageHandler | ProtocolStacksPlaygroundStart (when not in sequence) |
+| `StartTutorial` | `Cue_Start_Tutorial`, `Cue_Tutorial_Start`, `Cue_StartTutorial` | OpeningStageHandler | — |
+| `StartInteractive` | Cue_StartInteractive | OpeningStageHandler, TutorialStageHandler | ProtocolStacksPlaygroundStart (when not in sequence) |
 | `Break_Tests` | Cue_Wwise_Tutorial_Break_All_Tests | TutorialStageHandler | tutorial.EndTutorialNaturally() |
 | `WaitForButton` | Cue_WaitForButton | WaitForInputStageHandler | None |
 | `ThematicSavasana_End` | Cue_ThematicSavasana_End | (none) | None |
@@ -36,19 +37,19 @@ Wwise cue fires
 ### 2.1 StartInteractive
 
 - **When not in sequence** (`sequenceRunner == null` or `CurrentStageIndex < 0`): `HandleCue` calls `ProtocolStacksPlaygroundStart()` and returns `true`. Correct.
-- **When in Opening stage**: OpeningStageHandler watches it; `NotifyCue` → `MarkComplete`; sequence advances. Correct.
-- **When in Playground/Savasana**: Handler doesn't watch; `TryNotifyCue` returns false; `HandleCue` returns false. WwiseVOManager ignores the return value and does nothing. Correct—we're already past Opening.
+- **When in Opening stage**: OpeningStageHandler watches it; `NotifySequenceCommand` → `MarkComplete`; sequence advances. Correct.
+- **When in Playground/Savasana**: Handler doesn't watch; `TryNotifySequenceCommand` returns false; `HandleCue` returns false. WwiseVOManager ignores the return value and does nothing. Correct—we're already past Opening.
 - **WwiseVOManager** does not need to check the return value; legacy is handled inside `HandleCue`.
 
 ### 2.2 Break_Tests
 
-- **When in Tutorial stage**: TutorialStageHandler watches it; `NotifyCue` → `MarkComplete`. Correct.
+- **When in Tutorial stage**: TutorialStageHandler watches it; `NotifySequenceCommand` → `MarkComplete`. Correct.
 - **When not in Tutorial** (or not in sequence): `HandleCue` returns false; WwiseVOManager calls `tutorial.EndTutorialNaturally()`. Correct legacy fallback.
 - **Protocol Stacks Ascending** has no Tutorial stage; Break_Tests would only fire in Preparation/Integration flows (legacy). Correct.
 
 ### 2.3 WaitForButton
 
-- **When in WaitForInput stage**: WaitForInputStageHandler watches it; `NotifyCue` → `MarkComplete`. Correct.
+- **When in WaitForInput stage**: WaitForInputStageHandler watches it; `NotifySequenceCommand` → `MarkComplete`. Correct.
 - **When not in WaitForInput**: `HandleCue` returns false; no legacy. Cue is effectively ignored. Acceptable for current flows.
 
 ### 2.4 ThematicSavasana_End
@@ -60,7 +61,7 @@ Wwise cue fires
 
 - `WwiseVOManager`: All cue paths check `sequencer != null` before calling `HandleCue`.
 - `HandleCue`: Uses `sequenceRunner ??= sequencer.GetComponent<SequenceRunner>()`; checks `sequenceRunner == null` before use.
-- `TryNotifyCue`: Checks `CurrentStageIndex < 0` and `handler == null` before calling `WatchesCue`/`NotifyCue`.
+- `TryNotifySequenceCommand`: Checks `CurrentStageIndex < 0` and `handler == null` before calling `WatchesSequenceCommand`/`NotifySequenceCommand`.
 
 ---
 
@@ -78,7 +79,7 @@ sequenceRunner ??= sequencer.GetComponent<SequenceRunner>();
 
 ### 3.2 Break_Tests: Double Action When Tutorial Is Implemented
 
-**Future concern:** When TutorialStageHandler is fully implemented, `NotifyCue(Break_Tests)` will call `MarkComplete()`. The WwiseVOManager legacy path calls `tutorial.EndTutorialNaturally()` when `HandleCue` returns false. So:
+**Future concern:** When TutorialStageHandler is fully implemented, `NotifySequenceCommand(Break_Tests)` will call `MarkComplete()`. The WwiseVOManager legacy path calls `tutorial.EndTutorialNaturally()` when `HandleCue` returns false. So:
 
 - **In Tutorial stage**: Handler handles cue → `MarkComplete`; WwiseVOManager does NOT run legacy (HandleCue returns true). Good.
 - **Not in Tutorial stage**: HandleCue returns false → legacy runs `EndTutorialNaturally()`. Good.
@@ -126,9 +127,9 @@ Cues are routed correctly. No cross-wiring found.
 | Area | Status | Notes |
 |------|--------|-------|
 | Cue routing | OK | VOCallbackFunction vs ClosingCallBackFunction correct |
-| HandleCue logic | OK | Legacy for StartInteractive when not in sequence; TryNotifyCue otherwise |
-| TryNotifyCue | OK | Null checks, WatchesCue/NotifyCue flow correct |
-| Handler implementations | OK | WatchesCue/NotifyCue consistent |
+| HandleCue logic | OK | Legacy for StartInteractive when not in sequence; TryNotifySequenceCommand otherwise |
+| TryNotifySequenceCommand | OK | Null checks, WatchesSequenceCommand/NotifySequenceCommand flow correct |
+| Handler implementations | OK | WatchesSequenceCommand/NotifySequenceCommand consistent |
 | Null safety | OK | sequencer, sequenceRunner checked |
 | Break_Tests legacy | OK | No double action when Tutorial is implemented |
 | Edge cases | OK | Stage transitions, idempotent MarkComplete |
