@@ -25209,20 +25209,6 @@
 																		</MusicClip>
 																	</Local>
 																</Reference>
-																<Reference>
-																	<Local>
-																		<MusicEventCue Name="" ID="{35751672-8339-4154-84E6-AB60473C089A}" ShortID="99616225">
-																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="349653.240247934"/>
-																			</PropertyList>
-																			<ReferenceList>
-																				<Reference Name="PostEventTarget">
-																					<ObjectRef Name="Stop_sfx_breathworkcycle" ID="{C11CB0C0-39F2-4CDA-9192-CCE7C7243727}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																				</Reference>
-																			</ReferenceList>
-																		</MusicEventCue>
-																	</Local>
-																</Reference>
 															</ObjectList>
 														</ObjectLists>
 													</MusicTrackSequence>
@@ -26894,7 +26880,7 @@
 																		<MusicClip Name="Linear Breath in &amp; Sigh" ID="{31AAD7B7-FDE8-4DE2-A4F4-114EE80826C5}">
 																			<PropertyList>
 																				<Property Name="BeginTrimOffset" Type="Real64" Value="27533.0797782173"/>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="48967.2016917466"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="43763.093320765"/>
 																				<Property Name="FadeInMode" Type="int16" Value="0"/>
 																				<Property Name="FadeOutDuration" Type="Real64" Value="7031.77493069955"/>
 																				<Property Name="PlayAt" Type="Real64" Value="160736.906679235"/>
@@ -26913,7 +26899,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>48.9672</XPos>
+																								<XPos>43.76309</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -26932,7 +26918,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>48.9672</XPos>
+																								<XPos>43.76309</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -26951,7 +26937,7 @@
 																								<Flags>5</Flags>
 																							</Point>
 																							<Point>
-																								<XPos>48.9672</XPos>
+																								<XPos>43.76309</XPos>
 																								<YPos>0</YPos>
 																								<Flags>37</Flags>
 																							</Point>
@@ -28612,16 +28598,6 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_StartInteractive" ID="{FE87E3A3-772C-400C-B68F-D65043346C4E}">
-												<PropertyList>
-													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="300000"/>
-												</PropertyList>
-											</MusicCue>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
 											<MusicCue Name="Cue_LinearHum_Start" ID="{3C7A8388-7E75-4B91-B80E-BCDB9125937D}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
@@ -28655,7 +28631,7 @@
 											<MusicCue Name="Cue_LinearHum_Start" ID="{D59A679F-2257-4B5D-B7DD-17D63D00902B}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="214000"/>
+													<Property Name="TimeMs" Type="Real64" Value="214878.775002475"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -28691,20 +28667,50 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_GuidedVocalization_Start" ID="{FCDFD3A8-E6C9-42B7-8266-9403367160FF}">
+											<MusicCue Name="Cue_Start_Tutorial" ID="{CFA57509-EFCC-4E78-8C91-3A574BB939FE}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="163625"/>
+													<Property Name="TimeMs" Type="Real64" Value="213785.456186975"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_GuidedVocalization_Start" ID="{CFA57509-EFCC-4E78-8C91-3A574BB939FE}">
+											<MusicCue Name="Cue_Start_Breathworkcycle" ID="{22613032-632D-4690-88C2-F9A1FBB2BF34}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="248000"/>
+													<Property Name="TimeMs" Type="Real64" Value="46445.1771179147"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_StartInteractive" ID="{5D31A358-1F6F-4CA1-BBFB-D216F7CA8D7F}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="300000"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_MusicEnding" ID="{E1334FE1-474C-4453-86D9-DA02D8831632}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="300000"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_TestAhh_Complete" ID="{72DB1068-8BE2-4DA1-B367-739F354B697B}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="245000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

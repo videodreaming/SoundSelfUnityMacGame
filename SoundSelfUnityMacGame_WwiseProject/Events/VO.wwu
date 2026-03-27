@@ -336,6 +336,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_VO_GuidedVocalizationLite" ID="{2548185D-F1B7-4CD2-B4E2-24B51A821CD9}">
+					<ChildrenList>
+						<Action Name="" ID="{6EE2CEC5-831C-4444-B8B5-CD60895E8F39}" ShortID="2970860">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="VO_GuidedVocalizationLite" ID="{38A13A96-3A90-4627-8FE0-F26F4670919F}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
