@@ -121,7 +121,7 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO_CUE: Cue_BreathIn");
                 breathInBehaviour();
             }
-            else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start")
+            else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start" || musicSyncInfo.userCueName == "Cue_BreatIn_Start")
             {
                 Debug.Log("WWise_VO_CUE: Cue BreathIn Start");
                 breathInBehaviour();
@@ -138,9 +138,9 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO_CUE: PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
             }
-            else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start")
+            else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start" || musicSyncInfo.userCueName == "Cue_LInearHum_Start")
             {
-                Debug.Log("WWise_VO_CUE: Cue_LinearHum_Start");
+                Debug.Log($"WWise_VO_CUE: {musicSyncInfo.userCueName} (expected is Cue_LinearHum_Start, variations allowed for backward compatibilty)");
                 sequencer.HandleSequenceCommand(SequenceCommand.FirstVocalizationStart);
             } else if(musicSyncInfo.userCueName == "Cue_LinearHum")
             {
@@ -377,7 +377,10 @@ public class WwiseVOManager : MonoBehaviour
             Debug.Log("WWise_VO: Play Integration Short Opening Sequence");
             break;
             case "PS_Ascending":
-            AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationLite", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            Debug.Log("WWise_VO: Play Guided Vocalization Lite");
+            //AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            //Debug.Log("WWise_VO: Play Ascending Opening Sequence");
             break;
             default:
             Debug.LogError("WWise_VO: Invalid openingSequenceType: " + openingSequenceType);
