@@ -24720,7 +24720,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>4</Value>
+										<Value>5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -24880,7 +24880,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-10</Value>
+										<Value>-9</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -25349,20 +25349,6 @@
 														</Reference>
 														<Reference>
 															<Local>
-																<MusicEventCue Name="" ID="{8276E8A6-66A2-4BB0-B317-4CA172C249A2}" ShortID="286563002">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="46445.1771179147"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Play_sfx_breathworkcycle" ID="{80E1B811-30A7-438C-ADBE-C264D16A171F}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
 																<MusicEventCue Name="" ID="{1F9BEF8C-FE6B-4B17-A6B1-C007DAC82B37}" ShortID="828223360">
 																	<PropertyList>
 																		<Property Name="PlayAt" Type="Real64" Value="111257.513928638"/>
@@ -25508,7 +25494,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-10</Value>
+										<Value>-9</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -25633,7 +25619,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{765907A6-66F3-4FEC-959C-3EF85E3CC7DD}" ShortID="488945107">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="178000"/>
+																		<Property Name="PlayAt" Type="Real64" Value="177717.240068568"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -26069,7 +26055,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-11</Value>
+										<Value>-10</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -27186,7 +27172,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>4</Value>
+										<Value>5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -27673,7 +27659,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="295733.333333333"/>
 																		<Property Name="FadeInDuration" Type="Real64" Value="2888.40208761318"/>
 																		<Property Name="FadeOutDuration" Type="Real64" Value="132188.130097461"/>
-																		<Property Name="PlayAt" Type="Real64" Value="139180.602422188"/>
+																		<Property Name="PlayAt" Type="Real64" Value="96680.602422188"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="Linear Hums Ahhs" ID="{339D133A-1873-4EA7-8DA0-25FBCA6770DB}"/>
 																	<PropertyCurveList>
@@ -27752,7 +27738,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-11</Value>
+										<Value>-10</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -27888,7 +27874,7 @@
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>6</Value>
+										<Value>7</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -28141,7 +28127,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>1</Value>
+										<Value>2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>

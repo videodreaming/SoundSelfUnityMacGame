@@ -4612,7 +4612,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -6555,6 +6555,11 @@
 												<Value>12</Value>
 											</ValueList>
 										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -6715,20 +6720,6 @@
 																								</PropertyCurve>
 																							</PropertyCurveList>
 																						</MusicClip>
-																					</Local>
-																				</Reference>
-																				<Reference>
-																					<Local>
-																						<MusicEventCue Name="" ID="{C3F3B40A-6257-4106-82A6-5AB6C0F09E25}" ShortID="790599033">
-																							<PropertyList>
-																								<Property Name="PlayAt" Type="Real64" Value="13574.6538292194"/>
-																							</PropertyList>
-																							<ReferenceList>
-																								<Reference Name="PostEventTarget">
-																									<ObjectRef Name="Play_sfx_SoundSeed_BreathCycle" ID="{FE6B1099-4515-45DE-801F-62326CC3385B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
-																								</Reference>
-																							</ReferenceList>
-																						</MusicEventCue>
 																					</Local>
 																				</Reference>
 																			</ObjectList>
@@ -8014,6 +8005,24 @@
 													<ObjectList Name="EntryPath">
 														<Reference>
 															<ObjectRef Name="SitarAmbience" ID="{CECB0939-F6B6-4D40-858E-AA754E576F14}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
+														</Reference>
+													</ObjectList>
+												</ObjectLists>
+											</MultiSwitchEntry>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MultiSwitchEntry Name="" ID="{42E38CEB-895B-41E0-8DB8-F6DE105C8D1C}">
+												<ReferenceList>
+													<Reference Name="AudioNode">
+														<ObjectRef Name="CosmicAir_AMajor_Loop" ID="{EC14E5C2-81AA-48AD-A674-6AA448EDF681}" WorkUnitID="{02BF27A8-FC4E-45F2-8284-E11A2380C74B}"/>
+													</Reference>
+												</ReferenceList>
+												<ObjectLists>
+													<ObjectList Name="EntryPath">
+														<Reference>
+															<ObjectRef Name="CosmicAir" ID="{E5E5D75E-D46B-4F00-9ADB-BB9A23284FE2}" WorkUnitID="{DAA46F15-CF81-436C-A7EE-0F1794958384}"/>
 														</Reference>
 													</ObjectList>
 												</ObjectLists>

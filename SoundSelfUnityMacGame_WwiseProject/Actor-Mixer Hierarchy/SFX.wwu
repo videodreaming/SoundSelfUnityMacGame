@@ -47,6 +47,43 @@
 										</Local>
 									</Reference>
 								</ObjectList>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{7C01B1FE-1ABD-4C72-B4FE-7ABF424551B2}" ShortID="674271570">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="BreatheCycle_Volume" ID="{6054B844-CB45-4C59-9436-ECB992881033}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{DC950C95-EFA5-48A1-AD78-CEBEC1415FC0}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
 							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="sfx_breath in" ID="{6FA8E62E-2ED4-4329-9B31-75505A8EC08C}" Platform="Linked"/>
@@ -1035,13 +1072,12 @@
 								<Property Name="BlendBehavior" Type="int16" Value="1"/>
 								<Property Name="Highpass" Type="int16">
 									<ValueList>
-										<Value>29</Value>
+										<Value>35</Value>
 									</ValueList>
 									<ModifierList>
 										<ModifierInfo>
 											<Modifier Name="" ID="{49189B43-F2A0-49ED-9180-6E8F983E60F1}">
 												<PropertyList>
-													<Property Name="Enabled" Type="bool" Value="True"/>
 													<Property Name="Max" Type="Real64" Value="11"/>
 													<Property Name="Min" Type="Real64" Value="-5"/>
 												</PropertyList>
@@ -1051,12 +1087,12 @@
 								</Property>
 								<Property Name="Lowpass" Type="int16">
 									<ValueList>
-										<Value>5</Value>
+										<Value>4</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-8</Value>
+										<Value>-2</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -1073,9 +1109,6 @@
 									<PropertyList>
 										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 										<Property Name="Lowpass" Type="int16">
-											<ValueList>
-												<Value>18</Value>
-											</ValueList>
 											<ModifierList>
 												<ModifierInfo>
 													<Modifier Name="" ID="{51D554DF-A497-4F19-BEE6-0899F798A494}">
@@ -1117,7 +1150,7 @@
 												<Property Name="SpeedPointSpeedRandom" Type="Real32" Value="0"/>
 												<Property Name="SpeedPointTimeRandom" Type="Real32" Value="0"/>
 												<Property Name="SpeedRandom" Type="Real32" Value="37"/>
-												<Property Name="VelocityDynamicRange" Type="Real32" Value="0.37"/>
+												<Property Name="VelocityDynamicRange" Type="Real32" Value="0"/>
 											</PropertyList>
 											<Language>SFX</Language>
 											<PluginData>
@@ -1292,6 +1325,45 @@
 							</ObjectLists>
 						</BlendContainer>
 					</ChildrenList>
+					<ObjectLists>
+						<ObjectList Name="RTPC">
+							<Reference>
+								<Local>
+									<RTPC Name="" ID="{44863FC3-6ADA-4751-AEDB-541B350872AF}" ShortID="552918518">
+										<PropertyList>
+											<Property Name="PropertyName" Type="string" Value="Volume"/>
+										</PropertyList>
+										<ReferenceList>
+											<Reference Name="ControlInput">
+												<ObjectRef Name="BreatheCycle_Volume" ID="{6054B844-CB45-4C59-9436-ECB992881033}" WorkUnitID="{575A7222-2B5C-4694-94EA-3CB75AEDB4CC}"/>
+											</Reference>
+											<Reference Name="Curve">
+												<Custom>
+													<Curve Name="" ID="{9373972F-CC8A-4615-9619-58B4F3581684}">
+														<PropertyList>
+															<Property Name="Flags" Type="int32" Value="3"/>
+														</PropertyList>
+														<PointList>
+															<Point>
+																<XPos>0</XPos>
+																<YPos>-200</YPos>
+																<Flags>5</Flags>
+															</Point>
+															<Point>
+																<XPos>100</XPos>
+																<YPos>0</YPos>
+																<Flags>37</Flags>
+															</Point>
+														</PointList>
+													</Curve>
+												</Custom>
+											</Reference>
+										</ReferenceList>
+									</RTPC>
+								</Local>
+							</Reference>
+						</ObjectList>
+					</ObjectLists>
 				</ActorMixer>
 				<Folder Name="Archive" ID="{1C35A8F7-D72E-4935-AACD-67D2F5ED0449}" ShortID="548759014"/>
 				<Folder Name="New SFX Ideas" ID="{13301C64-0FAD-4C46-9F59-EAAA8E5F1140}" ShortID="450525894">

@@ -3662,6 +3662,11 @@
 										<Value>4</Value>
 									</ValueList>
 								</Property>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>1</Value>
+									</ValueList>
+								</Property>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="OverrideUserAuxSends" Type="bool" Value="True"/>
 								<Property Name="UserAuxSendVolume0" Type="Real64">
@@ -3928,6 +3933,34 @@
 																</MusicEventCue>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{A2FA7B3C-E860-4036-93A7-F9DFA51D5A3C}" ShortID="803127732">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="804360.590653506"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_sfx_SoundSeed_BreathCycleWind" ID="{1A69D74E-1642-4AE1-B637-480E5631F78D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{35B20FF1-1B25-411C-84E5-EE1D109FAE15}" ShortID="46649667">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="890020.156207586"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_sfx_breathworkcycle" ID="{C11CB0C0-39F2-4CDA-9192-CCE7C7243727}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -3951,7 +3984,7 @@
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-13</Value>
+										<Value>-11</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -4015,20 +4048,6 @@
 														</Reference>
 														<Reference>
 															<Local>
-																<MusicEventCue Name="" ID="{7804CA3E-F7DB-4E9D-9E43-D2B99EAE6E2A}" ShortID="120402212">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="813847.023363297"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Set_MusicLoops_CosmicAir" ID="{8BDA321F-C939-4656-9A00-432193DF87A8}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
 																<MusicEventCue Name="" ID="{EF5C9F23-1132-423B-9FC4-15DDE228DE49}" ShortID="982375584">
 																	<PropertyList>
 																		<Property Name="PlayAt" Type="Real64" Value="500"/>
@@ -4050,20 +4069,6 @@
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
 																			<ObjectRef Name="Stop_InteractiveMusicSystem" ID="{11D2DC73-E209-45B4-89FD-F87C94F55B6D}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
-																<MusicEventCue Name="" ID="{DD89A1CE-A580-4750-BC93-32DBFCBB63AA}" ShortID="460844885">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="583590.951492537"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Set_MusicLoops_Environment" ID="{40A72927-1F5A-4A4C-9136-E2198E2653CD}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
 																		</Reference>
 																	</ReferenceList>
 																</MusicEventCue>
@@ -4139,6 +4144,62 @@
 																</MusicEventCue>
 															</Local>
 														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{C810C8E9-5DA5-41EC-ACD8-C485FB62C018}" ShortID="314611684">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="807070.310645671"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Play_MusicLoops" ID="{6908C4E3-6D0E-4B26-87FA-E01A43EAB94C}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{559F5E20-C345-419B-A180-A38060682A56}" ShortID="471532299">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="598555.821743554"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_MusicLoops" ID="{7A19FEB5-4851-40F3-ADDD-9D15D8E3714C}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{56935545-DC72-4DD1-A627-9EE63B996537}" ShortID="72254907">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="803152.073977842"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Set_MusicLoops_CosmicAir" ID="{8BDA321F-C939-4656-9A00-432193DF87A8}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{6B4FC73F-C088-4A06-BB02-907468CE87A2}" ShortID="472486460">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="605488.05430492"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
 													</ObjectList>
 												</ObjectLists>
 											</MusicTrackSequence>
@@ -4168,7 +4229,7 @@
 								</Property>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>1</Value>
+										<Value>3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -4212,7 +4273,7 @@
 																	<PropertyList>
 																		<Property Name="EndTrimOffset" Type="Real64" Value="228813.208333333"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
-																		<Property Name="FadeOutDuration" Type="Real64" Value="6385.39725454396"/>
+																		<Property Name="FadeOutDuration" Type="Real64" Value="1947.67919174524"/>
 																		<Property Name="PlayAt" Type="Real64" Value="587590.951492537"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="menu_music_C Major" ID="{FB516DE1-B598-4272-A293-B331DBD504D2}"/>
@@ -4235,12 +4296,12 @@
 																					</Point>
 																					<Point>
 																						<XPos>184.2531</XPos>
-																						<YPos>-0.28829</YPos>
+																						<YPos>-0</YPos>
 																						<Flags>0</Flags>
 																					</Point>
 																					<Point>
 																						<XPos>228.813208333333</XPos>
-																						<YPos>-0.68819</YPos>
+																						<YPos>-0</YPos>
 																						<Flags>37</Flags>
 																					</Point>
 																				</PointList>
@@ -4329,7 +4390,7 @@
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-13</Value>
+										<Value>-12</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -4808,7 +4869,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{38C293B6-03E0-4F09-AEAA-BA271D9B4EDB}" ShortID="194218097">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="864000"/>
+																		<Property Name="PlayAt" Type="Real64" Value="858000"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -4841,7 +4902,7 @@
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-14</Value>
+										<Value>-12</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -4881,9 +4942,9 @@
 																<MusicClip Name="vo_goodbye_kindness" ID="{72380CE2-119B-4097-A916-B606ABC8C005}">
 																	<PropertyList>
 																		<Property Name="EndTrimOffset" Type="Real64" Value="3500.00000000001"/>
-																		<Property Name="FadeInMode" Type="int16" Value="0"/>
+																		<Property Name="FadeInDuration" Type="Real64" Value="167.485182563425"/>
 																		<Property Name="FadeOutDuration" Type="Real64" Value="462.405533777433"/>
-																		<Property Name="PlayAt" Type="Real64" Value="864000"/>
+																		<Property Name="PlayAt" Type="Real64" Value="863297.034382222"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_goodbye_kindness" ID="{86BA2FDC-CE76-4E19-8DFB-391A3504671C}"/>
 																	<PropertyCurveList>
@@ -4956,7 +5017,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="8550.40258560039"/>
 																		<Property Name="FadeInDuration" Type="Real64" Value="115.601383444271"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="864229.558423919"/>
+																		<Property Name="PlayAt" Type="Real64" Value="862026.592806141"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_goodbye_kindness" ID="{86BA2FDC-CE76-4E19-8DFB-391A3504671C}"/>
 																	<PropertyCurveList>
@@ -5029,7 +5090,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="11000"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="864949.5974144"/>
+																		<Property Name="PlayAt" Type="Real64" Value="862107.588123542"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_goodbye_kindness" ID="{86BA2FDC-CE76-4E19-8DFB-391A3504671C}"/>
 																	<PropertyCurveList>
@@ -5102,7 +5163,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="14000"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="865500"/>
+																		<Property Name="PlayAt" Type="Real64" Value="862800.561891419"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_goodbye_kindness" ID="{86BA2FDC-CE76-4E19-8DFB-391A3504671C}"/>
 																	<PropertyCurveList>
@@ -5175,7 +5236,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="18000"/>
 																		<Property Name="FadeInMode" Type="int16" Value="0"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="866500"/>
+																		<Property Name="PlayAt" Type="Real64" Value="863421.152504923"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_goodbye_kindness" ID="{86BA2FDC-CE76-4E19-8DFB-391A3504671C}"/>
 																	<PropertyCurveList>
@@ -5248,7 +5309,7 @@
 																		<Property Name="EndTrimOffset" Type="Real64" Value="22060.9375"/>
 																		<Property Name="FadeInDuration" Type="Real64" Value="110.696208370617"/>
 																		<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																		<Property Name="PlayAt" Type="Real64" Value="868000"/>
+																		<Property Name="PlayAt" Type="Real64" Value="869750"/>
 																	</PropertyList>
 																	<AudioSourceRef Name="vo_goodbye_kindness" ID="{86BA2FDC-CE76-4E19-8DFB-391A3504671C}"/>
 																	<PropertyCurveList>

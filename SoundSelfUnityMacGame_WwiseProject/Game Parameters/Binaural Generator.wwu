@@ -17,6 +17,11 @@
 						<Property Name="Min" Type="Real64" Value="100"/>
 					</PropertyList>
 				</GameParameter>
+				<GameParameter Name="BinauralGenerator_Volume" ID="{022EED32-100B-4DCA-B2DD-2DA2D4E75068}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>
