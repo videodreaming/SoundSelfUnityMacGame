@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09359ed7c200f471184906275c1ee53f, type: 3}
+  m_Script: {fileID: 11500000, guid: 64f0b261c0fe931448e3a2357c8451c7, type: 3}
   m_Name: AkWwiseProjectData
   m_EditorClassIdentifier: 
   AcousticTextureWwu:
@@ -431,7 +431,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: de1292387a65644aa29a0dc03049efe2
     GuidInternal: 
-    m_lastTime: -8584269649731723533
+    m_lastTime: -8584267191127514338
     List:
     - name: CALIBRATION
       guid: 00f6bbb367bc3641a4443a26dffb8b68
@@ -586,8 +586,8 @@ MonoBehaviour:
         guid: af171fe5b44965488b8dacd6d8d65123
       Path: Events\AVS System\Stop_AVS
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_AVS_All
       guid: 526f82727f7213449303faf0795a222b
       id: 842157536
@@ -603,8 +603,8 @@ MonoBehaviour:
         guid: 526f82727f7213449303faf0795a222b
       Path: Events\AVS System\Stop_AVS_All
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_AVS_SineGenerators_REFERENCE
       guid: eb9cfe70966be6408a80ddaa41ffd559
       id: 767717232
@@ -1288,8 +1288,8 @@ MonoBehaviour:
         guid: 2c3f4ae257fc4f4eaecc3ae5054b15b6
       Path: Events\Default Work Unit\Stop_ASCENDING_OPENING
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_OPENING_SEQUENCE
       guid: 3880d8431034894ebd1dd4d496c2a6b3
       id: 670049528
@@ -1705,8 +1705,8 @@ MonoBehaviour:
         guid: e40a28752704e04ba4e13f0b4ad82e9b
       Path: Events\Interactive Music System\Play_Toning
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 38.26146
+      minDuration: 14.886853
     - name: Play_Toning_v3_FundamentalOnly
       guid: efb100dad61d484fad925da76bc5f7c1
       id: 3427313557
@@ -1722,8 +1722,8 @@ MonoBehaviour:
         guid: efb100dad61d484fad925da76bc5f7c1
       Path: Events\Interactive Music System\Play_Toning_v3_FundamentalOnly
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 38.26146
+      minDuration: 14.886853
     - name: Play_Toning_v3_HarmonyOnly
       guid: 17c68e7fe73ec14ab11d03973b8fdda8
       id: 32253738
@@ -1739,8 +1739,8 @@ MonoBehaviour:
         guid: 17c68e7fe73ec14ab11d03973b8fdda8
       Path: Events\Interactive Music System\Play_Toning_v3_HarmonyOnly
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 35.676212
+      minDuration: 14.1581135
     - name: Stop_InteractiveMusicSystem
       guid: 73dcd21109e2b44589fdf87c94f55b6d
       id: 114893642
@@ -1790,8 +1790,8 @@ MonoBehaviour:
         guid: d0b1d5c73e44f1428ba4b21cd8c9d328
       Path: Events\Interactive Music System\Stop_SilentLoops_v3_FundamentalOnly
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_SilentLoops_v3_HarmonyOnly
       guid: 5c7b80ce669b3c4282e41a59159eaea9
       id: 2840510975
@@ -1807,8 +1807,8 @@ MonoBehaviour:
         guid: 5c7b80ce669b3c4282e41a59159eaea9
       Path: Events\Interactive Music System\Stop_SilentLoops_v3_HarmonyOnly
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_Toning
       guid: 95bc9dbcec1f2440914947e42f23d96e
       id: 955662865
@@ -1841,8 +1841,8 @@ MonoBehaviour:
         guid: ae3b87d329c8cc4faf57c6fca68b4965
       Path: Events\Interactive Music System\Stop_Toning_v3_FundamentalOnly
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_Toning_v3_HarmonyOnly
       guid: f3f0f60e45b5e34fb9641e7733b69542
       id: 1554058672
@@ -1858,8 +1858,8 @@ MonoBehaviour:
         guid: f3f0f60e45b5e34fb9641e7733b69542
       Path: Events\Interactive Music System\Stop_Toning_v3_HarmonyOnly
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
   - PhysicalPath: Events\Linear Music.wwu
     PathAndIcons:
     - ElementName: Events
@@ -2207,8 +2207,8 @@ MonoBehaviour:
         guid: 81ec131a404f774f83f3461e073be4bb
       Path: Events\Music Loops\Set_Switch_MusicLoops
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_MusicLoops
       guid: b5fe197a5148f340addd9d15d8e3714c
       id: 1761697258
@@ -2254,7 +2254,7 @@ MonoBehaviour:
     ParentPath: Events\SFX
     guid: 5832c42f0bb4dc4fbcadfaa5eef44194
     GuidInternal: 
-    m_lastTime: -8584312084853495856
+    m_lastTime: -8584264516014467905
     List:
     - name: New_Event
       guid: b0e748853f865a469d90e479ca2f8ec2
@@ -2624,7 +2624,7 @@ MonoBehaviour:
     ParentPath: Events\VO
     guid: e5bcfa25d9fc9b47ac46b4cb293f0f18
     GuidInternal: 
-    m_lastTime: -8584269649732012315
+    m_lastTime: -8584267191127944039
     List:
     - name: Play_VO_CLOSING_GOODBYE
       guid: 8d2508afd6648f46864100152a884f0f
@@ -2743,8 +2743,8 @@ MonoBehaviour:
         guid: 5d184825b7f1d24cb4e224b51a821cd9
       Path: Events\VO\Play_VO_GuidedVocalizationLite
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 17.114328
+      minDuration: 2.738
     - name: Play_VO_GuidedVocalizationOhh
       guid: 4b2c2e8e91f16c4bb7f08643bfb84742
       id: 1350331786
@@ -2981,8 +2981,8 @@ MonoBehaviour:
         guid: 68354c80f4b5234c8358ce060f69a891
       Path: Events\VO\Play_VO_testAhh
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 46.614464
+      minDuration: 46.614464
     - name: Play_VO_testRepair_Ahh
       guid: d550459058aa1f4a99c107e70ea2bdc5
       id: 3560104941
@@ -2998,8 +2998,8 @@ MonoBehaviour:
         guid: d550459058aa1f4a99c107e70ea2bdc5
       Path: Events\VO\Play_VO_testRepair_Ahh
       maxAttenuation: 0
-      maxDuration: 27.314
-      minDuration: 27.314
+      maxDuration: -1
+      minDuration: -1
     - name: Play_VO_testRepair_Extended
       guid: 71bf7b38bb12b64e85df4141273202de
       id: 3708648383
@@ -3015,8 +3015,8 @@ MonoBehaviour:
         guid: 71bf7b38bb12b64e85df4141273202de
       Path: Events\VO\Play_VO_testRepair_Extended
       maxAttenuation: 0
-      maxDuration: 27.314
-      minDuration: 27.314
+      maxDuration: -1
+      minDuration: -1
     - name: Play_VO_testRepair_Hum
       guid: 37c0deee67d1be4c944520bc3ba01658
       id: 3544460158
@@ -3795,7 +3795,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Binaural Generator
     guid: 02e391bb70d5f844b42c556e83b60e1c
     GuidInternal: 
-    m_lastTime: -8584360314617205110
+    m_lastTime: -8584264516014467905
     List:
     - name: BinauralGenerator_LEFT_Frequency
       guid: 1d968f2adc1409479fa835fc7a2d1138
@@ -3825,6 +3825,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: 3f827aa7961b194bbfb7bc35112f746c
       Path: Game Parameters\Binaural Generator\BinauralGenerator_RIGHT_Frequency
+    - name: BinauralGenerator_Volume
+      guid: 32ed2e020b10ca4db2dd2da2d4e75068
+      id: 1703818055
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Binaural Generator
+        ObjectType: 12
+        guid: 02e391bb70d5f844b42c556e83b60e1c
+      - ElementName: BinauralGenerator_Volume
+        ObjectType: 13
+        guid: 32ed2e020b10ca4db2dd2da2d4e75068
+      Path: Game Parameters\Binaural Generator\BinauralGenerator_Volume
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Game Parameters
@@ -6610,6 +6624,229 @@ MonoBehaviour:
       ValueGuids: []
       ValueIcons: []
       valuesInternal: []
+  - PhysicalPath: Switches\Vocal Instrument.wwu
+    PathAndIcons:
+    - ElementName: Switches
+      ObjectType: 5
+      guid: 00000000000000000000000000000000
+    - ElementName: Vocal Instrument
+      ObjectType: 12
+      guid: 5ee859d94054e34aabb4121e72309641
+    ParentPath: Switches\Vocal Instrument
+    guid: 5ee859d94054e34aabb4121e72309641
+    GuidInternal: 
+    m_lastTime: -8584267191127165406
+    List:
+    - name: VocalInstrument_PitchSwitch
+      guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+      id: 2769148628
+      PathAndIcons:
+      - ElementName: Switches
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Vocal Instrument
+        ObjectType: 12
+        guid: 5ee859d94054e34aabb4121e72309641
+      - ElementName: VocalInstrument_PitchSwitch
+        ObjectType: 11
+        guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+      Path: Switches\Vocal Instrument\VocalInstrument_PitchSwitch
+      values:
+      - name: A
+        guid: a1411ca47a006e41a18c4a47d2f1f72b
+        id: 84696446
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: A
+          ObjectType: 10
+          guid: a1411ca47a006e41a18c4a47d2f1f72b
+      - name: AsharpBflat
+        guid: c899145cf5c23f4ca88bc89400d813ae
+        id: 3050272541
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: AsharpBflat
+          ObjectType: 10
+          guid: c899145cf5c23f4ca88bc89400d813ae
+      - name: B
+        guid: 798dbbe6ac69664f99daf6bb284a98a3
+        id: 84696445
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: B
+          ObjectType: 10
+          guid: 798dbbe6ac69664f99daf6bb284a98a3
+      - name: C
+        guid: 665c86adb6b7894da379b6b4f57e780d
+        id: 84696444
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: C
+          ObjectType: 10
+          guid: 665c86adb6b7894da379b6b4f57e780d
+      - name: CsharpDflat
+        guid: 1f83c71f289bb947bbc256fbf046de53
+        id: 3800083777
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: CsharpDflat
+          ObjectType: 10
+          guid: 1f83c71f289bb947bbc256fbf046de53
+      - name: D
+        guid: 2dd2404a25f6f24c9d88287d9afad268
+        id: 84696443
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: D
+          ObjectType: 10
+          guid: 2dd2404a25f6f24c9d88287d9afad268
+      - name: DsharpEflat
+        guid: 0cb3e016215d2f46a5188f184a8d980a
+        id: 791737535
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: DsharpEflat
+          ObjectType: 10
+          guid: 0cb3e016215d2f46a5188f184a8d980a
+      - name: E
+        guid: 553dc5332e263c408ccae99986c57cb9
+        id: 84696442
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: E
+          ObjectType: 10
+          guid: 553dc5332e263c408ccae99986c57cb9
+      - name: F
+        guid: 7c32c5524a1ec0409f2a7935ac04eaaf
+        id: 84696441
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: F
+          ObjectType: 10
+          guid: 7c32c5524a1ec0409f2a7935ac04eaaf
+      - name: FsharpGflat
+        guid: 9892e3717c39744d9f60cb84214ee461
+        id: 156517199
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: FsharpGflat
+          ObjectType: 10
+          guid: 9892e3717c39744d9f60cb84214ee461
+      - name: G
+        guid: d832f752ed3bfa4faf19ff0c4ccbf101
+        id: 84696440
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: G
+          ObjectType: 10
+          guid: d832f752ed3bfa4faf19ff0c4ccbf101
+      - name: GsharpAflat
+        guid: 4f8dd6a5c15e7144972fdfa02d602e73
+        id: 3573977648
+        PathAndIcons:
+        - ElementName: Switches
+          ObjectType: 5
+          guid: 00000000000000000000000000000000
+        - ElementName: Vocal Instrument
+          ObjectType: 12
+          guid: 5ee859d94054e34aabb4121e72309641
+        - ElementName: VocalInstrument_PitchSwitch
+          ObjectType: 11
+          guid: cbf7f7ff7d08014b9219881c8b8fd7bb
+        - ElementName: GsharpAflat
+          ObjectType: 10
+          guid: 4f8dd6a5c15e7144972fdfa02d602e73
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
     PathAndIcons:
@@ -6639,7 +6876,7 @@ MonoBehaviour:
         guid: c760786d07938d41a39c332de5c52dab
       Path: Triggers\Default Work Unit\Test
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: aa000000ab000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

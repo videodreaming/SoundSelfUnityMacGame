@@ -67,3 +67,7 @@ crashlytics-build.properties
 *.capturelog
 
 .fake
+
+# Local / machine-specific (not versioned)
+Assets/StreamingAssets/VolumeAndHarmonicity.csv
+Assets/StreamingAssets/VolumeAndHarmonicity.csv.meta

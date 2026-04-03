@@ -200,16 +200,23 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     void Start()
     {
+        var micDevices = Microphone.devices;
+        Debug.Log($"Imitone: Microphone.devices count = {micDevices.Length}" +
+            (micDevices.Length == 0 ? "" : " — " + string.Join(", ", micDevices)));
+
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
-        //Checking for all devices in the list of devices 
-        foreach (var device in Microphone.devices)
-        { microphoneName = device; break; }
-        if (microphoneName.Length == 0)
+        // Pick first available device (microphoneName stays null if Microphone.devices is empty).
+        foreach (var device in micDevices)
+        {
+            microphoneName = device;
+            break;
+        }
+        if (string.IsNullOrEmpty(microphoneName))
         {
             if(debugAllowInitializationLogs || debugAllowWarnings)
             {
-                Debug.LogError("Imitone: No microphone was available for pitch tracking.");
+                Debug.LogError("Imitone: No microphone was available for pitch tracking. This can happen if the Unity's audio system has been disabled, or if the microphone is not connected.");
             }
             return;
         }

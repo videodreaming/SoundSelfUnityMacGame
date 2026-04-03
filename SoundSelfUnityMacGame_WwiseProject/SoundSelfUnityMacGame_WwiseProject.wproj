@@ -13,7 +13,6 @@
 				<Language Name="SFX" ID="{14E1FAC8-FA2D-46D6-B8C0-FFA1100E545F}"/>
 			</LanguageList>
 			<PropertyList>
-				<Property Name="CopyLooseStreamedMedia" Type="bool" Value="False"/>
 				<Property Name="ExternalSourcesInputPath" Type="string">
 					<ValueList>
 						<Value Platform="Windows"></Value>
@@ -32,7 +31,7 @@
 						<Value Platform="Mac">256</Value>
 					</ValueList>
 				</Property>
-				<Property Name="LicenseKey" Type="string" Value="PHByb2plY3QgaWQ9IjE2Njc0IiBtYXNrPSJWSlRVNjczMiIgZW5jPSIwIj48bGlj ZW5zZSBpZD0iMSIgbmFtZT0iV3dpc2UiIHR5cGU9IjIiIHBsYXRmb3Jtcz0iNCwx MCIgZXhwaXJlcz0iMjAyNS0xMC0wMSIgIC8+PGxpY2Vuc2UgaWQ9IjIxIiBuYW1l PSJNYWludGVuYW5jZSIgdHlwZT0iMiIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVz PSIyMDI1LTEwLTAxIiAgLz48bGljZW5zZSBpZD0iNTAiIG5hbWU9IkxvY2F0aW9u LWJhc2VkIEVudGVydGFpbm1lbnQgTGljZW5zZSIgdHlwZT0iMiIgcGxhdGZvcm1z PSI0LDEwIiBleHBpcmVzPSIyMDI1LTEwLTAxIiAgLz48bGljZW5zZSBpZD0iMjIi IG5hbWU9IkxldmVsIEEgTGljZW5zZSIgdHlwZT0iMiIgcGxhdGZvcm1zPSI0LDEw IiBleHBpcmVzPSIyMDI1LTEwLTAxIiAgLz48bGljZW5zZSBpZD0iNjMiIG5hbWU9 Ik1hc3RlcmluZyBTdWl0ZSIgdHlwZT0iMiIgcGxhdGZvcm1zPSI0LDEwIiBleHBp cmVzPSIyMDI1LTEwLTAxIiAgLz48bGljZW5zZSBpZD0iMzEiIG5hbWU9IlNvdW5k U2VlZCBBaXIiIHR5cGU9IjIiIHBsYXRmb3Jtcz0iNCwxMCIgZXhwaXJlcz0iMjAy NS0xMC0wMSIgIC8+PHBsdWdpbiBpZD0iMTIxODk2OTkiIG5hbWU9Ik1hc3Rlcmlu ZyBTdWl0ZSIgbGljZW5zZT0iNjMiIC8+PC9wcm9qZWN0Pg==|WpAahbKr9qAXJt5 hq+wtQLd8AWrqGWpUqhi//7rt01qR80w8kEoYOBCxUzzVFDu78vH8pQcGgboX78j CYpMOSlRIXH2SeOXT+v8cb13hy00hpVA1+h3TjfjwFoFrNUdD2yu+eqs5gQRJD5P vTb27cq6TTZ7QlwEVon9e744Tr/f5NDlt5nziT7y/y4/EEw2lLvo/aJK6Zc1Pm1l GOZdz++U2PyWQQBT0i9NZt3OtlwbtwZVdSV1j3pQPW35b8c6S3RyDSqcPJQ3FHiS sw0tY7u4mZFnBbZIdo1CigkWxJ4nGF7uC1TKlUow/Npj6kLRlc1wKEyyeTYYknYV /VYRrHA== "/>
+				<Property Name="LicenseKey" Type="string" Value="PHByb2plY3QgaWQ9IjE2Njc0IiBtYXNrPSJWSlRVNjczMiIgZW5jPSIwIj48bGljZW5zZSBpZD0iMSIgbmFtZT0iV3dpc2UiIHR5cGU9IjIiIHBsYXRmb3Jtcz0iNCwxMCIgZXhwaXJlcz0iMjAyNi0xMC0wMSIgIC8+PGxpY2Vuc2UgaWQ9IjIxIiBuYW1lPSJNYWludGVuYW5jZSIgdHlwZT0iMiIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI2LTEwLTAxIiAgLz48bGljZW5zZSBpZD0iNTAiIG5hbWU9IkxvY2F0aW9uLWJhc2VkIEVudGVydGFpbm1lbnQgTGljZW5zZSIgdHlwZT0iMiIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI2LTEwLTAxIiAgLz48bGljZW5zZSBpZD0iMjIiIG5hbWU9IkxldmVsIEEgTGljZW5zZSIgdHlwZT0iMiIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI2LTEwLTAxIiAgLz48bGljZW5zZSBpZD0iNjMiIG5hbWU9Ik1hc3RlcmluZyBTdWl0ZSIgdHlwZT0iMiIgcGxhdGZvcm1zPSI0LDEwIiBleHBpcmVzPSIyMDI2LTEwLTAxIiAgLz48bGljZW5zZSBpZD0iMzEiIG5hbWU9IlNvdW5kU2VlZCBBaXIiIHR5cGU9IjIiIHBsYXRmb3Jtcz0iNCwxMCIgZXhwaXJlcz0iMjAyNi0xMC0wMSIgIC8+PHBsdWdpbiBpZD0iMTIxODk2OTkiIG5hbWU9Ik1hc3RlcmluZyBTdWl0ZSIgbGljZW5zZT0iNjMiIC8+PC9wcm9qZWN0Pg==|ObS1ltAaxJELLCo58D33ko2PuBNPL0Dt+UgTpleJ9q02JRAiEDmtsx/GVj50gLLp/3KHB8zmRf7soptsEoXqOW9lVlcHlukDFfQJUhIUBOPHfsNaND6sEJ6uS27l+8mw9yKjAiT6mg89+zw4HF4ufhSWu+8bh0m0qFYEAzU5ZGeA6WsJ8t/WE08jyEgsVIy6u9k/giHZaD1k1Fo2JkAFoq7KzWuDZuFTnA1tp5o0regKFL2dWi4H9dJCW01+7W0vZxCmjYA3w2gY4ki23EKhy5TjN80f5hPa09fwet5/YkEIvlDGixorsFw6vVECR0azpf/PP50MWsO3u9YrgCJW1w=="/>
 				<Property Name="SoundBankAllowExceedingSB" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateEstimatedDuration" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateHeaderFile" Type="bool" Value="True"/>
@@ -12866,9 +12865,6 @@
 					</ObsOccCurve>
 				</ObsOccCurves>
 			</EnvironmentalSettings>
-			<LogCentralIgnoreList>
-				<IgnoreItem MessageId="None"/>
-			</LogCentralIgnoreList>
 			<DefaultConversion Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}"/>
 			<PhysicalFolderList>
 				<PhysicalFolder Path="Actor-Mixer Hierarchy">

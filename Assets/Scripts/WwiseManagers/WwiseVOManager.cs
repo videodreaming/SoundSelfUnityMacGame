@@ -377,10 +377,8 @@ public class WwiseVOManager : MonoBehaviour
             Debug.Log("WWise_VO: Play Integration Short Opening Sequence");
             break;
             case "PS_Ascending":
-            AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationLite", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
-            Debug.Log("WWise_VO: Play Guided Vocalization Lite");
-            //AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
-            //Debug.Log("WWise_VO: Play Ascending Opening Sequence");
+            AkSoundEngine.PostEvent("Play_ASCENDING_OPENING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+            Debug.Log("WWise_VO: Play Ascending Opening Sequence");
             break;
             default:
             Debug.LogError("WWise_VO: Invalid openingSequenceType: " + openingSequenceType);

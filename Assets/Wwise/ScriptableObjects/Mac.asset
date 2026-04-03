@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104f6a34ffa784adabb605ae8de8316a, type: 3}
+  m_Script: {fileID: 11500000, guid: fc903f25814b1584d8d9e99bd66eea2d, type: 3}
   m_Name: Mac
   m_EditorClassIdentifier: 
   IgnorePropertyNameList: []
@@ -67,10 +67,10 @@ MonoBehaviour:
   - AdvancedSettings.m_MemoryDebugLevel
   - AdvancedSettings.m_MemorySpanCount
   UserSettings:
-    m_BasePath: Audio/GeneratedSoundBanks
+    m_BasePath: Audio\GeneratedSoundBanks
     m_StartupLanguage: English(US)
     m_EngineLogging: 1
-    m_DefaultScalingFactor: 1
+    m_DefaultListenerScalingFactor: 1
     m_MaximumNumberOfPositioningPaths: 255
     m_CommandQueueSize: 262144
     m_SamplesPerFrame: 512
