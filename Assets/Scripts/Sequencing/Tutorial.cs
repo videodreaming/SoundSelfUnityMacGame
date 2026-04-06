@@ -31,7 +31,7 @@ public class Tutorial : MonoBehaviour
     private string variant;
     public bool inTutorial { get; private set; } = false;
     public int guidanceCount { get; private set; } = 0;
-    public bool tutorialComplete = false;
+    //public bool tutorialComplete = false;
     public TimeTrackerScript TimeTrackerScript;
     
     // Start is called before the first frame update
@@ -287,7 +287,7 @@ public class Tutorial : MonoBehaviour
         {
             Debug.Log("Tutorial: Stopping");
             inTutorial = false;
-            tutorialComplete = true;
+            //tutorialComplete = true;
             //active = false;
 
             if (testCoroutine != null)

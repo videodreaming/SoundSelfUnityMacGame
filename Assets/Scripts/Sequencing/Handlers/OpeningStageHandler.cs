@@ -227,13 +227,13 @@ namespace SoundSelf.Sequence
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            _hasEntered = false;  // Allow re-enter on sequence restart
             _sequencer.wwiseVOManager.StopOpeningSequence();
         }
 
         /// <summary>Runner-only: final retirement; safe if called more than once.</summary>
         public void Exit()
         {
-            _hasEntered = false;  // Allow re-enter on sequence restart
             LocalCleanup();
         }
 

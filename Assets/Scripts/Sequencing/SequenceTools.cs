@@ -24,7 +24,8 @@ namespace SoundSelf.Sequence
         MusicPlaylist,
         Inquiry,      // Asks player how they are feeling; records answer. Stub until implementation.
         End,          // End stage; happens at the end of a sequence.
-        LinearAudio   // Multi-purpose linear audio stage. Stub until implementation.
+        LinearAudio,  // Multi-purpose linear audio stage. Stub until implementation.
+        StartCountdown // Computes session countdown from variant, then BeginCountdown() on TimeTrackerScript (Phase 2+).
     }
 
     [System.Serializable]

@@ -6,7 +6,7 @@ This document is the **execution checklist**. Say **“run phase N”** to imple
 
 ## Background — root cause (why countdown shows `1000000`)
 
-`PlaygroundStageHandler` waits on `Sequencer._countdownToSavasana`, which is decremented in `Sequencer.Update` only when `calibrationMenu.startedExperience` is true. After the refactor, either `SetCountdownToSavasana` / `CSVLoader.TimeLeftInitializations()` never runs before Playground, or “experience start” no longer aligns with when the timer should run — so the value stays at **~1e6**. Centralizing timing and gating decrement on **`StartCountdown`** fixes that.
+`PlaygroundStageHandler` waits on **`TimeTrackerScript.CountdownSeconds`**, which only decrements after **`BeginCountdown()`**. If that never runs before Playground, or the configured value was never set, the wait can appear stuck (historically ~**1e6** default). Centralizing timing and calling **`BeginCountdown()`** from **`StartCountdown`** fixes that.
 
 ---
 
@@ -34,7 +34,7 @@ This document is the **execution checklist**. Say **“run phase N”** to imple
 
 ### Tasks
 
-- Add / merge fields: **`TotalElapsedTime`** (session-open clock, always ticks in `Update` unless you later add a pause — document choice), **`countdown`**, **`timeSinceTutorial`** (+ **`StartTutorialElapsedTimer`** idempotent, **`ResetTutorialElapsedTimer`** reset + pause), **`totalTimeOfPostUnguidedVocalizationContent`** (if moved from `CSVLoader`), savasana-finished latch (replacement for **`savasanaCountdownCompleteFlag`**).
+- Add / merge fields: **`TotalElapsedTime`** (session-open clock, always ticks in `Update` unless you later add a pause — document choice), **`countdown`**, **`timeSinceTutorial`** (+ **`StartTimeSinceTutorialTimer`** idempotent, **`ResetTimeSinceTutorialTimer`** reset + pause), **`totalTimeOfPostUnguidedVocalizationContent`** (if moved from `CSVLoader`), savasana-finished latch (replacement for **`savasanaCountdownCompleteFlag`**).
 - **`countdown`** does **not** decrement until **`BeginCountdown()`** has been called (Phase 2 will call it from **`StartCountdown`**).
 - Implement **`ConfigureCountdownSeconds(float)`** — set initial countdown **without** starting the tick (per locked design).
 - Implement **`BeginCountdown()`** intended to be called **only** from **`StartCountdown`** stage: apply the **calculated** start value and start decrement. **If called again while a countdown is already active**, log **both** the current value (before change) and the new start value (developer visibility).
@@ -87,20 +87,38 @@ Project builds; playground may still use old `Sequencer` field until later phase
 
 You can hit **`StartCountdown`** in-editor / dev build and see **`countdown`** decrease; sequence advances to the next stage.
 
+### Unity editor — add `StartCountdown` to your Sequence Definition assets
+
+After **`StageType.StartCountdown`** and **`StartCountdownStageHandler`** exist in code and the handler is registered on **`Sequencer`**:
+
+1. Open each **SequenceDefinition** ScriptableObject you ship (e.g. Protocol Stacks Ascending, Skills Training, Integration, Peace, etc.).
+2. Insert a **`StartCountdown`** stage with the correct **variant** for that product (see the table above, e.g. `60m`,
+   `60m minus closing`, **`ClosingDuration`**).
+3. **Placement:** Put **`StartCountdown`** at the narrative moment the session “time left” clock should start — **usually
+   immediately before `Tutorial`** so the main countdown runs during the tutorial, or **right after `Opening`** when
+   that definition has no Tutorial stage. It must run **before `Playground`** so waits on **`CountdownSeconds`** see a
+   decreasing value.
+4. Ensure **CSV / tracker inputs** required for **`minus closing`** (and similar) are loaded **before** this stage runs
+   (sequence order + **`CSVLoader`** timing).
+5. **Do not** assume CSV alone starts the clock; only **`StartCountdown`** → **`BeginCountdown()`** starts the tick.
+
 ---
+
+//DEVELOPER: I GOT HERE!
 
 ## Phase 3 — Playground & Savasana handlers use tracker
 
-**Intent:** `PlaygroundStageHandler` / `SavasanaStageHandler` stop reading **`Sequencer._countdownToSavasana`**; read **`TimeTrackerScript`** countdown (or thin **`Sequencer`** passthroughs).
+**Intent:** `PlaygroundStageHandler` / `SavasanaStageHandler` use **`TimeTrackerScript`** for session countdown (via **`Sequencer.CountdownSeconds`** passthrough where convenient).
 
 ### Tasks
 
-- Replace all handler references to **`_sequencer._countdownToSavasana`** with tracker API.
+- Handlers use **`CountdownSeconds`** / tracker APIs instead of the removed **`Sequencer`** countdown field.
+- **`PlaygroundStageHandler`:** on **`MarkComplete()`**, call **`ForceSetCountdownSecondsAndStop(-1f)`** so leaving Playground marks countdown finished before Savasana.
 - Confirm Playground wait loops see a **decrementing** countdown once Phases 1–2 are active in your test sequence.
 
 ### Developer notes
 
-- **Savasana** still sets **`-1`** today — defer **why** and desired behavior until **Phase 7** (research + ask product/engineering when that task runs).
+- **Savasana** also sets **`-1`** on the tracker — defer **why** and desired end-state until **Phase 7** if product wants a different finished value.
 
 ### Deliverable
 
@@ -155,8 +173,8 @@ Single source of truth for clocks in **`TimeTrackerScript`**; **`Sequencer`** or
 
 ### Tasks
 
-- **`TutorialStageHandler`:** On **`LocalCleanup` / `Exit`** (single “tutorial fully done” hook), call **`TimeTrackerScript.StartTutorialElapsedTimer()`** (idempotent).
-- **`PlaygroundStageHandler`:** On **`Enter`**, call **`StartTutorialElapsedTimer()`** again if you want playground entry to guarantee the timer is armed (idempotent).
+- **`TutorialStageHandler`:** On **`LocalCleanup` / `Exit`** (single “tutorial fully done” hook), call **`TimeTrackerScript.StartTimeSinceTutorialTimer()`** (idempotent).
+- **`PlaygroundStageHandler`:** On **`Enter`**, call **`StartTimeSinceTutorialTimer()`** again if you want playground entry to guarantee the timer is armed (idempotent).
 - **Resolve** old behavior: `_timeSinceTutorial` used to only advance when **`tutorial.tutorialComplete`**. **When executing this phase:** document the mismatch, **prompt** for explicit choice (drop flag vs sync once), then implement chosen path.
 
 ### Developer notes

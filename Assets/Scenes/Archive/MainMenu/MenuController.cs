@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public Text modeText; // Reference to the UI text displaying the current mode
-    private int currentMode = 0; // 0: Preperation Session, 1: Integration Session, 2: Adjunctive Sessions, 3: Wisdom Session, 4: Passive Session 
+    private int currentMode = 0; // 0: Preparation Session, 1: Integration Session, 2: Adjunctive Sessions, 3: Wisdom Session, 4: Passive Session 
     public string sceneToLoad; 
 
     void Start()
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentMode == 0)
         {
-            sceneToLoad = "PreperationSession"; // Set the correct scene name
+            sceneToLoad = "PreparationSession"; // Set the correct scene name
             SceneManager.LoadScene(sceneToLoad);
         }
         else if (currentMode == 1)
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     {
         switch (mode)
         {
-            case 0: return "Preperation Session";
+            case 0: return "Preparation Session";
             case 1: return "Integration Session";
             case 2: return "Adjunctive Session";
             case 3: return "Wisdom Session";

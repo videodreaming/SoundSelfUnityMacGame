@@ -7,6 +7,7 @@ namespace SoundSelf.Sequence
         private readonly Sequencer _sequencer;
 
         private bool variantWatchesWwiseVOCuesForCompletion = true;
+        private bool _hasEntered = false;
 
         public TutorialStageHandler(Sequencer sequencer)
         {
@@ -50,16 +51,27 @@ namespace SoundSelf.Sequence
 
         public void Enter(string variant)
         {
-
+            if(_hasEntered)
+            {
+                Debug.LogWarning("TutorialStageHandler: Enter() called again before Exit(). Skipping to prevent double-play.");
+                return;
+            }
             if(_sequencer == null || _sequencer.tutorial == null)
             {
                 Debug.LogError("TutorialStageHandler: tutorial is null. Marking stage complete.");
                 MarkComplete();
+                _hasEntered = false;
                 return;
             }
-           
+            
+            _hasEntered = true;
             IsComplete = false;
             Debug.Log("TutorialStageHandler: Enter");
+            var timeTracker = TimeTrackerScript.instance;
+            if (timeTracker != null)
+                timeTracker.ResetTimeSinceTutorialTimer();
+            else
+                Debug.LogWarning("TutorialStageHandler: TimeTrackerScript.instance is null; skipping ResetTimeSinceTutorialTimer.");
 
             if(variant == "Long")
             {
@@ -78,6 +90,7 @@ namespace SoundSelf.Sequence
             else
             {
                 Debug.LogError("TutorialStageHandler: Invalid variant: " + variant);
+                _hasEntered = false;
                 return;
             }
 
@@ -116,7 +129,14 @@ namespace SoundSelf.Sequence
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
-            _sequencer.tutorial.StopTutorial();
+            if (_sequencer != null && _sequencer.tutorial != null)
+                _sequencer.tutorial.StopTutorial();
+            var timeTracker = TimeTrackerScript.instance;
+            if (timeTracker != null)
+                timeTracker.StartTimeSinceTutorialTimer();
+            else
+                Debug.LogWarning("TutorialStageHandler: TimeTrackerScript.instance is null; skipping StartTimeSinceTutorialTimer.");
+            _hasEntered = false;
         }
 
         /// <summary>Runner-only: final retirement; safe if called more than once.</summary>

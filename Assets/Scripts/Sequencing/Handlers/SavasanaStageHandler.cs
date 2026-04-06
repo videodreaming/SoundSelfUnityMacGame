@@ -31,28 +31,28 @@ namespace SoundSelf.Sequence
 
             if (_sequencer == null)
             {
-                Debug.LogError("SavasanaStageHandler: Sequencer is null. _countdownToSavasana not set (Sequencer unavailable).");
+                Debug.LogError("SavasanaStageHandler: Sequencer is null (countdown not updated).");
                 _hasEntered = false;
                 MarkComplete();
                 return;
             }
             if (_sequencer.director == null)
             {
-                Debug.LogError("SavasanaStageHandler: director is null. _countdownToSavasana not set. Current value: " + _sequencer._countdownToSavasana);
+                Debug.LogError("SavasanaStageHandler: director is null. Current CountdownSeconds: " + _sequencer.CountdownSeconds);
                 _hasEntered = false;
                 MarkComplete();
                 return;
             }
             if (_sequencer.wwiseVOManager == null)
             {
-                Debug.LogError("SavasanaStageHandler: wwiseVOManager is null. _countdownToSavasana not set. Current value: " + _sequencer._countdownToSavasana);
+                Debug.LogError("SavasanaStageHandler: wwiseVOManager is null. Current CountdownSeconds: " + _sequencer.CountdownSeconds);
                 _hasEntered = false;
                 MarkComplete();
                 return;
             }
             if (MusicSystem1.instance == null)
             {
-                Debug.LogError("SavasanaStageHandler: MusicSystem1.instance is null. _countdownToSavasana not set. Current value: " + _sequencer._countdownToSavasana);
+                Debug.LogError("SavasanaStageHandler: MusicSystem1.instance is null. Current CountdownSeconds: " + _sequencer.CountdownSeconds);
                 _hasEntered = false;
                 MarkComplete();
                 return;
@@ -68,7 +68,7 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
             MusicSystem1.instance.SetBreathworkCycle(false);
             _sequencer.wwiseVOManager.PlayAscendingClosing();
-            _sequencer._countdownToSavasana = -1.0f;
+            TimeTrackerScript.instance?.ForceSetCountdownSecondsAndStop(-1f);
 
             MarkComplete();
         }

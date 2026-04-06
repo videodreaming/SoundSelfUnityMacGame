@@ -142,7 +142,7 @@ public class CSVLoader : MonoBehaviour
         }
 
         //GAME MODES
-        if (gameMode == "Preperation" || gameMode == "Skills Training")
+        if (gameMode == "Preperation" || gameMode == "Preparation" || gameMode == "Skills Training")
         {
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
@@ -233,7 +233,7 @@ public class CSVLoader : MonoBehaviour
         }
         
         // Set TimeLeft and totalTimeOfPostUnguidedVocalizationContent based on game mode
-        if (gameMode == "Preperation" || gameMode == "Skills Training")
+        if (gameMode == "Preperation" || gameMode == "Preparation" || gameMode == "Skills Training")
         {
             TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
             
@@ -314,7 +314,7 @@ public class CSVLoader : MonoBehaviour
         
         if (totalTimeOfPostUnguidedVocalizationContent <= 0f)
         {
-            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - totalTimeOfPostUnguidedVocalizationContent is " + totalTimeOfPostUnguidedVocalizationContent + " (should be > 0). Countdown calculation may be incorrect.");
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - totalTimeOfPostUnguidedVocalizationContent is 0. That can be intentional; if you use StartCountdown variants \"minus closing\" or ClosingDuration, configure a positive value for those flows.");
         }
         
         if (calculatedCountdown <= 0f)
@@ -323,8 +323,14 @@ public class CSVLoader : MonoBehaviour
         }
         
         sequencer.SetCountdownToSavasana(calculatedCountdown);
-        
-        Debug.Log("CSVLoader: TimeLeftInitializations() - countdownToSavasana set to " + sequencer._countdownToSavasana + " seconds (" + (sequencer._countdownToSavasana / 60f) + " minutes). timeLeft=" + timeLeft + ", totalTimeOfPostUnguidedVocalizationContent=" + totalTimeOfPostUnguidedVocalizationContent);
+
+        if (TimeTrackerScript.instance != null)
+        {
+            TimeTrackerScript.instance.SetTotalTimeOfPostUnguidedVocalizationContent(totalTimeOfPostUnguidedVocalizationContent);
+            TimeTrackerScript.instance.MarkSessionTimingInitializedFromCsv();
+        }
+
+        Debug.Log("CSVLoader: TimeLeftInitializations() - countdown set to " + sequencer.CountdownSeconds + " seconds (" + (sequencer.CountdownSeconds / 60f) + " minutes). timeLeft=" + timeLeft + ", totalTimeOfPostUnguidedVocalizationContent=" + totalTimeOfPostUnguidedVocalizationContent);
     }
 
 
