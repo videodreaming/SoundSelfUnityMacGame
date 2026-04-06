@@ -134,6 +134,9 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeMusicLoopSilentFlag = false;
     public TMP_Dropdown soundscapeDropdown;
 
+    //MUSIC MODES
+    private bool allowTransitionFromEnvironmentToFreeplay = true;
+
     //SOUNDSCAPE LISTS
     // SoundWorlds work with any fundamental note
     private static readonly List<string> soundWorlds = new List<string>
@@ -165,6 +168,10 @@ public class MusicSystem1 : MonoBehaviour
     private bool enableThumpSFX = true;
     private bool enableImitoneInterpretation = true;
 
+    //BREATHWORK CYCLE AND SFX
+    private bool breathworkCyclePlaying = false;
+
+
 
     void Awake()
     {
@@ -189,7 +196,9 @@ public class MusicSystem1 : MonoBehaviour
 
          if (soundscapeDropdown != null)
             soundscapeDropdown.onValueChanged.AddListener(OnSoundscapeDropdownChanged);
-        
+
+        //INITIALIZE SWITCHES
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "C", gameObject);
     }
 
     private void OnDestroy()
@@ -336,14 +345,14 @@ public class MusicSystem1 : MonoBehaviour
         {
             //PUT STUFF HERE IF NECESSARY
         }
-        else if (currentMusicMode == MusicMode.Tutorial)
+        else if (currentMusicMode == MusicMode.InteractiveTutorial)
         {
             DynamicMusicSystem();
         }
         else if(currentMusicMode == MusicMode.Freeplay) 
         { 
             DynamicMusicSystem();
-            InactivitySwitchToEnvironment();
+            InactivitySwitchToEnvironment(); //TODO: change this behavior to use a musicloop?
         }
         else if (currentMusicMode == MusicMode.FrozenFreeplay)
         {
@@ -351,7 +360,7 @@ public class MusicSystem1 : MonoBehaviour
         }
         else if (currentMusicMode == MusicMode.Environment)
         {
-            if(!tutorial.inTutorial && !SavasanaPlayer.playedThematicSavasana && !sequencer.lastMinuteTriggered) 
+            if(allowTransitionFromEnvironmentToFreeplay)    
             {
                 //only if ALL the following: we are not in the tutorial, last minute not triggered, and savasana has not begun.
                 CheckForModeSwitchToFreeplay();
@@ -717,7 +726,7 @@ public class MusicSystem1 : MonoBehaviour
     public enum MusicMode
     {
         Silent,
-        Tutorial,
+        InteractiveTutorial,
         Freeplay,
         FrozenFreeplay,
         Environment,
@@ -735,13 +744,13 @@ public class MusicSystem1 : MonoBehaviour
     {
         if(debugAllowMusicModeLogs)
         {
-            Debug.Log("MUSIC: Please set Music Mode to " + mode + "...");
+            Debug.Log("MUSIC: Setting Music Mode to " + mode + "...");
         }
         
         // Stop breathwork cycle when transitioning from Environment to any other mode
         if (currentMusicMode == MusicMode.Environment && mode != MusicMode.Environment)
         {
-            StopBreathworkCycle();
+            SetBreathworkCycle(false);
         }
         
         switch (mode)
@@ -798,7 +807,7 @@ public class MusicSystem1 : MonoBehaviour
             }
             break;
             
-            case MusicMode.Tutorial:
+            case MusicMode.InteractiveTutorial:
             currentMusicMode = mode;
             if(!modeTutorialFlag)
             {
@@ -888,7 +897,7 @@ public class MusicSystem1 : MonoBehaviour
 
                 EnvironmentInitializations();
                 SetSwitchRestoreToningV3("InteractiveMusicMode_Switch", "Environment");
-                PlayBreathworkCycle();
+                SetBreathworkCycle(true);
             }
             else
             {
@@ -2273,23 +2282,8 @@ public class MusicSystem1 : MonoBehaviour
 
     }
 
-    public void PlayBreathworkCycle()
-    {
-        AkSoundEngine.PostEvent("Play_sfx_breathworkcycle", gameObject);
-        if(debugAllowSFXLogs)
-        {
-            Debug.Log("MUSIC: Play_sfx_breathworkcycle");
-        }
-    }
 
-    public void StopBreathworkCycle()
-    {
-        AkSoundEngine.PostEvent("Stop_sfx_breathworkcycle", gameObject);
-        if(debugAllowSFXLogs)
-        {
-            Debug.Log("MUSIC: Stop_sfx_breathworkcycle");
-        }
-    }
+
 
     
     //====================================================================================================
@@ -2551,7 +2545,10 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    
+    // TODO
+    // Move Thump and Breathwork into an SFX system.
+    // Possibly also separate out the different elements of the interactive music system (i.e. fundamental, etc)
+
     // ===== REWARD THUMPS =====
     //REEF, We will send the reward thump to WWise once chantCharge reaches 1.0 (or perhaps chantCharge rises above 0.9, test it out, I don't remember if it's finicky to actually reach 1.0 due to inerpolation rules)
     
@@ -2593,6 +2590,19 @@ public class MusicSystem1 : MonoBehaviour
         if(debugAllowBasicToningLogs)
         {
             Debug.Log("MUSIC BUTTON: Play_Toning_v3_FundamentalOnly");
+        }
+    }
+
+    public void SetBreathworkCycle(bool play = true)
+    {
+        if(play && !breathworkCyclePlaying)
+        {
+            AkSoundEngine.PostEvent("Play_sfx_breathworkcycle", gameObject);
+            breathworkCyclePlaying = true;
+        }
+        else if(!play && breathworkCyclePlaying)
+        {
+            AkSoundEngine.PostEvent("Stop_sfx_breathworkcycle", gameObject);
         }
     }
 
@@ -2737,30 +2747,11 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Plays the breathwork cycle. Can be called from Unity UI buttons.
-    /// Note: This is the same as PlayBreathworkCycle() which is already public.
-    /// </summary>
-    public void Button_PlayBreathworkCycle()
-    {
-        PlayBreathworkCycle();
-        if(debugAllowSFXLogs)
-        {
-            Debug.Log("MUSIC BUTTON: PlayBreathworkCycle");
-        }
-    }
 
-    /// <summary>
-    /// Stops the breathwork cycle. Can be called from Unity UI buttons.
-    /// Note: This is the same as StopBreathworkCycle() which is already public.
-    /// </summary>
-    public void Button_StopBreathworkCycle()
+    public void SetAllowTransitionFromEnvironmentToFreeplay(bool allow)
     {
-        StopBreathworkCycle();
-        if(debugAllowSFXLogs)
-        {
-            Debug.Log("MUSIC BUTTON: StopBreathworkCycle");
-        }
+        allowTransitionFromEnvironmentToFreeplay = allow;
+        Debug.Log("MusicSystem1: AllowTransitionFromEnvironmentToFreeplay: " + allow);
     }
 
     

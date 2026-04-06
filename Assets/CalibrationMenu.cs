@@ -36,17 +36,19 @@ public class CalibrationMenu : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    public void StartCalibrationSequence()
     {
+        //THESE PARTS ARE LEFT OVER FROM WHEN THE CALIBRATION STARTED ON LAUNCH. WE SHOULD REMOVE THEM SOON.
         startButton.onClick.AddListener(OnStartButtonClicked);
         startConfigButton.onClick.AddListener(OnStartConfigButtonClicked);
         endTutorialButton.onClick.AddListener(OnEndTutorialButtonClicked);
         nextButton.onClick.AddListener(OnNextButtonClicked);
         endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button initially
         nextButton.gameObject.SetActive(false); // Hide the next button initially
+        
+        //THIS ONE WE SHOULD KEEP.
         AkSoundEngine.PostEvent("Play_Calibration_Sequence", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, CalibrationCallBackFunction, null);
     }
-
     public void OnStartButtonClicked()
     {
         if(!startedExperience)

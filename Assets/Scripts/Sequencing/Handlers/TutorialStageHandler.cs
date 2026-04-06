@@ -2,26 +2,90 @@ using UnityEngine;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Stub handler for the Tutorial stage. Completes immediately; WatchesSequenceCommand/ExecuteSequenceCommand in place for when implementation is added.</summary>
     public class TutorialStageHandler : IStageHandler
     {
+        private readonly Sequencer _sequencer;
+
+        private bool variantWatchesWwiseVOCuesForCompletion = true;
+
+        public TutorialStageHandler(Sequencer sequencer)
+        {
+            _sequencer = sequencer;
+        }
+
         public StageType StageType => StageType.Tutorial;
 
         public bool IsComplete { get; private set; }
-
-        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) => sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.Break_Tests;
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
+            sequenceCommand == SequenceCommand.StartInteractive
+            || sequenceCommand == SequenceCommand.Break_Tests
+            || sequenceCommand == SequenceCommand.TutorialPassed;
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
+            // Long: Wwise cues (StartInteractive, Break_Tests) or explicit TutorialPassed / StopTutorial.
+            // Short: only TutorialPassed (e.g. guidance-count path or StopTutorial); no StartInteractive/Break_Tests from Wwise for that flow.
+        
             if (sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.Break_Tests)
+            {
+                if (variantWatchesWwiseVOCuesForCompletion)
+                {
+                    MarkComplete();
+                }
+                else
+                {
+                    Debug.LogWarning("TutorialStageHandler: This variant is not watching this Wwise cue for completion. Skipping completion.");
+                }
+            }
+            
+            
+            if (sequenceCommand == SequenceCommand.TutorialPassed)
                 MarkComplete();
+            
+            //THERE IS AN INELEGANCE HERE:
+            //Short tutorial ends by counting the amount of guidance played.
+            //Long tutorial ends by waiting for the cue from Wwise.
+            //(Both use HandleSequenceCommand())
         }
 
         public void Enter(string variant)
         {
+
+            if(_sequencer == null || _sequencer.tutorial == null)
+            {
+                Debug.LogError("TutorialStageHandler: tutorial is null. Marking stage complete.");
+                MarkComplete();
+                return;
+            }
+           
             IsComplete = false;
-            Debug.Log("TutorialStageHandler: Enter (stub - skipping until implementation added)");
-            MarkComplete(); // Stub: complete immediately; cue-watching in place for when implementation is added
+            Debug.Log("TutorialStageHandler: Enter");
+
+            if(variant == "Long")
+            {
+                _sequencer.tutorial.SetTestVocalizationType("Hum");
+                MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
+                _sequencer.tutorial.StartTutorial("Long");
+                variantWatchesWwiseVOCuesForCompletion = true;
+            }
+            else if(variant == "Short")
+            {
+                _sequencer.tutorial.SetTestVocalizationType("Ahh");
+                MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
+                _sequencer.tutorial.StartTutorial("Short");
+                variantWatchesWwiseVOCuesForCompletion = false;
+            }
+            else
+            {
+                Debug.LogError("TutorialStageHandler: Invalid variant: " + variant);
+                return;
+            }
+
+            _sequencer.wwiseVOManager.ResetTutorialGuidanceCount();
+            MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
+            _sequencer.StartLights();
+            _sequencer.imitoneVoiceInterpreter.gameOn = true;
+
         }
 
         //--------------------------------
@@ -45,13 +109,14 @@ namespace SoundSelf.Sequence
         /// <summary>Runner-only: start transition-out (tail) while the next stage is already entering.</summary>
         public void BeginTransitionOut()
         {
+            LocalCleanup();
             // Tail-only: fades, VO tails, etc. Final teardown stays in Exit() -> LocalCleanup() so it runs once when retired.
-            // Stub — IStageHandler default is no-op; explicit method documents intent.
         }
 
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            _sequencer.tutorial.StopTutorial();
         }
 
         /// <summary>Runner-only: final retirement; safe if called more than once.</summary>

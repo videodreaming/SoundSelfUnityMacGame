@@ -7,7 +7,9 @@ namespace SoundSelf.Sequence
         FirstVocalizationStart,
         StartInteractive,   // Opening, Tutorial → transition to Playground
         Break_Tests,        // Tutorial → ends naturally (end of "Keep going" instruction)
+        TutorialPassed,     // Tutorial → success path or explicit stop; advances off Tutorial stage
         WaitForButton,      // WaitForInput → user presses button to play music
+        MusicTrackEnding,
         ThematicSavasana_End  // Savasana → closing teaching phase done (optional; Savasana may complete immediately)
     }
 

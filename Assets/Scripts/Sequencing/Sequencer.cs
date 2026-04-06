@@ -54,7 +54,6 @@ public class Sequencer : MonoBehaviour
     private bool flagTriggerEnd3 = false;
     private bool flagTriggerEnd4 = false;
     private bool flagThetaCoroutine = false;
-    public bool lastMinuteTriggered {get; private set;} = false; 
     private List<int> coroutineCleanupList = new List<int>();
     private Coroutine CoroutineDynamicDropStart;
     private Coroutine CoroutineDynamicDropTheta;
@@ -80,6 +79,7 @@ public class Sequencer : MonoBehaviour
     [SerializeField] private SequenceDefinition kindnessDefinition;
     [SerializeField] private SequenceDefinition mettaDefinition;
 
+    private CalibrationStageHandler _calibrationHandler;
     private OpeningStageHandler _openingHandler;
     private PlaygroundStageHandler _playgroundHandler;
     private SavasanaStageHandler _savasanaHandler;
@@ -122,16 +122,17 @@ public class Sequencer : MonoBehaviour
         // This is the StageType -> IStageHandler registration map SequenceRunner uses to dispatch Enter/Exit and completion checks.
         // It's primary use is to pass the sequencer instance to the handlers, so they can access the countdownToSavasana, startPlayground, etc.
         // We do it like this, instead of using singletons, to prevent null references and other issues.
+        _calibrationHandler = new CalibrationStageHandler(this);
         _openingHandler = new OpeningStageHandler(this);
         _playgroundHandler = new PlaygroundStageHandler(this);
         _savasanaHandler = new SavasanaStageHandler(this);
-        _tutorialHandler = new TutorialStageHandler();
+        _tutorialHandler = new TutorialStageHandler(this);
         _waitForInputHandler = new WaitForInputStageHandler();
         _musicPlaylistHandler = new MusicPlaylistStageHandler();
         _inquiryHandler = new InquiryStageHandler();
         _endHandler = new EndStageHandler();
         _linearAudioHandler = new LinearAudioStageHandler();
-        sequenceRunner.SetHandlers(new IStageHandler[] { _openingHandler, _playgroundHandler, _savasanaHandler, _tutorialHandler, _waitForInputHandler, _musicPlaylistHandler, _inquiryHandler, _endHandler, _linearAudioHandler });
+        sequenceRunner.SetHandlers(new IStageHandler[] { _calibrationHandler, _openingHandler, _playgroundHandler, _savasanaHandler, _tutorialHandler, _waitForInputHandler, _musicPlaylistHandler, _inquiryHandler, _endHandler, _linearAudioHandler });
     }
 
     private void OnDestroy()
@@ -255,12 +256,6 @@ public class Sequencer : MonoBehaviour
     /// <summary>Dispatches cue to current handler if watching. Returns true if handled. Caller does legacy when false. StartInteractive has built-in legacy (ProtocolStacksPlaygroundStart) when not in sequence.</summary>
     public bool HandleSequenceCommand(SequenceCommand sequenceCommand)
     {
-        if (sequenceCommand == SequenceCommand.StartInteractive && (sequenceRunner == null || sequenceRunner.CurrentStageIndex < 0))
-        {
-            Debug.LogWarning("Cue_StartInteractive: Using legacy behavior (sequenceRunner is null or not in a sequence).");
-            ProtocolStacksPlaygroundStart();
-            return true;
-        }
         if (sequenceRunner == null || sequenceRunner.CurrentStageIndex < 0)
             return false;
         if (sequenceRunner.TryExecuteSequenceCommand(sequenceCommand))
@@ -355,7 +350,7 @@ public class Sequencer : MonoBehaviour
         
         Debug.Log("Sequencer: ProtocolStacksCoroutine - Threshold reached! Countdown: " + _countdownToSavasana + " seconds. Proceeding to Step 1.");
         Debug.Log("Sequencer: ProtocolStack Step 1 - Starting interactive music (20 minutes or less remaining)");
-        MusicSystem1.instance.StopBreathworkCycle();
+        MusicSystem1.instance.SetBreathworkCycle(false);
         //tutorial.tutorialComplete = true; // set in StartPlayground()
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
         MusicSystem1.instance.SetSoundscape("ShiftingEarth");
@@ -526,7 +521,8 @@ public class Sequencer : MonoBehaviour
     IEnumerator LastMinute()
     {
         Debug.Log("Sequencer Last Minute: Starting Last Minute Behaviors.");
-        lastMinuteTriggered = true;
+        
+        MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
         worldShuffler.StopShuffle(); //we should be in Shruti now.
         //recordedAudioPlaybackTest.SetRecordMode(false);
         //recordedAudioPlaybackTest.SetPlaybackMode(false);
@@ -997,6 +993,8 @@ public class Sequencer : MonoBehaviour
     //When these were first made, they were envisioned as a way to cheat the system into getting into the zone it should be at that moment.
     //it is NOT running the actual logic of the experience, so using these outside of development mode may have unintended consequences.
     //if you would like to use them that way, which would be more elegant, further development will be required.
+    
+    /*
     public void StartTutorialSequence()
     {
         Debug.Log("Sequencer: Starting Tutorial Sequence.");
@@ -1004,33 +1002,41 @@ public class Sequencer : MonoBehaviour
         StartLights();
         worldShuffler.ExcludeColorWorld("Blue");
         worldShuffler.ExcludeSoundscape("Shadow");
-        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
+        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
         MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0.0f);
         director.Disable();
     }
-    public void StartPlayground(bool setTimeSinceTutorial = false, bool beginShuffle = true, bool directorEnabled = true, float transitionTime = 20f)
+    */
+    public void StartPlayground(bool setTimeSinceTutorial = false, bool beginShuffle = true, bool directorEnabled = true, float transitionTime = 20f, bool completeTutorial = true, bool startLights = true)
     {
+        
+        Debug.Log("Sequencer: Starting Playground Sequence.");
         if(setTimeSinceTutorial && _timeSinceTutorial < 300f)
         {
             _timeSinceTutorial = 300f;
         }
-        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
+        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode && startLights)
         {
             lightControl.SetColorWorldByType("Red", 0.0f);
         }
-        Debug.Log("Sequencer: Starting Playground Sequence.");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
         if(directorEnabled)
         {
             director.Enable();
         }
-        MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, transitionTime);
-        tutorial.tutorialComplete = true;
+        if(completeTutorial)
+        {
+            tutorial.tutorialComplete = true;
+            MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, transitionTime);
+        }
         if(beginShuffle)
         {
             worldShuffler.BeginShuffle(false);
         }
-        StartLights(); 
+        if(startLights)
+        {
+            StartLights();
+        }
     }
     public void StartRightBeforeSavasana()
     {
@@ -1099,7 +1105,7 @@ public class Sequencer : MonoBehaviour
             {
                 case 0: Initialize(); Debug.Log("Initialize called.");  break;
                 case 1: StartTrueStart(); Debug.Log("StartTrueStart called."); break;
-                case 2: StartTutorialSequence(); Debug.Log("StartTutorialSequence called.");  break;
+                case 2: Debug.LogWarning("StartTutorialSequence called. (Implementation has been removed)");  break;
                 case 3: StartPlayground(true, false, false, 0.5f);Debug.Log("StartPlayground called.");  break; //TODO: this should be true,false,true (removed for simplification test)
                 case 4: StartRightBeforeSavasana(); Debug.Log("StartRightBeforeSavasana called."); break;
                 case 5: StartSavasana(); Debug.Log("StartSavasana called."); break;

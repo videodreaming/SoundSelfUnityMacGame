@@ -34,6 +34,22 @@ namespace SoundSelf.Sequence
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
             _playgroundCoroutine = _sequencer.StartCoroutine(PlaygroundCoroutine());
+            _sequencer.director.Enable();
+            MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(true);
+            MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
+            MusicSystem1.instance.SetBreathworkCycle(false);
+            if(variant == "Standard")
+            {
+                Debug.Log("PlaygroundStageHandler: Standard variant: Starting Standard Playground");
+                if(!_sequencer.worldShuffler.shuffling)
+                {
+                    _sequencer.worldShuffler.BeginShuffle();
+                }
+            }
+            else if(variant == "Ascending")
+            {
+                Debug.Log("PlaygroundStageHandler: Ascending variant: Starting Ascending Playground");
+            }
         }
 
         private IEnumerator PlaygroundCoroutine()
@@ -74,7 +90,7 @@ namespace SoundSelf.Sequence
 
             Debug.Log("PlaygroundStageHandler: Threshold reached! Countdown: " + _sequencer._countdownToSavasana + " seconds. Proceeding to Step 1.");
             Debug.Log("PlaygroundStageHandler: Step 1 - Starting interactive music (20 minutes or less remaining)");
-            MusicSystem1.instance.StopBreathworkCycle();
+            MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
             MusicSystem1.instance.SetSoundscape("ShiftingEarth");
             _sequencer.StartPlayground(false, false, true);

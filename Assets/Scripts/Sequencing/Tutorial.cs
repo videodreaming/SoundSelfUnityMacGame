@@ -5,6 +5,7 @@ using UnityEngine;
 using AK.Wwise;
 using Unity.VisualScripting;
 using ConversionUtilities;
+using SoundSelf.Sequence;
 
 
 public class Tutorial : MonoBehaviour
@@ -19,7 +20,7 @@ public class Tutorial : MonoBehaviour
     public WorldShuffler worldShuffler;
     public CSVLoader csvLoader;
     public TimeLeftScript timeLeftScript;
-    public bool active {get; private set;}  = false; //currently, this is just for external objects to view if the tutorial is doing anything or not, all the actual behaviors are in StartTutorial() and EndTutorial()
+    //public bool active {get; private set;}  = false; //currently, this is just for external objects to view if the tutorial is doing anything or not, all the actual behaviors are in StartTutorial() and EndTutorial()
     float testThreshold = 1.5f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;
@@ -27,7 +28,9 @@ public class Tutorial : MonoBehaviour
     public string testVocalizationTypeLastFrame;
     private Coroutine testCoroutine;
     private Coroutine correctionCoroutine;
-    public bool inTutorial = false;
+    private string variant;
+    public bool inTutorial { get; private set; } = false;
+    public int guidanceCount { get; private set; } = 0;
     public bool tutorialComplete = false;
     public TimeTrackerScript TimeTrackerScript;
     
@@ -72,44 +75,54 @@ public class Tutorial : MonoBehaviour
     
     //TODO: Move StartTutorial() to Sequencer.cs, and the call for it, which right now is in WwiseVOManager.cs, should reference something in Sequencer.cs. Basically. Sequencer wants to control the sequence of events.
     //TODO: With that in mind, move inTutorial to Sequencer.cs. Sequencer should be able to tell us where in the sequence we are: Opening, Tutorial, Freeplay, Savasana.
-    public void StartTutorial()
+    public void StartTutorial(string startVariant = null)
     {
-        if(!active)
+        if(!inTutorial)
         {
-            inTutorial = true;
-            Debug.Log("Tutorial: START");
-            active = true;
-            SetTestVocalizationType("Hum");
-
-            musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Tutorial);
-
-            sequencer.StartLights(); //this is probably already initialized, just making sure.
+            
+            inTutorial = true;            
+            if(startVariant == null)
+            {
+                Debug.LogError("Tutorial: StartTutorial called with null variant");
+                inTutorial = false;
+                return;
+            }
+            else if(startVariant == "Long")
+            {
+                Debug.Log("Tutorial: StartTutorial: Long");
+                failThreshold = 8.0f;
+                variant = "Long";
+            }
+            else if(startVariant == "Short")
+            {
+                Debug.Log("Tutorial: StartTutorial: Short");
+                failThreshold = 24.0f;
+                variant = "Short";
+            }
+            else
+            {
+                Debug.LogError("Tutorial: Invalid variant: " + startVariant);
+                inTutorial = false;
+                return;
+            }
             
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
-
+            Debug.Log("Tutorial: START");
         }
-    }
-
-    public void TutorialCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
-    {
-         if (in_type == AkCallbackType.AK_MusicSyncUserCue)
-            {
-                AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-
-                //NOTE: I've moved everything from here into WwiseVOManager.cs, am just keeping this here to catch anything unexpected so we can fix it.
-             
-                Debug.LogWarning("Tutorial: Unexpected Wwise Cue: " + in_type + " | " + musicSyncInfo.userCueName);
-            } 
     }
 
     private IEnumerator VoiceTestCoroutine()
     {
+        
         if(inTutorial)
         {
-             //I think that the logic of setting the testSuccess to false at the beginning of this coroutine is correct.
-            testSuccess = false;
+            
             Debug.Log("Tutorial: Voice Test Coroutine");
-            //First, wait one second, to give room for the cue to be triggered.
+
+            testSuccess = false;
+            float _sectionTimer = 0.0f;
+
+            //First, wait three seconds, to give room for the cue to be triggered.
             float _tWait = 0.0f;
 
             if(debugAllowLogs)
@@ -134,32 +147,68 @@ public class Tutorial : MonoBehaviour
                 Debug.Log("Tutorial: Testing...");
             }
 
-            float _failTimer = 0.0f;
+        
             while(!testSuccess)
             {
                 //waiting for success...
                 if(!imitoneVoiceInterpreter.toneActiveBiasTrue)
                 {
                     //...while testing for failure
-                    _failTimer += Time.deltaTime;
-                    if(_failTimer > failThreshold)
+                    _sectionTimer += Time.deltaTime;
+                    if(_sectionTimer > failThreshold)
                     {
                         Debug.Log("Tutorial: TEST FAIL");
                         correctionCoroutine = StartCoroutine(ProvideCorrection());                   
                         yield break;
                     }
-                } else {
-                    _failTimer = 0.0f;
+                } else if (variant == "Long") {
+                    _sectionTimer = 0.0f;  //I don't know if this is needed, but it was here before I ported this for Ascending...
                 }
                 yield return null;
             }
+
+
+            // For "Short" variant: continue to wait until _sectionTimer > failThreshold AND tone is not active
+            if (variant == "Short")
+            {
+                float _waitThreshold = failThreshold;
+                Debug.Log($"Tutorial: TEST SUCCESS, just waiting for _sectionTimer to exceed _waitThreshold (time left: {_waitThreshold - _sectionTimer:F2}s)");
+
+                while (_sectionTimer < _waitThreshold)
+                {
+                    _sectionTimer += Time.deltaTime;
+                    yield return null;
+                }
+            }
+
+
             Debug.Log("Tutorial: TEST SUCCESS (wait for breath)");
             while(imitoneVoiceInterpreter.toneActiveBiasTrue)
             {
                 yield return null;
             }
             //on success, start the next coroutine
-            wwiseVOManager.PlayTutorialGuidance(testVocalizationType);
+
+            if(variant == "Short")
+            {
+                guidanceCount = wwiseVOManager.PlayTutorialGuidance("Lite");
+                if(guidanceCount >= 4)
+                {
+                    if(sequencer != null)
+                    {
+                        sequencer.HandleSequenceCommand(SequenceCommand.TutorialPassed);
+                    }
+                    //THERE IS AN INELEGANCE HERE:
+                    //Short tutorial ends by counting the amount of guidance played.
+                    //Long tutorial ends by waiting for the cue from Wwise.
+                    //(Both use HandleSequenceCommand())
+                }
+            }
+            else
+            {
+                guidanceCount = wwiseVOManager.PlayTutorialGuidance(testVocalizationType);
+            }
+            
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
         } else {
             Debug.Log("Tutorial: Voice Test Coroutine: Tutorial is over");
@@ -231,18 +280,6 @@ public class Tutorial : MonoBehaviour
         testCoroutine = StartCoroutine(VoiceTestCoroutine());
     }
 
-    public void EndTutorialNaturally()
-    {
-        StopTutorial();
-        musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
-        
-        if(!worldShuffler.shuffling)
-        {
-            worldShuffler.BeginShuffle();
-        }
-        director.Enable();
-        Debug.Log("TUTORIAL: END naturally with " + TimeTrackerScript.TotalElapsedTime);
-    }
 
     public void StopTutorial()
     {
@@ -251,7 +288,7 @@ public class Tutorial : MonoBehaviour
             Debug.Log("Tutorial: Stopping");
             inTutorial = false;
             tutorialComplete = true;
-            active = false;
+            //active = false;
 
             if (testCoroutine != null)
             {
@@ -261,6 +298,9 @@ public class Tutorial : MonoBehaviour
             {
                 StopCoroutine(correctionCoroutine);
             }
+
+            if (sequencer != null)
+                sequencer.HandleSequenceCommand(SequenceCommand.TutorialPassed);
         }
         else
         {

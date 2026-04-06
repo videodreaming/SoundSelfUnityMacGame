@@ -8,6 +8,7 @@ namespace SoundSelf.Sequence
         private readonly Sequencer _sequencer;
         private bool _hasEntered;
         private bool _variantForcesTone = false;
+        private bool _variantTransitionsToMusicLoop = false;
 
         public StageType StageType => StageType.Opening;
 
@@ -27,7 +28,7 @@ namespace SoundSelf.Sequence
             }
             _hasEntered = true;
             IsComplete = false;
-            
+
             bool isFirstTimeUser = _sequencer.csvLoader.IsFirstTimeUser;
 
             //CLEAN UP PREVIOUS THINGS
@@ -102,6 +103,7 @@ namespace SoundSelf.Sequence
                 Debug.Log("OpeningStageHandler: Protocol Stacks mode detected. Initializing Protocol Stacks.");
                 MusicSystem1.instance.SetSoundWorld("Shadow");
                 MusicSystem1.instance.SetSoundscape("ShiftingEarth");
+                _variantTransitionsToMusicLoop = true;
             }
             else
             {
@@ -115,6 +117,8 @@ namespace SoundSelf.Sequence
             {
                 _sequencer.wwiseVOManager.PlayOpeningSequence("PS_Ascending");
                 Debug.Log("OpeningStageHandler: Playing opening sequence: PS_Ascending");
+                
+                _sequencer.wwiseVOManager.SetTestRepairSwitch("C");
 
             }
             else if(variant == "Preparation" || variant == "Skills Training")
@@ -131,12 +135,14 @@ namespace SoundSelf.Sequence
                     Debug.Log("OpeningStageHandler: Playing Preparation Short Opening Sequence.");
                 }
                 _variantForcesTone = true;
+                _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
             }
             else if (variant == "Integration")
             {
                 _sequencer.wwiseVOManager.PlayOpeningSequence("Integration_Short");
                 Debug.Log("OpeningStageHandler: Playing Integration Opening Sequence.");
                 _variantForcesTone = true;
+                _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
             }
             else
             {
@@ -152,7 +158,7 @@ namespace SoundSelf.Sequence
         }
 
 
-        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) => sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.StartTutorial || sequenceCommand == SequenceCommand.FirstVocalizationStart;
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) => sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.StartTutorial || sequenceCommand == SequenceCommand.FirstVocalizationStart || sequenceCommand == SequenceCommand.MusicTrackEnding;
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
@@ -169,6 +175,26 @@ namespace SoundSelf.Sequence
                     _sequencer.MakeWwiseTone();
                 }
             }
+            if(sequenceCommand == SequenceCommand.MusicTrackEnding && _variantTransitionsToMusicLoop)
+            {
+                Debug.Log("OpeningStageHandler: Transitioning to Music Loop");
+                TransitionToAlternativeMusic("MusicLoop");
+            }
+        }
+
+        public void TransitionToAlternativeMusic(string alternativeMusicVariant)
+        {
+            if(alternativeMusicVariant == "MusicLoop")
+            {
+                _sequencer.StartPlayground(false, false, true, 30.0f, false, false);
+                MusicSystem1.instance.SetSoundscape("ShiftingEarth");
+
+            }
+            else
+            {
+                Debug.LogError("OpeningStageHandler: Invalid alternative music variant: " + alternativeMusicVariant);
+            }
+
         }
 
         //--------------------------------
@@ -193,7 +219,7 @@ namespace SoundSelf.Sequence
         /// <summary>Runner-only: start transition-out (tail) while the next stage is already entering.</summary>
         public void BeginTransitionOut()
         {
-            Debug.Log("OpeningStageHandler: BeginTransitionOut, no tail behavior required.");
+            Debug.Log("OpeningStageHandler: BeginTransitionOut.");
             // Tail-only: fades, VO tails, etc. Final teardown stays in Exit() -> LocalCleanup() so it runs once when retired.
             // No tail yet for Opening; IStageHandler default is also no-op — explicit method documents intent.
         }

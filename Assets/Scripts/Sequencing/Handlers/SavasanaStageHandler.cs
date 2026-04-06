@@ -60,10 +60,13 @@ namespace SoundSelf.Sequence
 
             Debug.Log("SavasanaStageHandler: Enter - running Savasana (Ascending Closing)");
 
+
             MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
             _sequencer.director.ActivateQueue(15f);
             _sequencer.director.Disable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
+            MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
+            MusicSystem1.instance.SetBreathworkCycle(false);
             _sequencer.wwiseVOManager.PlayAscendingClosing();
             _sequencer._countdownToSavasana = -1.0f;
 

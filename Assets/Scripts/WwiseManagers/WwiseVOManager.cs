@@ -28,6 +28,7 @@ public class WwiseVOManager : MonoBehaviour
     private Coroutine countdownCoroutine; // Reference to the coroutines
     private bool debugAllowLogs;
     private bool developmentModeWarningFlag = false;
+    private int tutorialGuidanceCount = 0;
 
     //public GameObject micPlayback;
     //public UnityPlayBack unityPlaybackScript;
@@ -104,12 +105,12 @@ public class WwiseVOManager : MonoBehaviour
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
             {
                 UI_CurrentSession.Instance.currentSession = "Opening Teaching";
-                Debug.LogWarning("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start (Robin expects we won't see this as it's usually called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
+                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
                 imitoneVoiceIntepreter.gameOn = false;
             }
             else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
             {
-                Debug.LogWarning("WWise_VO_CUE: Cue_VO_GuidedVocalization_End (Robin expects we won't see this, as it's called from tutorial)"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
+                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_End"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
                 imitoneVoiceIntepreter.gameOn = true;
             }
             else if (musicSyncInfo.userCueName == "Cue_Somatic_Start")
@@ -188,7 +189,8 @@ public class WwiseVOManager : MonoBehaviour
             {
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
                 if (sequencer == null || !sequencer.HandleSequenceCommand(SequenceCommand.Break_Tests))
-                    tutorial.EndTutorialNaturally();
+                    //tutorial.EndTutorialNaturally();
+                    Debug.LogWarning("WWise_VO_CUE: This should end the tutorial naturally, but I commented it out.");
             }
             else if (musicSyncInfo.userCueName == "Cue_StartInteractive")
             {
@@ -204,6 +206,17 @@ public class WwiseVOManager : MonoBehaviour
                 if (sequencer != null)
                     sequencer.HandleSequenceCommand(SequenceCommand.WaitForButton);
                 //TODO: Legacy — implement the button to show up, and the logic to wait for it to be pressed.
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Start_Breathworkcycle")
+            {
+                Debug.Log("WWise_VO_CUE: Cue_Start_Breathworkcycle");
+                musicSystem1.SetBreathworkCycle(true);
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Music_Ending")
+            {
+                Debug.Log("WWise_VO_CUE: Cue_Music_Ending");
+                if (sequencer != null)
+                    sequencer.HandleSequenceCommand(SequenceCommand.MusicTrackEnding);
             }
             else
             {
@@ -396,7 +409,7 @@ public class WwiseVOManager : MonoBehaviour
     }
 
     //TUTORIAL VO CALLS
-    public void PlayTutorialGuidance(string guidanceType)
+    public int PlayTutorialGuidance(string guidanceType)
     {
         
         if(debugAllowLogs)
@@ -408,20 +421,34 @@ public class WwiseVOManager : MonoBehaviour
         {
             case "Hum":
                 AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationHum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+                tutorialGuidanceCount++;
                 break;
             case "Ahh":
                 AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+                tutorialGuidanceCount++;
                 break;
             case "Ohh":
                 AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationOhh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+                tutorialGuidanceCount++;
                 break;
             case "Advanced":
                 AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationAdvanced", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+                tutorialGuidanceCount++;
+                break;
+            case "Lite":
+                AkSoundEngine.PostEvent("Play_VO_GuidedVocalizationLite", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+                tutorialGuidanceCount++;
                 break;
             default:
                 Debug.LogError("Invalid testVocalizationType: " + guidanceType);
                 break;
         }
+        return tutorialGuidanceCount;
+    }
+
+    public void ResetTutorialGuidanceCount()
+    {
+        tutorialGuidanceCount = 0;
     }
     
     public void PlayCorrectionGuidance(string guidanceType)
@@ -468,6 +495,22 @@ public class WwiseVOManager : MonoBehaviour
     {
         Debug.Log("WWise_VO: Play Ascending Closing");
         AkSoundEngine.PostEvent("Play_ASCENDING_CLOSING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
+    }
+
+    public void SetTestRepairSwitch(string AorC)
+    {
+        if(AorC == "A")
+        {
+            AkSoundEngine.SetSwitch("VO_testRepair", "A", gameObject);
+        }
+        else if(AorC == "C")
+        {
+            AkSoundEngine.SetSwitch("VO_testRepair", "C", gameObject);
+        }
+        else
+        {
+            Debug.LogError("WWise_VO: Invalid testRepairSwitch: " + AorC);
+        }
     }
 
 }
