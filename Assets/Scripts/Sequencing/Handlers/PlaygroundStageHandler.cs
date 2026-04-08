@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Handles the Playground stage: countdown-based timed steps. Completes when CountdownSeconds reaches 0.</summary>
+    /// <summary>Handles the Playground stage: countdown-based timed steps. Waits on <see cref="TimeTrackerScript.CountdownThisSection"/> until main segment reaches 0.</summary>
     public class PlaygroundStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
@@ -32,8 +32,28 @@ namespace SoundSelf.Sequence
                 Debug.LogError("PlaygroundStageHandler: ENTER() CALLED WHILE COROUTINE IS ALREADY RUNNING. THE SEQUENCE IS LIKELY BROKEN. STOP THE SEQUENCE BEFORE STARTING IT AGAIN.");
                 return;
             }
+
+            var timeTracker = TimeTrackerScript.instance;
+            if (timeTracker != null)
+                timeTracker.OnPlaygroundStageEntered();
+            else
+                Debug.LogWarning("PlaygroundStageHandler: TimeTrackerScript.instance is null; skipping OnPlaygroundStageEntered (TimeSincePlaygroundStart will not reset/arm).");
+
+            const float defaultCountdownPlaceholderThreshold = 999_999f;
+            if (timeTracker != null)
+            {
+                if (timeTracker.CountdownThisSection >= defaultCountdownPlaceholderThreshold)
+                {
+                    Debug.LogWarning("PlaygroundStageHandler: [CountdownThisSection] still at default ~1e6 (CSV does not start countdown). Real values apply when the sequence hits StartCountdown → BeginCountdownPair.") ;
+                }
+                if (timeTracker.CountdownFull >= defaultCountdownPlaceholderThreshold)
+                {
+                    Debug.LogWarning("PlaygroundStageHandler: [CountdownFull] still at default ~1e6 (CSV does not start countdown). Real values apply when the sequence hits StartCountdown → BeginCountdownPair.");
+                }
+            }
+
             _sequencer.ForceSequenceAdvanceRequested = false;
-            _playgroundCoroutine = _sequencer.StartCoroutine(PlaygroundCoroutine());
+            _playgroundCoroutine = _sequencer.StartCoroutine(ProtocolStacksPlaygroundCoroutine());
             _sequencer.director.Enable();
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(true);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
@@ -52,18 +72,49 @@ namespace SoundSelf.Sequence
             }
         }
 
-        private IEnumerator PlaygroundCoroutine()
+        /// <summary><see cref="TimeTrackerScript.CountdownThisSection"/> for protocol step thresholds (main segment, not full session).</summary>
+        private float SessionCountdownThisSection()
         {
-            Debug.Log("PlaygroundStageHandler: STARTED - Current countdown: " + _sequencer.CountdownSeconds + " seconds (" + (_sequencer.CountdownSeconds / 60f) + " minutes)");
+            var tt = TimeTrackerScript.instance;
+            if (tt != null)
+                return tt.CountdownThisSection;
+            return _sequencer != null ? _sequencer.CountdownThisSection : 0f;
+        }
 
-            if (_sequencer.calibrationMenu == null)
+        /// <summary>
+        /// If the session clock is not ticking, starts a <b>development</b> duration of <paramref name="initialCd"/> seconds
+        /// (intended as step-1 threshold + a few seconds so this coroutine reaches Step 1 quickly). Production sessions should use <see cref="StartCountdownStageHandler"/> first.
+        /// </summary>
+        private void CheckCountdownRunning(float initialCd)
+        {
+            var tt = TimeTrackerScript.instance;
+            if (tt == null)
             {
-                Debug.LogWarning("PlaygroundStageHandler: calibrationMenu is null - countdown will not decrement.");
+                Debug.LogWarning("PlaygroundStageHandler: TimeTrackerScript.instance is null — cannot start a fallback countdown. Add a TimeTrackerScript to the scene.");
+                return;
             }
-            else if (_sequencer.calibrationMenu.startedExperience != true)
+            if (!tt.IsCountdownRunning)
             {
-                Debug.LogWarning("PlaygroundStageHandler: Experience not started yet (calibrationMenu.startedExperience != true). The sequence will not progress.");
+                float closing = CSVLoader.instance != null ? Mathf.Max(0f, CSVLoader.instance.totalTimeOfPostUnguidedVocalizationContent) : 0f;
+                float full = closing > 0f ? initialCd + closing : initialCd;
+                Debug.LogWarning(
+                    "PlaygroundStageHandler: Session countdown is not running. [Development fallback] BeginCountdownPair [CountdownThisSection]=" + initialCd + " [CountdownFull]=" + full +
+                    " (~" + (initialCd / 60f) + " min main \"time remaining\"). For production, run StartCountdown before Playground.");
+                tt.ConfigureCountdownPair(initialCd, full);
+                tt.BeginCountdownPair();
             }
+        }
+
+        private IEnumerator ProtocolStacksPlaygroundCoroutine()
+        {
+            var tt = TimeTrackerScript.instance;
+            float initialCd = SessionCountdownThisSection();
+
+
+            Debug.Log("PlaygroundStageHandler: STARTED - [CountdownThisSection]=" + initialCd + " s [CountdownFull]=" + (tt != null ? tt.CountdownFull.ToString() : "?") + " (" + (initialCd / 60f) + " min main)");
+
+            if (tt == null)
+                Debug.LogWarning("PlaygroundStageHandler: TimeTrackerScript.instance is null — [CountdownThisSection] reads 0; add a tracker to the scene. StartCountdown also requires it.");
 
             if (_sequencer.worldShuffler == null || _sequencer.director == null || _sequencer.lightControl == null)
             {
@@ -74,21 +125,24 @@ namespace SoundSelf.Sequence
             }
 
             float step1Threshold = 20f * 60f; // 1200 seconds = 20 minutes
+            
+            CheckCountdownRunning(step1Threshold + 5.0f);
 
-            Debug.Log("PlaygroundStageHandler: Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + _sequencer.CountdownSeconds + " (or call ForceSequenceAdvance() to skip)");
+            Debug.Log("PlaygroundStageHandler: Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + SessionCountdownThisSection() + " (or call ForceSequenceAdvance() to skip)");
             int frameCount = 0;
-            while (_sequencer.CountdownSeconds > step1Threshold && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > step1Threshold && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 frameCount++;
                 if (frameCount % 600 == 0)
                 {
-                    Debug.Log("PlaygroundStageHandler: Still waiting. Countdown: " + _sequencer.CountdownSeconds + " seconds (" + (_sequencer.CountdownSeconds / 60f) + " minutes). Threshold: " + step1Threshold);
+                    float cd = SessionCountdownThisSection();
+                    Debug.Log("PlaygroundStageHandler: Still waiting. Countdown: " + cd + " seconds (" + (cd / 60f) + " minutes). Threshold: " + step1Threshold);
                 }
                 yield return null;
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
 
-            Debug.Log("PlaygroundStageHandler: Threshold reached! Countdown: " + _sequencer.CountdownSeconds + " seconds. Proceeding to Step 1.");
+            Debug.Log("PlaygroundStageHandler: Threshold reached! Countdown: " + SessionCountdownThisSection() + " seconds. Proceeding to Step 1.");
             Debug.Log("PlaygroundStageHandler: Step 1 - Starting interactive music (20 minutes or less remaining)");
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
@@ -97,7 +151,7 @@ namespace SoundSelf.Sequence
 
             _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
 
-            while (_sequencer.CountdownSeconds > (19f * 60f - 30f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (19f * 60f - 30f) && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 yield return null;
             }
@@ -106,7 +160,7 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler: Step 2");
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, 2, 2);
 
-            while (_sequencer.CountdownSeconds > (16f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (16f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 yield return null;
             }
@@ -115,7 +169,7 @@ namespace SoundSelf.Sequence
             _sequencer.director.AddActionToQueue(_sequencer.lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
             Debug.Log("PlaygroundStageHandler: Step 4");
 
-            while (_sequencer.CountdownSeconds > (13f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (13f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 yield return null;
             }
@@ -123,7 +177,7 @@ namespace SoundSelf.Sequence
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, 2, 2);
             Debug.Log("PlaygroundStageHandler: Step 5");
 
-            while (_sequencer.CountdownSeconds > (12f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (12f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 yield return null;
             }
@@ -131,7 +185,7 @@ namespace SoundSelf.Sequence
 
             _sequencer.worldShuffler.BeginShuffle(false);
 
-            while (_sequencer.CountdownSeconds > (10f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (10f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 yield return null;
             }
@@ -139,7 +193,7 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler: Step 6");
             _sequencer.worldShuffler.ExcludeSoundscape("SonoFlore");
 
-            while (_sequencer.CountdownSeconds > (4f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (4f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 yield return null;
             }
@@ -149,19 +203,19 @@ namespace SoundSelf.Sequence
             _sequencer.worldShuffler.CloseSoundscapeQueue();
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, 2, 2);
 
-            while (_sequencer.CountdownSeconds > 60f && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > 60f && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 yield return null;
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
 
-            while (_sequencer.CountdownSeconds > 0f && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > 0f && !_sequencer.ForceSequenceAdvanceRequested)
             {
                 yield return null;
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
 
-            Debug.Log("PlaygroundStageHandler: Countdown reached 0. Playground complete.");
+            Debug.Log("PlaygroundStageHandler: [CountdownThisSection] reached 0. Playground complete.");
             _playgroundCoroutine = null;
             MarkComplete();
         }
@@ -171,13 +225,12 @@ namespace SoundSelf.Sequence
         // SequenceRunner owns BeginTransitionOut / Exit timing; handlers should not call those locally.
         //--------------------------------
 
-        // Completion: PlaygroundCoroutine calls MarkComplete() when countdown logic finishes; runner then calls TransitionToNextStage().
+        // Completion: ProtocolStacksPlaygroundCoroutine calls MarkComplete() when countdown logic finishes; runner then calls TransitionToNextStage().
         /// <summary>Main phase done. Does not start transition-out; that begins when the runner advances.</summary>
         private void MarkComplete()
         {
             if (IsComplete) return;
             IsComplete = true;
-            TimeTrackerScript.instance?.ForceSetCountdownSecondsAndStop(-1f);
             Debug.Log("PlaygroundStageHandler: Marking stage complete.");
             // Next: On the next SequenceRunner.Update(), the runner sees IsComplete and calls TransitionToNextStage().
             // That calls AdvanceToStage(next), which invokes BeginTransitionOut() on this handler (tail / fade start),

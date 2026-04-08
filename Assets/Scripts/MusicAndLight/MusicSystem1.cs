@@ -2334,9 +2334,9 @@ public class MusicSystem1 : MonoBehaviour
         }
         else
         {
-            if(debugAllowWarnings || debugAllowSoundscapeLogs)
+            if(debugAllowSoundscapeLogs)
             {
-                Debug.LogWarning("MUSIC: InteractiveMusic is not started");
+                Debug.Log("MUSIC: InteractiveMusic tried to stop but did not stop because it is not started");
             }
         }
     }

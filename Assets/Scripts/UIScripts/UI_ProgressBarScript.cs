@@ -11,7 +11,7 @@ public class ProgressBar : MonoBehaviour
 
     private void Start()
     {
-        totalTime = TimeTrackerScript.instance != null ? TimeTrackerScript.instance.GetTimeLeftSeconds() : 0f; // total duration in seconds
+        totalTime = TimeTrackerScript.instance != null ? TimeTrackerScript.instance.CountdownFull : 0f; // full-session countdown at Start (seconds remaining)
         if (progressBar == null)
         {
             progressBar = GetComponent<Slider>();

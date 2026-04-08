@@ -44,7 +44,7 @@ public class ImageChanger : MonoBehaviour
         }
 
         
-        if(TimeTrackerScript.instance != null && TimeTrackerScript.instance.GetTimeLeftSeconds() <= 0)
+        if(TimeTrackerScript.instance != null && TimeTrackerScript.instance.CountdownFull <= 0f)
         {
             inGame = false;
         } 

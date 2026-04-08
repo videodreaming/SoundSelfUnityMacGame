@@ -68,8 +68,17 @@ namespace SoundSelf.Sequence
                 MarkSequenceComplete();
                 return;
             }
+            var sequencer = GetComponent<Sequencer>();
 
+            if (sequencer == null)
+            {
+                Debug.LogError("SequenceRunner: Sequencer is null. Cannot reset standard sequence milestones.");
+                return;
+            }
             // Hard reset before starting.
+            // TimeSincePlaygroundStart must not carry over between sequence runs (Playground.Exit resets it when the stage retires; this covers skips/restarts where Exit may not run).
+            TimeTrackerScript.instance.ResetTimeSincePlaygroundStart();
+            sequencer.ResetStandardSequenceMilestones();
             ForceExitCurrentAndTransitioningHandlers();
             _sequenceComplete = false;
             _transitioningOutStageIndex = -1;

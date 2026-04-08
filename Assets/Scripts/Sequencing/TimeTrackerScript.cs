@@ -1,11 +1,11 @@
 using UnityEngine;
 
 /// <summary>
-/// Session timing (Phase 1+): authoritative clocks. <see cref="TotalElapsedTime"/> = session wall clock;
-/// <see cref="CountdownSeconds"/> = main countdown (ticks only when <see cref="IsCountdownRunning"/> after <see cref="BeginCountdown"/>);
-/// <see cref="DisplayTime"/> = formatted <see cref="TotalElapsedTime"/>; <see cref="TimeSinceTutorial"/> ticks in <c>Update</c> when tutorial is complete or <see cref="StartTimeSinceTutorialTimer"/> was called.
-/// Countdown writes: <see cref="ConfigureCountdownSeconds"/>, <see cref="MirrorLegacyCountdown"/> (while not running), and
-/// <see cref="BeginCountdown"/> (starts the tick). <see cref="MirrorLegacyCountdown"/> does not imply a separate Sequencer clock anymore.
+/// Session timing: authoritative clocks. <see cref="TotalElapsedTime"/> = session wall clock;
+/// <see cref="CountdownThisSection"/> = time left in the current main segment (e.g. playground / interactive; historically “countdown to savasana”);
+/// <see cref="CountdownFull"/> = time left for the full session including post-unguided closing, so it tracks Section + closing when both tick together.
+/// Both decrement while <see cref="IsCountdownRunning"/> after <see cref="BeginCountdownPair"/>.
+/// <see cref="DisplayTime"/> / playground elapsed unchanged.
 /// </summary>
 public class TimeTrackerScript : MonoBehaviour
 {
@@ -18,30 +18,39 @@ public class TimeTrackerScript : MonoBehaviour
     [Tooltip("Formatted from TotalElapsedTime only.")]
     public string DisplayTime;
 
-    [Header("Countdown (main session \"time left\")")]
-    [SerializeField] private float _countdownSeconds = 1_000_000f;
+    [Header("Countdown — this section (main) vs full session")]
+    [Tooltip("Time left in the main segment (e.g. until end of playground logic). Ticks down; clamps at 0 while Full may still run.")]
+    [SerializeField] private float _countdownThisSection = 1_000_000f;
+    [Tooltip("Time left for full session including post-unguided closing. When this hits 0, countdown running stops.")]
+    [SerializeField] private float _countdownFull = 1_000_000f;
     [SerializeField] private bool _countdownRunning;
-    [SerializeField] private float _configuredCountdownAtLastConfigure;
+    [SerializeField] private float _configuredThisSectionAtLastConfigure;
+    [SerializeField] private float _configuredFullAtLastConfigure;
 
-    [Header("Time since tutorial timer")]
-    [Tooltip("If unset, resolved once in Start via FindObjectOfType.")]
+    [Header("Tutorial reference")]
+    [Tooltip("Wired in inspector for session wiring; not used to drive playground elapsed time.")]
     [SerializeField] private Tutorial tutorial;
-    [SerializeField] private float _timeSinceTutorial;
-    [SerializeField] private bool _timeSinceTutorialTimerStarted;
+
+    [Header("Time since playground start")]
+    [SerializeField] private float _timeSincePlaygroundStart;
+    [SerializeField] private bool _timeSincePlaygroundStartTimerStarted;
 
     [Header("CSV-derived inputs (Phase 1 mirror; CSV still owns field until Phase 4)")]
     [Tooltip("Closing / post-unguided content duration from CSV.")]
     [SerializeField] private float _totalTimeOfPostUnguidedVocalizationContent;
 
-    [Tooltip("Set by CSVLoader when TimeLeftInitializations() completes (timeLeft valid and countdown mirrored). StartCountdown requires this; post-unguided duration may still be 0 intentionally.")]
+    [Tooltip("Set by CSVLoader when TimeLeftInitializations() completes with recognized game + sub game mode (tracker inputs hydrated). StartCountdown logs if false; post-unguided duration may still be 0 intentionally.")]
     [SerializeField] private bool _sessionTimingInitializedFromCsv;
 
     [Header("Latches")]
     [SerializeField] private bool _countdownCompleteLached;
 
     [Header("Debug")]
-    [SerializeField] public bool debugAllowTimingLogs;
-    private float _lastTimingLogTime;
+    [Tooltip("Periodic logs of TotalElapsedTime and countdown pair. Cadence follows session time (Time.deltaTime / timeScale); when timeScale is 0, ticks pause.")]
+    [SerializeField] public bool debugAllowTimingLogs = true;
+    [Tooltip("Seconds of session time between timing logs (same clock as TotalElapsedTime; affected by Time.timeScale).")]
+    [SerializeField] private float _debugTimingLogIntervalSeconds = 1f;
+    private float _lastTimingLogTotalElapsed;
 
     void Awake()
     {
@@ -51,16 +60,17 @@ public class TimeTrackerScript : MonoBehaviour
             return;
         }
         instance = this;
+        
+        TotalElapsedTime = 0f;
+        DisplayTime = "0 minutes 0 seconds";
+        _lastTimingLogTotalElapsed = 0f;
     }
 
     void Start()
     {
-        TotalElapsedTime = 0f;
-        DisplayTime = "0 minutes 0 seconds";
-        _lastTimingLogTime = 0f;
-        if(tutorial == null)
+        if (tutorial == null)
         {
-            Debug.LogError("TimeTrackerScript: Tutorial is not set. This is required for tutorial elapsed tracking.");
+            Debug.LogError("TimeTrackerScript: Tutorial is not set. Assign in inspector for session wiring.");
         }
     }
 
@@ -69,16 +79,27 @@ public class TimeTrackerScript : MonoBehaviour
         TotalElapsedTime += Time.deltaTime;
         TickDebugTimingLogs();
         UpdateDisplayTime();
-        TickTimeSinceTutorialTimerInternal(Time.deltaTime);
+        TickTimeSincePlaygroundStartInternal(Time.deltaTime);
 
-        if (_countdownRunning && _countdownSeconds > 0f)
+        if (_countdownRunning)
         {
-            _countdownSeconds -= Time.deltaTime;
-            if (_countdownSeconds <= 0f)
+            if (_countdownThisSection > 0f)
             {
-                _countdownSeconds = -1f;
-                _countdownRunning = false;
-                _countdownCompleteLached = true;
+                _countdownThisSection -= Time.deltaTime;
+                if (_countdownThisSection < 0f)
+                    _countdownThisSection = 0f;
+            }
+
+            if (_countdownFull > 0f)
+            {
+                _countdownFull -= Time.deltaTime;
+                if (_countdownFull <= 0f)
+                {
+                    _countdownFull = 0f;
+                    _countdownThisSection = 0f;
+                    _countdownRunning = false;
+                    _countdownCompleteLached = true;
+                }
             }
         }
     }
@@ -94,74 +115,137 @@ public class TimeTrackerScript : MonoBehaviour
     {
         if (!debugAllowTimingLogs)
             return;
-        if (TotalElapsedTime - _lastTimingLogTime < 1.0f)
+        float interval = Mathf.Max(0.1f, _debugTimingLogIntervalSeconds);
+        if (TotalElapsedTime - _lastTimingLogTotalElapsed < interval)
             return;
+        _lastTimingLogTotalElapsed = TotalElapsedTime;
         int totalSeconds = Mathf.RoundToInt(TotalElapsedTime);
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
-        Debug.Log($"TimeTrackerScript: [tick] {minutes}:{seconds:D2}");
-        _lastTimingLogTime = TotalElapsedTime;
+        Debug.Log($"TimeTrackerScript: [tick] {minutes}:{seconds:D2}    [CountdownThisSection] {_countdownThisSection}    [CountdownFull] {_countdownFull}");
     }
 
     // -------------------------------------------------------------------------
     // Countdown API
     // -------------------------------------------------------------------------
 
-    /// <summary>Current session countdown in seconds. When not running, still reflects last configured or mirrored value.</summary>
-    public float CountdownSeconds => _countdownSeconds;
+    /// <summary>Time left in the main segment (protocol milestones, LastMinute until section end).</summary>
+    public float CountdownThisSection => _countdownThisSection;
+
+    /// <summary>Time left for the full session including post-unguided closing.</summary>
+    public float CountdownFull => _countdownFull;
 
     public bool IsCountdownRunning => _countdownRunning;
 
-    /// <summary>Sets the countdown value without starting the clock. When already running, only updates the pending configure value for logging on next BeginCountdown.</summary>
-    public void ConfigureCountdownSeconds(float seconds)
-    {
-        if(seconds <= 0f)
-        {
-            Debug.LogError("TimeTrackerScript: ConfigureCountdownSeconds() - seconds is " + seconds + " (should be > 0). Expect strange behavior.");
-        }
+    /// <summary>Last configured full-session baseline (from <see cref="ConfigureCountdownPair"/> / <see cref="BeginCountdownPair"/>). May differ from live <see cref="CountdownFull"/> after flows that restore baseline only (e.g. ClosingDuration).</summary>
+    public float ConfiguredFullAtLastConfigure => _configuredFullAtLastConfigure;
 
-        float v = Mathf.Max(0f, seconds);
-        _configuredCountdownAtLastConfigure = v;
-        if (!_countdownRunning)
-        {
-            _countdownSeconds = v;
-        }
+    /// <summary>Sets only the stored full-session baseline; does <b>not</b> change live <see cref="CountdownFull"/> / <see cref="CountdownThisSection"/>.</summary>
+    public void SetConfiguredFullBaselineOnly(float seconds)
+    {
+        _configuredFullAtLastConfigure = Mathf.Max(0f, seconds);
     }
 
-    /// <summary>
-    /// Starts (or restarts) countdown decrement using the last <see cref="ConfigureCountdownSeconds"/> value
-    /// or an optional new value. If an explicit <paramref name="seconds"/> is passed, it updates the countdown value before starting.
-    /// If already running, logs previous and new start for debug visibility (double stage entry detection).
-    /// </summary>
-    public void BeginCountdown(float? seconds = null)
+    /// <summary>Configure both start values without starting the clock. When already running, updates pending baselines for the next Begin.</summary>
+    public void ConfigureCountdownPair(float thisSectionSeconds, float fullSeconds)
     {
-        if(seconds != null)
+        WarnIfPairLooksWrong(thisSectionSeconds, fullSeconds);
+
+        float sec = Mathf.Max(0f, thisSectionSeconds);
+        float ful = Mathf.Max(0f, fullSeconds);
+        ApplyConfiguredThisSection(sec, syncLiveWhenIdle: !_countdownRunning);
+        ApplyConfiguredFull(ful, syncLiveWhenIdle: !_countdownRunning);
+    }
+
+    /// <summary>Updates the stored main-segment baseline (and live value when idle). Pair logic uses <see cref="ConfigureCountdownPair"/>.</summary>
+    public void ConfigureCountdownThisSectionOnly(float thisSectionSeconds)
+    {
+        float sec = Mathf.Max(0f, thisSectionSeconds);
+        ApplyConfiguredThisSection(sec, syncLiveWhenIdle: !_countdownRunning);
+    }
+
+    /// <summary>Updates the stored full-session baseline (and live value when idle). Pair logic uses <see cref="ConfigureCountdownPair"/>.</summary>
+    public void ConfigureCountdownFullOnly(float fullSeconds)
+    {
+        float ful = Mathf.Max(0f, fullSeconds);
+        if (ful <= 0f)
+            Debug.LogError("TimeTrackerScript: ConfigureCountdownFullOnly — [CountdownFull] is " + ful + " (should be > 0). Expect strange behavior.");
+        ApplyConfiguredFull(ful, syncLiveWhenIdle: !_countdownRunning);
+    }
+
+    /// <summary>Starts both countdowns from last configured pair, or optional overrides (see <see cref="ConfigureCountdownPair"/>).</summary>
+    public void BeginCountdownPair(float? thisSectionSeconds = null, float? fullSeconds = null)
+    {
+        if (thisSectionSeconds != null || fullSeconds != null)
         {
-            ConfigureCountdownSeconds(seconds.Value);
+            float sec = thisSectionSeconds ?? _configuredThisSectionAtLastConfigure;
+            float ful = fullSeconds ?? _configuredFullAtLastConfigure;
+            ConfigureCountdownPair(sec, ful);
         }
-        float newStart = _configuredCountdownAtLastConfigure;
+
+        float newSec = _configuredThisSectionAtLastConfigure;
+        float newFul = _configuredFullAtLastConfigure;
+
         if (_countdownRunning)
-        {
-            Debug.LogWarning($"TimeTrackerScript: BeginCountdown re-entry — previous CountdownSeconds was {_countdownSeconds}, new start value {newStart}.");
-        }
-        if (newStart <= 0f)
-        {
-            Debug.LogError("TimeTrackerScript: BeginCountdown() - newStart is " + newStart + " (should be > 0). Expect strange behavior.");
-        }
-        _countdownSeconds = newStart;
+            Debug.LogWarning("TimeTrackerScript: BeginCountdownPair re-entry — [CountdownThisSection] was " + _countdownThisSection + ", [CountdownFull] was " + _countdownFull + "; new starts " + newSec + " / " + newFul + ".");
+
+        if (newFul <= 0f)
+            Debug.LogError("TimeTrackerScript: BeginCountdownPair — [CountdownFull] new start " + newFul + " (should be > 0).");
+
+        _countdownThisSection = newSec;
+        _countdownFull = newFul;
+        StartCountdownTickingFromLiveValues();
+    }
+
+    private void ApplyConfiguredThisSection(float sec, bool syncLiveWhenIdle)
+    {
+        _configuredThisSectionAtLastConfigure = sec;
+        if (syncLiveWhenIdle)
+            _countdownThisSection = sec;
+    }
+
+    private void ApplyConfiguredFull(float ful, bool syncLiveWhenIdle)
+    {
+        _configuredFullAtLastConfigure = ful;
+        if (syncLiveWhenIdle)
+            _countdownFull = ful;
+    }
+
+    private static void WarnIfPairLooksWrong(float thisSectionSeconds, float fullSeconds)
+    {
+        if (thisSectionSeconds <= 0f && fullSeconds > 0f)
+            Debug.LogWarning("TimeTrackerScript: ConfigureCountdownPair — [CountdownThisSection] is " + thisSectionSeconds + " while [CountdownFull] is " + fullSeconds + ".");
+        if (fullSeconds <= 0f)
+            Debug.LogError("TimeTrackerScript: ConfigureCountdownPair — [CountdownFull] is " + fullSeconds + " (should be > 0). Expect strange behavior.");
+
+        float sec = Mathf.Max(0f, thisSectionSeconds);
+        float ful = Mathf.Max(0f, fullSeconds);
+        if (ful + 0.01f < sec)
+            Debug.LogWarning("TimeTrackerScript: ConfigureCountdownPair — [CountdownFull]=" + ful + " < [CountdownThisSection]=" + sec + "; check StartCountdown variant math.");
+    }
+
+    private void StartCountdownTickingFromLiveValues()
+    {
         _countdownRunning = true;
     }
 
-    /// <summary>
-    /// While <see cref="IsCountdownRunning"/> is false, copies <paramref name="valueFromSequencer"/> into stored countdown and the
-    /// configure baseline (e.g. <see cref="Sequencer.SetCountdownToSavasana"/> after CSV). No-op while the tracker is actively ticking.
-    /// </summary>
-    public void MirrorLegacyCountdown(float valueFromSequencer)
+    /// <summary>At end of playground / LastMinute: resync <see cref="CountdownFull"/> to CSV closing duration and log drift if &gt; 10s from previous <see cref="CountdownFull"/>.</summary>
+    public void SnapCountdownFullToClosingContentDurationAndLogDrift(float closingContentDurationSeconds, string contextLabel)
     {
-        if (_countdownRunning)
-            return;
-        _countdownSeconds = valueFromSequencer;
-        _configuredCountdownAtLastConfigure = _countdownSeconds;
+        float closing = Mathf.Max(0f, closingContentDurationSeconds);
+        float fullBefore = _countdownFull;
+        _countdownFull = closing;
+        _configuredFullAtLastConfigure = closing;
+
+        float drift = Mathf.Abs(fullBefore - closing);
+        if (drift > 10f)
+        {
+            Debug.LogWarning("TimeTrackerScript: [" + contextLabel + "] [CountdownFull] Drift " + drift + " s before snap — was " + fullBefore + " s, expected closing " + closing + " s. Snapped [CountdownFull] to closing.");
+        }
+        else
+        {
+            Debug.Log("TimeTrackerScript: [" + contextLabel + "] [CountdownFull] Closing-phase check: before=" + fullBefore + " s, snapped to " + closing + " s (drift " + drift + " s).");
+        }
     }
 
     public bool CountdownCompleteLatched => _countdownCompleteLached;
@@ -171,47 +255,48 @@ public class TimeTrackerScript : MonoBehaviour
         _countdownCompleteLached = latched;
     }
 
-    /// <summary>Force countdown to a value and stop running (e.g. Savasana -1 semantics — Phase 7 may refine).</summary>
-    public void ForceSetCountdownSecondsAndStop(float seconds)
+    /// <summary>Force both values and stop running (e.g. Savasana / Playground complete — typically <c>0, 0</c>).</summary>
+    public void ForceSetBothCountdownsAndStop(float thisSectionValue, float fullValue)
     {
         _countdownRunning = false;
-        _countdownSeconds = seconds;
-        _configuredCountdownAtLastConfigure = seconds;
-        if(seconds == -1)
-        {
-            SetCountdownCompleteLatched(true);
-        }
+        _countdownThisSection = thisSectionValue;
+        _countdownFull = fullValue;
+        _configuredThisSectionAtLastConfigure = thisSectionValue;
+        _configuredFullAtLastConfigure = fullValue;
+        SetCountdownCompleteLatched(true);
     }
 
     // -------------------------------------------------------------------------
-    // Time since tutorial timer
+    // Time since playground start
     // -------------------------------------------------------------------------
 
-    public float TimeSinceTutorial => _timeSinceTutorial;
+    public float TimeSincePlaygroundStart => _timeSincePlaygroundStart;
 
-    private void TickTimeSinceTutorialTimerInternal(float deltaTime)
+    private void TickTimeSincePlaygroundStartInternal(float deltaTime)
     {
-        if (!_timeSinceTutorialTimerStarted)
+        if (!_timeSincePlaygroundStartTimerStarted)
             return;
-        _timeSinceTutorial += deltaTime;
+        _timeSincePlaygroundStart += deltaTime;
     }
 
-    /// <summary>Idempotent: subsequent calls do not reset <see cref="TimeSinceTutorial"/>.</summary>
-    public void StartTimeSinceTutorialTimer()
+    /// <summary>Called from <see cref="SoundSelf.Sequence.PlaygroundStageHandler.Enter"/> — resets to zero and begins accumulation.</summary>
+    public void OnPlaygroundStageEntered()
     {
-        _timeSinceTutorialTimerStarted = true;
+        TimeTrackerScript.instance?.ResetTimeSincePlaygroundStart();
+        _timeSincePlaygroundStartTimerStarted = true;
     }
 
-    /// <summary>Resets <see cref="TimeSinceTutorial"/> to zero and pauses accumulation until <see cref="StartTimeSinceTutorialTimer"/> or tutorial-complete path.</summary>
-    public void ResetTimeSinceTutorialTimer()
+    /// <summary>Clears elapsed time to zero and stops accumulation until <see cref="OnPlaygroundStageEntered"/>.</summary>
+    public void ResetTimeSincePlaygroundStart()
     {
-        _timeSinceTutorial = 0f;
-        _timeSinceTutorialTimerStarted = false;
+        _timeSincePlaygroundStart = 0f;
+        _timeSincePlaygroundStartTimerStarted = false;
     }
 
-    public void SetTimeSinceTutorial(float seconds)
+    /// <summary>Dev / cheat paths (e.g. <see cref="Sequencer.StartPlayground"/>) — does not arm the timer if it was never started.</summary>
+    public void SetTimeSincePlaygroundStart(float seconds)
     {
-        _timeSinceTutorial = seconds;
+        _timeSincePlaygroundStart = seconds;
     }
 
     // -------------------------------------------------------------------------
@@ -220,10 +305,10 @@ public class TimeTrackerScript : MonoBehaviour
 
     public float TotalTimeOfPostUnguidedVocalizationContent => _totalTimeOfPostUnguidedVocalizationContent;
 
-    /// <summary>True after <see cref="CSVLoader"/> completes <c>TimeLeftInitializations</c> for this session (mirrored countdown + tracker inputs). Post-unguided duration may still be zero by design.</summary>
+    /// <summary>True after <see cref="CSVLoader"/> completes <c>TimeLeftInitializations</c> with a recognized <c>gameMode</c> and <c>subGameMode</c> (where that product uses sub-modes). Post-unguided duration may still be zero by design.</summary>
     public bool SessionTimingInitializedFromCsv => _sessionTimingInitializedFromCsv;
 
-    /// <summary>Called from <see cref="CSVLoader"/> after <c>SetTotalTimeOfPostUnguidedVocalizationContent</c> and <c>SetCountdownToSavasana</c> on the success path (<c>timeLeft &gt; 0</c>).</summary>
+    /// <summary>Called from <see cref="CSVLoader"/> at end of <c>TimeLeftInitializations</c> after hydrating tracker inputs (post-unguided duration, etc.).</summary>
     public void MarkSessionTimingInitializedFromCsv()
     {
         _sessionTimingInitializedFromCsv = true;
@@ -234,25 +319,12 @@ public class TimeTrackerScript : MonoBehaviour
         _totalTimeOfPostUnguidedVocalizationContent = Mathf.Max(0f, seconds);
     }
 
-    // -------------------------------------------------------------------------
-    // Legacy compatibility (merge countdown with former time-left helpers)
-    // -------------------------------------------------------------------------
-
-    /// <summary>Alias for <see cref="ConfigureCountdownSeconds"/> during migration.</summary>
-    public void SetTimeLeftSeconds(float seconds)
+    /// <summary>UI helper: <see cref="CountdownFull"/> as “M minutes S seconds”; non-positive shows as zero.</summary>
+    public string FormatCountdownFullMinutesAndSeconds()
     {
-        ConfigureCountdownSeconds(seconds);
-        int minutes = Mathf.FloorToInt(CountdownSeconds / 60);
-        int secs = Mathf.FloorToInt(CountdownSeconds % 60);
-        Debug.Log("TimeTrackerScript: SetTimeLeftSeconds → ConfigureCountdownSeconds " + minutes + " min " + secs + " s");
-    }
-
-    public float GetTimeLeftSeconds() => CountdownSeconds;
-
-    public string GetTimeLeftFormattedToMinutesAndSeconds()
-    {
-        int minutes = Mathf.FloorToInt(CountdownSeconds / 60);
-        int seconds = Mathf.FloorToInt(CountdownSeconds % 60);
+        float t = Mathf.Max(0f, CountdownFull);
+        int minutes = Mathf.FloorToInt(t / 60);
+        int seconds = Mathf.FloorToInt(t % 60);
         return $"{minutes} minutes {seconds} seconds";
     }
 }

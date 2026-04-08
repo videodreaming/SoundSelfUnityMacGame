@@ -14,6 +14,6 @@ public class TimeLeftScript : MonoBehaviour
             timeTracker = TimeTrackerScript.instance;
         if (timeTracker == null || timeLeftText == null) return;
 
-        timeLeftText.text = timeTracker.GetTimeLeftFormattedToMinutesAndSeconds();
+        timeLeftText.text = timeTracker.FormatCountdownFullMinutesAndSeconds();
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace SoundSelf.Sequence
 {
+    /// <summary>Completes on Wwise cues / <see cref="SequenceCommand.TutorialPassed"/>, or when <see cref="Tutorial"/> detects <see cref="TimeTrackerScript.CountdownThisSection"/> reached 0 (main segment time exhausted).</summary>
     public class TutorialStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
@@ -67,11 +68,6 @@ namespace SoundSelf.Sequence
             _hasEntered = true;
             IsComplete = false;
             Debug.Log("TutorialStageHandler: Enter");
-            var timeTracker = TimeTrackerScript.instance;
-            if (timeTracker != null)
-                timeTracker.ResetTimeSinceTutorialTimer();
-            else
-                Debug.LogWarning("TutorialStageHandler: TimeTrackerScript.instance is null; skipping ResetTimeSinceTutorialTimer.");
 
             if(variant == "Long")
             {
@@ -131,11 +127,6 @@ namespace SoundSelf.Sequence
         {
             if (_sequencer != null && _sequencer.tutorial != null)
                 _sequencer.tutorial.StopTutorial();
-            var timeTracker = TimeTrackerScript.instance;
-            if (timeTracker != null)
-                timeTracker.StartTimeSinceTutorialTimer();
-            else
-                Debug.LogWarning("TutorialStageHandler: TimeTrackerScript.instance is null; skipping StartTimeSinceTutorialTimer.");
             _hasEntered = false;
         }
 

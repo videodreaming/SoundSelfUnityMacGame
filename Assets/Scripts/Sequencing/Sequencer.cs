@@ -32,7 +32,44 @@ public class Sequencer : MonoBehaviour
     public CSVWriter csvWriter;
     private bool lightsInitialized = false;
 
+    [Header("Debug logs")]
+    [SerializeField] private bool debugAllowLogsSequencer = true;
+    [SerializeField] private bool debugAllowLogsAVSProgram = false;
+    [Tooltip("When true, warnings still log even if Sequencer / AVS info logs are off.")]
+    [SerializeField] private bool debugAllowLogsWarnings = true;
+
     public TMP_Dropdown startModeDropdown;
+
+    /// <summary>For <see cref="IStageHandler"/> and other non-<see cref="Sequencer"/> code: warning path only, respects <see cref="debugAllowLogsWarnings"/>.</summary>
+    public void LogSequencerWarning(string message) => DbgLogSequencer(message, true);
+
+    /// <param name="isWarning">If true, <c>LogWarning</c> when <see cref="debugAllowLogsWarnings"/>; else <c>Log</c> when <see cref="debugAllowLogsSequencer"/>.</param>
+    private void DbgLogSequencer(string message, bool isWarning = false)
+    {
+        if (isWarning)
+        {
+            if (debugAllowLogsWarnings)
+                Debug.LogWarning(message);
+        }
+        else if (debugAllowLogsSequencer)
+        {
+            Debug.Log(message);
+        }
+    }
+
+    /// <param name="isWarning">If true, <c>LogWarning</c> when <see cref="debugAllowLogsWarnings"/>; else <c>Log</c> when <see cref="debugAllowLogsAVSProgram"/>.</param>
+    private void DbgLogAvs(string message, bool isWarning = false)
+    {
+        if (isWarning)
+        {
+            if (debugAllowLogsWarnings)
+                Debug.LogWarning(message);
+        }
+        else if (debugAllowLogsAVSProgram)
+        {
+            Debug.Log(message);
+        }
+    }
 
 
     // AVS Controls
@@ -43,8 +80,8 @@ public class Sequencer : MonoBehaviour
 
     private static bool _warnedMissingTimeTrackerForCountdown;
 
-    /// <summary>Session countdown seconds; authoritative value is <see cref="TimeTrackerScript.CountdownSeconds"/>.</summary>
-    public float CountdownSeconds
+    /// <summary><see cref="TimeTrackerScript.CountdownThisSection"/> — main-segment countdown for protocol steps (not full session).</summary>
+    public float CountdownThisSection
     {
         get
         {
@@ -54,22 +91,33 @@ public class Sequencer : MonoBehaviour
                 if (!_warnedMissingTimeTrackerForCountdown)
                 {
                     _warnedMissingTimeTrackerForCountdown = true;
-                    Debug.LogWarning("Sequencer: TimeTrackerScript.instance is null; CountdownSeconds reads as 0 until the tracker exists.");
+                    DbgLogSequencer("Sequencer: TimeTrackerScript.instance is null; [CountdownThisSection] reads as 0 until the tracker exists.", true);
                 }
                 return 0f;
             }
-            return tt.CountdownSeconds;
+            return tt.CountdownThisSection;
         }
     }
 
     [SerializeField] public bool endSoonFlag = false;
     private bool startButtonFlag = false;
-    private bool flagTriggerStart1 = false;
-    private bool flagTriggerStart2 = false;
-    private bool flagTriggerEnd1 = false;
-    private bool flagTriggerEnd2 = false;
-    private bool flagTriggerEnd3 = false;
-    private bool flagTriggerEnd4 = false;
+    private bool standardSequenceMilestoneStart1 = false;
+    private bool standardSequenceMilestoneStart2 = false;
+    private bool standardSequenceMilestoneEnd1 = false;
+    private bool standardSequenceMilestoneEnd2 = false;
+    private bool standardSequenceMilestoneEnd3 = false;
+    private bool standardSequenceMilestoneEnd4 = false;
+
+    /// <summary>Resets Integration / Skills Training standard-sequence one-shots. Invoked from <see cref="SoundSelf.Sequence.SequenceRunner.StartSequence"/>.</summary>
+    public void ResetStandardSequenceMilestones()
+    {
+        standardSequenceMilestoneStart1 = false;
+        standardSequenceMilestoneStart2 = false;
+        standardSequenceMilestoneEnd1 = false;
+        standardSequenceMilestoneEnd2 = false;
+        standardSequenceMilestoneEnd3 = false;
+        standardSequenceMilestoneEnd4 = false;
+    }
     private bool flagThetaCoroutine = false;
     private List<int> coroutineCleanupList = new List<int>();
     private Coroutine CoroutineDynamicDropStart;
@@ -120,7 +168,7 @@ public class Sequencer : MonoBehaviour
         }
         else if(DevelopmentMode.instance == null)
         {
-            Debug.LogWarning("Sequencer: DevelopmentMode instance is null in Awake().");
+            DbgLogSequencer("Sequencer: DevelopmentMode instance is null in Awake().", true);
         }
         if (startModeDropdown != null)
             startModeDropdown.onValueChanged.AddListener(OnStartModeDropdownChanged);
@@ -129,7 +177,7 @@ public class Sequencer : MonoBehaviour
             sequenceRunner = gameObject.GetComponent<SequenceRunner>() ?? gameObject.AddComponent<SequenceRunner>();
 
         // This is the StageType -> IStageHandler registration map SequenceRunner uses to dispatch Enter/Exit and completion checks.
-        // It's primary use is to pass the sequencer instance to the handlers, so they can access CountdownSeconds / startPlayground, etc.
+        // It's primary use is to pass the sequencer instance to the handlers, so they can access CountdownThisSection (main segment) / startPlayground, etc.
         // We do it like this, instead of using singletons, to prevent null references and other issues.
         _calibrationHandler = new CalibrationStageHandler(this);
         _openingHandler = new OpeningStageHandler(this);
@@ -155,19 +203,8 @@ public class Sequencer : MonoBehaviour
     {
         
         _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
-        var timeTracker = TimeTrackerScript.instance;
-        if (timeTracker == null)
-        {
-            Debug.LogWarning("Sequencer: TimeTrackerScript.instance is null in Start(); session countdown is unavailable until the tracker exists. Add a TimeTrackerScript to the scene.");
-        }
-        else if (timeTracker.CountdownSeconds >= 999999.0f)
-        {
-            Debug.LogWarning("Sequencer: Countdown was not initialized by CSVLoader or anything else. Current value is " + timeTracker.CountdownSeconds + ". Please ensure it is set properly.");
-        }
-        else
-        {
-            Debug.Log("Sequencer: ThematicSavasanaCountdown Counter starts at " + timeTracker.CountdownSeconds);
-        }
+        if (TimeTrackerScript.instance == null)
+            DbgLogSequencer("Sequencer: TimeTrackerScript.instance is null in Start(); session countdown is unavailable until the tracker exists. Add a TimeTrackerScript to the scene.", true);
 
         if (startModeDropdown != null)
                 OnStartModeDropdownChanged(startModeDropdown.value);
@@ -181,14 +218,14 @@ public class Sequencer : MonoBehaviour
     {
         if(CSVLoader.instance != null)
         {
-            if(CSVLoader.instance.gameMode == "Integration" || CSVLoader.instance.gameMode == "Preparation" || CSVLoader.instance.gameMode == "Skills Training")
+            if(CSVLoader.instance.UsesStandardSequenceUpdate)
             {
                 StandardSequenceUpdate();
             }
         }
         else
         {
-            Debug.LogWarning("CSVLoader instance is null, cannot determine game mode for update sequences.");
+            DbgLogSequencer("CSVLoader instance is null, cannot determine game mode for update sequences.", true);
         }
     }
 
@@ -199,7 +236,7 @@ public class Sequencer : MonoBehaviour
     {
         string bankName = bank.ToString() + ".bnk";
         AkBankManager.UnloadBank(bankName);
-        Debug.Log("Sequencer: Unloaded WWise AKSoundEngine bank: " + bankName);
+        DbgLogSequencer("Sequencer: Unloaded WWise AKSoundEngine bank: " + bankName);
     }
 
     //====================================================================================================
@@ -223,10 +260,10 @@ public class Sequencer : MonoBehaviour
             return false;
         if (sequenceRunner.TryExecuteSequenceCommand(sequenceCommand))
         {
-            Debug.Log(sequenceCommand + ": Handled by sequence stages (current and/or transitioning-out).");
+            DbgLogSequencer(sequenceCommand + ": Handled by sequence stages (current and/or transitioning-out).");
             return true;
         }
-        Debug.LogWarning(sequenceCommand + " fired but it's not being watched for, so nothing is happening.");
+        DbgLogSequencer(sequenceCommand + " fired but it's not being watched for, so nothing is happening.", true);
         return false;
     }
 
@@ -235,7 +272,7 @@ public class Sequencer : MonoBehaviour
     {
         if (sequenceRunner == null)
         {
-            Debug.LogWarning("Sequencer: Cannot transition to next stage because sequenceRunner is null.");
+            DbgLogSequencer("Sequencer: Cannot transition to next stage because sequenceRunner is null.", true);
             return;
         }
         sequenceRunner.TransitionToNextStage();
@@ -243,13 +280,12 @@ public class Sequencer : MonoBehaviour
 
     public void ProtocolStacksPlaygroundStart()
     {
-        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Called when opening sequence ends");
-        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Current countdown: " + CountdownSeconds + " seconds (" + (CountdownSeconds / 60f) + " minutes)");
-        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - Current music mode: " + MusicSystem1.instance.currentMusicMode);
-        Debug.Log("Sequencer: ProtocolStacksPlaygroundStart - startedExperience: " + (calibrationMenu != null ? calibrationMenu.startedExperience.ToString() : "calibrationMenu is null"));
+        DbgLogSequencer("Sequencer: ProtocolStacksPlaygroundStart - Called when opening sequence ends");
+        DbgLogSequencer("Sequencer: ProtocolStacksPlaygroundStart - Current countdown: " + CountdownThisSection + " seconds (" + (CountdownThisSection / 60f) + " minutes)");
+        DbgLogSequencer("Sequencer: ProtocolStacksPlaygroundStart - Current music mode: " + MusicSystem1.instance.currentMusicMode);
         // Called when opening sequence ends (via Cue_StartInteractive cue from Wwise)
-        // Starts the ProtocolStacksCoroutine which manages timed behaviors based on CountdownSeconds
-        // IMPORTANT: The coroutine will wait until CountdownSeconds <= 20 minutes before executing Step 1
+        // Starts the ProtocolStacksCoroutine which manages timed behaviors based on CountdownThisSection
+        // IMPORTANT: The coroutine will wait until CountdownThisSection <= 20 minutes before executing Step 1
         // This means Step 1 does NOT happen immediately - it waits for the countdown to reach the threshold
         //Expected behviors:
         // - play Shifting Earth.
@@ -276,7 +312,31 @@ public class Sequencer : MonoBehaviour
     public void ForceSequenceAdvance()
     {
         _forceSequenceAdvanceRequested = true;
-        Debug.Log("Sequencer: ForceSequenceAdvance() called - advancing to next step.");
+        DbgLogSequencer("Sequencer: ForceSequenceAdvance() called - advancing to next step.");
+    }
+
+    /// <summary>Same dev quick-step idea as <see cref="PlaygroundStageHandler"/> — just above the 20-minute remaining gate.</summary>
+    private const float LegacyProtocolStacksCoroutineCountdownFallbackSeconds = 20f * 60f + 5f;
+
+    /// <summary>Enough runway for LastMinute waits if the clock was never started (should not happen if StandardSequence ran).</summary>
+    private const float LegacyLastMinuteCountdownFallbackSeconds = 90f;
+
+    /// <summary>Phase 5: Legacy coroutines that read <see cref="CountdownThisSection"/> should not run with a stopped session clock.</summary>
+    private void EnsureLegacyCoroutineCountdown(string coroutineLabel, float fallbackSeconds)
+    {
+        var t = TimeTrackerScript.instance;
+        if (t == null)
+        {
+            Debug.LogError("Sequencer: " + coroutineLabel + " — TimeTrackerScript.instance is null; CountdownThisSection unavailable. Add a tracker to the scene.");
+            return;
+        }
+        if (t.IsCountdownRunning)
+            return;
+        float closing = CSVLoader.instance != null ? Mathf.Max(0f, CSVLoader.instance.totalTimeOfPostUnguidedVocalizationContent) : 0f;
+        float sec = fallbackSeconds;
+        float full = closing > 0f ? sec + closing : sec;
+        Debug.LogError("Sequencer: " + coroutineLabel + " — session countdown is not running. Use a StartCountdown stage in the sequence. [Legacy fallback] BeginCountdownPair [CountdownThisSection]=" + sec + " [CountdownFull]=" + full + ".");
+        t.BeginCountdownPair(sec, full);
     }
 
     /// <summary>
@@ -288,12 +348,10 @@ public class Sequencer : MonoBehaviour
     /// </summary>
     private IEnumerator ProtocolStacksCoroutine()
     {
-        Debug.Log("Sequencer: ProtocolStacksCoroutine STARTED - Current countdown: " + CountdownSeconds + " seconds (" + (CountdownSeconds / 60f) + " minutes)");
-        
-        if (calibrationMenu == null)
-            Debug.LogWarning("Sequencer: ProtocolStacksCoroutine - calibrationMenu is null.");
-        else if (calibrationMenu.startedExperience != true)
-            Debug.LogWarning("Sequencer: ProtocolStacksCoroutine - Experience not started yet (calibrationMenu.startedExperience != true). The sequence will not progress.");
+        DbgLogSequencer("Sequencer: ProtocolStacksCoroutine STARTED - Current countdown: " + CountdownThisSection + " seconds (" + (CountdownThisSection / 60f) + " minutes)");
+
+        EnsureLegacyCoroutineCountdown(nameof(ProtocolStacksCoroutine), LegacyProtocolStacksCoroutineCountdownFallbackSeconds);
+
         // STEP 1: Wait until we have 20 minutes or less remaining in the countdown (or ForceSequenceAdvance() is called)
         // This ensures Step 1 happens at the right time based on countdown, not immediately when coroutine starts
         // When this threshold is reached, we start the interactive music system:
@@ -303,65 +361,64 @@ public class Sequencer : MonoBehaviour
         //   - Start playground (enables director, begins shuffle, etc.)
         float step1Threshold = 20f * 60f; // 1200 seconds = 20 minutes
         
-        Debug.Log("Sequencer: ProtocolStacksCoroutine - Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + CountdownSeconds + " (or call ForceSequenceAdvance() to skip)");
+        DbgLogSequencer("Sequencer: ProtocolStacksCoroutine - Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + CountdownThisSection + " (or call ForceSequenceAdvance() to skip)");
         int frameCount = 0;
-        while (CountdownSeconds > step1Threshold && !_forceSequenceAdvanceRequested)
+        while (CountdownThisSection > step1Threshold && !_forceSequenceAdvanceRequested)
         {
             frameCount++;
             // Log every 10 seconds to help diagnose if countdown is decrementing
             if (frameCount % 600 == 0) // ~10 seconds at 60fps
             {
-                Debug.Log("Sequencer: ProtocolStacksCoroutine - Still waiting. Countdown: " + CountdownSeconds + " seconds (" + (CountdownSeconds / 60f) + " minutes). Threshold: " + step1Threshold);
+                DbgLogSequencer("Sequencer: ProtocolStacksCoroutine - Still waiting. Countdown: " + CountdownThisSection + " seconds (" + (CountdownThisSection / 60f) + " minutes). Threshold: " + step1Threshold);
             }
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
         
-        Debug.Log("Sequencer: ProtocolStacksCoroutine - Threshold reached! Countdown: " + CountdownSeconds + " seconds. Proceeding to Step 1.");
-        Debug.Log("Sequencer: ProtocolStack Step 1 - Starting interactive music (20 minutes or less remaining)");
+        DbgLogSequencer("Sequencer: ProtocolStacksCoroutine - Threshold reached! Countdown: " + CountdownThisSection + " seconds. Proceeding to Step 1.");
+        DbgLogSequencer("Sequencer: ProtocolStack Step 1 - Starting interactive music (20 minutes or less remaining)");
         MusicSystem1.instance.SetBreathworkCycle(false);
-        //tutorial.tutorialComplete = true; // set in StartPlayground()
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
         MusicSystem1.instance.SetSoundscape("ShiftingEarth");
         StartPlayground(false, false, true);
-        
+
         worldShuffler.ExcludeSoundscape("Shadow");
         // musicSystem.SetMusicModeTo(MusicMode.Freeplay);
 
         // STEP 2: Wait until we have 19 minutes - 30 seconds (18.5 minutes) remaining (or ForceSequenceAdvance())
-        while (CountdownSeconds > (19f * 60f - 30f) && !_forceSequenceAdvanceRequested)
+        while (CountdownThisSection > (19f * 60f - 30f) && !_forceSequenceAdvanceRequested)
         {
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
         
-        Debug.Log("Sequencer: ProtocolStack Step 2");
+        DbgLogSequencer("Sequencer: ProtocolStack Step 2");
         
         director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, 2, 2);
         
         // worldShuffler.QueueWorldShuffle();
 
-        while (CountdownSeconds > (16f * 60f) && !_forceSequenceAdvanceRequested)
+        while (CountdownThisSection > (16f * 60f) && !_forceSequenceAdvanceRequested)
         {
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
         director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, 2, 2);
         director.AddActionToQueue(lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
-        Debug.Log("Sequencer: ProtocolStack Step 4");
+        DbgLogSequencer("Sequencer: ProtocolStack Step 4");
         // director.AddActionToQueue(...);
 
         // Step 5 at 280 seconds
-        while (CountdownSeconds > (13f * 60f) && !_forceSequenceAdvanceRequested)
+        while (CountdownThisSection > (13f * 60f) && !_forceSequenceAdvanceRequested)
         {
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
         director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, 2, 2);
-        Debug.Log("Sequencer: ProtocolStack Step 5");
+        DbgLogSequencer("Sequencer: ProtocolStack Step 5");
         // StartCoroutine(SpecialProtocolEndingRoutine());
 
-        while (CountdownSeconds > (12f * 60f) && !_forceSequenceAdvanceRequested)
+        while (CountdownThisSection > (12f * 60f) && !_forceSequenceAdvanceRequested)
         {
             yield return null;
         }
@@ -369,32 +426,32 @@ public class Sequencer : MonoBehaviour
 
         worldShuffler.BeginShuffle(false);
         
-        while (CountdownSeconds > (10f * 60f) && !_forceSequenceAdvanceRequested)
+        while (CountdownThisSection > (10f * 60f) && !_forceSequenceAdvanceRequested)
         {
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
         //director.ReplaceActionInQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", "SoundscapeShuffle", true, false, 180.0f, 1);
-        Debug.Log("Sequencer: ProtocolStack Step 6");
+        DbgLogSequencer("Sequencer: ProtocolStack Step 6");
         worldShuffler.ExcludeSoundscape("SonoFlore");
 
-        while (CountdownSeconds > (4f * 60f) && !_forceSequenceAdvanceRequested)
+        while (CountdownThisSection > (4f * 60f) && !_forceSequenceAdvanceRequested)
         {
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
-        Debug.Log("Sequencer: ProtocolStack Step 8");
+        DbgLogSequencer("Sequencer: ProtocolStack Step 8");
         worldShuffler.StopShuffle();
         worldShuffler.CloseSoundscapeQueue();
         director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, 2, 2);
 
-        while (CountdownSeconds > 60f && !_forceSequenceAdvanceRequested)
+        while (CountdownThisSection > 60f && !_forceSequenceAdvanceRequested)
         {
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
 
-        while(CountdownSeconds > 0f && !_forceSequenceAdvanceRequested)
+        while(CountdownThisSection > 0f && !_forceSequenceAdvanceRequested)
         {
             yield return null;
         }
@@ -416,71 +473,57 @@ public class Sequencer : MonoBehaviour
     //====================================================================================================
     private void StandardSequenceUpdate()
     {
-        Debug.LogWarning("Sequencer: Legacy Standard Sequence Behavior not refactored yet.");
-        // Guard: Only run for standard sequences, not Protocol Stacks
-        if(CSVLoader.instance != null && CSVLoader.instance.gameMode == "Protocol Stacks")
-        {
-            return; // Protocol Stacks uses ProtocolStacksCoroutine() instead
-        }
-        
         //Early Behaviors
-        float timeSinceTutorial = TimeTrackerScript.instance != null ? TimeTrackerScript.instance.TimeSinceTutorial : 0f;
-        if(timeSinceTutorial >= 60 && !flagTriggerStart1)
+        float timeSincePlaygroundStart = TimeTrackerScript.instance != null ? TimeTrackerScript.instance.TimeSincePlaygroundStart : 0f;
+        if(timeSincePlaygroundStart >= 60 && !standardSequenceMilestoneStart1)
         {
-            Debug.Log("Sequencer: StandardSequence Triggering Start1 Behaviors: Reset Soundscape Exclusions for Shuffle");
+            DbgLogSequencer("Sequencer: StandardSequence Triggering Start1 Behaviors: Reset Soundscape Exclusions for Shuffle");
             worldShuffler.ResetSoundscapeExclusions();
-            flagTriggerStart1 = true;
+            standardSequenceMilestoneStart1 = true;
         }
-        if(timeSinceTutorial >= 300 && !flagTriggerStart2)
+        if(timeSincePlaygroundStart >= 300 && !standardSequenceMilestoneStart2)
         {
-            Debug.Log("Sequencer: StandardSequence Triggering Start2 Behaviors: Reset Color Exclusions for Shuffle");
+            DbgLogSequencer("Sequencer: StandardSequence Triggering Start2 Behaviors: Reset Color Exclusions for Shuffle");
             worldShuffler.ResetColorWorlds();
-            flagTriggerStart2 = true;
+            standardSequenceMilestoneStart2 = true;
         }
 
         //End Behaviors
-        if(CountdownSeconds <= 300 && !flagTriggerEnd1)
+        if(CountdownThisSection <= 300 && !standardSequenceMilestoneEnd1)
         {
-            Debug.Log("Sequencer: StandardSequence Triggering End1 Behaviors: No Shadow or Shruti Allowed");
+            DbgLogSequencer("Sequencer: StandardSequence Triggering End1 Behaviors: No Shadow or Shruti Allowed");
             worldShuffler.ResetSoundscapeExclusions();
             worldShuffler.ExcludeSoundscape("Shadow");
             worldShuffler.ExcludeSoundscape("Shruti"); //removing shruti, as we want it to go last
-            flagTriggerEnd1 = true;
-            flagTriggerStart1 = true;
-            flagTriggerStart2 = true;
+            standardSequenceMilestoneEnd1 = true;
+            standardSequenceMilestoneStart1 = true;
+            standardSequenceMilestoneStart2 = true;
         }
-        if(CountdownSeconds <= 180f && !flagTriggerEnd2)
+        if(CountdownThisSection <= 180f && !standardSequenceMilestoneEnd2)
         {
-            Debug.Log("Sequencer: StandardSequence Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
+            DbgLogSequencer("Sequencer: StandardSequence Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
             //finally, queue shruti and prevent further queueing of shuffled soundscapes.
             director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", true, false, 180.0f, 2, 2);
             director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, 1, 2);
             worldShuffler.CloseSoundscapeQueue();
             CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End(180f));
-            flagTriggerEnd2 = true;
+            standardSequenceMilestoneEnd2 = true;
         }
 
-        if(CountdownSeconds <= 60f && !flagTriggerEnd3)
+        if(CountdownThisSection <= 60f && !standardSequenceMilestoneEnd3)
         {
-            Debug.Log("Sequencer: StandardSequence Triggering End3 Behaviors: Start Last Minute Behaviors");
+            DbgLogSequencer("Sequencer: StandardSequence Triggering End3 Behaviors: Start Last Minute Behaviors");
             StartCoroutine(LastMinute());
-            flagTriggerEnd3 = true;
+            standardSequenceMilestoneEnd3 = true;
         }
 
-        if(CountdownSeconds <= 0f && !flagTriggerEnd4)
+        if(CountdownThisSection <= 0f && !standardSequenceMilestoneEnd4)
         {
-            // Only trigger savasana for standard sequences, not Protocol Stacks
-            if(CSVLoader.instance != null && CSVLoader.instance.gameMode == "Protocol Stacks")
-            {
-                Debug.LogWarning("Sequencer: StandardSequence Attempted to trigger Thematic Savasana in Protocol Stacks mode - this should not happen!");
-                return;
-            }
-           
-            Debug.Log("Sequencer: StandardSequence Triggering Thematic Savasana."); 
+            DbgLogSequencer("Sequencer: StandardSequence Triggering Thematic Savasana."); 
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent); 
 
             wwiseVOManager.PlayThematicSavasana();
-            flagTriggerEnd4 = true;
+            standardSequenceMilestoneEnd4 = true;
         }
     
     }
@@ -490,8 +533,10 @@ public class Sequencer : MonoBehaviour
     //====================================================================================================
     IEnumerator LastMinute()
     {
-        Debug.Log("Sequencer Last Minute: Starting Last Minute Behaviors.");
-        
+        DbgLogSequencer("Sequencer Last Minute: Starting Last Minute Behaviors.");
+
+        EnsureLegacyCoroutineCountdown(nameof(LastMinute), LegacyLastMinuteCountdownFallbackSeconds);
+
         MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
         worldShuffler.StopShuffle(); //we should be in Shruti now.
         //recordedAudioPlaybackTest.SetRecordMode(false);
@@ -500,37 +545,31 @@ public class Sequencer : MonoBehaviour
     
         AkSoundEngine.PostEvent("Play_sfx_EndInteractive", gameObject);
         // Wait until toneActiveConfident becomes false
-        yield return new WaitUntil(() => !imitoneVoiceInterpreter.toneActiveConfident || CountdownSeconds <= 30f);
-        Debug.Log("Sequencer Last Minute: Test 1 (Rest or Time) passed");
+        yield return new WaitUntil(() => !imitoneVoiceInterpreter.toneActiveConfident || CountdownThisSection <= 30f);
+        DbgLogSequencer("Sequencer Last Minute: Test 1 (Rest or Time) passed");
         
         // Wait until toneActiveConfident becomes true
-        yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || CountdownSeconds <= 30f);
-        Debug.Log("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors. Wake Up Counter" + CountdownSeconds);
+        yield return new WaitUntil(() => imitoneVoiceInterpreter.toneActiveConfident || CountdownThisSection <= 30f);
+        DbgLogSequencer("Sequencer Last Minute: Test 2 (Tone or Time) passed. Starting Final Behaviors. Wake Up Counter" + CountdownThisSection);
         director.ActivateQueue(15f);
         director.Disable();
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
 
 
-        Debug.Log("Sequencer Last Minute: Starting Thematic Savasana.");
+        DbgLogSequencer("Sequencer Last Minute: Starting Thematic Savasana.");
         yield return null;
-        Debug.Log("wake Up Counter:" + CountdownSeconds);
-        yield return new WaitUntil(() => CountdownSeconds <= 15f);
+        DbgLogSequencer("wake Up Counter:" + CountdownThisSection);
+        yield return new WaitUntil(() => CountdownThisSection <= 15f);
         
-        Debug.Log("Sequencer Last Minute: Starting Light Fade-Out. Waiting for CountdownSeconds to reach 0.");
+        DbgLogSequencer("Sequencer Last Minute: Starting Light Fade-Out. Waiting for [CountdownThisSection] to reach 0.");
         FadeOut();
         tutorial.StopTutorial();
 
-        while (CountdownSeconds > 0f)
+        while (CountdownThisSection > 0f)
         {
             yield return null;
         }
-        Debug.Log("Sequencer Last Minute: Starting Thematic Savasana, and ending coroutine");
-        if(CSVLoader.instance != null && TimeTrackerScript.instance != null)
-        {
-            TimeTrackerScript.instance.SetTimeLeftSeconds(CSVLoader.instance.totalTimeOfPostUnguidedVocalizationContent);
-        }
-
-
+        DbgLogSequencer("Sequencer Last Minute: [CountdownThisSection] reached 0; resyncing [CountdownFull] to closing duration if configured.");
     }
 
     private void FadeOut()
@@ -550,13 +589,13 @@ public class Sequencer : MonoBehaviour
     {
         if(!lightsInitialized)
         {
-            Debug.Log("Sequencer: StartLights");
+            DbgLogSequencer("Sequencer: StartLights");
             lightControl.SetPreferredColor("Red", 5.0f);
             lightsInitialized = true;
         }
         else
         {
-            Debug.Log("Sequencer: StartLights already initialized, skipping");
+            DbgLogSequencer("Sequencer: StartLights already initialized, skipping");
         }
     }
 
@@ -564,7 +603,7 @@ public class Sequencer : MonoBehaviour
     /// TODO: Move this into an AVS program handler.
     public void StartOpeningAVSProgram()
     {
-        Debug.Log("Sequencer: StartOpeningAVSProgram - AVS_Program_DynamicDrop_Start is starting");
+        DbgLogAvs("Sequencer: StartOpeningAVSProgram - AVS_Program_DynamicDrop_Start is starting");
         CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
     }
 
@@ -573,13 +612,13 @@ public class Sequencer : MonoBehaviour
         Cleanup(coroutineCleanupList); //not necessary for the first one, but placing it here for convention.
         yield return null;
        
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
+        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
 
         // Ensure lights are Dark at the start (in case calibration left them in a different state)
         // This prevents premature triggering if calibration sequence was interrupted
         if(lightControl.currentColorType != "Dark" && lightControl.currentColorType != "BreathOnly")
         {
-            Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDropStart. Lights not Dark at start, resetting to Dark first.");
+            DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Lights not Dark at start, resetting to Dark first.");
             lightControl.SetPreferredColor("Dark", 0.1f);
             lightControl.SetStrobeRate(0f, 0.1f);
             yield return new WaitForSeconds(0.15f); // Brief wait for transition
@@ -591,7 +630,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //ONCE THE LIGHTS TURN ON, START AT 45HZ
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDropStart. Lights detected, set strobe to 45hz.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Lights detected, set strobe to 45hz.");
         lightControl.SetStrobeRate(45.0f, 0.0f);
         float _timer = 10f / d;
         while(_timer > 0)
@@ -600,7 +639,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //AFTER 10 SECOND HOLD IS FINISHED, DROP TO 11HZ OVER 30 SECONDS
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDropStart. Initializeing drop from gamma to high alpha.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Initializeing drop from gamma to high alpha.");
         _timer = 30f / d;
         lightControl.SetStrobeRate(11.0f, _timer);
         while(_timer > 0)
@@ -611,7 +650,7 @@ public class Sequencer : MonoBehaviour
         //NOW TAKE 150 SECONDS TO DROP TO 8.5HZ
         //FOLLOWING THIS POINT, IF THE ABSORPTION THRESHOLD IS MET, WE WILL SKIP TO THE NEXT PROGRAM
         _timer = 150f / d;
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDropStart. Begining drop from high alpha to 10hz.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Begining drop from high alpha to 10hz.");
         lightControl.SetStrobeRate(8.5f, _timer);
         while(_timer > 0)
         {
@@ -624,11 +663,11 @@ public class Sequencer : MonoBehaviour
         }
         yield return null;
         //NOW START A SAW STROBE COROUTINE AROUND ALPHA
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDropStart. Starting Saw Strobe Coroutine.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Starting Saw Strobe Coroutine.");
         float _wavelength = 360f / d;
         float _halfWavelength = _wavelength / 2;
         lightControl.SetSawStrobe(8.5f, 11.5f, _wavelength);
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDropStart. Waiting for absorption threshold to be met.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Waiting for absorption threshold to be met.");
 
         _timer = _halfWavelength;
         bool flag1 = false;
@@ -688,13 +727,13 @@ public class Sequencer : MonoBehaviour
     {
         if(CoroutineDynamicDropStart != null)
         {
-            Debug.Log(CountdownSeconds + "Sequencer | AVS Program: Stopping Coroutine from THETA Coroutine().");
+            DbgLogAvs("Sequencer | AVS Program: Stopping Coroutine from THETA Coroutine().");
             StopCoroutine(CoroutineDynamicDropStart);
         }
 
         yield return null;
         Cleanup(coroutineCleanupList);
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Starting Theta program.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Starting Theta program.");
 
         //SET CORRECT MONO/STEREO
         director.ClearQueueOfType("monostereo");
@@ -702,7 +741,7 @@ public class Sequencer : MonoBehaviour
         if(lightControl.bilateral)
         {
             coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, 1, 2));
-            Debug.Log(CountdownSeconds + " Sequencer Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
+            DbgLogAvs("Sequencer Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
             director.LogQueue();
         }
         //and wait to enter mono...
@@ -711,7 +750,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //DROP TO 7HZ
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 7hz.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 7hz.");
         float _timer = 120f / d;
         lightControl.SetStrobeRate(7.0f, _timer);
         while(_timer > 0)
@@ -720,28 +759,28 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //CYCLE THROUGH BILATERAL ONCE
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, 1, 2));
         while(!lightControl.bilateral)
         {
             yield return null;
         }
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, 1, 2));
         while(lightControl.bilateral)
         {
             yield return null;
         }
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, 1, 2));
         while(lightControl.bilateral)
         {
             yield return null;
         }
         //DROP TO 6HZ
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
         _timer = 60f / d;
         lightControl.SetStrobeRate(6.0f, _timer);
         while(_timer > 0)
@@ -750,7 +789,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //GAMMA BURSTS, THEN HANG HERE. 
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, 1, 2));
         _timer = 180f / d;
         while(_timer > 0)
@@ -758,7 +797,7 @@ public class Sequencer : MonoBehaviour
             _timer -= Time.deltaTime;
             yield return null;
         }
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f/d, 1, 2));
         _timer = 180f / d;
         while(_timer > 0)
@@ -767,7 +806,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         //DROP TO 5HZ
-        Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 5hz.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 5hz.");
         _timer = 60f / d;
         lightControl.SetStrobeRate(5.0f, _timer);
         while(_timer > 0)
@@ -797,7 +836,7 @@ public class Sequencer : MonoBehaviour
                 {
                     coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, 1, 2));
                     flag1 = true;
-                    Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
+                    DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
                 }
             }
             else if(_timer <= _halfWave)
@@ -807,7 +846,7 @@ public class Sequencer : MonoBehaviour
                 {
                     coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f/d, 1, 2));
                     flag2 = true;
-                    Debug.Log(CountdownSeconds + "Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
+                    DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
                 }
             }
             yield return null;
@@ -819,35 +858,35 @@ public class Sequencer : MonoBehaviour
     {
         if(CoroutineDynamicDropStart != null)
         {
-            Debug.Log("Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
+            DbgLogAvs("Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
             StopCoroutine(CoroutineDynamicDropStart);
         }
         if(CoroutineDynamicDropTheta != null)
         {
-            Debug.Log("Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
+            DbgLogAvs("Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
             StopCoroutine(CoroutineDynamicDropTheta);
         }
 
         yield return null;
         Cleanup(coroutineCleanupList);
-        Debug.Log("Sequencer | AVS Program: DynamicDrop_End. Starting End Program with transitionTime=" + transitionTime + "s.");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. Starting End Program with transitionTime=" + transitionTime + "s.");
         
         // Calculate proportional timing (based on original 180s total)
-        float timeScale = transitionTime / 180f;
-        float phase1Duration = 70f * timeScale;  // Original: 180 to 110 (70 seconds)
-        float phase2Duration = 20f * timeScale;  // Original: 110 to 90 (20 seconds)
-        float phase3Duration = 90f * timeScale;  // Original: 90 to 0 (90 seconds) - strobe transition
+        float localTimescale = transitionTime / 180f;
+        float phase1Duration = 70f * localTimescale;  // Original: 180 to 110 (70 seconds)
+        float phase2Duration = 20f * localTimescale;  // Original: 110 to 90 (20 seconds)
+        float phase3Duration = 90f * localTimescale;  // Original: 90 to 0 (90 seconds) - strobe transition
         
         director.ClearQueueOfType("gamma");
         director.ClearQueueOfType("monostereo");
         if(!lightControl.bilateral)
         {
-            float queueTime1 = 30.0f * timeScale;
+            float queueTime1 = 30.0f * localTimescale;
             coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, queueTime1, 1, 2));
         }
         if(lightControl._gammaBurstMode != 0.0f)
         {
-            float queueTime2 = 30.0f * timeScale;
+            float queueTime2 = 30.0f * localTimescale;
             coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, queueTime2, 1, 2));
         }
 
@@ -858,8 +897,8 @@ public class Sequencer : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        Debug.Log("Sequencer | AVS Program: DynamicDrop_End. Stabilizing before dramatic rise. Elapsed: " + elapsedTime + "s / " + transitionTime + "s");
-        float queueTime3 = 10.0f * timeScale;
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. Stabilizing before dramatic rise. Elapsed: " + elapsedTime + "s / " + transitionTime + "s");
+        float queueTime3 = 10.0f * localTimescale;
         coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, queueTime3, 1, 2));
 
         // Phase 2: Wait before strobe transition (proportional to original 20 seconds)
@@ -868,7 +907,7 @@ public class Sequencer : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        Debug.Log("Sequencer | AVS Program: DynamicDrop_End. Starting dramatic rise to 40hz. Elapsed: " + elapsedTime + "s / " + transitionTime + "s");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. Starting dramatic rise to 40hz. Elapsed: " + elapsedTime + "s / " + transitionTime + "s");
         lightControl.SetStrobeRate(40.0f, phase3Duration);
 
         // Phase 3: Wait during strobe transition (proportional to original 90 seconds)
@@ -877,22 +916,22 @@ public class Sequencer : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        Debug.Log("Sequencer | AVS Program: DynamicDrop_End. End of AVS Program. Elapsed: " + elapsedTime + "s / " + transitionTime + "s. Goodnight!");
+        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. End of AVS Program. Elapsed: " + elapsedTime + "s / " + transitionTime + "s. Goodnight!");
     }
 
     private void Cleanup(List<int> coroutineCleanupList)
     {
-        Debug.Log("Performing cleanup.");
+        DbgLogAvs("Performing cleanup.");
         foreach (int index in coroutineCleanupList)
         {
             if (director.queue.ContainsKey(index))
             {
-                Debug.Log(CountdownSeconds + " Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
+                DbgLogAvs("Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
                 director.queue.Remove(index);
             }
             else
             {
-                Debug.LogWarning("Cleanup: Key " + index + " not found in director.queue, skipping.");
+                DbgLogAvs("Cleanup: Key " + index + " not found in director.queue, skipping.", true);
             }
         }
         director.LogQueue();
@@ -918,27 +957,9 @@ public class Sequencer : MonoBehaviour
     //PUBLIC METHODS
     //====================================================================================================
 
-    public void SetCountdownToSavasana(float timeInSeconds)
-    {
-        var t = TimeTrackerScript.instance;
-        if (t == null)
-        {
-            Debug.LogWarning("Sequencer: SetCountdownToSavasana(" + timeInSeconds + ") ignored — TimeTrackerScript.instance is null.");
-            return;
-        }
-        if (t.IsCountdownRunning)
-        {
-            Debug.LogWarning("Sequencer: SetCountdownToSavasana(" + timeInSeconds + ") ignored — countdown is already running.");
-            return;
-        }
-        t.ConfigureCountdownSeconds(timeInSeconds);
-        t.MirrorLegacyCountdown(timeInSeconds);
-        Debug.Log("Sequencer: ThematicSavasanaCountdown Counter set to " + timeInSeconds + " via SetCountdownToSavasana().");
-    }
-
     public void StartTrueStart() //THIS ONE IS OK TO CALL IN NORMAL TIME (NON DEVELOPMENT MODE)
     {
-        Debug.Log("Sequencer: Starting True Start Sequence.");
+        DbgLogSequencer("Sequencer: Starting True Start Sequence.");
         if (sequenceRunner != null)
         {
             var def = GetSequenceDefinitionForProtocolStacks();
@@ -950,7 +971,7 @@ public class Sequencer : MonoBehaviour
         else
         {
             string reason = sequenceRunner == null ? "sequenceRunner is null" : "unknown";
-            Debug.LogWarning("Sequencer: Cannot start opening sequence because " + reason + ".");
+            DbgLogSequencer("Sequencer: Cannot start opening sequence because " + reason + ".", true);
         }
     }
 
@@ -979,7 +1000,7 @@ public class Sequencer : MonoBehaviour
     /*
     public void StartTutorialSequence()
     {
-        Debug.Log("Sequencer: Starting Tutorial Sequence.");
+        DbgLogSequencer("Sequencer: Starting Tutorial Sequence.");
         tutorial.StartTutorial();
         StartLights();
         worldShuffler.ExcludeColorWorld("Blue");
@@ -989,13 +1010,14 @@ public class Sequencer : MonoBehaviour
         director.Disable();
     }
     */
-    public void StartPlayground(bool setTimeSinceTutorial = false, bool beginShuffle = true, bool directorEnabled = true, float transitionTime = 20f, bool completeTutorial = true, bool startLights = true)
+    public void StartPlayground(bool setTimeSincePlaygroundStart = false, bool beginShuffle = true, bool directorEnabled = true, float transitionTime = 20f, bool completeTutorial = true, bool startLights = true)
     {
         
-        Debug.Log("Sequencer: Starting Playground Sequence.");
-        if(setTimeSinceTutorial && TimeTrackerScript.instance != null && TimeTrackerScript.instance.TimeSinceTutorial < 300f)
+        DbgLogSequencer("Sequencer: Starting Playground Sequence.");
+        if(setTimeSincePlaygroundStart && TimeTrackerScript.instance != null && TimeTrackerScript.instance.TimeSincePlaygroundStart < 300f)
         {
-            TimeTrackerScript.instance.SetTimeSinceTutorial(300f);
+            TimeTrackerScript.instance.SetTimeSincePlaygroundStart(300f);
+            DbgLogSequencer("Sequencer: SetTimeSincePlaygroundStart to 300f (usually for debug purposes)");
         }
         if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode && startLights)
         {
@@ -1008,7 +1030,6 @@ public class Sequencer : MonoBehaviour
         }
         if(completeTutorial)
         {
-            //tutorial.tutorialComplete = true;
             MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, transitionTime);
         }
         if(beginShuffle)
@@ -1020,90 +1041,58 @@ public class Sequencer : MonoBehaviour
             StartLights();
         }
     }
-    public void StartRightBeforeSavasana()
-    {
-        if(TimeTrackerScript.instance != null && TimeTrackerScript.instance.TimeSinceTutorial < 300f)
-        {
-            TimeTrackerScript.instance.SetTimeSinceTutorial(300f);
-        }
-        Debug.Log("Sequencer: Starting 181s Before Savasana Sequence.");
-        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
-        director.Enable();
-        MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0f);
-        //tutorial.tutorialComplete = true;
-        worldShuffler.BeginShuffle(false);
-        SetCountdownToSavasana(181f);
-        //flagTriggerStart1 = true;
-        //flagTriggerStart2 = true;
-        //flagTriggerEnd1 = true;
-        //flagTriggerEnd2 = false;
-        //flagTriggerEnd3 = false;
-
-        if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
-        {
-            lightControl.SetColorWorldByType("Red", 0.0f);
-        }
-    }
-    
-    public void StartSavasana()
-    {
-        
-        if(TimeTrackerScript.instance != null && TimeTrackerScript.instance.TimeSinceTutorial < 300f)
-        {
-            TimeTrackerScript.instance.SetTimeSinceTutorial(300f);
-        }
-        Debug.Log("Sequencer: Starting Savasana Sequence in 1 Second.");
-        //tutorial.tutorialComplete = true;
-        SetCountdownToSavasana(1f);
-        FadeOut();
-
-        //flagTriggerStart1 = true;
-        //flagTriggerStart2 = true;
-        //flagTriggerEnd1 = true;
-        //flagTriggerEnd2 = false;
-        //flagTriggerEnd3 = false;
-    }
-    
     public void Initialize()
     {
         if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode)
         {
-            Debug.Log("Sequencer: Initialize() called in Development Mode. No action taken.");
+            DbgLogSequencer("Sequencer: Initialize() called in Development Mode. No action taken.");
             return;
         }
         else if (DevelopmentMode.instance == null)
         {
-            Debug.LogWarning("Sequencer: Initialize() called. This should only happen in developmentMode.");
+            DbgLogSequencer("Sequencer: Initialize() called. This should only happen in developmentMode.", true);
         }
     }
 
+    /// <summary>Dev UI only: options that jump mid-session (playground / savasana shortcuts) were removed — use <see cref="StartTrueStart"/>.</summary>
     private void OnStartModeDropdownChanged(int index)
     {
-        if(startModeDropdown != null)
+        if(startModeDropdown == null)
+            return;
+
+        switch (index)
         {
-            switch (index)
-            {
-                case 0: Initialize(); Debug.Log("Initialize called.");  break;
-                case 1: StartTrueStart(); Debug.Log("StartTrueStart called."); break;
-                case 2: Debug.LogWarning("StartTutorialSequence called. (Implementation has been removed)");  break;
-                case 3: StartPlayground(true, false, false, 0.5f);Debug.Log("StartPlayground called.");  break; //TODO: this should be true,false,true (removed for simplification test)
-                case 4: StartRightBeforeSavasana(); Debug.Log("StartRightBeforeSavasana called."); break;
-                case 5: StartSavasana(); Debug.Log("StartSavasana called."); break;
-                default: Initialize();  break;
-            }
+            case 0:
+                Initialize();
+                DbgLogSequencer("Sequencer: Initialize called.");
+                break;
+            case 1:
+                StartTrueStart();
+                DbgLogSequencer("Sequencer: StartTrueStart called.");
+                break;
+            case 2:
+                DbgLogSequencer("Sequencer: Tutorial start shortcut removed — use Start True Start.", true);
+                break;
+            case 3:
+            case 4:
+            case 5:
+                DbgLogSequencer("Sequencer: Mid-session start shortcuts removed — use Start True Start (index 1) so countdown and stages run from the beginning.", true);
+                break;
+            default:
+                Initialize();
+                break;
         }
-        
     }
 
     public void StartLightsWithDelay()
     {
-        Debug.Log("Sequencer: Starting Lights with Delay");
+        DbgLogSequencer("Sequencer: Starting Lights with Delay");
         StartCoroutine(StartLightsCoroutine());
     }
 
     private IEnumerator StartLightsCoroutine()
     {
-        Debug.Log("Sequencer: Waiting for 1 second before starting lights");
+        DbgLogSequencer("Sequencer: Waiting for 1 second before starting lights");
         yield return new WaitForSeconds(1f);
         StartLights();
     }
@@ -1114,7 +1103,7 @@ public class Sequencer : MonoBehaviour
     }
     private IEnumerator MakeWWiseToneCoroutine()
     {
-        Debug.Log("Sequencer: Triggering a False Tone in WWise");
+        DbgLogSequencer("Sequencer: Triggering a False Tone in WWise");
         MusicSystem1.instance.PostTheToningEvents();
         float _t = 4f;
         while (_t > 0)
@@ -1132,7 +1121,7 @@ public class Sequencer : MonoBehaviour
             yield break;
         }
 
-        Debug.Log("Sequencer: Stopping a False Tone in WWise");
+        DbgLogSequencer("Sequencer: Stopping a False Tone in WWise");
         MusicSystem1.instance.StopWwiseToning();
     }
 }

@@ -14,13 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Protocol Stacks Ascending
   stages:
+  - type: 10
+    variant: 40m with savasana
   - type: 1
     variant: PS_Ascending
-  - type: 10
-    variant: 40m minus closing
   - type: 2
     variant: Short
   - type: 3
     variant: 
+  - type: 10
+    variant: ClosingDuration
   - type: 4
     variant: PS_Ascending
+  - type: 10
+    variant: StopCountdowns

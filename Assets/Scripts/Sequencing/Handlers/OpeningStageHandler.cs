@@ -121,7 +121,7 @@ namespace SoundSelf.Sequence
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("C");
 
             }
-            else if(variant == "Preparation" || variant == "Skills Training")
+            else if(variant == "Preparation" || variant == "Preperation" || variant == "Skills Training")
             {
                 Debug.Log("OpeningStageHandler: Playing Skills Training Opening Sequence.");
                 if(isFirstTimeUser)

@@ -3,8 +3,10 @@ using UnityEngine;
 namespace SoundSelf.Sequence
 {
     /// <summary>
-    /// One-shot stage: resolves session countdown seconds from <paramref name="variant"/>, configures the tracker, calls
-    /// <see cref="TimeTrackerScript.BeginCountdown"/>, then marks complete. See Phase 2 table in TimeAndCountdownRefactorPlan.
+    /// One-shot stage: resolves session countdown from <paramref name="variant"/>, configures the tracker, calls
+    /// <see cref="TimeTrackerScript.BeginCountdownPair"/> (ClosingDuration uses <see cref="TimeTrackerScript.ConfiguredFullAtLastConfigure"/> / <see cref="TimeTrackerScript.SetConfiguredFullBaselineOnly"/> to preserve session HUD baseline; both live timers set to post-unguided duration and the pair is restarted),
+    /// or <see cref="TimeTrackerScript.ForceSetBothCountdownsAndStop"/> for <c>StopCountdowns</c>,
+    /// then marks complete.
     /// </summary>
     public class StartCountdownStageHandler : IStageHandler
     {
@@ -46,17 +48,15 @@ namespace SoundSelf.Sequence
             string key = NormalizeVariant(variant);
             if (string.IsNullOrEmpty(key))
             {
-                Debug.LogError("StartCountdownStageHandler: variant is null or empty. Expected e.g. 60m, 40m minus closing, ClosingDuration.");
+                Debug.LogError("StartCountdownStageHandler: variant is null or empty. Expected e.g. 40m simple, 40m with savasana, ClosingDuration.");
                 MarkComplete();
                 return;
             }
 
             float closing = tt.TotalTimeOfPostUnguidedVocalizationContent;
-            float seconds;
 
             if (key == "closingduration")
             {
-                float before = tt.CountdownSeconds;
                 float closingSecs = Mathf.Max(0f, closing);
                 if (closingSecs <= 0f)
                 {
@@ -65,25 +65,38 @@ namespace SoundSelf.Sequence
                     return;
                 }
 
-                tt.BeginCountdown(closingSecs);
-                float after = tt.CountdownSeconds;
-                Debug.Log("StartCountdownStageHandler: ClosingDuration countdown before=" + before + " after=" + after + " (post-unguided content=" + closing + ").");
-                if (Mathf.Abs(after - closingSecs) > 10f)
-                    Debug.LogWarning("StartCountdownStageHandler: ClosingDuration — applied countdown differs from post-unguided content by more than 10s (check ConfigureCountdown / BeginCountdown).");
+                float preservedFullBaseline = tt.ConfiguredFullAtLastConfigure;
+                float fullBefore = tt.CountdownFull;
+                float sectionBefore = tt.CountdownThisSection;
+                tt.ConfigureCountdownPair(closingSecs, closingSecs);
+                tt.BeginCountdownPair();
+                if (preservedFullBaseline > 0f)
+                    tt.SetConfiguredFullBaselineOnly(preservedFullBaseline);
+                Debug.Log("StartCountdownStageHandler: ClosingDuration — live [CountdownThisSection]/[CountdownFull] both " + closingSecs + " s (post-unguided). Before: ThisSection=" + sectionBefore + " Full=" + fullBefore + "." +
+                          (preservedFullBaseline > 0f ? " Full baseline for HUD restored to " + preservedFullBaseline + " s." : ""));
+                if (Mathf.Abs(tt.CountdownFull - closingSecs) > 10f || Mathf.Abs(tt.CountdownThisSection - closingSecs) > 10f)
+                    Debug.LogWarning("StartCountdownStageHandler: ClosingDuration — applied pair differs from expected by more than 10s.");
                 MarkComplete();
                 return;
             }
 
-            seconds = ResolveSecondsForVariant(key, closing);
-            if (seconds <= 0f)
+            if(key == "stopcountdowns")
             {
-                Debug.LogError("StartCountdownStageHandler: Resolved invalid seconds for variant '" + variant + "'. Countdown not started.");
+                tt.ForceSetBothCountdownsAndStop(0f, 0f);
                 MarkComplete();
                 return;
             }
 
-            tt.BeginCountdown(seconds);
-            Debug.Log("StartCountdownStageHandler: Started countdown at " + seconds + " s for variant '" + variant + "' (normalized '" + key + "').");
+            if (!TryGetCountdownPair(key, closing, out float thisSection, out float full))
+            {
+                Debug.LogError("StartCountdownStageHandler: Could not resolve countdown pair for variant '" + variant + "'. Countdown not started.");
+                MarkComplete();
+                return;
+            }
+
+            tt.ConfigureCountdownPair(thisSection, full);
+            tt.BeginCountdownPair();
+            Debug.Log("StartCountdownStageHandler: BeginCountdownPair [CountdownThisSection]=" + thisSection + " s, [CountdownFull]=" + full + " s for variant '" + variant + "' (normalized '" + key + "').");
             MarkComplete();
         }
 
@@ -108,43 +121,59 @@ namespace SoundSelf.Sequence
             return string.Join(" ", parts);
         }
 
-        /// <summary>Variant key is normalized: e.g. <c>60m minus closing</c>, <c>closingduration</c>.</summary>
-        private static float ResolveSecondsForVariant(string key, float totalTimeOfPostUnguidedVocalizationContent)
+        /// <summary>
+        /// <b>Nm simple:</b> both timers N×60. <b>Nm with savasana:</b> main N×60, full N×60 + post-unguided when post-unguided &gt; 0.
+        /// </summary>
+        /// <returns><c>false</c> if <paramref name="key"/> is unknown or the pair is invalid.</returns>
+        private static bool TryGetCountdownPair(string key, float postUnguidedSeconds, out float countdownThisSection, out float countdownFull)
         {
+            countdownThisSection = 0f;
+            countdownFull = 0f;
+
             switch (key)
             {
-                case "60m":
-                    return 3600f;
-                case "60m minus closing":
-                    return SubtractClosing(3600f, totalTimeOfPostUnguidedVocalizationContent, key);
-                case "40m":
-                    return 2400f;
-                case "40m minus closing":
-                    return SubtractClosing(2400f, totalTimeOfPostUnguidedVocalizationContent, key);
-                case "25m":
-                    return 1500f;
-                case "25m minus closing":
-                    return SubtractClosing(1500f, totalTimeOfPostUnguidedVocalizationContent, key);
+                case "60m simple":
+                    countdownThisSection = 3600f;
+                    countdownFull = 3600f;
+                    break;
+                case "60m with savasana":
+                    SetPairWithSavasana(3600f, postUnguidedSeconds, key, out countdownThisSection, out countdownFull);
+                    break;
+                case "40m simple":
+                    countdownThisSection = 2400f;
+                    countdownFull = 2400f;
+                    break;
+                case "40m with savasana":
+                    SetPairWithSavasana(2400f, postUnguidedSeconds, key, out countdownThisSection, out countdownFull);
+                    break;
+                case "25m simple":
+                    countdownThisSection = 1500f;
+                    countdownFull = 1500f;
+                    break;
+                case "25m with savasana":
+                    SetPairWithSavasana(1500f, postUnguidedSeconds, key, out countdownThisSection, out countdownFull);
+                    break;
                 default:
-                    Debug.LogError("StartCountdownStageHandler: Unknown variant key '" + key + "'. Supported: 60m, 60m minus closing, 40m, 40m minus closing, 25m, 25m minus closing, ClosingDuration.");
-                    return -1f;
+                    Debug.LogError("StartCountdownStageHandler: Unknown variant '" + key + "'. Use: 25m simple, 25m with savasana, 40m simple, 40m with savasana, 60m simple, 60m with savasana, ClosingDuration, or StopCountdowns.");
+                    return false;
             }
+
+            return countdownFull > 0f && countdownThisSection >= 0f;
         }
 
-        private static float SubtractClosing(float baseSeconds, float closing, string variantLabel)
+        private static void SetPairWithSavasana(float baseSeconds, float closing, string variantLabel, out float countdownThisSection, out float countdownFull)
         {
             if (closing <= 0f)
             {
-                Debug.LogError("StartCountdownStageHandler: '" + variantLabel + "' requires TotalTimeOfPostUnguidedVocalizationContent > 0 (got " + closing + ").");
-                return -1f;
+                Debug.LogWarning("StartCountdownStageHandler: '" + variantLabel + "' (with savasana) — post-unguided duration 0; [CountdownFull] equals [CountdownThisSection].");
+                countdownThisSection = baseSeconds;
+                countdownFull = baseSeconds;
             }
-            float v = baseSeconds - closing;
-            if (v <= 0f)
+            else
             {
-                Debug.LogError("StartCountdownStageHandler: '" + variantLabel + "' computed " + v + " s (base " + baseSeconds + " - closing " + closing + ").");
-                return -1f;
+                countdownThisSection = baseSeconds;
+                countdownFull = baseSeconds + closing;
             }
-            return v;
         }
     }
 }

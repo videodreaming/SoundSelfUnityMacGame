@@ -24,7 +24,7 @@ public class Tutorial : MonoBehaviour
     float testThreshold = 1.5f;
     float failThreshold = 8.0f;
     private bool testSuccess = false;
-    public string testVocalizationType;
+    public string testVocalizationType { get; private set; } = "Hum";
     public string testVocalizationTypeLastFrame;
     private Coroutine testCoroutine;
     private Coroutine correctionCoroutine;
@@ -33,11 +33,21 @@ public class Tutorial : MonoBehaviour
     public int guidanceCount { get; private set; } = 0;
     //public bool tutorialComplete = false;
     public TimeTrackerScript TimeTrackerScript;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    /// <summary>Same source as <see cref="SoundSelf.Sequence.PlaygroundStageHandler"/> — main segment clock, not full session.</summary>
+    private float SessionCountdownThisSection()
     {
-        testVocalizationType = "Hum";
+        if (TimeTrackerScript != null)
+            return TimeTrackerScript.CountdownThisSection;
+        var inst = global::TimeTrackerScript.instance;
+        return inst != null ? inst.CountdownThisSection : float.PositiveInfinity;
+    }
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        //SetTestVocalizationType("Hum");
+        //testVocalizationType = "Hum";
     }
 
     // Update is called once per frame
@@ -71,6 +81,13 @@ public class Tutorial : MonoBehaviour
             //- What is cueing FreePlay right now? That *should* be the end of the tutorial.
             //- Need to check on this cue: "WWise_VO: Cue_InteractiveMusicSystem_Start" (whis will currently trigger the start of the tutorial, if I understand it correctly, it should happen at the end of the somatic meditaiton, so that's where I've put the call to StartTutorial())
             //- Let's check each of the test vos for a good place to put the breath in cue, even if he doesn't say "breathe in"
+
+        if (inTutorial && SessionCountdownThisSection() <= 10.0f)
+        {
+            Debug.Log("Tutorial: Ending tutorial because [CountdownThisSection] has reached 10f — the main session segment timer (from StartCountdown / TimeTrackerScript) has no time left. " +
+                      "Stopping VO/tests and sending TutorialPassed so the sequence advances to Playground even if Wwise cues or Short guidance count have not finished.");
+            StopTutorial();
+        }
     }
     
     //TODO: Move StartTutorial() to Sequencer.cs, and the call for it, which right now is in WwiseVOManager.cs, should reference something in Sequencer.cs. Basically. Sequencer wants to control the sequence of events.
@@ -319,6 +336,7 @@ public class Tutorial : MonoBehaviour
         else
         {
             testVocalizationType = vocalizationType;
+            Debug.Log("Tutorial: SetTestVocalizationType: " + vocalizationType);
         }
     }
 }

@@ -23,7 +23,7 @@ public class TimerUIScript : MonoBehaviour
     {
         if (timerText == null) return;
         timerText.text = TimeTrackerScript.instance != null
-            ? "Time Left: " + TimeTrackerScript.instance.GetTimeLeftFormattedToMinutesAndSeconds()
+            ? "Time Left: " + TimeTrackerScript.instance.FormatCountdownFullMinutesAndSeconds()
             : "Time Left: --:--";
     }
 }

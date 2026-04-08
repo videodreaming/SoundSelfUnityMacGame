@@ -82,5 +82,6 @@ namespace SoundSelf.Sequence
             if (sequenceRunner == null) return;
             sequenceRunner.AdvanceToStage(index);
         }
+
     }
 }

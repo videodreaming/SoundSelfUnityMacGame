@@ -15,7 +15,7 @@ namespace Michsky.UI.Beam
         [SerializeField] private ImageFading background;
 
         // Settings
-        [SerializeField] private bool setTimeScale = true;
+        [SerializeField] private bool setTimeScale = false;
         [Range(0, 1)] public float inputBlockDuration = 0.2f;
         public CursorLockMode menuCursorState = CursorLockMode.None;
         public CursorLockMode gameCursorState = CursorLockMode.Locked;

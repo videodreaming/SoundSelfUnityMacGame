@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement; // For scene loading
 using System.IO;
 using System;
-using SoundSelf.Sequence;
-
 public class CSVLoader : MonoBehaviour
 {
     public static CSVLoader instance {get; private set;}
@@ -18,7 +16,6 @@ public class CSVLoader : MonoBehaviour
     public bool IsFirstTimeUser {get; private set;}
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
-
     private bool layingDown = true;
     public static int currentSessionNumber = 0;
     private string baseSessionsFolderPath = "";
@@ -31,6 +28,25 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private string decryptedSubGameMode;
     [SerializeField] private string encryptedFirstTimeUser;
     [SerializeField] private string decryptedFirstTimeUser;
+
+    
+
+    /// <summary>Historical misspelling in session data / old builds: treat as Preparation.</summary>
+    public static bool IsPreparationGameMode(string mode) =>
+        mode == "Preparation" || mode == "Preperation";
+
+    /// <summary>Normalize after decrypt so the rest of the codebase can compare to <c>Preparation</c> only if desired.</summary>
+    public static string CanonicalizeGameMode(string mode)
+    {
+        if (mode == "Preperation")
+            return "Preparation";
+        return mode;
+    }
+
+    /// <summary>Modes that use <see cref="Sequencer"/> standard-sequence countdown milestones (not Protocol Stacks).</summary>
+    public bool UsesStandardSequenceUpdate =>
+        gameMode == "Integration" || gameMode == "Skills Training" || IsPreparationGameMode(gameMode);
+
 
     void Awake()
     {
@@ -116,6 +132,7 @@ public class CSVLoader : MonoBehaviour
                 //subGameMode = decryptedSubGameMode;
                 gameMode = "Protocol Stacks"; //TODO: REMOVE THIS AFTER TESTING PROTOCOL STACKS
                 subGameMode = "Ascending";
+                Debug.LogWarning("CSVLoader: Reading session_params.csv - gameMode and subGameMode hard set to Protocol Stacks and Ascending for development purposes.");
                 
                 firstTimeUserString = decryptedFirstTimeUser;
                 IsFirstTimeUser = firstTimeUserString == "First Time User";
@@ -142,7 +159,7 @@ public class CSVLoader : MonoBehaviour
         }
 
         //GAME MODES
-        if (gameMode == "Preperation" || gameMode == "Preparation" || gameMode == "Skills Training")
+        if (IsPreparationGameMode(gameMode) || gameMode == "Skills Training")
         {
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
@@ -218,24 +235,26 @@ public class CSVLoader : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Phase 4: Hydrates <see cref="TimeTrackerScript"/> inputs only (e.g. post-unguided duration).
+    /// Session countdown value and ticking start only when the sequence runs the StartCountdown stage (<see cref="TimeTrackerScript.BeginCountdownPair"/>).
+    /// </summary>
     private void TimeLeftInitializations()
     {
-        if (sequencer == null)
-        {
-            Debug.LogError("CSVLoader: TimeLeftInitializations() - sequencer is null! Cannot set countdown.");
-            return;
-        }
-        
-        if(TimeTrackerScript.instance == null)
+        if (TimeTrackerScript.instance == null)
         {
             Debug.LogWarning("CSVLoader: TimeLeftInitializations() - TimeTrackerScript.instance is null. Timing behaviors will not work properly.");
             return;
         }
-        
-        // Set TimeLeft and totalTimeOfPostUnguidedVocalizationContent based on game mode
-        if (gameMode == "Preperation" || gameMode == "Preparation" || gameMode == "Skills Training")
+
+        var tracker = TimeTrackerScript.instance;
+        totalTimeOfPostUnguidedVocalizationContent = 0f;
+        bool recognizedGameMode = true;
+
+        if (IsPreparationGameMode(gameMode) || gameMode == "Skills Training")
         {
-            TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
+            //TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
+            
             
             if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
             {
@@ -255,12 +274,13 @@ public class CSVLoader : MonoBehaviour
             else
             {
                 Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+                recognizedGameMode = false;
             }
         }
         else if (gameMode == "Integration")
         {
-            if (TimeTrackerScript.instance != null)
-                TimeTrackerScript.instance.SetTimeLeftSeconds(1500.0f); // 25 minutes
+            //if (TimeTrackerScript.instance != null)
+            //    TimeTrackerScript.instance.SetTimeLeftSeconds(1500.0f); // 25 minutes
             
             if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
             {
@@ -277,12 +297,13 @@ public class CSVLoader : MonoBehaviour
             else
             {
                 Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+                recognizedGameMode = false;
             }
         } 
         else if (gameMode == "Protocol Stacks")
         {
-            if (TimeTrackerScript.instance != null)
-                TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
+            //if (TimeTrackerScript.instance != null)
+            //    TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
 
             if(subGameMode == "Ascending" || subGameMode == "Descending")
             {
@@ -291,46 +312,32 @@ public class CSVLoader : MonoBehaviour
             else
             {
                 Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+                recognizedGameMode = false;
             }
         } 
         else if (gameMode == "Quick Dive")
         {
-            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Quick Dive mode does not set TimeLeft or totalTimeOfPostUnguidedVocalizationContent.");
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Quick Dive: post-unguided duration not defined here; session countdown starts only at StartCountdown stage.");
         }
         else
         {
-            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown gameMode '" + gameMode + "'. No TimeLeft initialization performed.");
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown gameMode '" + gameMode + "'. Post-unguided duration left at 0.");
+            recognizedGameMode = false;
         }
 
-        // Set countdown after TimeLeft and totalTimeOfPostUnguidedVocalizationContent are set
-        float timeLeft = TimeTrackerScript.instance != null ? TimeTrackerScript.instance.GetTimeLeftSeconds() : 0f;
-        float calculatedCountdown = timeLeft - totalTimeOfPostUnguidedVocalizationContent;
-        
-        if (timeLeft <= 0f)
-        {
-            Debug.LogError("CSVLoader: TimeLeftInitializations() - timeLeft is " + timeLeft + " (should be > 0). Countdown will not be set.");
-            return;
-        }
-        
+        tracker.SetTotalTimeOfPostUnguidedVocalizationContent(totalTimeOfPostUnguidedVocalizationContent);
+
         if (totalTimeOfPostUnguidedVocalizationContent <= 0f)
         {
-            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - totalTimeOfPostUnguidedVocalizationContent is 0. That can be intentional; if you use StartCountdown variants \"minus closing\" or ClosingDuration, configure a positive value for those flows.");
-        }
-        
-        if (calculatedCountdown <= 0f)
-        {
-            Debug.LogError("CSVLoader: TimeLeftInitializations() - Calculated countdown is " + calculatedCountdown + " (should be > 0). This will cause ProtocolStacksCoroutine to hang!");
-        }
-        
-        sequencer.SetCountdownToSavasana(calculatedCountdown);
-
-        if (TimeTrackerScript.instance != null)
-        {
-            TimeTrackerScript.instance.SetTotalTimeOfPostUnguidedVocalizationContent(totalTimeOfPostUnguidedVocalizationContent);
-            TimeTrackerScript.instance.MarkSessionTimingInitializedFromCsv();
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - totalTimeOfPostUnguidedVocalizationContent is 0. That can be intentional. StartCountdown \"ClosingDuration\" and \"Nm with savasana\" need a positive value when you use those variants.");
         }
 
-        Debug.Log("CSVLoader: TimeLeftInitializations() - countdown set to " + sequencer.CountdownSeconds + " seconds (" + (sequencer.CountdownSeconds / 60f) + " minutes). timeLeft=" + timeLeft + ", totalTimeOfPostUnguidedVocalizationContent=" + totalTimeOfPostUnguidedVocalizationContent);
+        if (recognizedGameMode)
+            tracker.MarkSessionTimingInitializedFromCsv();
+        else
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - SessionTimingInitializedFromCsv not set (unrecognized gameMode or subGameMode). Fix session_params so StartCountdown inputs are trustworthy.");
+
+        Debug.Log("CSVLoader: TimeLeftInitializations() - tracker inputs set. totalTimeOfPostUnguidedVocalizationContent=" + totalTimeOfPostUnguidedVocalizationContent + " s. Session countdown is unchanged until StartCountdown → BeginCountdownPair (current [CountdownThisSection]=" + tracker.CountdownThisSection + " [CountdownFull]=" + tracker.CountdownFull + "). SessionTimingInitializedFromCsv=" + tracker.SessionTimingInitializedFromCsv + ".");
     }
 
 

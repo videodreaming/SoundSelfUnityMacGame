@@ -220,7 +220,7 @@ public class WwiseVOManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("WWise_VO_CUE: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
+                Debug.Log("WWise_VO_CUE: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
             }
         }   
     }

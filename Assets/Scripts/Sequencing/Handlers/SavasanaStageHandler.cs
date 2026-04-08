@@ -18,6 +18,15 @@ namespace SoundSelf.Sequence
             _sequencer = sequencer;
         }
 
+        /// <summary>Session countdown lives on <see cref="TimeTrackerScript"/>; Sequencer exposes the same value for convenience.</summary>
+        private string SessionCountdownPairForLog()
+        {
+            var tt = TimeTrackerScript.instance;
+            if (tt != null)
+                return "[CountdownThisSection]=" + tt.CountdownThisSection + " [CountdownFull]=" + tt.CountdownFull;
+            return _sequencer != null ? "[CountdownThisSection]=" + _sequencer.CountdownThisSection : "tracker null";
+        }
+
         /// <param name="variant">Reserved for future use. Will select savasana type when we add back Preparation, Integration, and PS_Descending modes.</param>
         public void Enter(string variant)
         {
@@ -38,28 +47,27 @@ namespace SoundSelf.Sequence
             }
             if (_sequencer.director == null)
             {
-                Debug.LogError("SavasanaStageHandler: director is null. Current CountdownSeconds: " + _sequencer.CountdownSeconds);
+                Debug.LogError("SavasanaStageHandler: director is null. " + SessionCountdownPairForLog());
                 _hasEntered = false;
                 MarkComplete();
                 return;
             }
             if (_sequencer.wwiseVOManager == null)
             {
-                Debug.LogError("SavasanaStageHandler: wwiseVOManager is null. Current CountdownSeconds: " + _sequencer.CountdownSeconds);
+                Debug.LogError("SavasanaStageHandler: wwiseVOManager is null. " + SessionCountdownPairForLog());
                 _hasEntered = false;
                 MarkComplete();
                 return;
             }
             if (MusicSystem1.instance == null)
             {
-                Debug.LogError("SavasanaStageHandler: MusicSystem1.instance is null. Current CountdownSeconds: " + _sequencer.CountdownSeconds);
+                Debug.LogError("SavasanaStageHandler: MusicSystem1.instance is null. " + SessionCountdownPairForLog());
                 _hasEntered = false;
                 MarkComplete();
                 return;
             }
 
             Debug.Log("SavasanaStageHandler: Enter - running Savasana (Ascending Closing)");
-
 
             MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
             _sequencer.director.ActivateQueue(15f);
@@ -68,7 +76,6 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
             MusicSystem1.instance.SetBreathworkCycle(false);
             _sequencer.wwiseVOManager.PlayAscendingClosing();
-            TimeTrackerScript.instance?.ForceSetCountdownSecondsAndStop(-1f);
 
             MarkComplete();
         }
