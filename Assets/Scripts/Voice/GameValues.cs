@@ -374,7 +374,7 @@ public class GameValues : MonoBehaviour
                 //ChangeColor(5.0f);
             }
             
-            director.ActivateQueue(flourishTime); //whenever there is a change detected, process any queued a/v actions
+            director.ActivateQueue(flourishTime, true); //whenever there is a change detected, process any queued a/v actions
 
         }
     }

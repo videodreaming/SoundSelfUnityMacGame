@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using ConversionUtilities;
 
@@ -75,8 +76,20 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
             MusicSystem1.instance.SetBreathworkCycle(false);
+            MusicSystem1.instance.SetAllowThumpAlways(false);
+            MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(false);
             _sequencer.wwiseVOManager.PlayAscendingClosing();
 
+            _sequencer.StartCoroutine(WaitForTimerToEnd());
+        }
+
+        private IEnumerator WaitForTimerToEnd()
+        {
+            //waits for the "this section" countdown to come to an end
+            while(TimeTrackerScript.instance.CountdownThisSection > 0)
+            {
+                yield return null;
+            }
             MarkComplete();
         }
 

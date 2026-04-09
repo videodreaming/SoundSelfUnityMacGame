@@ -41,6 +41,8 @@ public class Director : MonoBehaviour
     
     // Track if ActivateQueueOnTone coroutine is already running to prevent multiple simultaneous activations
     private bool activateQueueOnToneRunning = false;
+    private float timeSinceLastActivation = 0.0f;
+    private float activateWhenEmptyThreshold = 25.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +52,7 @@ public class Director : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timeSinceLastActivation += Time.deltaTime;
         QueueUpdate(); 
 
         if(disable != disableLast)
@@ -318,7 +321,7 @@ public class Director : MonoBehaviour
 
 
     
-    public void ActivateQueue(float transitionTimeForFlourishes = 5.0f)
+    public void ActivateQueue(float transitionTimeForFlourishes = 5.0f, bool tryActivateWhenEmpty = false)
     {
         int countAudioEvents = 0;
         int countVisualEvents = 0;
@@ -333,7 +336,8 @@ public class Director : MonoBehaviour
         }
 
         // Early return if queue is empty
-        if(queue.Count == 0)
+        bool localActivateWhenEmpty = tryActivateWhenEmpty && timeSinceLastActivation > activateWhenEmptyThreshold;
+        if(queue.Count == 0 && !localActivateWhenEmpty)
         {
             if(debugAllowLogs)
             {
@@ -382,7 +386,7 @@ public class Director : MonoBehaviour
 
         // Once done, we can safely clear the queue 
         // (which no longer breaks the iteration because we’re not iterating over the original dictionary)
-        if (queuedItems.Count > 0)
+        if (queuedItems.Count > 0 || localActivateWhenEmpty)
         {
             // If no audio events, do an audio flourish
             if (countAudioEvents == 0 && countVisualEvents != 0)
@@ -406,6 +410,7 @@ public class Director : MonoBehaviour
                 lightControl.FXWave(0.75f, 15.0f, 0.1f, true);
             }
         }
+        timeSinceLastActivation = 0.0f;
 
         // Clear the dictionary at the end
         queue.Clear();

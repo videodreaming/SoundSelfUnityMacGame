@@ -92,6 +92,7 @@ namespace SoundSelf.Sequence
 
             _sequencer.wwiseVOManager.ResetTutorialGuidanceCount();
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
+            MusicSystem1.instance.SetAllowThumpAlways(true);
             _sequencer.StartLights();
             _sequencer.imitoneVoiceInterpreter.gameOn = true;
 

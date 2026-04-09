@@ -60,7 +60,7 @@ public class TimeTrackerScript : MonoBehaviour
             return;
         }
         instance = this;
-        
+
         TotalElapsedTime = 0f;
         DisplayTime = "0 minutes 0 seconds";
         _lastTimingLogTotalElapsed = 0f;
@@ -72,6 +72,7 @@ public class TimeTrackerScript : MonoBehaviour
         {
             Debug.LogError("TimeTrackerScript: Tutorial is not set. Assign in inspector for session wiring.");
         }
+        Debug.Log($"TimeTrackerScript: Start called. Time.timeScale = {Time.timeScale}");
     }
 
     void Update()
@@ -122,7 +123,17 @@ public class TimeTrackerScript : MonoBehaviour
         int totalSeconds = Mathf.RoundToInt(TotalElapsedTime);
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
-        Debug.Log($"TimeTrackerScript: [tick] {minutes}:{seconds:D2}    [CountdownThisSection] {_countdownThisSection}    [CountdownFull] {_countdownFull}");
+
+        int sectionMinutes = Mathf.FloorToInt(_countdownThisSection / 60f);
+        int sectionSeconds = Mathf.FloorToInt(_countdownThisSection % 60f);
+        int fullMinutes = Mathf.FloorToInt(_countdownFull / 60f);
+        int fullSeconds = Mathf.FloorToInt(_countdownFull % 60f);
+
+        Debug.Log(
+            $"TimeTrackerScript: [tick] {minutes}:{seconds:D2}    " +
+            $"[CountdownThisSection] {sectionMinutes}:{sectionSeconds:D2}    " + 
+            $"[CountdownFull] {fullMinutes}:{fullSeconds:D2}"
+        );
     }
 
     // -------------------------------------------------------------------------

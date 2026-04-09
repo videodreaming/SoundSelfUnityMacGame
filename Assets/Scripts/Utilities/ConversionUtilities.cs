@@ -152,12 +152,22 @@ public static class NoteUtils
     }
 
     /// <summary>
-    /// Converts NoteName to string for Wwise (uses enum's ToString()).
+    /// Converts <see cref="NoteName"/> to Wwise switch names (e.g. InteractiveMusic 12-pitch groups, BassSynth_PitchSwitch).
+    /// Sharp notes must use Wwise spellings (<c>CsharpDflat</c>, etc.); <see cref="NoteName.ToString"/> would yield <c>Cs</c>, which is not a valid switch and triggers "No default Switch" style errors at runtime.
+    /// For <see cref="NoteName.None"/> returns <c>none</c> (for logs only — do not pass to <c>SetSwitch</c>).
     /// </summary>
     public static string NoteToWwiseString(NoteName note)
     {
         if (note == NoteName.None) return "none";
-        return note.ToString();
+        switch (note)
+        {
+            case NoteName.Cs: return "CsharpDflat";
+            case NoteName.Ds: return "DsharpEflat";
+            case NoteName.Fs: return "FsharpGflat";
+            case NoteName.Gs: return "GsharpAflat";
+            case NoteName.As: return "AsharpBflat";
+            default: return note.ToString();
+        }
     }
 
     /// <summary>

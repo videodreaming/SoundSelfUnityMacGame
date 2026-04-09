@@ -169,10 +169,16 @@ namespace SoundSelf.Sequence
                 countdownThisSection = baseSeconds;
                 countdownFull = baseSeconds;
             }
+            else if (closing > baseSeconds)
+            {
+                Debug.LogWarning("StartCountdownStageHandler: '" + variantLabel + "' (with savasana) — post-unguided duration > baseSeconds; setting [CountdownFull] equals [CountdownThisSection].");
+                countdownThisSection = baseSeconds;
+                countdownFull = baseSeconds;
+            }
             else
             {
-                countdownThisSection = baseSeconds;
-                countdownFull = baseSeconds + closing;
+                countdownThisSection = baseSeconds - closing;
+                countdownFull = baseSeconds;
             }
         }
     }

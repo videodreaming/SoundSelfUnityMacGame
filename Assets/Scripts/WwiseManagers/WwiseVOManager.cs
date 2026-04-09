@@ -271,6 +271,10 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("WWise_VO: Cue_Stop_Interactive");
                 MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
             }
+            else
+            {
+                Debug.Log("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
+            }
         }
     }
 

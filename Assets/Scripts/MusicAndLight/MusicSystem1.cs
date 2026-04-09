@@ -170,7 +170,9 @@ public class MusicSystem1 : MonoBehaviour
 
     //BREATHWORK CYCLE AND SFX
     private bool breathworkCyclePlaying = false;
-
+    private bool allowThumpAlways = true;
+    private bool allowThumpWhenModeIsPlayful = true;
+    private bool allowThump = true;
 
 
     void Awake()
@@ -673,7 +675,8 @@ public class MusicSystem1 : MonoBehaviour
 
         if(GameValues.instance._chantCharge >= 0.99f)
         {
-            if(!impactSoundFlag)
+            allowThump = allowThumpAlways || (allowThumpWhenModeIsPlayful && respirationTracker.modePlayful);
+            if(!impactSoundFlag && allowThump)
             {
                 if(debugAllowSFXLogs)
                 {
@@ -685,7 +688,24 @@ public class MusicSystem1 : MonoBehaviour
             }
         }
     }
-    
+
+    public void SetAllowThumpAlways(bool allow)
+    {
+        if(debugAllowSFXLogs)
+        {
+            Debug.Log("MUSIC: Setting allowThumpAlways to " + allow);
+        }
+        allowThumpAlways = allow;
+    }
+
+    public void SetAllowThumpWhenModeIsPlayful(bool allow)
+    {
+        if(debugAllowSFXLogs)
+        {
+            Debug.Log("MUSIC: Setting allowThumpWhenModeIsPlayful to " + allow);
+        }
+        allowThumpWhenModeIsPlayful = allow;
+    }
     //private void MusicModeUpdate()
     private void InactivitySwitchToEnvironment()
     {
@@ -953,7 +973,7 @@ public class MusicSystem1 : MonoBehaviour
 
         if(modeTutorialFlag || modeFreeplayFlag || modeFrozenFreeplayFlag)
         {
-            MusicBinauralBeats.instance.SetVolume(50.0f);
+            MusicBinauralBeats.instance.SetVolume(70.0f);
         }
         else
         {
@@ -2157,6 +2177,16 @@ public class MusicSystem1 : MonoBehaviour
     
     private void changeHarmony(NoteName harmonyNote)
     {
+        // Wwise 12-pitch groups have no "none" switch; SetSwitch("…", "none") leaves the group invalid and triggers errors when silent loops resolve.
+        if (harmonyNote == NoteName.None)
+        {
+            if(debugAllowWarnings || debugAllowHarmonyChangeLogs)
+            {
+                Debug.LogWarning("MUSIC: changeHarmony skipped — harmony is None (would be invalid Wwise switch 'none'); keeping previous harmony switch.");
+            }
+            return;
+        }
+
         SetSwitchRestoreToningV3("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", NoteUtils.NoteToWwiseString(harmonyNote));
         if(debugAllowHarmonyChangeLogs)
         {

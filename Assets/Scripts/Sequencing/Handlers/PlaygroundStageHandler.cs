@@ -58,6 +58,8 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(true);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
             MusicSystem1.instance.SetBreathworkCycle(false);
+            MusicSystem1.instance.SetAllowThumpAlways(false);
+            MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(true);
             if(variant == "Standard")
             {
                 Debug.Log("PlaygroundStageHandler: Standard variant: Starting Standard Playground");

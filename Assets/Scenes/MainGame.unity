@@ -24858,16 +24858,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TotalElapsedTime: 0
   DisplayTime: 
-  _countdownSeconds: 1000000
+  _countdownThisSection: 1000000
+  _countdownFull: 1000000
   _countdownRunning: 0
-  _configuredCountdownAtLastConfigure: 0
+  _configuredThisSectionAtLastConfigure: 0
+  _configuredFullAtLastConfigure: 0
   tutorial: {fileID: 1635385662}
   _timeSincePlaygroundStart: 0
   _timeSincePlaygroundStartTimerStarted: 0
   _totalTimeOfPostUnguidedVocalizationContent: 0
   _sessionTimingInitializedFromCsv: 0
   _countdownCompleteLached: 0
-  debugAllowTimingLogs: 0
+  debugAllowTimingLogs: 1
+  _debugTimingLogIntervalSeconds: 5
 --- !u!4 &1435489962
 Transform:
   m_ObjectHideFlags: 0
@@ -25999,6 +26002,9 @@ MonoBehaviour:
   savasana: {fileID: 1809294502}
   worldShuffler: {fileID: 1804684750}
   csvWriter: {fileID: 662335749}
+  debugAllowLogsSequencer: 1
+  debugAllowLogsAVSProgram: 0
+  debugAllowLogsWarnings: 1
   startModeDropdown: {fileID: 376852768}
   endSoonFlag: 0
   sequenceRunner: {fileID: 1564575222}
