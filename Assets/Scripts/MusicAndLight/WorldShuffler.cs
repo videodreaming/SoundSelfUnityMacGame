@@ -158,7 +158,7 @@ public class WorldShuffler : MonoBehaviour
         {
             if(!director.SearchQueueForType("Soundscape"))
             {
-                director.AddActionToQueue(Action_ShuffleSoundscape(), "SoundscapeShuffle", true, false, _seconds, 2, 1);
+                director.AddActionToQueue(Action_ShuffleSoundscape(), "SoundscapeShuffle", true, false, _seconds, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.PreferShorterTimeRemaining);
             }
             else
             {
@@ -169,7 +169,7 @@ public class WorldShuffler : MonoBehaviour
         {
             Debug.LogWarning("WorldShuffler: Attempted to queue sound world shuffle, but music queue is closed.");
         }
-        director.AddActionToQueue(Action_ShuffleColorWorld(), "ColorWorldShuffle", false, true, _seconds, 2, 1);
+        director.AddActionToQueue(Action_ShuffleColorWorld(), "ColorWorldShuffle", false, true, _seconds, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.PreferShorterTimeRemaining);
         
         WaitForNextShuffle();
     }

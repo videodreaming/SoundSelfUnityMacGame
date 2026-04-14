@@ -5,6 +5,28 @@ using UnityEngine.UIElements;
 using System;
 using System.Linq;
 
+/// <summary>When a queued action's time limit reaches zero (see <c>Director.QueueUpdate</c>).</summary>
+public enum DirectorActivationBehavior
+{
+    /// <summary>Remove the item without running the action.</summary>
+    ExpireWithoutExecuting = 0,
+    /// <summary>Run this action on the next confident tone.</summary>
+    ActivateThisActionOnNextTone = 1,
+    /// <summary>Activate the entire queue on the next confident tone.</summary>
+    ActivateEntireQueueOnNextTone = 2,
+}
+
+/// <summary>How a new item coexists with existing queue items of the same <c>type</c> (see <see cref="Director.AddActionToQueue"/>).</summary>
+public enum DirectorExclusivityBehavior
+{
+    /// <summary>Allow multiple items of the same type.</summary>
+    None = 0,
+    /// <summary>If same type exists with time remaining ≤ new time limit, skip add; else clear that type and add.</summary>
+    PreferShorterTimeRemaining = 1,
+    /// <summary>Clear all items of that type, then add.</summary>
+    ReplaceAllOfType = 2,
+}
+
 public class Director : MonoBehaviour
 {
     
@@ -18,7 +40,7 @@ public class Director : MonoBehaviour
     //It collects actions.
     //One of three things can happen:
     //1. If "ActivateQueue()" is called, all the actions execute. We do this (mostly) when the system detects a change in player behavior
-    //2. If the time limit is reached, actions with activationBehavior 1 will activate on the next tone, actions with activationBehavior 2 will activate the entire queue on the next tone, and actions with activationBehavior 0 will expire. (See "QueueUpdate()")
+    //2. If the time limit is reached, see <see cref="DirectorActivationBehavior"/> (QueueUpdate).
     //3. The queue can also be cleared.
 
     public DevelopmentMode developmentMode;
@@ -29,7 +51,9 @@ public class Director : MonoBehaviour
     private bool debugAllowLogs = true;
     private bool debugAllowWarnings = true; // Warnings show if this OR the category flag is true
     
-    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, int activationBehavior)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, int activationBehavior)>();
+    public Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, DirectorActivationBehavior activationBehavior)> queue = new Dictionary<int, (Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, DirectorActivationBehavior activationBehavior)>();
+    /// <summary>Stored in <see cref="queue"/> when <see cref="AddActionToQueue"/> receives <c>null</c> for time limit — timer never expires (see <c>QueueUpdate</c>).</summary>
+    public const float UnboundedQueueTimeSeconds = float.MaxValue;
     public int queueIndex = 0;
     private int audioTweakCounter = 0;
     public bool disable = false;
@@ -98,47 +122,45 @@ public class Director : MonoBehaviour
             var value = queue[key]; // Create a temporary variable
             if (value.timeLeft > 0)
             {
-                value.timeLeft -= Time.deltaTime;
+                // Unbounded (null timeLimit → UnboundedQueueTimeSeconds): do not decrement; never expires by timer.
+                if (value.timeLeft < UnboundedQueueTimeSeconds - 1e30f)
+                    value.timeLeft -= Time.deltaTime;
                 queue[key] = value; // Update the dictionary with the modified value
             }
             else
             {
-                //activationBehavior: 0 = expire without executing, 1 = execute this action on next tone, 2 = execute all queue on next tone
-                if(value.activationBehavior == 1)
+                switch (value.activationBehavior)
                 {
-                    if(debugAllowLogs)
-                    {
-                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate on next tone...");
-                    }
-                    StartCoroutine(ActivateOnTone(value.action, key, value.type));
-                }
-                else if(value.activationBehavior == 2)
-                {
-                    if(debugAllowLogs)
-                    {
-                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate entire queue on next tone...");
-                    }
-                    // Only start coroutine if one isn't already running (prevents multiple simultaneous activations)
-                    if(!activateQueueOnToneRunning)
-                    {
-                        activateQueueOnToneRunning = true;
-                        StartCoroutine(ActivateQueueOnTone());
-                    }
-                }
-                else if(value.activationBehavior == 0)
-                {
-                    if(debugAllowLogs)
-                    {
-                        Debug.Log("Director Queue: Action " + key + " " + value.type + " expired without executing");
-                    }
-                }
-                else
-                {
-                    // Invalid activationBehavior value
-                    if(debugAllowWarnings || debugAllowLogs)
-                    {
-                        Debug.LogWarning("Director Queue: Action " + key + " " + value.type + " has invalid activationBehavior value: " + value.activationBehavior + " (expected 0, 1, or 2). Treating as 0 (expire without executing).");
-                    }
+                    case DirectorActivationBehavior.ActivateThisActionOnNextTone:
+                        if(debugAllowLogs)
+                        {
+                            Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate on next tone...");
+                        }
+                        StartCoroutine(ActivateOnTone(value.action, key, value.type));
+                        break;
+                    case DirectorActivationBehavior.ActivateEntireQueueOnNextTone:
+                        if(debugAllowLogs)
+                        {
+                            Debug.Log("Director Queue: Action " + key + " " + value.type + " expired, will activate entire queue on next tone...");
+                        }
+                        if(!activateQueueOnToneRunning)
+                        {
+                            activateQueueOnToneRunning = true;
+                            StartCoroutine(ActivateQueueOnTone());
+                        }
+                        break;
+                    case DirectorActivationBehavior.ExpireWithoutExecuting:
+                        if(debugAllowLogs)
+                        {
+                            Debug.Log("Director Queue: Action " + key + " " + value.type + " expired without executing");
+                        }
+                        break;
+                    default:
+                        if(debugAllowWarnings || debugAllowLogs)
+                        {
+                            Debug.LogWarning("Director Queue: Action " + key + " " + value.type + " has invalid activationBehavior value: " + value.activationBehavior + ". Treating as ExpireWithoutExecuting.");
+                        }
+                        break;
                 }
                 keysToRemove.Add(key);
             }
@@ -247,14 +269,11 @@ public class Director : MonoBehaviour
         }
     }
 
-    public int AddActionToQueue(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLimit, int activationBehavior, int exclusivityBehavior = 1)
+    /// <param name="timeLimit">Seconds until timer-driven behavior runs; <c>null</c> means no expiry (stored as <see cref="UnboundedQueueTimeSeconds"/>).</param>
+    public int AddActionToQueue(Action action, string type, bool isAudioAction, bool isVisualAction, float? timeLimit, DirectorActivationBehavior activationBehavior, DirectorExclusivityBehavior exclusivityBehavior = DirectorExclusivityBehavior.PreferShorterTimeRemaining)
     {
-        //exclusivity behavior works like this:
-        //0: NONE - No exclusivity, just add the action to the queue
-        //1: PREFER LOWEST TIME LEFT - Check if there are any actions of the same type in the queue. If there are, only add (replace) the action if the new action has less time left than the existing action.
-        // Code below:        
-        //2: ALWAYS REPLACE - Clear all actions of the same type from the queue, then add the action
-        
+        float storedTimeLeft = timeLimit ?? UnboundedQueueTimeSeconds;
+
         // Validate parameters
         if(action == null)
         {
@@ -265,13 +284,13 @@ public class Director : MonoBehaviour
             return -1;
         }
         
-        if(activationBehavior < 0 || activationBehavior > 2)
+        if(!Enum.IsDefined(typeof(DirectorActivationBehavior), activationBehavior))
         {
             if(debugAllowWarnings || debugAllowLogs)
             {
-                Debug.LogWarning("Director Queue: Invalid activationBehavior " + activationBehavior + " (must be 0, 1, or 2). Using 0 (expire without executing).");
+                Debug.LogWarning("Director Queue: Invalid activationBehavior " + activationBehavior + ". Using ExpireWithoutExecuting.");
             }
-            activationBehavior = 0;
+            activationBehavior = DirectorActivationBehavior.ExpireWithoutExecuting;
         }
         
         if(disable)
@@ -282,33 +301,36 @@ public class Director : MonoBehaviour
             }
             return -1;
         }
-        if(exclusivityBehavior == 1)
+        if(exclusivityBehavior == DirectorExclusivityBehavior.PreferShorterTimeRemaining)
         {
             if(SearchQueueForType(type))
             {
-                foreach (var item in queue)
+                if(timeLimit.HasValue)
                 {
-                    if(item.Value.type == type)
+                    foreach (var item in queue)
                     {
-                        if(item.Value.timeLeft <= timeLimit)
+                        if(item.Value.type == type)
                         {
-                            if(debugAllowLogs)
+                            if(item.Value.timeLeft <= timeLimit.Value)
                             {
-                                Debug.Log("Director Queue: Action " + type + " already exists in director queue with shorter timeLeft, not adding new one per exclusivity rules.");
+                                if(debugAllowLogs)
+                                {
+                                    Debug.Log("Director Queue: Action " + type + " already exists in director queue with shorter timeLeft, not adding new one per exclusivity rules.");
+                                }
+                                // LogQueue();
+                                return -1; //return -1 to indicate that the action was not added
                             }
-                            // LogQueue();
-                            return -1; //return -1 to indicate that the action was not added
                         }
                     }
                 }
                 ClearQueueOfType(type);
             }
         }
-        else if(exclusivityBehavior == 2)
+        else if(exclusivityBehavior == DirectorExclusivityBehavior.ReplaceAllOfType)
         {
             ClearQueueOfType(type);
         }
-        queue.Add(queueIndex++, (action, type, isAudioAction, isVisualAction, timeLimit, activationBehavior));
+        queue.Add(queueIndex++, (action, type, isAudioAction, isVisualAction, storedTimeLeft, activationBehavior));
 
         if(debugAllowLogs)
         {
@@ -319,6 +341,11 @@ public class Director : MonoBehaviour
         return queueIndex - 1;
     }
 
+    /// <summary>Unbounded time limit — same as passing <c>null</c> for <see cref="AddActionToQueue"/> time limit.</summary>
+    public int AddActionToQueue(Action action, string type, bool isAudioAction, bool isVisualAction, DirectorActivationBehavior activationBehavior, DirectorExclusivityBehavior exclusivityBehavior = DirectorExclusivityBehavior.PreferShorterTimeRemaining)
+    {
+        return AddActionToQueue(action, type, isAudioAction, isVisualAction, null, activationBehavior, exclusivityBehavior);
+    }
 
     
     public void ActivateQueue(float transitionTimeForFlourishes = 5.0f, bool tryActivateWhenEmpty = false)
@@ -349,7 +376,7 @@ public class Director : MonoBehaviour
         // LogQueue();
 
         // Copy out the queue's items first
-        var queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, int activationBehavior)>(queue.Values);
+        var queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, DirectorActivationBehavior activationBehavior)>(queue.Values);
 
         // The order of execution matters. 
         // By default, the queue is executed in the order it was added.
@@ -360,7 +387,7 @@ public class Director : MonoBehaviour
         var soundscapeShuffleItems = queuedItems.Where(item => item.type == "SoundscapeShuffle").ToList(); //prioritized so this comes ahead of any specific soundscape change
         var colorWorldShuffleItems = queuedItems.Where(item => item.type == "ColorWorldShuffle").ToList();
         var otherItems = queuedItems.Where(item => item.type != "fundamentalChange" && item.type != "SoundscapeShuffle" && item.type != "ColorWorldShuffle").ToList();
-        queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, int activationBehavior)>();
+        queuedItems = new List<(Action action, string type, bool isAudioAction, bool isVisualAction, float timeLeft, DirectorActivationBehavior activationBehavior)>();
         queuedItems.AddRange(fundamentalChangeItems);
         queuedItems.AddRange(soundscapeShuffleItems);
         queuedItems.AddRange(colorWorldShuffleItems);
@@ -474,7 +501,7 @@ public class Director : MonoBehaviour
         return shortestTimeLeft == float.MaxValue ? -1f : shortestTimeLeft;
     }
 
-    public int ReplaceActionInQueue(Action action, string newType, string oldType, bool isAudioAction, bool isVisualAction, float newMaximumTimeLimit, bool activationBehavior)
+    public int ReplaceActionInQueue(Action action, string newType, string oldType, bool isAudioAction, bool isVisualAction, float newMaximumTimeLimit, DirectorActivationBehavior activationBehavior)
     {
         // ReplaceActionInQueue clears actions of both oldType and newType, then adds the new action
         // The expiration time is set to the minimum of:
@@ -518,11 +545,8 @@ public class Director : MonoBehaviour
         // Calculate the minimum expiration time
         float calculatedTimeLimit = Mathf.Min(shortestTimeOld, shortestTimeNew, newMaximumTimeLimit);
         
-        // Convert bool activationBehavior to int (true = 1, false = 0)
-        int activationBehaviorInt = activationBehavior ? 1 : 0;
-        
         // Add the new action with the calculated time limit
-        int result = AddActionToQueue(action, newType, isAudioAction, isVisualAction, calculatedTimeLimit, activationBehaviorInt, 0);
+        int result = AddActionToQueue(action, newType, isAudioAction, isVisualAction, calculatedTimeLimit, activationBehavior, DirectorExclusivityBehavior.None);
         
         if(debugAllowLogs)
         {

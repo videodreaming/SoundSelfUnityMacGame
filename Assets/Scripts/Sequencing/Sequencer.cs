@@ -362,7 +362,7 @@ public class Sequencer : MonoBehaviour
         
         DbgLogSequencer("Sequencer: ProtocolStack Step 2");
         
-        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, 2, 2);
+        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
         
         // worldShuffler.QueueWorldShuffle();
 
@@ -371,9 +371,9 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
-        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, 2, 2);
+        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
         if (LightControl.instance != null)
-            director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
+            director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
         DbgLogSequencer("Sequencer: ProtocolStack Step 4");
         // director.AddActionToQueue(...);
 
@@ -383,7 +383,7 @@ public class Sequencer : MonoBehaviour
             yield return null;
         }
         _forceSequenceAdvanceRequested = false;
-        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, 2, 2);
+        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
         DbgLogSequencer("Sequencer: ProtocolStack Step 5");
         // StartCoroutine(SpecialProtocolEndingRoutine());
 
@@ -412,7 +412,7 @@ public class Sequencer : MonoBehaviour
         DbgLogSequencer("Sequencer: ProtocolStack Step 8");
         worldShuffler.StopShuffle();
         worldShuffler.CloseSoundscapeQueue();
-        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, 2, 2);
+        director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
 
         while (CountdownThisSection > 60f && !_forceSequenceAdvanceRequested)
         {
@@ -472,8 +472,8 @@ public class Sequencer : MonoBehaviour
         {
             DbgLogSequencer("Sequencer: StandardSequence Triggering End2 Behaviors: Queue Shruti, Close Music Queue, Start AVS End Sequence");
             //finally, queue shruti and prevent further queueing of shuffled soundscapes.
-            director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", true, false, 180.0f, 2, 2);
-            director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, 1, 2);
+            director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
+            director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
             worldShuffler.CloseSoundscapeQueue();
             _avsSequence.StartDynamicDropEnd(180f);
             standardSequenceMilestoneEnd2 = true;

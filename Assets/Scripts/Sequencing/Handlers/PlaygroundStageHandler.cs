@@ -177,15 +177,15 @@ namespace SoundSelf.Sequence
             _sequencer.ForceSequenceAdvanceRequested = false;
 
             Debug.Log("PlaygroundStageHandler: Step 2");
-            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, 2, 2);
+            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
 
             while (SessionCountdownThisSection() > (16f * 60f) && !x)
             {
                 yield return null;
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
-            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, 2, 2);
-            _sequencer.director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
+            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
+            _sequencer.director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
             Debug.Log("PlaygroundStageHandler: Step 4");
 
             while (SessionCountdownThisSection() > (13f * 60f) && !x)
@@ -193,7 +193,7 @@ namespace SoundSelf.Sequence
                 yield return null;
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
-            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, 2, 2);
+            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
             Debug.Log("PlaygroundStageHandler: Step 5");
 
             while (SessionCountdownThisSection() > (12f * 60f) && !x)
@@ -220,7 +220,7 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler: Step 8");
             _sequencer.worldShuffler.StopShuffle();
             _sequencer.worldShuffler.CloseSoundscapeQueue();
-            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, 2, 2);
+            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
 
             while (SessionCountdownThisSection() > 60f && !x)
             {

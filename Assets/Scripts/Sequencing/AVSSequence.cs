@@ -174,14 +174,14 @@ public class AVSSequence : MonoBehaviour
 
         coroutineCleanupList.Add(director.AddActionToQueue(
             Action_Strobe_MonoStereo(null),
-            "monostereo", false, true, MonostereoDeltaQueueTimeLimit, 1, 2));
+            "monostereo", false, true, MonostereoDeltaQueueTimeLimit, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
 
         while (true)
         {
             yield return new WaitForSeconds(MonostereoDeltaRepeatIntervalSec);
             coroutineCleanupList.Add(director.AddActionToQueue(
                 Action_Strobe_MonoStereo(null),
-                "monostereo", false, true, MonostereoDeltaQueueTimeLimit, 1, 2));
+                "monostereo", false, true, MonostereoDeltaQueueTimeLimit, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
         }
     }
 
@@ -253,7 +253,7 @@ public class AVSSequence : MonoBehaviour
                 flag2 = false;
                 if (!flag1)
                 {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, 0, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, DirectorActivationBehavior.ExpireWithoutExecuting, DirectorExclusivityBehavior.ReplaceAllOfType));
                     flag1 = true;
                 }
             }
@@ -262,7 +262,7 @@ public class AVSSequence : MonoBehaviour
                 flag1 = false;
                 if (!flag2)
                 {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, 1, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
                     flag2 = true;
                 }
             }
@@ -296,7 +296,7 @@ public class AVSSequence : MonoBehaviour
         director.ClearQueueOfType("monostereo");
         if (LightControl.instance.bilateral)
         {
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, 1, 2));
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
             DbgLogAvs("Sequencer Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
             director.LogQueue();
         }
@@ -312,16 +312,16 @@ public class AVSSequence : MonoBehaviour
         }
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + LightControl.instance.bilateral);
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f / d, 1, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f / d, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
         while (!LightControl.instance.bilateral)
             yield return null;
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + LightControl.instance.bilateral);
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f / d, 1, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f / d, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
         while (LightControl.instance.bilateral)
             yield return null;
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + LightControl.instance.bilateral);
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f / d, 1, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f / d, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
         while (LightControl.instance.bilateral)
             yield return null;
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
@@ -333,7 +333,7 @@ public class AVSSequence : MonoBehaviour
             yield return null;
         }
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f / d, 1, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f / d, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
         _timer = 180f / d;
         while (_timer > 0)
         {
@@ -341,7 +341,7 @@ public class AVSSequence : MonoBehaviour
             yield return null;
         }
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f / d, 1, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f / d, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
         _timer = 180f / d;
         while (_timer > 0)
         {
@@ -371,7 +371,7 @@ public class AVSSequence : MonoBehaviour
                 flag2 = false;
                 if (!flag1)
                 {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f / d, 1, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f / d, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
                     flag1 = true;
                     DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
                 }
@@ -381,7 +381,7 @@ public class AVSSequence : MonoBehaviour
                 flag1 = false;
                 if (!flag2)
                 {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f / d, 1, 2));
+                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f / d, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
                     flag2 = true;
                     DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
                 }
@@ -417,12 +417,12 @@ public class AVSSequence : MonoBehaviour
         if (!LightControl.instance.bilateral)
         {
             float queueTime1 = 30.0f * localTimescale;
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, queueTime1, 1, 2));
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, queueTime1, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
         }
         if (LightControl.instance._gammaBurstMode != 0.0f)
         {
             float queueTime2 = 30.0f * localTimescale;
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, queueTime2, 1, 2));
+            coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, queueTime2, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
         }
 
         float elapsedTime = 0f;
@@ -433,7 +433,7 @@ public class AVSSequence : MonoBehaviour
         }
         DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. Stabilizing before dramatic rise. Elapsed: " + elapsedTime + "s / " + transitionTime + "s");
         float queueTime3 = 10.0f * localTimescale;
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, queueTime3, 1, 2));
+        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, queueTime3, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType));
 
         while (elapsedTime < phase1Duration + phase2Duration)
         {
