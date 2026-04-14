@@ -15,7 +15,7 @@ This plan migrates the Protocol Stacks Ascending sequence to a **Stage Pipeline*
 | 2 | **Tutorial** | Wwise cue `Cue_Break_Tests` or `Cue_StartInteractive` | Various tests; completes on Break_Tests (natural end) or StartInteractive (skip to Playground) |
 | 3 | **Playground** | Wwise cue `Cue_StartInteractive` → `ProtocolStacksPlaygroundStart()` | `ProtocolStacksCoroutine()` runs timed steps |
 | 4 | **Savasana** | Countdown reaches 0 | `PlayAscendingClosing()` |
-| 5 | **WaitForInput** | Wwise cue `Cue_WaitForButton` | User presses a button to play music |
+| 5 | **SetMenu** | Wwise cue `Cue_WaitForButton` | User presses a button to play music |
 | 6 | **Music** | User presses the button in the pause section | No action, simple countdown timer to end. |
 | — | **Inquiry** | TBD | Asks player how they are feeling; records the answer. Stub until implementation. |
 | — | **End** | End of sequence | End stage; happens at the end. Stub until implementation. |
@@ -63,7 +63,7 @@ Stages can complete when a Wwise cue fires. Handlers declare `WatchesSequenceCom
 |-----|----------------------|--------------------------|
 | StartInteractive | Opening, Tutorial | ProtocolStacksPlaygroundStart (when not in sequence) |
 | Break_Tests | Tutorial | tutorial.EndTutorialNaturally() |
-| WaitForButton | WaitForInput | TODO: button logic |
+| WaitForButton | SetMenu | TODO: button logic |
 | ThematicSavasana_End | (Savasana optional) | — |
 
 ---
@@ -89,7 +89,7 @@ namespace SoundSelf.Sequence
         Tutorial,     // Optional; Protocol Stacks skips
         Playground,
         Savasana,
-        WaitForInput,
+        SetMenu,
         MusicPlaylist,
         Inquiry,      // Asks player how they are feeling; records answer. Stub until implementation.
         End,          // End stage; happens at the end of a sequence.
@@ -219,9 +219,9 @@ namespace SoundSelf.Sequence
 
 **Implementation approach:** Keep as coroutine internally, but wrapped in handler. Handler's `IsComplete` returns true when coroutine finishes.
 
-### 3.3 Create stub handlers (Tutorial, WaitForInput, MusicPlaylist, Inquiry, End, LinearAudio)
+### 3.3 Create stub handlers (Tutorial, SetMenu, MusicPlaylist, Inquiry, End, LinearAudio)
 
-**Files:** `TutorialStageHandler.cs`, `WaitForInputStageHandler.cs`, `MusicPlaylistStageHandler.cs`, `InquiryStageHandler.cs`, `EndStageHandler.cs`, `LinearAudioStageHandler.cs` (new)
+**Files:** `TutorialStageHandler.cs`, `SetMenuStageHandler.cs`, `MusicPlaylistStageHandler.cs`, `InquiryStageHandler.cs`, `EndStageHandler.cs`, `LinearAudioStageHandler.cs` (new)
 
 Create stub implementations that satisfy `IStageHandler` but do minimal work (e.g. `Enter` logs, `IsComplete` returns true immediately or after a short delay). To be completed later.
 
@@ -264,7 +264,7 @@ Create stub implementations that satisfy `IStageHandler` but do minimal work (e.
 - `Cue_WaitForButton` → `HandleCue(WaitForButton)`
 - `Cue_ThematicSavasana_End` → `HandleCue(ThematicSavasana_End)` (ClosingCallBackFunction)
 
-**Handlers:** OpeningStageHandler, TutorialStageHandler watch StartInteractive; TutorialStageHandler also watches Break_Tests; WaitForInputStageHandler watches WaitForButton.
+**Handlers:** OpeningStageHandler, TutorialStageHandler watch StartInteractive; TutorialStageHandler also watches Break_Tests; SetMenuStageHandler watches WaitForButton.
 
 ### 4.3 Wire CSVLoader to Sequence Definition
 
@@ -384,7 +384,7 @@ AdvanceToStage(n):
 
 ### Step 5: Create stub handlers and implement SavasanaStageHandler
 
-1. Create stub handlers: `TutorialStageHandler.cs`, `WaitForInputStageHandler.cs`, `MusicPlaylistStageHandler.cs`, `InquiryStageHandler.cs`, `EndStageHandler.cs`, `LinearAudioStageHandler.cs` — each implements `IStageHandler` with minimal logic (log on Enter, IsComplete returns true)
+1. Create stub handlers: `TutorialStageHandler.cs`, `SetMenuStageHandler.cs`, `MusicPlaylistStageHandler.cs`, `InquiryStageHandler.cs`, `EndStageHandler.cs`, `LinearAudioStageHandler.cs` — each implements `IStageHandler` with minimal logic (log on Enter, IsComplete returns true)
 2. Create `SavasanaStageHandler.cs`
 3. `Enter(variant)`: Run the logic from the end of ProtocolStacksCoroutine (SetFundamentalContentLock, ActivateQueue, Disable, SetMusicModeTo, PlayAscendingClosing)
 4. `IsComplete`: True immediately (savasana plays to end; no need to block) or when closing callback fires
@@ -401,7 +401,7 @@ AdvanceToStage(n):
    private PlaygroundStageHandler _playgroundHandler;
    private SavasanaStageHandler _savasanaHandler;
    private TutorialStageHandler _tutorialHandler;
-   private WaitForInputStageHandler _waitForInputHandler;
+   private SetMenuStageHandler _setMenuHandler;
    private MusicPlaylistStageHandler _musicPlaylistHandler;
    private InquiryStageHandler _inquiryHandler;
    private EndStageHandler _endHandler;
@@ -474,7 +474,7 @@ Handlers receive `SequenceContext` in `Enter()`. Cleaner, more testable.
 | `Sequence/Handlers/PlaygroundStageHandler.cs` | Playground stage |
 | `Sequence/Handlers/SavasanaStageHandler.cs` | Savasana stage |
 | `Sequence/Handlers/TutorialStageHandler.cs` | Stub (to complete later) |
-| `Sequence/Handlers/WaitForInputStageHandler.cs` | Stub (to complete later) |
+| `Sequence/Handlers/SetMenuStageHandler.cs` | Stub (to complete later) |
 | `Sequence/Handlers/MusicPlaylistStageHandler.cs` | Stub (to complete later) |
 | `Sequence/Handlers/InquiryStageHandler.cs` | Stub — asks player how they are feeling, records answer |
 | `Sequence/Handlers/EndStageHandler.cs` | Stub — end stage at end of sequence |

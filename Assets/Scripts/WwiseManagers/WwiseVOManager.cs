@@ -269,7 +269,21 @@ public class WwiseVOManager : MonoBehaviour
             } else if (musicSyncInfo.userCueName == "Cue_Stop_Interactive")
             {
                 Debug.Log("WWise_VO: Cue_Stop_Interactive");
-                MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+                bool handled = sequencer != null && sequencer.HandleSequenceCommand(SequenceCommand.CueStopInteractive);
+                if (!handled && musicSystem1 != null)
+                    musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+            }
+            else if (musicSyncInfo.userCueName == "Cue_Stop_Interactive_3m")
+            {
+                Debug.Log("WWise_VO: Cue_Stop_Interactive_3m");
+                if (sequencer != null)
+                    sequencer.HandleSequenceCommand(SequenceCommand.CueStopInteractive3m);
+            }
+            else if (musicSyncInfo.userCueName == "Cue_SilentMeditation_Start")
+            {
+                Debug.Log("WWise_VO: Cue_SilentMeditation_Start");
+                if (sequencer != null)
+                    sequencer.HandleSequenceCommand(SequenceCommand.CueSilentMeditationStart);
             }
             else
             {

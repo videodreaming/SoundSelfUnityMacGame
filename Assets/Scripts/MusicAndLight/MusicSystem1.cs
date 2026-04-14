@@ -199,7 +199,8 @@ public class MusicSystem1 : MonoBehaviour
          if (soundscapeDropdown != null)
             soundscapeDropdown.onValueChanged.AddListener(OnSoundscapeDropdownChanged);
 
-        //INITIALIZE SWITCHES
+        //INITIALIZE SWITCHES — both 12-pitch groups need a value before any event uses them (otherwise Wwise: "No default Switch value selected").
+        AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_FundamentalOnly", NoteUtils.NoteToWwiseString(fundamentalNoteName), gameObject);
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "C", gameObject);
     }
 
@@ -974,6 +975,14 @@ public class MusicSystem1 : MonoBehaviour
         if(modeTutorialFlag || modeFreeplayFlag || modeFrozenFreeplayFlag)
         {
             MusicBinauralBeats.instance.SetVolume(70.0f);
+        }
+        else if(modeMusicLoopSilentFlag)
+        {
+            if(debugAllowMusicModeLogs)
+            {
+                Debug.Log("MUSIC: Setting Music Binaural Beats volume to 50.0f for MusicLoopSilent mode");
+            }
+            MusicBinauralBeats.instance.SetVolume(50.0f);
         }
         else
         {

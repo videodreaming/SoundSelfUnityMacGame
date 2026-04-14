@@ -8,6 +8,7 @@ namespace SoundSelf.Sequence
     {
         private readonly Sequencer _sequencer;
         private Coroutine _playgroundCoroutine;
+        private string _normalizedVariant = "";
 
         public StageType StageType => StageType.Playground;
 
@@ -52,15 +53,17 @@ namespace SoundSelf.Sequence
                 }
             }
 
+            _normalizedVariant = StageHandlerHelpers.NormalizeVariant(variant ?? "");
+
             _sequencer.ForceSequenceAdvanceRequested = false;
-            _playgroundCoroutine = _sequencer.StartCoroutine(ProtocolStacksPlaygroundCoroutine());
+            _playgroundCoroutine = _sequencer.StartCoroutine(ProtocolStacksPlaygroundCoroutine(_normalizedVariant == "skipascending"));
             _sequencer.director.Enable();
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(true);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetAllowThumpAlways(false);
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(true);
-            if(variant == "Standard")
+            if (IsStandardVariant())
             {
                 Debug.Log("PlaygroundStageHandler: Standard variant: Starting Standard Playground");
                 if(!_sequencer.worldShuffler.shuffling)
@@ -68,10 +71,23 @@ namespace SoundSelf.Sequence
                     _sequencer.worldShuffler.BeginShuffle();
                 }
             }
-            else if(variant == "Ascending")
+            else if (variant == "Ascending")
             {
                 Debug.Log("PlaygroundStageHandler: Ascending variant: Starting Ascending Playground");
             }
+        }
+
+        private bool IsStandardVariant() => _normalizedVariant == "standard";
+
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
+            sequenceCommand == SequenceCommand.CueStopInteractive && IsStandardVariant();
+
+        public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
+        {
+            if (sequenceCommand != SequenceCommand.CueStopInteractive || !IsStandardVariant())
+                return;
+            MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+            Debug.Log("PlaygroundStageHandler: CueStopInteractive — SetMusicModeTo FrozenFreeplay (Standard).");
         }
 
         /// <summary><see cref="TimeTrackerScript.CountdownThisSection"/> for protocol step thresholds (main segment, not full session).</summary>
@@ -107,10 +123,11 @@ namespace SoundSelf.Sequence
             }
         }
 
-        private IEnumerator ProtocolStacksPlaygroundCoroutine()
+        private IEnumerator ProtocolStacksPlaygroundCoroutine(bool skipToEnd = false)
         {
             var tt = TimeTrackerScript.instance;
             float initialCd = SessionCountdownThisSection();
+            bool x = skipToEnd || _sequencer.ForceSequenceAdvanceRequested;
 
 
             Debug.Log("PlaygroundStageHandler: STARTED - [CountdownThisSection]=" + initialCd + " s [CountdownFull]=" + (tt != null ? tt.CountdownFull.ToString() : "?") + " (" + (initialCd / 60f) + " min main)");
@@ -132,7 +149,7 @@ namespace SoundSelf.Sequence
 
             Debug.Log("PlaygroundStageHandler: Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + SessionCountdownThisSection() + " (or call ForceSequenceAdvance() to skip)");
             int frameCount = 0;
-            while (SessionCountdownThisSection() > step1Threshold && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > step1Threshold && !x)
             {
                 frameCount++;
                 if (frameCount % 600 == 0)
@@ -153,7 +170,7 @@ namespace SoundSelf.Sequence
 
             _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
 
-            while (SessionCountdownThisSection() > (19f * 60f - 30f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (19f * 60f - 30f) && !x)
             {
                 yield return null;
             }
@@ -162,7 +179,7 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler: Step 2");
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, 2, 2);
 
-            while (SessionCountdownThisSection() > (16f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (16f * 60f) && !x)
             {
                 yield return null;
             }
@@ -171,7 +188,7 @@ namespace SoundSelf.Sequence
             _sequencer.director.AddActionToQueue(_sequencer.lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
             Debug.Log("PlaygroundStageHandler: Step 4");
 
-            while (SessionCountdownThisSection() > (13f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (13f * 60f) && !x)
             {
                 yield return null;
             }
@@ -179,7 +196,7 @@ namespace SoundSelf.Sequence
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, 2, 2);
             Debug.Log("PlaygroundStageHandler: Step 5");
 
-            while (SessionCountdownThisSection() > (12f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (12f * 60f) && !x)
             {
                 yield return null;
             }
@@ -187,7 +204,7 @@ namespace SoundSelf.Sequence
 
             _sequencer.worldShuffler.BeginShuffle(false);
 
-            while (SessionCountdownThisSection() > (10f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (10f * 60f) && !x)
             {
                 yield return null;
             }
@@ -195,7 +212,7 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler: Step 6");
             _sequencer.worldShuffler.ExcludeSoundscape("SonoFlore");
 
-            while (SessionCountdownThisSection() > (4f * 60f) && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > (4f * 60f) && !x)
             {
                 yield return null;
             }
@@ -205,13 +222,13 @@ namespace SoundSelf.Sequence
             _sequencer.worldShuffler.CloseSoundscapeQueue();
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, 2, 2);
 
-            while (SessionCountdownThisSection() > 60f && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > 60f && !x)
             {
                 yield return null;
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
 
-            while (SessionCountdownThisSection() > 0f && !_sequencer.ForceSequenceAdvanceRequested)
+            while (SessionCountdownThisSection() > 0f && !x)
             {
                 yield return null;
             }

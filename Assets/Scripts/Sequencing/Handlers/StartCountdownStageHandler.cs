@@ -45,7 +45,7 @@ namespace SoundSelf.Sequence
                                "Load sessions.csv / session_params and ensure TimeLeftInitializations runs before the StartCountdown stage. Proceeding anyway, but expect unexpected behavior.");
             }
 
-            string key = NormalizeVariant(variant);
+            string key = StageHandlerHelpers.NormalizeVariant(variant);
             if (string.IsNullOrEmpty(key))
             {
                 Debug.LogError("StartCountdownStageHandler: variant is null or empty. Expected e.g. 40m simple, 40m with savasana, ClosingDuration.");
@@ -80,14 +80,14 @@ namespace SoundSelf.Sequence
                 return;
             }
 
-            if(key == "stopcountdowns")
+            if (key == "stopcountdowns")
             {
                 tt.ForceSetBothCountdownsAndStop(0f, 0f);
                 MarkComplete();
                 return;
             }
 
-            if (!TryGetCountdownPair(key, closing, out float thisSection, out float full))
+            if (!TryGetCountdownPair(key, closing, variant, out float thisSection, out float full))
             {
                 Debug.LogError("StartCountdownStageHandler: Could not resolve countdown pair for variant '" + variant + "'. Countdown not started.");
                 MarkComplete();
@@ -112,46 +112,37 @@ namespace SoundSelf.Sequence
             Debug.Log("StartCountdownStageHandler: Stage complete.");
         }
 
-        private static string NormalizeVariant(string variant)
-        {
-            if (string.IsNullOrWhiteSpace(variant))
-                return string.Empty;
-            string s = variant.Trim().ToLowerInvariant();
-            string[] parts = s.Split(new[] { ' ', '\t', '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
-            return string.Join(" ", parts);
-        }
-
         /// <summary>
         /// <b>Nm simple:</b> both timers N×60. <b>Nm with savasana:</b> main N×60, full N×60 + post-unguided when post-unguided &gt; 0.
         /// </summary>
         /// <returns><c>false</c> if <paramref name="key"/> is unknown or the pair is invalid.</returns>
-        private static bool TryGetCountdownPair(string key, float postUnguidedSeconds, out float countdownThisSection, out float countdownFull)
+        private static bool TryGetCountdownPair(string key, float postUnguidedSeconds, string variantForLog, out float countdownThisSection, out float countdownFull)
         {
             countdownThisSection = 0f;
             countdownFull = 0f;
 
             switch (key)
             {
-                case "60m simple":
+                case "60msimple":
                     countdownThisSection = 3600f;
                     countdownFull = 3600f;
                     break;
-                case "60m with savasana":
-                    SetPairWithSavasana(3600f, postUnguidedSeconds, key, out countdownThisSection, out countdownFull);
+                case "60mwithsavasana":
+                    SetPairWithSavasana(3600f, postUnguidedSeconds, variantForLog, out countdownThisSection, out countdownFull);
                     break;
-                case "40m simple":
+                case "40msimple":
                     countdownThisSection = 2400f;
                     countdownFull = 2400f;
                     break;
-                case "40m with savasana":
-                    SetPairWithSavasana(2400f, postUnguidedSeconds, key, out countdownThisSection, out countdownFull);
+                case "40mwithsavasana":
+                    SetPairWithSavasana(2400f, postUnguidedSeconds, variantForLog, out countdownThisSection, out countdownFull);
                     break;
-                case "25m simple":
+                case "25msimple":
                     countdownThisSection = 1500f;
                     countdownFull = 1500f;
                     break;
-                case "25m with savasana":
-                    SetPairWithSavasana(1500f, postUnguidedSeconds, key, out countdownThisSection, out countdownFull);
+                case "25mwithsavasana":
+                    SetPairWithSavasana(1500f, postUnguidedSeconds, variantForLog, out countdownThisSection, out countdownFull);
                     break;
                 default:
                     Debug.LogError("StartCountdownStageHandler: Unknown variant '" + key + "'. Use: 25m simple, 25m with savasana, 40m simple, 40m with savasana, 60m simple, 60m with savasana, ClosingDuration, or StopCountdowns.");

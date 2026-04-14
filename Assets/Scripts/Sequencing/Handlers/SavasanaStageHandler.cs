@@ -9,6 +9,7 @@ namespace SoundSelf.Sequence
     {
         private readonly Sequencer _sequencer;
         private bool _hasEntered;
+        private string _normalizedVariant = "";
 
         public StageType StageType => StageType.Savasana;
 
@@ -38,6 +39,7 @@ namespace SoundSelf.Sequence
             }
             _hasEntered = true;
             IsComplete = false;
+            _normalizedVariant = StageHandlerHelpers.NormalizeVariant(variant ?? "");
 
             if (_sequencer == null)
             {
@@ -81,6 +83,46 @@ namespace SoundSelf.Sequence
             _sequencer.wwiseVOManager.PlayAscendingClosing();
 
             _sequencer.StartCoroutine(WaitForTimerToEnd());
+        }
+
+        private bool IsStandardVariant() => _normalizedVariant == "standard";
+
+        /// <summary>Normalized <c>PS_Ascending</c> / <c>PS Ascending</c> → <c>psascending</c>.</summary>
+        private bool IsPsAscendingVariant() => _normalizedVariant == "psascending";
+
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand)
+        {
+            return sequenceCommand == SequenceCommand.CueStopInteractive
+                || sequenceCommand == SequenceCommand.CueStopInteractive3m
+                || sequenceCommand == SequenceCommand.CueSilentMeditationStart;
+        }
+
+        public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
+        {
+       
+            switch (sequenceCommand)
+            {
+                case SequenceCommand.CueStopInteractive:
+                    if (IsStandardVariant())
+                    {
+                        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+                        Debug.Log("SavasanaStageHandler: CueStopInteractive — SetMusicModeTo FrozenFreeplay (Standard).");
+                    }
+                    else
+                    {
+                        Debug.Log($"SavasanaStageHandler: {sequenceCommand} — not handled for variant: {_normalizedVariant}");
+                    }
+                    break;
+                case SequenceCommand.CueStopInteractive3m:
+                    MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+                    Debug.Log("SavasanaStageHandler: CueStopInteractive3m — SetMusicModeTo FrozenFreeplay (PS Ascending).");
+                    break;
+                case SequenceCommand.CueSilentMeditationStart:
+                    if (UI_CurrentSession.Instance != null)
+                        UI_CurrentSession.Instance.currentSession = "Silent Meditation";
+                    Debug.Log("SavasanaStageHandler: CueSilentMeditationStart — silent meditation / Jaya VO (PS Ascending).");
+                    break;
+            }
         }
 
         private IEnumerator WaitForTimerToEnd()
@@ -127,6 +169,7 @@ namespace SoundSelf.Sequence
         public void Exit()
         {
             _hasEntered = false;  // Allow re-enter on sequence restart
+            _normalizedVariant = "";
             LocalCleanup();
         }
     }

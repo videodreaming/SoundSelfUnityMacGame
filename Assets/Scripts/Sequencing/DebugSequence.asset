@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Protocol Stacks Ascending
   stages:
-  - type: 10
-    variant: 40m with savasana
-  - type: 2
-    variant: Short
   - type: 3
-    variant: 
+    variant: Skip Ascending
+  - type: 10
+    variant: Closing Duration
+  - type: 4
+    variant: PS_Ascending
+  - type: 9
+    variant: Nature

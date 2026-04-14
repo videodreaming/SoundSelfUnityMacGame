@@ -27,7 +27,7 @@ Wwise cue fires
 | `StartTutorial` | `Cue_Start_Tutorial`, `Cue_Tutorial_Start`, `Cue_StartTutorial` | OpeningStageHandler | — |
 | `StartInteractive` | Cue_StartInteractive | OpeningStageHandler, TutorialStageHandler | ProtocolStacksPlaygroundStart (when not in sequence) |
 | `Break_Tests` | Cue_Wwise_Tutorial_Break_All_Tests | TutorialStageHandler | tutorial.EndTutorialNaturally() |
-| `WaitForButton` | Cue_WaitForButton | WaitForInputStageHandler | None |
+| `WaitForButton` | Cue_WaitForButton | SetMenuStageHandler | None |
 | `ThematicSavasana_End` | Cue_ThematicSavasana_End | (none) | None |
 
 ---
@@ -49,8 +49,8 @@ Wwise cue fires
 
 ### 2.3 WaitForButton
 
-- **When in WaitForInput stage**: WaitForInputStageHandler watches it; `NotifySequenceCommand` → `MarkComplete`. Correct.
-- **When not in WaitForInput**: `HandleCue` returns false; no legacy. Cue is effectively ignored. Acceptable for current flows.
+- **When in SetMenu stage**: SetMenuStageHandler watches it; `NotifySequenceCommand` → `MarkComplete`. Correct.
+- **When not in SetMenu**: `HandleCue` returns false; no legacy. Cue is effectively ignored. Acceptable for current flows.
 
 ### 2.4 ThematicSavasana_End
 
@@ -118,7 +118,7 @@ Cues are routed correctly. No cross-wiring found.
 
 ### 4.3 Stub Handlers
 
-- **TutorialStageHandler** and **WaitForInputStageHandler** complete immediately (`MarkComplete()` in Enter). Cue-watching is wired for when real logic is added. No bug.
+- **TutorialStageHandler** and **SetMenuStageHandler** complete immediately (`MarkComplete()` in Enter). Cue-watching is wired for when real logic is added. No bug.
 
 ---
 

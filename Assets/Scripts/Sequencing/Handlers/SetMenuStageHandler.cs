@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Stub handler for the WaitForInput stage. Watches for Cue_WaitForButton; completes immediately until implementation.</summary>
-    public class WaitForInputStageHandler : IStageHandler
+    /// <summary>Handler for the SetMenu stage. Watches for <see cref="SequenceCommand.WaitForButton"/> (e.g. Cue_WaitForButton); stub completes immediately until implementation.</summary>
+    public class SetMenuStageHandler : IStageHandler
     {
-        public StageType StageType => StageType.WaitForInput;
+        public StageType StageType => StageType.SetMenu;
 
         public bool IsComplete { get; private set; }
 
@@ -20,7 +20,7 @@ namespace SoundSelf.Sequence
         public void Enter(string variant)
         {
             IsComplete = false;
-            Debug.Log("WaitForInputStageHandler: Enter (stub - skipping until implementation added)");
+            Debug.Log("SetMenuStageHandler: Enter (stub - skipping until implementation added)");
             MarkComplete(); // Stub: complete immediately; cue-watching in place for when implementation is added
         }
 
@@ -34,7 +34,7 @@ namespace SoundSelf.Sequence
         {
             if (IsComplete) return;
             IsComplete = true;
-            Debug.Log("WaitForInputStageHandler: Marking stage complete.");
+            Debug.Log("SetMenuStageHandler: Marking stage complete.");
             // Next: On the next SequenceRunner.Update(), the runner sees IsComplete and calls TransitionToNextStage().
             // That calls AdvanceToStage(next), which invokes BeginTransitionOut() on this handler (tail / fade start),
             // then enters the next stage. Cleanup when this stage is fully retired belongs in Exit() (via LocalCleanup).

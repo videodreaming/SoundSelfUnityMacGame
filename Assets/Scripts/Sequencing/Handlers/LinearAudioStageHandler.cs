@@ -13,6 +13,13 @@ namespace SoundSelf.Sequence
         {
             IsComplete = false;
             Debug.Log("LinearAudioStageHandler: Enter (stub - skipping until implementation added)");
+
+            string key = StageHandlerHelpers.NormalizeVariant(variant);
+            if (key == "nature")
+            {
+                MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
+            }
+
             MarkComplete(); // Stub: complete immediately until implementation is added
         }
 

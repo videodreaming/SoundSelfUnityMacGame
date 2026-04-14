@@ -148,7 +148,7 @@ public class Sequencer : MonoBehaviour
     private PlaygroundStageHandler _playgroundHandler;
     private SavasanaStageHandler _savasanaHandler;
     private TutorialStageHandler _tutorialHandler;
-    private WaitForInputStageHandler _waitForInputHandler;
+    private SetMenuStageHandler _setMenuHandler;
     private MusicPlaylistStageHandler _musicPlaylistHandler;
     private InquiryStageHandler _inquiryHandler;
     private EndStageHandler _endHandler;
@@ -185,12 +185,12 @@ public class Sequencer : MonoBehaviour
         _savasanaHandler = new SavasanaStageHandler(this);
         _tutorialHandler = new TutorialStageHandler(this);
         _startCountdownHandler = new StartCountdownStageHandler(this);
-        _waitForInputHandler = new WaitForInputStageHandler();
+        _setMenuHandler = new SetMenuStageHandler();
         _musicPlaylistHandler = new MusicPlaylistStageHandler();
         _inquiryHandler = new InquiryStageHandler();
         _endHandler = new EndStageHandler();
         _linearAudioHandler = new LinearAudioStageHandler();
-        sequenceRunner.SetHandlers(new IStageHandler[] { _calibrationHandler, _openingHandler, _startCountdownHandler, _playgroundHandler, _savasanaHandler, _tutorialHandler, _waitForInputHandler, _musicPlaylistHandler, _inquiryHandler, _endHandler, _linearAudioHandler });
+        sequenceRunner.SetHandlers(new IStageHandler[] { _calibrationHandler, _openingHandler, _startCountdownHandler, _playgroundHandler, _savasanaHandler, _tutorialHandler, _setMenuHandler, _musicPlaylistHandler, _inquiryHandler, _endHandler, _linearAudioHandler });
     }
 
     private void OnDestroy()
