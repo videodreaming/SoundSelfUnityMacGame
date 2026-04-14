@@ -82,7 +82,7 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(false);
             _sequencer.wwiseVOManager.PlayAscendingClosing();
             _sequencer.StopAllAvsPrograms();
-            _sequencer._avsSequence.StartDropToDelta();
+            AVSSequence.instance.StartDropToDelta();
 
             _sequencer.StartCoroutine(WaitForTimerToEnd());
         }
@@ -116,13 +116,11 @@ namespace SoundSelf.Sequence
                     }
                     break;
                 case SequenceCommand.CueStopInteractive3m:
-                    MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
-                    Debug.Log("SavasanaStageHandler: CueStopInteractive3m — SetMusicModeTo FrozenFreeplay (PS Ascending).");
                     break;
                 case SequenceCommand.CueSilentMeditationStart:
-                    if (UI_CurrentSession.Instance != null)
-                        UI_CurrentSession.Instance.currentSession = "Silent Meditation";
-                    Debug.Log("SavasanaStageHandler: CueSilentMeditationStart — silent meditation / Jaya VO (PS Ascending).");
+                    Debug.Log("SavasanaStageHandler: CueSilentMeditationStart — fading to dark and stopping AVS programs.");
+                    LightControl.instance.SetPreferredColor("Dark", 5f);
+                    _sequencer.StopAllAvsPrograms();
                     break;
             }
         }

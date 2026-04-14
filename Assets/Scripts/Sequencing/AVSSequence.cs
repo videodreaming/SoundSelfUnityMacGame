@@ -9,6 +9,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AVSSequence : MonoBehaviour
 {
+    /// <summary>Singleton for the AVS program on the Sequencer GameObject (set in <see cref="Awake"/>).</summary>
+    public static AVSSequence instance { get; private set; }
+
     private Director director;
 
     [Header("Debug logs")]
@@ -48,10 +51,24 @@ public class AVSSequence : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Debug.LogWarning("AVSSequence: Multiple AVSSequence instances; destroying duplicate.");
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
         director = GetComponent<Director>();
         var sequencer = GetComponent<Sequencer>();
         if (director == null && sequencer != null)
             director = sequencer.director;
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
     }
 
     private void Start()
