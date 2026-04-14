@@ -9,6 +9,8 @@ using TMPro;
 
 public class LightControl : MonoBehaviour
 {
+    public static LightControl instance { get; private set; }
+
     public WorldShuffler worldShuffler;
     [SerializeField] AkDeviceDescriptionArray m_devices;
     public GameObject gameObjectSystem2Listener;
@@ -50,17 +52,48 @@ public class LightControl : MonoBehaviour
     public Dictionary <int, float> _fxWaveDict = new Dictionary<int, float>();
     private bool developmentModeWarningFlag = false;
 
+    private bool lightsInitialized = false;
+
+    [Header("Debug logs (StartLights)")]
+    [SerializeField] private bool debugAllowLogsLightControl = true;
+    [Tooltip("When true, warnings still log even if LightControl info logs are off.")]
+    [SerializeField] private bool debugAllowLogsWarnings = true;
+
+    private void DbgLogLightControl(string message, bool isWarning = false)
+    {
+        if (isWarning)
+        {
+            if (debugAllowLogsWarnings)
+                Debug.LogWarning(message);
+        }
+        else if (debugAllowLogsLightControl)
+        {
+            Debug.Log(message);
+        }
+    }
+
     public TMP_Dropdown ColorWorldDropdownChange;
     
 
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Debug.LogWarning("LightControl: Multiple LightControl instances; destroying duplicate.");
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
         if (ColorWorldDropdownChange != null)
             ColorWorldDropdownChange.onValueChanged.AddListener(OnColorWorldDropdownChanged);
     }
 
     void OnDestroy()
     {
+        if (instance == this)
+            instance = null;
+
         Debug.LogWarning("LightControl: OnDestroy called - LightControl (or its GameObject) is being destroyed.");
 
         if (ColorWorldDropdownChange != null)
@@ -176,6 +209,37 @@ public class LightControl : MonoBehaviour
         cycleBlue = UnityEngine.Random.Range(0, 3);
         cycleWhite = UnityEngine.Random.Range(0, 3);
 
+    }
+
+    //====================================================================================================
+    // Session start lights (first-time Red transition; idempotent)
+    //====================================================================================================
+
+    public void StartLights()
+    {
+        if (!lightsInitialized)
+        {
+            DbgLogLightControl("LightControl: StartLights");
+            SetPreferredColor("Red", 5.0f);
+            lightsInitialized = true;
+        }
+        else
+        {
+            DbgLogLightControl("LightControl: StartLights already initialized, skipping");
+        }
+    }
+
+    public void StartLightsWithDelay()
+    {
+        DbgLogLightControl("LightControl: Starting Lights with Delay");
+        StartCoroutine(StartLightsCoroutine());
+    }
+
+    private IEnumerator StartLightsCoroutine()
+    {
+        DbgLogLightControl("LightControl: Waiting for 1 second before starting lights");
+        yield return new WaitForSeconds(1f);
+        StartLights();
     }
 
     public struct Color
@@ -617,18 +681,26 @@ public class LightControl : MonoBehaviour
         }
     }
     // DYNAMIC AVS CONTROL SYSTEMS
-    public void Strobe_MonoStereo (bool doBilateral = false)
+    /// <param name="doBilateral"><see langword="true"/> = mono (bilateral), <see langword="false"/> = stereo; <see langword="null"/> = toggle from current.</param>
+    public void Strobe_MonoStereo(bool? doBilateral = null)
     {
-        //AkSoundEngine.PostEvent("Stop_AVS_Wave1", gameObject);
-        if(doBilateral == bilateral)
+        if (doBilateral == null)
         {
-            Debug.Log("AVS: Bilateral switch command changed to " + doBilateral + ", but no change in state. Ignoring.");
+            Strobe_MonoStereo(!bilateral);
+            return;
+        }
+
+        bool doBil = doBilateral.Value;
+        //AkSoundEngine.PostEvent("Stop_AVS_Wave1", gameObject);
+        if (doBil == bilateral)
+        {
+            Debug.Log("AVS: Bilateral switch command changed to " + doBil + ", but no change in state. Ignoring.");
         }
         else
         {
             AkSoundEngine.StopPlayingID(wave1ID);
             //yield return new WaitForSeconds(1f);
-            if(doBilateral)
+            if (doBil)
             {
                 AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 1.0f, gameObjectSystem2Listener);
                 Debug.Log("AVS: Switching to Mono");

@@ -135,9 +135,9 @@ namespace SoundSelf.Sequence
             if (tt == null)
                 Debug.LogWarning("PlaygroundStageHandler: TimeTrackerScript.instance is null — [CountdownThisSection] reads 0; add a tracker to the scene. StartCountdown also requires it.");
 
-            if (_sequencer.worldShuffler == null || _sequencer.director == null || _sequencer.lightControl == null)
+            if (_sequencer.worldShuffler == null || _sequencer.director == null || LightControl.instance == null)
             {
-                Debug.LogError("PlaygroundStageHandler: worldShuffler, director, or lightControl is null. Cannot run Playground stage.");
+                Debug.LogError("PlaygroundStageHandler: worldShuffler, director, or LightControl.instance is null. Cannot run Playground stage.");
                 _playgroundCoroutine = null;
                 MarkComplete();
                 yield break;
@@ -185,7 +185,7 @@ namespace SoundSelf.Sequence
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, 2, 2);
-            _sequencer.director.AddActionToQueue(_sequencer.lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
+            _sequencer.director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
             Debug.Log("PlaygroundStageHandler: Step 4");
 
             while (SessionCountdownThisSection() > (13f * 60f) && !x)

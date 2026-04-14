@@ -81,6 +81,8 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetAllowThumpAlways(false);
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(false);
             _sequencer.wwiseVOManager.PlayAscendingClosing();
+            _sequencer.StopAllAvsPrograms();
+            _sequencer._avsSequence.StartDropToDelta();
 
             _sequencer.StartCoroutine(WaitForTimerToEnd());
         }

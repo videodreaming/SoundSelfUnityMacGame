@@ -6,6 +6,7 @@ namespace SoundSelf.Sequence
     public class OpeningStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
+        private readonly AVSSequence _avsSequence;
         private bool _hasEntered;
         private bool _variantForcesTone = false;
         private bool _variantTransitionsToMusicLoop = false;
@@ -17,6 +18,7 @@ namespace SoundSelf.Sequence
         public OpeningStageHandler(Sequencer sequencer)
         {
             _sequencer = sequencer;
+            _avsSequence = sequencer != null ? sequencer.GetComponent<AVSSequence>() : null;
         }
 
         public void Enter(string variant)
@@ -52,9 +54,9 @@ namespace SoundSelf.Sequence
                 return;
             }
 
-            if (_sequencer.lightControl == null)
+            if (LightControl.instance == null)
             {
-                Debug.LogError("OpeningStageHandler: lightControl is null. Cannot initialize lights.");
+                Debug.LogError("OpeningStageHandler: LightControl.instance is null. Cannot initialize lights.");
                 _hasEntered = false;
                 MarkComplete();
                 return;
@@ -79,7 +81,7 @@ namespace SoundSelf.Sequence
             //INITIALIZE LIGHTS
             try
             {
-                _sequencer.lightControl.LightSettingsInitialization(5.0f);
+                LightControl.instance.LightSettingsInitialization(5.0f);
             }
             catch (System.Exception ex)
             {
@@ -153,7 +155,7 @@ namespace SoundSelf.Sequence
             }
 
             //INITIALIZE AVS PROGRAM
-            _sequencer.StartOpeningAVSProgram();
+            _avsSequence.StartOpeningAVSProgram();
 
         }
 
@@ -167,7 +169,7 @@ namespace SoundSelf.Sequence
 
             if (sequenceCommand == SequenceCommand.FirstVocalizationStart)
             {
-                _sequencer.StartLightsWithDelay();
+                LightControl.instance.StartLightsWithDelay();
                 
                 if(_variantForcesTone)
                 {

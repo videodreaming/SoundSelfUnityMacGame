@@ -22,7 +22,6 @@ public class Sequencer : MonoBehaviour
     public CSVLoader csvLoader;
     public CalibrationMenu calibrationMenu;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    public LightControl lightControl;
     public RespirationTracker respirationTracker;
     public WwiseVOManager wwiseVOManager;
     public Director director;
@@ -30,12 +29,10 @@ public class Sequencer : MonoBehaviour
     public SavasanaPlayer savasana;
     public WorldShuffler worldShuffler;
     public CSVWriter csvWriter;
-    private bool lightsInitialized = false;
 
     [Header("Debug logs")]
     [SerializeField] private bool debugAllowLogsSequencer = true;
-    [SerializeField] private bool debugAllowLogsAVSProgram = false;
-    [Tooltip("When true, warnings still log even if Sequencer / AVS info logs are off.")]
+    [Tooltip("When true, warnings still log even if Sequencer info logs are off.")]
     [SerializeField] private bool debugAllowLogsWarnings = true;
 
     public TMP_Dropdown startModeDropdown;
@@ -44,7 +41,7 @@ public class Sequencer : MonoBehaviour
     public void LogSequencerWarning(string message) => DbgLogSequencer(message, true);
 
     /// <param name="isWarning">If true, <c>LogWarning</c> when <see cref="debugAllowLogsWarnings"/>; else <c>Log</c> when <see cref="debugAllowLogsSequencer"/>.</param>
-    private void DbgLogSequencer(string message, bool isWarning = false)
+    internal void DbgLogSequencer(string message, bool isWarning = false)
     {
         if (isWarning)
         {
@@ -56,25 +53,6 @@ public class Sequencer : MonoBehaviour
             Debug.Log(message);
         }
     }
-
-    /// <param name="isWarning">If true, <c>LogWarning</c> when <see cref="debugAllowLogsWarnings"/>; else <c>Log</c> when <see cref="debugAllowLogsAVSProgram"/>.</param>
-    private void DbgLogAvs(string message, bool isWarning = false)
-    {
-        if (isWarning)
-        {
-            if (debugAllowLogsWarnings)
-                Debug.LogWarning(message);
-        }
-        else if (debugAllowLogsAVSProgram)
-        {
-            Debug.Log(message);
-        }
-    }
-
-
-    // AVS Controls
-    private float _absorptionThreshold;
-    private float d = 1f; //debug timer mult, higher makes it go faster for testing
 
     //THINGS THAT PERTAIN TO STORY PROGRESSION    
 
@@ -118,16 +96,12 @@ public class Sequencer : MonoBehaviour
         standardSequenceMilestoneEnd3 = false;
         standardSequenceMilestoneEnd4 = false;
     }
-    private bool flagThetaCoroutine = false;
-    private List<int> coroutineCleanupList = new List<int>();
-    private Coroutine CoroutineDynamicDropStart;
-    private Coroutine CoroutineDynamicDropTheta;
-    private Coroutine CoroutineDynamicDropEnd;
     private bool developmentModeWarningFlag = false;
     private Coroutine countdownCoroutine; // Reference to the coroutines
     //private int currentStage = 0; //As SonoFlore
 
     [SerializeField] private SequenceRunner sequenceRunner;
+    private AVSSequence _avsSequence;
     
     [Header("Sequence Definitions (Inspector)")]
      [Header("Protocol Stacks")]
@@ -162,19 +136,15 @@ public class Sequencer : MonoBehaviour
             MusicSystem1.instance.SetSoundscape("SonoFlore");  
         }
 
-        if(!(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode))
-        {
-            d = 1f;
-        }
-        else if(DevelopmentMode.instance == null)
-        {
-            DbgLogSequencer("Sequencer: DevelopmentMode instance is null in Awake().", true);
-        }
         if (startModeDropdown != null)
             startModeDropdown.onValueChanged.AddListener(OnStartModeDropdownChanged);
 
         if (sequenceRunner == null)
             sequenceRunner = gameObject.GetComponent<SequenceRunner>() ?? gameObject.AddComponent<SequenceRunner>();
+
+        _avsSequence = GetComponent<AVSSequence>();
+        if (_avsSequence == null)
+            _avsSequence = gameObject.AddComponent<AVSSequence>();
 
         // This is the StageType -> IStageHandler registration map SequenceRunner uses to dispatch Enter/Exit and completion checks.
         // It's primary use is to pass the sequencer instance to the handlers, so they can access CountdownThisSection (main segment) / startPlayground, etc.
@@ -201,8 +171,6 @@ public class Sequencer : MonoBehaviour
 
     void Start()
     {
-        
-        _absorptionThreshold = UnityEngine.Random.Range(0.08f, 0.35f);
         if (TimeTrackerScript.instance == null)
             DbgLogSequencer("Sequencer: TimeTrackerScript.instance is null in Start(); session countdown is unavailable until the tracker exists. Add a TimeTrackerScript to the scene.", true);
 
@@ -404,7 +372,8 @@ public class Sequencer : MonoBehaviour
         }
         _forceSequenceAdvanceRequested = false;
         director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shadow"), "Soundscape", true, false, 180.0f, 2, 2);
-        director.AddActionToQueue(lightControl.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
+        if (LightControl.instance != null)
+            director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, 1, 2);
         DbgLogSequencer("Sequencer: ProtocolStack Step 4");
         // director.AddActionToQueue(...);
 
@@ -506,7 +475,7 @@ public class Sequencer : MonoBehaviour
             director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", true, false, 180.0f, 2, 2);
             director.AddActionToQueue(director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, 1, 2);
             worldShuffler.CloseSoundscapeQueue();
-            CoroutineDynamicDropEnd = StartCoroutine(AVS_Program_DynamicDrop_End(180f));
+            _avsSequence.StartDynamicDropEnd(180f);
             standardSequenceMilestoneEnd2 = true;
         }
 
@@ -575,387 +544,17 @@ public class Sequencer : MonoBehaviour
     private void FadeOut()
     {
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Environment);
-        lightControl.SetPreferredColor("Dark", 18f);
+        LightControl.instance?.SetPreferredColor("Dark", 18f);
     }
     
     
-
-    //====================================================================================================
-    //LIGHT CONTROL
-    //====================================================================================================
-
-    
-    public void StartLights()
-    {
-        if(!lightsInitialized)
-        {
-            DbgLogSequencer("Sequencer: StartLights");
-            lightControl.SetPreferredColor("Red", 5.0f);
-            lightsInitialized = true;
-        }
-        else
-        {
-            DbgLogSequencer("Sequencer: StartLights already initialized, skipping");
-        }
-    }
-
-    /// <summary>Starts the AVS opening program coroutine. Called by OpeningStageHandler.</summary>
-    /// TODO: Move this into an AVS program handler.
-    public void StartOpeningAVSProgram()
-    {
-        DbgLogAvs("Sequencer: StartOpeningAVSProgram - AVS_Program_DynamicDrop_Start is starting");
-        CoroutineDynamicDropStart = StartCoroutine(AVS_Program_DynamicDrop_Start());
-    }
-
-    IEnumerator AVS_Program_DynamicDrop_Start()
-    {
-        Cleanup(coroutineCleanupList); //not necessary for the first one, but placing it here for convention.
-        yield return null;
-       
-        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Waiting for lights. Currently:" + lightControl.currentColorType);
-
-        // Ensure lights are Dark at the start (in case calibration left them in a different state)
-        // This prevents premature triggering if calibration sequence was interrupted
-        if(lightControl.currentColorType != "Dark" && lightControl.currentColorType != "BreathOnly")
-        {
-            DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Lights not Dark at start, resetting to Dark first.");
-            lightControl.SetPreferredColor("Dark", 0.1f);
-            lightControl.SetStrobeRate(0f, 0.1f);
-            yield return new WaitForSeconds(0.15f); // Brief wait for transition
-        }
-
-        //WAIT UNTIL WE CHANGE TO A REAL COLOR TYPE, WHICH USUALLY HAPPENS ON THE FIRST HUM, IN WWISEVOMANAGER.
-        while((lightControl.currentColorType == "Dark") || (lightControl.currentColorType == "BreathOnly"))
-        {
-            yield return null;
-        }
-        //ONCE THE LIGHTS TURN ON, START AT 45HZ
-        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Lights detected, set strobe to 45hz.");
-        lightControl.SetStrobeRate(45.0f, 0.0f);
-        float _timer = 10f / d;
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //AFTER 10 SECOND HOLD IS FINISHED, DROP TO 11HZ OVER 30 SECONDS
-        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Initializeing drop from gamma to high alpha.");
-        _timer = 30f / d;
-        lightControl.SetStrobeRate(11.0f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //NOW TAKE 150 SECONDS TO DROP TO 8.5HZ
-        //FOLLOWING THIS POINT, IF THE ABSORPTION THRESHOLD IS MET, WE WILL SKIP TO THE NEXT PROGRAM
-        _timer = 150f / d;
-        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Begining drop from high alpha to 10hz.");
-        lightControl.SetStrobeRate(8.5f, _timer);
-        while(_timer > 0)
-        {
-            if(AVS_Program_ManageThetaTransition())
-            {
-                yield break;
-            }
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        yield return null;
-        //NOW START A SAW STROBE COROUTINE AROUND ALPHA
-        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Starting Saw Strobe Coroutine.");
-        float _wavelength = 360f / d;
-        float _halfWavelength = _wavelength / 2;
-        lightControl.SetSawStrobe(8.5f, 11.5f, _wavelength);
-        DbgLogAvs("Sequencer | AVS Program: DynamicDropStart. Waiting for absorption threshold to be met.");
-
-        _timer = _halfWavelength;
-        bool flag1 = false;
-        bool flag2 = false;
-        while(true)
-        {
-            if(AVS_Program_ManageThetaTransition())
-            {
-                yield break;
-            }
-
-            //ADD SOME MONO/STEREO BEHAVIOR. RHYTHMICALLY ADD MONO/STEREO COMMANDS TO DIRECTOR QUEUE
-            //MONO ACTIVATES AT END, STEREO DOES NOT. COMMANDS ARE EXCLUSIVE.
-            if (_timer > 0)
-            {
-                _timer -= Time.deltaTime;
-            }
-            else
-            {
-                _timer = _halfWavelength;
-            }
-            if(_timer > _halfWavelength*3/4)
-            {
-                flag2 = false;
-                if(!flag1)
-                {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60.0f, 0, 2));
-                    flag1 = true;
-                }
-            }
-            else if(_timer <= _halfWavelength*3/4)
-            {
-                flag1 = false;
-                if(!flag2)
-                {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, 1, 2));
-                    flag2 = true;
-                }
-            }
-            yield return null;
-        }
-    }
-
-    private bool AVS_Program_ManageThetaTransition()
-    {
-        
-        if(((RespirationTracker.instance._absorption > _absorptionThreshold)) && !flagThetaCoroutine)
-        {
-            flagThetaCoroutine = true;
-            CoroutineDynamicDropTheta = StartCoroutine(AVS_Program_DynamicDrop_Theta());
-            return true;
-        }
-        return false;
-    }
-
-    IEnumerator AVS_Program_DynamicDrop_Theta()
-    {
-        if(CoroutineDynamicDropStart != null)
-        {
-            DbgLogAvs("Sequencer | AVS Program: Stopping Coroutine from THETA Coroutine().");
-            StopCoroutine(CoroutineDynamicDropStart);
-        }
-
-        yield return null;
-        Cleanup(coroutineCleanupList);
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Starting Theta program.");
-
-        //SET CORRECT MONO/STEREO
-        director.ClearQueueOfType("monostereo");
-        //add mono to queue, if we're in bilateral
-        if(lightControl.bilateral)
-        {
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60.0f, 1, 2));
-            DbgLogAvs("Sequencer Director Queue: (AVS Program) DynamicDrop_Theta. Since starting in bilateral, adding " + (director.queueIndex - 1) + " monostereo=mono to director queue, and waiting.");
-            director.LogQueue();
-        }
-        //and wait to enter mono...
-        while(lightControl.bilateral)
-        {
-            yield return null;
-        }
-        //DROP TO 7HZ
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 7hz.");
-        float _timer = 120f / d;
-        lightControl.SetStrobeRate(7.0f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //CYCLE THROUGH BILATERAL ONCE
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queueing Bilateral Strobe.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, 60f/d, 1, 2));
-        while(!lightControl.bilateral)
-        {
-            yield return null;
-        }
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, 1, 2));
-        while(lightControl.bilateral)
-        {
-            yield return null;
-        }
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queueing Mono Strobe.");
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. bilateral is: " + lightControl.bilateral);
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, 60f/d, 1, 2));
-        while(lightControl.bilateral)
-        {
-            yield return null;
-        }
-        //DROP TO 6HZ
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 6hz.");
-        _timer = 60f / d;
-        lightControl.SetStrobeRate(6.0f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //GAMMA BURSTS, THEN HANG HERE. 
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, 1, 2));
-        _timer = 180f / d;
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Gamma Burst Stop.");
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 180f/d, 1, 2));
-        _timer = 180f / d;
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //DROP TO 5HZ
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Dropping to 5hz.");
-        _timer = 60f / d;
-        lightControl.SetStrobeRate(5.0f, _timer);
-        while(_timer > 0)
-        {
-            _timer -= Time.deltaTime;
-            yield return null;
-        }
-        //NOW CYCLE THROUGH GAMMA BETWEEN GAMMA AND NOT-GAMMA, AS WE WERE DOING WITH BILATERAL IN THE LAST PROGRAM
-        _timer = 300f / d;
-        float _halfWave = _timer / 2;
-        bool flag1 = false;
-        bool flag2 = false;
-        while(true)
-        {
-            if(_timer > 0)
-            {
-                _timer -= Time.deltaTime;
-            }
-            else
-            {
-                _timer = 300f / d;
-            }
-            if(_timer > _halfWave)
-            {
-                flag2 = false;
-                if(!flag1)
-                {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(true), "gamma", false, false, 60f/d, 1, 2));
-                    flag1 = true;
-                    DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst.");
-                }
-            }
-            else if(_timer <= _halfWave)
-            {
-                flag1 = false;
-                if(!flag2)
-                {
-                    coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, 60f/d, 1, 2));
-                    flag2 = true;
-                    DbgLogAvs("Sequencer | AVS Program: DynamicDrop_Theta. Queuing Cycled Gamma Burst Stop.");
-                }
-            }
-            yield return null;
-        }
-    }
-
-
-    IEnumerator AVS_Program_DynamicDrop_End(float transitionTime = 180f)
-    {
-        if(CoroutineDynamicDropStart != null)
-        {
-            DbgLogAvs("Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
-            StopCoroutine(CoroutineDynamicDropStart);
-        }
-        if(CoroutineDynamicDropTheta != null)
-        {
-            DbgLogAvs("Sequencer | AVS Program: Stopping Coroutine from END Coroutine().");
-            StopCoroutine(CoroutineDynamicDropTheta);
-        }
-
-        yield return null;
-        Cleanup(coroutineCleanupList);
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. Starting End Program with transitionTime=" + transitionTime + "s.");
-        
-        // Calculate proportional timing (based on original 180s total)
-        float localTimescale = transitionTime / 180f;
-        float phase1Duration = 70f * localTimescale;  // Original: 180 to 110 (70 seconds)
-        float phase2Duration = 20f * localTimescale;  // Original: 110 to 90 (20 seconds)
-        float phase3Duration = 90f * localTimescale;  // Original: 90 to 0 (90 seconds) - strobe transition
-        
-        director.ClearQueueOfType("gamma");
-        director.ClearQueueOfType("monostereo");
-        if(!lightControl.bilateral)
-        {
-            float queueTime1 = 30.0f * localTimescale;
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(true), "monostereo", false, true, queueTime1, 1, 2));
-        }
-        if(lightControl._gammaBurstMode != 0.0f)
-        {
-            float queueTime2 = 30.0f * localTimescale;
-            coroutineCleanupList.Add(director.AddActionToQueue(Action_Gamma(false), "gamma", false, false, queueTime2, 1, 2));
-        }
-
-        // Phase 1: Initial wait (proportional to original 70 seconds)
-        float elapsedTime = 0f;
-        while(elapsedTime < phase1Duration)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. Stabilizing before dramatic rise. Elapsed: " + elapsedTime + "s / " + transitionTime + "s");
-        float queueTime3 = 10.0f * localTimescale;
-        coroutineCleanupList.Add(director.AddActionToQueue(Action_Strobe_MonoStereo(false), "monostereo", false, true, queueTime3, 1, 2));
-
-        // Phase 2: Wait before strobe transition (proportional to original 20 seconds)
-        while(elapsedTime < phase1Duration + phase2Duration)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. Starting dramatic rise to 40hz. Elapsed: " + elapsedTime + "s / " + transitionTime + "s");
-        lightControl.SetStrobeRate(40.0f, phase3Duration);
-
-        // Phase 3: Wait during strobe transition (proportional to original 90 seconds)
-        while(elapsedTime < transitionTime)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        DbgLogAvs("Sequencer | AVS Program: DynamicDrop_End. End of AVS Program. Elapsed: " + elapsedTime + "s / " + transitionTime + "s. Goodnight!");
-    }
-
-    private void Cleanup(List<int> coroutineCleanupList)
-    {
-        DbgLogAvs("Performing cleanup.");
-        foreach (int index in coroutineCleanupList)
-        {
-            if (director.queue.ContainsKey(index))
-            {
-                DbgLogAvs("Sequencer  Director Queue (AVS Program): DynamicDrop (Transitioning). Removing " + index + " " + director.queue[index].Item2);
-                director.queue.Remove(index);
-            }
-            else
-            {
-                DbgLogAvs("Cleanup: Key " + index + " not found in director.queue, skipping.", true);
-            }
-        }
-        director.LogQueue();
-    }
-    
-    //====================================================================================================
-    //DIRECTOR QUEUE
-    //====================================================================================================
-    private Action Action_Gamma(bool gammaOn)
-    {
-        return () => lightControl.Gamma(gammaOn);
-    }
-    private Action Action_Strobe_MonoStereo(bool bilateral = false)
-    {
-        return () => lightControl.Strobe_MonoStereo(bilateral);
-    }
-    private Action Action_Strobe_Frequency(float frequency, float seconds)
-    {
-        return () => lightControl.SetStrobeRate(frequency, seconds);
-    }
 
     //====================================================================================================
     //PUBLIC METHODS
     //====================================================================================================
+
+    /// <summary>Stops all <see cref="AVSSequence"/> program coroutines (Dynamic Drop, Drop-to-Delta) and clears tracked director queue indices.</summary>
+    public void StopAllAvsPrograms() => _avsSequence?.StopAllAvsPrograms();
 
     public void StartTrueStart() //THIS ONE IS OK TO CALL IN NORMAL TIME (NON DEVELOPMENT MODE)
     {
@@ -1002,7 +601,7 @@ public class Sequencer : MonoBehaviour
     {
         DbgLogSequencer("Sequencer: Starting Tutorial Sequence.");
         tutorial.StartTutorial();
-        StartLights();
+        LightControl.instance?.StartLights();
         worldShuffler.ExcludeColorWorld("Blue");
         worldShuffler.ExcludeSoundscape("Shadow");
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
@@ -1021,7 +620,7 @@ public class Sequencer : MonoBehaviour
         }
         if(DevelopmentMode.instance != null && DevelopmentMode.instance.developmentMode && startLights)
         {
-            lightControl.SetColorWorldByType("Red", 0.0f);
+            LightControl.instance?.SetColorWorldByType("Red", 0.0f);
         }
         MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);          
         if(directorEnabled)
@@ -1038,7 +637,7 @@ public class Sequencer : MonoBehaviour
         }
         if(startLights)
         {
-            StartLights();
+            LightControl.instance?.StartLights();
         }
     }
     public void Initialize()
@@ -1082,19 +681,6 @@ public class Sequencer : MonoBehaviour
                 Initialize();
                 break;
         }
-    }
-
-    public void StartLightsWithDelay()
-    {
-        DbgLogSequencer("Sequencer: Starting Lights with Delay");
-        StartCoroutine(StartLightsCoroutine());
-    }
-
-    private IEnumerator StartLightsCoroutine()
-    {
-        DbgLogSequencer("Sequencer: Waiting for 1 second before starting lights");
-        yield return new WaitForSeconds(1f);
-        StartLights();
     }
 
     public void MakeWwiseTone()

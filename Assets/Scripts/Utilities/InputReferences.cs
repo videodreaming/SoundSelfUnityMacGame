@@ -32,7 +32,6 @@ public class InputReferences : MonoBehaviour
 
     [Header("Debug: Protocol Stacks Sequence Advance (F key)")]
     [SerializeField] private Sequencer sequencer;
-    [SerializeField] private LightControl lightControl;
     [SerializeField] private Director director;
     private Coroutine _sequenceAdvanceCountdownCoroutine;
 
@@ -49,7 +48,6 @@ public class InputReferences : MonoBehaviour
             return;
         }
         if (sequencer == null) sequencer = FindObjectOfType<Sequencer>();
-        if (lightControl == null) lightControl = FindObjectOfType<LightControl>();
         if (director == null) director = FindObjectOfType<Director>();
     }
 
@@ -131,28 +129,28 @@ public class InputReferences : MonoBehaviour
         // K key: Initialize lights to Dark immediately
         if (Input.GetKeyDown(KeyCode.K))
         {
-            if (lightControl != null)
+            if (LightControl.instance != null)
             {
-                lightControl.LightSettingsInitialization(0.0f);
-                Debug.Log("[Input] K key: lightControl.LightSettingsInitialization(0.0f)");
+                LightControl.instance.LightSettingsInitialization(0.0f);
+                Debug.Log("[Input] K key: LightControl.instance.LightSettingsInitialization(0.0f)");
             }
             else
             {
-                Debug.LogWarning("[Input] K key: lightControl reference is null!");
+                Debug.LogWarning("[Input] K key: LightControl.instance is null!");
             }
         }
 
-        // L key: Trigger sequencer StartLights
+        // L key: Trigger LightControl StartLights
         if (Input.GetKeyDown(KeyCode.L))
         {
-            if (sequencer != null)
+            if (LightControl.instance != null)
             {
-                sequencer.StartLights();
-                Debug.Log("[Input] L key: sequencer.StartLights()");
+                LightControl.instance.StartLights();
+                Debug.Log("[Input] L key: LightControl.instance.StartLights()");
             }
             else
             {
-                Debug.LogWarning("[Input] L key: sequencer reference is null!");
+                Debug.LogWarning("[Input] L key: LightControl.instance is null!");
             }
         }
 
