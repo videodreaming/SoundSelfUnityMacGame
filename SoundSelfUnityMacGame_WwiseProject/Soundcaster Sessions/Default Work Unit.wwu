@@ -82,6 +82,10 @@
 							<Position X="2" Y="4"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="Play_VO_LinearHumsAhhs" ID="{15DD412B-B1EF-4E6D-8A41-F547FFB71ABD}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
+							<Position X="2" Y="5"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="Stop_Toning" ID="{BC9DBC95-1FEC-4024-9149-47E42F23D96E}" WorkUnitID="{3BA3FCE3-957E-42E0-8B60-263055648E4A}"/>
 							<Position X="3" Y="0"/>
 						</Module>
@@ -246,12 +250,13 @@
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="InteractiveMusicSystem" ID="{61AC98F4-162A-433E-B785-39651E569A91}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
+						<CurrentSwitchRef Name="A" ID="{2F572B86-152E-4C8F-81FD-6C185990F356}"/>
 						<CurrentSwitchRef Name="A" ID="{B0BFAC42-2E1C-454E-9E21-181B9E4CE869}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{F1A3FEEC-C29E-400D-A517-FB9AA773F657}"/>
 						<CurrentSwitchRef Name="Long" ID="{3C4FF4FC-0156-470F-A2FD-87B00B639139}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
 						<CurrentSwitchRef Name="Resting" ID="{FC479A56-69C9-4A20-98C2-C8B295600A13}"/>
-						<CurrentSwitchRef Name="SonoFlore" ID="{A10D9DE7-EF36-4A00-B171-D92FF9CEC4CA}"/>
+						<CurrentSwitchRef Name="Gentle" ID="{48CF4848-A1FD-48BE-931D-5A718351F5D3}"/>
 						<CurrentSwitchRef Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
 						<CurrentSwitchRef Name="_40m" ID="{9B176422-1A59-4E7F-A244-2237BAC758E2}"/>
