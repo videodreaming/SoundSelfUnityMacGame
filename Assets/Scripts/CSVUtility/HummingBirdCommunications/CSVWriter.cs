@@ -7,7 +7,7 @@ using System;
 public class CSVWriter : MonoBehaviour
 {
     public static string gameMode;
-    public static string subGameMode;
+    public static string contentPack;
     public int currentSessionNumber;
     private string baseSessionsFolderPath = "";
     private string combinedData = "";
@@ -39,7 +39,7 @@ public class CSVWriter : MonoBehaviour
         currentSessionNumber = CSVLoader.currentSessionNumber; // Get session number from InitializationManager
         Debug.Log("Current session number: " + currentSessionNumber);
         gameMode = CSVLoader.instance.gameMode;
-        subGameMode = CSVLoader.instance.subGameMode;
+        contentPack = CSVLoader.instance.contentPack;
     }
     
     void Update()

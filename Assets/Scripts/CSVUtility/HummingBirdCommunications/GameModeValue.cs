@@ -1,22 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class GameModeValue : MonoBehaviour
 {
     public CSVWriter csvWriter;
-    private TMP_Text tmpText; // TMP component
-    // Start is called before the first frame update
+    private TMP_Text tmpText;
+
     void Start()
     {
         tmpText = GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        string decryptedReadyCheck = EncryptionHelper.Decrypt(CSVWriter.gameMode);
-        tmpText.text = decryptedReadyCheck;
+        if (tmpText == null)
+            return;
+        if (CSVLoader.instance != null)
+            tmpText.text = CSVLoader.instance.gameMode;
+        else if (csvWriter != null)
+            tmpText.text = CSVWriter.gameMode;
     }
 }

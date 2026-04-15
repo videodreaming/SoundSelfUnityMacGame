@@ -316,7 +316,7 @@ public class TimeTrackerScript : MonoBehaviour
 
     public float TotalTimeOfPostUnguidedVocalizationContent => _totalTimeOfPostUnguidedVocalizationContent;
 
-    /// <summary>True after <see cref="CSVLoader"/> completes <c>TimeLeftInitializations</c> with a recognized <c>gameMode</c> and <c>subGameMode</c> (where that product uses sub-modes). Post-unguided duration may still be zero by design.</summary>
+    /// <summary>True after <see cref="CSVLoader"/> completes <c>TimeLeftInitializations</c> with a recognized <c>gameMode</c> and <c>contentPack</c> (where that product uses content packs). Post-unguided duration may still be zero by design.</summary>
     public bool SessionTimingInitializedFromCsv => _sessionTimingInitializedFromCsv;
 
     /// <summary>Called from <see cref="CSVLoader"/> at end of <c>TimeLeftInitializations</c> after hydrating tracker inputs (post-unguided duration, etc.).</summary>

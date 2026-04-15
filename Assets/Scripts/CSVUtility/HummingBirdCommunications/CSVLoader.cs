@@ -1,19 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement; // For scene loading
 using System.IO;
 using System;
+using UnityEngine.Serialization;
+
 public class CSVLoader : MonoBehaviour
 {
-    public static CSVLoader instance {get; private set;}
+    public static CSVLoader instance { get; private set; }
     public Sequencer sequencer;
-    
+
     public WwiseVOManager wwiseVOManager;
-    public string gameMode {get; private set;}
-    public string subGameMode {get; private set;}
-    public string firstTimeUserString {get; private set;}
-    public bool IsFirstTimeUser {get; private set;}
+
+    /// <summary>One of: <see cref="GameModeSkillsTraining"/>, <see cref="GameModeIntegration"/>, <see cref="GameModeProtocolStacks"/>.</summary>
+    public string gameMode { get; private set; }
+
+    /// <summary>
+    /// For <b>Skills Training</b> / <b>Integration</b>: one of the six thematic content packs.
+    /// For <b>Protocol Stacks</b>: <c>Ascending</c> or <c>Descending</c>.
+    /// </summary>
+    public string contentPack { get; private set; }
+
+    public string firstTimeUserString { get; private set; }
+    public bool IsFirstTimeUser { get; private set; }
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
     private bool layingDown = true;
@@ -23,34 +30,103 @@ public class CSVLoader : MonoBehaviour
     public string decryptedReadyCheck;
     private string encryptedSessionNumber;
     [SerializeField] private string encryptedGameMode;
-    [SerializeField] private string encryptedSubGameMode;
+    [FormerlySerializedAs("encryptedSubGameMode")]
+    [SerializeField] private string encryptedContentPack;
     [SerializeField] private string decryptedGameMode;
-    [SerializeField] private string decryptedSubGameMode;
+    [FormerlySerializedAs("decryptedSubGameMode")]
+    [SerializeField] private string decryptedContentPack;
     [SerializeField] private string encryptedFirstTimeUser;
     [SerializeField] private string decryptedFirstTimeUser;
 
-    
+    public const string GameModeSkillsTraining = "Skills Training";
+    public const string GameModeIntegration = "Integration";
+    public const string GameModeProtocolStacks = "Protocol Stacks";
 
-    /// <summary>Historical misspelling in session data / old builds: treat as Preparation.</summary>
-    public static bool IsPreparationGameMode(string mode) =>
-        mode == "Preparation" || mode == "Preperation";
+    public const string ContentPackMindfulnessAndJoy = "Mindfulness and Joy";
+    public const string ContentPackPsychologicalFlexibility = "Psychological Flexibility";
+    public const string ContentPackSurrenderResponse = "Surrender Response";
+    public const string ContentPackSelfCompassion = "Self Compassion";
+    public const string ContentPackLovingKindness = "Loving Kindness";
+    /// <summary>Full label including grief/appreciation framing.</summary>
+    public const string ContentPackTransitionsGriefAndAppreciation = "Transitions (Grief and Appreciation)";
 
-    /// <summary>Normalize after decrypt so the rest of the codebase can compare to <c>Preparation</c> only if desired.</summary>
-    public static string CanonicalizeGameMode(string mode)
-    {
-        if (mode == "Preperation")
-            return "Preparation";
-        return mode;
-    }
+    public const string ContentPackAscending = "Ascending";
+    public const string ContentPackDescending = "Descending";
 
     /// <summary>Modes that use <see cref="Sequencer"/> standard-sequence countdown milestones (not Protocol Stacks).</summary>
     public bool UsesStandardSequenceUpdate =>
-        gameMode == "Integration" || gameMode == "Skills Training" || IsPreparationGameMode(gameMode);
+        gameMode == GameModeSkillsTraining || gameMode == GameModeIntegration;
 
+    /// <summary>Legacy session files may still say Preparation; normalized to <see cref="GameModeSkillsTraining"/>.</summary>
+    public static bool IsLegacyPreparationLabel(string mode) =>
+        string.Equals(mode, "Preparation", StringComparison.Ordinal) ||
+        string.Equals(mode, "Preperation", StringComparison.Ordinal);
+
+    /// <summary>Maps decrypted CSV labels to the three supported game modes.</summary>
+    public static string NormalizeGameMode(string raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+            return string.Empty;
+        string t = raw.Trim();
+        if (IsLegacyPreparationLabel(t))
+            return GameModeSkillsTraining;
+        if (t.Equals(GameModeSkillsTraining, StringComparison.OrdinalIgnoreCase))
+            return GameModeSkillsTraining;
+        if (t.Equals(GameModeIntegration, StringComparison.OrdinalIgnoreCase))
+            return GameModeIntegration;
+        if (t.Equals(GameModeProtocolStacks, StringComparison.OrdinalIgnoreCase))
+            return GameModeProtocolStacks;
+        return t;
+    }
+
+    /// <summary>Maps legacy sub-mode names to canonical <see cref="contentPack"/> strings.</summary>
+    public static string NormalizeContentPack(string raw, string normalizedGameMode)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+            return string.Empty;
+        string t = raw.Trim();
+
+        if (normalizedGameMode == GameModeProtocolStacks)
+        {
+            if (t.Equals(ContentPackAscending, StringComparison.OrdinalIgnoreCase))
+                return ContentPackAscending;
+            if (t.Equals(ContentPackDescending, StringComparison.OrdinalIgnoreCase))
+                return ContentPackDescending;
+            return t;
+        }
+
+        // Skills Training + Integration thematic packs (legacy + canonical)
+        if (t.Equals(ContentPackMindfulnessAndJoy, StringComparison.Ordinal)
+            || t.Equals("Peace", StringComparison.OrdinalIgnoreCase))
+            return ContentPackMindfulnessAndJoy;
+
+        if (t.Equals(ContentPackPsychologicalFlexibility, StringComparison.Ordinal)
+            || t.Equals("Narrative", StringComparison.OrdinalIgnoreCase))
+            return ContentPackPsychologicalFlexibility;
+
+        if (t.Equals(ContentPackSurrenderResponse, StringComparison.Ordinal)
+            || t.Equals("Surrender", StringComparison.OrdinalIgnoreCase)
+            || t.Equals("Psychedelic Preparation", StringComparison.OrdinalIgnoreCase))
+            return ContentPackSurrenderResponse;
+
+        if (t.Equals(ContentPackSelfCompassion, StringComparison.Ordinal)
+            || t.Equals("Fireflies", StringComparison.OrdinalIgnoreCase))
+            return ContentPackSelfCompassion;
+
+        if (t.Equals(ContentPackLovingKindness, StringComparison.Ordinal)
+            || t.Equals("Kindness", StringComparison.OrdinalIgnoreCase))
+            return ContentPackLovingKindness;
+
+        if (t.Equals(ContentPackTransitionsGriefAndAppreciation, StringComparison.Ordinal)
+            || t.Equals("Metta", StringComparison.OrdinalIgnoreCase)
+            || t.Equals("Transitions", StringComparison.OrdinalIgnoreCase))
+            return ContentPackTransitionsGriefAndAppreciation;
+
+        return t;
+    }
 
     void Awake()
     {
-        // --- Singleton guard ---
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -58,24 +134,20 @@ public class CSVLoader : MonoBehaviour
         }
         instance = this;
 
-        // Optional: persist across scenes (remove if you want per-scene behavior)
         DontDestroyOnLoad(gameObject);
 
-        //=======================================================================================================
-        // READ SESSIONS.CSV TO GET CURRENT SESSION NUMBER
-        //=======================================================================================================
-    #if UNITY_STANDALONE_OSX
-                string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
-                baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
-    #elif UNITY_STANDALONE_WIN
-            baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
-            Debug.Log("Base path: " + baseSessionsFolderPath);
-    #else
-                Debug.LogError("Unsupported platform");
-                return;
-    #endif
+#if UNITY_STANDALONE_OSX
+        string userFolder = System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile);
+        baseSessionsFolderPath = System.IO.Path.Combine(userFolder, "Appdata", "Roaming", "Hummingbird");
+#elif UNITY_STANDALONE_WIN
+        baseSessionsFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Hummingbird", "StreamingAssets", "Resources");
+        Debug.Log("Base path: " + baseSessionsFolderPath);
+#else
+        Debug.LogError("Unsupported platform");
+        return;
+#endif
 
-        Directory.CreateDirectory(baseSessionsFolderPath); // Ensure base path exists
+        Directory.CreateDirectory(baseSessionsFolderPath);
         string sessionsCsvPath = Path.Combine(baseSessionsFolderPath, "sessions.csv");
 
         if (File.Exists(sessionsCsvPath))
@@ -103,7 +175,6 @@ public class CSVLoader : MonoBehaviour
                 }
             }
         }
-        //OTHER VO INITIALIZATIONS
 
         ReadSessionParams();
         VOInitializations();
@@ -112,32 +183,30 @@ public class CSVLoader : MonoBehaviour
 
     void ReadSessionParams()
     {
-        if(currentSessionNumber != 0)
+        if (currentSessionNumber != 0)
         {
             string sessionsParams = Path.Combine(baseSessionsFolderPath, $"session_{currentSessionNumber}", "session_params.csv");
-            if(File.Exists(sessionsParams))
+            if (File.Exists(sessionsParams))
             {
                 Debug.Log("CSV file found at: " + sessionsParams);
-                string[] data = File.ReadAllText(sessionsParams).Split(new string[] {",","\n"}, StringSplitOptions.None);
+                string[] data = File.ReadAllText(sessionsParams).Split(new string[] { ",", "\n" }, StringSplitOptions.None);
                 encryptedGameMode = data[0].Trim();
-                encryptedSubGameMode = data[1].Trim();
+                encryptedContentPack = data[1].Trim();
                 encryptedFirstTimeUser = data[5].Trim();
-                
+
                 Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
-                Debug.Log("Encrypted Sub Game Mode: " + encryptedSubGameMode);
+                Debug.Log("Encrypted Content Pack: " + encryptedContentPack);
                 decryptedFirstTimeUser = EncryptionHelper.Decrypt(encryptedFirstTimeUser);
                 decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
-                decryptedSubGameMode = EncryptionHelper.Decrypt(encryptedSubGameMode);
-                //gameMode = decryptedGameMode;
-                //subGameMode = decryptedSubGameMode;
-                gameMode = "Protocol Stacks"; //TODO: REMOVE THIS AFTER TESTING PROTOCOL STACKS
-                subGameMode = "Ascending";
-                Debug.LogWarning("CSVLoader: Reading session_params.csv - gameMode and subGameMode hard set to Protocol Stacks and Ascending for development purposes.");
-                
+                decryptedContentPack = EncryptionHelper.Decrypt(encryptedContentPack);
+
+                gameMode = NormalizeGameMode(decryptedGameMode);
+                contentPack = NormalizeContentPack(decryptedContentPack, gameMode);
+
                 firstTimeUserString = decryptedFirstTimeUser;
                 IsFirstTimeUser = firstTimeUserString == "First Time User";
             }
-            else 
+            else
             {
                 Debug.LogError("CSV file not found at: " + sessionsParams);
             }
@@ -146,8 +215,7 @@ public class CSVLoader : MonoBehaviour
         {
             Debug.LogError("CSVLoader: No session number found");
         }
-        Debug.Log("CSVLoader: modes set to: Game Mode(" + GetCurrentMode() + ") Sub Mode(" + GetCurrentSubMode() + ")");
-
+        Debug.Log("CSVLoader: modes set to: Game Mode(" + GetCurrentMode() + ") Content Pack(" + GetCurrentContentPack() + ")");
     }
 
     private void VOInitializations()
@@ -158,76 +226,45 @@ public class CSVLoader : MonoBehaviour
             return;
         }
 
-        //GAME MODES
-        if (IsPreparationGameMode(gameMode) || gameMode == "Skills Training")
+        if (gameMode == GameModeSkillsTraining)
         {
-            if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
-            {
+            if (contentPack == ContentPackMindfulnessAndJoy)
                 wwiseVOManager.SetToPeace();
-            }
-            else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
-            {
+            else if (contentPack == ContentPackPsychologicalFlexibility)
                 wwiseVOManager.SetToNarrative();
-            }
-            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
-            {
+            else if (contentPack == ContentPackSurrenderResponse)
                 wwiseVOManager.SetToSurrender();
-            }
             else
-            {
-                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. VO content not set.");
-            }
+                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. VO content not set.");
 
             if (firstTimeUserString == "First Time User")
-            {
                 wwiseVOManager.firstTimeUser();
-            }
             else
-            {
                 wwiseVOManager.notFirstTimeUser();
-            }
         }
-        else if (gameMode == "Integration")
-        {
-            wwiseVOManager.notFirstTimeUser();
-            
-            if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
-            {
-                wwiseVOManager.SetToFireflies();
-            }
-            else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
-            {
-                wwiseVOManager.SetToKindness();
-            }
-            else if (subGameMode == "Metta" || subGameMode == "Transitions")
-            {
-                wwiseVOManager.SetToMetta();
-            }
-            else
-            {
-                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. VO content not set.");
-            }
-        } 
-        else if (gameMode == "Protocol Stacks")
+        else if (gameMode == GameModeIntegration)
         {
             wwiseVOManager.notFirstTimeUser();
 
-            if(subGameMode == "Ascending")
-            {
-                wwiseVOManager.SetToEsketamineAscending();
-            }
-            else if(subGameMode == "Descending")
-            {
-                wwiseVOManager.SetToEsketamineDescending();
-            }
+            if (contentPack == ContentPackSelfCompassion)
+                wwiseVOManager.SetToFireflies();
+            else if (contentPack == ContentPackLovingKindness)
+                wwiseVOManager.SetToKindness();
+            else if (contentPack == ContentPackTransitionsGriefAndAppreciation)
+                wwiseVOManager.SetToMetta();
             else
-            {
-                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. VO content not set.");
-            }
-        } 
-        else if (gameMode == "Quick Dive")
+                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. VO content not set.");
+        }
+        else if (gameMode == GameModeProtocolStacks)
         {
             wwiseVOManager.notFirstTimeUser();
+
+            if (contentPack == ContentPackAscending)
+                wwiseVOManager.SetToEsketamineAscending();
+            else if (contentPack == ContentPackDescending)
+                wwiseVOManager.SetToEsketamineDescending();
+            else
+                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. Expected Ascending or Descending.");
         }
         else
         {
@@ -251,73 +288,43 @@ public class CSVLoader : MonoBehaviour
         totalTimeOfPostUnguidedVocalizationContent = 0f;
         bool recognizedGameMode = true;
 
-        if (IsPreparationGameMode(gameMode) || gameMode == "Skills Training")
+        if (gameMode == GameModeSkillsTraining)
         {
-            //TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
-            
-            
-            if (subGameMode == "Peace" || subGameMode == "Mindfulness and Joy")
-            {
-                totalTimeOfPostUnguidedVocalizationContent = (14.0f * 60.0f) + 0.0f; //9 min 49 seconds //July 7 2025, added 11 seconds
-                //Add 4mins to cut unguided 
-            }
-            else if (subGameMode == "Narrative" || subGameMode == "Psychological Flexibility")
-            {
-                totalTimeOfPostUnguidedVocalizationContent = 900.0f; //15 minutes
-                //totalTimeOfPostUnguidedVocalizationContent = (11.0f * 60.0f) + 33.0f; //7 min 33 seconds //July 7 2025, added 11 seconds
-                // // Added 4 mins to cut unguided 
-            }
-            else if (subGameMode == "Surrender" || subGameMode == "Psychedelic Preparation")
-            {
-                totalTimeOfPostUnguidedVocalizationContent = (12.0f * 60.0f) + 06.0f; // 12 minutes 6 seconds
-            }
+            if (contentPack == ContentPackMindfulnessAndJoy)
+                totalTimeOfPostUnguidedVocalizationContent = (14.0f * 60.0f) + 0.0f;
+            else if (contentPack == ContentPackPsychologicalFlexibility)
+                totalTimeOfPostUnguidedVocalizationContent = 900.0f;
+            else if (contentPack == ContentPackSurrenderResponse)
+                totalTimeOfPostUnguidedVocalizationContent = (12.0f * 60.0f) + 06.0f;
             else
             {
-                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
                 recognizedGameMode = false;
             }
         }
-        else if (gameMode == "Integration")
+        else if (gameMode == GameModeIntegration)
         {
-            //if (TimeTrackerScript.instance != null)
-            //    TimeTrackerScript.instance.SetTimeLeftSeconds(1500.0f); // 25 minutes
-            
-            if (subGameMode == "Fireflies" || subGameMode == "Self Compassion")
-            {
+            if (contentPack == ContentPackSelfCompassion)
                 totalTimeOfPostUnguidedVocalizationContent = 415.0f;
-            }
-            else if (subGameMode == "Kindness" || subGameMode == "Loving Kindness")
-            {
+            else if (contentPack == ContentPackLovingKindness)
                 totalTimeOfPostUnguidedVocalizationContent = 349.0f;
-            }
-            else if (subGameMode == "Metta" || subGameMode == "Transitions")
-            {
+            else if (contentPack == ContentPackTransitionsGriefAndAppreciation)
                 totalTimeOfPostUnguidedVocalizationContent = 597.0f;
-            }
             else
             {
-                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
                 recognizedGameMode = false;
             }
-        } 
-        else if (gameMode == "Protocol Stacks")
+        }
+        else if (gameMode == GameModeProtocolStacks)
         {
-            //if (TimeTrackerScript.instance != null)
-            //    TimeTrackerScript.instance.SetTimeLeftSeconds(2400.0f); // 40 minutes
-
-            if(subGameMode == "Ascending" || subGameMode == "Descending")
-            {
-                totalTimeOfPostUnguidedVocalizationContent = 900.0f; // 15 minutes
-            }
+            if (contentPack == ContentPackAscending || contentPack == ContentPackDescending)
+                totalTimeOfPostUnguidedVocalizationContent = 900.0f;
             else
             {
-                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown subGameMode '" + subGameMode + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
+                Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");
                 recognizedGameMode = false;
             }
-        } 
-        else if (gameMode == "Quick Dive")
-        {
-            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Quick Dive: post-unguided duration not defined here; session countdown starts only at StartCountdown stage.");
         }
         else
         {
@@ -335,25 +342,18 @@ public class CSVLoader : MonoBehaviour
         if (recognizedGameMode)
             tracker.MarkSessionTimingInitializedFromCsv();
         else
-            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - SessionTimingInitializedFromCsv not set (unrecognized gameMode or subGameMode). Fix session_params so StartCountdown inputs are trustworthy.");
+            Debug.LogWarning("CSVLoader: TimeLeftInitializations() - SessionTimingInitializedFromCsv not set (unrecognized gameMode or contentPack). Fix session_params so StartCountdown inputs are trustworthy.");
 
         Debug.Log("CSVLoader: TimeLeftInitializations() - tracker inputs set. totalTimeOfPostUnguidedVocalizationContent=" + totalTimeOfPostUnguidedVocalizationContent + " s. Session countdown is unchanged until StartCountdown → BeginCountdownPair (current [CountdownThisSection]=" + tracker.CountdownThisSection + " [CountdownFull]=" + tracker.CountdownFull + "). SessionTimingInitializedFromCsv=" + tracker.SessionTimingInitializedFromCsv + ".");
     }
-
-
 
     public string GetCurrentMode()
     {
         return gameMode;
     }
 
-    public string GetCurrentSubMode()
+    public string GetCurrentContentPack()
     {
-        return subGameMode;
-    }
-
-    public string GetDecryptedFirstTimeUser()
-    {
-        return firstTimeUserString;
+        return contentPack;
     }
 }

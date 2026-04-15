@@ -575,7 +575,7 @@ public class Sequencer : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the SequenceDefinition for Protocol Stacks based on CSVLoader gameMode/subGameMode.
+    /// Returns the SequenceDefinition for Protocol Stacks based on CSVLoader gameMode/contentPack.
     /// Sequencer owns the ScriptableObject references (assigned in inspector).
     /// </summary>
     private SequenceDefinition GetSequenceDefinitionForProtocolStacks()
@@ -583,9 +583,9 @@ public class Sequencer : MonoBehaviour
         // Prefer the explicit reference if present; fall back to singleton if needed.
         var loader = csvLoader != null ? csvLoader : CSVLoader.instance;
         if (loader == null) return null;
-        if (loader.gameMode != "Protocol Stacks") return null;
+        if (loader.gameMode != CSVLoader.GameModeProtocolStacks) return null;
 
-        return loader.subGameMode == "Descending"
+        return loader.contentPack == CSVLoader.ContentPackDescending
             ? protocolStacksDescendingDefinition
             : protocolStacksAscendingDefinition;
     }

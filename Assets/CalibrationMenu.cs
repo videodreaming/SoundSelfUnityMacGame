@@ -82,9 +82,9 @@ public class CalibrationMenu : MonoBehaviour
             TimeLeftScript timeLeftScript = FindObjectOfType<TimeLeftScript>();
             if (timeLeftScript != null && experienceDurationDatabase != null && CSVLoader.instance != null)
             {
-                if(CSVLoader.IsPreparationGameMode(CSVLoader.instance.gameMode) || CSVLoader.instance.gameMode == "Skills Training")
+                if (CSVLoader.instance.gameMode == CSVLoader.GameModeSkillsTraining)
                 {
-                    Debug.LogWarning("CalibrationMenu: Setting up for Preparation or Skills Training (WARNING, THIS DOESN'T CURRENTLY DO ANYTHING)");
+                    Debug.LogWarning("CalibrationMenu: Setting up for Skills Training (WARNING, THIS DOESN'T CURRENTLY DO ANYTHING)");
                     //timeLeftScript.SetTimeLeftSeconds(2400.0f); // 40 minutes
                 }
                 else if (CSVLoader.instance.gameMode == "Integration")
