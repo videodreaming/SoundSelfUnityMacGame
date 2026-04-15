@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using AK.Wwise;
 using System;
 using TMPro;
@@ -23,13 +24,32 @@ public class LightControl : MonoBehaviour
     public string AVSStrobeCommand = "";
     public string currentColorType = "Dark";
     public string preferredColor = "Dark";
+
+    [Header("Current color world (Play Mode)")]
+    [ColorUsage(true, true)]
+    [Tooltip("Strobe (AVS waves 1 and 2): RGB after _brightness scaling. Matches colorPresets strobeColor for the active world.")]
+    [FormerlySerializedAs("toneWaveColor")]
+    public Color currentStrobeColor = new Color(0.0f, 0.0f, 0.0f);
+    [ColorUsage(true, true)]
+    [Tooltip("Wave / breath (AVS wave 3): RGB after _brightness scaling. Matches colorPresets waveColor for the active world.")]
+    [FormerlySerializedAs("breathWaveColor")]
+    public Color currentWaveColor = new Color(0.0f, 0.0f, 0.0f);
+
     private float  _brightness = 0.6f;
     private int cycleRed = 0;
     private int cycleBlue = 0;
     private int cycleWhite = 0;
     private int cycleTest = 0;
     public float _fxWave = 0f;
-    public float _strobeRate {get; private set;}
+    [Header("Strobe (runtime)")]
+    [SerializeField]
+    [Tooltip("Current strobe frequency in Hz. Updated by SetStrobeRate / AVS; visible in Play Mode.")]
+    private float _currentStrobeRateInspectorDisplay;
+    public float _strobeRate
+    {
+        get => _currentStrobeRateInspectorDisplay;
+        private set => _currentStrobeRateInspectorDisplay = value;
+    }
     public float _strobePWM    = 0.0f;
     public float _strobe1Smoothing = 0.0f;
     public float _gammaBurstMode = 0.0f;
@@ -46,8 +66,6 @@ public class LightControl : MonoBehaviour
     private Coroutine sawStrobeCoroutine;
     private Coroutine gammaCoroutine;
     private Coroutine reportStrobeRateCoroutine;
-    public Color toneWaveColor = new Color(0.0f, 0.0f, 0.0f);
-    public Color breathWaveColor = new Color(0.0f, 0.0f, 0.0f);
     public int fxWaveKey = 0;
     public Dictionary <int, float> _fxWaveDict = new Dictionary<int, float>();
     private bool developmentModeWarningFlag = false;
@@ -602,13 +620,13 @@ public class LightControl : MonoBehaviour
         Color startColor;
         if (wave == 1 || wave == 2)
         {
-            startColor = toneWaveColor;
-            toneWaveColor = new Color(_red, _green, _blue);
+            startColor = currentStrobeColor;
+            currentStrobeColor = new Color(_red, _green, _blue);
         }
         else
         {
-            startColor = breathWaveColor;
-            breathWaveColor = new Color(_red, _green, _blue);
+            startColor = currentWaveColor;
+            currentWaveColor = new Color(_red, _green, _blue);
         }
 
         //produce error if "wave" is not between 1 and 3
@@ -703,13 +721,13 @@ public class LightControl : MonoBehaviour
             if (doBil)
             {
                 AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 1.0f, gameObjectSystem2Listener);
-                Debug.Log("AVS: Switching to Mono");
+                Debug.Log("AVS: Switching to Stereo");
                 bilateral = true;
             }
             else
             {
                 AkSoundEngine.SetRTPCValue("AVS_Modulation_MonoStereo_Wave1", 0.0f, gameObjectSystem2Listener);
-                Debug.Log("AVS: Switching to Stereo");
+                Debug.Log("AVS: Switching to Mono");
                 bilateral = false;
             }
             wave1ID = AkSoundEngine.PostEvent("Play_AVS_Wave1", gameObjectSystem2Listener);

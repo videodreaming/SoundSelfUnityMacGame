@@ -22,7 +22,13 @@ namespace SoundSelf.Sequence
             Debug.Log("LinearAudioStageHandler: Enter (stub - skipping until implementation added)");
 
             if (variant == StageVariant.Linear_Nature)
+            {
                 MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
+                MusicSystem1.instance.SetBreathworkCycle(false);
+                MusicBinauralBeats.instance.SetVolume(0f);
+                _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
+            }
+                
 
             MarkComplete(); // Stub: complete immediately until implementation is added
         }

@@ -279,7 +279,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         GetRawVoiceData();
         CheckToning();
         TrackMicVolume();
-        //Wwise_BreathSound(_breathVolume, lightControl._fxWave);
+        Wwise_BreathSound(_breathVolume, lightControl._fxWave);
 
         if (gameOn != gameOnLastFrame)
         {
@@ -789,12 +789,12 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             if (imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
             {
 
-                _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately above
+                _tNextInhaleDuration += (Time.deltaTime * 0.75f); //magic number only used here and immedidately above
             }
             else if (!resetToneFrame) //TRIGGER INHALE aka BREATHVOLUME
             {
                 resetToneFrame = true;
-                float newInhaleEffectTargetDuration = Mathf.Clamp(_tNextInhaleDuration, 0f, 7.0f);
+                float newInhaleEffectTargetDuration = Mathf.Clamp(_tNextInhaleDuration, 0f, 5.0f);
                 if (newInhaleEffectTargetDuration >= 1.0f)
                 {
                     //BREATHE-IN LIGHT AND SOUND CONTROL
@@ -954,7 +954,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     private IEnumerator StartInhaleEffectWithDelay(float newInhaleEffectTargetDuration)
     {
-        float delayDuration = newInhaleEffectTargetDuration / 10f;
+        float delayDuration = newInhaleEffectTargetDuration / 13f;
         float elapsedTime = 0f;
         
         // Wait for delay, checking for abort request each frame
@@ -975,7 +975,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         }
         
         // If we reach here, delay completed without abort - execute the effect
-        StartCoroutine(BreathVolumeCoroutine(Mathf.Max(1.76f, newInhaleEffectTargetDuration)));
+        StartCoroutine(BreathVolumeCoroutine(Mathf.Max(2.5f, newInhaleEffectTargetDuration)));
         if (newInhaleEffectTargetDuration > 5.0f)
         {
             AkSoundEngine.PostEvent("Play_Inhale_Long", gameObject);

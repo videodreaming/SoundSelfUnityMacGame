@@ -113,6 +113,7 @@ namespace SoundSelf.Sequence
                     }
                     break;
                 case SequenceCommand.CueStopInteractive3m:
+                    _sequencer.StartCoroutine(DelayedMicOff(120f));
                     break;
                 case SequenceCommand.CueSilentMeditationStart:
                     Debug.Log("SavasanaStageHandler: CueSilentMeditationStart — fading to dark and stopping AVS programs.");
@@ -120,6 +121,13 @@ namespace SoundSelf.Sequence
                     _sequencer.StopAllAvsPrograms();
                     break;
             }
+        }
+
+        private IEnumerator DelayedMicOff(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            if(_hasEntered && !IsComplete)
+            _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
         }
 
         private IEnumerator WaitForTimerToEnd()
@@ -160,6 +168,8 @@ namespace SoundSelf.Sequence
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            if (MusicSystem1.instance != null)
+                MusicSystem1.instance.SetBreathworkCycle(false);
         }
 
         /// <summary>Runner-only: final retirement; safe if called more than once.</summary>
