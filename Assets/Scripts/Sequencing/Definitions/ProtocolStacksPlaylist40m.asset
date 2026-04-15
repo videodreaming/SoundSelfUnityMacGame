@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0eeb245decf8194ab359eb921603b1b, type: 3}
+  m_Name: ProtocolStacksPlaylist40m
+  m_EditorClassIdentifier: 
+  displayName: Protocol Stacks Playlist 40m
+  stages:
+  - type: 10
+    variant: 21
+  - type: 6
+    variant: 28
+  - type: 5
+    variant: 13

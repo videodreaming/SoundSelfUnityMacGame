@@ -10,25 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0eeb245decf8194ab359eb921603b1b, type: 3}
-  m_Name: ProtocolStacksAscending
+  m_Name: Integration
   m_EditorClassIdentifier: 
-  displayName: Protocol Stacks Ascending
+  displayName: Integration Sequence
   stages:
   - type: 10
     variant: 22
   - type: 1
-    variant: 2
+    variant: 5
   - type: 2
-    variant: 7
+    variant: 6
   - type: 3
-    variant: 10
+    variant: 8
   - type: 10
     variant: 25
   - type: 4
-    variant: 12
-  - type: 10
-    variant: 26
-  - type: 5
-    variant: 13
-  - type: 6
-    variant: 14
+    variant: 11

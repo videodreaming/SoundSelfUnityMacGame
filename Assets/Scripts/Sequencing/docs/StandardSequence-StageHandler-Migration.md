@@ -8,7 +8,7 @@ This document captures the plan to refactor the legacy **standard sequence** (`S
 
 | Piece | Role |
 |--------|------|
-| **`CSVLoader.UsesStandardSequenceUpdate`** | `true` for **Integration** and **Skills Training** (legacy CSV **Preparation** normalizes to Skills Training) — drives `Sequencer.Update` → `StandardSequenceUpdate()` (legacy, frame-based milestones). |
+| **`CSVLoader.UsesStandardSequenceUpdate`** | Removed in Phase 4. Standard sessions now advance only through `SequenceRunner` + stage handlers. |
 | **`StandardSequenceUpdate()`** | `TimeSincePlaygroundStart`: 60s / 300s; `CountdownThisSection`: 300 / 180 / 60 / 0 — world shuffler, director, `_avsSequence.StartDynamicDropEnd`, starts **`LastMinute()`**, at 0: **Silent + `PlayThematicSavasana()`**. |
 | **`LastMinute()`** | `EnsureLegacyCoroutineCountdown`, `SetAllowTransitionFromEnvironmentToFreeplay(false)`, `StopShuffle`, `Play_sfx_EndInteractive`, tone `WaitUntil`s, director activate/disable, **FrozenFreeplay**, wait ≤15s, **`FadeOut()`**, **`tutorial.StopTutorial()`**, wait until `CountdownThisSection` is 0. |
 | **`PlaygroundStageHandler.ProtocolStacksPlaygroundCoroutine`** | Protocol Stacks–style **countdown waits** + steps; ends at `CountdownThisSection == 0` → **`MarkComplete()`** (no standard-sequence milestones, no LastMinute, no thematic VO). |
@@ -24,11 +24,11 @@ This document captures the plan to refactor the legacy **standard sequence** (`S
 2. **Standard playground behavior** (milestones + **LastMinute**) lives in **one coroutine** in **`PlaygroundStageHandler`**, mirroring **`ProtocolStacksPlaygroundCoroutine`** (`yield` / `WaitUntil` on `TimeTrackerScript`, shared countdown helpers, `ForceSequenceAdvance` where appropriate). **Developer Comment:** the last minute behaviors should kick in as soon as we are in the last minute, which may involve skipping a bunch of steps.
 3. **`PlayThematicSavasana()`** is invoked from **`SavasanaStageHandler`** for the **standard / thematic** savasana variant — **not** from `Sequencer` when `CountdownThisSection <= 0` (single responsibility, no duplicate VO path).
 4. **`PlayAscendingClosing()`** remains for **Protocol Stacks ascending** (`Savasana_PsAscending` or equivalent).
-5. **Cues → command system:** Any **Wwise cues** (or other triggers) that affect **Playground**, **Savasana**, **Tutorial**, or other migrated sections must go through the **sequence command** path — not bespoke `Sequencer` callbacks or silent side effects. Flow: emit a **`SequenceCommand`** → **`Sequencer.HandleSequenceCommand(...)`** → **`SequenceRunner.TryExecuteSequenceCommand(...)`** → the active (and optionally transitioning-out) **`IStageHandler`** that **`WatchesSequenceCommand`** / **`ExecuteSequenceCommand`**. New or updated cues for Integration / Skills Training should add or reuse entries in **`SequenceCommand`** (`SequenceTools.cs`) and the relevant handler(s) (`PlaygroundStageHandler`, `SavasanaStageHandler`, `TutorialStageHandler`, …) so behavior stays **stage-aware** and **variant-aware** (`StageVariant`).
+5. **Cues → command system:** Any **Wwise cues** (or other triggers) that affect **Playground**, **Savasana**, **Tutorial**, or other migrated sections must go through the **sequence command** path — not bespoke `Sequencer` callbacks or silent side effects. Flow: emit a **`SequenceCommand`** → **`Sequencer.HandleSequenceCommand(...)`** → **`SequenceRunner.TryExecuteSequenceCommand(...)`** → the active (and optionally transitioning-out) **`IStageHandler`** that **`WatchesSequenceCommand`** / **`ExecuteSequenceCommand`**. New or updated cues for Integration / Skills Training should add or reuse entries in **`SequenceCommand`** (`SequenceTools.cs`) and the relevant handler(s) (`PlaygroundStageHandler`, `SavasanaStageHandler`, `TutorialStageHandler`, …) so behavior stays **stage-aware** and **variant-aware** (`StageVariant`). 
 
 **Note:** For standard (thematic) sessions, VO closing may consolidate around something like a single `PlaySavasanaSequence(string savasanaSequenceType)` (parallel to `PlayOpeningSequence`), while still respecting handler ownership for when it fires.
 
-> **Developer comment:** Standard sequences (Skills Training / Integration) should use what is currently `WwiseVOManager.PlayThematicSavasana()` where appropriate; aim longer-term for one savasana entry point analogous to openings.
+> **Developer comment:** We should refactor  `WwiseVOManager.PlayThematicSavasana()` and `WwiseVOManager.PlaySAscendingClosing` into a single function, behaving analagous to `PlayOpeningSequence()` with an equivalent function to `StopOpeningSequence()` as well.
 
 ---
 
@@ -38,7 +38,7 @@ This document captures the plan to refactor the legacy **standard sequence** (`S
    - Add a resolver (e.g. `GetSequenceDefinitionForStandardModes()`) that, given `CSVLoader.gameMode` + `contentPack`, returns:
      - **Integration** → `firefliesDefinition` / `kindnessDefinition` / `mettaDefinition` (and/or a single **`Integration`** asset during rollout).
      - **Skills Training** → `peaceDefinition` / `narrativeDefinition` / `surrenderDefinition` (and/or **`SkillsTraining`** asset).
-     - **Preparation** → align with Skills Training family or a dedicated asset per design.
+     - **Preparation** → align with Skills Training family or a dedicated asset per design. **Developer Note:** "Preparation" and "Preperation" were old names for "Skills Training", we only need "Skills Training". This should be kept in mind for other changes throughout this document.
 2. **Wire session start** so **`sequenceRunner.StartSequence(def)`** uses that resolver (same entry points as `StartTrueStart` / opening / `GameValues` as appropriate).
 3. **Asset hygiene**
    - Unique `displayName` per asset (e.g. fix **`Integration.asset`** if it still copies “Skills Training Sequence”).
@@ -62,11 +62,14 @@ This document captures the plan to refactor the legacy **standard sequence** (`S
    - **End2 (≤180s):** Shruti queue, transition sound, `CloseSoundscapeQueue`, `_avsSequence.StartDynamicDropEnd(180f)`.
    - **End3 (≤60s):** run **LastMinute** behavior (SFX, tone waits, director, FrozenFreeplay, ≤15s, FadeOut, tutorial stop, drain to 0).
 3. **Helpers**
-   - Reuse or share **`EnsureLegacyCoroutineCountdown`** (from `Sequencer` or a small shared helper).
+   - Keep fallback countdown bootstrap local to handlers (small helper in `PlaygroundStageHandler`) to avoid reintroducing legacy `Sequencer` timeline ownership.
    - **`FadeOut()`** — keep on `Sequencer` as a public helper if the handler calls it, or duplicate minimally with a comment pointing to the canonical behavior.
 4. **Completion:** When the coroutine finishes the standard timeline, **`MarkComplete()`** → runner advances to **Savasana**.
 
-**Exit criteria:** Behavior matches legacy standard sequence under playtest; optional: keep `UsesStandardSequenceUpdate` until Phase 4 validates parity.
+**Exit criteria:** Behavior matches legacy standard sequence under playtest while running entirely through handler coroutines.
+
+**Developer Note:** I'll need a variant that skips to the "last minute" behaviors, mirroring "Skip Ascending"
+
 
 ---
 
@@ -84,7 +87,7 @@ This document captures the plan to refactor the legacy **standard sequence** (`S
 
 ## Phase 4 — Remove Legacy `Update` Path and Clean Up `Sequencer`
 
-1. Remove **`StandardSequenceUpdate()`** from **`Update()`**; delete **`StandardSequenceUpdate`**, **`LastMinute`**, and milestone fields (or leave stubs only if external callers exist — grep first).
+1. Remove **`StandardSequenceUpdate()`** and from **`Update()`**; delete **`StandardSequenceUpdate`**, **`LastMinute`**, and milestone fields (or leave stubs only if external callers exist — grep first). Also delete `Sequencer.ProtocolStacksCoroutine` and connected legacy behaviors.
 2. **`CSVLoader.UsesStandardSequenceUpdate`:** remove or narrow to a temporary shim; end state is **no** parallel timeline in `Update`.
 3. **`ResetStandardSequenceMilestones()`:** delete or trim to what **`StartSequence`** still needs.
 
@@ -103,9 +106,9 @@ This document captures the plan to refactor the legacy **standard sequence** (`S
 
 ## Risks and Decisions
 
-1. **Duplicate VO / music:** Legacy End4 **`PlayThematicSavasana`** can overlap with **`PlayAscendingClosing`** in Savasana — migration must assign **thematic** only to **`Savasana_Standard`** and remove the old End4 block.
+1. **Duplicate VO / music:** Legacy End4 **`PlayThematicSavasana`** can overlap with **`PlayAscendingClosing`** in Savasana — migration must assign **thematic** only to **`Savasana_Standard`** and remove the old End4 block. **Developer Note:** The savasanas are designed to play only one at a time, not the two separately. They shouldn't overlap.
 2. **Asset stage variants:** Openings must match **`OpeningStageHandler`** (Skills / Integration / Preparation).
-3. **`ProtocolStacksPlaygroundStart` + `Sequencer.ProtocolStacksCoroutine`:** Legacy path for Wwise-driven interactive start **outside** the runner; out of scope for this migration but document so PS debug flows are not broken accidentally.
+3. **`ProtocolStacksPlaygroundStart` + `Sequencer.ProtocolStacksCoroutine`:** Removed in Phase 4; Protocol Stacks flow now runs only via `SequenceDefinition` stages and handlers.
 4. **Cues bypassing commands:** If a cue still calls `Sequencer` or music/VO directly, **`IStageHandler`** will not see it — hard-to-debug desyncs (wrong stage, wrong variant). Migration should eliminate those stragglers.
 
 ---
@@ -117,7 +120,7 @@ This document captures the plan to refactor the legacy **standard sequence** (`S
 | Legacy standard sequence | `Assets/Scripts/Sequencing/Sequencer.cs` — `StandardSequenceUpdate`, `LastMinute`, `FadeOut` |
 | Playground coroutine pattern | `Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs` — `ProtocolStacksPlaygroundCoroutine` |
 | Savasana VO | `Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs` |
-| Mode gate | `Assets/Scripts/CSVUtility/HummingBirdCommunications/CSVLoader.cs` — `UsesStandardSequenceUpdate` |
+| Mode gate | `Assets/Scripts/Sequencing/SequenceRunner.cs` — `GetSequenceDefinitionForCurrentCsvSession()` |
 | Sequence definitions | `Assets/Scripts/Sequencing/SkillsTraining.asset`, `Integration.asset`, `Sequencer` inspector defs |
 | Runner lifecycle | `Assets/Scripts/Sequencing/SequenceRunner.cs` — `StartSequence`, `ResetStandardSequenceMilestones` / time reset |
 | Command dispatch | `Assets/Scripts/Sequencing/SequenceTools.cs` — `SequenceCommand`; `Sequencer.HandleSequenceCommand`; `SequenceRunner.TryExecuteSequenceCommand` |

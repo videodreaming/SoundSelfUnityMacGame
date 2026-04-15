@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace SoundSelf.Sequence
@@ -27,8 +28,27 @@ namespace SoundSelf.Sequence
         public void Enter(StageVariant variant)
         {
             IsComplete = false;
+            if (variant == StageVariant.Menu_Ps_InteractiveOrMusic)
+            {
+                Debug.Log("SetMenuStageHandler: Enter Menu_Ps_InteractiveOrMusic (stub) - auto-branching to Protocol Stacks interactive sequence.");
+                MarkComplete(); // Temporary behavior until menu UI branch choice is implemented.
+                if (_sequencer != null)
+                    _sequencer.StartCoroutine(StartProtocolStacksInteractiveNextFrame());
+                else
+                    Debug.LogError("SetMenuStageHandler: Sequencer is null. Cannot auto-branch to Protocol Stacks interactive sequence.");
+                return;
+            }
+
             Debug.Log("SetMenuStageHandler: Enter (stub - skipping until implementation added)");
             MarkComplete(); // Stub: complete immediately; cue-watching in place for when implementation is added
+        }
+
+        private IEnumerator StartProtocolStacksInteractiveNextFrame()
+        {
+            // Avoid re-entering SequenceRunner.StartSequence while it is still inside AdvanceToStage/TransitionToNextStage.
+            yield return null;
+            if (_sequencer != null)
+                _sequencer.StartProtocolStacksInteractiveSequence();
         }
 
         //--------------------------------

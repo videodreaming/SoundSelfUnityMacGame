@@ -52,6 +52,7 @@ namespace SoundSelf.Sequence
         Playground_Standard = 8,
         Playground_SkipAscending = 9,
         Playground_Ascending = 10,
+        Playground_SkipStandard = 30,
         Savasana_Standard = 11,
         Savasana_PsAscending = 12,
         Menu_Default = 13,
@@ -68,6 +69,9 @@ namespace SoundSelf.Sequence
         Countdown_60m_WithSavasana = 24,
         Countdown_ClosingDuration = 25,
         Countdown_StopCountdowns = 26,
+        Menu_Ps_InteractiveOrMusic = 27,
+        Playlist_40m = 28,
+        Playlist_60m = 29,
     }
 
     [System.Serializable]

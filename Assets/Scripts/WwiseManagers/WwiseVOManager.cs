@@ -515,6 +515,25 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.PostEvent("Play_ASCENDING_CLOSING", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, ClosingCallBackFunction, null);
     }
 
+    public void PlayMusicPlaylist(string playlistDurationSwitch)
+    {
+        if (playlistDurationSwitch != "_40m" && playlistDurationSwitch != "_60m")
+        {
+            Debug.LogError("WWise_VO: Invalid MusicPlaylist switch '" + playlistDurationSwitch + "'. Expected _40m or _60m.");
+            return;
+        }
+
+        AkSoundEngine.SetSwitch("MusicPlaylist_Switch", playlistDurationSwitch, gameObject);
+        Debug.Log("WWise_VO: Play Music Playlist (" + playlistDurationSwitch + ")");
+        AkSoundEngine.PostEvent("Play_MusicPlaylist", gameObject);
+    }
+
+    public void StopMusicPlaylists()
+    {
+        Debug.Log("WWise_VO: Stop Music Playlist");
+        AkSoundEngine.PostEvent("Stop_MusicPlaylist", gameObject);
+    }
+
     public void SetTestRepairSwitch(string AorC)
     {
         if(AorC == "A")

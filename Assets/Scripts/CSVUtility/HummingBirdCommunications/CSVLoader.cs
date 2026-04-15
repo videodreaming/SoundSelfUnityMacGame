@@ -19,8 +19,9 @@ public class CSVLoader : MonoBehaviour
     /// </summary>
     public string contentPack { get; private set; }
 
-    public string firstTimeUserString { get; private set; }
     public bool IsFirstTimeUser { get; private set; }
+    public bool IsLayingDown { get; private set; }
+    public bool IsVibroacoustic { get; private set; }
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
     private bool layingDown = true;
@@ -37,6 +38,10 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private string decryptedContentPack;
     [SerializeField] private string encryptedFirstTimeUser;
     [SerializeField] private string decryptedFirstTimeUser;
+    [SerializeField] private string encryptedLayingDown;
+    [SerializeField] private string decryptedLayingDown;
+    [SerializeField] private string encryptedVibroacoustic;
+    [SerializeField] private string decryptedVibroacoustic;
 
     public const string GameModeSkillsTraining = "Skills Training";
     public const string GameModeIntegration = "Integration";
@@ -52,10 +57,6 @@ public class CSVLoader : MonoBehaviour
 
     public const string ContentPackAscending = "Ascending";
     public const string ContentPackDescending = "Descending";
-
-    /// <summary>Modes that use <see cref="Sequencer"/> standard-sequence countdown milestones (not Protocol Stacks).</summary>
-    public bool UsesStandardSequenceUpdate =>
-        gameMode == GameModeSkillsTraining || gameMode == GameModeIntegration;
 
     /// <summary>Legacy session files may still say Preparation; normalized to <see cref="GameModeSkillsTraining"/>.</summary>
     public static bool IsLegacyPreparationLabel(string mode) =>
@@ -190,21 +191,35 @@ public class CSVLoader : MonoBehaviour
             {
                 Debug.Log("CSV file found at: " + sessionsParams);
                 string[] data = File.ReadAllText(sessionsParams).Split(new string[] { ",", "\n" }, StringSplitOptions.None);
+                if (data.Length < 5)
+                {
+                    Debug.LogError("CSVLoader: session_params.csv is malformed. Expected at least 5 comma/newline-separated values (gameMode, contentPack, firstTimeUser, layingDown, vibroacoustic), but got " + data.Length + ". Path: " + sessionsParams);
+                    return;
+                }
                 encryptedGameMode = data[0].Trim();
                 encryptedContentPack = data[1].Trim();
-                encryptedFirstTimeUser = data[5].Trim();
+                encryptedFirstTimeUser = data[2].Trim();
+                encryptedLayingDown = data[3].Trim();
+                encryptedVibroacoustic = data[4].Trim();
 
                 Debug.Log("Encrypted Game Mode: " + encryptedGameMode);
                 Debug.Log("Encrypted Content Pack: " + encryptedContentPack);
+                Debug.Log("Encrypted First Time User: " + encryptedFirstTimeUser);
+                Debug.Log("Encrypted Laying Down: " + encryptedLayingDown);
+                Debug.Log("Encrypted Vibroacoustic: " + encryptedVibroacoustic);
+
                 decryptedFirstTimeUser = EncryptionHelper.Decrypt(encryptedFirstTimeUser);
+                decryptedLayingDown = EncryptionHelper.Decrypt(encryptedLayingDown);
+                decryptedVibroacoustic = EncryptionHelper.Decrypt(encryptedVibroacoustic);
                 decryptedGameMode = EncryptionHelper.Decrypt(encryptedGameMode);
                 decryptedContentPack = EncryptionHelper.Decrypt(encryptedContentPack);
 
                 gameMode = NormalizeGameMode(decryptedGameMode);
                 contentPack = NormalizeContentPack(decryptedContentPack, gameMode);
 
-                firstTimeUserString = decryptedFirstTimeUser;
-                IsFirstTimeUser = firstTimeUserString == "First Time User";
+                IsFirstTimeUser = decryptedFirstTimeUser == "1";
+                IsLayingDown = decryptedLayingDown == "1";
+                IsVibroacoustic = decryptedVibroacoustic == "1";
             }
             else
             {
@@ -237,7 +252,7 @@ public class CSVLoader : MonoBehaviour
             else
                 Debug.LogWarning("CSVLoader: VOInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. VO content not set.");
 
-            if (firstTimeUserString == "First Time User")
+            if (IsFirstTimeUser)
                 wwiseVOManager.firstTimeUser();
             else
                 wwiseVOManager.notFirstTimeUser();

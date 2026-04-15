@@ -1,14 +1,29 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace SoundSelf.Sequence
 {
     public class SequenceRunner : MonoBehaviour
     {
+        
+        [Header("Sequence Definitions (Inspector)")]
+        [Header("Development (Starts on Awake) - Remove this before release.")]
         // If assigned in the inspector, the sequence will begin automatically when this component wakes.
         // Formerly serialized as `definition` to keep existing inspector assignments.
-        [SerializeField]
-        private SequenceDefinition startDefinition;
+        [SerializeField] private SequenceDefinition startDefinition;
+        
+        [Header("Protocol Stacks")]
+        [SerializeField] private SequenceDefinition protocolStacksCalibrationDefinition;
+        [SerializeField] private SequenceDefinition protocolStacksInteractiveDefinition;
+        [FormerlySerializedAs("protocolStacksMusicPlaylistDefinition")]
+        [SerializeField] private SequenceDefinition protocolStacksMusicPlaylist60mDefinition;
+        [SerializeField] private SequenceDefinition protocolStacksMusicPlaylist40mDefinition;
+
+        [Header("Standard Modes")]
+        [SerializeField] private SequenceDefinition integrationDefinition;
+        [SerializeField] private SequenceDefinition skillsTrainingDefinition;
+
 
         // Current active definition (can change at runtime via StartSequence/SetDefinition).
         private SequenceDefinition definition;
@@ -59,10 +74,9 @@ namespace SoundSelf.Sequence
 
         public void StartSequence(SequenceDefinition def = null)
         {
-            if (def != null)
-                definition = def;
+            var nextDefinition = def ?? definition;
 
-            if (definition == null || definition.StagesOrEmpty.Length == 0)
+            if (nextDefinition == null || nextDefinition.StagesOrEmpty.Length == 0)
             {
                 Debug.LogWarning("SequenceRunner: Cannot start — no definition or empty stages.");
                 MarkSequenceComplete();
@@ -72,14 +86,20 @@ namespace SoundSelf.Sequence
 
             if (sequencer == null)
             {
-                Debug.LogError("SequenceRunner: Sequencer is null. Cannot reset standard sequence milestones.");
+                Debug.LogError("SequenceRunner: Sequencer is null. Cannot start sequence lifecycle.");
                 return;
             }
             // Hard reset before starting.
             // TimeSincePlaygroundStart must not carry over between sequence runs (Playground.Exit resets it when the stage retires; this covers skips/restarts where Exit may not run).
-            TimeTrackerScript.instance.ResetTimeSincePlaygroundStart();
-            sequencer.ResetStandardSequenceMilestones();
+            var tracker = TimeTrackerScript.instance;
+            if (tracker != null)
+                tracker.ResetTimeSincePlaygroundStart();
+            else
+                Debug.LogError("SequenceRunner: TimeTrackerScript.instance is null. Cannot reset TimeSincePlaygroundStart before sequence start.");
+
+            // Exit currently active handlers before swapping definitions; otherwise indices can resolve against the wrong stage list.
             ForceExitCurrentAndTransitioningHandlers();
+            definition = nextDefinition;
             _sequenceComplete = false;
             _transitioningOutStageIndex = -1;
             AdvanceToStage(0);
@@ -170,7 +190,83 @@ namespace SoundSelf.Sequence
             // If an inspector start definition exists, trigger startup during Start().
             // This avoids Unity Awake-order issues with handler registration in Sequencer.Awake().
             if (startDefinition != null)
+            {
+                Debug.LogWarning("SequenceRunner: =========================================================");
+                Debug.LogWarning("SequenceRunner: DEVELOPMENT BEHAVIOR, REMOVE THIS BEFORE RELEASE:");
+                Debug.LogWarning("SequenceRunner: Starting sequence from inspector start definition.");
+                Debug.LogWarning("SequenceRunner: =========================================================");
+
                 StartSequence(startDefinition);
+            }
+            else
+            {
+                StartFromCurrentCsvSession();
+            }
+        }
+
+        /// <summary>
+        /// Production startup path: resolves mode/content-pack from CSV and starts that sequence.
+        /// </summary>
+        public void StartFromCurrentCsvSession()
+        {
+            var def = GetSequenceDefinitionForCurrentCsvSession();
+            if (def != null)
+            {
+                StartSequence(def);
+                return;
+            }
+
+            Debug.LogError("SequenceRunner: No SequenceDefinition resolved for current CSV session.");
+        }
+
+        /// <summary>Protocol Stacks branch entry: starts the calibration sequence definition.</summary>
+        public void StartProtocolStacksCalibrationSequence() => StartNamedSequence(protocolStacksCalibrationDefinition, nameof(protocolStacksCalibrationDefinition));
+
+        /// <summary>Protocol Stacks branch entry: starts the interactive sequence definition.</summary>
+        public void StartProtocolStacksInteractiveSequence() => StartNamedSequence(protocolStacksInteractiveDefinition, nameof(protocolStacksInteractiveDefinition));
+
+        /// <summary>Protocol Stacks branch entry: starts the 60-minute music playlist sequence definition.</summary>
+        public void StartProtocolStacksMusicPlaylist60mSequence() => StartNamedSequence(protocolStacksMusicPlaylist60mDefinition, nameof(protocolStacksMusicPlaylist60mDefinition));
+
+        /// <summary>Protocol Stacks branch entry: starts the 40-minute music playlist sequence definition.</summary>
+        public void StartProtocolStacksMusicPlaylist40mSequence() => StartNamedSequence(protocolStacksMusicPlaylist40mDefinition, nameof(protocolStacksMusicPlaylist40mDefinition));
+
+        /// <summary>
+        /// Returns the SequenceDefinition for the current CSV session mode/content-pack.
+        /// </summary>
+        private SequenceDefinition GetSequenceDefinitionForCurrentCsvSession()
+        {
+            var loader = CSVLoader.instance;
+            if (loader == null)
+            {
+                Debug.LogError("SequenceRunner: CSVLoader.instance is null. Cannot resolve session sequence.");
+                return null;
+            }
+
+            if (loader.gameMode == CSVLoader.GameModeProtocolStacks)
+            {
+                // Protocol Stacks starts from calibration; practitioner choice later selects interactive vs playlist branch.
+                return protocolStacksCalibrationDefinition;
+            }
+
+            if (loader.gameMode == CSVLoader.GameModeSkillsTraining)
+                return skillsTrainingDefinition;
+
+            if (loader.gameMode == CSVLoader.GameModeIntegration)
+                return integrationDefinition;
+
+            Debug.LogWarning("SequenceRunner: No sequence definition resolver for gameMode '" + loader.gameMode + "'.");
+            return null;
+        }
+
+        private void StartNamedSequence(SequenceDefinition definitionToStart, string definitionLabel)
+        {
+            if (definitionToStart == null)
+            {
+                Debug.LogError("SequenceRunner: Cannot start sequence; missing definition reference: " + definitionLabel + ".");
+                return;
+            }
+            StartSequence(definitionToStart);
         }
 
         private void Update()

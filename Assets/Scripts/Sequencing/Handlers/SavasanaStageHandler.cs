@@ -4,7 +4,7 @@ using ConversionUtilities;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Handles the Savasana stage: locks fundamental, activates director queue, plays Ascending Closing VO. Completes immediately (savasana plays to end).</summary>
+    /// <summary>Handles the Savasana stage: shared transition setup + variant-based VO routing (thematic vs ascending), then waits for section countdown to end.</summary>
     public class SavasanaStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
@@ -70,7 +70,7 @@ namespace SoundSelf.Sequence
                 return;
             }
 
-            Debug.Log("SavasanaStageHandler: Enter - running Savasana (Ascending Closing)");
+            Debug.Log("SavasanaStageHandler: Enter - running Savasana for variant '" + _variant + "'.");
 
             MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
             _sequencer.director.ActivateQueue(15f);
@@ -80,14 +80,42 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetAllowThumpAlways(false);
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(false);
-            _sequencer.wwiseVOManager.PlayAscendingClosing();
-            _sequencer.StopAllAvsPrograms();
-            AVSSequence.instance.StartDropToDelta();
-
+            PlaySavasanaVoForVariant(_variant);
             _sequencer.StartCoroutine(WaitForTimerToEnd());
+
+            
+            if(IsAscendingVariant())
+            {
+                _sequencer.StopAllAvsPrograms();
+                if (AVSSequence.instance != null)
+                    AVSSequence.instance.StartDropToDelta();
+                else
+                    Debug.LogError("SavasanaStageHandler: AVSSequence.instance is null. Cannot start DropToDelta.");
+            }
         }
 
         private bool IsStandardVariant() => _variant == StageVariant.Savasana_Standard;
+        private bool IsAscendingVariant() => _variant == StageVariant.Savasana_PsAscending;
+
+        private void PlaySavasanaVoForVariant(StageVariant variant)
+        {
+            if (IsAscendingVariant())
+            {
+                Debug.Log("SavasanaStageHandler: Playing Ascending closing VO.");
+                _sequencer.wwiseVOManager.PlayAscendingClosing();
+                return;
+            }
+
+            if (IsStandardVariant())
+            {
+                Debug.Log("SavasanaStageHandler: Playing Thematic savasana VO.");
+                _sequencer.wwiseVOManager.PlayThematicSavasana();
+                return;
+            }
+
+            Debug.LogWarning("SavasanaStageHandler: Unrecognized variant '" + variant + "'. Defaulting to Thematic savasana VO.");
+            _sequencer.wwiseVOManager.PlayThematicSavasana();
+        }
 
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand)
         {
@@ -132,9 +160,17 @@ namespace SoundSelf.Sequence
 
         private IEnumerator WaitForTimerToEnd()
         {
-            //waits for the "this section" countdown to come to an end
-            while(TimeTrackerScript.instance.CountdownThisSection > 0)
+            // Waits for the "this section" countdown to reach zero.
+            while (true)
             {
+                var tt = TimeTrackerScript.instance;
+                if (tt == null)
+                {
+                    Debug.LogError("SavasanaStageHandler: TimeTrackerScript.instance became null while waiting for timer end. Completing stage.");
+                    break;
+                }
+                if (tt.CountdownThisSection <= 0f)
+                    break;
                 yield return null;
             }
             MarkComplete();

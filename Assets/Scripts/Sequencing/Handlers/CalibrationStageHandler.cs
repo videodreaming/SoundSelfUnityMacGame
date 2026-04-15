@@ -24,6 +24,9 @@ namespace SoundSelf.Sequence
                 _sequencer.calibrationMenu.StartCalibrationSequence();
             else
                 Debug.LogError("CalibrationStageHandler: Sequencer or calibrationMenu is null. Cannot start calibration UI.");
+
+            // Stub behavior: auto-advance until calibration flow owns completion signaling.
+            MarkComplete();
         }
 
         //--------------------------------

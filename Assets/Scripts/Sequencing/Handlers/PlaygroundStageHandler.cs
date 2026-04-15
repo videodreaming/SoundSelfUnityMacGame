@@ -7,6 +7,7 @@ namespace SoundSelf.Sequence
     public class PlaygroundStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
+        private readonly AVSSequence _avsSequence;
         private Coroutine _playgroundCoroutine;
         private StageVariant _variant = StageVariant.None;
 
@@ -14,9 +15,10 @@ namespace SoundSelf.Sequence
 
         public bool IsComplete { get; private set; }
 
-        public PlaygroundStageHandler(Sequencer sequencer)
+        public PlaygroundStageHandler(Sequencer sequencer, AVSSequence avsSequence)
         {
             _sequencer = sequencer;
+            _avsSequence = avsSequence;
         }
 
         public void Enter(StageVariant variant)
@@ -55,8 +57,14 @@ namespace SoundSelf.Sequence
 
             _variant = variant;
 
+            if (_sequencer.director == null || _sequencer.worldShuffler == null || MusicSystem1.instance == null)
+            {
+                Debug.LogError("PlaygroundStageHandler: Missing director/worldShuffler/MusicSystem1 instance. Cannot run playground stage.");
+                MarkComplete();
+                return;
+            }
+
             _sequencer.ForceSequenceAdvanceRequested = false;
-            _playgroundCoroutine = _sequencer.StartCoroutine(ProtocolStacksPlaygroundCoroutine(variant == StageVariant.Playground_SkipAscending));
             _sequencer.director.Enable();
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(true);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
@@ -65,19 +73,27 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(true);
             if (IsStandardVariant())
             {
-                Debug.Log("PlaygroundStageHandler: Standard variant: Starting Standard Playground");
+                Debug.Log("PlaygroundStageHandler: Standard variant: Starting Standard Playground coroutine.");
                 if(!_sequencer.worldShuffler.shuffling)
                 {
                     _sequencer.worldShuffler.BeginShuffle();
                 }
+                _playgroundCoroutine = _sequencer.StartCoroutine(StandardSequencePlaygroundCoroutine(variant == StageVariant.Playground_SkipStandard));
             }
-            else if (variant == StageVariant.Playground_Ascending)
+            else if (variant == StageVariant.Playground_Ascending || variant == StageVariant.Playground_SkipAscending)
             {
-                Debug.Log("PlaygroundStageHandler: Ascending variant: Starting Ascending Playground");
+                Debug.Log("PlaygroundStageHandler: Ascending variant: Starting Protocol Stacks Playground coroutine.");
+                _playgroundCoroutine = _sequencer.StartCoroutine(ProtocolStacksPlaygroundCoroutine(variant == StageVariant.Playground_SkipAscending));
+            }
+            else
+            {
+                Debug.LogWarning("PlaygroundStageHandler: Unsupported variant '" + variant + "'. Completing stage.");
+                MarkComplete();
             }
         }
 
-        private bool IsStandardVariant() => _variant == StageVariant.Playground_Standard;
+        private bool IsStandardVariant() =>
+            _variant == StageVariant.Playground_Standard || _variant == StageVariant.Playground_SkipStandard;
 
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
             sequenceCommand == SequenceCommand.CueStopInteractive && IsStandardVariant();
@@ -123,11 +139,27 @@ namespace SoundSelf.Sequence
             }
         }
 
+        private void EnsureCountdownRunningForFallback(string coroutineLabel, float fallbackSeconds)
+        {
+            var tt = TimeTrackerScript.instance;
+            if (tt == null)
+            {
+                Debug.LogError("PlaygroundStageHandler: " + coroutineLabel + " — TimeTrackerScript.instance is null; CountdownThisSection unavailable.");
+                return;
+            }
+            if (tt.IsCountdownRunning)
+                return;
+
+            float closing = CSVLoader.instance != null ? Mathf.Max(0f, CSVLoader.instance.totalTimeOfPostUnguidedVocalizationContent) : 0f;
+            float full = closing > 0f ? fallbackSeconds + closing : fallbackSeconds;
+            Debug.LogWarning("PlaygroundStageHandler: " + coroutineLabel + " — session countdown is not running. [Fallback] BeginCountdownPair [CountdownThisSection]=" + fallbackSeconds + " [CountdownFull]=" + full + ".");
+            tt.BeginCountdownPair(fallbackSeconds, full);
+        }
+
         private IEnumerator ProtocolStacksPlaygroundCoroutine(bool skipToEnd = false)
         {
             var tt = TimeTrackerScript.instance;
             float initialCd = SessionCountdownThisSection();
-            bool x = skipToEnd || _sequencer.ForceSequenceAdvanceRequested;
 
 
             Debug.Log("PlaygroundStageHandler: STARTED - [CountdownThisSection]=" + initialCd + " s [CountdownFull]=" + (tt != null ? tt.CountdownFull.ToString() : "?") + " (" + (initialCd / 60f) + " min main)");
@@ -149,7 +181,7 @@ namespace SoundSelf.Sequence
 
             Debug.Log("PlaygroundStageHandler: Waiting for countdown to reach " + step1Threshold + " seconds (20 minutes). Current: " + SessionCountdownThisSection() + " (or call ForceSequenceAdvance() to skip)");
             int frameCount = 0;
-            while (SessionCountdownThisSection() > step1Threshold && !x)
+            while (SessionCountdownThisSection() > step1Threshold && !ShouldSkip(skipToEnd))
             {
                 frameCount++;
                 if (frameCount % 600 == 0)
@@ -170,7 +202,7 @@ namespace SoundSelf.Sequence
 
             _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
 
-            while (SessionCountdownThisSection() > (19f * 60f - 30f) && !x)
+            while (SessionCountdownThisSection() > (19f * 60f - 30f) && !ShouldSkip(skipToEnd))
             {
                 yield return null;
             }
@@ -179,7 +211,7 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler: Step 2");
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SitarAmbience"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
 
-            while (SessionCountdownThisSection() > (16f * 60f) && !x)
+            while (SessionCountdownThisSection() > (16f * 60f) && !ShouldSkip(skipToEnd))
             {
                 yield return null;
             }
@@ -188,7 +220,7 @@ namespace SoundSelf.Sequence
             _sequencer.director.AddActionToQueue(LightControl.instance.Action_SetPreferredColorWorld("Blue", 8.0f), "ColorWorld", false, true, 180.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
             Debug.Log("PlaygroundStageHandler: Step 4");
 
-            while (SessionCountdownThisSection() > (13f * 60f) && !x)
+            while (SessionCountdownThisSection() > (13f * 60f) && !ShouldSkip(skipToEnd))
             {
                 yield return null;
             }
@@ -196,7 +228,7 @@ namespace SoundSelf.Sequence
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("PinkNoiseAtmosphere"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
             Debug.Log("PlaygroundStageHandler: Step 5");
 
-            while (SessionCountdownThisSection() > (12f * 60f) && !x)
+            while (SessionCountdownThisSection() > (12f * 60f) && !ShouldSkip(skipToEnd))
             {
                 yield return null;
             }
@@ -204,7 +236,7 @@ namespace SoundSelf.Sequence
 
             _sequencer.worldShuffler.BeginShuffle(false);
 
-            while (SessionCountdownThisSection() > (10f * 60f) && !x)
+            while (SessionCountdownThisSection() > (10f * 60f) && !ShouldSkip(skipToEnd))
             {
                 yield return null;
             }
@@ -212,7 +244,7 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler: Step 6");
             _sequencer.worldShuffler.ExcludeSoundscape("SonoFlore");
 
-            while (SessionCountdownThisSection() > (4f * 60f) && !x)
+            while (SessionCountdownThisSection() > (4f * 60f) && !ShouldSkip(skipToEnd))
             {
                 yield return null;
             }
@@ -222,13 +254,13 @@ namespace SoundSelf.Sequence
             _sequencer.worldShuffler.CloseSoundscapeQueue();
             _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("SonoFlore"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
 
-            while (SessionCountdownThisSection() > 60f && !x)
+            while (SessionCountdownThisSection() > 60f && !ShouldSkip(skipToEnd))
             {
                 yield return null;
             }
             _sequencer.ForceSequenceAdvanceRequested = false;
 
-            while (SessionCountdownThisSection() > 0f && !x)
+            while (SessionCountdownThisSection() > 0f && !ShouldSkip(skipToEnd))
             {
                 yield return null;
             }
@@ -239,12 +271,119 @@ namespace SoundSelf.Sequence
             MarkComplete();
         }
 
+        private IEnumerator StandardSequencePlaygroundCoroutine(bool skipToEnd = false)
+        {
+            if (_sequencer == null || _sequencer.worldShuffler == null || _sequencer.director == null)
+            {
+                Debug.LogError("PlaygroundStageHandler: Missing Sequencer/worldShuffler/director. Cannot run standard playground.");
+                _playgroundCoroutine = null;
+                MarkComplete();
+                yield break;
+            }
+
+            // Keep legacy behavior parity while running inside stage handlers.
+            EnsureCountdownRunningForFallback("StandardSequencePlaygroundCoroutine", 305f);
+
+            while ((TimeTrackerScript.instance != null ? TimeTrackerScript.instance.TimeSincePlaygroundStart : 0f) < 60f
+                   && !ShouldSkip(skipToEnd))
+            {
+                yield return null;
+            }
+            _sequencer.ForceSequenceAdvanceRequested = false;
+            _sequencer.worldShuffler.ResetSoundscapeExclusions();
+            Debug.Log("PlaygroundStageHandler(Standard): Start1 at 60s — reset soundscape exclusions.");
+
+            while ((TimeTrackerScript.instance != null ? TimeTrackerScript.instance.TimeSincePlaygroundStart : 0f) < 300f
+                   && !ShouldSkip(skipToEnd))
+            {
+                yield return null;
+            }
+            _sequencer.ForceSequenceAdvanceRequested = false;
+            _sequencer.worldShuffler.ResetColorWorlds();
+            Debug.Log("PlaygroundStageHandler(Standard): Start2 at 300s — reset color worlds.");
+
+            while (SessionCountdownThisSection() > 300f && !ShouldSkip(skipToEnd))
+            {
+                yield return null;
+            }
+            _sequencer.ForceSequenceAdvanceRequested = false;
+            _sequencer.worldShuffler.ResetSoundscapeExclusions();
+            _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
+            _sequencer.worldShuffler.ExcludeSoundscape("Shruti");
+            Debug.Log("PlaygroundStageHandler(Standard): End1 at <=300s — exclude Shadow/Shruti.");
+
+            while (SessionCountdownThisSection() > 180f && !ShouldSkip(skipToEnd))
+            {
+                yield return null;
+            }
+            _sequencer.ForceSequenceAdvanceRequested = false;
+            _sequencer.director.AddActionToQueue(MusicSystem1.instance.Action_SetSoundscape("Shruti"), "Soundscape", true, false, 180.0f, DirectorActivationBehavior.ActivateEntireQueueOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
+            _sequencer.director.AddActionToQueue(_sequencer.director.Action_PlayTransitionSound(), "TransitionSound", true, false, 180.0f, DirectorActivationBehavior.ActivateThisActionOnNextTone, DirectorExclusivityBehavior.ReplaceAllOfType);
+            _sequencer.worldShuffler.CloseSoundscapeQueue();
+            if (_avsSequence != null)
+                _avsSequence.StartDynamicDropEnd(180f);
+            else
+                Debug.LogError("PlaygroundStageHandler(Standard): AVSSequence is null. Cannot start dynamic drop end.");
+            Debug.Log("PlaygroundStageHandler(Standard): End2 at <=180s — queue Shruti + transition + dynamic drop end.");
+
+            while (SessionCountdownThisSection() > 60f && !ShouldSkip(skipToEnd))
+            {
+                yield return null;
+            }
+            _sequencer.ForceSequenceAdvanceRequested = false;
+            Debug.Log("PlaygroundStageHandler(Standard): End3 at <=60s — starting LastMinute behavior.");
+
+            EnsureCountdownRunningForFallback("StandardLastMinute", 90f);
+            MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
+            _sequencer.worldShuffler.StopShuffle();
+            AkSoundEngine.PostEvent("Play_sfx_EndInteractive", _sequencer.gameObject);
+
+            while (ToneActiveConfident() && SessionCountdownThisSection() > 30f && !ShouldSkip(skipToEnd))
+                yield return null;
+            _sequencer.ForceSequenceAdvanceRequested = false;
+
+            while (!ToneActiveConfident() && SessionCountdownThisSection() > 30f && !ShouldSkip(skipToEnd))
+                yield return null;
+            _sequencer.ForceSequenceAdvanceRequested = false;
+
+            _sequencer.director.ActivateQueue(15f);
+            _sequencer.director.Disable();
+            MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
+
+            while (SessionCountdownThisSection() > 15f && !ShouldSkip(skipToEnd))
+                yield return null;
+            _sequencer.ForceSequenceAdvanceRequested = false;
+
+            _sequencer.FadeOut();
+            if (_sequencer.tutorial != null)
+                _sequencer.tutorial.StopTutorial();
+
+            while (SessionCountdownThisSection() > 0f && !ShouldSkip(skipToEnd))
+                yield return null;
+            _sequencer.ForceSequenceAdvanceRequested = false;
+
+            _playgroundCoroutine = null;
+            MarkComplete();
+        }
+
+        private bool ToneActiveConfident()
+        {
+            if (_sequencer == null || _sequencer.imitoneVoiceInterpreter == null)
+                return false;
+            return _sequencer.imitoneVoiceInterpreter.toneActiveConfident;
+        }
+
+        private bool ShouldSkip(bool skipToEnd)
+        {
+            return skipToEnd || (_sequencer != null && _sequencer.ForceSequenceAdvanceRequested);
+        }
+
         //--------------------------------
         // Lifecycle after main work: complete -> (optional) transition-out tail -> Exit
         // SequenceRunner owns BeginTransitionOut / Exit timing; handlers should not call those locally.
         //--------------------------------
 
-        // Completion: ProtocolStacksPlaygroundCoroutine calls MarkComplete() when countdown logic finishes; runner then calls TransitionToNextStage().
+        // Completion: ProtocolStacksPlaygroundCoroutine/StandardSequencePlaygroundCoroutine call MarkComplete() when their timelines finish; runner then calls TransitionToNextStage().
         /// <summary>Main phase done. Does not start transition-out; that begins when the runner advances.</summary>
         private void MarkComplete()
         {

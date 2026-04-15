@@ -6,7 +6,6 @@ using TMPro;
 
 public class CalibrationMenu : MonoBehaviour
 {
-    public ExperienceDurationDatabase experienceDurationDatabase;
     public Button startButton;
     public Button startConfigButton;
     public Button endTutorialButton;
@@ -33,21 +32,31 @@ public class CalibrationMenu : MonoBehaviour
     public Sprite offMarkImage;
 
     public GameObject mainText;
+    private bool _calibrationListenersRegistered;
 
 
     // Start is called before the first frame update
     public void StartCalibrationSequence()
     {
         //THESE PARTS ARE LEFT OVER FROM WHEN THE CALIBRATION STARTED ON LAUNCH. WE SHOULD REMOVE THEM SOON.
-        startButton.onClick.AddListener(OnStartButtonClicked);
-        startConfigButton.onClick.AddListener(OnStartConfigButtonClicked);
-        endTutorialButton.onClick.AddListener(OnEndTutorialButtonClicked);
-        nextButton.onClick.AddListener(OnNextButtonClicked);
+        RegisterCalibrationUiListenersIfNeeded();
         endTutorialButton.gameObject.SetActive(false); // Hide the end tutorial button initially
         nextButton.gameObject.SetActive(false); // Hide the next button initially
         
         //THIS ONE WE SHOULD KEEP.
         AkSoundEngine.PostEvent("Play_Calibration_Sequence", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, CalibrationCallBackFunction, null);
+    }
+
+    private void RegisterCalibrationUiListenersIfNeeded()
+    {
+        if (_calibrationListenersRegistered)
+            return;
+
+        startButton.onClick.AddListener(OnStartButtonClicked);
+        startConfigButton.onClick.AddListener(OnStartConfigButtonClicked);
+        endTutorialButton.onClick.AddListener(OnEndTutorialButtonClicked);
+        nextButton.onClick.AddListener(OnNextButtonClicked);
+        _calibrationListenersRegistered = true;
     }
     public void OnStartButtonClicked()
     {
@@ -72,32 +81,13 @@ public class CalibrationMenu : MonoBehaviour
 
             if (sequencer != null)
             {
-                sequencer.StartTrueStart(); // Start the first sequence in the sequencer
+                // sequencer.StartTrueStart(); // Temporarily disabled while calibration menu flow is redesigned.
             }
             else
             {
                 Debug.LogError("CalibrationMenu: sequencer is null! Cannot start sequence.");
                 return; // Exit early if sequencer is null
             }
-            TimeLeftScript timeLeftScript = FindObjectOfType<TimeLeftScript>();
-            if (timeLeftScript != null && experienceDurationDatabase != null && CSVLoader.instance != null)
-            {
-                if (CSVLoader.instance.gameMode == CSVLoader.GameModeSkillsTraining)
-                {
-                    Debug.LogWarning("CalibrationMenu: Setting up for Skills Training (WARNING, THIS DOESN'T CURRENTLY DO ANYTHING)");
-                    //timeLeftScript.SetTimeLeftSeconds(2400.0f); // 40 minutes
-                }
-                else if (CSVLoader.instance.gameMode == "Integration")
-                {
-                    Debug.LogWarning("CalibrationMenu: Setting up for Integration (WARNING, THIS DOESN'T CURRENTLY DO ANYTHING)");
-                    //timeLeftScript.SetTimeLeftSeconds(1200.0f); // 20 minutes
-                }
-            }
-            else if (CSVLoader.instance == null)
-            {
-                Debug.LogError("CalibrationMenu: CSVLoader.instance is null! Cannot determine game mode.");
-            }
-
             currentTutorialPortionIndex = 0; // Reset tutorial portion
             SetTutorialSwitch();
             startButton.gameObject.SetActive(false); // Hide the start button when the game starts
