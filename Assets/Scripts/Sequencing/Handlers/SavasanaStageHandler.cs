@@ -9,7 +9,7 @@ namespace SoundSelf.Sequence
     {
         private readonly Sequencer _sequencer;
         private bool _hasEntered;
-        private string _normalizedVariant = "";
+        private StageVariant _variant = StageVariant.None;
 
         public StageType StageType => StageType.Savasana;
 
@@ -29,8 +29,8 @@ namespace SoundSelf.Sequence
             return _sequencer != null ? "[CountdownThisSection]=" + _sequencer.CountdownThisSection : "tracker null";
         }
 
-        /// <param name="variant">Reserved for future use. Will select savasana type when we add back Preparation, Integration, and PS_Descending modes.</param>
-        public void Enter(string variant)
+        /// <param name="variant">Selects savasana behavior for sequence commands (e.g. Standard vs PS Ascending).</param>
+        public void Enter(StageVariant variant)
         {
             if (_hasEntered)
             {
@@ -39,7 +39,7 @@ namespace SoundSelf.Sequence
             }
             _hasEntered = true;
             IsComplete = false;
-            _normalizedVariant = StageHandlerHelpers.NormalizeVariant(variant ?? "");
+            _variant = variant;
 
             if (_sequencer == null)
             {
@@ -87,10 +87,7 @@ namespace SoundSelf.Sequence
             _sequencer.StartCoroutine(WaitForTimerToEnd());
         }
 
-        private bool IsStandardVariant() => _normalizedVariant == "standard";
-
-        /// <summary>Normalized <c>PS_Ascending</c> / <c>PS Ascending</c> → <c>psascending</c>.</summary>
-        private bool IsPsAscendingVariant() => _normalizedVariant == "psascending";
+        private bool IsStandardVariant() => _variant == StageVariant.Savasana_Standard;
 
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand)
         {
@@ -112,7 +109,7 @@ namespace SoundSelf.Sequence
                     }
                     else
                     {
-                        Debug.Log($"SavasanaStageHandler: {sequenceCommand} — not handled for variant: {_normalizedVariant}");
+                        Debug.Log($"SavasanaStageHandler: {sequenceCommand} — not handled for variant: {_variant}");
                     }
                     break;
                 case SequenceCommand.CueStopInteractive3m:
@@ -169,7 +166,7 @@ namespace SoundSelf.Sequence
         public void Exit()
         {
             _hasEntered = false;  // Allow re-enter on sequence restart
-            _normalizedVariant = "";
+            _variant = StageVariant.None;
             LocalCleanup();
         }
     }

@@ -21,7 +21,7 @@ namespace SoundSelf.Sequence
             _avsSequence = sequencer != null ? sequencer.GetComponent<AVSSequence>() : null;
         }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             if (_hasEntered)
             {
@@ -38,9 +38,9 @@ namespace SoundSelf.Sequence
 
             //DO NULL CHECKS
             
-            if(string.IsNullOrEmpty(variant))
+            if (variant == StageVariant.None)
             {
-                Debug.LogError("OpeningStageHandler: Variant is null. Skipping to prevent crash.");
+                Debug.LogError("OpeningStageHandler: Variant is None. Skipping to prevent crash.");
                 _hasEntered = false;
                 MarkComplete();
                 return;
@@ -100,7 +100,7 @@ namespace SoundSelf.Sequence
             _sequencer.worldShuffler.ExcludeColorWorld("Blue");
             _sequencer.worldShuffler.ExcludeSoundscape("Shadow");
 
-            if (variant == "PS_Ascending")
+            if (variant == StageVariant.Opening_PS_Ascending)
             {
                 Debug.Log("OpeningStageHandler: Protocol Stacks mode detected. Initializing Protocol Stacks.");
                 MusicSystem1.instance.SetSoundWorld("Shadow");
@@ -115,7 +115,7 @@ namespace SoundSelf.Sequence
 
 
             //PLAY OPENING MUSIC AND VO
-            if (variant == "PS_Ascending")
+            if (variant == StageVariant.Opening_PS_Ascending)
             {
                 _sequencer.wwiseVOManager.PlayOpeningSequence("PS_Ascending");
                 Debug.Log("OpeningStageHandler: Playing opening sequence: PS_Ascending");
@@ -123,7 +123,7 @@ namespace SoundSelf.Sequence
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("C");
 
             }
-            else if(variant == "Preparation" || variant == "Preperation" || variant == "Skills Training")
+            else if (variant == StageVariant.Opening_Preparation || variant == StageVariant.Opening_SkillsTraining)
             {
                 Debug.Log("OpeningStageHandler: Playing Skills Training Opening Sequence.");
                 if(isFirstTimeUser)
@@ -139,7 +139,7 @@ namespace SoundSelf.Sequence
                 _variantForcesTone = true;
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
             }
-            else if (variant == "Integration")
+            else if (variant == StageVariant.Opening_Integration)
             {
                 _sequencer.wwiseVOManager.PlayOpeningSequence("Integration_Short");
                 Debug.Log("OpeningStageHandler: Playing Integration Opening Sequence.");

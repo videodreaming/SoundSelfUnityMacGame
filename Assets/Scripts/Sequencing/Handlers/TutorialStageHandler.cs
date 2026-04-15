@@ -50,7 +50,7 @@ namespace SoundSelf.Sequence
             //(Both use HandleSequenceCommand())
         }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             if(_hasEntered)
             {
@@ -69,14 +69,14 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             Debug.Log("TutorialStageHandler: Enter");
 
-            if(variant == "Long")
+            if (variant == StageVariant.Tutorial_Long)
             {
                 _sequencer.tutorial.SetTestVocalizationType("Hum");
                 MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
                 _sequencer.tutorial.StartTutorial("Long");
                 variantWatchesWwiseVOCuesForCompletion = true;
             }
-            else if(variant == "Short")
+            else if (variant == StageVariant.Tutorial_Short)
             {
                 _sequencer.tutorial.SetTestVocalizationType("Ahh");
                 MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);

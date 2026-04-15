@@ -5,6 +5,13 @@ namespace SoundSelf.Sequence
     /// <summary>Handler for the SetMenu stage. Watches for <see cref="SequenceCommand.WaitForButton"/> (e.g. Cue_WaitForButton); stub completes immediately until implementation.</summary>
     public class SetMenuStageHandler : IStageHandler
     {
+        private readonly Sequencer _sequencer;
+
+        public SetMenuStageHandler(Sequencer sequencer)
+        {
+            _sequencer = sequencer;
+        }
+
         public StageType StageType => StageType.SetMenu;
 
         public bool IsComplete { get; private set; }
@@ -17,7 +24,7 @@ namespace SoundSelf.Sequence
                 MarkComplete();
         }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             IsComplete = false;
             Debug.Log("SetMenuStageHandler: Enter (stub - skipping until implementation added)");

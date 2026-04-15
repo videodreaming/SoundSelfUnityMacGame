@@ -16,7 +16,7 @@ namespace SoundSelf.Sequence
             _sequencer = sequencer;
         }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             IsComplete = false;
             Debug.Log("CalibrationStageHandler: Enter (stub - skipping until implementation added)");

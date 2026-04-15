@@ -5,11 +5,18 @@ namespace SoundSelf.Sequence
     /// <summary>Stub handler for the End stage. End stage that happens at the end of a sequence. Skips immediately until implementation is added.</summary>
     public class EndStageHandler : IStageHandler
     {
+        private readonly Sequencer _sequencer;
+
+        public EndStageHandler(Sequencer sequencer)
+        {
+            _sequencer = sequencer;
+        }
+
         public StageType StageType => StageType.End;
 
         public bool IsComplete { get; private set; }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             IsComplete = false;
             Debug.Log("EndStageHandler: Enter (stub - skipping until implementation added)");

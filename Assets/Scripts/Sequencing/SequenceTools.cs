@@ -34,11 +34,47 @@ namespace SoundSelf.Sequence
         StartCountdown // Computes session countdown pair from variant, then BeginCountdownPair() on TimeTrackerScript.
     }
 
+    /// <summary>
+    /// Single enum for all stage variants. Prefix matches <see cref="StageType"/> (Set Menu → Menu, Music Playlist → Playlist,
+    /// Start Countdown → Countdown, Linear Audio → Linear).
+    /// Integer values are explicit and stable for Unity serialization — add new variants with unused ids (e.g. 100+) or append at the end without renumbering existing.
+    /// </summary>
+    public enum StageVariant
+    {
+        None = 0,
+        Calibration_Default = 1,
+        Opening_PS_Ascending = 2,
+        Opening_Preparation = 3,
+        Opening_SkillsTraining = 4,
+        Opening_Integration = 5,
+        Tutorial_Long = 6,
+        Tutorial_Short = 7,
+        Playground_Standard = 8,
+        Playground_SkipAscending = 9,
+        Playground_Ascending = 10,
+        Savasana_Standard = 11,
+        Savasana_PsAscending = 12,
+        Menu_Default = 13,
+        Playlist_Default = 14,
+        Inquiry_Default = 15,
+        End_Default = 16,
+        Linear_Default = 17,
+        Linear_Nature = 18,
+        Countdown_25m_Simple = 19,
+        Countdown_25m_WithSavasana = 20,
+        Countdown_40m_Simple = 21,
+        Countdown_40m_WithSavasana = 22,
+        Countdown_60m_Simple = 23,
+        Countdown_60m_WithSavasana = 24,
+        Countdown_ClosingDuration = 25,
+        Countdown_StopCountdowns = 26,
+    }
+
     [System.Serializable]
     public struct SequenceStage
     {
         public StageType type;
-        public string variant;  // e.g. "PS_Ascending", "Preparation_Long", null = default
+        public StageVariant variant;
     }
 
     /// <summary>Shared helpers for <see cref="IStageHandler"/> implementations (e.g. variant string normalization).</summary>

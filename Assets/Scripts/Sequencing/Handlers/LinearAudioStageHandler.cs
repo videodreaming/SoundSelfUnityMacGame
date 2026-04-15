@@ -5,20 +5,24 @@ namespace SoundSelf.Sequence
     /// <summary>Stub handler for the LinearAudio stage. Multi-purpose linear audio stage. Skips immediately until implementation is added.</summary>
     public class LinearAudioStageHandler : IStageHandler
     {
+        private readonly Sequencer _sequencer;
+
+        public LinearAudioStageHandler(Sequencer sequencer)
+        {
+            _sequencer = sequencer;
+        }
+
         public StageType StageType => StageType.LinearAudio;
 
         public bool IsComplete { get; private set; }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             IsComplete = false;
             Debug.Log("LinearAudioStageHandler: Enter (stub - skipping until implementation added)");
 
-            string key = StageHandlerHelpers.NormalizeVariant(variant);
-            if (key == "nature")
-            {
+            if (variant == StageVariant.Linear_Nature)
                 MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
-            }
 
             MarkComplete(); // Stub: complete immediately until implementation is added
         }

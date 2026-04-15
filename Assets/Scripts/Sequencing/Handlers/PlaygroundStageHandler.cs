@@ -8,7 +8,7 @@ namespace SoundSelf.Sequence
     {
         private readonly Sequencer _sequencer;
         private Coroutine _playgroundCoroutine;
-        private string _normalizedVariant = "";
+        private StageVariant _variant = StageVariant.None;
 
         public StageType StageType => StageType.Playground;
 
@@ -19,7 +19,7 @@ namespace SoundSelf.Sequence
             _sequencer = sequencer;
         }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             IsComplete = false;
             if (_sequencer == null)
@@ -53,10 +53,10 @@ namespace SoundSelf.Sequence
                 }
             }
 
-            _normalizedVariant = StageHandlerHelpers.NormalizeVariant(variant ?? "");
+            _variant = variant;
 
             _sequencer.ForceSequenceAdvanceRequested = false;
-            _playgroundCoroutine = _sequencer.StartCoroutine(ProtocolStacksPlaygroundCoroutine(_normalizedVariant == "skipascending"));
+            _playgroundCoroutine = _sequencer.StartCoroutine(ProtocolStacksPlaygroundCoroutine(variant == StageVariant.Playground_SkipAscending));
             _sequencer.director.Enable();
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(true);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
@@ -71,13 +71,13 @@ namespace SoundSelf.Sequence
                     _sequencer.worldShuffler.BeginShuffle();
                 }
             }
-            else if (variant == "Ascending")
+            else if (variant == StageVariant.Playground_Ascending)
             {
                 Debug.Log("PlaygroundStageHandler: Ascending variant: Starting Ascending Playground");
             }
         }
 
-        private bool IsStandardVariant() => _normalizedVariant == "standard";
+        private bool IsStandardVariant() => _variant == StageVariant.Playground_Standard;
 
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
             sequenceCommand == SequenceCommand.CueStopInteractive && IsStandardVariant();

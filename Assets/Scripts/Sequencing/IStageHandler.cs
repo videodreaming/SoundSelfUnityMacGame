@@ -3,7 +3,7 @@ namespace SoundSelf.Sequence
     public interface IStageHandler
     {
         StageType StageType { get; }
-        void Enter(string variant);
+        void Enter(StageVariant variant);
         void Exit();
         bool IsComplete { get; }
         

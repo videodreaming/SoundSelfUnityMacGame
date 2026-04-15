@@ -22,7 +22,7 @@ namespace SoundSelf.Sequence
 
         public bool IsComplete { get; private set; }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             if (_hasEntered)
             {
@@ -45,17 +45,16 @@ namespace SoundSelf.Sequence
                                "Load sessions.csv / session_params and ensure TimeLeftInitializations runs before the StartCountdown stage. Proceeding anyway, but expect unexpected behavior.");
             }
 
-            string key = StageHandlerHelpers.NormalizeVariant(variant);
-            if (string.IsNullOrEmpty(key))
+            if (variant == StageVariant.None)
             {
-                Debug.LogError("StartCountdownStageHandler: variant is null or empty. Expected e.g. 40m simple, 40m with savasana, ClosingDuration.");
+                Debug.LogError("StartCountdownStageHandler: variant is None. Pick a Countdown_* variant.");
                 MarkComplete();
                 return;
             }
 
             float closing = tt.TotalTimeOfPostUnguidedVocalizationContent;
 
-            if (key == "closingduration")
+            if (variant == StageVariant.Countdown_ClosingDuration)
             {
                 float closingSecs = Mathf.Max(0f, closing);
                 if (closingSecs <= 0f)
@@ -80,14 +79,14 @@ namespace SoundSelf.Sequence
                 return;
             }
 
-            if (key == "stopcountdowns")
+            if (variant == StageVariant.Countdown_StopCountdowns)
             {
                 tt.ForceSetBothCountdownsAndStop(0f, 0f);
                 MarkComplete();
                 return;
             }
 
-            if (!TryGetCountdownPair(key, closing, variant, out float thisSection, out float full))
+            if (!TryGetCountdownPair(variant, closing, out float thisSection, out float full))
             {
                 Debug.LogError("StartCountdownStageHandler: Could not resolve countdown pair for variant '" + variant + "'. Countdown not started.");
                 MarkComplete();
@@ -96,7 +95,7 @@ namespace SoundSelf.Sequence
 
             tt.ConfigureCountdownPair(thisSection, full);
             tt.BeginCountdownPair();
-            Debug.Log("StartCountdownStageHandler: BeginCountdownPair [CountdownThisSection]=" + thisSection + " s, [CountdownFull]=" + full + " s for variant '" + variant + "' (normalized '" + key + "').");
+            Debug.Log("StartCountdownStageHandler: BeginCountdownPair [CountdownThisSection]=" + thisSection + " s, [CountdownFull]=" + full + " s for variant '" + variant + "'.");
             MarkComplete();
         }
 
@@ -115,44 +114,44 @@ namespace SoundSelf.Sequence
         /// <summary>
         /// <b>Nm simple:</b> both timers N×60. <b>Nm with savasana:</b> main N×60, full N×60 + post-unguided when post-unguided &gt; 0.
         /// </summary>
-        /// <returns><c>false</c> if <paramref name="key"/> is unknown or the pair is invalid.</returns>
-        private static bool TryGetCountdownPair(string key, float postUnguidedSeconds, string variantForLog, out float countdownThisSection, out float countdownFull)
+        /// <returns><c>false</c> if <paramref name="variant"/> is not a duration countdown variant or the pair is invalid.</returns>
+        private static bool TryGetCountdownPair(StageVariant variant, float postUnguidedSeconds, out float countdownThisSection, out float countdownFull)
         {
             countdownThisSection = 0f;
             countdownFull = 0f;
 
-            switch (key)
+            switch (variant)
             {
-                case "60msimple":
+                case StageVariant.Countdown_60m_Simple:
                     countdownThisSection = 3600f;
                     countdownFull = 3600f;
                     break;
-                case "60mwithsavasana":
-                    SetPairWithSavasana(3600f, postUnguidedSeconds, variantForLog, out countdownThisSection, out countdownFull);
+                case StageVariant.Countdown_60m_WithSavasana:
+                    SetPairWithSavasana(3600f, postUnguidedSeconds, variant, out countdownThisSection, out countdownFull);
                     break;
-                case "40msimple":
+                case StageVariant.Countdown_40m_Simple:
                     countdownThisSection = 2400f;
                     countdownFull = 2400f;
                     break;
-                case "40mwithsavasana":
-                    SetPairWithSavasana(2400f, postUnguidedSeconds, variantForLog, out countdownThisSection, out countdownFull);
+                case StageVariant.Countdown_40m_WithSavasana:
+                    SetPairWithSavasana(2400f, postUnguidedSeconds, variant, out countdownThisSection, out countdownFull);
                     break;
-                case "25msimple":
+                case StageVariant.Countdown_25m_Simple:
                     countdownThisSection = 1500f;
                     countdownFull = 1500f;
                     break;
-                case "25mwithsavasana":
-                    SetPairWithSavasana(1500f, postUnguidedSeconds, variantForLog, out countdownThisSection, out countdownFull);
+                case StageVariant.Countdown_25m_WithSavasana:
+                    SetPairWithSavasana(1500f, postUnguidedSeconds, variant, out countdownThisSection, out countdownFull);
                     break;
                 default:
-                    Debug.LogError("StartCountdownStageHandler: Unknown variant '" + key + "'. Use: 25m simple, 25m with savasana, 40m simple, 40m with savasana, 60m simple, 60m with savasana, ClosingDuration, or StopCountdowns.");
+                    Debug.LogError("StartCountdownStageHandler: Unknown countdown variant '" + variant + "'. Use a Countdown_* duration variant, Countdown_ClosingDuration, or Countdown_StopCountdowns.");
                     return false;
             }
 
             return countdownFull > 0f && countdownThisSection >= 0f;
         }
 
-        private static void SetPairWithSavasana(float baseSeconds, float closing, string variantLabel, out float countdownThisSection, out float countdownFull)
+        private static void SetPairWithSavasana(float baseSeconds, float closing, StageVariant variantLabel, out float countdownThisSection, out float countdownFull)
         {
             if (closing <= 0f)
             {

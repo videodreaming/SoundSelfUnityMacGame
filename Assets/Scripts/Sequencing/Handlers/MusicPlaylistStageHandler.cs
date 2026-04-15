@@ -5,11 +5,18 @@ namespace SoundSelf.Sequence
     /// <summary>Stub handler for the MusicPlaylist stage. Skips immediately until implementation is added.</summary>
     public class MusicPlaylistStageHandler : IStageHandler
     {
+        private readonly Sequencer _sequencer;
+
+        public MusicPlaylistStageHandler(Sequencer sequencer)
+        {
+            _sequencer = sequencer;
+        }
+
         public StageType StageType => StageType.MusicPlaylist;
 
         public bool IsComplete { get; private set; }
 
-        public void Enter(string variant)
+        public void Enter(StageVariant variant)
         {
             IsComplete = false;
             Debug.Log("MusicPlaylistStageHandler: Enter (stub - skipping until implementation added)");

@@ -54,7 +54,7 @@ namespace SoundSelf.Sequence
             if (dropdown.options.Count == stages.Length) return;
             var options = new List<string>();
             for (int i = 0; i < stages.Length; i++)
-                options.Add($"{i + 1}. {stages[i].type}" + (string.IsNullOrEmpty(stages[i].variant) ? "" : $" ({stages[i].variant})"));
+                options.Add($"{i + 1}. {stages[i].type}" + (stages[i].variant == StageVariant.None ? "" : $" ({stages[i].variant})"));
 
             dropdown.ClearOptions();
             dropdown.AddOptions(options);
