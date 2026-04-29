@@ -115,6 +115,7 @@ namespace SoundSelf.Sequence
 
 
             //PLAY OPENING MUSIC AND VO
+            EnsureThematicContentFallbackForStandardModes(variant);
             if (variant == StageVariant.Opening_PS_Ascending)
             {
                 _sequencer.wwiseVOManager.PlayOpeningSequence("PS_Ascending");
@@ -157,6 +158,59 @@ namespace SoundSelf.Sequence
             //INITIALIZE AVS PROGRAM
             _avsSequence.StartOpeningAVSProgram();
 
+        }
+
+        private void EnsureThematicContentFallbackForStandardModes(StageVariant variant) //for debugging, if we are using a development sequence definition that doesn't match the csv...
+        {
+            if (_sequencer == null || _sequencer.wwiseVOManager == null)
+                return;
+
+            var loader = _sequencer.csvLoader;
+            if (loader == null)
+            {
+                // If CSV state is unavailable, only apply fallback for explicit stage variants.
+                if (variant == StageVariant.Opening_SkillsTraining || variant == StageVariant.Opening_Preparation)
+                {
+                    Debug.LogWarning("OpeningStageHandler: CSVLoader unavailable during Skills Training opening. Applying fallback thematic content: Narrative.");
+                    _sequencer.wwiseVOManager.SetToNarrative();
+                }
+                else if (variant == StageVariant.Opening_Integration)
+                {
+                    Debug.LogWarning("OpeningStageHandler: CSVLoader unavailable during Integration opening. Applying fallback thematic content: Fireflies.");
+                    _sequencer.wwiseVOManager.SetToFireflies();
+                }
+                return;
+            }
+
+            bool skillsMode = loader.gameMode == CSVLoader.GameModeSkillsTraining;
+            bool integrationMode = loader.gameMode == CSVLoader.GameModeIntegration;
+
+            if (skillsMode)
+            {
+                bool recognizedSkillsPack =
+                    loader.contentPack == CSVLoader.ContentPackMindfulnessAndJoy
+                    || loader.contentPack == CSVLoader.ContentPackPsychologicalFlexibility
+                    || loader.contentPack == CSVLoader.ContentPackSurrenderResponse;
+                if (!recognizedSkillsPack)
+                {
+                    Debug.LogWarning("OpeningStageHandler: CSV thematic content not recognized for Skills Training (contentPack='" + loader.contentPack + "'). Applying fallback thematic content: Narrative.");
+                    _sequencer.wwiseVOManager.SetToNarrative();
+                }
+                return;
+            }
+
+            if (integrationMode)
+            {
+                bool recognizedIntegrationPack =
+                    loader.contentPack == CSVLoader.ContentPackSelfCompassion
+                    || loader.contentPack == CSVLoader.ContentPackLovingKindness
+                    || loader.contentPack == CSVLoader.ContentPackTransitionsGriefAndAppreciation;
+                if (!recognizedIntegrationPack)
+                {
+                    Debug.LogWarning("OpeningStageHandler: CSV thematic content not recognized for Integration (contentPack='" + loader.contentPack + "'). Applying fallback thematic content: Fireflies.");
+                    _sequencer.wwiseVOManager.SetToFireflies();
+                }
+            }
         }
 
 

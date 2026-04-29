@@ -333,6 +333,7 @@ public class WwiseVOManager : MonoBehaviour
     {
         AkSoundEngine.SetSwitch("VO_ThematicContent", "Surrender", gameObject);
         AkSoundEngine.SetSwitch("VO_ThematicSavasana", "Surrender", gameObject);
+        AkSoundEngine.SetSwitch("VO_THEMATICSAVASANA_SWITCH", "Surrender", gameObject); //4/16/2026 this wasn't here for some reason... test this.
     }
 
     public void SetToEsketamineAscending()
