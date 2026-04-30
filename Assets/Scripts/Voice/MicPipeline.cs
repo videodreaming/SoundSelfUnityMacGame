@@ -22,6 +22,7 @@ public class MicPipeline : MonoBehaviour
     [Header("Channel Contract")]
     [Tooltip("Pipeline output contract for consumers. This pipeline publishes mono samples.")]
     [SerializeField] private MicChannelMode channelMode = MicChannelMode.Mono;
+    [SerializeField] private ImitoneVoiceIntepreter imitoneVoiceIntepreter;
 
     [Header("Normalization")]
     [Tooltip("Master toggle for normalized output stream. Raw output is always unaffected.")]
@@ -32,6 +33,50 @@ public class MicPipeline : MonoBehaviour
     [SerializeField] private bool normalizationHardClampEnabled = true;
     [Tooltip("Absolute clamp value used when hard clamp is enabled.")]
     [SerializeField] [Range(0.01f, 1f)] private float normalizationClampAbs = 0.98f;
+
+    [Header("Normalization Gain Riding")]
+    [Tooltip("Automatically rides normalization gain while imitone toneActive is true.")]
+    [SerializeField] private bool gainRidingEnabled = false;
+    [SerializeField] private float gainRidingTargetDb = -8f;
+    [Tooltip("If mic dB is below target by more than this, raise gain.")]
+    [SerializeField] [Range(0f, 24f)] private float gainRidingRaiseThresholdDb = 4f;
+    [Tooltip("If mic dB is above target by more than this, lower gain at normal rate.")]
+    [SerializeField] [Range(0f, 24f)] private float gainRidingLowerThresholdDb = 2f;
+    [Tooltip("If mic dB is above target by more than this, lower gain at rapid rate.")]
+    [SerializeField] [Range(0f, 24f)] private float gainRidingRapidLowerThresholdDb = 6f;
+    [SerializeField] [Range(0f, 24f)] private float gainRidingRaiseRateDbPerSecond = 0.5f;
+    [SerializeField] [Range(0f, 48f)] private float gainRidingLowerRateDbPerSecond = 4f;
+    [SerializeField] [Range(0f, 96f)] private float gainRidingRapidLowerRateDbPerSecond = 16f;
+    [Tooltip("Clamp for ridden normalization gain.")]
+    [SerializeField] private Vector2 gainRidingGainDbClamp = new Vector2(-24f, 24f);
+
+    [Header("Normalization Runtime Telemetry (Inspector)")]
+    [Tooltip("Current effective normalization gain in dB that consumers use.")]
+    [SerializeField] private float normalizationGainDbRuntime = 0f;
+    [Tooltip("Current effective normalization gain in linear scale.")]
+    [SerializeField] private float normalizationGainLinearRuntime = 1f;
+    [Tooltip("Last mic loudness dB sampled by gain riding.")]
+    [SerializeField] private float gainRidingLastMicDb = float.NaN;
+    [Tooltip("Estimated normalized loudness dB used by gain-riding control.")]
+    [SerializeField] private float gainRidingLastEstimatedNormalizedDb = float.NaN;
+    [Tooltip("Last loudness delta (mic dB - target dB).")]
+    [SerializeField] private float gainRidingLastDbDelta = 0f;
+    [Tooltip("Current riding rate in dB/sec (positive raises gain, negative lowers gain).")]
+    [SerializeField] private float gainRidingCurrentRateDbPerSecond = 0f;
+    [Tooltip("Most recent gain change step applied this frame in dB.")]
+    [SerializeField] private float gainRidingLastAppliedStepDb = 0f;
+    [Tooltip("Accumulated gain-riding adjustment since play entered.")]
+    [SerializeField] private float gainRidingAccumulatedAdjustmentDb = 0f;
+    [Tooltip("True when gain riding feature toggle is enabled.")]
+    [SerializeField] private bool gainRidingGateEnabled = false;
+    [Tooltip("True when mic pipeline is initialized and ready.")]
+    [SerializeField] private bool gainRidingGatePipelineReady = false;
+    [Tooltip("True when ImitoneVoiceIntepreter reference is valid.")]
+    [SerializeField] private bool gainRidingGateInterpreterBound = false;
+    [Tooltip("True when toneActive is true.")]
+    [SerializeField] private bool gainRidingGateToneActive = false;
+    [Tooltip("True when sampled mic dB value is finite and usable.")]
+    [SerializeField] private bool gainRidingGateMicDbValid = false;
 
     [Header("Telemetry (Inspector)")]
     [Tooltip("Current-frame absolute peak after normalization (0..1).")]
@@ -87,6 +132,10 @@ public class MicPipeline : MonoBehaviour
 
     private void Awake()
     {
+        if (imitoneVoiceIntepreter == null)
+        {
+            imitoneVoiceIntepreter = GetComponent<ImitoneVoiceIntepreter>();
+        }
         InitializeMicrophone();
     }
 
@@ -107,6 +156,8 @@ public class MicPipeline : MonoBehaviour
 
         // Main-thread producer for raw/normalized frames and ring-buffer writes.
         EnsureFrameUpdated();
+        UpdateNormalizationGainRiding();
+        UpdateNormalizationTelemetry();
 
         // Decay visual telemetry smoothly when no new peak is present.
         normalizedPeakMeter = Mathf.Max(0f, normalizedPeakMeter - normalizedPeakMeterDecayPerSecond * Time.deltaTime);
@@ -644,6 +695,102 @@ public class MicPipeline : MonoBehaviour
             recoveryWarningLogged = true;
             Debug.LogWarning($"MicPipeline: {reason} Scheduling recovery retry.");
         }
+    }
+
+    private void UpdateNormalizationGainRiding()
+    {
+        gainRidingCurrentRateDbPerSecond = 0f;
+        gainRidingLastAppliedStepDb = 0f;
+
+        if (!gainRidingEnabled || !IsReady || imitoneVoiceIntepreter == null)
+        {
+            return;
+        }
+
+        bool canRaiseGain = imitoneVoiceIntepreter.toneActiveConfident;
+        bool canLowerGain = imitoneVoiceIntepreter.toneActiveBiasTrue;
+        if (!canRaiseGain && !canLowerGain)
+        {
+            return;
+        }
+
+        float currentMicDb = imitoneVoiceIntepreter._dbMicrophone;
+        if (float.IsNaN(currentMicDb) || float.IsInfinity(currentMicDb))
+        {
+            return;
+        }
+
+        // Control against estimated normalized loudness so feedback closes as gain moves.
+        float estimatedNormalizedDb = currentMicDb + normalizationGainDb;
+        float dbDelta = estimatedNormalizedDb - gainRidingTargetDb; // positive => too loud, negative => too quiet
+        float rateDbPerSecond = 0f;
+        gainRidingLastMicDb = currentMicDb;
+        gainRidingLastEstimatedNormalizedDb = estimatedNormalizedDb;
+        gainRidingLastDbDelta = dbDelta;
+
+        if (canLowerGain && dbDelta > gainRidingRapidLowerThresholdDb)
+        {
+            rateDbPerSecond = -gainRidingRapidLowerRateDbPerSecond;
+        }
+        else if (canLowerGain && dbDelta > gainRidingLowerThresholdDb)
+        {
+            rateDbPerSecond = -gainRidingLowerRateDbPerSecond;
+        }
+        else if (canRaiseGain && dbDelta < -gainRidingRaiseThresholdDb)
+        {
+            rateDbPerSecond = gainRidingRaiseRateDbPerSecond;
+        }
+        gainRidingCurrentRateDbPerSecond = rateDbPerSecond;
+
+        if (Mathf.Approximately(rateDbPerSecond, 0f))
+        {
+            return;
+        }
+
+        float minGainDb = Mathf.Min(gainRidingGainDbClamp.x, gainRidingGainDbClamp.y);
+        float maxGainDb = Mathf.Max(gainRidingGainDbClamp.x, gainRidingGainDbClamp.y);
+        float nextGainDb = Mathf.Clamp(normalizationGainDb + (rateDbPerSecond * Time.deltaTime), minGainDb, maxGainDb);
+        if (!Mathf.Approximately(nextGainDb, normalizationGainDb))
+        {
+            float appliedStepDb = nextGainDb - normalizationGainDb;
+            gainRidingLastAppliedStepDb = appliedStepDb;
+            gainRidingAccumulatedAdjustmentDb += appliedStepDb;
+            normalizationGainDb = nextGainDb;
+            OnNormalizationConfigChanged();
+        }
+    }
+
+    private void UpdateNormalizationTelemetry()
+    {
+        normalizationGainDbRuntime = normalizationGainDb;
+        normalizationGainLinearRuntime = GetNormalizationGainLinear();
+
+        gainRidingGateEnabled = gainRidingEnabled;
+        gainRidingGatePipelineReady = IsReady;
+        gainRidingGateInterpreterBound = imitoneVoiceIntepreter != null;
+        gainRidingGateToneActive = gainRidingGateInterpreterBound &&
+                                   (imitoneVoiceIntepreter.toneActiveConfident || imitoneVoiceIntepreter.toneActiveBiasTrue);
+
+        if (!gainRidingGateInterpreterBound)
+        {
+            gainRidingGateMicDbValid = false;
+            gainRidingLastMicDb = float.NaN;
+            gainRidingLastDbDelta = 0f;
+            return;
+        }
+
+        float currentMicDb = imitoneVoiceIntepreter._dbMicrophone;
+        gainRidingGateMicDbValid = !float.IsNaN(currentMicDb) && !float.IsInfinity(currentMicDb);
+        gainRidingLastMicDb = currentMicDb;
+        if (!gainRidingGateMicDbValid)
+        {
+            gainRidingLastEstimatedNormalizedDb = float.NaN;
+            gainRidingLastDbDelta = 0f;
+            return;
+        }
+
+        gainRidingLastEstimatedNormalizedDb = currentMicDb + normalizationGainDb;
+        gainRidingLastDbDelta = gainRidingLastEstimatedNormalizedDb - gainRidingTargetDb;
     }
 
     private void StopMicrophoneCapture()

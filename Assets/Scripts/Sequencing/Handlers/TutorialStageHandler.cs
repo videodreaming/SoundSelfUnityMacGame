@@ -93,6 +93,14 @@ namespace SoundSelf.Sequence
             _sequencer.wwiseVOManager.ResetTutorialGuidanceCount();
             MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
             MusicSystem1.instance.SetAllowThumpAlways(true);
+            var directVoiceMonitoring = Object.FindObjectOfType<DirectVoiceMonitoring>();
+            if (directVoiceMonitoring != null)
+            {
+                // Tutorial explicitly owns "never attenuate" while active.
+                directVoiceMonitoring.AttenuateMonitoring(false);
+            }
+            MusicSystem1.instance.NotifyMonitoringAttenuationChangedExternally(false);
+            MusicSystem1.instance.SetTutorialMonitoringOverride(true);
             LightControl.instance.StartLights();
             _sequencer.imitoneVoiceInterpreter.gameOn = true;
 
@@ -126,6 +134,12 @@ namespace SoundSelf.Sequence
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            if (MusicSystem1.instance != null)
+            {
+                // Tutorial no longer has attenuation priority; immediately restore interaction-based rule.
+                MusicSystem1.instance.SetTutorialMonitoringOverride(false);
+            }
+
             if (_sequencer != null && _sequencer.tutorial != null)
                 _sequencer.tutorial.StopTutorial();
             _hasEntered = false;

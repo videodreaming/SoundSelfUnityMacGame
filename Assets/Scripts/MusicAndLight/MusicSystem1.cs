@@ -163,6 +163,8 @@ public class MusicSystem1 : MonoBehaviour
     private bool enableBassSynth = true;
     private bool enableBasicToning = true;
     private bool enableDirectVoiceMonitoring = true;
+    private bool monitoringAttenuationApplied = false;
+    private bool tutorialMonitoringOverrideActive = false;
     private bool enableThumpSFX = true;
     private bool enableImitoneInterpretation = true;
 
@@ -375,6 +377,84 @@ public class MusicSystem1 : MonoBehaviour
 
         // Keyboard shortcuts for toggling systems (Keys 1-7)
         //HandleKeyboardToggles();
+    }
+
+    private bool TryResolveDirectVoiceMonitoring()
+    {
+        if (directVoiceMonitoring == null)
+        {
+            directVoiceMonitoring = FindObjectOfType<DirectVoiceMonitoring>();
+        }
+
+        return directVoiceMonitoring != null;
+    }
+
+    private void SetMonitoringAttenuationOnce(bool attenuate)
+    {
+        if (!TryResolveDirectVoiceMonitoring())
+        {
+            return;
+        }
+
+        if (monitoringAttenuationApplied == attenuate)
+        {
+            return;
+        }
+
+        directVoiceMonitoring.AttenuateMonitoring(attenuate);
+        monitoringAttenuationApplied = attenuate;
+    }
+
+    /// <summary>
+    /// Allows external owners (e.g. TutorialStageHandler) to keep attenuation cache in sync
+    /// when they directly call DirectVoiceMonitoring.AttenuateMonitoring(...).
+    /// </summary>
+    public void NotifyMonitoringAttenuationChangedExternally(bool attenuated)
+    {
+        monitoringAttenuationApplied = attenuated;
+    }
+
+    private void OnInteractionTypeChanged(InteractionType newInteractionType)
+    {
+        bool changed = currentInteractionType != newInteractionType;
+        currentInteractionType = newInteractionType;
+        if (!changed || tutorialMonitoringOverrideActive)
+        {
+            return;
+        }
+
+        // Edge-triggered attenuation: ON for MusicLoop, OFF for SoundWorld.
+        SetMonitoringAttenuationOnce(currentInteractionType == InteractionType.MusicLoop);
+    }
+
+    public void SyncMonitoringAttenuationFromInteractionType()
+    {
+        if (tutorialMonitoringOverrideActive)
+        {
+            SetMonitoringAttenuationOnce(false);
+            return;
+        }
+
+        // Used when playground (Freeplay) starts to re-apply interaction-based attenuation once.
+        SetMonitoringAttenuationOnce(currentInteractionType == InteractionType.MusicLoop);
+    }
+
+    public void SetTutorialMonitoringOverride(bool tutorialActive)
+    {
+        if (tutorialMonitoringOverrideActive == tutorialActive)
+        {
+            return;
+        }
+
+        tutorialMonitoringOverrideActive = tutorialActive;
+        if (tutorialMonitoringOverrideActive)
+        {
+            // Tutorial owns attenuation while active; MusicSystem only blocks its own interaction-driven writes.
+            return;
+        }
+
+        // Priority lifted: immediately apply interaction-based attenuation once.
+        SyncMonitoringAttenuationFromInteractionType();
     }
 
     /// <summary>
@@ -753,7 +833,7 @@ public class MusicSystem1 : MonoBehaviour
                 //imitoneVoiceInterpreter.gameOn = false; //peculaiarity of Ascending/Descending, we are keeping gameOn true for now. This will have to be addressed in the future.
                 // Set state to MusicLoops and ensure interaction type is MusicLoop (required for this mode)
                 //RecoverInteractiveMusicModeFromInteractionType(); //this may be necessary in futrue...
-                currentInteractionType = InteractionType.MusicLoop;
+                OnInteractionTypeChanged(InteractionType.MusicLoop);
                 RunWithToningRestoredAfterInteractiveSwitch(() =>
                 {
                     AkSoundEngine.SetSwitch("InteractiveMusicMode_Switch", "MusicLoops", gameObject);
@@ -836,6 +916,7 @@ public class MusicSystem1 : MonoBehaviour
                 SetMusicSilentLayerVolume(_silentVolumeHigh, 40f);  
 
                 RecoverInteractiveMusicModeFromInteractionType();
+                SyncMonitoringAttenuationFromInteractionType();
             }
             else
             {
@@ -1018,7 +1099,7 @@ public class MusicSystem1 : MonoBehaviour
             }
             return;
         }
-        currentInteractionType = InteractionType.SoundWorld;
+        OnInteractionTypeChanged(InteractionType.SoundWorld);
         if(!ToningV3WasAlreadyRestored)
         {
             SetSwitchRestoreToningV3("SoundWorldMode_Switch", soundWorld);
@@ -1063,7 +1144,7 @@ public class MusicSystem1 : MonoBehaviour
                     Debug.LogWarning($"MUSIC: Changing MusicLoop to '{musicLoop}', but current mode is '{currentMusicMode}' (Environment) -- this change will not be audible.");
                 }
             }
-            currentInteractionType = InteractionType.MusicLoop;
+            OnInteractionTypeChanged(InteractionType.MusicLoop);
             AkSoundEngine.SetSwitch("MusicLoops_Switch", musicLoop, gameObject);
         });
         worldShuffler.SetCurrentSoundscape(musicLoop);
