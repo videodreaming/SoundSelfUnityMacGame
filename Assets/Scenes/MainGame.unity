@@ -12237,7 +12237,7 @@ MonoBehaviour:
   recoveryRetryIntervalSeconds: 1
   stalledWriteHeadFrameThreshold: 120
   channelMode: 1
-  normalizationEnabled: 0
+  normalizationEnabled: 1
   normalizationGainDb: 0
   normalizationHardClampEnabled: 1
   normalizationClampAbs: 0.98
@@ -14076,13 +14076,14 @@ MonoBehaviour:
   monitoringVolume: 1
   monitoringSafetyBufferMs: 150
   monitoringStreamSource: 0
-  fallbackToRawWhenNormalizedUnavailable: 1
   dynamicVolumeEnabled: 1
   gameOnRiseSpeed: 2
   gameOnFallSpeed: 0.5
   chargeRiseSpeed: 1
   chargeFallSpeed: 1
-  underrunLogIntervalSeconds: 1
+  syncSeekThresholdMs: 30
+  syncSeekCooldownSeconds: 0.08
+  normalizationGainSmoothingSeconds: 0.01
 --- !u!1 &863902529
 GameObject:
   m_ObjectHideFlags: 0
