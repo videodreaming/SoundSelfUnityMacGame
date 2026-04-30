@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Threading;
 using UnityEngine;
 
 /// <summary>
-/// Provides real-time monitoring of normalized microphone input by streaming samples from
-/// MicPipeline into a generated AudioClip. This allows independent monitoring latency/buffering
-/// while raw microphone samples remain available for low-latency imitone analysis.
+/// Provides real-time monitoring of microphone input using the shared microphone clip transport.
+/// Raw mode is pass-through. Normalized mode applies gain/clamp at the output callback edge
+/// to preserve low-latency behavior while keeping raw and normalized monitor options separate.
 /// </summary>
 public class DirectVoiceMonitoring : MonoBehaviour
 {
@@ -28,7 +27,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [Header("Monitoring Controls")]
     [SerializeField] private bool monitoringEnabled = true;
     [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 1f;
-    [SerializeField] [Range(0f, 500f)] private float monitoringSafetyBufferMs = 150f;
+    [SerializeField] [Range(0f, 500f)] private float monitoringSafetyBufferMs = 100f;
     [Tooltip("Select which MicPipeline stream to monitor for A/B testing and debugging.")]
     [SerializeField] private MonitoringStreamSource monitoringStreamSource = MonitoringStreamSource.Normalized;
 
@@ -41,15 +40,15 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] private float chargeFallSpeed = 1f;
     
     private bool isInitialized = false;
-    private AudioClip monitoringClip;
-    private int monitoringReadPosition = -1;
+    private AudioClip sharedMicrophoneBuffer;
+    private string microphoneDeviceName;
     private int lastSeenCaptureEpoch = -1;
-    private int monitoringClipChannels = 1;
-    private const int MonitoringClipLengthSec = 2;
-    private int underrunCount;
-    private int lastLoggedUnderrunCount;
-    private float underrunLogCooldownTimer = 0f;
-    [SerializeField] private float underrunLogIntervalSeconds = 1f;
+    [Header("Normalized Callback Smoothing")]
+    [SerializeField] [Range(0.001f, 0.05f)] private float normalizationGainSmoothingSeconds = 0.01f;
+    private float normalizedSmoothedGainLinear = 1f;
+    private bool normalizedGainInitialized;
+    private bool normalizedMonitorEnabledCached;
+    private float normalizedTargetGainLinearCached = 1f;
     private float gameOnLerp = 0f;
     private float chargeLerp = 0f;
 
@@ -131,33 +130,12 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        monitoringClipChannels = Mathf.Max(1, micPipeline.Channels);
-        PrimeMonitoringReadPosition();
-        underrunCount = 0;
-        lastLoggedUnderrunCount = 0;
-        int clipFrequency = Mathf.Max(8000, micPipeline.SampleRate);
-        int clipSamples = clipFrequency * MonitoringClipLengthSec;
-
-        monitoringClip = AudioClip.Create(
-            name: "MicPipelineNormalizedMonitoring",
-            lengthSamples: clipSamples,
-            channels: monitoringClipChannels,
-            frequency: clipFrequency,
-            stream: true,
-            pcmreadercallback: OnMonitoringAudioRead,
-            pcmsetpositioncallback: OnMonitoringAudioSetPosition
-        );
-
-        if (monitoringClip == null)
-        {
-            Debug.LogError("DirectVoiceMonitoring: Failed to create monitoring stream clip.");
-            return;
-        }
-
-        monitoringSource.clip = monitoringClip;
+        ConfigureMonitoringSourceClip();
         monitoringSource.loop = true;
         monitoringSource.volume = monitoringVolume;
         monitoringSource.playOnAwake = false;
+        RefreshNormalizedMonitorConfigCache();
+        normalizedGainInitialized = false;
 
         // Mark as initialized BEFORE starting monitoring
         isInitialized = true;
@@ -169,7 +147,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         WarnIfRawMonitoring("startup");
-        Debug.Log($"DirectVoiceMonitoring: Monitoring initialized from MicPipeline ({monitoringStreamSource} stream). SampleRate: {clipFrequency}Hz");
+        Debug.Log($"DirectVoiceMonitoring: Monitoring initialized from MicPipeline ({monitoringStreamSource} stream).");
     }
 
     /// <summary>
@@ -180,28 +158,51 @@ public class DirectVoiceMonitoring : MonoBehaviour
         if (!isInitialized || monitoringSource == null)
             return;
 
-        if (micPipeline != null && micPipeline.IsReady)
+        if (monitoringStreamSource == MonitoringStreamSource.Raw)
+        {
+            SyncLegacyMonitoringPlaybackPosition();
+        }
+        else if (micPipeline != null && micPipeline.IsReady)
         {
             int currentCaptureEpoch = micPipeline.CaptureEpoch;
             if (currentCaptureEpoch != lastSeenCaptureEpoch)
             {
-                PrimeMonitoringReadPosition();
+                ConfigureMonitoringSourceClip();
                 lastSeenCaptureEpoch = currentCaptureEpoch;
-                Debug.Log("DirectVoiceMonitoring: MicPipeline capture restart detected. Re-primed monitoring read position.");
+                Debug.Log("DirectVoiceMonitoring: MicPipeline capture restart detected. Re-bound shared monitoring clip.");
             }
         }
 
+        RefreshNormalizedMonitorConfigCache();
         ApplyMonitoringVolume();
+        SyncLegacyMonitoringPlaybackPosition();
+    }
 
-        underrunLogCooldownTimer += Time.deltaTime;
-
-        int totalUnderruns = underrunCount;
-        if (totalUnderruns > lastLoggedUnderrunCount && underrunLogCooldownTimer >= Mathf.Max(0.1f, underrunLogIntervalSeconds))
+    private void SyncLegacyMonitoringPlaybackPosition()
+    {
+        if (!monitoringEnabled || sharedMicrophoneBuffer == null || string.IsNullOrEmpty(microphoneDeviceName))
         {
-            int newUnderruns = totalUnderruns - lastLoggedUnderrunCount;
-            lastLoggedUnderrunCount = totalUnderruns;
-            underrunLogCooldownTimer = 0f;
-            Debug.LogError($"DirectVoiceMonitoring: {monitoringStreamSource} stream underrun detected ({newUnderruns} new, {totalUnderruns} total). Consider increasing monitoring safety buffer or investigating frame drops.");
+            return;
+        }
+
+        if (!monitoringSource.isPlaying)
+        {
+            return;
+        }
+
+        int micWritePos = Microphone.GetPosition(microphoneDeviceName);
+        if (micWritePos < 0 || sharedMicrophoneBuffer.samples <= 0)
+        {
+            return;
+        }
+
+        int sourcePlayPos = monitoringSource.timeSamples;
+        int samplesBehind = Mathf.RoundToInt(sharedMicrophoneBuffer.frequency * (monitoringSafetyBufferMs / 1000f));
+        int targetReadPos = (micWritePos - samplesBehind + sharedMicrophoneBuffer.samples) % sharedMicrophoneBuffer.samples;
+        int difference = Mathf.Abs(targetReadPos - sourcePlayPos);
+        if (difference > sharedMicrophoneBuffer.samples / 10)
+        {
+            monitoringSource.timeSamples = targetReadPos;
         }
     }
 
@@ -216,7 +217,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        if (monitoringSource == null || monitoringClip == null)
+        if (monitoringSource == null || monitoringSource.clip == null)
         {
             Debug.LogError("DirectVoiceMonitoring: Cannot start monitoring - AudioSource or buffer is null.");
             return;
@@ -227,6 +228,16 @@ public class DirectVoiceMonitoring : MonoBehaviour
         
         if (!monitoringSource.isPlaying)
         {
+            if (sharedMicrophoneBuffer != null && !string.IsNullOrEmpty(microphoneDeviceName))
+            {
+                int micWritePos = Microphone.GetPosition(microphoneDeviceName);
+                if (micWritePos >= 0 && sharedMicrophoneBuffer.samples > 0)
+                {
+                    int samplesBehind = Mathf.RoundToInt(sharedMicrophoneBuffer.frequency * (monitoringSafetyBufferMs / 1000f));
+                    int startPos = (micWritePos - samplesBehind + sharedMicrophoneBuffer.samples) % sharedMicrophoneBuffer.samples;
+                    monitoringSource.timeSamples = startPos;
+                }
+            }
             monitoringSource.Play();
             Debug.Log("DirectVoiceMonitoring: Monitoring started.");
         }
@@ -295,7 +306,25 @@ public class DirectVoiceMonitoring : MonoBehaviour
     {
         bool changed = monitoringStreamSource != source;
         monitoringStreamSource = source;
-        PrimeMonitoringReadPosition();
+        if (isInitialized)
+        {
+            bool wasPlaying = monitoringSource != null && monitoringSource.isPlaying;
+            if (wasPlaying)
+            {
+                monitoringSource.Stop();
+            }
+
+            ConfigureMonitoringSourceClip();
+
+            if (wasPlaying && monitoringEnabled)
+            {
+                StartMonitoring();
+            }
+        }
+        else
+        {
+            ConfigureMonitoringSourceClip();
+        }
 
         if (changed && monitoringStreamSource == MonitoringStreamSource.Raw)
         {
@@ -333,39 +362,49 @@ public class DirectVoiceMonitoring : MonoBehaviour
         return monitoringEnabled && monitoringSource != null && monitoringSource.isPlaying;
     }
 
-    private void OnMonitoringAudioRead(float[] data)
+    private void OnAudioFilterRead(float[] data, int channels)
     {
         if (data == null || data.Length == 0)
         {
             return;
         }
 
-        if (!monitoringEnabled || !isInitialized || micPipeline == null || !micPipeline.IsReady)
+        // Intentionally disabled for now: normalized gain is applied on main thread volume shaping.
+        // Keeping transport identical to raw path is more robust against lag/click/silence regressions.
+        if (!monitoringEnabled || !isInitialized || monitoringStreamSource != MonitoringStreamSource.Normalized)
         {
-            ArrayClear(data);
             return;
-        }
-
-        int copied;
-        if (monitoringStreamSource == MonitoringStreamSource.Raw)
-        {
-            copied = micPipeline.ReadRawSamples(data, ref monitoringReadPosition);
-        }
-        else
-        {
-            copied = micPipeline.ReadNormalizedSamples(data, ref monitoringReadPosition);
-        }
-
-        if (copied < data.Length)
-        {
-            Interlocked.Increment(ref underrunCount);
         }
     }
 
-    private void OnMonitoringAudioSetPosition(int position)
+    private void ConfigureMonitoringSourceClip()
     {
-        // Re-prime reader with safety delay after seeks/loops.
-        PrimeMonitoringReadPosition();
+        if (monitoringSource == null || micPipeline == null)
+        {
+            return;
+        }
+        sharedMicrophoneBuffer = micPipeline.MicrophoneBuffer;
+        microphoneDeviceName = micPipeline.MicrophoneDeviceName;
+        if (sharedMicrophoneBuffer == null)
+        {
+            Debug.LogError("DirectVoiceMonitoring: Shared microphone buffer is null.");
+            return;
+        }
+
+        monitoringSource.clip = sharedMicrophoneBuffer;
+        lastSeenCaptureEpoch = micPipeline.CaptureEpoch;
+    }
+
+    private void RefreshNormalizedMonitorConfigCache()
+    {
+        if (micPipeline == null)
+        {
+            return;
+        }
+
+        var state = micPipeline.GetNormalizationState();
+        normalizedMonitorEnabledCached = state.enabled;
+        normalizedTargetGainLinearCached = micPipeline.GetNormalizationGainLinear();
     }
 
     // Update volume when changed in inspector
@@ -375,33 +414,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
         {
             ApplyMonitoringVolume();
         }
-    }
-
-    private static void ArrayClear(float[] data)
-    {
-        for (int i = 0; i < data.Length; i++)
-        {
-            data[i] = 0f;
-        }
-    }
-
-    private void PrimeMonitoringReadPosition()
-    {
-        if (micPipeline == null)
-        {
-            monitoringReadPosition = -1;
-            return;
-        }
-
-        if (monitoringStreamSource == MonitoringStreamSource.Raw)
-        {
-            monitoringReadPosition = micPipeline.CreateRawReadPositionBehindMs(monitoringSafetyBufferMs);
-        }
-        else
-        {
-            monitoringReadPosition = micPipeline.CreateNormalizedReadPositionBehindMs(monitoringSafetyBufferMs);
-        }
-        lastSeenCaptureEpoch = micPipeline.CaptureEpoch;
     }
 
     private void WarnIfRawMonitoring(string context)
@@ -428,7 +440,27 @@ public class DirectVoiceMonitoring : MonoBehaviour
             dynamicScale = gameOnLerp * (1f - chargeLerp * 0.5f) * GameValues.instance._chantLerpFast;
         }
 
-        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale));
+        float normalizedGainScale = 1f;
+        if (monitoringStreamSource == MonitoringStreamSource.Normalized)
+        {
+            float targetGain = normalizedMonitorEnabledCached ? Mathf.Max(0f, normalizedTargetGainLinearCached) : 1f;
+            if (!normalizedGainInitialized)
+            {
+                normalizedSmoothedGainLinear = targetGain;
+                normalizedGainInitialized = true;
+            }
+            float tau = Mathf.Max(0.001f, normalizationGainSmoothingSeconds);
+            float alpha = 1f - Mathf.Exp(-Time.deltaTime / tau);
+            normalizedSmoothedGainLinear = Mathf.Lerp(normalizedSmoothedGainLinear, targetGain, alpha);
+            normalizedGainScale = normalizedSmoothedGainLinear;
+        }
+        else
+        {
+            normalizedGainInitialized = false;
+            normalizedSmoothedGainLinear = 1f;
+        }
+
+        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale) * Mathf.Clamp(normalizedGainScale, 0f, 2f));
         monitoringSource.volume = targetVolume;
     }
 
