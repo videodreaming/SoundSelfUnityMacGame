@@ -38,6 +38,12 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] private float gameOnFallSpeed = 0.5f;
     [SerializeField] private float chargeRiseSpeed = 1f;
     [SerializeField] private float chargeFallSpeed = 1f;
+
+    [Header("Playback Sync Tuning")]
+    [Tooltip("Minimum drift in milliseconds before forcing a playback seek to mic write-head offset.")]
+    [SerializeField] [Range(5f, 250f)] private float syncSeekThresholdMs = 30f;
+    [Tooltip("Minimum time between forced playback seeks. Higher values reduce click risk from frequent seeks.")]
+    [SerializeField] [Range(0f, 1f)] private float syncSeekCooldownSeconds = 0.08f;
     
     private bool isInitialized = false;
     private AudioClip sharedMicrophoneBuffer;
@@ -51,6 +57,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private float normalizedTargetGainLinearCached = 1f;
     private float gameOnLerp = 0f;
     private float chargeLerp = 0f;
+    private float lastSyncSeekTime = -10f;
 
     /// <summary>
     /// Initializes the monitoring system and AudioSource.
@@ -199,10 +206,21 @@ public class DirectVoiceMonitoring : MonoBehaviour
         int sourcePlayPos = monitoringSource.timeSamples;
         int samplesBehind = Mathf.RoundToInt(sharedMicrophoneBuffer.frequency * (monitoringSafetyBufferMs / 1000f));
         int targetReadPos = (micWritePos - samplesBehind + sharedMicrophoneBuffer.samples) % sharedMicrophoneBuffer.samples;
-        int difference = Mathf.Abs(targetReadPos - sourcePlayPos);
-        if (difference > sharedMicrophoneBuffer.samples / 10)
+
+        int wrappedDifference = Mathf.Abs(targetReadPos - sourcePlayPos);
+        int shortestDifference = Mathf.Min(
+            wrappedDifference,
+            sharedMicrophoneBuffer.samples - wrappedDifference
+        );
+
+        float thresholdSamples = Mathf.Max(1f, sharedMicrophoneBuffer.frequency * (syncSeekThresholdMs / 1000f));
+        bool overThreshold = shortestDifference > thresholdSamples;
+        bool cooldownElapsed = (Time.unscaledTime - lastSyncSeekTime) >= Mathf.Max(0f, syncSeekCooldownSeconds);
+
+        if (overThreshold && cooldownElapsed)
         {
             monitoringSource.timeSamples = targetReadPos;
+            lastSyncSeekTime = Time.unscaledTime;
         }
     }
 
