@@ -30,6 +30,11 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] [Range(0f, 500f)] private float monitoringSafetyBufferMs = 100f;
     [Tooltip("Select which MicPipeline stream to monitor for A/B testing and debugging.")]
     [SerializeField] private MonitoringStreamSource monitoringStreamSource = MonitoringStreamSource.Normalized;
+    [Tooltip("When true, monitoring is attenuated (post dynamic scaling) by monitoringAttenuationMultiplier.")]
+    [SerializeField] private bool monitoringAttenuated = false;
+    [SerializeField] [Range(0f, 1f)] private float monitoringAttenuationMultiplier = 0.4f;
+    [Tooltip("Smoothing time for attenuation transitions to reduce click risk when toggled.")]
+    [SerializeField] [Range(0.005f, 0.25f)] private float attenuationSmoothingSeconds = 0.03f;
 
     [Header("Dynamic Monitoring Volume")]
     [Tooltip("When enabled, monitoring volume follows gameOn/toneActive/chant state (migrated from MusicSystem1).")]
@@ -51,6 +56,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private int lastSeenCaptureEpoch = -1;
     [Header("Normalized Callback Smoothing")]
     [SerializeField] [Range(0.001f, 0.05f)] private float normalizationGainSmoothingSeconds = 0.01f;
+
     private float normalizedSmoothedGainLinear = 1f;
     private bool normalizedGainInitialized;
     private bool normalizedMonitorEnabledCached;
@@ -61,6 +67,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private float chargeLerp = 0f;
     private float lastSyncSeekTime = -10f;
     private float cachedOutputSampleRate = 48000f;
+    private bool normalizationStateSubscribed;
+    private float smoothedAttenuationScale = 1f;
+    private bool attenuationScaleInitialized;
 
     /// <summary>
     /// Initializes the monitoring system and AudioSource.
@@ -68,6 +77,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private void Awake()
     {
         cachedOutputSampleRate = AudioSettings.outputSampleRate > 0 ? AudioSettings.outputSampleRate : 48000f;
+        float initialAttenuationScale = monitoringAttenuated ? Mathf.Clamp01(monitoringAttenuationMultiplier) : 1f;
+        smoothedAttenuationScale = initialAttenuationScale;
+        attenuationScaleInitialized = true;
 
         // Create monitoring AudioSource if not assigned
         if (monitoringSource == null)
@@ -146,6 +158,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         monitoringSource.loop = true;
         monitoringSource.volume = monitoringVolume;
         monitoringSource.playOnAwake = false;
+        BindNormalizationStateSubscription();
         RefreshNormalizedMonitorConfigCache();
         normalizedGainInitialized = false;
 
@@ -187,9 +200,13 @@ public class DirectVoiceMonitoring : MonoBehaviour
             }
         }
 
-        RefreshNormalizedMonitorConfigCache();
         ApplyMonitoringVolume();
         SyncLegacyMonitoringPlaybackPosition();
+    }
+
+    private void OnDestroy()
+    {
+        UnbindNormalizationStateSubscription();
     }
 
     private void SyncLegacyMonitoringPlaybackPosition()
@@ -310,6 +327,20 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
+    /// Applies or removes monitoring attenuation while preserving dynamic volume behavior.
+    /// </summary>
+    public void AttenuateMonitoring(bool attenuated)
+    {
+        if (monitoringAttenuated == attenuated)
+        {
+            return;
+        }
+
+        monitoringAttenuated = attenuated;
+        ApplyMonitoringVolume();
+    }
+
+    /// <summary>
     /// Public external control to enable/disable direct voice monitoring.
     /// </summary>
     public void SetDirectVoiceMonitoringEnabled(bool enabled)
@@ -400,8 +431,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        float targetGain = normalizedMonitorEnabledCached ? Mathf.Max(0f, normalizedTargetGainLinearCached) : 1f;
-        bool hardClampEnabled = normalizedHardClampEnabledCached;
+        bool normalizationEnabled = normalizedMonitorEnabledCached;
+        float targetGain = normalizationEnabled ? Mathf.Max(0f, normalizedTargetGainLinearCached) : 1f;
+        bool hardClampEnabled = normalizationEnabled && normalizedHardClampEnabledCached;
         float clampAbs = Mathf.Clamp(normalizedClampAbsCached, 0.01f, 1f);
 
         if (!normalizedGainInitialized)
@@ -444,6 +476,37 @@ public class DirectVoiceMonitoring : MonoBehaviour
         lastSeenCaptureEpoch = micPipeline.CaptureEpoch;
     }
 
+    private void BindNormalizationStateSubscription()
+    {
+        UnbindNormalizationStateSubscription();
+        if (micPipeline == null)
+        {
+            return;
+        }
+
+        micPipeline.NormalizationStateChanged += OnPipelineNormalizationStateChanged;
+        normalizationStateSubscribed = true;
+    }
+
+    private void UnbindNormalizationStateSubscription()
+    {
+        if (!normalizationStateSubscribed || micPipeline == null)
+        {
+            return;
+        }
+
+        micPipeline.NormalizationStateChanged -= OnPipelineNormalizationStateChanged;
+        normalizationStateSubscribed = false;
+    }
+
+    private void OnPipelineNormalizationStateChanged(MicPipeline.MicNormalizationState state)
+    {
+        normalizedMonitorEnabledCached = state.enabled;
+        normalizedTargetGainLinearCached = Mathf.Pow(10f, state.gainDb / 20f);
+        normalizedHardClampEnabledCached = state.hardClampEnabled;
+        normalizedClampAbsCached = state.clampAbs;
+    }
+
     private void RefreshNormalizedMonitorConfigCache()
     {
         if (micPipeline == null)
@@ -451,11 +514,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        var state = micPipeline.GetNormalizationState();
-        normalizedMonitorEnabledCached = state.enabled;
-        normalizedTargetGainLinearCached = micPipeline.GetNormalizationGainLinear();
-        normalizedHardClampEnabledCached = state.hardClampEnabled;
-        normalizedClampAbsCached = state.clampAbs;
+        OnPipelineNormalizationStateChanged(micPipeline.GetNormalizationState());
     }
 
     // Update volume when changed in inspector
@@ -488,11 +547,35 @@ public class DirectVoiceMonitoring : MonoBehaviour
         if (dynamicVolumeEnabled && imitoneVoiceInterpreter != null && GameValues.instance != null)
         {
             UpdateDynamicVolumeLerps();
-            dynamicScale = gameOnLerp * (1f - chargeLerp * 0.5f) * GameValues.instance._chantLerpFast;
+            dynamicScale = gameOnLerp * (1f - chargeLerp * 0.5f) * Mathf.Clamp01(GameValues.instance._chantLerpFast);
         }
 
-        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale));
+        float targetAttenuationScale = monitoringAttenuated ? Mathf.Clamp01(monitoringAttenuationMultiplier) : 1f;
+        float attenuationScale = GetSmoothedAttenuationScale(targetAttenuationScale);
+        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale) * attenuationScale);
         monitoringSource.volume = targetVolume;
+    }
+
+    private float GetSmoothedAttenuationScale(float targetScale)
+    {
+        if (!attenuationScaleInitialized)
+        {
+            smoothedAttenuationScale = targetScale;
+            attenuationScaleInitialized = true;
+            return smoothedAttenuationScale;
+        }
+
+        float tau = Mathf.Max(0.005f, attenuationSmoothingSeconds);
+        float deltaTime = Mathf.Max(0f, Time.unscaledDeltaTime);
+        if (deltaTime <= 0f)
+        {
+            smoothedAttenuationScale = targetScale;
+            return smoothedAttenuationScale;
+        }
+
+        float alpha = 1f - Mathf.Exp(-deltaTime / tau);
+        smoothedAttenuationScale = Mathf.Lerp(smoothedAttenuationScale, targetScale, alpha);
+        return smoothedAttenuationScale;
     }
 
     private void UpdateDynamicVolumeLerps()

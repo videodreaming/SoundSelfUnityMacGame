@@ -12237,10 +12237,33 @@ MonoBehaviour:
   recoveryRetryIntervalSeconds: 1
   stalledWriteHeadFrameThreshold: 120
   channelMode: 1
+  imitoneVoiceIntepreter: {fileID: 0}
   normalizationEnabled: 1
   normalizationGainDb: 0
   normalizationHardClampEnabled: 1
   normalizationClampAbs: 0.98
+  gainRidingEnabled: 1
+  gainRidingTargetDb: -22
+  gainRidingRaiseThresholdDb: 4
+  gainRidingLowerThresholdDb: 2
+  gainRidingRapidLowerThresholdDb: 6
+  gainRidingRaiseRateDbPerSecond: 0.5
+  gainRidingLowerRateDbPerSecond: 4
+  gainRidingRapidLowerRateDbPerSecond: 16
+  gainRidingGainDbClamp: {x: -36, y: 36}
+  normalizationGainDbRuntime: 0
+  normalizationGainLinearRuntime: 1
+  gainRidingLastMicDb: NaN
+  gainRidingLastEstimatedNormalizedDb: NaN
+  gainRidingLastDbDelta: 0
+  gainRidingCurrentRateDbPerSecond: 0
+  gainRidingLastAppliedStepDb: 0
+  gainRidingAccumulatedAdjustmentDb: 0
+  gainRidingGateEnabled: 0
+  gainRidingGatePipelineReady: 0
+  gainRidingGateInterpreterBound: 0
+  gainRidingGateToneActive: 0
+  gainRidingGateMicDbValid: 0
   normalizedPeakCurrentFrame: 0
   normalizedPeakMeter: 0
   normalizedPeakMeterDecayPerSecond: 2.5
@@ -14076,6 +14099,8 @@ MonoBehaviour:
   monitoringVolume: 1
   monitoringSafetyBufferMs: 150
   monitoringStreamSource: 0
+  monitoringAttenuated: 0
+  monitoringAttenuationMultiplier: 0.4
   dynamicVolumeEnabled: 1
   gameOnRiseSpeed: 2
   gameOnFallSpeed: 0.5
