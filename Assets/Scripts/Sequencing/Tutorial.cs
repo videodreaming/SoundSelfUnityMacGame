@@ -12,7 +12,7 @@ public class Tutorial : MonoBehaviour
 {
     private bool debugAllowLogs = true;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    //public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
+    //public RecordedAudioPlayback recordedAudioPlayback;
     public WwiseVOManager wwiseVOManager;
     public Sequencer sequencer;
     public MusicSystem1 musicSystem1;

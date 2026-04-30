@@ -9,6 +9,12 @@ using UnityEngine;
 /// </summary>
 public class DirectVoiceMonitoring : MonoBehaviour
 {
+    public enum MonitoringStreamSource
+    {
+        Normalized = 0,
+        Raw = 1
+    }
+
     [Header("Core References")]
     [Tooltip("Reference to ImitoneVoiceIntepreter. Used to auto-resolve MicPipeline if not assigned.")]
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
@@ -23,16 +29,29 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] private bool monitoringEnabled = true;
     [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 1f;
     [SerializeField] [Range(0f, 500f)] private float monitoringSafetyBufferMs = 150f;
+    [Tooltip("Select which MicPipeline stream to monitor for A/B testing and debugging.")]
+    [SerializeField] private MonitoringStreamSource monitoringStreamSource = MonitoringStreamSource.Normalized;
+
+    [Header("Dynamic Monitoring Volume")]
+    [Tooltip("When enabled, monitoring volume follows gameOn/toneActive/chant state (migrated from MusicSystem1).")]
+    [SerializeField] private bool dynamicVolumeEnabled = true;
+    [SerializeField] private float gameOnRiseSpeed = 2f;
+    [SerializeField] private float gameOnFallSpeed = 0.5f;
+    [SerializeField] private float chargeRiseSpeed = 1f;
+    [SerializeField] private float chargeFallSpeed = 1f;
     
     private bool isInitialized = false;
     private AudioClip monitoringClip;
     private int monitoringReadPosition = -1;
+    private int lastSeenCaptureEpoch = -1;
     private int monitoringClipChannels = 1;
     private const int MonitoringClipLengthSec = 2;
     private int underrunCount;
     private int lastLoggedUnderrunCount;
     private float underrunLogCooldownTimer = 0f;
     [SerializeField] private float underrunLogIntervalSeconds = 1f;
+    private float gameOnLerp = 0f;
+    private float chargeLerp = 0f;
 
     /// <summary>
     /// Initializes the monitoring system and AudioSource.
@@ -102,7 +121,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up monitoring AudioSource with a streaming clip fed by MicPipeline normalized samples.
+    /// Sets up monitoring AudioSource with a streaming clip fed by MicPipeline samples.
     /// </summary>
     private void SetupMonitoring()
     {
@@ -112,8 +131,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        monitoringClipChannels = 1;
-        monitoringReadPosition = micPipeline.CreateNormalizedReadPositionBehindMs(monitoringSafetyBufferMs);
+        monitoringClipChannels = Mathf.Max(1, micPipeline.Channels);
+        PrimeMonitoringReadPosition();
         underrunCount = 0;
         lastLoggedUnderrunCount = 0;
         int clipFrequency = Mathf.Max(8000, micPipeline.SampleRate);
@@ -149,7 +168,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
             StartMonitoring();
         }
 
-        Debug.Log($"DirectVoiceMonitoring: Monitoring initialized from MicPipeline. SampleRate: {clipFrequency}Hz");
+        WarnIfRawMonitoring("startup");
+        Debug.Log($"DirectVoiceMonitoring: Monitoring initialized from MicPipeline ({monitoringStreamSource} stream). SampleRate: {clipFrequency}Hz");
     }
 
     /// <summary>
@@ -159,7 +179,19 @@ public class DirectVoiceMonitoring : MonoBehaviour
     {
         if (!isInitialized || monitoringSource == null)
             return;
-        monitoringSource.volume = monitoringVolume;
+
+        if (micPipeline != null && micPipeline.IsReady)
+        {
+            int currentCaptureEpoch = micPipeline.CaptureEpoch;
+            if (currentCaptureEpoch != lastSeenCaptureEpoch)
+            {
+                PrimeMonitoringReadPosition();
+                lastSeenCaptureEpoch = currentCaptureEpoch;
+                Debug.Log("DirectVoiceMonitoring: MicPipeline capture restart detected. Re-primed monitoring read position.");
+            }
+        }
+
+        ApplyMonitoringVolume();
 
         underrunLogCooldownTimer += Time.deltaTime;
 
@@ -169,7 +201,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             int newUnderruns = totalUnderruns - lastLoggedUnderrunCount;
             lastLoggedUnderrunCount = totalUnderruns;
             underrunLogCooldownTimer = 0f;
-            Debug.LogError($"DirectVoiceMonitoring: Normalized stream underrun detected ({newUnderruns} new, {totalUnderruns} total). Consider increasing monitoring safety buffer or investigating frame drops.");
+            Debug.LogError($"DirectVoiceMonitoring: {monitoringStreamSource} stream underrun detected ({newUnderruns} new, {totalUnderruns} total). Consider increasing monitoring safety buffer or investigating frame drops.");
         }
     }
 
@@ -191,7 +223,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         monitoringEnabled = true;
-        monitoringSource.volume = monitoringVolume;
+        ApplyMonitoringVolume();
         
         if (!monitoringSource.isPlaying)
         {
@@ -222,7 +254,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         monitoringVolume = Mathf.Clamp01(volume);
         if (monitoringSource != null)
         {
-            monitoringSource.volume = monitoringVolume;
+            ApplyMonitoringVolume();
         }
     }
 
@@ -239,6 +271,50 @@ public class DirectVoiceMonitoring : MonoBehaviour
         {
             StartMonitoring();
         }
+    }
+
+    /// <summary>
+    /// Public external control to enable/disable direct voice monitoring.
+    /// </summary>
+    public void SetDirectVoiceMonitoringEnabled(bool enabled)
+    {
+        if (enabled)
+        {
+            StartMonitoring();
+        }
+        else
+        {
+            StopMonitoring();
+        }
+    }
+
+    /// <summary>
+    /// Sets monitoring stream source and re-primes read position for low-glitch switching.
+    /// </summary>
+    public void SetMonitoringStreamSource(MonitoringStreamSource source)
+    {
+        bool changed = monitoringStreamSource != source;
+        monitoringStreamSource = source;
+        PrimeMonitoringReadPosition();
+
+        if (changed && monitoringStreamSource == MonitoringStreamSource.Raw)
+        {
+            WarnIfRawMonitoring("runtime switch");
+        }
+    }
+
+    public MonitoringStreamSource GetMonitoringStreamSource()
+    {
+        return monitoringStreamSource;
+    }
+
+    public void ToggleMonitoringStreamSource()
+    {
+        SetMonitoringStreamSource(
+            monitoringStreamSource == MonitoringStreamSource.Normalized
+                ? MonitoringStreamSource.Raw
+                : MonitoringStreamSource.Normalized
+        );
     }
 
     /// <summary>
@@ -270,7 +346,16 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        int copied = micPipeline.ReadNormalizedSamples(data, ref monitoringReadPosition);
+        int copied;
+        if (monitoringStreamSource == MonitoringStreamSource.Raw)
+        {
+            copied = micPipeline.ReadRawSamples(data, ref monitoringReadPosition);
+        }
+        else
+        {
+            copied = micPipeline.ReadNormalizedSamples(data, ref monitoringReadPosition);
+        }
+
         if (copied < data.Length)
         {
             Interlocked.Increment(ref underrunCount);
@@ -280,14 +365,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private void OnMonitoringAudioSetPosition(int position)
     {
         // Re-prime reader with safety delay after seeks/loops.
-        if (micPipeline != null)
-        {
-            monitoringReadPosition = micPipeline.CreateNormalizedReadPositionBehindMs(monitoringSafetyBufferMs);
-        }
-        else
-        {
-            monitoringReadPosition = -1;
-        }
+        PrimeMonitoringReadPosition();
     }
 
     // Update volume when changed in inspector
@@ -295,7 +373,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     {
         if (monitoringSource != null && Application.isPlaying)
         {
-            monitoringSource.volume = monitoringVolume;
+            ApplyMonitoringVolume();
         }
     }
 
@@ -304,6 +382,90 @@ public class DirectVoiceMonitoring : MonoBehaviour
         for (int i = 0; i < data.Length; i++)
         {
             data[i] = 0f;
+        }
+    }
+
+    private void PrimeMonitoringReadPosition()
+    {
+        if (micPipeline == null)
+        {
+            monitoringReadPosition = -1;
+            return;
+        }
+
+        if (monitoringStreamSource == MonitoringStreamSource.Raw)
+        {
+            monitoringReadPosition = micPipeline.CreateRawReadPositionBehindMs(monitoringSafetyBufferMs);
+        }
+        else
+        {
+            monitoringReadPosition = micPipeline.CreateNormalizedReadPositionBehindMs(monitoringSafetyBufferMs);
+        }
+        lastSeenCaptureEpoch = micPipeline.CaptureEpoch;
+    }
+
+    private void WarnIfRawMonitoring(string context)
+    {
+        if (monitoringStreamSource != MonitoringStreamSource.Raw)
+        {
+            return;
+        }
+
+        Debug.LogWarning($"DirectVoiceMonitoring: Monitoring stream is set to RAW ({context}). Use Normalized for non-debug/shipping builds.");
+    }
+
+    private void ApplyMonitoringVolume()
+    {
+        if (monitoringSource == null)
+        {
+            return;
+        }
+
+        float dynamicScale = 1f;
+        if (dynamicVolumeEnabled && imitoneVoiceInterpreter != null && GameValues.instance != null)
+        {
+            UpdateDynamicVolumeLerps();
+            dynamicScale = gameOnLerp * (1f - chargeLerp * 0.5f) * GameValues.instance._chantLerpFast;
+        }
+
+        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale));
+        monitoringSource.volume = targetVolume;
+    }
+
+    private void UpdateDynamicVolumeLerps()
+    {
+        if (imitoneVoiceInterpreter.gameOn)
+        {
+            gameOnLerp += Time.deltaTime * Mathf.Max(0f, gameOnRiseSpeed);
+        }
+        else
+        {
+            gameOnLerp -= Time.deltaTime * Mathf.Max(0f, gameOnFallSpeed);
+        }
+        gameOnLerp = Mathf.Clamp01(gameOnLerp);
+
+        if (imitoneVoiceInterpreter.toneActive)
+        {
+            float chantCharge = Mathf.Clamp01(GameValues.instance._chantCharge);
+            if (chantCharge > chargeLerp)
+            {
+                chargeLerp += Time.deltaTime * Mathf.Max(0f, chargeRiseSpeed);
+                chargeLerp = Mathf.Clamp(chargeLerp, 0f, chantCharge);
+            }
+            else if (chantCharge < chargeLerp)
+            {
+                chargeLerp -= Time.deltaTime * Mathf.Max(0f, chargeFallSpeed);
+                chargeLerp = Mathf.Clamp(chargeLerp, chantCharge, 1f);
+            }
+            else
+            {
+                chargeLerp = chantCharge;
+            }
+        }
+        else
+        {
+            chargeLerp -= Time.deltaTime * Mathf.Max(0f, chargeFallSpeed);
+            chargeLerp = Mathf.Clamp01(chargeLerp);
         }
     }
 }

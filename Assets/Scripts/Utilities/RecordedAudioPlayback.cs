@@ -45,11 +45,11 @@ public class ClipSlot
 /// user-generated clips, keyed by fundamental note. Designed to run
 /// continuously: record when permitted, save to disk, and replay available clips.
 /// </summary>
-public class RecordedAudioPlaybackTest : MonoBehaviour
+public class RecordedAudioPlayback : MonoBehaviour
 {
 
     // Singleton for easy access from other systems
-    public static RecordedAudioPlaybackTest Instance {get; private set;}
+    public static RecordedAudioPlayback Instance {get; private set;}
     
     [Header("Core References")]
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // detects tone activity/pitch
