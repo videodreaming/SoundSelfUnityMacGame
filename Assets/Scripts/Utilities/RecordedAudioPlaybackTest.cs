@@ -56,7 +56,6 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     public Director director; // drives experience state
     public DevelopmentMode developmentMode; // feature flags/dev controls
     public MusicSystem1 musicSystem1; // supplies current fundamental note
-    public AudioSource ThisObjectAudioSource; // holds live mic recording buffer
     public RespirationTracker respirationTracker; // gates recording on player breath
     
     [Header("Controls")]
@@ -69,7 +68,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     [Header("Audio Devices")]
 
     [SerializeField] private AudioSource playbackSource; // dedicated playback source
-    private string deviceName;                           // selected microphone name
+    private MicPipeline micPipeline;                     // normalized mic stream provider
     private Coroutine playbackRoutine;                   // running playback coroutine
     private Coroutine volumeFadeRoutine;                 // running volume fade coroutine
     private bool previousPlayMode = false;               // tracks previous play mode state for fade detection
@@ -87,17 +86,17 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     private readonly Dictionary<NoteName, int> pendingFillTarget = new Dictionary<NoteName, int>(); // HOLD -> target mapping
     private NoteName _activeRecordingFundamental; // note captured at recording start
     private bool _hasActiveRecordingFundamental = false;
-    private AudioClip currentMicClip; // raw mic buffer (trimmed later) - now references shared buffer
-    private int recordingStartPosition = 0; // position in shared buffer where recording started
-    private List<float> recordedSamples = new List<float>(); // accumulated samples from shared buffer
-    private int lastReadPosition = 0; // last position read from shared buffer
-    private int recordingChannels = 1; // channels from the shared buffer
-    private int recordingFrequency = 48000; // sample rate from the shared buffer
+    private List<float> recordedSamples = new List<float>(); // accumulated samples from normalized stream
+    private int recordingReadPosition = -1; // read head for normalized ring buffer
+    private int recordingChannels = 1; // normalized stream is mono by contract
+    private int recordingFrequency = 48000; // sample rate from MicPipeline
+    private float[] recordingReadBuffer; // reused buffer to drain normalized stream
     public string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss"); // session stamp
 
     [Header("Recording Settings")] 
     private float _recordingDurationTarget = 6f; // record this long, then wait for rest //TODO: SET THIS TO 
     private int _recordingDurationBuffer = 35;    // max capture window before forced stop
+    [SerializeField] private int maxNormalizedReadChunksPerTick = 8; // caps per-tick catch-up work
     
     [Header("Playback Settings")]
     [SerializeField] private float volumeFadeDuration = 1f; // duration in seconds for volume fade in/out
@@ -106,7 +105,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     private const int MAIN_CAPACITY = 3;      // slots 0..2
     private const int HOLD_SLOT = 3;          // slot 3 (the “4th” holding zone)
     
-    /// <summary>    /// Initializes singleton, ensures audio sources, prepares clip slots, and creates session folders.
+    /// <summary>    /// Initializes singleton, ensures playback source, prepares clip slots, and creates session folders.
     /// </summary>
     private void Awake()
     {
@@ -121,27 +120,11 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
             return;
         }
 
-        // Ensure we have an AudioSource to hold the mic buffer
-        if(ThisObjectAudioSource == null)
-        {
-            ThisObjectAudioSource = GetComponent<AudioSource>();
-        }
-
         // Create a dedicated playback AudioSource if not assigned
         if (playbackSource == null)
         {
             playbackSource = gameObject.AddComponent<AudioSource>();
             playbackSource.playOnAwake = false;
-
-            // Route playback through the same mixer group as the recorder if present
-            if (ThisObjectAudioSource != null)
-                playbackSource.outputAudioMixerGroup = ThisObjectAudioSource.outputAudioMixerGroup;
-        }
-
-        // Warn if recording and playback accidentally share the same source
-        if (ThisObjectAudioSource == playbackSource)
-        {
-            Debug.LogWarning("Recording/Playback are sharing the same AudioSource. Assign a separate playbackSource to avoid conflicts.");
         }
 
         // Prepare slot structure: 12 notes * 4 slots each (0-2 main, 3 HOLD)
@@ -188,7 +171,6 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
         }
     }
 
-    
     //===================================================
     //STORAGE MANAGEMENT
     //===================================================
@@ -305,21 +287,25 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     /// </summary>
     private void StartRecordingLoop()
     {
-        // Check if ImitoneVoiceIntepreter has the microphone set up
+        // Check if ImitoneVoiceIntepreter and MicPipeline are available
         if (imitoneVoiceInterpreter == null)
         {
             Debug.LogWarning("Recording: ImitoneVoiceIntepreter reference is not set!");
             return;
         }
-        
-        if (imitoneVoiceInterpreter.MicrophoneBuffer == null)
+
+        if (micPipeline == null)
         {
-            Debug.LogWarning("Recording: ImitoneVoiceIntepreter microphone buffer is not initialized!");
+            micPipeline = imitoneVoiceInterpreter.GetComponent<MicPipeline>();
+        }
+
+        if (micPipeline == null || !micPipeline.IsReady)
+        {
+            Debug.LogWarning("Recording: MicPipeline is not initialized yet.");
             return;
         }
-        
-        deviceName = imitoneVoiceInterpreter.MicrophoneDeviceName;
-        Debug.Log("Recording: Recording Loop starting (using shared microphone)...");
+
+        Debug.Log("Recording: Recording Loop starting (using normalized MicPipeline stream)...");
         StartCoroutine(RecordingCoroutine());
     }
 
@@ -596,167 +582,95 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
         AudioClip trimmed = StopRecordingAndGetTrimmedClip();
 
-        ThisObjectAudioSource.clip = null;
-
         if (trimmed != null)
             Destroy(trimmed);
     }
     
     /// <summary>
     /// Begins microphone capture and tags the current fundamental for the take.
-    /// Uses the shared microphone buffer from ImitoneVoiceIntepreter instead of starting its own.
-    /// Continuously reads from the shared buffer and accumulates samples.
+    /// Uses normalized stream from MicPipeline instead of direct microphone buffer reads.
     /// </summary>
     private void StartRecording(NoteName fundamental)
     {
         _activeRecordingFundamental = fundamental;
         _hasActiveRecordingFundamental = true;
-        
-        // Use the shared microphone buffer from ImitoneVoiceIntepreter
-        if (imitoneVoiceInterpreter == null || imitoneVoiceInterpreter.MicrophoneBuffer == null)
+
+        if (micPipeline == null && imitoneVoiceInterpreter != null)
         {
-            Debug.LogError("Recording: Cannot start recording - ImitoneVoiceIntepreter microphone buffer is not available!");
+            micPipeline = imitoneVoiceInterpreter.GetComponent<MicPipeline>();
+        }
+
+        if (micPipeline == null || !micPipeline.IsReady)
+        {
+            Debug.LogError("Recording: Cannot start recording - MicPipeline is not available!");
             return;
         }
-        
-        // Initialize recording state
-        deviceName = imitoneVoiceInterpreter.MicrophoneDeviceName;
-        currentMicClip = imitoneVoiceInterpreter.MicrophoneBuffer;
-        recordingChannels = currentMicClip.channels;
-        recordingFrequency = imitoneVoiceInterpreter.MicrophoneSampleRate;
-        
-        // Get the current microphone position as our recording start point
-        recordingStartPosition = Microphone.GetPosition(deviceName);
-        lastReadPosition = recordingStartPosition;
-        
-        // Clear any previous recording samples
+
+        recordingChannels = micPipeline.Channels;
+        recordingFrequency = micPipeline.SampleRate;
+        recordingReadPosition = micPipeline.CreateNormalizedReadPositionBehindMs(0f);
+        if (recordingReadBuffer == null || recordingReadBuffer.Length != 4096)
+        {
+            recordingReadBuffer = new float[4096];
+        }
+
         recordedSamples.Clear();
-        
-        ThisObjectAudioSource.clip = currentMicClip;
-        
-        Debug.Log($"[TEST] StartRecording: fundamental={fundamental}, device={deviceName}, startPos={recordingStartPosition}, channels={recordingChannels}, freq={recordingFrequency}");
+
+        Debug.Log($"[TEST] StartRecording: fundamental={fundamental}, channels={recordingChannels}, freq={recordingFrequency}, normalized=true");
     }
 
 
     
     /// <summary>
-    /// Continuously reads new samples from the shared microphone buffer and accumulates them.
-    /// This allows recording longer than the 1-second buffer length.
-    /// Uses the same pattern as ImitoneVoiceIntepreter for reading from the looping buffer.
+    /// Continuously reads new normalized samples from MicPipeline and accumulates them.
     /// </summary>
     private void ReadFromSharedBuffer()
     {
-        if (currentMicClip == null || string.IsNullOrEmpty(deviceName))
+        if (micPipeline == null || !micPipeline.IsReady)
             return;
 
-        int micPosWrite = Microphone.GetPosition(deviceName);
-        
-        // Validate micPosWrite is within valid range
-        if (micPosWrite < 0 || micPosWrite >= currentMicClip.samples)
+        if (recordingReadBuffer == null || recordingReadBuffer.Length == 0)
         {
-            Debug.LogWarning($"Recording: Invalid micPosWrite ({micPosWrite}), skipping read.");
-            return;
+            recordingReadBuffer = new float[4096];
         }
-        
-        // Ensure lastReadPosition is valid (in case of initialization issues)
-        if (lastReadPosition < 0 || lastReadPosition >= currentMicClip.samples)
-        {
-            lastReadPosition = micPosWrite;
-            return;
-        }
-        
-        // Calculate how many samples to read (handling wrap-around with modulo)
-        // This matches the pattern used in ImitoneVoiceIntepreter
-        int samplesToRead = (currentMicClip.samples + micPosWrite - lastReadPosition) % currentMicClip.samples;
-        
-        // Safety check: if samplesToRead is suspiciously large, something went wrong
-        if (samplesToRead > currentMicClip.samples)
-        {
-            Debug.LogWarning($"Recording: Calculated samplesToRead ({samplesToRead}) exceeds buffer size ({currentMicClip.samples}). Resetting.");
-            lastReadPosition = micPosWrite;
-            return;
-        }
-        
-        if (samplesToRead <= 0)
-            return;
 
-        int channels = recordingChannels;
-        
-        try
+        int chunksRead = 0;
+        int chunkLimit = Mathf.Max(1, maxNormalizedReadChunksPerTick);
+        while (chunksRead < chunkLimit)
         {
-            // Read the audio data, handling wrap-around
-            // GetData requires: valid offset (0 to samples-1) and array size matching exactly what we want to read
-            if (lastReadPosition + samplesToRead <= currentMicClip.samples)
+            int copied = micPipeline.ReadNormalizedSamples(recordingReadBuffer, ref recordingReadPosition);
+            if (copied <= 0)
             {
-                // Simple case: no wrap-around, read directly
-                float[] capturedSamples = new float[samplesToRead * channels];
-                currentMicClip.GetData(capturedSamples, lastReadPosition);
-                recordedSamples.AddRange(capturedSamples);
-                lastReadPosition += samplesToRead;
-                
-                // Ensure lastReadPosition stays within bounds (shouldn't exceed, but safety check)
-                if (lastReadPosition >= currentMicClip.samples)
-                    lastReadPosition = lastReadPosition % currentMicClip.samples;
+                break;
             }
-            else
+
+            for (int i = 0; i < copied; i++)
             {
-                // Wrap-around case: read in two parts
-                int samplesToEnd = currentMicClip.samples - lastReadPosition;
-                int samplesFromStart = samplesToRead - samplesToEnd;
-                
-                // Validate both parts before reading
-                if (samplesToEnd <= 0 || samplesFromStart <= 0)
-                {
-                    Debug.LogWarning($"Recording: Invalid wrap-around calculation (samplesToEnd={samplesToEnd}, samplesFromStart={samplesFromStart}). Resetting.");
-                    lastReadPosition = micPosWrite;
-                    return;
-                }
-                
-                // Read first part: from lastReadPosition to end of buffer
-                if (samplesToEnd > 0 && lastReadPosition >= 0 && lastReadPosition < currentMicClip.samples)
-                {
-                    float[] part1 = new float[samplesToEnd * channels];
-                    currentMicClip.GetData(part1, lastReadPosition);
-                    recordedSamples.AddRange(part1);
-                }
-                
-                // Read second part: from start of buffer
-                if (samplesFromStart > 0 && samplesFromStart <= micPosWrite)
-                {
-                    float[] part2 = new float[samplesFromStart * channels];
-                    currentMicClip.GetData(part2, 0);
-                    recordedSamples.AddRange(part2);
-                }
-                
-                lastReadPosition = samplesFromStart;
+                recordedSamples.Add(recordingReadBuffer[i]);
             }
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"Recording: Error reading from shared buffer: {e.Message}. Resetting read position.");
-            lastReadPosition = micPosWrite;
+
+            // Continue draining if the read filled our request buffer,
+            // which indicates there may be more queued samples.
+            if (copied < recordingReadBuffer.Length)
+            {
+                break;
+            }
+
+            chunksRead++;
         }
     }
 
     /// <summary>
-    /// Stops the microphone, trims the captured buffer to the actual length, and returns a new AudioClip.
-    /// Uses accumulated samples from the shared microphone buffer.
+    /// Stops accumulation, creates a clip from normalized captured samples, and returns it.
     /// </summary>
     private AudioClip StopRecordingAndGetTrimmedClip()
     {
-        if (currentMicClip == null)
-        {
-            Debug.LogWarning("Recording: No audio buffer available (mic clip is null).");
-            CleanupMicClip();
-            return null;
-        }
-
         // Final read to capture any remaining samples
         ReadFromSharedBuffer();
 
         if (recordedSamples.Count == 0)
         {
-            Debug.LogWarning("Recording: No audio samples were captured.");
+            Debug.LogWarning("Recording: No normalized audio samples were captured.");
             CleanupMicClip();
             return null;
         }
@@ -775,9 +689,8 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
 
         trimmed.SetData(data, 0);
 
-        Debug.Log($"[TEST] StopRecordingAndGetTrimmedClip: Created clip with {totalSamples} samples ({totalSamples / (float)recordingFrequency:F2}s), channels={recordingChannels}, freq={recordingFrequency}");
+        Debug.Log($"[TEST] StopRecordingAndGetTrimmedClip: Created clip with {totalSamples} samples ({totalSamples / (float)recordingFrequency:F2}s), channels={recordingChannels}, freq={recordingFrequency}, normalized=true");
 
-        // IMPORTANT: Don't destroy the shared buffer, just clear our reference
         CleanupMicClip();
 
         return trimmed;
@@ -788,13 +701,7 @@ public class RecordedAudioPlaybackTest : MonoBehaviour
     /// </summary>
     private void CleanupMicClip()
     {
-        if (ThisObjectAudioSource != null) ThisObjectAudioSource.clip = null;
-
-        // Don't destroy currentMicClip - it's the shared buffer from ImitoneVoiceIntepreter
-        // Just clear our reference
-        currentMicClip = null;
-        recordingStartPosition = 0;
-        lastReadPosition = 0;
+        recordingReadPosition = -1;
         recordedSamples.Clear();
     }
 

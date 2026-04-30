@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Debug Sequence
   stages:
+  - type: 10
+    variant: 21
   - type: 3
-    variant: 30
+    variant: 8
   - type: 10
     variant: 25
   - type: 4

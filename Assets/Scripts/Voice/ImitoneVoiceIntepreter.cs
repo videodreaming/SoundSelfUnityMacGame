@@ -163,10 +163,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     int sampleRate;
     ImitoneVoice imitone;
+    [SerializeField] private MicPipeline micPipeline;
 
-    string microphoneName;
-    AudioClip inputBuffer;
-    int micPosRead = 0;
     float[] capturedInput;
     // Reusable buffer for chunking audio to imitone. Imitone's internal feed_buffer holds max 1 second (sampleRate samples).
     private float[] _imitoneChunkBuffer;
@@ -185,9 +183,9 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     private float _lpPrevOutput;
 
     // Public accessors for shared microphone usage
-    public AudioClip MicrophoneBuffer => inputBuffer;
-    public string MicrophoneDeviceName => microphoneName;
-    public int MicrophoneSampleRate => sampleRate;
+    public AudioClip MicrophoneBuffer => micPipeline != null ? micPipeline.MicrophoneBuffer : null;
+    public string MicrophoneDeviceName => micPipeline != null ? micPipeline.MicrophoneDeviceName : null;
+    public int MicrophoneSampleRate => micPipeline != null ? micPipeline.SampleRate : sampleRate;
 
     // Debug log category flags
     private bool debugAllowInitializationLogs = true;
@@ -200,54 +198,37 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     void Start()
     {
-        var micDevices = Microphone.devices;
-        Debug.Log($"Imitone: Microphone.devices count = {micDevices.Length}" +
-            (micDevices.Length == 0 ? "" : " — " + string.Join(", ", micDevices)));
-
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
-        // Pick first available device (microphoneName stays null if Microphone.devices is empty).
-        foreach (var device in micDevices)
+        if (micPipeline == null)
         {
-            microphoneName = device;
-            break;
+            micPipeline = GetComponent<MicPipeline>();
         }
-        if (string.IsNullOrEmpty(microphoneName))
+
+        if (micPipeline == null)
         {
-            if(debugAllowInitializationLogs || debugAllowWarnings)
+            if (debugAllowInitializationLogs || debugAllowWarnings)
             {
-                Debug.LogError("Imitone: No microphone was available for pitch tracking. This can happen if the Unity's audio system has been disabled, or if the microphone is not connected.");
-            }
-            return;
-        }
-        if(debugAllowInitializationLogs)
-        {
-            Debug.Log("Imitone: Chose microphone: " + microphoneName);
-        }
-        // NOTE: Unity doesn't give us a way to query native samplerate.
-        //  Converting to 48khz may degrade audio quality slightly.
-        sampleRate = 48000;
-
-        // NOTE: this requires permission on mobile.
-
-        inputBuffer = Microphone.Start(
-                deviceName: microphoneName,
-                loop: true,
-                lengthSec: 6,
-                frequency: sampleRate
-                );
-
-        if (inputBuffer == null)
-        {
-            //If mircophone fails to start
-            if(debugAllowInitializationLogs || debugAllowWarnings)
-            {
-                Debug.LogError("Imitone: PitchTracker failed to Start recording from Microphone!");
+                Debug.LogError("Imitone: MicPipeline reference is missing.");
             }
             return;
         }
 
+        micPipeline.InitializeMicrophone();
+        if (!micPipeline.IsReady)
+        {
+            if (debugAllowInitializationLogs || debugAllowWarnings)
+            {
+                Debug.LogError("Imitone: MicPipeline failed to initialize microphone capture.");
+            }
+            return;
+        }
 
+        sampleRate = micPipeline.SampleRate;
+        if (debugAllowInitializationLogs)
+        {
+            Debug.Log("Imitone: Chose microphone via MicPipeline: " + micPipeline.MicrophoneDeviceName);
+        }
 
         try
         {
@@ -548,24 +529,18 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     private void GetRawVoiceData()
     { //WE NEED RAW VALUES FOR THIS
-        if (!inputBuffer)
+        if (micPipeline == null || !micPipeline.IsReady)
         {
             if(debugAllowInitializationLogs || debugAllowWarnings)
             {
-                Debug.LogError("Imitone: No Input Buffer");
+                Debug.LogError("Imitone: MicPipeline is not ready.");
             }
             return;
         }
 
-        // The microphone's write position in the clip can wrap back around to the beginning.
-        int micPosWrite = Microphone.GetPosition(microphoneName);
-        Array.Resize(ref capturedInput, (inputBuffer.samples + micPosWrite - micPosRead) % inputBuffer.samples);
-        if (capturedInput.Length > 0)
+        int rawSampleCount;
+        if (micPipeline.TryCopyLatestRawFrame(ref capturedInput, out rawSampleCount) && rawSampleCount > 0)
         {
-            // Read the latest audio data, beginning from where we left off and wrapping around as needed.
-            inputBuffer.GetData(capturedInput, micPosRead);
-            micPosRead = (micPosRead + capturedInput.Length) % inputBuffer.samples;
-
             if (_highPassFilterEnabled && _highPassCutoffHz > 0f)
                 ApplyHighPassFilter(capturedInput);
             if (_lowPassFilterEnabled && _lowPassCutoffHz > 0f)
@@ -576,29 +551,30 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             {
                 float peakAmplitude = 0f;
                 float meanAmplitude = 0f;
-                foreach (float sample in capturedInput)
+                for (int i = 0; i < rawSampleCount; i++)
                 {
+                    float sample = capturedInput[i];
                     if (Math.Abs(sample) > peakAmplitude)
                     {
                         peakAmplitude = Math.Abs(sample);
                     }
                     meanAmplitude += Math.Abs(sample);
                 }
-                meanAmplitude /= capturedInput.Length;
+                meanAmplitude /= rawSampleCount;
 
-                //Debug.Log(String.Format("Analyzing mic samples x {0}, peak amplitude {1}", capturedInput.Length, peakAmplitude));
+                //Debug.Log(String.Format("Analyzing mic samples x {0}, peak amplitude {1}", rawSampleCount, peakAmplitude));
                 _dbMicrophone = (float)(10.0 * Math.Log10(meanAmplitude * meanAmplitude));
 
-                // CHUNKING: imitone's feed_buffer holds max 1 second (sampleRate samples). When inputBuffer was 1 second,
+                // CHUNKING: imitone's feed_buffer holds max 1 second (sampleRate samples). When mic buffer was 1 second,
                 // capturedInput never exceeded that. After increasing inputBuffer to 6 seconds, we can read up to ~6 sec
                 // in one frame (e.g. after startup lag or frame spike), causing IndexOutOfRangeException in imitone.
                 // We process in chunks of sampleRate, oldest-first, so imitone receives all audio in order.
                 // TO REVERT: remove the chunking block below and restore: imitone.InputAudio(capturedInput);
                 if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
                     _imitoneChunkBuffer = new float[sampleRate];
-                for (int offset = 0; offset < capturedInput.Length; offset += sampleRate)
+                for (int offset = 0; offset < rawSampleCount; offset += sampleRate)
                 {
-                    int chunkSize = Math.Min(sampleRate, capturedInput.Length - offset);
+                    int chunkSize = Math.Min(sampleRate, rawSampleCount - offset);
                     float[] chunkToPass;
                     if (chunkSize == sampleRate)
                     {
