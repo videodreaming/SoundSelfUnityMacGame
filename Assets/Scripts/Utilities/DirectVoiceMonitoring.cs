@@ -1,16 +1,19 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
-/// Provides real-time monitoring of microphone input by playing back the shared microphone buffer
-/// from ImitoneVoiceIntepreter. Allows the player to hear their own voice input through a
-/// dedicated AudioSource while the microphone is concurrently used for analysis and recording.
+/// Provides real-time monitoring of normalized microphone input by streaming samples from
+/// MicPipeline into a generated AudioClip. This allows independent monitoring latency/buffering
+/// while raw microphone samples remain available for low-latency imitone analysis.
 /// </summary>
 public class DirectVoiceMonitoring : MonoBehaviour
 {
     [Header("Core References")]
-    [Tooltip("Reference to ImitoneVoiceIntepreter that manages the shared microphone buffer")]
+    [Tooltip("Reference to ImitoneVoiceIntepreter. Used to auto-resolve MicPipeline if not assigned.")]
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
+    [Tooltip("Reference to MicPipeline that provides normalized monitoring stream.")]
+    public MicPipeline micPipeline;
     
     [Header("Audio Output")]
     [Tooltip("AudioSource used for monitoring playback. If not assigned, will be created automatically.")]
@@ -19,13 +22,20 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [Header("Monitoring Controls")]
     [SerializeField] private bool monitoringEnabled = true;
     [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 1f;
+    [SerializeField] [Range(0f, 500f)] private float monitoringSafetyBufferMs = 150f;
     
-    private AudioClip sharedMicrophoneBuffer;
-    private string microphoneDeviceName;
     private bool isInitialized = false;
+    private AudioClip monitoringClip;
+    private int monitoringReadPosition = -1;
+    private int monitoringClipChannels = 1;
+    private const int MonitoringClipLengthSec = 2;
+    private int underrunCount;
+    private int lastLoggedUnderrunCount;
+    private float underrunLogCooldownTimer = 0f;
+    [SerializeField] private float underrunLogIntervalSeconds = 1f;
 
     /// <summary>
-    /// Initializes the monitoring system by getting references to the shared microphone buffer.
+    /// Initializes the monitoring system and AudioSource.
     /// </summary>
     private void Awake()
     {
@@ -40,7 +50,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up monitoring once ImitoneVoiceIntepreter has initialized its microphone.
+    /// Sets up monitoring once MicPipeline has initialized its microphone.
     /// </summary>
     private void Start()
     {
@@ -48,54 +58,43 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
-    /// Coroutine that waits for ImitoneVoiceIntepreter to initialize, then sets up monitoring.
+    /// Coroutine that waits for MicPipeline to initialize, then sets up monitoring.
     /// </summary>
     private IEnumerator InitializeMonitoring()
     {
         float timeout = 10f; // 10 second timeout
         float elapsed = 0f;
 
-        // Wait for ImitoneVoiceIntepreter to be assigned and initialize
-        while (imitoneVoiceInterpreter == null && elapsed < timeout)
+        // Wait for ImitoneVoiceIntepreter if needed for auto-resolve.
+        while (micPipeline == null && imitoneVoiceInterpreter == null && elapsed < timeout)
         {
-            Debug.LogWarning("DirectVoiceMonitoring: Waiting for ImitoneVoiceIntepreter reference...");
+            Debug.LogWarning("DirectVoiceMonitoring: Waiting for MicPipeline or ImitoneVoiceIntepreter reference...");
             yield return new WaitForSeconds(0.1f);
             elapsed += 0.1f;
         }
 
-        if (imitoneVoiceInterpreter == null)
+        if (micPipeline == null && imitoneVoiceInterpreter != null)
         {
-            Debug.LogError("DirectVoiceMonitoring: Timeout waiting for ImitoneVoiceIntepreter reference!");
+            micPipeline = imitoneVoiceInterpreter.GetComponent<MicPipeline>();
+        }
+
+        if (micPipeline == null)
+        {
+            Debug.LogError("DirectVoiceMonitoring: MicPipeline reference is missing.");
             yield break;
         }
 
         elapsed = 0f;
-        // Wait for microphone buffer to be available
-        while (imitoneVoiceInterpreter.MicrophoneBuffer == null && elapsed < timeout)
+        while (!micPipeline.IsReady && elapsed < timeout)
         {
-            Debug.LogWarning("DirectVoiceMonitoring: Waiting for microphone buffer to initialize...");
-            yield return new WaitForSeconds(0.1f);
-            elapsed += 0.1f;
-        }
-
-        if (imitoneVoiceInterpreter.MicrophoneBuffer == null)
-        {
-            Debug.LogError("DirectVoiceMonitoring: Timeout waiting for microphone buffer to initialize!");
-            yield break;
-        }
-
-        // Wait for microphone to start recording (position > 0)
-        microphoneDeviceName = imitoneVoiceInterpreter.MicrophoneDeviceName;
-        elapsed = 0f;
-        while (Microphone.GetPosition(microphoneDeviceName) <= 0 && elapsed < timeout)
-        {
+            Debug.LogWarning("DirectVoiceMonitoring: Waiting for MicPipeline microphone initialization...");
             yield return null;
             elapsed += Time.deltaTime;
         }
 
-        if (Microphone.GetPosition(microphoneDeviceName) <= 0)
+        if (!micPipeline.IsReady)
         {
-            Debug.LogError("DirectVoiceMonitoring: Timeout waiting for microphone to start recording!");
+            Debug.LogError("DirectVoiceMonitoring: Timeout waiting for MicPipeline microphone initialization.");
             yield break;
         }
 
@@ -103,21 +102,40 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up the monitoring AudioSource with the shared microphone buffer.
+    /// Sets up monitoring AudioSource with a streaming clip fed by MicPipeline normalized samples.
     /// </summary>
     private void SetupMonitoring()
     {
-        sharedMicrophoneBuffer = imitoneVoiceInterpreter.MicrophoneBuffer;
-        microphoneDeviceName = imitoneVoiceInterpreter.MicrophoneDeviceName;
-
-        if (sharedMicrophoneBuffer == null)
+        if (micPipeline == null || !micPipeline.IsReady)
         {
-            Debug.LogError("DirectVoiceMonitoring: Shared microphone buffer is null!");
+            Debug.LogError("DirectVoiceMonitoring: MicPipeline is not ready.");
             return;
         }
 
-        // Configure monitoring AudioSource
-        monitoringSource.clip = sharedMicrophoneBuffer;
+        monitoringClipChannels = 1;
+        monitoringReadPosition = micPipeline.CreateNormalizedReadPositionBehindMs(monitoringSafetyBufferMs);
+        underrunCount = 0;
+        lastLoggedUnderrunCount = 0;
+        int clipFrequency = Mathf.Max(8000, micPipeline.SampleRate);
+        int clipSamples = clipFrequency * MonitoringClipLengthSec;
+
+        monitoringClip = AudioClip.Create(
+            name: "MicPipelineNormalizedMonitoring",
+            lengthSamples: clipSamples,
+            channels: monitoringClipChannels,
+            frequency: clipFrequency,
+            stream: true,
+            pcmreadercallback: OnMonitoringAudioRead,
+            pcmsetpositioncallback: OnMonitoringAudioSetPosition
+        );
+
+        if (monitoringClip == null)
+        {
+            Debug.LogError("DirectVoiceMonitoring: Failed to create monitoring stream clip.");
+            return;
+        }
+
+        monitoringSource.clip = monitoringClip;
         monitoringSource.loop = true;
         monitoringSource.volume = monitoringVolume;
         monitoringSource.playOnAwake = false;
@@ -131,35 +149,27 @@ public class DirectVoiceMonitoring : MonoBehaviour
             StartMonitoring();
         }
 
-        Debug.Log($"DirectVoiceMonitoring: Monitoring initialized. Device: {microphoneDeviceName}, Buffer samples: {sharedMicrophoneBuffer.samples}, Frequency: {sharedMicrophoneBuffer.frequency}Hz");
+        Debug.Log($"DirectVoiceMonitoring: Monitoring initialized from MicPipeline. SampleRate: {clipFrequency}Hz");
     }
 
     /// <summary>
-    /// Updates monitoring playback position to stay synchronized with microphone write position for minimal latency.
+    /// Keeps monitoring volume in sync while active.
     /// </summary>
     private void Update()
     {
-        if (!isInitialized || !monitoringEnabled || sharedMicrophoneBuffer == null)
+        if (!isInitialized || monitoringSource == null)
             return;
+        monitoringSource.volume = monitoringVolume;
 
-        // Keep monitoring source synchronized with microphone write position
-        // This minimizes latency by reading from the most recent audio data
-        if (monitoringSource.isPlaying)
+        underrunLogCooldownTimer += Time.deltaTime;
+
+        int totalUnderruns = underrunCount;
+        if (totalUnderruns > lastLoggedUnderrunCount && underrunLogCooldownTimer >= Mathf.Max(0.1f, underrunLogIntervalSeconds))
         {
-            int micWritePos = Microphone.GetPosition(microphoneDeviceName);
-            int sourcePlayPos = monitoringSource.timeSamples;
-
-            // Calculate the read position (slightly behind write position for stability)
-            // Reading from ~100ms behind write position prevents reading from the write head
-            int samplesBehind = Mathf.RoundToInt(sharedMicrophoneBuffer.frequency * 0.1f); // 100ms delay
-            int targetReadPos = (micWritePos - samplesBehind + sharedMicrophoneBuffer.samples) % sharedMicrophoneBuffer.samples;
-
-            // Only update if there's a significant difference to avoid constant seeking
-            int difference = Mathf.Abs(targetReadPos - sourcePlayPos);
-            if (difference > sharedMicrophoneBuffer.samples / 10) // Update if more than 10% off
-            {
-                monitoringSource.timeSamples = targetReadPos;
-            }
+            int newUnderruns = totalUnderruns - lastLoggedUnderrunCount;
+            lastLoggedUnderrunCount = totalUnderruns;
+            underrunLogCooldownTimer = 0f;
+            Debug.LogError($"DirectVoiceMonitoring: Normalized stream underrun detected ({newUnderruns} new, {totalUnderruns} total). Consider increasing monitoring safety buffer or investigating frame drops.");
         }
     }
 
@@ -174,7 +184,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        if (monitoringSource == null || sharedMicrophoneBuffer == null)
+        if (monitoringSource == null || monitoringClip == null)
         {
             Debug.LogError("DirectVoiceMonitoring: Cannot start monitoring - AudioSource or buffer is null.");
             return;
@@ -185,15 +195,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
         
         if (!monitoringSource.isPlaying)
         {
-            // Start playback from current microphone read position
-            int micWritePos = Microphone.GetPosition(microphoneDeviceName);
-            int samplesBehind = Mathf.RoundToInt(sharedMicrophoneBuffer.frequency * 0.1f); // 100ms delay
-            int startPos = (micWritePos - samplesBehind + sharedMicrophoneBuffer.samples) % sharedMicrophoneBuffer.samples;
-            
-            monitoringSource.timeSamples = startPos;
             monitoringSource.Play();
-            
-            Debug.Log($"DirectVoiceMonitoring: Monitoring started at position {startPos}");
+            Debug.Log("DirectVoiceMonitoring: Monitoring started.");
         }
     }
 
@@ -254,12 +257,53 @@ public class DirectVoiceMonitoring : MonoBehaviour
         return monitoringEnabled && monitoringSource != null && monitoringSource.isPlaying;
     }
 
+    private void OnMonitoringAudioRead(float[] data)
+    {
+        if (data == null || data.Length == 0)
+        {
+            return;
+        }
+
+        if (!monitoringEnabled || !isInitialized || micPipeline == null || !micPipeline.IsReady)
+        {
+            ArrayClear(data);
+            return;
+        }
+
+        int copied = micPipeline.ReadNormalizedSamples(data, ref monitoringReadPosition);
+        if (copied < data.Length)
+        {
+            Interlocked.Increment(ref underrunCount);
+        }
+    }
+
+    private void OnMonitoringAudioSetPosition(int position)
+    {
+        // Re-prime reader with safety delay after seeks/loops.
+        if (micPipeline != null)
+        {
+            monitoringReadPosition = micPipeline.CreateNormalizedReadPositionBehindMs(monitoringSafetyBufferMs);
+        }
+        else
+        {
+            monitoringReadPosition = -1;
+        }
+    }
+
     // Update volume when changed in inspector
     private void OnValidate()
     {
         if (monitoringSource != null && Application.isPlaying)
         {
             monitoringSource.volume = monitoringVolume;
+        }
+    }
+
+    private static void ArrayClear(float[] data)
+    {
+        for (int i = 0; i < data.Length; i++)
+        {
+            data[i] = 0f;
         }
     }
 }
