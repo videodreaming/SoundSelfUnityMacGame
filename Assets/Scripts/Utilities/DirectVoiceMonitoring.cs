@@ -55,15 +55,20 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private bool normalizedGainInitialized;
     private bool normalizedMonitorEnabledCached;
     private float normalizedTargetGainLinearCached = 1f;
+    private bool normalizedHardClampEnabledCached = true;
+    private float normalizedClampAbsCached = 0.98f;
     private float gameOnLerp = 0f;
     private float chargeLerp = 0f;
     private float lastSyncSeekTime = -10f;
+    private float cachedOutputSampleRate = 48000f;
 
     /// <summary>
     /// Initializes the monitoring system and AudioSource.
     /// </summary>
     private void Awake()
     {
+        cachedOutputSampleRate = AudioSettings.outputSampleRate > 0 ? AudioSettings.outputSampleRate : 48000f;
+
         // Create monitoring AudioSource if not assigned
         if (monitoringSource == null)
         {
@@ -164,6 +169,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
     {
         if (!isInitialized || monitoringSource == null)
             return;
+
+        cachedOutputSampleRate = AudioSettings.outputSampleRate > 0 ? AudioSettings.outputSampleRate : 48000f;
 
         if (monitoringStreamSource == MonitoringStreamSource.Raw)
         {
@@ -387,11 +394,35 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        // Intentionally disabled for now: normalized gain is applied on main thread volume shaping.
-        // Keeping transport identical to raw path is more robust against lag/click/silence regressions.
         if (!monitoringEnabled || !isInitialized || monitoringStreamSource != MonitoringStreamSource.Normalized)
         {
+            normalizedGainInitialized = false;
             return;
+        }
+
+        float targetGain = normalizedMonitorEnabledCached ? Mathf.Max(0f, normalizedTargetGainLinearCached) : 1f;
+        bool hardClampEnabled = normalizedHardClampEnabledCached;
+        float clampAbs = Mathf.Clamp(normalizedClampAbsCached, 0.01f, 1f);
+
+        if (!normalizedGainInitialized)
+        {
+            normalizedSmoothedGainLinear = targetGain;
+            normalizedGainInitialized = true;
+        }
+
+        float sampleRate = cachedOutputSampleRate > 0f ? cachedOutputSampleRate : 48000f;
+        float tau = Mathf.Max(0.001f, normalizationGainSmoothingSeconds);
+        float alpha = 1f - Mathf.Exp(-1f / (tau * sampleRate));
+
+        for (int i = 0; i < data.Length; i++)
+        {
+            normalizedSmoothedGainLinear = Mathf.Lerp(normalizedSmoothedGainLinear, targetGain, alpha);
+            float sample = data[i] * normalizedSmoothedGainLinear;
+            if (hardClampEnabled)
+            {
+                sample = Mathf.Clamp(sample, -clampAbs, clampAbs);
+            }
+            data[i] = sample;
         }
     }
 
@@ -423,6 +454,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
         var state = micPipeline.GetNormalizationState();
         normalizedMonitorEnabledCached = state.enabled;
         normalizedTargetGainLinearCached = micPipeline.GetNormalizationGainLinear();
+        normalizedHardClampEnabledCached = state.hardClampEnabled;
+        normalizedClampAbsCached = state.clampAbs;
     }
 
     // Update volume when changed in inspector
@@ -458,27 +491,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             dynamicScale = gameOnLerp * (1f - chargeLerp * 0.5f) * GameValues.instance._chantLerpFast;
         }
 
-        float normalizedGainScale = 1f;
-        if (monitoringStreamSource == MonitoringStreamSource.Normalized)
-        {
-            float targetGain = normalizedMonitorEnabledCached ? Mathf.Max(0f, normalizedTargetGainLinearCached) : 1f;
-            if (!normalizedGainInitialized)
-            {
-                normalizedSmoothedGainLinear = targetGain;
-                normalizedGainInitialized = true;
-            }
-            float tau = Mathf.Max(0.001f, normalizationGainSmoothingSeconds);
-            float alpha = 1f - Mathf.Exp(-Time.deltaTime / tau);
-            normalizedSmoothedGainLinear = Mathf.Lerp(normalizedSmoothedGainLinear, targetGain, alpha);
-            normalizedGainScale = normalizedSmoothedGainLinear;
-        }
-        else
-        {
-            normalizedGainInitialized = false;
-            normalizedSmoothedGainLinear = 1f;
-        }
-
-        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale) * Mathf.Clamp(normalizedGainScale, 0f, 2f));
+        float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale));
         monitoringSource.volume = targetVolume;
     }
 
