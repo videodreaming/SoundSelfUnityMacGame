@@ -15,7 +15,7 @@ Create a single microphone capture pipeline that:
 
 - Only one active mic capture source is in `Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs` via `Microphone.Start(...)`.
 - `DirectVoiceMonitoring` uses shared mic data and an `AudioSource` for monitoring output.
-- `RecordedAudioPlaybackTest` uses shared mic data and no longer depends on the old holder `AudioSource` reference (`ThisObjectAudioSource`).
+- `RecordedAudioPlayback` uses shared mic data and no longer depends on the old holder `AudioSource` reference (`ThisObjectAudioSource`).
 - `Assets/ImitonePackage/Imitone/ExampleImitoneBehavior.cs` is not used in production flow.
 
 ---
@@ -46,7 +46,7 @@ Create a single microphone capture pipeline that:
 
 ## Step 1 - Clean Scene/Object Responsibilities
 
-- [x] In `RecordedAudioPlaybackTest`, removed dependence on parent `ThisObjectAudioSource` as a mic-clip holder.
+- [x] In `RecordedAudioPlayback`, removed dependence on parent `ThisObjectAudioSource` as a mic-clip holder.
 - [x] Kept `playbackSource` as the dedicated replay `AudioSource`.
 - [x] Kept `DirectVoiceMonitoring` `AudioSource` for live monitoring output.
 - [x] Remove the unnecessary parent `AudioSource` component from `MicrophonePlayback` object (scene-level cleanup).
@@ -78,7 +78,7 @@ Create a single microphone capture pipeline that:
    - `Loop Length Seconds`: `6` (matches current behavior).
 5. Script Execution Order (`Project Settings -> Script Execution Order`):
    - Ensure `MicPipeline` runs before `ImitoneVoiceIntepreter`.
-   - Ensure `RecordedAudioPlaybackTest` and `DirectVoiceMonitoring` run after `ImitoneVoiceIntepreter`.
+  - Ensure `RecordedAudioPlayback` and `DirectVoiceMonitoring` run after `ImitoneVoiceIntepreter`.
 6. Scene cleanup check:
    - Confirm parent `MicrophonePlayback` object no longer has a redundant `AudioSource`.
    - Keep child `Playback` and child `DirectVoiceMonitoring` `AudioSource` components.
@@ -124,6 +124,12 @@ Create a single microphone capture pipeline that:
 
 - `DirectVoiceMonitoring` now uses a streaming `AudioClip` and reads normalized samples through:
   - `MicPipeline.ReadNormalizedSamples(...)`
+- `DirectVoiceMonitoring` now supports A/B stream source switching for debugging:
+  - normalized stream: `MicPipeline.ReadNormalizedSamples(...)`
+  - raw stream: `MicPipeline.ReadRawSamples(...)`
+  - source toggle: `monitoringStreamSource` (`Normalized` / `Raw`)
+- Shipping guard rail:
+  - `DirectVoiceMonitoring` logs a warning if monitoring starts in `Raw` mode or is switched to `Raw` at runtime.
 - Monitoring no longer plays the raw shared microphone clip directly.
 - Existing `AudioSource` mixer routing remains inspector-controlled, so `MicMixer` assignment should continue to work unchanged.
 - Remaining Step 4 hardening:
@@ -133,7 +139,7 @@ Create a single microphone capture pipeline that:
 
 ## Step 5 - Route Record/Replay Input Through Normalized Path
 
-- [x] Change recording capture in `RecordedAudioPlaybackTest` to sample normalized frames.
+- [x] Change recording capture in `RecordedAudioPlayback` to sample normalized frames.
 - [x] Keep file writing / slot logic unchanged initially (isolate risk).
 - [ ] Confirm replayed clips audibly match monitored normalized tone.
 
@@ -147,32 +153,41 @@ Create a single microphone capture pipeline that:
   - [x] keep normalized ring buffer sized with safety margin (current default: `6s`, exceeds 250-500ms target).
   - [x] when consumer catches up, policy is explicit (inject silence for missing samples).
   - [x] add underrun counters/logs for tuning under <45 FPS (rate-limited logs in `DirectVoiceMonitoring`).
-- [ ] Validate monitoring latency and quality under target framerates:
-  - [ ] verify perceived monitoring latency is acceptable with `150 ms` safety buffer.
-  - [ ] verify no clicks/dropouts at low FPS stress cases.
+- [~] Validate monitoring latency and quality under target framerates:
+  - [~] verify perceived monitoring latency is acceptable with `150 ms` safety buffer (basic manual pass; pressure test pending).
+  - [~] verify no clicks/dropouts at low FPS stress cases (no noticeable clicks/dropouts in basic testing; low-FPS stress still pending).
   - [ ] tune buffer depth per hardware if needed.
 
 ### Step 6 Notes
 
 - `MicPipeline` now reads microphone data in reusable chunks (`micReadChunkSize`) and avoids per-frame exact-size allocations for output buffers.
-- `RecordedAudioPlaybackTest` now caps per-tick normalized catch-up work (`maxNormalizedReadChunksPerTick`) to reduce long-frame spikes after hitches.
+- `RecordedAudioPlayback` now caps per-tick normalized catch-up work (`maxNormalizedReadChunksPerTick`) to reduce long-frame spikes after hitches.
 - `DirectVoiceMonitoring` underrun logs are rate-limited (`underrunLogIntervalSeconds`) to avoid log spam under sustained stress.
+- Current manual validation (not pressure test): both `Raw` and `Normalized` monitoring modes are working and no noticeable clicks/dropouts were heard in basic testing.
+- Open follow-up: still need low-FPS/stress pressure testing before considering latency/quality validation complete.
 
 ## Step 7 - Hardening + Failure Modes
 
-- [ ] Handle missing mic device and hot-unplug/replug scenarios.
-- [ ] Handle invalid `Microphone.GetPosition(...)` or stalled write-head cases.
-- [ ] Add safe fallbacks when normalized path is unavailable. Developer note: why would normalized path not be available? 
-- [ ] Confirm clean shutdown/restart behavior.
-- [ ] Enforce channel contract explicitly:
-  - [ ] declare/serialize `MicPipeline` channel mode as mono.
-  - [ ] validate input clip channels at init and log warning/fallback if not mono.
-  - [ ] ensure monitoring/recording consumers assume channel count from contract, not implicit defaults.
+- [x] Handle missing mic device and hot-unplug/replug scenarios.
+- [x] Handle invalid `Microphone.GetPosition(...)` or stalled write-head cases.
+- [x] Add safe fallbacks when normalized path is unavailable.
+- [x] Confirm clean shutdown/restart behavior.
+- [x] Enforce channel contract explicitly:
+  - [x] declare/serialize `MicPipeline` channel mode as mono.
+  - [x] validate input clip channels at init and log warning/fallback if not mono.
+  - [x] ensure monitoring/recording consumers assume channel count from contract, not implicit defaults.
+
+### Step 7 Notes
+
+- `MicPipeline` now retries initialization when no mic is available, and attempts recovery after hot-unplug/invalid position/stalled write-head detection.
+- `MicPipeline` channel contract is explicitly serialized as mono; multi-channel mic input is downmixed to mono with a warning.
+- `DirectVoiceMonitoring` now assumes channel count from `MicPipeline.Channels`, and re-primes monitoring read position when `MicPipeline` capture restarts.
+- `MicPipeline` now supports cleaner restart behavior via `OnEnable` re-init and consolidated shutdown cleanup in `StopMicrophoneCapture()`.
 
 ## Step 8 - Final Cleanup
 
-- [ ] Remove dead code, obsolete comments, and old test-only pathways.
-- [ ] Rename `RecordedAudioPlaybackTest` to production name once stable.
+- [~] Remove dead code, obsolete comments, and old test-only pathways.
+- [x] Rename `RecordedAudioPlaybackTest` to production name once stable (`RecordedAudioPlayback`).
 - [ ] Document final architecture and ownership in this file (or a dedicated runtime audio doc).
 - [ ] Final regression run across gameplay modes/scenes.
 
@@ -196,7 +211,7 @@ Create a single microphone capture pipeline that:
 
 - [ ] No duplicate mic capture instances.
 - [ ] Imitone still responds correctly to pitch and volume.
-- [ ] Monitoring path active and controllable.
+- [~] Monitoring path active and controllable (raw/normalized A/B works in manual testing; extended pressure testing pending).
 - [ ] Normalization gain changes are audible and stable.
 - [ ] Recording captures normalized signal.
 - [ ] Replay sound level/quality aligned with design intent.
@@ -256,7 +271,7 @@ These are suggested names/signatures to reduce ambiguity while implementing.
 - `DirectVoiceMonitoring`:
   - Should consume normalized frame from `MicPipeline`.
   - Keep mixer routing and playback latency tuning local to monitoring script.
-- `RecordedAudioPlaybackTest`:
+- `RecordedAudioPlayback`:
   - Should append normalized frame samples from `MicPipeline`.
   - Keep existing file/slot logic unchanged during first migration pass.
 
@@ -273,4 +288,4 @@ For deterministic behavior each frame:
 If needed, enforce this via Script Execution Order during migration.
 
 - [ ] Unity setup requirement: make sure `MicPipeline` executes before `ImitoneVoiceIntepreter` in Script Execution Order.
-- [ ] Unity setup requirement: make sure `RecordedAudioPlaybackTest` and `DirectVoiceMonitoring` execute after `ImitoneVoiceIntepreter`.
+- [ ] Unity setup requirement: make sure `RecordedAudioPlayback` and `DirectVoiceMonitoring` execute after `ImitoneVoiceIntepreter`.

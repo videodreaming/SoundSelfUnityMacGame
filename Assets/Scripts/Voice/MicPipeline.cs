@@ -3,12 +3,25 @@ using UnityEngine;
 
 public class MicPipeline : MonoBehaviour
 {
+    private enum MicChannelMode
+    {
+        Mono = 1
+    }
+
     [Header("Microphone Source")]
     [SerializeField] private string preferredDeviceName = "";
     [SerializeField] private int sampleRate = 48000;
     [SerializeField] private int loopLengthSeconds = 6;
     [Tooltip("Chunk size used for microphone GetData reads to reduce allocation churn.")]
     [SerializeField] private int micReadChunkSize = 2048;
+    [Tooltip("Retry interval used when microphone device is unavailable or capture fails.")]
+    [SerializeField] private float recoveryRetryIntervalSeconds = 1f;
+    [Tooltip("How many consecutive frames with no write-head movement trigger mic recovery.")]
+    [SerializeField] private int stalledWriteHeadFrameThreshold = 120;
+
+    [Header("Channel Contract")]
+    [Tooltip("Pipeline output contract for consumers. This pipeline publishes mono samples.")]
+    [SerializeField] private MicChannelMode channelMode = MicChannelMode.Mono;
 
     [Header("Normalization")]
     [Tooltip("Master toggle for normalized output stream. Raw output is always unaffected.")]
@@ -28,26 +41,39 @@ public class MicPipeline : MonoBehaviour
     [SerializeField] [Range(0f, 10f)] private float normalizedPeakMeterDecayPerSecond = 2.5f;
     [Tooltip("Current ring-buffer size in samples.")]
     [SerializeField] private int normalizedRingBufferCapacitySamples = 0;
+    [Tooltip("Current raw ring-buffer size in samples.")]
+    [SerializeField] private int rawRingBufferCapacitySamples = 0;
 
     private string microphoneDeviceName;
     private AudioClip microphoneBuffer;
     private int micPosRead;
+    private int captureEpoch;
+    private int micInputChannels = 1;
+    private bool micInputWasDownmixedToMono;
+    private int lastMicWritePosition = -1;
+    private int stalledWriteHeadFrameCount;
+    private float nextRecoveryAttemptTime;
+    private bool recoveryWarningLogged;
     private float[] latestRawFrame = Array.Empty<float>();
     private int latestRawSampleCount;
+    private float[] rawRingBuffer = Array.Empty<float>();
+    private int rawWritePosition;
+    private readonly object rawBufferLock = new object();
     private float[] latestNormalizedFrame = Array.Empty<float>();
     private int latestNormalizedSampleCount;
     private float[] normalizedRingBuffer = Array.Empty<float>();
     private int normalizedWritePosition;
     private readonly object normalizedBufferLock = new object();
     private int lastFrameUpdated = -1;
-    private float[] micReadChunkBuffer = Array.Empty<float>();
-    private float[] micReadTailBuffer = Array.Empty<float>();
+    private float[] micReadChunkBuffer = Array.Empty<float>(); // interleaved input buffer
+    private float[] micReadTailBuffer = Array.Empty<float>();  // interleaved input tail buffer
 
     public bool IsReady => microphoneBuffer != null && !string.IsNullOrEmpty(microphoneDeviceName);
     public string MicrophoneDeviceName => microphoneDeviceName;
     public AudioClip MicrophoneBuffer => microphoneBuffer;
     public int SampleRate => sampleRate;
-    public int Channels => 1;
+    public int Channels => (int)channelMode;
+    public int CaptureEpoch => captureEpoch;
     public event Action<MicNormalizationState> NormalizationStateChanged;
 
     [Serializable]
@@ -64,8 +90,21 @@ public class MicPipeline : MonoBehaviour
         InitializeMicrophone();
     }
 
+    private void OnEnable()
+    {
+        if (!IsReady)
+        {
+            InitializeMicrophone();
+        }
+    }
+
     private void Update()
     {
+        if (!IsReady && Time.unscaledTime >= nextRecoveryAttemptTime)
+        {
+            InitializeMicrophone();
+        }
+
         // Main-thread producer for raw/normalized frames and ring-buffer writes.
         EnsureFrameUpdated();
 
@@ -80,47 +119,20 @@ public class MicPipeline : MonoBehaviour
             return;
         }
 
-        var devices = Microphone.devices;
-        if (devices == null || devices.Length == 0)
+        if (!TryResolveMicrophoneDevice(out string resolvedDeviceName))
         {
-            Debug.LogError("MicPipeline: No microphone devices available.");
+            ScheduleRecoveryAttempt("No microphone devices available.");
             return;
         }
 
-        if (!string.IsNullOrWhiteSpace(preferredDeviceName))
+        if (!StartMicrophoneCapture(resolvedDeviceName))
         {
-            foreach (var device in devices)
-            {
-                if (string.Equals(device, preferredDeviceName, StringComparison.Ordinal))
-                {
-                    microphoneDeviceName = device;
-                    break;
-                }
-            }
-        }
-
-        if (string.IsNullOrEmpty(microphoneDeviceName))
-        {
-            microphoneDeviceName = devices[0];
-        }
-
-        microphoneBuffer = Microphone.Start(microphoneDeviceName, true, loopLengthSeconds, sampleRate);
-        micPosRead = 0;
-
-        if (microphoneBuffer == null)
-        {
-            Debug.LogError("MicPipeline: Failed to start microphone capture.");
+            ScheduleRecoveryAttempt($"Failed to start microphone capture on '{resolvedDeviceName}'.");
             return;
         }
 
-        int ringSize = Mathf.Max(sampleRate * Mathf.Max(1, loopLengthSeconds), 1024);
-        normalizedRingBuffer = new float[ringSize];
-        normalizedWritePosition = 0;
-        normalizedRingBufferCapacitySamples = ringSize;
-
-        int chunkSize = Mathf.Max(256, micReadChunkSize);
-        micReadChunkBuffer = new float[chunkSize];
-        micReadTailBuffer = new float[chunkSize];
+        recoveryWarningLogged = false;
+        nextRecoveryAttemptTime = 0f;
     }
 
     public bool TryCopyLatestRawFrame(ref float[] destination, out int sampleCount)
@@ -246,6 +258,65 @@ public class MicPipeline : MonoBehaviour
         }
     }
 
+    public int ReadRawSamples(float[] destination, ref int readPosition)
+    {
+        if (destination == null || destination.Length == 0)
+        {
+            return 0;
+        }
+
+        lock (rawBufferLock)
+        {
+            if (rawRingBuffer == null || rawRingBuffer.Length == 0)
+            {
+                Array.Clear(destination, 0, destination.Length);
+                return 0;
+            }
+
+            if (readPosition < 0 || readPosition >= rawRingBuffer.Length)
+            {
+                readPosition = rawWritePosition;
+            }
+
+            int available = (rawRingBuffer.Length + rawWritePosition - readPosition) % rawRingBuffer.Length;
+            int toCopy = Mathf.Min(destination.Length, available);
+
+            for (int i = 0; i < toCopy; i++)
+            {
+                destination[i] = rawRingBuffer[(readPosition + i) % rawRingBuffer.Length];
+            }
+
+            if (toCopy < destination.Length)
+            {
+                Array.Clear(destination, toCopy, destination.Length - toCopy);
+            }
+
+            readPosition = (readPosition + toCopy) % rawRingBuffer.Length;
+            return toCopy;
+        }
+    }
+
+    public int CreateRawReadPositionBehindMs(float delayMs)
+    {
+        lock (rawBufferLock)
+        {
+            if (rawRingBuffer == null || rawRingBuffer.Length == 0)
+            {
+                return -1;
+            }
+
+            float clampedMs = Mathf.Max(0f, delayMs);
+            int samplesBehind = Mathf.RoundToInt((clampedMs / 1000f) * sampleRate);
+            if (samplesBehind >= rawRingBuffer.Length)
+            {
+                samplesBehind = rawRingBuffer.Length - 1;
+            }
+
+            int readPos = (rawWritePosition - samplesBehind + rawRingBuffer.Length) % rawRingBuffer.Length;
+            return readPos;
+        }
+    }
+
     public int CreateNormalizedReadPositionBehindMs(float delayMs)
     {
         lock (normalizedBufferLock)
@@ -287,43 +358,74 @@ public class MicPipeline : MonoBehaviour
             return;
         }
 
+        if (!IsCurrentDeviceStillAvailable())
+        {
+            ScheduleRecoveryAttempt($"Microphone device '{microphoneDeviceName}' is no longer available.");
+            StopMicrophoneCapture();
+            latestRawSampleCount = 0;
+            latestNormalizedSampleCount = 0;
+            return;
+        }
+
         int micPosWrite = Microphone.GetPosition(microphoneDeviceName);
-        if (micPosWrite < 0 || microphoneBuffer.samples <= 0)
+        if (micPosWrite < 0 || micPosWrite >= microphoneBuffer.samples || microphoneBuffer.samples <= 0)
+        {
+            ScheduleRecoveryAttempt($"Invalid Microphone.GetPosition() value '{micPosWrite}' for device '{microphoneDeviceName}'.");
+            StopMicrophoneCapture();
+            latestRawSampleCount = 0;
+            latestNormalizedSampleCount = 0;
+            return;
+        }
+
+        if (lastMicWritePosition == micPosWrite)
+        {
+            stalledWriteHeadFrameCount++;
+        }
+        else
+        {
+            stalledWriteHeadFrameCount = 0;
+        }
+        lastMicWritePosition = micPosWrite;
+
+        if (stalledWriteHeadFrameCount >= Mathf.Max(5, stalledWriteHeadFrameThreshold))
+        {
+            ScheduleRecoveryAttempt($"Detected stalled microphone write-head for device '{microphoneDeviceName}'.");
+            StopMicrophoneCapture();
+            latestRawSampleCount = 0;
+            latestNormalizedSampleCount = 0;
+            return;
+        }
+
+        int frameCount = (microphoneBuffer.samples + micPosWrite - micPosRead) % microphoneBuffer.samples;
+        if (frameCount <= 0)
         {
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
             return;
         }
 
-        int sampleCount = (microphoneBuffer.samples + micPosWrite - micPosRead) % microphoneBuffer.samples;
-        if (sampleCount <= 0)
+        if (latestRawFrame.Length < frameCount)
         {
-            latestRawSampleCount = 0;
-            latestNormalizedSampleCount = 0;
-            return;
+            latestRawFrame = new float[frameCount];
         }
 
-        if (latestRawFrame.Length < sampleCount)
-        {
-            latestRawFrame = new float[sampleCount];
-        }
+        ReadMicFramesIntoLatestRawMono(frameCount);
+        latestRawSampleCount = frameCount;
+        WriteRawFrameToRingBuffer(frameCount);
 
-        ReadMicSamplesIntoLatestRaw(sampleCount);
-        latestRawSampleCount = sampleCount;
-
-        if (latestNormalizedFrame.Length < sampleCount)
+        if (latestNormalizedFrame.Length < frameCount)
         {
-            latestNormalizedFrame = new float[sampleCount];
+            latestNormalizedFrame = new float[frameCount];
         }
 
         if (!normalizationEnabled)
         {
-            Array.Copy(latestRawFrame, latestNormalizedFrame, sampleCount);
+            Array.Copy(latestRawFrame, latestNormalizedFrame, frameCount);
         }
         else
         {
             float gainLinear = GetNormalizationGainLinear();
-            for (int i = 0; i < sampleCount; i++)
+            for (int i = 0; i < frameCount; i++)
             {
                 float normalizedSample = latestRawFrame[i] * gainLinear;
                 if (normalizationHardClampEnabled)
@@ -335,7 +437,7 @@ public class MicPipeline : MonoBehaviour
         }
 
         float framePeak = 0f;
-        for (int i = 0; i < sampleCount; i++)
+        for (int i = 0; i < frameCount; i++)
         {
             float abs = Mathf.Abs(latestNormalizedFrame[i]);
             if (abs > framePeak)
@@ -349,8 +451,8 @@ public class MicPipeline : MonoBehaviour
             normalizedPeakMeter = framePeak;
         }
 
-        WriteNormalizedFrameToRingBuffer(sampleCount);
-        latestNormalizedSampleCount = sampleCount;
+        WriteNormalizedFrameToRingBuffer(frameCount);
+        latestNormalizedSampleCount = frameCount;
     }
 
     private void OnNormalizationConfigChanged()
@@ -358,6 +460,23 @@ public class MicPipeline : MonoBehaviour
         // Force recompute on next read so consumers get fresh settings immediately.
         lastFrameUpdated = -1;
         NormalizationStateChanged?.Invoke(GetNormalizationState());
+    }
+
+    private void WriteRawFrameToRingBuffer(int sampleCount)
+    {
+        if (sampleCount <= 0 || rawRingBuffer == null || rawRingBuffer.Length == 0)
+        {
+            return;
+        }
+
+        lock (rawBufferLock)
+        {
+            for (int i = 0; i < sampleCount; i++)
+            {
+                rawRingBuffer[rawWritePosition] = latestRawFrame[i];
+                rawWritePosition = (rawWritePosition + 1) % rawRingBuffer.Length;
+            }
+        }
     }
 
     private void WriteNormalizedFrameToRingBuffer(int sampleCount)
@@ -377,48 +496,172 @@ public class MicPipeline : MonoBehaviour
         }
     }
 
-    private void ReadMicSamplesIntoLatestRaw(int sampleCount)
+    private void ReadMicFramesIntoLatestRawMono(int frameCount)
     {
-        int remaining = sampleCount;
+        int remainingFrames = frameCount;
         int writeOffset = 0;
         int readPos = micPosRead;
 
-        while (remaining > 0)
+        while (remainingFrames > 0)
         {
-            int chunkSize = Mathf.Min(remaining, micReadChunkBuffer.Length);
+            int chunkFrames = Mathf.Min(remainingFrames, Mathf.Max(1, micReadChunkSize));
+            int chunkInterleavedLength = chunkFrames * micInputChannels;
             float[] sourceBuffer;
 
-            if (chunkSize == micReadChunkBuffer.Length)
+            if (micReadChunkBuffer.Length >= chunkInterleavedLength)
             {
                 sourceBuffer = micReadChunkBuffer;
             }
             else
             {
-                if (micReadTailBuffer.Length < chunkSize)
+                if (micReadTailBuffer.Length < chunkInterleavedLength)
                 {
-                    micReadTailBuffer = new float[chunkSize];
+                    micReadTailBuffer = new float[chunkInterleavedLength];
                 }
                 sourceBuffer = micReadTailBuffer;
             }
 
             microphoneBuffer.GetData(sourceBuffer, readPos);
-            Array.Copy(sourceBuffer, 0, latestRawFrame, writeOffset, chunkSize);
 
-            readPos = (readPos + chunkSize) % microphoneBuffer.samples;
-            writeOffset += chunkSize;
-            remaining -= chunkSize;
+            if (micInputChannels == 1)
+            {
+                Array.Copy(sourceBuffer, 0, latestRawFrame, writeOffset, chunkFrames);
+            }
+            else
+            {
+                for (int frame = 0; frame < chunkFrames; frame++)
+                {
+                    float mono = 0f;
+                    int interleavedStart = frame * micInputChannels;
+                    for (int channel = 0; channel < micInputChannels; channel++)
+                    {
+                        mono += sourceBuffer[interleavedStart + channel];
+                    }
+                    latestRawFrame[writeOffset + frame] = mono / micInputChannels;
+                }
+            }
+
+            readPos = (readPos + chunkFrames) % microphoneBuffer.samples;
+            writeOffset += chunkFrames;
+            remainingFrames -= chunkFrames;
         }
 
         micPosRead = readPos;
     }
 
-    private void OnDisable()
+    private bool TryResolveMicrophoneDevice(out string deviceName)
+    {
+        deviceName = null;
+        var devices = Microphone.devices;
+        if (devices == null || devices.Length == 0)
+        {
+            return false;
+        }
+
+        if (!string.IsNullOrWhiteSpace(preferredDeviceName))
+        {
+            foreach (var device in devices)
+            {
+                if (string.Equals(device, preferredDeviceName, StringComparison.Ordinal))
+                {
+                    deviceName = device;
+                    return true;
+                }
+            }
+        }
+
+        deviceName = devices[0];
+        return true;
+    }
+
+    private bool StartMicrophoneCapture(string deviceName)
+    {
+        StopMicrophoneCapture();
+
+        microphoneDeviceName = deviceName;
+        microphoneBuffer = Microphone.Start(microphoneDeviceName, true, loopLengthSeconds, sampleRate);
+        if (microphoneBuffer == null)
+        {
+            microphoneDeviceName = null;
+            return false;
+        }
+
+        micPosRead = 0;
+        lastMicWritePosition = -1;
+        stalledWriteHeadFrameCount = 0;
+        captureEpoch++;
+        micInputChannels = Mathf.Max(1, microphoneBuffer.channels);
+        micInputWasDownmixedToMono = micInputChannels > (int)channelMode;
+        if (micInputWasDownmixedToMono)
+        {
+            Debug.LogWarning($"MicPipeline: Input clip has {micInputChannels} channels. Downmixing to mono to honor pipeline channel contract.");
+        }
+
+        int ringSize = Mathf.Max(sampleRate * Mathf.Max(1, loopLengthSeconds), 1024);
+        rawRingBuffer = new float[ringSize];
+        rawWritePosition = 0;
+        rawRingBufferCapacitySamples = ringSize;
+        normalizedRingBuffer = new float[ringSize];
+        normalizedWritePosition = 0;
+        normalizedRingBufferCapacitySamples = ringSize;
+
+        int chunkFrames = Mathf.Max(256, micReadChunkSize);
+        int interleavedLength = chunkFrames * micInputChannels;
+        micReadChunkBuffer = new float[interleavedLength];
+        micReadTailBuffer = new float[interleavedLength];
+        return true;
+    }
+
+    private bool IsCurrentDeviceStillAvailable()
+    {
+        if (string.IsNullOrEmpty(microphoneDeviceName))
+        {
+            return false;
+        }
+
+        var devices = Microphone.devices;
+        if (devices == null || devices.Length == 0)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < devices.Length; i++)
+        {
+            if (string.Equals(devices[i], microphoneDeviceName, StringComparison.Ordinal))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void ScheduleRecoveryAttempt(string reason)
+    {
+        nextRecoveryAttemptTime = Time.unscaledTime + Mathf.Max(0.1f, recoveryRetryIntervalSeconds);
+        if (!recoveryWarningLogged)
+        {
+            recoveryWarningLogged = true;
+            Debug.LogWarning($"MicPipeline: {reason} Scheduling recovery retry.");
+        }
+    }
+
+    private void StopMicrophoneCapture()
     {
         if (!string.IsNullOrEmpty(microphoneDeviceName))
         {
             Microphone.End(microphoneDeviceName);
         }
+
         microphoneBuffer = null;
+        microphoneDeviceName = null;
         micPosRead = 0;
+        lastMicWritePosition = -1;
+        stalledWriteHeadFrameCount = 0;
+    }
+
+    private void OnDisable()
+    {
+        StopMicrophoneCapture();
     }
 }

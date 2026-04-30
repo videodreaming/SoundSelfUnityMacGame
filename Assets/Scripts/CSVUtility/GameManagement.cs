@@ -10,7 +10,7 @@ public class GameManagement : MonoBehaviour
 
     public void EndGame()
     {
-        RecordedAudioPlaybackTest.Instance.DeleteAllRecordings();
+        RecordedAudioPlayback.Instance.DeleteAllRecordings();
         CSVWriter.writeCSV();
         Debug.Log("Ending game...");
         Application.Quit();

@@ -2882,6 +2882,7 @@ MonoBehaviour:
   recordingsRootFolder: RecordedClips
   createNewSessionFolderEachRun: 1
   timestamp: 20260107_140124
+  maxNormalizedReadChunksPerTick: 8
   volumeFadeDuration: 1
 --- !u!1 &139949110
 GameObject:
@@ -9926,7 +9927,7 @@ MonoBehaviour:
   respirationTracker: {fileID: 767663024}
   director: {fileID: 1829208165}
   lightControl: {fileID: 437048159}
-  monitoringAudioSource: {fileID: 858214635}
+  directVoiceMonitoring: {fileID: 0}
   tutorial: {fileID: 1635385662}
   SavasanaPlayer: {fileID: 1809294502}
   imitoneVoiceInterpreter: {fileID: 740096625}
@@ -12232,6 +12233,19 @@ MonoBehaviour:
   preferredDeviceName: 
   sampleRate: 48000
   loopLengthSeconds: 6
+  micReadChunkSize: 2048
+  recoveryRetryIntervalSeconds: 1
+  stalledWriteHeadFrameThreshold: 120
+  channelMode: 1
+  normalizationEnabled: 0
+  normalizationGainDb: 0
+  normalizationHardClampEnabled: 1
+  normalizationClampAbs: 0.98
+  normalizedPeakCurrentFrame: 0
+  normalizedPeakMeter: 0
+  normalizedPeakMeterDecayPerSecond: 2.5
+  normalizedRingBufferCapacitySamples: 0
+  rawRingBufferCapacitySamples: 0
 --- !u!1 &742633297
 GameObject:
   m_ObjectHideFlags: 0
@@ -14056,9 +14070,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceInterpreter: {fileID: 740096625}
+  micPipeline: {fileID: 0}
   monitoringSource: {fileID: 858214635}
   monitoringEnabled: 1
   monitoringVolume: 1
+  monitoringSafetyBufferMs: 150
+  monitoringStreamSource: 0
+  fallbackToRawWhenNormalizedUnavailable: 1
+  dynamicVolumeEnabled: 1
+  gameOnRiseSpeed: 2
+  gameOnFallSpeed: 0.5
+  chargeRiseSpeed: 1
+  chargeFallSpeed: 1
+  underrunLogIntervalSeconds: 1
 --- !u!1 &863902529
 GameObject:
   m_ObjectHideFlags: 0

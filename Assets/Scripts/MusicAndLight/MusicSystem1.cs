@@ -39,10 +39,10 @@ public class MusicSystem1 : MonoBehaviour
     public RespirationTracker respirationTracker;
     public Director director;
     public LightControl lightControl;
-    public AudioSource monitoringAudioSource;
+    [SerializeField] private DirectVoiceMonitoring directVoiceMonitoring;
     public Tutorial tutorial;
     public SavasanaPlayer SavasanaPlayer;
-   // public RecordedAudioPlaybackTest recordedAudioPlaybackTest;
+   // public RecordedAudioPlayback recordedAudioPlayback;
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter; // Reference to an object that interprets voice to musical notes
     private Dictionary<NoteName, (float ActivationTimer, bool Active, bool FirstFrameActive, float ChangeFundamentalTimer)> NoteTracker = new Dictionary<NoteName, (float, bool, bool, float)>();
     // Tracks information for each musical note:
@@ -106,8 +106,6 @@ public class MusicSystem1 : MonoBehaviour
     int currentHarmonyIndex = 0;
 
     //DIRECT MONITORING
-    float _gameOnLerp = 0.0f;
-    float _chargeLerp = 0.0f;
 
     
     // FUNDAMENTAL LOCKING SYSTEM
@@ -370,17 +368,13 @@ public class MusicSystem1 : MonoBehaviour
             }
         }
 
-        if(enableDirectVoiceMonitoring)
-        {
-            DirectVoiceMonitoring();
-        }
         if(enableThumpSFX)
         {
             ThumpUpdate();
         }
 
         // Keyboard shortcuts for toggling systems (Keys 1-7)
-        HandleKeyboardToggles();
+        //HandleKeyboardToggles();
     }
 
     /// <summary>
@@ -419,7 +413,18 @@ public class MusicSystem1 : MonoBehaviour
         // Key 5: Toggle Direct Voice Monitoring
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            SetDirectVoiceMonitoringEnabled(!enableDirectVoiceMonitoring);
+            enableDirectVoiceMonitoring = !enableDirectVoiceMonitoring;
+            if (directVoiceMonitoring == null)
+            {
+                directVoiceMonitoring = FindObjectOfType<DirectVoiceMonitoring>();
+            }
+
+            if (directVoiceMonitoring != null)
+            {
+                directVoiceMonitoring.SetDirectVoiceMonitoringEnabled(enableDirectVoiceMonitoring);
+            }
+
+            LogSimplificationStatus();
             Debug.Log($"MUSIC KEYBOARD: Direct Voice Monitoring toggled to {(enableDirectVoiceMonitoring ? "ON" : "OFF")}");
         }
 
@@ -460,47 +465,6 @@ public class MusicSystem1 : MonoBehaviour
         {
             HarmonyUpdate();
         }
-    }
-
-    private void DirectVoiceMonitoring()
-    {
-        //first get a lerp for the gameOn state
-        if(imitoneVoiceInterpreter.gameOn)
-        {
-            _gameOnLerp += Time.deltaTime * 2f;
-            _gameOnLerp = Mathf.Clamp(_gameOnLerp, 0.0f, 1.0f);
-        }
-        else
-        {
-            _gameOnLerp -= Time.deltaTime * 0.5f;
-            _gameOnLerp = Mathf.Clamp(_gameOnLerp, 0.0f, 1.0f);
-        }
-
-        //then get a lerp for the charge state
-        if(imitoneVoiceInterpreter.toneActive)
-        {
-            if (GameValues.instance._chantCharge > _chargeLerp)
-            {
-                _chargeLerp += Time.deltaTime;
-                _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, GameValues.instance._chantCharge);
-            }
-            else if (GameValues.instance._chantCharge < _chargeLerp)
-            {
-                _chargeLerp -= Time.deltaTime;
-                _chargeLerp = Mathf.Clamp(_chargeLerp, GameValues.instance._chantCharge, 1.0f);
-            }
-            else
-            {
-                _chargeLerp = GameValues.instance._chantCharge;
-            }
-        }
-        else
-        {
-            _chargeLerp -= Time.deltaTime;
-            _chargeLerp = Mathf.Clamp(_chargeLerp, 0.0f, 1.0f);
-        }
-
-        monitoringAudioSource.volume = _gameOnLerp * (1.0f - _chargeLerp * 0.5f) * GameValues.instance._chantLerpFast;
     }
 
     //Take the fundamental behaviors in the InterpretImitonUpdate method and move them here for clarity
@@ -2505,23 +2469,6 @@ public class MusicSystem1 : MonoBehaviour
         {
             // Stop toning when disabling
             StopWwiseToning();
-        }
-        LogSimplificationStatus();
-    }
-    
-    /// <summary>
-    /// Enables or disables direct voice monitoring system
-    /// </summary>
-    public void SetDirectVoiceMonitoringEnabled(bool enabled)
-    {
-        enableDirectVoiceMonitoring = enabled;
-        if (!enabled)
-        {
-            // Reset monitoring audio source volume when disabling
-            if (monitoringAudioSource != null)
-            {
-                monitoringAudioSource.volume = 0f;
-            }
         }
         LogSimplificationStatus();
     }
