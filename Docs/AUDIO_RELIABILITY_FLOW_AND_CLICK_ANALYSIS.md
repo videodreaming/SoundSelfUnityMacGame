@@ -51,6 +51,22 @@ Primary target: eliminate clicks/discontinuities in monitoring while preserving 
    - smoothing ramp duration and thread owner.
 3. Fail this phase if any unowned path does hard seek/hard step.
 
+##### Phase 2 Deliverable: Transition Ownership Table
+
+| Transition Path | Trigger Owner | Playhead Touch Allowed? | Gain/Volume Smoothing Owner | Thread Owner |
+|---|---|---|---|---|
+| Monitoring start prime | `DirectVoiceMonitoring.StartMonitoring()` | Yes (prime only) | `ApplyMonitoringVolume` smoothing + callback gain smoothing | Main thread (prime), audio thread (callback gain) |
+| Monitoring stop | `DirectVoiceMonitoring.StopMonitoring()` | No | N/A (stop event) | Main thread |
+| Drift correction seek | `SyncLegacyMonitoringPlaybackPosition()` | Yes (legacy path only; slated for removal in Phase 4) | Not applicable to seek itself; post-seek level still smoothed | Main thread |
+| Stream switch prime (`Raw`/`Normalized`) | `SetMonitoringStreamSource()` | Yes (prime only) | Existing smoothing path; debug-only switch behavior | Main thread |
+| Attenuation toggle | `AttenuateMonitoring(bool)` + policy owners | No | `ApplyMonitoringVolume` attenuation smoothing | Main thread |
+| Tutorial lock/unlock attenuation policy | `TutorialStageHandler` + `MusicSystem1` | No | `AttenuateMonitoring` path | Main thread |
+| Capture restart/rebind | `MicPipeline.CaptureEpoch` observed in `Update()` | No direct seek required in target architecture; currently clip rebind occurs | `ApplyMonitoringVolume` + callback gain smoothing | Main thread (+ audio callback) |
+
+Notes:
+- Any new transition must be added to this table before merge.
+- Any code path that sets `timeSamples` or applies an unsmoothed gain step outside listed owners is a Phase 2 gate failure.
+
 #### Phase 3 - Hybrid Alternative 2 Setup (Unity + Code)
 
 1. Verify existing mixer routing first (do not assume):

@@ -1,13 +1,20 @@
+using System;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
-/// Provides real-time monitoring of microphone input using the shared microphone clip transport.
-/// Raw mode is pass-through. Normalized mode applies gain/clamp at the output callback edge
-/// to preserve low-latency behavior while keeping raw and normalized monitor options separate.
+/// Provides real-time monitoring of microphone input using buffered pull transport from MicPipeline ring data.
+/// Raw and normalized modes both consume pipeline-published mono streams with fixed-latency read cursors.
 /// </summary>
 public class DirectVoiceMonitoring : MonoBehaviour
 {
+    private enum PlaybackHeadSeekReason
+    {
+        StartPrime = 0,
+        StreamSwitchPrime = 1
+    }
+
     public enum MonitoringStreamSource
     {
         Normalized = 0,
@@ -27,7 +34,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [Header("Monitoring Controls")]
     [SerializeField] private bool monitoringEnabled = true;
     [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 1f;
-    [SerializeField] [Range(0f, 500f)] private float monitoringSafetyBufferMs = 100f;
     [Tooltip("Select which MicPipeline stream to monitor for A/B testing and debugging.")]
     [SerializeField] private MonitoringStreamSource monitoringStreamSource = MonitoringStreamSource.Normalized;
     [Tooltip("When true, monitoring is attenuated (post dynamic scaling) by monitoringAttenuationMultiplier.")]
@@ -43,43 +49,100 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] private float gameOnFallSpeed = 0.5f;
     [SerializeField] private float chargeRiseSpeed = 1f;
     [SerializeField] private float chargeFallSpeed = 1f;
+    [Header("Chant Presence Gain Shaping")]
+    [Tooltip("Chant gain at the bottom of the dB ramp (e.g. -35 dB).")]
+    [SerializeField] private float chantPresenceMinGainDb = -35f;
+    [Tooltip("Chant gain at the top of the dB ramp (typically 0 dB).")]
+    [SerializeField] private float chantPresenceMaxGainDb = 0f;
+    [Tooltip("Initial chantLerpFast range that also gets an extra linear fade-to-zero multiplier.")]
+    [SerializeField] [Range(0.01f, 0.5f)] private float chantPresenceLinearFloorRange = 0.125f;
 
-    [Header("Playback Sync Tuning")]
-    [Tooltip("Minimum drift in milliseconds before forcing a playback seek to mic write-head offset.")]
-    [SerializeField] [Range(5f, 250f)] private float syncSeekThresholdMs = 30f;
-    [Tooltip("Minimum time between forced playback seeks. Higher values reduce click risk from frequent seeks.")]
-    [SerializeField] [Range(0f, 1f)] private float syncSeekCooldownSeconds = 0.08f;
+    [Header("Buffered Pull Transport")]
+    [Tooltip("Read cursor delay behind live mic write head for buffered transport.")]
+    [SerializeField] [Range(20f, 500f)] private float bufferedReadLatencyMs = 125f;
+    [SerializeField] private int bufferUnderflowWarningThresholdPerWindow = 8;
+    [SerializeField] private int bufferOverflowWarningThresholdPerWindow = 4;
+    [SerializeField] private int callbackStarvationWarningThresholdPerWindow = 8;
+
+    [Header("Reliability Telemetry")]
+    [SerializeField] private bool enableReliabilityLogs = true;
+    [Tooltip("Automatically reset reliability counters shortly after monitoring starts to ignore startup transients.")]
+    [SerializeField] private bool autoResetTelemetryAfterMonitoringStart = true;
+    [SerializeField] [Range(0f, 10f)] private float autoResetTelemetryDelaySeconds = 1f;
+    [SerializeField] [Range(1f, 60f)] private float healthSummaryLogIntervalSeconds = 10f;
+    [SerializeField] [Range(1f, 300f)] private float warningWindowSeconds = 60f;
+    [SerializeField] private int seekWarningThresholdPerWindow = 12;
+    [SerializeField] private int rebindWarningThresholdPerWindow = 4;
+    [SerializeField] private int cooldownSuppressionWarningThresholdPerWindow = 30;
+    [SerializeField] private bool logWindowWarnings = true;
+    [SerializeField] private bool logHealthSummary = true;
+    [Header("Debug Log Controls")]
+    [SerializeField] private bool debugAllowMonitoringLogs = true;
+    [SerializeField] private bool debugAllowMonitoringWarnings = true;
+    [Header("Transition Audit")]
+    [SerializeField] private bool enableTransitionAuditWarnings = true;
+    [SerializeField] [Range(0.01f, 1f)] private float hardVolumeStepThreshold = 0.2f;
+    [SerializeField] [Range(0.5f, 30f)] private float rebindFailureWarningIntervalSeconds = 5f;
+    [SerializeField] [Range(0.1f, 5f)] private float setupRetryIntervalSeconds = 0.5f;
+    [SerializeField] [Range(0.5f, 30f)] private float clipBindFailureErrorIntervalSeconds = 5f;
     
     private bool isInitialized = false;
     private AudioClip sharedMicrophoneBuffer;
-    private string microphoneDeviceName;
     private int lastSeenCaptureEpoch = -1;
-    [Header("Normalized Callback Smoothing")]
-    [SerializeField] [Range(0.001f, 0.05f)] private float normalizationGainSmoothingSeconds = 0.01f;
-
-    private float normalizedSmoothedGainLinear = 1f;
-    private bool normalizedGainInitialized;
-    private bool normalizedMonitorEnabledCached;
-    private float normalizedTargetGainLinearCached = 1f;
-    private bool normalizedHardClampEnabledCached = true;
-    private float normalizedClampAbsCached = 0.98f;
     private float gameOnLerp = 0f;
     private float chargeLerp = 0f;
-    private float lastSyncSeekTime = -10f;
-    private float cachedOutputSampleRate = 48000f;
-    private bool normalizationStateSubscribed;
     private float smoothedAttenuationScale = 1f;
     private bool attenuationScaleInitialized;
+    private string nextStartPrimeReason = "start_prime";
+    private float lastHealthSummaryLogTime = -999f;
+    private float lastWarningWindowResetTime = 0f;
+    [SerializeField] private int seekCorrectionCountTotal = 0;
+    [SerializeField] private int seekCorrectionCountDrift = 0;
+    [SerializeField] private int seekCorrectionCountStartPrime = 0;
+    [SerializeField] private int seekCorrectionCountStreamSwitchPrime = 0;
+    [SerializeField] private int seekCooldownSuppressedCount = 0;
+    [SerializeField] private int captureRebindCount = 0;
+    [SerializeField] private int captureRebindFailureCount = 0;
+    [SerializeField] private int seekCorrectionCountWindow = 0;
+    [SerializeField] private int seekCorrectionCountDriftWindow = 0;
+    [SerializeField] private int seekCooldownSuppressedCountWindow = 0;
+    [SerializeField] private int captureRebindCountWindow = 0;
+    [SerializeField] private int bufferUnderflowFillCount = 0;
+    [SerializeField] private int bufferUnderflowFillCountWindow = 0;
+    [SerializeField] private int bufferUnderflowFillSamples = 0;
+    [SerializeField] private int bufferOverflowDropCount = 0;
+    [SerializeField] private int bufferOverflowDropCountWindow = 0;
+    [SerializeField] private int bufferOverflowDropSamples = 0;
+    [SerializeField] private int callbackStarvationCount = 0;
+    [SerializeField] private int callbackStarvationCountWindow = 0;
+    [SerializeField] private int transitionStartCount = 0;
+    [SerializeField] private int transitionStopCount = 0;
+    [SerializeField] private int transitionAttenuationToggleCount = 0;
+    [SerializeField] private int transitionStreamSwitchCount = 0;
+    [SerializeField] private int hardVolumeStepCount = 0;
+    [SerializeField] private float lastVolumeStepDelta = 0f;
+    [SerializeField] private string lastVolumeStepContext = "";
+    private float lastAppliedMonitoringVolume = -1f;
+    private float lastRebindFailureWarningTime = -999f;
+    private float lastClipBindErrorTime = -999f;
+    private float nextSetupRetryTime = 0f;
+    private bool telemetryAutoResetPending;
+    private float telemetryAutoResetAtTime;
+    private int rawReadPosition = -1;
+    private long rawReadTotalSamples = 0;
+    private int normalizedReadPosition = -1;
+    private long normalizedReadTotalSamples = 0;
+    private float[] monitoringMonoReadBuffer = new float[0];
 
     /// <summary>
     /// Initializes the monitoring system and AudioSource.
     /// </summary>
     private void Awake()
     {
-        cachedOutputSampleRate = AudioSettings.outputSampleRate > 0 ? AudioSettings.outputSampleRate : 48000f;
         float initialAttenuationScale = monitoringAttenuated ? Mathf.Clamp01(monitoringAttenuationMultiplier) : 1f;
         smoothedAttenuationScale = initialAttenuationScale;
         attenuationScaleInitialized = true;
+        lastWarningWindowResetTime = Time.unscaledTime;
 
         // Create monitoring AudioSource if not assigned
         if (monitoringSource == null)
@@ -89,6 +152,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
             monitoringSource.loop = true;
             monitoringSource.volume = monitoringVolume;
         }
+
+        lastAppliedMonitoringVolume = monitoringSource != null ? monitoringSource.volume : -1f;
     }
 
     /// <summary>
@@ -110,7 +175,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         // Wait for ImitoneVoiceIntepreter if needed for auto-resolve.
         while (micPipeline == null && imitoneVoiceInterpreter == null && elapsed < timeout)
         {
-            Debug.LogWarning("DirectVoiceMonitoring: Waiting for MicPipeline or ImitoneVoiceIntepreter reference...");
+            DbgWarn("DirectVoiceMonitoring: Waiting for MicPipeline or ImitoneVoiceIntepreter reference...");
             yield return new WaitForSeconds(0.1f);
             elapsed += 0.1f;
         }
@@ -129,7 +194,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         elapsed = 0f;
         while (!micPipeline.IsReady && elapsed < timeout)
         {
-            Debug.LogWarning("DirectVoiceMonitoring: Waiting for MicPipeline microphone initialization...");
+            DbgWarn("DirectVoiceMonitoring: Waiting for MicPipeline microphone initialization...");
             yield return null;
             elapsed += Time.deltaTime;
         }
@@ -140,27 +205,32 @@ public class DirectVoiceMonitoring : MonoBehaviour
             yield break;
         }
 
-        SetupMonitoring();
+        if (!SetupMonitoring())
+        {
+            nextSetupRetryTime = Time.unscaledTime + Mathf.Max(0.1f, setupRetryIntervalSeconds);
+        }
     }
 
     /// <summary>
     /// Sets up monitoring AudioSource with a streaming clip fed by MicPipeline samples.
     /// </summary>
-    private void SetupMonitoring()
+    private bool SetupMonitoring()
     {
         if (micPipeline == null || !micPipeline.IsReady)
         {
             Debug.LogError("DirectVoiceMonitoring: MicPipeline is not ready.");
-            return;
+            return false;
         }
 
-        ConfigureMonitoringSourceClip();
+        if (!ConfigureMonitoringSourceClip())
+        {
+            DbgWarn("DirectVoiceMonitoring: Setup aborted because monitoring clip bind failed.");
+            isInitialized = false;
+            return false;
+        }
         monitoringSource.loop = true;
         monitoringSource.volume = monitoringVolume;
         monitoringSource.playOnAwake = false;
-        BindNormalizationStateSubscription();
-        RefreshNormalizedMonitorConfigCache();
-        normalizedGainInitialized = false;
 
         // Mark as initialized BEFORE starting monitoring
         isInitialized = true;
@@ -172,7 +242,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         WarnIfRawMonitoring("startup");
-        Debug.Log($"DirectVoiceMonitoring: Monitoring initialized from MicPipeline ({monitoringStreamSource} stream).");
+        DbgLog($"DirectVoiceMonitoring: Monitoring initialized from MicPipeline ({monitoringStreamSource} stream).");
+        nextSetupRetryTime = 0f;
+        return true;
     }
 
     /// <summary>
@@ -180,72 +252,133 @@ public class DirectVoiceMonitoring : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (!isInitialized || monitoringSource == null)
+        if (monitoringSource == null)
             return;
 
-        cachedOutputSampleRate = AudioSettings.outputSampleRate > 0 ? AudioSettings.outputSampleRate : 48000f;
+        TryAutoResetTelemetryAfterStart();
 
-        if (monitoringStreamSource == MonitoringStreamSource.Raw)
+        if (!isInitialized)
         {
-            SyncLegacyMonitoringPlaybackPosition();
+            TryRecoverSetupIfNeeded();
+            UpdateReliabilityTelemetry();
+            return;
         }
-        else if (micPipeline != null && micPipeline.IsReady)
+
+        if (micPipeline != null && micPipeline.IsReady)
         {
             int currentCaptureEpoch = micPipeline.CaptureEpoch;
             if (currentCaptureEpoch != lastSeenCaptureEpoch)
             {
-                ConfigureMonitoringSourceClip();
-                lastSeenCaptureEpoch = currentCaptureEpoch;
-                Debug.Log("DirectVoiceMonitoring: MicPipeline capture restart detected. Re-bound shared monitoring clip.");
+                if (ConfigureMonitoringSourceClip())
+                {
+                    captureRebindCount++;
+                    captureRebindCountWindow++;
+                    PrimeBufferedReadCursorForSource(monitoringStreamSource);
+                    DbgLog("DirectVoiceMonitoring: MicPipeline capture restart detected. Re-bound shared monitoring clip.");
+                }
+                else
+                {
+                    captureRebindFailureCount++;
+                    float now = Time.unscaledTime;
+                    if (now - lastRebindFailureWarningTime >= Mathf.Max(0.5f, rebindFailureWarningIntervalSeconds))
+                    {
+                        DbgWarn("DirectVoiceMonitoring: MicPipeline capture restart detected, but monitoring clip rebind failed.");
+                        lastRebindFailureWarningTime = now;
+                    }
+                }
             }
         }
 
-        ApplyMonitoringVolume();
-        SyncLegacyMonitoringPlaybackPosition();
+        ApplyMonitoringVolume("update");
+        UpdateReliabilityTelemetry();
     }
 
-    private void OnDestroy()
+    private void TryAutoResetTelemetryAfterStart()
     {
-        UnbindNormalizationStateSubscription();
+        if (!telemetryAutoResetPending)
+        {
+            return;
+        }
+
+        if (Time.unscaledTime < telemetryAutoResetAtTime)
+        {
+            return;
+        }
+
+        telemetryAutoResetPending = false;
+        ResetReliabilityTelemetryCounters();
+        DbgLog("DirectVoiceMonitoring: Auto-reset reliability telemetry after startup delay.");
     }
 
-    private void SyncLegacyMonitoringPlaybackPosition()
+    private void TryRecoverSetupIfNeeded()
     {
-        if (!monitoringEnabled || sharedMicrophoneBuffer == null || string.IsNullOrEmpty(microphoneDeviceName))
+        float now = Time.unscaledTime;
+        if (now < nextSetupRetryTime)
         {
             return;
         }
 
-        if (!monitoringSource.isPlaying)
+        nextSetupRetryTime = now + Mathf.Max(0.1f, setupRetryIntervalSeconds);
+
+        if (micPipeline == null && imitoneVoiceInterpreter != null)
+        {
+            micPipeline = imitoneVoiceInterpreter.GetComponent<MicPipeline>();
+        }
+
+        if (micPipeline == null || !micPipeline.IsReady)
         {
             return;
         }
 
-        int micWritePos = Microphone.GetPosition(microphoneDeviceName);
-        if (micWritePos < 0 || sharedMicrophoneBuffer.samples <= 0)
+        if (SetupMonitoring())
+        {
+            DbgLog("DirectVoiceMonitoring: Recovered monitoring initialization after transient setup failure.");
+        }
+    }
+
+    private void PrimeBufferedReadCursorForSource(MonitoringStreamSource source)
+    {
+        if (micPipeline == null)
         {
             return;
         }
 
-        int sourcePlayPos = monitoringSource.timeSamples;
-        int samplesBehind = Mathf.RoundToInt(sharedMicrophoneBuffer.frequency * (monitoringSafetyBufferMs / 1000f));
-        int targetReadPos = (micWritePos - samplesBehind + sharedMicrophoneBuffer.samples) % sharedMicrophoneBuffer.samples;
-
-        int wrappedDifference = Mathf.Abs(targetReadPos - sourcePlayPos);
-        int shortestDifference = Mathf.Min(
-            wrappedDifference,
-            sharedMicrophoneBuffer.samples - wrappedDifference
-        );
-
-        float thresholdSamples = Mathf.Max(1f, sharedMicrophoneBuffer.frequency * (syncSeekThresholdMs / 1000f));
-        bool overThreshold = shortestDifference > thresholdSamples;
-        bool cooldownElapsed = (Time.unscaledTime - lastSyncSeekTime) >= Mathf.Max(0f, syncSeekCooldownSeconds);
-
-        if (overThreshold && cooldownElapsed)
+        float delayMs = Mathf.Max(0f, bufferedReadLatencyMs);
+        bool success = false;
+        if (source == MonitoringStreamSource.Normalized)
         {
-            monitoringSource.timeSamples = targetReadPos;
-            lastSyncSeekTime = Time.unscaledTime;
+            success = micPipeline.TryCreateNormalizedReadCursorBehindMs(delayMs, out normalizedReadPosition, out normalizedReadTotalSamples);
         }
+        else
+        {
+            success = micPipeline.TryCreateRawReadCursorBehindMs(delayMs, out rawReadPosition, out rawReadTotalSamples);
+        }
+
+        if (!success)
+        {
+            DbgWarn($"DirectVoiceMonitoring: Failed to prime buffered read cursor for {source} stream.");
+        }
+    }
+
+    private void TrackStartPrimeReason()
+    {
+        PlaybackHeadSeekReason reason = nextStartPrimeReason == "stream_switch_prime"
+            ? PlaybackHeadSeekReason.StreamSwitchPrime
+            : PlaybackHeadSeekReason.StartPrime;
+        seekCorrectionCountTotal++;
+        seekCorrectionCountWindow++;
+
+        switch (reason)
+        {
+            case PlaybackHeadSeekReason.StartPrime:
+                seekCorrectionCountStartPrime++;
+                break;
+            case PlaybackHeadSeekReason.StreamSwitchPrime:
+                seekCorrectionCountStreamSwitchPrime++;
+                break;
+        }
+
+        nextStartPrimeReason = "start_prime";
     }
 
     /// <summary>
@@ -255,33 +388,33 @@ public class DirectVoiceMonitoring : MonoBehaviour
     {
         if (!isInitialized)
         {
-            Debug.LogWarning("DirectVoiceMonitoring: Cannot start monitoring - not initialized yet.");
+            nextStartPrimeReason = "start_prime";
+            DbgWarn("DirectVoiceMonitoring: Cannot start monitoring - not initialized yet.");
             return;
         }
 
         if (monitoringSource == null || monitoringSource.clip == null)
         {
+            nextStartPrimeReason = "start_prime";
             Debug.LogError("DirectVoiceMonitoring: Cannot start monitoring - AudioSource or buffer is null.");
             return;
         }
 
         monitoringEnabled = true;
-        ApplyMonitoringVolume();
-        
+        ApplyMonitoringVolume("start_monitoring");
+
         if (!monitoringSource.isPlaying)
         {
-            if (sharedMicrophoneBuffer != null && !string.IsNullOrEmpty(microphoneDeviceName))
-            {
-                int micWritePos = Microphone.GetPosition(microphoneDeviceName);
-                if (micWritePos >= 0 && sharedMicrophoneBuffer.samples > 0)
-                {
-                    int samplesBehind = Mathf.RoundToInt(sharedMicrophoneBuffer.frequency * (monitoringSafetyBufferMs / 1000f));
-                    int startPos = (micWritePos - samplesBehind + sharedMicrophoneBuffer.samples) % sharedMicrophoneBuffer.samples;
-                    monitoringSource.timeSamples = startPos;
-                }
-            }
+            PrimeBufferedReadCursorForSource(monitoringStreamSource);
+            TrackStartPrimeReason();
             monitoringSource.Play();
-            Debug.Log("DirectVoiceMonitoring: Monitoring started.");
+            transitionStartCount++;
+            if (autoResetTelemetryAfterMonitoringStart)
+            {
+                telemetryAutoResetPending = true;
+                telemetryAutoResetAtTime = Time.unscaledTime + Mathf.Max(0f, autoResetTelemetryDelaySeconds);
+            }
+            DbgLog("DirectVoiceMonitoring: Monitoring started.");
         }
     }
 
@@ -291,10 +424,12 @@ public class DirectVoiceMonitoring : MonoBehaviour
     public void StopMonitoring()
     {
         monitoringEnabled = false;
+        telemetryAutoResetPending = false;
         if (monitoringSource != null && monitoringSource.isPlaying)
         {
             monitoringSource.Stop();
-            Debug.Log("DirectVoiceMonitoring: Monitoring stopped");
+            transitionStopCount++;
+            DbgLog("DirectVoiceMonitoring: Monitoring stopped");
         }
     }
 
@@ -307,7 +442,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         monitoringVolume = Mathf.Clamp01(volume);
         if (monitoringSource != null)
         {
-            ApplyMonitoringVolume();
+            ApplyMonitoringVolume("set_monitoring_volume");
         }
     }
 
@@ -337,7 +472,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         monitoringAttenuated = attenuated;
-        ApplyMonitoringVolume();
+        transitionAttenuationToggleCount++;
+        ApplyMonitoringVolume("attenuation_toggle");
     }
 
     /// <summary>
@@ -356,36 +492,68 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets monitoring stream source and re-primes read position for low-glitch switching.
+    /// Sets monitoring stream source.
+    /// Stream source changes are only supported while monitoring is not actively running.
     /// </summary>
     public void SetMonitoringStreamSource(MonitoringStreamSource source)
     {
+        bool isMonitoringRunning = monitoringSource != null && monitoringSource.isPlaying && monitoringEnabled;
+        if (isMonitoringRunning)
+        {
+            DbgWarn("DirectVoiceMonitoring: Ignoring monitoring stream source change while monitoring is running. Stop monitoring before switching sources.");
+            return;
+        }
+
         bool changed = monitoringStreamSource != source;
         monitoringStreamSource = source;
-        if (isInitialized)
+        if (changed)
         {
-            bool wasPlaying = monitoringSource != null && monitoringSource.isPlaying;
-            if (wasPlaying)
-            {
-                monitoringSource.Stop();
-            }
-
-            ConfigureMonitoringSourceClip();
-
-            if (wasPlaying && monitoringEnabled)
-            {
-                StartMonitoring();
-            }
+            transitionStreamSwitchCount++;
         }
-        else
-        {
-            ConfigureMonitoringSourceClip();
-        }
+
+        // Keep clip binding current for the next monitoring start.
+        ConfigureMonitoringSourceClip();
+        PrimeBufferedReadCursorForSource(monitoringStreamSource);
 
         if (changed && monitoringStreamSource == MonitoringStreamSource.Raw)
         {
-            WarnIfRawMonitoring("runtime switch");
+            WarnIfRawMonitoring("pre-run switch");
         }
+    }
+
+    [ContextMenu("Reset Reliability Telemetry Counters")]
+    public void ResetReliabilityTelemetryCounters()
+    {
+        seekCorrectionCountTotal = 0;
+        seekCorrectionCountDrift = 0;
+        seekCorrectionCountStartPrime = 0;
+        seekCorrectionCountStreamSwitchPrime = 0;
+        seekCooldownSuppressedCount = 0;
+        captureRebindCount = 0;
+        captureRebindFailureCount = 0;
+        seekCorrectionCountWindow = 0;
+        seekCorrectionCountDriftWindow = 0;
+        seekCooldownSuppressedCountWindow = 0;
+        captureRebindCountWindow = 0;
+        Interlocked.Exchange(ref bufferUnderflowFillCount, 0);
+        Interlocked.Exchange(ref bufferUnderflowFillCountWindow, 0);
+        Interlocked.Exchange(ref bufferUnderflowFillSamples, 0);
+        Interlocked.Exchange(ref bufferOverflowDropCount, 0);
+        Interlocked.Exchange(ref bufferOverflowDropCountWindow, 0);
+        Interlocked.Exchange(ref bufferOverflowDropSamples, 0);
+        Interlocked.Exchange(ref callbackStarvationCount, 0);
+        Interlocked.Exchange(ref callbackStarvationCountWindow, 0);
+        lastWarningWindowResetTime = Time.unscaledTime;
+        lastHealthSummaryLogTime = Time.unscaledTime;
+        transitionStartCount = 0;
+        transitionStopCount = 0;
+        transitionAttenuationToggleCount = 0;
+        transitionStreamSwitchCount = 0;
+        hardVolumeStepCount = 0;
+        lastVolumeStepDelta = 0f;
+        lastVolumeStepContext = "";
+        lastAppliedMonitoringVolume = monitoringSource != null ? monitoringSource.volume : -1f;
+        lastRebindFailureWarningTime = Time.unscaledTime;
     }
 
     public MonitoringStreamSource GetMonitoringStreamSource()
@@ -425,96 +593,93 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        if (!monitoringEnabled || !isInitialized || monitoringStreamSource != MonitoringStreamSource.Normalized)
+        if (channels <= 0)
         {
-            normalizedGainInitialized = false;
+            Array.Clear(data, 0, data.Length);
             return;
         }
 
-        bool normalizationEnabled = normalizedMonitorEnabledCached;
-        float targetGain = normalizationEnabled ? Mathf.Max(0f, normalizedTargetGainLinearCached) : 1f;
-        bool hardClampEnabled = normalizationEnabled && normalizedHardClampEnabledCached;
-        float clampAbs = Mathf.Clamp(normalizedClampAbsCached, 0.01f, 1f);
-
-        if (!normalizedGainInitialized)
+        if (!monitoringEnabled || !isInitialized || micPipeline == null)
         {
-            normalizedSmoothedGainLinear = targetGain;
-            normalizedGainInitialized = true;
+            Array.Clear(data, 0, data.Length);
+            return;
         }
 
-        float sampleRate = cachedOutputSampleRate > 0f ? cachedOutputSampleRate : 48000f;
-        float tau = Mathf.Max(0.001f, normalizationGainSmoothingSeconds);
-        float alpha = 1f - Mathf.Exp(-1f / (tau * sampleRate));
-
-        for (int i = 0; i < data.Length; i++)
+        int frameCount = data.Length / channels;
+        if (frameCount <= 0)
         {
-            normalizedSmoothedGainLinear = Mathf.Lerp(normalizedSmoothedGainLinear, targetGain, alpha);
-            float sample = data[i] * normalizedSmoothedGainLinear;
-            if (hardClampEnabled)
+            Array.Clear(data, 0, data.Length);
+            return;
+        }
+
+        if (monitoringMonoReadBuffer == null || monitoringMonoReadBuffer.Length < frameCount)
+        {
+            monitoringMonoReadBuffer = new float[frameCount];
+        }
+
+        int copied = 0;
+        int overflowDropped = 0;
+        if (monitoringStreamSource == MonitoringStreamSource.Normalized)
+        {
+            copied = micPipeline.ReadNormalizedSamples(monitoringMonoReadBuffer, ref normalizedReadPosition, ref normalizedReadTotalSamples, out overflowDropped);
+        }
+        else
+        {
+            copied = micPipeline.ReadRawSamples(monitoringMonoReadBuffer, ref rawReadPosition, ref rawReadTotalSamples, out overflowDropped);
+        }
+
+        if (overflowDropped > 0)
+        {
+            Interlocked.Increment(ref bufferOverflowDropCount);
+            Interlocked.Increment(ref bufferOverflowDropCountWindow);
+            Interlocked.Add(ref bufferOverflowDropSamples, overflowDropped);
+        }
+
+        if (copied < frameCount)
+        {
+            int underflowFillSamples = frameCount - copied;
+            Interlocked.Increment(ref bufferUnderflowFillCount);
+            Interlocked.Increment(ref bufferUnderflowFillCountWindow);
+            Interlocked.Add(ref bufferUnderflowFillSamples, underflowFillSamples);
+            if (copied <= 0)
             {
-                sample = Mathf.Clamp(sample, -clampAbs, clampAbs);
+                Interlocked.Increment(ref callbackStarvationCount);
+                Interlocked.Increment(ref callbackStarvationCountWindow);
             }
-            data[i] = sample;
+        }
+
+        int writeIndex = 0;
+        for (int frame = 0; frame < frameCount; frame++)
+        {
+            float sample = monitoringMonoReadBuffer[frame];
+            for (int channel = 0; channel < channels; channel++)
+            {
+                data[writeIndex++] = sample;
+            }
         }
     }
 
-    private void ConfigureMonitoringSourceClip()
+    private bool ConfigureMonitoringSourceClip()
     {
         if (monitoringSource == null || micPipeline == null)
         {
-            return;
+            return false;
         }
         sharedMicrophoneBuffer = micPipeline.MicrophoneBuffer;
-        microphoneDeviceName = micPipeline.MicrophoneDeviceName;
         if (sharedMicrophoneBuffer == null)
         {
-            Debug.LogError("DirectVoiceMonitoring: Shared microphone buffer is null.");
-            return;
+            float now = Time.unscaledTime;
+            if (now - lastClipBindErrorTime >= Mathf.Max(0.5f, clipBindFailureErrorIntervalSeconds))
+            {
+                Debug.LogError("DirectVoiceMonitoring: Shared microphone buffer is null.");
+                lastClipBindErrorTime = now;
+            }
+            return false;
         }
 
         monitoringSource.clip = sharedMicrophoneBuffer;
         lastSeenCaptureEpoch = micPipeline.CaptureEpoch;
-    }
-
-    private void BindNormalizationStateSubscription()
-    {
-        UnbindNormalizationStateSubscription();
-        if (micPipeline == null)
-        {
-            return;
-        }
-
-        micPipeline.NormalizationStateChanged += OnPipelineNormalizationStateChanged;
-        normalizationStateSubscribed = true;
-    }
-
-    private void UnbindNormalizationStateSubscription()
-    {
-        if (!normalizationStateSubscribed || micPipeline == null)
-        {
-            return;
-        }
-
-        micPipeline.NormalizationStateChanged -= OnPipelineNormalizationStateChanged;
-        normalizationStateSubscribed = false;
-    }
-
-    private void OnPipelineNormalizationStateChanged(MicPipeline.MicNormalizationState state)
-    {
-        normalizedMonitorEnabledCached = state.enabled;
-        normalizedTargetGainLinearCached = Mathf.Pow(10f, state.gainDb / 20f);
-        normalizedHardClampEnabledCached = state.hardClampEnabled;
-        normalizedClampAbsCached = state.clampAbs;
-    }
-
-    private void RefreshNormalizedMonitorConfigCache()
-    {
-        if (micPipeline == null)
-        {
-            return;
-        }
-
-        OnPipelineNormalizationStateChanged(micPipeline.GetNormalizationState());
+        return true;
     }
 
     // Update volume when changed in inspector
@@ -522,7 +687,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     {
         if (monitoringSource != null && Application.isPlaying)
         {
-            ApplyMonitoringVolume();
+            ApplyMonitoringVolume("on_validate");
         }
     }
 
@@ -533,10 +698,10 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        Debug.LogWarning($"DirectVoiceMonitoring: Monitoring stream is set to RAW ({context}). Use Normalized for non-debug/shipping builds.");
+        DbgWarn($"DirectVoiceMonitoring: Monitoring stream is set to RAW ({context}). Use Normalized for non-debug/shipping builds.");
     }
 
-    private void ApplyMonitoringVolume()
+    private void ApplyMonitoringVolume(string context)
     {
         if (monitoringSource == null)
         {
@@ -544,16 +709,38 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         float dynamicScale = 1f;
+        float chantPresenceScale = 1f;
+        float gameOnScale = 1f;
+        float chargeDuckScale = 1f;
         if (dynamicVolumeEnabled && imitoneVoiceInterpreter != null && GameValues.instance != null)
         {
             UpdateDynamicVolumeLerps();
-            dynamicScale = gameOnLerp * (1f - chargeLerp * 0.5f) * Mathf.Clamp01(GameValues.instance._chantLerpFast);
+            chantPresenceScale = AudioLevelUtilities.BoardFader(
+                GameValues.instance._chantLerpSlow,
+                chantPresenceMinGainDb,
+                chantPresenceMaxGainDb,
+                chantPresenceLinearFloorRange);
+            gameOnScale = gameOnLerp;
+            chargeDuckScale = 1f - chargeLerp * 0.5f;
+            dynamicScale = gameOnScale * chargeDuckScale * chantPresenceScale;
         }
 
         float targetAttenuationScale = monitoringAttenuated ? Mathf.Clamp01(monitoringAttenuationMultiplier) : 1f;
         float attenuationScale = GetSmoothedAttenuationScale(targetAttenuationScale);
         float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale) * attenuationScale);
+        float volumeDelta = lastAppliedMonitoringVolume < 0f ? 0f : Mathf.Abs(targetVolume - lastAppliedMonitoringVolume);
+        lastVolumeStepDelta = volumeDelta;
+        if (lastAppliedMonitoringVolume >= 0f && volumeDelta > hardVolumeStepThreshold)
+        {
+            hardVolumeStepCount++;
+            lastVolumeStepContext = context;
+            if (enableTransitionAuditWarnings)
+            {
+                DbgWarn($"DirectVoiceMonitoring: Hard volume step detected (delta={volumeDelta:F3}, threshold={hardVolumeStepThreshold:F3}, context={context}).");
+            }
+        }
         monitoringSource.volume = targetVolume;
+        lastAppliedMonitoringVolume = targetVolume;
     }
 
     private float GetSmoothedAttenuationScale(float targetScale)
@@ -576,6 +763,85 @@ public class DirectVoiceMonitoring : MonoBehaviour
         float alpha = 1f - Mathf.Exp(-deltaTime / tau);
         smoothedAttenuationScale = Mathf.Lerp(smoothedAttenuationScale, targetScale, alpha);
         return smoothedAttenuationScale;
+    }
+
+    private void UpdateReliabilityTelemetry()
+    {
+        float now = Time.unscaledTime;
+        float windowDuration = Mathf.Max(1f, warningWindowSeconds);
+
+        if (now - lastWarningWindowResetTime >= windowDuration)
+        {
+            int underflowWindow = Interlocked.Exchange(ref bufferUnderflowFillCountWindow, 0);
+            int overflowWindow = Interlocked.Exchange(ref bufferOverflowDropCountWindow, 0);
+            int starvationWindow = Interlocked.Exchange(ref callbackStarvationCountWindow, 0);
+
+            if (enableReliabilityLogs && logWindowWarnings)
+            {
+                if (seekCorrectionCountDriftWindow > seekWarningThresholdPerWindow)
+                {
+                    DbgWarn($"DirectVoiceMonitoring: High drift-seek correction rate ({seekCorrectionCountDriftWindow}/{windowDuration:F0}s, threshold {seekWarningThresholdPerWindow}).");
+                }
+                if (captureRebindCountWindow > rebindWarningThresholdPerWindow)
+                {
+                    DbgWarn($"DirectVoiceMonitoring: High capture rebind rate ({captureRebindCountWindow}/{windowDuration:F0}s, threshold {rebindWarningThresholdPerWindow}).");
+                }
+                if (seekCooldownSuppressedCountWindow > cooldownSuppressionWarningThresholdPerWindow)
+                {
+                    DbgWarn($"DirectVoiceMonitoring: Frequent over-threshold drift suppressed by cooldown ({seekCooldownSuppressedCountWindow}/{windowDuration:F0}s, threshold {cooldownSuppressionWarningThresholdPerWindow}).");
+                }
+                if (underflowWindow > bufferUnderflowWarningThresholdPerWindow)
+                {
+                    DbgWarn($"DirectVoiceMonitoring: Buffered transport underflow fills detected ({underflowWindow}/{windowDuration:F0}s, threshold {bufferUnderflowWarningThresholdPerWindow}).");
+                }
+                if (overflowWindow > bufferOverflowWarningThresholdPerWindow)
+                {
+                    DbgWarn($"DirectVoiceMonitoring: Buffered transport overflow drops detected ({overflowWindow}/{windowDuration:F0}s, threshold {bufferOverflowWarningThresholdPerWindow}).");
+                }
+                if (starvationWindow > callbackStarvationWarningThresholdPerWindow)
+                {
+                    DbgWarn($"DirectVoiceMonitoring: Buffered transport callback starvation detected ({starvationWindow}/{windowDuration:F0}s, threshold {callbackStarvationWarningThresholdPerWindow}).");
+                }
+            }
+
+            seekCorrectionCountWindow = 0;
+            seekCorrectionCountDriftWindow = 0;
+            captureRebindCountWindow = 0;
+            seekCooldownSuppressedCountWindow = 0;
+            lastWarningWindowResetTime = now;
+        }
+
+        if (enableReliabilityLogs && logHealthSummary && now - lastHealthSummaryLogTime >= Mathf.Max(1f, healthSummaryLogIntervalSeconds))
+        {
+            int underflowTotal = AtomicRead(ref bufferUnderflowFillCount);
+            int underflowSamples = AtomicRead(ref bufferUnderflowFillSamples);
+            int overflowTotal = AtomicRead(ref bufferOverflowDropCount);
+            int overflowSamples = AtomicRead(ref bufferOverflowDropSamples);
+            int starvationTotal = AtomicRead(ref callbackStarvationCount);
+            DbgLog($"DirectVoiceMonitoring Health: seeks(total={seekCorrectionCountTotal}, drift={seekCorrectionCountDrift}, start={seekCorrectionCountStartPrime}, switch={seekCorrectionCountStreamSwitchPrime}) cooldownSuppressed={seekCooldownSuppressedCount} rebinds(success={captureRebindCount}, fail={captureRebindFailureCount}) buffered(underflow={underflowTotal}, underflowSamples={underflowSamples}, overflow={overflowTotal}, overflowSamples={overflowSamples}, starvation={starvationTotal}) transitions(start={transitionStartCount}, stop={transitionStopCount}, atten={transitionAttenuationToggleCount}, switch={transitionStreamSwitchCount}) hardSteps={hardVolumeStepCount} source={monitoringStreamSource} enabled={monitoringEnabled}");
+            lastHealthSummaryLogTime = now;
+        }
+    }
+
+    private static int AtomicRead(ref int value)
+    {
+        return Interlocked.CompareExchange(ref value, 0, 0);
+    }
+
+    private void DbgLog(string message)
+    {
+        if (debugAllowMonitoringLogs)
+        {
+            Debug.Log(message);
+        }
+    }
+
+    private void DbgWarn(string message)
+    {
+        if (debugAllowMonitoringWarnings)
+        {
+            Debug.LogWarning(message);
+        }
     }
 
     private void UpdateDynamicVolumeLerps()

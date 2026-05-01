@@ -13,6 +13,11 @@ public class LerpUtilities
         float target2 = Mathf.SmoothDamp(currentValue, target, ref velocity2, damp2);
         return Mathf.Lerp(currentValue, target2, linear);
     }
+    // LerpAndInverse interpolates between two output values (outputa, outputb) based on where the input lies between inputa and inputb.
+    // It first remaps 'input' from the input range [inputa, inputb] to a normalized [0, 1] value using Mathf.InverseLerp,
+    // then linearly interpolates between outputa and outputb with Mathf.Lerp.
+    // If 'clamp' is true, the result is clamped to always stay within [outputa, outputb] regardless of overshoot due to input range.
+    // This is useful for mapping an input range to a different output range with optional clamping.
     public static float LerpAndInverse(float input, float inputa, float inputb, float outputa, float outputb, bool clamp = false)
     {
         float output = Mathf.Lerp(outputa, outputb, Mathf.InverseLerp(inputa, inputb, input));

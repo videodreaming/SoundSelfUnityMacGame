@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using UnityEngine;
 
 public class MicPipeline : MonoBehaviour
@@ -103,11 +104,13 @@ public class MicPipeline : MonoBehaviour
     private int latestRawSampleCount;
     private float[] rawRingBuffer = Array.Empty<float>();
     private int rawWritePosition;
+    private long rawWriteTotalSamples;
     private readonly object rawBufferLock = new object();
     private float[] latestNormalizedFrame = Array.Empty<float>();
     private int latestNormalizedSampleCount;
     private float[] normalizedRingBuffer = Array.Empty<float>();
     private int normalizedWritePosition;
+    private long normalizedWriteTotalSamples;
     private readonly object normalizedBufferLock = new object();
     private int lastFrameUpdated = -1;
     private float[] micReadChunkBuffer = Array.Empty<float>(); // interleaved input buffer
@@ -268,7 +271,7 @@ public class MicPipeline : MonoBehaviour
 
     public float GetNormalizationGainLinear()
     {
-        return Mathf.Pow(10f, normalizationGainDb / 20f);
+        return AudioLevelUtilities.DbToLinear(normalizationGainDb);
     }
 
     public int ReadNormalizedSamples(float[] destination, ref int readPosition)
@@ -347,6 +350,196 @@ public class MicPipeline : MonoBehaviour
         }
     }
 
+    public int ReadNormalizedSamples(float[] destination, ref int readPosition, ref long readTotalSamples, out int overflowDroppedSamples)
+    {
+        overflowDroppedSamples = 0;
+        if (destination == null || destination.Length == 0)
+        {
+            return 0;
+        }
+
+        bool lockTaken = false;
+        try
+        {
+            lockTaken = Monitor.TryEnter(normalizedBufferLock, 0);
+            if (!lockTaken)
+            {
+                // Audio-thread safety: never block waiting on producer lock.
+                Array.Clear(destination, 0, destination.Length);
+                int ringLength = normalizedRingBuffer != null ? normalizedRingBuffer.Length : 0;
+                if (ringLength > 0)
+                {
+                    if (readPosition < 0 || readPosition >= ringLength)
+                    {
+                        readPosition = 0;
+                    }
+                    readPosition = (readPosition + destination.Length) % ringLength;
+                }
+                readTotalSamples += destination.Length;
+                return 0;
+            }
+
+            if (normalizedRingBuffer == null || normalizedRingBuffer.Length == 0)
+            {
+                Array.Clear(destination, 0, destination.Length);
+                return 0;
+            }
+
+            if (readPosition < 0 || readPosition >= normalizedRingBuffer.Length)
+            {
+                readPosition = normalizedWritePosition;
+                readTotalSamples = normalizedWriteTotalSamples;
+            }
+
+            long writeTotalSamples = normalizedWriteTotalSamples;
+            if (readTotalSamples > writeTotalSamples)
+            {
+                readTotalSamples = writeTotalSamples;
+                readPosition = normalizedWritePosition;
+            }
+
+            long available = writeTotalSamples - readTotalSamples;
+            int maxRealtimeLagSamples = Mathf.Max(destination.Length * 2, Mathf.RoundToInt(sampleRate * 0.25f));
+            if (available > maxRealtimeLagSamples)
+            {
+                overflowDroppedSamples = (int)Math.Min(int.MaxValue, available - maxRealtimeLagSamples);
+                int skipSamples = overflowDroppedSamples % normalizedRingBuffer.Length;
+                readPosition = (readPosition + skipSamples) % normalizedRingBuffer.Length;
+                readTotalSamples += overflowDroppedSamples;
+                available = writeTotalSamples - readTotalSamples;
+            }
+            if (available > normalizedRingBuffer.Length)
+            {
+                int hardDropSamples = (int)Math.Min(int.MaxValue, available - normalizedRingBuffer.Length);
+                int skipSamples = hardDropSamples % normalizedRingBuffer.Length;
+                readPosition = (readPosition + skipSamples) % normalizedRingBuffer.Length;
+                readTotalSamples += hardDropSamples;
+                overflowDroppedSamples += hardDropSamples;
+                available = writeTotalSamples - readTotalSamples;
+            }
+
+            int toCopy = Mathf.Min(destination.Length, Mathf.Max(0, (int)available));
+            for (int i = 0; i < toCopy; i++)
+            {
+                destination[i] = normalizedRingBuffer[(readPosition + i) % normalizedRingBuffer.Length];
+            }
+
+            int requested = destination.Length;
+            if (toCopy < requested)
+            {
+                Array.Clear(destination, toCopy, requested - toCopy);
+            }
+
+            // Real-time consumer pacing: even when we underrun and fill silence,
+            // advance cursor by requested samples so monitoring does not accumulate lag.
+            readPosition = (readPosition + requested) % normalizedRingBuffer.Length;
+            readTotalSamples += requested;
+            return toCopy;
+        }
+        finally
+        {
+            if (lockTaken)
+            {
+                Monitor.Exit(normalizedBufferLock);
+            }
+        }
+    }
+
+    public int ReadRawSamples(float[] destination, ref int readPosition, ref long readTotalSamples, out int overflowDroppedSamples)
+    {
+        overflowDroppedSamples = 0;
+        if (destination == null || destination.Length == 0)
+        {
+            return 0;
+        }
+
+        bool lockTaken = false;
+        try
+        {
+            lockTaken = Monitor.TryEnter(rawBufferLock, 0);
+            if (!lockTaken)
+            {
+                // Audio-thread safety: never block waiting on producer lock.
+                Array.Clear(destination, 0, destination.Length);
+                int ringLength = rawRingBuffer != null ? rawRingBuffer.Length : 0;
+                if (ringLength > 0)
+                {
+                    if (readPosition < 0 || readPosition >= ringLength)
+                    {
+                        readPosition = 0;
+                    }
+                    readPosition = (readPosition + destination.Length) % ringLength;
+                }
+                readTotalSamples += destination.Length;
+                return 0;
+            }
+
+            if (rawRingBuffer == null || rawRingBuffer.Length == 0)
+            {
+                Array.Clear(destination, 0, destination.Length);
+                return 0;
+            }
+
+            if (readPosition < 0 || readPosition >= rawRingBuffer.Length)
+            {
+                readPosition = rawWritePosition;
+                readTotalSamples = rawWriteTotalSamples;
+            }
+
+            long writeTotalSamples = rawWriteTotalSamples;
+            if (readTotalSamples > writeTotalSamples)
+            {
+                readTotalSamples = writeTotalSamples;
+                readPosition = rawWritePosition;
+            }
+
+            long available = writeTotalSamples - readTotalSamples;
+            int maxRealtimeLagSamples = Mathf.Max(destination.Length * 2, Mathf.RoundToInt(sampleRate * 0.25f));
+            if (available > maxRealtimeLagSamples)
+            {
+                overflowDroppedSamples = (int)Math.Min(int.MaxValue, available - maxRealtimeLagSamples);
+                int skipSamples = overflowDroppedSamples % rawRingBuffer.Length;
+                readPosition = (readPosition + skipSamples) % rawRingBuffer.Length;
+                readTotalSamples += overflowDroppedSamples;
+                available = writeTotalSamples - readTotalSamples;
+            }
+            if (available > rawRingBuffer.Length)
+            {
+                int hardDropSamples = (int)Math.Min(int.MaxValue, available - rawRingBuffer.Length);
+                int skipSamples = hardDropSamples % rawRingBuffer.Length;
+                readPosition = (readPosition + skipSamples) % rawRingBuffer.Length;
+                readTotalSamples += hardDropSamples;
+                overflowDroppedSamples += hardDropSamples;
+                available = writeTotalSamples - readTotalSamples;
+            }
+
+            int toCopy = Mathf.Min(destination.Length, Mathf.Max(0, (int)available));
+            for (int i = 0; i < toCopy; i++)
+            {
+                destination[i] = rawRingBuffer[(readPosition + i) % rawRingBuffer.Length];
+            }
+
+            int requested = destination.Length;
+            if (toCopy < requested)
+            {
+                Array.Clear(destination, toCopy, requested - toCopy);
+            }
+
+            // Real-time consumer pacing: even when we underrun and fill silence,
+            // advance cursor by requested samples so monitoring does not accumulate lag.
+            readPosition = (readPosition + requested) % rawRingBuffer.Length;
+            readTotalSamples += requested;
+            return toCopy;
+        }
+        finally
+        {
+            if (lockTaken)
+            {
+                Monitor.Exit(rawBufferLock);
+            }
+        }
+    }
+
     public int CreateRawReadPositionBehindMs(float delayMs)
     {
         lock (rawBufferLock)
@@ -386,6 +579,54 @@ public class MicPipeline : MonoBehaviour
 
             int readPos = (normalizedWritePosition - samplesBehind + normalizedRingBuffer.Length) % normalizedRingBuffer.Length;
             return readPos;
+        }
+    }
+
+    public bool TryCreateRawReadCursorBehindMs(float delayMs, out int readPosition, out long readTotalSamples)
+    {
+        readPosition = -1;
+        readTotalSamples = 0;
+        lock (rawBufferLock)
+        {
+            if (rawRingBuffer == null || rawRingBuffer.Length == 0)
+            {
+                return false;
+            }
+
+            float clampedMs = Mathf.Max(0f, delayMs);
+            int samplesBehind = Mathf.RoundToInt((clampedMs / 1000f) * sampleRate);
+            if (samplesBehind >= rawRingBuffer.Length)
+            {
+                samplesBehind = rawRingBuffer.Length - 1;
+            }
+
+            readPosition = (rawWritePosition - samplesBehind + rawRingBuffer.Length) % rawRingBuffer.Length;
+            readTotalSamples = Math.Max(0L, rawWriteTotalSamples - (long)samplesBehind);
+            return true;
+        }
+    }
+
+    public bool TryCreateNormalizedReadCursorBehindMs(float delayMs, out int readPosition, out long readTotalSamples)
+    {
+        readPosition = -1;
+        readTotalSamples = 0;
+        lock (normalizedBufferLock)
+        {
+            if (normalizedRingBuffer == null || normalizedRingBuffer.Length == 0)
+            {
+                return false;
+            }
+
+            float clampedMs = Mathf.Max(0f, delayMs);
+            int samplesBehind = Mathf.RoundToInt((clampedMs / 1000f) * sampleRate);
+            if (samplesBehind >= normalizedRingBuffer.Length)
+            {
+                samplesBehind = normalizedRingBuffer.Length - 1;
+            }
+
+            readPosition = (normalizedWritePosition - samplesBehind + normalizedRingBuffer.Length) % normalizedRingBuffer.Length;
+            readTotalSamples = Math.Max(0L, normalizedWriteTotalSamples - (long)samplesBehind);
+            return true;
         }
     }
 
@@ -526,6 +767,7 @@ public class MicPipeline : MonoBehaviour
             {
                 rawRingBuffer[rawWritePosition] = latestRawFrame[i];
                 rawWritePosition = (rawWritePosition + 1) % rawRingBuffer.Length;
+                rawWriteTotalSamples++;
             }
         }
     }
@@ -543,6 +785,7 @@ public class MicPipeline : MonoBehaviour
             {
                 normalizedRingBuffer[normalizedWritePosition] = latestNormalizedFrame[i];
                 normalizedWritePosition = (normalizedWritePosition + 1) % normalizedRingBuffer.Length;
+                normalizedWriteTotalSamples++;
             }
         }
     }
@@ -651,9 +894,11 @@ public class MicPipeline : MonoBehaviour
         int ringSize = Mathf.Max(sampleRate * Mathf.Max(1, loopLengthSeconds), 1024);
         rawRingBuffer = new float[ringSize];
         rawWritePosition = 0;
+        rawWriteTotalSamples = 0;
         rawRingBufferCapacitySamples = ringSize;
         normalizedRingBuffer = new float[ringSize];
         normalizedWritePosition = 0;
+        normalizedWriteTotalSamples = 0;
         normalizedRingBufferCapacitySamples = ringSize;
 
         int chunkFrames = Mathf.Max(256, micReadChunkSize);
