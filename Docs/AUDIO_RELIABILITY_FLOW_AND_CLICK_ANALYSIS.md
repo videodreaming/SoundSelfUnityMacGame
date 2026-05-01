@@ -5,95 +5,120 @@
 This plan is intentionally simple, staged, and reversible.  
 Primary target: eliminate clicks/discontinuities in monitoring while preserving low-latency imitone analysis.
 
-### Step 0 - Safety + Baseline
+### Core Non-Negotiables (Applies to Every Step)
 
-1. Create a dedicated working branch for monitoring reliability work.
-2. Add a baseline checklist run (before code changes):
-   - Monitoring starts/stops cleanly.
-   - Raw/normalized debug switch still functions.
-   - Tutorial + MusicLoop attenuation behavior is correct.
-   - No major CPU spikes in normal play.
-3. Capture a short baseline recording (screen + audio) to compare against later builds.
+1. No hidden hard seek path in normal monitoring operation.
+2. No hidden hard gain/attenuation step path on audible output.
+3. Every transition path must be listed, owned, and smoothed.
+4. Failures must be obvious in runtime logs/counters.
 
-### Step 1 - Observability First (No Behavior Changes Yet)
+### Ordered Execution Plan
 
-1. Add runtime counters in `DirectVoiceMonitoring`:
-   - forced seek corrections,
-   - max drift seen,
-   - capture re-primes/rebinds,
-   - underflow/overflow events (once ring-buffer transport is added),
+#### Phase 0 - Baseline + Invariants Lock
+
+1. Capture baseline behavior (audio/video + profiler notes).
+2. Baseline checklist:
+   - monitoring start/stop,
+   - tutorial override behavior,
+   - MusicLoop/SoundWorld attenuation behavior,
+   - raw/normalized debug switch behavior.
+3. Add explicit invariants doc block in code comments:
+   - "No hard seek in normal path"
+   - "No hard gain step in audible path"
+   - "Imitone raw path remains low latency."
+
+#### Phase 1 - Observability Before Refactor
+
+1. Add counters and thresholded warnings in `DirectVoiceMonitoring`:
+   - seek corrections, max drift, re-primes/rebinds,
+   - underflow/overflow (once transport changes),
    - callback starvation/silence fills.
-2. Expose counters in inspector (and optionally throttled logs every N seconds).
-3. Add a debug reset button/method for counters at runtime.
+2. Add reason codes (for example drift vs reprime).
+3. Add dev summary log line (`seeks/min`, `maxDriftMs`, `restarts`, `underruns`, `overruns`).
+4. Add counter reset API for test loops.
 
-### Step 2 - Control Smoothing Hardening
+#### Phase 2 - Transition Path Audit (Hard-Path Elimination Gate #1)
 
-1. Ensure all gain/attenuation state transitions are smoothed (no hard steps).
-2. Keep smoothing constants inspector-tunable with safe defaults.
-3. Add guard rails:
-   - clamp smoothing constants to valid ranges,
-   - avoid state-desync between control owners.
+1. Build a transition inventory table (must be exhaustive):
+   - monitoring on/off,
+   - attenuation toggles,
+   - tutorial lock/unlock,
+   - mode switches,
+   - capture restart/re-prime.
+2. For each path define:
+   - where it is triggered,
+   - whether it can touch playhead,
+   - smoothing ramp duration and thread owner.
+3. Fail this phase if any unowned path does hard seek/hard step.
 
-### Step 3 - Replace Hard-Seek Monitoring Transport
+#### Phase 3 - Hybrid Alternative 2 Setup (Unity + Code)
 
-1. Introduce buffered monitoring read path from `MicPipeline` ring buffer (fixed read offset).
-2. Keep initial latency target in 125-200 ms window.
-3. Remove routine `timeSamples` hard-seek corrections for normal operation.
-4. Underflow policy:
-   - fill short silence with micro-fade.
-5. Overflow policy:
-   - drop oldest unread segment and increment overflow counter.
-6. Keep a feature flag to switch between old/new transport for A/B testing and rollback. **Not Necessary, we will just use git**
+1. Verify existing mixer routing first (do not assume):
+   - confirm `DirectVoiceMonitoring` output group assignment in scene.
+2. Unity mixer setup:
+   - dedicated monitoring mixer group (or confirm existing),
+   - exposed parameters for monitoring attenuation/gain transition controls,
+   - snapshots named `NormalMonitoring` and `AttenuatedMonitoring`.
+3. Unity editor action checklist (required):
+   - verify `AudioSource.outputAudioMixerGroup`,
+   - create/expose parameters,
+   - configure snapshot transition times,
+   - validate references after reload.
+4. Keep deterministic buffering and DSP continuity logic in code.
 
-### Step 4 - Transition Safety
+#### Phase 4 - Transport Refactor (Primary Reliability Fix)
 
-1. Add short crossfades around unavoidable discontinuity boundaries:
+1. Move monitoring transport to buffered pull from `MicPipeline` ring data.
+2. Set fixed read offset (start 125-200 ms).
+3. Remove routine `timeSamples` seek correction from normal path.
+4. Underflow policy: short crossfaded silence fill + counter.
+5. Overflow policy: drop oldest unread data + counter.
+6. Keep git-based rollback strategy (accepted decision).
+
+#### Phase 5 - Transition Smoothing (Hard-Path Elimination Gate #2)
+
+1. Add/verify smoothing on all transition inventory paths.
+2. Add short crossfades around unavoidable discontinuity boundaries:
    - capture restart re-prime,
-   - attenuation/mode boundary transitions.
-2. Skip raw/normalized debug crossfade for now (lower priority, per decision).
-3. Verify no click spikes on fast stage transitions.
+   - attenuation/mode transitions.
+3. Keep raw/normalized debug crossfade skipped (accepted).
+4. Re-run transition inventory and reject any remaining hard path.
 
-### Step 5 - Record/Replay Alignment (No Full Rebuild Yet)
+#### Phase 6 - Record/Replay Alignment Guardrails
 
-1. Keep recording source as `MicPipeline` normalized stream (single source of truth).
-2. Do not tie recording-content semantics to monitor output volume.
-3. Define shared content-shaping stage for future replay rebuild (for example chant envelope / voice-presence policy), without duplicating logic in multiple consumers.
+1. Keep recording source = `MicPipeline` normalized stream.
+2. Do not couple recording semantics to monitor output volume.
+3. Define shared content-shaping stage interface for replay rebuild (chant envelope/voice presence policy).
+4. No additional ring buffer unless required by asynchronous decoupling.
 
-### Step 6 - Unity Tooling Hybrid Integration
+#### Phase 7 - Pressure + Soak Test Matrix
 
-1. Use Unity `AudioMixer` for routing/state transitions: **are we clear yet on where these will go?**
-   - setup mixer group path for monitoring,
-   - expose key parameters needed for safe transitions.
-2. Keep deterministic continuity logic in code (buffer transport + transition guards).
-3. Keep imitone raw path unchanged and low-latency.
+Run matrix with controlled pressure injections:
 
-### Step 7 - Pressure Testing (Required)
+1. CPU pressure (heavy updates/particles/animation bursts).
+2. Frame-time pressure (low FPS windows, for example 20-30 FPS).
+3. Audio transition burst (rapid mode/attenuation/tutorial toggles).
+4. I/O pressure (recording writes + scene transitions).
+5. Device pressure (mic unplug/replug/default switch/restart).
+6. Duration pressure (10/20/30+ minute soak runs).
 
-If pressure-testing is required, intentionally add pressure using controlled methods:
+Capture for each run:
 
-1. **CPU pressure:** run with heavy scene activity and scripted stress bursts (particle-heavy moments, update-heavy objects, animation spikes).
-2. **Frame-time pressure:** temporarily cap/induce low FPS ranges (for example 20-30 FPS windows).
-3. **Audio pressure:** repeatedly trigger mode transitions, tutorial enter/exit, attenuation toggles, and monitoring enable/disable loops.
-4. **I/O pressure:** simultaneous recording writes and scene transitions.
-5. **Duration pressure:** long soak runs (10, 20, 30+ minutes).
-6. **Device pressure:** unplug/replug mic, default-device switch, and forced capture restart scenarios.
+- counters and threshold warnings,
+- timestamped audible notes,
+- frame-time/CPU envelope,
+- recovery behavior (self-heal vs degrade).
 
-For each pressure run, capture:
+#### Phase 8 - Acceptance Gate
 
-- seek/restart/underflow/overflow counters,
-- any audible events (timestamped notes),
-- approximate CPU/frame-time envelope,
-- whether behavior self-recovers or degrades over time.
-
-### Step 8 - Acceptance and Exit Criteria
-
-Ship/merge only when all are true:
+Merge only if all pass:
 
 1. No audible clicks/discontinuities in repeated pressure runs.
-2. Counters remain within expected bounds (no runaway seek/restart behavior).
-3. Tutorial and MusicLoop attenuation policy works exactly as designed.
-4. CPU/battery impact remains acceptable versus baseline.
-5. Playback latency remains within accepted range (<= 250 ms, target <= 125 ms where feasible).
+2. No threshold warning storms in standard soak suite.
+3. Tutorial + mode attenuation policy always correct.
+4. CPU/battery impact acceptable versus baseline.
+5. Playback latency within accepted envelope (<=250 ms, target <=125 ms where feasible).
+6. Mixer snapshot transitions verified across relevant scenes/stages.
 
 
 # ORIGINAL NOTES AND DRAFT OF PLAN
