@@ -221,12 +221,14 @@ public class GameValues : MonoBehaviour
         _meanToneLengthLerp = LerpUtilities.DampTool("meanToneLengthLerp", _meanToneLengthLerp, RespirationTracker.instance._meanToneLength, 0.036f, 0.018f, 0.0001f);
 
         // the quicker values were painstakingly set to match the original soundself defaults
-        _chantLerpSlowDamp1 = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.036f, 0.025f, true);
-        _chantLerpSlowDamp2 = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.018f, 0.009f, true);
+        _chantLerpSlowDamp1 = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.018f, 0.0125f, true);  //original values were 0.036f and 0.025f
+        _chantLerpSlowDamp2 = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.009f, 0.0045f, true);  //original values were 0.018f and 0.009f
+        
         _chantLerpSlowDepletion = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.036f, 0.025f, true);
         _chantLerpFastDamp1 = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.09f, 0.045f, true);
         _chantLerpFastDamp2 = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.045f, 0.0225f, true);
         _chantLerpFastDepletion = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.09f, 0.045f, true);
+        float _chantLerpDownMult = 0.3f;
 
 
         // Update cChanting to move towards the target
@@ -242,11 +244,11 @@ public class GameValues : MonoBehaviour
         }
         else
         {
-            _lerpTargetSlow = Mathf.Lerp(_lerpTargetSlow, 0.0f, _chantLerpSlowDamp1);
+            _lerpTargetSlow = Mathf.Lerp(_lerpTargetSlow, 0.0f, _chantLerpSlowDamp1 * _chantLerpDownMult);
             _lerpTargetSlow = Mathf.Clamp(_lerpTargetSlow - _chantLerpSlowDepletion, 0, 1);
             _chantLerpSlow = Mathf.Lerp(_chantLerpSlow, _lerpTargetSlow, _chantLerpSlowDamp2);
 
-            _lerpTargetFast = Mathf.Lerp(_lerpTargetFast, 0.0f, _chantLerpFastDamp1);
+            _lerpTargetFast = Mathf.Lerp(_lerpTargetFast, 0.0f, _chantLerpFastDamp1 * _chantLerpDownMult);
             _lerpTargetFast = Mathf.Clamp(_lerpTargetFast - _chantLerpFastDepletion, 0, 1);
             _chantLerpFast = Mathf.Lerp(_chantLerpFast, _lerpTargetFast, _chantLerpFastDamp2);
             

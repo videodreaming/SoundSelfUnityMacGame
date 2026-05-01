@@ -29,11 +29,19 @@ public class MicPipeline : MonoBehaviour
     [Tooltip("Master toggle for normalized output stream. Raw output is always unaffected.")]
     [SerializeField] private bool normalizationEnabled = false;
     [Tooltip("Gain in dB applied to normalized output stream.")]
-    [SerializeField] private float normalizationGainDb = 0f;
+    [SerializeField] private float normalizationGainDb = 16f;
     [Tooltip("Clamp normalized samples to +/- clamp value after gain.")]
     [SerializeField] private bool normalizationHardClampEnabled = true;
     [Tooltip("Absolute clamp value used when hard clamp is enabled.")]
     [SerializeField] [Range(0.01f, 1f)] private float normalizationClampAbs = 0.98f;
+
+    [Header("Imitone Tone-Active Telemetry (Inspector)")]
+    [SerializeField] private bool imitoneInterpreterBound = false;
+    [SerializeField] private bool imitoneToneActive = false;
+    [SerializeField] private bool imitoneToneActiveRaw = false;
+    [SerializeField] private bool imitoneToneActiveConfident = false;
+    [SerializeField] private bool imitoneToneActiveVeryConfident = false;
+    [SerializeField] private bool imitoneToneActiveBiasTrue = false;
 
     [Header("Normalization Gain Riding")]
     [Tooltip("Automatically rides normalization gain while imitone toneActive is true.")]
@@ -45,6 +53,8 @@ public class MicPipeline : MonoBehaviour
     [SerializeField] [Range(0f, 24f)] private float gainRidingLowerThresholdDb = 2f;
     [Tooltip("If mic dB is above target by more than this, lower gain at rapid rate.")]
     [SerializeField] [Range(0f, 24f)] private float gainRidingRapidLowerThresholdDb = 6f;
+    [Tooltip("Gain riding can raise normalization only while toneActiveConfident duration is below this window.")]
+    [SerializeField] [Range(0f, 30f)] private float gainRidingRaiseMaxToneActiveConfidentSeconds = 6f;
     [SerializeField] [Range(0f, 24f)] private float gainRidingRaiseRateDbPerSecond = 0.5f;
     [SerializeField] [Range(0f, 48f)] private float gainRidingLowerRateDbPerSecond = 4f;
     [SerializeField] [Range(0f, 96f)] private float gainRidingRapidLowerRateDbPerSecond = 16f;
@@ -78,6 +88,10 @@ public class MicPipeline : MonoBehaviour
     [SerializeField] private bool gainRidingGateToneActive = false;
     [Tooltip("True when sampled mic dB value is finite and usable.")]
     [SerializeField] private bool gainRidingGateMicDbValid = false;
+    [Tooltip("True when confident-tone duration is within the raise window.")]
+    [SerializeField] private bool gainRidingGateRaiseWindowOpen = false;
+    [Tooltip("True when mic level is not at/below the interpreter noise-floor threshold (raises blocked when false).")]
+    [SerializeField] private bool gainRidingGateRaiseNoiseFloorClear = false;
 
     [Header("Telemetry (Inspector)")]
     [Tooltip("Current-frame absolute peak after normalization (0..1).")]
@@ -89,6 +103,17 @@ public class MicPipeline : MonoBehaviour
     [SerializeField] private int normalizedRingBufferCapacitySamples = 0;
     [Tooltip("Current raw ring-buffer size in samples.")]
     [SerializeField] private int rawRingBufferCapacitySamples = 0;
+
+    [Header("Debug (copy when mic ingest stuck)")]
+    [Tooltip("Last branch taken in UpdateMicReadFrame: not_ready | device_unavailable | invalid_mic_position | stalled_capture_stopped | unread_zero | copied_samples")]
+    [SerializeField] private string debugMicLastExitReason = "";
+    [SerializeField] private int debugMicLastUnreadComputed = -1;
+    [SerializeField] private int debugMicLastLatestRawSampleCount = -1;
+    [SerializeField] private int debugMicLastMicPosWrite = -1;
+    [SerializeField] private int debugMicLastMicPosRead = -1;
+    [SerializeField] private int debugMicLastStalledWriteHeadFrameCount;
+    [SerializeField] private int debugMicLastClipSamples;
+    [SerializeField] private int debugMicLastUnityFrame;
 
     private string microphoneDeviceName;
     private AudioClip microphoneBuffer;
@@ -643,19 +668,38 @@ public class MicPipeline : MonoBehaviour
 
     private void UpdateMicReadFrame()
     {
+        debugMicLastUnityFrame = Time.frameCount;
+
         if (!IsReady)
         {
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
+            debugMicLastExitReason = "not_ready";
+            debugMicLastUnreadComputed = -1;
+            debugMicLastLatestRawSampleCount = 0;
+            debugMicLastMicPosWrite = -1;
+            debugMicLastMicPosRead = micPosRead;
+            debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
+            debugMicLastClipSamples = microphoneBuffer != null ? microphoneBuffer.samples : 0;
             return;
         }
 
         if (!IsCurrentDeviceStillAvailable())
         {
             ScheduleRecoveryAttempt($"Microphone device '{microphoneDeviceName}' is no longer available.");
+            int readPosForDebug = micPosRead;
+            int clipSamplesForDebug = microphoneBuffer != null ? microphoneBuffer.samples : 0;
+            int stalledFramesForDebug = stalledWriteHeadFrameCount;
             StopMicrophoneCapture();
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
+            debugMicLastExitReason = "device_unavailable";
+            debugMicLastUnreadComputed = -1;
+            debugMicLastLatestRawSampleCount = 0;
+            debugMicLastMicPosWrite = -1;
+            debugMicLastMicPosRead = readPosForDebug;
+            debugMicLastStalledWriteHeadFrameCount = stalledFramesForDebug;
+            debugMicLastClipSamples = clipSamplesForDebug;
             return;
         }
 
@@ -663,9 +707,19 @@ public class MicPipeline : MonoBehaviour
         if (micPosWrite < 0 || micPosWrite >= microphoneBuffer.samples || microphoneBuffer.samples <= 0)
         {
             ScheduleRecoveryAttempt($"Invalid Microphone.GetPosition() value '{micPosWrite}' for device '{microphoneDeviceName}'.");
+            int clipSamplesForDebug = microphoneBuffer.samples;
+            int readHeadForDebug = micPosRead;
+            int stalledFramesForDebug = stalledWriteHeadFrameCount;
             StopMicrophoneCapture();
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
+            debugMicLastExitReason = "invalid_mic_position";
+            debugMicLastUnreadComputed = -1;
+            debugMicLastLatestRawSampleCount = 0;
+            debugMicLastMicPosWrite = micPosWrite;
+            debugMicLastMicPosRead = readHeadForDebug;
+            debugMicLastStalledWriteHeadFrameCount = stalledFramesForDebug;
+            debugMicLastClipSamples = clipSamplesForDebug;
             return;
         }
 
@@ -682,9 +736,21 @@ public class MicPipeline : MonoBehaviour
         if (stalledWriteHeadFrameCount >= Mathf.Max(5, stalledWriteHeadFrameThreshold))
         {
             ScheduleRecoveryAttempt($"Detected stalled microphone write-head for device '{microphoneDeviceName}'.");
+            int clipSamplesForDebug = microphoneBuffer.samples;
+            int writePosForDebug = micPosWrite;
+            int readHeadForDebug = micPosRead;
+            int unreadForDebug = (clipSamplesForDebug + writePosForDebug - readHeadForDebug) % clipSamplesForDebug;
+            int stalledFramesForDebug = stalledWriteHeadFrameCount;
             StopMicrophoneCapture();
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
+            debugMicLastExitReason = "stalled_capture_stopped";
+            debugMicLastUnreadComputed = unreadForDebug;
+            debugMicLastLatestRawSampleCount = 0;
+            debugMicLastMicPosWrite = writePosForDebug;
+            debugMicLastMicPosRead = readHeadForDebug;
+            debugMicLastStalledWriteHeadFrameCount = stalledFramesForDebug;
+            debugMicLastClipSamples = clipSamplesForDebug;
             return;
         }
 
@@ -693,6 +759,13 @@ public class MicPipeline : MonoBehaviour
         {
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
+            debugMicLastExitReason = "unread_zero";
+            debugMicLastUnreadComputed = frameCount;
+            debugMicLastLatestRawSampleCount = 0;
+            debugMicLastMicPosWrite = micPosWrite;
+            debugMicLastMicPosRead = micPosRead;
+            debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
+            debugMicLastClipSamples = microphoneBuffer.samples;
             return;
         }
 
@@ -745,6 +818,14 @@ public class MicPipeline : MonoBehaviour
 
         WriteNormalizedFrameToRingBuffer(frameCount);
         latestNormalizedSampleCount = frameCount;
+
+        debugMicLastExitReason = "copied_samples";
+        debugMicLastUnreadComputed = frameCount;
+        debugMicLastLatestRawSampleCount = latestRawSampleCount;
+        debugMicLastMicPosWrite = micPosWrite;
+        debugMicLastMicPosRead = micPosRead;
+        debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
+        debugMicLastClipSamples = microphoneBuffer.samples;
     }
 
     private void OnNormalizationConfigChanged()
@@ -952,7 +1033,10 @@ public class MicPipeline : MonoBehaviour
             return;
         }
 
-        bool canRaiseGain = imitoneVoiceIntepreter.toneActiveConfident;
+        float confidentToneDuration = Mathf.Max(0f, imitoneVoiceIntepreter._tThisToneConfident);
+        bool raiseWindowOpen = confidentToneDuration < Mathf.Max(0f, gainRidingRaiseMaxToneActiveConfidentSeconds);
+        bool raiseNoiseFloorClear = !imitoneVoiceIntepreter.micIsNearNoiseFloor;
+        bool canRaiseGain = imitoneVoiceIntepreter.toneActiveConfident && raiseWindowOpen && raiseNoiseFloorClear;
         bool canLowerGain = imitoneVoiceIntepreter.toneActiveBiasTrue;
         if (!canRaiseGain && !canLowerGain)
         {
@@ -1010,11 +1094,32 @@ public class MicPipeline : MonoBehaviour
         normalizationGainDbRuntime = normalizationGainDb;
         normalizationGainLinearRuntime = GetNormalizationGainLinear();
 
+        imitoneInterpreterBound = imitoneVoiceIntepreter != null;
+        if (imitoneInterpreterBound)
+        {
+            imitoneToneActive = imitoneVoiceIntepreter.toneActive;
+            imitoneToneActiveRaw = imitoneVoiceIntepreter.toneActiveRaw;
+            imitoneToneActiveConfident = imitoneVoiceIntepreter.toneActiveConfident;
+            imitoneToneActiveVeryConfident = imitoneVoiceIntepreter.toneActiveVeryConfident;
+            imitoneToneActiveBiasTrue = imitoneVoiceIntepreter.toneActiveBiasTrue;
+        }
+        else
+        {
+            imitoneToneActive = false;
+            imitoneToneActiveRaw = false;
+            imitoneToneActiveConfident = false;
+            imitoneToneActiveVeryConfident = false;
+            imitoneToneActiveBiasTrue = false;
+        }
+
         gainRidingGateEnabled = gainRidingEnabled;
         gainRidingGatePipelineReady = IsReady;
-        gainRidingGateInterpreterBound = imitoneVoiceIntepreter != null;
+        gainRidingGateInterpreterBound = imitoneInterpreterBound;
         gainRidingGateToneActive = gainRidingGateInterpreterBound &&
                                    (imitoneVoiceIntepreter.toneActiveConfident || imitoneVoiceIntepreter.toneActiveBiasTrue);
+        gainRidingGateRaiseWindowOpen = gainRidingGateInterpreterBound &&
+                                        (imitoneVoiceIntepreter._tThisToneConfident < Mathf.Max(0f, gainRidingRaiseMaxToneActiveConfidentSeconds));
+        gainRidingGateRaiseNoiseFloorClear = gainRidingGateInterpreterBound && !imitoneVoiceIntepreter.micIsNearNoiseFloor;
 
         if (!gainRidingGateInterpreterBound)
         {
