@@ -885,6 +885,23 @@ public class DirectVoiceMonitoring : MonoBehaviour
         return Interlocked.CompareExchange(ref value, 0, 0);
     }
 
+    /// <summary>
+    /// Cumulative buffered-transport counters (thread-safe read). Use with Mic + Imitone ingest snapshots in the same frame.
+    /// </summary>
+    public void GetBufferedTransportTotals(
+        out int underflowEvents,
+        out int underflowSamples,
+        out int overflowEvents,
+        out int overflowSamples,
+        out int starvationEvents)
+    {
+        underflowEvents = AtomicRead(ref bufferUnderflowFillCount);
+        underflowSamples = AtomicRead(ref bufferUnderflowFillSamples);
+        overflowEvents = AtomicRead(ref bufferOverflowDropCount);
+        overflowSamples = AtomicRead(ref bufferOverflowDropSamples);
+        starvationEvents = AtomicRead(ref callbackStarvationCount);
+    }
+
     private void DbgLog(string message)
     {
         if (debugAllowMonitoringLogs)

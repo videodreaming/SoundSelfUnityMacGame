@@ -158,6 +158,34 @@ public class MicPipeline : MonoBehaviour
         public float clampAbs;
     }
 
+    [Serializable]
+    public struct MicIngestDebugSnapshot
+    {
+        public string lastExitReason;
+        public int lastUnreadComputed;
+        public int lastLatestRawSampleCount;
+        public int lastMicPosWrite;
+        public int lastMicPosRead;
+        public int lastStalledWriteHeadFrameCount;
+        public int lastClipSamples;
+        public int lastUnityFrame;
+    }
+
+    public MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
+    {
+        return new MicIngestDebugSnapshot
+        {
+            lastExitReason = debugMicLastExitReason ?? "",
+            lastUnreadComputed = debugMicLastUnreadComputed,
+            lastLatestRawSampleCount = debugMicLastLatestRawSampleCount,
+            lastMicPosWrite = debugMicLastMicPosWrite,
+            lastMicPosRead = debugMicLastMicPosRead,
+            lastStalledWriteHeadFrameCount = debugMicLastStalledWriteHeadFrameCount,
+            lastClipSamples = debugMicLastClipSamples,
+            lastUnityFrame = debugMicLastUnityFrame,
+        };
+    }
+
     private void Awake()
     {
         if (imitoneVoiceIntepreter == null)

@@ -14,7 +14,7 @@ using imitone;
 //TODO
 //Why is flooredsemitone floored and not rounded?
 
-public class ImitoneVoiceIntepreter : MonoBehaviour
+public class OLD_ImitoneVoiceIntepreterForDebugComparison : MonoBehaviour
 {
     //base variables pitch and midiNote
     public LightControl lightControl;
@@ -48,12 +48,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     private bool toneActiveBiasTrueFrameFlag = false;
     public bool toneActiveVeryConfident { get; private set; } = false;
     public bool toneActiveVeryConfidentRaw { get; private set; } = false;
-    [Header("Tone-Active Telemetry (Inspector)")]
-    [SerializeField] private bool telemetryToneActive = false;
-    [SerializeField] private bool telemetryToneActiveRaw = false;
-    [SerializeField] private bool telemetryToneActiveConfident = false;
-    [SerializeField] private bool telemetryToneActiveVeryConfident = false;
-    [SerializeField] private bool telemetryToneActiveBiasTrue = false;
     public float positiveActiveThreshold1 { get; private set; } = 0.05f; //for toneActive 
     public float positiveActiveThreshold2 { get; private set; } = 0.2f; //for toneActiveConfident
     public float negativeActiveThreshold1 { get; private set; } = 0.2f; //for toneActive
@@ -138,73 +132,11 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     [SerializeField] private float _noiseFloorMeasurementTime = 1.5f;
     [SerializeField] private int noiseFloorMeasurementMaxAge = 120;
     private int uniqueKey = 0;
-    [SerializeField] private float _thresholdAboveNoiseFloor = 3f;
-    [SerializeField] public float _noiseFloorThreshold = -52.0f;
-    [Header("Noise Floor Runtime Telemetry")]
-    [SerializeField] public bool micIsNearNoiseFloor = false;
-    [SerializeField] private bool telemetryNoiseFloorImitoneActiveRaw = false;
-    [SerializeField] [Range(-80f, -12f)] private float telemetryJumpTriggerDb = -80f;
-    [SerializeField] [Range(-80f, -12f)] private float telemetryDropExitDb = -80f;
-    [SerializeField] private bool telemetryJumpTriggerMet = false;
-    [SerializeField] private bool telemetryNoiseFloorCoroutineRunning = false;
-    [SerializeField] private string telemetryNoiseFloorPhase = "idle";
-    [SerializeField] [Range(-80f, -12f)] private float telemetryNoiseFloorMeasuredPeakDb = -80f;
-    [SerializeField] private float telemetryNoiseFloorMeasurementElapsed = 0f;
-    [SerializeField] [Range(-80f, -12f)] private float telemetryNoiseFloorMeasurementAverageDb = -80f;
-    [SerializeField] private int telemetryNoiseMeasurementsCount = 0;
-    [SerializeField] [Range(-80f, -12f)] private float telemetryMedianNoiseFloorDb = -80f;
-    [SerializeField] [Range(-80f, -12f)] private float telemetryAppliedThresholdDb = -52f;
-    [SerializeField] [Range(-80f, -12f)] private float telemetryMicDb = -80f;
-    [SerializeField] [Range(-80f, -12f)] private float telemetryImitoneDb = -80f;
-    [Tooltip("Raw _dbMicrophone (not clamped to -80..-12). Use to see rail vs real movement.")]
-    [SerializeField] private float telemetryMicDbUnclamped = -999f;
-    [Tooltip("Raw _dbValue (not clamped to -80..-12). Use to see rail vs real movement.")]
-    [SerializeField] private float telemetryImitoneDbUnclamped = -999f;
-    [Header("Raw voice path diagnostics")]
-    [Tooltip("True only when TryCopyLatestRawFrame returned count > 0 this frame. False if MicPipeline missing/not ready, or no new raw samples (e.g. stalled mic / empty delta).")]
-    [SerializeField] private bool telemetryRawVoiceDataConsumedThisFrame;
-    [Tooltip("Imitone-side debug: micPipeline reference missing on this component.")]
-    [SerializeField] private bool debugInterpreterMicPipelineRefNull;
-    [Tooltip("Imitone-side debug: micPipeline.IsReady at start of GetRawVoiceData.")]
-    [SerializeField] private bool debugInterpreterMicPipelineReady;
-    [Tooltip("Imitone-side debug: return value of TryCopyLatestRawFrame (true only if sample count > 0).")]
-    [SerializeField] private bool debugInterpreterTryCopyReturnedTrue;
-    [Tooltip("Imitone-side debug: out sample count from TryCopyLatestRawFrame (-1 if TryCopy was not called).")]
-    [SerializeField] private int debugInterpreterTryCopyOutSampleCount = -1;
-    [Header("Tone Gate Runtime Telemetry")]
-    [SerializeField] private float telemetryImitoneActiveTimer = 0f;
-    [SerializeField] private float telemetryImitoneInactiveTimer = 0f;
-    [SerializeField] private float telemetryImitoneActiveRawTimer = 0f;
-    [SerializeField] private float telemetryImitoneInactiveRawTimer = 0f;
+    [SerializeField] private float _thresholdAboveNoiseFloor = 8f;
 
-    [Serializable]
-    public struct RawVoicePathDebugSnapshot
-    {
-        public bool rawVoiceDataConsumedThisFrame;
-        public bool interpreterMicPipelineRefNull;
-        public bool interpreterMicPipelineReady;
-        public bool interpreterTryCopyReturnedTrue;
-        public int interpreterTryCopyOutSampleCount;
-        public float telemetryMicDbUnclamped;
-        public float telemetryImitoneDbUnclamped;
-    }
-
-    public RawVoicePathDebugSnapshot GetRawVoicePathDebugSnapshot()
-    {
-        return new RawVoicePathDebugSnapshot
-        {
-            rawVoiceDataConsumedThisFrame = telemetryRawVoiceDataConsumedThisFrame,
-            interpreterMicPipelineRefNull = debugInterpreterMicPipelineRefNull,
-            interpreterMicPipelineReady = debugInterpreterMicPipelineReady,
-            interpreterTryCopyReturnedTrue = debugInterpreterTryCopyReturnedTrue,
-            interpreterTryCopyOutSampleCount = debugInterpreterTryCopyOutSampleCount,
-            telemetryMicDbUnclamped = telemetryMicDbUnclamped,
-            telemetryImitoneDbUnclamped = telemetryImitoneDbUnclamped,
-        };
-    }
+    public float _imitoneVolumeThreshold { get; private set; } = 0f;
 
     private Coroutine currentNoiseFloorCoroutine;
-    private float latestRawMicWindowMaxDb = -999f;
 
     //private bool manualMode = false;
 
@@ -231,11 +163,29 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     int sampleRate;
     ImitoneVoice imitone;
-    [SerializeField] private MicPipeline micPipeline;
 
+    string microphoneName;
+    AudioClip inputBuffer;
+    int micPosRead = 0;
     float[] capturedInput;
     // Reusable buffer for chunking audio to imitone. Imitone's internal feed_buffer holds max 1 second (sampleRate samples).
     private float[] _imitoneChunkBuffer;
+
+    [Header("Raw voice path diagnostics (debug)")]
+    [Tooltip("True when capturedInput.Length > 0 this frame (PCM read from Unity mic ring).")]
+    [SerializeField] private bool telemetryRawVoiceDataConsumedThisFrame;
+    [Tooltip("no_input_buffer | unread_zero | copied_samples")]
+    [SerializeField] private string debugMicLastExitReason = "";
+    [SerializeField] private int debugMicLastUnreadComputed = -1;
+    [SerializeField] private int debugMicLastLatestRawSampleCount = -1;
+    [SerializeField] private int debugMicLastMicPosWrite = -1;
+    [SerializeField] private int debugMicLastMicPosRead = -1;
+    [SerializeField] private int debugMicLastStalledWriteHeadFrameCount;
+    [SerializeField] private int debugMicLastClipSamples;
+    [SerializeField] private int debugMicLastUnityFrame;
+    [SerializeField] private bool debugMicInputBufferPresent;
+    private int _debugMicLastObservedWritePos = -1;
+    private int _debugMicConsecutiveSameWriteFrames;
 
     [Header("High Pass Filter")]
     [Tooltip("Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. 80 Hz is typical for voice.")]
@@ -251,9 +201,9 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     private float _lpPrevOutput;
 
     // Public accessors for shared microphone usage
-    public AudioClip MicrophoneBuffer => micPipeline != null ? micPipeline.MicrophoneBuffer : null;
-    public string MicrophoneDeviceName => micPipeline != null ? micPipeline.MicrophoneDeviceName : null;
-    public int MicrophoneSampleRate => micPipeline != null ? micPipeline.SampleRate : sampleRate;
+    public AudioClip MicrophoneBuffer => inputBuffer;
+    public string MicrophoneDeviceName => microphoneName;
+    public int MicrophoneSampleRate => sampleRate;
 
     // Debug log category flags
     private bool debugAllowInitializationLogs = true;
@@ -266,37 +216,54 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     void Start()
     {
+        var micDevices = Microphone.devices;
+        Debug.Log($"Imitone: Microphone.devices count = {micDevices.Length}" +
+            (micDevices.Length == 0 ? "" : " — " + string.Join(", ", micDevices)));
+
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
-        if (micPipeline == null)
+        // Pick first available device (microphoneName stays null if Microphone.devices is empty).
+        foreach (var device in micDevices)
         {
-            micPipeline = GetComponent<MicPipeline>();
+            microphoneName = device;
+            break;
         }
-
-        if (micPipeline == null)
+        if (string.IsNullOrEmpty(microphoneName))
         {
-            if (debugAllowInitializationLogs || debugAllowWarnings)
+            if(debugAllowInitializationLogs || debugAllowWarnings)
             {
-                Debug.LogError("Imitone: MicPipeline reference is missing.");
+                Debug.LogError("Imitone: No microphone was available for pitch tracking. This can happen if the Unity's audio system has been disabled, or if the microphone is not connected.");
+            }
+            return;
+        }
+        if(debugAllowInitializationLogs)
+        {
+            Debug.Log("Imitone: Chose microphone: " + microphoneName);
+        }
+        // NOTE: Unity doesn't give us a way to query native samplerate.
+        //  Converting to 48khz may degrade audio quality slightly.
+        sampleRate = 48000;
+
+        // NOTE: this requires permission on mobile.
+
+        inputBuffer = Microphone.Start(
+                deviceName: microphoneName,
+                loop: true,
+                lengthSec: 6,
+                frequency: sampleRate
+                );
+
+        if (inputBuffer == null)
+        {
+            //If mircophone fails to start
+            if(debugAllowInitializationLogs || debugAllowWarnings)
+            {
+                Debug.LogError("Imitone: PitchTracker failed to Start recording from Microphone!");
             }
             return;
         }
 
-        micPipeline.InitializeMicrophone();
-        if (!micPipeline.IsReady)
-        {
-            if (debugAllowInitializationLogs || debugAllowWarnings)
-            {
-                Debug.LogError("Imitone: MicPipeline failed to initialize microphone capture.");
-            }
-            return;
-        }
 
-        sampleRate = micPipeline.SampleRate;
-        if (debugAllowInitializationLogs)
-        {
-            Debug.Log("Imitone: Chose microphone via MicPipeline: " + micPipeline.MicrophoneDeviceName);
-        }
 
         try
         {
@@ -327,7 +294,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
-        UpdateToneActiveTelemetryInspector();
         TrackMicVolume();
         Wwise_BreathSound(_breathVolume, lightControl._fxWave);
 
@@ -349,26 +315,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             }
             gameOnLastFrame = gameOn;
         }
-    }
-
-    private void UpdateToneActiveTelemetryInspector()
-    {
-        telemetryToneActive = toneActive;
-        telemetryToneActiveRaw = toneActiveRaw;
-        telemetryToneActiveConfident = toneActiveConfident;
-        telemetryToneActiveVeryConfident = toneActiveVeryConfident;
-        telemetryToneActiveBiasTrue = toneActiveBiasTrue;
-        telemetryNoiseFloorImitoneActiveRaw = imitoneActiveRaw;
-        telemetryImitoneActiveTimer = _imitoneActiveTimer;
-        telemetryImitoneInactiveTimer = _imitoneInactiveTimer;
-        telemetryImitoneActiveRawTimer = _imitoneActiveRawTimer;
-        telemetryImitoneInactiveRawTimer = _imitoneInactiveRawTimer;
-        telemetryMicDb = Mathf.Clamp(_dbMicrophone, -80f, -12f);
-        telemetryImitoneDb = Mathf.Clamp(_dbValue, -80f, -12f);
-        telemetryMicDbUnclamped = _dbMicrophone;
-        telemetryImitoneDbUnclamped = _dbValue;
-        telemetryAppliedThresholdDb = Mathf.Clamp(_dbThreshold, -80f, -12f);
-        micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
     }
 
     void LateUpdate()
@@ -488,21 +434,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Trigger stage of adaptive thresholding:
-    /// 1) Maintain a short rolling window of raw mic dB.
-    /// 2) Detect a "jump" above the recent local floor.
-    /// 3) If jump is detected, start/restart noise-floor measurement coroutine.
-    ///
-    /// This method DOES NOT directly pick the new threshold; it only decides when
-    /// to launch MeasureNoiseFloorCoroutine(), which then computes median noise floor
-    /// and applies _noiseFloorThreshold via SetThreshold(...).
-    /// </summary>
     private void SetNoiseFloorThreshold() //WE NEED RAW VALUES FOR THIS. CURRENT RAW DEPENDENCIES: _dbMicrophone
     {
-        // Keep a short history of recent raw mic dB values for local min/max comparison.
         rawMic.Add(uniqueKey++, (Time.time, _dbMicrophone));
-        // Remove entries older than the configured rolling-window duration.
+        //Remove any entries more than noiseDropMeasurmentWindow frames old.
         List<int> keysToRemove = new List<int>();
         foreach (var entry in rawMic)
         {
@@ -514,32 +449,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             rawMic.Remove(key);
         }
 
-        if (rawMic.Count <= 0)
-        {
-            float fallbackDb = Mathf.Clamp(_dbMicrophone, -80f, -12f);
-            telemetryJumpTriggerDb = Mathf.Clamp(_dbMicrophone + _volumeJumpTriggerThresholdDB, -80f, -12f);
-            telemetryDropExitDb = Mathf.Clamp(_dbMicrophone - _volumeDropTriggerThresholdDB, -80f, -12f);
-            telemetryJumpTriggerMet = false;
-            latestRawMicWindowMaxDb = fallbackDb;
-            return;
-        }
-
-        // Local window floor/ceiling define two trigger levels:
-        // - jumpTriggerDb: "sound rose enough to consider new vocal event"
-        // - dropExitDb: level we must fall below before measuring ambient floor
-        float windowMinDb = rawMic.Values.Min(x => x.Item2);
-        float windowMaxDb = rawMic.Values.Max(x => x.Item2);
-        float jumpTriggerDb = windowMinDb + _volumeJumpTriggerThresholdDB;
-        float dropExitDb = windowMaxDb - _volumeDropTriggerThresholdDB;
-        latestRawMicWindowMaxDb = windowMaxDb;
-        telemetryJumpTriggerDb = Mathf.Clamp(jumpTriggerDb, -80f, -12f);
-        telemetryDropExitDb = Mathf.Clamp(dropExitDb, -80f, -12f);
-        telemetryJumpTriggerMet = _dbMicrophone > jumpTriggerDb;
-
-        // Jump detection gate:
-        // if current mic dB jumps enough above local floor, restart noise-floor measurement.
-        // Restarting keeps us aligned with the latest event rather than stale pre-event context.
-        if (telemetryJumpTriggerMet)
+        //when _dbMicrophone > (rawMic.Values.Min() + _volumeJumpTriggerThresholdDB), begin the MeasureNoiseFloor coroutine. If there is already an instance of the coroutine running, stop it and start a new one.
+        if (_dbMicrophone > (rawMic.Values.Min(x => x.Item2) + _volumeJumpTriggerThresholdDB))
         {
             if (currentNoiseFloorCoroutine != null)
                 StopCoroutine(currentNoiseFloorCoroutine);
@@ -552,40 +463,31 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     private IEnumerator MeasureNoiseFloorCoroutine()
     {
-        telemetryNoiseFloorCoroutineRunning = true;
-        telemetryNoiseFloorPhase = "waiting_for_drop";
-        telemetryNoiseFloorMeasurementElapsed = 0f;
-        telemetryNoiseFloorMeasurementAverageDb = -80f;
         float _noiseFloorMeasurementSum = 0f;
         float _noiseFloorMeasurementCount = 0f;
         //Debug.Log("Preparing to Measure Noise Floor...");
 
-        // Phase 1: wait for post-event level to settle back down near floor.
-        while (_dbMicrophone >= telemetryDropExitDb)
+        //First wait for the levels to drop an appropriate amount
+        while (_dbMicrophone >= (rawMic.Values.Max(x => x.Item2) - _volumeDropTriggerThresholdDB))
         {
             yield return null;
         }
-        // Phase 2: add an extra hold to avoid capturing the event tail.
-        telemetryNoiseFloorPhase = "after_drop_wait";
-        float _measuredPeak = latestRawMicWindowMaxDb;
-        telemetryNoiseFloorMeasuredPeakDb = Mathf.Clamp(_measuredPeak, -80f, -12f);
+        //Then, wait a little longer before starting to measure the noise floor.
+        float _measuredPeak = rawMic.Values.Max(x => x.Item2);
         yield return new WaitForSeconds(_afterDropWaitTime);
 
-        // Phase 3: sample candidate ambient floor over a fixed interval.
-        telemetryNoiseFloorPhase = "measuring";
+        //Now we can measure the noise floor
         float _measuredTime = 0f;
         while (_measuredTime < _noiseFloorMeasurementTime)
         {
             _noiseFloorMeasurementSum += _dbMicrophone;
             _noiseFloorMeasurementCount++;
             _measuredTime += Time.deltaTime;
-            telemetryNoiseFloorMeasurementElapsed = _measuredTime;
             yield return null;
         }
 
-        // Phase 4: store this measurement and compute a robust threshold from history.
+        //Once the noise floor has been measured, add the average to the noiseMeasurements dictionary, using the time as the key.
         float _noiseFloorMeasurementAverage = _noiseFloorMeasurementSum / _noiseFloorMeasurementCount;
-        telemetryNoiseFloorMeasurementAverageDb = Mathf.Clamp(_noiseFloorMeasurementAverage, -80f, -12f);
 
         noiseMeasurements.Add(uniqueKey++, (Time.time, _noiseFloorMeasurementAverage));
         //Then, if there are entries that are older than noiseFloorMeasurementMaxAge, remove them
@@ -604,21 +506,14 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             noiseMeasurements.Remove(key);
         }
 
-        // Median across historical measurements resists one-off spikes better than mean.
+        //Calculate the median noise floor from the noiseMeasurements dictionary:
         List<float> values = noiseMeasurements.Values.Select(x => x.Item2).OrderBy(x => x).ToList();
         float _medianNoiseFloor = (values.Count % 2 != 0) ?
         values[values.Count / 2] :
         (values[(values.Count - 1) / 2] + values[values.Count / 2]) / 2.0f;
-        telemetryMedianNoiseFloorDb = Mathf.Clamp(_medianNoiseFloor, -80f, -12f);
-        telemetryNoiseMeasurementsCount = noiseMeasurements.Count;
-        _noiseFloorThreshold = _medianNoiseFloor + _thresholdAboveNoiseFloor;
-        telemetryAppliedThresholdDb = Mathf.Clamp(_noiseFloorThreshold, -80f, -12f);
-        SetThreshold(_noiseFloorThreshold);
-        micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
-        telemetryNoiseFloorPhase = "applied_threshold";
-        //Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _noiseFloorThreshold + " from " + noiseMeasurements.Count + " measurements.");
-        telemetryNoiseFloorCoroutineRunning = false;
-        telemetryNoiseFloorPhase = "idle";
+        _imitoneVolumeThreshold = _medianNoiseFloor + _thresholdAboveNoiseFloor;
+        SetThreshold(_imitoneVolumeThreshold);
+        //Debug.Log("Noise Floor Measured: " + _noiseFloorMeasurementAverage + " (from peak: " + _measuredPeak + ") New Threshold: " + _imitoneVolumeThreshold + " from " + noiseMeasurements.Count + " measurements.");
         yield return null;
     }
 
@@ -670,56 +565,96 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     private void GetRawVoiceData()
     { //WE NEED RAW VALUES FOR THIS
         telemetryRawVoiceDataConsumedThisFrame = false;
-        debugInterpreterTryCopyOutSampleCount = -1;
-        debugInterpreterTryCopyReturnedTrue = false;
-        debugInterpreterMicPipelineRefNull = micPipeline == null;
-        debugInterpreterMicPipelineReady = micPipeline != null && micPipeline.IsReady;
+        debugMicLastUnityFrame = Time.frameCount;
+        debugMicInputBufferPresent = inputBuffer != null;
 
-        if (micPipeline == null || !micPipeline.IsReady)
+        if (!inputBuffer)
         {
+            debugMicLastExitReason = "no_input_buffer";
+            debugMicLastUnreadComputed = -1;
+            debugMicLastLatestRawSampleCount = 0;
+            debugMicLastMicPosWrite = -1;
+            debugMicLastMicPosRead = micPosRead;
+            debugMicLastStalledWriteHeadFrameCount = _debugMicConsecutiveSameWriteFrames;
+            debugMicLastClipSamples = 0;
             if(debugAllowInitializationLogs || debugAllowWarnings)
             {
-                Debug.LogError("Imitone: MicPipeline is not ready.");
+                Debug.LogError("Imitone: No Input Buffer");
             }
             return;
         }
 
-        int rawSampleCount;
-        bool tryCopyOk = micPipeline.TryCopyLatestRawFrame(ref capturedInput, out rawSampleCount);
-        debugInterpreterTryCopyOutSampleCount = rawSampleCount;
-        debugInterpreterTryCopyReturnedTrue = tryCopyOk;
-
-        if (tryCopyOk && rawSampleCount > 0)
+        // The microphone's write position in the clip can wrap back around to the beginning.
+        int micPosWrite = Microphone.GetPosition(microphoneName);
+        int clipSamples = inputBuffer.samples;
+        if (_debugMicLastObservedWritePos == micPosWrite)
         {
-            telemetryRawVoiceDataConsumedThisFrame = true;
-            if (_highPassFilterEnabled && _highPassCutoffHz > 0f)
-                ApplyHighPassFilter(capturedInput);
-            if (_lowPassFilterEnabled && _lowPassCutoffHz > 0f)
-                ApplyLowPassFilter(capturedInput);
+            _debugMicConsecutiveSameWriteFrames++;
+        }
+        else
+        {
+            _debugMicConsecutiveSameWriteFrames = 0;
+        }
+        _debugMicLastObservedWritePos = micPosWrite;
 
-            float meanAmplitude = 0f;
-            for (int i = 0; i < rawSampleCount; i++)
+        int unread = (clipSamples + micPosWrite - micPosRead) % clipSamples;
+        Array.Resize(ref capturedInput, unread);
+
+        debugMicLastUnreadComputed = unread;
+        debugMicLastMicPosWrite = micPosWrite;
+        debugMicLastMicPosRead = micPosRead;
+        debugMicLastClipSamples = clipSamples;
+        debugMicLastStalledWriteHeadFrameCount = _debugMicConsecutiveSameWriteFrames;
+
+        if (capturedInput.Length <= 0)
+        {
+            debugMicLastExitReason = "unread_zero";
+            debugMicLastLatestRawSampleCount = 0;
+            return;
+        }
+
+        // Read the latest audio data, beginning from where we left off and wrapping around as needed.
+        inputBuffer.GetData(capturedInput, micPosRead);
+        micPosRead = (micPosRead + capturedInput.Length) % inputBuffer.samples;
+
+        telemetryRawVoiceDataConsumedThisFrame = true;
+        debugMicLastExitReason = "copied_samples";
+        debugMicLastLatestRawSampleCount = capturedInput.Length;
+        debugMicLastMicPosRead = micPosRead;
+
+        if (_highPassFilterEnabled && _highPassCutoffHz > 0f)
+            ApplyHighPassFilter(capturedInput);
+        if (_lowPassFilterEnabled && _lowPassCutoffHz > 0f)
+            ApplyLowPassFilter(capturedInput);
+
+        // Analyze the captured audio with imitone.
+        if (imitone != null)
             {
-                meanAmplitude += Mathf.Abs(capturedInput[i]);
-            }
-            meanAmplitude /= rawSampleCount;
-            _dbMicrophone = AudioLevelUtilities.LinearToDb(meanAmplitude);
+                float peakAmplitude = 0f;
+                float meanAmplitude = 0f;
+                foreach (float sample in capturedInput)
+                {
+                    if (Math.Abs(sample) > peakAmplitude)
+                    {
+                        peakAmplitude = Math.Abs(sample);
+                    }
+                    meanAmplitude += Math.Abs(sample);
+                }
+                meanAmplitude /= capturedInput.Length;
 
-            // Analyze the captured audio with imitone.
-            if (imitone != null)
-            {
-                //Debug.Log(String.Format("Analyzing mic samples x {0}", rawSampleCount));
+                //Debug.Log(String.Format("Analyzing mic samples x {0}, peak amplitude {1}", capturedInput.Length, peakAmplitude));
+                _dbMicrophone = (float)(10.0 * Math.Log10(meanAmplitude * meanAmplitude));
 
-                // CHUNKING: imitone's feed_buffer holds max 1 second (sampleRate samples). When mic buffer was 1 second,
+                // CHUNKING: imitone's feed_buffer holds max 1 second (sampleRate samples). When inputBuffer was 1 second,
                 // capturedInput never exceeded that. After increasing inputBuffer to 6 seconds, we can read up to ~6 sec
                 // in one frame (e.g. after startup lag or frame spike), causing IndexOutOfRangeException in imitone.
                 // We process in chunks of sampleRate, oldest-first, so imitone receives all audio in order.
                 // TO REVERT: remove the chunking block below and restore: imitone.InputAudio(capturedInput);
                 if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
                     _imitoneChunkBuffer = new float[sampleRate];
-                for (int offset = 0; offset < rawSampleCount; offset += sampleRate)
+                for (int offset = 0; offset < capturedInput.Length; offset += sampleRate)
                 {
-                    int chunkSize = Math.Min(sampleRate, rawSampleCount - offset);
+                    int chunkSize = Math.Min(sampleRate, capturedInput.Length - offset);
                     float[] chunkToPass;
                     if (chunkSize == sampleRate)
                     {
@@ -756,12 +691,9 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
                                 if (!forceImitoneActive && !forceImitoneInactive)
                                 {
-                                    _dbValue = AudioLevelUtilities.PowerToDb(power);
+                                    _dbValue = (float)(10.0 * Math.Log10(power));
                                     imitoneActiveRaw = true;
-                                    // Game-facing only: do not clear imitoneActiveRaw; gate imitoneActive so imitone
-                                    // analysis and thresholds are unchanged while near estimated noise floor.
-                                    micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
-                                    imitoneActive = gameOn && !micIsNearNoiseFloor;
+                                    imitoneActive = gameOn ? true : false;
                                     //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
                                 }
 
@@ -788,12 +720,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
                     else
                     {
                         pitch_hz = 0f;
+                        //_dbValue = (float)(10.0 * Math.Log10(soundObject.GetField("power").floatValue));
+                        //_dbValue = -999f;
                         imitoneActiveRaw = false;
                         imitoneActive = false;
-                        micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
-                        // No tone reported: refresh imitone power dB so telemetry does not hold last toning value.
-                        _dbValue = AudioLevelUtilities.PowerToDb(0f);
-                        _level = 0f;
                     }
                     if (notes.list != null && notes.list.Count > 0)
                     {
@@ -821,9 +751,9 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             }
             else
             {
-                Debug.LogError("ImitoneVoiceIntepreter.GetRawVoiceData: imitone is null; mic level was updated but imitone analysis is skipped.");
+                //Debug.Log("No imitone voice to analyze audio.");
+                //FORCE TONE LOGIC WAS HERE (look in Code Snippets in Notion)
             }
-        }
     }
 
     private void CheckToning()
