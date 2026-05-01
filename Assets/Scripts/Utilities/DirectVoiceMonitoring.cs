@@ -122,7 +122,20 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] private int hardVolumeStepCount = 0;
     [SerializeField] private float lastVolumeStepDelta = 0f;
     [SerializeField] private string lastVolumeStepContext = "";
+    [Header("Runtime Dynamic Volume Debug")]
+    [Tooltip("Final linear gain applied in OnAudioFilterRead (monitoringVolume × dynamicScale × attenuation × AudioSource.volume; mute forces 0).")]
+    [SerializeField] [Range(0f, 1f)] private float debugEffectiveMonitoringGain = 0f;
+    [SerializeField] [Range(0f, 1f)] private float debugAppliedAudioSourceVolume = 0f;
+    [SerializeField] [Range(0f, 1f)] private float debugChantLerpSlow = 0f;
+    [SerializeField] [Range(0f, 1f)] private float debugChantLerpFast = 0f;
+    [SerializeField] [Range(0f, 1f)] private float debugChantCharge = 0f;
+    [SerializeField] private bool debugToneActive = false;
+    [SerializeField] private bool debugToneActiveRaw = false;
+    [SerializeField] private bool debugToneActiveConfident = false;
+    [SerializeField] private bool debugToneActiveVeryConfident = false;
+    [SerializeField] private bool debugToneActiveBiasTrue = false;
     private float lastAppliedMonitoringVolume = -1f;
+    private volatile float effectiveMonitoringGain = 0f;
     private float lastRebindFailureWarningTime = -999f;
     private float lastClipBindErrorTime = -999f;
     private float nextSetupRetryTime = 0f;
@@ -150,10 +163,11 @@ public class DirectVoiceMonitoring : MonoBehaviour
             monitoringSource = gameObject.AddComponent<AudioSource>();
             monitoringSource.playOnAwake = false;
             monitoringSource.loop = true;
-            monitoringSource.volume = monitoringVolume;
+            monitoringSource.volume = 1f;
         }
 
-        lastAppliedMonitoringVolume = monitoringSource != null ? monitoringSource.volume : -1f;
+        lastAppliedMonitoringVolume = -1f;
+        effectiveMonitoringGain = 0f;
     }
 
     /// <summary>
@@ -229,7 +243,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return false;
         }
         monitoringSource.loop = true;
-        monitoringSource.volume = monitoringVolume;
         monitoringSource.playOnAwake = false;
 
         // Mark as initialized BEFORE starting monitoring
@@ -261,6 +274,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         {
             TryRecoverSetupIfNeeded();
             UpdateReliabilityTelemetry();
+            UpdateRuntimeDynamicDebugState();
             return;
         }
 
@@ -291,6 +305,43 @@ public class DirectVoiceMonitoring : MonoBehaviour
 
         ApplyMonitoringVolume("update");
         UpdateReliabilityTelemetry();
+        UpdateRuntimeDynamicDebugState();
+    }
+
+    private void UpdateRuntimeDynamicDebugState()
+    {
+        debugEffectiveMonitoringGain = Mathf.Clamp01(effectiveMonitoringGain);
+        debugAppliedAudioSourceVolume = monitoringSource != null ? monitoringSource.volume : 0f;
+
+        if (GameValues.instance != null)
+        {
+            debugChantLerpSlow = GameValues.instance._chantLerpSlow;
+            debugChantLerpFast = GameValues.instance._chantLerpFast;
+            debugChantCharge = GameValues.instance._chantCharge;
+        }
+        else
+        {
+            debugChantLerpSlow = 0f;
+            debugChantLerpFast = 0f;
+            debugChantCharge = 0f;
+        }
+
+        if (imitoneVoiceInterpreter != null)
+        {
+            debugToneActive = imitoneVoiceInterpreter.toneActive;
+            debugToneActiveRaw = imitoneVoiceInterpreter.toneActiveRaw;
+            debugToneActiveConfident = imitoneVoiceInterpreter.toneActiveConfident;
+            debugToneActiveVeryConfident = imitoneVoiceInterpreter.toneActiveVeryConfident;
+            debugToneActiveBiasTrue = imitoneVoiceInterpreter.toneActiveBiasTrue;
+        }
+        else
+        {
+            debugToneActive = false;
+            debugToneActiveRaw = false;
+            debugToneActiveConfident = false;
+            debugToneActiveVeryConfident = false;
+            debugToneActiveBiasTrue = false;
+        }
     }
 
     private void TryAutoResetTelemetryAfterStart()
@@ -552,7 +603,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         hardVolumeStepCount = 0;
         lastVolumeStepDelta = 0f;
         lastVolumeStepContext = "";
-        lastAppliedMonitoringVolume = monitoringSource != null ? monitoringSource.volume : -1f;
+        lastAppliedMonitoringVolume = monitoringSource != null ? Mathf.Clamp01(effectiveMonitoringGain) : -1f;
         lastRebindFailureWarningTime = Time.unscaledTime;
     }
 
@@ -649,9 +700,10 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         int writeIndex = 0;
+        float outputGain = Mathf.Clamp01(effectiveMonitoringGain);
         for (int frame = 0; frame < frameCount; frame++)
         {
-            float sample = monitoringMonoReadBuffer[frame];
+            float sample = monitoringMonoReadBuffer[frame] * outputGain;
             for (int channel = 0; channel < channels; channel++)
             {
                 data[writeIndex++] = sample;
@@ -705,6 +757,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     {
         if (monitoringSource == null)
         {
+            effectiveMonitoringGain = 0f;
             return;
         }
 
@@ -723,12 +776,16 @@ public class DirectVoiceMonitoring : MonoBehaviour
             gameOnScale = gameOnLerp;
             chargeDuckScale = 1f - chargeLerp * 0.5f;
             dynamicScale = gameOnScale * chargeDuckScale * chantPresenceScale;
+            //dynamicScale = GameValues.instance._chantLerpSlow;
         }
 
         float targetAttenuationScale = monitoringAttenuated ? Mathf.Clamp01(monitoringAttenuationMultiplier) : 1f;
         float attenuationScale = GetSmoothedAttenuationScale(targetAttenuationScale);
         float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale) * attenuationScale);
-        float volumeDelta = lastAppliedMonitoringVolume < 0f ? 0f : Mathf.Abs(targetVolume - lastAppliedMonitoringVolume);
+        float audioSourceVolumeScale = Mathf.Clamp01(monitoringSource.volume);
+        float muteScale = monitoringSource.mute ? 0f : 1f;
+        float appliedGain = targetVolume * audioSourceVolumeScale * muteScale;
+        float volumeDelta = lastAppliedMonitoringVolume < 0f ? 0f : Mathf.Abs(appliedGain - lastAppliedMonitoringVolume);
         lastVolumeStepDelta = volumeDelta;
         if (lastAppliedMonitoringVolume >= 0f && volumeDelta > hardVolumeStepThreshold)
         {
@@ -739,8 +796,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
                 DbgWarn($"DirectVoiceMonitoring: Hard volume step detected (delta={volumeDelta:F3}, threshold={hardVolumeStepThreshold:F3}, context={context}).");
             }
         }
-        monitoringSource.volume = targetVolume;
-        lastAppliedMonitoringVolume = targetVolume;
+        effectiveMonitoringGain = appliedGain;
+        lastAppliedMonitoringVolume = appliedGain;
     }
 
     private float GetSmoothedAttenuationScale(float targetScale)

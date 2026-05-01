@@ -24,6 +24,15 @@ public static class AudioLevelUtilities
     }
 
     /// <summary>
+    /// Converts a linear power quantity to dB using 10·log10, with epsilon floor for stability near silence.
+    /// </summary>
+    public static float PowerToDb(float power, float epsilon = 1e-12f)
+    {
+        float safe = Mathf.Max(epsilon, power);
+        return 10f * Mathf.Log10(safe);
+    }
+
+    /// <summary>
     /// Maps a normalized control input [0..1] to a gain-linear scale:
     /// - Uses dB ramp from minGainDb to maxGainDb.
     /// - Applies an additional floor multiplier in [0..linearFloorRange] so output truly reaches 0.
