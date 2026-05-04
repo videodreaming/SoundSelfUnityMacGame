@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using UnityEngine;
@@ -34,7 +33,7 @@ public partial class ImitoneVoiceIntepreter
     private long audioCallbackTotal;
     private long audioCallbackSamplesProcessedTotal;
     private volatile int audioCallbackLastSamplesPerCallback;
-    private volatile float aggMixerChannelsVolatile;
+    private volatile int aggMixerChannelsVolatile;
     private long audioCallbackLockMissTotal;
     private long audioCallbackGCAllocSuspectTotal;
 
@@ -46,9 +45,14 @@ public partial class ImitoneVoiceIntepreter
     private volatile float audioCallbackHzRollingVolatile;
     private volatile float audioCallbackMaxGapMsLastSecondVolatile;
 
-    private readonly List<(float timeUnscaled, long total)> _hzHistory = new List<(float, long)>(128);
+    // Audio-thread-only: previous callback's Stopwatch ticks. Audio thread is the sole writer/reader.
+    private long audioCallbackLastTicks;
+    // Cross-thread max-gap accumulator (ticks). Audio thread updates via CAS-max; main thread reads-and-resets via Interlocked.Exchange every ~1s.
+    private long audioCallbackMaxGapTicksWindow;
 
-    private long _lastSeenAudioCallbackTotalHz = -1;
+    // Main-thread-only: 1-second sliding window for Hz computation.
+    private float _hzWindowStartTimeUnscaled = -1f;
+    private long _hzWindowStartTotal;
 
     public int AudioConfigOutputSampleRate => audioConfigOutputSampleRate;
     public int AudioConfigDspBufferSize => audioConfigDspBufferSize;
@@ -70,7 +74,7 @@ public partial class ImitoneVoiceIntepreter
             audioRingWriteLastClipReadStart = audioRingWriteLastClipReadStart,
             audioRingWriteLastClipReadCount = audioRingWriteLastClipReadCount,
             aggMicClipChannels = aggMicClipChannelsCached,
-            aggMixerChannels = Mathf.RoundToInt(aggMixerChannelsVolatile),
+            aggMixerChannels = aggMixerChannelsVolatile,
             audioConfigOutputSampleRate = audioConfigOutputSampleRate,
             audioConfigDspBufferSize = audioConfigDspBufferSize,
         };
@@ -96,8 +100,12 @@ public partial class ImitoneVoiceIntepreter
         audioRingWritePosition = 0;
         Interlocked.Exchange(ref audioRingWriteTotalSamples, 0);
 
-        _hzHistory.Clear();
-        _lastSeenAudioCallbackTotalHz = -1;
+        audioCallbackLastTicks = 0;
+        Interlocked.Exchange(ref audioCallbackMaxGapTicksWindow, 0);
+        _hzWindowStartTimeUnscaled = -1f;
+        _hzWindowStartTotal = 0;
+        audioCallbackHzRollingVolatile = 0f;
+        audioCallbackMaxGapMsLastSecondVolatile = 0f;
 
         aggMicClipChannelsCached = Mathf.Max(1, microphoneBuffer.channels);
 
@@ -173,37 +181,40 @@ public partial class ImitoneVoiceIntepreter
 
     private void UpdateAudioThreadHealthOnMainThread()
     {
+        // 1-second sliding window. Hz comes from total-count delta over wall-clock delta.
+        // Max-gap comes from the audio-thread CAS-max accumulator, drained here once per window.
         float now = Time.unscaledTime;
-        long tot = Interlocked.Read(ref audioCallbackTotal);
-        if (tot != _lastSeenAudioCallbackTotalHz)
+        long currentTotal = Interlocked.Read(ref audioCallbackTotal);
+
+        if (_hzWindowStartTimeUnscaled < 0f)
         {
-            _hzHistory.Add((now, tot));
-            _lastSeenAudioCallbackTotalHz = tot;
+            _hzWindowStartTimeUnscaled = now;
+            _hzWindowStartTotal = currentTotal;
+            Interlocked.Exchange(ref audioCallbackMaxGapTicksWindow, 0);
+            audioCallbackHzRollingVolatile = 0f;
+            audioCallbackMaxGapMsLastSecondVolatile = 0f;
+            return;
         }
 
-        _hzHistory.RemoveAll(e => e.timeUnscaled < now - 1f);
-        if (_hzHistory.Count >= 2)
+        float dt = now - _hzWindowStartTimeUnscaled;
+        if (dt >= 1f)
         {
-            var a = _hzHistory[0];
-            var b = _hzHistory[_hzHistory.Count - 1];
-            float dt = b.timeUnscaled - a.timeUnscaled;
-            if (dt > 1e-4f)
+            audioCallbackHzRollingVolatile = (currentTotal - _hzWindowStartTotal) / dt;
+
+            long maxGapTicks = Interlocked.Exchange(ref audioCallbackMaxGapTicksWindow, 0);
+            if (maxGapTicks > 0 && Stopwatch.Frequency > 0)
             {
-                audioCallbackHzRollingVolatile = (b.total - a.total) / dt;
+                audioCallbackMaxGapMsLastSecondVolatile =
+                    (float)(maxGapTicks * 1000.0 / Stopwatch.Frequency);
             }
-        }
-
-        float maxGap = 0f;
-        for (int i = 1; i < _hzHistory.Count; i++)
-        {
-            float gapMs = (_hzHistory[i].timeUnscaled - _hzHistory[i - 1].timeUnscaled) * 1000f;
-            if (gapMs > maxGap)
+            else
             {
-                maxGap = gapMs;
+                audioCallbackMaxGapMsLastSecondVolatile = 0f;
             }
-        }
 
-        audioCallbackMaxGapMsLastSecondVolatile = maxGap;
+            _hzWindowStartTimeUnscaled = now;
+            _hzWindowStartTotal = currentTotal;
+        }
     }
 
     private void StopAudioThreadCapture()
@@ -238,6 +249,29 @@ public partial class ImitoneVoiceIntepreter
         Interlocked.Add(ref audioCallbackSamplesProcessedTotal, frames);
 
         long t0 = Stopwatch.GetTimestamp();
+
+        // Per-callback gap tracking: delta from previous callback in Stopwatch ticks.
+        // CAS-max into the window accumulator so the main thread can drain via Interlocked.Exchange.
+        long lastTicks = audioCallbackLastTicks;
+        audioCallbackLastTicks = t0;
+        if (lastTicks != 0L)
+        {
+            long deltaTicks = t0 - lastTicks;
+            if (deltaTicks > 0L)
+            {
+                long current;
+                do
+                {
+                    current = Interlocked.Read(ref audioCallbackMaxGapTicksWindow);
+                    if (deltaTicks <= current)
+                    {
+                        break;
+                    }
+                }
+                while (Interlocked.CompareExchange(
+                           ref audioCallbackMaxGapTicksWindow, deltaTicks, current) != current);
+            }
+        }
 
         if (frames > monoScratch.Length)
         {

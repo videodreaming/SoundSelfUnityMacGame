@@ -850,7 +850,7 @@ Goal: Final audit before 0.7d's deletion. Catch leftover references, stale `usin
 
 *Compile + run + full click test (all 5 scenarios from the click prevention appendix) before committing 0.7d. The architecture is now a single mic owner — Steps 1, 3, and 5 will build on this foundation.*
 
-**Commit (0.7d):** `refactor: delete MicPipeline.cs and remove Project Settings entry` — **record your SHA when committed** (0.7c-iii audit doc pass: `bbf467c31b2e9aa8483361cef93a54530ababb27`).
+**Commit (0.7d):** `refactor: delete MicPipeline.cs and remove Project Settings entry` — SHA `13e44f2e2a77581cc9997bf96e8a2696f76231b3` (2026-05-04). *(Prior doc pass: `bbf467c31b2e9aa8483361cef93a54530ababb27`.)*
 
 **Developer notes for 0.7d:**
 - `MicPipeline.cs` + `.meta` removed from the repo. **Script Execution Order:** confirmed **`MicPipeline` is not present** in the list (2026-05-04) — no further action.
@@ -1013,7 +1013,9 @@ These flags are observable from the moment Step 1's parallel audio-thread path c
 
 **Commit:** `feat: add audio-thread mic capture path with health telemetry (parallel, not yet wired)`
 
-**Developer notes:** _none_
+**Developer notes:**
+
+- **Known limitation surfaced during Step 1 review pass — must be addressed at the start of Step 3.** Mic recovery paths in `ImitoneVoiceIntepreter.MicIngest.cs` (`PerformGentleUnreadZeroCaptureRestart`, the device-unavailable / invalid-position / stalled-write-head exits in `UpdateMicReadFrame`, and the `MicIngestMainThreadTick` recovery branch) call `StopMicrophoneCapture()` and `InitializeMicrophone()` but do NOT call `StopAudioThreadCapture()` / `BootstrapAudioThreadCapturePath()`. After a recovery, `captureSource.clip` still references the previous (now-ended) `AudioClip`, so the audio-thread ring stops receiving samples until the next scene reload. **For Step 1 (parallel, not yet wired) this only stalls the new Phase 2 telemetry after a recovery — legacy main-thread ingest still drives imitone, so voice continues to work.** **For Step 3 (when imitone moves to the audio thread) this becomes a hard regression: a single mic recovery would silently kill voice input.** Fix at the top of Step 3: tear down and rebootstrap the audio capture path on every successful `InitializeMicrophone()` retry, not just at startup.
 
 ---
 

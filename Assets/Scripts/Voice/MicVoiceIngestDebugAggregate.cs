@@ -148,6 +148,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private float _audioLockMissWindowTimer;
     private long _audioLockMissAtWindowStart;
     private bool _audioLockBaselineInitialized;
+    private bool _audioGCBaselineInitialized;
     private bool _gcAllocStickyLatched;
     private long _gcSuspectBaselineAtClear;
 
@@ -155,6 +156,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     {
         _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
         _gcSuspectBaselineAtClear = 0;
+        _audioGCBaselineInitialized = false;
+        _audioLockBaselineInitialized = false;
         if (interpreter == null)
         {
             interpreter = GetComponent<ImitoneVoiceIntepreter>();
@@ -179,6 +182,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _consecutiveIngestRingStallFrames = 0;
         _gcSuspectBaselineAtClear = aggAudioCallbackGCAllocSuspectTotal;
         _gcAllocStickyLatched = false;
+        _audioGCBaselineInitialized = true;
         _audioLockBaselineInitialized = false;
         _audioLockMissWindowTimer = 0f;
     }
@@ -280,6 +284,15 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 _audioLockBaselineInitialized = true;
             }
 
+            // Seed the GC-suspect baseline once the audio thread is past startup grace.
+            // Cold-start callbacks can spike >3ms during JIT/warm-up; without this seed the
+            // sticky flag would latch on every fresh play.
+            if (!_audioGCBaselineInitialized)
+            {
+                _gcSuspectBaselineAtClear = aggAudioCallbackGCAllocSuspectTotal;
+                _audioGCBaselineInitialized = true;
+            }
+
             if (aggAudioCallbackTotal != _prevAggAudioCallbackTotalForFrozen)
             {
                 _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
@@ -306,10 +319,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             }
 
             FAIL_AUDIO_CALLBACK_RATE_LOW = _audioRateLowSustainedTimer >= 1f
-                && aggAudioCallbackTotal > 32f;
+                && aggAudioCallbackTotal > 32;
 
             FAIL_AUDIO_CALLBACK_GAP_HIGH =
-                aggAudioCallbackTotal > 32f
+                aggAudioCallbackTotal > 32
                 && nominalGapMs > 1e-3f
                 && aggAudioCallbackMaxGapMsLastSecond > failAudioCallbackGapHighMultiplier * nominalGapMs;
 
