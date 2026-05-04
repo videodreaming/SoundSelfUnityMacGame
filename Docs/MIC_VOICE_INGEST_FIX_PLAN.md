@@ -560,14 +560,14 @@ This step lands the **FAIL OBSERVATION** Inspector section before any architectu
 
 **Tasks:**
 
-- [ ] Add the FAIL OBSERVATION inspector section at the **very top** of `MicVoiceIngestDebugAggregate.cs` (above the existing `[Header("References ...")]` so it is the first thing visible when the GameObject is selected).
-- [ ] Add the Phase 1 subsidiary `FAIL_*` flag fields (snippet below).
-- [ ] Add the `[Header("FAIL OBSERVATION — thresholds")]` block with serialized threshold fields (snippet below).
-- [ ] Implement per-flag tracking state as private (non-serialized) fields: consecutive-frame counters, last-known total snapshots for monotonic counters, scene-start time.
-- [ ] Implement the trigger-condition logic for each flag in `LateUpdate`, **after** the existing aggregate copies (so the flags read freshly-aggregated data).
-- [ ] Compute the top-level `FAILURE` as a pure OR of all subsidiary flags, **last** in the `LateUpdate` (so any flag set this frame propagates immediately).
-- [ ] Add `[Tooltip("...")]` attributes to each flag summarizing its trigger condition. (Hovering the flag in Inspector should show the trigger without opening source.)
-- [ ] Add a sticky-flag clear mechanism: either a `[ContextMenu]` editor method "Clear FAIL OBSERVATION sticky flags", or a `[SerializeField] private bool clearFailObservationStickyFlags;` that, when ticked, clears all sticky flags and immediately ticks itself off. Pick one and stay consistent.
+- [x] Add the FAIL OBSERVATION inspector section at the **very top** of `MicVoiceIngestDebugAggregate.cs` (above the existing `[Header("References ...")]` so it is the first thing visible when the GameObject is selected).
+- [x] Add the Phase 1 subsidiary `FAIL_*` flag fields (snippet below).
+- [x] Add the `[Header("FAIL OBSERVATION — thresholds")]` block with serialized threshold fields (snippet below).
+- [x] Implement per-flag tracking state as private (non-serialized) fields: consecutive-frame counters, last-known total snapshots for monotonic counters, scene-start time.
+- [x] Implement the trigger-condition logic for each flag in `LateUpdate`, **after** the existing aggregate copies (so the flags read freshly-aggregated data).
+- [x] Compute the top-level `FAILURE` as a pure OR of all subsidiary flags, **last** in the `LateUpdate` (so any flag set this frame propagates immediately).
+- [x] Add `[Tooltip("...")]` attributes to each flag summarizing its trigger condition. (Hovering the flag in Inspector should show the trigger without opening source.)
+- [x] Add a sticky-flag clear mechanism: either a `[ContextMenu]` editor method "Clear FAIL OBSERVATION sticky flags", or a `[SerializeField] private bool clearFailObservationStickyFlags;` that, when ticked, clears all sticky flags and immediately ticks itself off. Pick one and stay consistent.
 
 *Add a new Inspector section at the very top of `MicVoiceIngestDebugAggregate.cs`* (above the existing `[Header("References ...")]`):
 
@@ -598,7 +598,7 @@ This step lands the **FAIL OBSERVATION** Inspector section before any architectu
 
 | Flag | Triggers when |
 |------|---------------|
-| `FAIL_UNREAD_ZERO_SUSTAINED` | `aggMicExitReason == "unread_zero"` for >= `failUnreadZeroSustainedFrameThreshold` consecutive `LateUpdate` calls **OR** for >= `failUnreadZeroSustainedSecondsThreshold` wall-clock seconds. |
+| `FAIL_UNREAD_ZERO_SUSTAINED` | `aggMicExitReason` stays in the unread-zero family (`unread_zero` **or** `unread_zero_gentle_restart`, since the restart is itself a symptom) for >= `failUnreadZeroSustainedFrameThreshold` consecutive `LateUpdate` calls **OR** for >= `failUnreadZeroSustainedSecondsThreshold` wall-clock seconds. The segment only resets when `MicPipeline` reports something *outside* this family (e.g. `copied_samples`). |
 | `FAIL_INGEST_RING_STALLED` | `aggMicRawRingWriteTotalSamples` has not advanced for >= `failIngestRingStalledFrameThreshold` consecutive `LateUpdate` calls. |
 | `FAIL_INTERPRETER_NOT_CONSUMING` | `aggRawConsumedThisFrame == false` for >= `failInterpreterNotConsumingFrameThreshold` consecutive frames **while** mic is ready (`aggInterpMicReady == true` and not in the startup grace period). |
 | `FAIL_GENTLE_RECOVERY_FIRED` | `aggMicGentleUnreadZeroRecoveryTotal` has incremented since the last clear. (Sticky for a tunable window or until the user clears it manually; see implementation note below.) |
@@ -622,7 +622,17 @@ This step lands the **FAIL OBSERVATION** Inspector section before any architectu
 
 **Commit:** `feat: add FAIL OBSERVATION block to MicVoiceIngestDebugAggregate (Phase 1)`
 
-**Developer notes:** _none_
+**Developer notes:** Implemented 2026-05-04. Sticky clear is the Inspector-only `clearFailObservationStickyFlags` tick (processed **after** aggregate copies so gentle-recovery baseline matches this frame). Ring-stall counter resets when clear runs so the next frame re-baselines write totals. Interpreter not-consuming increments only while `aggInterpMicReady` is true (resets when mic not ready).
+
+Review-pass changes (Opus 4.7, same day):
+- **R1 (fixed):** `FAIL_UNREAD_ZERO_SUSTAINED` segment now treats both `unread_zero` and `unread_zero_gentle_restart` as "still in trouble," so periodic gentle restarts don't reset the consecutive-frame counter and mask a chronic stuck spell. Segment resets only on a *different* exit reason (e.g. `copied_samples`).
+- **R2 (skipped, defer to play-mode):** all-caps `FAIL_*` field display in the Inspector — observe whether Unity's `NicifyVariableName` keeps the loud caps or title-cases them; if title-cased, add `[InspectorName(...)]` per flag.
+- **M1 (fixed):** tooltip on `FAIL_GENTLE_RECOVERY_FIRED` now names the actual clearing field (`clearFailObservationStickyFlags`).
+- **M2 (fixed):** added an inline comment near `Time.timeSinceLevelLoad` documenting the deliberate scene-reload reset.
+- **M3 (kept current):** `FAIL_INTERPRETER_NOT_CONSUMING` resets when mic momentarily not-ready (lenient). A "freeze, don't reset" stricter variant is logged for future consideration if Phase 1 telemetry shows we're missing real failures.
+- **M4:** plan/code consistency — no change needed.
+
+Recovery note (2026-05-04): a `git reset` during merge resolution wiped this work from the working tree once; it was re-applied verbatim from this conversation's context. Lesson: commit step deltas before any merge work.
 
 ---
 

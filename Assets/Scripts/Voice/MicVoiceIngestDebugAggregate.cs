@@ -7,6 +7,34 @@ using UnityEngine;
 /// </summary>
 public class MicVoiceIngestDebugAggregate : MonoBehaviour
 {
+    [Header("FAIL OBSERVATION (glance here first)")]
+    [Tooltip("True if any subsidiary FAIL_* flag is true this frame (pure OR).")]
+    [SerializeField] private bool FAILURE;
+    [Tooltip("True when MicPipeline exit reason stayed unread_zero for too many consecutive frames or seconds (see thresholds).")]
+    [SerializeField] private bool FAIL_UNREAD_ZERO_SUSTAINED;
+    [Tooltip("True when aggMicRawRingWriteTotalSamples has not increased for failIngestRingStalledFrameThreshold consecutive LateUpdate calls.")]
+    [SerializeField] private bool FAIL_INGEST_RING_STALLED;
+    [Tooltip("True when raw voice data was not consumed for failInterpreterNotConsumingFrameThreshold consecutive frames while mic is ready and startup grace has elapsed.")]
+    [SerializeField] private bool FAIL_INTERPRETER_NOT_CONSUMING;
+    [Tooltip("Sticky: latched when aggMicGentleUnreadZeroRecoveryTotal increases above the baseline from last clear; clear by ticking clearFailObservationStickyFlags below.")]
+    [SerializeField] private bool FAIL_GENTLE_RECOVERY_FIRED;
+    [Tooltip("True when aggMonStarvationEvents increased within the last failMonitoringStarvationWindowSeconds wall-clock seconds.")]
+    [SerializeField] private bool FAIL_MONITORING_STARVATION_GROWING;
+    [Tooltip("True after startup grace when mic ref is null or mic reports not ready.")]
+    [SerializeField] private bool FAIL_MIC_NOT_READY;
+
+    [Header("FAIL OBSERVATION — thresholds")]
+    [SerializeField] private int failUnreadZeroSustainedFrameThreshold = 30;
+    [SerializeField] private float failUnreadZeroSustainedSecondsThreshold = 0.5f;
+    [SerializeField] private int failIngestRingStalledFrameThreshold = 30;
+    [SerializeField] private int failInterpreterNotConsumingFrameThreshold = 30;
+    [SerializeField] private float failMonitoringStarvationWindowSeconds = 2f;
+    [SerializeField] private float failMicNotReadyGracePeriodSeconds = 2f;
+
+    [Header("FAIL OBSERVATION — actions")]
+    [Tooltip("Tick once in Play mode to clear sticky gentle-recovery latch and reset ring-stall baseline; unticks automatically.")]
+    [SerializeField] private bool clearFailObservationStickyFlags;
+
     [Header("References (auto-filled from this GameObject if empty)")]
     [SerializeField] private MicPipeline micPipeline;
     [SerializeField] private ImitoneVoiceIntepreter interpreter;
@@ -60,6 +88,24 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMonOverflowSamples;
     [SerializeField] private int aggMonStarvationEvents;
 
+    private const string UnreadZeroExitReason = "unread_zero";
+    private const string UnreadZeroGentleRestartExitReason = "unread_zero_gentle_restart";
+
+    private int _consecutiveUnreadZeroFrames;
+    private float _unreadZeroSegmentStartRealtime = -1f;
+
+    private bool _rawRingStallPrevInitialized;
+    private long _prevAggMicRawRingWriteTotalSamples;
+    private int _consecutiveIngestRingStallFrames;
+
+    private int _consecutiveInterpreterNotConsumingFrames;
+
+    private int _gentleRecoveryBaselineAtClear;
+    private bool _gentleRecoveryStickyLatched;
+
+    private int _prevAggMonStarvationEvents = -1;
+    private float _lastStarvationIncreaseRealtime = -1f;
+
     private void Awake()
     {
         if (micPipeline == null)
@@ -80,6 +126,15 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 voiceMonitoring = GetComponentInChildren<DirectVoiceMonitoring>(true);
             }
         }
+    }
+
+    private void ApplyClearFailObservationStickyFlags()
+    {
+        clearFailObservationStickyFlags = false;
+        _gentleRecoveryBaselineAtClear = aggMicGentleUnreadZeroRecoveryTotal;
+        _gentleRecoveryStickyLatched = false;
+        _rawRingStallPrevInitialized = false;
+        _consecutiveIngestRingStallFrames = 0;
     }
 
     private void LateUpdate()
@@ -138,5 +193,140 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 out aggMonOverflowSamples,
                 out aggMonStarvationEvents);
         }
+
+        if (clearFailObservationStickyFlags)
+        {
+            ApplyClearFailObservationStickyFlags();
+        }
+
+        // --- FAIL OBSERVATION (after aggregate copies and optional clear) ---
+        // R1: gentle restart is itself a symptom of being stuck in unread_zero,
+        // so treat unread_zero_gentle_restart as "still in trouble" — segment only
+        // resets when MicPipeline reports anything else (e.g. copied_samples).
+        bool inUnreadZeroSegment =
+            aggMicExitReason == UnreadZeroExitReason
+            || aggMicExitReason == UnreadZeroGentleRestartExitReason;
+        if (inUnreadZeroSegment)
+        {
+            _consecutiveUnreadZeroFrames++;
+            if (_unreadZeroSegmentStartRealtime < 0f)
+            {
+                _unreadZeroSegmentStartRealtime = Time.realtimeSinceStartup;
+            }
+        }
+        else
+        {
+            _consecutiveUnreadZeroFrames = 0;
+            _unreadZeroSegmentStartRealtime = -1f;
+        }
+
+        float unreadZeroSegmentSeconds = 0f;
+        if (_unreadZeroSegmentStartRealtime >= 0f)
+        {
+            unreadZeroSegmentSeconds = Time.realtimeSinceStartup - _unreadZeroSegmentStartRealtime;
+        }
+
+        FAIL_UNREAD_ZERO_SUSTAINED =
+            _consecutiveUnreadZeroFrames >= failUnreadZeroSustainedFrameThreshold
+            || (_unreadZeroSegmentStartRealtime >= 0f && unreadZeroSegmentSeconds >= failUnreadZeroSustainedSecondsThreshold);
+
+        if (micPipeline != null)
+        {
+            if (!_rawRingStallPrevInitialized)
+            {
+                _prevAggMicRawRingWriteTotalSamples = aggMicRawRingWriteTotalSamples;
+                _rawRingStallPrevInitialized = true;
+                _consecutiveIngestRingStallFrames = 0;
+            }
+            else if (aggMicRawRingWriteTotalSamples == _prevAggMicRawRingWriteTotalSamples)
+            {
+                _consecutiveIngestRingStallFrames++;
+            }
+            else
+            {
+                _prevAggMicRawRingWriteTotalSamples = aggMicRawRingWriteTotalSamples;
+                _consecutiveIngestRingStallFrames = 0;
+            }
+
+            FAIL_INGEST_RING_STALLED = _consecutiveIngestRingStallFrames >= failIngestRingStalledFrameThreshold;
+        }
+        else
+        {
+            FAIL_INGEST_RING_STALLED = false;
+        }
+
+        // M2: Time.timeSinceLevelLoad resets on scene reload, which is intentional —
+        // a fresh scene load gets its own grace period. Single-main-scene flows are unaffected.
+        bool pastMicGrace = Time.timeSinceLevelLoad >= failMicNotReadyGracePeriodSeconds;
+        if (interpreter != null && pastMicGrace)
+        {
+            if (aggInterpMicReady)
+            {
+                if (!aggRawConsumedThisFrame)
+                {
+                    _consecutiveInterpreterNotConsumingFrames++;
+                }
+                else
+                {
+                    _consecutiveInterpreterNotConsumingFrames = 0;
+                }
+            }
+            else
+            {
+                _consecutiveInterpreterNotConsumingFrames = 0;
+            }
+
+            FAIL_INTERPRETER_NOT_CONSUMING =
+                _consecutiveInterpreterNotConsumingFrames >= failInterpreterNotConsumingFrameThreshold;
+        }
+        else
+        {
+            _consecutiveInterpreterNotConsumingFrames = 0;
+            FAIL_INTERPRETER_NOT_CONSUMING = false;
+        }
+
+        if (aggMicGentleUnreadZeroRecoveryTotal > _gentleRecoveryBaselineAtClear)
+        {
+            _gentleRecoveryStickyLatched = true;
+        }
+
+        FAIL_GENTLE_RECOVERY_FIRED = _gentleRecoveryStickyLatched;
+
+        if (_prevAggMonStarvationEvents < 0)
+        {
+            _prevAggMonStarvationEvents = aggMonStarvationEvents;
+        }
+        else if (aggMonStarvationEvents > _prevAggMonStarvationEvents)
+        {
+            _lastStarvationIncreaseRealtime = Time.realtimeSinceStartup;
+            _prevAggMonStarvationEvents = aggMonStarvationEvents;
+        }
+
+        if (_lastStarvationIncreaseRealtime >= 0f)
+        {
+            FAIL_MONITORING_STARVATION_GROWING =
+                Time.realtimeSinceStartup - _lastStarvationIncreaseRealtime <= failMonitoringStarvationWindowSeconds;
+        }
+        else
+        {
+            FAIL_MONITORING_STARVATION_GROWING = false;
+        }
+
+        if (interpreter != null && pastMicGrace)
+        {
+            FAIL_MIC_NOT_READY = aggInterpMicRefNull || !aggInterpMicReady;
+        }
+        else
+        {
+            FAIL_MIC_NOT_READY = false;
+        }
+
+        FAILURE =
+            FAIL_UNREAD_ZERO_SUSTAINED
+            || FAIL_INGEST_RING_STALLED
+            || FAIL_INTERPRETER_NOT_CONSUMING
+            || FAIL_GENTLE_RECOVERY_FIRED
+            || FAIL_MONITORING_STARVATION_GROWING
+            || FAIL_MIC_NOT_READY;
     }
 }
