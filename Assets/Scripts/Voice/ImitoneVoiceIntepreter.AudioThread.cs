@@ -126,7 +126,7 @@ public partial class ImitoneVoiceIntepreter
         AudioSource[] existing = GetComponents<AudioSource>();
         if (existing.Length > 1)
         {
-            Debug.LogWarning($"Imitone: Expected at most one AudioSource on {name} before capture setup; found {existing.Length}. Step 1 assumes a single capture source.");
+            UnityEngine.Debug.LogWarning($"Imitone: Expected at most one AudioSource on {name} before capture setup; found {existing.Length}. Step 1 assumes a single capture source.");
         }
 
         captureSource = GetComponent<AudioSource>();

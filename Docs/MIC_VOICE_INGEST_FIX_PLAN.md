@@ -898,35 +898,35 @@ Add `OnAudioFilterRead` to `ImitoneVoiceIntepreter` alongside the existing main-
 **Tasks:**
 
 *Audio config snapshot (per V4 / V10 / V11 — capture once on main thread, used by everything downstream):*
-- [ ] In `Start()` (main thread), call `AudioSettings.GetConfiguration()` once and stash `audioConfigOutputSampleRate` (int), `audioConfigDspBufferSize` (int), and `audioConfigSpeakerMode` (`AudioSpeakerMode`) as fields.
-- [ ] Mark these fields effectively-immutable: read-only after `Start()` completes, or `volatile` if any path could possibly write them again. Audio thread reads them; never writes.
-- [ ] Add `aggAudioConfigOutputSampleRate` and `aggAudioConfigDspBufferSize` to `MicVoiceIngestDebugAggregate` as read-only Inspector fields, so the user can confirm at a glance that mic and mixer rates match (M7) and buffer size matches expectations.
-- [ ] Confirm there is **no** call to `AudioSettings.GetConfiguration()` from `OnAudioFilterRead` (audio-thread Unity API call — forbidden per V3).
-- [ ] **Defensive check:** verify Project Settings → Audio → "Disable Unity Audio" is **unchecked**. If checked, `OnAudioFilterRead` will never fire and the audio-thread architecture is dead in the water. (At runtime, the symptom is `aggAudioCallbackTotal` permanently at 0; this would also trip `FAIL_AUDIO_CALLBACK_FROZEN`. But it's much cheaper to verify the setting once than to debug this from the symptom side.)
+- [x] In `Start()` (main thread), call `AudioSettings.GetConfiguration()` once and stash `audioConfigOutputSampleRate` (int), `audioConfigDspBufferSize` (int), and `audioConfigSpeakerMode` (`AudioSpeakerMode`) as fields. *(in `BootstrapAudioThreadCapturePath()`, called from `Start()` after imitone init.)*
+- [x] Mark these fields effectively-immutable: read-only after `Start()` completes, or `volatile` if any path could possibly write them again. Audio thread reads them; never writes. *(private; written only inside `BootstrapAudioThreadCapturePath`.)*
+- [x] Add `aggAudioConfigOutputSampleRate` and `aggAudioConfigDspBufferSize` to `MicVoiceIngestDebugAggregate` as read-only Inspector fields, so the user can confirm at a glance that mic and mixer rates match (M7) and buffer size matches expectations.
+- [x] Confirm there is **no** call to `AudioSettings.GetConfiguration()` from `OnAudioFilterRead` (audio-thread Unity API call — forbidden per V3). *(Verified in review pass — single call in `BootstrapAudioThreadCapturePath` only.)*
+- [ ] **Defensive check (user, in Editor):** verify Project Settings → Audio → "Disable Unity Audio" is **unchecked**. If checked, `OnAudioFilterRead` will never fire and the audio-thread architecture is dead in the water. (At runtime, the symptom is `aggAudioCallbackTotal` permanently at 0; this would also trip `FAIL_AUDIO_CALLBACK_FROZEN`. But it's much cheaper to verify the setting once than to debug this from the symptom side.)
 
 *Capture-path code (per V3 / V5 — canonical pattern):*
-- [ ] **Verify the `Imitone` GameObject does NOT already have an AudioSource.** If one exists (e.g., a leftover from previous experimentation), audit what it does. The plan requires exactly **one** AudioSource on the `Imitone` GameObject — the new dedicated capture AudioSource configured below. Multiple AudioSources reintroduce `OnAudioFilterRead` chain-routing ambiguity (see V5 / M3).
-- [ ] **Verify the `DirectVoiceMonitoring` GameObject has exactly one AudioSource** (the existing monitoring source). Same reason as above.
-- [ ] On the `Imitone` GameObject, add the dedicated capture AudioSource (in code: `captureSource = gameObject.AddComponent<AudioSource>()` if not present) and configure per V5: `loop = true`, `volume = 0f` (NOT `mute = true` — see V5 critical gotcha / M8), `bypassEffects = true`, `bypassListenerEffects = true`, `bypassReverbZones = true`, `spatialBlend = 0f`, `playOnAwake = false`.
-- [ ] **No new `Microphone.Start` call.** Step 0.7 made `ImitoneVoiceIntepreter` the mic owner. The mic is already open and the clip is already held in a private field (`microphoneBuffer` or whatever name was chosen during 0.7c). Step 1 just consumes it.
-- [ ] After the existing `Microphone.Start` succeeds in `Start()` (the call migrated in 0.7c), assign `captureSource.clip = microphoneBuffer` and capture `aggMicClipChannels = microphoneBuffer.channels` once.
-- [ ] Wait for `Microphone.GetPosition(microphoneDeviceName) > 0` before calling `captureSource.Play()`, so the source doesn't begin on a silent ring. The existing main-thread block already does this kind of check for `IsReady` purposes; sequence the new `captureSource.Play()` after `IsReady` becomes true so they share the readiness gate.
-- [ ] Add a new ring buffer dedicated to the audio-thread path. **Do not** modify the legacy main-thread ring buffer (the one migrated in 0.7c) yet — the legacy block still uses it. The two rings will coexist for Steps 1-4 inside the same merged file. Step 3 (or Step 5b) consolidates them. Pre-allocate the new ring at ≥ 1 second worth of samples to absorb read-side starvation gracefully.
-- [ ] Pre-allocate `monoScratch` (float[]) in `Start()` to a size of at least `audioConfigDspBufferSize` (per V11). No allocations on the audio thread.
-- [ ] Add a serialized priming-window field: `[SerializeField] private int audioCallbackPrimingFramesToSkip = 8;` and a runtime counter `audioCallbackPrimingFramesRemaining` initialized to it (per M9).
-- [ ] Implement `OnAudioFilterRead(float[] data, int channels)`:
-  - [ ] Compute `int frames = data.Length / channels;`.
-  - [ ] **Do not** call `Microphone.*` or `microphoneBuffer.GetData(...)` from this method (V3 firm rule).
-  - [ ] Downmix to mono per V11 into `monoScratch`: `monoScratch[i] = sum(data[i*channels + c] for c in 0..channels) / channels`. (For our mono USB mic going through a stereo mixer, this exactly recovers the original signal; for any other mic it produces a defensive sum-mono fallback.)
-  - [ ] Set `aggMixerChannels = channels;` (volatile int).
-  - [ ] Acquire write lock with `Monitor.TryEnter(ringWriteLock, 0)`; on miss, `Interlocked.Increment(ref audioCallbackLockMissTotal)` and bail this callback (do not block). Use `try / finally` to release.
-  - [ ] Inside the lock: copy `monoScratch[0..frames]` into the new audio-thread ring buffer.
-  - [ ] `Interlocked.Add(ref audioRingWriteTotalSamples, frames)` and `Interlocked.Add(ref _samplesWritten, frames)` (the canonical position counter).
-  - [ ] `Interlocked.Increment(ref audioCallbackTotal)` and `Interlocked.Add(ref audioCallbackSamplesProcessedTotal, frames)`.
-  - [ ] Decrement `audioCallbackPrimingFramesRemaining` while it is > 0.
-  - [ ] Optionally `System.Array.Clear(data, 0, data.Length)` so this AudioSource doesn't double-output mic to the speaker bus.
-- [ ] Add a temporary rate-limited `Debug.Log` inside the callback to confirm cadence during local testing. **Remove before commit.**
-- [ ] Confirm the existing **legacy main-thread mic-ingest block** (migrated in 0.7c — `UpdateMicReadFrame`, gentle recovery, double-poll, etc., now living inside `ImitoneVoiceIntepreter`) is untouched and continues to drive imitone. Steps 1–4 run **two paths inside one file**: the legacy main-thread block (still feeding imitone) and the new audio-thread block (just observing for now). Step 3 switches the imitone feed; Step 5b deletes the legacy block.
+- [ ] **Verify the `Imitone` GameObject does NOT already have an AudioSource (user, in Editor scene `MainGame.unity`).** If one exists (e.g., a leftover from previous experimentation), audit what it does. The plan requires exactly **one** AudioSource on the `Imitone` GameObject — the new dedicated capture AudioSource configured below. Multiple AudioSources reintroduce `OnAudioFilterRead` chain-routing ambiguity (see V5 / M3). *(Code defensively logs a warning if `>1` AudioSource is found at bootstrap; verify visually anyway.)*
+- [ ] **Verify the `DirectVoiceMonitoring` GameObject has exactly one AudioSource (user, in Editor scene `MainGame.unity`)** (the existing monitoring source). Same reason as above.
+- [x] On the `Imitone` GameObject, add the dedicated capture AudioSource (in code: `captureSource = gameObject.AddComponent<AudioSource>()` if not present) and configure per V5: `loop = true`, `volume = 0f` (NOT `mute = true` — see V5 critical gotcha / M8), `bypassEffects = true`, `bypassListenerEffects = true`, `bypassReverbZones = true`, `spatialBlend = 0f`, `playOnAwake = false`. *(in `EnsureCaptureAudioSourceConfigured()`; also explicitly sets `mute = false`.)*
+- [x] **No new `Microphone.Start` call.** Step 0.7 made `ImitoneVoiceIntepreter` the mic owner. The mic is already open and the clip is already held in a private field (`microphoneBuffer` or whatever name was chosen during 0.7c). Step 1 just consumes it. *(`rg "Microphone.Start" Assets/Scripts/Voice/` → single match in `MicIngest.cs:1097`.)*
+- [x] After the existing `Microphone.Start` succeeds in `Start()` (the call migrated in 0.7c), assign `captureSource.clip = microphoneBuffer` and capture `aggMicClipChannels = microphoneBuffer.channels` once. *(channels cached in `BootstrapAudioThreadCapturePath`; clip assigned in `WaitMicPositionThenPlayCapture` coroutine after readiness gate.)*
+- [x] Wait for `Microphone.GetPosition(microphoneDeviceName) > 0` before calling `captureSource.Play()`, so the source doesn't begin on a silent ring. The existing main-thread block already does this kind of check for `IsReady` purposes; sequence the new `captureSource.Play()` after `IsReady` becomes true so they share the readiness gate.
+- [x] Add a new ring buffer dedicated to the audio-thread path. **Do not** modify the legacy main-thread ring buffer (the one migrated in 0.7c) yet — the legacy block still uses it. The two rings will coexist for Steps 1-4 inside the same merged file. Step 3 (or Step 5b) consolidates them. Pre-allocate the new ring at ≥ 1 second worth of samples to absorb read-side starvation gracefully. *(`audioThreadRing`, sized at `max(outputSampleRate*2, micCaptureSampleRate*2, 8192)` — 2 s minimum.)*
+- [x] Pre-allocate `monoScratch` (float[]) in `Start()` to a size of at least `audioConfigDspBufferSize` (per V11). No allocations on the audio thread. *(sized `max(dspBufferSize*2, 8192)`.)*
+- [x] Add a serialized priming-window field: `[SerializeField] private int audioCallbackPrimingFramesToSkip = 8;` and a runtime counter `audioCallbackPrimingFramesRemaining` initialized to it (per M9). *(Step 1 maintains the counter only; the imitone-feed gate that consumes it lands in Step 3.)*
+- [x] Implement `OnAudioFilterRead(float[] data, int channels)`:
+  - [x] Compute `int frames = data.Length / channels;`.
+  - [x] **Do not** call `Microphone.*` or `microphoneBuffer.GetData(...)` from this method (V3 firm rule). *(Verified in review.)*
+  - [x] Downmix to mono per V11 into `monoScratch`: `monoScratch[i] = sum(data[i*channels + c] for c in 0..channels) / channels`. (For our mono USB mic going through a stereo mixer, this exactly recovers the original signal; for any other mic it produces a defensive sum-mono fallback.) *(plus mono fast-path via `Array.Copy`.)*
+  - [x] Set `aggMixerChannels = channels;` (volatile int).
+  - [x] Acquire write lock with `Monitor.TryEnter(ringWriteLock, 0)`; on miss, `Interlocked.Increment(ref audioCallbackLockMissTotal)` and bail this callback (do not block). Use `try / finally` to release.
+  - [x] Inside the lock: copy `monoScratch[0..frames]` into the new audio-thread ring buffer.
+  - [x] `Interlocked.Add(ref audioRingWriteTotalSamples, frames)` (the canonical position counter). *(Single counter — `audioRingWriteTotalSamples` covers both roles the plan originally split into `audioRingWriteTotalSamples` + `_samplesWritten`.)*
+  - [x] `Interlocked.Increment(ref audioCallbackTotal)` and `Interlocked.Add(ref audioCallbackSamplesProcessedTotal, frames)`.
+  - [x] Decrement `audioCallbackPrimingFramesRemaining` while it is > 0.
+  - [x] Optionally `System.Array.Clear(data, 0, data.Length)` so this AudioSource doesn't double-output mic to the speaker bus. *(Always cleared.)*
+- [x] ~~Add a temporary rate-limited `Debug.Log` inside the callback to confirm cadence during local testing.~~ **Skipped** — Phase 2 telemetry (`aggAudioCallbackTotal` / `aggAudioCallbackHzRolling` in the Inspector) is the cadence-confirmation surface; a temporary log would be redundant and risk lingering in code.
+- [x] Confirm the existing **legacy main-thread mic-ingest block** (migrated in 0.7c — `UpdateMicReadFrame`, gentle recovery, double-poll, etc., now living inside `ImitoneVoiceIntepreter`) is untouched and continues to drive imitone. Steps 1–4 run **two paths inside one file**: the legacy main-thread block (still feeding imitone) and the new audio-thread block (just observing for now). Step 3 switches the imitone feed; Step 5b deletes the legacy block. *(Verified by `git diff HEAD~2 HEAD -- ImitoneVoiceIntepreter.cs ImitoneVoiceIntepreter.MicIngest.cs` — only 3 inserts: `AudioThreadHealthSnapshot` struct, `BootstrapAudioThreadCapturePath()` call in `Start()`, `UpdateAudioThreadHealthOnMainThread()` call in `Update()`, and `StopAudioThreadCapture()` line in `OnDisable()`.)*
 
 *Telemetry — add the new "Audio thread health" section to `MicVoiceIngestDebugAggregate`:*
 
@@ -947,18 +947,18 @@ Add `OnAudioFilterRead` to `ImitoneVoiceIntepreter` alongside the existing main-
 *Telemetry — keep the existing aggregate fields too:* the old `unread_zero` / ring-write / interpreter-try-copy fields stay alive in this step because the parallel `MicPipeline` is still running. We will retire them in Step 6.
 
 *Telemetry — wire the new audio-thread counters into the aggregate:*
-- [ ] Add an `[Header("Audio thread health (new path)")]` block in `MicVoiceIngestDebugAggregate` and add the matching `agg*` fields from the table above.
-- [ ] In `LateUpdate`, copy each audio-thread counter into its `agg*` mirror (atomic reads on the long counters via `Interlocked.Read` if needed).
-- [ ] Compute `aggAudioCallbackHzRolling` on the main thread from `audioCallbackTotal` deltas vs. `Time.unscaledTime`.
-- [ ] Compute `aggAudioCallbackMaxGapMsLastSecond` on the main thread from per-callback timestamp samples (record at most one timestamp per callback to keep the audio thread cheap; main thread reads & windows them).
-- [ ] Leave the existing aggregate sections (mic ingest, interpreter raw path, monitoring transport) intact for now — they are still backed by the `MicPipeline` parallel path.
+- [x] Add an `[Header("Audio thread health (new path)")]` block in `MicVoiceIngestDebugAggregate` and add the matching `agg*` fields from the table above. *(Header reads "Audio thread health (Step 1 — parallel path)".)*
+- [x] In `LateUpdate`, copy each audio-thread counter into its `agg*` mirror (atomic reads on the long counters via `Interlocked.Read` if needed). *(via `interpreter.GetAudioThreadHealthSnapshot()`, which uses `Interlocked.Read` internally for all longs.)*
+- [x] Compute `aggAudioCallbackHzRolling` on the main thread from `audioCallbackTotal` deltas vs. `Time.unscaledTime`. *(`UpdateAudioThreadHealthOnMainThread`, 1 s sliding window — fixed in review-pass follow-up commit to be allocation-free.)*
+- [x] Compute `aggAudioCallbackMaxGapMsLastSecond` on the main thread from per-callback timestamp samples (record at most one timestamp per callback to keep the audio thread cheap; main thread reads & windows them). *(Per-callback `Stopwatch.GetTimestamp()` deltas pushed via lock-free CAS-max into a cross-thread accumulator; main thread drains via `Interlocked.Exchange` once per 1 s window. Fixed in review-pass follow-up — initial implementation sampled gaps from the main thread, which bounded the metric to the frame interval.)*
+- [x] Leave the existing aggregate sections (mic ingest, interpreter raw path, monitoring transport) intact for now — they are still backed by the `MicPipeline` parallel path. *(Verified.)*
 
 *Extend the FAIL OBSERVATION block (Phase 2 — audio-thread failure modes):*
 
-- [ ] Add the new Phase 2 `FAIL_*` fields **above** the existing Phase 1 flags (sort order: new audio-thread flags first, since they describe the new code under test). Use the snippet below.
-- [ ] Add the matching threshold fields to the `[Header("FAIL OBSERVATION — thresholds")]` section.
-- [ ] Implement the trigger conditions in `LateUpdate` (table below).
-- [ ] Update the `FAILURE = ...` OR expression to include the new flags.
+- [x] Add the new Phase 2 `FAIL_*` fields **above** the existing Phase 1 flags (sort order: new audio-thread flags first, since they describe the new code under test). Use the snippet below.
+- [x] Add the matching threshold fields to the `[Header("FAIL OBSERVATION — thresholds")]` section.
+- [x] Implement the trigger conditions in `LateUpdate` (table below). *(Includes a startup-grace window; GC sticky baseline is seeded at the grace boundary so cold-start JIT/warm-up spikes don't latch the flag.)*
+- [x] Update the `FAILURE = ...` OR expression to include the new flags.
 
 Add the following subsidiary flags:
 
