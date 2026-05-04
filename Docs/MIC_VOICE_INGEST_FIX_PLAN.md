@@ -638,12 +638,12 @@ Recovery note (2026-05-04): a `git reset` during merge resolution wiped this wor
 
 ### Step 0.7: Merge `MicPipeline` into `ImitoneVoiceIntepreter` (behavior-preserving refactor)
 
-> **Recommended LLM for this step: Opus 4.7 (strongly, all four sub-passes).**
-> - **First-pass: Opus 4.7** — this is now the highest-risk step in the plan. It moves mic capture, ring buffer ownership, and mic-thread-adjacent state across files. Even though it's mechanically a refactor with no behavior change, the surface area is wide (multiple consumer files, scene re-wiring, Project Settings) and the code being moved is the same code we're trying to fix. Use the thinking model.
-> - Sub-pass 0.7d (file deletion + Project Settings cleanup) is mechanical but staying on Opus is recommended for consistency across the merge.
-> - **Review pass: Opus 4.7** (always; see working agreement rule 5).
+> **Recommended LLM for this step: mostly Opus 4.7, with one Composer 2 exception.**
+> - **0.7a (facade scaffold), 0.7b (consumer repointing), 0.7c-ii (state + lifecycle cut-over), 0.7c-iii (audit gate), 0.7d (deletion):** Opus 4.7 first-pass. This step moves mic capture, ring buffer ownership, and mic-thread-adjacent state. Even though it's mechanically a refactor with no behavior change, the surface area is wide (multiple consumer files, scene re-wiring, Project Settings) and the code being moved is the same code we're trying to fix. Use the thinking model.
+> - **0.7c-i (type relocation + debug field rename):** Composer 2 first-pass. This is the one purely-cosmetic sub-pass — symbol renames and a nested type move with no runtime path changes. Composer 2 is faster and cheaper for this kind of work.
+> - **All review passes: Opus 4.7** (always; see working agreement rule 5).
 >
-> *Confirm Opus 4.7 is selected before continuing. Stay on Opus through every sub-pass's first-pass and the final review pass for this step.*
+> *Each sub-pass has its own LLM recommendation in its header. Confirm the right model is selected at the top of each sub-pass before starting.*
 
 **Why this step exists at this point in the plan:** the original plan placed the `MicPipeline` → `ImitoneVoiceIntepreter` collapse at Step 5 (after the audio-thread work was built). That ordering had a hidden contradiction: Step 1 wanted to call `Microphone.Start` while `MicPipeline` was still owning the device — Unity's `Microphone.Start` returns null on a device that's already recording. Reordering the merge to here gives us **one mic owner** (the merged `ImitoneVoiceIntepreter`) before any audio-thread work begins. Step 1 then layers the audio thread on top of the merged file's already-open clip with no parallel-mic problem. Decision Point #1 from the original Step 1 outline goes away entirely.
 
@@ -693,7 +693,7 @@ Now that the facade exists, every consumer can read from `ImitoneVoiceIntepreter
 
 *Compile + run + smoke test. Phase 1 FAIL OBSERVATION should still surface stuck spells exactly as before. Commit before moving on.* — **smoke test passed (2026-05-04). Commit pending.**
 
-**Commit (0.7b):** `refactor: repoint mic-ingest consumers from MicPipeline to ImitoneVoiceIntepreter` — SHA `<pending>` (2026-05-04).
+**Commit (0.7b):** `refactor: repoint mic-ingest consumers from MicPipeline to ImitoneVoiceIntepreter` — SHA `f78b0de40f69195fa70833e8446cb6727a409716` (2026-05-04).
 
 *Developer notes for 0.7b:*
 - **Decisions logged:** (1) Collapsed the per-consumer `MicPipeline micPipeline` field into the consumer's existing `ImitoneVoiceIntepreter` reference where one already existed (`DirectVoiceMonitoring`, `RecordedAudioPlayback`); did a true field-level removal in `MicVoiceIngestDebugAggregate` where only the standalone `interpreter` field was kept. (2) Kept the existing variable-name pattern per file (`imitoneVoiceInterpreter` in consumers, `interpreter` in the aggregate) — match-the-file-style over fleet-wide consistency. (3) `MicVoiceIngestDebugAggregate.cs` retains a single `MicPipeline.MicIngestDebugSnapshot` type qualifier; this is the only remaining type-level dependency on `MicPipeline` in any consumer file and resolves in 0.7c when the type relocates.
@@ -712,29 +712,120 @@ Now that the facade exists, every consumer can read from `ImitoneVoiceIntepreter
 
 This is the substantive sub-pass — the actual refactor. State (mic device handle, ring buffers, gentle recovery, `UpdateMicReadFrame`, the entire main-thread mic-ingest loop) moves from `MicPipeline.cs` into `ImitoneVoiceIntepreter.cs`. The facade collapses: where 0.7a's facade methods called `micPipeline.X`, they now read local fields on `this`.
 
+**Decisions logged before 0.7c (locked in 2026-05-04):**
+- (1) **`MicIngestDebugSnapshot` placement:** relocates as a **nested public struct on `ImitoneVoiceIntepreter`** (`ImitoneVoiceIntepreter.MicIngestDebugSnapshot`), not as a top-level type. Keeps the namespace tidy and matches the existing `RawVoicePathDebugSnapshot` pattern.
+- (2) **Misleading debug fields renamed in 0.7c, not deferred to Step 6.** `debugInterpreterMicPipelineRefNull` → `debugInterpreterMicRefNull`; `debugInterpreterMicPipelineReady` → `debugInterpreterMicReady`. Same renames in the `RawVoicePathDebugSnapshot` struct (`interpreterMicPipelineRefNull` → `interpreterMicRefNull`; `interpreterMicPipelineReady` → `interpreterMicReady`). Consumer-side aggregate field names (`aggInterpMicRefNull` / `aggInterpMicReady`) are already mic-correct — only their right-hand sides change.
+- (3) **0.7a facade stays consumer-transparent.** External consumers (`DirectVoiceMonitoring`, `RecordedAudioPlayback`, `MicVoiceIngestDebugAggregate`) keep calling `imitoneVoiceInterpreter.X(...)` exactly as they do today. Only the *internal* implementation of those facade methods changes — from `return micPipeline.X(...)` (in 0.7a/0.7b) to `return this.X(...)` (in 0.7c-ii). No consumer-side rewrites needed.
+
+**Three internal passes (locked in 2026-05-04):**
+
+| Pass | Scope | Risk | LLM |
+|---|---|---|---|
+| **0.7c-i** | Cosmetic prep: type relocation + debug field rename. No runtime path touched. | Low (pure renames + type move) | Composer 2 first-pass; Opus 4.7 review |
+| **0.7c-ii** | Substantive cut-over: state + private methods + lifecycle (`Microphone.Start`/`End`) + facade rewire + `MicPipeline.cs` reduced to empty stub. | High (threading + lifecycle) | Opus 4.7 first-pass; Opus 4.7 review |
+| **0.7c-iii** | Verification + audit gate before 0.7d. Minimal/no code changes; click test + Phase 1 FAIL OBSERVATION sanity check + `rg`/`using` sweep. | Low (verification only) | Opus 4.7 |
+
+Each sub-pass commits independently. The three together constitute 0.7c.
+
 **This is where threading subtleties have the most opportunity to creep in.** Pay attention to:
 
 - **Lock objects** must move with the ring buffers they protect. Don't accidentally split a lock from its data.
-- **`Microphone.Start` ownership** transfers in this sub-pass. After 0.7c completes, `ImitoneVoiceIntepreter.Start()` calls `Microphone.Start(deviceName, true, lengthSec, sampleRate)` and assigns the returned clip to its own private field. `MicPipeline` no longer touches `Microphone.*` at all.
+- **`Microphone.Start` ownership** transfers in 0.7c-ii. After 0.7c-ii completes, `ImitoneVoiceIntepreter.Start()` calls `Microphone.Start(deviceName, true, lengthSec, sampleRate)` and assigns the returned clip to its own private field. `MicPipeline` no longer touches `Microphone.*` at all.
 - **Update / LateUpdate ordering** must remain correct. `ImitoneVoiceIntepreter`'s `Update` now does what `MicPipeline.Update` used to do (the mic read loop) plus what it always did (the imitone GetState, game logic, etc.). Order matters: mic read first, then game logic that depends on the read.
 - **`[DefaultExecutionOrder]` attributes:** `MicPipeline` has `[DefaultExecutionOrder(-500)]`. `ImitoneVoiceIntepreter` has `[DefaultExecutionOrder(50)]`. Both are overridden by Project Settings, but the `-500` on `MicPipeline` was suggestive — it ran **before** `ImitoneVoiceIntepreter`'s `[DefaultExecutionOrder(50)]` *if* Project Settings entries were missing. After the merge, both sets of work happen inside one `MonoBehaviour` so the inter-class order question goes away. Project Settings → Script Execution Order will retire the `MicPipeline (−105)` entry in 0.7d.
 
+---
+
+**Sub-pass 0.7c-i — Decoupled prep (type relocation + debug field rename):**
+
+Goal: Get the cosmetic / decoupled changes out of the way before touching the runtime path. After this pass, type names and field names align with their post-0.7c semantics, but the runtime mic-ingest path still flows through `MicPipeline.cs` exactly as in 0.7b.
+
+> **Recommended LLM for this step: Composer 2 (Cursor).**
+> - Mechanical type relocation + symbol renames. No threading or DSP concerns. Composer 2 is faster and cheaper for this kind of refactor.
+> - **Review pass: Opus 4.7** (always; see working agreement rule 5).
+>
+> *Confirm Composer 2 is selected before starting; switch to Opus 4.7 before the review pass.*
+
 *Tasks:*
 
-- [ ] **Move private state.** All of `MicPipeline`'s private fields move into `ImitoneVoiceIntepreter` as private members. Be exhaustive — ring buffers, lock objects, normalization state, gentle recovery counters, double-poll bookmark fields, `_samplesWritten`-style position trackers, debug telemetry fields. **Do not** drop the gentle recovery fields yet — those get deleted in Step 5b. Behavior is preserved.
-- [ ] **Move private methods.** `UpdateMicReadFrame`, `PerformGentleUnreadZeroCaptureRestart`, ring-write helpers, normalization helpers, `InitializeMicrophone` (private internals — the public method stays on `ImitoneVoiceIntepreter`'s API), telemetry update methods. Keep their `// runs on: main thread` annotations as a one-line header on each (none are audio-thread-bound yet).
-- [ ] **Rewire the facade.** Each method added in 0.7a as `return micPipeline.X(...)` becomes a direct read of `this.X`. The `private MicPipeline micPipeline` field on `ImitoneVoiceIntepreter` is removed. The `[SerializeField]` Inspector reference disappears.
-- [ ] **Update `Start()`.** Move `MicPipeline.Start`'s mic-open logic (`Microphone.Start`, clip assignment, `IsReady` set) into `ImitoneVoiceIntepreter.Start()`. Order: open mic → wait for `GetPosition > 0` → mark `IsReady = true` → continue with imitone init that depends on mic. Match the existing `MicPipeline.Start` ordering exactly so behavior is preserved.
-- [ ] **Update `Update()`.** Call the migrated `UpdateMicReadFrame` from `ImitoneVoiceIntepreter.Update()`. Audit `ImitoneVoiceIntepreter.Update()` for any current ordering that depends on `MicPipeline.Update` having already run — Project Settings ordered `MicPipeline (−105)` before `ImitoneVoiceIntepreter (−104)`, so the legacy assumption was "mic read happens before imitone work in the same frame." Preserve that ordering inside the merged `Update`.
-- [ ] **Update `OnDisable` / `OnDestroy`.** `Microphone.End(deviceName)` now lives in `ImitoneVoiceIntepreter`'s teardown path. Move it.
-- [ ] **`MicIngestDebugSnapshot` type.** If you kept it as `MicPipeline.MicIngestDebugSnapshot` in 0.7a, move the type to `ImitoneVoiceIntepreter` in this sub-pass. Update the consumer (`MicVoiceIngestDebugAggregate.cs`) to reference the new type name (`ImitoneVoiceIntepreter.MicIngestDebugSnapshot`).
-- [ ] **`MicPipeline.cs` becomes empty / unused.** All public surface and private state is gone. The file is a stub at this point. **Do not delete yet** — that's 0.7d, after we confirm the merged file works.
-- [ ] **Sanity check:** running `rg -n "MicPipeline" Assets/Scripts/` should now match only `MicPipeline.cs` itself (its empty / mostly-empty body) and zero references elsewhere. If any external file still references `MicPipeline`, find and repoint it.
-- [ ] **Phase 1 FAIL OBSERVATION sanity check:** the flags in `MicVoiceIngestDebugAggregate` (`FAIL_UNREAD_ZERO_SUSTAINED`, `FAIL_INGEST_RING_STALLED`, `FAIL_INTERPRETER_NOT_CONSUMING`, `FAIL_GENTLE_RECOVERY_FIRED`, `FAIL_MONITORING_STARVATION_GROWING`, `FAIL_MIC_NOT_READY`) all read fields that now live on `ImitoneVoiceIntepreter`. The aggregate's snapshot field reads should be data-equivalent to before — i.e. the flags continue to fire on the same conditions as they did in Step 0.5.
+- [ ] **Move `MicIngestDebugSnapshot` type** from `MicPipeline.cs` into `ImitoneVoiceIntepreter.cs` as a nested public struct: `public struct MicIngestDebugSnapshot { ... }` directly inside the `ImitoneVoiceIntepreter` class body. Copy field declarations exactly; preserve declaration order so `default(...)` initialization gives the same byte layout. Delete the original definition from `MicPipeline.cs`.
+- [ ] **Update `MicPipeline.GetMicIngestDebugSnapshot()`** to return `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` instead of the now-deleted `MicPipeline.MicIngestDebugSnapshot`. Internal `new MicIngestDebugSnapshot { ... }` initializers update accordingly. (This method itself is removed in 0.7c-ii along with the rest of `MicPipeline`'s body — for now we just need it to compile.)
+- [ ] **Update `ImitoneVoiceIntepreter`'s 0.7a facade method `GetMicIngestDebugSnapshot()`** to return the new nested type. Inside the class body, `MicIngestDebugSnapshot` resolves without qualifier; the explicit `MicPipeline.MicIngestDebugSnapshot` in the 0.7a null-path `default(...)` becomes `default(MicIngestDebugSnapshot)`.
+- [ ] **Update consumer `MicVoiceIngestDebugAggregate.cs`** to reference `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` instead of `MicPipeline.MicIngestDebugSnapshot`. Remove the transitional doc comment about "type still nested in MicPipeline until 0.7c."
+- [ ] **Rename debug fields on `ImitoneVoiceIntepreter`:**
+  - `debugInterpreterMicPipelineRefNull` → `debugInterpreterMicRefNull`
+  - `debugInterpreterMicPipelineReady` → `debugInterpreterMicReady`
+  - Update `[Tooltip(...)]` strings on these fields to reflect post-0.7c semantics: e.g. "True if the interpreter has no usable mic this frame" / "True if the interpreter's mic is initialized and reading samples this frame".
+- [ ] **Rename matching fields in `RawVoicePathDebugSnapshot` struct** on `ImitoneVoiceIntepreter`:
+  - `interpreterMicPipelineRefNull` → `interpreterMicRefNull`
+  - `interpreterMicPipelineReady` → `interpreterMicReady`
+  - Update the snapshot construction site inside `ImitoneVoiceIntepreter` (the `GetRawVoicePathDebugSnapshot()` method body) to use the new field names.
+- [ ] **Update consumer `MicVoiceIngestDebugAggregate.cs`** read sites (`v.interpreterMicPipelineRefNull` / `v.interpreterMicPipelineReady`) to the new names. The `agg*` field names on the aggregate side stay the same (they were already mic-correct).
+- [ ] **Verify with `rg`:** running `rg -n "MicIngestDebugSnapshot" Assets/Scripts/` should show **only** the `ImitoneVoiceIntepreter` definition and references to `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` (or unqualified, inside the class body). Zero matches for `MicPipeline.MicIngestDebugSnapshot`.
+- [ ] **Verify with `rg`:** running `rg -n "InterpreterMicPipeline|interpreterMicPipeline" Assets/Scripts/` should return zero matches.
 
-*Compile + run + click test + Phase 1 FAIL OBSERVATION verification before sub-pass 0.7d. This is the most thorough verification gate of the merge.*
+*Compile + run + smoke test (Phase 1 FAIL OBSERVATION still surfaces stuck spells exactly as in 0.7b — no behavior changed). Commit before moving on.*
 
-**Commit (0.7c):** `refactor: migrate mic ownership and ring buffers from MicPipeline to ImitoneVoiceIntepreter`
+**Commit (0.7c-i):** `refactor: relocate MicIngestDebugSnapshot to ImitoneVoiceIntepreter and rename interpreter mic-debug fields`
+
+**Developer notes for 0.7c-i:** _none_
+
+---
+
+**Sub-pass 0.7c-ii — Substantive cut-over (state + methods + lifecycle):**
+
+Goal: The actual state and ownership migration. After this pass, `MicPipeline.cs` is reduced to an empty stub class with no fields and no methods. All mic-ingest behavior has moved into `ImitoneVoiceIntepreter`.
+
+> **Recommended LLM for this step: Opus 4.7 (strongly).**
+> - Threading-subtlety pass. Locks moving with their data, `Microphone.Start` ownership transferring, `Update` ordering preservation, no-allocation discipline. Opus 4.7's reasoning is worth the cost here.
+> - **Review pass: Opus 4.7** (always).
+>
+> *Confirm Opus 4.7 is selected before continuing. Stay on Opus through both first-pass and review for this step.*
+
+*Tasks:*
+
+- [ ] **Move private state.** All `MicPipeline` private fields move into `ImitoneVoiceIntepreter` as private members. Be exhaustive — ring buffers, lock objects, normalization state (filter coefficients, hp/lp state, gain/clamp config), gentle recovery counters, double-poll bookmark fields, `_samplesWritten`-style position trackers, debug telemetry fields, capture epoch counter, mic device name, microphone buffer `AudioClip` reference, sample rate, channel mode. **Do not** drop the gentle recovery fields yet — those get deleted in Step 5b. Behavior is preserved.
+- [ ] **Move private methods.** `UpdateMicReadFrame`, `PerformGentleUnreadZeroCaptureRestart`, ring-write helpers, normalization helpers, telemetry update methods, `InitializeMicrophone` private internals. Add a one-line `// runs on: main thread` annotation header on each (none are audio-thread-bound yet — that comes in Step 3).
+- [ ] **Rewire the 0.7a facade.** Each method added in 0.7a as `return micPipeline.X(...)` becomes a direct call to `this.X(...)` (or inline if the body is small). The 0.7a null-safety guards become unnecessary — remove them. **0.7a R1 (cursor-advance asymmetry) resolves naturally** because the lock-miss path is now the canonical implementation. **0.7a R2 (`lastExitReason = null` in null-path) and 0.7b R1 (the `?? ""` null-coalesce in `MicVoiceIngestDebugAggregate`) both resolve naturally** because the snapshot is built directly here from real state, not from a `default(...)`. Remove the `?? ""` from `MicVoiceIngestDebugAggregate.LateUpdate` once the facade is rewired.
+- [ ] **Remove the `[SerializeField] private MicPipeline micPipeline` field** on `ImitoneVoiceIntepreter`. The Inspector slot disappears. Any place inside `ImitoneVoiceIntepreter` that previously did `micPipeline.X` (e.g. `InitializeMicrophoneAndImitone`, `GetRawVoiceData`) becomes `this.X` or inlined. The 0.7a properties (`MicrophoneBuffer`, `MicrophoneDeviceName`, `MicrophoneSampleRate`, `IsMicReady`, `MicChannels`, `MicCaptureEpoch`) become trivial accessors over local fields instead of delegations.
+- [ ] **Update `Start()`.** Move `MicPipeline.Start`'s mic-open logic (`Microphone.Start`, clip assignment, `IsReady` set, capture-epoch increment) into `ImitoneVoiceIntepreter.Start()` (or its existing `InitializeMicrophoneAndImitone` coroutine, whichever the merged file uses). Order: open mic → wait for `Microphone.GetPosition > 0` → mark `IsReady = true` → continue with imitone init that depends on mic. Match the existing `MicPipeline.Start` ordering exactly so behavior is preserved.
+- [ ] **Update `Update()`.** Call the migrated `UpdateMicReadFrame` from `ImitoneVoiceIntepreter.Update()` **first**, before any imitone work that depends on mic data. The legacy assumption ("`MicPipeline.Update` runs at −105 in Project Settings, before `ImitoneVoiceIntepreter.Update` at −104") is preserved by inlining the mic read at the top of the merged Update.
+- [ ] **Update `OnDisable` / `OnDestroy`.** `Microphone.End(deviceName)` now lives in `ImitoneVoiceIntepreter`'s teardown path. Move it. Mirror the existing `MicPipeline.OnDisable` ordering (set `IsReady = false` first, then `Microphone.End`).
+- [ ] **`MicPipeline.cs` reduced to empty stub.** All public surface and private state gone. File becomes `public class MicPipeline : MonoBehaviour { }` with a header comment ("Empty post-0.7c-ii; deleted in 0.7d. Do not add new code here."). Remove the `[DefaultExecutionOrder(-500)]` attribute. Keeping the empty stub on disk (rather than deleting now) preserves any leftover Inspector component references in `MainGame.unity` until 0.7d's deletion + scene cleanup.
+- [ ] **`using` statement audit.** `ImitoneVoiceIntepreter.cs` may need new `using` directives that previously lived in `MicPipeline.cs` only — common candidates: `System.Threading` (for `Monitor`/`Interlocked`), `System.Collections` (for `IEnumerator` if methods used coroutines). Add as needed; the compiler will surface any misses.
+- [ ] **Phase 1 FAIL OBSERVATION sanity check:** the flags in `MicVoiceIngestDebugAggregate` (`FAIL_UNREAD_ZERO_SUSTAINED`, `FAIL_INGEST_RING_STALLED`, `FAIL_INTERPRETER_NOT_CONSUMING`, `FAIL_GENTLE_RECOVERY_FIRED`, `FAIL_MONITORING_STARVATION_GROWING`, `FAIL_MIC_NOT_READY`) all read fields that now live on `ImitoneVoiceIntepreter`. The aggregate's snapshot field reads should be data-equivalent to before — i.e. the flags continue to fire on the same conditions as they did in Step 0.5 / 0.7b.
+
+*Compile + run + click test (full 5-scenario click test from the click prevention appendix, since this is when `Microphone.Start` ownership moves) + Phase 1 FAIL OBSERVATION verification. This is the most thorough verification gate of the merge. Commit before moving on.*
+
+**Commit (0.7c-ii):** `refactor: migrate mic state, methods, and Microphone.Start ownership from MicPipeline to ImitoneVoiceIntepreter`
+
+**Developer notes for 0.7c-ii:** _none_
+
+---
+
+**Sub-pass 0.7c-iii — Verification + audit gate:**
+
+Goal: Final audit before 0.7d's deletion. Catch leftover references, stale `using` directives, stale Inspector serialized data, etc. No or minimal code changes.
+
+> **Recommended LLM for this step: Opus 4.7.**
+> - Verification pass — see working agreement rule 5. Always Opus 4.7 for review-shaped work.
+>
+> *Confirm Opus 4.7 is selected.*
+
+*Tasks:*
+
+- [ ] **`rg` sweep on type:** `rg -n "MicPipeline" Assets/Scripts/` should match only `MicPipeline.cs` itself (the empty stub) plus any intentional doc comments in other files (which should be removed at this point). If any external code still references `MicPipeline`, find and repoint it.
+- [ ] **`rg` sweep on private field name:** `rg -n "\bmicPipeline\b" Assets/Scripts/` should match zero. The local `micPipeline` field on `ImitoneVoiceIntepreter` is gone after 0.7c-ii.
+- [ ] **`using` statement audit on `ImitoneVoiceIntepreter.cs`.** Verify all directives are necessary, none are duplicate, namespace order is sane. Watch for `using System.Threading;` being newly required (it is, after the merge).
+- [ ] **Inspector audit on `MainGame.unity`.** Open the scene; look at the `ImitoneVoiceIntepreter` GameObject's Inspector. The `MicPipeline` component should still be on the GameObject (it's deleted in 0.7d), but with no fields visible (it's now an empty class). The `ImitoneVoiceIntepreter` component should show all its merged-in serialized fields with their existing values preserved (sample rate, channel mode, ring sizes, etc.).
+- [ ] **Phase 1 FAIL OBSERVATION end-to-end test.** Run a known-bug repro (the original `unread_zero` symptom) and confirm `FAIL_UNREAD_ZERO_SUSTAINED` still fires within the threshold. The whole point of the behavior-preserving refactor is that the bug is still reproducible — that's the proof we didn't accidentally hide it. If any flag *stops* firing during a known-bug session, we've introduced a regression and need to back up.
+- [ ] **Click test.** Run all 5 click scenarios from the click prevention appendix. Mic open/close, scene reload, mid-tone scene unload, monitoring toggle, attenuation toggle. Listen for any new clicks or pops introduced by the lifecycle ownership change in 0.7c-ii.
+
+*This pass commits only if anything needed touching during the audit. Otherwise it's a verify-and-move-on gate.*
+
+**Commit (0.7c-iii, optional):** `chore: post-merge audit cleanup` — only if audit found anything; otherwise skip directly to 0.7d.
+
+**Developer notes for 0.7c-iii:** _none_
 
 ---
 
@@ -1431,7 +1522,7 @@ A few cross-cutting reminders that apply throughout implementation:
 
 - **The user is not a DSP expert.** When asking clarifying questions, frame them in terms of observable behavior or architecture decisions, not in DSP jargon.
 - **Preserve naming and inspector references.** The class identifier on disk is `ImitoneVoiceIntepreter` (typo intact); see the "Filename and class-name pitfall" section near the top. Do not rename. Other public-facing field names should be preserved unless renaming is genuinely needed.
-- **Test after every step. Don't batch.** The user has explicitly committed to a test/commit cycle per step. Respect that cadence even for "small" changes. Step 0.7 has explicit sub-pass boundaries (0.7a → 0.7b → 0.7c → 0.7d) and Step 5 has two sub-passes (5a → 5b) — honor those too.
+- **Test after every step. Don't batch.** The user has explicitly committed to a test/commit cycle per step. Respect that cadence even for "small" changes. Step 0.7 has explicit sub-pass boundaries (0.7a → 0.7b → 0.7c → 0.7d), with 0.7c itself split internally into three passes (0.7c-i → 0.7c-ii → 0.7c-iii); Step 5 has two sub-passes (5a → 5b). Honor every boundary.
 - **The biggest risk is breaking something during Step 0.7 (the merge).** Take that step slowly. Compile and run after every sub-pass, not just at the end of the step. Commit between sub-passes — the recent rollback incident is a reminder that uncommitted refactor work is fragile.
 - **Threading bugs are worse than functional bugs.** A dropped sample is invisible. A race condition is a Heisenbug. When in doubt about thread safety, default to the safer pattern (more locking, more `volatile`, more `Interlocked`) and optimize only if profiling shows it matters. The `aggDbMicrophoneTearDetectedTotal` counter (V7 / Step 6) is your canary; watch it.
 - **Firm rule: never call `Microphone.*` or `AudioClip.GetData` from the audio thread.** Position is tracked via `_samplesWritten += data.Length / channels`. Mic samples come from the `data[]` parameter of `OnAudioFilterRead`. The mic clip is played through the AudioSource so Unity itself does the resampling. (V3 — non-negotiable.)
