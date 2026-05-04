@@ -4,7 +4,7 @@ using UnityEngine;
 /// Copies mic-ingest debug (from ImitoneVoiceIntepreter) + Imitone raw-path debug + tone/imitone gate flags
 /// (+ optional DirectVoiceMonitoring transport totals)
 /// into one Inspector block after upstream Update() (LateUpdate).
-/// Note: until 0.7c, ImitoneVoiceIntepreter delegates the snapshot to MicPipeline internally — same data, new owner.
+/// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values still originate from MicPipeline until sub-pass 0.7c-ii.
 /// </summary>
 public class MicVoiceIngestDebugAggregate : MonoBehaviour
 {
@@ -137,10 +137,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     {
         if (interpreter != null)
         {
-            // 0.7b: snapshot routed via the merged interpreter facade. Type still nested in MicPipeline until 0.7c.
-            MicPipeline.MicIngestDebugSnapshot m = interpreter.GetMicIngestDebugSnapshot();
-            // 0.7b R1: facade null-path returns default(snapshot) where lastExitReason is null;
-            // normalize to "" so the Inspector field stays readable and unread_zero comparisons remain string-based.
+            ImitoneVoiceIntepreter.MicIngestDebugSnapshot m = interpreter.GetMicIngestDebugSnapshot();
+            // Facade null-path can still yield default(snapshot); normalize exit reason for Inspector string compares.
             aggMicExitReason = m.lastExitReason ?? "";
             aggMicUnreadComputed = m.lastUnreadComputed;
             aggMicLatestRawSampleCount = m.lastLatestRawSampleCount;
@@ -160,8 +158,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         {
             ImitoneVoiceIntepreter.RawVoicePathDebugSnapshot v = interpreter.GetRawVoicePathDebugSnapshot();
             aggRawConsumedThisFrame = v.rawVoiceDataConsumedThisFrame;
-            aggInterpMicRefNull = v.interpreterMicPipelineRefNull;
-            aggInterpMicReady = v.interpreterMicPipelineReady;
+            aggInterpMicRefNull = v.interpreterMicRefNull;
+            aggInterpMicReady = v.interpreterMicReady;
             aggInterpTryCopyTrue = v.interpreterTryCopyReturnedTrue;
             aggInterpTryCopySampleCount = v.interpreterTryCopyOutSampleCount;
             aggInterpMicDbUnclamped = v.telemetryMicDbUnclamped;

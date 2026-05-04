@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using System.Linq;
 using B83.MathHelpers;
 using System.Text.RegularExpressions;
@@ -162,12 +163,14 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     [Tooltip("Raw _dbValue (not clamped to -80..-12). Use to see rail vs real movement.")]
     [SerializeField] private float telemetryImitoneDbUnclamped = -999f;
     [Header("Raw voice path diagnostics")]
-    [Tooltip("True only when TryCopyLatestRawFrame returned count > 0 this frame. False if MicPipeline missing/not ready, or no new raw samples (e.g. stalled mic / empty delta).")]
+    [Tooltip("True only when TryCopyLatestRawFrame returned count > 0 this frame. False if mic source missing/not ready, or no new raw samples (e.g. stalled mic / empty delta).")]
     [SerializeField] private bool telemetryRawVoiceDataConsumedThisFrame;
-    [Tooltip("Imitone-side debug: micPipeline reference missing on this component.")]
-    [SerializeField] private bool debugInterpreterMicPipelineRefNull;
-    [Tooltip("Imitone-side debug: micPipeline.IsReady at start of GetRawVoiceData.")]
-    [SerializeField] private bool debugInterpreterMicPipelineReady;
+    [Tooltip("Imitone-side debug: no usable mic reference on this component this frame.")]
+    [FormerlySerializedAs("debugInterpreterMicPipelineRefNull")]
+    [SerializeField] private bool debugInterpreterMicRefNull;
+    [Tooltip("Imitone-side debug: mic is initialized and reading samples (ready) at start of GetRawVoiceData.")]
+    [FormerlySerializedAs("debugInterpreterMicPipelineReady")]
+    [SerializeField] private bool debugInterpreterMicReady;
     [Tooltip("Imitone-side debug: return value of TryCopyLatestRawFrame (true only if sample count > 0).")]
     [SerializeField] private bool debugInterpreterTryCopyReturnedTrue;
     [Tooltip("Imitone-side debug: out sample count from TryCopyLatestRawFrame (-1 if TryCopy was not called).")]
@@ -179,11 +182,29 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     [SerializeField] private float telemetryImitoneInactiveRawTimer = 0f;
 
     [Serializable]
+    public struct MicIngestDebugSnapshot
+    {
+        public string lastExitReason;
+        public int lastUnreadComputed;
+        public int lastLatestRawSampleCount;
+        public int lastMicPosWrite;
+        public int lastMicPosRead;
+        public int lastStalledWriteHeadFrameCount;
+        public int lastClipSamples;
+        public int lastUnityFrame;
+        public int gentleUnreadZeroConsecutiveFrames;
+        public int gentleUnreadZeroRecoveryTotal;
+        public bool gentleUnreadZeroRecoveryEnabled;
+        public long rawRingWriteTotalSamples;
+        public long normalizedRingWriteTotalSamples;
+    }
+
+    [Serializable]
     public struct RawVoicePathDebugSnapshot
     {
         public bool rawVoiceDataConsumedThisFrame;
-        public bool interpreterMicPipelineRefNull;
-        public bool interpreterMicPipelineReady;
+        public bool interpreterMicRefNull;
+        public bool interpreterMicReady;
         public bool interpreterTryCopyReturnedTrue;
         public int interpreterTryCopyOutSampleCount;
         public float telemetryMicDbUnclamped;
@@ -195,8 +216,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         return new RawVoicePathDebugSnapshot
         {
             rawVoiceDataConsumedThisFrame = telemetryRawVoiceDataConsumedThisFrame,
-            interpreterMicPipelineRefNull = debugInterpreterMicPipelineRefNull,
-            interpreterMicPipelineReady = debugInterpreterMicPipelineReady,
+            interpreterMicRefNull = debugInterpreterMicRefNull,
+            interpreterMicReady = debugInterpreterMicReady,
             interpreterTryCopyReturnedTrue = debugInterpreterTryCopyReturnedTrue,
             interpreterTryCopyOutSampleCount = debugInterpreterTryCopyOutSampleCount,
             telemetryMicDbUnclamped = telemetryMicDbUnclamped,
@@ -336,11 +357,11 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         return micPipeline.TryCreateNormalizedReadCursorBehindMs(delayMs, out readPosition, out readTotalSamples);
     }
 
-    public MicPipeline.MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
+    public MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
     {
         if (micPipeline == null)
         {
-            return default(MicPipeline.MicIngestDebugSnapshot);
+            return default(MicIngestDebugSnapshot);
         }
         return micPipeline.GetMicIngestDebugSnapshot();
     }
@@ -762,8 +783,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         telemetryRawVoiceDataConsumedThisFrame = false;
         debugInterpreterTryCopyOutSampleCount = -1;
         debugInterpreterTryCopyReturnedTrue = false;
-        debugInterpreterMicPipelineRefNull = micPipeline == null;
-        debugInterpreterMicPipelineReady = micPipeline != null && micPipeline.IsReady;
+        debugInterpreterMicRefNull = micPipeline == null;
+        debugInterpreterMicReady = micPipeline != null && micPipeline.IsReady;
 
         if (micPipeline == null || !micPipeline.IsReady)
         {

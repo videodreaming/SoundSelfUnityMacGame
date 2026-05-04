@@ -748,27 +748,29 @@ Goal: Get the cosmetic / decoupled changes out of the way before touching the ru
 
 *Tasks:*
 
-- [ ] **Move `MicIngestDebugSnapshot` type** from `MicPipeline.cs` into `ImitoneVoiceIntepreter.cs` as a nested public struct: `public struct MicIngestDebugSnapshot { ... }` directly inside the `ImitoneVoiceIntepreter` class body. Copy field declarations exactly; preserve declaration order so `default(...)` initialization gives the same byte layout. Delete the original definition from `MicPipeline.cs`.
-- [ ] **Update `MicPipeline.GetMicIngestDebugSnapshot()`** to return `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` instead of the now-deleted `MicPipeline.MicIngestDebugSnapshot`. Internal `new MicIngestDebugSnapshot { ... }` initializers update accordingly. (This method itself is removed in 0.7c-ii along with the rest of `MicPipeline`'s body — for now we just need it to compile.)
-- [ ] **Update `ImitoneVoiceIntepreter`'s 0.7a facade method `GetMicIngestDebugSnapshot()`** to return the new nested type. Inside the class body, `MicIngestDebugSnapshot` resolves without qualifier; the explicit `MicPipeline.MicIngestDebugSnapshot` in the 0.7a null-path `default(...)` becomes `default(MicIngestDebugSnapshot)`.
-- [ ] **Update consumer `MicVoiceIngestDebugAggregate.cs`** to reference `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` instead of `MicPipeline.MicIngestDebugSnapshot`. Remove the transitional doc comment about "type still nested in MicPipeline until 0.7c."
-- [ ] **Rename debug fields on `ImitoneVoiceIntepreter`:**
+- [x] **Move `MicIngestDebugSnapshot` type** from `MicPipeline.cs` into `ImitoneVoiceIntepreter.cs` as a nested public struct: `public struct MicIngestDebugSnapshot { ... }` directly inside the `ImitoneVoiceIntepreter` class body. Copy field declarations exactly; preserve declaration order so `default(...)` initialization gives the same byte layout. Delete the original definition from `MicPipeline.cs`.
+- [x] **Update `MicPipeline.GetMicIngestDebugSnapshot()`** to return `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` instead of the now-deleted `MicPipeline.MicIngestDebugSnapshot`. Internal `new MicIngestDebugSnapshot { ... }` initializers update accordingly. (This method itself is removed in 0.7c-ii along with the rest of `MicPipeline`'s body — for now we just need it to compile.)
+- [x] **Update `ImitoneVoiceIntepreter`'s 0.7a facade method `GetMicIngestDebugSnapshot()`** to return the new nested type. Inside the class body, `MicIngestDebugSnapshot` resolves without qualifier; the explicit `MicPipeline.MicIngestDebugSnapshot` in the 0.7a null-path `default(...)` becomes `default(MicIngestDebugSnapshot)`.
+- [x] **Update consumer `MicVoiceIngestDebugAggregate.cs`** to reference `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` instead of `MicPipeline.MicIngestDebugSnapshot`. Remove the transitional doc comment about "type still nested in MicPipeline until 0.7c."
+- [x] **Rename debug fields on `ImitoneVoiceIntepreter`:**
   - `debugInterpreterMicPipelineRefNull` → `debugInterpreterMicRefNull`
   - `debugInterpreterMicPipelineReady` → `debugInterpreterMicReady`
   - Update `[Tooltip(...)]` strings on these fields to reflect post-0.7c semantics: e.g. "True if the interpreter has no usable mic this frame" / "True if the interpreter's mic is initialized and reading samples this frame".
-- [ ] **Rename matching fields in `RawVoicePathDebugSnapshot` struct** on `ImitoneVoiceIntepreter`:
+- [x] **Rename matching fields in `RawVoicePathDebugSnapshot` struct** on `ImitoneVoiceIntepreter`:
   - `interpreterMicPipelineRefNull` → `interpreterMicRefNull`
   - `interpreterMicPipelineReady` → `interpreterMicReady`
   - Update the snapshot construction site inside `ImitoneVoiceIntepreter` (the `GetRawVoicePathDebugSnapshot()` method body) to use the new field names.
-- [ ] **Update consumer `MicVoiceIngestDebugAggregate.cs`** read sites (`v.interpreterMicPipelineRefNull` / `v.interpreterMicPipelineReady`) to the new names. The `agg*` field names on the aggregate side stay the same (they were already mic-correct).
-- [ ] **Verify with `rg`:** running `rg -n "MicIngestDebugSnapshot" Assets/Scripts/` should show **only** the `ImitoneVoiceIntepreter` definition and references to `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` (or unqualified, inside the class body). Zero matches for `MicPipeline.MicIngestDebugSnapshot`.
-- [ ] **Verify with `rg`:** running `rg -n "InterpreterMicPipeline|interpreterMicPipeline" Assets/Scripts/` should return zero matches.
+- [x] **Update consumer `MicVoiceIngestDebugAggregate.cs`** read sites (`v.interpreterMicPipelineRefNull` / `v.interpreterMicPipelineReady`) to the new names. The `agg*` field names on the aggregate side stay the same (they were already mic-correct).
+- [x] **Verify with `rg`:** running `rg -n "MicIngestDebugSnapshot" Assets/Scripts/` should show **only** the `ImitoneVoiceIntepreter` definition and references to `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` (or unqualified, inside the class body). Zero matches for `MicPipeline.MicIngestDebugSnapshot`.
+- [x] **Verify with `rg`:** running `rg -n "InterpreterMicPipeline|interpreterMicPipeline" Assets/Scripts/` should return zero matches — **exception:** `[FormerlySerializedAs("debugInterpreterMicPipelineRefNull")]` / `"…Ready"` attribute strings still contain the old names by design (migration hooks).
 
-*Compile + run + smoke test (Phase 1 FAIL OBSERVATION still surfaces stuck spells exactly as in 0.7b — no behavior changed). Commit before moving on.*
+*Compile + run + smoke test (Phase 1 FAIL OBSERVATION still surfaces stuck spells exactly as in 0.7b — no behavior changed). Commit before moving on.* — **Awaiting user smoke test + commit.**
 
-**Commit (0.7c-i):** `refactor: relocate MicIngestDebugSnapshot to ImitoneVoiceIntepreter and rename interpreter mic-debug fields`
+**Commit (0.7c-i):** `refactor: relocate MicIngestDebugSnapshot to ImitoneVoiceIntepreter and rename interpreter mic-debug fields` — SHA `<pending>`.
 
-**Developer notes for 0.7c-i:** _none_
+**Developer notes for 0.7c-i:**
+- Added `[FormerlySerializedAs("debugInterpreterMicPipelineRefNull")]` / `[FormerlySerializedAs("debugInterpreterMicPipelineReady")]` on the renamed `[SerializeField]` debug booleans so prefabs/scenes deserialize cleanly; `MainGame.unity` YAML keys updated to the new names explicitly.
+- Type relocation only — runtime mic path unchanged (`MicPipeline.GetMicIngestDebugSnapshot()` still builds the snapshot from MicPipeline internals).
 
 ---
 

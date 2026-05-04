@@ -183,25 +183,7 @@ public class MicPipeline : MonoBehaviour
         public float clampAbs;
     }
 
-    [Serializable]
-    public struct MicIngestDebugSnapshot
-    {
-        public string lastExitReason;
-        public int lastUnreadComputed;
-        public int lastLatestRawSampleCount;
-        public int lastMicPosWrite;
-        public int lastMicPosRead;
-        public int lastStalledWriteHeadFrameCount;
-        public int lastClipSamples;
-        public int lastUnityFrame;
-        public int gentleUnreadZeroConsecutiveFrames;
-        public int gentleUnreadZeroRecoveryTotal;
-        public bool gentleUnreadZeroRecoveryEnabled;
-        public long rawRingWriteTotalSamples;
-        public long normalizedRingWriteTotalSamples;
-    }
-
-    public MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
+    public ImitoneVoiceIntepreter.MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
     {
         long rawTotal = 0;
         long normTotal = 0;
@@ -215,7 +197,7 @@ public class MicPipeline : MonoBehaviour
             normTotal = normalizedWriteTotalSamples;
         }
 
-        return new MicIngestDebugSnapshot
+        return new ImitoneVoiceIntepreter.MicIngestDebugSnapshot
         {
             lastExitReason = debugMicLastExitReason ?? "",
             lastUnreadComputed = debugMicLastUnreadComputed,
