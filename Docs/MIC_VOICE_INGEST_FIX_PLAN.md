@@ -95,9 +95,9 @@ Cleanup actions, baseline numbers, and "provisional code to delete" lists from t
 - **Engine:** Unity **2022.3.12f1** (project also targets Mac).
 - **Mic:** Wired USB (not Bluetooth).
 - **Persistence:** Symptoms reproduce across PC restart and across multiple sessions.
-- **Project Settings → Script Execution Order (current, authoritative):** `MicPipeline` (−105) → `ImitoneVoiceIntepreter` (−104) → `GameValues` (−103) → `DirectVoiceMonitoring` (−102) → `RecordedAudioPlayback` (−101). (`TMPro.TextMeshPro` also lives at −105, sharing the slot with `MicPipeline` — Unity allows ties, ordering between them is undefined but irrelevant since they don't interact. Wwise's `AkInitializer` runs much earlier at −108.) C# `[DefaultExecutionOrder]` attributes on the classes (currently `MicPipeline` has `-500`, `ImitoneVoiceIntepreter` has `50`) are overridden by Project Settings entries.
+- **Project Settings → Script Execution Order (verified 2026-05-04):** No `MicPipeline` entry — **confirmed removed** from the list in the Editor (not stored in versioned YAML). Order is `TMPro.TextMeshPro` (−105) → `ImitoneVoiceIntepreter` (−104) → `GameValues` (−103) → `DirectVoiceMonitoring` (−102) → `RecordedAudioPlayback` (−101). Wwise's `AkInitializer` runs much earlier at −108. Class-level `[DefaultExecutionOrder(50)]` on `ImitoneVoiceIntepreter` is still overridden by Project Settings −104 until Step 5b cleanup.
 
-  **Cleanup decision (this rearchitecture):** the C# `[DefaultExecutionOrder(...)]` class attributes will be **removed** during the rearchitecture so there is exactly one source of truth (Project Settings). Before removing any attribute, **verify** the Project Settings entry exists for that class — see the per-step instructions in Step 0.7d (for `MicPipeline`'s `-500`) and Step 5b (for the rest). The agent should *prompt the user to open Project Settings → Script Execution Order and confirm* before deleting the attribute, so we don't end up with a class running at default order 0 by accident.
+  **Cleanup decision (this rearchitecture):** the C# `[DefaultExecutionOrder(...)]` class attributes will be **removed** during the rearchitecture so there is exactly one source of truth (Project Settings). Before removing any attribute, **verify** the Project Settings entry exists for that class — see Step 5b (for the remaining classes). The agent should *prompt the user to open Project Settings → Script Execution Order and confirm* before deleting an attribute, so we don't end up with a class running at default order 0 by accident.
 
 ### Critical constraint (do not dismiss)
 
@@ -369,9 +369,9 @@ Default for this rearchitecture: **start with `volatile float`** for `_dbMicroph
 
 #### V9: Execution order coupling
 
-Project Settings has `MicPipeline` at -105, `ImitoneVoiceIntepreter` at -104, `GameValues` at -103, `DirectVoiceMonitoring` at -102. After `MicPipeline` is removed, the order needs revisiting. With audio-thread capture, main-thread execution order matters less for the voice path — `Update()` ordering only affects when `GetState` is called relative to game logic (and any consumer of voice state, e.g., `GameValues`).
+Project Settings no longer lists `MicPipeline` (removed in 0.7d; verified 2026-05-04). `ImitoneVoiceIntepreter` remains at −104, `GameValues` at −103, `DirectVoiceMonitoring` at −102. With audio-thread capture, main-thread execution order matters less for the voice path — `Update()` ordering only affects when `GetState` is called relative to game logic (and any consumer of voice state, e.g., `GameValues`).
 
-**Mitigation:** Keep `ImitoneVoiceIntepreter` at its current −104 (already before `GameValues` at −103 and before `DirectVoiceMonitoring` at −102, so all current consumers of `toneActive`, `pitch_hz`, etc. are downstream as intended). Remove the `MicPipeline` entry from Project Settings (Step 0.7d). `DirectVoiceMonitoring` order no longer matters for ingest; keep it at −102.
+**Mitigation:** Keep `ImitoneVoiceIntepreter` at its current −104 (already before `GameValues` at −103 and before `DirectVoiceMonitoring` at −102, so all current consumers of `toneActive`, `pitch_hz`, etc. are downstream as intended). `DirectVoiceMonitoring` order no longer matters for ingest; keep it at −102.
 
 #### V10: Latency budget
 
@@ -446,7 +446,7 @@ Before any changes, capture current behavior so we can A/B compare during and af
 - [skipping] Take screen recordings of toning sessions on the current code: one calm baseline, one deliberately heavy session (sustained loud toning, unusual pitch patterns).
 - [x] Record values from `MicVoiceIngestDebugAggregate` during a stuck spell: `aggMicExitReason` (look for `unread_zero`), `aggMicRawRingWriteTotalSamples`, `aggMicNormRingWriteTotalSamples`, `aggInterpTryCopyTrue`, `aggRawConsumedThisFrame`, monitoring underflow / starvation totals.
 - [x] Note current Project Settings audio config: sample rate, DSP buffer size (Project Settings → Audio). Save these somewhere referencable for Step 1.
-- [x] Note current Project Settings → Script Execution Order entries for `MicPipeline`, `ImitoneVoiceIntepreter`, `DirectVoiceMonitoring`, `RecordedAudioPlayback`. (Used to confirm they're still set correctly after Step 0.7d / Step 5b / Step 6 attribute removal passes.)
+- [x] Note current Project Settings → Script Execution Order entries for ~~`MicPipeline`~~ *(removed in 0.7d)*, `ImitoneVoiceIntepreter`, `DirectVoiceMonitoring`, `RecordedAudioPlayback`. (Used to confirm they're still set correctly after Step 0.7d / Step 5b / Step 6 attribute removal passes.)
 - [~] Confirm `ImitoneVoiceIntepreter` and `DirectVoiceMonitoring` are on **separate** GameObjects in `MainGame.unity`, each with **exactly one AudioSource** (per V5's corrected decision). Co-location is *not* desired — it would reintroduce multi-AudioSource chain-routing ambiguity. The deterministic write-before-read property comes from Project Settings → Script Execution Order, which is already correct (`ImitoneVoiceIntepreter` at −104 < `DirectVoiceMonitoring` at −102).
 
 **Reference baseline values from prior captures (carry-forward from the old `FINDINGS.md`):**
@@ -475,9 +475,8 @@ These numbers are not targets; they are the "what bad looks like" anchor against
 | `UnityEngine.EventSystems.EventSystem` | −1000 |
 | `TMPro.TextContainer` | −110 |
 | `AkInitializer` | −108 |
-| `MicPipeline` | **−105** ← to be removed in Step 0.7d |
-| `TMPro.TextMeshPro` | −105 ← shares slot with `MicPipeline`; stays after `MicPipeline` row is removed |
-| `ImitoneVoiceIntepreter` | **−104** ← absorbs `MicPipeline` responsibilities in Step 0.7c; order unchanged |
+| `TMPro.TextMeshPro` | −105 |
+| `ImitoneVoiceIntepreter` | **−104** ← absorbs legacy mic-ingest responsibilities (Step 0.7c); order unchanged |
 | `GameValues` | **−103** ← downstream consumer of voice state |
 | `DirectVoiceMonitoring` | **−102** ← unchanged; audio-thread ring consumer |
 | `RecordedAudioPlayback` | **−101** ← unchanged |
@@ -498,9 +497,11 @@ These numbers are not targets; they are the "what bad looks like" anchor against
 | `CSVWriter` | 50 |
 | `AkTerminator` | 100 |
 
+*`MicPipeline` is not listed in Script Execution Order (removed Step 0.7d; verified absent 2026-05-04).*
+
 *Pending changes for the voice rearchitecture (informational; actual changes are tasked in Steps 0.7/5/6):*
-- **Remove:** `MicPipeline (−105)` entry — Step 0.7d.
-- **Adjust:** `ImitoneVoiceIntepreter (−104)` — number unchanged, but the script absorbs `MicPipeline`'s responsibilities (Step 0.7c). Class-level `[DefaultExecutionOrder(50)]` is removed during Step 5b's `[DefaultExecutionOrder]` cleanup pass.
+- ~~**Remove:** `MicPipeline (−105)` entry — Step 0.7d.~~ **Done** — Script Execution Order **verified**: `MicPipeline` is **not** listed (2026-05-04).
+- **Adjust:** `ImitoneVoiceIntepreter (−104)` — number unchanged; the script absorbed mic ingest (Step 0.7c). Class-level `[DefaultExecutionOrder(50)]` is removed during Step 5b's `[DefaultExecutionOrder]` cleanup pass.
 - **No change:** `DirectVoiceMonitoring (−102)`, `RecordedAudioPlayback (−101)`.
 
 *GameObject layout decision (settled 2026-05-04):*
@@ -512,7 +513,7 @@ These numbers are not targets; they are the "what bad looks like" anchor against
 **Required: each GameObject must have exactly one AudioSource (after Step 1).** Re-verified at Step 1 setup and Step 5b. Adding a second AudioSource to either GameObject reintroduces the chain-routing ambiguity.
 
 *Current AudioSource baseline (captured 2026-05-04):*
-- **`Imitone` GameObject:** **0 AudioSources** ← correct for pre-Step-1 state. The current `MicPipeline` (until Step 0.7c absorbs it) polls `Microphone.GetPosition` / `AudioClip.GetData` on the main thread and does not need an AudioSource. After the merge, `ImitoneVoiceIntepreter` keeps the same main-thread polling behavior until Step 1 adds the dedicated capture AudioSource on top.
+- **`Imitone` GameObject:** **0 AudioSources** ← correct for pre-Step-1 state. `ImitoneVoiceIntepreter` (mic ingest merged in 0.7c-ii) polls `Microphone.GetPosition` / `AudioClip.GetData` on the main thread and does not need an AudioSource until Step 1 adds the dedicated capture AudioSource on top.
 - **`DirectVoiceMonitoring` GameObject:** **1 AudioSource** ← correct. `DirectVoiceMonitoring.OnAudioFilterRead` requires an active AudioSource on the same GameObject to fire at all.
 
 After Step 1, the `Imitone` GameObject will have exactly 1 AudioSource and `DirectVoiceMonitoring` will continue to have exactly 1 — the canonical target state.
@@ -520,7 +521,7 @@ After Step 1, the `Imitone` GameObject will have exactly 1 AudioSource and `Dire
 *Observations:*
 - **`GameValues (−103)`** sits between `ImitoneVoiceIntepreter` and `DirectVoiceMonitoring` and was not previously enumerated in the plan. It runs *after* `ImitoneVoiceIntepreter` on the main thread, which is the correct position if it consumes voice state (`toneActive`, `pitch_hz`, `_dbMicrophone`, etc.). If it ever turns out to *produce* voice-state inputs that `ImitoneVoiceIntepreter` reads, that would be a circular dependency and we'd need to revisit. Not flagging as an action — just a thing to be aware of during Step 0.7b's "audit consumers" pass and Step 5b's `[DefaultExecutionOrder]` cleanup.
 - **`AkInitializer (−108)`** runs well before any voice script, which is correct — Wwise must be initialized before any voice-driven Wwise events fire.
-- **`TMPro.TextMeshPro` shares −105 with `MicPipeline`.** When the `MicPipeline` row is removed in Step 0.7d, the −105 slot remains occupied by TextMeshPro. No conflict; just a thing the user / agent should not be confused by when looking at Project Settings post-deletion.
+- **`TMPro.TextMeshPro` at −105** is now alone in that slot after `MicPipeline` was removed from execution order (0.7d).
 
 *Project Settings → Audio (captured 2026-05-04, authoritative):*
 
@@ -833,22 +834,27 @@ Goal: Final audit before 0.7d's deletion. Catch leftover references, stale `usin
 **Developer notes for 0.7c-iii:**
 - Removed redundant `?? ""` on `aggMicExitReason` in `MicVoiceIngestDebugAggregate` (snapshot always supplies `lastExitReason` from live ingest state).
 - Recorded 0.7c-ii SHA `d0c35a4c4dbfcac20ad2f4cf20741bb24d192a82`.
+- 0.7c-iii doc/audit commit: `bbf467c31b2e9aa8483361cef93a54530ababb27` (2026-05-04).
 
 ---
 
 **Sub-pass 0.7d — Delete `MicPipeline.cs` + Project Settings cleanup:**
 
-- [ ] **Before deleting** `MicPipeline.cs`, prompt the user to open Project Settings → Script Execution Order and remove the `MicPipeline` entry (currently −105). Once the file is deleted, that entry becomes a stale "missing script" warning in Project Settings; cleaner to remove it first. Note: `TMPro.TextMeshPro` also lives at −105 — that entry stays, only the `MicPipeline` row is removed.
-- [ ] Remove the class-level `[DefaultExecutionOrder(-500)]` from `MicPipeline.cs` if it's still present (it goes with the file).
-- [ ] Delete `Assets/Scripts/Voice/MicPipeline.cs`.
-- [ ] Delete `Assets/Scripts/Voice/MicPipeline.cs.meta`.
-- [ ] Re-run `rg -n "MicPipeline" Assets/` and confirm zero matches.
-- [ ] Open `MainGame.unity`, watch the console on load: zero "missing script" / "missing component" warnings. (The 0.7b consumer repointing should already have re-wired everything; this is the final check.)
-- [ ] Update Step 0's "Pending changes for the voice rearchitecture" sub-list (in Step 0's Developer notes) to mark the `MicPipeline (−105)` entry as removed.
+- [x] **Script Execution Order:** `MicPipeline` row **removed** — **verified absent** in the Editor (2026-05-04). *Execution order is not stored in versioned YAML in this repo.* `TMPro.TextMeshPro` at −105 stays.
+- [x] **Stub file** had no `[DefaultExecutionOrder(-500)]` (already removed in 0.7c-ii).
+- [x] Delete `Assets/Scripts/Voice/MicPipeline.cs`. **Done.**
+- [x] Delete `Assets/Scripts/Voice/MicPipeline.cs.meta`. **Done.**
+- [x] **`rg -n "MicPipeline" Assets/`** — expect matches only in `[FormerlySerializedAs("…MicPipeline…")]` on `ImitoneVoiceIntepreter` (YAML field migration strings). **No** `public class MicPipeline` remains.
+- [x] **Open `MainGame.unity`** after pull — console should show no missing `MicPipeline` component (component was already removed in 0.7c-ii).
+- [x] **Step 0 pending list** — `MicPipeline (−105)` removal marked done (see table above).
 
-*Compile + run + full click test (all 5 scenarios from the click prevention appendix) before committing. The architecture is now a single mic owner — Steps 1, 3, and 5 will build on this foundation.*
+*Compile + run + full click test (all 5 scenarios from the click prevention appendix) before committing 0.7d. The architecture is now a single mic owner — Steps 1, 3, and 5 will build on this foundation.*
 
-**Commit (0.7d):** `refactor: delete MicPipeline.cs and remove Project Settings entry`
+**Commit (0.7d):** `refactor: delete MicPipeline.cs and remove Project Settings entry` — **record your SHA when committed** (0.7c-iii audit doc pass: `bbf467c31b2e9aa8483361cef93a54530ababb27`).
+
+**Developer notes for 0.7d:**
+- `MicPipeline.cs` + `.meta` removed from the repo. **Script Execution Order:** confirmed **`MicPipeline` is not present** in the list (2026-05-04) — no further action.
+- `rg` cannot go to absolute zero for `MicPipeline` while `FormerlySerializedAs("debugInterpreterMicPipelineRefNull")` / `…Ready` exist — that is intentional for scene/prefab migration.
 
 ---
 
@@ -864,7 +870,7 @@ Goal: Final audit before 0.7d's deletion. Catch leftover references, stale `usin
 
 - [ ] Project compiles with no errors.
 - [ ] All scenes load with no missing-script / missing-component warnings.
-- [ ] `rg -n "MicPipeline" Assets/` returns zero matches.
+- [ ] `rg -n "MicPipeline" Assets/` returns only `[FormerlySerializedAs("…MicPipeline…")]` strings on `ImitoneVoiceIntepreter` (or zero if those are ever renamed). No `MicPipeline` **type** or script file.
 - [ ] Voice path works end-to-end (toning, monitoring, visuals, Wwise) — **identical** subjective experience to pre-merge.
 - [ ] `MicVoiceIngestDebugAggregate` shows valid values for all existing sections.
 - [ ] Phase 1 FAIL OBSERVATION flags still fire on stuck spells (the bug is still reproducible after the merge — that's the proof we didn't accidentally hide it).
