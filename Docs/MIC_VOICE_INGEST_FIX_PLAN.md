@@ -614,11 +614,11 @@ This step lands the **FAIL OBSERVATION** Inspector section before any architectu
 - This step's commit precedes any architectural change. After Step 5/6, the Phase 1 flags `FAIL_UNREAD_ZERO_SUSTAINED` and `FAIL_GENTLE_RECOVERY_FIRED` will be removed; new flags from Steps 1, 3, and 6 take their place. The top-level `FAILURE` boolean stays.
 
 **Test:**
-- [ ] Run the scene normally; `FAILURE` is `false` during clean operation.
-- [ ] Reproduce a stuck spell (or wait for one to occur naturally during toning); `FAILURE` flips to `true` with at least one `FAIL_*` flag identifying the category (almost certainly `FAIL_UNREAD_ZERO_SUSTAINED` or `FAIL_INTERPRETER_NOT_CONSUMING`).
-- [ ] Verify the thresholds feel right relative to perceived bug severity; tune the serialized threshold fields if the flags trigger too eagerly or too sluggishly.
-- [ ] Verify the sticky-flag clear mechanism works (tick `FAIL_GENTLE_RECOVERY_FIRED` in your head, clear, confirm it un-sticks).
-- [ ] Use this block during Step 0's baseline recording sessions to characterize "how often does `FAILURE` go true and which sub-flags trigger?" — this is a cleaner baseline metric than chasing individual `unread_zero` counts.
+- [x] Run the scene normally; `FAILURE` is `false` during clean operation.
+- [x] Reproduce a stuck spell (or wait for one to occur naturally during toning); `FAILURE` flips to `true` with at least one `FAIL_*` flag identifying the category (almost certainly `FAIL_UNREAD_ZERO_SUSTAINED` or `FAIL_INTERPRETER_NOT_CONSUMING`).
+- [x] Verify the thresholds feel right relative to perceived bug severity; tune the serialized threshold fields if the flags trigger too eagerly or too sluggishly.
+- [x] Verify the sticky-flag clear mechanism works (tick `FAIL_GENTLE_RECOVERY_FIRED` in your head, clear, confirm it un-sticks).
+- [x] Use this block during Step 0's baseline recording sessions to characterize "how often does `FAILURE` go true and which sub-flags trigger?" — this is a cleaner baseline metric than chasing individual `unread_zero` counts.
 
 **Commit:** `feat: add FAIL OBSERVATION block to MicVoiceIngestDebugAggregate (Phase 1)`
 
