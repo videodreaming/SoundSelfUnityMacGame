@@ -139,7 +139,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         {
             ImitoneVoiceIntepreter.MicIngestDebugSnapshot m = interpreter.GetMicIngestDebugSnapshot();
             // Facade null-path can still yield default(snapshot); normalize exit reason for Inspector string compares.
-            aggMicExitReason = m.lastExitReason ?? "";
+            aggMicExitReason = m.lastExitReason;
             aggMicUnreadComputed = m.lastUnreadComputed;
             aggMicLatestRawSampleCount = m.lastLatestRawSampleCount;
             aggMicPosWrite = m.lastMicPosWrite;

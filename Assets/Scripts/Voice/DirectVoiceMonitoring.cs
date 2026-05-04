@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Provides real-time monitoring of microphone input using buffered pull transport from ImitoneVoiceIntepreter ring data.
 /// Raw and normalized modes both consume pipeline-published mono streams with fixed-latency read cursors.
-/// Note: ring-buffer reads use <see cref="ImitoneVoiceIntepreter"/> as the single mic-ingest owner (0.7c-ii merged MicPipeline here).
+/// Note: ring-buffer reads use <see cref="ImitoneVoiceIntepreter"/> as the single mic-ingest owner (0.7c-ii collapsed the old split component).
 /// </summary>
 public class DirectVoiceMonitoring : MonoBehaviour
 {
