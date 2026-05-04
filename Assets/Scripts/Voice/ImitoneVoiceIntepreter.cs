@@ -260,6 +260,91 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     public string MicrophoneDeviceName => micPipeline != null ? micPipeline.MicrophoneDeviceName : null;
     public int MicrophoneSampleRate => micPipeline != null ? micPipeline.SampleRate : sampleRate;
 
+    // 0.7a facade — delegates to MicPipeline; collapses in 0.7c when state migrates here.
+    // Goal: external consumers (DirectVoiceMonitoring, RecordedAudioPlayback, MicVoiceIngestDebugAggregate)
+    // can talk to ImitoneVoiceIntepreter directly instead of GetComponent<MicPipeline>(). 0.7b repoints them.
+    // All members are null-safe so the facade returns sensible defaults if the MicPipeline ref is missing.
+    public bool IsMicReady => micPipeline != null && micPipeline.IsReady;
+    public int MicChannels => micPipeline != null ? micPipeline.Channels : 1;
+    public int MicCaptureEpoch => micPipeline != null ? micPipeline.CaptureEpoch : 0;
+
+    public int ReadRawSamples(float[] destination, ref int readPosition, ref long readTotalSamples, out int overflowDroppedSamples)
+    {
+        if (micPipeline == null)
+        {
+            overflowDroppedSamples = 0;
+            if (destination != null && destination.Length > 0)
+            {
+                Array.Clear(destination, 0, destination.Length);
+            }
+            return 0;
+        }
+        return micPipeline.ReadRawSamples(destination, ref readPosition, ref readTotalSamples, out overflowDroppedSamples);
+    }
+
+    public int ReadNormalizedSamples(float[] destination, ref int readPosition, ref long readTotalSamples, out int overflowDroppedSamples)
+    {
+        if (micPipeline == null)
+        {
+            overflowDroppedSamples = 0;
+            if (destination != null && destination.Length > 0)
+            {
+                Array.Clear(destination, 0, destination.Length);
+            }
+            return 0;
+        }
+        return micPipeline.ReadNormalizedSamples(destination, ref readPosition, ref readTotalSamples, out overflowDroppedSamples);
+    }
+
+    public int ReadNormalizedSamples(float[] destination, ref int readPosition)
+    {
+        if (micPipeline == null)
+        {
+            if (destination != null && destination.Length > 0)
+            {
+                Array.Clear(destination, 0, destination.Length);
+            }
+            return 0;
+        }
+        return micPipeline.ReadNormalizedSamples(destination, ref readPosition);
+    }
+
+    public int CreateNormalizedReadPositionBehindMs(float delayMs)
+    {
+        return micPipeline != null ? micPipeline.CreateNormalizedReadPositionBehindMs(delayMs) : -1;
+    }
+
+    public bool TryCreateRawReadCursorBehindMs(float delayMs, out int readPosition, out long readTotalSamples)
+    {
+        if (micPipeline == null)
+        {
+            readPosition = -1;
+            readTotalSamples = 0;
+            return false;
+        }
+        return micPipeline.TryCreateRawReadCursorBehindMs(delayMs, out readPosition, out readTotalSamples);
+    }
+
+    public bool TryCreateNormalizedReadCursorBehindMs(float delayMs, out int readPosition, out long readTotalSamples)
+    {
+        if (micPipeline == null)
+        {
+            readPosition = -1;
+            readTotalSamples = 0;
+            return false;
+        }
+        return micPipeline.TryCreateNormalizedReadCursorBehindMs(delayMs, out readPosition, out readTotalSamples);
+    }
+
+    public MicPipeline.MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
+    {
+        if (micPipeline == null)
+        {
+            return default(MicPipeline.MicIngestDebugSnapshot);
+        }
+        return micPipeline.GetMicIngestDebugSnapshot();
+    }
+
     // Debug log category flags
     private bool debugAllowInitializationLogs = true;
    // private bool debugAllowToneActiveLogs = true;

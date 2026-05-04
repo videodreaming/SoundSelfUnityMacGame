@@ -659,19 +659,24 @@ This step is a **behavior-preserving refactor**. Zero perceptual change. The sam
 
 The goal is to give external consumers a single public interface on `ImitoneVoiceIntepreter` that returns the same data they currently get from `MicPipeline`. Internally, the facade just forwards each call. This pass adds API surface without moving any state — the easiest, safest possible starting point.
 
-- [ ] In `ImitoneVoiceIntepreter.cs`, audit existing public properties: `MicrophoneBuffer`, `MicrophoneDeviceName`, `MicrophoneSampleRate` already exist as pass-throughs to `micPipeline.X`. Good — they're already part of the facade. Note them.
-- [ ] Add public methods that consumers will need (each delegates to the corresponding `MicPipeline` method internally):
-  - `public bool IsMicReady` (pass-through to `micPipeline.IsReady`)
-  - `public bool TryCopyLatestRawFrame(ref float[] dest, out int sampleCount)` — forwards to `micPipeline.TryCopyLatestRawFrame(...)`.
-  - `public bool TryReadRawSamples(...)` / `public bool TryReadNormalizedSamples(...)` — forward to whatever the existing ring read methods are on `MicPipeline`. (Audit the actual public API of `MicPipeline` and mirror it here.)
-  - `public MicIngestDebugSnapshot GetMicIngestDebugSnapshot()` — forwards to `micPipeline.GetMicIngestDebugSnapshot()`. **Important:** the snapshot type is currently nested as `MicPipeline.MicIngestDebugSnapshot`. Either keep the type defined in `MicPipeline` for now and have `ImitoneVoiceIntepreter` return that exact type (`MicPipeline.MicIngestDebugSnapshot`), OR move the type definition to `ImitoneVoiceIntepreter` in this sub-pass with a `using static` or type alias on `MicPipeline.cs` so `MicPipeline` can still reference it. Pick one and stay consistent.
-- [ ] Audit `MicPipeline`'s public surface: `MicrophoneDeviceName`, `MicrophoneBuffer`, `SampleRate`, `IsReady`, `InitializeMicrophone()`, `TryCopyLatestRawFrame`, `GetMicIngestDebugSnapshot`, plus any ring read methods consumed by `DirectVoiceMonitoring` / `RecordedAudioPlayback`. Each public symbol gets a corresponding facade on `ImitoneVoiceIntepreter`.
-- [ ] **Do not yet repoint any consumer.** External code still calls `micPipeline.X` directly; the facade is just additive sugar.
-- [ ] Run scene; confirm zero behavior change. Inspector still shows the same MicVoiceIngestDebugAggregate values it always did.
+- [x] In `ImitoneVoiceIntepreter.cs`, audit existing public properties: `MicrophoneBuffer`, `MicrophoneDeviceName`, `MicrophoneSampleRate` already exist as pass-throughs to `micPipeline.X`. Good — they're already part of the facade. Note them.
+- [x] Add public methods that consumers will need (each delegates to the corresponding `MicPipeline` method internally). **Decisions made (see Developer notes below):** scope was minimal-driven-by-actual-consumers, snapshot type stays in `MicPipeline.cs` for 0.7a (moves with state in 0.7c), `Mic`-prefixed naming on properties for clarity (`IsMicReady` etc.).
+  - **Properties added:** `IsMicReady`, `MicChannels`, `MicCaptureEpoch`.
+  - **Methods added:** `ReadRawSamples` (4-param), `ReadNormalizedSamples` (4-param), `ReadNormalizedSamples` (2-param), `CreateNormalizedReadPositionBehindMs`, `TryCreateRawReadCursorBehindMs`, `TryCreateNormalizedReadCursorBehindMs`, `GetMicIngestDebugSnapshot` (returns `MicPipeline.MicIngestDebugSnapshot`).
+  - **Deliberately skipped** (no external caller; revisit if 0.7b finds a gap): `NormalizationStateChanged` event, `Get/SetNormalizationState`, `SetNormalizationEnabled/GainDb/HardClampEnabled/ClampAbs`, `GetNormalizationGainLinear`, `TryCopyLatestRawFrame`, `TryCopyLatestNormalizedFrame`, `InitializeMicrophone`, `ReadRawSamples` (2-param overload), `CreateRawReadPositionBehindMs`.
+- [x] Audit `MicPipeline`'s public surface: enumerated above; minimal facade covers the consumer-driven subset.
+- [x] **Do not yet repoint any consumer.** External code still calls `micPipeline.X` directly; the facade is just additive sugar.
+- [x] Run scene; confirm zero behavior change. Inspector still shows the same MicVoiceIngestDebugAggregate values it always did.
 
-*Compile + run + smoke test. Commit before moving on.*
+*Compile + run + smoke test. Commit before moving on.* — **smoke test passed (2026-05-04). Commit pending.**
 
 **Commit (0.7a):** `refactor: add facade methods on ImitoneVoiceIntepreter delegating to MicPipeline`
+
+*Developer notes for 0.7a:*
+- **Decisions logged:** (1) `Mic`-prefixed property names (`IsMicReady`, `MicChannels`, `MicCaptureEpoch`) chosen over `IsReady`/`Channels`/`CaptureEpoch` to disambiguate from the interpreter's own state. (2) `MicIngestDebugSnapshot` type definition stays in `MicPipeline.cs` for 0.7a; moves to `ImitoneVoiceIntepreter` in 0.7c with the rest of the state. (3) Minimal-driven-by-actual-consumers facade scope — see "Deliberately skipped" list above for what we left out and why.
+- **Review-pass findings (accepted as-is):**
+  - **R1 (minor, accepted):** Null-path on the 4-param `ReadRawSamples` / `ReadNormalizedSamples` doesn't advance `readPosition` / `readTotalSamples` like `MicPipeline`'s lock-miss path does. Benign — the only consumer (`DirectVoiceMonitoring`) gates on `IsMicReady` upstream. If we ever add a consumer that doesn't gate, revisit. Fix would be `readTotalSamples += destination.Length` in the null branch.
+  - **R2 (very minor, accepted):** `GetMicIngestDebugSnapshot()` null-path returns `default(MicPipeline.MicIngestDebugSnapshot)`, so `lastExitReason` is `null` instead of `""` (which is what `MicPipeline` always normalizes to). Functionally inert — the Phase 1 `FAIL_UNREAD_ZERO_SUSTAINED` string compares evaluate to `false` either way. Fix would be `return new MicPipeline.MicIngestDebugSnapshot { lastExitReason = "" };`.
 
 ---
 
