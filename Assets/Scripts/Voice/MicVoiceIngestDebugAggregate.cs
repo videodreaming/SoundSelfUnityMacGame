@@ -37,6 +37,11 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMicStalledWriteHeadFrames;
     [SerializeField] private int aggMicClipSamples;
     [SerializeField] private int aggMicUnityFrame;
+    [SerializeField] private int aggMicGentleUnreadZeroConsecutiveFrames;
+    [SerializeField] private int aggMicGentleUnreadZeroRecoveryTotal;
+    [SerializeField] private bool aggMicGentleRecoveryEnabled;
+    [SerializeField] private long aggMicRawRingWriteTotalSamples;
+    [SerializeField] private long aggMicNormRingWriteTotalSamples;
 
     [Header("Interpreter raw path (ImitoneVoiceIntepreter)")]
     [SerializeField] private bool aggRawConsumedThisFrame;
@@ -90,6 +95,11 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggMicStalledWriteHeadFrames = m.lastStalledWriteHeadFrameCount;
             aggMicClipSamples = m.lastClipSamples;
             aggMicUnityFrame = m.lastUnityFrame;
+            aggMicGentleUnreadZeroConsecutiveFrames = m.gentleUnreadZeroConsecutiveFrames;
+            aggMicGentleUnreadZeroRecoveryTotal = m.gentleUnreadZeroRecoveryTotal;
+            aggMicGentleRecoveryEnabled = m.gentleUnreadZeroRecoveryEnabled;
+            aggMicRawRingWriteTotalSamples = m.rawRingWriteTotalSamples;
+            aggMicNormRingWriteTotalSamples = m.normalizedRingWriteTotalSamples;
         }
 
         if (interpreter != null)

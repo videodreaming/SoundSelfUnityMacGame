@@ -14,6 +14,7 @@ using imitone;
 //TODO
 //Why is flooredsemitone floored and not rounded?
 
+[DefaultExecutionOrder(50)]
 public class ImitoneVoiceIntepreter : MonoBehaviour
 {
     //base variables pitch and midiNote
@@ -249,6 +250,10 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     [SerializeField] private bool _lowPassFilterEnabled = true;
     [SerializeField] private float _lowPassCutoffHz = 520f;
     private float _lpPrevOutput;
+
+    [Header("Imitone realtime feed")]
+    [Tooltip("Max samples sent to imitone.InputAudio per Update, as a frame count at 60 FPS reference (newest tail only; older samples in the same capture are skipped for analysis). MicPipeline still copies the full frame to its ring.")]
+    [SerializeField] [Range(1, 120)] private int imitoneMaxFeedFramesAt60FpsEquivalent = 20;
 
     // Public accessors for shared microphone usage
     public AudioClip MicrophoneBuffer => micPipeline != null ? micPipeline.MicrophoneBuffer : null;
@@ -697,12 +702,21 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
             if (_lowPassFilterEnabled && _lowPassCutoffHz > 0f)
                 ApplyLowPassFilter(capturedInput);
 
-            float meanAmplitude = 0f;
-            for (int i = 0; i < rawSampleCount; i++)
+            int imitoneCapSamples = Mathf.Max(1, Mathf.RoundToInt(sampleRate * (imitoneMaxFeedFramesAt60FpsEquivalent / 60f)));
+            int imitoneFeedStart = 0;
+            int imitoneFeedCount = rawSampleCount;
+            if (rawSampleCount > imitoneCapSamples)
             {
-                meanAmplitude += Mathf.Abs(capturedInput[i]);
+                imitoneFeedStart = rawSampleCount - imitoneCapSamples;
+                imitoneFeedCount = imitoneCapSamples;
             }
-            meanAmplitude /= rawSampleCount;
+
+            float meanAmplitude = 0f;
+            for (int i = 0; i < imitoneFeedCount; i++)
+            {
+                meanAmplitude += Mathf.Abs(capturedInput[imitoneFeedStart + i]);
+            }
+            meanAmplitude /= imitoneFeedCount;
             _dbMicrophone = AudioLevelUtilities.LinearToDb(meanAmplitude);
 
             // Analyze the captured audio with imitone.
@@ -713,13 +727,15 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
                 // CHUNKING: imitone's feed_buffer holds max 1 second (sampleRate samples). When mic buffer was 1 second,
                 // capturedInput never exceeded that. After increasing inputBuffer to 6 seconds, we can read up to ~6 sec
                 // in one frame (e.g. after startup lag or frame spike), causing IndexOutOfRangeException in imitone.
-                // We process in chunks of sampleRate, oldest-first, so imitone receives all audio in order.
+                // We process in chunks of sampleRate, oldest-first within the [imitoneFeedStart, imitoneFeedStart+imitoneFeedCount) window only
+                // (see imitoneMaxFeedFramesAt60FpsEquivalent — newest tail so bursts do not push imitone state with stale audio).
                 // TO REVERT: remove the chunking block below and restore: imitone.InputAudio(capturedInput);
                 if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
                     _imitoneChunkBuffer = new float[sampleRate];
-                for (int offset = 0; offset < rawSampleCount; offset += sampleRate)
+                int imitoneFeedEnd = imitoneFeedStart + imitoneFeedCount;
+                for (int offset = imitoneFeedStart; offset < imitoneFeedEnd; offset += sampleRate)
                 {
-                    int chunkSize = Math.Min(sampleRate, rawSampleCount - offset);
+                    int chunkSize = Math.Min(sampleRate, imitoneFeedEnd - offset);
                     float[] chunkToPass;
                     if (chunkSize == sampleRate)
                     {

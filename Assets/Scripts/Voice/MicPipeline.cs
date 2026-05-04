@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 
+[DefaultExecutionOrder(-500)]
 public class MicPipeline : MonoBehaviour
 {
     private enum MicChannelMode
@@ -19,6 +20,24 @@ public class MicPipeline : MonoBehaviour
     [SerializeField] private float recoveryRetryIntervalSeconds = 1f;
     [Tooltip("How many consecutive frames with no write-head movement trigger mic recovery.")]
     [SerializeField] private int stalledWriteHeadFrameThreshold = 120;
+
+    [Header("Gentle recovery — sustained unread_zero (optional; off by default)")]
+    [Tooltip("When true, debounced Stop + re-InitializeMicrophone after sustained unread_zero. Left in code for experiments; default off — remove if root cause is fixed elsewhere (see MIC_VOICE_INGEST_FINDINGS.md).")]
+    [SerializeField] private bool gentleUnreadZeroRecoveryEnabled = false;
+    [Tooltip("Consecutive Update frames with frameCount==0 before restart (e.g. 48 ≈ 0.8s at 60 FPS). Also see wall-clock trigger.")]
+    [SerializeField] [Range(12, 600)] private int gentleUnreadZeroConsecutiveFramesThreshold = 48;
+    [Tooltip("Minimum real time between gentle restarts to avoid thrashing.")]
+    [SerializeField] [Range(0.5f, 120f)] private float gentleUnreadZeroRecoveryCooldownSeconds = 6f;
+    [Tooltip("Suppress gentle restart only when stalled-write-head is within this many frames of the hard stalled threshold (avoid double-stop right before built-in stalled recovery).")]
+    [SerializeField] [Range(1, 60)] private int gentleUnreadZeroStallSuppressFramesFromHard = 3;
+    [Tooltip("If > 0, also restart when this many consecutive seconds of unread_zero pass (OR with frame count above). Helps when unread_zero is not 60+ frames in a row (e.g. mixed frames). Set 0 to disable.")]
+    [SerializeField] [Range(0f, 5f)] private float gentleUnreadZeroWallClockSeconds = 0.85f;
+    [Tooltip("Minimum consecutive unread_zero frames before wall-clock trigger can fire.")]
+    [SerializeField] [Range(5, 200)] private int gentleUnreadZeroWallMinConsecutiveFrames = 15;
+    [Tooltip("Second Microphone.GetPosition() when first is in-range; use if different (some platforms report a stale head on the first poll).")]
+    [SerializeField] private bool micWriteHeadDoublePoll = true;
+    [Tooltip("If stalled-head is near hard threshold, still allow gentle recovery after this many consecutive unread_zero frames (stall + unread limbo).")]
+    [SerializeField] [Range(30, 600)] private int gentleUnreadZeroBypassStallSuppressionAfterFrames = 90;
 
     [Header("Channel Contract")]
     [Tooltip("Pipeline output contract for consumers. This pipeline publishes mono samples.")]
@@ -105,7 +124,7 @@ public class MicPipeline : MonoBehaviour
     [SerializeField] private int rawRingBufferCapacitySamples = 0;
 
     [Header("Debug (copy when mic ingest stuck)")]
-    [Tooltip("Last branch taken in UpdateMicReadFrame: not_ready | device_unavailable | invalid_mic_position | stalled_capture_stopped | unread_zero | copied_samples")]
+    [Tooltip("Last branch taken in UpdateMicReadFrame: not_ready | device_unavailable | invalid_mic_position | stalled_capture_stopped | unread_zero | unread_zero_gentle_restart | copied_samples")]
     [SerializeField] private string debugMicLastExitReason = "";
     [SerializeField] private int debugMicLastUnreadComputed = -1;
     [SerializeField] private int debugMicLastLatestRawSampleCount = -1;
@@ -114,6 +133,8 @@ public class MicPipeline : MonoBehaviour
     [SerializeField] private int debugMicLastStalledWriteHeadFrameCount;
     [SerializeField] private int debugMicLastClipSamples;
     [SerializeField] private int debugMicLastUnityFrame;
+    [SerializeField] private int debugGentleUnreadZeroConsecutiveFrames;
+    [SerializeField] private int debugGentleUnreadZeroRecoveryCount;
 
     private string microphoneDeviceName;
     private AudioClip microphoneBuffer;
@@ -140,6 +161,10 @@ public class MicPipeline : MonoBehaviour
     private int lastFrameUpdated = -1;
     private float[] micReadChunkBuffer = Array.Empty<float>(); // interleaved input buffer
     private float[] micReadTailBuffer = Array.Empty<float>();  // interleaved input tail buffer
+    private int consecutiveUnreadZeroFrames;
+    private float lastGentleUnreadZeroRecoveryUnscaledTime = -999f;
+    private float unreadZeroStreakWallStartUnscaled = -1f;
+    private bool micUnreadZeroRecoveryRetryReadThisFrame;
 
     public bool IsReady => microphoneBuffer != null && !string.IsNullOrEmpty(microphoneDeviceName);
     public string MicrophoneDeviceName => microphoneDeviceName;
@@ -169,10 +194,27 @@ public class MicPipeline : MonoBehaviour
         public int lastStalledWriteHeadFrameCount;
         public int lastClipSamples;
         public int lastUnityFrame;
+        public int gentleUnreadZeroConsecutiveFrames;
+        public int gentleUnreadZeroRecoveryTotal;
+        public bool gentleUnreadZeroRecoveryEnabled;
+        public long rawRingWriteTotalSamples;
+        public long normalizedRingWriteTotalSamples;
     }
 
     public MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
     {
+        long rawTotal = 0;
+        long normTotal = 0;
+        lock (rawBufferLock)
+        {
+            rawTotal = rawWriteTotalSamples;
+        }
+
+        lock (normalizedBufferLock)
+        {
+            normTotal = normalizedWriteTotalSamples;
+        }
+
         return new MicIngestDebugSnapshot
         {
             lastExitReason = debugMicLastExitReason ?? "",
@@ -183,6 +225,11 @@ public class MicPipeline : MonoBehaviour
             lastStalledWriteHeadFrameCount = debugMicLastStalledWriteHeadFrameCount,
             lastClipSamples = debugMicLastClipSamples,
             lastUnityFrame = debugMicLastUnityFrame,
+            gentleUnreadZeroConsecutiveFrames = debugGentleUnreadZeroConsecutiveFrames,
+            gentleUnreadZeroRecoveryTotal = debugGentleUnreadZeroRecoveryCount,
+            gentleUnreadZeroRecoveryEnabled = gentleUnreadZeroRecoveryEnabled,
+            rawRingWriteTotalSamples = rawTotal,
+            normalizedRingWriteTotalSamples = normTotal,
         };
     }
 
@@ -691,7 +738,30 @@ public class MicPipeline : MonoBehaviour
         }
 
         UpdateMicReadFrame();
+        if (micUnreadZeroRecoveryRetryReadThisFrame)
+        {
+            micUnreadZeroRecoveryRetryReadThisFrame = false;
+            UpdateMicReadFrame();
+        }
+
         lastFrameUpdated = Time.frameCount;
+    }
+
+    private void ResetUnreadZeroStreak()
+    {
+        consecutiveUnreadZeroFrames = 0;
+        debugGentleUnreadZeroConsecutiveFrames = 0;
+        unreadZeroStreakWallStartUnscaled = -1f;
+    }
+
+    private void PerformGentleUnreadZeroCaptureRestart()
+    {
+        StopMicrophoneCapture();
+        recoveryWarningLogged = false;
+        nextRecoveryAttemptTime = 0f;
+        debugGentleUnreadZeroRecoveryCount++;
+        Debug.LogWarning($"MicPipeline: Gentle capture restart after sustained unread_zero (total restarts: {debugGentleUnreadZeroRecoveryCount}).");
+        InitializeMicrophone();
     }
 
     private void UpdateMicReadFrame()
@@ -700,6 +770,7 @@ public class MicPipeline : MonoBehaviour
 
         if (!IsReady)
         {
+            ResetUnreadZeroStreak();
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
             debugMicLastExitReason = "not_ready";
@@ -714,6 +785,7 @@ public class MicPipeline : MonoBehaviour
 
         if (!IsCurrentDeviceStillAvailable())
         {
+            ResetUnreadZeroStreak();
             ScheduleRecoveryAttempt($"Microphone device '{microphoneDeviceName}' is no longer available.");
             int readPosForDebug = micPosRead;
             int clipSamplesForDebug = microphoneBuffer != null ? microphoneBuffer.samples : 0;
@@ -732,8 +804,21 @@ public class MicPipeline : MonoBehaviour
         }
 
         int micPosWrite = Microphone.GetPosition(microphoneDeviceName);
+        if (micWriteHeadDoublePoll &&
+            microphoneBuffer.samples > 0 &&
+            micPosWrite >= 0 &&
+            micPosWrite < microphoneBuffer.samples)
+        {
+            int w2 = Microphone.GetPosition(microphoneDeviceName);
+            if (w2 >= 0 && w2 < microphoneBuffer.samples && w2 != micPosWrite)
+            {
+                micPosWrite = w2;
+            }
+        }
+
         if (micPosWrite < 0 || micPosWrite >= microphoneBuffer.samples || microphoneBuffer.samples <= 0)
         {
+            ResetUnreadZeroStreak();
             ScheduleRecoveryAttempt($"Invalid Microphone.GetPosition() value '{micPosWrite}' for device '{microphoneDeviceName}'.");
             int clipSamplesForDebug = microphoneBuffer.samples;
             int readHeadForDebug = micPosRead;
@@ -763,6 +848,7 @@ public class MicPipeline : MonoBehaviour
 
         if (stalledWriteHeadFrameCount >= Mathf.Max(5, stalledWriteHeadFrameThreshold))
         {
+            ResetUnreadZeroStreak();
             ScheduleRecoveryAttempt($"Detected stalled microphone write-head for device '{microphoneDeviceName}'.");
             int clipSamplesForDebug = microphoneBuffer.samples;
             int writePosForDebug = micPosWrite;
@@ -785,6 +871,51 @@ public class MicPipeline : MonoBehaviour
         int frameCount = (microphoneBuffer.samples + micPosWrite - micPosRead) % microphoneBuffer.samples;
         if (frameCount <= 0)
         {
+            consecutiveUnreadZeroFrames++;
+            if (consecutiveUnreadZeroFrames == 1)
+            {
+                unreadZeroStreakWallStartUnscaled = Time.unscaledTime;
+            }
+
+            debugGentleUnreadZeroConsecutiveFrames = consecutiveUnreadZeroFrames;
+
+            int stalledThreshold = Mathf.Max(5, stalledWriteHeadFrameThreshold);
+            int suppressWithin = Mathf.Clamp(gentleUnreadZeroStallSuppressFramesFromHard, 1, Mathf.Max(1, stalledThreshold - 1));
+            bool nearHardStall = stalledWriteHeadFrameCount >= stalledThreshold - suppressWithin;
+            bool stallBlocksGentle = nearHardStall && consecutiveUnreadZeroFrames < gentleUnreadZeroBypassStallSuppressionAfterFrames;
+
+            bool wallMet = gentleUnreadZeroWallClockSeconds > 0f &&
+                           unreadZeroStreakWallStartUnscaled > 0f &&
+                           (Time.unscaledTime - unreadZeroStreakWallStartUnscaled) >= gentleUnreadZeroWallClockSeconds &&
+                           consecutiveUnreadZeroFrames >= gentleUnreadZeroWallMinConsecutiveFrames;
+
+            bool frameMet = consecutiveUnreadZeroFrames >= gentleUnreadZeroConsecutiveFramesThreshold;
+
+            if (gentleUnreadZeroRecoveryEnabled &&
+                !stallBlocksGentle &&
+                (frameMet || wallMet) &&
+                Time.unscaledTime - lastGentleUnreadZeroRecoveryUnscaledTime >= gentleUnreadZeroRecoveryCooldownSeconds)
+            {
+                lastGentleUnreadZeroRecoveryUnscaledTime = Time.unscaledTime;
+                ResetUnreadZeroStreak();
+                PerformGentleUnreadZeroCaptureRestart();
+                if (IsReady)
+                {
+                    micUnreadZeroRecoveryRetryReadThisFrame = true;
+                }
+
+                latestRawSampleCount = 0;
+                latestNormalizedSampleCount = 0;
+                debugMicLastExitReason = "unread_zero_gentle_restart";
+                debugMicLastUnreadComputed = frameCount;
+                debugMicLastLatestRawSampleCount = 0;
+                debugMicLastMicPosWrite = micPosWrite;
+                debugMicLastMicPosRead = micPosRead;
+                debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
+                debugMicLastClipSamples = microphoneBuffer.samples;
+                return;
+            }
+
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
             debugMicLastExitReason = "unread_zero";
@@ -796,6 +927,8 @@ public class MicPipeline : MonoBehaviour
             debugMicLastClipSamples = microphoneBuffer.samples;
             return;
         }
+
+        ResetUnreadZeroStreak();
 
         if (latestRawFrame.Length < frameCount)
         {
