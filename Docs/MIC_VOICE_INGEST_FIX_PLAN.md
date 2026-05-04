@@ -670,7 +670,7 @@ The goal is to give external consumers a single public interface on `ImitoneVoic
 
 *Compile + run + smoke test. Commit before moving on.* — **smoke test passed (2026-05-04). Commit pending.**
 
-**Commit (0.7a):** `refactor: add facade methods on ImitoneVoiceIntepreter delegating to MicPipeline`
+**Commit (0.7a):** `refactor: add facade methods on ImitoneVoiceIntepreter delegating to MicPipeline` — SHA `39482da19ccb969c6cf8198b2f09ef4d1825dfd6` (2026-05-04).
 
 *Developer notes for 0.7a:*
 - **Decisions logged:** (1) `Mic`-prefixed property names (`IsMicReady`, `MicChannels`, `MicCaptureEpoch`) chosen over `IsReady`/`Channels`/`CaptureEpoch` to disambiguate from the interpreter's own state. (2) `MicIngestDebugSnapshot` type definition stays in `MicPipeline.cs` for 0.7a; moves to `ImitoneVoiceIntepreter` in 0.7c with the rest of the state. (3) Minimal-driven-by-actual-consumers facade scope — see "Deliberately skipped" list above for what we left out and why.
@@ -685,15 +685,26 @@ The goal is to give external consumers a single public interface on `ImitoneVoic
 Now that the facade exists, every consumer can read from `ImitoneVoiceIntepreter` instead of `MicPipeline`. Internally `ImitoneVoiceIntepreter` is still delegating to `MicPipeline`, so data flow is identical. After this sub-pass, **no external file calls `MicPipeline` directly anymore**.
 
 *Repoint each consumer:*
-- [ ] `Assets/Scripts/Voice/DirectVoiceMonitoring.cs` — change the serialized `MicPipeline micPipeline` field to a serialized `ImitoneVoiceIntepreter imitoneVoiceIntepreter`. Update every `micPipeline.X` call to `imitoneVoiceIntepreter.X`.
-- [ ] `Assets/Scripts/Voice/MicVoiceIngestDebugAggregate.cs` — change the serialized `MicPipeline micPipeline` field to a serialized `ImitoneVoiceIntepreter imitoneVoiceIntepreter`. Update the `LateUpdate` mic snapshot copy to call `imitoneVoiceIntepreter.GetMicIngestDebugSnapshot()`. Update auto-fill in `Awake()` similarly. **Phase 1 FAIL OBSERVATION flags continue to read the same fields** — they just come through the new owner now.
-- [ ] `Assets/Scripts/Utilities/RecordedAudioPlayback.cs` — change `GetComponent<MicPipeline>()` to `GetComponent<ImitoneVoiceIntepreter>()` (or refactor to use a serialized field; whichever matches the file's existing pattern).
-- [ ] `Assets/Scenes/MainGame.unity` — open the scene, find every GameObject with a serialized reference to `MicPipeline`, and reassign it in the Inspector to point at `ImitoneVoiceIntepreter`. Watch the console for "missing component" warnings on load.
-- [ ] **Verify with `rg`:** running `rg -n "MicPipeline" Assets/Scripts/` from the project root should show matches *only* in `MicPipeline.cs` itself and inside `ImitoneVoiceIntepreter.cs` (where the facade still delegates to `MicPipeline`). Zero matches elsewhere.
+- [x] `Assets/Scripts/Voice/DirectVoiceMonitoring.cs` — collapsed the serialized `MicPipeline micPipeline` field into the existing `imitoneVoiceInterpreter` reference (Decision 1). All `micPipeline.X` calls now go through the facade. Lazy `GetComponent<MicPipeline>()` resolves removed in `InitializeMonitoring` and `TryRecoverSetupIfNeeded`.
+- [x] `Assets/Scripts/Voice/MicVoiceIngestDebugAggregate.cs` — removed the `MicPipeline micPipeline` field, kept the existing `interpreter` field as the single source. `LateUpdate` snapshot copy now calls `interpreter.GetMicIngestDebugSnapshot()`. Awake auto-fill simplified. Phase 1 FAIL OBSERVATION flags read the same fields through the new owner — verified working in smoke test.
+- [x] `Assets/Scripts/Utilities/RecordedAudioPlayback.cs` — removed the private `MicPipeline micPipeline` cache and its lazy `GetComponent<MicPipeline>()` resolves. All ring reads, channel/sample-rate reads, and cursor-creation calls now go through `imitoneVoiceInterpreter` (existing public Inspector field).
+- [x] `Assets/Scenes/MainGame.unity` — Inspector references reassigned by the user; smoke test passed in Play mode with zero "missing script" / "missing component" warnings.
+- [x] **Verified with `rg`:** outside `MicPipeline.cs` itself and `ImitoneVoiceIntepreter.cs` (facade owner), the only remaining textual `MicPipeline` references are intentional transitional doc comments and the single `MicPipeline.MicIngestDebugSnapshot` type qualifier in `MicVoiceIngestDebugAggregate.cs` (Decision 3, accepted; type relocates in 0.7c).
 
-*Compile + run + smoke test. Phase 1 FAIL OBSERVATION should still surface stuck spells exactly as before. Commit before moving on.*
+*Compile + run + smoke test. Phase 1 FAIL OBSERVATION should still surface stuck spells exactly as before. Commit before moving on.* — **smoke test passed (2026-05-04). Commit pending.**
 
-**Commit (0.7b):** `refactor: repoint mic-ingest consumers from MicPipeline to ImitoneVoiceIntepreter`
+**Commit (0.7b):** `refactor: repoint mic-ingest consumers from MicPipeline to ImitoneVoiceIntepreter` — SHA `<pending>` (2026-05-04).
+
+*Developer notes for 0.7b:*
+- **Decisions logged:** (1) Collapsed the per-consumer `MicPipeline micPipeline` field into the consumer's existing `ImitoneVoiceIntepreter` reference where one already existed (`DirectVoiceMonitoring`, `RecordedAudioPlayback`); did a true field-level removal in `MicVoiceIngestDebugAggregate` where only the standalone `interpreter` field was kept. (2) Kept the existing variable-name pattern per file (`imitoneVoiceInterpreter` in consumers, `interpreter` in the aggregate) — match-the-file-style over fleet-wide consistency. (3) `MicVoiceIngestDebugAggregate.cs` retains a single `MicPipeline.MicIngestDebugSnapshot` type qualifier; this is the only remaining type-level dependency on `MicPipeline` in any consumer file and resolves in 0.7c when the type relocates.
+- **Scene-config requirement (post-0.7b):** Any scene or prefab that uses `DirectVoiceMonitoring` or `RecordedAudioPlayback` must now wire the `imitoneVoiceInterpreter` Inspector field explicitly. The previous lazy `GetComponent<MicPipeline>()` fallback path is gone (Decision 1). Smoke test confirmed `MainGame.unity` is correctly wired. Worth flagging to anyone authoring a new scene that consumes the voice path.
+- **Review-pass findings:**
+  - **R1 (cosmetic, fixed):** `aggMicExitReason` could briefly serialize as `null` (string) in transient pipeline states because the facade's null-path returns `default(MicPipeline.MicIngestDebugSnapshot)` (which has `lastExitReason = null`, not `""`). Fixed inline in `MicVoiceIngestDebugAggregate.LateUpdate` with a `?? ""` null-coalesce. Comparable to 0.7a R2 — but here the consumer-side normalization is the cheaper fix.
+  - **R2 (improvement, accepted):** `FAIL_INGEST_RING_STALLED` gate widened from "aggregate-side `micPipeline` assigned" to "interpreter assigned". This is a tightening of detection — if the interpreter is set but its internal pipeline goes unhealthy, the stall counter ticks up and the FAIL flag fires. Smoke test did not produce false positives on cold-start. If false positives appear later, mirror the existing `failMicNotReadyGracePeriodSeconds` grace into the stall check.
+  - **R3 (accepted, documented above):** Lazy `GetComponent<MicPipeline>()` resolves removed in two consumers — pre-approved by Decision 1. Consequence captured in the "Scene-config requirement" bullet above.
+  - **M1 (cosmetic, fixed):** Stale comment in `MicVoiceIngestDebugAggregate.cs` LateUpdate ("resets when MicPipeline reports anything else") rewritten as "resets when ingest reports anything else" — producer-agnostic.
+  - **M2 (deferred, pre-existing):** `RecordedAudioPlayback.StartRecording` leaves `_hasActiveRecordingFundamental = true` on the early-return error path. Pre-existing, not introduced by 0.7b. Tracked here so it isn't lost; not actioned.
+  - **M3 (cosmetic, fixed):** Tooltip on the aggregate's `interpreter` field was forward-looking ("after the 0.7 merge"). Rewritten to be more precise about the multi-step nature of the merge.
 
 ---
 

@@ -68,7 +68,6 @@ public class RecordedAudioPlayback : MonoBehaviour
     [Header("Audio Devices")]
 
     [SerializeField] private AudioSource playbackSource; // dedicated playback source
-    private MicPipeline micPipeline;                     // normalized mic stream provider
     private Coroutine playbackRoutine;                   // running playback coroutine
     private Coroutine volumeFadeRoutine;                 // running volume fade coroutine
     private bool previousPlayMode = false;               // tracks previous play mode state for fade detection
@@ -89,7 +88,7 @@ public class RecordedAudioPlayback : MonoBehaviour
     private List<float> recordedSamples = new List<float>(); // accumulated samples from normalized stream
     private int recordingReadPosition = -1; // read head for normalized ring buffer
     private int recordingChannels = 1; // normalized stream is mono by contract
-    private int recordingFrequency = 48000; // sample rate from MicPipeline
+    private int recordingFrequency = 48000; // sample rate from ImitoneVoiceIntepreter
     private float[] recordingReadBuffer; // reused buffer to drain normalized stream
     public string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss"); // session stamp
 
@@ -287,25 +286,19 @@ public class RecordedAudioPlayback : MonoBehaviour
     /// </summary>
     private void StartRecordingLoop()
     {
-        // Check if ImitoneVoiceIntepreter and MicPipeline are available
         if (imitoneVoiceInterpreter == null)
         {
             Debug.LogWarning("Recording: ImitoneVoiceIntepreter reference is not set!");
             return;
         }
 
-        if (micPipeline == null)
+        if (!imitoneVoiceInterpreter.IsMicReady)
         {
-            micPipeline = imitoneVoiceInterpreter.GetComponent<MicPipeline>();
-        }
-
-        if (micPipeline == null || !micPipeline.IsReady)
-        {
-            Debug.LogWarning("Recording: MicPipeline is not initialized yet.");
+            Debug.LogWarning("Recording: Microphone is not initialized yet.");
             return;
         }
 
-        Debug.Log("Recording: Recording Loop starting (using normalized MicPipeline stream)...");
+        Debug.Log("Recording: Recording Loop starting (using normalized stream from ImitoneVoiceIntepreter)...");
         StartCoroutine(RecordingCoroutine());
     }
 
@@ -588,27 +581,22 @@ public class RecordedAudioPlayback : MonoBehaviour
     
     /// <summary>
     /// Begins microphone capture and tags the current fundamental for the take.
-    /// Uses normalized stream from MicPipeline instead of direct microphone buffer reads.
+    /// Uses normalized stream from ImitoneVoiceIntepreter instead of direct microphone buffer reads.
     /// </summary>
     private void StartRecording(NoteName fundamental)
     {
         _activeRecordingFundamental = fundamental;
         _hasActiveRecordingFundamental = true;
 
-        if (micPipeline == null && imitoneVoiceInterpreter != null)
+        if (imitoneVoiceInterpreter == null || !imitoneVoiceInterpreter.IsMicReady)
         {
-            micPipeline = imitoneVoiceInterpreter.GetComponent<MicPipeline>();
-        }
-
-        if (micPipeline == null || !micPipeline.IsReady)
-        {
-            Debug.LogError("Recording: Cannot start recording - MicPipeline is not available!");
+            Debug.LogError("Recording: Cannot start recording - microphone is not available!");
             return;
         }
 
-        recordingChannels = micPipeline.Channels;
-        recordingFrequency = micPipeline.SampleRate;
-        recordingReadPosition = micPipeline.CreateNormalizedReadPositionBehindMs(0f);
+        recordingChannels = imitoneVoiceInterpreter.MicChannels;
+        recordingFrequency = imitoneVoiceInterpreter.MicrophoneSampleRate;
+        recordingReadPosition = imitoneVoiceInterpreter.CreateNormalizedReadPositionBehindMs(0f);
         if (recordingReadBuffer == null || recordingReadBuffer.Length != 4096)
         {
             recordingReadBuffer = new float[4096];
@@ -622,11 +610,11 @@ public class RecordedAudioPlayback : MonoBehaviour
 
     
     /// <summary>
-    /// Continuously reads new normalized samples from MicPipeline and accumulates them.
+    /// Continuously reads new normalized samples from ImitoneVoiceIntepreter and accumulates them.
     /// </summary>
     private void ReadFromSharedBuffer()
     {
-        if (micPipeline == null || !micPipeline.IsReady)
+        if (imitoneVoiceInterpreter == null || !imitoneVoiceInterpreter.IsMicReady)
             return;
 
         if (recordingReadBuffer == null || recordingReadBuffer.Length == 0)
@@ -638,7 +626,7 @@ public class RecordedAudioPlayback : MonoBehaviour
         int chunkLimit = Mathf.Max(1, maxNormalizedReadChunksPerTick);
         while (chunksRead < chunkLimit)
         {
-            int copied = micPipeline.ReadNormalizedSamples(recordingReadBuffer, ref recordingReadPosition);
+            int copied = imitoneVoiceInterpreter.ReadNormalizedSamples(recordingReadBuffer, ref recordingReadPosition);
             if (copied <= 0)
             {
                 break;

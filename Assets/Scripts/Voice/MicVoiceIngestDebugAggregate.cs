@@ -1,16 +1,17 @@
 using UnityEngine;
 
 /// <summary>
-/// Copies MicPipeline ingest debug + Imitone raw-path debug + tone/imitone gate flags
+/// Copies mic-ingest debug (from ImitoneVoiceIntepreter) + Imitone raw-path debug + tone/imitone gate flags
 /// (+ optional DirectVoiceMonitoring transport totals)
 /// into one Inspector block after upstream Update() (LateUpdate).
+/// Note: until 0.7c, ImitoneVoiceIntepreter delegates the snapshot to MicPipeline internally — same data, new owner.
 /// </summary>
 public class MicVoiceIngestDebugAggregate : MonoBehaviour
 {
     [Header("FAIL OBSERVATION (glance here first)")]
     [Tooltip("True if any subsidiary FAIL_* flag is true this frame (pure OR).")]
     [SerializeField] private bool FAILURE;
-    [Tooltip("True when MicPipeline exit reason stayed unread_zero for too many consecutive frames or seconds (see thresholds).")]
+    [Tooltip("True when the ingest exit reason stayed unread_zero for too many consecutive frames or seconds (see thresholds).")]
     [SerializeField] private bool FAIL_UNREAD_ZERO_SUSTAINED;
     [Tooltip("True when aggMicRawRingWriteTotalSamples has not increased for failIngestRingStalledFrameThreshold consecutive LateUpdate calls.")]
     [SerializeField] private bool FAIL_INGEST_RING_STALLED;
@@ -36,7 +37,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private bool clearFailObservationStickyFlags;
 
     [Header("References (auto-filled from this GameObject if empty)")]
-    [SerializeField] private MicPipeline micPipeline;
+    [Tooltip("Single source for both tone/imitone state and mic-ingest snapshots. Snapshots are routed via this reference during 0.7b; underlying state migrates fully into the interpreter in 0.7c.")]
     [SerializeField] private ImitoneVoiceIntepreter interpreter;
     [Tooltip("Optional: cumulative underflow/overflow/starvation from monitoring ring pull.")]
     [SerializeField] private DirectVoiceMonitoring voiceMonitoring;
@@ -56,7 +57,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggToneActiveCounter;
     [SerializeField] private int aggToneActiveConfidentCounter;
 
-    [Header("Mic ingest (MicPipeline — same frame as interpreter below)")]
+    [Header("Mic ingest (ImitoneVoiceIntepreter snapshot — same frame as interpreter section below)")]
     [SerializeField] private string aggMicExitReason = "";
     [SerializeField] private int aggMicUnreadComputed = -1;
     [SerializeField] private int aggMicLatestRawSampleCount = -1;
@@ -108,11 +109,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
 
     private void Awake()
     {
-        if (micPipeline == null)
-        {
-            micPipeline = GetComponent<MicPipeline>();
-        }
-
         if (interpreter == null)
         {
             interpreter = GetComponent<ImitoneVoiceIntepreter>();
@@ -139,10 +135,13 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (micPipeline != null)
+        if (interpreter != null)
         {
-            MicPipeline.MicIngestDebugSnapshot m = micPipeline.GetMicIngestDebugSnapshot();
-            aggMicExitReason = m.lastExitReason;
+            // 0.7b: snapshot routed via the merged interpreter facade. Type still nested in MicPipeline until 0.7c.
+            MicPipeline.MicIngestDebugSnapshot m = interpreter.GetMicIngestDebugSnapshot();
+            // 0.7b R1: facade null-path returns default(snapshot) where lastExitReason is null;
+            // normalize to "" so the Inspector field stays readable and unread_zero comparisons remain string-based.
+            aggMicExitReason = m.lastExitReason ?? "";
             aggMicUnreadComputed = m.lastUnreadComputed;
             aggMicLatestRawSampleCount = m.lastLatestRawSampleCount;
             aggMicPosWrite = m.lastMicPosWrite;
@@ -202,7 +201,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         // --- FAIL OBSERVATION (after aggregate copies and optional clear) ---
         // R1: gentle restart is itself a symptom of being stuck in unread_zero,
         // so treat unread_zero_gentle_restart as "still in trouble" — segment only
-        // resets when MicPipeline reports anything else (e.g. copied_samples).
+        // resets when ingest reports anything else (e.g. copied_samples).
         bool inUnreadZeroSegment =
             aggMicExitReason == UnreadZeroExitReason
             || aggMicExitReason == UnreadZeroGentleRestartExitReason;
@@ -230,7 +229,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             _consecutiveUnreadZeroFrames >= failUnreadZeroSustainedFrameThreshold
             || (_unreadZeroSegmentStartRealtime >= 0f && unreadZeroSegmentSeconds >= failUnreadZeroSustainedSecondsThreshold);
 
-        if (micPipeline != null)
+        if (interpreter != null)
         {
             if (!_rawRingStallPrevInitialized)
             {

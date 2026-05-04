@@ -4,8 +4,9 @@ using System.Threading;
 using UnityEngine;
 
 /// <summary>
-/// Provides real-time monitoring of microphone input using buffered pull transport from MicPipeline ring data.
+/// Provides real-time monitoring of microphone input using buffered pull transport from ImitoneVoiceIntepreter ring data.
 /// Raw and normalized modes both consume pipeline-published mono streams with fixed-latency read cursors.
+/// Note: until 0.7c, ImitoneVoiceIntepreter delegates ring reads to MicPipeline internally — same data, new owner.
 /// </summary>
 public class DirectVoiceMonitoring : MonoBehaviour
 {
@@ -22,10 +23,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     [Header("Core References")]
-    [Tooltip("Reference to ImitoneVoiceIntepreter. Used to auto-resolve MicPipeline if not assigned.")]
+    [Tooltip("Single source for both tone state AND normalized/raw mic ring reads after the 0.7 merge.")]
     public ImitoneVoiceIntepreter imitoneVoiceInterpreter;
-    [Tooltip("Reference to MicPipeline that provides normalized monitoring stream.")]
-    public MicPipeline micPipeline;
     
     [Header("Audio Output")]
     [Tooltip("AudioSource used for monitoring playback. If not assigned, will be created automatically.")]
@@ -34,7 +33,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [Header("Monitoring Controls")]
     [SerializeField] private bool monitoringEnabled = true;
     [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 1f;
-    [Tooltip("Select which MicPipeline stream to monitor for A/B testing and debugging.")]
+    [Tooltip("Select which mic ring stream (raw vs. normalized) to monitor for A/B testing and debugging.")]
     [SerializeField] private MonitoringStreamSource monitoringStreamSource = MonitoringStreamSource.Normalized;
     [Tooltip("When true, monitoring is attenuated (post dynamic scaling) by monitoringAttenuationMultiplier.")]
     [SerializeField] private bool monitoringAttenuated = false;
@@ -171,7 +170,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up monitoring once MicPipeline has initialized its microphone.
+    /// Sets up monitoring once ImitoneVoiceIntepreter has initialized its microphone.
     /// </summary>
     private void Start()
     {
@@ -179,43 +178,37 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
-    /// Coroutine that waits for MicPipeline to initialize, then sets up monitoring.
+    /// Coroutine that waits for ImitoneVoiceIntepreter's mic to initialize, then sets up monitoring.
     /// </summary>
     private IEnumerator InitializeMonitoring()
     {
         float timeout = 10f; // 10 second timeout
         float elapsed = 0f;
 
-        // Wait for ImitoneVoiceIntepreter if needed for auto-resolve.
-        while (micPipeline == null && imitoneVoiceInterpreter == null && elapsed < timeout)
+        while (imitoneVoiceInterpreter == null && elapsed < timeout)
         {
-            DbgWarn("DirectVoiceMonitoring: Waiting for MicPipeline or ImitoneVoiceIntepreter reference...");
+            DbgWarn("DirectVoiceMonitoring: Waiting for ImitoneVoiceIntepreter reference...");
             yield return new WaitForSeconds(0.1f);
             elapsed += 0.1f;
         }
 
-        if (micPipeline == null && imitoneVoiceInterpreter != null)
+        if (imitoneVoiceInterpreter == null)
         {
-            micPipeline = imitoneVoiceInterpreter.GetComponent<MicPipeline>();
-        }
-
-        if (micPipeline == null)
-        {
-            Debug.LogError("DirectVoiceMonitoring: MicPipeline reference is missing.");
+            Debug.LogError("DirectVoiceMonitoring: ImitoneVoiceIntepreter reference is missing.");
             yield break;
         }
 
         elapsed = 0f;
-        while (!micPipeline.IsReady && elapsed < timeout)
+        while (!imitoneVoiceInterpreter.IsMicReady && elapsed < timeout)
         {
-            DbgWarn("DirectVoiceMonitoring: Waiting for MicPipeline microphone initialization...");
+            DbgWarn("DirectVoiceMonitoring: Waiting for microphone initialization...");
             yield return null;
             elapsed += Time.deltaTime;
         }
 
-        if (!micPipeline.IsReady)
+        if (!imitoneVoiceInterpreter.IsMicReady)
         {
-            Debug.LogError("DirectVoiceMonitoring: Timeout waiting for MicPipeline microphone initialization.");
+            Debug.LogError("DirectVoiceMonitoring: Timeout waiting for microphone initialization.");
             yield break;
         }
 
@@ -226,13 +219,13 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up monitoring AudioSource with a streaming clip fed by MicPipeline samples.
+    /// Sets up monitoring AudioSource with a streaming clip fed by ImitoneVoiceIntepreter samples.
     /// </summary>
     private bool SetupMonitoring()
     {
-        if (micPipeline == null || !micPipeline.IsReady)
+        if (imitoneVoiceInterpreter == null || !imitoneVoiceInterpreter.IsMicReady)
         {
-            Debug.LogError("DirectVoiceMonitoring: MicPipeline is not ready.");
+            Debug.LogError("DirectVoiceMonitoring: Microphone is not ready.");
             return false;
         }
 
@@ -255,7 +248,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         WarnIfRawMonitoring("startup");
-        DbgLog($"DirectVoiceMonitoring: Monitoring initialized from MicPipeline ({monitoringStreamSource} stream).");
+        DbgLog($"DirectVoiceMonitoring: Monitoring initialized from ImitoneVoiceIntepreter ({monitoringStreamSource} stream).");
         nextSetupRetryTime = 0f;
         return true;
     }
@@ -278,9 +271,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        if (micPipeline != null && micPipeline.IsReady)
+        if (imitoneVoiceInterpreter != null && imitoneVoiceInterpreter.IsMicReady)
         {
-            int currentCaptureEpoch = micPipeline.CaptureEpoch;
+            int currentCaptureEpoch = imitoneVoiceInterpreter.MicCaptureEpoch;
             if (currentCaptureEpoch != lastSeenCaptureEpoch)
             {
                 if (ConfigureMonitoringSourceClip())
@@ -288,7 +281,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
                     captureRebindCount++;
                     captureRebindCountWindow++;
                     PrimeBufferedReadCursorForSource(monitoringStreamSource);
-                    DbgLog("DirectVoiceMonitoring: MicPipeline capture restart detected. Re-bound shared monitoring clip.");
+                    DbgLog("DirectVoiceMonitoring: Mic capture restart detected. Re-bound shared monitoring clip.");
                 }
                 else
                 {
@@ -296,7 +289,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
                     float now = Time.unscaledTime;
                     if (now - lastRebindFailureWarningTime >= Mathf.Max(0.5f, rebindFailureWarningIntervalSeconds))
                     {
-                        DbgWarn("DirectVoiceMonitoring: MicPipeline capture restart detected, but monitoring clip rebind failed.");
+                        DbgWarn("DirectVoiceMonitoring: Mic capture restart detected, but monitoring clip rebind failed.");
                         lastRebindFailureWarningTime = now;
                     }
                 }
@@ -371,12 +364,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
 
         nextSetupRetryTime = now + Mathf.Max(0.1f, setupRetryIntervalSeconds);
 
-        if (micPipeline == null && imitoneVoiceInterpreter != null)
-        {
-            micPipeline = imitoneVoiceInterpreter.GetComponent<MicPipeline>();
-        }
-
-        if (micPipeline == null || !micPipeline.IsReady)
+        if (imitoneVoiceInterpreter == null || !imitoneVoiceInterpreter.IsMicReady)
         {
             return;
         }
@@ -389,7 +377,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
 
     private void PrimeBufferedReadCursorForSource(MonitoringStreamSource source)
     {
-        if (micPipeline == null)
+        if (imitoneVoiceInterpreter == null)
         {
             return;
         }
@@ -398,11 +386,11 @@ public class DirectVoiceMonitoring : MonoBehaviour
         bool success = false;
         if (source == MonitoringStreamSource.Normalized)
         {
-            success = micPipeline.TryCreateNormalizedReadCursorBehindMs(delayMs, out normalizedReadPosition, out normalizedReadTotalSamples);
+            success = imitoneVoiceInterpreter.TryCreateNormalizedReadCursorBehindMs(delayMs, out normalizedReadPosition, out normalizedReadTotalSamples);
         }
         else
         {
-            success = micPipeline.TryCreateRawReadCursorBehindMs(delayMs, out rawReadPosition, out rawReadTotalSamples);
+            success = imitoneVoiceInterpreter.TryCreateRawReadCursorBehindMs(delayMs, out rawReadPosition, out rawReadTotalSamples);
         }
 
         if (!success)
@@ -650,7 +638,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return;
         }
 
-        if (!monitoringEnabled || !isInitialized || micPipeline == null)
+        if (!monitoringEnabled || !isInitialized || imitoneVoiceInterpreter == null)
         {
             Array.Clear(data, 0, data.Length);
             return;
@@ -672,11 +660,11 @@ public class DirectVoiceMonitoring : MonoBehaviour
         int overflowDropped = 0;
         if (monitoringStreamSource == MonitoringStreamSource.Normalized)
         {
-            copied = micPipeline.ReadNormalizedSamples(monitoringMonoReadBuffer, ref normalizedReadPosition, ref normalizedReadTotalSamples, out overflowDropped);
+            copied = imitoneVoiceInterpreter.ReadNormalizedSamples(monitoringMonoReadBuffer, ref normalizedReadPosition, ref normalizedReadTotalSamples, out overflowDropped);
         }
         else
         {
-            copied = micPipeline.ReadRawSamples(monitoringMonoReadBuffer, ref rawReadPosition, ref rawReadTotalSamples, out overflowDropped);
+            copied = imitoneVoiceInterpreter.ReadRawSamples(monitoringMonoReadBuffer, ref rawReadPosition, ref rawReadTotalSamples, out overflowDropped);
         }
 
         if (overflowDropped > 0)
@@ -713,11 +701,11 @@ public class DirectVoiceMonitoring : MonoBehaviour
 
     private bool ConfigureMonitoringSourceClip()
     {
-        if (monitoringSource == null || micPipeline == null)
+        if (monitoringSource == null || imitoneVoiceInterpreter == null)
         {
             return false;
         }
-        sharedMicrophoneBuffer = micPipeline.MicrophoneBuffer;
+        sharedMicrophoneBuffer = imitoneVoiceInterpreter.MicrophoneBuffer;
         if (sharedMicrophoneBuffer == null)
         {
             float now = Time.unscaledTime;
@@ -730,7 +718,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
 
         monitoringSource.clip = sharedMicrophoneBuffer;
-        lastSeenCaptureEpoch = micPipeline.CaptureEpoch;
+        lastSeenCaptureEpoch = imitoneVoiceInterpreter.MicCaptureEpoch;
         return true;
     }
 
