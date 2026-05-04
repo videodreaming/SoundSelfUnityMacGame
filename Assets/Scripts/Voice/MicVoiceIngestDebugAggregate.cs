@@ -4,7 +4,7 @@ using UnityEngine;
 /// Copies mic-ingest debug (from ImitoneVoiceIntepreter) + Imitone raw-path debug + tone/imitone gate flags
 /// (+ optional DirectVoiceMonitoring transport totals)
 /// into one Inspector block after upstream Update() (LateUpdate).
-/// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values still originate from MicPipeline until sub-pass 0.7c-ii.
+/// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values are copied from <see cref="ImitoneVoiceIntepreter.GetMicIngestDebugSnapshot"/>.
 /// </summary>
 public class MicVoiceIngestDebugAggregate : MonoBehaviour
 {

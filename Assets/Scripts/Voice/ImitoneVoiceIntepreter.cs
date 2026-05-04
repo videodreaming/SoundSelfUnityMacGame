@@ -16,7 +16,7 @@ using imitone;
 //Why is flooredsemitone floored and not rounded?
 
 [DefaultExecutionOrder(50)]
-public class ImitoneVoiceIntepreter : MonoBehaviour
+public partial class ImitoneVoiceIntepreter : MonoBehaviour
 {
     //base variables pitch and midiNote
     public LightControl lightControl;
@@ -253,7 +253,6 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     int sampleRate;
     ImitoneVoice imitone;
-    [SerializeField] private MicPipeline micPipeline;
 
     float[] capturedInput;
     // Reusable buffer for chunking audio to imitone. Imitone's internal feed_buffer holds max 1 second (sampleRate samples).
@@ -273,98 +272,8 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     private float _lpPrevOutput;
 
     [Header("Imitone realtime feed")]
-    [Tooltip("Max samples sent to imitone.InputAudio per Update, as a frame count at 60 FPS reference (newest tail only; older samples in the same capture are skipped for analysis). MicPipeline still copies the full frame to its ring.")]
+    [Tooltip("Max samples sent to imitone.InputAudio per Update, as a frame count at 60 FPS reference (newest tail only; older samples in the same capture are skipped for analysis). Full mic frames are still written to the ingest ring buffer.")]
     [SerializeField] [Range(1, 120)] private int imitoneMaxFeedFramesAt60FpsEquivalent = 20;
-
-    // Public accessors for shared microphone usage
-    public AudioClip MicrophoneBuffer => micPipeline != null ? micPipeline.MicrophoneBuffer : null;
-    public string MicrophoneDeviceName => micPipeline != null ? micPipeline.MicrophoneDeviceName : null;
-    public int MicrophoneSampleRate => micPipeline != null ? micPipeline.SampleRate : sampleRate;
-
-    // 0.7a facade — delegates to MicPipeline; collapses in 0.7c when state migrates here.
-    // Goal: external consumers (DirectVoiceMonitoring, RecordedAudioPlayback, MicVoiceIngestDebugAggregate)
-    // can talk to ImitoneVoiceIntepreter directly instead of GetComponent<MicPipeline>(). 0.7b repoints them.
-    // All members are null-safe so the facade returns sensible defaults if the MicPipeline ref is missing.
-    public bool IsMicReady => micPipeline != null && micPipeline.IsReady;
-    public int MicChannels => micPipeline != null ? micPipeline.Channels : 1;
-    public int MicCaptureEpoch => micPipeline != null ? micPipeline.CaptureEpoch : 0;
-
-    public int ReadRawSamples(float[] destination, ref int readPosition, ref long readTotalSamples, out int overflowDroppedSamples)
-    {
-        if (micPipeline == null)
-        {
-            overflowDroppedSamples = 0;
-            if (destination != null && destination.Length > 0)
-            {
-                Array.Clear(destination, 0, destination.Length);
-            }
-            return 0;
-        }
-        return micPipeline.ReadRawSamples(destination, ref readPosition, ref readTotalSamples, out overflowDroppedSamples);
-    }
-
-    public int ReadNormalizedSamples(float[] destination, ref int readPosition, ref long readTotalSamples, out int overflowDroppedSamples)
-    {
-        if (micPipeline == null)
-        {
-            overflowDroppedSamples = 0;
-            if (destination != null && destination.Length > 0)
-            {
-                Array.Clear(destination, 0, destination.Length);
-            }
-            return 0;
-        }
-        return micPipeline.ReadNormalizedSamples(destination, ref readPosition, ref readTotalSamples, out overflowDroppedSamples);
-    }
-
-    public int ReadNormalizedSamples(float[] destination, ref int readPosition)
-    {
-        if (micPipeline == null)
-        {
-            if (destination != null && destination.Length > 0)
-            {
-                Array.Clear(destination, 0, destination.Length);
-            }
-            return 0;
-        }
-        return micPipeline.ReadNormalizedSamples(destination, ref readPosition);
-    }
-
-    public int CreateNormalizedReadPositionBehindMs(float delayMs)
-    {
-        return micPipeline != null ? micPipeline.CreateNormalizedReadPositionBehindMs(delayMs) : -1;
-    }
-
-    public bool TryCreateRawReadCursorBehindMs(float delayMs, out int readPosition, out long readTotalSamples)
-    {
-        if (micPipeline == null)
-        {
-            readPosition = -1;
-            readTotalSamples = 0;
-            return false;
-        }
-        return micPipeline.TryCreateRawReadCursorBehindMs(delayMs, out readPosition, out readTotalSamples);
-    }
-
-    public bool TryCreateNormalizedReadCursorBehindMs(float delayMs, out int readPosition, out long readTotalSamples)
-    {
-        if (micPipeline == null)
-        {
-            readPosition = -1;
-            readTotalSamples = 0;
-            return false;
-        }
-        return micPipeline.TryCreateNormalizedReadCursorBehindMs(delayMs, out readPosition, out readTotalSamples);
-    }
-
-    public MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
-    {
-        if (micPipeline == null)
-        {
-            return default(MicIngestDebugSnapshot);
-        }
-        return micPipeline.GetMicIngestDebugSnapshot();
-    }
 
     // Debug log category flags
     private bool debugAllowInitializationLogs = true;
@@ -379,34 +288,20 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
     {
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
-        if (micPipeline == null)
-        {
-            micPipeline = GetComponent<MicPipeline>();
-        }
-
-        if (micPipeline == null)
+        InitializeMicrophone();
+        if (!MicIngestIsReady)
         {
             if (debugAllowInitializationLogs || debugAllowWarnings)
             {
-                Debug.LogError("Imitone: MicPipeline reference is missing.");
+                Debug.LogError("Imitone: Microphone capture failed to initialize.");
             }
             return;
         }
 
-        micPipeline.InitializeMicrophone();
-        if (!micPipeline.IsReady)
-        {
-            if (debugAllowInitializationLogs || debugAllowWarnings)
-            {
-                Debug.LogError("Imitone: MicPipeline failed to initialize microphone capture.");
-            }
-            return;
-        }
-
-        sampleRate = micPipeline.SampleRate;
+        sampleRate = micCaptureSampleRate;
         if (debugAllowInitializationLogs)
         {
-            Debug.Log("Imitone: Chose microphone via MicPipeline: " + micPipeline.MicrophoneDeviceName);
+            Debug.Log("Imitone: Chose microphone: " + MicrophoneDeviceName);
         }
 
         try
@@ -435,6 +330,7 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
 
     void Update()
     {
+        MicIngestMainThreadTick();
         SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
@@ -783,20 +679,20 @@ public class ImitoneVoiceIntepreter : MonoBehaviour
         telemetryRawVoiceDataConsumedThisFrame = false;
         debugInterpreterTryCopyOutSampleCount = -1;
         debugInterpreterTryCopyReturnedTrue = false;
-        debugInterpreterMicRefNull = micPipeline == null;
-        debugInterpreterMicReady = micPipeline != null && micPipeline.IsReady;
+        debugInterpreterMicRefNull = false;
+        debugInterpreterMicReady = MicIngestIsReady;
 
-        if (micPipeline == null || !micPipeline.IsReady)
+        if (!MicIngestIsReady)
         {
             if(debugAllowInitializationLogs || debugAllowWarnings)
             {
-                Debug.LogError("Imitone: MicPipeline is not ready.");
+                Debug.LogError("Imitone: Microphone capture is not ready.");
             }
             return;
         }
 
         int rawSampleCount;
-        bool tryCopyOk = micPipeline.TryCopyLatestRawFrame(ref capturedInput, out rawSampleCount);
+        bool tryCopyOk = TryCopyLatestRawFrame(ref capturedInput, out rawSampleCount);
         debugInterpreterTryCopyOutSampleCount = rawSampleCount;
         debugInterpreterTryCopyReturnedTrue = tryCopyOk;
 

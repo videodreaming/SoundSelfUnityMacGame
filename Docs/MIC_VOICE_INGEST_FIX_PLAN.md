@@ -764,13 +764,14 @@ Goal: Get the cosmetic / decoupled changes out of the way before touching the ru
 - [x] **Verify with `rg`:** running `rg -n "MicIngestDebugSnapshot" Assets/Scripts/` should show **only** the `ImitoneVoiceIntepreter` definition and references to `ImitoneVoiceIntepreter.MicIngestDebugSnapshot` (or unqualified, inside the class body). Zero matches for `MicPipeline.MicIngestDebugSnapshot`.
 - [x] **Verify with `rg`:** running `rg -n "InterpreterMicPipeline|interpreterMicPipeline" Assets/Scripts/` should return zero matches — **exception:** `[FormerlySerializedAs("debugInterpreterMicPipelineRefNull")]` / `"…Ready"` attribute strings still contain the old names by design (migration hooks).
 
-*Compile + run + smoke test (Phase 1 FAIL OBSERVATION still surfaces stuck spells exactly as in 0.7b — no behavior changed). Commit before moving on.* — **Awaiting user smoke test + commit.**
+*Compile + run + smoke test (Phase 1 FAIL OBSERVATION still surfaces stuck spells exactly as in 0.7b — no behavior changed). Commit before moving on.* — **Smoke test passed (2026-05-04).**
 
-**Commit (0.7c-i):** `refactor: relocate MicIngestDebugSnapshot to ImitoneVoiceIntepreter and rename interpreter mic-debug fields` — SHA `<pending>`.
+**Commit (0.7c-i):** `refactor: relocate MicIngestDebugSnapshot to ImitoneVoiceIntepreter and rename interpreter mic-debug fields` — SHA `519810f2b6082f34a723167034fc53df9369c2e2` (2026-05-04).
 
 **Developer notes for 0.7c-i:**
 - Added `[FormerlySerializedAs("debugInterpreterMicPipelineRefNull")]` / `[FormerlySerializedAs("debugInterpreterMicPipelineReady")]` on the renamed `[SerializeField]` debug booleans so prefabs/scenes deserialize cleanly; `MainGame.unity` YAML keys updated to the new names explicitly.
 - Type relocation only — runtime mic path unchanged (`MicPipeline.GetMicIngestDebugSnapshot()` still builds the snapshot from MicPipeline internals).
+- Play-mode smoke test passed after commit `519810f2b6082f34a723167034fc53df9369c2e2`.
 
 ---
 

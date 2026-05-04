@@ -12143,7 +12143,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 740096626}
-  - component: {fileID: 740096627}
   - component: {fileID: 740096625}
   - component: {fileID: 740096628}
   m_Layer: 0
@@ -12231,41 +12230,8 @@ MonoBehaviour:
   telemetryImitoneActiveRawTimer: 0
   telemetryImitoneInactiveRawTimer: 0
   imitoneConfig: 
-  micPipeline: {fileID: 740096627}
-  _highPassFilterEnabled: 1
-  _highPassCutoffHz: 80
-  _lowPassFilterEnabled: 1
-  _lowPassCutoffHz: 520
-  imitoneMaxFeedFramesAt60FpsEquivalent: 20
---- !u!4 &740096626
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 303.23636, y: 404.86465, z: -472.0918}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 811322662}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &740096627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740096620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9110a0ee02580df49848ca1eed88a486, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   preferredDeviceName: 
-  sampleRate: 48000
+  micCaptureSampleRate: 48000
   loopLengthSeconds: 6
   micReadChunkSize: 2048
   recoveryRetryIntervalSeconds: 1
@@ -12279,7 +12245,6 @@ MonoBehaviour:
   micWriteHeadDoublePoll: 1
   gentleUnreadZeroBypassStallSuppressionAfterFrames: 90
   channelMode: 1
-  imitoneVoiceIntepreter: {fileID: 0}
   normalizationEnabled: 1
   normalizationGainDb: 0
   normalizationHardClampEnabled: 1
@@ -12330,6 +12295,26 @@ MonoBehaviour:
   debugMicLastUnityFrame: 0
   debugGentleUnreadZeroConsecutiveFrames: 0
   debugGentleUnreadZeroRecoveryCount: 0
+  _highPassFilterEnabled: 1
+  _highPassCutoffHz: 80
+  _lowPassFilterEnabled: 1
+  _lowPassCutoffHz: 520
+  imitoneMaxFeedFramesAt60FpsEquivalent: 20
+--- !u!4 &740096626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740096620}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 303.23636, y: 404.86465, z: -472.0918}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 811322662}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &740096628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12342,7 +12327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76cc206b62ed0cc469348cb7a2733a87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  micPipeline: {fileID: 740096627}
   interpreter: {fileID: 740096625}
   voiceMonitoring: {fileID: 858214636}
   aggImitoneActive: 0
@@ -14208,7 +14192,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imitoneVoiceInterpreter: {fileID: 740096625}
-  micPipeline: {fileID: 0}
   monitoringSource: {fileID: 858214635}
   monitoringEnabled: 1
   monitoringVolume: 0.357
