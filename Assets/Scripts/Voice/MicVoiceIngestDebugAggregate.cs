@@ -11,6 +11,20 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [Header("FAIL OBSERVATION (glance here first)")]
     [Tooltip("True if any subsidiary FAIL_* flag is true this frame (pure OR).")]
     [SerializeField] private bool FAILURE;
+
+    [Header("FAIL OBSERVATION — Phase 2 (audio thread)")]
+    [Tooltip("True when the audio callback counter has not advanced for failAudioCallbackFrozenSeconds (after grace).")]
+    [SerializeField] private bool FAIL_AUDIO_CALLBACK_FROZEN;
+    [Tooltip("True when rolling callback rate stays below the low fraction of expected for 1+ second.")]
+    [SerializeField] private bool FAIL_AUDIO_CALLBACK_RATE_LOW;
+    [Tooltip("True when max inter-callback gap in the last second exceeds the high multiplier of nominal.")]
+    [SerializeField] private bool FAIL_AUDIO_CALLBACK_GAP_HIGH;
+    [Tooltip("True when lock-miss count in the last 1s window exceeds the per-second threshold.")]
+    [SerializeField] private bool FAIL_AUDIO_LOCK_CONTENTION;
+    [Tooltip("Sticky: latched when GC-alloc-suspect counter increases; clear with clearFailObservationStickyFlags.")]
+    [SerializeField] private bool FAIL_AUDIO_GC_ALLOC_DETECTED;
+
+    [Header("FAIL OBSERVATION — Phase 1 (ingest)")]
     [Tooltip("True when the ingest exit reason stayed unread_zero for too many consecutive frames or seconds (see thresholds).")]
     [SerializeField] private bool FAIL_UNREAD_ZERO_SUSTAINED;
     [Tooltip("True when aggMicRawRingWriteTotalSamples has not increased for failIngestRingStalledFrameThreshold consecutive LateUpdate calls.")]
@@ -31,6 +45,11 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int failInterpreterNotConsumingFrameThreshold = 30;
     [SerializeField] private float failMonitoringStarvationWindowSeconds = 2f;
     [SerializeField] private float failMicNotReadyGracePeriodSeconds = 2f;
+    [SerializeField] private float failAudioCallbackStartupGraceSeconds = 2f;
+    [SerializeField] private float failAudioCallbackFrozenSeconds = 0.2f;
+    [SerializeField] private float failAudioCallbackRateLowFraction = 0.75f;
+    [SerializeField] private float failAudioCallbackGapHighMultiplier = 2f;
+    [SerializeField] private long failAudioLockMissPerSecondThreshold = 50;
 
     [Header("FAIL OBSERVATION — actions")]
     [Tooltip("Tick once in Play mode to clear sticky gentle-recovery latch and reset ring-stall baseline; unticks automatically.")]
@@ -41,6 +60,22 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private ImitoneVoiceIntepreter interpreter;
     [Tooltip("Optional: cumulative underflow/overflow/starvation from monitoring ring pull.")]
     [SerializeField] private DirectVoiceMonitoring voiceMonitoring;
+
+    [Header("Audio thread health (Step 1 — parallel path)")]
+    [SerializeField] private long aggAudioCallbackTotal;
+    [SerializeField] private long aggAudioCallbackSamplesProcessedTotal;
+    [SerializeField] private int aggAudioCallbackLastSamplesPerCallback;
+    [SerializeField] private float aggAudioCallbackHzRolling;
+    [SerializeField] private float aggAudioCallbackMaxGapMsLastSecond;
+    [SerializeField] private long aggAudioCallbackLockMissTotal;
+    [SerializeField] private long aggAudioCallbackGCAllocSuspectTotal;
+    [SerializeField] private long aggAudioRingWriteTotalSamples;
+    [SerializeField] private int aggAudioRingWriteLastClipReadStart;
+    [SerializeField] private int aggAudioRingWriteLastClipReadCount;
+    [SerializeField] private int aggMicClipChannels;
+    [SerializeField] private int aggMixerChannels;
+    [SerializeField] private int aggAudioConfigOutputSampleRate;
+    [SerializeField] private int aggAudioConfigDspBufferSize;
 
     [Header("Tone / imitone gate (ImitoneVoiceIntepreter — public runtime flags)")]
     [SerializeField] private bool aggImitoneActive;
@@ -107,8 +142,19 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private int _prevAggMonStarvationEvents = -1;
     private float _lastStarvationIncreaseRealtime = -1f;
 
+    private long _prevAggAudioCallbackTotalForFrozen = -1;
+    private float _lastAudioCallbackTotalAdvanceRealtime;
+    private float _audioRateLowSustainedTimer;
+    private float _audioLockMissWindowTimer;
+    private long _audioLockMissAtWindowStart;
+    private bool _audioLockBaselineInitialized;
+    private bool _gcAllocStickyLatched;
+    private long _gcSuspectBaselineAtClear;
+
     private void Awake()
     {
+        _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
+        _gcSuspectBaselineAtClear = 0;
         if (interpreter == null)
         {
             interpreter = GetComponent<ImitoneVoiceIntepreter>();
@@ -131,6 +177,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _gentleRecoveryStickyLatched = false;
         _rawRingStallPrevInitialized = false;
         _consecutiveIngestRingStallFrames = 0;
+        _gcSuspectBaselineAtClear = aggAudioCallbackGCAllocSuspectTotal;
+        _gcAllocStickyLatched = false;
+        _audioLockBaselineInitialized = false;
+        _audioLockMissWindowTimer = 0f;
     }
 
     private void LateUpdate()
@@ -178,6 +228,22 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggToneActiveBiasTrueFrame = interpreter.toneActiveBiasTrueFrame;
             aggToneActiveCounter = interpreter.toneActiveCounter;
             aggToneActiveConfidentCounter = interpreter.toneActiveConfidentCounter;
+
+            ImitoneVoiceIntepreter.AudioThreadHealthSnapshot a = interpreter.GetAudioThreadHealthSnapshot();
+            aggAudioCallbackTotal = a.audioCallbackTotal;
+            aggAudioCallbackSamplesProcessedTotal = a.audioCallbackSamplesProcessedTotal;
+            aggAudioCallbackLastSamplesPerCallback = a.audioCallbackLastSamplesPerCallback;
+            aggAudioCallbackHzRolling = a.audioCallbackHzRolling;
+            aggAudioCallbackMaxGapMsLastSecond = a.audioCallbackMaxGapMsLastSecond;
+            aggAudioCallbackLockMissTotal = a.audioCallbackLockMissTotal;
+            aggAudioCallbackGCAllocSuspectTotal = a.audioCallbackGCAllocSuspectTotal;
+            aggAudioRingWriteTotalSamples = a.audioRingWriteTotalSamples;
+            aggAudioRingWriteLastClipReadStart = a.audioRingWriteLastClipReadStart;
+            aggAudioRingWriteLastClipReadCount = a.audioRingWriteLastClipReadCount;
+            aggMicClipChannels = a.aggMicClipChannels;
+            aggMixerChannels = a.aggMixerChannels;
+            aggAudioConfigOutputSampleRate = a.audioConfigOutputSampleRate;
+            aggAudioConfigDspBufferSize = a.audioConfigDspBufferSize;
         }
 
         aggMonitoringAssigned = voiceMonitoring != null;
@@ -196,7 +262,84 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             ApplyClearFailObservationStickyFlags();
         }
 
-        // --- FAIL OBSERVATION (after aggregate copies and optional clear) ---
+        bool pastAudioGrace = Time.timeSinceLevelLoad >= failAudioCallbackStartupGraceSeconds;
+        float expectedAudioHz = 0f;
+        if (aggAudioConfigDspBufferSize > 0 && aggAudioConfigOutputSampleRate > 0)
+        {
+            expectedAudioHz = aggAudioConfigOutputSampleRate / (float)aggAudioConfigDspBufferSize;
+        }
+
+        float nominalGapMs = expectedAudioHz > 1e-3f ? 1000f / expectedAudioHz : 0f;
+
+        if (interpreter != null && pastAudioGrace)
+        {
+            if (!_audioLockBaselineInitialized)
+            {
+                _audioLockMissAtWindowStart = aggAudioCallbackLockMissTotal;
+                _audioLockMissWindowTimer = 0f;
+                _audioLockBaselineInitialized = true;
+            }
+
+            if (aggAudioCallbackTotal != _prevAggAudioCallbackTotalForFrozen)
+            {
+                _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
+                _prevAggAudioCallbackTotalForFrozen = aggAudioCallbackTotal;
+            }
+
+            FAIL_AUDIO_CALLBACK_FROZEN =
+                Time.realtimeSinceStartup - _lastAudioCallbackTotalAdvanceRealtime >= failAudioCallbackFrozenSeconds;
+
+            if (expectedAudioHz > 1e-3f)
+            {
+                if (aggAudioCallbackHzRolling < failAudioCallbackRateLowFraction * expectedAudioHz)
+                {
+                    _audioRateLowSustainedTimer += Time.deltaTime;
+                }
+                else
+                {
+                    _audioRateLowSustainedTimer = 0f;
+                }
+            }
+            else
+            {
+                _audioRateLowSustainedTimer = 0f;
+            }
+
+            FAIL_AUDIO_CALLBACK_RATE_LOW = _audioRateLowSustainedTimer >= 1f
+                && aggAudioCallbackTotal > 32f;
+
+            FAIL_AUDIO_CALLBACK_GAP_HIGH =
+                aggAudioCallbackTotal > 32f
+                && nominalGapMs > 1e-3f
+                && aggAudioCallbackMaxGapMsLastSecond > failAudioCallbackGapHighMultiplier * nominalGapMs;
+
+            _audioLockMissWindowTimer += Time.deltaTime;
+            if (_audioLockMissWindowTimer >= 1f)
+            {
+                long d = aggAudioCallbackLockMissTotal - _audioLockMissAtWindowStart;
+                FAIL_AUDIO_LOCK_CONTENTION = d > failAudioLockMissPerSecondThreshold;
+                _audioLockMissAtWindowStart = aggAudioCallbackLockMissTotal;
+                _audioLockMissWindowTimer = 0f;
+            }
+
+            if (aggAudioCallbackGCAllocSuspectTotal > _gcSuspectBaselineAtClear)
+            {
+                _gcAllocStickyLatched = true;
+            }
+
+            FAIL_AUDIO_GC_ALLOC_DETECTED = _gcAllocStickyLatched;
+        }
+        else
+        {
+            FAIL_AUDIO_CALLBACK_FROZEN = false;
+            FAIL_AUDIO_CALLBACK_RATE_LOW = false;
+            FAIL_AUDIO_CALLBACK_GAP_HIGH = false;
+            FAIL_AUDIO_LOCK_CONTENTION = false;
+            FAIL_AUDIO_GC_ALLOC_DETECTED = false;
+            _audioRateLowSustainedTimer = 0f;
+        }
+
+        // --- FAIL OBSERVATION Phase 1 (after aggregate copies and optional clear) ---
         // R1: gentle restart is itself a symptom of being stuck in unread_zero,
         // so treat unread_zero_gentle_restart as "still in trouble" — segment only
         // resets when ingest reports anything else (e.g. copied_samples).
@@ -319,7 +462,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         }
 
         FAILURE =
-            FAIL_UNREAD_ZERO_SUSTAINED
+            FAIL_AUDIO_CALLBACK_FROZEN
+            || FAIL_AUDIO_CALLBACK_RATE_LOW
+            || FAIL_AUDIO_CALLBACK_GAP_HIGH
+            || FAIL_AUDIO_LOCK_CONTENTION
+            || FAIL_AUDIO_GC_ALLOC_DETECTED
+            || FAIL_UNREAD_ZERO_SUSTAINED
             || FAIL_INGEST_RING_STALLED
             || FAIL_INTERPRETER_NOT_CONSUMING
             || FAIL_GENTLE_RECOVERY_FIRED

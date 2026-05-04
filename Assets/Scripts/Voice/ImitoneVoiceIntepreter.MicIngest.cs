@@ -1278,6 +1278,7 @@ public partial class ImitoneVoiceIntepreter
 
     private void OnDisable()
     {
+        StopAudioThreadCapture();
         StopMicrophoneCapture();
     }
 }

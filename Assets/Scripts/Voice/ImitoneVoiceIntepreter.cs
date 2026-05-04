@@ -225,6 +225,25 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         };
     }
 
+    [Serializable]
+    public struct AudioThreadHealthSnapshot
+    {
+        public long audioCallbackTotal;
+        public long audioCallbackSamplesProcessedTotal;
+        public int audioCallbackLastSamplesPerCallback;
+        public float audioCallbackHzRolling;
+        public float audioCallbackMaxGapMsLastSecond;
+        public long audioCallbackLockMissTotal;
+        public long audioCallbackGCAllocSuspectTotal;
+        public long audioRingWriteTotalSamples;
+        public int audioRingWriteLastClipReadStart;
+        public int audioRingWriteLastClipReadCount;
+        public int aggMicClipChannels;
+        public int aggMixerChannels;
+        public int audioConfigOutputSampleRate;
+        public int audioConfigDspBufferSize;
+    }
+
     private Coroutine currentNoiseFloorCoroutine;
     private float latestRawMicWindowMaxDb = -999f;
 
@@ -326,11 +345,14 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                 Debug.LogError("Imitone: imitone was null after creation.");
             }
         }
+
+        BootstrapAudioThreadCapturePath();
     }
 
     void Update()
     {
         MicIngestMainThreadTick();
+        UpdateAudioThreadHealthOnMainThread();
         SetNoiseFloorThreshold();
         GetRawVoiceData();
         CheckToning();
