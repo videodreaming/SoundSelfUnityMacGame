@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.Serialization;
 using System.Linq;
@@ -19,13 +18,6 @@ using imitone;
 [DefaultExecutionOrder(50)]
 public partial class ImitoneVoiceIntepreter : MonoBehaviour
 {
-    [Header("STRESS TEST (Step 2) — remove after manual run; see MIC_VOICE_INGEST_FIX_PLAN.md")]
-    [Tooltip("Set before Play. Value is frozen at session Start — toggling during Play has no effect until the next play session. When true for that session, only OnAudioFilterRead calls imitone.InputAudio; main thread GetState only. See plan Step 2.")]
-    [SerializeField] private bool enableAudioThreadImitoneFeedStressTest; // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
-    /// <summary>STRESS TEST (Step 2) — copy of the checkbox at session Start; mid-Play toggles ignored.</summary>
-    private bool step2StressTestSessionActive;
-    public bool Step2StressTestSessionActive => step2StressTestSessionActive;
-
     //base variables pitch and midiNote
     public LightControl lightControl;
     public Director director;
@@ -313,8 +305,6 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
 
     void Start()
     {
-        step2StressTestSessionActive = enableAudioThreadImitoneFeedStressTest; // STRESS TEST (Step 2) — session frozen; no mid-Play mode switch
-
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
         InitializeMicrophone();
@@ -764,59 +754,31 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                 // We process in chunks of sampleRate, oldest-first within the [imitoneFeedStart, imitoneFeedStart+imitoneFeedCount) window only
                 // (see imitoneMaxFeedFramesAt60FpsEquivalent — newest tail so bursts do not push imitone state with stale audio).
                 // TO REVERT: remove the chunking block below and restore: imitone.InputAudio(capturedInput);
-                // STRESS TEST (Step 2): When flag is on, skip main-thread InputAudio — audio thread is sole InputAudio source.
-                // Concurrent InputAudio from Update + OnAudioFilterRead races imitone's native feed_buffer (crashed Editor 2026-05-04).
-                if (!step2StressTestSessionActive)
+                if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
+                    _imitoneChunkBuffer = new float[sampleRate];
+                int imitoneFeedEnd = imitoneFeedStart + imitoneFeedCount;
+                for (int offset = imitoneFeedStart; offset < imitoneFeedEnd; offset += sampleRate)
                 {
-                    if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
-                        _imitoneChunkBuffer = new float[sampleRate];
-                    int imitoneFeedEnd = imitoneFeedStart + imitoneFeedCount;
-                    for (int offset = imitoneFeedStart; offset < imitoneFeedEnd; offset += sampleRate)
+                    int chunkSize = Math.Min(sampleRate, imitoneFeedEnd - offset);
+                    float[] chunkToPass;
+                    if (chunkSize == sampleRate)
                     {
-                        int chunkSize = Math.Min(sampleRate, imitoneFeedEnd - offset);
-                        float[] chunkToPass;
-                        if (chunkSize == sampleRate)
-                        {
-                            Array.Copy(capturedInput, offset, _imitoneChunkBuffer, 0, chunkSize);
-                            chunkToPass = _imitoneChunkBuffer;
-                        }
-                        else
-                        {
-                            chunkToPass = new float[chunkSize];
-                            Array.Copy(capturedInput, offset, chunkToPass, 0, chunkSize);
-                        }
-
-                        imitone.InputAudio(chunkToPass);
+                        Array.Copy(capturedInput, offset, _imitoneChunkBuffer, 0, chunkSize);
+                        chunkToPass = _imitoneChunkBuffer;
                     }
+                    else
+                    {
+                        chunkToPass = new float[chunkSize];
+                        Array.Copy(capturedInput, offset, chunkToPass, 0, chunkSize);
+                    }
+
+                    imitone.InputAudio(chunkToPass);
                 }
 
                 //imitone.InputAudio(capturedInput); //Old Behavior
                 //END CHUNKING
 
-                // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
-                if (step2StressTestSessionActive)
-                {
-                    try
-                    {
-                        imitoneState = imitone.GetState();
-                        Interlocked.Increment(ref stressMainThreadGetStateCallTotal);
-                    }
-                    catch (Exception ex)
-                    {
-                        Interlocked.Increment(ref stressMainThreadGetStateFailureTotal);
-                        if (!stressGetStateExceptionLogged)
-                        {
-                            stressGetStateExceptionLogged = true;
-                            Debug.LogWarning($"STRESS TEST (Step 2): imitone.GetState threw (logged once): {ex.Message}");
-                        }
-
-                        return;
-                    }
-                }
-                else
-                {
-                    imitoneState = imitone.GetState();
-                }
+                imitoneState = imitone.GetState();
 
                 try
                 {

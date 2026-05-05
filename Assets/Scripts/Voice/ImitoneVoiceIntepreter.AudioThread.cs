@@ -11,14 +11,6 @@ using UnityEngine;
 /// </summary>
 public partial class ImitoneVoiceIntepreter
 {
-    // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
-    private long stressAudioThreadInputAudioCallTotal;
-    private long stressAudioThreadInputAudioFailureTotal;
-    private long stressMainThreadGetStateCallTotal;
-    private long stressMainThreadGetStateFailureTotal;
-    private bool stressInputAudioExceptionLogged;
-    private bool stressGetStateExceptionLogged;
-
     [Header("Audio-thread capture (Step 1 — parallel path)")]
     [SerializeField] private int audioCallbackPrimingFramesToSkip = 8;
     [SerializeField] private float audioCallbackGcSuspectMsThreshold = 3f;
@@ -315,31 +307,6 @@ public partial class ImitoneVoiceIntepreter
             audioCallbackPrimingFramesRemaining--;
         }
 
-        // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
-        // Sole imitone.InputAudio path when step2StressTestSessionActive (main-thread chunking skipped).
-        // Do NOT add a second concurrent InputAudio from main thread — native feed_buffer race crashes Unity.
-        if (step2StressTestSessionActive && imitone != null && frames > 0)
-        {
-            // imitone.InputAudio uses audio.Length as sample count (imitone.cs) — pass exactly `frames` samples.
-            // Per-callback GC alloc here is intentional for this temporary manual test only; Step 3+ forbids allocation on this thread.
-            float[] stressPass = new float[frames];
-            Array.Copy(monoScratch, 0, stressPass, 0, frames);
-            try
-            {
-                imitone.InputAudio(stressPass);
-                Interlocked.Increment(ref stressAudioThreadInputAudioCallTotal);
-            }
-            catch (Exception ex)
-            {
-                Interlocked.Increment(ref stressAudioThreadInputAudioFailureTotal);
-                if (!stressInputAudioExceptionLogged)
-                {
-                    stressInputAudioExceptionLogged = true;
-                    UnityEngine.Debug.LogWarning($"STRESS TEST (Step 2): imitone.InputAudio threw (logged once): {ex.Message}");
-                }
-            }
-        }
-
         bool lockTaken = false;
         try
         {
@@ -377,18 +344,11 @@ public partial class ImitoneVoiceIntepreter
 
         long t1 = Stopwatch.GetTimestamp();
         double elapsedMs = (t1 - t0) * 1000.0 / Stopwatch.Frequency;
-        // Step 2 stress path intentionally allocates new float[frames] per callback — do not count as GC-suspect.
-        if (!step2StressTestSessionActive && elapsedMs > audioCallbackGcSuspectMsThreshold)
+        if (elapsedMs > audioCallbackGcSuspectMsThreshold)
         {
             Interlocked.Increment(ref audioCallbackGCAllocSuspectTotal);
         }
 
         Array.Clear(data, 0, data.Length);
     }
-
-    // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
-    public long StressAudioThreadInputAudioCallTotal => Interlocked.Read(ref stressAudioThreadInputAudioCallTotal);
-    public long StressAudioThreadInputAudioFailureTotal => Interlocked.Read(ref stressAudioThreadInputAudioFailureTotal);
-    public long StressMainThreadGetStateCallTotal => Interlocked.Read(ref stressMainThreadGetStateCallTotal);
-    public long StressMainThreadGetStateFailureTotal => Interlocked.Read(ref stressMainThreadGetStateFailureTotal);
 }

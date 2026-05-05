@@ -77,12 +77,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggAudioConfigOutputSampleRate;
     [SerializeField] private int aggAudioConfigDspBufferSize;
 
-    [Header("Step 2 stress test (temporary — remove after verification)")]
-    [SerializeField] private long aggStressAudioThreadInputAudioCallTotal;
-    [SerializeField] private long aggStressAudioThreadInputAudioFailureTotal;
-    [SerializeField] private long aggStressMainThreadGetStateCallTotal;
-    [SerializeField] private long aggStressMainThreadGetStateFailureTotal;
-
     [Header("Tone / imitone gate (ImitoneVoiceIntepreter — public runtime flags)")]
     [SerializeField] private bool aggImitoneActive;
     [SerializeField] private bool aggImitoneActiveRaw;
@@ -254,11 +248,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggMixerChannels = a.aggMixerChannels;
             aggAudioConfigOutputSampleRate = a.audioConfigOutputSampleRate;
             aggAudioConfigDspBufferSize = a.audioConfigDspBufferSize;
-
-            aggStressAudioThreadInputAudioCallTotal = interpreter.StressAudioThreadInputAudioCallTotal;
-            aggStressAudioThreadInputAudioFailureTotal = interpreter.StressAudioThreadInputAudioFailureTotal;
-            aggStressMainThreadGetStateCallTotal = interpreter.StressMainThreadGetStateCallTotal;
-            aggStressMainThreadGetStateFailureTotal = interpreter.StressMainThreadGetStateFailureTotal;
         }
 
         aggMonitoringAssigned = voiceMonitoring != null;
@@ -346,19 +335,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 _audioLockMissWindowTimer = 0f;
             }
 
-            if (interpreter.Step2StressTestSessionActive)
+            if (aggAudioCallbackGCAllocSuspectTotal > _gcSuspectBaselineAtClear)
             {
-                FAIL_AUDIO_GC_ALLOC_DETECTED = false;
+                _gcAllocStickyLatched = true;
             }
-            else
-            {
-                if (aggAudioCallbackGCAllocSuspectTotal > _gcSuspectBaselineAtClear)
-                {
-                    _gcAllocStickyLatched = true;
-                }
 
-                FAIL_AUDIO_GC_ALLOC_DETECTED = _gcAllocStickyLatched;
-            }
+            FAIL_AUDIO_GC_ALLOC_DETECTED = _gcAllocStickyLatched;
         }
         else
         {
