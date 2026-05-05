@@ -242,6 +242,13 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         public int aggMixerChannels;
         public int audioConfigOutputSampleRate;
         public int audioConfigDspBufferSize;
+        // Step 3a: imitone-feed observability.
+        public long imitoneInputAudioCallTotal;
+        public long micRingOverflowSkipTotal;
+        // Step 3a debug (see Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md): peak abs of the mono buffer
+        // OnAudioFilterRead is about to feed imitone. Used to discriminate "feed is silent" from
+        // "feed is voice but imitone isn't pitching."
+        public float audioCallbackFeedPeakAbsLastCallback;
     }
 
     private Coroutine currentNoiseFloorCoroutine;
@@ -274,8 +281,27 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     ImitoneVoice imitone;
 
     float[] capturedInput;
-    // Reusable buffer for chunking audio to imitone. Imitone's internal feed_buffer holds max 1 second (sampleRate samples).
-    private float[] _imitoneChunkBuffer;
+
+    // Step 3a: imitone is now fed from OnAudioFilterRead (see ImitoneVoiceIntepreter.AudioThread.cs).
+    // The chunking workaround for imitone's 1-second feed_buffer is gone — audio-thread callbacks deliver
+    // ~21 ms (1024 samples at 48 kHz) per call, well under the 1 s limit, so chunking is unnecessary.
+    // Counters below let the aggregate observe imitone-feed health from main thread.
+    private long imitoneGetStateCallTotal;
+    private int mainThreadFramesSinceLastImitoneStateChange;
+    private float _lastImitoneStatePower = float.NaN;
+    private float _lastImitoneStatePitchHz = float.NaN;
+
+    public long ImitoneGetStateCallTotal => imitoneGetStateCallTotal;
+    public int MainThreadFramesSinceLastImitoneStateChange => mainThreadFramesSinceLastImitoneStateChange;
+
+    private static bool FloatsEqualOrBothNaN(float a, float b)
+    {
+        bool aNan = float.IsNaN(a);
+        bool bNan = float.IsNaN(b);
+        if (aNan && bNan) return true;
+        if (aNan != bNan) return false;
+        return Mathf.Approximately(a, b);
+    }
 
     [Header("High Pass Filter")]
     [Tooltip("Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. 80 Hz is typical for voice.")]
@@ -291,7 +317,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     private float _lpPrevOutput;
 
     [Header("Imitone realtime feed")]
-    [Tooltip("Max samples sent to imitone.InputAudio per Update, as a frame count at 60 FPS reference (newest tail only; older samples in the same capture are skipped for analysis). Full mic frames are still written to the ingest ring buffer.")]
+    [Tooltip("Step 3a: imitone is now fed from OnAudioFilterRead. This value is retained only as the cap for the main-thread mic-dB metering window (newest tail of capturedInput). Will be retired in Step 3b when _dbMicrophone moves to the audio thread.")]
     [SerializeField] [Range(1, 120)] private int imitoneMaxFeedFramesAt60FpsEquivalent = 20;
 
     // Debug log category flags
@@ -746,39 +772,16 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
             // Analyze the captured audio with imitone.
             if (imitone != null)
             {
-                //Debug.Log(String.Format("Analyzing mic samples x {0}", rawSampleCount));
-
-                // CHUNKING: imitone's feed_buffer holds max 1 second (sampleRate samples). When mic buffer was 1 second,
-                // capturedInput never exceeded that. After increasing inputBuffer to 6 seconds, we can read up to ~6 sec
-                // in one frame (e.g. after startup lag or frame spike), causing IndexOutOfRangeException in imitone.
-                // We process in chunks of sampleRate, oldest-first within the [imitoneFeedStart, imitoneFeedStart+imitoneFeedCount) window only
-                // (see imitoneMaxFeedFramesAt60FpsEquivalent — newest tail so bursts do not push imitone state with stale audio).
-                // TO REVERT: remove the chunking block below and restore: imitone.InputAudio(capturedInput);
-                if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
-                    _imitoneChunkBuffer = new float[sampleRate];
-                int imitoneFeedEnd = imitoneFeedStart + imitoneFeedCount;
-                for (int offset = imitoneFeedStart; offset < imitoneFeedEnd; offset += sampleRate)
-                {
-                    int chunkSize = Math.Min(sampleRate, imitoneFeedEnd - offset);
-                    float[] chunkToPass;
-                    if (chunkSize == sampleRate)
-                    {
-                        Array.Copy(capturedInput, offset, _imitoneChunkBuffer, 0, chunkSize);
-                        chunkToPass = _imitoneChunkBuffer;
-                    }
-                    else
-                    {
-                        chunkToPass = new float[chunkSize];
-                        Array.Copy(capturedInput, offset, chunkToPass, 0, chunkSize);
-                    }
-
-                    imitone.InputAudio(chunkToPass);
-                }
-
-                //imitone.InputAudio(capturedInput); //Old Behavior
-                //END CHUNKING
-
+                // Step 3a: imitone is now fed exclusively from OnAudioFilterRead (audio thread). Main thread
+                // only polls state. The legacy chunking workaround for imitone's 1 s feed_buffer is gone —
+                // audio-thread callbacks deliver ~21 ms (1024 samples @ 48 kHz) per call, far below the 1 s cap.
                 imitoneState = imitone.GetState();
+                imitoneGetStateCallTotal++;
+
+                // Step 3a: track imitone state staleness via raw observed power + pitch_hz (not _dbValue, which
+                // is overridden in force-mode). NaN means "not seen this frame" (parse exception or absent field).
+                float thisFrameObservedPower = float.NaN;
+                float thisFrameObservedPitchHz = float.NaN;
 
                 try
                 {
@@ -796,6 +799,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                             if (soundObject.HasField("power"))
                             {
                                 float power = soundObject.GetField("power").floatValue;
+                                thisFrameObservedPower = power;
 
                                 if (!forceImitoneActive && !forceImitoneInactive)
                                 {
@@ -827,10 +831,12 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                         if (!tone.isObject) throw new ArgumentException("imitone tone is not an object");
                         if (tone["frequency_hz"] == null) throw new ArgumentException("imitone tone does not have frequency_hz");
                         pitch_hz = tone["frequency_hz"].floatValue;
+                        thisFrameObservedPitchHz = pitch_hz;
                     }
                     else
                     {
                         pitch_hz = 0f;
+                        thisFrameObservedPitchHz = 0f;
                         imitoneActiveRaw = false;
                         imitoneActive = false;
                         micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
@@ -861,6 +867,22 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                     note_st = -1f;
                 }
 
+                // Step 3a: state-change detection. Climbs persistently only when imitone is hung (audio-thread
+                // feed dead, GetState returning identical bits frame after frame). In normal operation the
+                // counter stays near 0 because real input induces tiny power fluctuations every callback.
+                bool imitoneStateChanged =
+                    !FloatsEqualOrBothNaN(thisFrameObservedPower, _lastImitoneStatePower)
+                    || !FloatsEqualOrBothNaN(thisFrameObservedPitchHz, _lastImitoneStatePitchHz);
+                if (imitoneStateChanged)
+                {
+                    mainThreadFramesSinceLastImitoneStateChange = 0;
+                    _lastImitoneStatePower = thisFrameObservedPower;
+                    _lastImitoneStatePitchHz = thisFrameObservedPitchHz;
+                }
+                else
+                {
+                    mainThreadFramesSinceLastImitoneStateChange++;
+                }
             }
             else
             {

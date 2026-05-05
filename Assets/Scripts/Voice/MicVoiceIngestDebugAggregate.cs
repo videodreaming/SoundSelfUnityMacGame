@@ -8,6 +8,35 @@ using UnityEngine;
 /// </summary>
 public class MicVoiceIngestDebugAggregate : MonoBehaviour
 {
+    // ----------------------------------------------------------------------
+    // CURRENT TEST — values mirrored to the top of the Inspector for whichever
+    // diagnostic step is active. Updated each test pass (this section is
+    // disposable; do NOT add permanent fields here — they belong in their
+    // own headed sections below). Convention documented in
+    // Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md (Debugging Process section).
+    // ----------------------------------------------------------------------
+
+    [Header("CURRENT TEST — Step 3a follow-on F1: imitone-feed latency (sluggish responsiveness)")]
+    [Tooltip("CONTEXT: H1e fix worked — imitone is fed real voice and pitch tracks. But responsiveness is sluggish (slow to detect, slow to release). Hypothesis: AudioSource's read position lags Microphone's write position by a large constant gap, set when captureSource.Play() was called and held forever. This test measures that gap directly.\n\nWHAT TO REPORT BACK (all values while toning):\n• currentTestCaptureToMicGapMs — THE indicator. Voice lag from mic input to imitone feed.\n• currentTestCaptureToMicGapSamples — same in samples.\n• currentTestFeedPeakAbs — should still be 0.02–0.5 on voice (regression check).\n• currentTestDbValue / currentTestPitchHz — should still track voice (regression check).\n\nINTERPRETATION:\n• Gap < 50 ms → AudioSource read is well-aligned. Sluggishness is from somewhere else (e.g., imitone's own lock-on time, tone-active timer thresholds).\n• Gap 50–250 ms → typical AudioSource buffering. Acceptable for tone tracking but feels slow for fast articulation. Consider Play() alignment fix.\n• Gap > 500 ms → BAD. Read position is severely behind. Need to align read to mic write at Play time, or use a different ingest pattern.\n• Gap > 1000 ms → matches the user's earlier perceived 3s delay. Confirms F1 root cause is initial Play()-time alignment.\n\nALSO — speaker leak (F2): identify the second AudioListener in the scene hierarchy. What GameObject is it on? What other scripts are nearby? Try disabling it temporarily and report whether the leak goes away.")]
+    [SerializeField] private string currentTestDescription = "F1: tone normally; report the ms gap. F2: locate the second AudioListener and try disabling it.";
+
+    [Tooltip("THE indicator: AudioSource read position vs Microphone write position, in MILLISECONDS. This is the imitone-feed latency. -1 = invalid (clip not ready / mic not started).")]
+    [SerializeField] private float currentTestCaptureToMicGapMs;
+    [Tooltip("Same as currentTestCaptureToMicGapMs, in samples.")]
+    [SerializeField] private int currentTestCaptureToMicGapSamples;
+    [Tooltip("Regression check: peak |sample| of the mono buffer handed to imitone.InputAudio. Should still be 0.02–0.5 while toning (last test value: 0.0255).")]
+    [SerializeField] private float currentTestFeedPeakAbs;
+    [Tooltip("Regression check: ImitoneVoiceIntepreter._dbValue. Should still move on voice (last test value: -39 while toning).")]
+    [SerializeField] private float currentTestDbValue;
+    [Tooltip("Regression check: ImitoneVoiceIntepreter.pitch_hz. Should still track voice (last test value: 116.6 Hz for the user's voice).")]
+    [SerializeField] private float currentTestPitchHz;
+    [Tooltip("AudioSource read position in samples (clip-time). Modulo clip length. -1 = captureSource null.")]
+    [SerializeField] private int currentTestCaptureTimeSamples;
+    [Tooltip("Microphone write position in samples (clip-time). Modulo clip length. -1 = mic not started.")]
+    [SerializeField] private int currentTestMicWritePosition;
+    [Tooltip("Mirror of FAIL_AUDIO_GC_ALLOC_DETECTED. Known Step 2 false-positive class. Ignore for THIS bug — separate cleanup item.")]
+    [SerializeField] private bool currentTestKnownFalsePositive_GcAlloc;
+
     [Header("FAIL OBSERVATION (glance here first)")]
     [Tooltip("True if any subsidiary FAIL_* flag is true this frame (pure OR).")]
     [SerializeField] private bool FAILURE;
@@ -23,6 +52,14 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private bool FAIL_AUDIO_LOCK_CONTENTION;
     [Tooltip("Sticky: latched when GC-alloc-suspect counter increases; clear with clearFailObservationStickyFlags.")]
     [SerializeField] private bool FAIL_AUDIO_GC_ALLOC_DETECTED;
+
+    [Header("FAIL OBSERVATION — Phase 3 (imitone feed)")]
+    [Tooltip("True when aggImitoneInputAudioCallTotal has not advanced for failImitoneNotFedSeconds while the audio callback IS still advancing (audio thread alive but feed broken). Distinguishes feed-side failures from a frozen audio thread.")]
+    [SerializeField] private bool FAIL_IMITONE_NOT_FED;
+    [Tooltip("True when aggImitoneInputAudioCallTotal / aggAudioCallbackTotal stays below failImitoneFeedRatioMin over the last 1-second window. Catches partial feed (e.g. priming gate stuck on, exception loop dropping calls).")]
+    [SerializeField] private bool FAIL_IMITONE_FEED_RATIO_LOW;
+    [Tooltip("True when aggMicRingOverflowSkipTotal increased within the last failRingOverflowWindowSeconds. (3a: counter not yet incremented from any code path — placeholder for Step 5b when the audio-thread ring gets a real consumer.)")]
+    [SerializeField] private bool FAIL_RING_OVERFLOW_GROWING;
 
     [Header("FAIL OBSERVATION — Phase 1 (ingest)")]
     [Tooltip("True when the ingest exit reason stayed unread_zero for too many consecutive frames or seconds (see thresholds).")]
@@ -50,6 +87,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private float failAudioCallbackRateLowFraction = 0.75f;
     [SerializeField] private float failAudioCallbackGapHighMultiplier = 2f;
     [SerializeField] private long failAudioLockMissPerSecondThreshold = 50;
+    [SerializeField] private float failImitoneNotFedSeconds = 0.2f;
+    [SerializeField] [Range(0f, 1f)] private float failImitoneFeedRatioMin = 0.95f;
+    [SerializeField] private float failRingOverflowWindowSeconds = 2f;
 
     [Header("FAIL OBSERVATION — actions")]
     [Tooltip("Tick once in Play mode to clear sticky gentle-recovery latch and reset ring-stall baseline; unticks automatically.")]
@@ -76,6 +116,20 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMixerChannels;
     [SerializeField] private int aggAudioConfigOutputSampleRate;
     [SerializeField] private int aggAudioConfigDspBufferSize;
+
+    [Header("Imitone feed observability (Step 3a)")]
+    [Tooltip("Successful imitone.InputAudio calls from OnAudioFilterRead. Should track aggAudioCallbackTotal 1:1 (modulo priming).")]
+    [SerializeField] private long aggImitoneInputAudioCallTotal;
+    [Tooltip("imitone.GetState() calls from main thread (one per Update where the imitone block runs).")]
+    [SerializeField] private long aggImitoneGetStateCallTotal;
+    [Tooltip("aggImitoneInputAudioCallTotal / aggAudioCallbackTotal ratio over the last 1-second window. Should sit at ~1.0 in steady state.")]
+    [SerializeField] [Range(0f, 1.5f)] private float aggImitoneInputToCallbackRatio;
+    [Tooltip("Frames since imitone GetState returned a different (power, pitch_hz) tuple. Stays near 0 in normal operation; climbs only if imitone is hung.")]
+    [SerializeField] private int aggMainThreadFramesSinceLastImitoneStateChange;
+    [Tooltip("Audio-thread ring writes skipped due to consumer-overrun. (3a: never increments — placeholder for Step 5b when a consumer exists. Distinct from aggAudioCallbackLockMissTotal, which is lock contention.)")]
+    [SerializeField] private long aggMicRingOverflowSkipTotal;
+    [Tooltip("DEBUG (Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md): peak |sample| of the mono buffer the audio thread just handed to imitone.InputAudio. While toning, expect 0.05–0.5. If ~0 while _dbMicrophone moves on voice, the audio thread is being fed silence and imitone is innocent.")]
+    [SerializeField] private float aggAudioThreadFeedPeakAbsLastCallback;
 
     [Header("Tone / imitone gate (ImitoneVoiceIntepreter — public runtime flags)")]
     [SerializeField] private bool aggImitoneActive;
@@ -152,12 +206,25 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private bool _gcAllocStickyLatched;
     private long _gcSuspectBaselineAtClear;
 
+    // Step 3a: trackers for Phase 3 FAIL_* triggers.
+    private long _prevAggImitoneInputAudioCallTotalForNotFed = -1;
+    private float _lastImitoneInputAudioAdvanceRealtime;
+    private bool _imitoneFeedRatioWindowInitialized;
+    private float _imitoneFeedRatioWindowTimer;
+    private long _imitoneFeedRatioWindowStartCallbackTotal;
+    private long _imitoneFeedRatioWindowStartInputTotal;
+    private long _prevAggMicRingOverflowSkipTotal = -1;
+    private float _lastMicRingOverflowIncreaseRealtime = -1f;
+    private int _prevAggCaptureEpoch = -1;
+
     private void Awake()
     {
         _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
+        _lastImitoneInputAudioAdvanceRealtime = Time.realtimeSinceStartup;
         _gcSuspectBaselineAtClear = 0;
         _audioGCBaselineInitialized = false;
         _audioLockBaselineInitialized = false;
+        _imitoneFeedRatioWindowInitialized = false;
         if (interpreter == null)
         {
             interpreter = GetComponent<ImitoneVoiceIntepreter>();
@@ -248,6 +315,44 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggMixerChannels = a.aggMixerChannels;
             aggAudioConfigOutputSampleRate = a.audioConfigOutputSampleRate;
             aggAudioConfigDspBufferSize = a.audioConfigDspBufferSize;
+
+            // Step 3a: imitone-feed observability — audio-thread side.
+            aggImitoneInputAudioCallTotal = a.imitoneInputAudioCallTotal;
+            aggMicRingOverflowSkipTotal = a.micRingOverflowSkipTotal;
+            aggAudioThreadFeedPeakAbsLastCallback = a.audioCallbackFeedPeakAbsLastCallback;
+
+            // CURRENT TEST mirrors — copies of values surfaced elsewhere in this Inspector, pinned at
+            // the top so the user can read all required diagnostic values without scrolling. Update the
+            // CURRENT TEST header + this block whenever the active test changes.
+            currentTestCaptureToMicGapMs = interpreter.CaptureToMicGapMs;
+            currentTestCaptureToMicGapSamples = interpreter.CaptureToMicGapSamples;
+            currentTestFeedPeakAbs = aggAudioThreadFeedPeakAbsLastCallback;
+            currentTestDbValue = interpreter._dbValue;
+            currentTestPitchHz = interpreter.pitch_hz;
+            currentTestCaptureTimeSamples = interpreter.CaptureSourceTimeSamples;
+            currentTestMicWritePosition = interpreter.MicrophoneWritePositionSamples;
+
+            // Step 3a: imitone-feed observability — main-thread side.
+            aggImitoneGetStateCallTotal = interpreter.ImitoneGetStateCallTotal;
+            aggMainThreadFramesSinceLastImitoneStateChange = interpreter.MainThreadFramesSinceLastImitoneStateChange;
+
+            // Cumulative ratio (snapshot value; the rolling-window check below is what FAIL_IMITONE_FEED_RATIO_LOW uses).
+            aggImitoneInputToCallbackRatio = aggAudioCallbackTotal > 0
+                ? (float)aggImitoneInputAudioCallTotal / aggAudioCallbackTotal
+                : 0f;
+
+            // Step 3a: detect mic recovery (captureEpoch tick) and absorb the priming-window transient on the
+            // imitone-feed side ONLY. Without this, FAIL_IMITONE_NOT_FED briefly fires after every recovery
+            // because feedStaleSeconds includes the gap from "last feed before mic died" to "first feed after
+            // priming." We deliberately do NOT reset the audio-callback advance tracker — if callbacks fail
+            // to resume after recovery, FAIL_AUDIO_CALLBACK_FROZEN must still fire as the primary signal.
+            int currentCaptureEpoch = interpreter.MicCaptureEpoch;
+            if (_prevAggCaptureEpoch >= 0 && _prevAggCaptureEpoch != currentCaptureEpoch)
+            {
+                _lastImitoneInputAudioAdvanceRealtime = Time.realtimeSinceStartup;
+                _imitoneFeedRatioWindowInitialized = false;
+            }
+            _prevAggCaptureEpoch = currentCaptureEpoch;
         }
 
         aggMonitoringAssigned = voiceMonitoring != null;
@@ -341,6 +446,76 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             }
 
             FAIL_AUDIO_GC_ALLOC_DETECTED = _gcAllocStickyLatched;
+            currentTestKnownFalsePositive_GcAlloc = FAIL_AUDIO_GC_ALLOC_DETECTED;
+
+            // --- Step 3a: Phase 3 (imitone feed) FAIL_* triggers ---
+
+            // FAIL_IMITONE_NOT_FED — feed counter not advancing while audio thread IS still firing callbacks.
+            // (If callbacks are also frozen, FAIL_AUDIO_CALLBACK_FROZEN reports it; this flag is specifically
+            // "the audio thread is alive but the imitone feed died" — e.g. priming gate stuck on, persistent
+            // feed-side exception bypassing the increment, or the feed code path was somehow short-circuited.)
+            if (_prevAggImitoneInputAudioCallTotalForNotFed < 0
+                || aggImitoneInputAudioCallTotal != _prevAggImitoneInputAudioCallTotalForNotFed)
+            {
+                _lastImitoneInputAudioAdvanceRealtime = Time.realtimeSinceStartup;
+                _prevAggImitoneInputAudioCallTotalForNotFed = aggImitoneInputAudioCallTotal;
+            }
+
+            float feedStaleSeconds = Time.realtimeSinceStartup - _lastImitoneInputAudioAdvanceRealtime;
+            float callbackStaleSeconds = Time.realtimeSinceStartup - _lastAudioCallbackTotalAdvanceRealtime;
+            FAIL_IMITONE_NOT_FED =
+                aggAudioCallbackTotal > 32
+                && feedStaleSeconds >= failImitoneNotFedSeconds
+                && callbackStaleSeconds < failImitoneNotFedSeconds;
+
+            // FAIL_IMITONE_FEED_RATIO_LOW — rolling 1-second window. Catches partial feed (some callbacks miss
+            // the increment) that wouldn't be caught by FAIL_IMITONE_NOT_FED's "not advancing at all" trigger.
+            if (!_imitoneFeedRatioWindowInitialized)
+            {
+                _imitoneFeedRatioWindowStartCallbackTotal = aggAudioCallbackTotal;
+                _imitoneFeedRatioWindowStartInputTotal = aggImitoneInputAudioCallTotal;
+                _imitoneFeedRatioWindowTimer = 0f;
+                _imitoneFeedRatioWindowInitialized = true;
+                FAIL_IMITONE_FEED_RATIO_LOW = false;
+            }
+            else
+            {
+                _imitoneFeedRatioWindowTimer += Time.deltaTime;
+                if (_imitoneFeedRatioWindowTimer >= 1f)
+                {
+                    long callbackDelta = aggAudioCallbackTotal - _imitoneFeedRatioWindowStartCallbackTotal;
+                    long inputDelta = aggImitoneInputAudioCallTotal - _imitoneFeedRatioWindowStartInputTotal;
+                    if (callbackDelta > 0)
+                    {
+                        float windowRatio = (float)inputDelta / callbackDelta;
+                        FAIL_IMITONE_FEED_RATIO_LOW = windowRatio < failImitoneFeedRatioMin;
+                    }
+                    else
+                    {
+                        // No callbacks in the window — falls under FAIL_AUDIO_CALLBACK_FROZEN, not a feed-ratio failure.
+                        FAIL_IMITONE_FEED_RATIO_LOW = false;
+                    }
+                    _imitoneFeedRatioWindowStartCallbackTotal = aggAudioCallbackTotal;
+                    _imitoneFeedRatioWindowStartInputTotal = aggImitoneInputAudioCallTotal;
+                    _imitoneFeedRatioWindowTimer = 0f;
+                }
+                // Between window rolls, FAIL_IMITONE_FEED_RATIO_LOW retains its last evaluated value.
+            }
+
+            // FAIL_RING_OVERFLOW_GROWING — 3a: counter never increments (placeholder for Step 5b). Wiring lands
+            // here so the trigger logic exists when Step 5b's consumer-position tracking starts feeding it.
+            if (_prevAggMicRingOverflowSkipTotal < 0)
+            {
+                _prevAggMicRingOverflowSkipTotal = aggMicRingOverflowSkipTotal;
+            }
+            else if (aggMicRingOverflowSkipTotal > _prevAggMicRingOverflowSkipTotal)
+            {
+                _lastMicRingOverflowIncreaseRealtime = Time.realtimeSinceStartup;
+                _prevAggMicRingOverflowSkipTotal = aggMicRingOverflowSkipTotal;
+            }
+
+            FAIL_RING_OVERFLOW_GROWING = _lastMicRingOverflowIncreaseRealtime >= 0f
+                && Time.realtimeSinceStartup - _lastMicRingOverflowIncreaseRealtime <= failRingOverflowWindowSeconds;
         }
         else
         {
@@ -349,6 +524,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             FAIL_AUDIO_CALLBACK_GAP_HIGH = false;
             FAIL_AUDIO_LOCK_CONTENTION = false;
             FAIL_AUDIO_GC_ALLOC_DETECTED = false;
+            FAIL_IMITONE_NOT_FED = false;
+            FAIL_IMITONE_FEED_RATIO_LOW = false;
+            FAIL_RING_OVERFLOW_GROWING = false;
             _audioRateLowSustainedTimer = 0f;
         }
 
@@ -480,6 +658,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             || FAIL_AUDIO_CALLBACK_GAP_HIGH
             || FAIL_AUDIO_LOCK_CONTENTION
             || FAIL_AUDIO_GC_ALLOC_DETECTED
+            || FAIL_IMITONE_NOT_FED
+            || FAIL_IMITONE_FEED_RATIO_LOW
+            || FAIL_RING_OVERFLOW_GROWING
             || FAIL_UNREAD_ZERO_SUSTAINED
             || FAIL_INGEST_RING_STALLED
             || FAIL_INTERPRETER_NOT_CONSUMING

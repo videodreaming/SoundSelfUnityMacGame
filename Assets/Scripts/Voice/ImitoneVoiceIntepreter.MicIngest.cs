@@ -243,6 +243,16 @@ public partial class ImitoneVoiceIntepreter
         UpdateNormalizationTelemetry();
 
         normalizedPeakMeter = Mathf.Max(0f, normalizedPeakMeter - normalizedPeakMeterDecayPerSecond * Time.deltaTime);
+
+        // Step 3a prep: catches both gentle restart (PerformGentleUnreadZeroCaptureRestart, called from inside
+        // EnsureFrameUpdated -> UpdateMicReadFrame) and scheduled recovery (InitializeMicrophone above) — both
+        // tick captureEpoch on success but neither rebootstraps the audio-thread capture path. Without this, the
+        // AudioSource keeps pointing at a destroyed AudioClip after recovery and OnAudioFilterRead silently dies.
+        TryRebootstrapAudioThreadCaptureIfMicRecovered();
+
+        // Step 3a: drain any deferred imitone.InputAudio exception captured by OnAudioFilterRead (Debug.Log* is
+        // unsafe / GC-heavy from the audio thread; we log once per session from main thread).
+        DrainImitoneInputAudioPendingException();
     }
 
     public void InitializeMicrophone()
