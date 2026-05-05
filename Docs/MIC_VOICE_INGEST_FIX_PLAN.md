@@ -1209,9 +1209,16 @@ The Step 1 audio-thread capture path is started once in `Start()` via `Bootstrap
 
 **Commit (3a):** `feat(step3a): feed imitone from audio thread; delete chunking; add feed telemetry + FAIL_* flags`
 
+Actual landed commit: **`839a224c`** — `feat(step3a): migrate imitone feed to OnAudioFilterRead + diagnose/fix bypassEffects bug`. Bundles the Step 3 prep rebootstrap + Step 3a feed migration + a follow-on bug fix (H1e: `captureSource.bypassEffects` was diverting audio around the filter chain) + diagnostic infrastructure used to find that bug. Bug investigation log: `Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md`.
+
 **Developer notes (3a):**
 
 - **First-pass implementation status (pre-test):** all task checkboxes above are `[x]`; test checklist below is what gets ticked during the run. Lints clean across the four touched files.
+
+- **Active follow-on issues (NOT blocking 3a's main correctness, but blocking the 3a "Test" checklist below):**
+  - **F1 — imitone-feed latency** feels sluggish. Latency telemetry (`captureSource.timeSamples` vs `Microphone.GetPosition`) landed in commit `839a224c`; user testing next to characterize constant-gap vs drift-over-time.
+  - **F2 — voice leaks to speakers.** Prime suspect: `SoundSelfAudioVisualControl/MicrophonePlayback` GameObject is an independent AudioSource playing the mic clip and reaching the Camera's `AudioListener` outside our filter chain.
+  - Both tracked in `Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md`. Step 3a's "Test (3a)" checklist below remains unticked until F1 is at least characterized.
 
 - **Review-pass fix #1 — deferred audio-thread logging.** First-pass `OnAudioFilterRead` catch logged the imitone exception via `UnityEngine.Debug.LogWarning($"... {ex.Message}")`. The `$"..."` interpolation is a managed alloc on the audio thread → trips `audioCallbackGCAllocSuspectTotal` → latches `FAIL_AUDIO_GC_ALLOC_DETECTED` permanently on the very first imitone exception of any session. Same false-positive class the user spent Step 2 commits cleaning up (`95e201b5`). **Fixed:** audio thread now `Interlocked.CompareExchange`-publishes the exception reference (no formatting); main thread drains via `Interlocked.Exchange` from `MicIngestMainThreadTick` (`DrainImitoneInputAudioPendingException()`), formats the log message there, and sets a `volatile bool` latch so the audio thread stops capturing further exceptions.
 

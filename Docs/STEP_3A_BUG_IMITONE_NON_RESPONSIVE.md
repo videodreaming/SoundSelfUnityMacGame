@@ -1,8 +1,9 @@
 # Step 3a Bug: imitone non-responsive (audio-thread feed produces no power / no pitch)
 
-> **Status:** Active investigation. Discovered during the Test (3a) run on 2026-05-05.
-> **Branch:** `WorkingWwise`. No fix committed yet — only diagnostic telemetry + an unverified trial fix.
-> **Owner doc for this bug; once fixed, append the resolution and link the commit, then collapse this into a Step 3a Developer note.**
+> **Status:** Main fix verified (H1e: `bypassEffects = false`). Two follow-on issues active: F1 (imitone-feed latency) and F2 (speaker leak). Awaiting the sixth test run.
+> **Branch:** `WorkingWwise`.
+> **Step 3a + H1e fix committed:** `839a224c` (`feat(step3a): migrate imitone feed to OnAudioFilterRead + diagnose/fix bypassEffects bug`).
+> **Owner doc for this bug; once F1 + F2 are resolved, append the resolution and link the closing commit(s), then collapse this into a Step 3a Developer note.**
 
 ## Environment
 
