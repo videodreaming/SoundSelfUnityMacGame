@@ -1025,7 +1025,7 @@ These flags are observable from the moment Step 1's parallel audio-thread path c
 
 ### Step 2: Confirm imitone is safe to feed from audio thread (stress test)
 
-> **Scaffolding commit:** `feat(step2): add imitone audio-thread stress test scaffolding` — SHA `a8a36abe` (2026-05-04). Enable **Enable Audio Thread Imitone Feed Stress Test** on `ImitoneVoiceIntepreter` in the Inspector, watch the four `aggStress*` fields on `MicVoiceIngestDebugAggregate`, then run the six conditions below. **Ignore pitch / tone quality** while the flag is on. When all pass, remove the stress code in a follow-up commit per the plan.
+> **Scaffolding commit:** `feat(step2): add imitone audio-thread stress test scaffolding` — SHA `a8a36abe` (2026-05-04). **Methodology fix:** concurrent `InputAudio` from main thread + audio thread crashed Unity immediately — see Step 2 Developer notes. When the checkbox is enabled: **main-thread chunking `InputAudio` is skipped**; **only** `OnAudioFilterRead` calls `InputAudio`; main thread still calls `GetState()` each frame. Enable **Enable Audio Thread Imitone Feed Stress Test** on `ImitoneVoiceIntepreter`, watch the four `aggStress*` fields on `MicVoiceIngestDebugAggregate`, then run the six conditions below. **Ignore pitch / tone quality** while the flag is on. When all pass, remove the stress code in a follow-up commit per the plan.
 
 > **Recommended LLM for this step:**
 > - **First-pass: Composer 2 (full)** — boilerplate stress-test scaffolding (counters, toggle, six test conditions, `try/catch` wraps, cleanup). Mostly mechanical; no new architectural reasoning required.
@@ -1039,7 +1039,7 @@ Before redirecting the entire imitone feed, run an explicit stress test to confi
 
 *Temporary stress-test code (added in Step 2, removed in same commit reversion):*
 - [x] Add a temporary `[SerializeField] private bool enableAudioThreadImitoneFeedStressTest;` to `ImitoneVoiceIntepreter`. Mark every added line in this step with a comment like `// STRESS TEST (Step 2) — REMOVE IN SAME COMMIT`.
-- [x] When true, in `OnAudioFilterRead` (audio thread): also call `imitone.InputAudio(buffer)` *in addition to* the main-thread call. (Intentional double-feed; analysis output will be garbage — we're testing stability, not correctness.)
+- [x] When stress flag is true: **`OnAudioFilterRead` is the sole `imitone.InputAudio` source** — main-thread chunking `InputAudio` is skipped. (Original plan suggested double-feed; **concurrent `InputAudio` from two threads races imitone's native `feed_buffer` and crashed Unity on toggle** — see Developer notes.) Analysis output remains unreliable while the flag is on.
 - [x] When true, in `Update` (main thread): keep the existing per-frame `imitone.GetState()` call at its natural rate. No artificial loop — we want realistic main-thread cadence, not synthetic load.
 - [x] Add temporary stress-test counters:
   - `stressAudioThreadInputAudioCallTotal` (long, `Interlocked.Increment` from audio thread).
@@ -1065,19 +1065,21 @@ Before redirecting the entire imitone feed, run an explicit stress test to confi
 - [ ] The Editor process does not crash.
 
 *Cleanup (same commit as test code addition):*
-- [ ] Remove the stress-test serialized toggle, all four counters, the audio-thread `InputAudio` call (the double-feed), and the `try / catch` wraps if they were added only for the test.
+- [ ] Remove the stress-test serialized toggle, all four counters, the audio-thread `InputAudio` stress block, the main-thread `if (!enableAudioThreadImitoneFeedStressTest)` guard around chunking (restore unconditional chunking), and the `try / catch` wraps if they were added only for the test.
 - [ ] Remove the corresponding `agg*` mirrors from `MicVoiceIngestDebugAggregate`.
 - [ ] Confirm no `// STRESS TEST` comments remain.
 - [ ] Confirm no commented-out stress-test code remains. Nothing left behind.
 
 **Notes & considerations:**
-- Double-feeding will produce wrong analysis output — that's expected. We're testing for stability, not correctness. Do not interpret tone-tracking output during this step.
-- **If the stress test fails, stop.** Surface the failure to the user before proceeding. Plan B: fall back to a thread-safe queue from audio thread → main thread for `InputAudio` calls. This is unlikely; imitone docs say `InputAudio` is safe (`imitone.cs` line 77).
-- The commit's net diff vs. the prior commit is the *removal* of the stress test code; the message captures the verification result, not lingering changes.
+- Output will be wrong while the flag is on — expected. We're testing native stability (`InputAudio` on audio thread + `GetState` on main), not tone tracking.
+- **If the stress test fails, stop** before Step 3. Plan B: queue buffers audio thread → main and call `InputAudio` only on main (only if even the exclusive audio-thread feed + main `GetState` pattern proves unsafe).
+- The removal commit's message is below; the merged repo must end with **zero** stress-test code.
 
 **Commit:** `test: confirm imitone safe from audio thread under stress, revert in same commit`
 
-**Developer notes:** _none_
+**Developer notes:**
+
+- **2026-05-04 — Unity crashed immediately on enabling the Step 2 checkbox.** First implementation called `imitone.InputAudio` from **both** the main-thread chunking loop and `OnAudioFilterRead` **concurrently**. The managed wrapper (`imitone.cs`) uses a **single** `feed_buffer` and copies `audio[]` into it before every native `imi_AnalyzeF32` — interleaved `InputAudio` from two threads races that buffer. The doc line *"can be called from a different thread"* means you may **relocate** `InputAudio` to one non-main thread, **not** that two threads may call `InputAudio` on the same `ImitoneVoice` at the same time. **Fix:** when the stress flag is on, **skip** the main-thread `InputAudio` loop; only the audio thread calls `InputAudio`. Main thread still calls `GetState()` — the pattern Step 3 targets.
 
 ---
 

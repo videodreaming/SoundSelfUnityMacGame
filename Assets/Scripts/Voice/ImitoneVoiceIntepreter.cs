@@ -20,7 +20,7 @@ using imitone;
 public partial class ImitoneVoiceIntepreter : MonoBehaviour
 {
     [Header("STRESS TEST (Step 2) — remove after manual run; see MIC_VOICE_INGEST_FIX_PLAN.md")]
-    [Tooltip("When enabled, OnAudioFilterRead also calls imitone.InputAudio (double-feed with main thread). Intentional garbage analysis — tests cross-thread safety only.")]
+    [Tooltip("When enabled, ONLY OnAudioFilterRead calls imitone.InputAudio (main-thread chunking feed is skipped). Main thread still calls GetState. Tests audio-thread InputAudio + main-thread GetState without concurrent double-feed — concurrent InputAudio from two threads races native feed_buffer and crashed Unity (2026-05-04). Analysis output is still not trustworthy while this is on.")]
     [SerializeField] private bool enableAudioThreadImitoneFeedStressTest; // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
 
     //base variables pitch and midiNote
@@ -759,25 +759,32 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                 // We process in chunks of sampleRate, oldest-first within the [imitoneFeedStart, imitoneFeedStart+imitoneFeedCount) window only
                 // (see imitoneMaxFeedFramesAt60FpsEquivalent — newest tail so bursts do not push imitone state with stale audio).
                 // TO REVERT: remove the chunking block below and restore: imitone.InputAudio(capturedInput);
-                if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
-                    _imitoneChunkBuffer = new float[sampleRate];
-                int imitoneFeedEnd = imitoneFeedStart + imitoneFeedCount;
-                for (int offset = imitoneFeedStart; offset < imitoneFeedEnd; offset += sampleRate)
+                // STRESS TEST (Step 2): When flag is on, skip main-thread InputAudio — audio thread is sole InputAudio source.
+                // Concurrent InputAudio from Update + OnAudioFilterRead races imitone's native feed_buffer (crashed Editor 2026-05-04).
+                if (!enableAudioThreadImitoneFeedStressTest)
                 {
-                    int chunkSize = Math.Min(sampleRate, imitoneFeedEnd - offset);
-                    float[] chunkToPass;
-                    if (chunkSize == sampleRate)
+                    if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
+                        _imitoneChunkBuffer = new float[sampleRate];
+                    int imitoneFeedEnd = imitoneFeedStart + imitoneFeedCount;
+                    for (int offset = imitoneFeedStart; offset < imitoneFeedEnd; offset += sampleRate)
                     {
-                        Array.Copy(capturedInput, offset, _imitoneChunkBuffer, 0, chunkSize);
-                        chunkToPass = _imitoneChunkBuffer;
+                        int chunkSize = Math.Min(sampleRate, imitoneFeedEnd - offset);
+                        float[] chunkToPass;
+                        if (chunkSize == sampleRate)
+                        {
+                            Array.Copy(capturedInput, offset, _imitoneChunkBuffer, 0, chunkSize);
+                            chunkToPass = _imitoneChunkBuffer;
+                        }
+                        else
+                        {
+                            chunkToPass = new float[chunkSize];
+                            Array.Copy(capturedInput, offset, chunkToPass, 0, chunkSize);
+                        }
+
+                        imitone.InputAudio(chunkToPass);
                     }
-                    else
-                    {
-                        chunkToPass = new float[chunkSize];
-                        Array.Copy(capturedInput, offset, chunkToPass, 0, chunkSize);
-                    }
-                    imitone.InputAudio(chunkToPass);
                 }
+
                 //imitone.InputAudio(capturedInput); //Old Behavior
                 //END CHUNKING
 

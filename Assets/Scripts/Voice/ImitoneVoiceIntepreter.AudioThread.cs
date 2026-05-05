@@ -316,7 +316,8 @@ public partial class ImitoneVoiceIntepreter
         }
 
         // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
-        // Double-feed imitone from audio thread while main thread still calls InputAudio + GetState (see plan).
+        // Sole imitone.InputAudio path when enableAudioThreadImitoneFeedStressTest is on (main-thread chunking skipped).
+        // Do NOT add a second concurrent InputAudio from main thread — native feed_buffer race crashes Unity.
         if (enableAudioThreadImitoneFeedStressTest && imitone != null && frames > 0)
         {
             // imitone.InputAudio uses audio.Length as sample count (imitone.cs) — pass exactly `frames` samples.
