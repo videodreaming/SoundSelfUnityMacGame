@@ -1025,7 +1025,14 @@ These flags are observable from the moment Step 1's parallel audio-thread path c
 
 ### Step 2: Confirm imitone is safe to feed from audio thread (stress test)
 
-> **Scaffolding commit:** `feat(step2): add imitone audio-thread stress test scaffolding` — SHA `a8a36abe` (2026-05-04). **Enable checkbox before entering Play** — stress mode is **frozen at session Start** (`step2StressTestSessionActive`); toggling during Play does nothing until next session. **Methodology fix:** concurrent `InputAudio` from main thread + audio thread crashed Unity immediately — see Developer notes. When enabled for that session: **main-thread chunking `InputAudio` is skipped**; **only** `OnAudioFilterRead` calls `InputAudio`; main thread still calls `GetState()` each frame. Watch the four `aggStress*` fields on `MicVoiceIngestDebugAggregate`, run the six stress conditions below. **Ignore pitch / tone quality.** Phase 2 **`FAIL_AUDIO_GC_ALLOC_DETECTED` is disabled** during a stress session (intentional per-callback `new float[frames]` trips the GC-suspect heuristic — not meaningful for pass/fail). When all pass, remove stress code in a follow-up commit per the plan.
+> **Scaffolding commit:** `feat(step2): add imitone audio-thread stress test scaffolding` — SHA `a8a36abe` (2026-05-04).
+>
+> **Follow-up commits (same branch, methodology fixes — apply after scaffold):**
+> - `fix(step2): exclusive audio-thread InputAudio — concurrent feed crashed Unity` — SHA **`4bbfb643`**. First scaffold called `InputAudio` from **both** main-thread chunking and `OnAudioFilterRead`; **immediate Editor crash** — `imitone.cs` uses one `feed_buffer` per `ImitoneVoice`; concurrent `InputAudio` races native analyze. **Correct stress pattern:** while stress is active for the session, **skip main-thread `InputAudio`**; **only** audio thread calls `InputAudio`; main still calls `GetState()` (matches Step 3).
+> - `fix(step2): freeze stress session at Start; mute Phase 2 GC FAIL during stress` — SHA **`95e201b5`**. Checkbox snapshot at **`Start()`** → `step2StressTestSessionActive` (mid-Play toggles ignored). Intentional per-callback `new float[frames]` in stress path + longer callbacks tripped Phase 2 **`FAIL_AUDIO_GC_ALLOC_DETECTED`** on calm baseline — false positive. While stress session: do not increment `audioCallbackGCAllocSuspectTotal` from **duration** heuristic; **`FAIL_AUDIO_GC_ALLOC_DETECTED` forced false** in aggregate. Restore full Phase 2 GC behavior when stress code is removed.
+> - `docs(step2): link scaffolding commit SHA in plan` — SHA **`de1e690a`**.
+>
+> **Enable checkbox before entering Play** — stress mode is **frozen at session Start** (`step2StressTestSessionActive`); toggling during Play has no effect until the next play session. When enabled for that session: **main-thread chunking `InputAudio` is skipped**; **only** `OnAudioFilterRead` calls `InputAudio`; main thread still calls `GetState()` each frame. Watch the four `aggStress*` fields on `MicVoiceIngestDebugAggregate`, run the six stress conditions below. **Ignore pitch / tone quality.** Phase 2 **`FAIL_AUDIO_GC_ALLOC_DETECTED` is disabled** during a stress session (intentional per-callback `new float[frames]` trips the GC-suspect heuristic — not meaningful for pass/fail). **`FAILURE` may still be true** during stress if **Phase 1** legacy-ingest flags fire — that regression oracle is unrelated to Step 2 pass/fail; judge Step 2 only on the four `aggStress*` failure totals + crash-free / stable Editor. When all pass, remove stress code in a follow-up commit per the plan.
 
 > **Recommended LLM for this step:**
 > - **First-pass: Composer 2 (full)** — boilerplate stress-test scaffolding (counters, toggle, six test conditions, `try/catch` wraps, cleanup). Mostly mechanical; no new architectural reasoning required.
@@ -1047,8 +1054,9 @@ Before redirecting the entire imitone feed, run an explicit stress test to confi
   - `stressAudioThreadInputAudioFailureTotal` (long) — increments if `InputAudio` throws (wrap in `try / catch`, log once, count).
   - `stressMainThreadGetStateFailureTotal` (long) — same pattern around `GetState`.
 - [x] Surface the four stress counters in `MicVoiceIngestDebugAggregate` as read-only `agg*` mirrors so the user can watch them live during the test session.
-
-*Stress conditions — run each for ≥ 60 seconds:*
+- [x] **Session freeze at `Start()`:** `step2StressTestSessionActive` is a copy of the checkbox taken at the **beginning** of `Start()`. All stress branches use this field — **not** the serialized bool at runtime — so **toggling the checkbox during Play has no effect** until the next play session. (Commit `95e201b5`.)
+- [x] **Phase 2 `FAIL_AUDIO_GC_ALLOC_DETECTED` during stress:** the stress path allocates `new float[frames]` per callback (required: `imitone.InputAudio` uses `audio.Length` as sample count). That trips the callback-duration GC-suspect heuristic and latched `FAIL_AUDIO_GC_ALLOC_DETECTED` on calm baseline — **false positive**. While `Step2StressTestSessionActive`, skip duration-based increments to `audioCallbackGCAllocSuspectTotal` and **force** `FAIL_AUDIO_GC_ALLOC_DETECTED` false in the aggregate. (Commit `95e201b5`.)
+- [x] **Exclusive `InputAudio` (commit `4bbfb643`):** do **not** call `InputAudio` from main thread and audio thread concurrently — **instant crash**; see Developer notes.
 - [ ] **Calm baseline:** scene running, no toning, no input. Counters increment as expected; no failures.
 - [ ] **Steady toning:** sustained tone, calm volume. No failures.
 - [ ] **Loud toning:** sustained loud tone, varied pitch. No failures.
@@ -1063,9 +1071,10 @@ Before redirecting the entire imitone feed, run an explicit stress test to confi
 - [ ] No editor freezes or audio dropouts attributable to the test.
 - [ ] `aggAudioCallbackTotal` continues climbing throughout (the test path doesn't starve the audio thread).
 - [ ] The Editor process does not crash.
+- **Note:** Step 2 pass/fail is **not** "`FAILURE` stays false" — Phase 1 flags may still fire during stress (legacy ingest bug). **Note:** Other subsystems (e.g. Wwise "Voice Starvation", missing InteractiveMusic switch defaults) may log errors during Play — triage separately unless clearly caused by enabling stress mode.
 
 *Cleanup (same commit as test code addition):*
-- [ ] Remove the stress-test serialized toggle, all four counters, the audio-thread `InputAudio` stress block, the main-thread `if (!enableAudioThreadImitoneFeedStressTest)` guard around chunking (restore unconditional chunking), and the `try / catch` wraps if they were added only for the test.
+- [ ] Remove the stress-test serialized toggle, **`step2StressTestSessionActive`** field + **`Start()` snapshot line**, all four stress counters + public getters, the audio-thread `InputAudio` stress block, the main-thread **`if (!step2StressTestSessionActive)`** guard around chunking (restore unconditional chunking as today when stress removed), **`Step2StressTestSessionActive`** branches in **`MicVoiceIngestDebugAggregate`** (restore single GC latch path), and the `try / catch` wraps if they were added only for the test.
 - [ ] Remove the corresponding `agg*` mirrors from `MicVoiceIngestDebugAggregate`.
 - [ ] Confirm no `// STRESS TEST` comments remain.
 - [ ] Confirm no commented-out stress-test code remains. Nothing left behind.
