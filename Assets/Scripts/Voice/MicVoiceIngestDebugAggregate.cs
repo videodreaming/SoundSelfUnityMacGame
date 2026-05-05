@@ -346,12 +346,19 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 _audioLockMissWindowTimer = 0f;
             }
 
-            if (aggAudioCallbackGCAllocSuspectTotal > _gcSuspectBaselineAtClear)
+            if (interpreter.Step2StressTestSessionActive)
             {
-                _gcAllocStickyLatched = true;
+                FAIL_AUDIO_GC_ALLOC_DETECTED = false;
             }
+            else
+            {
+                if (aggAudioCallbackGCAllocSuspectTotal > _gcSuspectBaselineAtClear)
+                {
+                    _gcAllocStickyLatched = true;
+                }
 
-            FAIL_AUDIO_GC_ALLOC_DETECTED = _gcAllocStickyLatched;
+                FAIL_AUDIO_GC_ALLOC_DETECTED = _gcAllocStickyLatched;
+            }
         }
         else
         {

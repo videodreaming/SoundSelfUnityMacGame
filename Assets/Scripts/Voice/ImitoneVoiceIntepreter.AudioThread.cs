@@ -316,9 +316,9 @@ public partial class ImitoneVoiceIntepreter
         }
 
         // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
-        // Sole imitone.InputAudio path when enableAudioThreadImitoneFeedStressTest is on (main-thread chunking skipped).
+        // Sole imitone.InputAudio path when step2StressTestSessionActive (main-thread chunking skipped).
         // Do NOT add a second concurrent InputAudio from main thread — native feed_buffer race crashes Unity.
-        if (enableAudioThreadImitoneFeedStressTest && imitone != null && frames > 0)
+        if (step2StressTestSessionActive && imitone != null && frames > 0)
         {
             // imitone.InputAudio uses audio.Length as sample count (imitone.cs) — pass exactly `frames` samples.
             // Per-callback GC alloc here is intentional for this temporary manual test only; Step 3+ forbids allocation on this thread.
@@ -377,7 +377,8 @@ public partial class ImitoneVoiceIntepreter
 
         long t1 = Stopwatch.GetTimestamp();
         double elapsedMs = (t1 - t0) * 1000.0 / Stopwatch.Frequency;
-        if (elapsedMs > audioCallbackGcSuspectMsThreshold)
+        // Step 2 stress path intentionally allocates new float[frames] per callback — do not count as GC-suspect.
+        if (!step2StressTestSessionActive && elapsedMs > audioCallbackGcSuspectMsThreshold)
         {
             Interlocked.Increment(ref audioCallbackGCAllocSuspectTotal);
         }

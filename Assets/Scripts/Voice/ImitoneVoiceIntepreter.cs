@@ -20,8 +20,11 @@ using imitone;
 public partial class ImitoneVoiceIntepreter : MonoBehaviour
 {
     [Header("STRESS TEST (Step 2) — remove after manual run; see MIC_VOICE_INGEST_FIX_PLAN.md")]
-    [Tooltip("When enabled, ONLY OnAudioFilterRead calls imitone.InputAudio (main-thread chunking feed is skipped). Main thread still calls GetState. Tests audio-thread InputAudio + main-thread GetState without concurrent double-feed — concurrent InputAudio from two threads races native feed_buffer and crashed Unity (2026-05-04). Analysis output is still not trustworthy while this is on.")]
+    [Tooltip("Set before Play. Value is frozen at session Start — toggling during Play has no effect until the next play session. When true for that session, only OnAudioFilterRead calls imitone.InputAudio; main thread GetState only. See plan Step 2.")]
     [SerializeField] private bool enableAudioThreadImitoneFeedStressTest; // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
+    /// <summary>STRESS TEST (Step 2) — copy of the checkbox at session Start; mid-Play toggles ignored.</summary>
+    private bool step2StressTestSessionActive;
+    public bool Step2StressTestSessionActive => step2StressTestSessionActive;
 
     //base variables pitch and midiNote
     public LightControl lightControl;
@@ -310,6 +313,8 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
 
     void Start()
     {
+        step2StressTestSessionActive = enableAudioThreadImitoneFeedStressTest; // STRESS TEST (Step 2) — session frozen; no mid-Play mode switch
+
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
 
         InitializeMicrophone();
@@ -761,7 +766,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                 // TO REVERT: remove the chunking block below and restore: imitone.InputAudio(capturedInput);
                 // STRESS TEST (Step 2): When flag is on, skip main-thread InputAudio — audio thread is sole InputAudio source.
                 // Concurrent InputAudio from Update + OnAudioFilterRead races imitone's native feed_buffer (crashed Editor 2026-05-04).
-                if (!enableAudioThreadImitoneFeedStressTest)
+                if (!step2StressTestSessionActive)
                 {
                     if (_imitoneChunkBuffer == null || _imitoneChunkBuffer.Length != sampleRate)
                         _imitoneChunkBuffer = new float[sampleRate];
@@ -789,7 +794,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                 //END CHUNKING
 
                 // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
-                if (enableAudioThreadImitoneFeedStressTest)
+                if (step2StressTestSessionActive)
                 {
                     try
                     {
