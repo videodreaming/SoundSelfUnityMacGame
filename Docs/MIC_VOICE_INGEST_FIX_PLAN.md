@@ -1025,6 +1025,8 @@ These flags are observable from the moment Step 1's parallel audio-thread path c
 
 ### Step 2: Confirm imitone is safe to feed from audio thread (stress test)
 
+> **Scaffolding commit:** `feat(step2): add imitone audio-thread stress test scaffolding` — SHA `a8a36abe` (2026-05-04). Enable **Enable Audio Thread Imitone Feed Stress Test** on `ImitoneVoiceIntepreter` in the Inspector, watch the four `aggStress*` fields on `MicVoiceIngestDebugAggregate`, then run the six conditions below. **Ignore pitch / tone quality** while the flag is on. When all pass, remove the stress code in a follow-up commit per the plan.
+
 > **Recommended LLM for this step:**
 > - **First-pass: Composer 2 (full)** — boilerplate stress-test scaffolding (counters, toggle, six test conditions, `try/catch` wraps, cleanup). Mostly mechanical; no new architectural reasoning required.
 > - **Review pass: Opus 4.7** (always; see working agreement rule 5)
