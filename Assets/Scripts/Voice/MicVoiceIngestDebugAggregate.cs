@@ -77,6 +77,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggAudioConfigOutputSampleRate;
     [SerializeField] private int aggAudioConfigDspBufferSize;
 
+    [Header("Step 2 stress test (temporary — remove after verification)")]
+    [SerializeField] private long aggStressAudioThreadInputAudioCallTotal;
+    [SerializeField] private long aggStressAudioThreadInputAudioFailureTotal;
+    [SerializeField] private long aggStressMainThreadGetStateCallTotal;
+    [SerializeField] private long aggStressMainThreadGetStateFailureTotal;
+
     [Header("Tone / imitone gate (ImitoneVoiceIntepreter — public runtime flags)")]
     [SerializeField] private bool aggImitoneActive;
     [SerializeField] private bool aggImitoneActiveRaw;
@@ -248,6 +254,11 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggMixerChannels = a.aggMixerChannels;
             aggAudioConfigOutputSampleRate = a.audioConfigOutputSampleRate;
             aggAudioConfigDspBufferSize = a.audioConfigDspBufferSize;
+
+            aggStressAudioThreadInputAudioCallTotal = interpreter.StressAudioThreadInputAudioCallTotal;
+            aggStressAudioThreadInputAudioFailureTotal = interpreter.StressAudioThreadInputAudioFailureTotal;
+            aggStressMainThreadGetStateCallTotal = interpreter.StressMainThreadGetStateCallTotal;
+            aggStressMainThreadGetStateFailureTotal = interpreter.StressMainThreadGetStateFailureTotal;
         }
 
         aggMonitoringAssigned = voiceMonitoring != null;

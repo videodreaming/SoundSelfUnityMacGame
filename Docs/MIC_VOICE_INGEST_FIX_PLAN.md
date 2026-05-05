@@ -1036,15 +1036,15 @@ Before redirecting the entire imitone feed, run an explicit stress test to confi
 **Tasks:**
 
 *Temporary stress-test code (added in Step 2, removed in same commit reversion):*
-- [ ] Add a temporary `[SerializeField] private bool enableAudioThreadImitoneFeedStressTest;` to `ImitoneVoiceIntepreter`. Mark every added line in this step with a comment like `// STRESS TEST (Step 2) — REMOVE IN SAME COMMIT`.
-- [ ] When true, in `OnAudioFilterRead` (audio thread): also call `imitone.InputAudio(buffer)` *in addition to* the main-thread call. (Intentional double-feed; analysis output will be garbage — we're testing stability, not correctness.)
-- [ ] When true, in `Update` (main thread): keep the existing per-frame `imitone.GetState()` call at its natural rate. No artificial loop — we want realistic main-thread cadence, not synthetic load.
-- [ ] Add temporary stress-test counters:
+- [x] Add a temporary `[SerializeField] private bool enableAudioThreadImitoneFeedStressTest;` to `ImitoneVoiceIntepreter`. Mark every added line in this step with a comment like `// STRESS TEST (Step 2) — REMOVE IN SAME COMMIT`.
+- [x] When true, in `OnAudioFilterRead` (audio thread): also call `imitone.InputAudio(buffer)` *in addition to* the main-thread call. (Intentional double-feed; analysis output will be garbage — we're testing stability, not correctness.)
+- [x] When true, in `Update` (main thread): keep the existing per-frame `imitone.GetState()` call at its natural rate. No artificial loop — we want realistic main-thread cadence, not synthetic load.
+- [x] Add temporary stress-test counters:
   - `stressAudioThreadInputAudioCallTotal` (long, `Interlocked.Increment` from audio thread).
   - `stressMainThreadGetStateCallTotal` (long, `Interlocked.Increment` from main thread).
   - `stressAudioThreadInputAudioFailureTotal` (long) — increments if `InputAudio` throws (wrap in `try / catch`, log once, count).
   - `stressMainThreadGetStateFailureTotal` (long) — same pattern around `GetState`.
-- [ ] Surface the four stress counters in `MicVoiceIngestDebugAggregate` as read-only `agg*` mirrors so the user can watch them live during the test session.
+- [x] Surface the four stress counters in `MicVoiceIngestDebugAggregate` as read-only `agg*` mirrors so the user can watch them live during the test session.
 
 *Stress conditions — run each for ≥ 60 seconds:*
 - [ ] **Calm baseline:** scene running, no toning, no input. Counters increment as expected; no failures.

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Serialization;
 using System.Linq;
@@ -18,6 +19,10 @@ using imitone;
 [DefaultExecutionOrder(50)]
 public partial class ImitoneVoiceIntepreter : MonoBehaviour
 {
+    [Header("STRESS TEST (Step 2) — remove after manual run; see MIC_VOICE_INGEST_FIX_PLAN.md")]
+    [Tooltip("When enabled, OnAudioFilterRead also calls imitone.InputAudio (double-feed with main thread). Intentional garbage analysis — tests cross-thread safety only.")]
+    [SerializeField] private bool enableAudioThreadImitoneFeedStressTest; // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
+
     //base variables pitch and midiNote
     public LightControl lightControl;
     public Director director;
@@ -776,7 +781,31 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
                 //imitone.InputAudio(capturedInput); //Old Behavior
                 //END CHUNKING
 
-                imitoneState = imitone.GetState();
+                // STRESS TEST (Step 2) — REMOVE IN SAME COMMIT (as removal pass)
+                if (enableAudioThreadImitoneFeedStressTest)
+                {
+                    try
+                    {
+                        imitoneState = imitone.GetState();
+                        Interlocked.Increment(ref stressMainThreadGetStateCallTotal);
+                    }
+                    catch (Exception ex)
+                    {
+                        Interlocked.Increment(ref stressMainThreadGetStateFailureTotal);
+                        if (!stressGetStateExceptionLogged)
+                        {
+                            stressGetStateExceptionLogged = true;
+                            Debug.LogWarning($"STRESS TEST (Step 2): imitone.GetState threw (logged once): {ex.Message}");
+                        }
+
+                        return;
+                    }
+                }
+                else
+                {
+                    imitoneState = imitone.GetState();
+                }
+
                 try
                 {
                     var data = new JSONObject(imitoneState);
