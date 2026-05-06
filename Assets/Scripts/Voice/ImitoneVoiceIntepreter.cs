@@ -253,6 +253,14 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         // rawRingBuffer on the audio-thread imitone-feed path; cumulative overflow drops from ReadRawSamples.
         public long audioThreadFeedReadTotalSamples;
         public long audioFeedOverflowDroppedTotal;
+        // Step 3a Pass 2: live gap (samples) between rawRingBuffer write head and audio-thread feed cursor.
+        // Snapshotted under rawBufferLock alongside the cursor read for a coherent pair (gap = writeTotal -
+        // readTotal); aggregate converts to ms via audioConfigOutputSampleRate. Persistent target ~40-90 ms.
+        public long audioThreadFeedToWriteHeadGapSamples;
+        // Step 3a Pass 2: TryEnter(0) misses on rawBufferLock from audio-thread readers (imitone feed +
+        // DirectVoiceMonitoring). Distinct from audioCallbackLockMissTotal, which counts misses on the
+        // pass-3-doomed audioRingWriteLock.
+        public long rawRingReadLockMissTotal;
     }
 
     private Coroutine currentNoiseFloorCoroutine;

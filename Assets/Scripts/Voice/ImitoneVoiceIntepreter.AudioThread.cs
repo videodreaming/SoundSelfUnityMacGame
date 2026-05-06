@@ -79,50 +79,28 @@ public partial class ImitoneVoiceIntepreter
     // value the user reads with their eyes off an Inspector.
     private volatile float audioCallbackFeedPeakAbsVolatile;
 
-    // Step 3a debug: AudioSource state surfaced for the H1a / H1b / H1c discrimination test. See
-    // Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md (decision tree). Snapshotted at last bootstrap; main
-    // thread also reads captureSource.isPlaying live each LateUpdate.
-    private int audioSourceCountOnGameObjectAtBootstrap;
-    public int AudioSourceCountOnGameObjectAtBootstrap => audioSourceCountOnGameObjectAtBootstrap;
-    public bool CaptureSourceIsPlaying => captureSource != null && captureSource.isPlaying;
-    public bool CaptureSourceHasClip => captureSource != null && captureSource.clip != null;
-
-    // Step 3a debug F1 (imitone-feed latency). The AudioSource read position vs the mic write
-    // position gap is the end-to-end imitone-feed latency: samples between "now at the mic"
-    // and "now reaching imitone." Both are clip-position offsets modulo clip length. Read on
-    // main thread (LateUpdate); both Unity APIs are main-thread-only.
-    public int CaptureSourceTimeSamples => captureSource != null ? captureSource.timeSamples : -1;
-    public int MicrophoneWritePositionSamples =>
-        string.IsNullOrEmpty(microphoneDeviceName) ? -1 : Microphone.GetPosition(microphoneDeviceName);
-    /// <summary>
-    /// Imitone-feed latency in samples: (mic write position) - (AudioSource read position),
-    /// modulo clip length. Returns -1 if either input is invalid. Multiplied by 1000 / sampleRate
-    /// gives milliseconds. See <see cref="CaptureToMicGapMs"/>.
-    /// </summary>
-    public int CaptureToMicGapSamples
+    // Step 3a Pass 2 (Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md): imitone-feed latency surfaced as the gap
+    // between the rawRingBuffer write head and the audio-thread read cursor (samples since session start;
+    // both monotonic). Replaces the pre-pivot CaptureToMicGap* properties (captureSource.timeSamples vs
+    // Microphone.GetPosition), which were meaningless once captureSource stopped playing the streaming mic
+    // clip. Aggregate prefers reading these via GetAudioThreadHealthSnapshot for a coherent snapshot pair.
+    public long AudioThreadFeedToWriteHeadGapSamples
     {
         get
         {
-            if (captureSource == null || string.IsNullOrEmpty(microphoneDeviceName)) return -1;
-            AudioClip clip = captureSource.clip;
-            if (clip == null || clip.samples <= 0) return -1;
-            int read = captureSource.timeSamples;
-            int write = Microphone.GetPosition(microphoneDeviceName);
-            if (read < 0 || write < 0) return -1;
-            int gap = write - read;
-            int clipLen = clip.samples;
-            if (gap < 0) gap += clipLen;          // wrap into [0, clipLen)
-            if (gap >= clipLen) gap -= clipLen;
-            return gap;
+            long writeTotal = Interlocked.Read(ref rawWriteTotalSamples);
+            long readTotal = Interlocked.Read(ref audioThreadFeedReadTotalSamples);
+            long gap = writeTotal - readTotal;
+            return gap < 0 ? 0 : gap;
         }
     }
-    public float CaptureToMicGapMs
+    public float AudioThreadFeedToWriteHeadGapMs
     {
         get
         {
-            int gap = CaptureToMicGapSamples;
-            if (gap < 0 || audioConfigOutputSampleRate <= 0) return -1f;
-            return gap * 1000f / audioConfigOutputSampleRate;
+            int sampleRate = audioConfigOutputSampleRate;
+            if (sampleRate <= 0) return -1f;
+            return AudioThreadFeedToWriteHeadGapSamples * 1000f / sampleRate;
         }
     }
 
@@ -197,6 +175,11 @@ public partial class ImitoneVoiceIntepreter
             audioCallbackFeedPeakAbsLastCallback = audioCallbackFeedPeakAbsVolatile,
             audioThreadFeedReadTotalSamples = Interlocked.Read(ref audioThreadFeedReadTotalSamples),
             audioFeedOverflowDroppedTotal = Interlocked.Read(ref audioFeedOverflowDroppedTotal),
+            // Step 3a Pass 2: snapshot the gap from the same pair of reads so aggregate sees a coherent
+            // (writeTotal, readTotal, gap) triple. Reads aren't under rawBufferLock — writer is main thread,
+            // reader is main thread; intra-tick tearing is bounded by one Update cycle and harmless for telemetry.
+            audioThreadFeedToWriteHeadGapSamples = AudioThreadFeedToWriteHeadGapSamples,
+            rawRingReadLockMissTotal = Interlocked.Read(ref rawRingReadLockMissTotal),
         };
     }
 
@@ -361,11 +344,6 @@ public partial class ImitoneVoiceIntepreter
             }
             captureSource.clip = imitoneFeedDummyClip;
         }
-
-        // Snapshot AFTER potential AddComponent so the user-facing diagnostic shows the post-bootstrap
-        // count (always ≥ 1 in a healthy Step 3a state). The pre-bootstrap count was ambiguous: 0 is
-        // valid (we'll create one) but indistinguishable from "AudioSource was deleted between sessions."
-        audioSourceCountOnGameObjectAtBootstrap = GetComponents<AudioSource>().Length;
     }
 
     private IEnumerator WaitMicPositionThenPlayCapture()

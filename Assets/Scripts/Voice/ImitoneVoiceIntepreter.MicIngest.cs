@@ -151,6 +151,12 @@ public partial class ImitoneVoiceIntepreter
     private int rawWritePosition;
     private long rawWriteTotalSamples;
     private readonly object rawBufferLock = new object();
+    // Step 3a Pass 2 (Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md): counts TryEnter(0) misses on rawBufferLock
+    // from audio-thread readers (the imitone feed in OnAudioFilterRead, DirectVoiceMonitoring). Distinct
+    // from audioCallbackLockMissTotal, which counts misses on audioRingWriteLock (the parallel ring being
+    // retired in pass 3). Should stay near 0 in steady play; sustained increments mean the main-thread
+    // writer is holding rawBufferLock long enough to clash with one or both audio-thread reads.
+    private long rawRingReadLockMissTotal;
     private float[] latestNormalizedFrame = Array.Empty<float>();
     private int latestNormalizedSampleCount;
     private float[] normalizedRingBuffer = Array.Empty<float>();
@@ -548,6 +554,7 @@ public partial class ImitoneVoiceIntepreter
             lockTaken = Monitor.TryEnter(rawBufferLock, 0);
             if (!lockTaken)
             {
+                Interlocked.Increment(ref rawRingReadLockMissTotal);
                 // Audio-thread safety: never block waiting on producer lock.
                 Array.Clear(destination, 0, destination.Length);
                 int ringLength = rawRingBuffer != null ? rawRingBuffer.Length : 0;
@@ -1126,6 +1133,7 @@ public partial class ImitoneVoiceIntepreter
         rawRingBuffer = new float[ringSize];
         rawWritePosition = 0;
         rawWriteTotalSamples = 0;
+        Interlocked.Exchange(ref rawRingReadLockMissTotal, 0L);
         rawRingBufferCapacitySamples = ringSize;
         normalizedRingBuffer = new float[ringSize];
         normalizedWritePosition = 0;

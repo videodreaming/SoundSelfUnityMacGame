@@ -23,23 +23,25 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     // changes. See Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md § Inspector / CURRENT TEST protocol.
     // ----------------------------------------------------------------------
 
-    [Header("CURRENT TEST — Pass 1: hybrid ring-feed verification")]
-    [Tooltip("Screengrab this block (toning + silent). Paste [Step3a-pivot] Console line once.\n\nBAR: hybridGapMs ~40–90 while toning | rollingHz ≈ sampleRate/dspSize | input/callback ratio ~1 after priming | feedPeak >0.05 on voice | pitch/db move | failure=false | overflowDrops=0 | exitReason=copied_samples.\n\nFor callback totals, lock misses, raw ring totals, config, monitoring — scroll to sections below.")]
-    [SerializeField] private string currentTestDescription = "Pass 1: one screengrab CURRENT TEST (tone + silent). Paste [Step3a-pivot] log.";
+    [Header("CURRENT TEST — Pass 2: telemetry rename + cursor-vs-write-head gap")]
+    [Tooltip("Screengrab this block (toning + silent), report two grabs ~60s apart to confirm gap drift < 20ms.\n\nBAR: hybridGapMs in 40–180ms band while toning (absolute value is hardware-dependent — mic ADC vs engine clock skew sets the floor) | DRIFT < 20ms across 60s (this is the actual test) | overflowDrops not climbing | rawRingReadLockMisses near 0 | rollingHz ≈ sampleRate/dspSize | input/callback ratio ~1 | feedPeak >0.05 on voice | pitch/db move | exitReason=copied_samples | failure=false (ignoring known GC false-positive).\n\nFor callback totals, lock-write misses, raw ring totals, config, monitoring — scroll to sections below.")]
+    [SerializeField] private string currentTestDescription = "Pass 2: two screengrabs ~60s apart (tone + silent). Verify gap drift + lock-miss counter.";
 
     [Tooltip("Time.time — report with each grab.")]
     [SerializeField] private float currentTestSessionTimeSeconds;
     [Tooltip("Any FAIL_* below.")]
     [SerializeField] private bool currentTestFailure;
 
-    [Tooltip("Hybrid imitone-feed latency (ms): raw ring write total minus audio-thread read cursor. Target ~40–90.")]
+    [Tooltip("Cursor-to-write-head imitone-feed latency (ms): rawWriteTotal minus audio-thread feed read cursor. Stable 40–180ms band while toning; absolute value is hardware-dependent (mic ADC vs engine clock skew). Drift < 20ms / 60s is the real test. Self-limits at 250ms via ReadRawSamples overflow guard.")]
     [SerializeField] private float currentTestHybridFeedGapMs;
     [Tooltip("Rolling OAFR rate (Hz). Expect ~ output sample rate / DSP buffer size (e.g. ~46.9 @ 48k/1024).")]
     [SerializeField] private float currentTestAudioCallbackHzRolling;
     [Tooltip("imitone.InputAudio calls / callbacks (cumulative). ~1.0 after priming.")]
     [SerializeField] private float currentTestImitoneInputToCallbackRatio;
-    [Tooltip("ReadRawSamples overflow drops on imitone path. Should stay 0.")]
+    [Tooltip("ReadRawSamples overflow drops on imitone path. Should NOT climb between two grabs taken ~60s apart.")]
     [SerializeField] private long currentTestAudioFeedOverflowDroppedTotal;
+    [Tooltip("Pass 2: rawBufferLock TryEnter(0) misses from audio-thread readers (imitone feed + DirectVoiceMonitoring). Should stay near 0; sustained climb means main-thread writer hold-time is colliding with audio reads.")]
+    [SerializeField] private long currentTestRawRingReadLockMissTotal;
 
     [Tooltip("Mic ingest branch (expect copied_samples when healthy).")]
     [SerializeField] private string currentTestMicExitReason = "";
@@ -149,6 +151,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private long aggAudioThreadFeedReadTotalSamples;
     [Tooltip("Step 3a hybrid pivot: cumulative samples dropped by ReadRawSamples overflow guard on imitone feed.")]
     [SerializeField] private long aggAudioFeedOverflowDroppedTotal;
+    [Tooltip("Step 3a Pass 2: feed-cursor-to-write-head gap in samples (monotonic write total minus audio-thread feed read total). Target ~40-90 ms equivalent while toning.")]
+    [SerializeField] private long aggAudioThreadFeedToWriteHeadGapSamples;
+    [Tooltip("Step 3a Pass 2: same gap converted to ms via aggAudioConfigOutputSampleRate. Stable 40-180 ms band; absolute value is mic-ADC-vs-engine clock-skew dependent. Drift < 20 ms across a 60s session is the real test. Self-limits at 250ms via ReadRawSamples overflow guard.")]
+    [SerializeField] private float aggAudioThreadFeedToWriteHeadGapMs;
+    [Tooltip("Step 3a Pass 2: TryEnter(0) misses on rawBufferLock from audio-thread readers (imitone feed + DirectVoiceMonitoring). Distinct from aggAudioCallbackLockMissTotal (audioRingWriteLock; pass-3-doomed). Should stay near 0.")]
+    [SerializeField] private long aggRawRingReadLockMissTotal;
 
     [Header("Tone / imitone gate (ImitoneVoiceIntepreter — public runtime flags)")]
     [SerializeField] private bool aggImitoneActive;
@@ -341,20 +349,26 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggAudioThreadFeedPeakAbsLastCallback = a.audioCallbackFeedPeakAbsLastCallback;
             aggAudioThreadFeedReadTotalSamples = a.audioThreadFeedReadTotalSamples;
             aggAudioFeedOverflowDroppedTotal = a.audioFeedOverflowDroppedTotal;
+            // Step 3a Pass 2: gap (samples + ms) and rawBufferLock TryEnter miss counter.
+            aggAudioThreadFeedToWriteHeadGapSamples = a.audioThreadFeedToWriteHeadGapSamples;
+            aggAudioThreadFeedToWriteHeadGapMs = aggAudioConfigOutputSampleRate > 0
+                ? aggAudioThreadFeedToWriteHeadGapSamples * 1000f / aggAudioConfigOutputSampleRate
+                : -1f;
+            aggRawRingReadLockMissTotal = a.rawRingReadLockMissTotal;
 
             // CURRENT TEST — only fields needed for the active pass (one screengrab). See plan doc § Inspector.
             currentTestSessionTimeSeconds = Time.time;
             currentTestAudioCallbackHzRolling = aggAudioCallbackHzRolling;
             currentTestAudioFeedOverflowDroppedTotal = aggAudioFeedOverflowDroppedTotal;
+            currentTestRawRingReadLockMissTotal = aggRawRingReadLockMissTotal;
             currentTestMicExitReason = aggMicExitReason ?? "";
             currentTestFeedPeakAbs = aggAudioThreadFeedPeakAbsLastCallback;
             currentTestDbValue = interpreter._dbValue;
             currentTestPitchHz = interpreter.pitch_hz;
 
-            long hybridGapSamples = aggMicRawRingWriteTotalSamples - aggAudioThreadFeedReadTotalSamples;
-            currentTestHybridFeedGapMs = aggAudioConfigOutputSampleRate > 0
-                ? hybridGapSamples * 1000f / aggAudioConfigOutputSampleRate
-                : -1f;
+            // Pass 2: source from snapshot's coherent (writeTotal, readTotal) pair instead of recomputing
+            // from cross-snapshot fields (rawRingWrite came from a different GetMicIngestDebugSnapshot read).
+            currentTestHybridFeedGapMs = aggAudioThreadFeedToWriteHeadGapMs;
 
             // Step 3a: imitone-feed observability — main-thread side.
             aggImitoneGetStateCallTotal = interpreter.ImitoneGetStateCallTotal;
