@@ -1378,6 +1378,9 @@ Possibilities, in order of likelihood:
 *Forwarded from Step 3b play-test (2026-05-06):*
 - **Onset click symptom:** user reports a "very occasional minor click when I begin toning" during 3b play-test. Not a 3b regression (filter state preservation + bit-identical filter alpha math rule that out). Likely an F2 speaker-leak path responding to voice onset — the leak bypasses `Array.Clear` at the end of `OnAudioFilterRead`, so it carries whatever the original mic clip's first non-silent samples are. **First diagnostic during 3c:** disable the suspected `MicrophonePlayback` GameObject during a Play session and tone several times. If the onset click goes away alongside the steady-state speaker leak, F2a is confirmed and one fix addresses both. If the click survives the F2 fix, escalate to per-callback profiling at toning onset to find the path.
 
+*Isolation hearing test (2026-05-06):*
+- Loud music + normalized `DirectVoiceMonitoring` had made the original “hear a leak” probe inconclusive. **Retest:** music system off, `DirectVoiceMonitoring` off, then tone. **Result:** no audible self-voice — acceptable evidence that there is no strong unexpected mic-to-listener path at perceptible level once intentional monitoring and mix are removed. Optional follow-up when convenient: single-variable toggle of `MicrophonePlayback` only (monitoring still off) to tick the explicit F2a checkbox in the task list; disposition (remove vs gate vs leave) can then be “no code change needed” if that toggle also shows nothing.
+
 ---
 
 ### Step 4: Verify and tune
