@@ -273,8 +273,8 @@ public partial class ImitoneVoiceIntepreter
         }
 
         imitoneInputAudioMainThreadLogged = true;
-        UnityEngine.Debug.LogWarning(
-            $"Step 3a: imitone.InputAudio threw on audio thread (logged once for this session): {pending.GetType().Name}: {pending.Message}");
+        UnityEngine.Debug.LogError(
+            $"[MicVoiceIngest] imitone.InputAudio threw on audio thread (logged once for this session): {pending.GetType().Name}: {pending.Message}");
     }
 
     private void EnsureCaptureAudioSourceConfigured()

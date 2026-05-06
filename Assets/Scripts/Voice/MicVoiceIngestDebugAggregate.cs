@@ -5,6 +5,8 @@ using UnityEngine;
 /// (+ optional DirectVoiceMonitoring transport totals) into one Inspector block after upstream Update()
 /// (LateUpdate). Step 3b adds a cross-thread atomicity / tear-detection block. Step 4 rewrites the
 /// <b>CURRENT TEST</b> header/field set for extended verify + click protocol (see plan § Step 4).
+/// Optional <c>Debug.LogError</c> on FAIL rising edges / dB-tear streaks when
+/// <see cref="logFailObservationErrorsToConsole"/> is enabled — for soak and user builds.
 /// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values are copied
 /// from <see cref="ImitoneVoiceIntepreter.GetMicIngestDebugSnapshot"/>.
 /// The <b>CURRENT TEST</b> section at the top contains <i>only</i> what the active play test needs — tight
@@ -126,6 +128,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [Header("FAIL OBSERVATION — actions")]
     [Tooltip("Tick once in Play mode to clear sticky gentle-recovery latch and reset ring-stall baseline; unticks automatically.")]
     [SerializeField] private bool clearFailObservationStickyFlags;
+    [Tooltip("When enabled: Debug.LogError on the frame FAIL_OBSERVATION (composite FAILURE) first becomes true, with a list of contributing FAIL_* flags and key counter snapshots — for soak sessions / user builds where Inspector FAIL flags are not visible. Also logs once per contiguous streak when the _dbMicrophone tear detector fires. Disable if another pipeline ingests Unity console logs and you need less noise.")]
+    [SerializeField] private bool logFailObservationErrorsToConsole = true;
 
     [Header("References (auto-filled from this GameObject if empty)")]
     [Tooltip("Single source for both tone/imitone state and mic-ingest snapshots. Snapshots are routed via this reference during 0.7b; underlying state migrates fully into the interpreter in 0.7c.")]
@@ -282,6 +286,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private float _lastMicRingOverflowIncreaseRealtime = -1f;
     private int _prevAggCaptureEpoch = -1;
 
+    // Production/soak logging: rising edge of composite FAILURE + first frame of each dB-tear streak.
+    private bool _prevFailureObserved;
+    private bool _dbMicTearReadErrorStreakActive;
+
     private void Awake()
     {
         _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
@@ -290,6 +298,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _imitoneFeedRatioWindowInitialized = false;
         _dbMicTearBaselineAtClear = 0;
         _dbMicTearStickyLatched = false;
+        _prevFailureObserved = false;
+        _dbMicTearReadErrorStreakActive = false;
         if (interpreter == null)
         {
             interpreter = GetComponent<ImitoneVoiceIntepreter>();
@@ -399,6 +409,18 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             if (tornRead)
             {
                 aggDbMicrophoneTearDetectedTotal++;
+                if (logFailObservationErrorsToConsole && !_dbMicTearReadErrorStreakActive)
+                {
+                    _dbMicTearReadErrorStreakActive = true;
+                    UnityEngine.Debug.LogError(
+                        $"[MicVoiceIngest] _dbMicrophone tear-detector: impossible cross-thread float read "
+                        + $"(sample={dbMicSample}, frame={Time.frameCount}, time={Time.realtimeSinceStartup:F2}s). "
+                        + "See FAIL_DB_TEAR_DETECTED / aggDbMicrophoneTearDetectedTotal — escalate to Interlocked if this persists.");
+                }
+            }
+            else
+            {
+                _dbMicTearReadErrorStreakActive = false;
             }
 
             aggImitoneActive = interpreter.imitoneActive;
@@ -760,5 +782,41 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             || FAIL_DB_TEAR_DETECTED;
 
         currentTestFailure = FAILURE;
+
+        if (logFailObservationErrorsToConsole && FAILURE && !_prevFailureObserved)
+        {
+            UnityEngine.Debug.LogError("[MicVoiceIngest] FAIL_OBSERVATION composite is now TRUE — " + BuildFailObservationLogDetail());
+        }
+
+        _prevFailureObserved = FAILURE;
+    }
+
+    /// <summary>
+    /// One-line diagnostic for soak / player logs when <see cref="FAILURE"/> fires. Only called
+    /// on the rising edge (not every LateUpdate).
+    /// </summary>
+    private string BuildFailObservationLogDetail()
+    {
+        // Deliberately flat string — runs rarely (FAIL edge only); readability in log files matters more than zero-GC here.
+        return
+            $"flags: "
+            + (FAIL_AUDIO_CALLBACK_FROZEN ? "FAIL_AUDIO_CALLBACK_FROZEN " : "")
+            + (FAIL_AUDIO_CALLBACK_RATE_LOW ? "FAIL_AUDIO_CALLBACK_RATE_LOW " : "")
+            + (FAIL_AUDIO_CALLBACK_GAP_HIGH ? "FAIL_AUDIO_CALLBACK_GAP_HIGH " : "")
+            + (FAIL_AUDIO_LOCK_CONTENTION ? "FAIL_AUDIO_LOCK_CONTENTION " : "")
+            + (FAIL_IMITONE_NOT_FED ? "FAIL_IMITONE_NOT_FED " : "")
+            + (FAIL_IMITONE_FEED_RATIO_LOW ? "FAIL_IMITONE_FEED_RATIO_LOW " : "")
+            + (FAIL_RING_OVERFLOW_GROWING ? "FAIL_RING_OVERFLOW_GROWING " : "")
+            + (FAIL_UNREAD_ZERO_SUSTAINED ? "FAIL_UNREAD_ZERO_SUSTAINED " : "")
+            + (FAIL_INGEST_RING_STALLED ? "FAIL_INGEST_RING_STALLED " : "")
+            + (FAIL_GENTLE_RECOVERY_FIRED ? "FAIL_GENTLE_RECOVERY_FIRED " : "")
+            + (FAIL_MONITORING_STARVATION_GROWING ? "FAIL_MONITORING_STARVATION_GROWING " : "")
+            + (FAIL_MIC_NOT_READY ? "FAIL_MIC_NOT_READY " : "")
+            + (FAIL_DB_TEAR_DETECTED ? "FAIL_DB_TEAR_DETECTED " : "")
+            + "| micExitReason=" + aggMicExitReason
+            + $" hzRolling={aggAudioCallbackHzRolling:F1} maxGapMs={aggAudioCallbackMaxGapMsLastSecond:F2}"
+            + $" imitone/callback={aggImitoneInputToCallbackRatio:F3} rawLockMisses={aggRawRingReadLockMissTotal}"
+            + $" overflowDrops={aggAudioFeedOverflowDroppedTotal} dbMicSnap={aggDbMicrophoneSnapshot:F2}"
+            + $" imitoneStateStallFrames={aggMainThreadFramesSinceLastImitoneStateChange}";
     }
 }
