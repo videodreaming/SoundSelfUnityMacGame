@@ -25,7 +25,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     // ----------------------------------------------------------------------
 
     [Header("CURRENT TEST — Step 3b: filter + dB on audio thread, tear detector")]
-    [Tooltip("Step 3b test bar — screengrab while toning + silent + during click testing protocol.\n\nWHAT 3b CHANGES: HPF / LPF + _dbMicrophone moved from main thread (GetRawVoiceData) to audio thread (OnAudioFilterRead). _dbMicrophone is now volatile float (audio writer, main reader). Tear detector watches for NaN / ±Infinity / out-of-dB-range values (would indicate the volatile guarantee is insufficient and we'd escalate to Interlocked).\n\nBAR — all of these must hold throughout the test:\n  • dbMicTearTotal stays at 0 (sticky; any non-zero is a tear, escalate to Interlocked).\n  • dbMicSnapshot moves with voice (expect roughly -50 quiet, > -30 toning) — confirms the audio-thread dB writer is alive and crossing back to main without corruption.\n  • dbValue + pitchHz stay alive on voice (no regression vs F1 closeout).\n  • feedPeakAbs > 0.05 on voice (confirms post-filter signal is not killed by the filter chain).\n  • rollingHz ≈ outputSampleRate/dspBufferSize (audio thread alive).\n  • input/callback ratio ~1 (steady state, post-priming).\n  • overflowDrops not climbing across the session.\n  • rawRingReadLockMisses near 0 (the new filter+dB work doesn't cost lock contention).\n  • failure = false (ignoring known GC false positive — see currentTestKnownFalsePositive_GcAlloc).\n\nCLICK TESTING PROTOCOL: run all 5 scenarios from Docs/MIC_VOICE_INGEST_FIX_PLAN.md § Click prevention appendix (mic re-init mid-session, scene change, etc.). No audible click in any scenario.\n\nDeeper metrics (callback totals, ring totals, feed gap, monitoring transport, full FAIL flag set) live in the headed sections below — scroll for them.")]
+    [Tooltip("Step 3b test bar — screengrab while toning + silent + during click testing protocol.\n\nWHAT 3b CHANGES: HPF / LPF + _dbMicrophone moved from main thread (GetRawVoiceData) to audio thread (OnAudioFilterRead). _dbMicrophone is now volatile float (audio writer, main reader). Tear detector watches for NaN / ±Infinity / out-of-dB-range values (would indicate the volatile guarantee is insufficient and we'd escalate to Interlocked).\n\nBAR — all of these must hold throughout the test:\n  • dbMicTearTotal stays at 0 (sticky; any non-zero is a tear, escalate to Interlocked).\n  • dbMicSnapshot moves with voice (expect roughly -50 quiet, > -30 toning) — confirms the audio-thread dB writer is alive and crossing back to main without corruption.\n  • dbValue + pitchHz stay alive on voice (no regression vs F1 closeout).\n  • feedPeakAbs ~0.01–0.1 on voice (post-filter; the F1-era 0.05–0.5 number was on unfiltered samples).\n  • rollingHz ≈ outputSampleRate/dspBufferSize (audio thread alive).\n  • input/callback ratio ~1 (steady state, post-priming).\n  • overflowDrops not climbing across the session.\n  • rawRingReadLockMisses near 0 (the new filter+dB work doesn't cost lock contention).\n  • failure = false. (Post-3b play-test follow-up retired FAIL_AUDIO_GC_ALLOC_DETECTED — the duration-heuristic flag was structurally redundant with FAIL_AUDIO_CALLBACK_RATE_LOW + FAIL_AUDIO_CALLBACK_FROZEN, and no longer false-positive-trips on imitone CPU time. If failure is true, it's a real signal now.)\n\nCLICK TESTING PROTOCOL: run all 5 scenarios from Docs/MIC_VOICE_INGEST_FIX_PLAN.md § Click prevention appendix (mic re-init mid-session, scene change, etc.). No audible click in any scenario.\n\nDeeper metrics (callback totals, ring totals, feed gap, monitoring transport, full FAIL flag set) live in the headed sections below — scroll for them.")]
     [SerializeField] private string currentTestDescription = "Step 3b: filter + _dbMicrophone on audio thread + tear detector + cross-thread labels. Tone normally + run click testing protocol; verify tear total = 0 and dbMicSnapshot tracks voice.";
 
     [Tooltip("Time.time — report with each grab.")]
@@ -53,8 +53,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [Tooltip("rawBufferLock TryEnter(0) misses from audio-thread readers. Should stay near 0; the new filter+dB work runs entirely after the lock is released so this counter should not move vs F1 closeout.")]
     [SerializeField] private long currentTestRawRingReadLockMissTotal;
 
-    [Tooltip("Sticky GC false positive (imitone CPU time exceeds 3 ms threshold; not a real GC alloc). Separate cleanup task in Optional Pass 4 — adjust audioCallbackGcSuspectMsThreshold from 3 ms to 15 ms.")]
-    [SerializeField] private bool currentTestKnownFalsePositive_GcAlloc;
+    // Step 3b play-test follow-up: currentTestKnownFalsePositive_GcAlloc retired alongside
+    // FAIL_AUDIO_GC_ALLOC_DETECTED. The duration heuristic is no longer a FAIL trigger, so the
+    // CURRENT TEST block no longer needs to flag it as a known false positive.
 
     [Header("FAIL OBSERVATION (glance here first)")]
     [Tooltip("True if any subsidiary FAIL_* flag is true this frame (pure OR).")]
@@ -69,8 +70,14 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private bool FAIL_AUDIO_CALLBACK_GAP_HIGH;
     [Tooltip("True when rawBufferLock TryEnter(0) miss count (aggRawRingReadLockMissTotal) in the last 1s window exceeds failAudioLockMissPerSecondThreshold. Pass 3 repointed this from the deleted audioRingWriteLock counter; the FAIL flag name kept stable.")]
     [SerializeField] private bool FAIL_AUDIO_LOCK_CONTENTION;
-    [Tooltip("Sticky: latched when GC-alloc-suspect counter increases; clear with clearFailObservationStickyFlags.")]
-    [SerializeField] private bool FAIL_AUDIO_GC_ALLOC_DETECTED;
+    // Step 3b play-test follow-up (2026-05-06): FAIL_AUDIO_GC_ALLOC_DETECTED retired. The duration
+    // heuristic was a Phase 2 proxy from when OnAudioFilterRead was near-empty; with imitone +
+    // filter + dB now occupying the same callback (legitimate 5-15 ms CPU), the threshold cannot
+    // reliably distinguish "imitone slow" from "GC pause" — at 3 ms it tripped on every callback,
+    // at 15 ms it still tripped on imitone tail-latency spikes. The actual user-facing concerns
+    // (engine starvation, callback freeze) are caught directly + reliably by FAIL_AUDIO_CALLBACK_RATE_LOW
+    // and FAIL_AUDIO_CALLBACK_FROZEN. The underlying counter aggAudioCallbackGCAllocSuspectTotal
+    // survives as diagnostic telemetry only — see its updated tooltip below.
 
     [Header("FAIL OBSERVATION — Phase 3 (imitone feed)")]
     [Tooltip("True when aggImitoneInputAudioCallTotal has not advanced for failImitoneNotFedSeconds while the audio callback IS still advancing (audio thread alive but feed broken). Distinguishes feed-side failures from a frozen audio thread.")]
@@ -132,6 +139,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggAudioCallbackLastSamplesPerCallback;
     [SerializeField] private float aggAudioCallbackHzRolling;
     [SerializeField] private float aggAudioCallbackMaxGapMsLastSecond;
+    [Tooltip("Diagnostic-only counter (no longer drives any FAIL flag as of Step 3b play-test follow-up). Counts callbacks whose duration exceeded audioCallbackGcSuspectMsThreshold. Was originally a Phase 2 GC-pause heuristic, but with imitone + filter + dB on the audio thread, legitimate steady-state callbacks routinely run 5-15 ms — the duration cannot reliably distinguish 'imitone slow' from 'GC pause.' Real audio-thread starvation / freezes are caught directly by FAIL_AUDIO_CALLBACK_RATE_LOW and FAIL_AUDIO_CALLBACK_FROZEN. Kept here as a 'how often did the audio thread spike above N ms' telemetry; for true GC-allocation verification, use the Profiler.")]
     [SerializeField] private long aggAudioCallbackGCAllocSuspectTotal;
     [SerializeField] private int aggMicClipChannels;
     [SerializeField] private int aggMixerChannels;
@@ -259,9 +267,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     // DirectVoiceMonitoring). Field name kept generic ("audio lock miss") since the FAIL flag is the same.
     private long _audioLockMissAtWindowStart;
     private bool _audioLockBaselineInitialized;
-    private bool _audioGCBaselineInitialized;
-    private bool _gcAllocStickyLatched;
-    private long _gcSuspectBaselineAtClear;
+    // Step 3b play-test follow-up: _audioGCBaselineInitialized / _gcAllocStickyLatched /
+    // _gcSuspectBaselineAtClear retired with FAIL_AUDIO_GC_ALLOC_DETECTED. The duration heuristic
+    // is now diagnostic telemetry only; no sticky latch needed.
 
     // Step 3a: trackers for Phase 3 FAIL_* triggers.
     private long _prevAggImitoneInputAudioCallTotalForNotFed = -1;
@@ -278,8 +286,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     {
         _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
         _lastImitoneInputAudioAdvanceRealtime = Time.realtimeSinceStartup;
-        _gcSuspectBaselineAtClear = 0;
-        _audioGCBaselineInitialized = false;
         _audioLockBaselineInitialized = false;
         _imitoneFeedRatioWindowInitialized = false;
         _dbMicTearBaselineAtClear = 0;
@@ -326,9 +332,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _gentleRecoveryStickyLatched = false;
         _rawRingStallPrevInitialized = false;
         _consecutiveIngestRingStallFrames = 0;
-        _gcSuspectBaselineAtClear = aggAudioCallbackGCAllocSuspectTotal;
-        _gcAllocStickyLatched = false;
-        _audioGCBaselineInitialized = true;
         _audioLockBaselineInitialized = false;
         _audioLockMissWindowTimer = 0f;
         // Step 3b: snapshot the current tear count as the new baseline. Subsequent tears (above
@@ -505,15 +508,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 _audioLockBaselineInitialized = true;
             }
 
-            // Seed the GC-suspect baseline once the audio thread is past startup grace.
-            // Cold-start callbacks can spike >3ms during JIT/warm-up; without this seed the
-            // sticky flag would latch on every fresh play.
-            if (!_audioGCBaselineInitialized)
-            {
-                _gcSuspectBaselineAtClear = aggAudioCallbackGCAllocSuspectTotal;
-                _audioGCBaselineInitialized = true;
-            }
-
             if (aggAudioCallbackTotal != _prevAggAudioCallbackTotalForFrozen)
             {
                 _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
@@ -555,14 +549,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 _audioLockMissAtWindowStart = aggRawRingReadLockMissTotal;
                 _audioLockMissWindowTimer = 0f;
             }
-
-            if (aggAudioCallbackGCAllocSuspectTotal > _gcSuspectBaselineAtClear)
-            {
-                _gcAllocStickyLatched = true;
-            }
-
-            FAIL_AUDIO_GC_ALLOC_DETECTED = _gcAllocStickyLatched;
-            currentTestKnownFalsePositive_GcAlloc = FAIL_AUDIO_GC_ALLOC_DETECTED;
 
             // --- Step 3a: Phase 3 (imitone feed) FAIL_* triggers ---
 
@@ -639,7 +625,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             FAIL_AUDIO_CALLBACK_RATE_LOW = false;
             FAIL_AUDIO_CALLBACK_GAP_HIGH = false;
             FAIL_AUDIO_LOCK_CONTENTION = false;
-            FAIL_AUDIO_GC_ALLOC_DETECTED = false;
             FAIL_IMITONE_NOT_FED = false;
             FAIL_IMITONE_FEED_RATIO_LOW = false;
             FAIL_RING_OVERFLOW_GROWING = false;
@@ -763,7 +748,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             || FAIL_AUDIO_CALLBACK_RATE_LOW
             || FAIL_AUDIO_CALLBACK_GAP_HIGH
             || FAIL_AUDIO_LOCK_CONTENTION
-            || FAIL_AUDIO_GC_ALLOC_DETECTED
             || FAIL_IMITONE_NOT_FED
             || FAIL_IMITONE_FEED_RATIO_LOW
             || FAIL_RING_OVERFLOW_GROWING

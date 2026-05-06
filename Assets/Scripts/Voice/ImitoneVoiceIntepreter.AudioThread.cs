@@ -20,13 +20,15 @@ public partial class ImitoneVoiceIntepreter
 {
     [Header("Audio-thread capture (Step 1 — parallel path)")]
     [SerializeField] private int audioCallbackPrimingFramesToSkip = 8;
-    // Step 3b play-test (Optional Pass 4): bumped 3 ms → 15 ms. The 3 ms initial threshold was
-    // tripping on legitimate imitone analysis time (5–10 ms is normal on a 1024-sample callback at
-    // 48 kHz on slower frames, with no GC involved), latching FAIL_AUDIO_GC_ALLOC_DETECTED and
-    // forcing FAILURE = TRUE permanently. 15 ms still catches real GC allocations easily — those
-    // are ~30–100 ms — without false-positiving on imitone CPU time. If the audio thread truly
-    // takes >15 ms in steady state the engine is in trouble for other reasons (callback rate
-    // would already be < expected) and FAIL_AUDIO_CALLBACK_RATE_LOW catches that path.
+    // Diagnostic-only threshold (Step 3b play-test follow-up retired the FAIL flag this used to
+    // drive). Each callback whose elapsed time exceeds this value increments
+    // audioCallbackGCAllocSuspectTotal as a "how often does the audio thread spike?" telemetry.
+    // Originally a Phase 2 GC-pause heuristic at 3 ms — invalid once imitone joined the audio
+    // thread (legitimate 5-15 ms callbacks). 15 ms here puts the counter mostly in "things I'd
+    // want to look into" territory: at this point in the pipeline a callback >15 ms is rare,
+    // sub-budget, but unusual enough to be worth seeing in the Inspector. Real audio-thread
+    // starvation is caught by FAIL_AUDIO_CALLBACK_RATE_LOW and FAIL_AUDIO_CALLBACK_FROZEN; for
+    // true GC verification, use the Profiler. Tune this freely — it's pure observability now.
     [SerializeField] private float audioCallbackGcSuspectMsThreshold = 15f;
 
     // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
@@ -66,9 +68,9 @@ public partial class ImitoneVoiceIntepreter
     private AudioClip imitoneFeedDummyClip;
 
     // Step 3a: deferred-log channel for imitone.InputAudio exceptions. The audio thread MUST NOT call
-    // Debug.Log* directly — string-interpolation alloc would trip audioCallbackGCAllocSuspectTotal and
-    // latch FAIL_AUDIO_GC_ALLOC_DETECTED as a false positive. Instead, the audio thread stores the first
-    // exception reference (no formatting) and the main thread drains + logs once per session.
+    // Debug.Log* directly — string-interpolation alloc on the audio thread is a no-allocation-discipline
+    // violation regardless of any heuristic flag. Instead, the audio thread stores the first exception
+    // reference (no formatting) and the main thread drains + logs once per session.
     // imitoneInputAudioMainThreadLogged is the latch: once main thread logs, audio thread stops capturing.
     private Exception imitoneInputAudioPendingException;
     private volatile bool imitoneInputAudioMainThreadLogged;
