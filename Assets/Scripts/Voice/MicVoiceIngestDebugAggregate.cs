@@ -3,10 +3,12 @@ using UnityEngine;
 /// <summary>
 /// Copies mic-ingest debug (from ImitoneVoiceIntepreter) + Imitone raw-path debug + tone/imitone gate flags
 /// (+ optional DirectVoiceMonitoring transport totals) into one Inspector block after upstream Update()
-/// (LateUpdate). Step 3b adds a cross-thread atomicity / tear-detection block. Step 4 rewrites the
-/// <b>CURRENT TEST</b> header/field set for extended verify + click protocol (see plan § Step 4).
-/// Optional <c>Debug.LogError</c> on FAIL rising edges / dB-tear streaks when
-/// <see cref="logFailObservationErrorsToConsole"/> is enabled — for soak and user builds.
+/// (LateUpdate). Step 3b adds a cross-thread atomicity / tear-detection block. <b>Step 5a rewrites the
+/// CURRENT TEST header/field set for click protocol verification</b> (M1/M2/M5/M6) — surfaces
+/// DirectVoiceMonitoring underflow / overflow / starvation / hard-volume-step counters in the aggregate
+/// (previously visible only in DirectVoiceMonitoring's own Inspector). Optional <c>Debug.LogError</c> on
+/// FAIL rising edges / dB-tear streaks when <see cref="logFailObservationErrorsToConsole"/> is enabled —
+/// for soak and user builds.
 /// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values are copied
 /// from <see cref="ImitoneVoiceIntepreter.GetMicIngestDebugSnapshot"/>.
 /// The <b>CURRENT TEST</b> section at the top contains <i>only</i> what the active play test needs — tight
@@ -27,37 +29,32 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     // Permanent fields belong in their own headed sections below — never here.
     // ----------------------------------------------------------------------
 
-    [Header("CURRENT TEST — Step 4: extended verify + click protocol")]
-    [Tooltip("Step 4 test bar — use **normal** product settings (music, DirectVoiceMonitoring, etc.) unless a scenario explicitly says otherwise.\n\nRUN ORDER: (1) Extended-testing checklist in MIC_VOICE_INGEST_FIX_PLAN.md Step 4 — long toning, heavy toning, edge cases, Profiler pass, FAILURE stays false. (2) Click protocol — all 5 scenarios in the click-prevention appendix; no audible click in any scenario.\n\nBAR — screengrab at end of each session; all must hold:\n  • failure = false entire session (sticky FAIL_* cleared only if you intentionally triaged a latch).\n  • dbMicTearTotal = 0 (3b regression watch — any increment = escalate _dbMicrophone to Interlocked).\n  • rollingHz ~ outputSampleRate/dspBufferSize (audio thread alive).\n  • maxGapMsLastSecond stays near nominal (~1000/rollingHz ms; brief spikes OK under CPU load).\n  • input/callback ratio ~1.0 steady state after priming.\n  • overflowDrops not climbing across the session.\n  • rawRingReadLockMisses near 0.\n  • dbValue + pitchHz alive on voice.\n  • imitoneStateStalenessFrames stays low — if it climbs under load, main thread may be starved (Profiler); pair with rollingHz (audio thread healthy).\n\nOPTIONAL: DSP buffer size tuning (same plan section) — only if latency feels too high.\n\nDeeper metrics (feed gap, mic exit reason, full FAIL set, dbMic snapshot, feed peak) live in headed sections below.")]
-    [SerializeField] private string currentTestDescription = "Step 4: extended sessions + full click protocol under normal mix. Tick plan checklists; capture Inspector after each run. Rewrite CURRENT TEST before a different testing round (§9).";
+    [Header("CURRENT TEST — Step 5a: click protocol verification (M1/M2/M5/M6)")]
+    [Tooltip("Step 5a test bar — full click protocol across all 5 scenarios with NORMAL product mix (music + DirectVoiceMonitoring on, normalized stream).\n\nPRIMARY PASS/FAIL: NO AUDIBLE CLICKS in any scenario. Counters below are diagnostic context — they tell you *what M1/M2/M6 mitigated*, not whether they succeeded. Trust your ears first.\n\nSCENARIOS (run all 5; capture Inspector after each):\n  1. Quiet baseline — 30 s silence. No periodic clicks at callback cadence.\n  2. Sustained tone — 30 s steady note. No clicks at any cadence; M1 / M2 should not fire in steady state.\n  3. Onset / offset — rapid voice on/off cycles. Hardest test for M1 fade-in/fade-out and M6 gain transitions on toneActive flips. monHardVolumeStepCount is EXPECTED to climb here — M6 smooths these inaudibly.\n  4. Heavy load — tone + simulated CPU work (drag a profiler-heavy op, switch scenes, anything that briefly stalls main thread). Hardest test for M2 overflow crossfade. monOverflowEvents may tick up here; the crossfade should make any tick inaudible.\n  5. Long session — 5+ min. Watch for slow degradation in any counter.\n\nDIAGNOSTIC BAR — what each counter tells you:\n  • failure = false (sticky FAIL_* cleared only if you intentionally triaged a latch).\n  • dbMicTearTotal = 0 (3b regression watch; any increment = volatile read saw NaN/±Inf, escalate _dbMicrophone to Interlocked).\n  • rollingHz ~ outputSampleRate/dspBufferSize (audio thread alive — without this everything else is meaningless).\n  • dbValue + pitchHz alive on voice (monitoring still produces audible voice — precondition for \"no clicks\" to mean anything).\n  • monUnderflowEvents — DirectVoiceMonitoring underflow fills (M1 fired). May tick under load; should NOT climb in steady state.\n  • monOverflowEvents — DirectVoiceMonitoring overflow drops (M2 crossfade fired). Same: load-correlated ticks OK; steady-state climb = ring undersized or read stalled.\n  • monStarvationEvents — DirectVoiceMonitoring callback starvation (copied == 0; hard underflow). Should stay at 0 in healthy play; nonzero = capture not feeding ring fast enough.\n  • monHardVolumeStepCount — main-thread per-frame gain delta > 0.2 (M6's input signal). DIAGNOSTIC ONLY — climbs on toneActive flips / attenuation toggles by design; M6 smooths these inaudibly. Pass/fail is your ears, not this counter.\n  • clickMitigationFadeSamples (live in DirectVoiceMonitoring Inspector, not mirrored here) — current fade length (default 32 samples ≈ 0.67 ms at 48 k). Tunable knob if a scenario surfaces clicks.\n\nM3 (verify-only): GameObject layout + Script Execution Order — already verified before running this protocol; see plan dev notes (5).\n\nDeeper metrics (full FAIL set, audio-thread health, ring totals, imitone feed health) live in headed sections below.")]
+    [SerializeField] private string currentTestDescription = "Step 5a: full click protocol under normal mix with counter visibility. Run all 5 scenarios; capture Inspector after each. Trust ears first; counters are diagnostic. Rewrite CURRENT TEST before a different testing round (§9).";
 
     [Tooltip("Time.time — report with each grab.")]
     [SerializeField] private float currentTestSessionTimeSeconds;
     [Tooltip("Any FAIL_* below.")]
     [SerializeField] private bool currentTestFailure;
 
-    [Tooltip("Step 4 / 3b carry-over: tear-detection counter (sticky). Must stay 0 — any increment means volatile float read saw NaN/±Inf/out-of-range; escalate _dbMicrophone to Interlocked.")]
+    [Tooltip("Step 3b regression watch (sticky): tear-detection counter on _dbMicrophone volatile float read. Must stay 0 — any increment means we saw NaN/±Inf/out-of-range; escalate _dbMicrophone to Interlocked.")]
     [SerializeField] private long currentTestDbMicrophoneTearDetectedTotal;
-    [Tooltip("Rolling OnAudioFilterRead rate (Hz). ~ sampleRate/dspBufferSize.")]
+    [Tooltip("Rolling OnAudioFilterRead rate (Hz). Audio thread alive precondition. ~ outputSampleRate/dspBufferSize (e.g. ~46.9 Hz at 1024/48 k).")]
     [SerializeField] private float currentTestAudioCallbackHzRolling;
-    [Tooltip("Largest inter-callback gap observed in the last 1 s wall-clock window (ms). Should stay near 1000/rollingHz except brief blips under CPU load.")]
-    [SerializeField] private float currentTestAudioCallbackMaxGapMsLastSecond;
-    [Tooltip("imitone.InputAudio calls / callbacks (cumulative). ~1.0 after priming.")]
-    [SerializeField] private float currentTestImitoneInputToCallbackRatio;
-    [Tooltip("ReadRawSamples overflow drops on imitone feed path. Must not climb between grabs across a session.")]
-    [SerializeField] private long currentTestAudioFeedOverflowDroppedTotal;
-    [Tooltip("rawBufferLock TryEnter(0) misses (imitone feed + DirectVoiceMonitoring readers). Near 0 in healthy play.")]
-    [SerializeField] private long currentTestRawRingReadLockMissTotal;
-    [Tooltip("Imitone-derived tone dB — voice alive signal for long-session A/B.")]
+    [Tooltip("Voice-alive signal — imitone-derived tone dB. Confirms monitoring still produces audible voice during the click test.")]
     [SerializeField] private float currentTestDbValue;
-    [Tooltip("Imitone-derived pitch (Hz) — voice alive signal.")]
+    [Tooltip("Voice-alive signal — imitone-derived pitch (Hz).")]
     [SerializeField] private float currentTestPitchHz;
-    [Tooltip("Frames since imitone GetState last saw a different (power, pitch_hz) tuple. Stays low in normal play; climbs if imitone appears hung OR main thread starves Update. Pair with Profiler if this spikes under load.")]
-    [SerializeField] private int currentTestMainThreadFramesSinceLastImitoneStateChange;
 
-    // Step 3b play-test follow-up: currentTestKnownFalsePositive_GcAlloc retired alongside
-    // FAIL_AUDIO_GC_ALLOC_DETECTED. The duration heuristic is no longer a FAIL trigger, so the
-    // CURRENT TEST block no longer needs to flag it as a known false positive.
+    [Tooltip("5a M1: cumulative DirectVoiceMonitoring underflow fills (ReadRawSamples / ReadNormalizedSamples returned copied < frameCount). M1 fade-out / fade-in fires on each. May tick under load; should NOT climb in steady state. If climbing in scenario 1 (quiet baseline) or 2 (sustained tone), ring is undersized or read latency is wrong.")]
+    [SerializeField] private int currentTestMonUnderflowEvents;
+    [Tooltip("5a M2: cumulative DirectVoiceMonitoring overflow drops (helper jumped readPosition). M2 crossfade fires on each. May tick under load (scenario 4); steady-state climb = ring undersized or main thread stalling reads.")]
+    [SerializeField] private int currentTestMonOverflowEvents;
+    [Tooltip("5a hard-underflow signal: cumulative DirectVoiceMonitoring callback starvations (copied == 0 on a callback). Should stay at 0 in healthy play; nonzero = capture not feeding ring fast enough; check audioThreadFeedLatencyMs and rawRingBuffer sizing.")]
+    [SerializeField] private int currentTestMonStarvationEvents;
+    [Tooltip("5a M6 diagnostic: count of main-thread per-frame gain deltas > 0.2 (the *input* signal to a click vector M6 smooths inaudibly). EXPECTED to climb on toneActive flips / attenuation toggles — that's M6 doing its job, not failing. Pass/fail for M6 is \"no audible clicks during scenario 3 onset/offset\", not this counter.")]
+    [SerializeField] private int currentTestMonHardVolumeStepCount;
 
     [Header("FAIL OBSERVATION (glance here first)")]
     [Tooltip("True if any subsidiary FAIL_* flag is true this frame (pure OR).")]
@@ -236,6 +233,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMonOverflowEvents;
     [SerializeField] private int aggMonOverflowSamples;
     [SerializeField] private int aggMonStarvationEvents;
+    [Tooltip("Step 5a M6 diagnostic: cumulative count of main-thread per-frame gain deltas > DirectVoiceMonitoring.hardVolumeStepThreshold (default 0.2). NOT a pass/fail counter post-5a — these are the *input* signal to a click vector that M6's per-sample audio-thread interpolation smooths inaudibly. Climbing on toneActive flips / attenuation toggles is expected; pass/fail is \"no audible clicks\", not \"counter at 0\".")]
+    [SerializeField] private int aggMonHardVolumeStepCount;
 
     private const string UnreadZeroExitReason = "unread_zero";
     private const string UnreadZeroGentleRestartExitReason = "unread_zero_gentle_restart";
@@ -471,17 +470,13 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 ? (float)aggImitoneInputAudioCallTotal / aggAudioCallbackTotal
                 : 0f;
 
-            // CURRENT TEST — Step 4: extended verify + click protocol. See plan doc § 9.
+            // CURRENT TEST — Step 5a: click protocol verification (M1/M2/M5/M6). See plan doc § 9.
+            // Monitoring transport mirrors (currentTestMon*) populated below after voiceMonitoring read.
             currentTestSessionTimeSeconds = Time.time;
             currentTestDbMicrophoneTearDetectedTotal = aggDbMicrophoneTearDetectedTotal;
             currentTestAudioCallbackHzRolling = aggAudioCallbackHzRolling;
-            currentTestAudioCallbackMaxGapMsLastSecond = aggAudioCallbackMaxGapMsLastSecond;
-            currentTestImitoneInputToCallbackRatio = aggImitoneInputToCallbackRatio;
-            currentTestAudioFeedOverflowDroppedTotal = aggAudioFeedOverflowDroppedTotal;
-            currentTestRawRingReadLockMissTotal = aggRawRingReadLockMissTotal;
             currentTestDbValue = interpreter._dbValue;
             currentTestPitchHz = interpreter.pitch_hz;
-            currentTestMainThreadFramesSinceLastImitoneStateChange = aggMainThreadFramesSinceLastImitoneStateChange;
 
             // Step 3a: detect mic recovery (captureEpoch tick) and absorb the priming-window transient on the
             // imitone-feed side ONLY. Without this, FAIL_IMITONE_NOT_FED briefly fires after every recovery
@@ -506,7 +501,14 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 out aggMonOverflowEvents,
                 out aggMonOverflowSamples,
                 out aggMonStarvationEvents);
+            aggMonHardVolumeStepCount = voiceMonitoring.HardVolumeStepCount;
         }
+
+        // CURRENT TEST — Step 5a monitoring-transport mirrors. See § 9.
+        currentTestMonUnderflowEvents = aggMonUnderflowEvents;
+        currentTestMonOverflowEvents = aggMonOverflowEvents;
+        currentTestMonStarvationEvents = aggMonStarvationEvents;
+        currentTestMonHardVolumeStepCount = aggMonHardVolumeStepCount;
 
         if (clearFailObservationStickyFlags)
         {

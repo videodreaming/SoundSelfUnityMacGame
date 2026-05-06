@@ -1070,6 +1070,19 @@ public class DirectVoiceMonitoring : MonoBehaviour
         starvationEvents = AtomicRead(ref callbackStarvationCount);
     }
 
+    /// <summary>
+    /// Cumulative count of hard *main-thread* volume steps detected by <see cref="ApplyMonitoringVolume"/>
+    /// when the applied gain delta exceeded <see cref="hardVolumeStepThreshold"/> between consecutive
+    /// per-frame applies. <b>Diagnostic, not pass/fail.</b> Pre-5a, every increment here was an audible
+    /// click candidate at the next audio-thread callback boundary (the callback applied a constant gain).
+    /// Post-5a M6, the audio thread interpolates per-sample from the previous callback's trailing gain to
+    /// the current target across the buffer, so these main-thread steps are smoothed inaudibly. The counter
+    /// climbing on <c>toneActive</c> flips / attenuation toggles / dynamic-volume ramps is therefore
+    /// <b>expected</b> — it shows how often M6 had to mitigate. The 5a pass/fail signal is "no audible
+    /// clicks", not "counter at 0". Read on main thread only (counter is only written on main thread).
+    /// </summary>
+    public int HardVolumeStepCount => hardVolumeStepCount;
+
     private void DbgLog(string message)
     {
         if (debugAllowMonitoringLogs)
