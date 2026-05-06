@@ -42,7 +42,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [Tooltip("Imitone-derived fundamental frequency (Hz). Should still track voice — no regression vs F1.")]
     [SerializeField] private float currentTestPitchHz;
 
-    [Tooltip("Peak |sample| going to imitone (post-filter as of 3b). Voice ~0.05–0.5. If this is > 0 but dbMicSnapshot stays at floor, suspect a tear or filter chain killing the post-filter signal.")]
+    [Tooltip("Peak |sample| going to imitone (post-filter as of 3b). Voice ~0.01–0.1, silent < 0.005, voice/silent contrast > 10× while toning. (The F1-era ~0.05–0.5 reading was measured on UNFILTERED samples; the 80–520 Hz band-pass attenuates voice harmonics above 520 Hz and rumble below 80 Hz, so post-filter peak is naturally smaller. The contrast ratio is what matters.) If this stays at 0 while you tone but copied > 0, the filter chain is killing the signal (cutoffs misconfigured?). If peakAbs moves but dbMicSnapshot stays at floor, suspect a tear or stale dB writer.")]
     [SerializeField] private float currentTestFeedPeakAbs;
     [Tooltip("Rolling OAFR rate (Hz). Expect ~ output sample rate / DSP buffer size (e.g. ~46.9 @ 48k/1024).")]
     [SerializeField] private float currentTestAudioCallbackHzRolling;
@@ -310,6 +310,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         // matching field declaration in the same edit pass so the labels stay truthful.
         aggCrossThreadFieldsUsingVolatile =
             "ImitoneVoiceIntepreter._dbMicrophone (audio→main; primary V7 candidate); " +
+            "ImitoneVoiceIntepreter.imitone (main→audio; review-pass V7 close-out); " +
             "ImitoneVoiceIntepreter._highPassFilterEnabled, _highPassCutoffHz, " +
             "_lowPassFilterEnabled, _lowPassCutoffHz (main→audio; runtime-tunability); " +
             "AudioThread.audioCallbackFeedPeakAbsVolatile, audioCallbackHzRollingVolatile, " +

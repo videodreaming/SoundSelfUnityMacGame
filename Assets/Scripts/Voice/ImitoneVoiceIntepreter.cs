@@ -278,7 +278,16 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     private bool developmentModeWarningFlag = false;
 
     int sampleRate;
-    ImitoneVoice imitone;
+    // Step 3b review-pass follow-up (V7 audit): the audio thread reads `imitone` in
+    // OnAudioFilterRead (ImitoneVoiceIntepreter.AudioThread.cs) to call imitone.InputAudio. The
+    // single-write-in-Start happens-before-Play synchronization makes a stale read effectively
+    // impossible in practice, but `volatile` is the V7 default for any audio-written-or-audio-read
+    // managed-reference field and closes the audit item the 3a developer note flagged for 3b.
+    // Cost: a memory barrier per dereference (negligible). Field is assigned once in Start(), never
+    // reassigned by mic recovery (StopAudioThreadCapture / BootstrapAudioThreadCapturePath leave it
+    // alone) — so volatility costs essentially nothing here while making the cross-thread contract
+    // explicit + matching the aggCrossThreadFieldsUsingVolatile label string.
+    volatile ImitoneVoice imitone;
 
     // Step 3b: capturedInput retired. The legacy main-thread copy of mic samples (sized to
     // microphoneBuffer.samples * channels) was only used by the main-thread filter+dB+imitone

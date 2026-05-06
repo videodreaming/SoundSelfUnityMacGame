@@ -1388,6 +1388,18 @@ Possibilities, in order of likelihood:
 
 **Step 3 — CLOSED (2026-05-06).** Prep (mic-recovery rebootstrap) + **3a** (audio-thread imitone feed, F1 hybrid ring-feed, H1e `bypassEffects`, feed telemetry) + **3b** (HPF/LPF + `_dbMicrophone` on audio thread, tear detector, `FAIL_AUDIO_GC_ALLOC_DETECTED` retirement) + **3c** (F2 isolation — no code/scene change). **Forward:** [Step 4: Verify and tune](#step-4-verify-and-tune) (extended sessions, full click protocol with normal mix + monitoring, optional latency tuning via lever inventory).
 
+**Step 3 review pass (Opus 4.7, 2026-05-06).** Re-read all four touched files end-to-end + cross-checked the `aggCrossThreadFieldsUsingVolatile` / `aggCrossThreadFieldsUsingInterlocked` Inspector label strings against the actual field declarations, swept for orphan references to deleted symbols, and audited the closeout doc against code. **Verdict: code is in good shape; no correctness regressions, no FAIL-flag retirement leftovers in live code, all label strings accurate.** Two LOW-severity follow-ups landed in the same review-pass commit:
+
+- **F1 — `currentTestFeedPeakAbs` tooltip drift.** Field tooltip still cited the F1-era unfiltered "voice ~0.05–0.5" range, but the play-test bar (header tooltip + plan doc) had already updated to the post-3b "voice ~0.01–0.1, contrast > 10×" reading. Aligned the field tooltip with the play-test bar.
+- **F2 — `imitone` field volatility (3a-flagged audit item that 3b shipped without addressing).** Audio thread reads `imitone` every callback in `OnAudioFilterRead`. Single-write-in-`Start()` happens-before-`captureSource.Play()` makes a stale read effectively impossible in practice, but `volatile` is the V7 default for any audio-thread-read managed-reference field and closes the audit. Marked `volatile ImitoneVoice imitone;` in `ImitoneVoiceIntepreter.cs:281` and added it to the `aggCrossThreadFieldsUsingVolatile` label string with the "review-pass V7 close-out" tag.
+
+Other notes from the review (intentional choices that look like findings if you don't squint):
+- `peakAbs` scan loop runs unconditionally inside `if (imitone != null && frames > 0)`, scanning the zero-filled buffer on lock-miss callbacks. **Intentional** — gives a coherent telemetry reading on lock-miss without an extra branch in the hot path. Costs O(frames) on a buffer that's already in cache; negligible.
+- Filter coefficient (`alpha`) recomputed each callback rather than cached. **Intentional** — `_highPassCutoffHz` / `_lowPassCutoffHz` are `volatile` exactly so runtime Inspector edits propagate. Caching `alpha` would defeat that.
+- Hz-rolling, max-gap-ms, feed-peak-abs telemetry use `volatile float` rather than `Interlocked`. **Intentional** — single-writer / single-reader on aligned floats; `volatile` is the correct V7 default for "I want the latest value, no atomic-read-modify-write needed."
+
+Closing commits for the review pass: see git log for the `chore(step3-review)` commit landed at the end of the review.
+
 ---
 
 ### Step 4: Verify and tune
