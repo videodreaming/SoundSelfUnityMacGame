@@ -85,9 +85,18 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] [Range(0.1f, 5f)] private float setupRetryIntervalSeconds = 0.5f;
     [SerializeField] [Range(0.5f, 30f)] private float clipBindFailureErrorIntervalSeconds = 5f;
     
+    [Header("Click Mitigation (5a M1/M2/M6)")]
+    [Tooltip("Length (in audio samples) of the linear fade applied at every underflow / overflow / recovery boundary inside OnAudioFilterRead. ~32 samples ≈ 0.67 ms at 48 kHz. Lower = more transparent but more click-prone if the discontinuity is large; higher = inaudible but slightly muffled at the boundary. Sweep range 8–128.")]
+    [SerializeField] [Range(8, 128)] private int clickMitigationFadeSamples = 32;
+
     private bool isInitialized = false;
-    private AudioClip sharedMicrophoneBuffer;
     private int lastSeenCaptureEpoch = -1;
+    // 5a M5: silent in-memory dummy clip mirroring the imitone F1 hybrid pivot. Keeps OnAudioFilterRead
+    // firing at audio-thread cadence without coupling monitoringSource.clip to the streaming mic clip,
+    // so MicCaptureEpoch changes (mic disconnect/reconnect) and stream-source switches no longer require
+    // mid-session clip reassignment (which flushed the AudioSource playback head and re-engaged startup
+    // priming — both potential click sources). Created once in Awake; never reassigned.
+    private AudioClip silentMonitoringDummyClip;
     private float gameOnLerp = 0f;
     private float chargeLerp = 0f;
     private float smoothedAttenuationScale = 1f;
@@ -146,6 +155,22 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private long normalizedReadTotalSamples = 0;
     private float[] monitoringMonoReadBuffer = new float[0];
 
+    // 5a M1/M2/M6 audio-thread-only DSP state for click-free transitions. Read+written exclusively
+    // inside OnAudioFilterRead; no cross-thread access; no volatile/Interlocked needed.
+    //  - audioThreadLastEmittedMonoSample: last mono sample emitted at the end of the previous callback
+    //    (post-gain). Used as the "left side" of M2 overflow crossfades and as the fade-out source for
+    //    M1 underflow when copied == 0.
+    //  - audioThreadHasPreviousBuffer: false on the very first callback; gates M2 crossfade and M6 lerp
+    //    from prior-gain so the first emit doesn't crossfade from a stale 0.
+    //  - audioThreadWasInUnderflowLastBuffer: true if last callback ended with copied < frameCount.
+    //    On the first non-underflow callback after a streak, M1 fade-in (0 -> realSample) applies.
+    //  - audioThreadLastAppliedGain: trailing per-callback effective gain. M6 interpolates from this
+    //    to the current callback's effectiveMonitoringGain across the buffer.
+    private float audioThreadLastEmittedMonoSample = 0f;
+    private bool audioThreadHasPreviousBuffer = false;
+    private bool audioThreadWasInUnderflowLastBuffer = false;
+    private float audioThreadLastAppliedGain = 0f;
+
     /// <summary>
     /// Initializes the monitoring system and AudioSource.
     /// </summary>
@@ -156,14 +181,31 @@ public class DirectVoiceMonitoring : MonoBehaviour
         attenuationScaleInitialized = true;
         lastWarningWindowResetTime = Time.unscaledTime;
 
-        // Create monitoring AudioSource if not assigned
         if (monitoringSource == null)
         {
             monitoringSource = gameObject.AddComponent<AudioSource>();
             monitoringSource.playOnAwake = false;
-            monitoringSource.loop = true;
             monitoringSource.volume = 1f;
         }
+        monitoringSource.loop = true;
+
+        // 5a M5: create the silent dummy clip and assign it as monitoringSource.clip exactly once.
+        // OnAudioFilterRead overwrites data[] from monitoringMonoReadBuffer, so the clip's sample data
+        // is never read — it only exists to keep Play() running and the audio-thread callback firing.
+        // Auto-zero-filled by AudioClip.Create. ~1 s buffer at the engine sample rate.
+        int dummySampleRate = AudioSettings.outputSampleRate > 0 ? AudioSettings.outputSampleRate : 48000;
+        silentMonitoringDummyClip = AudioClip.Create(
+            "DirectVoiceMonitoring-silent-cadence",
+            dummySampleRate,
+            1,
+            dummySampleRate,
+            stream: false);
+        monitoringSource.clip = silentMonitoringDummyClip;
+
+        audioThreadLastEmittedMonoSample = 0f;
+        audioThreadHasPreviousBuffer = false;
+        audioThreadWasInUnderflowLastBuffer = false;
+        audioThreadLastAppliedGain = 0f;
 
         lastAppliedMonitoringVolume = -1f;
         effectiveMonitoringGain = 0f;
@@ -229,14 +271,12 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return false;
         }
 
-        if (!ConfigureMonitoringSourceClip())
+        if (!AcknowledgeMicCaptureReady())
         {
-            DbgWarn("DirectVoiceMonitoring: Setup aborted because monitoring clip bind failed.");
+            DbgWarn("DirectVoiceMonitoring: Setup aborted because mic capture is not ready (interpreter MicrophoneBuffer null).");
             isInitialized = false;
             return false;
         }
-        monitoringSource.loop = true;
-        monitoringSource.playOnAwake = false;
 
         // Mark as initialized BEFORE starting monitoring
         isInitialized = true;
@@ -276,12 +316,16 @@ public class DirectVoiceMonitoring : MonoBehaviour
             int currentCaptureEpoch = imitoneVoiceInterpreter.MicCaptureEpoch;
             if (currentCaptureEpoch != lastSeenCaptureEpoch)
             {
-                if (ConfigureMonitoringSourceClip())
+                // 5a M5: mic-recovery no longer touches monitoringSource.clip (silent dummy clip is
+                // assigned once in Awake). The actual recovery action is re-priming the buffered-read
+                // cursor so it sits at bufferedReadLatencyMs behind the new write head. AudioSource
+                // playback head is unaffected — no flush, no re-priming, no click.
+                if (AcknowledgeMicCaptureReady())
                 {
                     captureRebindCount++;
                     captureRebindCountWindow++;
                     PrimeBufferedReadCursorForSource(monitoringStreamSource);
-                    DbgLog("DirectVoiceMonitoring: Mic capture restart detected. Re-bound shared monitoring clip.");
+                    DbgLog("DirectVoiceMonitoring: Mic capture restart detected. Re-primed buffered read cursor (clip unchanged).");
                 }
                 else
                 {
@@ -289,7 +333,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
                     float now = Time.unscaledTime;
                     if (now - lastRebindFailureWarningTime >= Mathf.Max(0.5f, rebindFailureWarningIntervalSeconds))
                     {
-                        DbgWarn("DirectVoiceMonitoring: Mic capture restart detected, but monitoring clip rebind failed.");
+                        DbgWarn("DirectVoiceMonitoring: Mic capture restart detected, but interpreter is not yet ready.");
                         lastRebindFailureWarningTime = now;
                     }
                 }
@@ -550,8 +594,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
             transitionStreamSwitchCount++;
         }
 
-        // Keep clip binding current for the next monitoring start.
-        ConfigureMonitoringSourceClip();
+        // 5a M5: no clip reassignment needed — silent dummy clip is assigned once in Awake.
+        // Just re-prime the buffered read cursor for the (possibly new) source ring.
         PrimeBufferedReadCursorForSource(monitoringStreamSource);
 
         if (changed && monitoringStreamSource == MonitoringStreamSource.Raw)
@@ -625,6 +669,35 @@ public class DirectVoiceMonitoring : MonoBehaviour
         return monitoringEnabled && monitoringSource != null && monitoringSource.isPlaying;
     }
 
+    /// <summary>
+    /// 5a M1/M2/M6 click-free monitoring path.
+    /// <para>
+    /// Pipeline (audio thread, no allocations, no managed allocations beyond the lazy <see cref="monitoringMonoReadBuffer"/> resize):
+    ///   1. Read mono samples from the active ring via the 4-arg helper. The helper zero-fills the
+    ///      tail on underflow and jumps the read cursor on overflow (reporting <c>overflowDropped</c>).
+    ///   2. Increment underflow / overflow / starvation telemetry counters (visibility kept; mitigation
+    ///      makes them inaudible, not invisible — per plan M2 task).
+    ///   3. <b>M2 — overflow crossfade.</b> If the helper jumped the cursor this callback, crossfade
+    ///      the first <see cref="clickMitigationFadeSamples"/> mono samples linearly from
+    ///      <see cref="audioThreadLastEmittedMonoSample"/> (previous callback's last emit, post-gain
+    ///      counter-adjusted to current gain so the level matches) to the post-jump samples.
+    ///   4. <b>M1 — underflow / recovery fades (both ends, per design call).</b>
+    ///        a. Recovery (last buffer was underflow, this buffer has real samples): fade-in
+    ///           <c>monitoringMonoReadBuffer[0 .. fadeLen)</c> from 0 → 1 multiplier.
+    ///        b. Entering / continuing underflow (this buffer has copied &lt; frameCount): fade-out
+    ///           <c>monitoringMonoReadBuffer[copied .. copied + fadeLen)</c> from <c>fadeSource</c> → 0,
+    ///           where <c>fadeSource</c> is the last real sample we just got (<c>copied &gt; 0</c>) or
+    ///           the trailing emit from the previous callback (<c>copied == 0</c>).
+    ///   5. <b>M6 — per-sample gain interpolation.</b> Lerp linearly from
+    ///      <see cref="audioThreadLastAppliedGain"/> to current <see cref="effectiveMonitoringGain"/>
+    ///      across the buffer. Cost is one multiply-add per sample; benefit is no clicks at gain steps
+    ///      (e.g. on toneActive transitions, attenuation toggles, dynamic-volume ramps).
+    ///   6. Fan mono → channels and write to <c>data[]</c>.
+    ///   7. Update audio-thread-only state for the next callback.
+    /// </para>
+    /// All audio-thread-only state lives in the <c>audioThread*</c> private fields above. The only
+    /// cross-thread read is <see cref="effectiveMonitoringGain"/> (volatile, written on main thread).
+    /// </summary>
     private void OnAudioFilterRead(float[] data, int channels)
     {
         if (data == null || data.Length == 0)
@@ -641,6 +714,12 @@ public class DirectVoiceMonitoring : MonoBehaviour
         if (!monitoringEnabled || !isInitialized || imitoneVoiceInterpreter == null)
         {
             Array.Clear(data, 0, data.Length);
+            // Reset audio-thread continuity state so the first emit after re-enable doesn't crossfade
+            // from a stale sample. M6 lerp also restarts from 0, which matches the silent output here.
+            audioThreadLastEmittedMonoSample = 0f;
+            audioThreadHasPreviousBuffer = false;
+            audioThreadWasInUnderflowLastBuffer = false;
+            audioThreadLastAppliedGain = 0f;
             return;
         }
 
@@ -656,8 +735,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
             monitoringMonoReadBuffer = new float[frameCount];
         }
 
-        int copied = 0;
-        int overflowDropped = 0;
+        // ---- Step 1: read from the active ring ----
+        int copied;
+        int overflowDropped;
         if (monitoringStreamSource == MonitoringStreamSource.Normalized)
         {
             copied = imitoneVoiceInterpreter.ReadNormalizedSamples(monitoringMonoReadBuffer, ref normalizedReadPosition, ref normalizedReadTotalSamples, out overflowDropped);
@@ -667,6 +747,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             copied = imitoneVoiceInterpreter.ReadRawSamples(monitoringMonoReadBuffer, ref rawReadPosition, ref rawReadTotalSamples, out overflowDropped);
         }
 
+        // ---- Step 2: telemetry (visibility kept; mitigation makes them inaudible, not invisible) ----
         if (overflowDropped > 0)
         {
             Interlocked.Increment(ref bufferOverflowDropCount);
@@ -674,7 +755,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
             Interlocked.Add(ref bufferOverflowDropSamples, overflowDropped);
         }
 
-        if (copied < frameCount)
+        bool isUnderflowThisBuffer = copied < frameCount;
+        if (isUnderflowThisBuffer)
         {
             int underflowFillSamples = frameCount - copied;
             Interlocked.Increment(ref bufferUnderflowFillCount);
@@ -687,25 +769,109 @@ public class DirectVoiceMonitoring : MonoBehaviour
             }
         }
 
+        // Snapshot current target gain once per callback (volatile cross-thread read). M6 lerps from
+        // audioThreadLastAppliedGain to this value across the buffer.
+        float currentGain = Mathf.Clamp01(effectiveMonitoringGain);
+        float previousGain = audioThreadHasPreviousBuffer ? audioThreadLastAppliedGain : currentGain;
+
+        int fadeLen = Mathf.Clamp(clickMitigationFadeSamples, 0, frameCount);
+
+        // ---- Step 3: M2 overflow crossfade across the callback boundary ----
+        // The helper jumped the read cursor inside this callback's read; the destination buffer is
+        // contiguous post-jump, but the boundary between the previous callback's last emit and this
+        // callback's first sample is a hard discontinuity. Crossfade the first fadeLen mono samples
+        // from the previous emit toward the natural post-jump samples.
+        // We compare in the "monoBuffer × currentGain" space (so the post-jump target is monoBuffer[i]
+        // anchored against the previous emit which was scaled by audioThreadLastAppliedGain). Pre-gain
+        // crossfade source = audioThreadLastEmittedMonoSample / max(prevGain, ε); guard ε avoids divide-
+        // by-zero in muted-startup edge cases (in which case there's nothing audible to fade from anyway).
+        if (overflowDropped > 0 && audioThreadHasPreviousBuffer && fadeLen > 0)
+        {
+            float prevGainSafe = Mathf.Max(previousGain, 1e-4f);
+            float crossfadeSource = audioThreadLastEmittedMonoSample / prevGainSafe;
+            for (int i = 0; i < fadeLen; i++)
+            {
+                float t = (i + 1) / (float)fadeLen;
+                monitoringMonoReadBuffer[i] = Mathf.Lerp(crossfadeSource, monitoringMonoReadBuffer[i], t);
+            }
+        }
+
+        // ---- Step 4a: M1 recovery fade-in (last buffer was underflow, this buffer has real samples) ----
+        if (audioThreadWasInUnderflowLastBuffer && copied > 0 && fadeLen > 0)
+        {
+            int recoveryFade = Mathf.Min(fadeLen, copied);
+            for (int i = 0; i < recoveryFade; i++)
+            {
+                float t = (i + 1) / (float)recoveryFade;
+                monitoringMonoReadBuffer[i] *= t;
+            }
+        }
+
+        // ---- Step 4b: M1 underflow fade-out (entering or continuing underflow) ----
+        // Helper already zero-filled monoBuffer[copied .. frameCount). Replace the leading edge of
+        // that zero region with a linear ramp from fadeSource → 0 so the transition into silence is
+        // click-free. fadeSource is the last real sample if we got any this buffer, else the trailing
+        // emit from the previous callback (pre-gain).
+        if (isUnderflowThisBuffer && fadeLen > 0)
+        {
+            int underflowFadeLen = Mathf.Min(fadeLen, frameCount - copied);
+            if (underflowFadeLen > 0)
+            {
+                float fadeSource;
+                if (copied > 0)
+                {
+                    fadeSource = monitoringMonoReadBuffer[copied - 1];
+                }
+                else
+                {
+                    float prevGainSafe = Mathf.Max(previousGain, 1e-4f);
+                    fadeSource = audioThreadHasPreviousBuffer ? (audioThreadLastEmittedMonoSample / prevGainSafe) : 0f;
+                }
+                for (int i = 0; i < underflowFadeLen; i++)
+                {
+                    float t = (i + 1) / (float)underflowFadeLen;
+                    monitoringMonoReadBuffer[copied + i] = Mathf.Lerp(fadeSource, 0f, t);
+                }
+            }
+        }
+
+        // ---- Step 5: M6 per-sample gain interpolation + Step 6: fan to channels + write ----
         int writeIndex = 0;
-        float outputGain = Mathf.Clamp01(effectiveMonitoringGain);
+        float lastEmittedMono = 0f;
         for (int frame = 0; frame < frameCount; frame++)
         {
-            float sample = monitoringMonoReadBuffer[frame] * outputGain;
+            float t = (frame + 1) / (float)frameCount;
+            float gain = Mathf.Lerp(previousGain, currentGain, t);
+            float sample = monitoringMonoReadBuffer[frame] * gain;
+            lastEmittedMono = sample;
             for (int channel = 0; channel < channels; channel++)
             {
                 data[writeIndex++] = sample;
             }
         }
+
+        // ---- Step 7: update audio-thread-only state for next callback ----
+        audioThreadLastEmittedMonoSample = lastEmittedMono;
+        audioThreadLastAppliedGain = currentGain;
+        audioThreadWasInUnderflowLastBuffer = isUnderflowThisBuffer;
+        audioThreadHasPreviousBuffer = true;
     }
 
-    private bool ConfigureMonitoringSourceClip()
+    /// <summary>
+    /// 5a M5: validates the interpreter's mic capture is ready and updates the local capture-epoch watermark.
+    /// Replaces the pre-5a <c>ConfigureMonitoringSourceClip</c>, which used to assign
+    /// <see cref="ImitoneVoiceIntepreter.MicrophoneBuffer"/> as the monitoring AudioSource's clip on every
+    /// mic-recovery / stream-switch event. After 5a, <c>monitoringSource.clip</c> is a silent dummy clip
+    /// assigned exactly once in <see cref="Awake"/>, so this method no longer touches it. Runtime mic
+    /// recovery is now an audio-thread-invisible re-prime of the read cursor (see <see cref="Update"/>).
+    /// </summary>
+    private bool AcknowledgeMicCaptureReady()
     {
         if (monitoringSource == null || imitoneVoiceInterpreter == null)
         {
             return false;
         }
-        sharedMicrophoneBuffer = imitoneVoiceInterpreter.MicrophoneBuffer;
+        AudioClip sharedMicrophoneBuffer = imitoneVoiceInterpreter.MicrophoneBuffer;
         if (sharedMicrophoneBuffer == null)
         {
             float now = Time.unscaledTime;
@@ -717,7 +883,6 @@ public class DirectVoiceMonitoring : MonoBehaviour
             return false;
         }
 
-        monitoringSource.clip = sharedMicrophoneBuffer;
         lastSeenCaptureEpoch = imitoneVoiceInterpreter.MicCaptureEpoch;
         return true;
     }
@@ -728,6 +893,21 @@ public class DirectVoiceMonitoring : MonoBehaviour
         if (monitoringSource != null && Application.isPlaying)
         {
             ApplyMonitoringVolume("on_validate");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // 5a M5: release the silent dummy clip so it doesn't leak across scene reloads. Created in Awake,
+        // owned only by this component.
+        if (silentMonitoringDummyClip != null)
+        {
+            if (monitoringSource != null && monitoringSource.clip == silentMonitoringDummyClip)
+            {
+                monitoringSource.clip = null;
+            }
+            Destroy(silentMonitoringDummyClip);
+            silentMonitoringDummyClip = null;
         }
     }
 
