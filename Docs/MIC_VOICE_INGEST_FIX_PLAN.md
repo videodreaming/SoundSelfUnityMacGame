@@ -1237,19 +1237,19 @@ Actual landed commit: **`839a224c`** — `feat(step3a): migrate imitone feed to 
 **Tasks:**
 
 *DSP migration (filters + dB):*
-- [ ] Move HPF / LPF state fields (previous-sample memory `xn1, yn1, ...`) and the per-sample filter functions into `OnAudioFilterRead`. After this step, filter state is touched **only** from the audio thread. (See V6 — IIR filters work identically on small buffers; the audio thread is their natural home.)
-- [ ] **M4 click-prevention:** when relocating filter state, do **not** reset to zero. Move the existing values along with the logic; the filter must run continuously across the relocation boundary.
-- [ ] In `OnAudioFilterRead`, run filtering **before** `imitone.InputAudio(monoScratch)` so imitone sees the filtered signal (matches pre-Step-3 behavior; reverses 3a's interim "unfiltered feed" arrangement). Update the 3a ordering comment to match.
-- [ ] Move `_dbMicrophone` calculation into `OnAudioFilterRead`. Compute from the same buffer just fed to imitone, post-filter. Remove the now-redundant main-thread dB metering path (which was only there because filtering was main-thread in 3a).
-- [ ] Mark `_dbMicrophone` as `volatile float` per V7. Audit every read site on the main thread to confirm none rely on multi-step atomicity (only one of these reads matters per frame, so volatile is sufficient unless tear-detection telemetry says otherwise).
-- [ ] **Audit every other audio-written / main-read float and mark each `volatile` too.** Likely candidates: normalized peak meter, monitoring gain readout, any other DSP-derived value the audio thread computes and the main thread / Inspector consumes. For each one identified, mark it `volatile float` and append it to the `aggCrossThreadFieldsUsingVolatile` label string (next task) so the user can see at a glance which fields are under cross-thread protection.
-- [ ] Add `aggDbMicrophoneTearDetectedTotal` (long) to the aggregate. The tear detector runs once per `LateUpdate`: read `_dbMicrophone`; if the value is `NaN`, ±`Infinity`, or outside a plausible dB range (e.g. `-120f ≤ x ≤ +24f`), `Interlocked.Increment(ref aggDbMicrophoneTearDetectedTotal)`. (See V7 — this catches torn-read corruption on the float bits, which manifests as impossible bit-patterns.)
+- [x] Move HPF / LPF state fields (previous-sample memory `xn1, yn1, ...`) and the per-sample filter functions into `OnAudioFilterRead`. After this step, filter state is touched **only** from the audio thread. (See V6 — IIR filters work identically on small buffers; the audio thread is their natural home.)
+- [x] **M4 click-prevention:** when relocating filter state, do **not** reset to zero. Move the existing values along with the logic; the filter must run continuously across the relocation boundary.
+- [x] In `OnAudioFilterRead`, run filtering **before** `imitone.InputAudio(monoScratch)` so imitone sees the filtered signal (matches pre-Step-3 behavior; reverses 3a's interim "unfiltered feed" arrangement). Update the 3a ordering comment to match.
+- [x] Move `_dbMicrophone` calculation into `OnAudioFilterRead`. Compute from the same buffer just fed to imitone, post-filter. Remove the now-redundant main-thread dB metering path (which was only there because filtering was main-thread in 3a).
+- [x] Mark `_dbMicrophone` as `volatile float` per V7. Audit every read site on the main thread to confirm none rely on multi-step atomicity (only one of these reads matters per frame, so volatile is sufficient unless tear-detection telemetry says otherwise).
+- [x] **Audit every other audio-written / main-read float and mark each `volatile` too.** Likely candidates: normalized peak meter, monitoring gain readout, any other DSP-derived value the audio thread computes and the main thread / Inspector consumes. For each one identified, mark it `volatile float` and append it to the `aggCrossThreadFieldsUsingVolatile` label string (next task) so the user can see at a glance which fields are under cross-thread protection.
+- [x] Add `aggDbMicrophoneTearDetectedTotal` (long) to the aggregate. The tear detector runs once per `LateUpdate`: read `_dbMicrophone`; if the value is `NaN`, ±`Infinity`, or outside a plausible dB range (e.g. `-120f ≤ x ≤ +24f`), `Interlocked.Increment(ref aggDbMicrophoneTearDetectedTotal)`. (See V7 — this catches torn-read corruption on the float bits, which manifests as impossible bit-patterns.)
 
 *Cross-thread atomicity Inspector labels (per V7 / Section A.5):*
-- [ ] Add `aggDbMicrophoneSnapshot` (float, read-only Inspector mirror) to `MicVoiceIngestDebugAggregate`. In `LateUpdate`, read `_dbMicrophone` once and copy into `aggDbMicrophoneSnapshot` so the user sees the value the main thread read this frame. (This is the source of the value the tear detector sanity-checks above.)
-- [ ] Add `aggCrossThreadFieldsUsingVolatile` (string) to `MicVoiceIngestDebugAggregate`. Initialize at startup to a comma-separated list of audio-thread fields currently behind `volatile` (e.g. `"_dbMicrophone, audioCallbackHzRolling, aggMixerChannels"`, plus any others identified in the audit task above). Read-only; surfaces the cross-thread contract for the user at a glance.
-- [ ] Add `aggCrossThreadFieldsUsingInterlocked` (string) for fields under `Interlocked` (e.g. `"audioCallbackTotal, audioRingWriteTotalSamples, aggImitoneInputAudioCallTotal, audioCallbackLockMissTotal, aggMicRingOverflowSkipTotal"`).
-- [ ] If `aggDbMicrophoneTearDetectedTotal` ever becomes non-zero during testing, escalate `_dbMicrophone` from `volatile` to `Interlocked.Exchange` and update the labels accordingly.
+- [x] Add `aggDbMicrophoneSnapshot` (float, read-only Inspector mirror) to `MicVoiceIngestDebugAggregate`. In `LateUpdate`, read `_dbMicrophone` once and copy into `aggDbMicrophoneSnapshot` so the user sees the value the main thread read this frame. (This is the source of the value the tear detector sanity-checks above.)
+- [x] Add `aggCrossThreadFieldsUsingVolatile` (string) to `MicVoiceIngestDebugAggregate`. Initialize at startup to a comma-separated list of audio-thread fields currently behind `volatile` (e.g. `"_dbMicrophone, audioCallbackHzRolling, aggMixerChannels"`, plus any others identified in the audit task above). Read-only; surfaces the cross-thread contract for the user at a glance.
+- [x] Add `aggCrossThreadFieldsUsingInterlocked` (string) for fields under `Interlocked` (e.g. `"audioCallbackTotal, audioRingWriteTotalSamples, aggImitoneInputAudioCallTotal, audioCallbackLockMissTotal, aggMicRingOverflowSkipTotal"`).
+- [ ] If `aggDbMicrophoneTearDetectedTotal` ever becomes non-zero during testing, escalate `_dbMicrophone` from `volatile` to `Interlocked.Exchange` and update the labels accordingly. *(Awaits play-test result — see test bar below.)*
 
 *Phase 3 FAIL\_\* flag landing in 3b (atomicity-side):*
 
@@ -1261,8 +1261,8 @@ Actual landed commit: **`839a224c`** — `feat(step3a): migrate imitone feed to 
 |------|---------------|
 | `FAIL_DB_TEAR_DETECTED` | `aggDbMicrophoneTearDetectedTotal > 0` (sticky; the user must clear manually, since the cure is to escalate `_dbMicrophone` to `Interlocked` and we don't want this to silently go quiet on its own). |
 
-- [ ] Add the field to `MicVoiceIngestDebugAggregate.cs` and implement the trigger in `LateUpdate`.
-- [ ] Update the `FAILURE = ...` OR expression to include `FAIL_DB_TEAR_DETECTED`.
+- [x] Add the field to `MicVoiceIngestDebugAggregate.cs` and implement the trigger in `LateUpdate`.
+- [x] Update the `FAILURE = ...` OR expression to include `FAIL_DB_TEAR_DETECTED`.
 
 **Notes & considerations (3b):**
 - **`_dbMicrophone` is now written from audio thread, read from main.** Default to `volatile float` per V7. Watch `aggDbMicrophoneTearDetectedTotal` during testing; escalate to `Interlocked` only if non-zero.
@@ -1282,7 +1282,31 @@ Actual landed commit: **`839a224c`** — `feat(step3a): migrate imitone feed to 
 
 **Commit (3b):** `feat(step3b): move HPF/LPF + _dbMicrophone to audio thread; add tear detection + cross-thread labels`
 
-**Developer notes (3b):** _none yet_
+**Developer notes (3b):**
+
+*Decisions taken at the start of 3b implementation (Opus 4.7, agreed with user):*
+
+- **D1 — `_dbMicrophone` on lock-miss (`copied == 0`):** filter+dB block is **skipped** entirely; `_dbMicrophone` retains its last value. Running the IIR over a zero-padded buffer would inject the filter's transient response into the imitone feed AND drag the dB readout to floor on every miss — both bad. Lock misses were already near-zero in F1 telemetry, and `Monitor.TryEnter(0)` makes them brief; preserving the last value is the right behavior.
+- **D2 — `_dbMicrophone` during priming callbacks:** filter+dB **does run** (priming reads + advances every callback, just skips `imitone.InputAudio`). Pre-loads the dB readout so the noise-floor gate is already settled when imitone gates open at end-of-priming.
+- **D3 — Volatility of filter `SerializeField`s:** marked `volatile bool` / `volatile float` for `_highPassFilterEnabled`, `_highPassCutoffHz`, `_lowPassFilterEnabled`, `_lowPassCutoffHz`. Main thread writes (Inspector edits at runtime), audio thread reads each callback. Strictly speaking the V7 audit only mandates `volatile` for audio-write / main-read floats (`_dbMicrophone`), but the runtime-tunability case is symmetric and the cost is negligible. Without this, the audio thread could cache the value indefinitely and Inspector tweaks would not take effect.
+- **D4 — `capturedInput` and `tryCopyOk` gate:** retired. The legacy main-thread copy-and-process path was the only writer of `capturedInput` and `tryCopyOk`'s only consumer. With filter+dB on the audio thread, the gate has nothing to gate. `TryCopyLatestRawFrame` itself is left in place (Step 5b owns its retirement along with the rest of the legacy ingest block).
+- **D5 — Dead `debugInterpreter*` / `telemetryRawVoiceDataConsumedThisFrame` fields:** deleted (5 `SerializeField`s in `ImitoneVoiceIntepreter.cs` + matching members of `RawVoicePathDebugSnapshot` + the consumer fields in `MicVoiceIngestDebugAggregate.cs`). Mic-readiness liveness is now sourced directly from `interpreter.IsMicReady` (already a public property), eliminating one round-trip via a debug-mirror field. **Follow-on:** `FAIL_INTERPRETER_NOT_CONSUMING` retired in the same pass — its trigger was `aggRawConsumedThisFrame` (always-false post-3b, since the gate it tracked is gone). The audio-thread feed health flags (`FAIL_IMITONE_NOT_FED`, `FAIL_IMITONE_FEED_RATIO_LOW`) cover the actual liveness signal directly.
+- **D6 — Single-pass commit:** all 3b code lands in one commit (this commit). The implementation pieces are tightly coupled (the filter+dB move requires the cross-thread atomicity work to be safe; the tear detector is the validation tool for the volatile choice). Splitting would create an intermediate state where 3b is half-correct.
+
+*Sentinel handling for tear detection:*
+- `_dbMicrophone` initializes to `-999f`. The audio thread's `LinearToDb` clamps amplitude to `1e-6f` → `-120 dB` floor, so it will never write a value below `-120`. The tear detector explicitly excludes `-999f` (pre-init sentinel) from triggering, so `FAIL_DB_TEAR_DETECTED` does not latch during the audio-thread warm-up window.
+
+*`FAIL_MIC_NOT_READY` simplification:*
+- Trigger expression changed from `aggInterpMicRefNull || !aggInterpMicReady` → `!aggInterpMicReady`. The first clause was always-false in practice (the source `debugInterpreterMicRefNull` was never assigned `true` anywhere) and contributed no information. Sourcing `aggInterpMicReady` from `interpreter.IsMicReady` directly drops the round-trip via `RawVoicePathDebugSnapshot` and matches the canonical public liveness signal.
+
+*Filter alpha + sample rate:*
+- The audio-thread filter uses `sampleRate` (= `micCaptureSampleRate`, set in `Start()` before any `OnAudioFilterRead` callback fires). This matches the pre-3b filter alpha exactly. M4 click prevention requires the filter coefficient to be identical across the relocation boundary; using the same field (rather than recomputing from `audioConfigOutputSampleRate`) preserves that.
+
+*Files changed:*
+- `Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs` — `_dbMicrophone` → `volatile`; filter `SerializeField`s → `volatile`; `capturedInput`, `imitoneMaxFeedFramesAt60FpsEquivalent`, `_hpPrev*` / `_lpPrevOutput`, `ApplyHighPassFilter` / `ApplyLowPassFilter`, `telemetryRawVoiceDataConsumedThisFrame`, four `debugInterpreter*` fields all deleted; `RawVoicePathDebugSnapshot` trimmed to the two unclamped-dB fields; `GetRawVoiceData` rewritten to drop the `tryCopyOk` gate and dead debug-field assignments.
+- `Assets/Scripts/Voice/ImitoneVoiceIntepreter.AudioThread.cs` — added `audioThreadHpPrevInput` / `audioThreadHpPrevOutput` / `audioThreadLpPrevOutput` (audio-thread-only state); `ApplyHighPassFilterOnAudioThread` / `ApplyLowPassFilterOnAudioThread` helpers; filter+dB block in `OnAudioFilterRead` between `ReadRawSamples` and the `peakAbs` telemetry; `peakAbs` comment updated to clarify it is now post-filter when `copied > 0`; top-of-file summary comment updated for 3b.
+- `Assets/Scripts/Voice/MicVoiceIngestDebugAggregate.cs` — added Cross-thread atomicity block (`aggDbMicrophoneSnapshot`, `aggDbMicrophoneTearDetectedTotal`, `aggCrossThreadFieldsUsingVolatile`, `aggCrossThreadFieldsUsingInterlocked`); added `FAIL_DB_TEAR_DETECTED` (sticky); added tear detector and FAIL trigger logic; retired `FAIL_INTERPRETER_NOT_CONSUMING` and `failInterpreterNotConsumingFrameThreshold`; simplified `FAIL_MIC_NOT_READY`; rewrote CURRENT TEST block for 3b's test bar (drops `currentTestHybridFeedGapMs` + `currentTestMicExitReason`, adds `currentTestDbMicrophoneSnapshot` + `currentTestDbMicrophoneTearDetectedTotal`); deleted four dead `agg*` fields tied to the deleted snapshot members.
+- `Docs/MIC_VOICE_INGEST_FIX_PLAN.md` — task list ticks (this section); developer notes (this block).
 
 ---
 

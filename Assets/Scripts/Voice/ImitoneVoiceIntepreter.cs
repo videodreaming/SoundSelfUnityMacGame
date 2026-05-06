@@ -108,7 +108,12 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     public float _harmonicity = 0.0f;
     private float _rmsValue;
     [SerializeField] public float _dbValue = -80.0f; //this seems to be the db of the mic while toning
-    [SerializeField] public float _dbMicrophone = -999.0f; //this seems to be the db of the raw mic
+    // Step 3b (Docs/MIC_VOICE_INGEST_FIX_PLAN.md § Step 3b / V7): _dbMicrophone is written from the
+    // audio thread (OnAudioFilterRead, post-filter) and read from main thread / Inspector. `volatile`
+    // is the V7 default — guarantees the main-thread read sees the latest committed value and prevents
+    // compiler reordering. Tear detection (aggDbMicrophoneTearDetectedTotal) sanity-checks the value
+    // on every LateUpdate; if it ever fires, escalate to Interlocked.Exchange via SingleToInt32Bits.
+    [SerializeField] public volatile float _dbMicrophone = -999.0f;
     [SerializeField] public float _timbre = 0.0f;
     [SerializeField] public float _level;
     private const int SAMPLE_SIZE = 1024;
@@ -162,19 +167,11 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     [SerializeField] private float telemetryMicDbUnclamped = -999f;
     [Tooltip("Raw _dbValue (not clamped to -80..-12). Use to see rail vs real movement.")]
     [SerializeField] private float telemetryImitoneDbUnclamped = -999f;
-    [Header("Raw voice path diagnostics")]
-    [Tooltip("True only when TryCopyLatestRawFrame returned count > 0 this frame. False if mic source missing/not ready, or no new raw samples (e.g. stalled mic / empty delta).")]
-    [SerializeField] private bool telemetryRawVoiceDataConsumedThisFrame;
-    [Tooltip("Imitone-side debug: no usable mic reference on this component this frame.")]
-    [FormerlySerializedAs("debugInterpreterMicPipelineRefNull")]
-    [SerializeField] private bool debugInterpreterMicRefNull;
-    [Tooltip("Imitone-side debug: mic is initialized and reading samples (ready) at start of GetRawVoiceData.")]
-    [FormerlySerializedAs("debugInterpreterMicPipelineReady")]
-    [SerializeField] private bool debugInterpreterMicReady;
-    [Tooltip("Imitone-side debug: return value of TryCopyLatestRawFrame (true only if sample count > 0).")]
-    [SerializeField] private bool debugInterpreterTryCopyReturnedTrue;
-    [Tooltip("Imitone-side debug: out sample count from TryCopyLatestRawFrame (-1 if TryCopy was not called).")]
-    [SerializeField] private int debugInterpreterTryCopyOutSampleCount = -1;
+    // Step 3b: legacy raw-voice-path diagnostics removed. The main-thread `if (tryCopyOk &&
+    // rawSampleCount > 0) { filter; dB; ... }` block was the only writer to these fields and is
+    // gone (filter + dB are now audio-thread-only; imitone is fed exclusively from
+    // OnAudioFilterRead). Mic-readiness liveness moved into the aggregate's direct read of
+    // `IsMicReady`. The legacy main-thread mic-ingest block itself is retired in Step 5b.
     [Header("Tone Gate Runtime Telemetry")]
     [SerializeField] private float telemetryImitoneActiveTimer = 0f;
     [SerializeField] private float telemetryImitoneInactiveTimer = 0f;
@@ -199,14 +196,14 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         public long normalizedRingWriteTotalSamples;
     }
 
+    // Step 3b: snapshot trimmed to the two unclamped-dB telemetry fields (mic dB + imitone dB).
+    // The five legacy raw-voice-path booleans were removed along with the main-thread `tryCopyOk`
+    // block they tracked; mic-readiness is now read by the aggregate via the public IsMicReady
+    // property directly, eliminating the round trip. Renaming this struct is left for Step 5b
+    // (along with the legacy main-thread ingest cleanup).
     [Serializable]
     public struct RawVoicePathDebugSnapshot
     {
-        public bool rawVoiceDataConsumedThisFrame;
-        public bool interpreterMicRefNull;
-        public bool interpreterMicReady;
-        public bool interpreterTryCopyReturnedTrue;
-        public int interpreterTryCopyOutSampleCount;
         public float telemetryMicDbUnclamped;
         public float telemetryImitoneDbUnclamped;
     }
@@ -215,11 +212,6 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     {
         return new RawVoicePathDebugSnapshot
         {
-            rawVoiceDataConsumedThisFrame = telemetryRawVoiceDataConsumedThisFrame,
-            interpreterMicRefNull = debugInterpreterMicRefNull,
-            interpreterMicReady = debugInterpreterMicReady,
-            interpreterTryCopyReturnedTrue = debugInterpreterTryCopyReturnedTrue,
-            interpreterTryCopyOutSampleCount = debugInterpreterTryCopyOutSampleCount,
             telemetryMicDbUnclamped = telemetryMicDbUnclamped,
             telemetryImitoneDbUnclamped = telemetryImitoneDbUnclamped,
         };
@@ -288,7 +280,10 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     int sampleRate;
     ImitoneVoice imitone;
 
-    float[] capturedInput;
+    // Step 3b: capturedInput retired. The legacy main-thread copy of mic samples (sized to
+    // microphoneBuffer.samples * channels) was only used by the main-thread filter+dB+imitone
+    // block, which is gone — imitone is fed exclusively from rawRingBuffer on the audio thread,
+    // and _dbMicrophone is computed there.
 
     // Step 3a: imitone is now fed from OnAudioFilterRead (see ImitoneVoiceIntepreter.AudioThread.cs).
     // The chunking workaround for imitone's 1-second feed_buffer is gone — audio-thread callbacks deliver
@@ -311,22 +306,22 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         return Mathf.Approximately(a, b);
     }
 
+    // Step 3b: filter SerializeFields are read by the audio thread (HPF + LPF live in
+    // OnAudioFilterRead now). `volatile` ensures Inspector edits are picked up by the next
+    // audio callback rather than getting cached on the audio thread (it's runtime-tunability
+    // insurance — without volatile, the audio thread might cache the value indefinitely).
+    // Filter STATE (previous-input / previous-output) lives on the audio thread only — see
+    // ImitoneVoiceIntepreter.AudioThread.cs (`audioThreadHpPrevInput`, `audioThreadHpPrevOutput`,
+    // `audioThreadLpPrevOutput`).
     [Header("High Pass Filter")]
-    [Tooltip("Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. 80 Hz is typical for voice.")]
-    [SerializeField] private bool _highPassFilterEnabled = true;
-    [SerializeField] private float _highPassCutoffHz = 80f;
-    private float _hpPrevInput;
-    private float _hpPrevOutput;
+    [Tooltip("Removes low-frequency rumble (e.g. AC hum, wind) before pitch analysis. 80 Hz is typical for voice. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
+    [SerializeField] private volatile bool _highPassFilterEnabled = true;
+    [SerializeField] private volatile float _highPassCutoffHz = 80f;
 
     [Header("Low Pass Filter")]
-    [Tooltip("Removes high-frequency hiss and overtones above voice range. 520 Hz keeps tenor fundamentals.")]
-    [SerializeField] private bool _lowPassFilterEnabled = true;
-    [SerializeField] private float _lowPassCutoffHz = 520f;
-    private float _lpPrevOutput;
-
-    [Header("Imitone realtime feed")]
-    [Tooltip("Step 3a: imitone is now fed from OnAudioFilterRead. This value is retained only as the cap for the main-thread mic-dB metering window (newest tail of capturedInput). Will be retired in Step 3b when _dbMicrophone moves to the audio thread.")]
-    [SerializeField] [Range(1, 120)] private int imitoneMaxFeedFramesAt60FpsEquivalent = 20;
+    [Tooltip("Removes high-frequency hiss and overtones above voice range. 520 Hz keeps tenor fundamentals. Step 3b: applied on the audio thread, just before imitone.InputAudio.")]
+    [SerializeField] private volatile bool _lowPassFilterEnabled = true;
+    [SerializeField] private volatile float _lowPassCutoffHz = 520f;
 
     // Debug log category flags
     private bool debugAllowInitializationLogs = true;
@@ -697,47 +692,21 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
 
 
 
-    /// <summary>First-order high-pass filter in-place. Removes rumble below cutoff. State persists across calls.</summary>
-    private void ApplyHighPassFilter(float[] samples)
-    {
-        if (samples == null || samples.Length == 0 || sampleRate <= 0) return;
-        float rc = 1f / (2f * Mathf.PI * _highPassCutoffHz);
-        float dt = 1f / sampleRate;
-        float alpha = rc / (rc + dt);
-        for (int i = 0; i < samples.Length; i++)
-        {
-            float x = samples[i];
-            float y = alpha * (_hpPrevOutput + x - _hpPrevInput);
-            _hpPrevInput = x;
-            _hpPrevOutput = y;
-            samples[i] = y;
-        }
-    }
-
-    /// <summary>First-order low-pass filter in-place. Attenuates frequencies above cutoff. State persists across calls.</summary>
-    private void ApplyLowPassFilter(float[] samples)
-    {
-        if (samples == null || samples.Length == 0 || sampleRate <= 0) return;
-        float rc = 1f / (2f * Mathf.PI * _lowPassCutoffHz);
-        float dt = 1f / sampleRate;
-        float alpha = dt / (rc + dt);
-        for (int i = 0; i < samples.Length; i++)
-        {
-            float x = samples[i];
-            float y = alpha * x + (1f - alpha) * _lpPrevOutput;
-            _lpPrevOutput = y;
-            samples[i] = y;
-        }
-    }
+    // Step 3b: ApplyHighPassFilter / ApplyLowPassFilter retired from the main thread.
+    // Audio-thread variants live in ImitoneVoiceIntepreter.AudioThread.cs
+    // (ApplyHighPassFilterOnAudioThread / ApplyLowPassFilterOnAudioThread). Filter state
+    // (`audioThreadHpPrevInput` / `audioThreadHpPrevOutput` / `audioThreadLpPrevOutput`) lives
+    // there too — touched only from OnAudioFilterRead, never from the main thread.
 
     private void GetRawVoiceData()
-    { //WE NEED RAW VALUES FOR THIS
-        telemetryRawVoiceDataConsumedThisFrame = false;
-        debugInterpreterTryCopyOutSampleCount = -1;
-        debugInterpreterTryCopyReturnedTrue = false;
-        debugInterpreterMicRefNull = false;
-        debugInterpreterMicReady = MicIngestIsReady;
-
+    {
+        // Step 3b: this method no longer copies samples or computes _dbMicrophone (those moved to
+        // OnAudioFilterRead on the audio thread). Its sole responsibility is to poll imitone's
+        // analysis state — produced from the samples the audio thread already fed it via
+        // imitone.InputAudio earlier — and update the main-thread tone-gate variables that the
+        // game logic (CheckToning, Update) consumes. Returning early on !MicIngestIsReady prevents
+        // imitone state polling before the mic is online; legacy main-thread mic-ingest still owns
+        // microphone bootstrapping and the IsMicReady contract until Step 5b retires that block.
         if (!MicIngestIsReady)
         {
             if(debugAllowInitializationLogs || debugAllowWarnings)
@@ -747,155 +716,125 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
             return;
         }
 
-        int rawSampleCount;
-        bool tryCopyOk = TryCopyLatestRawFrame(ref capturedInput, out rawSampleCount);
-        debugInterpreterTryCopyOutSampleCount = rawSampleCount;
-        debugInterpreterTryCopyReturnedTrue = tryCopyOk;
-
-        if (tryCopyOk && rawSampleCount > 0)
+        if (imitone != null)
         {
-            telemetryRawVoiceDataConsumedThisFrame = true;
-            if (_highPassFilterEnabled && _highPassCutoffHz > 0f)
-                ApplyHighPassFilter(capturedInput);
-            if (_lowPassFilterEnabled && _lowPassCutoffHz > 0f)
-                ApplyLowPassFilter(capturedInput);
+            // Step 3b: imitone is fed exclusively from OnAudioFilterRead (audio thread); the
+            // main-thread feed (and its 1 s feed_buffer chunking workaround) is retired. Main
+            // thread only polls state. _dbMicrophone is also written from the audio thread,
+            // immediately after the same buffer is filtered, so the value we read here is
+            // already the post-filter dB reading from the most recent audio callback.
+            imitoneState = imitone.GetState();
+            imitoneGetStateCallTotal++;
 
-            int imitoneCapSamples = Mathf.Max(1, Mathf.RoundToInt(sampleRate * (imitoneMaxFeedFramesAt60FpsEquivalent / 60f)));
-            int imitoneFeedStart = 0;
-            int imitoneFeedCount = rawSampleCount;
-            if (rawSampleCount > imitoneCapSamples)
+            // Step 3a: track imitone state staleness via raw observed power + pitch_hz (not _dbValue, which
+            // is overridden in force-mode). NaN means "not seen this frame" (parse exception or absent field).
+            float thisFrameObservedPower = float.NaN;
+            float thisFrameObservedPitchHz = float.NaN;
+
+            try
             {
-                imitoneFeedStart = rawSampleCount - imitoneCapSamples;
-                imitoneFeedCount = imitoneCapSamples;
-            }
-
-            float meanAmplitude = 0f;
-            for (int i = 0; i < imitoneFeedCount; i++)
-            {
-                meanAmplitude += Mathf.Abs(capturedInput[imitoneFeedStart + i]);
-            }
-            meanAmplitude /= imitoneFeedCount;
-            _dbMicrophone = AudioLevelUtilities.LinearToDb(meanAmplitude);
-
-            // Analyze the captured audio with imitone.
-            if (imitone != null)
-            {
-                // Step 3a: imitone is now fed exclusively from OnAudioFilterRead (audio thread). Main thread
-                // only polls state. The legacy chunking workaround for imitone's 1 s feed_buffer is gone —
-                // audio-thread callbacks deliver ~21 ms (1024 samples @ 48 kHz) per call, far below the 1 s cap.
-                imitoneState = imitone.GetState();
-                imitoneGetStateCallTotal++;
-
-                // Step 3a: track imitone state staleness via raw observed power + pitch_hz (not _dbValue, which
-                // is overridden in force-mode). NaN means "not seen this frame" (parse exception or absent field).
-                float thisFrameObservedPower = float.NaN;
-                float thisFrameObservedPitchHz = float.NaN;
-
-                try
+                var data = new JSONObject(imitoneState);
+                JSONObject tones = data["tones"];
+                JSONObject notes = data["notes"];
+                if (!tones || !tones.isArray) throw new ArgumentException("imitone output did not include tones array.");
+                if (!notes || !notes.isArray) throw new ArgumentException("imitone output did not include notes array.");
+                if (tones.list != null && tones.list.Count > 0)
                 {
-                    var data = new JSONObject(imitoneState);
-                    JSONObject tones = data["tones"];
-                    JSONObject notes = data["notes"];
-                    if (!tones || !tones.isArray) throw new ArgumentException("imitone output did not include tones array.");
-                    if (!notes || !notes.isArray) throw new ArgumentException("imitone output did not include notes array.");
-                    if (tones.list != null && tones.list.Count > 0)
+                    var tone = tones[0];
+                    if (tone.HasField("sound"))
                     {
-                        var tone = tones[0];
-                        if (tone.HasField("sound"))
+                        var soundObject = tone.GetField("sound");
+                        if (soundObject.HasField("power"))
                         {
-                            var soundObject = tone.GetField("sound");
-                            if (soundObject.HasField("power"))
-                            {
-                                float power = soundObject.GetField("power").floatValue;
-                                thisFrameObservedPower = power;
+                            float power = soundObject.GetField("power").floatValue;
+                            thisFrameObservedPower = power;
 
-                                if (!forceImitoneActive && !forceImitoneInactive)
-                                {
-                                    _dbValue = AudioLevelUtilities.PowerToDb(power);
-                                    imitoneActiveRaw = true;
-                                    // Game-facing only: do not clear imitoneActiveRaw; gate imitoneActive so imitone
-                                    // analysis and thresholds are unchanged while near estimated noise floor.
-                                    micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
-                                    imitoneActive = gameOn && !micIsNearNoiseFloor;
-                                    //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
-                                }
-
-                                _level = (float)Math.Pow(10, _dbValue) * 0.05f;
-                            }
-                            if (soundObject.HasField("brightness"))
+                            if (!forceImitoneActive && !forceImitoneInactive)
                             {
-                                float brightness = soundObject.GetField("brightness").floatValue;
-                                _timbre = brightness;
+                                _dbValue = AudioLevelUtilities.PowerToDb(power);
+                                imitoneActiveRaw = true;
+                                // Game-facing only: do not clear imitoneActiveRaw; gate imitoneActive so imitone
+                                // analysis and thresholds are unchanged while near estimated noise floor.
+                                micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
+                                imitoneActive = gameOn && !micIsNearNoiseFloor;
+                                //Debug.Log("Power = " + power + "   dbValue = " + _dbValue + "   threshold = " + GetVolumeThresholdFromJson());
                             }
+
+                            _level = (float)Math.Pow(10, _dbValue) * 0.05f;
                         }
-                        if (tone.HasField("sahir"))
+                        if (soundObject.HasField("brightness"))
                         {
-                            var SahirObject = tone.GetField("sahir");
-                            if (SahirObject.HasField("conv"))
-                            {
-                                _harmonicity = SahirObject.GetField("conv").floatValue;
-                            }
+                            float brightness = soundObject.GetField("brightness").floatValue;
+                            _timbre = brightness;
                         }
-                        if (!tone.isObject) throw new ArgumentException("imitone tone is not an object");
-                        if (tone["frequency_hz"] == null) throw new ArgumentException("imitone tone does not have frequency_hz");
-                        pitch_hz = tone["frequency_hz"].floatValue;
-                        thisFrameObservedPitchHz = pitch_hz;
                     }
-                    else
+                    if (tone.HasField("sahir"))
                     {
-                        pitch_hz = 0f;
-                        thisFrameObservedPitchHz = 0f;
-                        imitoneActiveRaw = false;
-                        imitoneActive = false;
-                        micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
-                        // No tone reported: refresh imitone power dB so telemetry does not hold last toning value.
-                        _dbValue = AudioLevelUtilities.PowerToDb(0f);
-                        _level = 0f;
+                        var SahirObject = tone.GetField("sahir");
+                        if (SahirObject.HasField("conv"))
+                        {
+                            _harmonicity = SahirObject.GetField("conv").floatValue;
+                        }
                     }
-                    if (notes.list != null && notes.list.Count > 0)
-                    {
-                        var note = notes[0];
-                        if (!note.isObject) throw new ArgumentException("imitone note is not an object");
-                        if (note["pitch"] == null) throw new ArgumentException("imitone note does not have frequency_hz");
-                        // Convert from imitone's wacky pitch value to MIDI frequency format
-                        note_st = note["pitch"].floatValue / 100f - 36.3763165623f;
-                    }
-                    else
-                    {
-                        note_st = 0f;
-                    }
-                }
-                catch (Exception e)
-                {
-                    if(debugAllowWarnings || debugAllowInitializationLogs)
-                    {
-                        Debug.Log(e);
-                    }
-                    pitch_hz = -1f;
-                    note_st = -1f;
-                }
-
-                // Step 3a: state-change detection. Climbs persistently only when imitone is hung (audio-thread
-                // feed dead, GetState returning identical bits frame after frame). In normal operation the
-                // counter stays near 0 because real input induces tiny power fluctuations every callback.
-                bool imitoneStateChanged =
-                    !FloatsEqualOrBothNaN(thisFrameObservedPower, _lastImitoneStatePower)
-                    || !FloatsEqualOrBothNaN(thisFrameObservedPitchHz, _lastImitoneStatePitchHz);
-                if (imitoneStateChanged)
-                {
-                    mainThreadFramesSinceLastImitoneStateChange = 0;
-                    _lastImitoneStatePower = thisFrameObservedPower;
-                    _lastImitoneStatePitchHz = thisFrameObservedPitchHz;
+                    if (!tone.isObject) throw new ArgumentException("imitone tone is not an object");
+                    if (tone["frequency_hz"] == null) throw new ArgumentException("imitone tone does not have frequency_hz");
+                    pitch_hz = tone["frequency_hz"].floatValue;
+                    thisFrameObservedPitchHz = pitch_hz;
                 }
                 else
                 {
-                    mainThreadFramesSinceLastImitoneStateChange++;
+                    pitch_hz = 0f;
+                    thisFrameObservedPitchHz = 0f;
+                    imitoneActiveRaw = false;
+                    imitoneActive = false;
+                    micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
+                    // No tone reported: refresh imitone power dB so telemetry does not hold last toning value.
+                    _dbValue = AudioLevelUtilities.PowerToDb(0f);
+                    _level = 0f;
                 }
+                if (notes.list != null && notes.list.Count > 0)
+                {
+                    var note = notes[0];
+                    if (!note.isObject) throw new ArgumentException("imitone note is not an object");
+                    if (note["pitch"] == null) throw new ArgumentException("imitone note does not have frequency_hz");
+                    // Convert from imitone's wacky pitch value to MIDI frequency format
+                    note_st = note["pitch"].floatValue / 100f - 36.3763165623f;
+                }
+                else
+                {
+                    note_st = 0f;
+                }
+            }
+            catch (Exception e)
+            {
+                if(debugAllowWarnings || debugAllowInitializationLogs)
+                {
+                    Debug.Log(e);
+                }
+                pitch_hz = -1f;
+                note_st = -1f;
+            }
+
+            // Step 3a: state-change detection. Climbs persistently only when imitone is hung (audio-thread
+            // feed dead, GetState returning identical bits frame after frame). In normal operation the
+            // counter stays near 0 because real input induces tiny power fluctuations every callback.
+            bool imitoneStateChanged =
+                !FloatsEqualOrBothNaN(thisFrameObservedPower, _lastImitoneStatePower)
+                || !FloatsEqualOrBothNaN(thisFrameObservedPitchHz, _lastImitoneStatePitchHz);
+            if (imitoneStateChanged)
+            {
+                mainThreadFramesSinceLastImitoneStateChange = 0;
+                _lastImitoneStatePower = thisFrameObservedPower;
+                _lastImitoneStatePitchHz = thisFrameObservedPitchHz;
             }
             else
             {
-                Debug.LogError("ImitoneVoiceIntepreter.GetRawVoiceData: imitone is null; mic level was updated but imitone analysis is skipped.");
+                mainThreadFramesSinceLastImitoneStateChange++;
             }
+        }
+        else
+        {
+            Debug.LogError("ImitoneVoiceIntepreter.GetRawVoiceData: imitone is null; pitch / dB cannot be polled. Init order issue?");
         }
     }
 

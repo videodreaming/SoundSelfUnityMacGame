@@ -5,9 +5,15 @@ using System.Threading;
 using UnityEngine;
 
 /// <summary>
-/// Audio-thread parallel capture path: <see cref="OnAudioFilterRead"/> feeds a dedicated ring AND, as of Step 3a,
-/// is the sole source of <c>imitone.InputAudio</c>. Legacy main-thread mic ingest still ring-writes its own copy and
-/// computes <c>_dbMicrophone</c> on main thread (DSP / dB move to audio thread in Step 3b; legacy ingest deleted in 5b).
+/// Audio-thread parallel capture path. <see cref="OnAudioFilterRead"/> is the sole source of:
+///   (Step 3a) <c>imitone.InputAudio</c> — fed from the shared <c>rawRingBuffer</c> via the 4-arg
+///             <c>ReadRawSamples</c> (TryEnter-safe; main-thread writer / audio-thread reader).
+///   (Step 3b) HPF + LPF state and <c>_dbMicrophone</c> — filtering happens immediately after
+///             <c>ReadRawSamples</c> populates <c>imitoneFeedBuffer</c>, before <c>imitone.InputAudio</c>;
+///             <c>_dbMicrophone</c> is computed from the same post-filter buffer and published via
+///             <c>volatile float</c> for main-thread / Inspector reads.
+/// Legacy main-thread mic ingest still ring-writes its own copy of the mic clip; the audio-thread feed
+/// is independent of it. The legacy main-thread ingest block gets deleted in Step 5b.
 /// runs on: audio thread — <see cref="OnAudioFilterRead"/> only.
 /// </summary>
 public partial class ImitoneVoiceIntepreter
@@ -129,6 +135,16 @@ public partial class ImitoneVoiceIntepreter
     private long audioCallbackLastTicks;
     // Cross-thread max-gap accumulator (ticks). Audio thread updates via CAS-max; main thread reads-and-resets via Interlocked.Exchange every ~1s.
     private long audioCallbackMaxGapTicksWindow;
+
+    // Step 3b (Docs/MIC_VOICE_INGEST_FIX_PLAN.md § Step 3b): HPF / LPF state moved off main thread.
+    // V6: filter state is touched ONLY from OnAudioFilterRead (audio-thread-only ownership).
+    // M4 click prevention: state is preserved across the relocation in the obvious way — the matching
+    // main-thread fields (_hpPrevInput / _hpPrevOutput / _lpPrevOutput) were deleted; these zero-init
+    // at session start. The "init transient" is identical to pre-3b — a few ms of filter warmup once
+    // per capture session. No per-buffer / per-callback state reset, ever.
+    private float audioThreadHpPrevInput;
+    private float audioThreadHpPrevOutput;
+    private float audioThreadLpPrevOutput;
 
     // Main-thread-only: 1-second sliding window for Hz computation.
     private float _hzWindowStartTimeUnscaled = -1f;
@@ -529,10 +545,48 @@ public partial class ImitoneVoiceIntepreter
                 Interlocked.Add(ref audioFeedOverflowDroppedTotal, overflowDropped);
             }
 
-            // Peak-abs telemetry — measured on what we'd feed to imitone, regardless of priming. If this
-            // stays ~0 while _dbMicrophone moves on voice, the ring isn't being filled (mic-ingest issue);
-            // if it matches voice amplitude (~0.05–0.5) and imitone STILL reports power=0, the bug is
-            // imitone-side, not feed-side.
+            // Step 3b: HPF + LPF + _dbMicrophone, all on the audio thread, all post-ring-read /
+            // pre-imitone-feed. Skipped when copied == 0 (lock miss / empty ring) — running the IIR
+            // on a zero-padded buffer would (a) inject the filter's own transient response into the
+            // imitone feed and (b) drag _dbMicrophone toward floor on every lock miss, causing
+            // micIsNearNoiseFloor to flicker. Preserving last value is the right move per Decision 1.
+            // During priming, copied is typically > 0 (we read+advance every callback), so the filter
+            // does run and _dbMicrophone is published — Decision 2 (priming pre-loads the dB readout
+            // before imitone gates open).
+            if (copied > 0)
+            {
+                if (_highPassFilterEnabled && _highPassCutoffHz > 0f)
+                {
+                    ApplyHighPassFilterOnAudioThread(imitoneFeedBuffer);
+                }
+                if (_lowPassFilterEnabled && _lowPassCutoffHz > 0f)
+                {
+                    ApplyLowPassFilterOnAudioThread(imitoneFeedBuffer);
+                }
+
+                // Mean amplitude over the full callback window (~21 ms at 1024 / 48 kHz). Every
+                // callback IS the freshest 21 ms — the pre-3b "newest tail" cap (driven by
+                // imitoneMaxFeedFramesAt60FpsEquivalent) was a main-thread artifact, retired here.
+                float sumAbs = 0f;
+                for (int i = 0; i < frames; i++)
+                {
+                    float a = imitoneFeedBuffer[i];
+                    if (a < 0f) a = -a;
+                    sumAbs += a;
+                }
+                float meanAmplitude = sumAbs / frames;
+
+                // V7: _dbMicrophone is volatile float; this single store is the cross-thread publish.
+                // Tear-detection telemetry (aggDbMicrophoneTearDetectedTotal in MicVoiceIngestDebugAggregate)
+                // sanity-checks the value the main thread reads each LateUpdate.
+                _dbMicrophone = AudioLevelUtilities.LinearToDb(meanAmplitude);
+            }
+
+            // Peak-abs telemetry — measured POST-FILTER (when copied > 0; on a lock-miss callback the
+            // imitoneFeedBuffer is zero-filled by ReadRawSamples and peakAbs naturally = 0). If this
+            // stays ~0 while voice is happening AND copied > 0, the filter chain is killing the signal
+            // (cutoffs misconfigured?). If peakAbs matches voice amplitude (~0.05–0.5) and imitone
+            // STILL reports power=0, the bug is imitone-side, not feed-side.
             float peakAbs = 0f;
             for (int i = 0; i < frames; i++)
             {
@@ -572,5 +626,49 @@ public partial class ImitoneVoiceIntepreter
         }
 
         Array.Clear(data, 0, data.Length);
+    }
+
+    /// <summary>
+    /// Step 3b: first-order high-pass filter, in-place. Audio-thread-only — touches
+    /// audioThreadHpPrevInput / audioThreadHpPrevOutput which no other thread reads or writes.
+    /// Math is identical to the pre-3b main-thread variant (Mads Engesvik / Wikipedia "RC HPF");
+    /// only the field names and the calling thread changed. Filter alpha uses the mic capture
+    /// sample rate (initialized once in Start, stable for the session — see comment on the
+    /// `sampleRate` field in ImitoneVoiceIntepreter.cs).
+    /// </summary>
+    private void ApplyHighPassFilterOnAudioThread(float[] samples)
+    {
+        if (samples == null || samples.Length == 0 || sampleRate <= 0) return;
+        float rc = 1f / (2f * Mathf.PI * _highPassCutoffHz);
+        float dt = 1f / sampleRate;
+        float alpha = rc / (rc + dt);
+        for (int i = 0; i < samples.Length; i++)
+        {
+            float x = samples[i];
+            float y = alpha * (audioThreadHpPrevOutput + x - audioThreadHpPrevInput);
+            audioThreadHpPrevInput = x;
+            audioThreadHpPrevOutput = y;
+            samples[i] = y;
+        }
+    }
+
+    /// <summary>
+    /// Step 3b: first-order low-pass filter, in-place. Audio-thread-only — touches
+    /// audioThreadLpPrevOutput which no other thread reads or writes. Math is identical to the
+    /// pre-3b main-thread variant.
+    /// </summary>
+    private void ApplyLowPassFilterOnAudioThread(float[] samples)
+    {
+        if (samples == null || samples.Length == 0 || sampleRate <= 0) return;
+        float rc = 1f / (2f * Mathf.PI * _lowPassCutoffHz);
+        float dt = 1f / sampleRate;
+        float alpha = dt / (rc + dt);
+        for (int i = 0; i < samples.Length; i++)
+        {
+            float x = samples[i];
+            float y = alpha * x + (1f - alpha) * audioThreadLpPrevOutput;
+            audioThreadLpPrevOutput = y;
+            samples[i] = y;
+        }
     }
 }

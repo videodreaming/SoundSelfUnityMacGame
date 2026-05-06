@@ -2,56 +2,58 @@ using UnityEngine;
 
 /// <summary>
 /// Copies mic-ingest debug (from ImitoneVoiceIntepreter) + Imitone raw-path debug + tone/imitone gate flags
-/// (+ optional DirectVoiceMonitoring transport totals)
-/// into one Inspector block after upstream Update() (LateUpdate).
-/// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values are copied from <see cref="ImitoneVoiceIntepreter.GetMicIngestDebugSnapshot"/>.
-/// During Step 3a F1 hybrid pivot work, the <b>CURRENT TEST</b> section lists only what the
-/// <b>active</b> play test needs — tight enough for one Inspector screengrab. Deeper metrics stay in the
-/// headed sections below. See <c>Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md</c> § Inspector / CURRENT TEST protocol.
+/// (+ optional DirectVoiceMonitoring transport totals) into one Inspector block after upstream Update()
+/// (LateUpdate). Step 3b adds a cross-thread atomicity / tear-detection block.
+/// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values are copied
+/// from <see cref="ImitoneVoiceIntepreter.GetMicIngestDebugSnapshot"/>.
+/// The <b>CURRENT TEST</b> section at the top contains <i>only</i> what the active play test needs — tight
+/// enough for one Inspector screengrab. The contract: this block is rewritten <i>before</i> each testing
+/// round (header text, currentTestDescription, field set, LateUpdate mirror copies). Old fields from prior
+/// rounds get removed in the same edit pass — no accumulation. See
+/// <c>Docs/MIC_VOICE_INGEST_FIX_PLAN.md</c> § 9 (Active-bug debugging convention) for the full rules.
 /// </summary>
 public class MicVoiceIngestDebugAggregate : MonoBehaviour
 {
     // ----------------------------------------------------------------------
     // CURRENT TEST — values mirrored to the top of the Inspector for whichever
-    // diagnostic step is active. Updated each test pass (this section is
-    // disposable; do NOT add permanent fields here — they belong in their
-    // own headed sections below). Convention documented in
-    // Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md (Debugging Process section).
-    //
-    // PERSISTENT RULE (Step 3a F1 hybrid pivot): CURRENT TEST holds only fields needed for the
-    // **active** diagnostic (one screengrab). Do not accumulate retired fields; remove when the test
-    // changes. See Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md § Inspector / CURRENT TEST protocol.
+    // diagnostic step is active. Per § 9 of Docs/MIC_VOICE_INGEST_FIX_PLAN.md:
+    //   * ONLY contains values needed for the current test (no accumulation).
+    //   * Rewritten BEFORE each testing round, in the same edit pass as the
+    //     code that round tests. Header, currentTestDescription, field set,
+    //     and LateUpdate mirror copies all change together.
+    // Permanent fields belong in their own headed sections below — never here.
     // ----------------------------------------------------------------------
 
-    [Header("CURRENT TEST — Pass 2: telemetry rename + cursor-vs-write-head gap")]
-    [Tooltip("Screengrab this block (toning + silent), report two grabs ~60s apart to confirm gap drift < 20ms.\n\nBAR: hybridGapMs in 40–180ms band while toning (absolute value is hardware-dependent — mic ADC vs engine clock skew sets the floor) | DRIFT < 20ms across 60s (this is the actual test) | overflowDrops not climbing | rawRingReadLockMisses near 0 | rollingHz ≈ sampleRate/dspSize | input/callback ratio ~1 | feedPeak >0.05 on voice | pitch/db move | exitReason=copied_samples | failure=false (ignoring known GC false-positive).\n\nFor callback totals, lock-write misses, raw ring totals, config, monitoring — scroll to sections below.")]
-    [SerializeField] private string currentTestDescription = "Pass 2: two screengrabs ~60s apart (tone + silent). Verify gap drift + lock-miss counter.";
+    [Header("CURRENT TEST — Step 3b: filter + dB on audio thread, tear detector")]
+    [Tooltip("Step 3b test bar — screengrab while toning + silent + during click testing protocol.\n\nWHAT 3b CHANGES: HPF / LPF + _dbMicrophone moved from main thread (GetRawVoiceData) to audio thread (OnAudioFilterRead). _dbMicrophone is now volatile float (audio writer, main reader). Tear detector watches for NaN / ±Infinity / out-of-dB-range values (would indicate the volatile guarantee is insufficient and we'd escalate to Interlocked).\n\nBAR — all of these must hold throughout the test:\n  • dbMicTearTotal stays at 0 (sticky; any non-zero is a tear, escalate to Interlocked).\n  • dbMicSnapshot moves with voice (expect roughly -50 quiet, > -30 toning) — confirms the audio-thread dB writer is alive and crossing back to main without corruption.\n  • dbValue + pitchHz stay alive on voice (no regression vs F1 closeout).\n  • feedPeakAbs > 0.05 on voice (confirms post-filter signal is not killed by the filter chain).\n  • rollingHz ≈ outputSampleRate/dspBufferSize (audio thread alive).\n  • input/callback ratio ~1 (steady state, post-priming).\n  • overflowDrops not climbing across the session.\n  • rawRingReadLockMisses near 0 (the new filter+dB work doesn't cost lock contention).\n  • failure = false (ignoring known GC false positive — see currentTestKnownFalsePositive_GcAlloc).\n\nCLICK TESTING PROTOCOL: run all 5 scenarios from Docs/MIC_VOICE_INGEST_FIX_PLAN.md § Click prevention appendix (mic re-init mid-session, scene change, etc.). No audible click in any scenario.\n\nDeeper metrics (callback totals, ring totals, feed gap, monitoring transport, full FAIL flag set) live in the headed sections below — scroll for them.")]
+    [SerializeField] private string currentTestDescription = "Step 3b: filter + _dbMicrophone on audio thread + tear detector + cross-thread labels. Tone normally + run click testing protocol; verify tear total = 0 and dbMicSnapshot tracks voice.";
 
     [Tooltip("Time.time — report with each grab.")]
     [SerializeField] private float currentTestSessionTimeSeconds;
     [Tooltip("Any FAIL_* below.")]
     [SerializeField] private bool currentTestFailure;
 
-    [Tooltip("Cursor-to-write-head imitone-feed latency (ms): rawWriteTotal minus audio-thread feed read cursor. Stable 40–180ms band while toning; absolute value is hardware-dependent (mic ADC vs engine clock skew). Drift < 20ms / 60s is the real test. Self-limits at 250ms via ReadRawSamples overflow guard.")]
-    [SerializeField] private float currentTestHybridFeedGapMs;
+    [Tooltip("Step 3b: live _dbMicrophone snapshot, read once per LateUpdate via volatile float. The value the main thread is consuming this frame, computed on the audio thread from the post-filter buffer. Expect roughly -50 dB at quiet ambient, > -30 dB while toning. If this stays at -999 forever the audio-thread dB writer never ran (filter cutoffs zeroing the signal? audio thread frozen?). If it sits at a frozen value while feedPeakAbs moves, suspect a tear (see currentTestDbMicrophoneTearDetectedTotal).")]
+    [SerializeField] private float currentTestDbMicrophoneSnapshot;
+    [Tooltip("Step 3b: tear-detection counter. Increments when LateUpdate's read of _dbMicrophone returns NaN, ±Infinity, or a value outside the plausible dB band [-120, +24]. STICKY — do not auto-clear. BAR: must stay 0. Any non-zero value means the volatile guarantee is insufficient for cross-thread float visibility on this platform; escalate _dbMicrophone to Interlocked.Exchange via SingleToInt32Bits and rerun.")]
+    [SerializeField] private long currentTestDbMicrophoneTearDetectedTotal;
+    [Tooltip("Imitone-derived tone dB (post-analysis). Should still respond to voice — no regression vs F1.")]
+    [SerializeField] private float currentTestDbValue;
+    [Tooltip("Imitone-derived fundamental frequency (Hz). Should still track voice — no regression vs F1.")]
+    [SerializeField] private float currentTestPitchHz;
+
+    [Tooltip("Peak |sample| going to imitone (post-filter as of 3b). Voice ~0.05–0.5. If this is > 0 but dbMicSnapshot stays at floor, suspect a tear or filter chain killing the post-filter signal.")]
+    [SerializeField] private float currentTestFeedPeakAbs;
     [Tooltip("Rolling OAFR rate (Hz). Expect ~ output sample rate / DSP buffer size (e.g. ~46.9 @ 48k/1024).")]
     [SerializeField] private float currentTestAudioCallbackHzRolling;
     [Tooltip("imitone.InputAudio calls / callbacks (cumulative). ~1.0 after priming.")]
     [SerializeField] private float currentTestImitoneInputToCallbackRatio;
-    [Tooltip("ReadRawSamples overflow drops on imitone path. Should NOT climb between two grabs taken ~60s apart.")]
+    [Tooltip("ReadRawSamples overflow drops on imitone path. Should NOT climb between grabs taken across the session.")]
     [SerializeField] private long currentTestAudioFeedOverflowDroppedTotal;
-    [Tooltip("Pass 2: rawBufferLock TryEnter(0) misses from audio-thread readers (imitone feed + DirectVoiceMonitoring). Should stay near 0; sustained climb means main-thread writer hold-time is colliding with audio reads.")]
+    [Tooltip("rawBufferLock TryEnter(0) misses from audio-thread readers. Should stay near 0; the new filter+dB work runs entirely after the lock is released so this counter should not move vs F1 closeout.")]
     [SerializeField] private long currentTestRawRingReadLockMissTotal;
 
-    [Tooltip("Mic ingest branch (expect copied_samples when healthy).")]
-    [SerializeField] private string currentTestMicExitReason = "";
-
-    [Tooltip("Peak |sample| going to imitone. Voice ~0.05–0.5.")]
-    [SerializeField] private float currentTestFeedPeakAbs;
-    [SerializeField] private float currentTestDbValue;
-    [SerializeField] private float currentTestPitchHz;
-
-    [Tooltip("Sticky GC false positive (imitone CPU time). Separate cleanup.")]
+    [Tooltip("Sticky GC false positive (imitone CPU time exceeds 3 ms threshold; not a real GC alloc). Separate cleanup task in Optional Pass 4 — adjust audioCallbackGcSuspectMsThreshold from 3 ms to 15 ms.")]
     [SerializeField] private bool currentTestKnownFalsePositive_GcAlloc;
 
     [Header("FAIL OBSERVATION (glance here first)")]
@@ -83,20 +85,22 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private bool FAIL_UNREAD_ZERO_SUSTAINED;
     [Tooltip("True when aggMicRawRingWriteTotalSamples has not increased for failIngestRingStalledFrameThreshold consecutive LateUpdate calls.")]
     [SerializeField] private bool FAIL_INGEST_RING_STALLED;
-    [Tooltip("True when raw voice data was not consumed for failInterpreterNotConsumingFrameThreshold consecutive frames while mic is ready and startup grace has elapsed.")]
-    [SerializeField] private bool FAIL_INTERPRETER_NOT_CONSUMING;
     [Tooltip("Sticky: latched when aggMicGentleUnreadZeroRecoveryTotal increases above the baseline from last clear; clear by ticking clearFailObservationStickyFlags below.")]
     [SerializeField] private bool FAIL_GENTLE_RECOVERY_FIRED;
     [Tooltip("True when aggMonStarvationEvents increased within the last failMonitoringStarvationWindowSeconds wall-clock seconds.")]
     [SerializeField] private bool FAIL_MONITORING_STARVATION_GROWING;
-    [Tooltip("True after startup grace when mic ref is null or mic reports not ready.")]
+    [Tooltip("True after startup grace when mic reports not ready (interpreter.IsMicReady = false). Step 3b simplified the trigger — the legacy aggInterpMicRefNull source field was always false, and the new direct read of IsMicReady is the canonical liveness signal.")]
     [SerializeField] private bool FAIL_MIC_NOT_READY;
+    [Tooltip("Step 3b: STICKY — latches when aggDbMicrophoneTearDetectedTotal > 0 (volatile float read produced NaN / ±Infinity / out-of-range value, indicating a torn cross-thread read). Cure is to escalate _dbMicrophone from `volatile` to `Interlocked.Exchange` via `BitConverter.SingleToInt32Bits`. Cleared via clearFailObservationStickyFlags.")]
+    [SerializeField] private bool FAIL_DB_TEAR_DETECTED;
 
     [Header("FAIL OBSERVATION — thresholds")]
     [SerializeField] private int failUnreadZeroSustainedFrameThreshold = 30;
     [SerializeField] private float failUnreadZeroSustainedSecondsThreshold = 0.5f;
     [SerializeField] private int failIngestRingStalledFrameThreshold = 30;
-    [SerializeField] private int failInterpreterNotConsumingFrameThreshold = 30;
+    // Step 3b: failInterpreterNotConsumingFrameThreshold retired with FAIL_INTERPRETER_NOT_CONSUMING —
+    // its trigger (telemetryRawVoiceDataConsumedThisFrame) lived inside the deleted main-thread
+    // tryCopyOk gate. Step 5b retires the legacy main-thread mic-ingest block entirely.
     [SerializeField] private float failMonitoringStarvationWindowSeconds = 2f;
     [SerializeField] private float failMicNotReadyGracePeriodSeconds = 2f;
     [SerializeField] private float failAudioCallbackStartupGraceSeconds = 2f;
@@ -189,13 +193,29 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private long aggMicNormRingWriteTotalSamples;
 
     [Header("Interpreter raw path (ImitoneVoiceIntepreter)")]
-    [SerializeField] private bool aggRawConsumedThisFrame;
-    [SerializeField] private bool aggInterpMicRefNull;
+    // Step 3b: aggRawConsumedThisFrame / aggInterpMicRefNull / aggInterpTryCopyTrue /
+    // aggInterpTryCopySampleCount retired with the main-thread tryCopyOk gate they mirrored.
+    // aggInterpMicReady survives — sourced directly from interpreter.IsMicReady now (the legacy
+    // round-trip via debugInterpreterMicReady was removed). dB-unclamped fields keep their old
+    // RawVoicePathDebugSnapshot path; that struct is trimmed but not retired (Step 5b owns the rename).
+    [Tooltip("True when interpreter.IsMicReady = true (mic is initialized and capturing). Drives FAIL_MIC_NOT_READY post-Step-3b.")]
     [SerializeField] private bool aggInterpMicReady;
-    [SerializeField] private bool aggInterpTryCopyTrue;
-    [SerializeField] private int aggInterpTryCopySampleCount = -1;
     [SerializeField] private float aggInterpMicDbUnclamped = -999f;
     [SerializeField] private float aggInterpImitoneDbUnclamped = -999f;
+
+    [Header("Cross-thread atomicity (Step 3b)")]
+    [Tooltip("Step 3b: live snapshot of interpreter._dbMicrophone (volatile float, audio writer / main reader). Read once per LateUpdate for tear-detection sanity (next field) and for the CURRENT TEST mirror. The value the main thread is consuming this frame.")]
+    [SerializeField] private float aggDbMicrophoneSnapshot;
+    [Tooltip("Step 3b: STICKY — counter of detected torn reads on _dbMicrophone. Detection method: each LateUpdate, read _dbMicrophone; if value is NaN, ±Infinity, or outside the plausible dB range [-120, +24], increment. Any non-zero count means the volatile guarantee is insufficient on this platform and _dbMicrophone needs to escalate to Interlocked.Exchange. Cleared via clearFailObservationStickyFlags below.")]
+    [SerializeField] private long aggDbMicrophoneTearDetectedTotal;
+    [Tooltip("Step 3b: read-only label listing audio-thread / main-thread shared fields currently behind C# `volatile` semantics. Set once at startup; reflects the actual code, not a wish list. Quick-glance reference for the cross-thread contract.")]
+    [SerializeField] private string aggCrossThreadFieldsUsingVolatile = "";
+    [Tooltip("Step 3b: read-only label listing audio-thread / main-thread shared fields currently behind `Interlocked.*` operations (counters, CAS, atomic exchanges). Set once at startup; reflects the actual code.")]
+    [SerializeField] private string aggCrossThreadFieldsUsingInterlocked = "";
+
+    private const float DbMicrophoneTearDetectMinDb = -120f;
+    private const float DbMicrophoneTearDetectMaxDb = 24f;
+    private const float DbMicrophonePreInitSentinel = -999f;
 
     [Header("Monitoring transport (DirectVoiceMonitoring — cumulative)")]
     [SerializeField] private bool aggMonitoringAssigned;
@@ -215,10 +235,17 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private long _prevAggMicRawRingWriteTotalSamples;
     private int _consecutiveIngestRingStallFrames;
 
-    private int _consecutiveInterpreterNotConsumingFrames;
+    // Step 3b: _consecutiveInterpreterNotConsumingFrames retired with FAIL_INTERPRETER_NOT_CONSUMING.
 
     private int _gentleRecoveryBaselineAtClear;
     private bool _gentleRecoveryStickyLatched;
+
+    // Step 3b: sticky latch for _dbMicrophone tear detector. Latches when aggDbMicrophoneTearDetectedTotal
+    // climbs above the cleared baseline; user must clear via clearFailObservationStickyFlags. The cure is
+    // an atomicity escalation (volatile -> Interlocked) which is a code change, not a runtime recovery —
+    // hence sticky.
+    private long _dbMicTearBaselineAtClear;
+    private bool _dbMicTearStickyLatched;
 
     private int _prevAggMonStarvationEvents = -1;
     private float _lastStarvationIncreaseRealtime = -1f;
@@ -255,6 +282,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _audioGCBaselineInitialized = false;
         _audioLockBaselineInitialized = false;
         _imitoneFeedRatioWindowInitialized = false;
+        _dbMicTearBaselineAtClear = 0;
+        _dbMicTearStickyLatched = false;
         if (interpreter == null)
         {
             interpreter = GetComponent<ImitoneVoiceIntepreter>();
@@ -268,6 +297,26 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 voiceMonitoring = GetComponentInChildren<DirectVoiceMonitoring>(true);
             }
         }
+
+        // Step 3b: read-only labels listing the cross-thread contract for fields shared between
+        // audio thread (writer) and main thread (reader), or vice versa. Set once here from the
+        // actual code state — when adding a new shared field, update these strings AND the
+        // matching field declaration in the same edit pass so the labels stay truthful.
+        aggCrossThreadFieldsUsingVolatile =
+            "ImitoneVoiceIntepreter._dbMicrophone (audio→main; primary V7 candidate); " +
+            "ImitoneVoiceIntepreter._highPassFilterEnabled, _highPassCutoffHz, " +
+            "_lowPassFilterEnabled, _lowPassCutoffHz (main→audio; runtime-tunability); " +
+            "AudioThread.audioCallbackFeedPeakAbsVolatile, audioCallbackHzRollingVolatile, " +
+            "audioCallbackMaxGapMsLastSecondVolatile, audioCallbackLastSamplesPerCallback, " +
+            "aggMixerChannelsVolatile, imitoneInputAudioMainThreadLogged; " +
+            "DirectVoiceMonitoring.effectiveMonitoringGain";
+        aggCrossThreadFieldsUsingInterlocked =
+            "AudioThread: audioCallbackTotal, audioCallbackSamplesProcessedTotal, " +
+            "audioCallbackGCAllocSuspectTotal, audioCallbackMaxGapTicksWindow, " +
+            "imitoneInputAudioCallTotal, imitoneInputAudioPendingException (CAS), " +
+            "audioFeedOverflowDroppedTotal, audioThreadFeedReadTotalSamples, " +
+            "rawWriteTotalSamples, rawRingReadLockMissTotal, micRingOverflowSkipTotal; " +
+            "DirectVoiceMonitoring: bufferUnderflow*, bufferOverflow*, callbackStarvation*";
     }
 
     private void ApplyClearFailObservationStickyFlags()
@@ -282,6 +331,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _audioGCBaselineInitialized = true;
         _audioLockBaselineInitialized = false;
         _audioLockMissWindowTimer = 0f;
+        // Step 3b: snapshot the current tear count as the new baseline. Subsequent tears (above
+        // this baseline) re-latch FAIL_DB_TEAR_DETECTED. Clearing does NOT cure the underlying
+        // atomicity issue — that's a code change (volatile -> Interlocked) — so the user clears
+        // only after addressing it.
+        _dbMicTearBaselineAtClear = aggDbMicrophoneTearDetectedTotal;
+        _dbMicTearStickyLatched = false;
     }
 
     private void LateUpdate()
@@ -307,14 +362,40 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
 
         if (interpreter != null)
         {
+            // Step 3b: legacy tryCopyOk-gate booleans deleted. Mic-readiness sourced directly from
+            // IsMicReady (the canonical liveness signal) instead of round-tripping through a debug
+            // mirror field. RawVoicePathDebugSnapshot now carries only the two unclamped-dB fields
+            // — Step 5b will rename it.
+            aggInterpMicReady = interpreter.IsMicReady;
             ImitoneVoiceIntepreter.RawVoicePathDebugSnapshot v = interpreter.GetRawVoicePathDebugSnapshot();
-            aggRawConsumedThisFrame = v.rawVoiceDataConsumedThisFrame;
-            aggInterpMicRefNull = v.interpreterMicRefNull;
-            aggInterpMicReady = v.interpreterMicReady;
-            aggInterpTryCopyTrue = v.interpreterTryCopyReturnedTrue;
-            aggInterpTryCopySampleCount = v.interpreterTryCopyOutSampleCount;
             aggInterpMicDbUnclamped = v.telemetryMicDbUnclamped;
             aggInterpImitoneDbUnclamped = v.telemetryImitoneDbUnclamped;
+
+            // Step 3b: cross-thread atomicity snapshot. Read _dbMicrophone ONCE per LateUpdate via
+            // its volatile semantics; downstream FAIL trigger and CURRENT TEST mirror both consume
+            // this single read. The tear detector sanity-checks the value bit-pattern: NaN /
+            // ±Infinity / out-of-band-dB indicate a torn cross-thread read (the volatile guarantee
+            // is insufficient on this platform), at which point _dbMicrophone needs to escalate to
+            // Interlocked.Exchange via BitConverter.SingleToInt32Bits. The single-read pattern is
+            // important — a re-read could mask a tear by getting a clean value next time.
+            float dbMicSample = interpreter._dbMicrophone;
+            aggDbMicrophoneSnapshot = dbMicSample;
+            // -999f is the documented pre-init sentinel (set in the field initializer; the audio
+            // thread will never write a value < -120 dB because AudioLevelUtilities.LinearToDb
+            // clamps amplitude to 1e-6 → -120 dB floor). Skip tear-detect until the audio thread
+            // has written at least once. Without this exclusion every LateUpdate before the first
+            // audio callback would log a tear and FAIL_DB_TEAR_DETECTED would latch on startup.
+            bool isPreInitSentinel = dbMicSample == DbMicrophonePreInitSentinel;
+            bool tornRead =
+                !isPreInitSentinel
+                && (float.IsNaN(dbMicSample)
+                    || float.IsInfinity(dbMicSample)
+                    || dbMicSample < DbMicrophoneTearDetectMinDb
+                    || dbMicSample > DbMicrophoneTearDetectMaxDb);
+            if (tornRead)
+            {
+                aggDbMicrophoneTearDetectedTotal++;
+            }
 
             aggImitoneActive = interpreter.imitoneActive;
             aggImitoneActiveRaw = interpreter.imitoneActiveRaw;
@@ -355,19 +436,16 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 : -1f;
             aggRawRingReadLockMissTotal = a.rawRingReadLockMissTotal;
 
-            // CURRENT TEST — only fields needed for the active pass (one screengrab). See plan doc § Inspector.
+            // CURRENT TEST — only fields needed for the active pass (Step 3b). See plan doc § 9.
             currentTestSessionTimeSeconds = Time.time;
+            currentTestDbMicrophoneSnapshot = aggDbMicrophoneSnapshot;
+            currentTestDbMicrophoneTearDetectedTotal = aggDbMicrophoneTearDetectedTotal;
+            currentTestDbValue = interpreter._dbValue;
+            currentTestPitchHz = interpreter.pitch_hz;
+            currentTestFeedPeakAbs = aggAudioThreadFeedPeakAbsLastCallback;
             currentTestAudioCallbackHzRolling = aggAudioCallbackHzRolling;
             currentTestAudioFeedOverflowDroppedTotal = aggAudioFeedOverflowDroppedTotal;
             currentTestRawRingReadLockMissTotal = aggRawRingReadLockMissTotal;
-            currentTestMicExitReason = aggMicExitReason ?? "";
-            currentTestFeedPeakAbs = aggAudioThreadFeedPeakAbsLastCallback;
-            currentTestDbValue = interpreter._dbValue;
-            currentTestPitchHz = interpreter.pitch_hz;
-
-            // Pass 2: source from snapshot's coherent (writeTotal, readTotal) pair instead of recomputing
-            // from cross-snapshot fields (rawRingWrite came from a different GetMicIngestDebugSnapshot read).
-            currentTestHybridFeedGapMs = aggAudioThreadFeedToWriteHeadGapMs;
 
             // Step 3a: imitone-feed observability — main-thread side.
             aggImitoneGetStateCallTotal = interpreter.ImitoneGetStateCallTotal;
@@ -627,32 +705,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         // M2: Time.timeSinceLevelLoad resets on scene reload, which is intentional —
         // a fresh scene load gets its own grace period. Single-main-scene flows are unaffected.
         bool pastMicGrace = Time.timeSinceLevelLoad >= failMicNotReadyGracePeriodSeconds;
-        if (interpreter != null && pastMicGrace)
-        {
-            if (aggInterpMicReady)
-            {
-                if (!aggRawConsumedThisFrame)
-                {
-                    _consecutiveInterpreterNotConsumingFrames++;
-                }
-                else
-                {
-                    _consecutiveInterpreterNotConsumingFrames = 0;
-                }
-            }
-            else
-            {
-                _consecutiveInterpreterNotConsumingFrames = 0;
-            }
-
-            FAIL_INTERPRETER_NOT_CONSUMING =
-                _consecutiveInterpreterNotConsumingFrames >= failInterpreterNotConsumingFrameThreshold;
-        }
-        else
-        {
-            _consecutiveInterpreterNotConsumingFrames = 0;
-            FAIL_INTERPRETER_NOT_CONSUMING = false;
-        }
+        // Step 3b: FAIL_INTERPRETER_NOT_CONSUMING retired — its trigger lived inside the deleted
+        // main-thread tryCopyOk gate. Imitone is now fed exclusively from the audio thread; if the
+        // feed dies, FAIL_IMITONE_NOT_FED + FAIL_IMITONE_FEED_RATIO_LOW catch it directly without
+        // going through a "main-thread did not consume" proxy.
 
         if (aggMicGentleUnreadZeroRecoveryTotal > _gentleRecoveryBaselineAtClear)
         {
@@ -683,12 +739,24 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
 
         if (interpreter != null && pastMicGrace)
         {
-            FAIL_MIC_NOT_READY = aggInterpMicRefNull || !aggInterpMicReady;
+            // Step 3b: simplified — interpreter.IsMicReady is the canonical liveness signal. The
+            // legacy aggInterpMicRefNull source was always false (never assigned true anywhere) and
+            // contributed no information to the trigger.
+            FAIL_MIC_NOT_READY = !aggInterpMicReady;
         }
         else
         {
             FAIL_MIC_NOT_READY = false;
         }
+
+        // Step 3b: tear-detection sticky latch. Increases above the cleared baseline mean a torn
+        // cross-thread float read happened — the cure is to escalate _dbMicrophone from `volatile`
+        // to `Interlocked.Exchange` (code change), so the latch survives until manually cleared.
+        if (aggDbMicrophoneTearDetectedTotal > _dbMicTearBaselineAtClear)
+        {
+            _dbMicTearStickyLatched = true;
+        }
+        FAIL_DB_TEAR_DETECTED = _dbMicTearStickyLatched;
 
         FAILURE =
             FAIL_AUDIO_CALLBACK_FROZEN
@@ -701,10 +769,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             || FAIL_RING_OVERFLOW_GROWING
             || FAIL_UNREAD_ZERO_SUSTAINED
             || FAIL_INGEST_RING_STALLED
-            || FAIL_INTERPRETER_NOT_CONSUMING
             || FAIL_GENTLE_RECOVERY_FIRED
             || FAIL_MONITORING_STARVATION_GROWING
-            || FAIL_MIC_NOT_READY;
+            || FAIL_MIC_NOT_READY
+            || FAIL_DB_TEAR_DETECTED;
 
         currentTestFailure = FAILURE;
     }
