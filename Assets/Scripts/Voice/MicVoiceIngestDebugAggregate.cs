@@ -16,10 +16,14 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     // Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md (Debugging Process section).
     // ----------------------------------------------------------------------
 
-    [Header("CURRENT TEST — Step 3a follow-on F1: imitone-feed latency (sluggish responsiveness)")]
-    [Tooltip("CONTEXT: H1e fix worked — imitone is fed real voice and pitch tracks. But responsiveness is sluggish (slow to detect, slow to release). Hypothesis: AudioSource's read position lags Microphone's write position by a large constant gap, set when captureSource.Play() was called and held forever. This test measures that gap directly.\n\nWHAT TO REPORT BACK (all values while toning):\n• currentTestCaptureToMicGapMs — THE indicator. Voice lag from mic input to imitone feed.\n• currentTestCaptureToMicGapSamples — same in samples.\n• currentTestFeedPeakAbs — should still be 0.02–0.5 on voice (regression check).\n• currentTestDbValue / currentTestPitchHz — should still track voice (regression check).\n\nINTERPRETATION:\n• Gap < 50 ms → AudioSource read is well-aligned. Sluggishness is from somewhere else (e.g., imitone's own lock-on time, tone-active timer thresholds).\n• Gap 50–250 ms → typical AudioSource buffering. Acceptable for tone tracking but feels slow for fast articulation. Consider Play() alignment fix.\n• Gap > 500 ms → BAD. Read position is severely behind. Need to align read to mic write at Play time, or use a different ingest pattern.\n• Gap > 1000 ms → matches the user's earlier perceived 3s delay. Confirms F1 root cause is initial Play()-time alignment.\n\nALSO — speaker leak (F2): identify the second AudioListener in the scene hierarchy. What GameObject is it on? What other scripts are nearby? Try disabling it temporarily and report whether the leak goes away.")]
-    [SerializeField] private string currentTestDescription = "F1: tone normally; report the ms gap. F2: locate the second AudioListener and try disabling it.";
+    [Header("CURRENT TEST — Step 3a follow-on F1 FIX VERIFICATION: capture-to-mic gap after Play()-time alignment")]
+    [Tooltip("CONTEXT: F1 fix landed in WaitMicPositionThenPlayCapture. After captureSource.Play(), the read position is now snapped to (Microphone.GetPosition - 3 dsp buffers ≈ 64 ms at 48 kHz). Pre-fix the gap was ~2.4 s; post-fix it should be near the latency budget.\n\nWHAT TO REPORT BACK (TWO screenshots, same Play session):\n• Screenshot A: shortly after Play (e.g., 2–5 s into the session), while toning.\n• Screenshot B: 20–30 s later in the SAME session, still toning.\n• For each: currentTestSessionTimeSeconds, currentTestSessionFrame, currentTestCaptureToMicGapMs, currentTestCaptureToMicGapSamples, currentTestFeedPeakAbs, currentTestDbValue, currentTestPitchHz.\n• ALSO: the [Step3a-F1fix] line from the Console (one per session — copy/paste exactly).\n• Perceptual: how does it FEEL? Real-time? Still laggy? In between?\n\nINTERPRETATION (single reading):\n• Gap 20–100 ms → fix worked. Imitone-feed latency is now near the intentional budget.\n• Gap 100–250 ms → fix mostly worked but the budget might be slightly conservative. Still a big improvement.\n• Gap > 500 ms → fix failed or didn't apply (check the [Step3a-F1fix] log line; was it printed?).\n• Gap > 1000 ms → unchanged from pre-fix.\n\nDRIFT CHECK (compare A vs B):\n• |B.gap − A.gap| < 20 ms → no drift. Static alignment is the whole fix.\n• B.gap > A.gap by 100 ms+ → drift exists. We'll add periodic re-sync as a follow-on.")]
+    [SerializeField] private string currentTestDescription = "F1 FIX VERIFICATION: take two screenshots in the SAME session ~20-30s apart while toning. Report sessionTimeSeconds + frame + gap for each. Also paste the [Step3a-F1fix] Console line.";
 
+    [Tooltip("Time.time at this LateUpdate — seconds since this Play session started (resets at Play). Report with every screenshot so we can compare readings within the SAME session and rule out drift.")]
+    [SerializeField] private float currentTestSessionTimeSeconds;
+    [Tooltip("Time.frameCount at this LateUpdate — main-thread frames since this Play session started (resets at Play). Same purpose as currentTestSessionTimeSeconds, but frame-granularity.")]
+    [SerializeField] private int currentTestSessionFrame;
     [Tooltip("THE indicator: AudioSource read position vs Microphone write position, in MILLISECONDS. This is the imitone-feed latency. -1 = invalid (clip not ready / mic not started).")]
     [SerializeField] private float currentTestCaptureToMicGapMs;
     [Tooltip("Same as currentTestCaptureToMicGapMs, in samples.")]
@@ -324,6 +328,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             // CURRENT TEST mirrors — copies of values surfaced elsewhere in this Inspector, pinned at
             // the top so the user can read all required diagnostic values without scrolling. Update the
             // CURRENT TEST header + this block whenever the active test changes.
+            currentTestSessionTimeSeconds = Time.time;
+            currentTestSessionFrame = Time.frameCount;
             currentTestCaptureToMicGapMs = interpreter.CaptureToMicGapMs;
             currentTestCaptureToMicGapSamples = interpreter.CaptureToMicGapSamples;
             currentTestFeedPeakAbs = aggAudioThreadFeedPeakAbsLastCallback;

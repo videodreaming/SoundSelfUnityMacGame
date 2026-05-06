@@ -16,6 +16,14 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private int audioCallbackPrimingFramesToSkip = 8;
     [SerializeField] private float audioCallbackGcSuspectMsThreshold = 3f;
 
+    // Step 3a F1 fix: tunable Play()-time alignment budget. See Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md.
+    // The captureSource read head is set this many DSP buffers behind the Microphone write head when capture
+    // starts. Higher = more robust against scheduling jitter / mic-write stalls; lower = faster pitch response.
+    // Each unit ≈ one OnAudioFilterRead callback period (~21 ms at 1024 dsp / 48 kHz). Does NOT affect CPU/battery
+    // — same audio-thread workload either way.
+    [Tooltip("Imitone-feed latency budget at Play()-time alignment. Higher = more robust against scheduling jitter / mic-write stalls; lower = faster pitch response. Each unit ≈ one OnAudioFilterRead callback period (~21 ms at 1024 dsp / 48 kHz). Does NOT affect CPU/battery — same audio-thread workload either way. Range: 1 (~21 ms, latency-optimized, may glitch on jitter) to 6 (~128 ms, very robust, perceptibly laggy for fast voice). Default 3 (~64 ms) is the sweet spot for sustained voice on most platforms. Tune up (4–5) on Surface Pro 11 if you observe pitch drops / glitches at the default.")]
+    [SerializeField, Range(1, 6)] private int audioCapturePlayAlignmentBufferCount = 3;
+
     // Step 3a: imitone is fed from OnAudioFilterRead; reusable buffer sized to current callback's `frames`.
     // Allocations are amortized — frames is constant within a session (= dspBufferSize), so realloc only on
     // audio config change. imitone.InputAudio uses audio.Length as sample count, so we MUST pass an array
@@ -326,6 +334,50 @@ public partial class ImitoneVoiceIntepreter
 
         captureSource.clip = microphoneBuffer;
         captureSource.Play();
+
+        // Step 3a follow-on F1 fix: align captureSource read position close to the Microphone write head.
+        // Without this, Play() starts reading from clip-time 0, but Microphone.GetPosition often reports its
+        // first non-zero value already several seconds into the loop on Unity 2022.3 / Windows. The read
+        // would otherwise lag write by that gap permanently (sixth test run measured ~2.4 s on this machine,
+        // reproduced across two independent Play sessions). Budget = audioCapturePlayAlignmentBufferCount
+        // DSP buffers (sample-rate-portable, Inspector-tunable, default 3 ≈ 64 ms @ 48 kHz / 1024). Bounded
+        // below at 2048 samples in case audio config isn't populated yet. Modulo arithmetic handles the
+        // wraparound case where writePos < latencyBudget.
+        int clipSamples = microphoneBuffer.samples;
+        if (clipSamples > 0)
+        {
+            int writePos = Microphone.GetPosition(microphoneDeviceName);
+            int budgetBuffers = Mathf.Max(1, audioCapturePlayAlignmentBufferCount);
+            int latencyBudget = Math.Max(audioConfigDspBufferSize * budgetBuffers, 2048);
+            int targetRead = ((writePos - latencyBudget) % clipSamples + clipSamples) % clipSamples;
+            captureSource.timeSamples = targetRead;
+            float latencyMs = audioConfigOutputSampleRate > 0
+                ? latencyBudget * 1000f / audioConfigOutputSampleRate
+                : -1f;
+            UnityEngine.Debug.Log($"[Step3a-F1fix] captureSource read aligned: writePos={writePos}, targetRead={targetRead}, latencyBudget={latencyBudget}sa (~{latencyMs:F1}ms; {budgetBuffers} dsp buffers), clipSamples={clipSamples}");
+
+            // Step 3a follow-on F1 diagnostic: did the timeSamples assignment actually take effect, and
+            // when does the gap settle? Three reads at progressively later timing localize the failure
+            // mode if the static gap doesn't end up where we set it. See bug doc seventh test run +
+            // decision tree. Pure observation; no behavioral change. Removable once F1 root cause is locked.
+            int immediateRead = captureSource.timeSamples;
+            int immediateWrite = Microphone.GetPosition(microphoneDeviceName);
+            int immediateGap = ((immediateWrite - immediateRead) % clipSamples + clipSamples) % clipSamples;
+            UnityEngine.Debug.Log($"[Step3a-F1diag] T+0 (immediate): read={immediateRead}, write={immediateWrite}, gap={immediateGap}sa (~{(audioConfigOutputSampleRate > 0 ? immediateGap * 1000f / audioConfigOutputSampleRate : -1f):F1}ms)");
+
+            yield return null;
+            int oneFrameRead = captureSource.timeSamples;
+            int oneFrameWrite = Microphone.GetPosition(microphoneDeviceName);
+            int oneFrameGap = ((oneFrameWrite - oneFrameRead) % clipSamples + clipSamples) % clipSamples;
+            UnityEngine.Debug.Log($"[Step3a-F1diag] T+1frame: read={oneFrameRead}, write={oneFrameWrite}, gap={oneFrameGap}sa (~{(audioConfigOutputSampleRate > 0 ? oneFrameGap * 1000f / audioConfigOutputSampleRate : -1f):F1}ms)");
+
+            yield return new WaitForSeconds(0.5f);
+            int halfSecRead = captureSource.timeSamples;
+            int halfSecWrite = Microphone.GetPosition(microphoneDeviceName);
+            int halfSecGap = ((halfSecWrite - halfSecRead) % clipSamples + clipSamples) % clipSamples;
+            UnityEngine.Debug.Log($"[Step3a-F1diag] T+0.5s: read={halfSecRead}, write={halfSecWrite}, gap={halfSecGap}sa (~{(audioConfigOutputSampleRate > 0 ? halfSecGap * 1000f / audioConfigOutputSampleRate : -1f):F1}ms)");
+        }
+
         audioCaptureStartCoroutine = null;
     }
 
