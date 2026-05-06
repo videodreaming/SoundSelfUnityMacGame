@@ -1216,9 +1216,8 @@ Actual landed commit: **`839a224c`** — `feat(step3a): migrate imitone feed to 
 - **First-pass implementation status (pre-test):** all task checkboxes above are `[x]`; test checklist below is what gets ticked during the run. Lints clean across the four touched files.
 
 - **Active follow-on issues (NOT blocking 3a's main correctness, but blocking the 3a "Test" checklist below):**
-  - **F1 — imitone-feed latency** feels sluggish. Latency telemetry (`captureSource.timeSamples` vs `Microphone.GetPosition`) landed in commit `839a224c`; user testing next to characterize constant-gap vs drift-over-time.
-  - **F2 — voice leaks to speakers.** Prime suspect: `SoundSelfAudioVisualControl/MicrophonePlayback` GameObject is an independent AudioSource playing the mic clip and reaching the Camera's `AudioListener` outside our filter chain.
-  - Both tracked in `Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md`. Step 3a's "Test (3a)" checklist below remains unticked until F1 is at least characterized.
+  - **F1 — imitone-feed latency. ESCALATED to fresh-AI consultation 2026-05-06.** Audio-thread feed delivers voice to imitone correctly (pitch + power track), but with **~2133 ms** of latency — settled within one frame of `captureSource.Play()` regardless of `captureSource.timeSamples` assignment. Eight test runs of evidence + active hypothesis set (engine-enforced minimum read-write distance vs. `Microphone.GetPosition` unreliability vs. Wwise routing latency) + open architectural question (V3/V5 pattern vs. main-thread `Microphone.GetData` polling) — all consolidated in `Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md`. **The bug doc is authoritative for F1.** It contains a "Status snapshot for fresh perspective" intro section so a new AI agent can on-ramp quickly, then a chronological findings log of every test run, then "Active hypotheses (current)" / "Architectural pivot considerations" / "Where we paused — fresh AI handoff" sections at the end. Step 3a's "Test (3a)" checklist remains unticked until F1 is resolved. F1 fix attempt + 3-timed-reads diagnostic + `audioCapturePlayAlignmentBufferCount` SerializeField are uncommitted in working tree pending the consultation outcome.
+  - **F2 — voice leaks to speakers** (audible mic-playback path that bypasses our `Array.Clear`). **Moved out of the bug doc into its own Step 3c above** — it's an audio-routing cleanup, not part of the imitone-feed correctness loop. Bug doc retains a pointer.
 
 - **Review-pass fix #1 — deferred audio-thread logging.** First-pass `OnAudioFilterRead` catch logged the imitone exception via `UnityEngine.Debug.LogWarning($"... {ex.Message}")`. The `$"..."` interpolation is a managed alloc on the audio thread → trips `audioCallbackGCAllocSuspectTotal` → latches `FAIL_AUDIO_GC_ALLOC_DETECTED` permanently on the very first imitone exception of any session. Same false-positive class the user spent Step 2 commits cleaning up (`95e201b5`). **Fixed:** audio thread now `Interlocked.CompareExchange`-publishes the exception reference (no formatting); main thread drains via `Interlocked.Exchange` from `MicIngestMainThreadTick` (`DrainImitoneInputAudioPendingException()`), formats the log message there, and sets a `volatile bool` latch so the audio thread stops capturing further exceptions.
 
@@ -1283,6 +1282,62 @@ Actual landed commit: **`839a224c`** — `feat(step3a): migrate imitone feed to 
 **Commit (3b):** `feat(step3b): move HPF/LPF + _dbMicrophone to audio thread; add tear detection + cross-thread labels`
 
 **Developer notes (3b):** _none yet_
+
+---
+
+#### Step 3c: Audio routing cleanup (silence the speaker leak surfaced by 3a)
+
+> **Goal of this pass:** identify and silence the audible mic-playback path that became audible after 3a's H1e fix. The leak was masked pre-3a by `captureSource.bypassEffects = true`. With `bypassEffects = false` (required for the imitone feed to work — see Step 3a Developer notes / `Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md`), our captureSource's filter chain now zeroes its own output via `Array.Clear(data, ...)` at the end of `OnAudioFilterRead`, but a separate audio path is still routing the mic clip to the system output. This step finds and removes that path.
+>
+> **Recommended LLM for this step: Composer 2 (full)** — primarily investigation + scene cleanup, minimal new code. **Switch to Opus 4.7** for the review pass.
+>
+> **Ordering:** independent of 3b's DSP migration. Either order works. If F2 turns out to be entangled with `DirectVoiceMonitoring` (already log-spamming pre-3a), do 3c first to clear the audio-routing picture before 3b adds another moving part.
+
+**Background (consolidated from `Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md` "F2"):**
+
+Audible mic playback persists post-3a even though our captureSource is silenced via `Array.Clear(data, 0, data.Length)` at the end of `OnAudioFilterRead`. The leak takes a path that doesn't go through our filter.
+
+AudioListener inventory done by user (2026-05-05):
+
+| Component | GameObject | Carries voice to speakers? |
+|---|---|---|
+| `AudioListener` (Unity built-in) | `Camera` | YES — the only Unity listener in scene; routes Unity AudioSources to system output. |
+| `AkAudioListener` (Wwise) | `Camera` | NO (per user — Wwise listener does not carry the mic voice). |
+| `AkAudioListener` (Wwise) | `GameObjectSystem2Listener` | NO (per user). |
+
+Implication: voice is reaching the Camera's `AudioListener` via a **second AudioSource** somewhere in the scene that's playing the mic clip independently of our captureSource. **Prime suspect:** `SoundSelfAudioVisualControl/MicrophonePlayback` GameObject (the name is conspicuous, and it's in the audio-related branch of the hierarchy).
+
+Possibilities, in order of likelihood:
+- **F2a:** `MicrophonePlayback` has its own `AudioSource` (or drives one on a child / on the Camera) playing the mic clip. Most likely.
+- **F2b:** Some other component (`DirectVoiceMonitoring`, `VoiceLogic`, legacy `MicPipeline` left-overs) is doing live mic playback.
+- **F2c (least likely now):** Our captureSource has a filter or listener-effects route we missed. Re-inspect `bypassListenerEffects` / `outputAudioMixerGroup` interactions if F2a/F2b come up empty.
+
+**Tasks:**
+
+*Identify the leak source:*
+- [ ] In Play mode, inspect `SoundSelfAudioVisualControl/MicrophonePlayback` in the Inspector. List all components on it. Check whether any `AudioSource` on it has `clip` referencing the mic clip and `isPlaying = true`.
+- [ ] **Disable test:** uncheck the `MicrophonePlayback` GameObject during a Play session. If the audible voice goes away → F2a confirmed (jump to "Address the leak source"). If the leak persists → continue to the next probe.
+- [ ] If `MicrophonePlayback` is not the source: search the scene for any other `AudioSource` whose `clip` references the microphone clip. Use Hierarchy search `t:AudioSource` and check each one.
+- [ ] If no other AudioSource is playing the mic clip: re-check our captureSource's routing — `outputAudioMixerGroup`, `bypassListenerEffects`, any Wwise-side path that might intercept the filter output before our `Array.Clear` runs.
+
+*Address the leak source (post-identification):*
+- [ ] If `MicrophonePlayback` is a dev/debug tool no longer needed → remove it from the scene (and any code that references it) in this commit.
+- [ ] If `MicrophonePlayback` serves an actual product feature (e.g., onboarding mic-test, dev-mode monitoring) → either gate it behind an explicit Inspector toggle that defaults to off, or re-route it to feed from our audio-thread ring instead of an independent AudioSource.
+- [ ] Whatever the disposition: document the call in this step's Developer notes.
+
+**Notes & considerations (3c):**
+- This step does not touch the audio-thread feed path. It's purely audio-routing cleanup.
+- If the source ends up being something harder to remove cleanly (e.g., a Wwise monitoring path that's actually wanted), document the finding here and consider whether the speaker leak is acceptable for the test build until a larger refactor.
+- Cross-check `DirectVoiceMonitoring` since it's already log-spamming "Buffered transport underflow / starvation" pre-3a. If it's not actively used, retire it in this step.
+
+**Test (3c):**
+- [ ] Tone normally; you should **not** hear your own voice through the speakers.
+- [ ] No regression in any other audio (Wwise music, lights audio-reactivity, monitoring features that should be on).
+- [ ] No new FAIL flags trigger.
+
+**Commit (3c):** `chore(step3c): silence speaker leak surfaced by 3a's H1e fix`
+
+**Developer notes (3c):** _none yet_
 
 ---
 

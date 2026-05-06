@@ -1,9 +1,37 @@
 # Step 3a Bug: imitone non-responsive (audio-thread feed produces no power / no pitch)
 
-> **Status:** Main fix verified (H1e: `bypassEffects = false`). Two follow-on issues active: F1 (imitone-feed latency) and F2 (speaker leak). Awaiting the sixth test run.
+> **Status (2026-05-06):** Original "imitone non-responsive" bug resolved (H1e: `bypassEffects = false`). Imitone now correctly tracks pitch and power when fed voice. One follow-on issue is the active blocker for Step 3a's "Test (3a)" checklist: **F1** — imitone-feed latency is ~2.13 s, not the intended 64 ms. Eight test runs of investigation confirm the gap is enforced by the Unity audio engine within one frame after `Play()`, regardless of our `captureSource.timeSamples` assignment. **Fresh AI consultation in progress** to disambiguate engine-internals questions and consider architectural pivot.
 > **Branch:** `WorkingWwise`.
 > **Step 3a + H1e fix committed:** `839a224c` (`feat(step3a): migrate imitone feed to OnAudioFilterRead + diagnose/fix bypassEffects bug`).
-> **Owner doc for this bug; once F1 + F2 are resolved, append the resolution and link the closing commit(s), then collapse this into a Step 3a Developer note.**
+> **F1 fix attempt + diagnostic + SerializeField promotion (uncommitted, working tree only).**
+> **F2 (speaker leak):** moved to plan **Step 3c**.
+> **Owner doc for this bug. Scope now reduced to F1 only. Once F1 is resolved, append the resolution + closing commit, then collapse this whole doc into a Step 3a Developer note.**
+
+---
+
+## Status snapshot for fresh perspective (read this if you're new to the bug)
+
+**One-paragraph TL;DR:** SoundSelf is migrating microphone ingest to the audio thread (Unity 2022.3 + Wwise, Windows). The canonical V3/V5 pattern is in place: `Microphone.Start` → AudioClip (6 s loop) → AudioSource → `OnAudioFilterRead(data[])` → mono-mix → feed to imitone pitch detector. After fixing `bypassEffects` to `false` (H1e), the audio-thread feed receives real voice and pitch tracking works — but with ~2.13 seconds of latency. We tried to reduce that latency by setting `captureSource.timeSamples = (Microphone.GetPosition - 64ms)` right after `Play()`. Diagnostic logs prove the assignment took effect at T+0 (gap = 64 ms), but **within one frame** the gap jumped to ~2133 ms (= exactly 100 DSP buffers @ 1024-sample buffer / 48 kHz output) and stayed there for the rest of the session. We're stuck on whether the audio engine is enforcing a minimum read-vs-write distance for streaming clips, whether `Microphone.GetPosition` is unreliable in the first frame after `Microphone.Start` (data suggests it is — its reported value jumped 2.92 s in a single Unity frame), or both.
+
+**Active hypotheses for the 2.13 s gap (full text in the [Active hypotheses (current)](#active-hypotheses-current-2026-05-06) section below):**
+
+- **H1: Audio engine enforces a minimum read-vs-write distance** (~102400 samples = 100 DSP buffers) for AudioSources playing streaming/Microphone clips. Setting `timeSamples` after `Play()` is honored momentarily but overridden within one frame.
+- **H2: `Microphone.GetPosition` is unreliable in the very first call after `Microphone.Start`.** Returns lagged/uninitialized values; "true" mic write head is much further ahead. Our `targetRead = laggedWritePos - 64ms` was therefore reading INTO THE FUTURE relative to the actual buffer state, and the engine corrected by snapping read to a "safe" position behind the true write head.
+- **H3: Wwise integration adds ~2 s of latency** somewhere in the audio-routing chain. Plausible but unconfirmed; Wwise typically operates lower-latency than that.
+
+**Open architectural question (raised 2026-05-06):** is the V3/V5 pattern (AudioSource + `OnAudioFilterRead`) actually the right approach for low-latency mic ingest in Unity 2022.3? Alternatives we've considered are listed in the [Architectural pivot considerations](#architectural-pivot-considerations-2026-05-06) section below.
+
+**What we want a fresh perspective on:**
+
+1. Disambiguation of H1 vs H2 (so we don't burn another test cycle to learn which).
+2. Whether the V3/V5 pattern can give us < 100 ms latency in Unity 2022.3 + Wwise + Windows, or if a different architecture is required.
+3. Recommended fix or pivot, with rationale.
+
+**Where we are in the project:** Step 3a's main goal (move imitone feed to audio thread) is mostly done. The "Test (3a)" checklist in `Docs/MIC_VOICE_INGEST_FIX_PLAN.md` is unticked because of F1 above. F2 (speaker leak) was forked off to plan Step 3c. The investigation has produced two committable improvements (the H1e fix and the diagnostic infrastructure) plus one uncommitted F1 fix attempt + diagnostic. We have not yet reverted the F1 fix; it's still in the live script.
+
+**For the fresh AI:** the chronological [Findings log](#findings-log-chronological) below documents every step of the investigation (eight test runs). Sections [Active hypotheses (current)](#active-hypotheses-current-2026-05-06), [Architectural pivot considerations](#architectural-pivot-considerations-2026-05-06), and [Where we paused — fresh AI handoff](#where-we-paused--fresh-ai-handoff-2026-05-06) at the bottom are the freshest material.
+
+---
 
 ## Environment
 
@@ -233,101 +261,368 @@ Audio now flows through the filter chain (our script). The existing `Array.Clear
 
 **H1e CONFIRMED:** `bypassEffects = true` was diverting audio around `OnAudioFilterRead`. With `bypassEffects = false`, the audio flows through our filter; we read it for imitone and `Array.Clear(data)` silences the speaker output of *that* path.
 
-#### Follow-on issue F1: imitone responsiveness is sluggish
+#### Follow-on issue F1: imitone-feed latency (CONFIRMED static ~2.4 s capture-to-mic gap)
 
-User report: "slow to detect, and slow to release. Very slow." Earlier observation (prior test, when `bypassEffects = true` and the speaker path was the bypass route) had a measured-by-perception ~3-second delay between toning and hearing it played back. With `bypassEffects = false`, the audio engine's intermediate buffering plus the AudioSource's read-vs-write-position gap is now the **end-to-end imitone-feed latency**.
+**Root cause (confirmed 2026-05-05, sixth test run):**
 
-Pre-3a, imitone was fed by `microphoneBuffer.GetData(...)` reading directly to whatever the mic driver had just written → very low latency (~10–50 ms). Post-3a, imitone is fed via the AudioSource pipeline whose read position is set when `captureSource.Play()` is called and stays a constant gap behind `Microphone.GetPosition` from then on. If that initial gap is large, all subsequent imitone feeds inherit that latency permanently.
+`captureSource.Play()` starts reading the mic clip from clip-time 0. By the time `WaitMicPositionThenPlayCapture` calls `Play()`, the Microphone has already written some amount of audio into the 6 s loop clip (in our case, ~2.4 s worth). The captureSource's read position therefore starts ~2.4 s behind the Microphone's write position, and **stays there**, because both the read and write clocks advance at the same sample rate from then on. F1-drift is ruled out — the gap was effectively constant across the user's test (2417 ms → 2378 ms over the captured interval; within measurement noise).
 
-`loopLengthSeconds = 6`, so the AudioClip is 6 seconds long — large enough that read-position vs write-position gap can range from ~16 ms to several seconds depending on when `Play()` happens to be called.
+This 2.4 s static lag is the entire perceived sluggishness. Imitone is correctly tracking pitch and power — it's just being fed audio from 2.4 s ago.
 
-**Diagnostic for next test:** add telemetry comparing `captureSource.timeSamples` vs `Microphone.GetPosition` modulo clip length. The result is the imitone-feed latency in samples and ms. If it's > 100 ms or so, we have to fix the read-vs-write alignment before Step 3a can pass acceptance.
+**Why the mic write position is so high at `Play()` time:** on Unity 2022.3 Windows, `Microphone.GetPosition` can stay at 0 for many frames after `Microphone.Start` while the audio driver buffers, then jump to a large value the first time it reports non-zero. `WaitMicPositionThenPlayCapture` breaks out on the first non-zero value and calls `Play()` immediately — but by then the write position is wherever the driver's first non-zero report happened to land. There's no causal relationship between "Microphone has started" and "Play() is starting from a position close to the write head."
 
-**Subsidiary hypothesis F1-drift (added 2026-05-05):** the user reported the responsiveness "thought it was not only slow, but getting slower and slower." Not confirmed yet — needs a multi-second test with the gap telemetry. If true, that's not a static `Play()`-time alignment problem — that's **read-vs-write position drift**, where the AudioSource's read clock and the Microphone driver's write clock disagree by a small fraction (e.g. driver runs at 47999.x Hz vs engine at 48000 Hz) and the gap accumulates over time.
+**Recommended fix (option A, minimal change):**
 
-| `currentTestCaptureToMicGapMs` over a 30 s session | Diagnosis |
-|---|---|
-| Constant (within ±10 ms) | Static `Play()`-time alignment problem. Fix: align read to write at Play. |
-| Monotonically growing (e.g. 200 ms → 400 ms → 800 ms) | F1-drift confirmed. Sample-clock mismatch. Fix: periodic `captureSource.timeSamples` re-sync (snap read close to write every N seconds), OR drop the AudioSource-pipeline approach and read directly from the AudioClip via a different pattern. |
-| Wraps/jumps (e.g. 200 → 5800 → 200 → 5800) | Read position is wrapping around the 6 s loop while the gap measurement is naive about wrap. Compute gap modulo clip length; the underlying value is constant. |
+In `WaitMicPositionThenPlayCapture`, immediately after `captureSource.Play()`, set:
 
-**Likely fix candidates** (deferred until we measure):
-- Use `AudioSource.timeSamples` to align read position close to write position right after `Play()`.
-- Periodic re-sync if F1-drift is real.
-- Reduce `loopLengthSeconds` (only matters if our latency is bounded by clip length).
-- Or accept that the audio-thread AudioSource pipeline has structurally higher latency than direct `Microphone.GetData`, and weigh that against the jitter benefits of audio-thread feed (the rearchitecture's whole motivation).
+```csharp
+captureSource.timeSamples = (Microphone.GetPosition(microphoneDeviceName)
+                             - intentionalLatencySamples + clipSampleCount)
+                            % clipSampleCount;
+```
 
-#### Follow-on issue F2: voice leaks to speakers (audible playback after the H1e fix)
+with `intentionalLatencySamples` ≈ 2 audio frames (~2048 samples ≈ 43 ms at 48 kHz / 1024 dsp buffer). This snaps the read position to be `intentionalLatencySamples` behind the write position, leaving just enough headroom that the audio thread's read doesn't catch up to and overrun the mic driver's write head between updates.
 
-User report after the H1e fix: "I *DO* hear myself through the speakers, but VERY delayed (almost 3 seconds)." With `Array.Clear(data, 0, data.Length)` running at the end of `OnAudioFilterRead`, the captureSource's filter-chain output is zeroed before going to *any* listener. So if voice is reaching speakers, the voice is taking a path that does not go through our filter.
+The `(... + clipSampleCount) % clipSampleCount` handles the wraparound case where mic position is small enough that subtracting the latency budget would otherwise produce a negative read position.
 
-##### AudioListener inventory (2026-05-05, supplied by user)
+**Alternative fixes considered (NOT recommended for the F1 close-out):**
 
-User searched the scene hierarchy for audio listeners and reported the following:
+- **Periodic re-sync:** robust against drift, but the data shows no drift. Don't pre-emptively add complexity. Revisit only if a future test surfaces gap growth.
+- **Drop the AudioSource pipeline:** out of scope; the V3/V5 pattern (AudioSource + `OnAudioFilterRead`) is the rearchitecture's whole point. Reverting would re-introduce the main-thread polling bug.
+- **Reduce `loopLengthSeconds`:** doesn't fix F1; just shrinks the maximum possible misalignment. Doesn't help if the typical misalignment is already smaller than the clip length (which it is here — gap is 2.4 s in a 6 s clip).
 
-| Component | GameObject | User commentary |
+**Acceptance criterion for the F1 fix:**
+
+After the fix, with the same telemetry (`currentTestCaptureToMicGapMs`), the gap should read consistently in the **20–100 ms** range and not change measurably over a session. Imitone responsiveness should perceptually match pre-3a (i.e., feel "real-time" while toning).
+
+#### Follow-on issue F2: voice leaks to speakers — MOVED to plan Step 3c
+
+After the H1e fix, the user reported audible mic playback through speakers (~3 s delayed) even though our `Array.Clear(data, 0, data.Length)` zeros the captureSource's filter-chain output. The leak takes a separate path that doesn't go through our filter.
+
+The full F2 investigation — AudioListener inventory, the `MicrophonePlayback`-GameObject prime suspect, the diagnostic-and-cleanup task list — has been **moved to plan Step 3c (`Docs/MIC_VOICE_INGEST_FIX_PLAN.md`)** because it's an audio-routing cleanup task, not part of the imitone-feed correctness loop that owns this doc.
+
+This doc retains only the brief mention because:
+- F2 was *discovered* during this bug's investigation (the H1e fix made it audible — pre-fix the leak was masked by `bypassEffects = true`).
+- The 5th-test-run findings entry below still references F2 as part of the historical narrative of why we added `Array.Clear`-related diagnostics.
+
+For F2 from here on out: **see plan Step 3c.**
+
+### 2026-05-05 — sixth test run (F1 latency telemetry)
+
+**Result: F1 root cause confirmed — large static capture-to-mic gap (~2.4 s) reproduced across two independent Play sessions. F1-drift NOT ruled out from this data alone (would need two readings from the same Play session); it's likely-not-drift but not proven, and either way the same fix applies.**
+
+User report: "Very unresponsive. I was able to get `Current Test Db Value` to change, but not at all responsively. Very very very very sluggish, laggy."
+
+**Important note on test methodology** (added 2026-05-05 after user clarification): the silent and toning readings below are from **two separate Play sessions** (Editor stopped between them, then restarted). They are therefore two independent `Play()`-time alignment snapshots — not a single-session timeline. Cannot use the deltas between them to reason about within-session drift.
+
+| Probe | Silent session | Toning session | Conclusion |
+|---|---|---|---|
+| `currentTestCaptureToMicGapMs` | **2417 ms** | **2378 ms** | Two independent Play sessions both produced a ~2.4 s gap. Consistent reproduction → the gap is determined by something repeatable in the `Microphone.Start` → first-non-zero-`GetPosition` → `Play()` sequence. |
+| `currentTestCaptureToMicGapSamples` | 116032 | 114176 | Same in samples. |
+| `currentTestCaptureTimeSamples` (read pos) | 98048 | 172544 | Each session's snapshot is independent; no cross-session math. |
+| `currentTestMicWritePosition` (write pos) | 214080 | 286720 | Same — independent per-session snapshots. |
+| `currentTestFeedPeakAbs` | 0.0019 | 0.0002 | Tiny — but expected if what's being read is voice from 2.4 s ago. The "toning" screenshot caught a quiet moment from 2.4 s prior. |
+| `currentTestDbValue` | -120 | -49.76 | Imitone IS picking up voice in the toning session — just 2.4 s delayed. |
+| `currentTestPitchHz` | 0 | 114.5 | Same — imitone tracks voice when it arrives at its input, with the 2.4 s lag baked in. |
+
+**Diagnosis (F1 root cause):**
+
+`captureSource.Play()` starts reading from clip-time 0. By the time `WaitMicPositionThenPlayCapture` calls `Play()`, the Microphone has already written ~2.4 s of audio into the 6 s loop clip. The captureSource's read position therefore starts ~2.4 s behind the Microphone's write position — and stays there for the rest of the session, because both clocks advance at the same sample rate.
+
+This reproduces consistently across Play sessions (2417 ms in one, 2378 ms in another), strongly suggesting the gap is set deterministically by the `Microphone.Start` → first-non-zero-`GetPosition` → `Play()` sequence rather than by chance. **The 2.4 s lag is the entire perceived sluggishness.** Imitone's own lock-on time is not the issue; the audio it's being fed is just 2.4 s old.
+
+**On F1-drift specifically:** can't rule it out from this two-screenshot test (separate sessions). Likely not drift — the AudioSource and Microphone share the audio engine's sample clock, so steady drift would be unusual. If post-fix testing surfaces a slowly growing gap over a long session, escalate to Option B (periodic re-sync) below.
+
+**Why the mic write position is so high when `Play()` is called:** `WaitMicPositionThenPlayCapture` waits for `Microphone.GetPosition > 0`, then calls `Play()`. On Unity 2022.3 Windows, `Microphone.GetPosition` can stay at 0 for the first hundred-or-more ms after `Microphone.Start`, then jump to a large value once the audio driver has buffered enough data. The first non-zero `pos` may already be many seconds into the clip if there's any startup delay between `Microphone.Start` and the first non-zero position read.
+
+**Fix candidates for F1 (deferred to next user decision):**
+
+- **A — Play()-time alignment (minimal change, recommended):** in `WaitMicPositionThenPlayCapture`, after `captureSource.Play()`, immediately set `captureSource.timeSamples = Microphone.GetPosition(deviceName) - intentionalLatencySamples`, where `intentionalLatencySamples` is a small budget (e.g. 2 audio frames ≈ 2048 samples ≈ 43 ms at 48 kHz / 1024 dsp buffer). This snaps the read position close to the write position, leaving just enough headroom to avoid read-overruns-write underflow.
+- **B — Periodic re-sync (more robust, only if drift surfaces later):** every N seconds, check the gap. If it has grown beyond a threshold, snap `timeSamples` back into alignment. The current data says drift is not happening, so don't pre-emptively add this; revisit only if a future test shows growth.
+- **C — Drop the AudioSource pipeline entirely:** out of scope; the rearchitecture's whole point is using `OnAudioFilterRead`'s data parameter (V3/V5 pattern), and that requires an AudioSource playing the mic clip.
+
+Recommend A. Lands as a small targeted commit (one line plus a comment) and unblocks 3a's "Test (3a)" checklist.
+
+**Side observation: `currentTestKnownFalsePositive_GcAlloc` latched again in this run.** Same Step 2 false-positive class as before. Cleanup-queue item; not relevant to F1.
+
+### 2026-05-05 — seventh test run: F1 fix applied — DID NOT WORK AS EXPECTED
+
+**Result: F1 fix code ran successfully and the math was right, but the resulting gap stabilized at ~2.1 s instead of the intended 64 ms. Drift definitively ruled out (gap identical across two screenshots 32 s apart in the same session).**
+
+**Console (one log line — one Play() event, no rebootstrap during session):**
+
+```
+[Step3a-F1fix] captureSource read aligned: writePos=20480, targetRead=17408, latencyBudget=3072sa (~64.0ms), clipSamples=288000
+```
+
+**Test screenshots (same Play session):**
+
+| Probe | Test 1 (sessionTime 29.62s, frame 4265) | Test 2 (sessionTime 61.44s, frame 9189) |
 |---|---|---|
-| `AkAudioListener` (Wwise) | `GameObjectSystem2Listener` (positioned at world coords ~`(1475, 809, 85)`) | "Does not pass on the voice to Wwise." |
-| `AkAudioListener` (Wwise) | `Camera` | "Does not pass on the voice to Wwise." |
-| `AudioListener` (Unity built-in) | `Camera` | The single Unity audio listener — only listener that can route Unity AudioSources to the system speakers. |
+| `currentTestCaptureToMicGapMs` | **2090.667** | **2090.667** (identical) |
+| `currentTestCaptureToMicGapSamples` | 100352 | 100352 (identical) |
+| `currentTestCaptureTimeSamples` | 29440 | 116224 |
+| `currentTestMicWritePosition` | 129792 | 216576 |
+| `currentTestFeedPeakAbs` | 0.0031 | 0.0036 |
+| `currentTestDbValue` | -120 (silent) | -53.13 (toning) |
+| `currentTestPitchHz` | 0 | 108.18 |
 
-**Implication:** Wwise's listener layer is **not** carrying the voice (per user). The audible voice is going through **Unity's** standard `AudioSource → AudioListener (Camera)` path. So F2 is NOT a Wwise-takeover issue — F2 is a **second Unity-side AudioSource** somewhere in the scene that's playing back the mic clip and reaching the Camera's `AudioListener` independently of our captureSource.
+User perceptual: "not at ALL responsive."
 
-##### The prime F2 suspect: `MicrophonePlayback` GameObject
+**Math analysis (confirms F1 fix code DID execute correctly, but didn't achieve the intended gap):**
 
-User's hierarchy screenshot shows:
+- Read advanced from `targetRead=17408` (set by F1 fix at Play() time): consistent with 48 kHz advance + clip-wraparound math, indicates `T_play ≈ 5.4 s` into the session.
+- Write advanced from `writePos=20480`: at sessionTime 29.62s should be at `(20480 + 24.25 * 48000) mod 288000 = 32480` — but actual is **129792**. Discrepancy: ~97,300 samples = **~2 s extra advancement of write** that wall-clock-from-Play() does not account for.
+- Drift: write advanced exactly 86,784 samples between Test 1 and Test 2; read advanced exactly 86,784 samples in the same interval. **No drift.** Whatever caused the gap to grow from 64 ms → 2.1 s happened *once* (between Play() and the first measurement), then both clocks stayed perfectly in sync.
+
+**Hypotheses for why the fix didn't take (most → least likely):**
+
+- **H_F1_fail_1: Unity pre-buffers ~2 s of streaming-clip audio at `Play()` time, and the `timeSamples` assignment after `Play()` doesn't reposition the pre-buffered chunks.** The audio engine had already queued ~2 s of audio from clip-time 0 forward when `Play()` was called. Our `timeSamples=17408` updated the *next-fetch* pointer, but the queued-up samples drained first. Once they drained, the read settled at "always 2 s behind write" because that's where the queue caught up to. The reported `captureSource.timeSamples` reflects the *engine's notion* of read pointer, which evolves consistently from 17408 — but what `OnAudioFilterRead` actually delivers is from the queue, ~2 s behind.
+- **H_F1_fail_2: Mic-recovery happened mid-session, bumping write position forward 2 s without rebootstrap.** Ruled out — `BootstrapAudioThreadCapturePath` always goes through `WaitMicPositionThenPlayCapture` which always logs `[Step3a-F1fix]`. User pasted only one log line. No rebootstrap occurred.
+- **H_F1_fail_3: `Microphone.GetPosition` reports a position that's ~2 s ahead of where the AudioSource actually reads from** (Wwise / Windows-driver quirk). Possible but less likely than H_F1_fail_1.
+
+**Diagnostic to disambiguate (next test):**
+
+Add three timed reads of `captureSource.timeSamples` + `Microphone.GetPosition` to `WaitMicPositionThenPlayCapture`, immediately after the existing assignment:
+
+1. Immediate (same coroutine tick, same frame).
+2. After `yield return null` (1 frame later).
+3. After `yield return new WaitForSeconds(0.5f)` (audio engine fully primed).
+
+**Decision tree:**
+
+| Immediate gap | +1 frame gap | +0.5 s gap | Diagnosis |
+|---|---|---|---|
+| ~64 ms | ~64 ms | ~2 s | **H_F1_fail_1 confirmed.** Unity pre-buffer drains and resettles at ~2 s. Fix path: switch to a main-thread-fed ring (read mic via `Microphone.GetData`, populate our ring, have `OnAudioFilterRead` read from our ring instead of `data[]`) — bypasses the AudioSource pre-buffer entirely. |
+| ~2 s | ~2 s | ~2 s | `timeSamples` assignment was effectively ignored. Try `captureSource.time` (seconds) workaround; if also no-op, same fix path as H_F1_fail_1. |
+| ~64 ms | ~64 ms | ~64 ms | Fix worked at the AudioSource-pointer level! Then the user-reported sluggishness has a different root cause — investigate downstream (e.g., a buffer in the imitone-feed→imitone-state pipeline). |
+| Other patterns | | | Refine hypothesis based on what we see. |
+
+**Diagnostic added (2026-05-05, uncommitted) in same edit pass that promoted the latency budget to a SerializeField:**
+
+- `audioCapturePlayAlignmentBufferCount` (`[SerializeField, Range(1, 6)] int = 3`): the latency budget, now Inspector-tunable in dsp-buffer units. Each unit ≈ one OnAudioFilterRead callback period (~21 ms @ 1024 / 48 kHz). Default 3 (~64 ms) is the sweet spot for sustained voice. Tooltip carries the full tradeoff explanation. Promotion does NOT affect CPU/battery — pure latency-vs-jitter-robustness tradeoff.
+- Three `[Step3a-F1diag]` log lines added immediately after the existing F1 fix's `captureSource.timeSamples = targetRead` assignment in `WaitMicPositionThenPlayCapture`:
+  - **T+0 (immediate, same coroutine tick):** read, write, gap.
+  - **T+1 frame** (after `yield return null`): read, write, gap.
+  - **T+0.5 s** (after `yield return new WaitForSeconds(0.5f)`): read, write, gap.
+- Each line reports gap in samples and ms.
+- Pure observation; no behavioral change. Removable in one block once F1 root cause is locked.
+
+
+
+
+
+**Code changes (uncommitted):**
+
+1. `ImitoneVoiceIntepreter.AudioThread.cs:WaitMicPositionThenPlayCapture` — after `captureSource.Play()`, snap `captureSource.timeSamples` to `Microphone.GetPosition - latencyBudget`, where `latencyBudget = Math.Max(audioConfigDspBufferSize * 3, 2048)` samples (~64 ms at 48 kHz / 1024 dsp buffer; sample-rate portable). Always-positive modulo handles the wraparound case (`writePos < latencyBudget`). One-shot `UnityEngine.Debug.Log` `[Step3a-F1fix]` per session for verification.
+2. `MicVoiceIngestDebugAggregate.cs` CURRENT TEST block — added `currentTestSessionTimeSeconds` (`Time.time`) and `currentTestSessionFrame` (`Time.frameCount`) so the user can report when in the session a screenshot was taken (enables true within-session drift comparison). Tooltip rewritten as the F1 fix verification protocol.
+
+**Test protocol (for user):**
+
+Same Play session, two screenshots:
+
+- Screenshot A: ~2–5 s after entering Play, while toning. Report `sessionTimeSeconds`, `sessionFrame`, `gapMs`, `gapSamples`, `feedPeakAbs`, `dbValue`, `pitchHz`.
+- Screenshot B: 20–30 s later, still in same Play session, still toning. Same fields.
+- Console: paste the `[Step3a-F1fix]` log line (one per session).
+- Perceptual: how does it feel? Real-time, still laggy, in between?
+
+**Acceptance:**
+
+- A's `gapMs` in 20–100 ms range → F1 fix worked. Static gap is now at the intentional budget.
+- A vs B `gapMs` delta < 20 ms → no drift; static alignment is the whole story; F1 closes.
+- A vs B `gapMs` delta > 100 ms → drift exists; escalate to Option B (periodic re-sync) as a follow-on commit.
+- A's `gapMs` > 500 ms → fix failed or didn't apply; check the `[Step3a-F1fix]` log line was actually printed.
+
+### 2026-05-06 — eighth test run: F1 fix applied + 3-timed-reads diagnostic — DECISIVE EVIDENCE
+
+**Result: F1 fix's `timeSamples` assignment is honored at T+0 but overridden by the audio engine within a single Unity frame (≤ ~16 ms wall clock). Static gap settles at exactly 102400 samples = 100 DSP buffers @ 1024 / 48 kHz = 2133.33 ms. Plus: `Microphone.GetPosition` is suspicious in the very first frame after `Microphone.Start` — it jumped 140288 samples (2.92 s of audio) in one Unity frame, which is impossible at real-time playback.**
+
+**Console output (one Play session, in order, copy-paste from Editor):**
 
 ```
-MainGame
-  ├ EventSystem
-  ├ Camera                       ← AudioListener here (system output)
-  ├ Global_WwiseRenderer
-  ├ ...
-  └ SoundSelfAudioVisualControl
-      ├ Imitone                  ← our captureSource lives here
-      ├ VoiceLogic
-      ├ MicrophonePlayback       ← ★ F2 PRIME SUSPECT ★
-      ├ MusicSystem
-      ├ LightControl
-      └ ...
+[Step3a-F1fix] captureSource read aligned: writePos=19456, targetRead=16384, latencyBudget=3072sa (~64.0ms; 3 dsp buffers), clipSamples=288000
+[Step3a-F1diag] T+0 (immediate):  read=16384,  write=19456,  gap=3072sa   (~64.0ms)
+[Step3a-F1diag] T+1frame:         read=57344,  write=159744, gap=102400sa (~2133.3ms)
+[Step3a-F1diag] T+0.5s:           read=79872,  write=182272, gap=102400sa (~2133.3ms)
 ```
 
-The GameObject literally named **`MicrophonePlayback`** under `SoundSelfAudioVisualControl` is by far the most likely culprit. The name suggests an AudioSource that plays back the mic clip for monitoring purposes — a feature the codebase had at some point and may still have on its own loop. It would route its audio through the Camera's `AudioListener` independently of our captureSource and is unaffected by our `Array.Clear`.
+**The two impossible-without-engine-magic numbers:**
 
-##### Possibilities, revised
+1. **Read advance T+0 → T+1f: `57344 - 16384 = 40960` samples = 853 ms of audio in one Unity frame.** Wall clock for one frame at ~60 fps is ~16.7 ms. The audio engine fast-forwarded the read pointer by ~50× wall clock to "catch up" to where it wanted the read head to be.
+2. **Write advance T+0 → T+1f: `159744 - 19456 = 140288` samples = 2922 ms of audio in one Unity frame.** Even more dramatic. Either:
+   - The Microphone driver buffered ~2.9 s of audio before reporting any non-zero position (consistent with the original ~2.4 s gap pre-F1-fix — the symptom that prompted F1 in the first place); the first call returned a stale/lagged value, the second call returned the true write head.
+   - OR `Microphone.GetPosition` returns wall-clock-relative values, not sample-buffer-relative, with some startup quirk.
 
-- **F2a (most likely):** `MicrophonePlayback` GameObject has its own AudioSource (or its own internal logic that drives an AudioSource on a child / on `Camera` / on the listener itself) playing back the mic clip. That source's filter chain (if any) doesn't include our `Array.Clear`, so voice reaches the speakers.
-- **F2b:** Some other component — `DirectVoiceMonitoring`, `VoiceLogic`, etc. — is doing live mic playback. Less likely than F2a but worth a quick check given that `DirectVoiceMonitoring` is already noisy in the Console.
-- **F2c (least likely now):** Our captureSource has a filter or listener-effects route we missed. If F2a/F2b come up empty, double-check `bypassListenerEffects` / `outputAudioMixerGroup` interactions on Unity 2022.3.
+**Stable gap = exactly 100 DSP buffers.** `audioConfigDspBufferSize = 1024` (visible in earlier telemetry); `gap = 102400 = 1024 × 100`. This is too clean to be coincidence — it strongly suggests the engine maintains a fixed read-vs-write distance (in DSP-buffer units) for streaming-clip AudioSources, regardless of what we set `timeSamples` to.
 
-##### Diagnostic for next test
+**Math verifies T+0 was real:** `(targetRead - 0) = 16384` matches `targetRead` from the F1 fix log. `gap T+0 = 3072` matches `latencyBudget = 3072`. So the assignment WAS applied at T+0; the engine then snapped both pointers within one frame.
 
-1. **Inspect `MicrophonePlayback` in the Inspector during Play.** What components does it have? Any `AudioSource`? Any custom mic-playback `MonoBehaviour`?
-2. **Disable `MicrophonePlayback` (uncheck the GameObject)** and re-run the test. If the leak goes away → F2a confirmed. If the leak persists → it's coming from elsewhere; investigate F2b.
-3. **Cleanup decision** once F2 source is identified:
-   - If `MicrophonePlayback` is a debug/dev tool that can simply be removed from the scene → fastest fix.
-   - If it's serving an actual product feature (mic monitoring during onboarding, etc.) → either re-route it to feed from our audio-thread ring, or clean up its routing so it's silent by default.
+**No drift across the session — confirmed twice now.** Test 7's two screenshots at sessionTime 29.6 s vs 61.4 s gave identical `gap = 100352 samples = ~2090 ms` (very close to test 8's 102400 = 2133 ms — the small difference is likely because test 7 used a different audioConfigDspBufferSize at that exact reading, or a fractional offset; both readings represent the same "engine-enforced steady-state gap" behavior).
 
-**This is NOT blocking 3a's correctness** — the imitone feed is now fed real voice. The leak is an audio-routing aesthetic issue (we don't want the user to hear themselves through speakers in normal play) but doesn't affect pitch tracking. **Triage decision:** measure F1 first (latency telemetry was added to the same commit as this update); if F2 source is confirmed-by-disabling to be `MicrophonePlayback`, the cleanup is likely a simple disable / remove and lands cheaply alongside F1's fix.
+**Implications for hypotheses:**
 
-### 2026-05-05 — sixth test run (F1 latency telemetry + F2 source identification) — IN PROGRESS
+- **H_F1_fail_1 (Unity pre-buffers ~2 s at Play() time, drains, then settles):** Partially confirmed. The gap DOES settle at a large value within one frame. But the steady-state value is *exact 100 DSP buffers*, not "however much was pre-buffered" — so it's not a one-time pre-buffer drain, it's an ongoing engine policy.
+- **H_F1_fail_2 (mic recovery mid-session):** Already ruled out (only one `[Step3a-F1fix]` log, no rebootstrap).
+- **H_F1_fail_3 (`Microphone.GetPosition` reports value ahead of where AudioSource reads):** Now **strongly supported** by the 140288-sample jump in one frame. Either the first call returns a value that doesn't reflect the current driver buffer state, OR the value it returns is what the driver had ~2.4 s ago. We can't tell from these readings alone which.
 
-**What's being tested:**
-1. **F1 latency:** the new `currentTestCaptureToMicGapMs` / `currentTestCaptureToMicGapSamples` telemetry on the `CURRENT TEST` block reports the live AudioSource-read vs Microphone-write gap. User tones, reports the value while toning, and **also** reports whether it appears stable or growing over a 10–30 s session (testing F1-drift).
-2. **F2 source:** user inspects `MicrophonePlayback` GameObject under `SoundSelfAudioVisualControl`, lists its components, and tries disabling it to see if the leak goes away.
+**Refined active hypothesis set (post-test-8) — see `## Active hypotheses (current, 2026-05-06)` below.**
 
-**Decision tree for F1:**
-- Gap < 50 ms, stable → AudioSource read is well-aligned. Sluggishness is from somewhere else (imitone's own lock-on time, tone-active timer thresholds, or perceptual artifact). **Step 3a passes — F1 closed as "not a bug."**
-- Gap 50–250 ms, stable → typical AudioSource buffering. Acceptable for tone tracking but worth a Play()-time alignment fix to reduce perceived lag. **Step 3a borderline; minor fix lands either in 3a's commit or as a 3a-followup commit.**
-- Gap > 500 ms, stable → bad. Need a Play()-time alignment fix before 3a. **Step 3a blocked.**
-- Gap > 1000 ms, stable → matches the user's earlier ~3 s perception. Confirms F1 root cause is initial Play()-time alignment.
-- Gap **growing over time** → F1-drift confirmed. Sample-clock mismatch. Need periodic re-sync. **Step 3a blocked until fix.**
+User perceptual: "not at ALL responsive."
 
-**Decision tree for F2:**
-- Disabling `MicrophonePlayback` silences the leak → F2a confirmed. Cleanup: decide if `MicrophonePlayback` is needed (likely a dev/debug tool that can be removed) or re-route its source.
-- Disabling `MicrophonePlayback` does NOT silence the leak → look elsewhere (F2b candidates: `DirectVoiceMonitoring`, `VoiceLogic`).
+**Code state:** F1 fix + 3-timed-reads diagnostic + `audioCapturePlayAlignmentBufferCount` SerializeField are all uncommitted in working tree. Decision on what to commit / revert is deferred until the fresh AI consultation completes.
 
-Awaiting test results.
+### 2026-05-05 — F2 (speaker leak) handed off to plan Step 3c
+
+F2 (audible mic playback through speakers post-3a) is no longer tracked in this doc. It's been moved to the main plan as **Step 3c: Audio routing cleanup** (`Docs/MIC_VOICE_INGEST_FIX_PLAN.md`). Reasoning:
+
+- F2 is an audio-routing cleanup task, not part of the imitone-feed correctness investigation that owns this doc.
+- The diagnostic for F2 is "inspect & disable `MicrophonePlayback`" — a discrete, scope-bounded task that fits the plan-step model better than a bug-investigation log.
+- The AudioListener inventory and prime-suspect reasoning for F2 lived briefly in this doc (5th test run + the F2 follow-on subsection) and have been **consolidated into Step 3c's Background section** in the plan doc. No information lost.
+
+If the F2 investigation surprises us (e.g., leak persists after disabling `MicrophonePlayback` and the source turns out to be subtle), Step 3c may sprout its own bug doc at that point. Until then, treat the plan-step entry as authoritative.
+
+## Active hypotheses (current, 2026-05-06)
+
+These are the live hypotheses for why the imitone-feed gap settles at ~2133 ms and we can't shrink it. Listed in current order of subjective probability. **Not yet disambiguated** — that's the question we want a fresh perspective on.
+
+### H1: Unity audio engine enforces a minimum read-vs-write distance for AudioSources playing streaming/Microphone-fed clips
+
+**Strongest hypothesis.** Stable gap = exactly **100 DSP buffers** (`102400 = 1024 × 100`) — too clean to be accidental. The engine appears to maintain a configured "scheduling lookahead" between an AudioSource's read pointer and the streaming source's write pointer. When `timeSamples` is set to a value that violates this lookahead, the engine snaps the read pointer back to satisfy it within one frame.
+
+**Why it'd be 100 buffers specifically:** Unity 2022.3's audio engine config has `dsp buffer count` (latency presets — Best Latency = 2 buffers, Good Latency = 4, Best Performance = 8, default ~ 4–8). 100 buffers is far above any documented preset, so this might be a Microphone-clip-specific or Wwise-integration-specific lookahead. We do not know the source.
+
+**Implications if true:**
+
+- `captureSource.timeSamples = X` is effectively ignored for streaming clips. The engine treats it as a *suggestion* and snaps to its enforced distance.
+- We can't shrink F1 below ~2133 ms via the V3/V5 pattern as currently configured.
+- Possible levers: `AudioConfiguration.dspBufferSize`, audio latency project setting, Wwise integration config, or AudioSource-level settings we haven't tried (`bypassListenerEffects`, `outputAudioMixerGroup`, etc.).
+
+**What would confirm:** changing `dspBufferSize` and watching whether the steady-state gap scales proportionally. If we double `dspBufferSize` from 1024 to 2048 and the gap stays at exactly 100 × new buffer size = 204800 samples, H1 confirmed. If the gap stays at 102400 samples regardless, the constant is samples-not-buffers and the hypothesis needs adjustment.
+
+### H2: `Microphone.GetPosition` is unreliable in the first frame after `Microphone.Start`, and the F1 fix asked the engine to read INTO THE FUTURE
+
+**Possibly co-occurring with H1.** The 140288-sample jump in `Microphone.GetPosition` between T+0 and T+1f (one Unity frame, ~16.7 ms wall clock) is impossible if the call always returns the true buffer write position. Either:
+
+- The first call returns a stale / lagged / cached value (e.g., last reported value from before the audio thread fully started).
+- The first call returns ~0 worth of audio "since Microphone.Start" but reported in a coordinate system that's still un-initialized.
+
+**Implications if true:**
+
+- Our F1 fix computed `targetRead = laggedWritePos - 64ms`. If `laggedWritePos` was actually behind the *true* write head by ~2 s, then `targetRead` was effectively pointing 2.06 s behind the true write head. The engine then "corrected" the read pointer to the next valid read position relative to the true write — coincidentally the same ~2133 ms gap H1 would produce.
+- A simple fix: `yield return new WaitForSeconds(N)` (where N ≥ ~50–100 ms) before reading `Microphone.GetPosition`, so the driver has time to populate position data. Then snap `timeSamples` based on the *true* write head.
+
+**What would confirm:** add a 4th diagnostic read at T+1.0s and T+2.0s with no `timeSamples` reassignment. If `Microphone.GetPosition` keeps advancing at real-time rates after a brief startup, H2 is the issue. If it advances at exactly real-time *but the gap stays at 100 DSP buffers regardless of when we read*, H1 dominates.
+
+**Caveat:** the strongest evidence for H2 is the "impossible jump" in T+0 → T+1f. But the engine read pointer also advanced at >real-time during the same window. So both the read AND write clocks were doing weird things in the first frame after `Play()`. Hard to tease apart from the test 8 data alone.
+
+### H3: Wwise integration adds latency in the audio routing chain
+
+**Lowest probability but plausible.** Wwise is in the chain (project uses `AkSoundEngine` widely; there's an `AkAudioListener` on the Camera and on `GameObjectSystem2Listener`). Wwise's integration with Unity AudioSources can add buffering to handle effect chain processing.
+
+**Why probability is low:**
+
+- Wwise typically operates in single-digit-ms latency for its own routing.
+- 2133 ms = 100 DSP buffers is a *Unity* unit, not a Wwise unit.
+- The user verified neither Wwise listener carries voice to speakers (per Step 3c F2 inventory).
+
+**Couldn't cleanly rule out:** Wwise's Unity integration might add an internal buffer queue we're not aware of, especially for AudioSource paths that go through `OnAudioFilterRead`.
+
+### H4 (low probability, kept for completeness): there's a buffer in OUR pipeline contributing to the latency
+
+The current path: `Microphone` → `microphoneBuffer` (AudioClip) → `captureSource` → `data[]` in `OnAudioFilterRead` → `monoScratch` (mono mix) → `imitoneFeedBuffer` → `imitone.InputAudio`.
+
+`monoScratch` and `imitoneFeedBuffer` are per-callback scratch buffers that don't accumulate across callbacks (overwritten each call). They cannot contribute to a 2133 ms persistent gap. The audio-thread ring buffer is also not in the imitone feed path (it's parallel infrastructure for Step 3b's DSP move). Confirmed by code inspection.
+
+**This was raised by the user as a sanity-check question on 2026-05-06**: see `## Architectural pivot considerations` for the full discussion.
+
+## Architectural pivot considerations (2026-05-06)
+
+User raised a sharp question on 2026-05-06: *"Why are we writing into a buffer and then into imitone? Why don't we just send the frame's samples directly into imitone (via the filters... eventually)?"*
+
+The question has two parts: (a) the specific concern about buffer indirection in our current code, and (b) the broader architectural concern about whether the V3/V5 (AudioSource + `OnAudioFilterRead`) pattern is the right call at all.
+
+### (a) Per-callback buffer indirection in current code
+
+The current audio-thread feed path inside `OnAudioFilterRead`:
+
+```
+data[]                          // input from engine (interleaved stereo @ output sample rate)
+  → monoScratch[]              // mono-mix scratch buffer (pre-allocated, overwritten each callback)
+  → imitoneFeedBuffer[]        // resized scratch buffer, exact frame count for imitone
+  → imitone.InputAudio(...)    // synchronous call
+```
+
+**Each of these buffers exists for a real reason:**
+
+- `monoScratch` — Unity's `data[]` is interleaved stereo (or whatever channel count the output is). imitone wants mono. We collapse left+right → mono into `monoScratch` before the call.
+- `imitoneFeedBuffer` — `imitone.InputAudio` documentation indicates a specific buffer layout / size. We size and copy into a known shape so imitone is fed correctly.
+- The audio-thread ring buffer (`audioRingBuffer`) — **NOT in this path.** That's a separate parallel structure for Step 3b's DSP migration. It's currently being written from `data[]` but is not read by imitone.
+
+**Could we feed `imitone.InputAudio` directly from `data[]` (or skip `imitoneFeedBuffer`)?** Probably yes, if imitone tolerates non-mono input or if `monoScratch` could double as `imitoneFeedBuffer`. That would save one memcpy per callback (~21 ms cadence; sub-microsecond saving). **It would not change the latency** — the latency is upstream of `OnAudioFilterRead` entirely. It's in how the AudioSource gets its `data[]` in the first place.
+
+**Verdict on (a):** these per-callback buffers are not the cause of F1. Streamlining them is a worthwhile micro-optimization for Step 3a's review pass but won't move the needle on latency.
+
+### (b) Is V3/V5 (AudioSource + `OnAudioFilterRead`) the right architecture at all?
+
+**This is the harder, more interesting question.** The V3/V5 pattern was chosen because it's the *canonical* way to read mic audio at the engine's mixer rate without resampling on the main thread. The original Step 1 plan rationale: get sample-rate-correct mic audio on the audio thread, then move imitone feed (Step 3a) and DSP (Step 3b) onto the same thread.
+
+But the cost of using V3/V5 for *Microphone-backed clips specifically* may be the engine-enforced read-write distance we're hitting in H1 above. If that's a fundamental property of the path — and not configurable below ~100 DSP buffers — then V3/V5 imposes a floor latency around 2 s on this hardware/Unity-version combination.
+
+**Alternative architectures we could consider:**
+
+1. **Main-thread `Microphone.GetData` polling, audio-thread reads from our ring buffer.**
+   - Main thread polls `Microphone.GetPosition` + `Microphone.GetData(samples, offset)` each Update / FixedUpdate, writes into our existing `audioRingBuffer`.
+   - `OnAudioFilterRead` reads from the ring (instead of `data[]`) and feeds imitone.
+   - We *also* still have a captureSource if Step 3b's DSP needs to be in the audio chain — but the imitone path bypasses it entirely.
+   - **Pros:** breaks free of any AudioSource-imposed latency; mic-to-imitone latency = main-thread polling cadence + ring depth (controllable, can be ~20 ms).
+   - **Cons:** main-thread polling re-introduces the original Phase 1 problem of "what if the main thread blocks for >mic loop length?" — though the mic loop is 6 s long, so in practice this is only an issue if the main thread stalls for >6 s. Mitigatable with main-thread health monitoring.
+   - **Honest cons-2:** sample-rate question. `Microphone.GetData` returns at the mic capture rate, not the audio engine's output rate. We'd need to resample (or check that they're identical — they are right now: both 48 kHz).
+
+2. **Hybrid: AudioSource for DSP chain (Step 3b), main-thread polling for imitone feed.**
+   - imitone gets a low-latency path via main-thread polling.
+   - DSP filters can still go in `OnAudioFilterRead` once Step 3b lands, fed from the same ring (or the AudioSource path) — DSP outputs into the speaker chain (or gets discarded for monitoring purposes), but doesn't affect imitone.
+   - **Pros:** low imitone latency without abandoning the V3/V5 pattern entirely.
+   - **Cons:** two sources of truth for "what audio is being processed right now."
+
+3. **Native plugin (out of scope for now).** Build a native audio capture plugin that reads from the OS mic device directly, bypasses Unity's `Microphone` API entirely. Would give full control over latency but is a significant build/maintenance cost. **Not seriously on the table** unless options 1 & 2 prove inadequate.
+
+4. **Accept the latency and move it elsewhere in the perceived timeline.** E.g., if SoundSelf can buffer the user's tone and play it back through the visualizer with an offset that's "behind the user's voice but reactive to it," the latency might be aesthetically acceptable. **Out of scope for the rearchitecture; this is a product-design decision.**
+
+**Verdict on (b):** if H1 is confirmed and the engine-enforced gap can't be configured below ~2 s, options 1 or 2 (main-thread polling for imitone feed) become the most likely path forward. We were avoiding them because they re-introduce some of the failure modes V3/V5 was designed to avoid, but with the audio-thread ring buffer infrastructure already in place from Step 1, the failure-mode mitigation is much cheaper than it was before Step 1.
+
+## Where we paused — fresh AI handoff (2026-05-06)
+
+After the eighth test run we have decisive evidence about the **mechanism** (engine snaps the gap to 102400 samples within one frame after `Play()`, regardless of `timeSamples` assignment) but lack engine-internals knowledge to disambiguate H1 vs H2 cleanly, and we're unsure whether the V3/V5 pattern is even tractable for low-latency mic ingest in this engine version. We're at the limit of what brute-force diagnostic-and-fix iteration can give us without burning more test cycles per learning.
+
+**What we'd find most valuable from a fresh perspective:**
+
+1. **H1 vs H2 disambiguation.** Is the 100-DSP-buffer minimum-gap-for-streaming-clips a real Unity 2022.3 behavior? Documented anywhere? Is it tied to `dspBufferSize`, latency preset, or something Microphone-specific? Or is the more parsimonious explanation actually H2 (Microphone.GetPosition unreliable for first ~1 frame)?
+2. **Architectural pivot recommendation.** Given H1 may be insurmountable for V3/V5: should we pivot to "main-thread `Microphone.GetData` → ring buffer → audio-thread reads from ring → feeds imitone", and what are the gotchas with that approach in Unity 2022.3 + Wwise + Windows?
+3. **Concrete fix or next experiment.** What's the smallest test that would let us decide between H1, H2, and the architectural pivot, with maximum information per test cycle?
+
+**What's available to the fresh AI:**
+
+- This document (you're reading it).
+- `Docs/MIC_VOICE_INGEST_FIX_PLAN.md` (project-level rearchitecture plan; Step 3a is the active phase, this bug blocks its acceptance).
+- The full source for the audio-thread feed: `Assets/Scripts/Voice/ImitoneVoiceIntepreter.AudioThread.cs` (especially `OnAudioFilterRead`, `BootstrapAudioThreadCapturePath`, `WaitMicPositionThenPlayCapture`).
+- `Assets/Scripts/Voice/ImitoneVoiceIntepreter.MicIngest.cs` — legacy main-thread mic path that proves microphone capture itself is healthy.
+- `Assets/Scripts/Voice/MicVoiceIngestDebugAggregate.cs` — in-Editor telemetry surface.
+- The eight-test-run findings log above.
+
+**What's NOT yet available** but the fresh AI could reasonably ask for:
+
+- A minimal repro project isolating just the AudioSource + Microphone path (we haven't built one — would take ~1 hour).
+- Profiler captures from a Play session (haven't taken any).
+- Specific Audio Project Settings values (`AudioConfiguration` defaults, latency preset). Easy for us to surface on request.
+- Wwise project configuration details (mostly opaque to us; could be retrieved if necessary).
+
+**Code state at handoff (uncommitted):**
+
+- `ImitoneVoiceIntepreter.AudioThread.cs:WaitMicPositionThenPlayCapture` — F1 fix (timeSamples assignment after Play) + 3-timed-reads diagnostic.
+- `ImitoneVoiceIntepreter.AudioThread.cs` — `audioCapturePlayAlignmentBufferCount` SerializeField (Inspector-tunable latency budget).
+- `MicVoiceIngestDebugAggregate.cs` CURRENT TEST block — F1 verification fields.
+
+The fresh AI should feel free to recommend reverting any/all of the above as part of the pivot.
 
 ## Open questions
 
