@@ -1,11 +1,13 @@
 # Step 3a Bug: imitone non-responsive (audio-thread feed produces no power / no pitch)
 
-> **Status (2026-05-06):** Original "imitone non-responsive" bug resolved (H1e: `bypassEffects = false`). Imitone now correctly tracks pitch and power when fed voice. One follow-on issue is the active blocker for Step 3a's "Test (3a)" checklist: **F1** — imitone-feed latency is ~2.13 s, not the intended 64 ms. Eight test runs of investigation confirm the gap is enforced by the Unity audio engine within one frame after `Play()`, regardless of our `captureSource.timeSamples` assignment. **Fresh AI consultation in progress** to disambiguate engine-internals questions and consider architectural pivot.
+> **Status (2026-05-06): CLOSED.** Both phases resolved.
+> 1. **Original "imitone non-responsive" bug** resolved by **H1e** fix (`captureSource.bypassEffects = false`). Commit `839a224c` (`feat(step3a): migrate imitone feed to OnAudioFilterRead + diagnose/fix bypassEffects bug`). Imitone correctly tracks pitch and power when fed voice on the audio-thread path.
+> 2. **F1 — imitone-feed latency (~2133 ms)** resolved by the **hybrid ring-feed pivot** (Step 3a / F1). Pivoted away from the V3/V5 streaming-clip pattern (which the eight-test-run investigation in this doc proved was engine-bound to a ~100-DSP-buffer minimum read-write gap) to a hybrid: `captureSource` plays a silent in-memory dummy clip just to drive `OnAudioFilterRead` cadence, while the audio thread reads imitone-feed samples from `rawRingBuffer` (main-thread writer, audio-thread reader, primed `audioThreadFeedLatencyMs = 64 ms` behind the write head). Pass 1, 2, 3 commits: `f68cacb3` / `bf670660` / `d537ed9b`. Lever inventory for the remaining downstream-of-feed perceptual lag: `cae32729`. Pass 2 telemetry: gap 106–149 ms, drift 15 ms / 60 s, overflow drops = 0 over 153 s.
+>
 > **Branch:** `WorkingWwise`.
-> **Step 3a + H1e fix committed:** `839a224c` (`feat(step3a): migrate imitone feed to OnAudioFilterRead + diagnose/fix bypassEffects bug`).
-> **F1 fix attempt + diagnostic + SerializeField promotion (uncommitted, working tree only).**
-> **F2 (speaker leak):** moved to plan **Step 3c**.
-> **Owner doc for this bug. Scope now reduced to F1 only. Once F1 is resolved, append the resolution + closing commit, then collapse this whole doc into a Step 3a Developer note.**
+> **F2 (speaker leak):** moved to plan **Step 3c** (this doc retains a pointer in the historical narrative).
+>
+> **This doc is now archival.** The canonical "what F1 was, and what fixed it" record lives in `Docs/MIC_VOICE_INGEST_FIX_PLAN.md` § **Step 3a Developer notes (3a)** + § **Appendix: Voice-onset latency lever inventory**. The detailed investigation log below is preserved for archaeology — eight test runs of disambiguation evidence, three live hypotheses (H1: engine-enforced read-write distance; H2: `Microphone.GetPosition` unreliable in first frame; H3: Wwise routing latency), and the architectural-pivot consideration that became the F1 fix. Future work on the *remaining* perceptual lag (downstream of feed: imitone smoothing, noise-floor gate, debounce thresholds) is **not** tracked here — see the plan doc and lever inventory.
 
 ---
 
@@ -470,6 +472,33 @@ Same Play session, two screenshots:
 User perceptual: "not at ALL responsive."
 
 **Code state:** F1 fix + 3-timed-reads diagnostic + `audioCapturePlayAlignmentBufferCount` SerializeField are all uncommitted in working tree. Decision on what to commit / revert is deferred until the fresh AI consultation completes.
+
+### 2026-05-06 — F1 RESOLVED via hybrid ring-feed pivot — bug closed
+
+**Result: F1 closed. The 100-DSP-buffer engine-enforced gap (H1) was real and unfixable via `captureSource.timeSamples` on a streaming clip; pivoted away from V3/V5 entirely for the imitone feed.**
+
+**Architecture (hybrid ring-feed):**
+
+- `captureSource` no longer plays the mic clip. It plays a tiny in-memory silent `AudioClip.Create(..., stream: false)` — `stream: false` is critical (re-engaging streaming would re-trip the same engine policy this pivot is escaping). Its only job is keeping `OnAudioFilterRead` ticking at the engine's DSP cadence.
+- The audio thread no longer reads `data[]` for imitone. It reads samples directly from `rawRingBuffer` (the existing main-thread mic-write ring) using the existing 4-arg `ReadRawSamples(...)` overload, which uses `Monitor.TryEnter(rawBufferLock, 0)` and is already audio-thread-safe (also already used by `DirectVoiceMonitoring.OnAudioFilterRead`).
+- A read cursor is primed by the main thread before `captureSource.Play()` via the existing `TryCreateRawReadCursorBehindMs(audioThreadFeedLatencyMs, ...)` helper — same pattern `DirectVoiceMonitoring.PrimeBufferedReadCursorForSource` uses. Default latency target: **64 ms** (`[Range(32, 250)]`).
+- `imitone.InputAudio` is skipped when `copied == 0` (lock miss / empty ring). Per `imitone.cs:80` ("if audio is not continuous, feed about 1/8 second of silence"), feeding a single full DSP-buffer of zeros for one missed read is wrong — skip the call instead.
+
+**Disambiguation outcome on the prior hypothesis set:**
+
+- **H1 (engine-enforced read-write distance):** confirmed as a fundamental property of streaming `Microphone`-backed AudioSources at this Unity version. Not configurable below the ~100-DSP-buffer floor on the V3/V5 path.
+- **H2 (`Microphone.GetPosition` first-frame unreliability):** likely real but moot — the pivot doesn't depend on `Microphone.GetPosition`-vs-`captureSource.timeSamples` alignment any more.
+- **H3 (Wwise routing latency):** ruled out as the dominant cause; the 100-DSP-buffer cleanliness (`102400 = 1024 × 100`) was Unity-engine native, not a Wwise unit.
+
+**Telemetry (Pass 2, 153 s session over 4 grabs):** gap 106–149 ms (Pass 1 was 181–203, Pass 2's coherent-pair snapshot fix shaved ~50 ms of apparent gap that was actually display tearing); drift 15.3 ms / 60 s (passes the < 20 ms / 60 s bar); overflow drops = 0; lock misses ~0.04/sec on rawBufferLock; pitch + power alive on tone. Residual gap and drift attributed to mic ADC vs engine output clock skew (~0.025 % oscillator mismatch — hardware floor, self-limited at 250 ms by the `ReadRawSamples` overflow guard).
+
+**Closing commits:** `f68cacb3` (Pass 1 cutover — hybrid ring-feed imitone path); `bf670660` (Pass 2 — telemetry rename: `CaptureToMicGap*` → `AudioThreadFeedToWriteHeadGap*`, snapshot coherent-pair fix); `d537ed9b` (Pass 3 — cleanup: deleted `audioThreadRing`/`audioRingWriteLock`/`audioRingWritePosition`/`audioRingWriteTotalSamples`/`audioRingWriteLastClipReadStart`/`Count`/`monoScratch`/`audioCapturePlayAlignmentBufferCount`/`audioCallbackLockMissTotal`, repointed `FAIL_AUDIO_LOCK_CONTENTION` to `aggRawRingReadLockMissTotal`).
+
+**Forward pointer:** the *remaining* perceptual lock-on lag Robin observed in Pass 3 play-test (`Feed Peak Abs` immediate, `_dbValue` / `pitch_hz` lag, `Mic Exit Reason = unread_zero` while imitone was tracking) is **downstream of feed** — the imitone analysis windowing, the noise-floor gate (which reads `_dbMicrophone` on the legacy main-thread path that still has `unread_zero` jitter, gating `imitoneActive`), and the `positiveActiveThreshold1/2` debounce. Tracked from here in `Docs/MIC_VOICE_INGEST_FIX_PLAN.md` § Step 3a Developer notes (3a) and the new § Voice-onset latency lever inventory appendix (commit `cae32729`). **Step 5b** is the structural fix for the Stage-9 `_dbMicrophone`-via-legacy-path source.
+
+**Companion plan doc:** `Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md` (also archival as of 2026-05-06) — Pass 1, 2, 3 progress log, decisions, test bars, and the "open issues from Pass 1 play test" section that walked the Pass 2 disambiguation.
+
+**Bug doc closed.** Archival as of 2026-05-06.
 
 ### 2026-05-05 — F2 (speaker leak) handed off to plan Step 3c
 
