@@ -20,7 +20,14 @@ public partial class ImitoneVoiceIntepreter
 {
     [Header("Audio-thread capture (Step 1 — parallel path)")]
     [SerializeField] private int audioCallbackPrimingFramesToSkip = 8;
-    [SerializeField] private float audioCallbackGcSuspectMsThreshold = 3f;
+    // Step 3b play-test (Optional Pass 4): bumped 3 ms → 15 ms. The 3 ms initial threshold was
+    // tripping on legitimate imitone analysis time (5–10 ms is normal on a 1024-sample callback at
+    // 48 kHz on slower frames, with no GC involved), latching FAIL_AUDIO_GC_ALLOC_DETECTED and
+    // forcing FAILURE = TRUE permanently. 15 ms still catches real GC allocations easily — those
+    // are ~30–100 ms — without false-positiving on imitone CPU time. If the audio thread truly
+    // takes >15 ms in steady state the engine is in trouble for other reasons (callback rate
+    // would already be < expected) and FAIL_AUDIO_CALLBACK_RATE_LOW catches that path.
+    [SerializeField] private float audioCallbackGcSuspectMsThreshold = 15f;
 
     // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
     // Imitone-feed latency: the audio-thread read cursor is primed this far behind the live rawRingBuffer

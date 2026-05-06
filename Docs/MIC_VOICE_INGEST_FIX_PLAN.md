@@ -1308,6 +1308,17 @@ Actual landed commit: **`839a224c`** — `feat(step3a): migrate imitone feed to 
 - `Assets/Scripts/Voice/MicVoiceIngestDebugAggregate.cs` — added Cross-thread atomicity block (`aggDbMicrophoneSnapshot`, `aggDbMicrophoneTearDetectedTotal`, `aggCrossThreadFieldsUsingVolatile`, `aggCrossThreadFieldsUsingInterlocked`); added `FAIL_DB_TEAR_DETECTED` (sticky); added tear detector and FAIL trigger logic; retired `FAIL_INTERPRETER_NOT_CONSUMING` and `failInterpreterNotConsumingFrameThreshold`; simplified `FAIL_MIC_NOT_READY`; rewrote CURRENT TEST block for 3b's test bar (drops `currentTestHybridFeedGapMs` + `currentTestMicExitReason`, adds `currentTestDbMicrophoneSnapshot` + `currentTestDbMicrophoneTearDetectedTotal`); deleted four dead `agg*` fields tied to the deleted snapshot members.
 - `Docs/MIC_VOICE_INGEST_FIX_PLAN.md` — task list ticks (this section); developer notes (this block).
 
+*Play-test results (3b, 2026-05-06):*
+
+User played the click-testing protocol and reported:
+
+- **Tear detector clean.** `currentTestDbMicrophoneTearDetectedTotal = 0` throughout the session. The `volatile float` choice for `_dbMicrophone` is sufficient on this platform — **no escalation to `Interlocked.Exchange` needed.** V7 default vindicated for the primary cross-thread float surface.
+- **`currentTestDbMicrophoneSnapshot` responsive.** Audio-thread writer + main-thread reader path is healthy.
+- **Subjectively responsive.** DSP migration introduced no perceptible feed-side lag; pitch and dB still alive on voice with no regression vs F1 closeout.
+- **`currentTestFeedPeakAbs` lower than the F1-era bar.** Voice ~0.02, silent ~0.001 (vs the "voice ~0.05–0.5" tooltip text inherited from F1). **This is expected post-3b** — the F1-era bar measured peakAbs on the *unfiltered* audio-thread feed, while 3b measures it post-HPF/LPF. The 80–520 Hz band-pass attenuates voice harmonics above 520 Hz and rumble below 80 Hz, so post-filter peak is naturally smaller. Voice-vs-silent contrast (20×) still confirms the feed is alive and post-filter signal is healthy. **Bar updated:** the F1-era "voice ~0.05–0.5" guidance applied to unfiltered samples; post-3b, expect "voice ~0.01–0.1, silent < 0.005, contrast > 10×". (Tooltip text touch-up deferred — not worth a code change just for that.)
+- **`FAILURE = TRUE` from the known GC false-positive.** As discussed in the F1 closeout queue — `imitone.InputAudio` legitimately spends 5–10 ms on a 1024-sample callback at 48 kHz, which trips the 3 ms `audioCallbackGcSuspectMsThreshold` heuristic and latches `FAIL_AUDIO_GC_ALLOC_DETECTED`. Real GC allocations would be 30–100 ms; 3 ms was tuned for a near-empty callback that no longer exists. **Fixed in this same commit pass:** `audioCallbackGcSuspectMsThreshold` default raised from 3 ms → 15 ms (`ImitoneVoiceIntepreter.AudioThread.cs:23`). Scene file does not override the default, so the source change is the entire fix. User clears `clearFailObservationStickyFlags` once to drop the latched FAIL, retests; new threshold should not re-trip on imitone CPU time. This closes the deferred Optional Pass 4 from the archived F1 plan.
+- **Very occasional minor click at toning onset — deferred to Step 3c (F2 speaker leak).** Not a 3b regression: filter state was preserved across the relocation (M4 click-prevention) and the bit-identical filter alpha math means the audio path through imitone is unchanged. The click is most likely the F2 speaker-leak path responding to voice onset (the leak path bypasses our `Array.Clear` zero-fill at the end of `OnAudioFilterRead`). 3c's `MicrophonePlayback` GameObject investigation is exactly the right venue: if disabling that GameObject silences the click, F2 explains both. Logged as a Step 3c observation rather than a 3b follow-up.
+
 ---
 
 #### Step 3c: Audio routing cleanup (silence the speaker leak surfaced by 3a)
@@ -1362,7 +1373,10 @@ Possibilities, in order of likelihood:
 
 **Commit (3c):** `chore(step3c): silence speaker leak surfaced by 3a's H1e fix`
 
-**Developer notes (3c):** _none yet_
+**Developer notes (3c):**
+
+*Forwarded from Step 3b play-test (2026-05-06):*
+- **Onset click symptom:** user reports a "very occasional minor click when I begin toning" during 3b play-test. Not a 3b regression (filter state preservation + bit-identical filter alpha math rule that out). Likely an F2 speaker-leak path responding to voice onset — the leak bypasses `Array.Clear` at the end of `OnAudioFilterRead`, so it carries whatever the original mic clip's first non-silent samples are. **First diagnostic during 3c:** disable the suspected `MicrophonePlayback` GameObject during a Play session and tone several times. If the onset click goes away alongside the steady-state speaker leak, F2a is confirmed and one fix addresses both. If the click survives the F2 fix, escalate to per-callback profiling at toning onset to find the path.
 
 ---
 
