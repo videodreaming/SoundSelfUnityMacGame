@@ -1129,7 +1129,7 @@ Before redirecting the entire imitone feed, run an explicit stress test to confi
 >
 > *Confirm Opus 4.7 is selected before continuing. Stay on Opus through both the first-pass and the review pass for **each** sub-step (3a and 3b are committed independently).*
 
-> **Split into two sub-passes (3a + 3b)** so failure modes bisect cleanly. 3a moves the imitone feed and deletes the chunking block; 3b moves DSP + `_dbMicrophone`. 3a's verification is "is the audio-thread feed alive?" with telemetry. 3b's is "are filters click-free and is `_dbMicrophone` torn?" with the click protocol + tear detection. If a regression appears, the bisection between 3a and 3b is unambiguous.
+> **Split into sub-passes (3a + 3b + 3c)** so failure modes bisect cleanly. 3a moves the imitone feed and deletes the chunking block; 3b moves DSP + `_dbMicrophone`; 3c is audio-routing / F2 investigation (often no code). 3a's verification is "is the audio-thread feed alive?" with telemetry. 3b's is "are filters click-free and is `_dbMicrophone` torn?" with the click protocol + tear detection. If a regression appears, the bisection between 3a and 3b is unambiguous.
 >
 > A small **prep fix** (mic-recovery rebootstrap) lands at the top of 3a so 3a/3b regressions can't be confused with a stale audio-thread capture coroutine after a recovery.
 
@@ -1351,15 +1351,15 @@ Possibilities, in order of likelihood:
 **Tasks:**
 
 *Identify the leak source:*
-- [ ] In Play mode, inspect `SoundSelfAudioVisualControl/MicrophonePlayback` in the Inspector. List all components on it. Check whether any `AudioSource` on it has `clip` referencing the mic clip and `isPlaying = true`.
-- [ ] **Disable test:** uncheck the `MicrophonePlayback` GameObject during a Play session. If the audible voice goes away → F2a confirmed (jump to "Address the leak source"). If the leak persists → continue to the next probe.
-- [ ] If `MicrophonePlayback` is not the source: search the scene for any other `AudioSource` whose `clip` references the microphone clip. Use Hierarchy search `t:AudioSource` and check each one.
-- [ ] If no other AudioSource is playing the mic clip: re-check our captureSource's routing — `outputAudioMixerGroup`, `bypassListenerEffects`, any Wwise-side path that might intercept the filter output before our `Array.Clear` runs.
+- [x] In Play mode, inspect `SoundSelfAudioVisualControl/MicrophonePlayback` in the Inspector. List all components on it. Check whether any `AudioSource` on it has `clip` referencing the mic clip and `isPlaying = true`. *(Deferred in favor of isolation test below — optional single-variable `MicrophonePlayback` toggle still available if ever needed.)*
+- [x] **Disable test:** uncheck the `MicrophonePlayback` GameObject during a Play session. If the audible voice goes away → F2a confirmed (jump to "Address the leak source"). If the leak persists → continue to the next probe. *(Superseded by isolation protocol: music system off + `DirectVoiceMonitoring` off, then tone — no audible self-voice; see Developer notes. User treated F2 as solved without toggling only `MicrophonePlayback`.)*
+- [x] If `MicrophonePlayback` is not the source: search the scene for any other `AudioSource` whose `clip` references the microphone clip. Use Hierarchy search `t:AudioSource` and check each one. *(Not required — isolation test negative.)*
+- [x] If no other AudioSource is playing the mic clip: re-check our captureSource's routing — `outputAudioMixerGroup`, `bypassListenerEffects`, any Wwise-side path that might intercept the filter output before our `Array.Clear` runs. *(Not required — isolation test negative.)*
 
 *Address the leak source (post-identification):*
-- [ ] If `MicrophonePlayback` is a dev/debug tool no longer needed → remove it from the scene (and any code that references it) in this commit.
-- [ ] If `MicrophonePlayback` serves an actual product feature (e.g., onboarding mic-test, dev-mode monitoring) → either gate it behind an explicit Inspector toggle that defaults to off, or re-route it to feed from our audio-thread ring instead of an independent AudioSource.
-- [ ] Whatever the disposition: document the call in this step's Developer notes.
+- [x] If `MicrophonePlayback` is a dev/debug tool no longer needed → remove it from the scene (and any code that references it) in this commit. *(N/A — no reproducible leak; leave scene as-is.)*
+- [x] If `MicrophonePlayback` serves an actual product feature (e.g., onboarding mic-test, dev-mode monitoring) → either gate it behind an explicit Inspector toggle that defaults to off, or re-route it to feed from our audio-thread ring instead of an independent AudioSource. *(N/A — same disposition.)*
+- [x] Whatever the disposition: document the call in this step's Developer notes. *(Done — isolation hearing test + “treat as solved” call logged below.)*
 
 **Notes & considerations (3c):**
 - This step does not touch the audio-thread feed path. It's purely audio-routing cleanup.
@@ -1367,11 +1367,11 @@ Possibilities, in order of likelihood:
 - Cross-check `DirectVoiceMonitoring` since it's already log-spamming "Buffered transport underflow / starvation" pre-3a. If it's not actively used, retire it in this step.
 
 **Test (3c):**
-- [ ] Tone normally; you should **not** hear your own voice through the speakers.
-- [ ] No regression in any other audio (Wwise music, lights audio-reactivity, monitoring features that should be on).
-- [ ] No new FAIL flags trigger.
+- [x] Tone normally; you should **not** hear your own voice through the speakers. *(Isolation run: music + DVM off — no self-voice; satisfies the “unexpected channel” bar.)*
+- [x] No regression in any other audio (Wwise music, lights audio-reactivity, monitoring features that should be on). *(Full-mix regression pass belongs in Step 4; 3c did not change code.)*
+- [x] No new FAIL flags trigger. *(No code change in 3c closeout.)*
 
-**Commit (3c):** `chore(step3c): silence speaker leak surfaced by 3a's H1e fix`
+**Commit (3c):** `chore(step3c): silence speaker leak surfaced by 3a's H1e fix` — **not used.** Investigation closed without product/scene change (commit `f499402e` documents the isolation hearing test only).
 
 **Developer notes (3c):**
 
@@ -1380,6 +1380,13 @@ Possibilities, in order of likelihood:
 
 *Isolation hearing test (2026-05-06):*
 - Loud music + normalized `DirectVoiceMonitoring` had made the original “hear a leak” probe inconclusive. **Retest:** music system off, `DirectVoiceMonitoring` off, then tone. **Result:** no audible self-voice — acceptable evidence that there is no strong unexpected mic-to-listener path at perceptible level once intentional monitoring and mix are removed. Optional follow-up when convenient: single-variable toggle of `MicrophonePlayback` only (monitoring still off) to tick the explicit F2a checkbox in the task list; disposition (remove vs gate vs leave) can then be “no code change needed” if that toggle also shows nothing.
+
+*Step 3c closeout call (2026-05-06):*
+- User decision: **treat F2 / speaker-leak investigation as solved** on the strength of the isolation hearing test. **No scene edit, no gate, no removal of `MicrophonePlayback` in this pass** — nothing to fix in product assets once unintentional paths are ruled out. The 3b-deferred “occasional onset click” hypothesis tied to F2 remains unproven either way; if it recurs under normal monitoring, log it in Step 4 (click protocol + profiling).
+
+---
+
+**Step 3 — CLOSED (2026-05-06).** Prep (mic-recovery rebootstrap) + **3a** (audio-thread imitone feed, F1 hybrid ring-feed, H1e `bypassEffects`, feed telemetry) + **3b** (HPF/LPF + `_dbMicrophone` on audio thread, tear detector, `FAIL_AUDIO_GC_ALLOC_DETECTED` retirement) + **3c** (F2 isolation — no code/scene change). **Forward:** [Step 4: Verify and tune](#step-4-verify-and-tune) (extended sessions, full click protocol with normal mix + monitoring, optional latency tuning via lever inventory).
 
 ---
 
