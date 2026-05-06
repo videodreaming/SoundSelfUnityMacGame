@@ -1,12 +1,37 @@
 # Step 3a / F1 — Hybrid ring-feed pivot plan (Cursor's draft)
 
-> **Status (2026-05-06):** Pass breakdown and pushbacks reviewed against the code (incl. second-opinion confirmation). **Decisions locked in** — see [Decisions (locked in)](#decisions-locked-in) below. Awaiting explicit go-ahead before pass 1 code edits.
+> **Status (2026-05-06):** **Pass 1 play-tested (Robin).** Perceptual bar cleared (latency vastly improved vs pre-pivot). **Commit when ready**; follow-ups: overflow-drop counter, optional GC threshold, hybrid gap vs 64 ms target. Pass 2+ not started.
 >
 > **Owner:** This doc. The brief stays as the external-AI artifact; this doc supersedes its implementation prescriptions where they diverge. Behavioral intent (audio-thread cadence + ring-fed imitone, ~64 ms latency target) is unchanged.
 
 ---
 
-## TL;DR (in my words)
+## Inspector / CURRENT TEST protocol (persistent)
+
+**Rule:** The `CURRENT TEST` block holds **only** what the **active** play test needs, tight enough for **one** Inspector screengrab. When the test changes, **replace** the fields (do not accumulate). Anything else lives in the headed sections below; scroll there for depth.
+
+- Rewrite header, `currentTestDescription`, field list, and `LateUpdate` mirrors in the same edit when the test changes.
+- Cross-reference: `Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md` (Debugging Process Convention).
+
+**Pass 1 fields (minimal):** `currentTestSessionTimeSeconds`, `currentTestFailure`, `currentTestHybridFeedGapMs`, `currentTestAudioCallbackHzRolling`, `currentTestImitoneInputToCallbackRatio`, `currentTestAudioFeedOverflowDroppedTotal`, `currentTestMicExitReason`, `currentTestFeedPeakAbs`, `currentTestDbValue`, `currentTestPitchHz`, `currentTestKnownFalsePositive_GcAlloc`, plus `currentTestDescription` (tooltip has the full bar text).
+
+---
+
+## Discoveries, hypotheses & progress log
+
+Append dated rows as we learn things. Keeps handoff and review focused.
+
+| Date | Type | Note |
+|------|------|------|
+| 2026-05-06 | Decision | Locked: use existing 4-arg `ReadRawSamples`; dummy clip **`stream: false`**; prime cursor then `Play()` same coroutine turn; skip `imitone.InputAudio` when `copied == 0`. |
+| 2026-05-06 | Code | Pre-pass-1 grep: `CaptureToMicGap*` and related interpreter APIs used only by `MicVoiceIngestDebugAggregate` under `Assets` (besides definitions). Safe to repoint in pass 2. |
+| 2026-05-06 | Hypothesis | Stable ~2.13 s latency on old path = engine streaming-source policy (~100× DSP buffer), not fixable via `timeSamples`. Pivot sidesteps by not feeding imitone from streaming `data[]`. |
+| 2026-05-06 | Observation | `audioCallbackLockMissTotal` still counts **`audioRingWriteLock`** misses (parallel ring) through pass 1; not raw-buffer contention. Repoint or supplement in pass 2/3. |
+| 2026-05-06 | Implementation | Pass 1: `WaitMicPositionThenPlayCapture` waits on `rawWriteTotalSamples`, primes via `TryCreateRawReadCursorBehindMs`, `[Step3a-pivot]` log. `OnAudioFilterRead` reads raw ring every callback; imitone only when `copied > 0` and past priming. |
+| 2026-05-06 | Process | CURRENT TEST trimmed to a **minimal** field set for one screengrab; non-essential mirrors removed (scroll lower sections). |
+| 2026-05-06 | **Play test** | **Perceptual:** much improved vs ~2 s floor. **`[Step3a-pivot]`:** gap=3072 sa (~64 ms) at prime — correct. **Hybrid gap** in CURRENT TEST ~181–203 ms (above 40–90 bar but orders of magnitude below old engine floor). **Input/callback ratio** ~0.98 — good. **Hz rolling** ~46–47 — good. **FAILURE** true with **KnownFalsePositive GC** latched — treat as expected until optional pass 4 threshold bump; confirm no other FAIL_* in expanded block. **First grab:** `micExitReason=unread_zero` while pitch/db still moved — likely one-frame ingest branch vs aggregate snapshot timing; **second grab** `copied_samples` when silent — healthy. **Overflow dropped = 32032** — **follow-up:** `ReadRawSamples` overflow guard firing (cumulative samples skipped); investigate whether startup-only or steady-state; may interact with hybrid gap > 64 ms. **Perceptual minor:** `_dbValue` lags slightly after stop toning — likely main-thread analysis/smoothing, not F1 feed path. |
+
+---
 
 `OnAudioFilterRead` keeps firing on the audio thread, but stops reading from `data[]` (the streaming AudioSource path that imposes the 100-DSP-buffer lookahead). Instead, the audio thread pulls from `rawRingBuffer` using the same `Monitor.TryEnter`-based reader that `DirectVoiceMonitoring` already uses. A read cursor is primed on the main thread to sit `audioThreadFeedLatencyMs` (default 64) behind the mic write head; the audio thread advances it at steady cadence. The captureSource loses its mic-clip role and plays a tiny in-memory silent clip just to keep `OnAudioFilterRead` ticking. Most of the work is wiring existing primitives together; the actual new code surface is much smaller than the brief implied.
 
@@ -135,14 +160,11 @@ Three passes plus an optional pass 4. Each pass is independently testable.
 7. Leave the F1 diagnostic logs in `WaitMicPositionThenPlayCapture` deleted (replaced by step 4).
 
 **Test bar:**
-- Console shows `[Step3a-pivot]` log once per Play.
-- `currentTestFeedPeakAbs` jumps to >0.05 promptly when toning, drops to ~0 on silence.
-- `currentTestDbValue` and `currentTestPitchHz` track voice. **Perceptually responsive** (this is the whole point).
-- `aggAudioCallbackHzRolling` near 46.875 Hz.
-- `aggAudioCallbackLockMissTotal` does not climb at sustained rate (occasional bursts during scene loads OK).
-- No new clicks audible (run the click-testing protocol from `MIC_VOICE_INGEST_FIX_PLAN.md` Appendix).
-- `FAIL_IMITONE_NOT_FED` stays low.
-- Hardcoded gap measurement (still using old `CaptureToMicGapMs` which references the dummy clip now and will report nonsense — note that in the test report; pass 2 fixes the telemetry).
+- Console: `[Step3a-pivot]` once per Play (again after mic recovery).
+- **One screengrab** of **CURRENT TEST** (toning + silent). Fields there are minimal by design; use lower Inspector sections for callback totals, lock misses, config, monitoring, etc.
+- Bar (see CURRENT TEST tooltips): `currentTestHybridFeedGapMs` ~40–90 while toning; `currentTestAudioCallbackHzRolling` ≈ sampleRate/dspSize; `currentTestImitoneInputToCallbackRatio` ~1 after priming; `currentTestFeedPeakAbs` >0.05 on voice; `currentTestFailure` false; `currentTestAudioFeedOverflowDroppedTotal` 0; `currentTestMicExitReason` typically `copied_samples`.
+- Perceptual: real-time pitch/power.
+- Clicks: protocol in `MIC_VOICE_INGEST_FIX_PLAN.md` Appendix.
 
 ### Pass 2 — Telemetry rename + new gap measurement
 
@@ -228,5 +250,6 @@ The brief's risk section is solid. Two additions:
 
 - No code edits without explicit go-ahead per pass.
 - After each pass: review-pass walk of every touched file (regressions, threading bugs, audio-thread allocations, stale references, telemetry mismatches), then commit.
-- This doc gets updated as decisions land. Future sessions read it.
+- This doc gets updated as decisions land. **During play tests:** append rows to [Discoveries, hypotheses & progress log](#discoveries-hypotheses--progress-log); keep [Inspector / CURRENT TEST protocol](#inspector--current-test-protocol-persistent) accurate whenever the active test changes.
+- Future sessions read it.
 - All pass review on Opus 4.7 throughout, per Robin's instruction.

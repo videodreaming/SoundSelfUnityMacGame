@@ -5,6 +5,9 @@ using UnityEngine;
 /// (+ optional DirectVoiceMonitoring transport totals)
 /// into one Inspector block after upstream Update() (LateUpdate).
 /// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values are copied from <see cref="ImitoneVoiceIntepreter.GetMicIngestDebugSnapshot"/>.
+/// During Step 3a F1 hybrid pivot work, the <b>CURRENT TEST</b> section lists only what the
+/// <b>active</b> play test needs — tight enough for one Inspector screengrab. Deeper metrics stay in the
+/// headed sections below. See <c>Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md</c> § Inspector / CURRENT TEST protocol.
 /// </summary>
 public class MicVoiceIngestDebugAggregate : MonoBehaviour
 {
@@ -14,31 +17,39 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     // disposable; do NOT add permanent fields here — they belong in their
     // own headed sections below). Convention documented in
     // Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md (Debugging Process section).
+    //
+    // PERSISTENT RULE (Step 3a F1 hybrid pivot): CURRENT TEST holds only fields needed for the
+    // **active** diagnostic (one screengrab). Do not accumulate retired fields; remove when the test
+    // changes. See Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md § Inspector / CURRENT TEST protocol.
     // ----------------------------------------------------------------------
 
-    [Header("CURRENT TEST — Step 3a follow-on F1 FIX VERIFICATION: capture-to-mic gap after Play()-time alignment")]
-    [Tooltip("CONTEXT: F1 fix landed in WaitMicPositionThenPlayCapture. After captureSource.Play(), the read position is now snapped to (Microphone.GetPosition - 3 dsp buffers ≈ 64 ms at 48 kHz). Pre-fix the gap was ~2.4 s; post-fix it should be near the latency budget.\n\nWHAT TO REPORT BACK (TWO screenshots, same Play session):\n• Screenshot A: shortly after Play (e.g., 2–5 s into the session), while toning.\n• Screenshot B: 20–30 s later in the SAME session, still toning.\n• For each: currentTestSessionTimeSeconds, currentTestSessionFrame, currentTestCaptureToMicGapMs, currentTestCaptureToMicGapSamples, currentTestFeedPeakAbs, currentTestDbValue, currentTestPitchHz.\n• ALSO: the [Step3a-F1fix] line from the Console (one per session — copy/paste exactly).\n• Perceptual: how does it FEEL? Real-time? Still laggy? In between?\n\nINTERPRETATION (single reading):\n• Gap 20–100 ms → fix worked. Imitone-feed latency is now near the intentional budget.\n• Gap 100–250 ms → fix mostly worked but the budget might be slightly conservative. Still a big improvement.\n• Gap > 500 ms → fix failed or didn't apply (check the [Step3a-F1fix] log line; was it printed?).\n• Gap > 1000 ms → unchanged from pre-fix.\n\nDRIFT CHECK (compare A vs B):\n• |B.gap − A.gap| < 20 ms → no drift. Static alignment is the whole fix.\n• B.gap > A.gap by 100 ms+ → drift exists. We'll add periodic re-sync as a follow-on.")]
-    [SerializeField] private string currentTestDescription = "F1 FIX VERIFICATION: take two screenshots in the SAME session ~20-30s apart while toning. Report sessionTimeSeconds + frame + gap for each. Also paste the [Step3a-F1fix] Console line.";
+    [Header("CURRENT TEST — Pass 1: hybrid ring-feed verification")]
+    [Tooltip("Screengrab this block (toning + silent). Paste [Step3a-pivot] Console line once.\n\nBAR: hybridGapMs ~40–90 while toning | rollingHz ≈ sampleRate/dspSize | input/callback ratio ~1 after priming | feedPeak >0.05 on voice | pitch/db move | failure=false | overflowDrops=0 | exitReason=copied_samples.\n\nFor callback totals, lock misses, raw ring totals, config, monitoring — scroll to sections below.")]
+    [SerializeField] private string currentTestDescription = "Pass 1: one screengrab CURRENT TEST (tone + silent). Paste [Step3a-pivot] log.";
 
-    [Tooltip("Time.time at this LateUpdate — seconds since this Play session started (resets at Play). Report with every screenshot so we can compare readings within the SAME session and rule out drift.")]
+    [Tooltip("Time.time — report with each grab.")]
     [SerializeField] private float currentTestSessionTimeSeconds;
-    [Tooltip("Time.frameCount at this LateUpdate — main-thread frames since this Play session started (resets at Play). Same purpose as currentTestSessionTimeSeconds, but frame-granularity.")]
-    [SerializeField] private int currentTestSessionFrame;
-    [Tooltip("THE indicator: AudioSource read position vs Microphone write position, in MILLISECONDS. This is the imitone-feed latency. -1 = invalid (clip not ready / mic not started).")]
-    [SerializeField] private float currentTestCaptureToMicGapMs;
-    [Tooltip("Same as currentTestCaptureToMicGapMs, in samples.")]
-    [SerializeField] private int currentTestCaptureToMicGapSamples;
-    [Tooltip("Regression check: peak |sample| of the mono buffer handed to imitone.InputAudio. Should still be 0.02–0.5 while toning (last test value: 0.0255).")]
+    [Tooltip("Any FAIL_* below.")]
+    [SerializeField] private bool currentTestFailure;
+
+    [Tooltip("Hybrid imitone-feed latency (ms): raw ring write total minus audio-thread read cursor. Target ~40–90.")]
+    [SerializeField] private float currentTestHybridFeedGapMs;
+    [Tooltip("Rolling OAFR rate (Hz). Expect ~ output sample rate / DSP buffer size (e.g. ~46.9 @ 48k/1024).")]
+    [SerializeField] private float currentTestAudioCallbackHzRolling;
+    [Tooltip("imitone.InputAudio calls / callbacks (cumulative). ~1.0 after priming.")]
+    [SerializeField] private float currentTestImitoneInputToCallbackRatio;
+    [Tooltip("ReadRawSamples overflow drops on imitone path. Should stay 0.")]
+    [SerializeField] private long currentTestAudioFeedOverflowDroppedTotal;
+
+    [Tooltip("Mic ingest branch (expect copied_samples when healthy).")]
+    [SerializeField] private string currentTestMicExitReason = "";
+
+    [Tooltip("Peak |sample| going to imitone. Voice ~0.05–0.5.")]
     [SerializeField] private float currentTestFeedPeakAbs;
-    [Tooltip("Regression check: ImitoneVoiceIntepreter._dbValue. Should still move on voice (last test value: -39 while toning).")]
     [SerializeField] private float currentTestDbValue;
-    [Tooltip("Regression check: ImitoneVoiceIntepreter.pitch_hz. Should still track voice (last test value: 116.6 Hz for the user's voice).")]
     [SerializeField] private float currentTestPitchHz;
-    [Tooltip("AudioSource read position in samples (clip-time). Modulo clip length. -1 = captureSource null.")]
-    [SerializeField] private int currentTestCaptureTimeSamples;
-    [Tooltip("Microphone write position in samples (clip-time). Modulo clip length. -1 = mic not started.")]
-    [SerializeField] private int currentTestMicWritePosition;
-    [Tooltip("Mirror of FAIL_AUDIO_GC_ALLOC_DETECTED. Known Step 2 false-positive class. Ignore for THIS bug — separate cleanup item.")]
+
+    [Tooltip("Sticky GC false positive (imitone CPU time). Separate cleanup.")]
     [SerializeField] private bool currentTestKnownFalsePositive_GcAlloc;
 
     [Header("FAIL OBSERVATION (glance here first)")]
@@ -132,8 +143,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMainThreadFramesSinceLastImitoneStateChange;
     [Tooltip("Audio-thread ring writes skipped due to consumer-overrun. (3a: never increments — placeholder for Step 5b when a consumer exists. Distinct from aggAudioCallbackLockMissTotal, which is lock contention.)")]
     [SerializeField] private long aggMicRingOverflowSkipTotal;
-    [Tooltip("DEBUG (Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md): peak |sample| of the mono buffer the audio thread just handed to imitone.InputAudio. While toning, expect 0.05–0.5. If ~0 while _dbMicrophone moves on voice, the audio thread is being fed silence and imitone is innocent.")]
+    [Tooltip("DEBUG: peak |sample| of the mono buffer the audio thread just handed to imitone.InputAudio. While toning, expect 0.05–0.5. If ~0 while _dbMicrophone moves on voice, the audio thread is being fed silence and imitone is innocent.")]
     [SerializeField] private float aggAudioThreadFeedPeakAbsLastCallback;
+    [Tooltip("Step 3a hybrid pivot: logical read cursor total on the imitone raw-ring feed path (samples since session start, monotonic).")]
+    [SerializeField] private long aggAudioThreadFeedReadTotalSamples;
+    [Tooltip("Step 3a hybrid pivot: cumulative samples dropped by ReadRawSamples overflow guard on imitone feed.")]
+    [SerializeField] private long aggAudioFeedOverflowDroppedTotal;
 
     [Header("Tone / imitone gate (ImitoneVoiceIntepreter — public runtime flags)")]
     [SerializeField] private bool aggImitoneActive;
@@ -324,19 +339,22 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggImitoneInputAudioCallTotal = a.imitoneInputAudioCallTotal;
             aggMicRingOverflowSkipTotal = a.micRingOverflowSkipTotal;
             aggAudioThreadFeedPeakAbsLastCallback = a.audioCallbackFeedPeakAbsLastCallback;
+            aggAudioThreadFeedReadTotalSamples = a.audioThreadFeedReadTotalSamples;
+            aggAudioFeedOverflowDroppedTotal = a.audioFeedOverflowDroppedTotal;
 
-            // CURRENT TEST mirrors — copies of values surfaced elsewhere in this Inspector, pinned at
-            // the top so the user can read all required diagnostic values without scrolling. Update the
-            // CURRENT TEST header + this block whenever the active test changes.
+            // CURRENT TEST — only fields needed for the active pass (one screengrab). See plan doc § Inspector.
             currentTestSessionTimeSeconds = Time.time;
-            currentTestSessionFrame = Time.frameCount;
-            currentTestCaptureToMicGapMs = interpreter.CaptureToMicGapMs;
-            currentTestCaptureToMicGapSamples = interpreter.CaptureToMicGapSamples;
+            currentTestAudioCallbackHzRolling = aggAudioCallbackHzRolling;
+            currentTestAudioFeedOverflowDroppedTotal = aggAudioFeedOverflowDroppedTotal;
+            currentTestMicExitReason = aggMicExitReason ?? "";
             currentTestFeedPeakAbs = aggAudioThreadFeedPeakAbsLastCallback;
             currentTestDbValue = interpreter._dbValue;
             currentTestPitchHz = interpreter.pitch_hz;
-            currentTestCaptureTimeSamples = interpreter.CaptureSourceTimeSamples;
-            currentTestMicWritePosition = interpreter.MicrophoneWritePositionSamples;
+
+            long hybridGapSamples = aggMicRawRingWriteTotalSamples - aggAudioThreadFeedReadTotalSamples;
+            currentTestHybridFeedGapMs = aggAudioConfigOutputSampleRate > 0
+                ? hybridGapSamples * 1000f / aggAudioConfigOutputSampleRate
+                : -1f;
 
             // Step 3a: imitone-feed observability — main-thread side.
             aggImitoneGetStateCallTotal = interpreter.ImitoneGetStateCallTotal;
@@ -346,6 +364,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggImitoneInputToCallbackRatio = aggAudioCallbackTotal > 0
                 ? (float)aggImitoneInputAudioCallTotal / aggAudioCallbackTotal
                 : 0f;
+            currentTestImitoneInputToCallbackRatio = aggImitoneInputToCallbackRatio;
 
             // Step 3a: detect mic recovery (captureEpoch tick) and absorb the priming-window transient on the
             // imitone-feed side ONLY. Without this, FAIL_IMITONE_NOT_FED briefly fires after every recovery
@@ -673,5 +692,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             || FAIL_GENTLE_RECOVERY_FIRED
             || FAIL_MONITORING_STARVATION_GROWING
             || FAIL_MIC_NOT_READY;
+
+        currentTestFailure = FAILURE;
     }
 }

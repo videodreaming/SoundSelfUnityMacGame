@@ -16,19 +16,46 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private int audioCallbackPrimingFramesToSkip = 8;
     [SerializeField] private float audioCallbackGcSuspectMsThreshold = 3f;
 
-    // Step 3a F1 fix: tunable Play()-time alignment budget. See Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md.
-    // The captureSource read head is set this many DSP buffers behind the Microphone write head when capture
-    // starts. Higher = more robust against scheduling jitter / mic-write stalls; lower = faster pitch response.
-    // Each unit ≈ one OnAudioFilterRead callback period (~21 ms at 1024 dsp / 48 kHz). Does NOT affect CPU/battery
-    // — same audio-thread workload either way.
-    [Tooltip("Imitone-feed latency budget at Play()-time alignment. Higher = more robust against scheduling jitter / mic-write stalls; lower = faster pitch response. Each unit ≈ one OnAudioFilterRead callback period (~21 ms at 1024 dsp / 48 kHz). Does NOT affect CPU/battery — same audio-thread workload either way. Range: 1 (~21 ms, latency-optimized, may glitch on jitter) to 6 (~128 ms, very robust, perceptibly laggy for fast voice). Default 3 (~64 ms) is the sweet spot for sustained voice on most platforms. Tune up (4–5) on Surface Pro 11 if you observe pitch drops / glitches at the default.")]
+    // Step 3a F1 fix (DEPRECATED — superseded by Step 3a hybrid pivot; see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md).
+    // No longer read at runtime. Field kept for one pass so Inspector values aren't lost; will be deleted in pass 3.
+    [Tooltip("DEPRECATED — replaced by audioThreadFeedLatencyMs in the Step 3a hybrid pivot (Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md). Kept for one pass so existing Inspector values aren't silently dropped; not read at runtime. Removed in pass 3.")]
     [SerializeField, Range(1, 6)] private int audioCapturePlayAlignmentBufferCount = 3;
+
+    // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
+    // Imitone-feed latency: the audio-thread read cursor is primed this far behind the live rawRingBuffer
+    // write head and stays there. Higher = more headroom for main-thread write-jitter bursts; lower =
+    // faster pitch response. Floor 32 ms (≈ 1.5 callback periods at 1024 sa / 48 kHz; below that the
+    // cursor underruns at the slightest writer hesitation). Default 64 ms gives ~3 callback periods of
+    // headroom. Takes effect on the next capture session — does NOT live-retune mid-session.
+    [Tooltip("Latency budget for the audio-thread imitone feed. The cursor is primed this far behind the live mic write head and advances at audio-thread cadence. Higher = more robust against main-thread write bursts; lower = faster pitch response. Floor 32 ms (≈ 1.5 callback periods at 1024 sa / 48 kHz). Default 64 ms is the sweet spot for sustained voice. Takes effect on next capture session.")]
+    [SerializeField, Range(32f, 250f)] private float audioThreadFeedLatencyMs = 64f;
 
     // Step 3a: imitone is fed from OnAudioFilterRead; reusable buffer sized to current callback's `frames`.
     // Allocations are amortized — frames is constant within a session (= dspBufferSize), so realloc only on
     // audio config change. imitone.InputAudio uses audio.Length as sample count, so we MUST pass an array
     // of exactly `frames` length, not a larger scratch.
     private float[] imitoneFeedBuffer = Array.Empty<float>();
+
+    // Step 3a hybrid pivot: ring-read cursor used by OnAudioFilterRead to pull the imitone feed from
+    // rawRingBuffer (main-thread writer, audio-thread reader, TryEnter-safe via the existing 4-arg
+    // ReadRawSamples). Primed once per capture session in WaitMicPositionThenPlayCapture; advances at
+    // audio-thread cadence. -1 sentinel = not yet primed; ReadRawSamples auto-snaps to the live write head
+    // in that case (zero latency, recovered on the next prime).
+    private int audioThreadFeedReadPosition = -1;
+    private long audioThreadFeedReadTotalSamples;
+
+    // Step 3a hybrid pivot: counts samples dropped by the ring-read overflow guard inside ReadRawSamples
+    // (the consumer fell more than ~250 ms behind the producer; the helper skips ahead and reports the
+    // drop). Should stay 0 in normal play; sustained increments mean the audio thread starved or the
+    // main-thread writer burst-paused for an unusually long stretch.
+    private long audioFeedOverflowDroppedTotal;
+
+    // Step 3a hybrid pivot: silent in-memory clip the captureSource plays just to keep OnAudioFilterRead
+    // firing at audio-thread cadence. stream:false is critical — a streaming clip would re-engage the
+    // FMOD ~100-DSP-buffer scheduling lookahead policy that this pivot is designed to escape. The clip's
+    // contents are zeros; the final Array.Clear(data, 0, data.Length) at the end of OnAudioFilterRead
+    // keeps speakers silent regardless.
+    private AudioClip imitoneFeedDummyClip;
 
     // Step 3a: deferred-log channel for imitone.InputAudio exceptions. The audio thread MUST NOT call
     // Debug.Log* directly — string-interpolation alloc would trip audioCallbackGCAllocSuspectTotal and
@@ -168,6 +195,8 @@ public partial class ImitoneVoiceIntepreter
             imitoneInputAudioCallTotal = Interlocked.Read(ref imitoneInputAudioCallTotal),
             micRingOverflowSkipTotal = Interlocked.Read(ref micRingOverflowSkipTotal),
             audioCallbackFeedPeakAbsLastCallback = audioCallbackFeedPeakAbsVolatile,
+            audioThreadFeedReadTotalSamples = Interlocked.Read(ref audioThreadFeedReadTotalSamples),
+            audioFeedOverflowDroppedTotal = Interlocked.Read(ref audioFeedOverflowDroppedTotal),
         };
     }
 
@@ -307,6 +336,32 @@ public partial class ImitoneVoiceIntepreter
         captureSource.spatialBlend = 0f;
         captureSource.playOnAwake = false;
 
+        // Step 3a hybrid pivot: captureSource no longer plays the streaming mic clip. It plays a silent
+        // in-memory dummy clip just to keep OnAudioFilterRead firing at audio-thread cadence. Imitone is
+        // fed from rawRingBuffer inside OnAudioFilterRead via the existing 4-arg ReadRawSamples (TryEnter-
+        // safe). Regenerate the dummy clip when audio config changes (sample rate especially), otherwise
+        // reuse it across rebootstraps.
+        if (audioConfigOutputSampleRate > 0)
+        {
+            int dummyLength = Mathf.Max(audioConfigDspBufferSize, 1024);
+            if (imitoneFeedDummyClip == null
+                || imitoneFeedDummyClip.frequency != audioConfigOutputSampleRate
+                || imitoneFeedDummyClip.samples != dummyLength)
+            {
+                if (imitoneFeedDummyClip != null)
+                {
+                    Destroy(imitoneFeedDummyClip);
+                }
+                imitoneFeedDummyClip = AudioClip.Create(
+                    "ImitoneFeedDummy",
+                    dummyLength,
+                    1,
+                    audioConfigOutputSampleRate,
+                    stream: false);
+            }
+            captureSource.clip = imitoneFeedDummyClip;
+        }
+
         // Snapshot AFTER potential AddComponent so the user-facing diagnostic shows the post-bootstrap
         // count (always ≥ 1 in a healthy Step 3a state). The pre-bootstrap count was ambiguous: 0 is
         // valid (we'll create one) but indistinguishable from "AudioSource was deleted between sessions."
@@ -315,14 +370,30 @@ public partial class ImitoneVoiceIntepreter
 
     private IEnumerator WaitMicPositionThenPlayCapture()
     {
-        while (enabled && MicIngestIsReady && !string.IsNullOrEmpty(microphoneDeviceName))
+        // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
+        // Old behavior (pre-pivot): waited for Microphone.GetPosition > 0, assigned the streaming mic clip
+        // to captureSource, called Play(), then tried to align captureSource.timeSamples behind the write
+        // head. The audio engine snapped that gap back to ~100 DSP buffers within one frame regardless.
+        //
+        // New behavior: captureSource.clip is the silent dummy clip (set in EnsureCaptureAudioSourceConfigured).
+        // We wait until rawRingBuffer holds at least audioThreadFeedLatencyMs + one DSP buffer of samples,
+        // prime the audio-thread read cursor that far behind the write head, and Play immediately.
+        // No yield between prime and Play — keeps the first OnAudioFilterRead from running with an
+        // uninitialized cursor.
+        if (audioConfigOutputSampleRate <= 0 || captureSource == null)
         {
-            int pos = Microphone.GetPosition(microphoneDeviceName);
-            if (pos > 0)
-            {
-                break;
-            }
+            audioCaptureStartCoroutine = null;
+            yield break;
+        }
 
+        int requiredFill = Mathf.RoundToInt(audioConfigOutputSampleRate * (audioThreadFeedLatencyMs / 1000f))
+                           + Mathf.Max(0, audioConfigDspBufferSize);
+
+        // rawWriteTotalSamples is updated by main-thread UpdateMicReadFrame under rawBufferLock; this
+        // coroutine runs on the main thread too, so the read is uncontended (writer and reader are the
+        // same thread, just different call sites within the same Update tick).
+        while (enabled && MicIngestIsReady && microphoneBuffer != null && rawWriteTotalSamples < requiredFill)
+        {
             yield return null;
         }
 
@@ -332,50 +403,28 @@ public partial class ImitoneVoiceIntepreter
             yield break;
         }
 
-        captureSource.clip = microphoneBuffer;
+        // Prime the cursor under rawBufferLock; the helper computes (rawWritePosition - samplesBehind)
+        // mod ringLength against the LIVE write head. Then Play immediately — same coroutine turn, no
+        // yield in between.
+        bool primed = TryCreateRawReadCursorBehindMs(
+            audioThreadFeedLatencyMs,
+            out audioThreadFeedReadPosition,
+            out audioThreadFeedReadTotalSamples);
+
         captureSource.Play();
 
-        // Step 3a follow-on F1 fix: align captureSource read position close to the Microphone write head.
-        // Without this, Play() starts reading from clip-time 0, but Microphone.GetPosition often reports its
-        // first non-zero value already several seconds into the loop on Unity 2022.3 / Windows. The read
-        // would otherwise lag write by that gap permanently (sixth test run measured ~2.4 s on this machine,
-        // reproduced across two independent Play sessions). Budget = audioCapturePlayAlignmentBufferCount
-        // DSP buffers (sample-rate-portable, Inspector-tunable, default 3 ≈ 64 ms @ 48 kHz / 1024). Bounded
-        // below at 2048 samples in case audio config isn't populated yet. Modulo arithmetic handles the
-        // wraparound case where writePos < latencyBudget.
-        int clipSamples = microphoneBuffer.samples;
-        if (clipSamples > 0)
+        if (!primed)
         {
-            int writePos = Microphone.GetPosition(microphoneDeviceName);
-            int budgetBuffers = Mathf.Max(1, audioCapturePlayAlignmentBufferCount);
-            int latencyBudget = Math.Max(audioConfigDspBufferSize * budgetBuffers, 2048);
-            int targetRead = ((writePos - latencyBudget) % clipSamples + clipSamples) % clipSamples;
-            captureSource.timeSamples = targetRead;
-            float latencyMs = audioConfigOutputSampleRate > 0
-                ? latencyBudget * 1000f / audioConfigOutputSampleRate
+            UnityEngine.Debug.LogWarning("[Step3a-pivot] cursor prime failed (rawRingBuffer not allocated). Audio-thread feed will start at the live write head once ring data arrives.");
+        }
+        else
+        {
+            long writeTotal = rawWriteTotalSamples;
+            long gapSamples = writeTotal - audioThreadFeedReadTotalSamples;
+            float gapMs = audioConfigOutputSampleRate > 0
+                ? gapSamples * 1000f / audioConfigOutputSampleRate
                 : -1f;
-            UnityEngine.Debug.Log($"[Step3a-F1fix] captureSource read aligned: writePos={writePos}, targetRead={targetRead}, latencyBudget={latencyBudget}sa (~{latencyMs:F1}ms; {budgetBuffers} dsp buffers), clipSamples={clipSamples}");
-
-            // Step 3a follow-on F1 diagnostic: did the timeSamples assignment actually take effect, and
-            // when does the gap settle? Three reads at progressively later timing localize the failure
-            // mode if the static gap doesn't end up where we set it. See bug doc seventh test run +
-            // decision tree. Pure observation; no behavioral change. Removable once F1 root cause is locked.
-            int immediateRead = captureSource.timeSamples;
-            int immediateWrite = Microphone.GetPosition(microphoneDeviceName);
-            int immediateGap = ((immediateWrite - immediateRead) % clipSamples + clipSamples) % clipSamples;
-            UnityEngine.Debug.Log($"[Step3a-F1diag] T+0 (immediate): read={immediateRead}, write={immediateWrite}, gap={immediateGap}sa (~{(audioConfigOutputSampleRate > 0 ? immediateGap * 1000f / audioConfigOutputSampleRate : -1f):F1}ms)");
-
-            yield return null;
-            int oneFrameRead = captureSource.timeSamples;
-            int oneFrameWrite = Microphone.GetPosition(microphoneDeviceName);
-            int oneFrameGap = ((oneFrameWrite - oneFrameRead) % clipSamples + clipSamples) % clipSamples;
-            UnityEngine.Debug.Log($"[Step3a-F1diag] T+1frame: read={oneFrameRead}, write={oneFrameWrite}, gap={oneFrameGap}sa (~{(audioConfigOutputSampleRate > 0 ? oneFrameGap * 1000f / audioConfigOutputSampleRate : -1f):F1}ms)");
-
-            yield return new WaitForSeconds(0.5f);
-            int halfSecRead = captureSource.timeSamples;
-            int halfSecWrite = Microphone.GetPosition(microphoneDeviceName);
-            int halfSecGap = ((halfSecWrite - halfSecRead) % clipSamples + clipSamples) % clipSamples;
-            UnityEngine.Debug.Log($"[Step3a-F1diag] T+0.5s: read={halfSecRead}, write={halfSecWrite}, gap={halfSecGap}sa (~{(audioConfigOutputSampleRate > 0 ? halfSecGap * 1000f / audioConfigOutputSampleRate : -1f):F1}ms)");
+            UnityEngine.Debug.Log($"[Step3a-pivot] cursor primed: latencyTarget={audioThreadFeedLatencyMs:F1}ms, readPos={audioThreadFeedReadPosition}, readTotal={audioThreadFeedReadTotalSamples}, writeTotal={writeTotal}, gap={gapSamples}sa (~{gapMs:F1}ms), ringFill={writeTotal}sa");
         }
 
         audioCaptureStartCoroutine = null;
@@ -558,14 +607,18 @@ public partial class ImitoneVoiceIntepreter
             }
         }
 
-        // Step 3a: feed imitone from the audio thread, after the ring write and only past the priming window.
-        // FMOD's record buffer typically delivers silence/garbage in the first few callbacks — feeding that to
-        // imitone teaches the analyzer to lock onto silence and pollutes noise-floor calibration.
-        // imitone is fed UNFILTERED mono in 3a (DSP / dB metering still run on main thread); 3b moves filtering
-        // ahead of this call. 3a's test bar is "tone tracking responsive," not "tone tracking pre-3a-identical."
-        // imitone.InputAudio uses audio.Length as sample count (imitone.cs), so we copy `frames` from monoScratch
-        // (which is sized to scratchFrames >= frames) into a feed buffer of EXACTLY `frames` length.
-        if (!stillPrimingThisCallback && imitone != null && frames > 0)
+        // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
+        // Imitone feed is now pulled from rawRingBuffer (main-thread writer, audio-thread reader, TryEnter-
+        // safe) instead of from the data[] streaming-clip path. The captureSource is just driving this
+        // callback's cadence with the silent dummy clip; data[] / monoScratch above are dormant in 3a but
+        // kept through pass 2 so the parallel-path telemetry stays comparable.
+        //
+        // Cursor advance policy: read every callback (so the cursor stays at the configured latency offset
+        // behind the write head; not reading would let the gap grow as the write head advances). On
+        // priming callbacks we still read+advance, but skip imitone.InputAudio so FMOD startup transients
+        // don't reach the analyzer. On lock miss / empty ring (copied == 0) we also skip — feeding a full
+        // callback of zeros would be a sharper discontinuity than missing one analyzer tick (per imitone.cs:80).
+        if (imitone != null && frames > 0)
         {
             if (imitoneFeedBuffer.Length != frames)
             {
@@ -574,13 +627,21 @@ public partial class ImitoneVoiceIntepreter
                 imitoneFeedBuffer = new float[frames];
             }
 
-            Array.Copy(monoScratch, 0, imitoneFeedBuffer, 0, frames);
+            int copied = ReadRawSamples(
+                imitoneFeedBuffer,
+                ref audioThreadFeedReadPosition,
+                ref audioThreadFeedReadTotalSamples,
+                out int overflowDropped);
 
-            // Step 3a debug telemetry — peak abs of the buffer about to be fed to imitone. See
-            // Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md. If this stays ~0 while _dbMicrophone moves
-            // on voice, the audio thread is receiving silence (AudioSource path is broken). If this
-            // matches voice amplitude (~0.05–0.5) and imitone STILL reports power=0, the bug is
-            // imitone-side, not feed-side. Decision tree in the doc.
+            if (overflowDropped > 0)
+            {
+                Interlocked.Add(ref audioFeedOverflowDroppedTotal, overflowDropped);
+            }
+
+            // Peak-abs telemetry — measured on what we'd feed to imitone, regardless of priming. If this
+            // stays ~0 while _dbMicrophone moves on voice, the ring isn't being filled (mic-ingest issue);
+            // if it matches voice amplitude (~0.05–0.5) and imitone STILL reports power=0, the bug is
+            // imitone-side, not feed-side.
             float peakAbs = 0f;
             for (int i = 0; i < frames; i++)
             {
@@ -590,21 +651,24 @@ public partial class ImitoneVoiceIntepreter
             }
             audioCallbackFeedPeakAbsVolatile = peakAbs;
 
-            try
+            if (!stillPrimingThisCallback && copied > 0)
             {
-                imitone.InputAudio(imitoneFeedBuffer);
-                Interlocked.Increment(ref imitoneInputAudioCallTotal);
-            }
-            catch (Exception ex)
-            {
-                // Swallow + defer. Audio thread CAS-publishes the first exception reference (no alloc — the
-                // exception object was already allocated by the throw). Main thread drains via
-                // DrainImitoneInputAudioPendingException(). Once main thread has logged,
-                // imitoneInputAudioMainThreadLogged latches true and we stop capturing further exceptions
-                // (no point — main thread won't log again).
-                if (!imitoneInputAudioMainThreadLogged)
+                try
                 {
-                    Interlocked.CompareExchange(ref imitoneInputAudioPendingException, ex, null);
+                    imitone.InputAudio(imitoneFeedBuffer);
+                    Interlocked.Increment(ref imitoneInputAudioCallTotal);
+                }
+                catch (Exception ex)
+                {
+                    // Swallow + defer. Audio thread CAS-publishes the first exception reference (no alloc — the
+                    // exception object was already allocated by the throw). Main thread drains via
+                    // DrainImitoneInputAudioPendingException(). Once main thread has logged,
+                    // imitoneInputAudioMainThreadLogged latches true and we stop capturing further exceptions
+                    // (no point — main thread won't log again).
+                    if (!imitoneInputAudioMainThreadLogged)
+                    {
+                        Interlocked.CompareExchange(ref imitoneInputAudioPendingException, ex, null);
+                    }
                 }
             }
         }

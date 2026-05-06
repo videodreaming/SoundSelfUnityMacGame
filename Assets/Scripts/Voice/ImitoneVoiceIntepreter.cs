@@ -249,6 +249,10 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         // OnAudioFilterRead is about to feed imitone. Used to discriminate "feed is silent" from
         // "feed is voice but imitone isn't pitching."
         public float audioCallbackFeedPeakAbsLastCallback;
+        // Step 3a hybrid pivot (see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md): logical read cursor into
+        // rawRingBuffer on the audio-thread imitone-feed path; cumulative overflow drops from ReadRawSamples.
+        public long audioThreadFeedReadTotalSamples;
+        public long audioFeedOverflowDroppedTotal;
     }
 
     private Coroutine currentNoiseFloorCoroutine;
