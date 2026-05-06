@@ -94,13 +94,14 @@ The convention exists because debugging-by-screenshot needs the values to be in 
 
 Rules:
 
-- **One block, top of Inspector.** The `CURRENT TEST` block sits above all permanent telemetry sections in `MicVoiceIngestDebugAggregate`. The engineer reads only this block while a bug is active.
+- **One block, top of Inspector.** The `CURRENT TEST` block sits above all permanent telemetry sections in `MicVoiceIngestDebugAggregate`. The engineer reads only this block while a test is active.
+- **ONLY contains values needed for the current test.** No accumulation across tests. Fields from earlier tests that aren't needed for the active test get **removed**, not left around "in case." If a Pass 3b test tracks five fields and a Pass 4 test tracks four (overlapping with three of the original five), the block ends up with the new four — not nine. This is what makes one-screengrab debugging-by-Inspector actually work.
 - **Mirrors, not new sources.** Each field in the block is a **copy** of a value that lives somewhere else in the Inspector (or on `ImitoneVoiceIntepreter`). Duplicates are intentional and expected. Permanent fields **do not** live under `CURRENT TEST`.
 - **`currentTestDescription`** sits at the top of the block. It carries the test name, what to report back, and the decision tree — accessible via the Inspector tooltip. The engineer can read the whole protocol without leaving the Inspector.
 - **Field naming:** `currentTest*` so they sort together and are obviously disposable.
-- **Rewrite per active diagnostic step.** When the active hypothesis or telemetry set changes, the agent rewrites the block — both the field set and the `currentTestDescription` — to match the new test. Old `currentTest*` fields that are no longer relevant get removed in the same pass.
-- **Disposable.** When the bug closes, the entire block is removed. Any field that proved valuable long-term is **moved down** into the appropriate permanent header section before the block is deleted — it doesn't stay under `CURRENT TEST`.
-- **Bug doc owns the deeper protocol.** The block surfaces values; the active bug document (`Docs/STEP_<n>_BUG_<name>.md` or equivalent) owns the hypotheses, evidence log, and decision tree. The two cross-reference each other.
+- **Rewrite BEFORE each testing round** — not during, not after. When a step's first-pass code lands, the same edit batch updates the `CURRENT TEST` block (header, `currentTestDescription`, field set, `LateUpdate` mirror copies, tooltip bar) to match what that round needs. The engineer never enters Play mode against a stale CURRENT TEST. If the test protocol changes mid-investigation (e.g. a hypothesis shifts and demands different values), the rewrite happens **before** the next Editor session, in its own commit if needed.
+- **Disposable.** When the test / bug closes, the entire block is removed. Any field that proved valuable long-term is **moved down** into the appropriate permanent header section before the block is deleted — it doesn't stay under `CURRENT TEST`.
+- **Bug doc / step plan owns the deeper protocol.** The block surfaces values; the active bug document (`Docs/STEP_<n>_BUG_<name>.md`) or the relevant step section in this plan doc owns the hypotheses, evidence log, decision tree, and pass-level test bar. The two cross-reference each other.
 
 This convention lives **outside** any single bug — keep it across the rest of the rearchitecture and beyond.
 
