@@ -233,11 +233,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         public int audioCallbackLastSamplesPerCallback;
         public float audioCallbackHzRolling;
         public float audioCallbackMaxGapMsLastSecond;
-        public long audioCallbackLockMissTotal;
         public long audioCallbackGCAllocSuspectTotal;
-        public long audioRingWriteTotalSamples;
-        public int audioRingWriteLastClipReadStart;
-        public int audioRingWriteLastClipReadCount;
         public int aggMicClipChannels;
         public int aggMixerChannels;
         public int audioConfigOutputSampleRate;
@@ -258,8 +254,8 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         // readTotal); aggregate converts to ms via audioConfigOutputSampleRate. Persistent target ~40-90 ms.
         public long audioThreadFeedToWriteHeadGapSamples;
         // Step 3a Pass 2: TryEnter(0) misses on rawBufferLock from audio-thread readers (imitone feed +
-        // DirectVoiceMonitoring). Distinct from audioCallbackLockMissTotal, which counts misses on the
-        // pass-3-doomed audioRingWriteLock.
+        // DirectVoiceMonitoring). Drives FAIL_AUDIO_LOCK_CONTENTION (pass 3 repointed it from the now-deleted
+        // audioCallbackLockMissTotal on the audioRingWriteLock).
         public long rawRingReadLockMissTotal;
     }
 

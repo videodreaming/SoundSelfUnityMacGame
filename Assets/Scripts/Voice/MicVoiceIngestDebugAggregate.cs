@@ -65,7 +65,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private bool FAIL_AUDIO_CALLBACK_RATE_LOW;
     [Tooltip("True when max inter-callback gap in the last second exceeds the high multiplier of nominal.")]
     [SerializeField] private bool FAIL_AUDIO_CALLBACK_GAP_HIGH;
-    [Tooltip("True when lock-miss count in the last 1s window exceeds the per-second threshold.")]
+    [Tooltip("True when rawBufferLock TryEnter(0) miss count (aggRawRingReadLockMissTotal) in the last 1s window exceeds failAudioLockMissPerSecondThreshold. Pass 3 repointed this from the deleted audioRingWriteLock counter; the FAIL flag name kept stable.")]
     [SerializeField] private bool FAIL_AUDIO_LOCK_CONTENTION;
     [Tooltip("Sticky: latched when GC-alloc-suspect counter increases; clear with clearFailObservationStickyFlags.")]
     [SerializeField] private bool FAIL_AUDIO_GC_ALLOC_DETECTED;
@@ -103,6 +103,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private float failAudioCallbackFrozenSeconds = 0.2f;
     [SerializeField] private float failAudioCallbackRateLowFraction = 0.75f;
     [SerializeField] private float failAudioCallbackGapHighMultiplier = 2f;
+    // Pass 3 note: now applies to rawBufferLock TryEnter(0) misses (was audioRingWriteLock pre-pass-3). Pass 2
+    // play-test data showed ~0.04 misses/sec under healthy conditions; 50/sec is a "lock storm" alarm, not a
+    // "mild contention" alarm. Tune lower if/when we want earlier warning. Left at 50 for Pass 3 to avoid
+    // shifting two variables (counter source + threshold) in the same pass.
     [SerializeField] private long failAudioLockMissPerSecondThreshold = 50;
     [SerializeField] private float failImitoneNotFedSeconds = 0.2f;
     [SerializeField] [Range(0f, 1f)] private float failImitoneFeedRatioMin = 0.95f;
@@ -124,11 +128,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggAudioCallbackLastSamplesPerCallback;
     [SerializeField] private float aggAudioCallbackHzRolling;
     [SerializeField] private float aggAudioCallbackMaxGapMsLastSecond;
-    [SerializeField] private long aggAudioCallbackLockMissTotal;
     [SerializeField] private long aggAudioCallbackGCAllocSuspectTotal;
-    [SerializeField] private long aggAudioRingWriteTotalSamples;
-    [SerializeField] private int aggAudioRingWriteLastClipReadStart;
-    [SerializeField] private int aggAudioRingWriteLastClipReadCount;
     [SerializeField] private int aggMicClipChannels;
     [SerializeField] private int aggMixerChannels;
     [SerializeField] private int aggAudioConfigOutputSampleRate;
@@ -143,7 +143,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] [Range(0f, 1.5f)] private float aggImitoneInputToCallbackRatio;
     [Tooltip("Frames since imitone GetState returned a different (power, pitch_hz) tuple. Stays near 0 in normal operation; climbs only if imitone is hung.")]
     [SerializeField] private int aggMainThreadFramesSinceLastImitoneStateChange;
-    [Tooltip("Audio-thread ring writes skipped due to consumer-overrun. (3a: never increments — placeholder for Step 5b when a consumer exists. Distinct from aggAudioCallbackLockMissTotal, which is lock contention.)")]
+    [Tooltip("Audio-thread ring writes skipped due to consumer-overrun. (3a: never increments — placeholder for Step 5b when a consumer exists. Distinct from aggRawRingReadLockMissTotal, which is rawBufferLock TryEnter contention.)")]
     [SerializeField] private long aggMicRingOverflowSkipTotal;
     [Tooltip("DEBUG: peak |sample| of the mono buffer the audio thread just handed to imitone.InputAudio. While toning, expect 0.05–0.5. If ~0 while _dbMicrophone moves on voice, the audio thread is being fed silence and imitone is innocent.")]
     [SerializeField] private float aggAudioThreadFeedPeakAbsLastCallback;
@@ -155,7 +155,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private long aggAudioThreadFeedToWriteHeadGapSamples;
     [Tooltip("Step 3a Pass 2: same gap converted to ms via aggAudioConfigOutputSampleRate. Stable 40-180 ms band; absolute value is mic-ADC-vs-engine clock-skew dependent. Drift < 20 ms across a 60s session is the real test. Self-limits at 250ms via ReadRawSamples overflow guard.")]
     [SerializeField] private float aggAudioThreadFeedToWriteHeadGapMs;
-    [Tooltip("Step 3a Pass 2: TryEnter(0) misses on rawBufferLock from audio-thread readers (imitone feed + DirectVoiceMonitoring). Distinct from aggAudioCallbackLockMissTotal (audioRingWriteLock; pass-3-doomed). Should stay near 0.")]
+    [Tooltip("Step 3a Pass 2: TryEnter(0) misses on rawBufferLock from audio-thread readers (imitone feed + DirectVoiceMonitoring). The driver of FAIL_AUDIO_LOCK_CONTENTION (Pass 3 repointed it from the now-deleted audioRingWriteLock counter to this one). Should stay near 0.")]
     [SerializeField] private long aggRawRingReadLockMissTotal;
 
     [Header("Tone / imitone gate (ImitoneVoiceIntepreter — public runtime flags)")]
@@ -227,6 +227,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private float _lastAudioCallbackTotalAdvanceRealtime;
     private float _audioRateLowSustainedTimer;
     private float _audioLockMissWindowTimer;
+    // Pass 3: was tracking audioRingWriteLock (now deleted). Repointed to aggRawRingReadLockMissTotal —
+    // contention on rawBufferLock between the main-thread mic writer and audio-thread readers (imitone feed,
+    // DirectVoiceMonitoring). Field name kept generic ("audio lock miss") since the FAIL flag is the same.
     private long _audioLockMissAtWindowStart;
     private bool _audioLockBaselineInitialized;
     private bool _audioGCBaselineInitialized;
@@ -333,11 +336,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggAudioCallbackLastSamplesPerCallback = a.audioCallbackLastSamplesPerCallback;
             aggAudioCallbackHzRolling = a.audioCallbackHzRolling;
             aggAudioCallbackMaxGapMsLastSecond = a.audioCallbackMaxGapMsLastSecond;
-            aggAudioCallbackLockMissTotal = a.audioCallbackLockMissTotal;
             aggAudioCallbackGCAllocSuspectTotal = a.audioCallbackGCAllocSuspectTotal;
-            aggAudioRingWriteTotalSamples = a.audioRingWriteTotalSamples;
-            aggAudioRingWriteLastClipReadStart = a.audioRingWriteLastClipReadStart;
-            aggAudioRingWriteLastClipReadCount = a.audioRingWriteLastClipReadCount;
             aggMicClipChannels = a.aggMicClipChannels;
             aggMixerChannels = a.aggMixerChannels;
             aggAudioConfigOutputSampleRate = a.audioConfigOutputSampleRate;
@@ -423,7 +422,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         {
             if (!_audioLockBaselineInitialized)
             {
-                _audioLockMissAtWindowStart = aggAudioCallbackLockMissTotal;
+                _audioLockMissAtWindowStart = aggRawRingReadLockMissTotal;
                 _audioLockMissWindowTimer = 0f;
                 _audioLockBaselineInitialized = true;
             }
@@ -473,9 +472,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             _audioLockMissWindowTimer += Time.deltaTime;
             if (_audioLockMissWindowTimer >= 1f)
             {
-                long d = aggAudioCallbackLockMissTotal - _audioLockMissAtWindowStart;
+                long d = aggRawRingReadLockMissTotal - _audioLockMissAtWindowStart;
                 FAIL_AUDIO_LOCK_CONTENTION = d > failAudioLockMissPerSecondThreshold;
-                _audioLockMissAtWindowStart = aggAudioCallbackLockMissTotal;
+                _audioLockMissAtWindowStart = aggRawRingReadLockMissTotal;
                 _audioLockMissWindowTimer = 0f;
             }
 

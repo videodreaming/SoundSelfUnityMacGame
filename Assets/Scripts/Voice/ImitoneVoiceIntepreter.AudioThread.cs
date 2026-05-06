@@ -16,11 +16,6 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private int audioCallbackPrimingFramesToSkip = 8;
     [SerializeField] private float audioCallbackGcSuspectMsThreshold = 3f;
 
-    // Step 3a F1 fix (DEPRECATED — superseded by Step 3a hybrid pivot; see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md).
-    // No longer read at runtime. Field kept for one pass so Inspector values aren't lost; will be deleted in pass 3.
-    [Tooltip("DEPRECATED — replaced by audioThreadFeedLatencyMs in the Step 3a hybrid pivot (Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md). Kept for one pass so existing Inspector values aren't silently dropped; not read at runtime. Removed in pass 3.")]
-    [SerializeField, Range(1, 6)] private int audioCapturePlayAlignmentBufferCount = 3;
-
     // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
     // Imitone-feed latency: the audio-thread read cursor is primed this far behind the live rawRingBuffer
     // write head and stays there. Higher = more headroom for main-thread write-jitter bursts; lower =
@@ -68,8 +63,10 @@ public partial class ImitoneVoiceIntepreter
     // Step 3a: counts successful imitone.InputAudio calls from the audio thread.
     private long imitoneInputAudioCallTotal;
     // Step 3a: counts ring writes skipped because they would overrun the consumer position.
-    // Distinct from audioCallbackLockMissTotal (lock contention). Never increments in 3a (no consumer of
-    // the audio-thread ring yet); placeholder for Step 5b when the legacy mic-ingest path is retired.
+    // Never increments in 3a (no consumer of the audio-thread ring; the ring itself was deleted in
+    // pass 3 along with audioRingWriteLock and audioRingWriteTotalSamples). Placeholder for Step 5b
+    // when the legacy mic-ingest path is retired and a similar guard returns. Distinct from
+    // rawRingReadLockMissTotal (rawBufferLock TryEnter contention).
     private long micRingOverflowSkipTotal;
 
     // Step 3a debug (see Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md): peak absolute amplitude of the
@@ -115,23 +112,13 @@ public partial class ImitoneVoiceIntepreter
     private int audioConfigDspBufferSize;
     private AudioSpeakerMode audioConfigSpeakerMode;
 
-    private float[] monoScratch = Array.Empty<float>();
-    private float[] audioThreadRing = Array.Empty<float>();
-    private readonly object audioRingWriteLock = new object();
-    private int audioRingWritePosition;
-    private long audioRingWriteTotalSamples;
-
     private int audioCallbackPrimingFramesRemaining;
 
     private long audioCallbackTotal;
     private long audioCallbackSamplesProcessedTotal;
     private volatile int audioCallbackLastSamplesPerCallback;
     private volatile int aggMixerChannelsVolatile;
-    private long audioCallbackLockMissTotal;
     private long audioCallbackGCAllocSuspectTotal;
-
-    private volatile int audioRingWriteLastClipReadStart;
-    private volatile int audioRingWriteLastClipReadCount;
 
     private int aggMicClipChannelsCached;
 
@@ -161,11 +148,7 @@ public partial class ImitoneVoiceIntepreter
             audioCallbackLastSamplesPerCallback = audioCallbackLastSamplesPerCallback,
             audioCallbackHzRolling = audioCallbackHzRollingVolatile,
             audioCallbackMaxGapMsLastSecond = audioCallbackMaxGapMsLastSecondVolatile,
-            audioCallbackLockMissTotal = Interlocked.Read(ref audioCallbackLockMissTotal),
             audioCallbackGCAllocSuspectTotal = Interlocked.Read(ref audioCallbackGCAllocSuspectTotal),
-            audioRingWriteTotalSamples = Interlocked.Read(ref audioRingWriteTotalSamples),
-            audioRingWriteLastClipReadStart = audioRingWriteLastClipReadStart,
-            audioRingWriteLastClipReadCount = audioRingWriteLastClipReadCount,
             aggMicClipChannels = aggMicClipChannelsCached,
             aggMixerChannels = aggMixerChannelsVolatile,
             audioConfigOutputSampleRate = audioConfigOutputSampleRate,
@@ -194,14 +177,6 @@ public partial class ImitoneVoiceIntepreter
         audioConfigOutputSampleRate = cfg.sampleRate;
         audioConfigDspBufferSize = Mathf.Max(64, cfg.dspBufferSize);
         audioConfigSpeakerMode = cfg.speakerMode;
-
-        int scratchFrames = Mathf.Max(audioConfigDspBufferSize * 2, 8192);
-        monoScratch = new float[scratchFrames];
-
-        int ringLen = Mathf.Max(audioConfigOutputSampleRate * 2, micCaptureSampleRate * 2, 8192);
-        audioThreadRing = new float[ringLen];
-        audioRingWritePosition = 0;
-        Interlocked.Exchange(ref audioRingWriteTotalSamples, 0);
 
         audioCallbackLastTicks = 0;
         Interlocked.Exchange(ref audioCallbackMaxGapTicksWindow, 0);
@@ -512,32 +487,6 @@ public partial class ImitoneVoiceIntepreter
             }
         }
 
-        if (frames > monoScratch.Length)
-        {
-            Interlocked.Increment(ref audioCallbackGCAllocSuspectTotal);
-            Array.Clear(data, 0, data.Length);
-            return;
-        }
-
-        if (channels == 1)
-        {
-            Array.Copy(data, 0, monoScratch, 0, frames);
-        }
-        else
-        {
-            for (int i = 0; i < frames; i++)
-            {
-                float sum = 0f;
-                int baseIdx = i * channels;
-                for (int c = 0; c < channels; c++)
-                {
-                    sum += data[baseIdx + c];
-                }
-
-                monoScratch[i] = sum / channels;
-            }
-        }
-
         aggMixerChannelsVolatile = channels;
         audioCallbackLastSamplesPerCallback = frames;
 
@@ -550,46 +499,10 @@ public partial class ImitoneVoiceIntepreter
             audioCallbackPrimingFramesRemaining--;
         }
 
-        bool lockTaken = false;
-        try
-        {
-            lockTaken = Monitor.TryEnter(audioRingWriteLock, 0);
-            if (!lockTaken)
-            {
-                Interlocked.Increment(ref audioCallbackLockMissTotal);
-            }
-            else
-            {
-                int ringLen = audioThreadRing.Length;
-                if (ringLen > 0)
-                {
-                    long logicalStart = Interlocked.Read(ref audioRingWriteTotalSamples);
-                    audioRingWriteLastClipReadStart = (int)(logicalStart % ringLen);
-                    audioRingWriteLastClipReadCount = frames;
-
-                    for (int i = 0; i < frames; i++)
-                    {
-                        audioThreadRing[audioRingWritePosition] = monoScratch[i];
-                        audioRingWritePosition = (audioRingWritePosition + 1) % ringLen;
-                    }
-
-                    Interlocked.Add(ref audioRingWriteTotalSamples, frames);
-                }
-            }
-        }
-        finally
-        {
-            if (lockTaken)
-            {
-                Monitor.Exit(audioRingWriteLock);
-            }
-        }
-
         // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
-        // Imitone feed is now pulled from rawRingBuffer (main-thread writer, audio-thread reader, TryEnter-
-        // safe) instead of from the data[] streaming-clip path. The captureSource is just driving this
-        // callback's cadence with the silent dummy clip; data[] / monoScratch above are dormant in 3a but
-        // kept through pass 2 so the parallel-path telemetry stays comparable.
+        // Imitone is fed from rawRingBuffer (main-thread writer, audio-thread reader, TryEnter-safe via the
+        // 4-arg ReadRawSamples). captureSource just drives this callback's cadence with the silent dummy clip;
+        // data[] is no longer read into a local buffer (Pass 3 cleanup deleted the dead parallel-ring path).
         //
         // Cursor advance policy: read every callback (so the cursor stays at the configured latency offset
         // behind the write head; not reading would let the gap grow as the write head advances). On
