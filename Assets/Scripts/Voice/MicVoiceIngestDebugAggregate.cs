@@ -7,8 +7,9 @@ using UnityEngine;
 /// CURRENT TEST header/field set for click protocol verification</b> (M1/M2/M5/M6) — surfaces
 /// DirectVoiceMonitoring underflow / overflow / starvation / hard-volume-step counters in the aggregate
 /// (previously visible only in DirectVoiceMonitoring's own Inspector). Optional <c>Debug.LogError</c> on
-/// FAIL rising edges / dB-tear streaks when <see cref="logFailObservationErrorsToConsole"/> is enabled —
-/// for soak and user builds.
+/// FAIL rising edge / sustained (exponential backoff: 0.25 s → 16 s) / falling edge with duration +
+/// "flags seen during window" summary, when <see cref="logFailObservationErrorsToConsole"/> is enabled —
+/// for soak and user builds where Inspector FAIL flags are not visible.
 /// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values are copied
 /// from <see cref="ImitoneVoiceIntepreter.GetMicIngestDebugSnapshot"/>.
 /// The <b>CURRENT TEST</b> section at the top contains <i>only</i> what the active play test needs — tight
@@ -125,8 +126,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [Header("FAIL OBSERVATION — actions")]
     [Tooltip("Tick once in Play mode to clear sticky gentle-recovery latch and reset ring-stall baseline; unticks automatically.")]
     [SerializeField] private bool clearFailObservationStickyFlags;
-    [Tooltip("When enabled: Debug.LogError on the frame FAIL_OBSERVATION (composite FAILURE) first becomes true, with a list of contributing FAIL_* flags and key counter snapshots — for soak sessions / user builds where Inspector FAIL flags are not visible. Also logs once per contiguous streak when the _dbMicrophone tear detector fires. Disable if another pipeline ingests Unity console logs and you need less noise.")]
+    [Tooltip("When enabled: Debug.LogError on the rising edge AND while sustained AND on the falling edge of FAIL_OBSERVATION (composite FAILURE) — for soak sessions / user builds where Inspector FAIL flags are not visible. Also logs once per contiguous streak when the _dbMicrophone tear detector fires. Disable if another pipeline ingests Unity console logs and you need less noise. See failObservationLogIntervalInitialSeconds and failObservationLogIntervalCapSeconds for re-log cadence while a failure is sustained.")]
     [SerializeField] private bool logFailObservationErrorsToConsole = true;
+    [Tooltip("First periodic re-log delay AFTER the rising-edge log, while FAILURE is still TRUE. Each subsequent re-log doubles this interval until failObservationLogIntervalCapSeconds is hit (exponential backoff). Default 0.25 s preserves resolution for short blips; backoff prevents log spam on long sustained failures. Set to 0 to disable periodic re-logging (rising + falling-edge only).")]
+    [SerializeField] [Range(0f, 5f)] private float failObservationLogIntervalInitialSeconds = 0.25f;
+    [Tooltip("Maximum interval between periodic re-logs while FAILURE is sustained (exponential backoff cap). After hitting this cap, re-logs continue at this rate until the failure clears. Default 16 s = a 60 s sustained failure produces ~9 logs total instead of ~240 at fixed 0.25 s.")]
+    [SerializeField] [Range(1f, 120f)] private float failObservationLogIntervalCapSeconds = 16f;
 
     [Header("References (auto-filled from this GameObject if empty)")]
     [Tooltip("Single source for both tone/imitone state and mic-ingest snapshots. Snapshots are routed via this reference during 0.7b; underlying state migrates fully into the interpreter in 0.7c.")]
@@ -285,9 +290,31 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private float _lastMicRingOverflowIncreaseRealtime = -1f;
     private int _prevAggCaptureEpoch = -1;
 
-    // Production/soak logging: rising edge of composite FAILURE + first frame of each dB-tear streak.
+    // Production/soak logging: rising / sustained / falling edges of composite FAILURE + first frame
+    // of each dB-tear streak. The rising-edge log captures "when did this start"; the periodic re-log
+    // (exponential backoff from failObservationLogIntervalInitialSeconds → failObservationLogIntervalCapSeconds)
+    // tells field/soak readers "is it still happening RIGHT NOW after N seconds"; the falling-edge log
+    // captures "how long did it last + what flags were ever true during the window."
     private bool _prevFailureObserved;
     private bool _dbMicTearReadErrorStreakActive;
+    private float _failObservationRisingEdgeRealtime;
+    private float _failObservationLastLogRealtime;
+    private float _failObservationNextLogIntervalSeconds;
+    // Per-flag "ever-true during this failure window" trackers for the falling-edge "flags seen during" summary.
+    // Reset on rising edge; OR'd-in every frame while sustained; emitted in BuildFailObservationAccumulatedFlagsSummary.
+    private bool _failSeenAudioCallbackFrozen;
+    private bool _failSeenAudioCallbackRateLow;
+    private bool _failSeenAudioCallbackGapHigh;
+    private bool _failSeenAudioLockContention;
+    private bool _failSeenImitoneNotFed;
+    private bool _failSeenImitoneFeedRatioLow;
+    private bool _failSeenRingOverflowGrowing;
+    private bool _failSeenUnreadZeroSustained;
+    private bool _failSeenIngestRingStalled;
+    private bool _failSeenGentleRecoveryFired;
+    private bool _failSeenMonitoringStarvationGrowing;
+    private bool _failSeenMicNotReady;
+    private bool _failSeenDbTearDetected;
 
     private void Awake()
     {
@@ -299,6 +326,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _dbMicTearStickyLatched = false;
         _prevFailureObserved = false;
         _dbMicTearReadErrorStreakActive = false;
+        _failObservationRisingEdgeRealtime = 0f;
+        _failObservationLastLogRealtime = 0f;
+        _failObservationNextLogIntervalSeconds = 0f;
+        ResetFailObservationAccumulatedFlags();
         if (interpreter == null)
         {
             interpreter = GetComponent<ImitoneVoiceIntepreter>();
@@ -785,21 +816,128 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
 
         currentTestFailure = FAILURE;
 
-        if (logFailObservationErrorsToConsole && FAILURE && !_prevFailureObserved)
+        if (logFailObservationErrorsToConsole)
         {
-            UnityEngine.Debug.LogError("[MicVoiceIngest] FAIL_OBSERVATION composite is now TRUE — " + BuildFailObservationLogDetail());
+            bool isRising = FAILURE && !_prevFailureObserved;
+            bool isSustained = FAILURE && _prevFailureObserved;
+            bool isFalling = !FAILURE && _prevFailureObserved;
+            float now = Time.realtimeSinceStartup;
+
+            if (isRising)
+            {
+                _failObservationRisingEdgeRealtime = now;
+                _failObservationLastLogRealtime = now;
+                _failObservationNextLogIntervalSeconds = Mathf.Max(0f, failObservationLogIntervalInitialSeconds);
+                ResetFailObservationAccumulatedFlags();
+                AccumulateFailObservationFlags();
+                UnityEngine.Debug.LogError("[MicVoiceIngest] FAIL_OBSERVATION composite is now TRUE — " + BuildFailObservationLogDetail());
+            }
+            else if (isSustained)
+            {
+                AccumulateFailObservationFlags();
+                // Periodic re-log with exponential backoff. interval == 0 => disabled (rising + falling only).
+                if (_failObservationNextLogIntervalSeconds > 0f
+                    && now - _failObservationLastLogRealtime >= _failObservationNextLogIntervalSeconds)
+                {
+                    float elapsed = now - _failObservationRisingEdgeRealtime;
+                    UnityEngine.Debug.LogError(
+                        $"[MicVoiceIngest] FAIL_OBSERVATION still TRUE after {elapsed:F2}s — "
+                        + BuildFailObservationLogDetail());
+                    _failObservationLastLogRealtime = now;
+                    _failObservationNextLogIntervalSeconds = Mathf.Min(
+                        _failObservationNextLogIntervalSeconds * 2f,
+                        Mathf.Max(failObservationLogIntervalInitialSeconds, failObservationLogIntervalCapSeconds));
+                }
+            }
+            else if (isFalling)
+            {
+                float duration = now - _failObservationRisingEdgeRealtime;
+                UnityEngine.Debug.LogError(
+                    $"[MicVoiceIngest] FAIL_OBSERVATION cleared after {duration:F2}s — flags seen during window: "
+                    + BuildFailObservationAccumulatedFlagsSummary());
+                ResetFailObservationAccumulatedFlags();
+                _failObservationNextLogIntervalSeconds = 0f;
+            }
         }
 
         _prevFailureObserved = FAILURE;
     }
 
     /// <summary>
-    /// One-line diagnostic for soak / player logs when <see cref="FAILURE"/> fires. Only called
-    /// on the rising edge (not every LateUpdate).
+    /// OR every currently-true FAIL_* flag into the per-window "ever seen" trackers. Called on
+    /// rising edge (captures the initial set) and every sustained-failure frame (captures any flags
+    /// that joined the window after the initial trip). Read at falling edge by
+    /// <see cref="BuildFailObservationAccumulatedFlagsSummary"/>.
+    /// </summary>
+    private void AccumulateFailObservationFlags()
+    {
+        if (FAIL_AUDIO_CALLBACK_FROZEN) _failSeenAudioCallbackFrozen = true;
+        if (FAIL_AUDIO_CALLBACK_RATE_LOW) _failSeenAudioCallbackRateLow = true;
+        if (FAIL_AUDIO_CALLBACK_GAP_HIGH) _failSeenAudioCallbackGapHigh = true;
+        if (FAIL_AUDIO_LOCK_CONTENTION) _failSeenAudioLockContention = true;
+        if (FAIL_IMITONE_NOT_FED) _failSeenImitoneNotFed = true;
+        if (FAIL_IMITONE_FEED_RATIO_LOW) _failSeenImitoneFeedRatioLow = true;
+        if (FAIL_RING_OVERFLOW_GROWING) _failSeenRingOverflowGrowing = true;
+        if (FAIL_UNREAD_ZERO_SUSTAINED) _failSeenUnreadZeroSustained = true;
+        if (FAIL_INGEST_RING_STALLED) _failSeenIngestRingStalled = true;
+        if (FAIL_GENTLE_RECOVERY_FIRED) _failSeenGentleRecoveryFired = true;
+        if (FAIL_MONITORING_STARVATION_GROWING) _failSeenMonitoringStarvationGrowing = true;
+        if (FAIL_MIC_NOT_READY) _failSeenMicNotReady = true;
+        if (FAIL_DB_TEAR_DETECTED) _failSeenDbTearDetected = true;
+    }
+
+    private void ResetFailObservationAccumulatedFlags()
+    {
+        _failSeenAudioCallbackFrozen = false;
+        _failSeenAudioCallbackRateLow = false;
+        _failSeenAudioCallbackGapHigh = false;
+        _failSeenAudioLockContention = false;
+        _failSeenImitoneNotFed = false;
+        _failSeenImitoneFeedRatioLow = false;
+        _failSeenRingOverflowGrowing = false;
+        _failSeenUnreadZeroSustained = false;
+        _failSeenIngestRingStalled = false;
+        _failSeenGentleRecoveryFired = false;
+        _failSeenMonitoringStarvationGrowing = false;
+        _failSeenMicNotReady = false;
+        _failSeenDbTearDetected = false;
+    }
+
+    /// <summary>
+    /// Falling-edge "flags seen during window" summary — every FAIL_* flag that was ever true at any
+    /// point during this rising-to-falling window, OR'd in by <see cref="AccumulateFailObservationFlags"/>.
+    /// Distinct from <see cref="BuildFailObservationLogDetail"/>'s current-frame snapshot used by rising
+    /// + sustained logs.
+    /// </summary>
+    private string BuildFailObservationAccumulatedFlagsSummary()
+    {
+        return
+            (_failSeenAudioCallbackFrozen ? "FAIL_AUDIO_CALLBACK_FROZEN " : "")
+            + (_failSeenAudioCallbackRateLow ? "FAIL_AUDIO_CALLBACK_RATE_LOW " : "")
+            + (_failSeenAudioCallbackGapHigh ? "FAIL_AUDIO_CALLBACK_GAP_HIGH " : "")
+            + (_failSeenAudioLockContention ? "FAIL_AUDIO_LOCK_CONTENTION " : "")
+            + (_failSeenImitoneNotFed ? "FAIL_IMITONE_NOT_FED " : "")
+            + (_failSeenImitoneFeedRatioLow ? "FAIL_IMITONE_FEED_RATIO_LOW " : "")
+            + (_failSeenRingOverflowGrowing ? "FAIL_RING_OVERFLOW_GROWING " : "")
+            + (_failSeenUnreadZeroSustained ? "FAIL_UNREAD_ZERO_SUSTAINED " : "")
+            + (_failSeenIngestRingStalled ? "FAIL_INGEST_RING_STALLED " : "")
+            + (_failSeenGentleRecoveryFired ? "FAIL_GENTLE_RECOVERY_FIRED " : "")
+            + (_failSeenMonitoringStarvationGrowing ? "FAIL_MONITORING_STARVATION_GROWING " : "")
+            + (_failSeenMicNotReady ? "FAIL_MIC_NOT_READY " : "")
+            + (_failSeenDbTearDetected ? "FAIL_DB_TEAR_DETECTED " : "");
+    }
+
+    /// <summary>
+    /// One-line current-frame snapshot for soak / player logs while <see cref="FAILURE"/> is TRUE.
+    /// Called on the rising edge AND on every periodic re-log while sustained — so the message always
+    /// reflects what's happening RIGHT NOW (which flags are firing, current rolling-Hz / max-gap-ms /
+    /// ratio / etc.). The falling-edge log uses <see cref="BuildFailObservationAccumulatedFlagsSummary"/>
+    /// instead so the soak reader sees every flag that ever fired during the window, not just whatever
+    /// happened to be true on the last sustained frame.
     /// </summary>
     private string BuildFailObservationLogDetail()
     {
-        // Deliberately flat string — runs rarely (FAIL edge only); readability in log files matters more than zero-GC here.
+        // Deliberately flat string — runs rarely (FAIL edges + exponentially-backed-off re-log); readability matters more than zero-GC here.
         return
             $"flags: "
             + (FAIL_AUDIO_CALLBACK_FROZEN ? "FAIL_AUDIO_CALLBACK_FROZEN " : "")
