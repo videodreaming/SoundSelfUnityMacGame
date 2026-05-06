@@ -1371,6 +1371,7 @@ Step back, run extended testing, address any issues that emerge before moving to
 - [ ] Scenario 5: Long session (5+ min) — no clicks emerging over time.
 
 *Optional V10 latency tuning (only if latency feels too high):*
+- See [Appendix: Voice-onset latency lever inventory](#appendix-voice-onset-latency-lever-inventory) for the full set of knobs across the entire voice → `toneActive` chain. The DSP-buffer-size knob below is **one slice** of that inventory (Stage 5). Tuning is subjective; the inventory is structured so that Step 4 / Step 5b's tuning passes can walk it stage-by-stage.
 - [ ] Measure current latency subjectively. Default Project Settings → Audio → DSP Buffer Size is typically `Best (latency)` = 256, `Good (latency)` = 512, `Default` = 1024 samples.
 - [ ] If too laggy and `aggAudioCallbackHzRolling` and `aggAudioCallbackMaxGapMsLastSecond` are both healthy on the current setting, try lowering one notch (e.g. Default → Good, or Good → Best) and re-run the extended-testing checklist above.
 - [ ] After lowering, re-verify in `MicVoiceIngestDebugAggregate`: `aggAudioCallbackHzRolling` still near nominal (now higher: e.g. 187.5 Hz at 256 / 48 k); `aggAudioCallbackMaxGapMsLastSecond` still near new nominal (~5.3 ms at 256 / 48 k); `aggAudioCallbackLockMissTotal` still near zero; `aggAudioCallbackGCAllocSuspectTotal` still 0.
@@ -1794,6 +1795,144 @@ If clicks appear, isolate by toggling code paths off (e.g., disable filters, dis
 - **Step 5a:** Hardens the monitoring path against clicks (M1/M2/M5/M6). Run the click testing protocol thoroughly — this is where audible underflow / overflow / gain-step clicks should *disappear*.
 - **Step 5b:** Deletes the legacy main-thread mic-ingest block. Lower click risk than Step 5a since the audio-thread path has already been carrying the load since Step 3, but verify with the protocol anyway.
 - **Step 7:** Final validation must include all 5 click test scenarios passing cleanly.
+
+---
+
+## Appendix: Voice-onset latency lever inventory
+
+Comprehensive list of every knob, tunable, threshold, architectural choice, and "non-lever" affecting the perceived time between voice onset and `toneActive` flipping (and the visualizer / Wwise event responding). Compiled 2026-05-06 after the Step 3a F1 hybrid ring-feed pivot closed: F1 dropped imitone-feed latency from ~2100 ms (engine-imposed) to ~150 ms (mic ADC + audio-thread feed cursor + analysis), so what remains is the sum of everything *else* in the chain. **Use this during Step 4 / Step 5b subjective tuning** to walk the chain stage-by-stage rather than guessing.
+
+**End-to-end path:** voice → mic ADC → driver → Unity Microphone clip → *(legacy main-thread polling now / audio-thread direct in Step 5b)* → `rawRingBuffer` → audio-thread feed cursor → pre-imitone filtering → `imitone.InputAudio` → imitone analysis → main-thread `imitone.GetState` → `imitoneActiveRaw`/`_dbValue`/`pitch_hz` → noise-floor gate → debounce → `toneActive` → game logic → Wwise/visuals.
+
+**Total perceived lag is the sum across stages.** Each lever below is tagged with **scope** indicating when it's available: `[Now]` = a knob you can turn today; `[Step 5b]` = unlocks after the legacy main-thread mic-ingest block is deleted; `[Project setting]` = Editor / Project Settings change, no code; `[Architectural]` = significant work; `[Imitone-internal]` = opaque to us, would require reading imitone DLL or its docs; `[Out-of-scope]` = listed for completeness but not actionable here.
+
+### Stage 1 — Mic hardware / OS driver (~5–30 ms)
+
+| Lever | Current | Tradeoff | Scope |
+|---|---|---|---|
+| Mic device choice (built-in vs USB vs Bluetooth) | Default device | USB and built-in typically lowest latency; Bluetooth often 100–300 ms | `[Now]` (player choice / instructions) |
+| Windows audio service path (WASAPI shared / WASAPI exclusive / WDM-KS / ASIO) | WASAPI shared (Unity default) | Exclusive / ASIO can drop driver buffer ~10–30 ms but requires user to configure outside Unity | `[Out-of-scope]` |
+| Mic-side OS sample-rate / buffer-size settings | OS default | Driver-buffer depth is the main adder here | `[Out-of-scope]` |
+
+### Stage 2 — Unity Microphone API
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| `micCaptureSampleRate` | `48000` | `ImitoneVoiceIntepreter.MicIngest.cs:15` | Match to `outputSampleRate` to keep Unity's resampler a no-op (we already do). Higher rates would increase compute without analysis benefit at human voice frequencies | `[Now]` (don't touch unless output rate changes) |
+| `loopLengthSeconds` | `6` | `ImitoneVoiceIntepreter.MicIngest.cs:16` | Length of `microphoneBuffer` clip. Doesn't affect steady-state latency; affects max stall window before recovery | `[Now]` |
+| `microphoneDeviceName` (selected device) | First available | Set in `MicIngestInitialize` | Same as Stage 1 device choice | `[Now]` |
+
+### Stage 3 — Main-thread legacy mic-ingest jitter (the `unread_zero` source)
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| **Step 5b: delete legacy mic ingest entirely** | Pending | This doc § Step 5 | Audio thread becomes the writer of `rawRingBuffer` (replaces main-thread poll). **Eliminates `unread_zero` as a concept.** Removes the `_dbMicrophone`-via-legacy-path lag (see Stage 9). | `[Step 5b]` |
+| Frame rate / Update tick cadence | Variable | (engine) | Higher fps → smaller `unread_zero` windows. Up to 64 ms windows are hidden by the audio-thread headroom; beyond that, imitone gets stale samples | `[Now]` (project-wide perf) |
+| `gentleUnreadZeroRecoveryEnabled` | `false` | `ImitoneVoiceIntepreter.MicIngest.cs:26` | Sustained-`unread_zero` recovery; left for experiments. Not a latency lever per se; recovery, not steady state. Slated for deletion in Step 5b (see [Appendix: provisional code to delete](#appendix-provisional-code-to-delete-cleanup-checklist)) | `[Now]` (default off, leave) |
+
+### Stage 4 — Audio-thread feed cursor headroom (post-F1)
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| `audioThreadFeedLatencyMs` | `64f` (`[Range(32f, 250f)]`) | `ImitoneVoiceIntepreter.AudioThread.cs:26` | Direct latency knob — every ms shaved here is a ms shaved off the total. **Floor `~32 ms` = one DSP callback period at 1024/48 k.** Below 64 ms eats the safety margin against clock skew + main-thread polling jitter; expect `audioFeedOverflowDroppedTotal` to start climbing in long sessions if too tight. After Step 5b the floor relaxes (no main-thread jitter) | `[Now]` |
+| `maxRealtimeLagSamples` overflow guard | `Mathf.Max(destination.Length * 2, micCaptureSampleRate * 0.25f)` (≈ 250 ms) | `ImitoneVoiceIntepreter.MicIngest.cs:497, 593` | Upper bound where `ReadRawSamples` drops samples to clamp lag. Lower → faster bounded lag but more drop events; higher → silent drift to whatever value before drop fires | `[Now]` (rarely touched) |
+
+### Stage 5 — Engine DSP cadence (Project Settings → Audio) — biggest single knob
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| **`dspBufferSize` / Audio latency preset** | "Best Latency" / "Good Latency" / "Best Performance" — confirm in Project Settings | Project Settings → Audio → DSP Buffer Size | Lower → callbacks fire more often → cursor advances in smaller steps → freshness improves; **also** drops the floor on `audioThreadFeedLatencyMs` (the floor is one callback period). At 256 samples / 48 k → ~5 ms callback period. Costs: more callbacks/sec, more CPU, more lock-acquisition overhead, less data per imitone analysis tick (potential pitch-resolution impact). **Test in conjunction with imitone behavior at small buffer sizes.** | `[Project setting]` |
+| `outputSampleRate` | `48000` | Project Settings → Audio → System Sample Rate | Halving sample rate halves callback period in time units but also halves analysis resolution. 48 k is the sweet spot for human voice. Don't change | `[Project setting]` (don't change) |
+| `numRealVoices`, `speakerMode` | (defaults) | Project Settings → Audio | Not voice-onset latency levers; mixer-side | `[Out-of-scope]` |
+
+### Stage 6 — Pre-imitone filtering (audio thread)
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| `_highPassFilterEnabled` | `true` | `ImitoneVoiceIntepreter.cs:316` | First-order RC HPF → group delay ≈ 1–3 samples (negligible at 48 k). Not a meaningful latency lever, but disabling avoids any phase distortion | `[Now]` (leave on) |
+| `_highPassCutoffHz` | `80f` | `ImitoneVoiceIntepreter.cs:317` | Cutoff frequency. Higher → more rumble removed, more group delay around the cutoff. Voice-fundamental relevant range. | `[Now]` (perceptual tune) |
+| `_lowPassFilterEnabled` | `true` | `ImitoneVoiceIntepreter.cs:323` | Same — first-order LPF, negligible delay | `[Now]` (leave on) |
+| `_lowPassCutoffHz` | `520f` | `ImitoneVoiceIntepreter.cs:324` | Affects which harmonics make it to imitone; not really a latency lever, but pitch-detection responsiveness can change with harmonic content | `[Now]` (perceptual tune) |
+
+### Stage 7 — Imitone analysis (opaque)
+
+| Lever | Current | Tradeoff | Scope |
+|---|---|---|---|
+| Imitone's internal FFT window size / pitch-detector lock-in | Opaque | Smaller analysis windows → faster pitch lock-on but lower frequency resolution | `[Imitone-internal]` |
+| Imitone's internal power threshold (when `state.power > 0` is reported) | Opaque | Sets the floor below which `imitoneActiveRaw` won't flip on | `[Imitone-internal]` |
+| imitone-side sensitivity / config (if such an API exists) | Unknown | Worth one read of `imitone.cs` / its docs to confirm before subjective tuning starts | `[Investigate]` (small task) |
+
+### Stage 8 — `imitoneActiveRaw` / `_dbValue` / `pitch_hz` flip (main thread)
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| `imitone.GetState()` polling cadence | Once / Update | `ImitoneVoiceIntepreter.cs:786` | Higher fps → fresher state read into `_dbValue`/`pitch_hz`. Bounded by frame rate | `[Now]` (project-wide perf) |
+| `forceImitoneActive` / `forceImitoneInactive` | Both `false` | `ImitoneVoiceIntepreter.cs:284` | Debug-only overrides; not real levers for production tuning | `[Out-of-scope]` |
+
+### Stage 9 — Noise-floor gate (the second hidden lag source)
+
+The gate at `ImitoneVoiceIntepreter.cs:818-819`: `imitoneActive = gameOn && !micIsNearNoiseFloor`, where `micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold`. **Critical:** `_dbMicrophone` is computed by the legacy main-thread mic-ingest path. As long as that path is alive (pre-Step-5b), `_dbMicrophone` carries the same `unread_zero` jitter that affects the legacy path generally — and **it directly gates `imitoneActive`**, even though the imitone power detection path is now audio-thread-fed and fast. This is the subtle reason Step 3a F1 alone can't fully eliminate the lock-on lag.
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| `_noiseFloorThreshold` | `-52f` dB | `ImitoneVoiceIntepreter.cs:144` | Higher (e.g., -45 dB) → mic noise floor must be louder to gate, so more soft-voice rejection; lower (e.g., -60 dB) → softer voice flips `imitoneActive` faster, but ambient hum can also flip it | `[Now]` (perceptual tune) |
+| `_noiseFloorMeasurementTime` | `1.5f` s | `ImitoneVoiceIntepreter.cs:140` | Calibration window length. Affects startup, not steady-state latency | `[Now]` (don't touch unless calibration feels off) |
+| **Step 5b: move `_dbMicrophone` compute to audio thread** | Pending | This doc § Step 5 | Removes the legacy-path jitter from the noise-floor gate. Currently the largest remaining latency source post-F1 if you measure `imitoneActive` flip time | `[Step 5b]` |
+
+### Stage 10 — Tone-active debouncing (the most direct knob)
+
+These thresholds operate on `_imitoneActiveTimer` (accumulating frame time while `imitoneActiveRaw` is true).
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| `positiveActiveThreshold1` (→ `toneActive`) | `0.05f` s | `ImitoneVoiceIntepreter.cs:59, 922` | Lower → `toneActive` flips faster on voice onset (best ~ one DSP callback period, ~21 ms); higher → more false-positive rejection of transients (cough, mic bump) | `[Now]` |
+| `positiveActiveThreshold2` (→ `toneActiveConfident`) | `0.2f` s | `ImitoneVoiceIntepreter.cs:60, 929` | Same tradeoff at the "confident" tier (used by GameValues / RespirationTracker for game-logic flips) | `[Now]` |
+| `negativeActiveThreshold1` (→ `toneActive` release) | `0.2f` s | `ImitoneVoiceIntepreter.cs:61, 940` | Lower → `toneActive` falls faster after voice stops (perceptual: less "trailing" lock); higher → smoother visualizer during brief breath gaps | `[Now]` |
+| `negativeActiveThreshold2` (→ `toneActiveConfident` release) | `0.4f` s | `ImitoneVoiceIntepreter.cs:62, 945` | Same | `[Now]` |
+| `_activeThreshold3` (→ `toneActiveVeryConfident`) | `0.75f` s | `ImitoneVoiceIntepreter.cs:63` | Used for respiration rate, not perceptual lock-on. Tune separately if respiration scoring needs it | `[Now]` (respiration domain) |
+
+### Stage 11 — Game-side response
+
+| Lever | Current | Where | Tradeoff | Scope |
+|---|---|---|---|---|
+| `GameValues` / `RespirationTracker` consumption cadence | Per Update | `Assets/Scripts/Voice/GameValues.cs`, `RespirationTracker.cs` | Reads `toneActive*` once per frame. Frame-rate bounded; no extra layer added here | `[Now]` (frame-rate dependent) |
+| Wwise event scheduling on `toneActive` flips | Engine-side | `MusicSystem*` / various | Wwise has internal event-scheduling latency; varies by Wwise project config. Worth measuring once if the perceptual lag survives all upstream tuning | `[Investigate]` |
+| Visual smoothing / lerp constants on the visualizer reading `toneActive`/`pitch_hz` | Various | Visual scripts | Any `Lerp(...)` or `MoveTowards(...)` in the visual response chain adds perceived lag independent of the analysis stack. Audit whichever visualizer is in scope when tuning | `[Now]` (per-visualizer) |
+
+### Stage 12 — Cross-cutting / rendering
+
+| Lever | Current | Tradeoff | Scope |
+|---|---|---|---|
+| Frame rate (project-wide perf budget) | Variable | Higher fps → smaller Update jitter, fresher `imitone.GetState` polling, smaller visual frame lag | `[Now]` (project-wide) |
+| VSync / monitor refresh | Engine config | Affects visual response only; ~1 frame at most | `[Out-of-scope]` |
+
+### Architectural / out-of-current-scope (kept for completeness)
+
+| Lever | Tradeoff | Scope |
+|---|---|---|
+| Unity 6.x upgrade | Audio internals changed; F1's exact 100-DSP-buffer engine policy may not apply, allowing different latency floors. Re-validation required on any audio assertion in this doc | `[Architectural]` |
+| Native plugin / direct OS mic capture (bypass `Microphone` API) | Full control over driver buffer depth; would need a Windows + Mac native side. Significant build/maintenance cost | `[Architectural]` |
+| Predictive activation (anticipate tone onset from earlier signal) | Could shave debounce latency by predicting onset before threshold cross. Highly experimental | `[Architectural]` |
+
+### Non-levers (listed so they don't get re-debated)
+
+- **Engine DSP callback rate itself** — fixed = `outputSampleRate / dspBufferSize`. Adjust via Stage 5 levers.
+- **Imitone compute time per `InputAudio` call** — fixed for given input size. Constant compute, not a lever.
+- **Per-callback scratch buffers (`monoScratch`/`imitoneFeedBuffer`)** — Step 3a investigation already confirmed these don't accumulate latency. Pass 3 deleted `monoScratch` entirely; only `imitoneFeedBuffer` remains and is sized to one DSP callback.
+- **`captureSource.timeSamples` / mic-clip read alignment** — Step 3a F1 investigation confirmed the audio engine ignores user assignments for streaming clips. The F1 pivot eliminated this as a relevant lever entirely.
+
+### Tuning priority — where to look first
+
+If the perceptual lock-on is too slow (post-F1), the levers in rough priority order of "easy to turn AND likely to matter":
+
+1. **Stage 10 thresholds** (`positiveActiveThreshold1`/`2`, `negativeActiveThreshold1`/`2`) — most direct, code-only, no architectural risk.
+2. **Stage 9 `_noiseFloorThreshold`** — direct, gates `imitoneActive`, code-only.
+3. **Stage 5 `dspBufferSize`** (Project Settings audio latency preset) — single biggest knob; affects multiple downstream stages.
+4. **Stage 4 `audioThreadFeedLatencyMs`** — direct knob; needs Step 5b first to be safely tightened below ~50 ms.
+5. **Stage 6 filter cutoffs** — minimal latency impact, but pitch-detection feel is sensitive to harmonic content.
+6. **Step 5b** — unlocks the two "post-Step-5b" levers above; doubles as the structural removal of `unread_zero`-induced gate jitter (Stage 9).
+
+After exhausting 1–6: investigate Stage 7 (imitone internals), then consider Stage 11 (Wwise / visualizer smoothing).
 
 ---
 
