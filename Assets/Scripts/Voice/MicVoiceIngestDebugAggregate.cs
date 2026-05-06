@@ -3,7 +3,8 @@ using UnityEngine;
 /// <summary>
 /// Copies mic-ingest debug (from ImitoneVoiceIntepreter) + Imitone raw-path debug + tone/imitone gate flags
 /// (+ optional DirectVoiceMonitoring transport totals) into one Inspector block after upstream Update()
-/// (LateUpdate). Step 3b adds a cross-thread atomicity / tear-detection block.
+/// (LateUpdate). Step 3b adds a cross-thread atomicity / tear-detection block. Step 4 rewrites the
+/// <b>CURRENT TEST</b> header/field set for extended verify + click protocol (see plan § Step 4).
 /// Mic-ingest snapshot type is <see cref="ImitoneVoiceIntepreter.MicIngestDebugSnapshot"/>; values are copied
 /// from <see cref="ImitoneVoiceIntepreter.GetMicIngestDebugSnapshot"/>.
 /// The <b>CURRENT TEST</b> section at the top contains <i>only</i> what the active play test needs — tight
@@ -24,34 +25,33 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     // Permanent fields belong in their own headed sections below — never here.
     // ----------------------------------------------------------------------
 
-    [Header("CURRENT TEST — Step 3b: filter + dB on audio thread, tear detector")]
-    [Tooltip("Step 3b test bar — screengrab while toning + silent + during click testing protocol.\n\nWHAT 3b CHANGES: HPF / LPF + _dbMicrophone moved from main thread (GetRawVoiceData) to audio thread (OnAudioFilterRead). _dbMicrophone is now volatile float (audio writer, main reader). Tear detector watches for NaN / ±Infinity / out-of-dB-range values (would indicate the volatile guarantee is insufficient and we'd escalate to Interlocked).\n\nBAR — all of these must hold throughout the test:\n  • dbMicTearTotal stays at 0 (sticky; any non-zero is a tear, escalate to Interlocked).\n  • dbMicSnapshot moves with voice (expect roughly -50 quiet, > -30 toning) — confirms the audio-thread dB writer is alive and crossing back to main without corruption.\n  • dbValue + pitchHz stay alive on voice (no regression vs F1 closeout).\n  • feedPeakAbs ~0.01–0.1 on voice (post-filter; the F1-era 0.05–0.5 number was on unfiltered samples).\n  • rollingHz ≈ outputSampleRate/dspBufferSize (audio thread alive).\n  • input/callback ratio ~1 (steady state, post-priming).\n  • overflowDrops not climbing across the session.\n  • rawRingReadLockMisses near 0 (the new filter+dB work doesn't cost lock contention).\n  • failure = false. (Post-3b play-test follow-up retired FAIL_AUDIO_GC_ALLOC_DETECTED — the duration-heuristic flag was structurally redundant with FAIL_AUDIO_CALLBACK_RATE_LOW + FAIL_AUDIO_CALLBACK_FROZEN, and no longer false-positive-trips on imitone CPU time. If failure is true, it's a real signal now.)\n\nCLICK TESTING PROTOCOL: run all 5 scenarios from Docs/MIC_VOICE_INGEST_FIX_PLAN.md § Click prevention appendix (mic re-init mid-session, scene change, etc.). No audible click in any scenario.\n\nDeeper metrics (callback totals, ring totals, feed gap, monitoring transport, full FAIL flag set) live in the headed sections below — scroll for them.")]
-    [SerializeField] private string currentTestDescription = "Step 3b: filter + _dbMicrophone on audio thread + tear detector + cross-thread labels. Tone normally + run click testing protocol; verify tear total = 0 and dbMicSnapshot tracks voice.";
+    [Header("CURRENT TEST — Step 4: extended verify + click protocol")]
+    [Tooltip("Step 4 test bar — use **normal** product settings (music, DirectVoiceMonitoring, etc.) unless a scenario explicitly says otherwise.\n\nRUN ORDER: (1) Extended-testing checklist in MIC_VOICE_INGEST_FIX_PLAN.md Step 4 — long toning, heavy toning, edge cases, Profiler pass, FAILURE stays false. (2) Click protocol — all 5 scenarios in the click-prevention appendix; no audible click in any scenario.\n\nBAR — screengrab at end of each session; all must hold:\n  • failure = false entire session (sticky FAIL_* cleared only if you intentionally triaged a latch).\n  • dbMicTearTotal = 0 (3b regression watch — any increment = escalate _dbMicrophone to Interlocked).\n  • rollingHz ~ outputSampleRate/dspBufferSize (audio thread alive).\n  • maxGapMsLastSecond stays near nominal (~1000/rollingHz ms; brief spikes OK under CPU load).\n  • input/callback ratio ~1.0 steady state after priming.\n  • overflowDrops not climbing across the session.\n  • rawRingReadLockMisses near 0.\n  • dbValue + pitchHz alive on voice.\n  • imitoneStateStalenessFrames stays low — if it climbs under load, main thread may be starved (Profiler); pair with rollingHz (audio thread healthy).\n\nOPTIONAL: DSP buffer size tuning (same plan section) — only if latency feels too high.\n\nDeeper metrics (feed gap, mic exit reason, full FAIL set, dbMic snapshot, feed peak) live in headed sections below.")]
+    [SerializeField] private string currentTestDescription = "Step 4: extended sessions + full click protocol under normal mix. Tick plan checklists; capture Inspector after each run. Rewrite CURRENT TEST before a different testing round (§9).";
 
     [Tooltip("Time.time — report with each grab.")]
     [SerializeField] private float currentTestSessionTimeSeconds;
     [Tooltip("Any FAIL_* below.")]
     [SerializeField] private bool currentTestFailure;
 
-    [Tooltip("Step 3b: live _dbMicrophone snapshot, read once per LateUpdate via volatile float. The value the main thread is consuming this frame, computed on the audio thread from the post-filter buffer. Expect roughly -50 dB at quiet ambient, > -30 dB while toning. If this stays at -999 forever the audio-thread dB writer never ran (filter cutoffs zeroing the signal? audio thread frozen?). If it sits at a frozen value while feedPeakAbs moves, suspect a tear (see currentTestDbMicrophoneTearDetectedTotal).")]
-    [SerializeField] private float currentTestDbMicrophoneSnapshot;
-    [Tooltip("Step 3b: tear-detection counter. Increments when LateUpdate's read of _dbMicrophone returns NaN, ±Infinity, or a value outside the plausible dB band [-120, +24]. STICKY — do not auto-clear. BAR: must stay 0. Any non-zero value means the volatile guarantee is insufficient for cross-thread float visibility on this platform; escalate _dbMicrophone to Interlocked.Exchange via SingleToInt32Bits and rerun.")]
+    [Tooltip("Step 4 / 3b carry-over: tear-detection counter (sticky). Must stay 0 — any increment means volatile float read saw NaN/±Inf/out-of-range; escalate _dbMicrophone to Interlocked.")]
     [SerializeField] private long currentTestDbMicrophoneTearDetectedTotal;
-    [Tooltip("Imitone-derived tone dB (post-analysis). Should still respond to voice — no regression vs F1.")]
-    [SerializeField] private float currentTestDbValue;
-    [Tooltip("Imitone-derived fundamental frequency (Hz). Should still track voice — no regression vs F1.")]
-    [SerializeField] private float currentTestPitchHz;
-
-    [Tooltip("Peak |sample| going to imitone (post-filter as of 3b). Voice ~0.01–0.1, silent < 0.005, voice/silent contrast > 10× while toning. (The F1-era ~0.05–0.5 reading was measured on UNFILTERED samples; the 80–520 Hz band-pass attenuates voice harmonics above 520 Hz and rumble below 80 Hz, so post-filter peak is naturally smaller. The contrast ratio is what matters.) If this stays at 0 while you tone but copied > 0, the filter chain is killing the signal (cutoffs misconfigured?). If peakAbs moves but dbMicSnapshot stays at floor, suspect a tear or stale dB writer.")]
-    [SerializeField] private float currentTestFeedPeakAbs;
-    [Tooltip("Rolling OAFR rate (Hz). Expect ~ output sample rate / DSP buffer size (e.g. ~46.9 @ 48k/1024).")]
+    [Tooltip("Rolling OnAudioFilterRead rate (Hz). ~ sampleRate/dspBufferSize.")]
     [SerializeField] private float currentTestAudioCallbackHzRolling;
+    [Tooltip("Largest inter-callback gap observed in the last 1 s wall-clock window (ms). Should stay near 1000/rollingHz except brief blips under CPU load.")]
+    [SerializeField] private float currentTestAudioCallbackMaxGapMsLastSecond;
     [Tooltip("imitone.InputAudio calls / callbacks (cumulative). ~1.0 after priming.")]
     [SerializeField] private float currentTestImitoneInputToCallbackRatio;
-    [Tooltip("ReadRawSamples overflow drops on imitone path. Should NOT climb between grabs taken across the session.")]
+    [Tooltip("ReadRawSamples overflow drops on imitone feed path. Must not climb between grabs across a session.")]
     [SerializeField] private long currentTestAudioFeedOverflowDroppedTotal;
-    [Tooltip("rawBufferLock TryEnter(0) misses from audio-thread readers. Should stay near 0; the new filter+dB work runs entirely after the lock is released so this counter should not move vs F1 closeout.")]
+    [Tooltip("rawBufferLock TryEnter(0) misses (imitone feed + DirectVoiceMonitoring readers). Near 0 in healthy play.")]
     [SerializeField] private long currentTestRawRingReadLockMissTotal;
+    [Tooltip("Imitone-derived tone dB — voice alive signal for long-session A/B.")]
+    [SerializeField] private float currentTestDbValue;
+    [Tooltip("Imitone-derived pitch (Hz) — voice alive signal.")]
+    [SerializeField] private float currentTestPitchHz;
+    [Tooltip("Frames since imitone GetState last saw a different (power, pitch_hz) tuple. Stays low in normal play; climbs if imitone appears hung OR main thread starves Update. Pair with Profiler if this spikes under load.")]
+    [SerializeField] private int currentTestMainThreadFramesSinceLastImitoneStateChange;
 
     // Step 3b play-test follow-up: currentTestKnownFalsePositive_GcAlloc retired alongside
     // FAIL_AUDIO_GC_ALLOC_DETECTED. The duration heuristic is no longer a FAIL trigger, so the
@@ -157,7 +157,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMainThreadFramesSinceLastImitoneStateChange;
     [Tooltip("Audio-thread ring writes skipped due to consumer-overrun. (3a: never increments — placeholder for Step 5b when a consumer exists. Distinct from aggRawRingReadLockMissTotal, which is rawBufferLock TryEnter contention.)")]
     [SerializeField] private long aggMicRingOverflowSkipTotal;
-    [Tooltip("DEBUG: peak |sample| of the mono buffer the audio thread just handed to imitone.InputAudio. While toning, expect 0.05–0.5. If ~0 while _dbMicrophone moves on voice, the audio thread is being fed silence and imitone is innocent.")]
+    [Tooltip("DEBUG: peak |sample| of the mono buffer the audio thread just handed to imitone.InputAudio. Post-3b (filtered): voice ~0.01–0.1, silent < 0.005, contrast > 10×. Pre-3b unfiltered bar was ~0.05–0.5. If ~0 while _dbMicrophone moves on voice, the audio thread is being fed silence and imitone is innocent.")]
     [SerializeField] private float aggAudioThreadFeedPeakAbsLastCallback;
     [Tooltip("Step 3a hybrid pivot: logical read cursor total on the imitone raw-ring feed path (samples since session start, monotonic).")]
     [SerializeField] private long aggAudioThreadFeedReadTotalSamples;
@@ -440,18 +440,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 : -1f;
             aggRawRingReadLockMissTotal = a.rawRingReadLockMissTotal;
 
-            // CURRENT TEST — only fields needed for the active pass (Step 3b). See plan doc § 9.
-            currentTestSessionTimeSeconds = Time.time;
-            currentTestDbMicrophoneSnapshot = aggDbMicrophoneSnapshot;
-            currentTestDbMicrophoneTearDetectedTotal = aggDbMicrophoneTearDetectedTotal;
-            currentTestDbValue = interpreter._dbValue;
-            currentTestPitchHz = interpreter.pitch_hz;
-            currentTestFeedPeakAbs = aggAudioThreadFeedPeakAbsLastCallback;
-            currentTestAudioCallbackHzRolling = aggAudioCallbackHzRolling;
-            currentTestAudioFeedOverflowDroppedTotal = aggAudioFeedOverflowDroppedTotal;
-            currentTestRawRingReadLockMissTotal = aggRawRingReadLockMissTotal;
-
-            // Step 3a: imitone-feed observability — main-thread side.
+            // Step 3a: imitone-feed observability — main-thread side (before CURRENT TEST — ratio + staleness need these first).
             aggImitoneGetStateCallTotal = interpreter.ImitoneGetStateCallTotal;
             aggMainThreadFramesSinceLastImitoneStateChange = interpreter.MainThreadFramesSinceLastImitoneStateChange;
 
@@ -459,7 +448,18 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggImitoneInputToCallbackRatio = aggAudioCallbackTotal > 0
                 ? (float)aggImitoneInputAudioCallTotal / aggAudioCallbackTotal
                 : 0f;
+
+            // CURRENT TEST — Step 4: extended verify + click protocol. See plan doc § 9.
+            currentTestSessionTimeSeconds = Time.time;
+            currentTestDbMicrophoneTearDetectedTotal = aggDbMicrophoneTearDetectedTotal;
+            currentTestAudioCallbackHzRolling = aggAudioCallbackHzRolling;
+            currentTestAudioCallbackMaxGapMsLastSecond = aggAudioCallbackMaxGapMsLastSecond;
             currentTestImitoneInputToCallbackRatio = aggImitoneInputToCallbackRatio;
+            currentTestAudioFeedOverflowDroppedTotal = aggAudioFeedOverflowDroppedTotal;
+            currentTestRawRingReadLockMissTotal = aggRawRingReadLockMissTotal;
+            currentTestDbValue = interpreter._dbValue;
+            currentTestPitchHz = interpreter.pitch_hz;
+            currentTestMainThreadFramesSinceLastImitoneStateChange = aggMainThreadFramesSinceLastImitoneStateChange;
 
             // Step 3a: detect mic recovery (captureEpoch tick) and absorb the priming-window transient on the
             // imitone-feed side ONLY. Without this, FAIL_IMITONE_NOT_FED briefly fires after every recovery

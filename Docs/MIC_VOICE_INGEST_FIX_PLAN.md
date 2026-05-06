@@ -1435,7 +1435,7 @@ Step back, run extended testing, address any issues that emerge before moving to
 - See [Appendix: Voice-onset latency lever inventory](#appendix-voice-onset-latency-lever-inventory) for the full set of knobs across the entire voice → `toneActive` chain. The DSP-buffer-size knob below is **one slice** of that inventory (Stage 5). Tuning is subjective; the inventory is structured so that Step 4 / Step 5b's tuning passes can walk it stage-by-stage.
 - [ ] Measure current latency subjectively. Default Project Settings → Audio → DSP Buffer Size is typically `Best (latency)` = 256, `Good (latency)` = 512, `Default` = 1024 samples.
 - [ ] If too laggy and `aggAudioCallbackHzRolling` and `aggAudioCallbackMaxGapMsLastSecond` are both healthy on the current setting, try lowering one notch (e.g. Default → Good, or Good → Best) and re-run the extended-testing checklist above.
-- [ ] After lowering, re-verify in `MicVoiceIngestDebugAggregate`: `aggAudioCallbackHzRolling` still near nominal (now higher: e.g. 187.5 Hz at 256 / 48 k); `aggAudioCallbackMaxGapMsLastSecond` still near new nominal (~5.3 ms at 256 / 48 k); `aggAudioCallbackLockMissTotal` still near zero; `aggAudioCallbackGCAllocSuspectTotal` still 0.
+- [ ] After lowering, re-verify in `MicVoiceIngestDebugAggregate`: `aggAudioCallbackHzRolling` still near nominal (now higher: e.g. 187.5 Hz at 256 / 48 k); `aggAudioCallbackMaxGapMsLastSecond` still near new nominal (~5.3 ms at 256 / 48 k); `aggRawRingReadLockMissTotal` still near zero (Pass 3 repoint — **not** the deleted `audioRingWriteLock` counter); `aggAudioCallbackGCAllocSuspectTotal` as diagnostic-only (no FAIL flag; spikes are informational).
 - [ ] If the lower buffer size produces audible glitches, callback rate drops, or lock contention, revert to the previous setting and accept the latency.
 - [ ] If you keep the lower buffer size, update the captured `audioConfigDspBufferSize` baseline (Step 0) and re-derive ring buffer sizing if appropriate.
 
@@ -1452,7 +1452,12 @@ Step back, run extended testing, address any issues that emerge before moving to
 
 **Commit:** `fix: address [specific issue]` for each issue found, OR `chore: verify audio-thread imitone feed stable over extended use` if no fixes needed.
 
-**Developer notes:** _none_
+**Developer notes (4):**
+
+*Kickoff (2026-05-06):*
+- Step 3 closed + review pass landed (`2e0228ec` — `imitone` → `volatile`, CURRENT TEST feed-peak tooltip aligned). **Step 4 kickoff** landed as `chore(step4): kick off verify+tune` on `WorkingWwise` — see `git log` for the SHA. Branch may be several commits ahead of last push; push before long Step 4 sessions if you want a remote bisect anchor.
+- **`MicVoiceIngestDebugAggregate` CURRENT TEST block rewritten for Step 4** (this kickoff commit): header + tooltips + field set + `LateUpdate` mirrors now track **extended verify + click protocol** only — `failure`, tear total, rolling Hz, max inter-callback gap (last second), imitone/callback ratio, overflow drops, raw-ring lock misses, `dbValue` + `pitchHz` (voice alive), `mainThreadFramesSinceLastImitoneStateChange` (main-thread starvation signal per plan "Common issues"). Removed 3b-specific `dbMicSnapshot` + `feedPeakAbs` from CURRENT TEST (still in headed sections below). Per §9, rewrite this block again before any *different* testing round.
+- Optional DSP buffer bullet above: fixed stale reference to deleted `aggAudioCallbackLockMissTotal` → `aggRawRingReadLockMissTotal`; GC-suspect counter note updated post–`FAIL_AUDIO_GC_ALLOC_DETECTED` retirement.
 
 ---
 
