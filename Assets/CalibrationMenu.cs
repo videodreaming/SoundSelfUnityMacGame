@@ -6,6 +6,18 @@ using TMPro;
 
 public class CalibrationMenu : MonoBehaviour
 {
+    public void StartCalibrationSequence()
+    {
+        Debug.Log("CalibrationMenu: StartCalibrationSequence (stub)");
+    }
+    public void StopCalibrationSequence()
+    {
+        Debug.Log("CalibrationMenu: StopCalibrationSequence (stub)");
+    }
+}
+/*
+public class CalibrationMenu : MonoBehaviour
+{
     public Button startButton;
     public Button startConfigButton;
     public Button endTutorialButton;
@@ -280,7 +292,7 @@ public class CalibrationMenu : MonoBehaviour
         }
     }
 }
-
+*/
 
 
 public enum TutorialPortions

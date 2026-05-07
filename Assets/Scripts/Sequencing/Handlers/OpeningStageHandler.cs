@@ -31,6 +31,10 @@ namespace SoundSelf.Sequence
             _hasEntered = true;
             IsComplete = false;
 
+            //UI CALLS
+            //TODO: ADD UI CALL HERE
+            //TO SET UI TO INTERACTIVE MAIN SEQUENCE (IF IT'S NOT ALREADY SET)
+
             bool isFirstTimeUser = _sequencer.csvLoader.IsFirstTimeUser;
 
             //CLEAN UP PREVIOUS THINGS

@@ -6,6 +6,7 @@ namespace SoundSelf.Sequence
     public class CalibrationStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
+        private bool _calibrationUiListenersRegistered;
 
         public StageType StageType => StageType.Calibration;
 
@@ -21,12 +22,85 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             Debug.Log("CalibrationStageHandler: Enter (stub - skipping until implementation added)");
             if (_sequencer != null && _sequencer.calibrationMenu != null)
+            {
                 _sequencer.calibrationMenu.StartCalibrationSequence();
+                //Open the Calibraiton Menu:
+                UIManager.Instance.SetCalibrationScreen(CalibrationUI.Headphone);
+
+                SubscribeCalibrationUiListeners();
+            }
             else
                 Debug.LogError("CalibrationStageHandler: Sequencer or calibrationMenu is null. Cannot start calibration UI.");
 
             // Stub behavior: auto-advance until calibration flow owns completion signaling.
-            MarkComplete();
+            // MarkComplete();
+        }
+
+        private void SubscribeCalibrationUiListeners()
+        {
+            var ui = UIManager.Instance;
+            if (ui == null)
+            {
+                Debug.LogWarning("CalibrationStageHandler: UIManager.Instance is null; cannot subscribe to calibration UI events.");
+                return;
+            }
+
+            if (_calibrationUiListenersRegistered)
+                return;
+
+            ui.OnMicrophoneScreenNextPress += HandleMicrophoneScreenNextPress;
+            ui.OnHeadphoneScreenNextPress += HandleHeadphoneScreenNextPress;
+            ui.OnVibroacousticScreenNextPress += HandleVibroacousticScreenNextPress;
+            ui.OnLightglassScreenNextPress += HandleLightglassScreenNextPress;
+            ui.OnHeadphoneTroubleshootingPress += HandleHeadphoneTroubleshootingPress;
+            _calibrationUiListenersRegistered = true;
+        }
+
+        private void UnsubscribeCalibrationUiListeners()
+        {
+            if (!_calibrationUiListenersRegistered)
+                return;
+
+            var ui = UIManager.Instance;
+            if (ui != null)
+            {
+                ui.OnMicrophoneScreenNextPress -= HandleMicrophoneScreenNextPress;
+                ui.OnHeadphoneScreenNextPress -= HandleHeadphoneScreenNextPress;
+                ui.OnVibroacousticScreenNextPress -= HandleVibroacousticScreenNextPress;
+                ui.OnLightglassScreenNextPress -= HandleLightglassScreenNextPress;
+                ui.OnHeadphoneTroubleshootingPress -= HandleHeadphoneTroubleshootingPress;
+            }
+
+            _calibrationUiListenersRegistered = false;
+        }
+
+        private void HandleHeadphoneScreenNextPress()
+        {
+            Debug.Log("CalibrationStageHandler: OnHeadphoneScreenNextPress. Transitioning to Microphone Screen.");
+            UIManager.Instance.SetCalibrationScreen(CalibrationUI.Microphone);
+        }
+
+        private void HandleMicrophoneScreenNextPress()
+        {
+            Debug.Log("CalibrationStageHandler: OnMicrophoneScreenNextPress (stub).");
+            UIManager.Instance.SetCalibrationScreen(CalibrationUI.VibroAcoustic);
+        }
+
+        private void HandleVibroacousticScreenNextPress()
+        {
+            Debug.Log("CalibrationStageHandler: OnVibroacousticScreenNextPress (stub).");
+            UIManager.Instance.SetCalibrationScreen(CalibrationUI.LightGlass);
+        }
+
+        private void HandleLightglassScreenNextPress()
+        {
+            Debug.Log("CalibrationStageHandler: OnLightglassScreenNextPress (stub).");
+            UIManager.Instance.SetChoiceScreen();
+        }
+
+        private void HandleHeadphoneTroubleshootingPress()
+        {
+            Debug.Log("CalibrationStageHandler: OnHeadphoneTroubleshootingPress (stub).");
         }
 
         //--------------------------------
@@ -58,6 +132,8 @@ namespace SoundSelf.Sequence
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            UnsubscribeCalibrationUiListeners();
+
             if (_sequencer != null && _sequencer.calibrationMenu != null)
                 _sequencer.calibrationMenu.StopCalibrationSequence();
         }

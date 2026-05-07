@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -132,6 +132,8 @@ public class Sequencer : MonoBehaviour
             DbgLogSequencer("Sequencer: TimeTrackerScript.instance is null in Start(); session countdown is unavailable until the tracker exists. Add a TimeTrackerScript to the scene.", true);
 
     }
+
+
 // if(DevelopmentMode.Instance != null && DevelopmentMode.Instance.developmentMode)
  // {   //do something  }
     

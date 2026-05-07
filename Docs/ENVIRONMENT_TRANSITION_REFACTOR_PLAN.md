@@ -33,6 +33,7 @@ This plan applies only to environment transitions caused by inactivity ("going t
 4. Start ambient VO event for sleep environment:
    - `Play_VO_LinearHumsAhhs`
 5. Use longer transition timing for this entry.
+6. Use Play_VO_LinearHumsAhhs (this should be a repeating behavior. Stop the repeating behavior when no longer in sleep)
 
 ### Sleep Wake (player tones again)
 
