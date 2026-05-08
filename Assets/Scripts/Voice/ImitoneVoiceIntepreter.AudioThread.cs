@@ -79,12 +79,10 @@ public partial class ImitoneVoiceIntepreter
 
     // Step 3a: counts successful imitone.InputAudio calls from the audio thread.
     private long imitoneInputAudioCallTotal;
-    // Step 3a: counts ring writes skipped because they would overrun the consumer position.
-    // Never increments in 3a (no consumer of the audio-thread ring; the ring itself was deleted in
-    // pass 3 along with audioRingWriteLock and audioRingWriteTotalSamples). Placeholder for Step 5b
-    // when the legacy mic-ingest path is retired and a similar guard returns. Distinct from
-    // rawRingReadLockMissTotal (rawBufferLock TryEnter contention).
-    private long micRingOverflowSkipTotal;
+    // 5b-iv: micRingOverflowSkipTotal retired — was a placeholder for an audio-thread ring-overflow
+    // counter that the F1 hybrid pivot (Step 3a) made architecturally unnecessary (the F1 hybrid's
+    // overflow protection lives on the read side as audioFeedOverflowDroppedTotal, not the write side).
+    // Counter never incremented; FAIL_RING_OVERFLOW_GROWING could never fire. Both retired together.
 
     // Step 3a debug (see Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md): peak absolute amplitude of the
     // mono buffer just before it's handed to imitone.InputAudio. Tells us whether the audio thread is
@@ -186,7 +184,6 @@ public partial class ImitoneVoiceIntepreter
             audioConfigOutputSampleRate = audioConfigOutputSampleRate,
             audioConfigDspBufferSize = audioConfigDspBufferSize,
             imitoneInputAudioCallTotal = Interlocked.Read(ref imitoneInputAudioCallTotal),
-            micRingOverflowSkipTotal = Interlocked.Read(ref micRingOverflowSkipTotal),
             audioCallbackFeedPeakAbsLastCallback = audioCallbackFeedPeakAbsVolatile,
             audioThreadFeedReadTotalSamples = Interlocked.Read(ref audioThreadFeedReadTotalSamples),
             audioFeedOverflowDroppedTotal = Interlocked.Read(ref audioFeedOverflowDroppedTotal),

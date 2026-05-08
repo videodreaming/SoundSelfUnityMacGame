@@ -34,31 +34,38 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     // Permanent fields belong in their own headed sections below — never here.
     // ----------------------------------------------------------------------
 
-    [Header("CURRENT TEST — Step 5a: click protocol verification (M1/M2/M5/M6)")]
-    [Tooltip("Step 5a test bar — full click protocol across all 5 scenarios with NORMAL product mix (music + DirectVoiceMonitoring on, normalized stream).\n\nPRIMARY PASS/FAIL: NO AUDIBLE CLICKS in any scenario. Counters below are diagnostic context — they tell you *what M1/M2/M6 mitigated*, not whether they succeeded. Trust your ears first.\n\nSCENARIOS (run all 5; capture Inspector after each):\n  1. Quiet baseline — 30 s silence. No periodic clicks at callback cadence.\n  2. Sustained tone — 30 s steady note. No clicks at any cadence; M1 / M2 should not fire in steady state.\n  3. Onset / offset — rapid voice on/off cycles. Hardest test for M1 fade-in/fade-out and M6 gain transitions on toneActive flips. monHardVolumeStepCount is EXPECTED to climb here — M6 smooths these inaudibly.\n  4. Heavy load — tone + simulated CPU work (drag a profiler-heavy op, switch scenes, anything that briefly stalls main thread). Hardest test for M2 overflow crossfade. monOverflowEvents may tick up here; the crossfade should make any tick inaudible.\n  5. Long session — 5+ min. Watch for slow degradation in any counter.\n\nDIAGNOSTIC BAR — what each counter tells you:\n  • failure = false (sticky FAIL_* cleared only if you intentionally triaged a latch).\n  • dbMicTearTotal = 0 (3b regression watch; any increment = volatile read saw NaN/±Inf, escalate _dbMicrophone to Interlocked).\n  • rollingHz ~ outputSampleRate/dspBufferSize (audio thread alive — without this everything else is meaningless).\n  • dbValue + pitchHz alive on voice (monitoring still produces audible voice — precondition for \"no clicks\" to mean anything).\n  • monUnderflowEvents — DirectVoiceMonitoring underflow fills (M1 fired). May tick under load; should NOT climb in steady state.\n  • monOverflowEvents — DirectVoiceMonitoring overflow drops (M2 crossfade fired). Same: load-correlated ticks OK; steady-state climb = ring undersized or read stalled.\n  • monStarvationEvents — DirectVoiceMonitoring callback starvation (copied == 0; hard underflow). Should stay at 0 in healthy play; nonzero = capture not feeding ring fast enough.\n  • monHardVolumeStepCount — main-thread per-frame gain delta > 0.2 (M6's input signal). DIAGNOSTIC ONLY — climbs on toneActive flips / attenuation toggles by design; M6 smooths these inaudibly. Pass/fail is your ears, not this counter.\n  • clickMitigationFadeSamples (live in DirectVoiceMonitoring Inspector, not mirrored here) — current fade length (default 32 samples ≈ 0.67 ms at 48 k). Tunable knob if a scenario surfaces clicks.\n\nM3 (verify-only): GameObject layout + Script Execution Order — already verified before running this protocol; see plan dev notes (5).\n\nDeeper metrics (full FAIL set, audio-thread health, ring totals, imitone feed health) live in headed sections below.")]
-    [SerializeField] private string currentTestDescription = "Step 5a: full click protocol under normal mix with counter visibility. Run all 5 scenarios; capture Inspector after each. Trust ears first; counters are diagnostic. Rewrite CURRENT TEST before a different testing round (§9).";
+    [Header("CURRENT TEST — Step 5b-vi: click protocol + F1 hybrid regression bar")]
+    [Tooltip("Step 5b-vi — full 5-scenario click protocol (same five scenarios as Step 5a) after the 5b cleanup passes, with F1 hybrid health rows kept visible. PRIMARY PASS/FAIL: (1) no audible clicks in any scenario — trust ears first; (2) failure = false (composite FAIL_* OR).\n\nF1 HYBRID / 5b CLEANUP: micExitReason flickers \"unread_zero\" often — Unity Microphone.GetPosition() advances in chunks, so many LateUpdates see zero unread samples; any \"copied_samples\" tick resets the unread-zero streak. Unrelated to voicing vs silence. Compare aggUnreadZeroConsecutiveFrames (Mic ingest section) to failUnreadZeroSustainedFrameThreshold (default 30): bursty drivers keep the streak below 30 while micExitReason still shows unread_zero most frames. micRawRingWriteTotalSamples must climb at sample rate; imitoneInputAudioCallTotal tracks callbacks. Sticky unhealthy reasons: stalled_capture_stopped, device_unavailable, invalid_mic_position.\n\nCLICK MITIGATION (5a): monUnderflowEvents / monOverflowEvents / monStarvationEvents / monHardVolumeStepCount — same story as Step 5a (ticks under load OK; steady-state climb on underflow/overflow/starvation is concerning; hardVolumeStepCount is M6 input — pass/fail is ears on onset/offset).\n\nDeeper metrics (feed gap, raw lock misses, full FAIL set) live in headed sections below. Per §9, rewrite CURRENT TEST before the next testing round.")]
+    [SerializeField] private string currentTestDescription = "Step 5b-vi — full click protocol + F1 hybrid bar. Run all 5 scenarios (quiet baseline, sustained tone, onset/offset, heavy load, long session); capture Inspector after each. Trust ears first. Rewrite before next round (§9).";
 
     [Tooltip("Time.time — report with each grab.")]
     [SerializeField] private float currentTestSessionTimeSeconds;
-    [Tooltip("Any FAIL_* below.")]
+    [Tooltip("Any FAIL_* below — composite OR. Universal canary, must stay false.")]
     [SerializeField] private bool currentTestFailure;
+
+    [Tooltip("F1 hybrid producer snapshot exit reason from UpdateMicReadFrame. \"copied_samples\" = mic frame copied this LateUpdate. \"unread_zero\" = computed unread sample count <= 0 (Microphone.GetPosition has not advanced past our read cursor since last poll — normal when the driver reports the write head in chunks). Any copied_samples tick resets the unread-zero streak (see aggUnreadZeroConsecutiveFrames). Unhealthy when sticky: stalled_capture_stopped, device_unavailable, invalid_mic_position.")]
+    [SerializeField] private string currentTestMicExitReason = "";
+    [Tooltip("Step 5b regression watch — main-thread producer total samples written to the raw ring. MUST climb at ~aggAudioConfigOutputSampleRate per second while the mic is alive. Flat = main-thread producer broken (UpdateMicReadFrame stopped writing); F1 hybrid is dead.")]
+    [SerializeField] private long currentTestMicRawRingWriteTotalSamples;
+    [Tooltip("Step 5b regression watch — audio-thread consumer total imitone.InputAudio calls. MUST climb ~1:1 with audioCallbackHzRolling × time. Flat while audioCallbackHzRolling is alive = audio-thread consumer feeding imitone is broken (drain + InputAudio path); F1 hybrid consumer is dead.")]
+    [SerializeField] private long currentTestImitoneInputAudioCallTotal;
 
     [Tooltip("Step 3b regression watch (sticky): tear-detection counter on _dbMicrophone volatile float read. Must stay 0 — any increment means we saw NaN/±Inf/out-of-range; escalate _dbMicrophone to Interlocked.")]
     [SerializeField] private long currentTestDbMicrophoneTearDetectedTotal;
     [Tooltip("Rolling OnAudioFilterRead rate (Hz). Audio thread alive precondition. ~ outputSampleRate/dspBufferSize (e.g. ~46.9 Hz at 1024/48 k).")]
     [SerializeField] private float currentTestAudioCallbackHzRolling;
-    [Tooltip("Voice-alive signal — imitone-derived tone dB. Confirms monitoring still produces audible voice during the click test.")]
+    [Tooltip("Voice-alive signal — imitone-derived tone dB. Confirms downstream voice path still produces audio.")]
     [SerializeField] private float currentTestDbValue;
     [Tooltip("Voice-alive signal — imitone-derived pitch (Hz).")]
     [SerializeField] private float currentTestPitchHz;
 
-    [Tooltip("5a M1: cumulative DirectVoiceMonitoring underflow fills (ReadRawSamples / ReadNormalizedSamples returned copied < frameCount). M1 fade-out / fade-in fires on each. May tick under load; should NOT climb in steady state. If climbing in scenario 1 (quiet baseline) or 2 (sustained tone), ring is undersized or read latency is wrong.")]
+    [Tooltip("5a click-mitigation regression watch: cumulative DirectVoiceMonitoring underflow fills (ReadRawSamples / ReadNormalizedSamples returned copied < frameCount). May tick under load; steady-state climb = the cleanup loosened a buffer-sizing or read-latency invariant.")]
     [SerializeField] private int currentTestMonUnderflowEvents;
-    [Tooltip("5a M2: cumulative DirectVoiceMonitoring overflow drops (helper jumped readPosition). M2 crossfade fires on each. May tick under load (scenario 4); steady-state climb = ring undersized or main thread stalling reads.")]
+    [Tooltip("5a click-mitigation regression watch: cumulative DirectVoiceMonitoring overflow drops (helper jumped readPosition). May tick under load; steady-state climb = ring undersized or main-thread stalling reads.")]
     [SerializeField] private int currentTestMonOverflowEvents;
-    [Tooltip("5a hard-underflow signal: cumulative DirectVoiceMonitoring callback starvations (copied == 0 on a callback). Should stay at 0 in healthy play; nonzero = capture not feeding ring fast enough; check audioThreadFeedLatencyMs and rawRingBuffer sizing.")]
+    [Tooltip("5b-vi click protocol: cumulative DirectVoiceMonitoring callback starvations (copied == 0). Startup transients normal (compare 5a gold-standard notes); steady-state climb = capture not feeding ring fast enough.")]
     [SerializeField] private int currentTestMonStarvationEvents;
-    [Tooltip("5a M6 diagnostic: count of main-thread per-frame gain deltas > 0.2 (the *input* signal to a click vector M6 smooths inaudibly). EXPECTED to climb on toneActive flips / attenuation toggles — that's M6 doing its job, not failing. Pass/fail for M6 is \"no audible clicks during scenario 3 onset/offset\", not this counter.")]
+    [Tooltip("5b-vi click protocol: cumulative main-thread per-frame gain deltas > DirectVoiceMonitoring.hardVolumeStepThreshold (M6 input signal). Diagnostic — may climb on toneActive flips; pass/fail is ears on scenario 3, not this counter.")]
     [SerializeField] private int currentTestMonHardVolumeStepCount;
 
     [Header("FAIL OBSERVATION (glance here first)")]
@@ -88,8 +95,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private bool FAIL_IMITONE_NOT_FED;
     [Tooltip("True when aggImitoneInputAudioCallTotal / aggAudioCallbackTotal stays below failImitoneFeedRatioMin over the last 1-second window. Catches partial feed (e.g. priming gate stuck on, exception loop dropping calls).")]
     [SerializeField] private bool FAIL_IMITONE_FEED_RATIO_LOW;
-    [Tooltip("True when aggMicRingOverflowSkipTotal increased within the last failRingOverflowWindowSeconds. (3a: counter not yet incremented from any code path — placeholder for Step 5b when the audio-thread ring gets a real consumer.)")]
-    [SerializeField] private bool FAIL_RING_OVERFLOW_GROWING;
+    // 5b-iv: FAIL_RING_OVERFLOW_GROWING retired alongside its source counter aggMicRingOverflowSkipTotal
+    // (see ImitoneVoiceIntepreter.AudioThread.cs note). Counter never incremented from any code path —
+    // placeholder for an architecture (audio-thread ring producer) the F1 hybrid pivot abandoned.
+    // The active overflow watch on the F1 hybrid lives on the read side as aggAudioFeedOverflowDroppedTotal.
 
     [Header("FAIL OBSERVATION — Phase 1 (ingest)")]
     [Tooltip("True when the ingest exit reason stayed unread_zero for too many consecutive frames or seconds (see thresholds).")]
@@ -126,8 +135,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private long failAudioLockMissPerSecondThreshold = 50;
     [SerializeField] private float failImitoneNotFedSeconds = 0.2f;
     [SerializeField] [Range(0f, 1f)] private float failImitoneFeedRatioMin = 0.95f;
-    [SerializeField] private float failRingOverflowWindowSeconds = 2f;
-
     [Header("FAIL OBSERVATION — actions")]
     [Tooltip("Tick once in Play mode to clear sticky FAIL_DB_TEAR_DETECTED latch and reset ring-stall baseline; unticks automatically. (5b-ii: previously also cleared the gentle-recovery sticky latch, which has been retired.)")]
     [SerializeField] private bool clearFailObservationStickyFlags;
@@ -166,8 +173,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] [Range(0f, 1.5f)] private float aggImitoneInputToCallbackRatio;
     [Tooltip("Frames since imitone GetState returned a different (power, pitch_hz) tuple. Stays near 0 in normal operation; climbs only if imitone is hung.")]
     [SerializeField] private int aggMainThreadFramesSinceLastImitoneStateChange;
-    [Tooltip("Audio-thread ring writes skipped due to consumer-overrun. (3a: never increments — placeholder for Step 5b when a consumer exists. Distinct from aggRawRingReadLockMissTotal, which is rawBufferLock TryEnter contention.)")]
-    [SerializeField] private long aggMicRingOverflowSkipTotal;
     [Tooltip("DEBUG: peak |sample| of the mono buffer the audio thread just handed to imitone.InputAudio. Post-3b (filtered): voice ~0.01–0.1, silent < 0.005, contrast > 10×. Pre-3b unfiltered bar was ~0.05–0.5. If ~0 while _dbMicrophone moves on voice, the audio thread is being fed silence and imitone is innocent.")]
     [SerializeField] private float aggAudioThreadFeedPeakAbsLastCallback;
     [Tooltip("Step 3a hybrid pivot: logical read cursor total on the imitone raw-ring feed path (samples since session start, monotonic).")]
@@ -207,6 +212,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMicUnityFrame;
     [SerializeField] private long aggMicRawRingWriteTotalSamples;
     [SerializeField] private long aggMicNormRingWriteTotalSamples;
+    [Tooltip("5b-vi: consecutive LateUpdate frames where aggMicExitReason stayed \"unread_zero\" without a \"copied_samples\" tick interrupting the streak. Resets to 0 on any copied_samples frame. FAIL_UNREAD_ZERO_SUSTAINED uses this vs failUnreadZeroSustainedFrameThreshold (default 30) and wall-clock failUnreadZeroSustainedSecondsThreshold. Bursty drivers: Inspector often shows unread_zero while this stays well below 30.")]
+    [SerializeField] private int aggUnreadZeroConsecutiveFrames;
 
     [Header("Interpreter raw path (ImitoneVoiceIntepreter)")]
     // Step 3b: aggRawConsumedThisFrame / aggInterpMicRefNull / aggInterpTryCopyTrue /
@@ -285,8 +292,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private float _imitoneFeedRatioWindowTimer;
     private long _imitoneFeedRatioWindowStartCallbackTotal;
     private long _imitoneFeedRatioWindowStartInputTotal;
-    private long _prevAggMicRingOverflowSkipTotal = -1;
-    private float _lastMicRingOverflowIncreaseRealtime = -1f;
     private int _prevAggCaptureEpoch = -1;
 
     // Production/soak logging: rising / sustained / falling edges of composite FAILURE + first frame
@@ -307,7 +312,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private bool _failSeenAudioLockContention;
     private bool _failSeenImitoneNotFed;
     private bool _failSeenImitoneFeedRatioLow;
-    private bool _failSeenRingOverflowGrowing;
     private bool _failSeenUnreadZeroSustained;
     private bool _failSeenIngestRingStalled;
     private bool _failSeenMonitoringStarvationGrowing;
@@ -361,7 +365,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             "audioCallbackGCAllocSuspectTotal, audioCallbackMaxGapTicksWindow, " +
             "imitoneInputAudioCallTotal, imitoneInputAudioPendingException (CAS), " +
             "audioFeedOverflowDroppedTotal, audioThreadFeedReadTotalSamples, " +
-            "rawWriteTotalSamples, rawRingReadLockMissTotal, micRingOverflowSkipTotal; " +
+            "rawWriteTotalSamples, rawRingReadLockMissTotal; " +
             "DirectVoiceMonitoring: bufferUnderflow*, bufferOverflow*, callbackStarvation*";
     }
 
@@ -480,7 +484,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
 
             // Step 3a: imitone-feed observability — audio-thread side.
             aggImitoneInputAudioCallTotal = a.imitoneInputAudioCallTotal;
-            aggMicRingOverflowSkipTotal = a.micRingOverflowSkipTotal;
             aggAudioThreadFeedPeakAbsLastCallback = a.audioCallbackFeedPeakAbsLastCallback;
             aggAudioThreadFeedReadTotalSamples = a.audioThreadFeedReadTotalSamples;
             aggAudioFeedOverflowDroppedTotal = a.audioFeedOverflowDroppedTotal;
@@ -500,9 +503,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 ? (float)aggImitoneInputAudioCallTotal / aggAudioCallbackTotal
                 : 0f;
 
-            // CURRENT TEST — Step 5a: click protocol verification (M1/M2/M5/M6). See plan doc § 9.
+            // CURRENT TEST — Step 5b-vi: click protocol + F1 hybrid regression bar. See plan doc § 9.
             // Monitoring transport mirrors (currentTestMon*) populated below after voiceMonitoring read.
             currentTestSessionTimeSeconds = Time.time;
+            currentTestMicExitReason = aggMicExitReason;
+            currentTestMicRawRingWriteTotalSamples = aggMicRawRingWriteTotalSamples;
+            currentTestImitoneInputAudioCallTotal = aggImitoneInputAudioCallTotal;
             currentTestDbMicrophoneTearDetectedTotal = aggDbMicrophoneTearDetectedTotal;
             currentTestAudioCallbackHzRolling = aggAudioCallbackHzRolling;
             currentTestDbValue = interpreter._dbValue;
@@ -534,7 +540,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggMonHardVolumeStepCount = voiceMonitoring.HardVolumeStepCount;
         }
 
-        // CURRENT TEST — Step 5a monitoring-transport mirrors. See § 9.
+        // CURRENT TEST — Step 5b-vi monitoring-transport mirrors (click protocol + 5a M-vectors). See § 9.
         currentTestMonUnderflowEvents = aggMonUnderflowEvents;
         currentTestMonOverflowEvents = aggMonOverflowEvents;
         currentTestMonStarvationEvents = aggMonStarvationEvents;
@@ -659,20 +665,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 // Between window rolls, FAIL_IMITONE_FEED_RATIO_LOW retains its last evaluated value.
             }
 
-            // FAIL_RING_OVERFLOW_GROWING — 3a: counter never increments (placeholder for Step 5b). Wiring lands
-            // here so the trigger logic exists when Step 5b's consumer-position tracking starts feeding it.
-            if (_prevAggMicRingOverflowSkipTotal < 0)
-            {
-                _prevAggMicRingOverflowSkipTotal = aggMicRingOverflowSkipTotal;
-            }
-            else if (aggMicRingOverflowSkipTotal > _prevAggMicRingOverflowSkipTotal)
-            {
-                _lastMicRingOverflowIncreaseRealtime = Time.realtimeSinceStartup;
-                _prevAggMicRingOverflowSkipTotal = aggMicRingOverflowSkipTotal;
-            }
-
-            FAIL_RING_OVERFLOW_GROWING = _lastMicRingOverflowIncreaseRealtime >= 0f
-                && Time.realtimeSinceStartup - _lastMicRingOverflowIncreaseRealtime <= failRingOverflowWindowSeconds;
+            // 5b-iv: FAIL_RING_OVERFLOW_GROWING trigger block retired — counter never incremented (F1
+            // hybrid pivot relocated overflow protection to the read side as aggAudioFeedOverflowDroppedTotal,
+            // so a write-side overflow guard on the audio thread became architecturally unnecessary).
         }
         else
         {
@@ -682,7 +677,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             FAIL_AUDIO_LOCK_CONTENTION = false;
             FAIL_IMITONE_NOT_FED = false;
             FAIL_IMITONE_FEED_RATIO_LOW = false;
-            FAIL_RING_OVERFLOW_GROWING = false;
             _audioRateLowSustainedTimer = 0f;
         }
 
@@ -713,6 +707,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         FAIL_UNREAD_ZERO_SUSTAINED =
             _consecutiveUnreadZeroFrames >= failUnreadZeroSustainedFrameThreshold
             || (_unreadZeroSegmentStartRealtime >= 0f && unreadZeroSegmentSeconds >= failUnreadZeroSustainedSecondsThreshold);
+
+        aggUnreadZeroConsecutiveFrames = _consecutiveUnreadZeroFrames;
 
         if (interpreter != null)
         {
@@ -797,7 +793,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             || FAIL_AUDIO_LOCK_CONTENTION
             || FAIL_IMITONE_NOT_FED
             || FAIL_IMITONE_FEED_RATIO_LOW
-            || FAIL_RING_OVERFLOW_GROWING
             || FAIL_UNREAD_ZERO_SUSTAINED
             || FAIL_INGEST_RING_STALLED
             || FAIL_MONITORING_STARVATION_GROWING
@@ -868,7 +863,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         if (FAIL_AUDIO_LOCK_CONTENTION) _failSeenAudioLockContention = true;
         if (FAIL_IMITONE_NOT_FED) _failSeenImitoneNotFed = true;
         if (FAIL_IMITONE_FEED_RATIO_LOW) _failSeenImitoneFeedRatioLow = true;
-        if (FAIL_RING_OVERFLOW_GROWING) _failSeenRingOverflowGrowing = true;
         if (FAIL_UNREAD_ZERO_SUSTAINED) _failSeenUnreadZeroSustained = true;
         if (FAIL_INGEST_RING_STALLED) _failSeenIngestRingStalled = true;
         if (FAIL_MONITORING_STARVATION_GROWING) _failSeenMonitoringStarvationGrowing = true;
@@ -885,7 +879,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _failSeenAudioLockContention = false;
         _failSeenImitoneNotFed = false;
         _failSeenImitoneFeedRatioLow = false;
-        _failSeenRingOverflowGrowing = false;
         _failSeenUnreadZeroSustained = false;
         _failSeenIngestRingStalled = false;
         _failSeenMonitoringStarvationGrowing = false;
@@ -910,7 +903,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             + (_failSeenAudioLockContention ? "FAIL_AUDIO_LOCK_CONTENTION " : "")
             + (_failSeenImitoneNotFed ? "FAIL_IMITONE_NOT_FED " : "")
             + (_failSeenImitoneFeedRatioLow ? "FAIL_IMITONE_FEED_RATIO_LOW " : "")
-            + (_failSeenRingOverflowGrowing ? "FAIL_RING_OVERFLOW_GROWING " : "")
             + (_failSeenUnreadZeroSustained ? "FAIL_UNREAD_ZERO_SUSTAINED " : "")
             + (_failSeenIngestRingStalled ? "FAIL_INGEST_RING_STALLED " : "")
             + (_failSeenMonitoringStarvationGrowing ? "FAIL_MONITORING_STARVATION_GROWING " : "")
@@ -940,7 +932,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             + (FAIL_AUDIO_LOCK_CONTENTION ? "FAIL_AUDIO_LOCK_CONTENTION " : "")
             + (FAIL_IMITONE_NOT_FED ? "FAIL_IMITONE_NOT_FED " : "")
             + (FAIL_IMITONE_FEED_RATIO_LOW ? "FAIL_IMITONE_FEED_RATIO_LOW " : "")
-            + (FAIL_RING_OVERFLOW_GROWING ? "FAIL_RING_OVERFLOW_GROWING " : "")
             + (FAIL_UNREAD_ZERO_SUSTAINED ? "FAIL_UNREAD_ZERO_SUSTAINED " : "")
             + (FAIL_INGEST_RING_STALLED ? "FAIL_INGEST_RING_STALLED " : "")
             + (FAIL_MONITORING_STARVATION_GROWING ? "FAIL_MONITORING_STARVATION_GROWING " : "")

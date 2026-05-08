@@ -24,7 +24,9 @@ using imitone;
 // boundary). Cross-thread shared state is documented field-by-field via the
 // aggCrossThreadFieldsUsingVolatile / aggCrossThreadFieldsUsingInterlocked label strings on
 // MicVoiceIngestDebugAggregate.
-[DefaultExecutionOrder(50)]
+// 5b-v: [DefaultExecutionOrder(50)] removed — overridden by Project Settings → Script Execution Order
+// at -104 (engineer-verified 2026-05-08), so the attribute was misleading dead metadata. The Project
+// Settings entry is the binding source.
 public partial class ImitoneVoiceIntepreter : MonoBehaviour
 {
     //base variables pitch and midiNote
@@ -240,7 +242,9 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         public int audioConfigDspBufferSize;
         // Step 3a: imitone-feed observability.
         public long imitoneInputAudioCallTotal;
-        public long micRingOverflowSkipTotal;
+        // 5b-iv: micRingOverflowSkipTotal field retired from this snapshot — see AudioThread.cs note;
+        // counter never incremented (F1 hybrid moved overflow protection to the read side as
+        // audioFeedOverflowDroppedTotal, which is still here below).
         // Step 3a debug (see Docs/STEP_3A_BUG_IMITONE_NON_RESPONSIVE.md): peak abs of the mono buffer
         // OnAudioFilterRead is about to feed imitone. Used to discriminate "feed is silent" from
         // "feed is voice but imitone isn't pitching."
