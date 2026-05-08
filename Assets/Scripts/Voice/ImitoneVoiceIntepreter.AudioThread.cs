@@ -12,9 +12,11 @@ using UnityEngine;
 ///             <c>ReadRawSamples</c> populates <c>imitoneFeedBuffer</c>, before <c>imitone.InputAudio</c>;
 ///             <c>_dbMicrophone</c> is computed from the same post-filter buffer and published via
 ///             <c>volatile float</c> for main-thread / Inspector reads.
-/// Legacy main-thread mic ingest still ring-writes its own copy of the mic clip; the audio-thread feed
-/// is independent of it. The legacy main-thread ingest block gets deleted in Step 5b.
-/// runs on: audio thread — <see cref="OnAudioFilterRead"/> only.
+/// Note: this file mixes audio-thread and main-thread code. <see cref="OnAudioFilterRead"/> and the
+/// two filter helpers it calls (<see cref="ApplyHighPassFilterOnAudioThread"/>,
+/// <see cref="ApplyLowPassFilterOnAudioThread"/>) are the only audio-thread members; everything else
+/// (bootstrap, rebootstrap, dummy-clip setup, health-snapshot reader, coroutine, stop) runs on the
+/// main thread. Each method below carries a `// runs on: ...` annotation.
 /// </summary>
 public partial class ImitoneVoiceIntepreter
 {
@@ -96,6 +98,8 @@ public partial class ImitoneVoiceIntepreter
     // both monotonic). Replaces the pre-pivot CaptureToMicGap* properties (captureSource.timeSamples vs
     // Microphone.GetPosition), which were meaningless once captureSource stopped playing the streaming mic
     // clip. Aggregate prefers reading these via GetAudioThreadHealthSnapshot for a coherent snapshot pair.
+    // runs on: main thread (read by aggregate's LateUpdate snapshot; Interlocked.Read makes the underlying
+    // counters torn-read-safe so calling from elsewhere would also be safe, but no other call site exists).
     public long AudioThreadFeedToWriteHeadGapSamples
     {
         get
@@ -106,6 +110,7 @@ public partial class ImitoneVoiceIntepreter
             return gap < 0 ? 0 : gap;
         }
     }
+    // runs on: main thread (same call sites as AudioThreadFeedToWriteHeadGapSamples).
     public float AudioThreadFeedToWriteHeadGapMs
     {
         get
@@ -164,6 +169,8 @@ public partial class ImitoneVoiceIntepreter
     public AudioSpeakerMode AudioConfigSpeakerMode => audioConfigSpeakerMode;
     public int AggMicClipChannelsCached => aggMicClipChannelsCached;
 
+    // runs on: main thread (called from MicVoiceIngestDebugAggregate.LateUpdate). Counters are read
+    // via Interlocked.Read; volatile fields are read normally — both safe under the cross-thread contract.
     public AudioThreadHealthSnapshot GetAudioThreadHealthSnapshot()
     {
         return new AudioThreadHealthSnapshot
@@ -191,6 +198,9 @@ public partial class ImitoneVoiceIntepreter
         };
     }
 
+    // runs on: main thread (called from StartMicrophoneCapture in the mic-ingest partial, after
+    // Microphone.Start succeeds). Reads AudioSettings, configures the AudioSource, primes filter state,
+    // kicks the WaitMicPositionThenPlayCapture coroutine.
     private void BootstrapAudioThreadCapturePath()
     {
         if (!MicIngestIsReady || microphoneBuffer == null)
@@ -238,6 +248,7 @@ public partial class ImitoneVoiceIntepreter
     /// Without this, after a mic recovery the AudioSource still points at a destroyed AudioClip and
     /// <see cref="OnAudioFilterRead"/> stops firing — silently killing the audio-thread imitone feed.
     /// </summary>
+    // runs on: main thread (every frame from MicIngestMainThreadTick).
     private void TryRebootstrapAudioThreadCaptureIfMicRecovered()
     {
         if (imitone == null || !MicIngestIsReady || microphoneBuffer == null)
@@ -259,6 +270,8 @@ public partial class ImitoneVoiceIntepreter
     /// Once-per-session — after the first log, <see cref="imitoneInputAudioMainThreadLogged"/> latches and
     /// the audio-thread catch stops capturing. Called from <see cref="MicIngestMainThreadTick"/>.
     /// </summary>
+    // runs on: main thread (every frame from MicIngestMainThreadTick). Pairs with the audio-thread
+    // CompareExchange that publishes the exception reference inside OnAudioFilterRead's catch block.
     private void DrainImitoneInputAudioPendingException()
     {
         if (imitoneInputAudioMainThreadLogged)
@@ -277,6 +290,8 @@ public partial class ImitoneVoiceIntepreter
             $"[MicVoiceIngest] imitone.InputAudio threw on audio thread (logged once for this session): {pending.GetType().Name}: {pending.Message}");
     }
 
+    // runs on: main thread (called from BootstrapAudioThreadCapturePath). Touches Unity-managed
+    // AudioSource / AudioClip — both forbidden from the audio thread.
     private void EnsureCaptureAudioSourceConfigured()
     {
         AudioSource[] existing = GetComponents<AudioSource>();
@@ -346,6 +361,9 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread (Unity coroutine, started from BootstrapAudioThreadCapturePath). Each
+    // `yield return null` resumes on the next main-thread Update tick. Calls TryCreateRawReadCursorBehindMs
+    // (rawBufferLock-protected) and AudioSource.Play — both main-thread-only operations.
     private IEnumerator WaitMicPositionThenPlayCapture()
     {
         // Step 3a hybrid pivot — see Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md.
@@ -408,6 +426,8 @@ public partial class ImitoneVoiceIntepreter
         audioCaptureStartCoroutine = null;
     }
 
+    // runs on: main thread (read-only convenience accessor for Inspector / aggregate). The two backing
+    // ints are written once by BootstrapAudioThreadCapturePath; tearing is harmless for a diagnostic.
     public float GetExpectedAudioCallbackHz()
     {
         if (audioConfigDspBufferSize <= 0 || audioConfigOutputSampleRate <= 0)
@@ -418,6 +438,8 @@ public partial class ImitoneVoiceIntepreter
         return audioConfigOutputSampleRate / (float)audioConfigDspBufferSize;
     }
 
+    // runs on: main thread (the method name says so explicitly). Drains the audio-thread CAS-max
+    // accumulator via Interlocked.Exchange and recomputes the rolling-Hz / max-gap-ms volatiles.
     private void UpdateAudioThreadHealthOnMainThread()
     {
         // 1-second sliding window. Hz comes from total-count delta over wall-clock delta.
@@ -456,6 +478,8 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread (called from StopMicrophoneCapture and TryRebootstrapAudioThreadCaptureIfMicRecovered).
+    // Stops the coroutine and the AudioSource — both main-thread Unity API.
     private void StopAudioThreadCapture()
     {
         if (audioCaptureStartCoroutine != null)
@@ -471,6 +495,11 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: audio thread (Unity DSP callback). HARD CONSTRAINTS — no allocations, no Debug.Log*,
+    // no Unity API that touches the main-thread state machine (Microphone.*, AudioClip.GetData,
+    // GameObject lookups). Allowed: Interlocked.* on shared longs, volatile reads/writes on shared
+    // floats, the 4-arg ReadRawSamples (TryEnter-safe rawBufferLock acquire), audio-thread-only
+    // filter state, imitone.InputAudio (with try/catch + deferred-log channel for exceptions).
     private void OnAudioFilterRead(float[] data, int channels)
     {
         if (channels <= 0 || data == null || data.Length == 0)
@@ -645,6 +674,8 @@ public partial class ImitoneVoiceIntepreter
     /// sample rate (initialized once in Start, stable for the session — see comment on the
     /// `sampleRate` field in ImitoneVoiceIntepreter.cs).
     /// </summary>
+    // runs on: audio thread (called from OnAudioFilterRead only). The two backing fields have a
+    // single-thread reader/writer so no atomics are needed.
     private void ApplyHighPassFilterOnAudioThread(float[] samples)
     {
         if (samples == null || samples.Length == 0 || sampleRate <= 0) return;
@@ -666,6 +697,7 @@ public partial class ImitoneVoiceIntepreter
     /// audioThreadLpPrevOutput which no other thread reads or writes. Math is identical to the
     /// pre-3b main-thread variant.
     /// </summary>
+    // runs on: audio thread (called from OnAudioFilterRead only).
     private void ApplyLowPassFilterOnAudioThread(float[] samples)
     {
         if (samples == null || samples.Length == 0 || sampleRate <= 0) return;

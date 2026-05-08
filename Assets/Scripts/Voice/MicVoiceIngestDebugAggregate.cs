@@ -18,6 +18,10 @@ using UnityEngine;
 /// rounds get removed in the same edit pass — no accumulation. See
 /// <c>Docs/MIC_VOICE_INGEST_FIX_PLAN.md</c> § 9 (Active-bug debugging convention) for the full rules.
 /// </summary>
+// Threading note (5b-iii): every method in this file runs on: main thread. The aggregate is a pure
+// consumer — it reads cross-thread state via the snapshot accessors on the producers (each of which
+// uses Interlocked.Read / volatile reads internally to make a torn-read-safe copy onto the main
+// thread). NO direct cross-thread synchronization happens here; the aggregate trusts its sources.
 public class MicVoiceIngestDebugAggregate : MonoBehaviour
 {
     // ----------------------------------------------------------------------
@@ -92,8 +96,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private bool FAIL_UNREAD_ZERO_SUSTAINED;
     [Tooltip("True when aggMicRawRingWriteTotalSamples has not increased for failIngestRingStalledFrameThreshold consecutive LateUpdate calls.")]
     [SerializeField] private bool FAIL_INGEST_RING_STALLED;
-    [Tooltip("Sticky: latched when aggMicGentleUnreadZeroRecoveryTotal increases above the baseline from last clear; clear by ticking clearFailObservationStickyFlags below.")]
-    [SerializeField] private bool FAIL_GENTLE_RECOVERY_FIRED;
+    // 5b-ii: FAIL_GENTLE_RECOVERY_FIRED retired — its source counter (the gentle unread_zero capture restart)
+    // was deleted from the mic-ingest producer in 5b. The remaining ingest-health failures (FAIL_UNREAD_ZERO_SUSTAINED,
+    // FAIL_INGEST_RING_STALLED) continue to cover the same failure modes.
     [Tooltip("True when aggMonStarvationEvents increased within the last failMonitoringStarvationWindowSeconds wall-clock seconds.")]
     [SerializeField] private bool FAIL_MONITORING_STARVATION_GROWING;
     [Tooltip("True after startup grace when mic reports not ready (interpreter.IsMicReady = false). Step 3b simplified the trigger — the legacy aggInterpMicRefNull source field was always false, and the new direct read of IsMicReady is the canonical liveness signal.")]
@@ -124,7 +129,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private float failRingOverflowWindowSeconds = 2f;
 
     [Header("FAIL OBSERVATION — actions")]
-    [Tooltip("Tick once in Play mode to clear sticky gentle-recovery latch and reset ring-stall baseline; unticks automatically.")]
+    [Tooltip("Tick once in Play mode to clear sticky FAIL_DB_TEAR_DETECTED latch and reset ring-stall baseline; unticks automatically. (5b-ii: previously also cleared the gentle-recovery sticky latch, which has been retired.)")]
     [SerializeField] private bool clearFailObservationStickyFlags;
     [Tooltip("When enabled: Debug.LogError on the rising edge AND while sustained AND on the falling edge of FAIL_OBSERVATION (composite FAILURE) — for soak sessions / user builds where Inspector FAIL flags are not visible. Also logs once per contiguous streak when the _dbMicrophone tear detector fires. Disable if another pipeline ingests Unity console logs and you need less noise. See failObservationLogIntervalInitialSeconds and failObservationLogIntervalCapSeconds for re-log cadence while a failure is sustained.")]
     [SerializeField] private bool logFailObservationErrorsToConsole = true;
@@ -200,9 +205,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMicStalledWriteHeadFrames;
     [SerializeField] private int aggMicClipSamples;
     [SerializeField] private int aggMicUnityFrame;
-    [SerializeField] private int aggMicGentleUnreadZeroConsecutiveFrames;
-    [SerializeField] private int aggMicGentleUnreadZeroRecoveryTotal;
-    [SerializeField] private bool aggMicGentleRecoveryEnabled;
     [SerializeField] private long aggMicRawRingWriteTotalSamples;
     [SerializeField] private long aggMicNormRingWriteTotalSamples;
 
@@ -242,7 +244,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int aggMonHardVolumeStepCount;
 
     private const string UnreadZeroExitReason = "unread_zero";
-    private const string UnreadZeroGentleRestartExitReason = "unread_zero_gentle_restart";
 
     private int _consecutiveUnreadZeroFrames;
     private float _unreadZeroSegmentStartRealtime = -1f;
@@ -252,9 +253,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private int _consecutiveIngestRingStallFrames;
 
     // Step 3b: _consecutiveInterpreterNotConsumingFrames retired with FAIL_INTERPRETER_NOT_CONSUMING.
-
-    private int _gentleRecoveryBaselineAtClear;
-    private bool _gentleRecoveryStickyLatched;
+    // 5b-ii: _gentleRecoveryBaselineAtClear / _gentleRecoveryStickyLatched retired with FAIL_GENTLE_RECOVERY_FIRED.
 
     // Step 3b: sticky latch for _dbMicrophone tear detector. Latches when aggDbMicrophoneTearDetectedTotal
     // climbs above the cleared baseline; user must clear via clearFailObservationStickyFlags. The cure is
@@ -311,11 +310,11 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     private bool _failSeenRingOverflowGrowing;
     private bool _failSeenUnreadZeroSustained;
     private bool _failSeenIngestRingStalled;
-    private bool _failSeenGentleRecoveryFired;
     private bool _failSeenMonitoringStarvationGrowing;
     private bool _failSeenMicNotReady;
     private bool _failSeenDbTearDetected;
 
+    // runs on: main thread (Unity lifecycle).
     private void Awake()
     {
         _lastAudioCallbackTotalAdvanceRealtime = Time.realtimeSinceStartup;
@@ -366,11 +365,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             "DirectVoiceMonitoring: bufferUnderflow*, bufferOverflow*, callbackStarvation*";
     }
 
+    // runs on: main thread (called from LateUpdate when the Inspector toggle is ticked).
     private void ApplyClearFailObservationStickyFlags()
     {
         clearFailObservationStickyFlags = false;
-        _gentleRecoveryBaselineAtClear = aggMicGentleUnreadZeroRecoveryTotal;
-        _gentleRecoveryStickyLatched = false;
         _rawRingStallPrevInitialized = false;
         _consecutiveIngestRingStallFrames = 0;
         _audioLockBaselineInitialized = false;
@@ -383,6 +381,10 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _dbMicTearStickyLatched = false;
     }
 
+    // runs on: main thread (Unity lifecycle). The aggregate's sole entry point per frame: pulls
+    // snapshots from the three producers (interpreter mic-ingest, audio-thread health, monitoring
+    // counters) and rolls them into the FAIL OBSERVATION evaluation + soak-log edge detection.
+    // Runs after every other voice-path script's Update because LateUpdate is later in the frame.
     private void LateUpdate()
     {
         if (interpreter != null)
@@ -397,9 +399,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             aggMicStalledWriteHeadFrames = m.lastStalledWriteHeadFrameCount;
             aggMicClipSamples = m.lastClipSamples;
             aggMicUnityFrame = m.lastUnityFrame;
-            aggMicGentleUnreadZeroConsecutiveFrames = m.gentleUnreadZeroConsecutiveFrames;
-            aggMicGentleUnreadZeroRecoveryTotal = m.gentleUnreadZeroRecoveryTotal;
-            aggMicGentleRecoveryEnabled = m.gentleUnreadZeroRecoveryEnabled;
             aggMicRawRingWriteTotalSamples = m.rawRingWriteTotalSamples;
             aggMicNormRingWriteTotalSamples = m.normalizedRingWriteTotalSamples;
         }
@@ -688,12 +687,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         }
 
         // --- FAIL OBSERVATION Phase 1 (after aggregate copies and optional clear) ---
-        // R1: gentle restart is itself a symptom of being stuck in unread_zero,
-        // so treat unread_zero_gentle_restart as "still in trouble" — segment only
-        // resets when ingest reports anything else (e.g. copied_samples).
-        bool inUnreadZeroSegment =
-            aggMicExitReason == UnreadZeroExitReason
-            || aggMicExitReason == UnreadZeroGentleRestartExitReason;
+        // 5b-ii: gentle-restart exit reason was retired alongside the gentle-recovery family;
+        // the only "still in trouble" exit reason left is bare unread_zero.
+        bool inUnreadZeroSegment = aggMicExitReason == UnreadZeroExitReason;
         if (inUnreadZeroSegment)
         {
             _consecutiveUnreadZeroFrames++;
@@ -750,13 +746,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         // main-thread tryCopyOk gate. Imitone is now fed exclusively from the audio thread; if the
         // feed dies, FAIL_IMITONE_NOT_FED + FAIL_IMITONE_FEED_RATIO_LOW catch it directly without
         // going through a "main-thread did not consume" proxy.
-
-        if (aggMicGentleUnreadZeroRecoveryTotal > _gentleRecoveryBaselineAtClear)
-        {
-            _gentleRecoveryStickyLatched = true;
-        }
-
-        FAIL_GENTLE_RECOVERY_FIRED = _gentleRecoveryStickyLatched;
+        // 5b-ii: FAIL_GENTLE_RECOVERY_FIRED retired — its source counter (the gentle unread_zero
+        // capture restart) was deleted from the mic-ingest producer.
 
         if (_prevAggMonStarvationEvents < 0)
         {
@@ -809,7 +800,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             || FAIL_RING_OVERFLOW_GROWING
             || FAIL_UNREAD_ZERO_SUSTAINED
             || FAIL_INGEST_RING_STALLED
-            || FAIL_GENTLE_RECOVERY_FIRED
             || FAIL_MONITORING_STARVATION_GROWING
             || FAIL_MIC_NOT_READY
             || FAIL_DB_TEAR_DETECTED;
@@ -869,6 +859,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     /// that joined the window after the initial trip). Read at falling edge by
     /// <see cref="BuildFailObservationAccumulatedFlagsSummary"/>.
     /// </summary>
+    // runs on: main thread (called from LateUpdate during a sustained FAILURE window).
     private void AccumulateFailObservationFlags()
     {
         if (FAIL_AUDIO_CALLBACK_FROZEN) _failSeenAudioCallbackFrozen = true;
@@ -880,12 +871,12 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         if (FAIL_RING_OVERFLOW_GROWING) _failSeenRingOverflowGrowing = true;
         if (FAIL_UNREAD_ZERO_SUSTAINED) _failSeenUnreadZeroSustained = true;
         if (FAIL_INGEST_RING_STALLED) _failSeenIngestRingStalled = true;
-        if (FAIL_GENTLE_RECOVERY_FIRED) _failSeenGentleRecoveryFired = true;
         if (FAIL_MONITORING_STARVATION_GROWING) _failSeenMonitoringStarvationGrowing = true;
         if (FAIL_MIC_NOT_READY) _failSeenMicNotReady = true;
         if (FAIL_DB_TEAR_DETECTED) _failSeenDbTearDetected = true;
     }
 
+    // runs on: main thread (called from LateUpdate on the FAILURE rising edge).
     private void ResetFailObservationAccumulatedFlags()
     {
         _failSeenAudioCallbackFrozen = false;
@@ -897,7 +888,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
         _failSeenRingOverflowGrowing = false;
         _failSeenUnreadZeroSustained = false;
         _failSeenIngestRingStalled = false;
-        _failSeenGentleRecoveryFired = false;
         _failSeenMonitoringStarvationGrowing = false;
         _failSeenMicNotReady = false;
         _failSeenDbTearDetected = false;
@@ -909,6 +899,8 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     /// Distinct from <see cref="BuildFailObservationLogDetail"/>'s current-frame snapshot used by rising
     /// + sustained logs.
     /// </summary>
+    // runs on: main thread (called from LateUpdate's FAILURE falling-edge log path). Allocates a
+    // string — fine on main thread; this code path runs once per FAILURE window edge.
     private string BuildFailObservationAccumulatedFlagsSummary()
     {
         return
@@ -921,7 +913,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             + (_failSeenRingOverflowGrowing ? "FAIL_RING_OVERFLOW_GROWING " : "")
             + (_failSeenUnreadZeroSustained ? "FAIL_UNREAD_ZERO_SUSTAINED " : "")
             + (_failSeenIngestRingStalled ? "FAIL_INGEST_RING_STALLED " : "")
-            + (_failSeenGentleRecoveryFired ? "FAIL_GENTLE_RECOVERY_FIRED " : "")
             + (_failSeenMonitoringStarvationGrowing ? "FAIL_MONITORING_STARVATION_GROWING " : "")
             + (_failSeenMicNotReady ? "FAIL_MIC_NOT_READY " : "")
             + (_failSeenDbTearDetected ? "FAIL_DB_TEAR_DETECTED " : "");
@@ -935,6 +926,9 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     /// instead so the soak reader sees every flag that ever fired during the window, not just whatever
     /// happened to be true on the last sustained frame.
     /// </summary>
+    // runs on: main thread (called from LateUpdate's FAILURE rising-edge + sustained-re-log paths).
+    // Allocates a string — fine on main thread; cadence is rising-edge + exponentially-backed-off
+    // re-logs while sustained.
     private string BuildFailObservationLogDetail()
     {
         // Deliberately flat string — runs rarely (FAIL edges + exponentially-backed-off re-log); readability matters more than zero-GC here.
@@ -949,7 +943,6 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             + (FAIL_RING_OVERFLOW_GROWING ? "FAIL_RING_OVERFLOW_GROWING " : "")
             + (FAIL_UNREAD_ZERO_SUSTAINED ? "FAIL_UNREAD_ZERO_SUSTAINED " : "")
             + (FAIL_INGEST_RING_STALLED ? "FAIL_INGEST_RING_STALLED " : "")
-            + (FAIL_GENTLE_RECOVERY_FIRED ? "FAIL_GENTLE_RECOVERY_FIRED " : "")
             + (FAIL_MONITORING_STARVATION_GROWING ? "FAIL_MONITORING_STARVATION_GROWING " : "")
             + (FAIL_MIC_NOT_READY ? "FAIL_MIC_NOT_READY " : "")
             + (FAIL_DB_TEAR_DETECTED ? "FAIL_DB_TEAR_DETECTED " : "")

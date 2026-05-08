@@ -612,6 +612,10 @@ public class RecordedAudioPlayback : MonoBehaviour
     /// <summary>
     /// Continuously reads new normalized samples from ImitoneVoiceIntepreter and accumulates them.
     /// </summary>
+    // runs on: main thread (called from RecordingCoroutine + StopRecordingAndGetTrimmedClip, both
+    // main-thread). Uses the 3-arg ReadNormalizedSamples overload (blocking `lock(normalizedBufferLock)`)
+    // — main-thread-only. List<float>.Add is allocation-prone but acceptable here; recording is a
+    // non-real-time path where occasional GC is fine.
     private void ReadFromSharedBuffer()
     {
         if (imitoneVoiceInterpreter == null || !imitoneVoiceInterpreter.IsMicReady)

@@ -20,24 +20,8 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private float recoveryRetryIntervalSeconds = 1f;
     [Tooltip("How many consecutive frames with no write-head movement trigger mic recovery.")]
     [SerializeField] private int stalledWriteHeadFrameThreshold = 120;
-
-    [Header("Gentle recovery — sustained unread_zero (optional; off by default)")]
-    [Tooltip("When true, debounced Stop + re-InitializeMicrophone after sustained unread_zero. Left in code for experiments; default off — remove if root cause is fixed elsewhere (see MIC_VOICE_INGEST_FINDINGS.md).")]
-    [SerializeField] private bool gentleUnreadZeroRecoveryEnabled = false;
-    [Tooltip("Consecutive Update frames with frameCount==0 before restart (e.g. 48 ≈ 0.8s at 60 FPS). Also see wall-clock trigger.")]
-    [SerializeField] [Range(12, 600)] private int gentleUnreadZeroConsecutiveFramesThreshold = 48;
-    [Tooltip("Minimum real time between gentle restarts to avoid thrashing.")]
-    [SerializeField] [Range(0.5f, 120f)] private float gentleUnreadZeroRecoveryCooldownSeconds = 6f;
-    [Tooltip("Suppress gentle restart only when stalled-write-head is within this many frames of the hard stalled threshold (avoid double-stop right before built-in stalled recovery).")]
-    [SerializeField] [Range(1, 60)] private int gentleUnreadZeroStallSuppressFramesFromHard = 3;
-    [Tooltip("If > 0, also restart when this many consecutive seconds of unread_zero pass (OR with frame count above). Helps when unread_zero is not 60+ frames in a row (e.g. mixed frames). Set 0 to disable.")]
-    [SerializeField] [Range(0f, 5f)] private float gentleUnreadZeroWallClockSeconds = 0.85f;
-    [Tooltip("Minimum consecutive unread_zero frames before wall-clock trigger can fire.")]
-    [SerializeField] [Range(5, 200)] private int gentleUnreadZeroWallMinConsecutiveFrames = 15;
-    [Tooltip("Second Microphone.GetPosition() when first is in-range; use if different (some platforms report a stale head on the first poll).")]
+    [Tooltip("Second Microphone.GetPosition() when first is in-range; use if different (some platforms report a stale head on the first poll). F1-hybrid producer defense — keep on.")]
     [SerializeField] private bool micWriteHeadDoublePoll = true;
-    [Tooltip("If stalled-head is near hard threshold, still allow gentle recovery after this many consecutive unread_zero frames (stall + unread limbo).")]
-    [SerializeField] [Range(30, 600)] private int gentleUnreadZeroBypassStallSuppressionAfterFrames = 90;
 
     [Header("Channel Contract")]
     [Tooltip("Pipeline output contract for consumers. This pipeline publishes mono samples.")]
@@ -123,7 +107,7 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private int rawRingBufferCapacitySamples = 0;
 
     [Header("Debug (copy when mic ingest stuck)")]
-    [Tooltip("Last branch taken in UpdateMicReadFrame: not_ready | device_unavailable | invalid_mic_position | stalled_capture_stopped | unread_zero | unread_zero_gentle_restart | copied_samples")]
+    [Tooltip("Last branch taken in UpdateMicReadFrame: not_ready | device_unavailable | invalid_mic_position | stalled_capture_stopped | unread_zero | copied_samples")]
     [SerializeField] private string debugMicLastExitReason = "";
     [SerializeField] private int debugMicLastUnreadComputed = -1;
     [SerializeField] private int debugMicLastLatestRawSampleCount = -1;
@@ -132,8 +116,6 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private int debugMicLastStalledWriteHeadFrameCount;
     [SerializeField] private int debugMicLastClipSamples;
     [SerializeField] private int debugMicLastUnityFrame;
-    [SerializeField] private int debugGentleUnreadZeroConsecutiveFrames;
-    [SerializeField] private int debugGentleUnreadZeroRecoveryCount;
 
     private string microphoneDeviceName;
     private AudioClip microphoneBuffer;
@@ -166,10 +148,6 @@ public partial class ImitoneVoiceIntepreter
     private int lastFrameUpdated = -1;
     private float[] micReadChunkBuffer = Array.Empty<float>(); // interleaved input buffer
     private float[] micReadTailBuffer = Array.Empty<float>();  // interleaved input tail buffer
-    private int consecutiveUnreadZeroFrames;
-    private float lastGentleUnreadZeroRecoveryUnscaledTime = -999f;
-    private float unreadZeroStreakWallStartUnscaled = -1f;
-    private bool micUnreadZeroRecoveryRetryReadThisFrame;
 
     private bool MicIngestIsReady => microphoneBuffer != null && !string.IsNullOrEmpty(microphoneDeviceName);
     public AudioClip MicrophoneBuffer => microphoneBuffer;
@@ -189,6 +167,8 @@ public partial class ImitoneVoiceIntepreter
         public float clampAbs;
     }
 
+    // runs on: main thread (called from MicVoiceIngestDebugAggregate.LateUpdate). Briefly takes
+    // rawBufferLock + normalizedBufferLock with blocking `lock` — fine on main thread.
     public MicIngestDebugSnapshot GetMicIngestDebugSnapshot()
     {
         long rawTotal = 0;
@@ -213,19 +193,18 @@ public partial class ImitoneVoiceIntepreter
             lastStalledWriteHeadFrameCount = debugMicLastStalledWriteHeadFrameCount,
             lastClipSamples = debugMicLastClipSamples,
             lastUnityFrame = debugMicLastUnityFrame,
-            gentleUnreadZeroConsecutiveFrames = debugGentleUnreadZeroConsecutiveFrames,
-            gentleUnreadZeroRecoveryTotal = debugGentleUnreadZeroRecoveryCount,
-            gentleUnreadZeroRecoveryEnabled = gentleUnreadZeroRecoveryEnabled,
             rawRingWriteTotalSamples = rawTotal,
             normalizedRingWriteTotalSamples = normTotal,
         };
     }
 
+    // runs on: main thread (Unity lifecycle).
     private void Awake()
     {
         InitializeMicrophone();
     }
 
+    // runs on: main thread (Unity lifecycle).
     private void OnEnable()
     {
         if (!MicIngestIsReady)
@@ -237,6 +216,10 @@ public partial class ImitoneVoiceIntepreter
     /// <summary>
     /// Run early each frame so microphone frames are produced before <see cref="GetRawVoiceData"/>.
     /// </summary>
+    // runs on: main thread (the F1-hybrid producer's per-frame entry point — see Step 3a). Pumps
+    // UpdateMicReadFrame (Microphone.GetPosition + GetData → rawRingBuffer write), normalization,
+    // audio-thread rebootstrap, and the deferred-imitone-exception drain. All forbidden-on-audio-thread
+    // operations live downstream of here.
     private void MicIngestMainThreadTick()
     {
         if (!MicIngestIsReady && Time.unscaledTime >= nextRecoveryAttemptTime)
@@ -250,10 +233,10 @@ public partial class ImitoneVoiceIntepreter
 
         normalizedPeakMeter = Mathf.Max(0f, normalizedPeakMeter - normalizedPeakMeterDecayPerSecond * Time.deltaTime);
 
-        // Step 3a prep: catches both gentle restart (PerformGentleUnreadZeroCaptureRestart, called from inside
-        // EnsureFrameUpdated -> UpdateMicReadFrame) and scheduled recovery (InitializeMicrophone above) — both
-        // tick captureEpoch on success but neither rebootstraps the audio-thread capture path. Without this, the
-        // AudioSource keeps pointing at a destroyed AudioClip after recovery and OnAudioFilterRead silently dies.
+        // Step 3a prep: catches scheduled recovery (InitializeMicrophone above) — that path ticks captureEpoch
+        // on success but does not rebootstrap the audio-thread capture path. Without this, the AudioSource keeps
+        // pointing at a destroyed AudioClip after recovery and OnAudioFilterRead silently dies.
+        // (5b-ii: the gentle-restart trigger that previously also flowed through here was deleted.)
         TryRebootstrapAudioThreadCaptureIfMicRecovered();
 
         // Step 3a: drain any deferred imitone.InputAudio exception captured by OnAudioFilterRead (Debug.Log* is
@@ -261,6 +244,7 @@ public partial class ImitoneVoiceIntepreter
         DrainImitoneInputAudioPendingException();
     }
 
+    // runs on: main thread (Microphone.Start lives here — V3 firm rule forbids it on the audio thread).
     public void InitializeMicrophone()
     {
         if (MicIngestIsReady)
@@ -284,6 +268,9 @@ public partial class ImitoneVoiceIntepreter
         nextRecoveryAttemptTime = 0f;
     }
 
+    // runs on: main thread (calls EnsureFrameUpdated which gates by Time.frameCount; reads
+    // latestRawSampleCount / latestRawFrame which are updated only by UpdateMicReadFrame on the
+    // main thread). May allocate a destination array — never call from the audio thread.
     public bool TryCopyLatestRawFrame(ref float[] destination, out int sampleCount)
     {
         EnsureFrameUpdated();
@@ -302,6 +289,7 @@ public partial class ImitoneVoiceIntepreter
         return true;
     }
 
+    // runs on: main thread (same constraints as TryCopyLatestRawFrame).
     public bool TryCopyLatestNormalizedFrame(ref float[] destination, out int sampleCount)
     {
         EnsureFrameUpdated();
@@ -320,6 +308,8 @@ public partial class ImitoneVoiceIntepreter
         return true;
     }
 
+    // runs on: main thread (Inspector / scripted reads of plain Inspector fields; no synchronization
+    // — these fields are written only from the main thread).
     public MicNormalizationState GetNormalizationState()
     {
         return new MicNormalizationState
@@ -331,6 +321,8 @@ public partial class ImitoneVoiceIntepreter
         };
     }
 
+    // runs on: main thread (writes Inspector fields + fires OnNormalizationConfigChanged event;
+    // event subscribers are also main-thread).
     public void SetNormalizationState(MicNormalizationState state)
     {
         normalizationEnabled = state.enabled;
@@ -340,35 +332,43 @@ public partial class ImitoneVoiceIntepreter
         OnNormalizationConfigChanged();
     }
 
+    // runs on: main thread.
     public void SetNormalizationEnabled(bool enabled)
     {
         normalizationEnabled = enabled;
         OnNormalizationConfigChanged();
     }
 
+    // runs on: main thread.
     public void SetNormalizationGainDb(float gainDb)
     {
         normalizationGainDb = gainDb;
         OnNormalizationConfigChanged();
     }
 
+    // runs on: main thread.
     public void SetNormalizationHardClampEnabled(bool enabled)
     {
         normalizationHardClampEnabled = enabled;
         OnNormalizationConfigChanged();
     }
 
+    // runs on: main thread.
     public void SetNormalizationClampAbs(float clampAbs)
     {
         normalizationClampAbs = Mathf.Clamp(clampAbs, 0.01f, 1f);
         OnNormalizationConfigChanged();
     }
 
+    // runs on: main thread (reads non-atomic float `normalizationGainDb`, written only on main thread).
     public float GetNormalizationGainLinear()
     {
         return AudioLevelUtilities.DbToLinear(normalizationGainDb);
     }
 
+    // runs on: main thread ONLY (uses blocking `lock(normalizedBufferLock)`). The 4-arg overload
+    // below is the audio-thread-safe variant. Kept for legacy callers; if a caller is unclear which
+    // overload to use, prefer the 4-arg version unconditionally.
     public int ReadNormalizedSamples(float[] destination, ref int readPosition)
     {
         if (destination == null || destination.Length == 0)
@@ -407,6 +407,8 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread ONLY (uses blocking `lock(rawBufferLock)`). Audio-thread callers must use
+    // the 4-arg overload below.
     public int ReadRawSamples(float[] destination, ref int readPosition)
     {
         if (destination == null || destination.Length == 0)
@@ -445,6 +447,10 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: BOTH — main thread (Update / LateUpdate consumers) and audio thread (DirectVoiceMonitoring's
+    // OnAudioFilterRead). Uses Monitor.TryEnter(0) to never block the audio thread; on a lock miss the
+    // destination is zero-filled and the cursor advances by `destination.Length` so the consumer's
+    // pacing doesn't drift. Allocation-free in steady state.
     public int ReadNormalizedSamples(float[] destination, ref int readPosition, ref long readTotalSamples, out int overflowDroppedSamples)
     {
         overflowDroppedSamples = 0;
@@ -540,6 +546,10 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: BOTH — main thread (DirectVoiceMonitoring main-thread setup paths) and audio thread
+    // (OnAudioFilterRead's imitone feed in the AudioThread partial). Uses Monitor.TryEnter(0); on a
+    // lock miss increments `rawRingReadLockMissTotal` (drives FAIL_AUDIO_LOCK_CONTENTION) and
+    // returns silence with cursor advanced for pacing. Allocation-free in steady state.
     public int ReadRawSamples(float[] destination, ref int readPosition, ref long readTotalSamples, out int overflowDroppedSamples)
     {
         overflowDroppedSamples = 0;
@@ -636,6 +646,8 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread ONLY (blocking `lock(rawBufferLock)`). Used during consumer setup to seed
+    // a read cursor at a target latency behind the live write head.
     public int CreateRawReadPositionBehindMs(float delayMs)
     {
         lock (rawBufferLock)
@@ -657,6 +669,7 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread ONLY (blocking `lock(normalizedBufferLock)`).
     public int CreateNormalizedReadPositionBehindMs(float delayMs)
     {
         lock (normalizedBufferLock)
@@ -678,6 +691,9 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread ONLY (blocking `lock(rawBufferLock)`). Called from
+    // WaitMicPositionThenPlayCapture (main-thread coroutine) to seed the audio-thread read cursor
+    // before captureSource.Play. Returns the (position, totalSamples) pair atomically under the lock.
     public bool TryCreateRawReadCursorBehindMs(float delayMs, out int readPosition, out long readTotalSamples)
     {
         readPosition = -1;
@@ -702,6 +718,8 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread ONLY (blocking `lock(normalizedBufferLock)`). Used by main-thread
+    // monitoring setup to seed a normalized-stream read cursor.
     public bool TryCreateNormalizedReadCursorBehindMs(float delayMs, out int readPosition, out long readTotalSamples)
     {
         readPosition = -1;
@@ -726,6 +744,8 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread ONLY (reads `Time.frameCount` — main-thread Unity API). Idempotent within
+    // a frame: gates UpdateMicReadFrame by frameCount so multiple consumers don't double-pump the mic.
     private void EnsureFrameUpdated()
     {
         if (lastFrameUpdated == Time.frameCount)
@@ -734,39 +754,21 @@ public partial class ImitoneVoiceIntepreter
         }
 
         UpdateMicReadFrame();
-        if (micUnreadZeroRecoveryRetryReadThisFrame)
-        {
-            micUnreadZeroRecoveryRetryReadThisFrame = false;
-            UpdateMicReadFrame();
-        }
 
         lastFrameUpdated = Time.frameCount;
     }
 
-    private void ResetUnreadZeroStreak()
-    {
-        consecutiveUnreadZeroFrames = 0;
-        debugGentleUnreadZeroConsecutiveFrames = 0;
-        unreadZeroStreakWallStartUnscaled = -1f;
-    }
-
-    private void PerformGentleUnreadZeroCaptureRestart()
-    {
-        StopMicrophoneCapture();
-        recoveryWarningLogged = false;
-        nextRecoveryAttemptTime = 0f;
-        debugGentleUnreadZeroRecoveryCount++;
-        Debug.LogWarning($"Mic ingest: Gentle capture restart after sustained unread_zero (total restarts: {debugGentleUnreadZeroRecoveryCount}).");
-        InitializeMicrophone();
-    }
-
+    // runs on: main thread ONLY. The F1-hybrid producer's heart: polls Microphone.GetPosition
+    // (V3 firm rule — forbidden on audio thread), reads samples via microphoneBuffer.GetData
+    // (also forbidden on audio thread), pushes them into rawRingBuffer / normalizedRingBuffer
+    // under their respective locks. Audio-thread consumers read those rings via the 4-arg
+    // ReadRawSamples / ReadNormalizedSamples (TryEnter-safe).
     private void UpdateMicReadFrame()
     {
         debugMicLastUnityFrame = Time.frameCount;
 
         if (!MicIngestIsReady)
         {
-            ResetUnreadZeroStreak();
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
             debugMicLastExitReason = "not_ready";
@@ -781,7 +783,6 @@ public partial class ImitoneVoiceIntepreter
 
         if (!IsCurrentDeviceStillAvailable())
         {
-            ResetUnreadZeroStreak();
             ScheduleRecoveryAttempt($"Microphone device '{microphoneDeviceName}' is no longer available.");
             int readPosForDebug = micPosRead;
             int clipSamplesForDebug = microphoneBuffer != null ? microphoneBuffer.samples : 0;
@@ -814,7 +815,6 @@ public partial class ImitoneVoiceIntepreter
 
         if (micPosWrite < 0 || micPosWrite >= microphoneBuffer.samples || microphoneBuffer.samples <= 0)
         {
-            ResetUnreadZeroStreak();
             ScheduleRecoveryAttempt($"Invalid Microphone.GetPosition() value '{micPosWrite}' for device '{microphoneDeviceName}'.");
             int clipSamplesForDebug = microphoneBuffer.samples;
             int readHeadForDebug = micPosRead;
@@ -844,7 +844,6 @@ public partial class ImitoneVoiceIntepreter
 
         if (stalledWriteHeadFrameCount >= Mathf.Max(5, stalledWriteHeadFrameThreshold))
         {
-            ResetUnreadZeroStreak();
             ScheduleRecoveryAttempt($"Detected stalled microphone write-head for device '{microphoneDeviceName}'.");
             int clipSamplesForDebug = microphoneBuffer.samples;
             int writePosForDebug = micPosWrite;
@@ -867,51 +866,6 @@ public partial class ImitoneVoiceIntepreter
         int frameCount = (microphoneBuffer.samples + micPosWrite - micPosRead) % microphoneBuffer.samples;
         if (frameCount <= 0)
         {
-            consecutiveUnreadZeroFrames++;
-            if (consecutiveUnreadZeroFrames == 1)
-            {
-                unreadZeroStreakWallStartUnscaled = Time.unscaledTime;
-            }
-
-            debugGentleUnreadZeroConsecutiveFrames = consecutiveUnreadZeroFrames;
-
-            int stalledThreshold = Mathf.Max(5, stalledWriteHeadFrameThreshold);
-            int suppressWithin = Mathf.Clamp(gentleUnreadZeroStallSuppressFramesFromHard, 1, Mathf.Max(1, stalledThreshold - 1));
-            bool nearHardStall = stalledWriteHeadFrameCount >= stalledThreshold - suppressWithin;
-            bool stallBlocksGentle = nearHardStall && consecutiveUnreadZeroFrames < gentleUnreadZeroBypassStallSuppressionAfterFrames;
-
-            bool wallMet = gentleUnreadZeroWallClockSeconds > 0f &&
-                           unreadZeroStreakWallStartUnscaled > 0f &&
-                           (Time.unscaledTime - unreadZeroStreakWallStartUnscaled) >= gentleUnreadZeroWallClockSeconds &&
-                           consecutiveUnreadZeroFrames >= gentleUnreadZeroWallMinConsecutiveFrames;
-
-            bool frameMet = consecutiveUnreadZeroFrames >= gentleUnreadZeroConsecutiveFramesThreshold;
-
-            if (gentleUnreadZeroRecoveryEnabled &&
-                !stallBlocksGentle &&
-                (frameMet || wallMet) &&
-                Time.unscaledTime - lastGentleUnreadZeroRecoveryUnscaledTime >= gentleUnreadZeroRecoveryCooldownSeconds)
-            {
-                lastGentleUnreadZeroRecoveryUnscaledTime = Time.unscaledTime;
-                ResetUnreadZeroStreak();
-                PerformGentleUnreadZeroCaptureRestart();
-                if (MicIngestIsReady)
-                {
-                    micUnreadZeroRecoveryRetryReadThisFrame = true;
-                }
-
-                latestRawSampleCount = 0;
-                latestNormalizedSampleCount = 0;
-                debugMicLastExitReason = "unread_zero_gentle_restart";
-                debugMicLastUnreadComputed = frameCount;
-                debugMicLastLatestRawSampleCount = 0;
-                debugMicLastMicPosWrite = micPosWrite;
-                debugMicLastMicPosRead = micPosRead;
-                debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
-                debugMicLastClipSamples = microphoneBuffer.samples;
-                return;
-            }
-
             latestRawSampleCount = 0;
             latestNormalizedSampleCount = 0;
             debugMicLastExitReason = "unread_zero";
@@ -923,8 +877,6 @@ public partial class ImitoneVoiceIntepreter
             debugMicLastClipSamples = microphoneBuffer.samples;
             return;
         }
-
-        ResetUnreadZeroStreak();
 
         if (latestRawFrame.Length < frameCount)
         {
@@ -985,6 +937,8 @@ public partial class ImitoneVoiceIntepreter
         debugMicLastClipSamples = microphoneBuffer.samples;
     }
 
+    // runs on: main thread (called from the SetNormalization* setters and `OnEnable`-equivalent paths).
+    // Fires the public NormalizationStateChanged event; subscribers run synchronously on main thread.
     private void OnNormalizationConfigChanged()
     {
         // Force recompute on next read so consumers get fresh settings immediately.
@@ -992,6 +946,9 @@ public partial class ImitoneVoiceIntepreter
         NormalizationStateChanged?.Invoke(GetNormalizationState());
     }
 
+    // runs on: main thread (called from UpdateMicReadFrame). Briefly takes rawBufferLock with blocking
+    // `lock` — fine on main thread; the audio-thread reader (4-arg ReadRawSamples) uses TryEnter(0)
+    // and skips on miss.
     private void WriteRawFrameToRingBuffer(int sampleCount)
     {
         if (sampleCount <= 0 || rawRingBuffer == null || rawRingBuffer.Length == 0)
@@ -1010,6 +967,8 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread (called from UpdateMicReadFrame). Same lock contract as WriteRawFrameToRingBuffer
+    // but on normalizedBufferLock.
     private void WriteNormalizedFrameToRingBuffer(int sampleCount)
     {
         if (sampleCount <= 0 || normalizedRingBuffer == null || normalizedRingBuffer.Length == 0)
@@ -1028,6 +987,7 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread ONLY (calls microphoneBuffer.GetData — V3 firm rule forbids it on the audio thread).
     private void ReadMicFramesIntoLatestRawMono(int frameCount)
     {
         int remainingFrames = frameCount;
@@ -1081,6 +1041,7 @@ public partial class ImitoneVoiceIntepreter
         micPosRead = readPos;
     }
 
+    // runs on: main thread ONLY (Microphone.devices — V3 firm rule).
     private bool TryResolveMicrophoneDevice(out string deviceName)
     {
         deviceName = null;
@@ -1106,6 +1067,9 @@ public partial class ImitoneVoiceIntepreter
         return true;
     }
 
+    // runs on: main thread ONLY (Microphone.Start — V3 firm rule). Allocates ring buffers + chunk
+    // buffers; bumps `captureEpoch` to drive TryRebootstrapAudioThreadCaptureIfMicRecovered on the
+    // next MicIngestMainThreadTick.
     private bool StartMicrophoneCapture(string deviceName)
     {
         StopMicrophoneCapture();
@@ -1147,6 +1111,7 @@ public partial class ImitoneVoiceIntepreter
         return true;
     }
 
+    // runs on: main thread ONLY (Microphone.devices — V3 firm rule).
     private bool IsCurrentDeviceStillAvailable()
     {
         if (string.IsNullOrEmpty(microphoneDeviceName))
@@ -1171,6 +1136,7 @@ public partial class ImitoneVoiceIntepreter
         return false;
     }
 
+    // runs on: main thread (reads Time.unscaledTime + Debug.LogWarning).
     private void ScheduleRecoveryAttempt(string reason)
     {
         nextRecoveryAttemptTime = Time.unscaledTime + Mathf.Max(0.1f, recoveryRetryIntervalSeconds);
@@ -1181,6 +1147,9 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread (called from MicIngestMainThreadTick). Reads `_dbMicrophone` (volatile float
+    // written from the audio thread) — single-read pattern is fine; the value is a smoothed dB whose
+    // single-frame variance is below the gain-riding control's resolution.
     private void UpdateNormalizationGainRiding()
     {
         gainRidingCurrentRateDbPerSecond = 0f;
@@ -1247,6 +1216,8 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
+    // runs on: main thread (called from MicIngestMainThreadTick). Reads `_dbMicrophone` (audio-thread
+    // writer / main-thread reader, volatile float).
     private void UpdateNormalizationTelemetry()
     {
         normalizationGainDbRuntime = normalizationGainDb;
@@ -1280,6 +1251,9 @@ public partial class ImitoneVoiceIntepreter
         gainRidingLastDbDelta = gainRidingLastEstimatedNormalizedDb - gainRidingTargetDb;
     }
 
+    // runs on: main thread ONLY (Microphone.End — V3 firm rule). Note: does NOT take rawBufferLock /
+    // normalizedBufferLock; the audio-thread reader's null-check on `rawRingBuffer` (still set to a
+    // valid array here) plus its TryEnter(0) miss path keep it safe across this teardown.
     private void StopMicrophoneCapture()
     {
         if (!string.IsNullOrEmpty(microphoneDeviceName))
@@ -1294,6 +1268,9 @@ public partial class ImitoneVoiceIntepreter
         stalledWriteHeadFrameCount = 0;
     }
 
+    // runs on: main thread (Unity lifecycle). Stops both capture paths in the right order — audio
+    // thread first (so OnAudioFilterRead stops trying to read the soon-to-be-torn-down ring), then
+    // microphone.
     private void OnDisable()
     {
         StopAudioThreadCapture();

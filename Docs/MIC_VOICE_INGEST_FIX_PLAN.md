@@ -1,6 +1,6 @@
 # Voice ingest rearchitecture: plan and rationale
 
-**Status:** Steps 0–3 **closed** (through 2026-05-06). Step 4 **verify+tune** closed as a **soft pass** (subjective testing + logging; extended Profiler/A/B checklist intentionally incomplete — see Step 4 Developer notes). Step **5a** (monitoring click-hardening M1/M2/M5/M6) **complete** + click protocol passed with counter visibility. **Next execution anchor: Step 5b** — delete the legacy main-thread mic-ingest block (`UpdateMicReadFrame` / gentle recovery / double-poll / etc.), consolidate rings + retire obsolete FAIL flags per plan, then compile/run/full click protocol. Steps 6–7 follow.
+**Status:** Steps 0–3 **closed** (through 2026-05-06). Step 4 **verify+tune** closed as a **soft pass** (subjective testing + logging; extended Profiler/A/B checklist intentionally incomplete — see Step 4 Developer notes). Step **5a** (monitoring click-hardening M1/M2/M5/M6) **complete** + click protocol passed with counter visibility. **Active: Step 5b — cleanup pass (rescoped 2026-05-08).** **5b-i** (plan rewrite, doc only), **5b-ii** (gentle-recovery family deletion + `FAIL_GENTLE_RECOVERY_FIRED` chain retirement), and **5b-iii** (`// runs on:` thread annotations across the voice path) **complete 2026-05-08** — six files annotated, zero behavior change, no linter errors. **Next: 5b-iv** (aggregate orphaned-mirror cleanup + `CURRENT TEST` rewrite per §9). The original §5b ambition assumed audio-thread sole ring writer; the **F1 hybrid pivot** (Step 3a, 2026-05-06) intentionally kept main thread as ring producer — `OnAudioFilterRead` is the *reader*, `UpdateMicReadFrame` is the *writer*. Under that reality, 5b is bounded to *failure-mode cruft* removal (gentle `unread_zero` recovery family) plus a small Inspector / attribute tidy. **`UpdateMicReadFrame`, the bookmark / double-poll, and the stalled-write-head guard all stay** — they describe real, load-bearing producer-side behavior. Steps 6–7 follow.
 **Goal:** Eliminate per-frame jitter in voice analysis. Imitone receives steady, real-time-paced input regardless of main-thread variance. Visual and audio response feels fresh every frame, not just "tolerable."
 
 ## Environment
@@ -12,9 +12,9 @@
 
 ### Execution checkpoint (synced with codebase)
 
-- **Completed through:** Step **5a**; Steps **0–3** formally closed in-doc (2026-05-06). Step **4** soft-pass (full extended checklist optional unless regressions appear).
-- **Next anchor:** Step **5b** — remove legacy main-thread mic ingest (`UpdateMicReadFrame` et al.), ring consolidation, Phase-4 FAIL cleanup, execution-order attribute audit.
-- **Sanity:** `MicPipeline` **deleted** — no `MicPipeline` symbol in `Assets/**/*.cs` (verified 2026-05-08). Legacy ingest remains inside `ImitoneVoiceIntepreter` until 5b.
+- **Completed through:** Step **5a**; Steps **0–3** formally closed in-doc (2026-05-06). Step **4** soft-pass (full extended checklist optional unless regressions appear). **5b-i + 5b-ii + 5b-iii** complete (2026-05-08).
+- **Active anchor:** Step **5b — rescoped 2026-05-08** to match F1 hybrid reality (main thread is ring producer, audio thread is consumer). Cleanup-conservative: delete only the gentle-recovery family + orphaned aggregate mirrors + the dead `[DefaultExecutionOrder(50)]` attribute. **`UpdateMicReadFrame`, double-poll, and stalled-write-head guard all stay** — load-bearing producer-side defenses. Phase-4 FAIL retirement narrows to `FAIL_GENTLE_RECOVERY_FIRED` only (done); `FAIL_UNREAD_ZERO_SUSTAINED` and `FAIL_INGEST_RING_STALLED` retained as producer-starvation watchdogs. **Next sub-pass: 5b-iv** — aggregate orphaned-mirror cleanup + `CURRENT TEST` rewrite per §9.
+- **Sanity:** `MicPipeline` **deleted** — no `MicPipeline` symbol in `Assets/**/*.cs` (verified 2026-05-08). Legacy ingest *block* remains inside `ImitoneVoiceIntepreter` *intentionally* — it's the F1 hybrid producer, not cruft. Post-5b-ii: `gentleUnreadZero*` / `FAIL_GENTLE_RECOVERY_FIRED` references in `Assets/**/*.cs` are exclusively intentional retirement comments (verified 2026-05-08). Post-5b-iii: every voice-path method now carries an explicit `// runs on:` annotation; the 4-arg ring readers are the only "BOTH-thread" surfaces in the codebase.
 
 ---
 
@@ -1518,65 +1518,108 @@ The audio-thread architecture should already make underflow / overflow rare, but
 
 ---
 
-**Sub-pass 5b — Delete the legacy main-thread mic-ingest block from `ImitoneVoiceIntepreter`:**
+**Sub-pass 5b — Cleanup-conservative removal of failure-mode cruft inside `ImitoneVoiceIntepreter` (rescoped 2026-05-08):**
 
-This sub-pass removes the cruft listed in the cleanup appendix below from inside the merged file. It is **not** optional — leaving it in place creates two recovery stories and risks a future surprise `Microphone.End / Start` in production. By the end of 5b, `ImitoneVoiceIntepreter.cs` contains only the audio-thread architecture (capture, ring, imitone feed, DSP, telemetry) plus the main-thread game logic that was always there (CheckToning, TrackMicVolume, Wwise events, etc.). The legacy main-thread mic-ingest block is gone.
+> **Original §5b ambition (now obsolete):** "delete `UpdateMicReadFrame` outright; `OnAudioFilterRead` is sole ring writer." That premise was made before the **F1 hybrid pivot** (Step 3a, 2026-05-06), which intentionally chose to keep the main-thread producer pattern (`Microphone.GetPosition` → `microphoneBuffer.GetData(...)` → ring write) and have `OnAudioFilterRead` *consume* the ring instead. V3 forbids `Microphone.*` / `AudioClip.GetData` on the audio thread, so under F1 hybrid the producer **cannot** move to the audio thread without an entirely new architecture (a dedicated background polling `Thread`), which is out of scope for cleanup.
+>
+> **Rescoped premise:** the bug is fixed; 5b is cleanup. We delete only what is provably dead or explicitly experimental + default-off. We retain anything that defends a real failure mode the F1 hybrid producer is still subject to.
 
-*Delete entirely from `ImitoneVoiceIntepreter.cs` (see Appendix "Provisional code to delete" for the exhaustive symbol list, which still applies — just inside the merged file rather than `MicPipeline.cs`):*
-- [ ] The gentle `unread_zero` recovery family (7 inspector fields, 5 internal state fields, `PerformGentleUnreadZeroCaptureRestart()`, the `unread_zero_gentle_restart` branch, and 3 snapshot fields). All originally lived in `MicPipeline`; they live in the merged file now and are deleted from there.
-- [ ] The bookmark / double-poll machinery (`micWriteHeadDoublePoll`, `micPosRead` / `micPosWrite`, `stalledWriteHeadFrameCount` / `stalledWriteHeadFrameThreshold`, the `stalled_capture_stopped` / `unread_zero` / `unread_zero_gentle_restart` exit-reason strings).
-- [ ] `UpdateMicReadFrame` (the legacy main-thread mic read loop) and any `Update()` call site for it. The audio-thread `OnAudioFilterRead` is now the sole writer to the ring(s).
-- [ ] Any remaining code that calls `Microphone.GetPosition` from `Update`. (Position tracking happens via `_samplesWritten += data.Length / channels` on the audio thread.)
-- [ ] If Step 1's "new audio-thread ring" and the legacy main-thread ring are both still present, **consolidate to exactly one raw ring and one normalized ring** as part of this sub-pass. Reuse the larger / better-sized buffer if they differ. Audit normalization logic during the consolidation:
-  - [ ] If normalization writes samples that `imitone.InputAudio` consumes, the writing code **must** live on the audio thread (right next to capture).
-  - [ ] If a function is only a telemetry meter (e.g. surface a peak for the Inspector), it may stay on the main thread.
-  - [ ] Annotate each surviving function header with one of: `// runs on: audio thread` or `// runs on: main thread`. No ambiguity.
-- [ ] Confirm there are no `#if false` blocks, no `// TODO restore later` stubs, no commented-out method bodies. Provisional experiments are deleted, not parked.
+This sub-pass removes the failure-mode cruft that was added to defend against the original bug and is no longer load-bearing now that imitone is fed from the audio thread. By the end of 5b, the gentle `unread_zero` recovery family is gone, the FAIL panel is trimmed of its now-source-less flag, the dead `[DefaultExecutionOrder(50)]` is removed, and every surviving voice-path function carries a `// runs on: ...` annotation. `UpdateMicReadFrame` and the bookmark / double-poll / stalled-write-head guard **stay** — they're the F1 hybrid producer + its real recovery defenses.
 
-*Phase 4 — retire obsoleted FAIL OBSERVATION flags in `MicVoiceIngestDebugAggregate.cs`:*
-- [ ] Delete `FAIL_UNREAD_ZERO_SUSTAINED` and its threshold fields (`failUnreadZeroSustainedFrameThreshold`, `failUnreadZeroSustainedSecondsThreshold`) and per-flag tracking state.
-- [ ] Delete `FAIL_GENTLE_RECOVERY_FIRED` and any sticky-clear plumbing tied specifically to it.
-- [ ] Delete `FAIL_INTERPRETER_NOT_CONSUMING` **if any remnants remain** *(already retired Step 3b in aggregate — verify `grep`; skip if absent)*.
-- [ ] Delete `FAIL_INGEST_RING_STALLED` if its trigger no longer maps onto the new architecture. (After 5b consolidation, `aggMicRawRingWriteTotalSamples` is fed exclusively by `OnAudioFilterRead`; a stalled ring write means a stalled audio thread, which is what `FAIL_AUDIO_CALLBACK_FROZEN` already covers. Verify that's true and delete the redundancy if so.)
-- [ ] Update the `FAILURE = ...` OR expression to remove these terms.
-- [ ] Verify in the Inspector that the FAIL OBSERVATION section now reads, top-to-bottom: top-level `FAILURE`; Phase 2 audio-thread flags; Phase 3 imitone-feed / atomicity flags; surviving Phase 1 flags (likely `FAIL_MIC_NOT_READY` and `FAIL_MONITORING_STARVATION_GROWING` only).
-- [ ] Confirm the top-level `FAILURE` boolean's name, position, and OR semantics are unchanged. That continuity is the user's anchor across the rearchitecture.
+**Decisions (recorded 2026-05-08, see Developer notes for full rationale):**
+- **D1 — Producer location:** keep `UpdateMicReadFrame` on the main thread. (Pivoting off main thread is "new architecture work," not cleanup.)
+- **D2 — Stalled-write-head guard:** **KEEP.** Real defense against a stuck Microphone driver; F1 hybrid relies on it.
+- **D3 — Normalization (gain-riding + normalized ring):** **KEEP as-is on main thread.** Consumed by `RecordedAudioPlayback` and `DirectVoiceMonitoring`; not on imitone's path.
+- **D4 — `TryCopyLatestRawFrame` / `TryCopyLatestNormalizedFrame` accessors:** **DEFER to Step 6.** No external consumers (verified), but deletion is purely cosmetic and not on 5b's critical path.
+- **D5 — `[DefaultExecutionOrder(50)]` on `ImitoneVoiceIntepreter`:** Remove in 5b-v, **only after** engineer verifies Project Settings → Script Execution Order has `ImitoneVoiceIntepreter` at −104. The other voice files (`DirectVoiceMonitoring`, `RecordedAudioPlayback`, `MicVoiceIngestDebugAggregate`) carry **no class attribute** today (verified) — nothing to remove.
+- **D6 — FAIL flag retirement:** retire `FAIL_GENTLE_RECOVERY_FIRED` only (its source disappears with the gentle-recovery deletion). **KEEP `FAIL_UNREAD_ZERO_SUSTAINED` and `FAIL_INGEST_RING_STALLED`** — both still describe real producer-side starvation modes the F1 hybrid is subject to. (Plan's reasoning for retiring them assumed audio-thread sole writer; obsolete.)
+- **D7 — Bookmark / double-poll machinery:** **KEEP.** Defends against platforms that "report a stale head on the first poll" (per the existing Inspector tooltip). Cheap; defensive; we don't fully control every platform we ship to.
 
-*Do **not** delete* (see appendix "Keep through the rearchitecture"):
-- [ ] The canonical `aggMicRawRingWriteTotalSamples` / `aggMicNormRingWriteTotalSamples` ring-write totals.
-- [ ] The ring buffer infrastructure itself (the consolidated rings, the lock object, the `Monitor.TryEnter` pattern in the audio-thread writer).
-- [ ] `OnAudioFilterRead` and everything it calls.
-- [ ] The `MicIngestDebugSnapshot` accessor, retitled where appropriate to reflect the new field set.
+**Pass breakdown (compile + smoke between each; CURRENT TEST per §9):**
 
-*Telemetry consolidation tasks (per Section A.5):*
-- [ ] Confirm `MicVoiceIngestDebugAggregate` is the central panel for cross-cutting metrics (audio-thread health, ring-write rates, lock-miss counts, atomicity / tear flags). No duplicates elsewhere.
-- [ ] Confirm `DirectVoiceMonitoring.cs` retains its monitoring-specific self-concern fields (underflow / starvation / monitoring gain / clip-state). Those describe the file's internal behavior and are useful in isolation.
-- [ ] Confirm `ImitoneVoiceIntepreter.cs` retains the relevant `toneActive` / pitch / dB telemetry needed in-place for game logic. Aggregate may surface read-only mirrors but source of truth stays in the interpreter.
-- [ ] For every metric in the aggregate, search for duplicates in individual files; delete the duplicate if the aggregate is now authoritative.
-
-*`[DefaultExecutionOrder]` cleanup tasks (per the doc's Environment section):*
-- [ ] Identify every `[DefaultExecutionOrder(...)]` class attribute remaining in the voice path (`ImitoneVoiceIntepreter`, `DirectVoiceMonitoring`, `RecordedAudioPlayback`, `MicVoiceIngestDebugAggregate`).
-- [ ] For each, prompt the user to open Project Settings → Script Execution Order and confirm there is an explicit entry for that class.
-- [ ] Once confirmed, remove the class-level attribute. Do not silently drop attributes without verifying the Project Settings entry.
-
-*Compile + run + full click test protocol (all 5 scenarios from the click prevention appendix) before committing.*
-
-**Commit (5b):** `chore: delete legacy main-thread mic-ingest block from ImitoneVoiceIntepreter`
+| Pass | Scope |
+|------|-------|
+| **5b-i** | Plan §5b rewrite to match cleanup-conservative scope (this section). Doc only. |
+| **5b-ii** | Delete the gentle `unread_zero` recovery family + `FAIL_GENTLE_RECOVERY_FIRED` chain. |
+| **5b-iii** | Add `// runs on: main thread` / `// runs on: audio thread` annotations to every voice-path function. Zero behavior change. |
+| **5b-iv** | Aggregate orphaned-mirror cleanup + telemetry consolidation sweep. **Kickoff commit per §9: rewrite CURRENT TEST for 5b regression-watch first, separate from the deletion commit.** |
+| **5b-v** | Remove `[DefaultExecutionOrder(50)]` from `ImitoneVoiceIntepreter` after Editor verification. |
+| **5b-vi** | Final grep sweep + full 5-scenario click protocol. |
+| **5b-review** | Mandatory Opus 4.7 review pass per §5. |
 
 ---
 
-**Notes & considerations:**
-- **The merged file is now smaller, not larger, after 5b.** A successful 5b deletes 100s of lines from `ImitoneVoiceIntepreter` (the entire `UpdateMicReadFrame` family, gentle recovery, double-poll, etc.). If the file isn't shrinking visibly, something has been missed.
-- **One sub-pass at a time, with a compile + run + click check between each.** The sub-pass boundaries are not decorative; they are the rollback points if something breaks.
-- **Watch for "the legacy block was secretly load-bearing" surprises.** Even after Step 3 redirected the imitone feed to the audio thread, the legacy block may still be doing something subtle (debug telemetry, a side-effect that another file depends on). The Phase 4 retirement of `FAIL_INTERPRETER_NOT_CONSUMING` is one such — it depends on the legacy block existing. Audit before deleting.
+***5b-i — Plan rewrite (this commit; doc only):***
+- [x] Replace original §5b ambition with cleanup-conservative scope (above).
+- [x] Update document Status header + Execution checkpoint to reflect rescoping.
+- [x] Decisions D1–D7 logged above.
+
+***5b-ii — Delete the gentle `unread_zero` recovery family.*** All targets in `ImitoneVoiceIntepreter.MicIngest.cs` unless noted.
+- [x] **Inspector tunables (7 fields):** `gentleUnreadZeroRecoveryEnabled`, `gentleUnreadZeroConsecutiveFramesThreshold`, `gentleUnreadZeroRecoveryCooldownSeconds`, `gentleUnreadZeroStallSuppressFramesFromHard`, `gentleUnreadZeroWallClockSeconds`, `gentleUnreadZeroWallMinConsecutiveFrames`, `gentleUnreadZeroBypassStallSuppressionAfterFrames`. (The `[Header("Gentle recovery — sustained unread_zero ...")]` block goes too.) **Note:** `micWriteHeadDoublePoll` lived inside that header but is a load-bearing producer defense (D5/D6) — relocated under "Microphone Source" before the gentle-recovery header was deleted.
+- [x] **Runtime state fields (5):** `consecutiveUnreadZeroFrames`, `lastGentleUnreadZeroRecoveryUnscaledTime`, `unreadZeroStreakWallStartUnscaled`, `micUnreadZeroRecoveryRetryReadThisFrame`, plus the two debug Inspector fields `debugGentleUnreadZeroConsecutiveFrames` and `debugGentleUnreadZeroRecoveryCount`.
+- [x] **Methods:** `PerformGentleUnreadZeroCaptureRestart()`, `ResetUnreadZeroStreak()`. With the streak counters gone, every `ResetUnreadZeroStreak()` caller in `UpdateMicReadFrame` (4 call sites) simply has the call removed — no inlining needed.
+- [x] **Branches:** the `unread_zero_gentle_restart` exit-reason branch in `UpdateMicReadFrame` (the entire `if (gentleUnreadZeroRecoveryEnabled && ...)` block inside the `frameCount <= 0` path) and the `EnsureFrameUpdated` second-call retry that depended on `micUnreadZeroRecoveryRetryReadThisFrame`. Also the `MicIngestMainThreadTick` comment that referenced "both gentle restart and scheduled recovery" — narrowed to "scheduled recovery only".
+- [x] **`MicIngestDebugSnapshot` (3 fields):** `gentleUnreadZeroConsecutiveFrames`, `gentleUnreadZeroRecoveryTotal`, `gentleUnreadZeroRecoveryEnabled`. Update the `GetMicIngestDebugSnapshot()` builder accordingly.
+- [x] **Aggregate mirrors:** `aggMicGentleUnreadZeroConsecutiveFrames`, `aggMicGentleUnreadZeroRecoveryTotal`, `aggMicGentleRecoveryEnabled` in `MicVoiceIngestDebugAggregate.cs`, plus their `LateUpdate` copy lines.
+- [x] **`FAIL_GENTLE_RECOVERY_FIRED`:** the `[SerializeField]` field, the sticky-latch state (`_gentleRecoveryStickyLatched`), the baseline (`_gentleRecoveryBaselineAtClear`), the trigger logic in `LateUpdate`, the term in `FAILURE = ...`, the soak-log per-flag accumulator (`_failSeenGentleRecoveryFired`), the rising/sustained re-log rendering string in `BuildFailObservationLogDetail`, and the falling-edge accumulated-flag rendering string in `BuildFailObservationAccumulatedFlagsSummary`.
+- [x] **Sticky-flag clear plumbing tied specifically to `FAIL_GENTLE_RECOVERY_FIRED`:** removed from `ApplyClearFailObservationStickyFlags` (the two lines that reset baseline + latch). Generic clear toggle still services `FAIL_DB_TEAR_DETECTED` and the ring-stall baseline. `clearFailObservationStickyFlags` Inspector tooltip rewritten to drop the gentle-recovery mention.
+- [x] **Update `FAILURE = ...` OR expression** to drop the term. Boolean name + 12 surviving terms + OR semantics unchanged.
+- [x] **Bonus:** the `UnreadZeroGentleRestartExitReason` const + the OR clause inside the `inUnreadZeroSegment` test that referenced it — both deleted (segment now matches bare `"unread_zero"` only). This was a hidden coupling missed in the original outline.
+- [x] Compile clean (no linter errors on `ImitoneVoiceIntepreter.cs`, `ImitoneVoiceIntepreter.MicIngest.cs`, `MicVoiceIngestDebugAggregate.cs`).
+- [x] Cross-Assets grep: only remaining `gentleUnreadZero*` / `FAIL_GENTLE_RECOVERY_FIRED` mentions in `Assets/**/*.cs` are intentional retirement-marker comments. **Scene file `Assets/Scenes/MainGame.unity` still contains the orphaned serialized property values (~13 lines)** — Unity drops these on the next scene save; per the cleanup-conservative scope we are not hand-editing the scene.
+
+***5b-iii — `// runs on: ...` annotations.*** Pure documentation pass; zero behavior change.
+- [x] Annotate each function in `ImitoneVoiceIntepreter.MicIngest.cs` and `ImitoneVoiceIntepreter.AudioThread.cs` with `// runs on: main thread` or `// runs on: audio thread` in a top-of-method comment. The two ring-reader overloads on the producer (`ReadRawSamples` / `ReadNormalizedSamples`, 4-arg `Monitor.TryEnter(0)` variants) are marked `// runs on: BOTH — main thread (...) and audio thread (...)`. The 3-arg overloads (blocking `lock(...)`) are marked `// runs on: main thread ONLY` with a pointer to the 4-arg version.
+- [x] Annotate the same in `DirectVoiceMonitoring.cs` and `MicVoiceIngestDebugAggregate.cs` for any voice-related method (capture, ring read, atomic counter access). Aggregate gets a class-level threading note + spot annotations on the entry points (`Awake`, `LateUpdate`, the FAIL-observation helpers); DirectVoiceMonitoring gets a class-level note + spots on `OnAudioFilterRead` (audio), `AtomicRead` (both), `ApplyMonitoringVolume` (main; cross-thread volatile producer), `GetBufferedTransportTotals` (main, cross-thread reader), and the lifecycle hooks.
+- [x] Bonus (added during execution; matched the 5b-iii proposal sent for green-light): class-level threading note + spot annotations on `ImitoneVoiceIntepreter.cs` (the main partial — entirely main-thread, with audio-thread code clearly delegated to the `.AudioThread.cs` partial), and a single annotation on `RecordedAudioPlayback.ReadFromSharedBuffer` (the only voice-related method in that file — main-thread, uses the 3-arg blocking ring-read overload).
+- [x] Tick when each file is fully annotated.
+
+***5b-iv — Aggregate orphaned-mirror cleanup + CURRENT TEST kickoff (per §9).***
+- [ ] **Kickoff commit (separate, before any deletion):** rewrite `MicVoiceIngestDebugAggregate.CURRENT TEST` block for 5b regression-watch. Field set: `failure`, `aggMicExitReason`, `aggMicRawRingWriteTotalSamples` (must keep climbing — F1 hybrid producer is the writer), `aggImitoneInputAudioCallTotal` (audio thread still feeds imitone), `aggDbMicrophoneTearDetectedTotal` (3b regression watch), `aggAudioCallbackHzRolling` (audio thread alive), `dbValue` + `pitchHz` (voice alive), `monUnderflowEvents` / `monOverflowEvents` (5a regression watch).
+- [ ] Verify any `aggMic*` field that has lost its source field after 5b-ii is deleted from the aggregate (e.g. the `gentleUnreadZero*` mirrors — already covered in 5b-ii). Sweep one more time to catch stragglers.
+- [ ] Telemetry consolidation sweep (per §A.5): confirm aggregate is canonical for cross-cutting metrics; `DirectVoiceMonitoring` keeps its self-concern fields; `ImitoneVoiceIntepreter` keeps `toneActive` / pitch / dB game-logic telemetry.
+- [ ] No duplicate metrics across files. If found, delete the duplicate; aggregate is authoritative.
+
+***5b-v — `[DefaultExecutionOrder(50)]` removal from `ImitoneVoiceIntepreter`.***
+- [ ] **USER ACTION REQUIRED:** open Editor → Project Settings → Script Execution Order. Confirm `ImitoneVoiceIntepreter` is listed at **−104**. If missing, **abort this pass** and flag for engineer.
+- [ ] Once confirmed, delete the `[DefaultExecutionOrder(50)]` line at the top of `ImitoneVoiceIntepreter.cs`.
+- [ ] Verify no other voice-path file carries a `[DefaultExecutionOrder(...)]` — `DirectVoiceMonitoring`, `RecordedAudioPlayback`, `MicVoiceIngestDebugAggregate` all have **none today** (verified 2026-05-08); nothing to do for those.
+
+***5b-vi — Final grep sweep + click protocol.***
+- [ ] `rg -n "gentleUnreadZero|PerformGentleUnreadZeroCaptureRestart|FAIL_GENTLE_RECOVERY_FIRED|debugGentleUnreadZero" Assets/Scripts/` returns zero matches.
+- [ ] `rg -n "DefaultExecutionOrder" Assets/Scripts/Voice/` returns zero matches.
+- [ ] Compile clean; full 5-scenario click protocol passes (quiet baseline, sustained tone, onset/offset, heavy load, long session). M1/M2/M6 mitigations from 5a still hold.
+- [ ] FAIL OBSERVATION panel: `FAILURE` stays `false` during normal operation; `FAIL_UNREAD_ZERO_SUSTAINED` and `FAIL_INGEST_RING_STALLED` remain present (kept by D6) and behave sensibly under stress.
+
+***5b-review — Mandatory Opus 4.7 review pass per §5.***
+- [ ] Walk every touched file end-to-end. Diff re-read. Surface findings before fixing.
+
+**Commit shape:**
+- `docs(step5b-i): rescope §5b to F1-hybrid cleanup` (5b-i, doc only).
+- `chore(step5b-ii): delete gentle unread_zero recovery family + FAIL_GENTLE_RECOVERY_FIRED` (5b-ii).
+- `docs(step5b-iii): add runs-on thread annotations to voice path` (5b-iii).
+- `chore(step5b-iv-kickoff): rewrite CURRENT TEST for 5b regression-watch` (kickoff per §9).
+- `chore(step5b-iv): aggregate orphaned-mirror cleanup + telemetry consolidation` (5b-iv).
+- `chore(step5b-v): remove [DefaultExecutionOrder(50)] (Project Settings −104 verified)` (5b-v).
+- `chore(step5b): final grep sweep + click protocol pass` (5b-vi).
+- Whatever review-pass fixes land go in their own commits per §5.
+
+---
+
+**Notes & considerations (rescoped 2026-05-08):**
+- **The "delete `UpdateMicReadFrame`" guidance from the original §5b is OBSOLETE.** F1 hybrid pivot kept main thread as ring producer; audio thread is consumer. `UpdateMicReadFrame` and its bookmark/double-poll/stalled-write-head defenses are load-bearing and stay.
+- **The cleanup-conservative scope still shrinks the file**, just by less. Gentle-recovery family alone is ~12 fields + 2 methods + 1 branch + 3 snapshot fields + matching aggregate mirrors + a FAIL flag + sticky-latch + soak log entry. Net file shrinkage: meaningful, not dramatic.
+- **One sub-pass at a time, with a compile + run check between each.** The sub-pass boundaries are not decorative; they are the rollback points if something breaks.
+- **Watch for "the gentle-recovery branch was secretly load-bearing" surprises.** It defaults to *off* (`gentleUnreadZeroRecoveryEnabled = false`) and the tooltip explicitly says "remove if root cause is fixed elsewhere" — root cause **is** fixed elsewhere now (audio-thread imitone feed, F1 hybrid producer-side defenses). But still: audit each call site before deletion.
 - If anything is unclear or compiles wrong, stop and surface the issue rather than improvising.
 
-**Test (after both sub-passes):**
+**Test (after all 5b passes):**
 - [ ] Project compiles with no errors.
 - [ ] Voice path works end-to-end (toning, monitoring, visuals, Wwise).
 - [ ] `MicVoiceIngestDebugAggregate` shows valid values for the audio-thread health section, the cross-thread atomicity section, and the ring-write totals.
-- [ ] FAIL OBSERVATION: Phase 1 obsolete flags are gone; surviving flags read sensibly; `FAILURE` stays `false` during normal operation.
-- [ ] `rg -n "UpdateMicReadFrame|gentleUnreadZero|micWriteHeadDoublePoll|stalledWriteHeadFrame|unread_zero" Assets/Scripts/` returns zero matches (or only inside comments / docstrings).
+- [ ] FAIL OBSERVATION: `FAIL_GENTLE_RECOVERY_FIRED` is gone; `FAIL_UNREAD_ZERO_SUSTAINED` and `FAIL_INGEST_RING_STALLED` remain (D6 — kept as producer-side starvation watchdogs); surviving flags read sensibly; `FAILURE` stays `false` during normal operation.
+- [ ] `rg -n "gentleUnreadZero|PerformGentleUnreadZeroCaptureRestart|FAIL_GENTLE_RECOVERY_FIRED|debugGentleUnreadZero" Assets/Scripts/` returns zero matches (or only inside comments / docstrings).
+- [ ] `rg -n "DefaultExecutionOrder" Assets/Scripts/Voice/` returns zero matches.
 - [ ] Click testing protocol (all 5 scenarios from the click prevention appendix) passes cleanly. **Pay especially close attention** to the M1 / M2 / M6 mitigations introduced in 5a — deliberately stress underflow (e.g. heavy CPU spike), overflow (e.g. simulate a brief pause in the monitoring AudioSource), and gain transitions (e.g. rapid `toneActive` flips).
 
 **Developer notes (5):**
@@ -1627,12 +1670,36 @@ This sub-pass removes the cruft listed in the cleanup appendix below from inside
 - **Files touched:** `MicVoiceIngestDebugAggregate.cs` (state machine + 13 per-flag accumulators + 2 new SerializeField knobs + class summary doc); plan dev note (this entry).
 - **Forward use:** when a 5b regression or any future click/audio surprise is reported from the field, the soak log now tells us "started at T, lasted X seconds, peaked at Y rolling Hz / Z max gap, and these N flags fired across the window." Materially better than "started at T."
 
-*5b prerequisites (unchanged from earlier kickoff note):*
-- Legacy-block audit + ring consolidation audit + FAIL-flag retirement plan, then implementation, then click protocol again post-deletion. CURRENT TEST for 5b will need to surface the regression-watch counters: `aggMicRawRingWriteTotalSamples` (must keep climbing — audio thread is now sole writer), `aggImitoneInputAudioCallTotal` (1:1 with audio callbacks), `aggDbMicrophoneTearDetectedTotal` (still 0), `FAILURE` (still false), plus a "no orphan symbols" grep checklist for `UpdateMicReadFrame` / `gentleUnreadZero` / `micWriteHeadDoublePoll` / `unread_zero` / `stalled_capture_stopped` returning zero matches in `Assets/Scripts/`. **5b kickoff commit will follow the new canonical shape:** CURRENT TEST rewrite first, separate from any code deletion.
+*5b prerequisites (superseded — see "5b-i — rescope to F1 hybrid" below):*
+- Legacy-block audit + ring consolidation audit + FAIL-flag retirement plan, then implementation, then click protocol again post-deletion. CURRENT TEST for 5b will need to surface the regression-watch counters: `aggMicRawRingWriteTotalSamples` (must keep climbing — *under F1 hybrid, the main-thread producer is the writer; superseded note below*), `aggImitoneInputAudioCallTotal` (1:1 with audio callbacks), `aggDbMicrophoneTearDetectedTotal` (still 0), `FAILURE` (still false), plus a "no orphan symbols" grep checklist for `UpdateMicReadFrame` / `gentleUnreadZero` / `micWriteHeadDoublePoll` / `unread_zero` / `stalled_capture_stopped` returning zero matches in `Assets/Scripts/`. **5b kickoff commit will follow the new canonical shape:** CURRENT TEST rewrite first, separate from any code deletion.
 
----
+*5b-i — rescope to F1 hybrid (2026-05-08, Opus 4.7):*
+- **User framing question that drove the rescope:** "we did the hard work; my interpretation of the plan is we are doing cleanup now, right? Once you answer that, I'll answer your decisions." Confirmed cleanup phase, then asked me to revisit each decision through that lens. The bias became "don't break the fix" → conservative removal only.
+- **Discovery:** the original §5b checklist (delete `UpdateMicReadFrame`, declare `OnAudioFilterRead` sole ring writer) was written before the **F1 hybrid pivot** (Step 3a, 2026-05-06, commits `f68cacb3` / `bf670660` / `d537ed9b`). F1 explicitly chose the inverse: main thread polls `Microphone.GetPosition` + `microphoneBuffer.GetData(...)` → writes `rawRingBuffer`; `OnAudioFilterRead` reads from `rawRingBuffer` to feed imitone. V3 firm rule forbids `Microphone.*` / `AudioClip.GetData` on the audio thread, so under F1 hybrid the producer **cannot** move to the audio thread without a new architecture (dedicated polling `Thread`) — explicitly out of scope for cleanup.
+- **Decisions logged (D1–D7):** in the §5b body above. Net effect: 5b deletes the **gentle `unread_zero` recovery family** (explicitly experimental, default-off, "remove if root cause is fixed elsewhere" per its own tooltip) plus the dead `[DefaultExecutionOrder(50)]` attribute, retires `FAIL_GENTLE_RECOVERY_FIRED` (mechanical follow-on), adds `// runs on:` annotations everywhere, rewrites CURRENT TEST per §9, and runs the click protocol. **`UpdateMicReadFrame`, the bookmark/double-poll machinery, the stalled-write-head guard, normalization, `FAIL_UNREAD_ZERO_SUSTAINED`, and `FAIL_INGEST_RING_STALLED` all stay** — load-bearing under F1 hybrid.
+- **Pass breakdown:** 5b-i (this rewrite, doc only) → 5b-ii (gentle-recovery family deletion) → 5b-iii (`// runs on:` annotations) → 5b-iv (aggregate orphaned-mirror cleanup + CURRENT TEST kickoff per §9) → 5b-v (`[DefaultExecutionOrder(50)]` removal after Editor verification) → 5b-vi (final grep + click protocol) → 5b-review (mandatory Opus 4.7 review).
+- **Doc-only commit (this commit):** §5b body + §5 Notes & considerations + Test bar + Status header + Execution checkpoint all rewritten to match the rescoped scope. No code changes. Sets the canonical scope before any deletion lands.
 
-### Step 6: Clean up debug telemetry, finalize aggregate Inspector layout, document interpretation
+*5b-ii — gentle-recovery family deletion (2026-05-08, Opus 4.7):*
+- **Files modified (3):** `Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs` (snapshot struct trim), `Assets/Scripts/Voice/ImitoneVoiceIntepreter.MicIngest.cs` (producer cleanup), `Assets/Scripts/Voice/MicVoiceIngestDebugAggregate.cs` (aggregate + FAIL chain).
+- **Net deletions:** 7 Inspector tunables + 5 runtime-state fields + 2 debug-Inspector fields + 2 helper methods (`PerformGentleUnreadZeroCaptureRestart`, `ResetUnreadZeroStreak`) + 1 main-loop branch (`unread_zero_gentle_restart`) + 1 retry block in `EnsureFrameUpdated` + 3 snapshot-struct fields → on the producer side. On the aggregate side: 3 mirror fields + 2 sticky-latch state vars + 1 baseline var + 1 `FAIL_*` field + 1 trigger block + 1 OR term + 1 accumulator + 1 reset + 2 rendering strings + 1 redundant exit-reason constant + 1 OR clause it gated.
+- **Net survivors (intentional):** `micWriteHeadDoublePoll` was nested inside the gentle-recovery `[Header]` block — relocated under "Microphone Source" with an updated tooltip ("F1-hybrid producer defense — keep on") before the header was deleted. The aggregate's own `_consecutiveUnreadZeroFrames` counter (separate from the producer's deleted streak counter) survives — it drives `FAIL_UNREAD_ZERO_SUSTAINED` per D7.
+- **Hidden coupling caught:** `UnreadZeroGentleRestartExitReason` const + the OR clause in `inUnreadZeroSegment` that referenced it. Not in the original 5b-ii outline; surfaced during cleanup. The exit-reason string can no longer be emitted (the branch that wrote it is gone), so the OR clause was dead code; deleted alongside the const.
+- **Lints:** clean on all three files post-edit.
+- **Cross-Assets grep verification:** every remaining `gentleUnreadZero*` / `FAIL_GENTLE_RECOVERY_FIRED` / `PerformGentleUnreadZeroCaptureRestart` / `ResetUnreadZeroStreak` / `unread_zero_gentle_restart` / `consecutiveUnreadZeroFrames` mention in `Assets/**/*.cs` is either an intentional retirement-marker comment or the aggregate's own `_consecutiveUnreadZeroFrames` (different field). Producer file has zero behavioral references — only one explanatory `// (5b-ii: ...)` comment.
+- **Scene-file orphans (not addressed in code pass):** `Assets/Scenes/MainGame.unity` still serializes the deleted properties (~13 lines: 7 tunables + 2 debug fields + 1 FAIL flag + 3 aggregate mirrors). Per cleanup-conservative scope ("don't hand-edit scene YAML"), Unity will harmlessly drop these on the next scene save when the engineer opens + saves the scene. Logged here for the 5b-vi grep sweep / final review.
+- **Smoke-test status:** **deferred to engineer** — code edits + lints clean, but no Unity Play-mode smoke test was run from this agent context. Engineer should compile + run + confirm the FAIL panel still works before moving to 5b-iii.
+- **5b-ii smoke test result (2026-05-08):** engineer confirmed "everything is aok right now" before authorizing 5b-iii. Compiles + voice path + FAIL panel all healthy.
+
+*5b-iii — runs-on thread annotations (2026-05-08, Opus 4.7):*
+- **Files annotated (6):** `ImitoneVoiceIntepreter.AudioThread.cs`, `ImitoneVoiceIntepreter.MicIngest.cs`, `ImitoneVoiceIntepreter.cs` (main partial), `DirectVoiceMonitoring.cs`, `MicVoiceIngestDebugAggregate.cs`, `RecordedAudioPlayback.cs`. Pure documentation pass, zero behavior change, no linter errors.
+- **Annotation strategy:** every cross-thread boundary method gets an explicit `// runs on:` comment with rationale (which thread, why, what shared state it touches, what synchronization it relies on). Class-level threading notes were added to the three "mostly one-thread" files (`ImitoneVoiceIntepreter.cs`, `DirectVoiceMonitoring.cs`, `MicVoiceIngestDebugAggregate.cs`) so trivially-main-thread methods inherit from the class note rather than getting 30 near-identical one-liners. Methods that are explicit thread boundaries — `OnAudioFilterRead` (audio), the 4-arg `ReadRawSamples` / `ReadNormalizedSamples` (BOTH), `AtomicRead` (BOTH), `ApplyMonitoringVolume` (main producer of volatile gain that audio thread reads), `GetBufferedTransportTotals` (main reader of audio-thread atomics) — got per-method annotations regardless.
+- **Notable surfaces clarified:**
+  - The 3-arg `ReadRawSamples` / `ReadNormalizedSamples` (blocking `lock(...)`) are now explicitly marked `// runs on: main thread ONLY` with a pointer to the 4-arg overload. Anyone adding a new ring-read call site can pick the right overload at a glance.
+  - The `ImitoneVoiceIntepreter.AudioThread.cs` file-level summary previously mis-claimed "runs on: audio thread — OnAudioFilterRead only" while containing 11 main-thread methods (bootstrap, rebootstrap, coroutine, dummy-clip setup, health-snapshot reader, stop). Rewritten to acknowledge the mix; per-method annotations now do the disambiguation.
+  - The `MicIngestMainThreadTick` comment about gentle-restart was already cleaned up in 5b-ii; the 5b-iii pass strengthens it with the explicit "F1-hybrid producer's per-frame entry point" framing.
+- **Files explicitly NOT in scope:** the rest of `RecordedAudioPlayback.cs` (file IO, slot management, playback coroutines — not voice-path), and the `Assets/Scripts/Wwise/**` integration (non-voice). Per §5b-iii's "any voice-related method" wording, only `ReadFromSharedBuffer` got annotated in `RecordedAudioPlayback`.
+- **Open question / call-out for 5b-vi review:** `audioCallbackLastTicks` (audio-thread-only field) and `imitoneFeedDummyClip` (initialized on main thread, referenced by the audio thread indirectly through `captureSource.clip`) live on a soft boundary; their cross-thread implications are documented in their declaring-field comments rather than via a method annotation. If the 5b-vi review pass surfaces a need to make this explicit, add a short ownership table at the top of `AudioThread.cs`.
 
 > **Recommended LLM for this step:**
 > - **First-pass: Composer 2 (full)** — Inspector reorganization, deleting obsolete fields, reordering headers, writing the interpretation guide. Mostly mechanical edits inside `MicVoiceIngestDebugAggregate`.

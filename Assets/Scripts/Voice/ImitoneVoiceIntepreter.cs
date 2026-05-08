@@ -15,6 +15,15 @@ using imitone;
 //TODO
 //Why is flooredsemitone floored and not rounded?
 
+// Threading note (5b-iii): every method declared in THIS partial file (ImitoneVoiceIntepreter.cs)
+// runs on: main thread. Unity lifecycle (Start / Update / LateUpdate), tone-active telemetry,
+// noise-floor coroutines, breath-volume coroutines, Wwise calls — all main-thread. Audio-thread
+// code lives in ImitoneVoiceIntepreter.AudioThread.cs (OnAudioFilterRead + filter helpers).
+// Mic-ingest producer + ring-buffer accessors live in ImitoneVoiceIntepreter.MicIngest.cs (mostly
+// main-thread; the 4-arg ReadRawSamples / ReadNormalizedSamples are the explicit "both threads"
+// boundary). Cross-thread shared state is documented field-by-field via the
+// aggCrossThreadFieldsUsingVolatile / aggCrossThreadFieldsUsingInterlocked label strings on
+// MicVoiceIngestDebugAggregate.
 [DefaultExecutionOrder(50)]
 public partial class ImitoneVoiceIntepreter : MonoBehaviour
 {
@@ -189,9 +198,6 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         public int lastStalledWriteHeadFrameCount;
         public int lastClipSamples;
         public int lastUnityFrame;
-        public int gentleUnreadZeroConsecutiveFrames;
-        public int gentleUnreadZeroRecoveryTotal;
-        public bool gentleUnreadZeroRecoveryEnabled;
         public long rawRingWriteTotalSamples;
         public long normalizedRingWriteTotalSamples;
     }
@@ -208,6 +214,8 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         public float telemetryImitoneDbUnclamped;
     }
 
+    // runs on: main thread (called from MicVoiceIngestDebugAggregate.LateUpdate). Reads two plain
+    // floats; both are written only from main-thread UpdateToneActiveTelemetryInspector.
     public RawVoicePathDebugSnapshot GetRawVoicePathDebugSnapshot()
     {
         return new RawVoicePathDebugSnapshot
@@ -341,6 +349,8 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     private bool debugAllowMonitoringLogs = false;
     private bool debugAllowWarnings = false; // Warnings show if this OR the category flag is true
 
+    // runs on: main thread (Unity lifecycle). Sets `imitone` (the volatile ImitoneVoice reference
+    // OnAudioFilterRead reads) once, before BootstrapAudioThreadCapturePath kicks the audio thread.
     void Start()
     {
         _volumeAnomalyThresholdDb = _volumeAnomalyThresholdDb_init;
@@ -387,6 +397,9 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         BootstrapAudioThreadCapturePath();
     }
 
+    // runs on: main thread (Unity lifecycle). Per-frame voice-path orchestrator; pumps mic ingest,
+    // audio-thread health rollup, noise floor, imitone GetState (`GetRawVoiceData`), tone tracking,
+    // and Wwise breath SFX.
     void Update()
     {
         MicIngestMainThreadTick();
@@ -438,6 +451,9 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         micIsNearNoiseFloor = _dbMicrophone <= _noiseFloorThreshold;
     }
 
+    // runs on: main thread (Unity lifecycle). Runs after the aggregate's LateUpdate (the aggregate
+    // sits at the default execution order; this script runs at +50, so its LateUpdate is later in
+    // the frame than the aggregate's — but both are main-thread regardless).
     void LateUpdate()
     {
         breathSoundFlag = false;
@@ -707,6 +723,11 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     // (`audioThreadHpPrevInput` / `audioThreadHpPrevOutput` / `audioThreadLpPrevOutput`) lives
     // there too — touched only from OnAudioFilterRead, never from the main thread.
 
+    // runs on: main thread (called from Update). NOTE: this is the only main-thread call into
+    // `imitone.*` — the audio thread is the sole caller of `imitone.InputAudio` (in
+    // ImitoneVoiceIntepreter.AudioThread.cs's OnAudioFilterRead). The cross-thread contract is
+    // imitone-internal: imitone.GetState reads the analysis state the audio-thread feed produced,
+    // and is documented to be safe to call concurrently with InputAudio.
     private void GetRawVoiceData()
     {
         // Step 3b: this method no longer copies samples or computes _dbMicrophone (those moved to

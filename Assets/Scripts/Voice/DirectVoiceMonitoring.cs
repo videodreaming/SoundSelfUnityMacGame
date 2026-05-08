@@ -8,6 +8,12 @@ using UnityEngine;
 /// Raw and normalized modes both consume pipeline-published mono streams with fixed-latency read cursors.
 /// Note: ring-buffer reads use <see cref="ImitoneVoiceIntepreter"/> as the single mic-ingest owner (0.7c-ii collapsed the old split component).
 /// </summary>
+// Threading note (5b-iii): the only audio-thread method in this file is OnAudioFilterRead; everything
+// else is main-thread (Unity lifecycle, public Start/Stop/Toggle API, telemetry rollup, volume
+// setters). Cross-thread shared state: `effectiveMonitoringGain` (volatile, main writer / audio
+// reader) plus the buffered-transport counters drained via AtomicRead from main and incremented via
+// Interlocked.* on the audio thread. Each cross-thread boundary method below carries a `// runs on:`
+// annotation; trivially main-thread methods (setup, debug logging, UI getters) inherit from this note.
 public class DirectVoiceMonitoring : MonoBehaviour
 {
     private enum PlaybackHeadSeekReason
@@ -174,6 +180,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     /// <summary>
     /// Initializes the monitoring system and AudioSource.
     /// </summary>
+    // runs on: main thread (Unity lifecycle).
     private void Awake()
     {
         float initialAttenuationScale = monitoringAttenuated ? Mathf.Clamp01(monitoringAttenuationMultiplier) : 1f;
@@ -214,6 +221,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     /// <summary>
     /// Sets up monitoring once ImitoneVoiceIntepreter has initialized its microphone.
     /// </summary>
+    // runs on: main thread (Unity lifecycle).
     private void Start()
     {
         StartCoroutine(InitializeMonitoring());
@@ -222,6 +230,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     /// <summary>
     /// Coroutine that waits for ImitoneVoiceIntepreter's mic to initialize, then sets up monitoring.
     /// </summary>
+    // runs on: main thread (Unity coroutine; each `yield return ...` resumes on a main-thread tick).
     private IEnumerator InitializeMonitoring()
     {
         float timeout = 10f; // 10 second timeout
@@ -296,6 +305,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
     /// <summary>
     /// Keeps monitoring volume in sync while active.
     /// </summary>
+    // runs on: main thread (Unity lifecycle). Per-frame orchestrator: drift seek, buffered-transport
+    // reliability windows, dynamic-volume lerps, applied-gain publishing (via ApplyMonitoringVolume).
     private void Update()
     {
         if (monitoringSource == null)
@@ -698,6 +709,12 @@ public class DirectVoiceMonitoring : MonoBehaviour
     /// All audio-thread-only state lives in the <c>audioThread*</c> private fields above. The only
     /// cross-thread read is <see cref="effectiveMonitoringGain"/> (volatile, written on main thread).
     /// </summary>
+    // runs on: audio thread (Unity DSP callback). Reads the mic ring via the 4-arg
+    // ReadRawSamples / ReadNormalizedSamples (TryEnter-safe) and the volatile effectiveMonitoringGain
+    // (main-thread writer / audio-thread reader). Increments buffered-transport counters via
+    // Interlocked.*. Audio-thread-only state lives in the `audioThread*` private fields above. NO
+    // allocations, NO Debug.Log*, NO main-thread Unity API. M6 per-sample gain interpolation runs
+    // here; the input target is the volatile gain, the output is `data[]`.
     private void OnAudioFilterRead(float[] data, int channels)
     {
         if (data == null || data.Length == 0)
@@ -888,6 +905,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     // Update volume when changed in inspector
+    // runs on: main thread (Unity Editor lifecycle; only fires in the Editor).
     private void OnValidate()
     {
         if (monitoringSource != null && Application.isPlaying)
@@ -896,6 +914,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
     }
 
+    // runs on: main thread (Unity lifecycle).
     private void OnDestroy()
     {
         // 5a M5: release the silent dummy clip so it doesn't leak across scene reloads. Created in Awake,
@@ -921,6 +940,11 @@ public class DirectVoiceMonitoring : MonoBehaviour
         DbgWarn($"DirectVoiceMonitoring: Monitoring stream is set to RAW ({context}). Use Normalized for non-debug/shipping builds.");
     }
 
+    // runs on: main thread. PRODUCER side of the cross-thread effectiveMonitoringGain handoff:
+    // computes the current target gain (raw / attenuated, dynamic ramps, manual fade) and writes
+    // it to the volatile field that OnAudioFilterRead reads next callback. M6's per-sample
+    // interpolation in OnAudioFilterRead smooths whatever step this writer publishes. Increments
+    // the diagnostic `hardVolumeStepCount` when the per-frame step exceeds hardVolumeStepThreshold.
     private void ApplyMonitoringVolume(string context)
     {
         if (monitoringSource == null)
@@ -1048,6 +1072,11 @@ public class DirectVoiceMonitoring : MonoBehaviour
         }
     }
 
+    // runs on: BOTH — pure utility. Used from main thread (UpdateReliabilityTelemetry,
+    // GetBufferedTransportTotals, the aggregate's snapshot reader) to read counters that
+    // OnAudioFilterRead increments via Interlocked.Increment / Interlocked.Add. Idiom is "atomic
+    // read with no side effect" — CompareExchange against 0/0 returns the current value without
+    // changing it. Allocation-free, audio-thread-safe.
     private static int AtomicRead(ref int value)
     {
         return Interlocked.CompareExchange(ref value, 0, 0);
@@ -1056,6 +1085,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
     /// <summary>
     /// Cumulative buffered-transport counters (thread-safe read). Use with Mic + Imitone ingest snapshots in the same frame.
     /// </summary>
+    // runs on: main thread (called from MicVoiceIngestDebugAggregate.LateUpdate). Internally uses
+    // AtomicRead so the underlying counters can be safely incremented from OnAudioFilterRead in
+    // parallel.
     public void GetBufferedTransportTotals(
         out int underflowEvents,
         out int underflowSamples,
