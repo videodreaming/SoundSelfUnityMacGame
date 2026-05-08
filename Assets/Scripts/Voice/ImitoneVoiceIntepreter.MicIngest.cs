@@ -18,26 +18,10 @@ public partial class ImitoneVoiceIntepreter
     [SerializeField] private int micReadChunkSize = 2048;
     [Tooltip("Retry interval used when microphone device is unavailable or capture fails.")]
     [SerializeField] private float recoveryRetryIntervalSeconds = 1f;
-    [Tooltip("How many consecutive frames with no write-head movement trigger mic recovery.")]
-    [SerializeField] private int stalledWriteHeadFrameThreshold = 120;
-
-    [Header("Gentle recovery — sustained unread_zero (optional; off by default)")]
-    [Tooltip("When true, debounced Stop + re-InitializeMicrophone after sustained unread_zero. Left in code for experiments; default off — remove if root cause is fixed elsewhere (see MIC_VOICE_INGEST_FINDINGS.md).")]
-    [SerializeField] private bool gentleUnreadZeroRecoveryEnabled = false;
-    [Tooltip("Consecutive Update frames with frameCount==0 before restart (e.g. 48 ≈ 0.8s at 60 FPS). Also see wall-clock trigger.")]
-    [SerializeField] [Range(12, 600)] private int gentleUnreadZeroConsecutiveFramesThreshold = 48;
-    [Tooltip("Minimum real time between gentle restarts to avoid thrashing.")]
-    [SerializeField] [Range(0.5f, 120f)] private float gentleUnreadZeroRecoveryCooldownSeconds = 6f;
-    [Tooltip("Suppress gentle restart only when stalled-write-head is within this many frames of the hard stalled threshold (avoid double-stop right before built-in stalled recovery).")]
-    [SerializeField] [Range(1, 60)] private int gentleUnreadZeroStallSuppressFramesFromHard = 3;
-    [Tooltip("If > 0, also restart when this many consecutive seconds of unread_zero pass (OR with frame count above). Helps when unread_zero is not 60+ frames in a row (e.g. mixed frames). Set 0 to disable.")]
-    [SerializeField] [Range(0f, 5f)] private float gentleUnreadZeroWallClockSeconds = 0.85f;
-    [Tooltip("Minimum consecutive unread_zero frames before wall-clock trigger can fire.")]
-    [SerializeField] [Range(5, 200)] private int gentleUnreadZeroWallMinConsecutiveFrames = 15;
-    [Tooltip("Second Microphone.GetPosition() when first is in-range; use if different (some platforms report a stale head on the first poll).")]
-    [SerializeField] private bool micWriteHeadDoublePoll = true;
-    [Tooltip("If stalled-head is near hard threshold, still allow gentle recovery after this many consecutive unread_zero frames (stall + unread limbo).")]
-    [SerializeField] [Range(30, 600)] private int gentleUnreadZeroBypassStallSuppressionAfterFrames = 90;
+    [Tooltip("How many consecutive OnAudioFilterRead callbacks with unchanged Microphone.GetPosition trigger recovery (Step 5b: audio-thread stall detection).")]
+    [SerializeField] [FormerlySerializedAs("stalledWriteHeadFrameThreshold")] private int audioThreadMicStallRecoveryThreshold = 120;
+    [Tooltip("Second Microphone.GetPosition() when first is in-range; use if different (some platforms report a stale head on the first poll). Applies to audio-thread capture only.")]
+    [SerializeField] [FormerlySerializedAs("micWriteHeadDoublePoll")] private bool audioThreadMicPositionDoublePoll = true;
 
     [Header("Channel Contract")]
     [Tooltip("Pipeline output contract for consumers. This pipeline publishes mono samples.")]
@@ -122,54 +106,35 @@ public partial class ImitoneVoiceIntepreter
     [Tooltip("Current raw ring-buffer size in samples.")]
     [SerializeField] private int rawRingBufferCapacitySamples = 0;
 
-    [Header("Debug (copy when mic ingest stuck)")]
-    [Tooltip("Last branch taken in UpdateMicReadFrame: not_ready | device_unavailable | invalid_mic_position | stalled_capture_stopped | unread_zero | unread_zero_gentle_restart | copied_samples")]
-    [SerializeField] private string debugMicLastExitReason = "";
-    [SerializeField] private int debugMicLastUnreadComputed = -1;
-    [SerializeField] private int debugMicLastLatestRawSampleCount = -1;
-    [SerializeField] private int debugMicLastMicPosWrite = -1;
-    [SerializeField] private int debugMicLastMicPosRead = -1;
-    [SerializeField] private int debugMicLastStalledWriteHeadFrameCount;
-    [SerializeField] private int debugMicLastClipSamples;
-    [SerializeField] private int debugMicLastUnityFrame;
-    [SerializeField] private int debugGentleUnreadZeroConsecutiveFrames;
-    [SerializeField] private int debugGentleUnreadZeroRecoveryCount;
-
     private string microphoneDeviceName;
     private AudioClip microphoneBuffer;
+    // Step 5b: mic clip read position — owned exclusively by the audio thread (OnAudioFilterRead capture block).
     private int micPosRead;
     private int captureEpoch;
     private int micInputChannels = 1;
     private bool micInputWasDownmixedToMono;
-    private int lastMicWritePosition = -1;
-    private int stalledWriteHeadFrameCount;
     private float nextRecoveryAttemptTime;
     private bool recoveryWarningLogged;
-    private float[] latestRawFrame = Array.Empty<float>();
-    private int latestRawSampleCount;
     private float[] rawRingBuffer = Array.Empty<float>();
     private int rawWritePosition;
     private long rawWriteTotalSamples;
     private readonly object rawBufferLock = new object();
-    // Step 3a Pass 2 (Docs/STEP_3A_F1_HYBRID_RING_FEED_PLAN.md): counts TryEnter(0) misses on rawBufferLock
-    // from audio-thread readers (the imitone feed in OnAudioFilterRead, DirectVoiceMonitoring). Drives
-    // FAIL_AUDIO_LOCK_CONTENTION as of pass 3 (the previous source — audioCallbackLockMissTotal on the
-    // now-deleted audioRingWriteLock — was retired). Should stay near 0 in steady play; sustained increments
-    // mean the main-thread writer is holding rawBufferLock long enough to clash with one or both audio-thread reads.
+    // Step 5b: rawBufferLock — audio-thread writer (capture → ring) contends with audio-thread readers on this
+    // same Behaviour (imitone feed ReadRawSamples inside OnAudioFilterRead) plus DirectVoiceMonitoring's
+    // OnAudioFilterRead (separate script order). TryEnter(0) misses increment rawRingReadLockMissTotal.
     private long rawRingReadLockMissTotal;
-    private float[] latestNormalizedFrame = Array.Empty<float>();
-    private int latestNormalizedSampleCount;
     private float[] normalizedRingBuffer = Array.Empty<float>();
     private int normalizedWritePosition;
     private long normalizedWriteTotalSamples;
     private readonly object normalizedBufferLock = new object();
-    private int lastFrameUpdated = -1;
-    private float[] micReadChunkBuffer = Array.Empty<float>(); // interleaved input buffer
-    private float[] micReadTailBuffer = Array.Empty<float>();  // interleaved input tail buffer
-    private int consecutiveUnreadZeroFrames;
-    private float lastGentleUnreadZeroRecoveryUnscaledTime = -999f;
-    private float unreadZeroStreakWallStartUnscaled = -1f;
-    private bool micUnreadZeroRecoveryRetryReadThisFrame;
+    private float[] micReadChunkBuffer = Array.Empty<float>(); // interleaved input buffer (audio-thread-only use)
+    private float[] micReadTailBuffer = Array.Empty<float>();  // interleaved input tail buffer (audio-thread-only use)
+    // Step 5b: capture scratch — audio-thread-only.
+    private float[] audioThreadCaptureMono = Array.Empty<float>();
+    private float[] audioThreadNormalizedScratch = Array.Empty<float>();
+    private int audioThreadLastMicWritePosition = -1;
+    private int audioThreadStalledCallbackCount;
+    private int _audioThreadMicRecoveryRequest; // Interlocked: 0=none, 1=invalid position, 2=stalled head
 
     private bool MicIngestIsReady => microphoneBuffer != null && !string.IsNullOrEmpty(microphoneDeviceName);
     public AudioClip MicrophoneBuffer => microphoneBuffer;
@@ -205,20 +170,25 @@ public partial class ImitoneVoiceIntepreter
 
         return new MicIngestDebugSnapshot
         {
-            lastExitReason = debugMicLastExitReason ?? "",
-            lastUnreadComputed = debugMicLastUnreadComputed,
-            lastLatestRawSampleCount = debugMicLastLatestRawSampleCount,
-            lastMicPosWrite = debugMicLastMicPosWrite,
-            lastMicPosRead = debugMicLastMicPosRead,
-            lastStalledWriteHeadFrameCount = debugMicLastStalledWriteHeadFrameCount,
-            lastClipSamples = debugMicLastClipSamples,
-            lastUnityFrame = debugMicLastUnityFrame,
-            gentleUnreadZeroConsecutiveFrames = debugGentleUnreadZeroConsecutiveFrames,
-            gentleUnreadZeroRecoveryTotal = debugGentleUnreadZeroRecoveryCount,
-            gentleUnreadZeroRecoveryEnabled = gentleUnreadZeroRecoveryEnabled,
+            ingestPathLabel = "audio_thread_ring_writes",
             rawRingWriteTotalSamples = rawTotal,
             normalizedRingWriteTotalSamples = normTotal,
         };
+    }
+
+    private void ProcessAudioThreadMicRecoveryRequests()
+    {
+        int r = Interlocked.Exchange(ref _audioThreadMicRecoveryRequest, 0);
+        if (r == 1)
+        {
+            ScheduleRecoveryAttempt("Invalid Microphone.GetPosition from audio-thread capture.");
+            StopMicrophoneCapture();
+        }
+        else if (r == 2)
+        {
+            ScheduleRecoveryAttempt("Stalled microphone write-head (audio-thread detection).");
+            StopMicrophoneCapture();
+        }
     }
 
     private void Awake()
@@ -235,29 +205,31 @@ public partial class ImitoneVoiceIntepreter
     }
 
     /// <summary>
-    /// Run early each frame so microphone frames are produced before <see cref="GetRawVoiceData"/>.
+    /// Step 5b: main-thread housekeeping only — no mic clip reads. Device-loss + deferred audio-thread
+    /// recovery requests, normalization gain riding / telemetry, peak-meter decay, audio-thread capture
+    /// rebootstrap, imitone exception drain.
     /// </summary>
     private void MicIngestMainThreadTick()
     {
+        ProcessAudioThreadMicRecoveryRequests();
+
+        if (MicIngestIsReady && !IsCurrentDeviceStillAvailable())
+        {
+            ScheduleRecoveryAttempt($"Microphone device '{microphoneDeviceName}' is no longer available.");
+            StopMicrophoneCapture();
+        }
+
         if (!MicIngestIsReady && Time.unscaledTime >= nextRecoveryAttemptTime)
         {
             InitializeMicrophone();
         }
 
-        EnsureFrameUpdated();
         UpdateNormalizationGainRiding();
         UpdateNormalizationTelemetry();
 
         normalizedPeakMeter = Mathf.Max(0f, normalizedPeakMeter - normalizedPeakMeterDecayPerSecond * Time.deltaTime);
 
-        // Step 3a prep: catches both gentle restart (PerformGentleUnreadZeroCaptureRestart, called from inside
-        // EnsureFrameUpdated -> UpdateMicReadFrame) and scheduled recovery (InitializeMicrophone above) — both
-        // tick captureEpoch on success but neither rebootstraps the audio-thread capture path. Without this, the
-        // AudioSource keeps pointing at a destroyed AudioClip after recovery and OnAudioFilterRead silently dies.
         TryRebootstrapAudioThreadCaptureIfMicRecovered();
-
-        // Step 3a: drain any deferred imitone.InputAudio exception captured by OnAudioFilterRead (Debug.Log* is
-        // unsafe / GC-heavy from the audio thread; we log once per session from main thread).
         DrainImitoneInputAudioPendingException();
     }
 
@@ -282,42 +254,6 @@ public partial class ImitoneVoiceIntepreter
 
         recoveryWarningLogged = false;
         nextRecoveryAttemptTime = 0f;
-    }
-
-    public bool TryCopyLatestRawFrame(ref float[] destination, out int sampleCount)
-    {
-        EnsureFrameUpdated();
-        sampleCount = latestRawSampleCount;
-        if (sampleCount <= 0)
-        {
-            return false;
-        }
-
-        if (destination == null || destination.Length < sampleCount)
-        {
-            destination = new float[sampleCount];
-        }
-
-        Array.Copy(latestRawFrame, destination, sampleCount);
-        return true;
-    }
-
-    public bool TryCopyLatestNormalizedFrame(ref float[] destination, out int sampleCount)
-    {
-        EnsureFrameUpdated();
-        sampleCount = latestNormalizedSampleCount;
-        if (sampleCount <= 0)
-        {
-            return false;
-        }
-
-        if (destination == null || destination.Length < sampleCount)
-        {
-            destination = new float[sampleCount];
-        }
-
-        Array.Copy(latestNormalizedFrame, destination, sampleCount);
-        return true;
     }
 
     public MicNormalizationState GetNormalizationState()
@@ -726,273 +662,109 @@ public partial class ImitoneVoiceIntepreter
         }
     }
 
-    private void EnsureFrameUpdated()
+    /// <summary>
+    /// runs on: audio thread — <see cref="OnAudioFilterRead"/> only, before the imitone feed read.
+    /// Pulls mono samples from the streaming mic clip and appends raw + normalized rings. Stall / invalid
+    /// position requests recovery on the main thread via <see cref="_audioThreadMicRecoveryRequest"/>.
+    /// </summary>
+    private void AudioThreadCaptureMicAndWriteRings(int maxFramesPerCallback)
     {
-        if (lastFrameUpdated == Time.frameCount)
+        if (!MicIngestIsReady || microphoneBuffer == null || string.IsNullOrEmpty(microphoneDeviceName))
         {
             return;
         }
 
-        UpdateMicReadFrame();
-        if (micUnreadZeroRecoveryRetryReadThisFrame)
+        int clipSamples = microphoneBuffer.samples;
+        if (clipSamples <= 0)
         {
-            micUnreadZeroRecoveryRetryReadThisFrame = false;
-            UpdateMicReadFrame();
-        }
-
-        lastFrameUpdated = Time.frameCount;
-    }
-
-    private void ResetUnreadZeroStreak()
-    {
-        consecutiveUnreadZeroFrames = 0;
-        debugGentleUnreadZeroConsecutiveFrames = 0;
-        unreadZeroStreakWallStartUnscaled = -1f;
-    }
-
-    private void PerformGentleUnreadZeroCaptureRestart()
-    {
-        StopMicrophoneCapture();
-        recoveryWarningLogged = false;
-        nextRecoveryAttemptTime = 0f;
-        debugGentleUnreadZeroRecoveryCount++;
-        Debug.LogWarning($"Mic ingest: Gentle capture restart after sustained unread_zero (total restarts: {debugGentleUnreadZeroRecoveryCount}).");
-        InitializeMicrophone();
-    }
-
-    private void UpdateMicReadFrame()
-    {
-        debugMicLastUnityFrame = Time.frameCount;
-
-        if (!MicIngestIsReady)
-        {
-            ResetUnreadZeroStreak();
-            latestRawSampleCount = 0;
-            latestNormalizedSampleCount = 0;
-            debugMicLastExitReason = "not_ready";
-            debugMicLastUnreadComputed = -1;
-            debugMicLastLatestRawSampleCount = 0;
-            debugMicLastMicPosWrite = -1;
-            debugMicLastMicPosRead = micPosRead;
-            debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
-            debugMicLastClipSamples = microphoneBuffer != null ? microphoneBuffer.samples : 0;
-            return;
-        }
-
-        if (!IsCurrentDeviceStillAvailable())
-        {
-            ResetUnreadZeroStreak();
-            ScheduleRecoveryAttempt($"Microphone device '{microphoneDeviceName}' is no longer available.");
-            int readPosForDebug = micPosRead;
-            int clipSamplesForDebug = microphoneBuffer != null ? microphoneBuffer.samples : 0;
-            int stalledFramesForDebug = stalledWriteHeadFrameCount;
-            StopMicrophoneCapture();
-            latestRawSampleCount = 0;
-            latestNormalizedSampleCount = 0;
-            debugMicLastExitReason = "device_unavailable";
-            debugMicLastUnreadComputed = -1;
-            debugMicLastLatestRawSampleCount = 0;
-            debugMicLastMicPosWrite = -1;
-            debugMicLastMicPosRead = readPosForDebug;
-            debugMicLastStalledWriteHeadFrameCount = stalledFramesForDebug;
-            debugMicLastClipSamples = clipSamplesForDebug;
             return;
         }
 
         int micPosWrite = Microphone.GetPosition(microphoneDeviceName);
-        if (micWriteHeadDoublePoll &&
-            microphoneBuffer.samples > 0 &&
+        if (audioThreadMicPositionDoublePoll &&
             micPosWrite >= 0 &&
-            micPosWrite < microphoneBuffer.samples)
+            micPosWrite < clipSamples)
         {
             int w2 = Microphone.GetPosition(microphoneDeviceName);
-            if (w2 >= 0 && w2 < microphoneBuffer.samples && w2 != micPosWrite)
+            if (w2 >= 0 && w2 < clipSamples && w2 != micPosWrite)
             {
                 micPosWrite = w2;
             }
         }
 
-        if (micPosWrite < 0 || micPosWrite >= microphoneBuffer.samples || microphoneBuffer.samples <= 0)
+        if (micPosWrite < 0 || micPosWrite >= clipSamples)
         {
-            ResetUnreadZeroStreak();
-            ScheduleRecoveryAttempt($"Invalid Microphone.GetPosition() value '{micPosWrite}' for device '{microphoneDeviceName}'.");
-            int clipSamplesForDebug = microphoneBuffer.samples;
-            int readHeadForDebug = micPosRead;
-            int stalledFramesForDebug = stalledWriteHeadFrameCount;
-            StopMicrophoneCapture();
-            latestRawSampleCount = 0;
-            latestNormalizedSampleCount = 0;
-            debugMicLastExitReason = "invalid_mic_position";
-            debugMicLastUnreadComputed = -1;
-            debugMicLastLatestRawSampleCount = 0;
-            debugMicLastMicPosWrite = micPosWrite;
-            debugMicLastMicPosRead = readHeadForDebug;
-            debugMicLastStalledWriteHeadFrameCount = stalledFramesForDebug;
-            debugMicLastClipSamples = clipSamplesForDebug;
+            Interlocked.Exchange(ref _audioThreadMicRecoveryRequest, 1);
             return;
         }
 
-        if (lastMicWritePosition == micPosWrite)
+        if (audioThreadLastMicWritePosition == micPosWrite)
         {
-            stalledWriteHeadFrameCount++;
+            audioThreadStalledCallbackCount++;
         }
         else
         {
-            stalledWriteHeadFrameCount = 0;
+            audioThreadStalledCallbackCount = 0;
         }
-        lastMicWritePosition = micPosWrite;
 
-        if (stalledWriteHeadFrameCount >= Mathf.Max(5, stalledWriteHeadFrameThreshold))
+        audioThreadLastMicWritePosition = micPosWrite;
+
+        if (audioThreadStalledCallbackCount >= Mathf.Max(5, audioThreadMicStallRecoveryThreshold))
         {
-            ResetUnreadZeroStreak();
-            ScheduleRecoveryAttempt($"Detected stalled microphone write-head for device '{microphoneDeviceName}'.");
-            int clipSamplesForDebug = microphoneBuffer.samples;
-            int writePosForDebug = micPosWrite;
-            int readHeadForDebug = micPosRead;
-            int unreadForDebug = (clipSamplesForDebug + writePosForDebug - readHeadForDebug) % clipSamplesForDebug;
-            int stalledFramesForDebug = stalledWriteHeadFrameCount;
-            StopMicrophoneCapture();
-            latestRawSampleCount = 0;
-            latestNormalizedSampleCount = 0;
-            debugMicLastExitReason = "stalled_capture_stopped";
-            debugMicLastUnreadComputed = unreadForDebug;
-            debugMicLastLatestRawSampleCount = 0;
-            debugMicLastMicPosWrite = writePosForDebug;
-            debugMicLastMicPosRead = readHeadForDebug;
-            debugMicLastStalledWriteHeadFrameCount = stalledFramesForDebug;
-            debugMicLastClipSamples = clipSamplesForDebug;
+            Interlocked.Exchange(ref _audioThreadMicRecoveryRequest, 2);
             return;
         }
 
-        int frameCount = (microphoneBuffer.samples + micPosWrite - micPosRead) % microphoneBuffer.samples;
+        int available = (clipSamples + micPosWrite - micPosRead) % clipSamples;
+        if (available <= 0)
+        {
+            return;
+        }
+
+        int frameCount = Mathf.Min(available, maxFramesPerCallback);
         if (frameCount <= 0)
         {
-            consecutiveUnreadZeroFrames++;
-            if (consecutiveUnreadZeroFrames == 1)
-            {
-                unreadZeroStreakWallStartUnscaled = Time.unscaledTime;
-            }
-
-            debugGentleUnreadZeroConsecutiveFrames = consecutiveUnreadZeroFrames;
-
-            int stalledThreshold = Mathf.Max(5, stalledWriteHeadFrameThreshold);
-            int suppressWithin = Mathf.Clamp(gentleUnreadZeroStallSuppressFramesFromHard, 1, Mathf.Max(1, stalledThreshold - 1));
-            bool nearHardStall = stalledWriteHeadFrameCount >= stalledThreshold - suppressWithin;
-            bool stallBlocksGentle = nearHardStall && consecutiveUnreadZeroFrames < gentleUnreadZeroBypassStallSuppressionAfterFrames;
-
-            bool wallMet = gentleUnreadZeroWallClockSeconds > 0f &&
-                           unreadZeroStreakWallStartUnscaled > 0f &&
-                           (Time.unscaledTime - unreadZeroStreakWallStartUnscaled) >= gentleUnreadZeroWallClockSeconds &&
-                           consecutiveUnreadZeroFrames >= gentleUnreadZeroWallMinConsecutiveFrames;
-
-            bool frameMet = consecutiveUnreadZeroFrames >= gentleUnreadZeroConsecutiveFramesThreshold;
-
-            if (gentleUnreadZeroRecoveryEnabled &&
-                !stallBlocksGentle &&
-                (frameMet || wallMet) &&
-                Time.unscaledTime - lastGentleUnreadZeroRecoveryUnscaledTime >= gentleUnreadZeroRecoveryCooldownSeconds)
-            {
-                lastGentleUnreadZeroRecoveryUnscaledTime = Time.unscaledTime;
-                ResetUnreadZeroStreak();
-                PerformGentleUnreadZeroCaptureRestart();
-                if (MicIngestIsReady)
-                {
-                    micUnreadZeroRecoveryRetryReadThisFrame = true;
-                }
-
-                latestRawSampleCount = 0;
-                latestNormalizedSampleCount = 0;
-                debugMicLastExitReason = "unread_zero_gentle_restart";
-                debugMicLastUnreadComputed = frameCount;
-                debugMicLastLatestRawSampleCount = 0;
-                debugMicLastMicPosWrite = micPosWrite;
-                debugMicLastMicPosRead = micPosRead;
-                debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
-                debugMicLastClipSamples = microphoneBuffer.samples;
-                return;
-            }
-
-            latestRawSampleCount = 0;
-            latestNormalizedSampleCount = 0;
-            debugMicLastExitReason = "unread_zero";
-            debugMicLastUnreadComputed = frameCount;
-            debugMicLastLatestRawSampleCount = 0;
-            debugMicLastMicPosWrite = micPosWrite;
-            debugMicLastMicPosRead = micPosRead;
-            debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
-            debugMicLastClipSamples = microphoneBuffer.samples;
             return;
         }
 
-        ResetUnreadZeroStreak();
-
-        if (latestRawFrame.Length < frameCount)
+        if (audioThreadCaptureMono.Length < frameCount)
         {
-            latestRawFrame = new float[frameCount];
+            audioThreadCaptureMono = new float[frameCount];
         }
 
-        ReadMicFramesIntoLatestRawMono(frameCount);
-        latestRawSampleCount = frameCount;
-        WriteRawFrameToRingBuffer(frameCount);
-
-        if (latestNormalizedFrame.Length < frameCount)
+        if (audioThreadNormalizedScratch.Length < frameCount)
         {
-            latestNormalizedFrame = new float[frameCount];
+            audioThreadNormalizedScratch = new float[frameCount];
         }
 
-        if (!normalizationEnabled)
-        {
-            Array.Copy(latestRawFrame, latestNormalizedFrame, frameCount);
-        }
-        else
-        {
-            float gainLinear = GetNormalizationGainLinear();
-            for (int i = 0; i < frameCount; i++)
-            {
-                float normalizedSample = latestRawFrame[i] * gainLinear;
-                if (normalizationHardClampEnabled)
-                {
-                    normalizedSample = Mathf.Clamp(normalizedSample, -normalizationClampAbs, normalizationClampAbs);
-                }
-                latestNormalizedFrame[i] = normalizedSample;
-            }
-        }
+        ReadMicClipToMonoBuffer(frameCount, ref micPosRead, audioThreadCaptureMono);
+        AppendMonoSamplesToRawRing(audioThreadCaptureMono, frameCount);
+        BuildNormalizedScratchFromRaw(audioThreadCaptureMono, audioThreadNormalizedScratch, frameCount);
+        AppendMonoSamplesToNormalizedRing(audioThreadNormalizedScratch, frameCount);
 
         float framePeak = 0f;
         for (int i = 0; i < frameCount; i++)
         {
-            float abs = Mathf.Abs(latestNormalizedFrame[i]);
+            float abs = Mathf.Abs(audioThreadNormalizedScratch[i]);
             if (abs > framePeak)
             {
                 framePeak = abs;
             }
         }
+
         normalizedPeakCurrentFrame = framePeak;
         if (framePeak > normalizedPeakMeter)
         {
             normalizedPeakMeter = framePeak;
         }
-
-        WriteNormalizedFrameToRingBuffer(frameCount);
-        latestNormalizedSampleCount = frameCount;
-
-        debugMicLastExitReason = "copied_samples";
-        debugMicLastUnreadComputed = frameCount;
-        debugMicLastLatestRawSampleCount = latestRawSampleCount;
-        debugMicLastMicPosWrite = micPosWrite;
-        debugMicLastMicPosRead = micPosRead;
-        debugMicLastStalledWriteHeadFrameCount = stalledWriteHeadFrameCount;
-        debugMicLastClipSamples = microphoneBuffer.samples;
     }
 
     private void OnNormalizationConfigChanged()
     {
-        // Force recompute on next read so consumers get fresh settings immediately.
-        lastFrameUpdated = -1;
         NormalizationStateChanged?.Invoke(GetNormalizationState());
     }
 
-    private void WriteRawFrameToRingBuffer(int sampleCount)
+    private void AppendMonoSamplesToRawRing(float[] src, int sampleCount)
     {
         if (sampleCount <= 0 || rawRingBuffer == null || rawRingBuffer.Length == 0)
         {
@@ -1003,14 +775,14 @@ public partial class ImitoneVoiceIntepreter
         {
             for (int i = 0; i < sampleCount; i++)
             {
-                rawRingBuffer[rawWritePosition] = latestRawFrame[i];
+                rawRingBuffer[rawWritePosition] = src[i];
                 rawWritePosition = (rawWritePosition + 1) % rawRingBuffer.Length;
                 rawWriteTotalSamples++;
             }
         }
     }
 
-    private void WriteNormalizedFrameToRingBuffer(int sampleCount)
+    private void AppendMonoSamplesToNormalizedRing(float[] src, int sampleCount)
     {
         if (sampleCount <= 0 || normalizedRingBuffer == null || normalizedRingBuffer.Length == 0)
         {
@@ -1021,18 +793,38 @@ public partial class ImitoneVoiceIntepreter
         {
             for (int i = 0; i < sampleCount; i++)
             {
-                normalizedRingBuffer[normalizedWritePosition] = latestNormalizedFrame[i];
+                normalizedRingBuffer[normalizedWritePosition] = src[i];
                 normalizedWritePosition = (normalizedWritePosition + 1) % normalizedRingBuffer.Length;
                 normalizedWriteTotalSamples++;
             }
         }
     }
 
-    private void ReadMicFramesIntoLatestRawMono(int frameCount)
+    private void BuildNormalizedScratchFromRaw(float[] raw, float[] destNormalized, int frameCount)
+    {
+        if (!normalizationEnabled)
+        {
+            Array.Copy(raw, 0, destNormalized, 0, frameCount);
+            return;
+        }
+
+        float gainLinear = GetNormalizationGainLinear();
+        for (int i = 0; i < frameCount; i++)
+        {
+            float normalizedSample = raw[i] * gainLinear;
+            if (normalizationHardClampEnabled)
+            {
+                normalizedSample = Mathf.Clamp(normalizedSample, -normalizationClampAbs, normalizationClampAbs);
+            }
+
+            destNormalized[i] = normalizedSample;
+        }
+    }
+
+    private void ReadMicClipToMonoBuffer(int frameCount, ref int readPos, float[] destMono)
     {
         int remainingFrames = frameCount;
         int writeOffset = 0;
-        int readPos = micPosRead;
 
         while (remainingFrames > 0)
         {
@@ -1050,6 +842,7 @@ public partial class ImitoneVoiceIntepreter
                 {
                     micReadTailBuffer = new float[chunkInterleavedLength];
                 }
+
                 sourceBuffer = micReadTailBuffer;
             }
 
@@ -1057,7 +850,7 @@ public partial class ImitoneVoiceIntepreter
 
             if (micInputChannels == 1)
             {
-                Array.Copy(sourceBuffer, 0, latestRawFrame, writeOffset, chunkFrames);
+                Array.Copy(sourceBuffer, 0, destMono, writeOffset, chunkFrames);
             }
             else
             {
@@ -1069,7 +862,8 @@ public partial class ImitoneVoiceIntepreter
                     {
                         mono += sourceBuffer[interleavedStart + channel];
                     }
-                    latestRawFrame[writeOffset + frame] = mono / micInputChannels;
+
+                    destMono[writeOffset + frame] = mono / micInputChannels;
                 }
             }
 
@@ -1077,8 +871,6 @@ public partial class ImitoneVoiceIntepreter
             writeOffset += chunkFrames;
             remainingFrames -= chunkFrames;
         }
-
-        micPosRead = readPos;
     }
 
     private bool TryResolveMicrophoneDevice(out string deviceName)
@@ -1119,8 +911,9 @@ public partial class ImitoneVoiceIntepreter
         }
 
         micPosRead = 0;
-        lastMicWritePosition = -1;
-        stalledWriteHeadFrameCount = 0;
+        Interlocked.Exchange(ref _audioThreadMicRecoveryRequest, 0);
+        audioThreadLastMicWritePosition = -1;
+        audioThreadStalledCallbackCount = 0;
         captureEpoch++;
         micInputChannels = Mathf.Max(1, microphoneBuffer.channels);
         micInputWasDownmixedToMono = micInputChannels > (int)channelMode;
@@ -1290,8 +1083,6 @@ public partial class ImitoneVoiceIntepreter
         microphoneBuffer = null;
         microphoneDeviceName = null;
         micPosRead = 0;
-        lastMicWritePosition = -1;
-        stalledWriteHeadFrameCount = 0;
     }
 
     private void OnDisable()

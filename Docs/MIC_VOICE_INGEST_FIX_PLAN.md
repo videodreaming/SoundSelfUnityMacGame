@@ -1,6 +1,6 @@
 # Voice ingest rearchitecture: plan and rationale
 
-**Status:** Ready for implementation
+**Status:** Implementation in progress — **Step 5:** 5b code + **`[DefaultExecutionOrder]` removed from `ImitoneVoiceIntepreter` (2026-05-08)**; Editor play-test / Test-row sign-off still on you. **Step 6** Inspector/layout pass next. See Section C **Codebase sync** blocks.
 **Goal:** Eliminate per-frame jitter in voice analysis. Imitone receives steady, real-time-paced input regardless of main-thread variance. Visual and audio response feels fresh every frame, not just "tolerable."
 
 ## Environment
@@ -121,7 +121,7 @@ Cleanup actions, baseline numbers, and "provisional code to delete" lists from t
 - **Engine:** Unity **2022.3.12f1** (project also targets Mac).
 - **Mic:** Wired USB (not Bluetooth).
 - **Persistence:** Symptoms reproduce across PC restart and across multiple sessions.
-- **Project Settings → Script Execution Order (verified 2026-05-04):** No `MicPipeline` entry — **confirmed removed** from the list in the Editor (not stored in versioned YAML). Order is `TMPro.TextMeshPro` (−105) → `ImitoneVoiceIntepreter` (−104) → `GameValues` (−103) → `DirectVoiceMonitoring` (−102) → `RecordedAudioPlayback` (−101). Wwise's `AkInitializer` runs much earlier at −108. Class-level `[DefaultExecutionOrder(50)]` on `ImitoneVoiceIntepreter` is still overridden by Project Settings −104 until Step 5b cleanup.
+- **Project Settings → Script Execution Order (verified 2026-05-04):** No `MicPipeline` entry — **confirmed removed** from the list in the Editor (not stored in versioned YAML). Order is `TMPro.TextMeshPro` (−105) → `ImitoneVoiceIntepreter` (−104) → `GameValues` (−103) → `DirectVoiceMonitoring` (−102) → `RecordedAudioPlayback` (−101). Wwise's `AkInitializer` runs much earlier at −108. **2026-05-08:** class-level `[DefaultExecutionOrder(50)]` **removed** from `ImitoneVoiceIntepreter` in source — **Project Settings −104 is now the only execution-order control** for that class. Re-verify the entry exists the next time you open the Editor (settings are not versioned in YAML here).
 
   **Cleanup decision (this rearchitecture):** the C# `[DefaultExecutionOrder(...)]` class attributes will be **removed** during the rearchitecture so there is exactly one source of truth (Project Settings). Before removing any attribute, **verify** the Project Settings entry exists for that class — see Step 5b (for the remaining classes). The agent should *prompt the user to open Project Settings → Script Execution Order and confirm* before deleting an attribute, so we don't end up with a class running at default order 0 by accident.
 
@@ -1475,9 +1475,9 @@ Step back, run extended testing, address any issues that emerge before moving to
 >
 > *Confirm Opus 4.7 is selected before continuing. Stay on Opus through both sub-passes and the final review pass for this step.*
 
-By the time we reach this step, Step 0.7 has already merged `MicPipeline` into `ImitoneVoiceIntepreter` and Steps 1–4 have built the audio-thread path on top. The merged file currently runs **two paths in parallel** inside one MonoBehaviour: the legacy main-thread mic-ingest block (the `UpdateMicReadFrame` / gentle recovery / double-poll machinery migrated in 0.7c) and the new audio-thread block (`OnAudioFilterRead` and friends from Step 1, feeding imitone since Step 3). The legacy block is no longer load-bearing — Step 3 redirected the imitone feed to the audio thread — but it's still alive as a fallback.
+By the time we reach this step, Step 0.7 has already merged `MicPipeline` into `ImitoneVoiceIntepreter` and Steps 1–4 have built the audio-thread path on top. **Historically (Steps 1–3 through early Step 5)** the merged file ran **two paths in parallel**: legacy main-thread mic ingest (from 0.7c) and the audio-thread block (`OnAudioFilterRead`, imitone feed since Step 3). **Codebase as of 2026-05-08:** sub-pass **5b has landed** — that legacy ingest path is **gone**. `MicIngestMainThreadTick()` is housekeeping-only (device-loss handling, deferred audio-thread recovery requests, normalization gain riding / telemetry, peak-meter decay, audio-thread capture rebootstrap, imitone `InputAudio` exception drain). Raw + normalized ring samples are appended from `AudioThreadCaptureMicAndWriteRings` on the audio thread (`ImitoneVoiceIntepreter.MicIngest.cs`).
 
-Step 5 finishes the job: harden the monitoring path against clicks, then **delete the legacy main-thread block** from inside `ImitoneVoiceIntepreter`. After Step 5b, the file contains only the audio-thread architecture.
+Step 5’s job: harden monitoring (5a), then **delete the legacy main-thread block** (5b). After 5b, capture/feed/DSP for mic → imitone are audio-thread-first; the main thread keeps game logic plus the support tick above.
 
 **Sub-pass 5a — Harden the monitoring path against clicks (M1/M2/M6):**
 
@@ -1516,42 +1516,44 @@ The audio-thread architecture should already make underflow / overflow rare, but
 
 This sub-pass removes the cruft listed in the cleanup appendix below from inside the merged file. It is **not** optional — leaving it in place creates two recovery stories and risks a future surprise `Microphone.End / Start` in production. By the end of 5b, `ImitoneVoiceIntepreter.cs` contains only the audio-thread architecture (capture, ring, imitone feed, DSP, telemetry) plus the main-thread game logic that was always there (CheckToning, TrackMicVolume, Wwise events, etc.). The legacy main-thread mic-ingest block is gone.
 
+**Codebase sync (2026-05-08):** 5b **implementation matches the intent below** in the repo. **Still open:** (1) **`micRingOverflowSkipTotal`** is present on the snapshot / aggregate and drives `FAIL_RING_OVERFLOW_GROWING` *wiring*, but **no `Interlocked.Increment` (or equivalent) exists in the capture path yet** — the counter stays at `0` in normal use until a producer-side skip is implemented (Step 3 placeholder carried forward). (2) **Post-5b verification** (play mode, full click protocol re-run if desired, formal grep sign-off) — tick **Test** rows below after you run them in Editor. **`[DefaultExecutionOrder(50)]` on `ImitoneVoiceIntepreter`:** removed in source **2026-05-08** (engineer go-ahead); confirm Project Settings `−104` on next Editor session.
+
 *Delete entirely from `ImitoneVoiceIntepreter.cs` (see Appendix "Provisional code to delete" for the exhaustive symbol list, which still applies — just inside the merged file rather than `MicPipeline.cs`):*
-- [ ] The gentle `unread_zero` recovery family (7 inspector fields, 5 internal state fields, `PerformGentleUnreadZeroCaptureRestart()`, the `unread_zero_gentle_restart` branch, and 3 snapshot fields). All originally lived in `MicPipeline`; they live in the merged file now and are deleted from there.
-- [ ] The bookmark / double-poll machinery (`micWriteHeadDoublePoll`, `micPosRead` / `micPosWrite`, `stalledWriteHeadFrameCount` / `stalledWriteHeadFrameThreshold`, the `stalled_capture_stopped` / `unread_zero` / `unread_zero_gentle_restart` exit-reason strings).
-- [ ] `UpdateMicReadFrame` (the legacy main-thread mic read loop) and any `Update()` call site for it. The audio-thread `OnAudioFilterRead` is now the sole writer to the ring(s).
-- [ ] Any remaining code that calls `Microphone.GetPosition` from `Update`. (Position tracking happens via `_samplesWritten += data.Length / channels` on the audio thread.)
-- [ ] If Step 1's "new audio-thread ring" and the legacy main-thread ring are both still present, **consolidate to exactly one raw ring and one normalized ring** as part of this sub-pass. Reuse the larger / better-sized buffer if they differ. Audit normalization logic during the consolidation:
-  - [ ] If normalization writes samples that `imitone.InputAudio` consumes, the writing code **must** live on the audio thread (right next to capture).
-  - [ ] If a function is only a telemetry meter (e.g. surface a peak for the Inspector), it may stay on the main thread.
-  - [ ] Annotate each surviving function header with one of: `// runs on: audio thread` or `// runs on: main thread`. No ambiguity.
-- [ ] Confirm there are no `#if false` blocks, no `// TODO restore later` stubs, no commented-out method bodies. Provisional experiments are deleted, not parked.
+- [x] The gentle `unread_zero` recovery family (7 inspector fields, 5 internal state fields, `PerformGentleUnreadZeroCaptureRestart()`, the `unread_zero_gentle_restart` branch, and 3 snapshot fields). All originally lived in `MicPipeline`; they live in the merged file now and are deleted from there. — *Verified absent from `Assets/Scripts/Voice` (excluding `Reference/OLD_*`).*
+- [x] The **main-thread** bookmark / stalled-write-head / `unread_zero` exit-reason machinery tied to the legacy ingest loop. — *Removed. **Still present on the audio thread:** `Microphone.GetPosition` double-poll + stalled-callback recovery (`audioThreadMicPositionDoublePoll`, `audioThreadMicStallRecoveryThreshold`, `[FormerlySerializedAs("micWriteHeadDoublePoll")]` / `[FormerlySerializedAs("stalledWriteHeadFrameThreshold")]` on those fields — serialization migration only, not legacy main-thread logic).*
+- [x] `UpdateMicReadFrame` (the legacy main-thread mic read loop) and any `Update()` call site for it. The audio-thread path is now the sole ring **writer** via `AudioThreadCaptureMicAndWriteRings` / `AppendMonoSamplesTo*Ring`. — *No `UpdateMicReadFrame` under `Assets/Scripts/` (docs / OLD reference only). `Update()` calls `MicIngestMainThreadTick()` only.*
+- [x] Any remaining code that calls `Microphone.GetPosition` from `Update`. (Capture consults `GetPosition` inside `AudioThreadCaptureMicAndWriteRings` on the audio thread.) — *Verified: no `GetPosition` on the main-thread tick path.*
+- [x] If Step 1's "new audio-thread ring" and the legacy main-thread ring are both still present, **consolidate to exactly one raw ring and one normalized ring** as part of this sub-pass. Reuse the larger / better-sized buffer if they differ. Audit normalization logic during the consolidation:
+  - [x] If normalization writes samples that `imitone.InputAudio` consumes, the writing code **must** live on the audio thread (right next to capture). — *`BuildNormalizedScratchFromRaw` + `AppendMonoSamplesToNormalizedRing` run in the audio-thread capture path.*
+  - [x] If a function is only a telemetry meter (e.g. surface a peak for the Inspector), it may stay on the main thread. — *e.g. main-thread `UpdateNormalizationGainRiding` / `UpdateNormalizationTelemetry` remain.*
+  - [x] Annotate each surviving function header with one of: `// runs on: audio thread` or `// runs on: main thread`. No ambiguity. — *Key paths documented (e.g. `AudioThreadCaptureMicAndWriteRings`, `MicIngestMainThreadTick`); not claiming every private helper has been audited for a tag in this pass.*
+- [x] Confirm there are no `#if false` blocks, no `// TODO restore later` stubs, no commented-out method bodies. Provisional experiments are deleted, not parked. — *No matches under `Assets/Scripts/Voice` for `#if false` / `TODO restore` (spot check).*
 
 *Phase 4 — retire obsoleted FAIL OBSERVATION flags in `MicVoiceIngestDebugAggregate.cs`:*
-- [ ] Delete `FAIL_UNREAD_ZERO_SUSTAINED` and its threshold fields (`failUnreadZeroSustainedFrameThreshold`, `failUnreadZeroSustainedSecondsThreshold`) and per-flag tracking state.
-- [ ] Delete `FAIL_GENTLE_RECOVERY_FIRED` and any sticky-clear plumbing tied specifically to it.
-- [ ] Delete `FAIL_INTERPRETER_NOT_CONSUMING` (the main-thread `aggRawConsumedThisFrame` path is gone; the audio-thread analog is `FAIL_IMITONE_NOT_FED`, added in Step 3).
-- [ ] Delete `FAIL_INGEST_RING_STALLED` if its trigger no longer maps onto the new architecture. (After 5b consolidation, `aggMicRawRingWriteTotalSamples` is fed exclusively by `OnAudioFilterRead`; a stalled ring write means a stalled audio thread, which is what `FAIL_AUDIO_CALLBACK_FROZEN` already covers. Verify that's true and delete the redundancy if so.)
-- [ ] Update the `FAILURE = ...` OR expression to remove these terms.
-- [ ] Verify in the Inspector that the FAIL OBSERVATION section now reads, top-to-bottom: top-level `FAILURE`; Phase 2 audio-thread flags; Phase 3 imitone-feed / atomicity flags; surviving Phase 1 flags (likely `FAIL_MIC_NOT_READY` and `FAIL_MONITORING_STARVATION_GROWING` only).
-- [ ] Confirm the top-level `FAILURE` boolean's name, position, and OR semantics are unchanged. That continuity is the user's anchor across the rearchitecture.
+- [x] Delete `FAIL_UNREAD_ZERO_SUSTAINED` and its threshold fields (`failUnreadZeroSustainedFrameThreshold`, `failUnreadZeroSustainedSecondsThreshold`) and per-flag tracking state.
+- [x] Delete `FAIL_GENTLE_RECOVERY_FIRED` and any sticky-clear plumbing tied specifically to it.
+- [x] Delete `FAIL_INTERPRETER_NOT_CONSUMING` (the main-thread `aggRawConsumedThisFrame` path is gone; the audio-thread analog is `FAIL_IMITONE_NOT_FED`, added in Step 3).
+- [x] Delete `FAIL_INGEST_RING_STALLED` if its trigger no longer maps onto the new architecture. (After 5b consolidation, `aggMicRawRingWriteTotalSamples` is fed exclusively by `OnAudioFilterRead`; a stalled ring write means a stalled audio thread, which is what `FAIL_AUDIO_CALLBACK_FROZEN` already covers. Verify that's true and delete the redundancy if so.) — *No `FAIL_INGEST_*` symbols under `Assets/Scripts`.*
+- [x] Update the `FAILURE = ...` OR expression to remove these terms.
+- [x] Verify in the Inspector that the FAIL OBSERVATION section now reads sensibly: top-level `FAILURE`; subsidiary flags grouped under Phase 2 / Phase 3 / Phase 1 headers (Step 6 may flatten this layout). Surviving Phase 1-style flags include `FAIL_MIC_NOT_READY`, `FAIL_MONITORING_STARVATION_GROWING`, and sticky `FAIL_DB_TEAR_DETECTED`.
+- [x] Confirm the top-level `FAILURE` boolean's name, position, and OR semantics are unchanged. That continuity is the user's anchor across the rearchitecture.
 
 *Do **not** delete* (see appendix "Keep through the rearchitecture"):
-- [ ] The canonical `aggMicRawRingWriteTotalSamples` / `aggMicNormRingWriteTotalSamples` ring-write totals.
-- [ ] The ring buffer infrastructure itself (the consolidated rings, the lock object, the `Monitor.TryEnter` pattern in the audio-thread writer).
-- [ ] `OnAudioFilterRead` and everything it calls.
-- [ ] The `MicIngestDebugSnapshot` accessor, retitled where appropriate to reflect the new field set.
+- [x] The canonical `aggMicRawRingWriteTotalSamples` / `aggMicNormRingWriteTotalSamples` ring-write totals.
+- [x] The ring buffer infrastructure itself (the consolidated rings, the lock object, the `Monitor.TryEnter` pattern in the audio-thread writer).
+- [x] `OnAudioFilterRead` and everything it calls.
+- [x] The `MicIngestDebugSnapshot` accessor, retitled where appropriate to reflect the new field set.
 
 *Telemetry consolidation tasks (per Section A.5):*
-- [ ] Confirm `MicVoiceIngestDebugAggregate` is the central panel for cross-cutting metrics (audio-thread health, ring-write rates, lock-miss counts, atomicity / tear flags). No duplicates elsewhere.
-- [ ] Confirm `DirectVoiceMonitoring.cs` retains its monitoring-specific self-concern fields (underflow / starvation / monitoring gain / clip-state). Those describe the file's internal behavior and are useful in isolation.
-- [ ] Confirm `ImitoneVoiceIntepreter.cs` retains the relevant `toneActive` / pitch / dB telemetry needed in-place for game logic. Aggregate may surface read-only mirrors but source of truth stays in the interpreter.
-- [ ] For every metric in the aggregate, search for duplicates in individual files; delete the duplicate if the aggregate is now authoritative.
+- [x] Confirm `MicVoiceIngestDebugAggregate` is the central panel for cross-cutting metrics (audio-thread health, ring-write rates, lock-miss counts, atomicity / tear flags). No duplicates elsewhere. — *Central panel holds; occasional mirrors in CURRENT TEST / interpreter are intentional.*
+- [x] Confirm `DirectVoiceMonitoring.cs` retains its monitoring-specific self-concern fields (underflow / starvation / monitoring gain / clip-state). Those describe the file's internal behavior and are useful in isolation.
+- [x] Confirm `ImitoneVoiceIntepreter.cs` retains the relevant `toneActive` / pitch / dB telemetry needed in-place for game logic. Aggregate may surface read-only mirrors but source of truth stays in the interpreter.
+- [ ] For every metric in the aggregate, search for duplicates in individual files; delete the duplicate if the aggregate is now authoritative. — *Not formally completed / not logged.*
 
 *`[DefaultExecutionOrder]` cleanup tasks (per the doc's Environment section):*
-- [ ] Identify every `[DefaultExecutionOrder(...)]` class attribute remaining in the voice path (`ImitoneVoiceIntepreter`, `DirectVoiceMonitoring`, `RecordedAudioPlayback`, `MicVoiceIngestDebugAggregate`).
-- [ ] For each, prompt the user to open Project Settings → Script Execution Order and confirm there is an explicit entry for that class.
-- [ ] Once confirmed, remove the class-level attribute. Do not silently drop attributes without verifying the Project Settings entry.
+- [x] Identify every `[DefaultExecutionOrder(...)]` class attribute remaining in the voice path (`ImitoneVoiceIntepreter`, `DirectVoiceMonitoring`, `RecordedAudioPlayback`, `MicVoiceIngestDebugAggregate`). — *Post-cleanup rg 2026-05-08: **none** under `Assets/Scripts/Voice`.*
+- [x] For each, prompt the user to open Project Settings → Script Execution Order and confirm there is an explicit entry for that class. — *Engineer go-ahead to remove after prior M3 verification (−104 / −102); **re-confirm −104** on next Editor open.*
+- [x] Once confirmed, remove the class-level attribute. Do not silently drop attributes without verifying the Project Settings entry. — **`ImitoneVoiceIntepreter`:** attribute **removed** 2026-05-08; one-line comment points to Project Settings.*
 
 *Compile + run + full click test protocol (all 5 scenarios from the click prevention appendix) before committing.*
 
@@ -1560,7 +1562,7 @@ This sub-pass removes the cruft listed in the cleanup appendix below from inside
 ---
 
 **Notes & considerations:**
-- **The merged file is now smaller, not larger, after 5b.** A successful 5b deletes 100s of lines from `ImitoneVoiceIntepreter` (the entire `UpdateMicReadFrame` family, gentle recovery, double-poll, etc.). If the file isn't shrinking visibly, something has been missed.
+- **The merged file is now smaller, not larger, after 5b.** A successful 5b deletes 100s of lines from `ImitoneVoiceIntepreter` (the entire `UpdateMicReadFrame` family, gentle recovery, main-thread `GetPosition` polling, etc.). If the file isn't shrinking visibly, something has been missed. **Repo check 2026-05-08:** legacy main-thread ingest is gone; `MicIngest.cs` still contains substantial ring / normalization / recovery helpers (expected).
 - **One sub-pass at a time, with a compile + run + click check between each.** The sub-pass boundaries are not decorative; they are the rollback points if something breaks.
 - **Watch for "the legacy block was secretly load-bearing" surprises.** Even after Step 3 redirected the imitone feed to the audio thread, the legacy block may still be doing something subtle (debug telemetry, a side-effect that another file depends on). The Phase 4 retirement of `FAIL_INTERPRETER_NOT_CONSUMING` is one such — it depends on the legacy block existing. Audit before deleting.
 - If anything is unclear or compiles wrong, stop and surface the issue rather than improvising.
@@ -1570,7 +1572,7 @@ This sub-pass removes the cruft listed in the cleanup appendix below from inside
 - [ ] Voice path works end-to-end (toning, monitoring, visuals, Wwise).
 - [ ] `MicVoiceIngestDebugAggregate` shows valid values for the audio-thread health section, the cross-thread atomicity section, and the ring-write totals.
 - [ ] FAIL OBSERVATION: Phase 1 obsolete flags are gone; surviving flags read sensibly; `FAILURE` stays `false` during normal operation.
-- [ ] `rg -n "UpdateMicReadFrame|gentleUnreadZero|micWriteHeadDoublePoll|stalledWriteHeadFrame|unread_zero" Assets/Scripts/` returns zero matches (or only inside comments / docstrings).
+- [ ] `rg -n "UpdateMicReadFrame|gentleUnreadZero|micWriteHeadDoublePoll|stalledWriteHeadFrame|unread_zero" Assets/Scripts/` returns zero matches (or only inside comments / docstrings). — *Partial audit 2026-05-08: hits are **`Reference/OLD_ImitoneVoiceInterpreterForDebugComparison.cs`** (expected archive), **`FormerlySerializedAs("micWriteHeadDoublePoll")` / `("stalledWriteHeadFrameThreshold")`** on live audio-thread fields in `ImitoneVoiceIntepreter.MicIngest.cs` (string metadata only), and **no** `UpdateMicReadFrame` / `gentleUnreadZero` in active voice code. Tick this box after a deliberate post-5b re-run excluding the OLD file if you want a literal zero-match bar.*
 - [ ] Click testing protocol (all 5 scenarios from the click prevention appendix) passes cleanly. **Pay especially close attention** to the M1 / M2 / M6 mitigations introduced in 5a — deliberately stress underflow (e.g. heavy CPU spike), overflow (e.g. simulate a brief pause in the monitoring AudioSource), and gain transitions (e.g. rapid `toneActive` flips).
 
 **Developer notes (5):**
@@ -1587,7 +1589,7 @@ This sub-pass removes the cruft listed in the cleanup appendix below from inside
   2. Project Settings → Script Execution Order: `ImitoneVoiceIntepreter` runs at `−104` and `DirectVoiceMonitoring` runs at `−102` (interpreter before monitoring). Drift here is the most likely path to a regression that 5a's crossfades **cannot** save us from — if monitoring runs before capture in a callback, the crossfade-from-previous-emit anchors against samples that are now older than the buffer being assembled.
   3. Tick both M3 boxes once verified, then move to the click protocol.
 - **5a click protocol (run all 5 scenarios; this is also the deferred Step 4 click test):** quiet baseline (30 s silence), sustained tone (30 s steady note), onset/offset (rapid voice on/off — hardest test for M1 fade-in / fade-out), heavy load (tone + simulated CPU spike — hardest test for M2 overflow crossfade), long session (5+ min — confirms no slow degradation). Counters to spot-check during/after: `bufferUnderflowFillCount`, `bufferOverflowDropCount`, `callbackStarvationCount`, `hardVolumeStepCount` (M6 should keep this at 0 even on `toneActive` flips), `aggDbMicrophoneTearDetectedTotal` (regression watch from 3b).
-- **Sub-pass 5a is structurally complete; 5b (delete legacy block) remains pending** and is the larger surgical pass. 5b needs an audit pass first (the legacy block lives in `ImitoneVoiceIntepreter.MicIngest.cs:54k chars / 1303 lines` post-merge — non-trivial; risk of "secretly load-bearing" telemetry per the plan's Notes & considerations). Run 5a click test, fix any surfaced issues, **then** kick off 5b.
+- **Sub-pass 5a is structurally complete.** **5b (delete legacy block) has landed in the codebase as of 2026-05-08** — see the **Codebase sync** callout under the 5b task list and the ticked 5b checkboxes. Remaining 5b-adjacent work: **`[DefaultExecutionOrder]` removal** on `ImitoneVoiceIntepreter` after Editor confirmation, optional **duplicate-metric sweep**, **`micRingOverflowSkipTotal` increment** if we want that FAIL path live, and **closing the Test / grep / post-5b click-protocol rows** above.
 
 *5a SOFT PASS — first attempt (2026-05-06):*
 - **User verdict:** "M3 verified. Click protocol all good." All five scenarios passed subjectively. M3's two USER VERIFY boxes ticked above; click protocol task `[ ]` boxes left as-is in the appendix (separate-doc checklist).
@@ -1621,8 +1623,8 @@ This sub-pass removes the cruft listed in the cleanup appendix below from inside
 - **Files touched:** `MicVoiceIngestDebugAggregate.cs` (state machine + 13 per-flag accumulators + 2 new SerializeField knobs + class summary doc); plan dev note (this entry).
 - **Forward use:** when a 5b regression or any future click/audio surprise is reported from the field, the soak log now tells us "started at T, lasted X seconds, peaked at Y rolling Hz / Z max gap, and these N flags fired across the window." Materially better than "started at T."
 
-*5b prerequisites (unchanged from earlier kickoff note):*
-- Legacy-block audit + ring consolidation audit + FAIL-flag retirement plan, then implementation, then click protocol again post-deletion. CURRENT TEST for 5b will need to surface the regression-watch counters: `aggMicRawRingWriteTotalSamples` (must keep climbing — audio thread is now sole writer), `aggImitoneInputAudioCallTotal` (1:1 with audio callbacks), `aggDbMicrophoneTearDetectedTotal` (still 0), `FAILURE` (still false), plus a "no orphan symbols" grep checklist for `UpdateMicReadFrame` / `gentleUnreadZero` / `micWriteHeadDoublePoll` / `unread_zero` / `stalled_capture_stopped` returning zero matches in `Assets/Scripts/`. **5b kickoff commit will follow the new canonical shape:** CURRENT TEST rewrite first, separate from any code deletion.
+*5b implementation + doc sync (2026-05-08):*
+- Legacy-block deletion, ring consolidation, and Phase 4 FAIL retirements are **reflected in the repo**; see **Codebase sync** and checked task bullets under **Sub-pass 5b** above. `MicVoiceIngestDebugAggregate` **CURRENT TEST** header is already on **Step 5b: post–legacy-delete regression + click sanity** (`MicVoiceIngestDebugAggregate.cs`). **Still open:** post-5b click-protocol re-run + formal Test-row sign-off; `[DefaultExecutionOrder]` cleanup; see sync callout for `micRingOverflowSkipTotal`.
 
 ---
 
@@ -1634,15 +1636,17 @@ This sub-pass removes the cruft listed in the cleanup appendix below from inside
 >
 > *Confirm the right model is selected before continuing. Switch to Opus 4.7 when the first-pass is complete and the mandatory review pass begins.*
 
-After Step 5b the architecture no longer has `unread_zero`, `stalled_capture_stopped`, gentle recovery, or `Microphone.GetPosition` polling on the main thread. Step 6 retires the now-meaningless fields, finalizes the new `MicVoiceIngestDebugAggregate` layout, and writes down the **interpretation guide** so the user can tell at a glance whether the system is healthy or broken.
+After Step 5b the architecture no longer has main-thread `unread_zero`, `stalled_capture_stopped`, gentle recovery, or main-thread `Microphone.GetPosition` polling for ingest. Step 6 retires any remaining meaningless fields, finalizes the new `MicVoiceIngestDebugAggregate` layout, and writes down the **interpretation guide** so the user can tell at a glance whether the system is healthy or broken.
+
+**Codebase sync (2026-05-08):** Step 6 is **mostly not done** in the repo. The aggregate still uses **Phase-grouped FAIL headers** (`FAIL OBSERVATION — Phase 2/3/1`), **CURRENT TEST** at the top (§9), and **extra telemetry** beyond the target table (e.g. `aggAudioCallbackSamplesProcessedTotal`, output sample rate / DSP buffer size, hybrid-feed gap fields, expanded tone/imitone gate). **Gaps vs Step 6b:** no dedicated **`Ring buffer flow`** header with explicit `aggMicRingReadTotalSamplesByMonitoring` / `aggMicRingReadTotalSamplesByImitone`; flat single-list FAIL section; live field **`aggRawRingReadLockMissTotal`** vs table name `aggAudioCallbackLockMissTotal`. **6a:** `aggMicExitReason` / `aggMicLastUnreadComputed` / `aggMicLastWriteHeadStallFrameCount` already **absent** from the aggregate; no `debugMic*` on `ImitoneVoiceIntepreter.cs`. **6c:** no `MARK: Interpretation` / Inspector **TextArea** guide yet. **6d:** `OLD_ImitoneVoiceInterpreterForDebugComparison.cs` **still present**. **Table drift:** `FAIL_AUDIO_GC_ALLOC_DETECTED` was **retired in Step 3b** — row struck through below.
 
 **Sub-step 6a — Remove obsolete fields:**
 
-- [ ] In `MicVoiceIngestDebugAggregate.cs`, delete `aggMicExitReason` (the old `unread_zero` / `stalled_capture_stopped` / etc. enum). No source after Step 5b.
-- [ ] In `MicVoiceIngestDebugAggregate.cs`, delete `aggMicLastUnreadComputed` and `aggMicLastWriteHeadStallFrameCount`. No source after Step 5b.
-- [ ] Sweep the aggregate for any other field that mirrored a removed legacy field (gentle recovery counters, double-poll fields, etc.) and delete each.
-- [ ] In `ImitoneVoiceIntepreter.cs`, audit any `debugMic*` field carried over from the legacy structure; delete the ones no longer applicable. (Mostly addressed in Step 5b but verify nothing was missed.)
-- [ ] In `DirectVoiceMonitoring.cs`, **leave self-concern fields alone** (monitoring underflow / starvation / gain / clip state — useful when debugging that file in isolation). Remove only fields now duplicated by the aggregate's audio-thread health section.
+- [x] In `MicVoiceIngestDebugAggregate.cs`, delete `aggMicExitReason` (the old `unread_zero` / `stalled_capture_stopped` / etc. enum). No source after Step 5b. — *Already absent (2026-05-08).*
+- [x] In `MicVoiceIngestDebugAggregate.cs`, delete `aggMicLastUnreadComputed` and `aggMicLastWriteHeadStallFrameCount`. No source after Step 5b. — *Already absent.*
+- [x] Sweep the aggregate for any other field that mirrored a removed legacy field (gentle recovery counters, double-poll fields, etc.) and delete each. — *Spot check: no legacy mirrors; comments document retired thresholds.*
+- [x] In `ImitoneVoiceIntepreter.cs`, audit any `debugMic*` field carried over from the legacy structure; delete the ones no longer applicable. (Mostly addressed in Step 5b but verify nothing was missed.) — *No `debugMic*` in `ImitoneVoiceIntepreter.cs` (2026-05-08).*
+- [ ] In `DirectVoiceMonitoring.cs`, **leave self-concern fields alone** (monitoring underflow / starvation / gain / clip state — useful when debugging that file in isolation). Remove only fields now duplicated by the aggregate's audio-thread health section. — *Duplicate-audit not logged.*
 
 **Sub-step 6b — Finalize aggregate sections and the field set:**
 
@@ -1661,7 +1665,7 @@ The aggregate Inspector should end up organized like this (all `[Header(...)]` b
 | `FAIL_AUDIO_CALLBACK_RATE_LOW` | bool | `false` | `true` — callbacks firing but at degraded rate |
 | `FAIL_AUDIO_CALLBACK_GAP_HIGH` | bool | `false` | `true` — long gap between callbacks (jitter) |
 | `FAIL_AUDIO_LOCK_CONTENTION` | bool | `false` | `true` — `TryEnter` failures climbing |
-| `FAIL_AUDIO_GC_ALLOC_DETECTED` | bool | `false` | `true` (sticky) — allocation suspected on audio thread |
+| ~~`FAIL_AUDIO_GC_ALLOC_DETECTED`~~ | — | **N/A** — *retired as a FAIL flag in Step 3b;* `aggAudioCallbackGCAllocSuspectTotal` *is diagnostic-only (Audio thread health).* | — |
 | `FAIL_IMITONE_NOT_FED` | bool | `false` | `true` — audio thread alive but imitone feed broken |
 | `FAIL_IMITONE_FEED_RATIO_LOW` | bool | `false` | `true` — some callbacks skipping the imitone feed |
 | `FAIL_DB_TEAR_DETECTED` | bool | `false` | `true` (sticky) — `_dbMicrophone` cross-thread tearing; escalate to `Interlocked` |
@@ -1684,6 +1688,8 @@ The aggregate Inspector should end up organized like this (all `[Header(...)]` b
 | `aggMicClipChannels` | int (set once at startup) | Matches the user's mic device (typically 1) | — (informational) |
 | `aggMixerChannels` | int (volatile) | Matches the user's audio config (typically 2 on Windows desktop); stable | Changes mid-session — unusual; investigate |
 
+*Code note (2026-05-08):* live aggregate uses **`aggRawRingReadLockMissTotal`** for lock-miss telemetry (`FAIL_AUDIO_LOCK_CONTENTION`). Rename or alias to `aggAudioCallbackLockMissTotal` during Step 6b if you want the table verbatim.
+
 *Header: "Ring buffer flow"*
 
 | Field | Type | Healthy reading | Broken reading |
@@ -1693,6 +1699,8 @@ The aggregate Inspector should end up organized like this (all `[Header(...)]` b
 | `aggMicRingReadTotalSamplesByMonitoring` | long | Climbs alongside writes | Flat — monitoring not consuming (probable click source) |
 | `aggMicRingReadTotalSamplesByImitone` | long (or implicit via callback total) | 1:1 with writes | Lags writes — imitone not being fed |
 | `aggMicRingOverflowSkipTotal` | long | Stays at 0 (well-sized ring) | Climbs — ring undersized or read is stalled |
+
+*Code note:* **`aggMicRingReadTotalSamplesByMonitoring` / `aggMicRingReadTotalSamplesByImitone`** are **not** present as named aggregate fields yet; add under this header in Step 6b (or document the implicit substitutes: monitoring transport totals + `aggAudioThreadFeedReadTotalSamples` / callback totals).
 
 *Header: "Imitone feed"*
 
@@ -1723,6 +1731,8 @@ The aggregate Inspector should end up organized like this (all `[Header(...)]` b
 | `aggDbMicrophone` | float (mirror) | Tracks voice intensity | Stuck — ditto |
 | `aggToneActiveTrueCount` / `aggToneActiveFalseCount` | long (rolling counters) | Both grow during a normal session | One frozen — toning detection biased |
 
+*Code note:* no permanent **`aggPitchHz` / `aggDbMicrophone`** mirrors yet; **`currentTestPitchHz` / `currentTestDbValue`** mirror the interpreter during active test rounds. Live aggregate has a **richer** tone/imitone gate block than this minimal table.
+
 *Header: "Monitoring (cumulative; consumed from `DirectVoiceMonitoring`)"*
 
 (Read-only mirrors of `DirectVoiceMonitoring`'s self-concern counters, surfaced for cross-cutting context.)
@@ -1733,21 +1743,23 @@ The aggregate Inspector should end up organized like this (all `[Header(...)]` b
 | `aggMonitoringStarvationTotal` | long | Stays low | Climbs — hard underflow events; clicks likely |
 | `aggMonitoringOverflowTotal` | long | Stays low | Climbs — read cursor falling behind write cursor |
 
+*Code note:* live mirrors use **`aggMonUnderflowEvents`**, **`aggMonStarvationEvents`**, **`aggMonOverflowEvents`** (plus sample / hard-volume-step fields).
+
 **Sub-step 6c — Document the interpretation guide:**
 
-- [ ] Add the layout table above as either a tooltip / `[TextArea]` field at the top of the aggregate Inspector OR a `// MARK: Interpretation` comment block at the top of `MicVoiceIngestDebugAggregate.cs`. Pick one and stay consistent.
+- [ ] Add the layout table above as either a tooltip / `[TextArea]` field at the top of the aggregate Inspector OR a `// MARK: Interpretation` comment block at the top of `MicVoiceIngestDebugAggregate.cs`. Pick one and stay consistent. — *Not present 2026-05-08 (XML class summary only).*
 - [ ] Verify the user can see "what does healthy vs broken look like for this metric" without leaving the Inspector — i.e., no need to open the source file to remember a healthy threshold.
 
 **Sub-step 6d — Archive the OLD reference file (decision only; not yet executed):**
 
-- [ ] Confirm `Assets/Scripts/Voice/Reference/OLD_ImitoneVoiceInterpreterForDebugComparison.cs` is still present (it is the rollback safety net through Step 7).
-- [ ] Defer the actual move to `Assets/Scripts/Voice/Reference/Archive/` until Step 7 passes. Do **not** delete or move it during Step 6.
+- [x] Confirm `Assets/Scripts/Voice/Reference/OLD_ImitoneVoiceInterpreterForDebugComparison.cs` is still present (it is the rollback safety net through Step 7).
+- [x] Defer the actual move to `Assets/Scripts/Voice/Reference/Archive/` until Step 7 passes. Do **not** delete or move it during Step 6.
 
 **Notes & considerations:**
 - **Don't strip debug fields aggressively.** The whole point of Step 6 is to make broken-vs-healthy *more* visible than `unread_zero` ever was, not less. Add what's needed; keep what's used.
 - **Inspector layout matters.** The user reads these live during dev. Group with `[Header(...)]` attributes per the section list above. Order matters — keep the most diagnostic sections at the top.
 - **Don't duplicate.** If a metric ends up in both an individual file and the aggregate, pick one source of truth and have the other reference it (no double-bookkeeping).
-- **Verify Project Settings entries before removing any remaining `[DefaultExecutionOrder]` attributes.** Specifically, before removing `[DefaultExecutionOrder(50)]` from `ImitoneVoiceIntepreter`, prompt the user to open Project Settings → Script Execution Order and confirm `ImitoneVoiceIntepreter` has an explicit entry (currently −104). Same for any other class-level attribute removed in this step.
+- **Verify Project Settings entries before removing any remaining `[DefaultExecutionOrder]` attributes.** Specifically, before removing `[DefaultExecutionOrder(50)]` from `ImitoneVoiceIntepreter`, prompt the user to open Project Settings → Script Execution Order and confirm `ImitoneVoiceIntepreter` has an explicit entry (currently −104). Same for any other class-level attribute removed in this step. — *As of 2026-05-08 the attribute is **still on** `ImitoneVoiceIntepreter` in code; pair removal with Step 5b cleanup or the start of Step 6.*
 
 **Test:**
 - [ ] Run a normal session. Walk through every Inspector section; every field has a sensible value matching the "Healthy reading" column.
@@ -1757,7 +1769,9 @@ The aggregate Inspector should end up organized like this (all `[Header(...)]` b
 
 **Commit:** `chore: finalize aggregate telemetry layout and interpretation guide`
 
-**Developer notes:** _none_
+**Developer notes (6):**
+
+- **2026-05-08:** Plan synced to repo — see **Codebase sync** after the Step 6 intro. Sub-steps 6b/6c and Step 6 **Test** rows remain the active work. **CURRENT TEST** (§9) stays above permanent headers while a test round is open; final “canonical layout” language applies once no active CURRENT TEST block is needed.
 
 ---
 
@@ -1780,7 +1794,7 @@ Confirm the goal is met: responsive every frame, no jitter, better than the OLD 
 
 *Objective — `MicVoiceIngestDebugAggregate` walkthrough during sustained toning + load:*
 - [ ] **FAIL OBSERVATION (hard pass criterion):** `FAILURE` stays `false` for the entire validation session, including under heavy load. Every subsidiary `FAIL_*` flag stays `false` (or, for sticky flags, hasn't been triggered since the session began). If `FAILURE` flips `true` even once, identify which sub-flag caused it, fix the underlying issue, and re-run the entire validation pass.
-- [ ] **Audio thread health:** `aggAudioCallbackHzRolling` near nominal; `aggAudioCallbackMaxGapMsLastSecond` near buffer time; `aggAudioCallbackLockMissTotal` near zero; `aggAudioCallbackGCAllocSuspectTotal` at 0.
+- [ ] **Audio thread health:** `aggAudioCallbackHzRolling` near nominal; `aggAudioCallbackMaxGapMsLastSecond` near buffer time; `aggAudioCallbackLockMissTotal` near zero (*live field:* `aggRawRingReadLockMissTotal` *until Step 6 rename*); `aggAudioCallbackGCAllocSuspectTotal` at 0.
 - [ ] **Ring buffer flow:** all four ring counters climb at sample rate; no flat windows; `aggMicRingOverflowSkipTotal` stays at 0.
 - [ ] **Imitone feed:** `aggImitoneInputAudioCallTotal` ≈ `aggAudioCallbackTotal`; `aggImitoneGetStateCallTotal` climbs once per frame; `aggMainThreadFramesSinceLastImitoneStateChange` stays low during voicing.
 - [ ] **Cross-thread atomicity:** `aggDbMicrophoneTearDetectedTotal` stays at 0 across the entire session.

@@ -15,7 +15,8 @@ using imitone;
 //TODO
 //Why is flooredsemitone floored and not rounded?
 
-[DefaultExecutionOrder(50)]
+// Execution order: Project Settings → Script Execution Order (ImitoneVoiceIntepreter −104). No class-level DefaultExecutionOrder — single source of truth.
+
 public partial class ImitoneVoiceIntepreter : MonoBehaviour
 {
     //base variables pitch and midiNote
@@ -181,17 +182,8 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     [Serializable]
     public struct MicIngestDebugSnapshot
     {
-        public string lastExitReason;
-        public int lastUnreadComputed;
-        public int lastLatestRawSampleCount;
-        public int lastMicPosWrite;
-        public int lastMicPosRead;
-        public int lastStalledWriteHeadFrameCount;
-        public int lastClipSamples;
-        public int lastUnityFrame;
-        public int gentleUnreadZeroConsecutiveFrames;
-        public int gentleUnreadZeroRecoveryTotal;
-        public bool gentleUnreadZeroRecoveryEnabled;
+        /// <summary>Step 5b: fixed label — mic samples enter the rings only via OnAudioFilterRead.</summary>
+        public string ingestPathLabel;
         public long rawRingWriteTotalSamples;
         public long normalizedRingWriteTotalSamples;
     }
