@@ -81,7 +81,7 @@ namespace SoundSelf.Sequence
             }
             else if (variant == StageVariant.Playground_Ascending || variant == StageVariant.Playground_SkipAscending)
             {
-                Debug.Log("PlaygroundStageHandler: Ascending variant: Starting Protocol Stacks Playground coroutine.");
+                Debug.Log("PlaygroundStageHandler: DualStage variant: Starting Adjunctive Playground coroutine.");
                 _playgroundCoroutine = _sequencer.StartCoroutine(ProtocolStacksPlaygroundCoroutine(variant == StageVariant.Playground_SkipAscending));
             }
             else

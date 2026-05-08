@@ -23,7 +23,7 @@ namespace SoundSelf.Sequence
     {
         Calibration,   // Pre-sequence; user hasn't started
         Opening,
-        Tutorial,     // Optional; Protocol Stacks skips
+        Tutorial,     // Optional; Adjunctive skips
         Playground,
         Savasana,
         SetMenu,
@@ -45,8 +45,8 @@ namespace SoundSelf.Sequence
         Calibration_Default = 1,
         Opening_PS_Ascending = 2,
         Opening_Preparation = 3,
-        Opening_SkillsTraining = 4,
-        Opening_Integration = 5,
+        Opening_Sonoflore = 4,
+        Opening_Activation = 5,
         Tutorial_Long = 6,
         Tutorial_Short = 7,
         Playground_Standard = 8,

@@ -10,7 +10,7 @@ namespace SoundSelf.Sequence
     {
         [SerializeField] private SequenceRunner sequenceRunner;
         [SerializeField] private TMP_Dropdown dropdown;
-        [Tooltip("Optional. Use this to populate the dropdown before the sequence starts (e.g. Protocol Stacks definition).")]
+        [Tooltip("Optional. Use this to populate the dropdown before the sequence starts (e.g. Adjunctive definition).")]
         [SerializeField] private SequenceDefinition definitionOverride;
 
         private void OnEnable()

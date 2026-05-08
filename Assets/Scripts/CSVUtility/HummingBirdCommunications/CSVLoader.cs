@@ -10,12 +10,12 @@ public class CSVLoader : MonoBehaviour
 
     public WwiseVOManager wwiseVOManager;
 
-    /// <summary>One of: <see cref="GameModeSkillsTraining"/>, <see cref="GameModeIntegration"/>, <see cref="GameModeProtocolStacks"/>.</summary>
+    /// <summary>One of: <see cref="GameModeSonoflore"/>, <see cref="GameModeActivation"/>, <see cref="GameModeAdjunctive"/>.</summary>
     public string gameMode { get; private set; }
 
     /// <summary>
-    /// For <b>Skills Training</b> / <b>Integration</b>: one of the six thematic content packs.
-    /// For <b>Protocol Stacks</b>: <c>Ascending</c> or <c>Descending</c>.
+    /// For <b>Sonoflore</b> / <b>Activation</b>: one of the six thematic content packs.
+    /// For <b>Adjunctive</b>: <c>DualStage</c>, <c>OneStage</c>, or <c>Descending</c>.
     /// </summary>
     public string contentPack { get; private set; }
 
@@ -43,9 +43,9 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private string encryptedVibroacoustic;
     [SerializeField] private string decryptedVibroacoustic;
 
-    public const string GameModeSkillsTraining = "Skills Training";
-    public const string GameModeIntegration = "Integration";
-    public const string GameModeProtocolStacks = "Protocol Stacks";
+    public const string GameModeSonoflore = "Sonoflore";
+    public const string GameModeActivation = "Activation";
+    public const string GameModeAdjunctive = "Adjunctive";
 
     public const string ContentPackMindfulnessAndJoy = "Mindfulness and Joy";
     public const string ContentPackPsychologicalFlexibility = "Psychological Flexibility";
@@ -55,13 +55,23 @@ public class CSVLoader : MonoBehaviour
     /// <summary>Full label including grief/appreciation framing.</summary>
     public const string ContentPackTransitionsGriefAndAppreciation = "Transitions (Grief and Appreciation)";
 
-    public const string ContentPackAscending = "Ascending";
+    public const string ContentPackDualStage = "DualStage";
+    public const string ContentPackOneStage = "OneStage";
     public const string ContentPackDescending = "Descending";
 
-    /// <summary>Legacy session files may still say Preparation; normalized to <see cref="GameModeSkillsTraining"/>.</summary>
-    public static bool IsLegacyPreparationLabel(string mode) =>
+    /// <summary>Legacy session / launcher labels that map to <see cref="GameModeSonoflore"/> (Preparation aliases and pre-Sonoflore &quot;Skills Training&quot;).</summary>
+    public static bool IsLegacySonofloreLabel(string mode) =>
         string.Equals(mode, "Preparation", StringComparison.Ordinal) ||
-        string.Equals(mode, "Preperation", StringComparison.Ordinal);
+        string.Equals(mode, "Preperation", StringComparison.Ordinal) ||
+        string.Equals(mode, "Skills Training", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>Legacy launcher label before Adjunctive rename; normalized to <see cref="GameModeAdjunctive"/>.</summary>
+    public static bool IsLegacyAdjunctiveLabel(string mode) =>
+        string.Equals(mode, "Protocol Stacks", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>Legacy Adjunctive content-pack label before DualStage rename; normalized to <see cref="ContentPackDualStage"/>.</summary>
+    public static bool IsLegacyDualStageContentPackLabel(string raw) =>
+        string.Equals(raw, "Ascending", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>Maps decrypted CSV labels to the three supported game modes.</summary>
     public static string NormalizeGameMode(string raw)
@@ -69,14 +79,19 @@ public class CSVLoader : MonoBehaviour
         if (string.IsNullOrWhiteSpace(raw))
             return string.Empty;
         string t = raw.Trim();
-        if (IsLegacyPreparationLabel(t))
-            return GameModeSkillsTraining;
-        if (t.Equals(GameModeSkillsTraining, StringComparison.OrdinalIgnoreCase))
-            return GameModeSkillsTraining;
-        if (t.Equals(GameModeIntegration, StringComparison.OrdinalIgnoreCase))
-            return GameModeIntegration;
-        if (t.Equals(GameModeProtocolStacks, StringComparison.OrdinalIgnoreCase))
-            return GameModeProtocolStacks;
+        if (IsLegacySonofloreLabel(t))
+            return GameModeSonoflore;
+        if (t.Equals(GameModeSonoflore, StringComparison.OrdinalIgnoreCase))
+            return GameModeSonoflore;
+        if (t.Equals(GameModeActivation, StringComparison.OrdinalIgnoreCase))
+            return GameModeActivation;
+        // Legacy Hummingbird label before Activation rename
+        if (string.Equals(t, "Integration", StringComparison.OrdinalIgnoreCase))
+            return GameModeActivation;
+        if (IsLegacyAdjunctiveLabel(t))
+            return GameModeAdjunctive;
+        if (t.Equals(GameModeAdjunctive, StringComparison.OrdinalIgnoreCase))
+            return GameModeAdjunctive;
         return t;
     }
 
@@ -87,16 +102,20 @@ public class CSVLoader : MonoBehaviour
             return string.Empty;
         string t = raw.Trim();
 
-        if (normalizedGameMode == GameModeProtocolStacks)
+        if (normalizedGameMode == GameModeAdjunctive)
         {
-            if (t.Equals(ContentPackAscending, StringComparison.OrdinalIgnoreCase))
-                return ContentPackAscending;
+            if (IsLegacyDualStageContentPackLabel(t))
+                return ContentPackDualStage;
+            if (t.Equals(ContentPackDualStage, StringComparison.OrdinalIgnoreCase))
+                return ContentPackDualStage;
             if (t.Equals(ContentPackDescending, StringComparison.OrdinalIgnoreCase))
                 return ContentPackDescending;
+            if (t.Equals(ContentPackOneStage, StringComparison.OrdinalIgnoreCase))
+                return ContentPackOneStage;
             return t;
         }
 
-        // Skills Training + Integration thematic packs (legacy + canonical)
+        // Sonoflore + Activation thematic packs (legacy + canonical)
         if (t.Equals(ContentPackMindfulnessAndJoy, StringComparison.Ordinal)
             || t.Equals("Peace", StringComparison.OrdinalIgnoreCase))
             return ContentPackMindfulnessAndJoy;
@@ -241,7 +260,7 @@ public class CSVLoader : MonoBehaviour
             return;
         }
 
-        if (gameMode == GameModeSkillsTraining)
+        if (gameMode == GameModeSonoflore)
         {
             if (contentPack == ContentPackMindfulnessAndJoy)
                 wwiseVOManager.SetToPeace();
@@ -257,7 +276,7 @@ public class CSVLoader : MonoBehaviour
             else
                 wwiseVOManager.notFirstTimeUser();
         }
-        else if (gameMode == GameModeIntegration)
+        else if (gameMode == GameModeActivation)
         {
             wwiseVOManager.notFirstTimeUser();
 
@@ -270,16 +289,20 @@ public class CSVLoader : MonoBehaviour
             else
                 Debug.LogWarning("CSVLoader: VOInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. VO content not set.");
         }
-        else if (gameMode == GameModeProtocolStacks)
+        else if (gameMode == GameModeAdjunctive)
         {
             wwiseVOManager.notFirstTimeUser();
 
-            if (contentPack == ContentPackAscending)
+            if (contentPack == ContentPackDualStage)
                 wwiseVOManager.SetToEsketamineAscending();
             else if (contentPack == ContentPackDescending)
                 wwiseVOManager.SetToEsketamineDescending();
+            else if (contentPack == ContentPackOneStage)
+            {
+                // TODO: Wire Adjunctive OneStage VO / Wwise switches once sequence and audio path are defined.
+            }
             else
-                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. Expected Ascending or Descending.");
+                Debug.LogWarning("CSVLoader: VOInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. Expected DualStage, OneStage, or Descending.");
         }
         else
         {
@@ -303,7 +326,7 @@ public class CSVLoader : MonoBehaviour
         totalTimeOfPostUnguidedVocalizationContent = 0f;
         bool recognizedGameMode = true;
 
-        if (gameMode == GameModeSkillsTraining)
+        if (gameMode == GameModeSonoflore)
         {
             if (contentPack == ContentPackMindfulnessAndJoy)
                 totalTimeOfPostUnguidedVocalizationContent = (14.0f * 60.0f) + 0.0f;
@@ -317,7 +340,7 @@ public class CSVLoader : MonoBehaviour
                 recognizedGameMode = false;
             }
         }
-        else if (gameMode == GameModeIntegration)
+        else if (gameMode == GameModeActivation)
         {
             if (contentPack == ContentPackSelfCompassion)
                 totalTimeOfPostUnguidedVocalizationContent = 415.0f;
@@ -331,10 +354,15 @@ public class CSVLoader : MonoBehaviour
                 recognizedGameMode = false;
             }
         }
-        else if (gameMode == GameModeProtocolStacks)
+        else if (gameMode == GameModeAdjunctive)
         {
-            if (contentPack == ContentPackAscending || contentPack == ContentPackDescending)
+            if (contentPack == ContentPackDualStage || contentPack == ContentPackDescending)
                 totalTimeOfPostUnguidedVocalizationContent = 900.0f;
+            else if (contentPack == ContentPackOneStage)
+            {
+                // TODO: Set duration when OneStage sequence timing is defined (currently matches DualStage as placeholder).
+                totalTimeOfPostUnguidedVocalizationContent = 900.0f;
+            }
             else
             {
                 Debug.LogWarning("CSVLoader: TimeLeftInitializations() - Unknown contentPack '" + contentPack + "' for gameMode '" + gameMode + "'. totalTimeOfPostUnguidedVocalizationContent not set.");

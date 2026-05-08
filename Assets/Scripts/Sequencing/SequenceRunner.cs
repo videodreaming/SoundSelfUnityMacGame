@@ -13,7 +13,7 @@ namespace SoundSelf.Sequence
         // Formerly serialized as `definition` to keep existing inspector assignments.
         [SerializeField] private SequenceDefinition startDefinition;
         
-        [Header("Protocol Stacks")]
+        [Header("Adjunctive")]
         [SerializeField] private SequenceDefinition protocolStacksCalibrationDefinition;
         [SerializeField] private SequenceDefinition protocolStacksInteractiveDefinition;
         [FormerlySerializedAs("protocolStacksMusicPlaylistDefinition")]
@@ -21,8 +21,10 @@ namespace SoundSelf.Sequence
         [SerializeField] private SequenceDefinition protocolStacksMusicPlaylist40mDefinition;
 
         [Header("Standard Modes")]
-        [SerializeField] private SequenceDefinition integrationDefinition;
-        [SerializeField] private SequenceDefinition skillsTrainingDefinition;
+        [FormerlySerializedAs("integrationDefinition")]
+        [SerializeField] private SequenceDefinition activationDefinition;
+        [FormerlySerializedAs("skillsTrainingDefinition")]
+        [SerializeField] private SequenceDefinition sonofloreDefinition;
 
 
         // Current active definition (can change at runtime via StartSequence/SetDefinition).
@@ -219,16 +221,16 @@ namespace SoundSelf.Sequence
             Debug.LogError("SequenceRunner: No SequenceDefinition resolved for current CSV session.");
         }
 
-        /// <summary>Protocol Stacks branch entry: starts the calibration sequence definition.</summary>
+        /// <summary>Adjunctive branch entry: starts the calibration sequence definition.</summary>
         public void StartProtocolStacksCalibrationSequence() => StartNamedSequence(protocolStacksCalibrationDefinition, nameof(protocolStacksCalibrationDefinition));
 
-        /// <summary>Protocol Stacks branch entry: starts the interactive sequence definition.</summary>
+        /// <summary>Adjunctive branch entry: starts the interactive sequence definition.</summary>
         public void StartProtocolStacksInteractiveSequence() => StartNamedSequence(protocolStacksInteractiveDefinition, nameof(protocolStacksInteractiveDefinition));
 
-        /// <summary>Protocol Stacks branch entry: starts the 60-minute music playlist sequence definition.</summary>
+        /// <summary>Adjunctive branch entry: starts the 60-minute music playlist sequence definition.</summary>
         public void StartProtocolStacksMusicPlaylist60mSequence() => StartNamedSequence(protocolStacksMusicPlaylist60mDefinition, nameof(protocolStacksMusicPlaylist60mDefinition));
 
-        /// <summary>Protocol Stacks branch entry: starts the 40-minute music playlist sequence definition.</summary>
+        /// <summary>Adjunctive branch entry: starts the 40-minute music playlist sequence definition.</summary>
         public void StartProtocolStacksMusicPlaylist40mSequence() => StartNamedSequence(protocolStacksMusicPlaylist40mDefinition, nameof(protocolStacksMusicPlaylist40mDefinition));
 
         /// <summary>
@@ -243,17 +245,18 @@ namespace SoundSelf.Sequence
                 return null;
             }
 
-            if (loader.gameMode == CSVLoader.GameModeProtocolStacks)
+            if (loader.gameMode == CSVLoader.GameModeAdjunctive)
             {
-                // Protocol Stacks starts from calibration; practitioner choice later selects interactive vs playlist branch.
+                // TODO: When OneStage has its own SequenceDefinition entry flow, branch on loader.contentPack == CSVLoader.ContentPackOneStage (currently all Adjunctive sessions start calibration like DualStage/Descending).
+                // Adjunctive starts from calibration; practitioner choice later selects interactive vs playlist branch.
                 return protocolStacksCalibrationDefinition;
             }
 
-            if (loader.gameMode == CSVLoader.GameModeSkillsTraining)
-                return skillsTrainingDefinition;
+            if (loader.gameMode == CSVLoader.GameModeSonoflore)
+                return sonofloreDefinition;
 
-            if (loader.gameMode == CSVLoader.GameModeIntegration)
-                return integrationDefinition;
+            if (loader.gameMode == CSVLoader.GameModeActivation)
+                return activationDefinition;
 
             Debug.LogWarning("SequenceRunner: No sequence definition resolver for gameMode '" + loader.gameMode + "'.");
             return null;

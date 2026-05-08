@@ -30,7 +30,7 @@ public class InputReferences : MonoBehaviour
     
     private int currentMusicLoopsSwitchIndex = 0;
 
-    [Header("Debug: Protocol Stacks Sequence Advance (F key)")]
+    [Header("Debug: Adjunctive Sequence Advance (F key)")]
     [SerializeField] private Sequencer sequencer;
     [SerializeField] private Director director;
     private Coroutine _sequenceAdvanceCountdownCoroutine;

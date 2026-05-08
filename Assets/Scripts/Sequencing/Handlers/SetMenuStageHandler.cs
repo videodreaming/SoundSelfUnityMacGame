@@ -30,12 +30,12 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             if (variant == StageVariant.Menu_Ps_InteractiveOrMusic)
             {
-                Debug.Log("SetMenuStageHandler: Enter Menu_Ps_InteractiveOrMusic (stub) - auto-branching to Protocol Stacks interactive sequence.");
+                Debug.Log("SetMenuStageHandler: Enter Menu_Ps_InteractiveOrMusic (stub) - auto-branching to Adjunctive interactive sequence.");
                 MarkComplete(); // Temporary behavior until menu UI branch choice is implemented.
                 if (_sequencer != null)
                     _sequencer.StartCoroutine(StartProtocolStacksInteractiveNextFrame());
                 else
-                    Debug.LogError("SetMenuStageHandler: Sequencer is null. Cannot auto-branch to Protocol Stacks interactive sequence.");
+                    Debug.LogError("SetMenuStageHandler: Sequencer is null. Cannot auto-branch to Adjunctive interactive sequence.");
                 return;
             }
 

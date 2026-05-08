@@ -106,7 +106,7 @@ namespace SoundSelf.Sequence
 
             if (variant == StageVariant.Opening_PS_Ascending)
             {
-                Debug.Log("OpeningStageHandler: Protocol Stacks mode detected. Initializing Protocol Stacks.");
+                Debug.Log("OpeningStageHandler: Adjunctive mode detected. Initializing Adjunctive session.");
                 MusicSystem1.instance.SetSoundWorld("Shadow");
                 MusicSystem1.instance.SetSoundscape("ShiftingEarth");
                 _variantTransitionsToMusicLoop = true;
@@ -128,9 +128,9 @@ namespace SoundSelf.Sequence
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("C");
 
             }
-            else if (variant == StageVariant.Opening_Preparation || variant == StageVariant.Opening_SkillsTraining)
+            else if (variant == StageVariant.Opening_Preparation || variant == StageVariant.Opening_Sonoflore)
             {
-                Debug.Log("OpeningStageHandler: Playing Skills Training Opening Sequence.");
+                Debug.Log("OpeningStageHandler: Playing Sonoflore opening sequence.");
                 if(isFirstTimeUser)
                 {
                     _sequencer.wwiseVOManager.PlayOpeningSequence("Preparation_Long");
@@ -144,10 +144,10 @@ namespace SoundSelf.Sequence
                 _variantForcesTone = true;
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
             }
-            else if (variant == StageVariant.Opening_Integration)
+            else if (variant == StageVariant.Opening_Activation)
             {
                 _sequencer.wwiseVOManager.PlayOpeningSequence("Integration_Short");
-                Debug.Log("OpeningStageHandler: Playing Integration Opening Sequence.");
+                Debug.Log("OpeningStageHandler: Playing Activation opening sequence (Wwise: Integration_Short).");
                 _variantForcesTone = true;
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
             }
@@ -173,45 +173,45 @@ namespace SoundSelf.Sequence
             if (loader == null)
             {
                 // If CSV state is unavailable, only apply fallback for explicit stage variants.
-                if (variant == StageVariant.Opening_SkillsTraining || variant == StageVariant.Opening_Preparation)
+                if (variant == StageVariant.Opening_Sonoflore || variant == StageVariant.Opening_Preparation)
                 {
-                    Debug.LogWarning("OpeningStageHandler: CSVLoader unavailable during Skills Training opening. Applying fallback thematic content: Narrative.");
+                    Debug.LogWarning("OpeningStageHandler: CSVLoader unavailable during Sonoflore opening. Applying fallback thematic content: Narrative.");
                     _sequencer.wwiseVOManager.SetToNarrative();
                 }
-                else if (variant == StageVariant.Opening_Integration)
+                else if (variant == StageVariant.Opening_Activation)
                 {
-                    Debug.LogWarning("OpeningStageHandler: CSVLoader unavailable during Integration opening. Applying fallback thematic content: Fireflies.");
+                    Debug.LogWarning("OpeningStageHandler: CSVLoader unavailable during Activation opening. Applying fallback thematic content: Fireflies.");
                     _sequencer.wwiseVOManager.SetToFireflies();
                 }
                 return;
             }
 
-            bool skillsMode = loader.gameMode == CSVLoader.GameModeSkillsTraining;
-            bool integrationMode = loader.gameMode == CSVLoader.GameModeIntegration;
+            bool sonofloreMode = loader.gameMode == CSVLoader.GameModeSonoflore;
+            bool activationMode = loader.gameMode == CSVLoader.GameModeActivation;
 
-            if (skillsMode)
+            if (sonofloreMode)
             {
-                bool recognizedSkillsPack =
+                bool recognizedSonoflorePack =
                     loader.contentPack == CSVLoader.ContentPackMindfulnessAndJoy
                     || loader.contentPack == CSVLoader.ContentPackPsychologicalFlexibility
                     || loader.contentPack == CSVLoader.ContentPackSurrenderResponse;
-                if (!recognizedSkillsPack)
+                if (!recognizedSonoflorePack)
                 {
-                    Debug.LogWarning("OpeningStageHandler: CSV thematic content not recognized for Skills Training (contentPack='" + loader.contentPack + "'). Applying fallback thematic content: Narrative.");
+                    Debug.LogWarning("OpeningStageHandler: CSV thematic content not recognized for Sonoflore (contentPack='" + loader.contentPack + "'). Applying fallback thematic content: Narrative.");
                     _sequencer.wwiseVOManager.SetToNarrative();
                 }
                 return;
             }
 
-            if (integrationMode)
+            if (activationMode)
             {
-                bool recognizedIntegrationPack =
+                bool recognizedActivationPack =
                     loader.contentPack == CSVLoader.ContentPackSelfCompassion
                     || loader.contentPack == CSVLoader.ContentPackLovingKindness
                     || loader.contentPack == CSVLoader.ContentPackTransitionsGriefAndAppreciation;
-                if (!recognizedIntegrationPack)
+                if (!recognizedActivationPack)
                 {
-                    Debug.LogWarning("OpeningStageHandler: CSV thematic content not recognized for Integration (contentPack='" + loader.contentPack + "'). Applying fallback thematic content: Fireflies.");
+                    Debug.LogWarning("OpeningStageHandler: CSV thematic content not recognized for Activation (contentPack='" + loader.contentPack + "'). Applying fallback thematic content: Fireflies.");
                     _sequencer.wwiseVOManager.SetToFireflies();
                 }
             }

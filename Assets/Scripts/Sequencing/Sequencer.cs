@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -155,7 +155,7 @@ public class Sequencer : MonoBehaviour
     }
 
     //====================================================================================================
-    //Protocol Stacks Sequence
+    //Adjunctive Sequence
     //====================================================================================================
     //TODO:
     // [ ] AkSoundEngine.PostEvent("Play_sfx_EndInteractive", gameObject); for when the mic goes off.
@@ -239,56 +239,56 @@ public class Sequencer : MonoBehaviour
     }
 
     /// <summary>
-    /// Facade helper for handlers/UI: Protocol Stacks branch entry that starts calibration.
+    /// Facade helper for handlers/UI: Adjunctive branch entry that starts calibration.
     /// Canonical sequence-start ownership remains in <see cref="SequenceRunner"/>.
     /// </summary>
     public void StartProtocolStacksCalibrationSequence()
     {
         if (sequenceRunner == null)
         {
-            DbgLogSequencer("Sequencer: Cannot start Protocol Stacks calibration because sequenceRunner is null.", true);
+            DbgLogSequencer("Sequencer: Cannot start Adjunctive calibration because sequenceRunner is null.", true);
             return;
         }
         sequenceRunner.StartProtocolStacksCalibrationSequence();
     }
 
     /// <summary>
-    /// Facade helper for handlers/UI: Protocol Stacks branch entry that starts interactive sequence.
+    /// Facade helper for handlers/UI: Adjunctive branch entry that starts interactive sequence.
     /// Canonical sequence-start ownership remains in <see cref="SequenceRunner"/>.
     /// </summary>
     public void StartProtocolStacksInteractiveSequence()
     {
         if (sequenceRunner == null)
         {
-            DbgLogSequencer("Sequencer: Cannot start Protocol Stacks interactive sequence because sequenceRunner is null.", true);
+            DbgLogSequencer("Sequencer: Cannot start Adjunctive interactive sequence because sequenceRunner is null.", true);
             return;
         }
         sequenceRunner.StartProtocolStacksInteractiveSequence();
     }
 
     /// <summary>
-    /// Facade helper for handlers/UI: Protocol Stacks branch entry that starts the 60-minute music playlist sequence.
+    /// Facade helper for handlers/UI: Adjunctive branch entry that starts the 60-minute music playlist sequence.
     /// Canonical sequence-start ownership remains in <see cref="SequenceRunner"/>.
     /// </summary>
     public void StartProtocolStacksMusicPlaylist60mSequence()
     {
         if (sequenceRunner == null)
         {
-            DbgLogSequencer("Sequencer: Cannot start Protocol Stacks 60m music playlist sequence because sequenceRunner is null.", true);
+            DbgLogSequencer("Sequencer: Cannot start Adjunctive 60m music playlist sequence because sequenceRunner is null.", true);
             return;
         }
         sequenceRunner.StartProtocolStacksMusicPlaylist60mSequence();
     }
 
     /// <summary>
-    /// Facade helper for handlers/UI: Protocol Stacks branch entry that starts the 40-minute music playlist sequence.
+    /// Facade helper for handlers/UI: Adjunctive branch entry that starts the 40-minute music playlist sequence.
     /// Canonical sequence-start ownership remains in <see cref="SequenceRunner"/>.
     /// </summary>
     public void StartProtocolStacksMusicPlaylist40mSequence()
     {
         if (sequenceRunner == null)
         {
-            DbgLogSequencer("Sequencer: Cannot start Protocol Stacks 40m music playlist sequence because sequenceRunner is null.", true);
+            DbgLogSequencer("Sequencer: Cannot start Adjunctive 40m music playlist sequence because sequenceRunner is null.", true);
             return;
         }
         sequenceRunner.StartProtocolStacksMusicPlaylist40mSequence();
