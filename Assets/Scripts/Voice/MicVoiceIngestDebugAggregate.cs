@@ -17,6 +17,7 @@ using UnityEngine;
 /// round (header text, currentTestDescription, field set, LateUpdate mirror copies). Old fields from prior
 /// rounds get removed in the same edit pass — no accumulation. See
 /// <c>Docs/MIC_VOICE_INGEST_FIX_PLAN.md</c> § 9 (Active-bug debugging convention) for the full rules.
+/// Step 6 adds <see cref="inspectorInterpretationGuideReference"/> (healthy-vs-broken reference text; canonical tables stay in the plan doc).
 /// </summary>
 // Threading note (5b-iii): every method in this file runs on: main thread. The aggregate is a pure
 // consumer — it reads cross-thread state via the snapshot accessors on the producers (each of which
@@ -67,6 +68,19 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [SerializeField] private int currentTestMonStarvationEvents;
     [Tooltip("5b-vi click protocol: cumulative main-thread per-frame gain deltas > DirectVoiceMonitoring.hardVolumeStepThreshold (M6 input signal). Diagnostic — may climb on toneActive flips; pass/fail is ears on scenario 3, not this counter.")]
     [SerializeField] private int currentTestMonHardVolumeStepCount;
+
+    [Header("Interpretation guide (Step 6 — reference)")]
+    [Tooltip("Healthy-vs-broken cheat sheet for this Inspector. Canonical tables + retired-flag notes: Docs/MIC_VOICE_INGEST_FIX_PLAN.md Step 6 (reconciled). Safe to edit locally; default documents F1 hybrid producer/consumer split.")]
+    [SerializeField] [TextArea(22, 120)] private string inspectorInterpretationGuideReference =
+        "F1 HYBRID — Main thread is ring PRODUCER (UpdateMicReadFrame polls Microphone / GetData). Audio thread is CONSUMER (OnAudioFilterRead feeds imitone from rawRingBuffer; DirectVoiceMonitoring also reads rings).\r\n\r\n"
+        + "UNIVERSAL PASS — FAILURE stays false (composite OR of every FAIL_*).\r\n\r\n"
+        + "FAIL PHASE 2 (audio thread) — FAIL_AUDIO_CALLBACK_FROZEN / RATE_LOW / GAP_HIGH. FAIL_AUDIO_LOCK_CONTENTION uses aggRawRingReadLockMissTotal (rawBufferLock TryEnter misses), not legacy ring-write lock.\r\n\r\n"
+        + "FAIL PHASE 3 (imitone feed) — FAIL_IMITONE_NOT_FED; FAIL_IMITONE_FEED_RATIO_LOW.\r\n\r\n"
+        + "FAIL PHASE 1 — FAIL_UNREAD_ZERO_SUSTAINED (compare aggUnreadZeroConsecutiveFrames to thresholds; exit reason may flicker unread_zero on chunk drivers). FAIL_INGEST_RING_STALLED. FAIL_MONITORING_STARVATION_GROWING. FAIL_MIC_NOT_READY. FAIL_DB_TEAR_DETECTED (sticky).\r\n\r\n"
+        + "MIC PRODUCER — aggMicRawRingWriteTotalSamples climbs at sample rate while capturing. Sticky unhealthy exit reasons: stalled_capture_stopped, device_unavailable, invalid_mic_position.\r\n\r\n"
+        + "IMITONE FEED — aggImitoneInputAudioCallTotal tracks aggAudioCallbackTotal. aggAudioFeedOverflowDroppedTotal = read-side overflow drops (prefer 0). Gap ms/samples — stable band while toning.\r\n\r\n"
+        + "MONITORING — aggMonUnderflowEvents / aggMonOverflowEvents / aggMonStarvationEvents (steady-state climb bad).\r\n\r\n"
+        + "RETIRED (do not hunt in Inspector) — FAIL_AUDIO_GC_ALLOC_DETECTED; FAIL_RING_OVERFLOW_GROWING + phantom skip counter (5b-iv); FAIL_GENTLE_RECOVERY_FIRED (5b-ii).";
 
     [Header("FAIL OBSERVATION (glance here first)")]
     [Tooltip("True if any subsidiary FAIL_* flag is true this frame (pure OR).")]
