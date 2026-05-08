@@ -1,6 +1,6 @@
 # Voice ingest rearchitecture: plan and rationale
 
-**Status:** Steps 0–3 **closed** (through 2026-05-06). Step 4 **verify+tune** closed as a **soft pass** (subjective testing + logging; extended Profiler/A/B checklist intentionally incomplete — see Step 4 Developer notes). Step **5a** (monitoring click-hardening M1/M2/M5/M6) **complete** + click protocol passed with counter visibility. **Active: Step 5b — cleanup pass (rescoped 2026-05-08).** **5b-i** through **5b-vi** **complete 2026-05-08** (including **5b-vi** kickoff + engineer **PASS** on full 5-scenario click protocol + mechanical grep closeout). **Next: 5b-review** (mandatory Opus 4.7 review pass per §5). The original §5b ambition assumed audio-thread sole ring writer; the **F1 hybrid pivot** (Step 3a, 2026-05-06) intentionally kept main thread as ring producer — `OnAudioFilterRead` is the *reader*, `UpdateMicReadFrame` is the *writer*. Under that reality, 5b is bounded to *failure-mode cruft* removal (gentle `unread_zero` recovery family + the phantom ring-overflow chain) plus a small Inspector / attribute tidy. **`UpdateMicReadFrame`, the bookmark / double-poll, and the stalled-write-head guard all stay** — they describe real, load-bearing producer-side behavior. Steps 6–7 follow.
+**Status:** Steps 0–3 **closed** (through 2026-05-06). Step 4 **verify+tune** closed as a **soft pass**. Step **5a** **complete**. **Step 5b — cleanup pass** **complete 2026-05-08** through **5b-vi** engineer PASS + **5b-review** (no code findings). **Next: Step 6** — aggregate layout + interpretation guide; **reconcile** Step 6 tasks against F1 hybrid before deleting any Inspector fields (see Step 6 preamble — stale 6a bullets must not run as-is). The original §5b ambition assumed audio-thread sole ring writer; the **F1 hybrid pivot** (Step 3a, 2026-05-06) intentionally kept main thread as ring producer — `OnAudioFilterRead` is the *reader*, `UpdateMicReadFrame` is the *writer*. Under that reality, 5b is bounded to *failure-mode cruft* removal (gentle `unread_zero` recovery family + the phantom ring-overflow chain) plus a small Inspector / attribute tidy. **`UpdateMicReadFrame`, the bookmark / double-poll, and the stalled-write-head guard all stay** — they describe real, load-bearing producer-side behavior. Steps 6–7 follow.
 **Goal:** Eliminate per-frame jitter in voice analysis. Imitone receives steady, real-time-paced input regardless of main-thread variance. Visual and audio response feels fresh every frame, not just "tolerable."
 
 ## Environment
@@ -12,8 +12,8 @@
 
 ### Execution checkpoint (synced with codebase)
 
-- **Completed through:** Step **5a**; Steps **0–3** formally closed in-doc (2026-05-06). Step **4** soft-pass (full extended checklist optional unless regressions appear). **5b-i through 5b-vi** complete (2026-05-08), including engineer PASS on 5b-vi click protocol + grep closeout logged in Developer notes (5).
-- **Active anchor:** **5b-review** — mandatory Opus 4.7 review pass per §5 (walk touched files, diff re-read). Step **5b** code path is otherwise closed pending review findings.
+- **Completed through:** Step **5b** formally **closed** (2026-05-08): **5b-i … 5b-vi** + **5b-review** complete; engineer PASS on click protocol; no review-pass code fixes required.
+- **Active anchor:** **Step 6** — finalize `MicVoiceIngestDebugAggregate` layout + interpretation guide per plan; **must reconcile** Step 6 field-removal tasks against F1 hybrid (main-thread producer telemetry stays load-bearing — see Step 6 preamble).
 - **Sanity:** `MicPipeline` **deleted** — no `MicPipeline` symbol in `Assets/**/*.cs` (verified 2026-05-08). Legacy ingest *block* remains inside `ImitoneVoiceIntepreter` *intentionally* — it's the F1 hybrid producer, not cruft. Post-5b-ii: `gentleUnreadZero*` / `FAIL_GENTLE_RECOVERY_FIRED` references in `Assets/**/*.cs` are exclusively intentional retirement comments (verified 2026-05-08). Post-5b-iii: every voice-path method now carries an explicit `// runs on:` annotation; the 4-arg ring readers are the only "BOTH-thread" surfaces in the codebase. Post-5b-iv: `micRingOverflowSkipTotal` / `FAIL_RING_OVERFLOW_GROWING` / `aggMicRingOverflowSkipTotal` / `failRingOverflowWindowSeconds` references in `Assets/**/*.cs` are exclusively intentional retirement comments (verified 2026-05-08); 3 orphaned values remain serialized in `Assets/Scenes/MainGame.unity` and will drop on next scene save. Post-5b-v: `DefaultExecutionOrder` references in `Assets/Scripts/Voice/**/*.cs` are zero behavioral, one retirement-marker comment in `ImitoneVoiceIntepreter.cs` (verified 2026-05-08); Project Settings → Script Execution Order is the binding source (`ImitoneVoiceIntepreter` at -104, engineer-verified). Post-5b-vi kickoff: `aggUnreadZeroConsecutiveFrames` mirrors internal `_consecutiveUnreadZeroFrames` (Mic ingest section; compares to `failUnreadZeroSustainedFrameThreshold` for unread-zero streak truth vs flickering `aggMicExitReason`).
 
 ---
@@ -1612,7 +1612,8 @@ This sub-pass removes the failure-mode cruft that was added to defend against th
 - [x] Plan checklist + doc sync; commit `chore(step5b-vi): …` bundles kickoff code + closeout (no separate code delta at closeout).
 
 ***5b-review — Mandatory Opus 4.7 review pass per §5.***
-- [ ] Walk every touched file end-to-end. Diff re-read. Surface findings before fixing.
+- [x] Walk every touched file end-to-end. Diff re-read. Surface findings before fixing.
+- **Verdict (2026-05-08):** No code changes required. Spot-checked: `MicVoiceIngestDebugAggregate` `FAILURE` OR expression + soak-log strings match surviving `FAIL_*` set (no orphaned `FAIL_RING_OVERFLOW_GROWING` / gentle-recovery references); `gentleUnreadZero*` / `PerformGentle*` / `debugGentle*` grep clean in `Assets/Scripts`; phantom overflow symbols only in retirement comments; F1 hybrid producer paths in `ImitoneVoiceIntepreter.MicIngest.cs` / `.AudioThread.cs` consistent with §5b rescope. **Step 6 preamble** added below — legacy Step 6 text incorrectly assumed post-5b removal of main-thread mic polling; corrected so the next pass does not execute obsolete 6a deletions.
 
 **Commit shape:**
 - `docs(step5b-i): rescope §5b to F1-hybrid cleanup` (5b-i, doc only).
@@ -1744,6 +1745,10 @@ This sub-pass removes the failure-mode cruft that was added to defend against th
 - **Engineer verdict:** **PASS** — all five scenarios (quiet baseline, sustained tone, onset/offset, heavy load, long session); **no audible clicks**; **FAILURE** remained false during normal operation per subjective expectation (startup FAIL-log transients same acceptable class as 5a). No new regressions surfaced against 5a M1/M2/M6 mitigations.
 - **Agent:** mechanical grep results already logged under "5b-vi kickoff"; plan checklist ticked; Status / Execution checkpoint advanced to **5b-review**.
 
+*5b-review — mandatory Opus 4.7 pass (2026-05-08):*
+- **Verdict:** **PASS** — no code changes required. Aggregate `FAILURE` / soak-log builders checked against surviving `FAIL_*` set; retired gentle-recovery + phantom-overflow symbols grep-clean for behavioral references; F1 hybrid producer/consumer split consistent with §5b rescope.
+- **Plan correction:** Step 6 intro text still claimed main-thread `Microphone.*` / `unread_zero` retire post-5b — **false under F1 hybrid**. Added **Step 6 preamble** marking legacy **6a deletion checklist blocked** until reconciled (prevents accidental deletion of `aggMicExitReason` and other load-bearing mirrors).
+
 *5b-v — `[DefaultExecutionOrder(50)]` attribute removal (2026-05-08, Opus 4.7):*
 - **Files modified (1):** `Assets/Scripts/Voice/ImitoneVoiceIntepreter.cs` — single-line attribute deletion at line 27, replaced with a 3-line retirement-marker comment pointing at Project Settings → Script Execution Order as the binding source.
 - **Pre-edit USER ACTION REQUIRED satisfied:** engineer opened Editor → Project Settings → Script Execution Order and confirmed `ImitoneVoiceIntepreter` at -104, no drift on other voice-path scripts. Quote: "Script execution order is AOK."
@@ -1758,7 +1763,9 @@ This sub-pass removes the failure-mode cruft that was added to defend against th
 >
 > *Confirm the right model is selected before continuing. Switch to Opus 4.7 when the first-pass is complete and the mandatory review pass begins.*
 
-After Step 5b the architecture no longer has `unread_zero`, `stalled_capture_stopped`, gentle recovery, or `Microphone.GetPosition` polling on the main thread. Step 6 retires the now-meaningless fields, finalizes the new `MicVoiceIngestDebugAggregate` layout, and writes down the **interpretation guide** so the user can tell at a glance whether the system is healthy or broken.
+**Step 6 preamble (reconciled 2026-05-08, post–F1 hybrid / §5b rescope):** An older draft claimed that after Step 5b the architecture would no longer use main-thread `Microphone.*` polling or emit `unread_zero` / `stalled_capture_stopped`. That draft **predates the F1 hybrid pivot**. Under F1, main-thread polling, those exit reasons, and producer-side ring telemetry **remain load-bearing** — only gentle recovery and phantom overflow plumbing were removed in 5b. **Do not run sub-step 6a as written** (it would delete `aggMicExitReason` and other mirrors that still have live sources). Replace 6a with a reconcile pass: audit each bullet against `UpdateMicReadFrame` + aggregate mirrors; Step 6 likely narrows to **layout reorder**, **interpretation guide**, and **cosmetic dedup** — not wholesale deletion of producer health fields. Until the checklist is rewritten, treat unchecked 6a boxes below as **blocked**.
+
+Step 6 still aims to finalize `MicVoiceIngestDebugAggregate` top-to-bottom layout and ship an **interpretation guide** — use the layout spec later in this section, but ignore field-deletion instructions until reconciled.
 
 **Sub-step 6a — Remove obsolete fields:**
 
