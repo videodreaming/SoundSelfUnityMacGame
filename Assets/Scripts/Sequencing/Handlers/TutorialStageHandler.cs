@@ -91,7 +91,6 @@ namespace SoundSelf.Sequence
             }
 
             _sequencer.wwiseVOManager.ResetTutorialGuidanceCount();
-            MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
             MusicSystem1.instance.SetAllowThumpAlways(true);
             var directVoiceMonitoring = Object.FindObjectOfType<DirectVoiceMonitoring>();
             if (directVoiceMonitoring != null)

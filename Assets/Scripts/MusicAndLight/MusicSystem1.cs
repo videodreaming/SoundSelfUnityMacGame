@@ -113,7 +113,6 @@ public class MusicSystem1 : MonoBehaviour
     private NoteName? fundamentalModeLock = null;      // Mode-based lock (Tutorial, FrozenFreeplay)
     private NoteName? fundamentalContentLock = null;    // Content-based lock (MusicLoop compatibility)
     private NoteName? fundamentalDebugLock = null;      // Debug lock (development mode)
-    private float UserNotToningThreshold = 30.0f; //controls environment shift.
     public MusicMode currentMusicMode;
     public InteractionType currentInteractionType = InteractionType.SoundWorld; // so when we shift into a mode that plays interactive music, we are using the right sub-system. This is getting complicated. Will be less so when we use environment as a musicLoop or something. 
     private bool interactiveMusicFlag = false;
@@ -122,7 +121,6 @@ public class MusicSystem1 : MonoBehaviour
 
     //PLAYBACK AND INITIALIZATION
     //private bool environmentFlag = false;
-    private bool interactiveFlag = false;
     
     private bool modeSilentFlag = false;
     private bool modeTutorialFlag = false;
@@ -131,9 +129,6 @@ public class MusicSystem1 : MonoBehaviour
     private bool modeEnvironmentFlag = false;
     private bool modeMusicLoopSilentFlag = false;
     public TMP_Dropdown soundscapeDropdown;
-
-    //MUSIC MODES
-    private bool allowTransitionFromEnvironmentToFreeplay = true;
 
     //SOUNDSCAPE LISTS
     // SoundWorlds work with any fundamental note
@@ -355,19 +350,10 @@ public class MusicSystem1 : MonoBehaviour
         else if(currentMusicMode == MusicMode.Freeplay) 
         { 
             DynamicMusicSystem();
-            InactivitySwitchToEnvironment(); //TODO: change this behavior to use a musicloop?
         }
         else if (currentMusicMode == MusicMode.FrozenFreeplay)
         {
             //PUT STUFF HERE IF NECESSARY
-        }
-        else if (currentMusicMode == MusicMode.Environment)
-        {
-            if(allowTransitionFromEnvironmentToFreeplay)    
-            {
-                //only if ALL the following: we are not in the tutorial, last minute not triggered, and savasana has not begun.
-                CheckForModeSwitchToFreeplay();
-            }
         }
 
         if(enableThumpSFX)
@@ -750,30 +736,6 @@ public class MusicSystem1 : MonoBehaviour
             Debug.Log("MUSIC: Setting allowThumpWhenModeIsPlayful to " + allow);
         }
         allowThumpWhenModeIsPlayful = allow;
-    }
-    //private void MusicModeUpdate()
-    private void InactivitySwitchToEnvironment()
-    {
-        if(imitoneVoiceInterpreter._tThisRestConfident > UserNotToningThreshold && currentInteractionType != InteractionType.MusicLoop)
-        {
-            if(debugAllowMusicModeLogs)
-            {
-                Debug.Log("MUSIC: Environment Mode : because " + imitoneVoiceInterpreter._tThisRestConfident + " > " + UserNotToningThreshold);
-            }
-            SetMusicModeTo(MusicMode.Environment);
-        }
-    }
-
-    private void CheckForModeSwitchToFreeplay()
-    {
-        if (!interactiveFlag && imitoneVoiceInterpreter.toneActiveVeryConfident)
-        {
-            if(debugAllowMusicModeLogs)
-            {
-                Debug.Log("MUSIC: Interactive Music System Mode because toneActiveVeryConfident");
-            }
-            SetMusicModeTo(MusicMode.Freeplay);
-        }
     }
 
     //TODO: SOME IMPPORTANT CLEAN-UP WORK
@@ -2813,15 +2775,6 @@ public class MusicSystem1 : MonoBehaviour
             Debug.Log("MUSIC BUTTON: StopInteractiveMusic");
         }
     }
-
-
-    public void SetAllowTransitionFromEnvironmentToFreeplay(bool allow)
-    {
-        allowTransitionFromEnvironmentToFreeplay = allow;
-        Debug.Log("MusicSystem1: AllowTransitionFromEnvironmentToFreeplay: " + allow);
-    }
-
-    
 
 }
 

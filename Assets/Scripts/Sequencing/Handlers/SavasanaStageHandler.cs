@@ -76,7 +76,6 @@ namespace SoundSelf.Sequence
             _sequencer.director.ActivateQueue(15f);
             _sequencer.director.Disable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.MusicLoopSilent);
-            MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetAllowThumpAlways(false);
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(false);

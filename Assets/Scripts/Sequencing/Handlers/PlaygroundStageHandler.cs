@@ -66,7 +66,6 @@ namespace SoundSelf.Sequence
 
             _sequencer.ForceSequenceAdvanceRequested = false;
             _sequencer.director.Enable();
-            MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(true);
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);
             MusicSystem1.instance.SetBreathworkCycle(false);
             MusicSystem1.instance.SetAllowThumpAlways(false);
@@ -334,7 +333,6 @@ namespace SoundSelf.Sequence
             Debug.Log("PlaygroundStageHandler(Standard): End3 at <=60s — starting LastMinute behavior.");
 
             EnsureCountdownRunningForFallback("StandardLastMinute", 90f);
-            MusicSystem1.instance.SetAllowTransitionFromEnvironmentToFreeplay(false);
             _sequencer.worldShuffler.StopShuffle();
             AkSoundEngine.PostEvent("Play_sfx_EndInteractive", _sequencer.gameObject);
 
