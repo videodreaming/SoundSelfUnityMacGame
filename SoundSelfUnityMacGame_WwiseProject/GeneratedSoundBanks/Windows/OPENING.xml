@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{66313890-0D59-FD50-1177-C746FD00FFA0}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{9801D64F-A8AA-C917-2284-8B90DEDB6304}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -1014,6 +1014,7 @@
 				</Event>
 				<Event Id="3981260521" Name="Play_AMBIENT_ENVIRONMENT_LOOP">
 					<MediaRefs>
+						<MediaRef Id="517296307"/>
 						<MediaRef Id="883996255"/>
 					</MediaRefs>
 				</Event>
@@ -1308,73 +1309,78 @@
 							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="3375574707"/>
 							<Children>
 								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="3018331789"/>
-									<MediaRefs>
-										<MediaRef Id="978918934"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="931091870"/>
-									<MediaRefs>
-										<MediaRef Id="785864859"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="1837644484"/>
-									<MediaRefs>
-										<MediaRef Id="37850875"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="2710806120"/>
-									<MediaRefs>
-										<MediaRef Id="989778452"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="1229948536"/>
-									<MediaRefs>
-										<MediaRef Id="517296307"/>
-										<MediaRef Id="883996255"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="3550392237"/>
-									<MediaRefs>
-										<MediaRef Id="528578437"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="1568978605"/>
-									<MediaRefs>
-										<MediaRef Id="359783349"/>
-										<MediaRef Id="606593135"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="3175422271"/>
-									<MediaRefs>
-										<MediaRef Id="17273079"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="1397804359"/>
-									<MediaRefs>
-										<MediaRef Id="311017954"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="6971574"/>
-									<MediaRefs>
-										<MediaRef Id="206283718"/>
-										<MediaRef Id="799748149"/>
-									</MediaRefs>
-								</SwitchContainer>
-								<SwitchContainer>
-									<SwitchValue GroupType="Switch" GroupId="3861178606" Id="2973005081"/>
-									<MediaRefs>
-										<MediaRef Id="1050281884"/>
-									</MediaRefs>
+									<SwitchValue GroupType="State" GroupId="3107675784" Id="0"/>
+									<Children>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="3018331789"/>
+											<MediaRefs>
+												<MediaRef Id="978918934"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="931091870"/>
+											<MediaRefs>
+												<MediaRef Id="785864859"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="1837644484"/>
+											<MediaRefs>
+												<MediaRef Id="37850875"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="2710806120"/>
+											<MediaRefs>
+												<MediaRef Id="989778452"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="1229948536"/>
+											<MediaRefs>
+												<MediaRef Id="517296307"/>
+												<MediaRef Id="883996255"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="3550392237"/>
+											<MediaRefs>
+												<MediaRef Id="528578437"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="1568978605"/>
+											<MediaRefs>
+												<MediaRef Id="359783349"/>
+												<MediaRef Id="606593135"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="3175422271"/>
+											<MediaRefs>
+												<MediaRef Id="17273079"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="1397804359"/>
+											<MediaRefs>
+												<MediaRef Id="311017954"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="6971574"/>
+											<MediaRefs>
+												<MediaRef Id="206283718"/>
+												<MediaRef Id="799748149"/>
+											</MediaRefs>
+										</SwitchContainer>
+										<SwitchContainer>
+											<SwitchValue GroupType="Switch" GroupId="3861178606" Id="2973005081"/>
+											<MediaRefs>
+												<MediaRef Id="1050281884"/>
+											</MediaRefs>
+										</SwitchContainer>
+									</Children>
 								</SwitchContainer>
 							</Children>
 						</SwitchContainer>
@@ -3686,6 +3692,15 @@
 				<GameParameter Id="4221340218" Name="AVS_GREEN_Volume_Wave2"/>
 				<GameParameter Id="4221340219" Name="AVS_GREEN_Volume_Wave3"/>
 			</GameParameters>
+			<StateGroups>
+				<StateGroup Id="3107675784" Name="MusicEnvironmentMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1229948536" Name="Environment"/>
+						<State Id="3991942870" Name="Music"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
 			<SwitchGroups>
 				<SwitchGroup Id="184547165" Name="VO_Posture">
 					<Switches>
@@ -3779,5 +3794,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{1BD9D0CA-D5C6-B282-2EF0-624F365FBDA5}</FileHash>
+	<FileHash>{4CEF945B-6A9D-5CE1-2114-D66EAA5D4F34}</FileHash>
 </SoundBanksInfo>

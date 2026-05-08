@@ -51,6 +51,11 @@
 								<BlendContainer Name="SilentLoops_Fundamental_Gentle" ID="{2AF8DE1E-9942-4B2D-8ACA-4FC5E19E9B3D}" ShortID="833659972">
 									<PropertyList>
 										<Property Name="BlendBehavior" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -95,7 +100,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-8</Value>
+																<Value>-6</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -167,6 +172,7 @@
 												</Sound>
 												<Sound Name="fundamental_[A]_silent_gentle" ID="{EDB6A3C1-C00F-4752-A928-910C76D7E12A}" ShortID="550914340">
 													<PropertyList>
+														<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 														<Property Name="IsStreamingEnabled" Type="bool">
 															<ValueList>
 																<Value>True</Value>
@@ -184,7 +190,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-11</Value>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -204,7 +210,7 @@
 															<Language>SFX</Language>
 															<AudioFile>fundamental_[G]_silent_gentle.wav</AudioFile>
 															<MediaIDList>
-																<MediaID ID="349667166"/>
+																<MediaID ID="955040453"/>
 															</MediaIDList>
 														</AudioFileSource>
 													</ChildrenList>
@@ -356,7 +362,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-8</Value>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -438,7 +444,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-10</Value>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -530,7 +536,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-10</Value>
+																<Value>-8</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -617,7 +623,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-11</Value>
+																<Value>-9</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -704,7 +710,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-9</Value>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -791,7 +797,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-9</Value>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -878,7 +884,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-8</Value>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -964,7 +970,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-9</Value>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -1046,7 +1052,7 @@
 														</Property>
 														<Property Name="Volume" Type="Real64">
 															<ValueList>
-																<Value>-8</Value>
+																<Value>-7</Value>
 															</ValueList>
 														</Property>
 													</PropertyList>
@@ -6534,6 +6540,27 @@
 							</GroupingInfo>
 						</SwitchContainer>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="MusicEnvironmentMode" ID="{0443BAC3-D48A-4F9E-8DFC-773A8482D374}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Environment" ID="{63D11449-C2C3-4408-95E0-151966F78551}"/>
+								<CustomState Name="" ID="{43034840-25D0-440F-8D75-809E5B49861F}" ShortID="929495237">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Music" ID="{527A80C2-0BA4-4DCF-9BA6-DD43BC5E33AD}"/>
+								<CustomState Name="" ID="{6766BFB7-F213-49DF-8DC1-ADE163C44C82}" ShortID="305258411"/>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 					<ObjectLists>
 						<ObjectList Name="RTPC">
 							<Reference>
@@ -6649,6 +6676,11 @@
 								<BlendContainer Name="SilentLoops_Harmony_Gentle" ID="{08F25288-045C-4C01-82D6-EAB91E226BEE}" ShortID="665143971">
 									<PropertyList>
 										<Property Name="BlendBehavior" Type="int16" Value="1"/>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>1</Value>
+											</ValueList>
+										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -12864,6 +12896,27 @@
 							</GroupingInfo>
 						</SwitchContainer>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="MusicEnvironmentMode" ID="{0443BAC3-D48A-4F9E-8DFC-773A8482D374}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Environment" ID="{63D11449-C2C3-4408-95E0-151966F78551}"/>
+								<CustomState Name="" ID="{9B2729A1-1804-4550-98DA-424DD7672899}" ShortID="705597088">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Music" ID="{527A80C2-0BA4-4DCF-9BA6-DD43BC5E33AD}"/>
+								<CustomState Name="" ID="{DC6390D6-8EFD-46C4-8DF4-A22167C8087C}" ShortID="1018036079"/>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 					<ObjectLists>
 						<ObjectList Name="RTPC">
 							<Reference>
@@ -12991,7 +13044,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -20003,6 +20056,27 @@
 							</GroupingInfo>
 						</SwitchContainer>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="MusicEnvironmentMode" ID="{0443BAC3-D48A-4F9E-8DFC-773A8482D374}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Environment" ID="{63D11449-C2C3-4408-95E0-151966F78551}"/>
+								<CustomState Name="" ID="{BC9A82D3-F759-41FC-83E8-510F15820F86}" ShortID="609070917">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Music" ID="{527A80C2-0BA4-4DCF-9BA6-DD43BC5E33AD}"/>
+								<CustomState Name="" ID="{DF4A3C7E-F635-4CA5-B212-D44AD6868AED}" ShortID="98263667"/>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 					<ObjectLists>
 						<ObjectList Name="RTPC">
 							<Reference>
@@ -20125,7 +20199,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>3</Value>
+												<Value>4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28705,6 +28779,27 @@
 							</GroupingInfo>
 						</SwitchContainer>
 					</ChildrenList>
+					<StateInfo>
+						<StateGroupList>
+							<StateGroupInfo>
+								<StateGroupRef Name="MusicEnvironmentMode" ID="{0443BAC3-D48A-4F9E-8DFC-773A8482D374}"/>
+							</StateGroupInfo>
+						</StateGroupList>
+						<CustomStateList>
+							<CustomState>
+								<StateRef Name="Environment" ID="{63D11449-C2C3-4408-95E0-151966F78551}"/>
+								<CustomState Name="" ID="{22451EB6-69D1-4FE8-8C53-3CFA8EE0EE3E}" ShortID="797081463">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64" Value="-108"/>
+									</PropertyList>
+								</CustomState>
+							</CustomState>
+							<CustomState>
+								<StateRef Name="Music" ID="{527A80C2-0BA4-4DCF-9BA6-DD43BC5E33AD}"/>
+								<CustomState Name="" ID="{ECAFDDD7-9A57-4938-90A5-2B01338FE948}" ShortID="117091847"/>
+							</CustomState>
+						</CustomStateList>
+					</StateInfo>
 					<ObjectLists>
 						<ObjectList Name="RTPC">
 							<Reference>

@@ -18,11 +18,11 @@
 							<Position X="0" Y="2"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Play_Inhale_Long" ID="{4B9F2ACC-55FD-4285-952B-9206B5585121}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+							<ObjectRef Name="Play_AMBIENT_ENVIRONMENT_LOOP" ID="{58582A15-DFB3-41AA-A54D-30C5074820C4}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 							<Position X="0" Y="3"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Play_AMBIENT_ENVIRONMENT_LOOP" ID="{5DB66FCB-061C-43E5-880D-2C319AD8A094}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<ObjectRef Name="Stop_AMBIENT_ENVIRONMENT_LOOP" ID="{1B0A9A4A-C3BE-4A6B-90E1-E5E751860A4D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 							<Position X="0" Y="4"/>
 						</Module>
 						<Module>
@@ -46,11 +46,11 @@
 							<Position X="1" Y="1"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Play_AMBIENT_ENVIRONMENT_LOOP" ID="{5DB66FCB-061C-43E5-880D-2C319AD8A094}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
+							<ObjectRef Name="Play_Inhale_Medium" ID="{BB3BA8BB-FC94-42FB-8E1B-11EFB7F9EC68}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 							<Position X="1" Y="2"/>
 						</Module>
 						<Module>
-							<ObjectRef Name="Play_Inhale_Medium" ID="{BB3BA8BB-FC94-42FB-8E1B-11EFB7F9EC68}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+							<ObjectRef Name="Play_Inhale_Long" ID="{4B9F2ACC-55FD-4285-952B-9206B5585121}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 							<Position X="1" Y="3"/>
 						</Module>
 						<Module>
@@ -149,7 +149,7 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="ImpactsSub_Bus_Volume" ID="{A53321D0-A7F3-4341-ABFB-0BBD9CEE0D2B}"/>
-							<Value>50</Value>
+							<Value>60</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="AVS_BLUE_Volume_Wave1" ID="{5672B67B-51F9-4373-8484-0F7D6CC7FD2E}"/>
@@ -173,7 +173,7 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="BreathIn_PlaybackRate" ID="{E1889881-4E93-44A7-8693-16DFA0C6A9BC}"/>
-							<Value>49.9231501745828</Value>
+							<Value>60</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="Unity_Inhale" ID="{5E526CB9-50C4-4507-9B59-B79FAA4746BD}"/>
@@ -217,7 +217,7 @@
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="Impacts_Volume" ID="{177C7E8D-161E-4A19-AFA6-5E7E47E603E8}"/>
-							<Value>50</Value>
+							<Value>60</Value>
 						</RTPCValue>
 						<RTPCValue>
 							<GameParameterRef Name="Unity_Absorbtion" ID="{ABAC3690-391B-4A55-B7BF-30708FA595DC}"/>
@@ -246,6 +246,7 @@
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true">
 						<CurrentStateRef Name="Playful" ID="{7104D2A2-9625-486D-A246-6B4C6AF8A511}"/>
+						<CurrentStateRef Name="Music" ID="{527A80C2-0BA4-4DCF-9BA6-DD43BC5E33AD}"/>
 					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="InteractiveMusicSystem" ID="{61AC98F4-162A-433E-B785-39651E569A91}"/>
@@ -260,10 +261,11 @@
 						<CurrentSwitchRef Name="End" ID="{21C8A634-9410-4B81-ACA1-DD4982BAEB8B}"/>
 						<CurrentSwitchRef Name="LieDown" ID="{2115DF6D-13BE-47CA-9106-188FEB415B6F}"/>
 						<CurrentSwitchRef Name="_40m" ID="{9B176422-1A59-4E7F-A244-2237BAC758E2}"/>
+						<CurrentSwitchRef Name="A" ID="{A41C41A1-007A-416E-A18C-4A47D2F1F72B}"/>
 						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
 						<CurrentSwitchRef Name="A" ID="{A279B283-4602-4947-8672-94D46C389BFA}"/>
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
-						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
+						<CurrentSwitchRef Name="E" ID="{2EF39E0C-E918-4DB4-9C57-CC6AFED08210}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
 						<CurrentSwitchRef Name="AmbientLoop" ID="{E63BED1C-5393-45A4-B5B3-2FAA05DC3CC5}"/>
 						<CurrentSwitchRef Name="Chakapa_4m" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
@@ -334,10 +336,6 @@
 						<Module>
 							<ObjectRef Name="Play_sfx_Impact" ID="{0A5A8332-389F-452E-B07C-318CD4F7EDD5}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
 							<Position X="3" Y="4"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="Play_AMBIENT_ENVIRONMENT_LOOP" ID="{5DB66FCB-061C-43E5-880D-2C319AD8A094}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
-							<Position X="4" Y="3"/>
 						</Module>
 						<Module>
 							<ObjectRef Name="Play_PREPARATION_OPENING_SEQUENCE_LONG" ID="{928329A8-BF9B-46C7-A5D8-DEFD50EE76E9}" WorkUnitID="{ADE8A5B6-5C49-4DA7-B8BD-27D43EDD9D9A}"/>
@@ -627,8 +625,9 @@
 					</RTPCValueList>
 					<CurrentStateList ShowAll="true"/>
 					<CurrentSwitchList ShowAll="true">
-						<CurrentSwitchRef Name="Surrender" ID="{403AE1A9-E8A9-4AC9-A7EB-C7700C1BF8B3}"/>
-						<CurrentSwitchRef Name="Long" ID="{844C5211-96AF-4162-9BA5-48B12E4C5DB0}"/>
+						<CurrentSwitchRef Name="Anchoring" ID="{18DEEEEA-419A-46DD-9829-6860D83F6090}"/>
+						<CurrentSwitchRef Name="Anchoring" ID="{2954CEA7-81F8-4F77-9C14-D7D8D695785B}"/>
+						<CurrentSwitchRef Name="AmbientLoop" ID="{E63BED1C-5393-45A4-B5B3-2FAA05DC3CC5}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>
 				<SoundcasterSession Name="CLOSING" ID="{7B7657D4-AF89-4B91-A234-C34B8DBA86FA}">
@@ -1438,6 +1437,14 @@
 							<Position X="4" Y="0"/>
 						</Module>
 						<Module>
+							<ObjectRef Name="Play_AMBIENT_ENVIRONMENT_LOOP" ID="{58582A15-DFB3-41AA-A54D-30C5074820C4}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+							<Position X="4" Y="1"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="Stop_AMBIENT_ENVIRONMENT_LOOP" ID="{1B0A9A4A-C3BE-4A6B-90E1-E5E751860A4D}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+							<Position X="4" Y="2"/>
+						</Module>
+						<Module>
 							<ObjectRef Name="Play_VO_testRepair_Succeed" ID="{8D479B7D-34C5-4B08-A76C-A77A148A4E52}" WorkUnitID="{25FABCE5-FCD9-479B-AC46-B4CB293F0F18}"/>
 							<Position X="5" Y="0"/>
 						</Module>
@@ -1460,7 +1467,9 @@
 							<Value>100</Value>
 						</RTPCValue>
 					</RTPCValueList>
-					<CurrentStateList ShowAll="true"/>
+					<CurrentStateList ShowAll="true">
+						<CurrentStateRef Name="Environment" ID="{63D11449-C2C3-4408-95E0-151966F78551}"/>
+					</CurrentStateList>
 					<CurrentSwitchList ShowAll="true">
 						<CurrentSwitchRef Name="InteractiveMusicSystem" ID="{61AC98F4-162A-433E-B785-39651E569A91}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{99567DC6-9849-4AA6-AC3A-B5BB35FF1727}"/>
@@ -1480,7 +1489,7 @@
 						<CurrentSwitchRef Name="openingLong" ID="{6C2DBCEC-6FD7-466C-AAA5-909EAB07A054}"/>
 						<CurrentSwitchRef Name="A" ID="{A1DA31D8-8D87-4550-807B-8F6D38C3C1BC}"/>
 						<CurrentSwitchRef Name="DieWell" ID="{0EAF3173-24B0-4F3B-9E35-3B33D7C405DB}"/>
-						<CurrentSwitchRef Name="AmbientLoop" ID="{E63BED1C-5393-45A4-B5B3-2FAA05DC3CC5}"/>
+						<CurrentSwitchRef Name="CelestialDreamscape" ID="{9553BB37-F7C8-43E1-8C50-FF52596EEBA8}"/>
 						<CurrentSwitchRef Name="Chakapa_4m" ID="{DBFF73AF-6BBB-4ACD-B9CE-47EF148244FC}"/>
 					</CurrentSwitchList>
 				</SoundcasterSession>

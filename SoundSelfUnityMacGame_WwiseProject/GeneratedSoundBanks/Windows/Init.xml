@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{37A0FABB-C48D-FBC2-D228-2D84DD94903D}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{64686167-E2F4-AB94-3B58-EDD4E4EC4F46}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -179,6 +179,13 @@
 						<State Id="748895195" Name="None"/>
 						<State Id="1971384320" Name="Playful"/>
 						<State Id="4231874361" Name="Meditative"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="3107675784" Name="MusicEnvironmentMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1229948536" Name="Environment"/>
+						<State Id="3991942870" Name="Music"/>
 					</States>
 				</StateGroup>
 			</StateGroups>
@@ -389,5 +396,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D7D7FBBB-2C96-3077-1041-3EB580592908}</FileHash>
+	<FileHash>{6A6B93AB-EDFB-71FC-0D4A-D48B211E6CD3}</FileHash>
 </SoundBanksInfo>

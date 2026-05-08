@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{F5A4AEC3-FA51-3464-A956-DF1FA52ED90D}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{FFBE380D-FAA8-124F-D274-7431150D1769}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -90,6 +90,11 @@
 					<ShortName>vo_goodbye_long.wav</ShortName>
 					<Path>Media/473964817.wem</Path>
 					<CachePath>SFX/vo_goodbye_long_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="517296307" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>environment_openingWelcome.wav</ShortName>
+					<Path>Media/517296307.wem</Path>
+					<CachePath>SFX/environment_openingWelcome_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="521907833" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>A#Bb.mid</ShortName>
@@ -211,6 +216,12 @@
 			</Plugins>
 			<Events>
 				<Event Id="236202206" Name="Mute_SILENTMEDITATION_MUSIC"/>
+				<Event Id="3981260521" Name="Play_AMBIENT_ENVIRONMENT_LOOP">
+					<MediaRefs>
+						<MediaRef Id="517296307"/>
+						<MediaRef Id="883996255"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3449237142" Name="Play_AVS_SineGenerators_REFERENCE">
 					<PluginRefs>
 						<Custom>
@@ -615,6 +626,7 @@
 					</ActionSetSwitch>
 				</Event>
 				<Event Id="4293537666" Name="Set_Calibration_Lights"/>
+				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP"/>
 				<Event Id="821655380" Name="Stop_AVS"/>
 				<Event Id="842157536" Name="Stop_AVS_All">
 					<ActionPostEvent>
@@ -721,5 +733,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D5E7E36B-3897-6BAF-415E-AA5D536698FF}</FileHash>
+	<FileHash>{131462DF-51D3-618A-78EB-E787B7E02A6E}</FileHash>
 </SoundBanksInfo>

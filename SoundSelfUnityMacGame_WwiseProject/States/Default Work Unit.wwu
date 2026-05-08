@@ -10,6 +10,27 @@
 						<State Name="Playful" ID="{7104D2A2-9625-486D-A246-6B4C6AF8A511}"/>
 					</ChildrenList>
 				</StateGroup>
+				<StateGroup Name="MusicEnvironmentMode" ID="{0443BAC3-D48A-4F9E-8DFC-773A8482D374}">
+					<ChildrenList>
+						<State Name="None" ID="{73CB439E-E0DE-4EAA-BC8E-9667F93B655C}"/>
+						<State Name="Music" ID="{527A80C2-0BA4-4DCF-9BA6-DD43BC5E33AD}"/>
+						<State Name="Environment" ID="{63D11449-C2C3-4408-95E0-151966F78551}"/>
+					</ChildrenList>
+					<TransitionList>
+						<Transition>
+							<StartState Name="Music" ID="{527A80C2-0BA4-4DCF-9BA6-DD43BC5E33AD}"/>
+							<EndState Name="Environment" ID="{63D11449-C2C3-4408-95E0-151966F78551}"/>
+							<Time>40</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+						<Transition>
+							<StartState Name="Environment" ID="{63D11449-C2C3-4408-95E0-151966F78551}"/>
+							<EndState Name="Music" ID="{527A80C2-0BA4-4DCF-9BA6-DD43BC5E33AD}"/>
+							<Time>10</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+					</TransitionList>
+				</StateGroup>
 			</ChildrenList>
 		</WorkUnit>
 	</States>
