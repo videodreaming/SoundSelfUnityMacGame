@@ -14,7 +14,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	769398012	Play_Inhale_Long			\SFX\Play_Inhale_Long	
 	781384595	Set_MusicLoops_CosmicAir			\Music Loops\Set_MusicLoops_CosmicAir	
 	825137487	Stop_MusicPlaylist			\Music Loops\Stop_MusicPlaylist	
-	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP	
+	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\SFX\Stop_AMBIENT_ENVIRONMENT_LOOP	
 	842157536	Stop_AVS_All			\AVS System\Stop_AVS_All	
 	897777483	Play_VO_GuidedVocalizationHum			\VO\Play_VO_GuidedVocalizationHum	
 	955662865	Stop_Toning			\Interactive Music System\Stop_Toning	
@@ -65,7 +65,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3913696011	Unity_TransitionSFX			\SFX\Unity_TransitionSFX	
 	3933660492	Set_PinkNoiseAtmosphere			\Music Loops\Set_PinkNoiseAtmosphere	
 	3968628359	Play_VO_testAhh			\VO\Play_VO_testAhh	
-	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP	
+	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\SFX\Play_AMBIENT_ENVIRONMENT_LOOP	
 	4004321118	Play_SilentLoops			\Interactive Music System\Play_SilentLoops	
 	4041051749	Stop_sfx_breathworkcycle			\SFX\Stop_sfx_breathworkcycle	
 	4057363449	Play_VO_GuidedVocalizationAdvanced			\VO\Play_VO_GuidedVocalizationAdvanced	
@@ -157,6 +157,14 @@ Switch	ID	Name	Switch Group			Notes
 	3550392237	MysticalVision	MusicLoops_Switch			
 	84696444	C	VO_testRepair			
 	84696446	A	VO_testRepair			
+
+State Group	ID	Name			Wwise Object Path	Notes
+	3107675784	MusicEnvironmentMode			\Default Work Unit\MusicEnvironmentMode	
+
+State	ID	Name	State Group			Notes
+	748895195	None	MusicEnvironmentMode			
+	1229948536	Environment	MusicEnvironmentMode			
+	3991942870	Music	MusicEnvironmentMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	54156856	AVS_MasterVolume_Wave2			\AVS System\WAVE 2\AVS_MasterVolume_Wave2	
@@ -440,7 +448,7 @@ Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	
 	430598173	fundamental_[C#Db]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_silent_gentle_FBC78EF0.wem	430598173.wem	\Actor-Mixer Hierarchy\InteractiveMusicSystem\InteractiveMusic_SilentLoops_Fundamental\SilentLoops_Fundamental_SoundWorld\SilentLoops_Fundamental_Gentle\SilentLoops_Fundamental_Gentle_Pitch\fundamental_[C#Db]_silent_gentle	
 	431345141	vo_test07tone	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_test07tone_FBC78EF0.wem	431345141.wem	\Interactive Music Hierarchy\VO_GuidedVocalizations\VO_GuidedVocalizationAhh\vo_test07tone\vo_test07tone	
 	446117886	harmony_[G]_silent_gentle	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\harmony_[G]_silent_gentle_FBC78EF0.wem	446117886.wem	\Actor-Mixer Hierarchy\InteractiveMusicSystem\InteractiveMusic_SilentLoops_Harmony\SilentLoops_Harmony_SoundWorld\SilentLoops_Harmony_Gentle\SilentLoops_Harmony_Gentle_Pitch\harmony_[G]_silent_gentle	
-	517296307	environment_openingWelcome	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_openingWelcome_FBC78EF0.wem	517296307.wem	\Interactive Music Hierarchy\MUSIC\MusicLoops_Switch\MusicLoops_Switch\Environment\environment_openingWelcome\environment_openingWelcome	
+	517296307	environment_openingWelcome	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_openingWelcome_FBC78EF0.wem	517296307.wem	\Interactive Music Hierarchy\SFX\EnvironmentLoop\EnvironmentLoop\environment_openingWelcome	
 	528578437	MysticalVision_Gm_85bpm	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Mystical Vision_MIX_no vox_FBC78EF0.wem	528578437.wem	\Interactive Music Hierarchy\MUSIC\MusicLoops_Switch\MusicLoops_Switch\MysticalVision_Loop\MysticalVision_Gm\MysticalVision_Gm_85bpm	
 	533405318	fundamental_[C]_silent_sonoflore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[C]_silent_sono flore_FBC78EF0.wem	533405318.wem	\Actor-Mixer Hierarchy\InteractiveMusicSystem\InteractiveMusic_SilentLoops_Fundamental\SilentLoops_Fundamental_SoundWorld\SilentLoops_Fundamental_Sonoflore\SilentLoops_Fundamental_Sonoflore_Pitch\fundamental_[C]_silent_sonoflore\fundamental_[C]_silent_sonoflore	
 	544785390	fundamental_[E]_toning_sono flore	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\fundamental_[E]_toning_sono flore_1FFE05B7.wem	544785390.wem	\Actor-Mixer Hierarchy\InteractiveMusicSystem\InteractiveMusic_Toning_Fundamental\Toning_Fundamental_SoundWorld\Toning_Sonoflore\Toning_Sonoflore\fundamental_[C#Db]_toning_sono flore\fundamental_[E]_toning_sono flore	

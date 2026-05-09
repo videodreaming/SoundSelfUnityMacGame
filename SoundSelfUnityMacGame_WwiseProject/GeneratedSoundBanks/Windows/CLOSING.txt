@@ -18,7 +18,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	781384595	Set_MusicLoops_CosmicAir			\Music Loops\Set_MusicLoops_CosmicAir	
 	821655380	Stop_AVS			\AVS System\Stop_AVS	
 	825137487	Stop_MusicPlaylist			\Music Loops\Stop_MusicPlaylist	
-	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Stop_AMBIENT_ENVIRONMENT_LOOP	
+	828034871	Stop_AMBIENT_ENVIRONMENT_LOOP			\SFX\Stop_AMBIENT_ENVIRONMENT_LOOP	
 	936790198	Play_VO_EndingSoon			\VO\Play_VO_EndingSoon	
 	993002611	Set_MusicLoops_AmbientLoop			\Music Loops\Set_MusicLoops_AmbientLoop	
 	1024713720	Play_VO_SighElicitationFail2			\VO\Play_VO_SighElicitationFail2	
@@ -72,7 +72,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3830600368	Play_sfx_breathein			\SFX\Play_sfx_breathein	
 	3913696011	Unity_TransitionSFX			\SFX\Unity_TransitionSFX	
 	3933660492	Set_PinkNoiseAtmosphere			\Music Loops\Set_PinkNoiseAtmosphere	
-	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\Default Work Unit\Play_AMBIENT_ENVIRONMENT_LOOP	
+	3981260521	Play_AMBIENT_ENVIRONMENT_LOOP			\SFX\Play_AMBIENT_ENVIRONMENT_LOOP	
 	4021535955	Play_WakeUpEndSoon_SEQUENCE			\Default Work Unit\Play_WakeUpEndSoon_SEQUENCE	
 	4041051749	Stop_sfx_breathworkcycle			\SFX\Stop_sfx_breathworkcycle	
 	4041758113	Stop_CrystalBowlGenerator			\SFX\Stop_CrystalBowlGenerator	
@@ -146,6 +146,14 @@ Switch	ID	Name	Switch Group			Notes
 	2692078280	Metta	VO_ThematicSavasana			
 	2965941853	Surrender	VO_ThematicSavasana			
 	3041563226	Silence	VO_ThematicSavasana			
+
+State Group	ID	Name			Wwise Object Path	Notes
+	3107675784	MusicEnvironmentMode			\Default Work Unit\MusicEnvironmentMode	
+
+State	ID	Name	State Group			Notes
+	748895195	None	MusicEnvironmentMode			
+	1229948536	Environment	MusicEnvironmentMode			
+	3991942870	Music	MusicEnvironmentMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	54156856	AVS_MasterVolume_Wave2			\AVS System\WAVE 2\AVS_MasterVolume_Wave2	
@@ -304,7 +312,7 @@ Streamed Audio	ID	Name	Audio source file	Generated audio file	Wwise Object Path	
 	437973430	vo_thematicSavasana_Gratitude_Edit2	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Jaya_ThematicSavasana_Gratitude_Edit2_FBC78EF0.wem	437973430.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_gratitude\vo_thematicSavasana_Gratitude_Edit2	
 	473964817	vo_goodbye_long	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_goodbye_long_FBC78EF0.wem	473964817.wem	\Interactive Music Hierarchy\CLOSING\VO_CLOSING_GOODBYE\vo_goodbye_long\vo_goodbye_long	
 	494111603	vo_elicitSigh_closing	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_elicitSigh_closing_818F3B66.wem	494111603.wem	\Actor-Mixer Hierarchy\VO\VO_SighElicitation2\vo_elicitSigh_closing	
-	517296307	environment_openingWelcome	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_openingWelcome_FBC78EF0.wem	517296307.wem	\Interactive Music Hierarchy\MUSIC\MusicLoops_Switch\MusicLoops_Switch\Environment\environment_openingWelcome\environment_openingWelcome	
+	517296307	environment_openingWelcome	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\environment_openingWelcome_FBC78EF0.wem	517296307.wem	\Interactive Music Hierarchy\SFX\EnvironmentLoop\EnvironmentLoop\environment_openingWelcome	
 	528578437	MysticalVision_Gm_85bpm	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\Mystical Vision_MIX_no vox_FBC78EF0.wem	528578437.wem	\Interactive Music Hierarchy\MUSIC\MusicLoops_Switch\MusicLoops_Switch\MysticalVision_Loop\MysticalVision_Gm\MysticalVision_Gm_85bpm	
 	541654321	vo_thematicSavasana_anchoring	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_thematicSavasana_anchoring_FBC78EF0.wem	541654321.wem	\Interactive Music Hierarchy\CLOSING\VO_THEMATICSAVASANA_SWITCH\vo_thematicSavasana_anchoring\vo_thematicSavasana_anchoring	
 	543585764	vo_elicitSigh_closing	Y:\Documents\GitHub\SoundSelfUnityMacGame\SoundSelfUnityMacGame_WwiseProject\.cache\Windows\SFX\vo_elicitSigh_closing_FBC78EF0.wem	543585764.wem	\Interactive Music Hierarchy\Default Work Unit\VOICE ELICITATION 2\vo_elicitSigh_closing	
