@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 2
   title: Single Stage
-  description: Adjunctive stub in CSVLoader — VO/timing not wired yet. Post-unguided unset (-1). Sequence matches current SequenceRunner calibration path.
-  postUnguidedSeconds: -1
+  description: "Adjunctive stub in CSVLoader \u2014 VO/timing not wired yet. Post-unguided
+    unset (-1). Sequence matches current SequenceRunner calibration path."
+  postUnguidedSeconds: 900
   voKind: 0
   sequenceDefinition: {fileID: 11400000, guid: 18c54947d36ae6f498f9287453fecc31, type: 2}

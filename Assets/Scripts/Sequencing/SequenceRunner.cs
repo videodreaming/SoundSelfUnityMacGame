@@ -16,19 +16,11 @@ namespace SoundSelf.Sequence
         [FormerlySerializedAs("startDefinition")]
         [SerializeField] private SequenceDefinition definitionOverride;
         
-        [Header("Adjunctive")]
-        [SerializeField] private SequenceDefinition protocolStacksCalibrationDefinition;
+        [Header("API-callable sequences")]
         [SerializeField] private SequenceDefinition protocolStacksInteractiveDefinition;
         [FormerlySerializedAs("protocolStacksMusicPlaylistDefinition")]
         [SerializeField] private SequenceDefinition protocolStacksMusicPlaylist60mDefinition;
         [SerializeField] private SequenceDefinition protocolStacksMusicPlaylist40mDefinition;
-
-        [Header("Standard Modes")]
-        [FormerlySerializedAs("integrationDefinition")]
-        [SerializeField] private SequenceDefinition activationDefinition;
-        [FormerlySerializedAs("skillsTrainingDefinition")]
-        [SerializeField] private SequenceDefinition sonofloreDefinition;
-
 
         // Current active definition (can change at runtime via StartSequence/SetDefinition).
         private SequenceDefinition definition;
@@ -215,7 +207,7 @@ namespace SoundSelf.Sequence
         }
 
         /// <summary>
-        /// Production startup path: resolves mode/content-pack from CSV and starts that sequence.
+        /// Starts the sequence from <see cref="HummingbirdContentPackDefinition.SequenceDefinition"/> on <see cref="CSVLoader.ResolvedSessionPack"/>.
         /// </summary>
         public void StartFromCurrentCsvSession()
         {
@@ -229,20 +221,17 @@ namespace SoundSelf.Sequence
             Debug.LogError("SequenceRunner: No SequenceDefinition resolved for current CSV session.");
         }
 
-        /// <summary>Adjunctive branch entry: starts the calibration sequence definition.</summary>
-        public void StartProtocolStacksCalibrationSequence() => StartNamedSequence(protocolStacksCalibrationDefinition, nameof(protocolStacksCalibrationDefinition));
-
-        /// <summary>Adjunctive branch entry: starts the interactive sequence definition.</summary>
+        /// <summary>Starts the interactive sequence (exposed for adjunctive branch transitions).</summary>
         public void StartProtocolStacksInteractiveSequence() => StartNamedSequence(protocolStacksInteractiveDefinition, nameof(protocolStacksInteractiveDefinition));
 
-        /// <summary>Adjunctive branch entry: starts the 60-minute music playlist sequence definition.</summary>
+        /// <summary>Starts the 60-minute music playlist sequence.</summary>
         public void StartProtocolStacksMusicPlaylist60mSequence() => StartNamedSequence(protocolStacksMusicPlaylist60mDefinition, nameof(protocolStacksMusicPlaylist60mDefinition));
 
-        /// <summary>Adjunctive branch entry: starts the 40-minute music playlist sequence definition.</summary>
+        /// <summary>Starts the 40-minute music playlist sequence.</summary>
         public void StartProtocolStacksMusicPlaylist40mSequence() => StartNamedSequence(protocolStacksMusicPlaylist40mDefinition, nameof(protocolStacksMusicPlaylist40mDefinition));
 
         /// <summary>
-        /// Prefers <see cref="HummingbirdContentPackDefinition.SequenceDefinition"/> on <see cref="CSVLoader.ResolvedSessionPack"/> when set; otherwise legacy mode branches.
+        /// Session startup uses only <see cref="HummingbirdContentPackDefinition.SequenceDefinition"/> on <see cref="CSVLoader.ResolvedSessionPack"/> — no mode-level fallbacks.
         /// </summary>
         private SequenceDefinition GetSequenceDefinitionForCurrentCsvSession()
         {
@@ -254,31 +243,18 @@ namespace SoundSelf.Sequence
             }
 
             var pack = loader.ResolvedSessionPack;
-            if (pack != null && pack.SequenceDefinition != null)
-                return pack.SequenceDefinition;
-
-            if (loader.gameMode == CSVLoader.GameModeAdjunctive)
+            if (pack == null)
             {
-                if (loader.contentPack == CSVLoader.ContentPackSingleStage)
-                    Debug.LogWarning("SequenceRunner: Adjunctive + Single Stage has no dedicated SequenceDefinition entry yet (stub); starting calibration like other Adjunctive packs.");
-                // TODO: When Single Stage has its own SequenceDefinition entry flow, branch on loader.contentPack == CSVLoader.ContentPackSingleStage (currently all Adjunctive sessions start calibration like Dual Stage).
-                // Adjunctive starts from calibration; practitioner choice later selects interactive vs playlist branch.
-                return protocolStacksCalibrationDefinition;
-            }
-
-            if (loader.gameMode == CSVLoader.GameModeAlbums)
-            {
-                Debug.LogWarning("SequenceRunner: Albums mode has no SequenceDefinition resolver yet (stub).");
+                Debug.LogError(
+                    "SequenceRunner: No resolved session pack — assign HummingbirdContentPackRegistry on CSVLoader and ensure session_params match a registry row.");
                 return null;
             }
 
-            if (loader.gameMode == CSVLoader.GameModeSonoflore)
-                return sonofloreDefinition;
+            if (pack.SequenceDefinition != null)
+                return pack.SequenceDefinition;
 
-            if (loader.gameMode == CSVLoader.GameModeActivation)
-                return activationDefinition;
-
-            Debug.LogWarning("SequenceRunner: No sequence definition resolver for gameMode '" + loader.gameMode + "'.");
+            Debug.LogError(
+                "SequenceRunner: Pack \"" + pack.name + "\" has no sequenceDefinition. Assign it on the HummingbirdContentPackDefinition asset.");
             return null;
         }
 

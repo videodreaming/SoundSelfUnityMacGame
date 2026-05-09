@@ -97,14 +97,14 @@ Use this workflow for **Phase 1–4**:
 
 **Migration note:** Sequence definition `.asset` files live under **`Assets/Definitions/Sequences/`** (moved from former `Assets/Scripts/Sequencing/Definitions/`). Unity resolves references by **GUID** (in `.meta`), not by folder path—**scene and inspector references stay valid** when `.meta` files move with assets.
 
-Spot-check: `MainGame.unity` still references these GUIDs correctly:
+Spot-check: `MainGame.unity` still references these GUIDs where expected (Unity matches by GUID, not path):
 
-| Asset | GUID | Inspector field on `SequenceRunner` |
-|-------|------|-------------------------------------|
-| `SkillsTraining.asset` | `9a78b1de728019a4a9c291ba8c474436` | `sonofloreDefinition` |
-| `Integration.asset` | `9b567c6347fbe724bad4f5b90cc05e7e` | `activationDefinition` |
-| `ProtocolStacksCalibration.asset` | `18c54947d36ae6f498f9287453fecc31` | `protocolStacksCalibrationDefinition` |
-| `ProtocolStacksInteractive.asset` | `011ef49db7b2eb9458d137e50527f632` | `protocolStacksInteractiveDefinition` |
+| Asset | GUID | Where referenced |
+|-------|------|------------------|
+| `SkillsTraining.asset` | `9a78b1de728019a4a9c291ba8c474436` | **`HummingbirdContentPackDefinition.sequenceDefinition`** on Sonoflore **`HB_*`** pack SOs |
+| `Integration.asset` | `9b567c6347fbe724bad4f5b90cc05e7e` | **`sequenceDefinition`** on Activation **`HB_*`** pack SOs |
+| `ProtocolStacksCalibration.asset` | `18c54947d36ae6f498f9287453fecc31` | **`sequenceDefinition`** on Adjunctive **`HB_*`** pack SOs (startup) **and** **`SequenceRunner`** → **API-callable sequences** → **`StartProtocolStacksCalibrationSequence`** |
+| `ProtocolStacksInteractive.asset` | `011ef49db7b2eb9458d137e50527f632` | **`SequenceRunner`** → **API-callable sequences** → **`StartProtocolStacksInteractiveSequence`** |
 
 Re-scan after any manual OS-level move **without** copying `.meta` files.
 
@@ -197,12 +197,12 @@ Remaining nuance: stub packs (e.g. Adjunctive Single Stage, Albums) still emit *
 
 ### Phase 3 — `SequenceRunner` + starting definition + dual overrides + migration
 
-**Status: implemented.** **`GetSequenceDefinitionForCurrentCsvSession`** prefers **`CSVLoader.ResolvedSessionPack.SequenceDefinition`** when non-null; otherwise **legacy** branches (Adjunctive → calibration; Sonoflore/Activation → inspector refs; Albums → null stub until extended). **`SequenceRunner`** uses **`definitionOverride`** (Editor-only) to replace **only** the starting **`SequenceDefinition`**; **`csvSessionOverride`** removed.
+**Status: implemented.** Session startup uses **`CSVLoader.ResolvedSessionPack.SequenceDefinition`** only (**no** mode-level inspector fallbacks). **`SequenceRunner`** exposes **`StartProtocolStacks*`** entry points; inspector refs for those live under **API-callable sequences**. **`definitionOverride`** (Editor-only) can still replace the starting sequence.
 
 Original checklist:
 
-1. **`SequenceRunner`** resolves the **starting `SequenceDefinition`** from the **resolved** **`HummingbirdContentPackDefinition.sequenceDefinition`** when present. **Done.**
-2. **Fallback when `sequenceDefinition` is null** on the SO: keep **existing** mode/pack branches until each pack asset is wired. **Done (fallback still in code).**
+1. **`SequenceRunner`** resolves the **starting `SequenceDefinition`** from the **resolved** **`HummingbirdContentPackDefinition.sequenceDefinition`**. **Done.**
+2. **No inspector fallback** when **`sequenceDefinition`** is null — **`LogError`** (assign on pack SO). **Done.**
 3. **`UNITY_EDITOR`** — **`CSVLoader`** pack override; **`SequenceRunner`** **`definitionOverride`** (was `startDefinition`); **`Debug.LogError`** when honored. **Done.**
 4. **Both overrides:** **`CSVLoader`** applies pack impersonation in **`Awake`**; **`definitionOverride`** in **`Start`** replaces only the starting sequence. **Done.**
 5. **`csvSessionOverride`** removed from **`SequenceRunner`**. **Done.**
@@ -213,7 +213,7 @@ Original checklist:
 |-----------|--------------------------------------|
 | **Definition Override** set (`UNITY_EDITOR` only) | Use that **`SequenceDefinition`** for startup (after pack session is established from CSV/override). |
 | No Definition Override; pack SO has **`sequenceDefinition`** | Start that asset. |
-| No Definition Override; pack SO **`sequenceDefinition`** is **null** | Use **Phase 3 fallback** (today’s hard-coded resolver paths) until the SO is filled in. |
+| No Definition Override; pack SO **`sequenceDefinition`** is **null** | **`LogError`** — assign on **`HummingbirdContentPackDefinition`** (no **`SequenceRunner`** mode fallback). |
 
 ### Phase 4 — Cleanup
 
@@ -272,14 +272,6 @@ Original checklist:
 
 ---
 
-## Follow-up (minor `SequenceRunner` refactor — revisit later)
+## Follow-up (`SequenceRunner` — completed)
 
-**Intent:** When you tackle a focused **`SequenceRunner`** pass, **look carefully at behavioral impact** before removing redundant inspector refs (**`sonofloreDefinition`** / **`activationDefinition`**) or tightening **`GetSequenceDefinitionForCurrentCsvSession`** so startup relies **only** on **`HummingbirdContentPackDefinition.sequenceDefinition`** (pack SOs already duplicate those GUIDs when wired).
-
-**Why deferred:** Dropping the mode-level fallbacks changes **failure and recovery behavior** (e.g. registry miss, incomplete pack assets, dev iteration). Before removing them, validate in-editor and in real sessions:
-
-- Parity when every pack SO already assigns the same **`SequenceDefinition`** GUIDs the **`SequenceRunner`** fields used to duplicate.
-- Whether strict **`LogError`** + no startup is preferable to silently falling back to mode-wide defaults when **`ResolvedSessionPack`** or **`sequenceDefinition`** is missing.
-- Adjunctive: **`protocolStacksCalibrationDefinition`** / interactive / playlist refs remain needed for **branch** APIs regardless; only the **startup** resolution path is in question.
-
-Treat this as a small, intentional **`SequenceRunner`** pass—not bundled with the content-pack SO rollout until you are ready to judge those trade-offs.
+**Removed:** Mode-level **`sonofloreDefinition`** / **`activationDefinition`** and **`GetSequenceDefinitionForCurrentCsvSession`** fallbacks. Startup uses **`ResolvedSessionPack.SequenceDefinition`** only. **API-callable sequences** (inspector) + **`StartProtocolStacks*`** for explicit runtime transitions.
