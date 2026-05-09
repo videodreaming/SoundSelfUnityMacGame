@@ -72,9 +72,9 @@ Use this workflow for **Phase 1–4**:
 
 **Chosen strategy: B — Code-only registry + references** (matches how `SequenceRunner` already assigns `SequenceDefinition` assets in the Inspector; **keys stay in code** so CSV ↔ registry checks stay obvious).
 
-**B — Code-only registry + references** (chosen)  
-- The registry is its own **`ScriptableObject`** asset (e.g. **`HummingbirdContentPackRegistry`** — name TBD): a **serialized list of rows** `(gameMode, contentPackKey, HummingbirdContentPackDefinition)` plus lookup helpers. **Decision:** registry **is not** embedded ad hoc on `CSVLoader`; it is a dedicated asset designers/engineers assign where needed (e.g. `CSVLoader` holds a reference to the registry asset).  
-- No duplicate pack string on the pack SO unless useful for display—identify packs via **registry row + asset reference**.
+**B — Registry asset + code constants** (chosen)  
+- Canonical strings are still **`public const`** on **`CSVLoader`** (single contract). The **`HummingbirdContentPackRegistry`** ScriptableObject holds **serialized rows** `(gameMode, contentPack)` strings **that must match those constants**, plus a reference to each **`HummingbirdContentPackDefinition`**. No duplicate key on the pack SO — identity is **registry row + asset reference**.  
+- Registry **is not** embedded on `CSVLoader`; **`CSVLoader`** has a **`SerializeField`** to the registry asset (assigned in Inspector, e.g. **`MainGame`**).
 
 **A — String on SO + validation** (not chosen)  
 - SO contains `contentPackKey`.  
@@ -108,15 +108,23 @@ Spot-check: `MainGame.unity` still references these GUIDs correctly:
 
 Re-scan after any manual OS-level move **without** copying `.meta` files.
 
-**`Assets/Definitions/HummingbirdCalls/`** — folder for **new** content-pack session SOs (may be empty until Phase 1 assets are created).
+**`Assets/Definitions/HummingbirdCalls/`** — content-pack **`HummingbirdContentPackDefinition`** assets + **`_HummingbirdContentPackRegistry`**. If these disappear from disk after a bad merge, check **`git stash list`** — a pre-merge auto-stash often still contains the YAML (recover with **`git stash apply 'stash@{n}'`**, resolve any **`add/add`** conflicts on the two Hummingbird scripts, then commit).
+
+**Registry `OnValidate`:** duplicate **`(gameMode, contentPack)`** rows → error; same **`HummingbirdContentPackDefinition`** referenced twice → warning (first row wins for **`TryGetCsvKeysForPackDefinition`**).
 
 ---
 
 ## Debug-only: dual overrides (`CSVLoader` + `SequenceRunner`)
 
-**Status:** **Not implemented in code yet** — behavior below is the target; existing prototype code (if any) may still reference an older single-location override until refactor work lands.
+**Status (code vs plan):**
 
-Two separate debug-only mechanisms work together:
+| Mechanism | Plan target | Current code |
+|-----------|-------------|--------------|
+| **Content pack override on `CSVLoader`** | Editor-only pack impersonation via `#if UNITY_EDITOR` | **Implemented:** `hummingbirdContentPackOverride` → `ApplyEditorContentPackOverrideIfPresent`; requires registry row for that pack; **`Debug.LogError`** when active. |
+| **Definition override on `SequenceRunner`** | Rename `startDefinition` → **Definition Override**; editor-only | **Implemented:** field **`definitionOverride`** (`[FormerlySerializedAs("startDefinition")]`), honored only in **`#if UNITY_EDITOR`**; **`Debug.LogError`** when active. |
+| **Remove duplicate pack override from `SequenceRunner`** | Single impersonation path on `CSVLoader` only | **Done:** **`csvSessionOverride`** removed from **`SequenceRunner`**. |
+
+Two separate debug-only mechanisms (target architecture):
 
 ### 1. Content pack override — `CSVLoader`
 
@@ -173,6 +181,8 @@ This duplicates **intent** only at the level of “these pairs exist”; numbers
 
 ### Phase 1 — Types, registry asset, pack assets, validation (no full runtime switch yet)
 
+**Status: implemented** — types + registry asset + **`HB_*`** pack assets under **`Assets/Definitions/HummingbirdCalls/`**; **`CSVLoader`** registry reference (e.g. **`MainGame`** → **`hummingbirdContentPackRegistry`** GUID **`6b27cb3688869dd42b890da92109d2c2`**); **`OnValidate`** on registry (row/SO game-mode alignment, duplicate key / duplicate definition asset).
+
 1. **Rename / replace** interim **`ContentPackSessionDefinition`** (if present) with **`HummingbirdContentPackDefinition`**; align **`SessionGameMode`**, **`ContentPackVoKind`** with `CSVLoader` / `WwiseVOManager` (exhaustive mapping planned in Phase 2).
 2. Implement **`HummingbirdContentPackRegistry`** (`ScriptableObject`): serialized rows `(gameMode, contentPackKey)` → **`HummingbirdContentPackDefinition`** + editor validation (`OnValidate` / custom inspector): row/SO **`gameMode`** alignment, unknown pairs, orphans.
 3. **Pack assets**: create/fill **`HummingbirdContentPackDefinition`** assets **incrementally** if needed — the system must stay **obvious** via **comments**, **tooltips**, and **Editor** workflow (checklist + registry rows) so finishing assets after design work is straightforward.
@@ -181,19 +191,21 @@ This duplicates **intent** only at the level of “these pairs exist”; numbers
 
 ### Phase 2 — Resolve pack SO at runtime (`CSVLoader` + effective session)
 
-1. After effective `gameMode` / `contentPack` are known (normalize + **content-pack override** applied first when editor-gated), resolve **`HummingbirdContentPackDefinition`** via **registry** lookup.
-2. **Drift check (effective session only)**: compare **effective** `gameMode` to resolved SO’s **`gameMode`**; **`Debug.LogError`** on mismatch (see **Contract + SO alignment**).
-3. **`VOInitializations`** / **`TimeLeftInitializations`**: dispatch from resolved SO **`voKind`**, **`postUnguidedSeconds`**, etc.; preserve Sonoflore first-time-user rules in code; stubs remain **warnings** until complete.
-4. **Implement full `ContentPackVoKind` → `WwiseVOManager` dispatch** in code (no fallback — every path covered).
-5. Remove duplicated per-pack literals from **`CSVLoader`** once parity is verified.
+**Status: largely implemented** in **`CSVLoader`**: `ResolveSessionPackDefinition`, drift check via **`SessionGameModeMapping`**, **`VOInitializations`** / **`TimeLeftInitializations`** driven from **`ResolvedSessionPack`** (`voKind`, `postUnguidedSeconds`; **`secs < 0`** = unset/stub, **`secs == 0`** valid). **`ApplyContentPackVoKind`** covers enum cases with **`LogError`** on unknown kind. Per-pack **`if/else` literals for VO/timing are removed** from **`CSVLoader`** for the resolved path.
+
+Remaining nuance: stub packs (e.g. Adjunctive Single Stage, Albums) still emit **warnings** where **`VoKind.None`** / negative timing — same intent as plan.
 
 ### Phase 3 — `SequenceRunner` + starting definition + dual overrides + migration
 
-1. **`SequenceRunner`** resolves the **starting `SequenceDefinition`** from the **resolved** **`HummingbirdContentPackDefinition.sequenceDefinition`** when present.
-2. **Fallback when `sequenceDefinition` is null** on the SO: keep **existing** mode/pack branches (e.g. Adjunctive calibration, Sonoflore/Activation refs) until each pack asset is wired — **narrow** over time.
-3. **Editor-only (`UNITY_EDITOR`)** — **`CSVLoader`**: **content pack override** (`HummingbirdContentPackDefinition`); **`SequenceRunner`**: rename dev **`startDefinition`** → **Definition Override**; **`Debug.LogError`** when either override is honored.
-4. **Both overrides:** apply **CSVLoader** pack impersonation first; if **Definition Override** is also set, it **replaces only** the starting sequence for that run.
-5. **Migration:** remove interim fields (**e.g.** `csvSessionOverride` on **`SequenceRunner`** if it exists); single pack impersonation path lives on **`CSVLoader`** only.
+**Status: implemented.** **`GetSequenceDefinitionForCurrentCsvSession`** prefers **`CSVLoader.ResolvedSessionPack.SequenceDefinition`** when non-null; otherwise **legacy** branches (Adjunctive → calibration; Sonoflore/Activation → inspector refs; Albums → null stub until extended). **`SequenceRunner`** uses **`definitionOverride`** (Editor-only) to replace **only** the starting **`SequenceDefinition`**; **`csvSessionOverride`** removed.
+
+Original checklist:
+
+1. **`SequenceRunner`** resolves the **starting `SequenceDefinition`** from the **resolved** **`HummingbirdContentPackDefinition.sequenceDefinition`** when present. **Done.**
+2. **Fallback when `sequenceDefinition` is null** on the SO: keep **existing** mode/pack branches until each pack asset is wired. **Done (fallback still in code).**
+3. **`UNITY_EDITOR`** — **`CSVLoader`** pack override; **`SequenceRunner`** **`definitionOverride`** (was `startDefinition`); **`Debug.LogError`** when honored. **Done.**
+4. **Both overrides:** **`CSVLoader`** applies pack impersonation in **`Awake`**; **`definitionOverride`** in **`Start`** replaces only the starting sequence. **Done.**
+5. **`csvSessionOverride`** removed from **`SequenceRunner`**. **Done.**
 
 #### Sequence resolution (clarification — answers “what starts?”)
 
@@ -205,9 +217,12 @@ This duplicates **intent** only at the level of “these pairs exist”; numbers
 
 ### Phase 4 — Cleanup
 
-1. Delete dead private fields (e.g. unused `layingDown` if still unused).
-2. Consider moving **mode-only** rules to a tiny static helper if still readable.
-3. Final pass: warnings/errors consistent; no editor-only override paths in **player** builds.
+**Status: implemented.**
+
+1. **Dead fields:** Removed unused **`CSVLoader`** private **`layingDown`** (never read; **`IsLayingDown`** comes from session CSV). Eliminates **CS0414** noise.
+2. **Mode-only rules:** **`VOInitializations`** Sonoflore vs other modes left inline — clear enough without an extra helper for now.
+3. **Overrides / players:** **`hummingbirdContentPackOverride`** and **`SequenceRunner.definitionOverride`** remain **`#if UNITY_EDITOR`** only (no **`DEVELOPMENT_BUILD`** sneak paths on those fields). **`TimeLeftInitializations`** XML docs corrected (removed stale “Phase 4” label).
+4. **Logging:** Existing **`CSVLoader:`** / **`SequenceRunner:`** prefixes kept consistent; no broad message rewrites.
 
 ---
 
@@ -217,7 +232,7 @@ This duplicates **intent** only at the level of “these pairs exist”; numbers
 
 1. Add **`public const string`** (and update **`NormalizeContentPack`** branch if needed — same rules as today).
 2. Add row to **`HummingbirdContentPackRegistry`** `(gameMode, packKey)` → SO reference.
-3. Create **new SO asset** under **`Assets/Definitions/HummingbirdCalls/`**; set SO fields (game mode, VO, timing, `sequenceDefinition`, UI, etc.) and **link it in the code registry** for `(gameMode, packKey)`.
+3. Create **new SO asset** under **`Assets/Definitions/HummingbirdCalls/`**; set SO fields (game mode, VO, timing, `sequenceDefinition`, UI, etc.) and **add a row** on **`HummingbirdContentPackRegistry`** for `(gameMode, packKey)` → that asset (strings must match **`CSVLoader`** constants).
 4. Run validation / fix orphans.
 
 ### New **game mode**
@@ -233,7 +248,7 @@ This duplicates **intent** only at the level of “these pairs exist”; numbers
 | Risk | Mitigation |
 |------|------------|
 | SO string ≠ code constant | **N/A for strategy B**; use **registry** validation + orphan-SO sweeps |
-| **Debug overrides** in shipped players | **`UNITY_EDITOR`** gate only; players ignore override fields |
+| **Debug overrides** in shipped players | **`CSVLoader`** pack override and **`SequenceRunner`** **`definitionOverride`** are **`UNITY_EDITOR`** only — players ignore them. |
 | Merge conflicts on many `.asset` files | Prefer additive assets; avoid reshuffling large arrays |
 | CSV effective `gameMode` ≠ SO `gameMode` for resolved pack | **`LogError`** at runtime (**effective session**); editor validation on registry + assets |
 
@@ -241,7 +256,7 @@ This duplicates **intent** only at the level of “these pairs exist”; numbers
 
 ## Open decisions (fill in during implementation)
 
-- Exact **namespace** and script **file paths** for `HummingbirdContentPackDefinition` and **`HummingbirdContentPackRegistry`** (asset folder **`Assets/Definitions/HummingbirdCalls/`** — see Repository layout).
+- ~~Exact **namespace** and script **file paths**~~ — **Resolved:** types live in namespace **`SoundSelf.Sequence`** at **`Assets/Scripts/Sequencing/HummingbirdContentPackDefinition.cs`** and **`HummingbirdContentPackRegistry.cs`**; pack/registry **assets** under **`Assets/Definitions/HummingbirdCalls/`**.
 - Whether **`voKind`** covers every `SetTo*` path or a subset with **fallback** to code for rare cases. **Decision: `voKind` should cover every path, no fallback.**
 - Whether **Sonoflore first-time user** stays hard-coded or becomes a bool on SO (likely stays code for clarity). **Decision: keep it in code**
 - **Migration:** Any interim types/fields (`ContentPackSessionDefinition`, `SequenceRunner` pack-only override, etc.) — **Phase 3**.
@@ -254,3 +269,17 @@ This duplicates **intent** only at the level of “these pairs exist”; numbers
 - Adding a pack is: **constant + registry SO row + one pack SO**, without editing long `if` ladders in `CSVLoader`.
 - Play mode parity with **current** VO + timing for all non-stub packs.
 - Stub packs still **warn** as they do today until flags cleared on SO.
+
+---
+
+## Follow-up (minor `SequenceRunner` refactor — revisit later)
+
+**Intent:** When you tackle a focused **`SequenceRunner`** pass, **look carefully at behavioral impact** before removing redundant inspector refs (**`sonofloreDefinition`** / **`activationDefinition`**) or tightening **`GetSequenceDefinitionForCurrentCsvSession`** so startup relies **only** on **`HummingbirdContentPackDefinition.sequenceDefinition`** (pack SOs already duplicate those GUIDs when wired).
+
+**Why deferred:** Dropping the mode-level fallbacks changes **failure and recovery behavior** (e.g. registry miss, incomplete pack assets, dev iteration). Before removing them, validate in-editor and in real sessions:
+
+- Parity when every pack SO already assigns the same **`SequenceDefinition`** GUIDs the **`SequenceRunner`** fields used to duplicate.
+- Whether strict **`LogError`** + no startup is preferable to silently falling back to mode-wide defaults when **`ResolvedSessionPack`** or **`sequenceDefinition`** is missing.
+- Adjunctive: **`protocolStacksCalibrationDefinition`** / interactive / playlist refs remain needed for **branch** APIs regardless; only the **startup** resolution path is in question.
+
+Treat this as a small, intentional **`SequenceRunner`** pass—not bundled with the content-pack SO rollout until you are ready to judge those trade-offs.

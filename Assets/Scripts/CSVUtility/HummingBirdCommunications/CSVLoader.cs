@@ -29,7 +29,7 @@ public class CSVLoader : MonoBehaviour
     [SerializeField] private HummingbirdContentPackDefinition hummingbirdContentPackOverride;
 #endif
 
-    /// <summary>Resolved pack for this session after CSV (+ editor override). Consumers include sequencing (Phase 3+).</summary>
+    /// <summary>Resolved pack for this session after CSV (+ editor override). Consumers include sequencing.</summary>
     public HummingbirdContentPackDefinition ResolvedSessionPack => _resolvedSessionPack;
 
     /// <summary>One of: <see cref="GameModeSonoflore"/>, <see cref="GameModeActivation"/>, <see cref="GameModeAdjunctive"/>, <see cref="GameModeAlbums"/>.</summary>
@@ -47,7 +47,6 @@ public class CSVLoader : MonoBehaviour
     public bool IsVibroacoustic { get; private set; }
     public float timeToPlayClosingGoodbye;
     public float totalTimeOfPostUnguidedVocalizationContent;
-    private bool layingDown = true;
     public static int currentSessionNumber = 0;
     private string baseSessionsFolderPath = "";
     public string encryptedReadyCheck;
@@ -377,7 +376,7 @@ public class CSVLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// Phase 4: Hydrates <see cref="TimeTrackerScript"/> inputs only (e.g. post-unguided duration).
+    /// Hydrates <see cref="TimeTrackerScript"/> from <see cref="ResolvedSessionPack"/> (post-unguided duration only).
     /// Session countdown value and ticking start only when the sequence runs the StartCountdown stage (<see cref="TimeTrackerScript.BeginCountdownPair"/>).
     /// </summary>
     private void TimeLeftInitializations()

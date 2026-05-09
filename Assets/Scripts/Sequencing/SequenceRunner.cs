@@ -8,14 +8,13 @@ namespace SoundSelf.Sequence
     {
         
         [Header("Sequence Definitions (Inspector)")]
-        [Header("Development (Starts on Awake) - Remove this before release.")]
-        // If assigned in the inspector, the sequence will begin automatically when this component wakes.
-        // Formerly serialized as `definition` to keep existing inspector assignments.
-        [SerializeField] private SequenceDefinition startDefinition;
-
-        [Header("CSV Override (editor / development builds only)")]
-        [Tooltip("Pretend the session CSV resolved to this pack SO. Ignored in release player builds. Logs an error when used.")]
-        [SerializeField] private HummingbirdContentPackDefinition csvSessionOverride;
+        [Header("Development (Starts on Awake) — Editor only; clear before release.")]
+        /// <summary>
+        /// Editor-only: if set, this sequence starts instead of resolving from the CSV session / pack SO.
+        /// Pack impersonation lives on <see cref="CSVLoader"/> (<c>hummingbirdContentPackOverride</c>); this field only overrides which <see cref="SequenceDefinition"/> runs first.
+        /// </summary>
+        [FormerlySerializedAs("startDefinition")]
+        [SerializeField] private SequenceDefinition definitionOverride;
         
         [Header("Adjunctive")]
         [SerializeField] private SequenceDefinition protocolStacksCalibrationDefinition;
@@ -193,39 +192,18 @@ namespace SoundSelf.Sequence
 
         private void Start()
         {
-            // If an inspector start definition exists, trigger startup during Start().
-            // This avoids Unity Awake-order issues with handler registration in Sequencer.Awake().
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-            if (csvSessionOverride != null)
+            // Start() (not Awake) avoids ordering issues with handler registration in Sequencer.Awake().
+#if UNITY_EDITOR
+            if (definitionOverride != null)
             {
                 Debug.LogError(
-                    "SequenceRunner: CSV Session Override is active — remove HummingbirdContentPackDefinition from csvSessionOverride before shipping; session startup may not match real Hummingbird CSV.");
-
-                var fromOverrideSo = csvSessionOverride.SequenceDefinition;
-                if (fromOverrideSo != null)
-                {
-                    if (startDefinition != null)
-                    {
-                        Debug.LogWarning(
-                            "SequenceRunner: CSV override HummingbirdContentPackDefinition.sequenceDefinition overrides inspector startDefinition (both were assigned).");
-                    }
-
-                    LogDevelopmentStartBanner("Starting sequence from CSV override HummingbirdContentPackDefinition.sequenceDefinition.");
-                    StartSequence(fromOverrideSo);
-                    return;
-                }
+                    "SequenceRunner: Definition Override is active (Editor only). Clear the field before shipping; it forces this SequenceDefinition instead of CSV / pack SO resolution.");
+                LogDevelopmentStartBanner("Starting sequence from Definition Override (inspector).");
+                StartSequence(definitionOverride);
+                return;
             }
 #endif
-
-            if (startDefinition != null)
-            {
-                LogDevelopmentStartBanner("Starting sequence from inspector start definition.");
-                StartSequence(startDefinition);
-            }
-            else
-            {
-                StartFromCurrentCsvSession();
-            }
+            StartFromCurrentCsvSession();
         }
 
         private static void LogDevelopmentStartBanner(string detailLine)
@@ -264,7 +242,7 @@ namespace SoundSelf.Sequence
         public void StartProtocolStacksMusicPlaylist40mSequence() => StartNamedSequence(protocolStacksMusicPlaylist40mDefinition, nameof(protocolStacksMusicPlaylist40mDefinition));
 
         /// <summary>
-        /// Returns the SequenceDefinition for the current CSV session mode/content-pack.
+        /// Prefers <see cref="HummingbirdContentPackDefinition.SequenceDefinition"/> on <see cref="CSVLoader.ResolvedSessionPack"/> when set; otherwise legacy mode branches.
         /// </summary>
         private SequenceDefinition GetSequenceDefinitionForCurrentCsvSession()
         {
@@ -274,6 +252,10 @@ namespace SoundSelf.Sequence
                 Debug.LogError("SequenceRunner: CSVLoader.instance is null. Cannot resolve session sequence.");
                 return null;
             }
+
+            var pack = loader.ResolvedSessionPack;
+            if (pack != null && pack.SequenceDefinition != null)
+                return pack.SequenceDefinition;
 
             if (loader.gameMode == CSVLoader.GameModeAdjunctive)
             {
