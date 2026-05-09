@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -238,19 +238,6 @@ public class Sequencer : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Facade helper for handlers/UI: Adjunctive branch entry that starts calibration.
-    /// Canonical sequence-start ownership remains in <see cref="SequenceRunner"/>.
-    /// </summary>
-    public void StartProtocolStacksCalibrationSequence()
-    {
-        if (sequenceRunner == null)
-        {
-            DbgLogSequencer("Sequencer: Cannot start Adjunctive calibration because sequenceRunner is null.", true);
-            return;
-        }
-        sequenceRunner.StartProtocolStacksCalibrationSequence();
-    }
 
     /// <summary>
     /// Facade helper for handlers/UI: Adjunctive branch entry that starts interactive sequence.

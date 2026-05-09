@@ -10,7 +10,7 @@
 2. **`Docs/MIC_VOICE_INGEST_FIX_PLAN.md`** — the parent rearchitecture plan. Priority: "AI pair programmer instructions" (early section), Section A "The problem", and Section B "The solution / Architecture". V3, V5, V10 in the Vulnerabilities subsection establish the original V3/V5 reasoning; this pivot revises V3/V5 specifically, leaves the rest intact.
 3. **`Docs/AUDIO_RELIABILITY_FLOW_AND_CLICK_ANALYSIS.md`** — adjacent context. The "Reliability-First Target Architecture" section is most relevant: it already advocates buffered pull from the ring for monitoring, which is the same shape we're applying to the imitone feed.
 
-You don't need to read `MIC_PIPELINE_REFACTOR_PLAN.md` or `ENVIRONMENT_TRANSITION_REFACTOR_PLAN.md` for this pivot.
+You don't need to read `MIC_PIPELINE_REFACTOR_PLAN.md` for this pivot.
 
 ---
 

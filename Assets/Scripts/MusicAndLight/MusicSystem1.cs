@@ -116,7 +116,9 @@ public class MusicSystem1 : MonoBehaviour
     public MusicMode currentMusicMode;
     public InteractionType currentInteractionType = InteractionType.SoundWorld; // so when we shift into a mode that plays interactive music, we are using the right sub-system. This is getting complicated. Will be less so when we use environment as a musicLoop or something. 
     private bool interactiveMusicFlag = false;
-    private bool initializeEnvironmentFlag = false;
+    private Coroutine _delayedAmbientStopCoroutine;
+    private bool _ambientEnvironmentVoicePlaying;
+
     public string currentSwitchState = "C";
 
     //PLAYBACK AND INITIALIZATION
@@ -199,11 +201,7 @@ public class MusicSystem1 : MonoBehaviour
         AkSoundEngine.SetSwitch("InteractiveMusicSwitchGroup3_12Pitches_HarmonyOnly", "C", gameObject);
     }
 
-    private void OnDestroy()
-    {
-        if (soundscapeDropdown != null)
-            soundscapeDropdown.onValueChanged.RemoveListener(OnSoundscapeDropdownChanged);
-    }
+
 
     public void OnPermanentlySetFundamentalChanged(int index)
     {
@@ -774,12 +772,13 @@ public class MusicSystem1 : MonoBehaviour
             Debug.Log("MUSIC: Setting Music Mode to " + mode + "...");
         }
         
-        // Stop breathwork cycle when transitioning from Environment to any other mode
+        // Leaving environment: breathwork off, Wwise MusicEnvironmentMode → Music + delayed ambient stop
         if (currentMusicMode == MusicMode.Environment && mode != MusicMode.Environment)
         {
             SetBreathworkCycle(false);
+            ExitMusicEnvironmentAudio();
         }
-        
+
         switch (mode)
         {
 
@@ -920,12 +919,11 @@ public class MusicSystem1 : MonoBehaviour
                 SetMusicModeFlags(false, false, false, false, true);    
                 if(debugAllowMusicModeLogs)
                 {
-                    Debug.Log("MUSIC: Music Mode Set to Environment  (WWise: Environment)");
+                    Debug.Log("MUSIC: Music Mode Set to Environment (MusicEnvironmentMode State + ambient)");
                 }
 
-                EnvironmentInitializations();
-                SetSwitchRestoreToningV3("InteractiveMusicMode_Switch", "Environment");
-                SetBreathworkCycle(true);
+                EnterMusicEnvironmentAudio();
+                //SetBreathworkCycle(true);
             }
             else
             {
@@ -2387,19 +2385,54 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
-    private void EnvironmentInitializations()
+    private void EnterMusicEnvironmentAudio()
     {
-        if(!initializeEnvironmentFlag)
+        CancelPendingAmbientEnvironmentStop();
+        AkSoundEngine.SetState("MusicEnvironmentMode", "Environment");
+        if (!_ambientEnvironmentVoicePlaying)
         {
-            initializeEnvironmentFlag = true;
-            AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP",gameObject);
-        }
-        else
-        {
-            if(debugAllowWarnings || debugAllowMusicModeLogs)
+            AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP", gameObject);
+            _ambientEnvironmentVoicePlaying = true;
+            if (debugAllowMusicModeLogs)
             {
-                Debug.LogWarning("MUSIC: Environment is already initialized");
+                Debug.Log("MUSIC: EnterMusicEnvironmentAudio — Play_AMBIENT_ENVIRONMENT_LOOP");
             }
+        }
+        else if (debugAllowMusicModeLogs)
+        {
+            Debug.Log("MUSIC: EnterMusicEnvironmentAudio — ambient already active (skipped duplicate Play)");
+        }
+    }
+
+    private void ExitMusicEnvironmentAudio()
+    {
+        CancelPendingAmbientEnvironmentStop();
+        AkSoundEngine.SetState("MusicEnvironmentMode", "Music");
+        _delayedAmbientStopCoroutine = StartCoroutine(DelayedStopAmbientEnvironmentLoopCoroutine());
+        if (debugAllowMusicModeLogs)
+        {
+            Debug.Log("MUSIC: ExitMusicEnvironmentAudio — State Music, scheduling Stop in 10s");
+        }
+    }
+
+    private void CancelPendingAmbientEnvironmentStop()
+    {
+        if (_delayedAmbientStopCoroutine != null)
+        {
+            StopCoroutine(_delayedAmbientStopCoroutine);
+            _delayedAmbientStopCoroutine = null;
+        }
+    }
+
+    private IEnumerator DelayedStopAmbientEnvironmentLoopCoroutine()
+    {
+        yield return new WaitForSeconds(10f);
+        AkSoundEngine.PostEvent("Stop_AMBIENT_ENVIRONMENT_LOOP", gameObject);
+        _ambientEnvironmentVoicePlaying = false;
+        _delayedAmbientStopCoroutine = null;
+        if (debugAllowMusicModeLogs)
+        {
+            Debug.Log("MUSIC: delayed — Stop_AMBIENT_ENVIRONMENT_LOOP");
         }
     }
 
@@ -2737,18 +2770,6 @@ public class MusicSystem1 : MonoBehaviour
         if(debugAllowSoundscapeLogs)
         {
             Debug.Log("MUSIC BUTTON: Stop_MusicLoops");
-        }
-    }
-
-    /// <summary>
-    /// Plays the ambient environment loop. Can be called from Unity UI buttons.
-    /// </summary>
-    public void Button_PlayAmbientEnvironmentLoop()
-    {
-        AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP", gameObject);
-        if(debugAllowMusicModeLogs)
-        {
-            Debug.Log("MUSIC BUTTON: Play_AMBIENT_ENVIRONMENT_LOOP");
         }
     }
 
