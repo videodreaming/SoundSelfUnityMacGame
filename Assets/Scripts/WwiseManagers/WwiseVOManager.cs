@@ -341,13 +341,7 @@ public class WwiseVOManager : MonoBehaviour
         if (musicSystem1 != null)
             musicSystem1.SetProtocolStacksAscendingDefaults();
         else
-            Debug.LogWarning("WwiseVOManager: musicSystem1 is null, cannot set Adjunctive DualStage defaults.");
-    }
-
-    public void SetToEsketamineDescending()
-    {
-        //TODO: Implement this
-        Debug.LogWarning("WWise_VO: SetToEsketamineDescending is not yet implemented.");
+            Debug.LogWarning("WwiseVOManager: musicSystem1 is null, cannot set Adjunctive Dual Stage defaults.");
     }
 
     public void firstTimeUser()

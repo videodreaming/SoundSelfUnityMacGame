@@ -17047,6 +17047,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sequencer: {fileID: 1564575221}
   wwiseVOManager: {fileID: 486583134}
+  hummingbirdContentPackRegistry: {fileID: 11400000, guid: 6b27cb3688869dd42b890da92109d2c2, type: 2}
   timeToPlayClosingGoodbye: 0
   totalTimeOfPostUnguidedVocalizationContent: 0
   encryptedReadyCheck: 
@@ -39553,6 +39554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDefinition: {fileID: 11400000, guid: 9c9c87c2f944c914ca94a8b7235cc9cb, type: 2}
+  csvSessionOverride: {fileID: 0}
   protocolStacksCalibrationDefinition: {fileID: 11400000, guid: 18c54947d36ae6f498f9287453fecc31, type: 2}
   protocolStacksInteractiveDefinition: {fileID: 11400000, guid: 011ef49db7b2eb9458d137e50527f632, type: 2}
   protocolStacksMusicPlaylist60mDefinition: {fileID: 11400000, guid: c5793fd52164ec946a8f12672463d33d, type: 2}

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f91c8e44b24d6dbbf702115509ec42, type: 3}
+  m_Name: _HummingbirdContentPackRegistry
+  m_EditorClassIdentifier: 
+  entries:
+  - gameMode: Sonoflore
+    contentPack: Mindfulness and Joy
+    definition: {fileID: 11400000, guid: 2a618a03177ca334eb80a8b55935283e, type: 2}
+  - gameMode: Sonoflore
+    contentPack: Psychological Flexibility
+    definition: {fileID: 11400000, guid: 6060ae2706564e4488e93fd8957b185f, type: 2}
+  - gameMode: Sonoflore
+    contentPack: Surrender Response
+    definition: {fileID: 11400000, guid: 3449b0b7325ace14f93d84e368f40613, type: 2}
+  - gameMode: Activation
+    contentPack: Self Compassion
+    definition: {fileID: 11400000, guid: 4a9695a3322aa0f4f9ff4f87ddda94e1, type: 2}
+  - gameMode: Activation
+    contentPack: Loving Kindness
+    definition: {fileID: 11400000, guid: 6e55b0018e84b614dbed538342011c47, type: 2}
+  - gameMode: Activation
+    contentPack: 'Transitions (Grief and Appreciation)'
+    definition: {fileID: 11400000, guid: 9938b3a73c98c8d4486f3684ae515825, type: 2}
+  - gameMode: Adjunctive
+    contentPack: Dual Stage
+    definition: {fileID: 11400000, guid: bfb436b45ee21f443a4800a1a029ac5a, type: 2}
+  - gameMode: Adjunctive
+    contentPack: Single Stage
+    definition: {fileID: 11400000, guid: 4e99c01d9fc8aca48b3853cc19a7a31d, type: 2}
+  - gameMode: Albums
+    contentPack: AlbumSonoflore
+    definition: {fileID: 11400000, guid: b4b22f67038b6524e90016fa247c3bb0, type: 2}

@@ -12,6 +12,10 @@ namespace SoundSelf.Sequence
         // If assigned in the inspector, the sequence will begin automatically when this component wakes.
         // Formerly serialized as `definition` to keep existing inspector assignments.
         [SerializeField] private SequenceDefinition startDefinition;
+
+        [Header("CSV Override (editor / development builds only)")]
+        [Tooltip("Pretend the session CSV resolved to this pack SO. Ignored in release player builds. Logs an error when used.")]
+        [SerializeField] private HummingbirdContentPackDefinition csvSessionOverride;
         
         [Header("Adjunctive")]
         [SerializeField] private SequenceDefinition protocolStacksCalibrationDefinition;
@@ -191,19 +195,45 @@ namespace SoundSelf.Sequence
         {
             // If an inspector start definition exists, trigger startup during Start().
             // This avoids Unity Awake-order issues with handler registration in Sequencer.Awake().
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (csvSessionOverride != null)
+            {
+                Debug.LogError(
+                    "SequenceRunner: CSV Session Override is active — remove HummingbirdContentPackDefinition from csvSessionOverride before shipping; session startup may not match real Hummingbird CSV.");
+
+                var fromOverrideSo = csvSessionOverride.SequenceDefinition;
+                if (fromOverrideSo != null)
+                {
+                    if (startDefinition != null)
+                    {
+                        Debug.LogWarning(
+                            "SequenceRunner: CSV override HummingbirdContentPackDefinition.sequenceDefinition overrides inspector startDefinition (both were assigned).");
+                    }
+
+                    LogDevelopmentStartBanner("Starting sequence from CSV override HummingbirdContentPackDefinition.sequenceDefinition.");
+                    StartSequence(fromOverrideSo);
+                    return;
+                }
+            }
+#endif
+
             if (startDefinition != null)
             {
-                Debug.LogWarning("SequenceRunner: =========================================================");
-                Debug.LogWarning("SequenceRunner: DEVELOPMENT BEHAVIOR, REMOVE THIS BEFORE RELEASE:");
-                Debug.LogWarning("SequenceRunner: Starting sequence from inspector start definition.");
-                Debug.LogWarning("SequenceRunner: =========================================================");
-
+                LogDevelopmentStartBanner("Starting sequence from inspector start definition.");
                 StartSequence(startDefinition);
             }
             else
             {
                 StartFromCurrentCsvSession();
             }
+        }
+
+        private static void LogDevelopmentStartBanner(string detailLine)
+        {
+            Debug.LogWarning("SequenceRunner: =========================================================");
+            Debug.LogWarning("SequenceRunner: DEVELOPMENT BEHAVIOR, REMOVE THIS BEFORE RELEASE:");
+            Debug.LogWarning("SequenceRunner: " + detailLine);
+            Debug.LogWarning("SequenceRunner: =========================================================");
         }
 
         /// <summary>
@@ -247,9 +277,17 @@ namespace SoundSelf.Sequence
 
             if (loader.gameMode == CSVLoader.GameModeAdjunctive)
             {
-                // TODO: When OneStage has its own SequenceDefinition entry flow, branch on loader.contentPack == CSVLoader.ContentPackOneStage (currently all Adjunctive sessions start calibration like DualStage/Descending).
+                if (loader.contentPack == CSVLoader.ContentPackSingleStage)
+                    Debug.LogWarning("SequenceRunner: Adjunctive + Single Stage has no dedicated SequenceDefinition entry yet (stub); starting calibration like other Adjunctive packs.");
+                // TODO: When Single Stage has its own SequenceDefinition entry flow, branch on loader.contentPack == CSVLoader.ContentPackSingleStage (currently all Adjunctive sessions start calibration like Dual Stage).
                 // Adjunctive starts from calibration; practitioner choice later selects interactive vs playlist branch.
                 return protocolStacksCalibrationDefinition;
+            }
+
+            if (loader.gameMode == CSVLoader.GameModeAlbums)
+            {
+                Debug.LogWarning("SequenceRunner: Albums mode has no SequenceDefinition resolver yet (stub).");
+                return null;
             }
 
             if (loader.gameMode == CSVLoader.GameModeSonoflore)

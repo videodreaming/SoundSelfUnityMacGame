@@ -2431,7 +2431,7 @@ public class MusicSystem1 : MonoBehaviour
         haveSetSoundWorldFlag = true;
     }
 
-    /// <summary>Sets Wwise switches for Adjunctive DualStage defaults (MusicLoops, Gentle). Call from WwiseVOManager when entering DualStage mode.</summary>
+    /// <summary>Sets Wwise switches for Adjunctive Dual Stage defaults (MusicLoops, Gentle). Call from WwiseVOManager when entering Dual Stage mode.</summary>
     public void SetProtocolStacksAscendingDefaults()
     {
         RunWithToningRestoredAfterInteractiveSwitch(() =>

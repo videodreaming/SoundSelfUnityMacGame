@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4c9a2f81d64308b5e196304f7acb01, type: 3}
+  m_Name: HB_Adjunctive_DualStage
+  m_EditorClassIdentifier: 
+  gameMode: 2
+  title: Dual Stage
+  description: Adjunctive. VO Esketamine Ascending (SetToEsketamineAscending). Post-unguided 900 s — mirrors CSVLoader.
+  postUnguidedSeconds: 900
+  voKind: 7
+  sequenceDefinition: {fileID: 11400000, guid: 18c54947d36ae6f498f9287453fecc31, type: 2}

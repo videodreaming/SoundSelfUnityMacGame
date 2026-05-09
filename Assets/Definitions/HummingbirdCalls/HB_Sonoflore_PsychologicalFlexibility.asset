@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4c9a2f81d64308b5e196304f7acb01, type: 3}
+  m_Name: HB_Sonoflore_PsychologicalFlexibility
+  m_EditorClassIdentifier: 
+  gameMode: 0
+  title: Psychological Flexibility
+  description: Sonoflore. VO Narrative (SetToNarrative). Post-unguided 900 s — mirrors CSVLoader.
+  postUnguidedSeconds: 900
+  voKind: 5
+  sequenceDefinition: {fileID: 11400000, guid: 9a78b1de728019a4a9c291ba8c474436, type: 2}

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4c9a2f81d64308b5e196304f7acb01, type: 3}
+  m_Name: HB_Activation_SelfCompassion
+  m_EditorClassIdentifier: 
+  gameMode: 1
+  title: Self Compassion
+  description: Activation. VO Fireflies (SetToFireflies). Post-unguided 415 s — mirrors CSVLoader.
+  postUnguidedSeconds: 415
+  voKind: 1
+  sequenceDefinition: {fileID: 11400000, guid: 9b567c6347fbe724bad4f5b90cc05e7e, type: 2}
