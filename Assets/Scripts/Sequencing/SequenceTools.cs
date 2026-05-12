@@ -75,6 +75,10 @@ namespace SoundSelf.Sequence
         Playlist_40m = 28,
         Playlist_60m = 29,
         Menu_Welcome_PreCalibration = 31,
+        /// <summary>Stub: alternate calibration content (e.g. album-specific copy); same <see cref="StageType.Calibration"/> stage, different handler behavior when implemented.</summary>
+        Calibration_Album = 32,
+        /// <summary>Stub: calibration without vibro step; same <see cref="StageType.Calibration"/> stage.</summary>
+        Calibration_NoVibro = 33,
     }
 
     [System.Serializable]

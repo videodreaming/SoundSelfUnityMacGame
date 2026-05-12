@@ -1,0 +1,29 @@
+---
+description: SoundSelf Unity project — git, Unity YAML, and session workflow for agents
+alwaysApply: true
+---
+
+# SoundSelf agent workflow
+
+## Git commits
+
+- **Never run `git commit` (or amend, rebase, push) without the user’s explicit verbal confirmation in the same session** (e.g. “yes, commit that” / “go ahead and commit”). Propose the message and changed files first; wait for approval.
+
+## Unity scenes (`.unity` files on disk)
+
+- **Do not** modify any **`.unity`** file unless **both** are true in chat first:
+  1. You have **prompted the user to save Unity** (all scenes + Save Project) so unsaved editor work is not lost or overwritten.
+  2. The user has given **explicit permission** to edit **that specific** scene file (or “all scenes in repo” if they state that clearly).
+- If the user has not confirmed, **do not** apply patches or scripted edits to `.unity` files.
+
+## Unity prefabs (`.prefab` on disk)
+
+- **Before editing** `.prefab` files on disk, prompt the user to **save Unity** (prefabs + project). Ask permission if the change is non-trivial or might conflict with open prefab edits.
+
+## Documentation and commit hashes
+
+- **Do not** create a **separate commit** whose only purpose is updating a commit hash inside a markdown plan. Record the hash in the **same commit** as the work it describes, or skip embedding the hash until the user pastes it manually.
+
+## Calibration / sequencing (cross-reference)
+
+- Calibration “album” and “no vibro” flows are **`StageVariant`** values on the **same** `StageType.Calibration` stage — not separate `SequenceDefinition` assets unless the product explicitly needs a whole alternate sequence.

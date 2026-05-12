@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Move calibration from the legacy `CalibrationMenu` flow (commented reference in `Assets/CalibrationMenu.cs`) to the **sequence runner + stage handler** model, driven by **`CalibrationStageHandler`**, **`UIManager.SetCalibrationScreen`**, and **Wwise** behavior preserved from the legacy script. Support **forward and back** navigation, **variable-length** calibration definitions (progress dots), **two sequence-definition stubs** for future variants, **linear ambient / environment bed** via a new **`LinearMusic`** component (extracted from `MusicSystem1`), and a **later** UX pass for **next/conclusion buttons waiting on cues** (you own gray-out / animation).
+Move calibration from the legacy `CalibrationMenu` flow (commented reference in `Assets/CalibrationMenu.cs`) to the **sequence runner + stage handler** model, driven by **`CalibrationStageHandler`**, **`UIManager.SetCalibrationScreen`**, and **Wwise** behavior preserved from the legacy script. Support **forward and back** navigation, **variable-length** calibration definitions (progress dots), **`StageVariant`** stubs for alternate calibration flows (**Album**, **NoVibro**) on the **same** calibration stage, **linear ambient / environment bed** via a new **`LinearMusic`** component (extracted from `MusicSystem1`), and a **later** UX pass for **next/conclusion buttons waiting on cues** (you own gray-out / animation).
 
 This document is the agreed roadmap. **No code changes** should be made until you approve the stage you are about to execute.
 
@@ -19,9 +19,13 @@ This document is the agreed roadmap. **No code changes** should be made until yo
 | 4 | Each implementation stage ends with a **test round** (Editor play mode + Wwise profiler / logs as applicable). |
 | 5 | Each coding pass ends with a **regression review** (grep + behavior checklist below). |
 | 6 | Each stage names a **recommended LLM** at the **top** of that stage; **before starting work on a new stage, switch the chat to that model** (Composer 2 vs Opus 4.7). |
-| 7 | After each major coding pass: **`git commit`** with a clear title, then **append the full commit hash** (and short 7-char prefix) to this document under that stage’s **Commit recorded** subsection. |
+| 7 | After each major coding pass: **`git commit`** with a clear title **only after the user explicitly confirms in chat**; optionally note the hash in this document **in that same commit** (no separate “hash only” commits — see project rule **`.cursor/rules/soundself-agent-workflow.mdc`**). |
 | 8 | Nothing is “assumed done” unless it appears **in a stage**. |
 | 9 | Prefer **simple, readable** designs over clever abstractions. |
+| 10 | **`.prefab` on disk:** prompt the user to **save Unity** before editing; ask permission if the edit could conflict with open prefab work. |
+| 11 | **Calibration alternate flows** (`Album`, `NoVibro`) are **`StageVariant`** values on **`StageType.Calibration`**, not separate sequence-definition assets unless product requires a full alternate sequence. |
+| 12 | **`.unity` scene files on disk:** **never** edit without **(1)** prompting the user to **save Unity** (all scenes + project) **and** **(2)** their **explicit permission** for **that** scene file (or an explicit “all listed scenes” scope). |
+| 13 | Each stage’s **Checklist** uses **`[ ]` / `[x]`**; set **`[x]`** only when that line is **done and verified**. The agent updates checkboxes when completing work in-repo; you update them when finishing Unity-only steps. |
 
 ---
 
@@ -42,7 +46,7 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 - `CalibrationMenu` is a **stub** (`StartCalibrationSequence` / `StopCalibrationSequence` log only).
 - `CalibrationStageHandler` wires **`UIManager` next-step events** and jumps **Headphone → Microphone → Vibro → LightGlasses → choice screen**, with **no** `Play_Calibration_Sequence`, **no** `Calibration_Sequence` switches, **no** intro/conclusion screens, **no** cue bridge, **no** `MarkComplete()`.
-- `UIManager.SetCalibrationScreen` **does not handle** `CalibrationUI.Introduction` or `CalibrationUI.Conclusion` (enum exists; switch is incomplete).
+- `UIManager.SetCalibrationScreen` **does not handle** `CalibrationUI.Introduction` (the enum entry the hierarchy will rename to **`Start`** in Stage B) or `CalibrationUI.Conclusion` — the enum entries exist but the switch is incomplete.
 - `OpeningStageHandler` already calls **`calibrationMenu.StopCalibrationSequence()`** on `Enter` — keep that contract so Opening tears down calibration audio.
 
 **`TutorialPortions` enum** remains at the bottom of `CalibrationMenu.cs` and still matches the Wwise switch strings — reuse or relocate to a sequencing namespace when implementing (avoid duplication).
@@ -55,7 +59,7 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 2. **Wwise music-sync callbacks** should **not** silently apply gameplay side effects. They should forward into **`Sequencer.HandleSequenceCommand(...)`** for commands the **calibration handler watches** (matches `StandardSequence-StageHandler-Migration.md`). Side effects (`ImitoneVoiceInterpreter`, `LightControl`) then run **inside the handler** (or a single thin helper it calls) so behavior stays **stage-scoped**.
 3. **UI** remains dumb: buttons invoke `UIManager` methods → **events only**. Optional later: `UIManager` methods to set **“interaction locked”** visual state when the handler asks for “waiting on cue” (you implement visuals).
 4. **Background bed (“environment” / linear menu music)** per your convention: **start on entry** to **Welcome / SetMenu** and/or **Calibration** (idempotent API); **stop on entry** to stages that should not hear it (**Opening**, **Tutorial**, **Playground**, etc. — explicit list in implementation). Extract ambient lifecycle from `MusicSystem1` into **`LinearMusic`**; see existing **`Docs/MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md`** for Wwise contract (State `MusicEnvironmentMode`, `Play_AMBIENT_ENVIRONMENT_LOOP`, delayed stop) — **`LinearMusic`** should encapsulate that contract without duplicating “double Play” bugs.
-5. **Sequence variants**: add **`StageVariant`** entries (e.g. `Calibration_Album`, `Calibration_NoVibro`) and **two `SequenceDefinition` ScriptableObject stubs** in Unity that only differ by **which Calibration variant** is used for the Calibration stage (full wiring later).
+5. **Calibration alternate flows**: use **`StageVariant`** entries **`Calibration_Album`** and **`Calibration_NoVibro`** (see `SequenceTools.cs`) with **`CalibrationStageHandler`** choosing step lists / Wwise behavior. **Do not** introduce separate **`SequenceDefinition`** assets for these unless the product needs an entirely different stage graph—not just skipping a calibration subsection.
 6. **Back navigation:** UI step back must pair with **Wwise rewind / re-post** (not switch-only); implementation details in Stage C once timeline behavior is validated in Wwise.
 
 ---
@@ -65,10 +69,12 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 | Topic | Decision |
 |--------|-----------|
 | **Back vs Wwise** | **Rewind / re-post** in Wwise is required when going back—not UI + `Calibration_Sequence` switch alone. |
-| **Introduction / Conclusion** | **No new prefab assets required**; use the same pattern as other calibration screens (serialized `GameObject` roots on `UIManager`, toggled like Headphone/Mic). Stage B adds the fields and `SetCalibrationScreen` cases; you wire hierarchy that already lives on the calibration canvas. |
+| **Start / Conclusion screens** | **No new prefab assets required**; use the same pattern as other calibration screens (serialized `GameObject` roots on `UIManager`, toggled like Headphone/Mic). Stage B renames the enum entry `Introduction → Start` to match the **Section Calibration Start** GameObject, adds the `startScreen` / `conclusionScreen` fields, and extends `SetCalibrationScreen`. You wire hierarchy that already lives on the calibration canvas. |
 | **`EndThisSequenceStage` vs calibration** | Pick the **most elegant overall** design: **recommended** — keep **Next Step / Back** as **`UIManager` `Action`s** subscribed **only** by **`CalibrationStageHandler`**; add **`SequenceCommand`** entries for **Wwise-driven** calibration cues (and conclusion “VO done” when known). Avoid overloading **`EndThisSequenceStage`** for per-section Next unless it clearly reduces complexity. Revisit only if a single global button must mean one thing across stages. |
 | **`MarkComplete()` (calibration exit)** | **Both** required: **(1)** user has pressed the **final** conclusion control **and** **(2)** conclusion **VO has finished**. Note: **often the button will be pressed before VO ends**—the handler must track **both** flags and only call **`MarkComplete()`** when **both** are true (order-independent). |
 | **Conclusion “VO done” cue** | A cue **exists**; exact **`userCueName` TBD**—discover via logging / Wwise test in Stage C or E. |
+| **Next-Step button wiring (hybrid)** | **Generic** `UIManager.NextStepButtonPress` (+ `OnCalibrationNextStepPress`) used by **Start, Headphone, Microphone, VibroAcoustic, LightGlasses**; the handler advances based on its **current step index** (single source of truth). **Conclusion** uses a **dedicated** `UIManager.CalibrationConclusionConfirmButtonPress` (+ `OnCalibrationConclusionConfirmPress`) so the dual-condition completion (button + VO-done) is unambiguous. Retire the four per-section `*NextStepButtonPress` methods/events. **Conclusion no longer uses `EndThisSequenceStageButtonPress`.** |
+| **Step progression storage** | **Centralized in one place** inside `CalibrationStageHandler` as a single ordered step list (one per `StageVariant`: `Default`, `Album`, `NoVibro`). Plain C# (no `.asset` needed for ~3 variants); readable enough that the full ordering for each variant is visible side-by-side. Revisit `.asset`-based step definitions only if variant count grows or non-engineers need to edit ordering. |
 
 ---
 
@@ -80,11 +86,17 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 - **Imitone** `SetGameOn` matches cue parity with legacy (mic on/off cues).
 - **LightControl** AVS calibration cues match legacy (null / inactive guards preserved).
 - **Music**: entering **Opening** / **Playground** / etc. does not leave **ambient** running if the design says stop; **no double `Play_AMBIENT_ENVIRONMENT_LOOP`** (respect delayed-stop cancellation from environment refactor doc).
-- **SequenceDefinition** packs: default session still runs; **stub** definitions are not referenced until you assign them.
+- **SequenceDefinition** packs: default session still runs; **`Calibration_Album` / `Calibration_NoVibro`** are chosen via the **Calibration** row’s **variant** on the pack’s sequence, not via extra stub sequence assets.
 
 ---
 
 ## Stages (implementation order)
+
+### Stage checklist convention
+
+- Each stage uses a **Checklist** with **`[ ]`** = not done, **`[x]`** = done and verified.
+- The **agent** marks **`[x]`** for completed repo work; **you** mark **`[x]`** for Unity-only steps when finished.
+- When a stage is finished, its checklist should be all **`[x]`** (or cancelled lines noted).
 
 ---
 
@@ -102,44 +114,39 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 - **Calibration** = correct (one **l**). **Callibration** is a common misspelling.
 - Hierarchy name **Lightglasses** (plural) is fine for a GameObject; code uses **`CalibrationUI.LightGlasses`** and **`lightGlassesScreen`** on `UIManager` to match.
 
-**Repo reference (optional — already applied in this branch)**
+#### Checklist — repo / agent
 
-- `UIManager`: `*NextStepButtonPress`, `On*NextStepPress`, `CalibrationUI.LightGlasses`, `lightGlassesScreen`.
-- `CalibrationScreen`: `NextStepButtonPress`, `OnNextStepButtonPress`.
-- `CalibrationStageHandler`: subscribes to the `On*NextStepPress` events.
-- Scenes / prefab: `MainGame.unity`, `Menu.unity`, `UIManager.prefab`, `Sandbox-Test.unity` — button method names and **Next Step** copy where listed; **`Menu.unity`** object **`Section Calibration Lightglasses`** (matches your rename from Lightglass).
+- [x] `UIManager`: `*NextStepButtonPress`, `On*NextStepPress`, `CalibrationUI.LightGlasses`, `lightGlassesScreen`
+- [x] `CalibrationScreen`: `NextStepButtonPress`, `OnNextStepButtonPress`; XML note on UnityEvent type name
+- [x] `CalibrationStageHandler`: subscribes to `On*NextStepPress`; `_activeCalibrationVariant` + `LogCalibrationVariantStub`
+- [x] `SequenceTools.cs`: `StageVariant.Calibration_Album`, `Calibration_NoVibro`
+- [x] Plan + **`.cursor/rules/soundself-agent-workflow.mdc`** (commits, **`.unity` permission**, prefab save prompt, no hash-only commits)
+- [x] `MainGame.unity` / `Menu.unity`: `MicrophoneCalibrationScreen` → `CalibrationScreen` on UnityEvent targets *(landed before strict per-file `.unity` rule; **further `.unity` edits** require save + explicit permission — plan row 12)*
 
-**You in Unity**
+#### Checklist — Unity (Editor)
 
-- Confirm every calibration primary button still calls the right **`UIManager`** method (**`HeadphoneNextStepButtonPress`**, **`MicrophoneNextStepButtonPress`**, **`VibroAcousticNextStepButtonPress`**, **`LightGlassesNextStepButtonPress`**) — Unity should keep serialized links after YAML renames; if any show **Missing**, reassign.
-- Confirm **`CalibrationScreen`** components: **On Next Step Button Press** (was “Next Screen”) still lists the right persistent calls; re-wire if Unity cleared a slot when renaming the `UnityEvent` field.
-- Add a **Back** button to the shared calibration chrome **except** on **Section Calibration Start** (see **Stage A — layout notes** below); leave unwired until Stage B unless you add a stub method with permission.
-- Create **empty** (or duplicate) **`SequenceDefinition`** assets: e.g. `Sequence_Calibration_Album_Stub`, `Sequence_Calibration_NoVibro_Stub` — **do not** switch the live pack to them until Stage F.
-- **Introduction / Conclusion:** no new prefab required—ensure **screen roots** (empty **GameObjects**) exist like `headphoneScreen` so Stage B can assign them on `UIManager`.
+- [ ] Each existing section (Headphone / Mic / Vibro / LightGlasses) primary button still calls the matching per-section method *(temporary; Stage B replaces these with the generic `NextStepButtonPress`)*
+- [ ] Each **`CalibrationScreen`**: **On Next Step Button Press** → intended **`UIManager`** method *(also temporary; same Stage B migration)*
+- [x] **Back** where needed; **omitted or inactive** on **Section Calibration Start**
+- [x] **`Dots`** (`line`/`dot` pool, start disabled); optional **Horizontal Layout Group** on `Dots`
+- [x] **Section Calibration Start** + **Section Calibration Conclusion** GameObject roots exist under the calibration canvas, ready for Stage B to add `startScreen` / `conclusionScreen` `[SerializeField]` slots on `UIManager` that you’ll drag these into *(see clarification below)*
+> **Known wrong wiring (info — leave for Stage B, don’t fix manually):** **Section Calibration Start** primary button is currently bound to `UIManager.HeadphoneNextStepButtonPress`; **Section Calibration Conclusion** primary button is currently bound to `UIManager.EndThisSequenceStageButtonPress`. Stage B replaces both per the **Next-Step button wiring (hybrid)** decision.
+- [ ] **Play Mode** narrow check (Stage A scope): pressing **Next Step** on **Headphone / Mic / Vibro / LightGlasses** still advances + logs (these retain their per-section bindings until Stage B). **Skip** Start and Conclusion — their buttons are knowingly mis-bound and are rewired in Stage B; do not try to exercise the full flow yet.
 
-### Stage A — layout notes (dots, Start, Conclusion)
+> **What “roots ready for Stage B refs” means:** every other calibration screen (Headphone, Mic, …) is a child **GameObject** under the calibration canvas that `UIManager.SetCalibrationScreen(...)` toggles on/off via a `[SerializeField] private GameObject xxxScreen;` slot. **Start** and **Conclusion** need the same: a parent GameObject per screen (containing their layout + buttons) so that in Stage B we can add `startScreen` / `conclusionScreen` fields on `UIManager` and you can drag those GameObjects in. You’ve already re-added them, so this item is checked.
 
-**Dots parent**
+#### Layout notes (dots, Start, Conclusion)
 
-1. Under your shared calibration chrome (same level as the section cards), create an empty **RectTransform** GameObject, e.g. **`Dots`**.
-2. Add **Horizontal Layout Group** (optional): child alignment **Middle Center**, spacing **8–12**, child force expand **off** so dot width stays fixed.
-3. Pick **one** strategy (code in a later stage will match what you choose):
-   - **A — Empty container:** leave **`Dots`** with **no** children; we will **instantiate** a small dot prefab at runtime from script, or duplicate a template dot.
-   - **B — Fixed pool:** add e.g. **8** dot **Image** children, **disable** extras by default; code will **SetActive** only the first *N* and set “filled” vs “empty” sprite/color.
-4. Keep **one** child or prefab that represents a single dot (filled + empty states can be two sprites or color tint)—design can refine later.
+**Dots (`UIManager` → `Dots`)** — Alternating **`line (n)`** / **`dot (n)`**; later code enables a prefix for **K** steps and highlights current; shorter variants leave extras disabled.
 
-**Section Calibration Start**
+**Section Calibration Start** — No **Back** (omit or inactive).
 
-- **No Back button** on this screen: either omit the Back object from this section’s hierarchy or place it **inactive** here only. Other sections show Back when Stage B enables it per step.
+**Section Calibration Conclusion** — Section pattern; Stage B wires; Stage E gates VO + button.
 
-**Section Calibration Conclusion**
+#### Tests / regression (Stage A)
 
-- Same structure as other calibration sections: **root** (for `UIManager` **conclusion** reference in B), **title/body**, primary control labeled **Next Step** or a dedicated **Done / Continue** if you prefer (wire in B to the right `UIManager` method).
-- Per locked decisions: completion needs **button + VO-done cue**; Stage E adds gating—you only need layout + button reference here.
-
-**Tests:** N/A (editor layout); after confirming wiring, quick Play Mode: one **Next Step** press per section still fires logs / screen change.
-
-**Regression review:** N/A.
+- [ ] Play / wiring checks above (when applicable)
+- [x] No formal code regression for layout-only scope until first Play pass
 
 **Suggested git commit message:** `feat(ui): calibration Next Step naming and LightGlasses wiring` (or split docs vs Unity as you prefer).
 
@@ -150,6 +157,71 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 ---
 
+### Known issue — Choice Welcome ghosted/doubled text on first activation (handoff to other dev team)
+
+**Status:** Unresolved. Being handed off to a separate dev team for investigation. Not blocking Stage B work, but Stage B's first Play Mode test will hit this and any visible "double text" should be assumed to be this same bug until proven otherwise.
+
+#### Symptom
+
+When `MainGame.unity` is played with **`Choice Welcome` deactivated in the Editor at scene-author time** (which is the intended state — `m_IsActive: 0` in scene YAML), the first time `UIManager.SetWelcomeScreen()` activates Choice Welcome via the sequencer, the **Game view** shows the title and the description text rendered **doubled**:
+
+- The prefab/scene-default text values (e.g. title `Welcome to SoundSelf`, description `When you are ready, we will begin.`) render alongside
+- The `HummingbirdPackTextBinder`-injected text values from the resolved Hummingbird pack (e.g. title `Adjunctive Dual-Stage`, description `Minimal VO for somatic focus...`)
+
+The HummingbirdCall text appears **without proper spacing**, suggesting layout sizes were computed against the original (default) text length before the override was applied.
+
+The doubling **persists indefinitely until the user manually disables and re-enables the Choice Welcome GameObject** in the Inspector during Play Mode — after one manual toggle, the screen renders correctly for the rest of the session.
+
+**Scene view is unaffected** — only the Game view shows the doubling.
+
+#### Reproduction
+
+1. Open `Assets/Scenes/MainGame.unity`.
+2. Verify `Canvas/UIManager/Choice Welcome` is **inactive** (`m_IsActive: 0`) — it should be, by serialization.
+3. Press **Play**.
+4. Wait for the sequencer to advance to `SetMenu` stage with variant `Menu_Welcome_PreCalibration` — `SetMenuStageHandler.Enter()` will call `UIManager.SetWelcomeScreen()`, which activates Choice Welcome.
+5. Observe the Game view at the moment Choice Welcome fades in: title and description are rendered with overlapping default + HummingbirdCall text.
+
+#### Workaround (confirms the diagnosis)
+
+- In the Editor, manually set `Choice Welcome` `m_IsActive: 1` in the Hierarchy before pressing Play.
+- Play Mode then loads with Choice Welcome already active; `HummingbirdPackTextBinder.OnEnable` fires during scene initialization (not mid-session), and the fade-in and text both render correctly with **no doubling**.
+
+#### What's been ruled out (so the next team doesn't re-tread)
+
+- **Not a duplicate `Choice Welcome` GameObject** — grep confirms only one instance of the string `Welcome to SoundSelf` in `MainGame.unity` (at the Choice Welcome prefab override).
+- **Not a duplicate Choice Screen prefab being rendered** — there are 4 instances of the `Choice Screen.prefab` in the scene (`Choice Welcome`, `Choose Tutorial Type`, `Choice SS or Music`, `Choice Linear Music Length`); all four have `m_IsActive: 0` at scene load.
+- **Not another stage handler also calling `SetWelcomeScreen()`** — only `SetMenuStageHandler.Enter(Menu_Welcome_PreCalibration)` does.
+- **Not a Wwise / audio thread issue** — purely visual.
+- **`UnsetAllScreens()` already runs before `welcomeScreen.SetActive(true)`** — and the other screens are already inactive at scene start.
+- **Header Text uses legacy `UnityEngine.UI.Text`, not `TMP_Text`** (confirmed in `Choice Screen.prefab` — the `m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text` on the Header Text component). TMP-specific fixes (e.g. `ForceMeshUpdate`) therefore don't apply to the title; the description is also legacy Text.
+- **No `Shadow` / `Outline` components** on the Header Text in the prefab.
+
+#### Fixes that were tried and did **not** work
+
+Both attempts were reverted in this commit's range so the next team has clean code to investigate from. Listing them here so they aren't repeated:
+
+1. **`UIManager.ActivateScreen` refactor** that called `LayoutRebuilder.ForceRebuildLayoutImmediate` on the screen's `RectTransform` + `Canvas.ForceUpdateCanvases()` on every `Set*Screen` activation. No effect on the doubling.
+2. **One-frame deferral** of the *first* screen activation after scene load (plus `UnsetAllScreens()` in `UIManager.Awake()` to clean the frame-0 state). No effect on the doubling.
+3. **`HummingbirdPackTextBinder` forcing `tmp.ForceMeshUpdate()` + `LayoutRebuilder.ForceRebuildLayoutImmediate` on the parent rect** after text assignment. No effect on the doubling. (Plausible reason it didn't help: the text in question is legacy `Text`, not TMP; the legacy code path got the layout rebuild but the doubling still occurred.)
+
+#### Suspicion / suggested next steps for the next team
+
+- Investigate Unity's `CanvasUpdateRegistry` and the legacy `Graphic.OnPopulateMesh` invalidation path when a `Graphic`'s `GameObject` is enabled mid-frame while its parent's `CanvasGroup.alpha` is being animated by `ScreenFadeEffect.OnEnable` (alpha 0 → 1 over `fadeDuration`). The interaction between `OnEnable`-driven text mutation, `ContentSizeFitter`, and a same-frame `CanvasGroup.alpha = 0 → animating` may be what's leaving the original-vertex draw call alive in the canvas batch.
+- Worth checking whether disabling `ScreenFadeEffect` on Choice Welcome eliminates the doubling — if yes, the fade interaction is the culprit; if no, look closer at `HummingbirdPackTextBinder.OnEnable` execution order vs. `Graphic` initial layout.
+- Worth checking the description GameObject's `ContentSizeFitter` (VerticalFit: PreferredSize) — if removed temporarily, does the description still double? Isolates whether ContentSizeFitter is part of the chain.
+- The legacy `UnityEngine.UI.Text` path inside `HummingbirdPackTextBinder` is one line — `legacy.text = value;`. If TMP migration were on the table, switching these texts to TMP and ensuring `ForceMeshUpdate()` runs after assignment is a candidate; but doing that purely to mask this bug is wrong — the underlying cause should be found first.
+
+#### Files / lines relevant to the investigation
+
+- `Assets/Scripts/CSVUtility/HummingBirdCommunications/HummingbirdPackTextBinder.cs` — the binder that injects text in `OnEnable`.
+- `Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs` — `SetWelcomeScreen()` / `UnsetAllScreens()`.
+- `Assets/Jinnbyte/SoundSelfUI/Scripts/ScreenFadeEffect.cs` — drives `CanvasGroup.alpha` 0 → 1 in `OnEnable`.
+- `Assets/Scripts/Sequencing/Handlers/SetMenuStageHandler.cs` — the stage that calls `SetWelcomeScreen()` in the `Menu_Welcome_PreCalibration` variant.
+- `Assets/Jinnbyte/SoundSelfUI/Prefab/Choice Screen.prefab` — Header Text definition + Card layout.
+
+---
+
 ### Stage B — `UIManager` + `CalibrationStageHandler` contract (screens, events, no Wwise yet)
 
 | **Recommended LLM** | **Composer 2** |
@@ -157,25 +229,34 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 **Before you start:** Set this chat session to **Composer 2** before the Stage B coding pass.
 
-**Goal:** `SetCalibrationScreen` supports **Introduction** and **Conclusion**; **Back** event exists; optional **`SetCalibrationProgressDots(int current, int total)`** API (or a tiny `CalibrationProgressView` component referenced by handler). **`CalibrationStageHandler`** owns a **step list** (headphone → … → conclusion) but can still **stub** Wwise calls behind `#if` or `// TODO` if you want to split.
+**Goal:** `SetCalibrationScreen` covers **Start / Headphone / Mic / VibroAcoustic / LightGlasses / Conclusion**; introduce **generic Next Step** + **Back** + **Conclusion Confirm** events; `CalibrationStageHandler` becomes the single owner of step progression (centralized ordered list per variant). No Wwise changes yet.
 
-**Code (with permission)**
+#### Checklist — code (with permission)
 
-- `UIManager`: complete `CalibrationUI` switch; add `OnCalibrationBackPress` (and if needed `OnCalibrationConclusionConfirmPress` separate from generic next).
-- Serialize **introduction / conclusion** `GameObject` references like other screens.
-- `CalibrationStageHandler`: replace hardcoded chain with **data-driven step index**; forward **next/back** to screen + (later) switch.
+- [ ] `UIManager`: rename `CalibrationUI.Introduction` → `CalibrationUI.Start` (the enum entry exists but is unused; matches the **Section Calibration Start** GameObject name); serialize `startScreen` and `conclusionScreen` `GameObject` fields; extend `SetCalibrationScreen` switch to cover **Start** and **Conclusion**
+- [ ] `UIManager`: add **generic** `NextStepButtonPress()` + `OnCalibrationNextStepPress` (and keep debounce / cooldown pattern)
+- [ ] `UIManager`: add `BackStepButtonPress()` + `OnCalibrationBackPress`
+- [ ] `UIManager`: add `CalibrationConclusionConfirmButtonPress()` + `OnCalibrationConclusionConfirmPress`
+- [ ] `UIManager`: deprecate (mark `[Obsolete]` and leave calling `OnCalibrationNextStepPress`, or remove if no scene refs remain) `HeadphoneNextStepButtonPress`, `MicrophoneNextStepButtonPress`, `VibroAcousticNextStepButtonPress`, `LightGlassesNextStepButtonPress` + their `On*NextStepPress` events
+- [ ] `CalibrationStageHandler`: one central step list per variant (`Calibration_Default`, `Album`, `NoVibro`); subscribe to the **3** new events; advance/back by **step index**; track conclusion `_buttonPressed` + (Stage E) `_voDone` flags
+- [ ] Remove handler subscriptions to retired `On*NextStepPress` events
 
-**You in Unity**
+#### Checklist — Unity (after code lands; permission required per `.unity` rule)
 
-- Assign new serialized fields on **`UIManager`**.
-- Wire **Back** button to new `UIManager` method.
-- Wire **Conclusion** primary button to the appropriate `UIManager` method.
+- [ ] Add `startScreen` / `conclusionScreen` references on `UIManager` (drag the Section Calibration Start / Conclusion roots)
+- [ ] **Rewire all per-section primary buttons** (Start, Headphone, Mic, Vibro, LightGlasses) to call **`UIManager.NextStepButtonPress`**
+- [ ] **Rewire Conclusion primary button** to call **`UIManager.CalibrationConclusionConfirmButtonPress`** (no longer `EndThisSequenceStageButtonPress`)
+- [ ] Wire **Back** buttons (where present) to **`UIManager.BackStepButtonPress`**; confirm Start has no Back active
 
-**Tests:** Enter calibration dev override → verify **every** screen toggles, **back** decreases step without skipping indices, dots **count** matches list length.
+#### Tests / regression
 
-**Regression review:** Other screens (`SetWelcomeScreen`, choice screen) unchanged.
+- [ ] Dev override: Start → Headphone → Mic → Vibro → LightGlasses → Conclusion all reachable via the **single** generic Next button
+- [ ] **Back** decreases step without skipping; disabled on Start
+- [ ] Conclusion primary button fires `OnCalibrationConclusionConfirmPress` (not `OnEndThisSequenceStagePress`); handler sets `_buttonPressed` but does **not** complete the stage yet (VO-done gating in Stage E)
+- [ ] No scene references to retired `*NextScreenButtonPress` / per-section `*NextStepButtonPress` methods (grep `MainGame.unity`, `Menu.unity`, `UIManager.prefab`)
+- [ ] `SetWelcomeScreen` / choice screen / other stages’ subscriptions unchanged
 
-**Suggested git commit message:** `feat(ui): calibration screens, back event, progress dots API`.
+**Suggested git commit message:** `feat(ui): generic calibration Next/Back + Conclusion confirm; centralized step list in handler`.
 
 **Commit recorded**
 
@@ -190,24 +271,23 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 **Before you start:** Set this chat session to **Opus 4.7** before the Stage C pass (Wwise + cross-cutting sequencing).
 
-**Goal:** Restore **`Play_Calibration_Sequence`** / **`Stop_Calibration_Sequence`** / **`Calibration_Sequence`** switch names from legacy; move cue handling to **sequence commands**; implement **back** as **rewind / re-post** per locked decision (coordinate with Wwise authoring).
+**Goal:** Legacy Wwise play/stop/switches; cues → **`SequenceCommand`**; **back** = **rewind / re-post**.
 
-**Code (with permission)**
+#### Checklist — code (with permission)
 
-- Add **`SequenceCommand`** values for calibration cues you want centralized (minimal set mirroring legacy):  
-  e.g. `CueCalibrationMicrophoneOn`, `CueCalibrationMicrophoneOff`, `CueCalibrationAvsStart`, `CueCalibrationAvsEnd` (exact names to match Wwise `userCueName` strings / team convention).
-- **`CalibrationStageHandler`**: `WatchesSequenceCommand` includes those; add **`EndThisSequenceStage`** only if still needed for a global control—prefer the locked “elegant” split (see **Decisions**).
-- Implement a **small MonoBehaviour** (e.g. `CalibrationWwiseMusicSyncRelay`) on the same object that posts `Play_Calibration_Sequence`, registered for **`AK_MusicSyncUserCue`**, calling `_sequencer.HandleSequenceCommand` — **or** extend an existing Wwise bridge if you already have a pattern on `WwiseVOManager` (prefer **one** clear owner).
-- **`CalibrationMenu`**: keep as **thin façade** if useful (`StartCalibrationSequence` / `StopCalibrationSequence` call Wwise) so **`OpeningStageHandler`** does not need a signature change; **or** move posts entirely into **`CalibrationStageHandler`** and update **`OpeningStageHandler`** to call **`Stop_Calibration_Sequence`** via sequencer/handler — pick one; avoid two unrelated owners posting Play/Stop.
+- [ ] New **`SequenceCommand`** values (mic on/off, AVS, …) matching Wwise `userCueName`
+- [ ] `CalibrationStageHandler`: watch/execute those commands (+ `EndThisSequenceStage` only if agreed)
+- [ ] **`CalibrationWwiseMusicSyncRelay`** (or one owner): `Play_Calibration_Sequence` + `AK_MusicSyncUserCue` → `HandleSequenceCommand`
+- [ ] **`CalibrationMenu`** vs handler: single owner for Play/Stop; Opening still stops calibration
 
-**You in Unity**
+#### Checklist — Unity
 
-- Add **`CalibrationWwiseMusicSyncRelay`** (or chosen component) to the object that should receive Ak callbacks (often the object posting the event).
-- Verify **AkGameObj** / listener routing matches previous working setup.
+- [ ] Relay on correct **AkGameObj**; verify routing
 
-**Tests:** Play mode: start calibration → hear sequence; advance portions → switch changes in Wwise remote; fire mic cues → **Imitone** toggles; AVS cues → **lights**; stop on exit calibration / enter Opening; **back** invokes rewind/re-post and stays in sync with UI.
+#### Tests / regression
 
-**Regression review:** No other handlers accidentally watch the new commands; Opening still stops calibration.
+- [ ] Play mode: full audio + switch + mic + lights + stop + **back** sync
+- [ ] No orphan `HandleSequenceCommand` warnings; Opening stops calibration
 
 **Suggested git commit message:** `feat(sequence): calibration Wwise play/stop, switches, cue commands`.
 
@@ -224,22 +304,23 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 **Before you start:** Set this chat session to **Opus 4.7** before the Stage D pass (audio lifecycle refactor).
 
-**Goal:** New **`Assets/Scripts/MusicAndLight/LinearMusic.cs`** (MonoBehaviour, likely singleton or referenced from `Sequencer`) owns **environment ambient** entry/exit currently implemented as **`EnterMusicEnvironmentAudio` / `ExitMusicEnvironmentAudio`** in `MusicSystem1` (see grep locations ~2388–2436). **`MusicSystem1.SetMusicModeTo(Environment)`** should delegate to **`LinearMusic`** so all existing callers keep working.
+**Goal:** **`LinearMusic`**, delegate from **`MusicSystem1`**; idempotent start on menu/calibration **Enter**; stop on other stages **Enter**.
 
-**Code (with permission)**
+#### Checklist — code (with permission)
 
-- Implement **`LinearMusic`**: idempotent **EnsureEnvironmentAmbientPlaying** / **StopEnvironmentAmbient** (or mirror naming in music refactor doc), **cancel pending delayed stop** on re-entry.
-- **`MusicSystem1`**: replace direct ambient state+post with calls into **`LinearMusic`**.
-- **`SetMenuStageHandler.Enter`** (variants that show welcome / pre-calibration UI) and/or **`CalibrationStageHandler.Enter`**: call **idempotent start**.
-- **`OpeningStageHandler.Enter`** (and other agreed stage handlers): call **stop** for linear menu bed **on entry** (not exit), per your convention.
+- [ ] **`LinearMusic`** (idempotent play, cancel delayed stop on re-entry)
+- [ ] **`MusicSystem1`** delegates ambient lifecycle to **`LinearMusic`**
+- [ ] **`SetMenuStageHandler`** / **`CalibrationStageHandler`**: start bed where agreed
+- [ ] **`OpeningStageHandler`** (+ others agreed): stop on **Enter**
 
-**You in Unity**
+#### Checklist — Unity
 
-- Add **`LinearMusic`** component to the appropriate persistent scene object; wire reference if not singleton.
+- [ ] **`LinearMusic`** component + references
 
-**Tests:** Welcome → Opening: ambient stops; re-enter welcome: ambient starts once (no stacked Play); `FadeOut`/Environment gameplay path still works if it still routes through `MusicSystem1`.
+#### Tests / regression
 
-**Regression review:** Read **`Docs/MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md`** invariants; grep for `Play_AMBIENT_ENVIRONMENT_LOOP` — single ownership path.
+- [ ] Welcome ↔ Opening; no double `Play_AMBIENT_ENVIRONMENT_LOOP`; `FadeOut` path OK
+- [ ] **`MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md`** invariants
 
 **Suggested git commit message:** `feat(audio): LinearMusic for environment bed; menu/calibration entry hooks`.
 
@@ -256,20 +337,22 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 **Before you start:** Set this chat session to **Composer 2** before the Stage E pass.
 
-**Goal:** When user presses **Next Step**, handler enters **“pending advance”** state: optionally notify UI to **disable / gray** (you implement styling); **do not** advance Wwise portion / UI until **allowed** (either immediately if no gating cue, or when **`SequenceCommand`** from Wwise arrives). **Conclusion:** track **button pressed** and **VO-done cue** (name from test); **`MarkComplete()`** only when **both** are true (see **Decisions**).
+**Goal:** **Next Step** gated on cue; **Conclusion**: **`MarkComplete()`** only when **button + VO-done**.
 
-**Code (with permission)**
+#### Checklist — code (with permission)
 
-- Handler state machine: `CanAdvance`, `RequestAdvance()`, `OnCalibrationCueAllowAdvance()` (names illustrative).
-- Optional `UIManager` hooks: `SetCalibrationNextButtonInteractable(bool)` or event `OnCalibrationNavigationStateChanged`.
+- [ ] Handler pending-advance + cue unlock
+- [ ] Optional `UIManager` hooks for interactable / `CanvasGroup` (you style)
 
-**You in Unity**
+#### Checklist — Unity
 
-- Hook interactable / CanvasGroup / animator to the above when you are ready.
+- [ ] Wire visuals to hooks when ready
 
-**Tests:** Spam Next during VO → **no** double skip; when cue fires → exactly one step advances; conclusion only completes sequence when **VO done + button** both satisfied.
+#### Tests / regression
 
-**Regression review:** `UIManagerTiming` debounce still OK with interactable false (ensure no stuck state).
+- [ ] Spam Next: no double skip; cue advances one step
+- [ ] Conclusion dual condition
+- [ ] No stuck state with debounce + disabled buttons
 
 **Suggested git commit message:** `feat(sequence): calibration next/conclusion gated on Wwise cues`.
 
@@ -279,29 +362,30 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 ---
 
-### Stage F — Variants: `Calibration_Album`, `Calibration_NoVibro` + shorter progress dots
+### Stage F — Variants: `Calibration_Album`, `Calibration_NoVibro` + progress dots
 
 | **Recommended LLM** | **Composer 2** |
 |-----------------------|----------------|
 
 **Before you start:** Set this chat session to **Composer 2** before the Stage F pass.
 
-**Goal:** **`StageVariant`** entries + handler reads **which portions exist** (skip Vibro = remove that step and **do not** visit that switch). **Dots** `total` = step count. **SequenceDefinition** stubs point at these variants.
+**Goal:** Step list + **dots K** from **`StageVariant`**; pack uses same **Calibration** row, different **variant**.
 
-**Code (with permission)**
+#### Checklist — code (with permission)
 
-- `SequenceTools.cs`: add variants (spelling: **`Calibration_NoVibro`**, not “Callibration”).
-- `CalibrationStageHandler`: build step list from variant; **back** respects skipped steps.
+- [ ] `CalibrationStageHandler`: **NoVibro** omits vibro step + Wwise; **Album** when specified; **back** respects list
+- [ ] `UIManager`: e.g. **`SetCalibrationProgressVisual`** for `Dots` line/dot children
 
-**You in Unity**
+#### Checklist — Unity / data
 
-- Assign **`SequenceDefinition`** stub assets on packs **only when testing** those flows.
+- [ ] Pack **`SequenceDefinition`**: Calibration **variant** for test builds
 
-**Tests:** NoVibro: never shows vibro screen; Wwise never receives `Vibration` switch (verify in Wwise log); dot count matches.
+#### Tests / regression
 
-**Regression review:** Default `Calibration_Default` matches current full path.
+- [ ] NoVibro: no vibro UI/switch; dot **K** correct
+- [ ] **`Calibration_Default`** = full path
 
-**Suggested git commit message:** `feat(sequence): calibration stage variants and sequence stubs`.
+**Suggested git commit message:** `feat(sequence): calibration variants drive step list and dots`.
 
 **Commit recorded**
 
@@ -342,6 +426,10 @@ Current **`Menu_Ps_InteractiveOrMusic`** path **auto-completes** and branches �
 
 ## Summary
 
-We **reproduce legacy Wwise** (`Play_Calibration_Sequence`, `Calibration_Sequence` switches, four user cues) under **`CalibrationStageHandler`**, route cues through **`SequenceCommand`**, complete **`UIManager`** calibration screens (intro/conclusion, back, dots), extract **environment bed** to **`LinearMusic`**, add **cue-gated navigation** and **dual-condition conclusion completion**, then add **variants + SO stubs**. **Back** requires **Wwise rewind/re-post**. You handle **Unity wiring and visuals**; approved code lands in staged commits with hashes recorded above.
+We **reproduce legacy Wwise** (`Play_Calibration_Sequence`, `Calibration_Sequence` switches, four user cues) under **`CalibrationStageHandler`**, route cues through **`SequenceCommand`**, complete **`UIManager`** calibration screens (Start, sections, Conclusion, back, **`Dots`** line/dot pool), extract **environment bed** to **`LinearMusic`**, add **cue-gated navigation** and **dual-condition conclusion completion**, then implement **`StageVariant.Calibration_Album`** / **`Calibration_NoVibro`** on the **same** calibration stage (pack sequence sets **variant**, not a separate stub sequence asset). **Back** requires **Wwise rewind/re-post**.
 
-**Current focus:** **Stage A** — Unity prep + doc; next coding stage after A is complete is **Stage B** (switch chat to **Composer 2** before starting B).
+**Process:** **`.cursor/rules/soundself-agent-workflow.mdc`** (commits only after chat confirmation; **never edit `.unity` without save prompt + explicit permission**; prefab save prompt; no hash-only commits). **This plan:** each stage **Checklist** uses **`[ ]` / `[x]`** (see **Stage checklist convention**).
+
+You handle **Unity wiring and visuals**; approved code lands in commits **after you confirm** in chat.
+
+**Current focus:** Finish **Stage A** Unity checks; next coding stage is **Stage B** (switch chat to **Composer 2** before starting B).

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>Shared calibration section UI (headphone, mic, etc.). UnityEvents must use this type name — scenes were migrated off the legacy <c>MicrophoneCalibrationScreen</c> string.</summary>
 public class CalibrationScreen : MonoBehaviour
 {
     public GameObject troubleshootButton;

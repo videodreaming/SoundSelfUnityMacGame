@@ -7,6 +7,8 @@ namespace SoundSelf.Sequence
     {
         private readonly Sequencer _sequencer;
         private bool _calibrationUiListenersRegistered;
+        /// <summary>Variant passed to <see cref="Enter"/> for this calibration run. Stubs: <see cref="StageVariant.Calibration_Album"/>, <see cref="StageVariant.Calibration_NoVibro"/>.</summary>
+        private StageVariant _activeCalibrationVariant = StageVariant.Calibration_Default;
 
         public StageType StageType => StageType.Calibration;
 
@@ -29,6 +31,12 @@ namespace SoundSelf.Sequence
         public void Enter(StageVariant variant)
         {
             IsComplete = false;
+            if (variant == StageVariant.Calibration_Album || variant == StageVariant.Calibration_NoVibro || variant == StageVariant.Calibration_Default)
+                _activeCalibrationVariant = variant;
+            else
+                _activeCalibrationVariant = StageVariant.Calibration_Default;
+            LogCalibrationVariantStub(_activeCalibrationVariant);
+
             Debug.Log("CalibrationStageHandler: Enter (stub - skipping until implementation added)");
             if (_sequencer != null && _sequencer.calibrationMenu != null)
             {
@@ -110,6 +118,23 @@ namespace SoundSelf.Sequence
         private void HandleHeadphoneTroubleshootingPress()
         {
             Debug.Log("CalibrationStageHandler: OnHeadphoneTroubleshootingPress (stub).");
+        }
+
+        /// <summary>Stub until step lists read variant: NoVibro skips vibro; Album reserved for alternate copy/order.</summary>
+        private static void LogCalibrationVariantStub(StageVariant variant)
+        {
+            switch (variant)
+            {
+                case StageVariant.Calibration_Album:
+                    Debug.Log("CalibrationStageHandler: variant Calibration_Album (stub — same stage type, alternate flow TBD).");
+                    break;
+                case StageVariant.Calibration_NoVibro:
+                    Debug.Log("CalibrationStageHandler: variant Calibration_NoVibro (stub — vibro step will be omitted when wired).");
+                    break;
+                default:
+                    Debug.Log("CalibrationStageHandler: variant " + variant + " (default full calibration path when wired).");
+                    break;
+            }
         }
 
         //--------------------------------
