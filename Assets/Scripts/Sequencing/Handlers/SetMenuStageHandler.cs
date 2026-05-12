@@ -45,6 +45,11 @@ namespace SoundSelf.Sequence
             {   
                 Debug.Log("SetMenuStageHandler: Enter Menu_Welcome_PreCalibration.");
                 UIManager.Instance.SetWelcomeScreen();
+                // Stage D: ambient bed starts here so it underlays Welcome → Calibration. Idempotent — re-entries are no-ops.
+                if (MusicSystemLinear.instance != null)
+                    MusicSystemLinear.instance.Play();
+                else
+                    Debug.LogWarning("SetMenuStageHandler: MusicSystemLinear.instance is null — ambient bed will not start at Welcome.");
             }
             else
             {

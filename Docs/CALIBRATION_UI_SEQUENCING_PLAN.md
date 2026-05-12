@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Move calibration from the legacy `CalibrationMenu` flow (commented reference in `Assets/CalibrationMenu.cs`) to the **sequence runner + stage handler** model, driven by **`CalibrationStageHandler`**, **`UIManager.SetCalibrationScreen`**, and **Wwise** behavior preserved from the legacy script. Support **forward and back** navigation, **variable-length** calibration definitions (progress dots), **`StageVariant`** stubs for alternate calibration flows (**Album**, **NoVibro**) on the **same** calibration stage, **linear ambient / environment bed** via a new **`LinearMusic`** component (extracted from `MusicSystem1`), and a **later** UX pass for **next/conclusion buttons waiting on cues** (you own gray-out / animation).
+Move calibration from the legacy `CalibrationMenu` flow (commented reference in `Assets/CalibrationMenu.cs`) to the **sequence runner + stage handler** model, driven by **`CalibrationStageHandler`**, **`UIManager.SetCalibrationScreen`**, and **Wwise** behavior preserved from the legacy script. Support **forward and back** navigation, **variable-length** calibration definitions (progress dots), **`StageVariant`** stubs for alternate calibration flows (**Album**, **NoVibro**) on the **same** calibration stage, **linear ambient / environment bed** via a new **`MusicSystemLinear`** component (extracted from `MusicSystem1`), and a **later** UX pass for **next/conclusion buttons waiting on cues** (Stage E: **`LoadingIcon.prefab`** under button — enable icon, disable text while waiting; see Stage E section; optional gray-out / animation remains yours).
 
 This document is the agreed roadmap. **No code changes** should be made until you approve the stage you are about to execute.
 
@@ -57,8 +57,8 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 1. **`CalibrationStageHandler`** owns: definition of **ordered calibration steps** (from `StageVariant` or a small data object), **Wwise switch index** aligned with `TutorialPortions` (subset for “NoVibro”), **subscriptions** to `UIManager` **next / back / conclusion / troubleshoot** events, **`MarkComplete()`** only when **both** conclusion conditions are met (see **Decisions**), **`LocalCleanup()`**: unsubscribe, **stop calibration VO/sequence**, stop any calibration-specific listeners.
 2. **Wwise music-sync callbacks** should **not** silently apply gameplay side effects. They should forward into **`Sequencer.HandleSequenceCommand(...)`** for commands the **calibration handler watches** (matches `StandardSequence-StageHandler-Migration.md`). Side effects (`ImitoneVoiceInterpreter`, `LightControl`) then run **inside the handler** (or a single thin helper it calls) so behavior stays **stage-scoped**.
-3. **UI** remains dumb: buttons invoke `UIManager` methods → **events only**. Optional later: `UIManager` methods to set **“interaction locked”** visual state when the handler asks for “waiting on cue” (you implement visuals).
-4. **Background bed (“environment” / linear menu music)** per your convention: **start on entry** to **Welcome / SetMenu** and/or **Calibration** (idempotent API); **stop on entry** to stages that should not hear it (**Opening**, **Tutorial**, **Playground**, etc. — explicit list in implementation). Extract ambient lifecycle from `MusicSystem1` into **`LinearMusic`**; see existing **`Docs/MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md`** for Wwise contract (State `MusicEnvironmentMode`, `Play_AMBIENT_ENVIRONMENT_LOOP`, delayed stop) — **`LinearMusic`** should encapsulate that contract without duplicating “double Play” bugs.
+3. **UI** remains dumb: buttons invoke `UIManager` methods → **events only**. Stage E adds **“waiting for cue”** affordance: child **`LoadingIcon.prefab`** on each gated button — **enable icon, disable label text** while pending; handler or `UIManager` toggles from cue unlock (see Stage E). Optional: `CanvasGroup` / gray-out / animation (you implement).
+4. **Background bed (“environment” / linear menu music)** per your convention: **start on entry** to **Welcome / SetMenu** and/or **Calibration** (idempotent API); **stop on entry** to stages that should not hear it (**Opening**, **Tutorial**, **Playground**, etc. — explicit list in implementation). Extract ambient lifecycle from `MusicSystem1` into **`MusicSystemLinear`**; see existing **`Docs/MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md`** for Wwise contract (State `MusicEnvironmentMode`, `Play_AMBIENT_ENVIRONMENT_LOOP`, delayed stop) — **`MusicSystemLinear`** should encapsulate that contract without duplicating “double Play” bugs.
 5. **Calibration alternate flows**: use **`StageVariant`** entries **`Calibration_Album`** and **`Calibration_NoVibro`** (see `SequenceTools.cs`) with **`CalibrationStageHandler`** choosing step lists / Wwise behavior. **Do not** introduce separate **`SequenceDefinition`** assets for these unless the product needs an entirely different stage graph—not just skipping a calibration subsection.
 6. **Back navigation:** UI step back must pair with **Wwise rewind / re-post** (not switch-only); implementation details in Stage C once timeline behavior is validated in Wwise.
 
@@ -75,7 +75,8 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 | **Conclusion “VO done” cue** | A cue **exists**; exact **`userCueName` TBD**—discover via logging / Wwise test in Stage C or E. |
 | **Next-Step button wiring (hybrid)** | **Generic** `UIManager.NextStepButtonPress` (+ `OnCalibrationNextStepPress`) used by **Start, Headphone, Microphone, VibroAcoustic, LightGlasses**; the handler advances based on its **current step index** (single source of truth). **Conclusion** uses a **dedicated** `UIManager.CalibrationConclusionConfirmButtonPress` (+ `OnCalibrationConclusionConfirmPress`) so the dual-condition completion (button + VO-done) is unambiguous. Retire the four per-section `*NextStepButtonPress` methods/events. **Conclusion no longer uses `EndThisSequenceStageButtonPress`.** |
 | **Step progression storage** | **Centralized in one place** inside `CalibrationStageHandler` as a single ordered step list (one per `StageVariant`: `Default`, `Album`, `NoVibro`). Plain C# (no `.asset` needed for ~3 variants); readable enough that the full ordering for each variant is visible side-by-side. Revisit `.asset`-based step definitions only if variant count grows or non-engineers need to edit ordering. |
-| **Welcome-screen music** | **`Play_Calibration_Sequence` stays at the Calibration stage** (handler-owned, starts in `CalibrationStageHandler.Enter`). The **Welcome menu uses Stage D's `LinearMusic` ambient bed**, not `Play_Calibration_Sequence`. So the user hears the ambient bed while reading the Welcome screen and continues to hear it under calibration (idempotent re-entry); the calibration's own Wwise music container layers in on top when Calibration begins. |
+| **Welcome-screen music** | **`Play_Calibration_Sequence` stays at the Calibration stage** (handler-owned, starts in `CalibrationStageHandler.Enter`). The **Welcome menu uses Stage D's `MusicSystemLinear` ambient bed**, not `Play_Calibration_Sequence`. So the user hears the ambient bed while reading the Welcome screen; the bed **stops on `CalibrationStageHandler.Enter`** (delayed Stop in `MusicSystemLinear`, ~10s tail) so `Play_Calibration_Sequence` owns the audio bed during calibration without the environment loop layered underneath. |
+| **“Waiting for cue” button affordance** | Use shared prefab **`Assets/Jinnbyte/SoundSelfUI/Prefab/LoadingIcon.prefab`**: instance **as child of the button**; on entering wait state **enable loading graphic, disable button text**; reverse on cue unlock. Rationale from audio design: **avoid interrupting VO mid-sentence** — cues fire at **reasonable interruption points** (usually between sentences). Stage E implements behavior + hooks; layout/placement per calibration button in Unity. |
 
 ---
 
@@ -303,7 +304,7 @@ Both attempts were reverted in this commit's range so the next team has clean co
 - [x] Play mode: full audio + switch + mic + lights + stop + **back** (Stop+Switch+Play) sync
 - [x] No orphan `HandleSequenceCommand` warnings on the 4 new commands
 - [ ] `OpeningStageHandler.Enter` still stops calibration cleanly (no double-Stop noise)
-- [ ] Back during Vibro on `Calibration_NoVibro` variant skips correctly (step list omits Vibro)
+- [~] Back during Vibro on `Calibration_NoVibro` variant skips correctly (step list omits Vibro)
 
 **Suggested git commit message:** `feat(sequence): calibration Wwise play/stop, switches, cue commands`.
 
@@ -313,33 +314,50 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 ---
 
-### Stage D — `LinearMusic` extraction + entry-based start/stop
+### Stage D — `MusicSystemLinear` extraction + entry-based start/stop
 
 | **Recommended LLM** | **Opus 4.7** |
 |---------------------|--------------|
 
 **Before you start:** Set this chat session to **Opus 4.7** before the Stage D pass (audio lifecycle refactor).
 
-**Goal:** **`LinearMusic`**, delegate from **`MusicSystem1`**; idempotent start on menu/calibration **Enter**; stop on other stages **Enter**.
+**Goal:** **`MusicSystemLinear`**, delegate from **`MusicSystem1`**; idempotent start on menu/calibration **Enter**; stop on other stages **Enter**.
+
+#### Decisions (locked) — Stage D
+
+| Concern | Decision |
+|---|---|
+| **File / class name** | **`MusicSystemLinear.cs`** / `class MusicSystemLinear` — paired naming with `MusicSystem1` so the two siblings live next to each other in `Assets/Scripts/MusicAndLight/`. (Earlier draft used `LinearMusic.cs`; renamed before implementation.) |
+| **Scene placement** | Attach **`MusicSystemLinear`** to the **same GameObject** as **`MusicSystem1`** (already Wwise-registered via `AkGameObj`). Play/Stop must hit the same Ak game object; sharing one host GO satisfies that for free. |
+| **Wwise contract owner** | `MusicSystemLinear` is the **single owner** of `Play_AMBIENT_ENVIRONMENT_LOOP` / `Stop_AMBIENT_ENVIRONMENT_LOOP` and the `MusicEnvironmentMode` state (values `Environment` / `Music`). `MusicSystem1.EnterMusicEnvironmentAudio` / `ExitMusicEnvironmentAudio` become **thin delegators**; no duplicated coroutine, no duplicated `_ambientEnvironmentVoicePlaying` flag. |
+| **Idempotency** | `Play()` cancels any pending Stop and PostEvent's `Play_*` only if not already playing. `Stop()` cancels any pending Stop, sets State to `Music`, and schedules `Stop_*` after `delayedStopSeconds` (~10s default — matches the Wwise exit crossfade tail). Re-entering `Play()` during the tail cancels the queued Stop so the bed never gets double-played. |
+| **Start hooks (this stage)** | Only `SetMenuStageHandler.Enter(Menu_Welcome_PreCalibration)` calls `MusicSystemLinear.instance.Play()`. The bed plays under Welcome and **does not** continue into Calibration (see Stop hooks below). |
+| **Stop hooks (this stage — extended list)** | `CalibrationStageHandler`, `OpeningStageHandler`, `TutorialStageHandler`, `PlaygroundStageHandler`, `SavasanaStageHandler`, `StartCountdownStageHandler`, `InquiryStageHandler` (stub), `MusicPlaylistStageHandler`, `EndStageHandler` (stub) each call `MusicSystemLinear.instance.Stop()` on **Enter** (guarded for null). All idempotent — calling Stop while not playing just re-asserts the `Music` state. Calibration is on this list so `Play_Calibration_Sequence` owns the audio bed during calibration without the environment loop underneath. |
 
 #### Checklist — code (with permission)
 
-- [ ] **`LinearMusic`** (idempotent play, cancel delayed stop on re-entry)
-- [ ] **`MusicSystem1`** delegates ambient lifecycle to **`LinearMusic`**
-- [ ] **`SetMenuStageHandler.Enter(Menu_Welcome_PreCalibration)`**: start the bed (this is the "music starts at Welcome" requirement — `LinearMusic`, **not** `Play_Calibration_Sequence`)
-- [ ] **`CalibrationStageHandler.Enter`**: re-assert the bed idempotently (no double-Play if it's already running from Welcome)
-- [ ] **`OpeningStageHandler`** (+ others agreed: `Tutorial`, `Playground`, `Savasana`, etc.): stop on **Enter**
+- [x] **`MusicSystemLinear`** (idempotent Play / Stop / CancelPendingStop; Wwise State + Play/Stop voice owner)
+- [x] **`MusicSystem1`** delegates ambient lifecycle to **`MusicSystemLinear`** (Enter/Exit methods are now thin shims; legacy coroutine + flag removed)
+- [x] **`SetMenuStageHandler.Enter(Menu_Welcome_PreCalibration)`**: start the bed (this is the "music starts at Welcome" requirement — `MusicSystemLinear`, **not** `Play_Calibration_Sequence`)
+- [x] **`CalibrationStageHandler.Enter`**: **stop** the bed (kills it at calibration start so `Play_Calibration_Sequence` owns the audio bed during calibration; idempotent if calibration was entered without Welcome)
+- [x] Stop on **Enter** — extended list: `OpeningStageHandler`, `TutorialStageHandler`, `PlaygroundStageHandler`, `SavasanaStageHandler`, `StartCountdownStageHandler`, `InquiryStageHandler`, `MusicPlaylistStageHandler`, `EndStageHandler`
 
 #### Checklist — Unity
 
-- [ ] **`LinearMusic`** component + references
+- [ ] Add a **`MusicSystemLinear`** component to the **same GameObject** as `MusicSystem1` (don't put it on `Sequencer` or on `CalibrationWwiseRelay` — those are different Ak game objects).
+- [ ] Confirm `MusicSystemLinear.instance` is non-null at Awake (single instance; no duplicates).
+- [ ] (Optional) Tune `delayedStopSeconds` on the component if Wwise's environment exit crossfade ever moves off ~10s.
 
 #### Tests / regression
 
-- [ ] Welcome ↔ Opening; no double `Play_AMBIENT_ENVIRONMENT_LOOP`; `FadeOut` path OK
-- [ ] **`MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md`** invariants
+- [ ] Welcome → Calibration: bed plays under Welcome; on Calibration **Enter** the bed enters delayed-stop (~10s tail) while `Play_Calibration_Sequence` starts; **no** `Play_AMBIENT_ENVIRONMENT_LOOP` posted twice in the Wwise Profiler; no orphan ambient loop after the tail.
+- [ ] Calibration → back to Welcome (re-entry): `MusicSystemLinear.Play()` cancels any pending Stop and re-asserts the bed seamlessly.
+- [ ] Welcome → Opening (skipping Calibration): bed enters delayed-stop (~10s tail); no orphan loop after the tail elapses.
+- [ ] `SetMusicModeTo(Environment)` (existing legacy path) and Stage D `Play()` cooperate without double Play (delegation path).
+- [ ] **`MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md`** invariants still hold (State `MusicEnvironmentMode = Environment` during play, `= Music` during exit, delayed Stop ≈ 10s).
+- [ ] Stages with the new Stop hook (Opening / Tutorial / Playground / Savasana / StartCountdown / Inquiry / MusicPlaylist / End): no orphan ambient loop after they enter.
 
-**Suggested git commit message:** `feat(audio): LinearMusic for environment bed; menu/calibration entry hooks`.
+**Suggested git commit message:** `feat(audio): MusicSystemLinear owns environment bed; delegate from MusicSystem1; entry hooks for Welcome/Calibration + extended Stop list`.
 
 **Commit recorded**
 
@@ -356,20 +374,36 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 **Goal:** **Next Step** gated on cue; **Conclusion**: **`MarkComplete()`** only when **button + VO-done**.
 
+#### Loading icon while waiting (shared prefab — team convention)
+
+**Prefab:** `Assets/Jinnbyte/SoundSelfUI/Prefab/LoadingIcon.prefab`
+
+**UX pattern (as implemented elsewhere on the project):** For flows where the user presses a button and the game **waits for the appropriate Wwise user cue** before advancing (so **VO is not cut off mid-sentence**), interruption is only allowed at **pre-configured points** — usually **between sentences**. While waiting:
+
+- Place an instance of **`LoadingIcon`** **inside the button** (child under the button’s root).
+- On press (when entering the “waiting for cue” state): **enable** the loading graphic and **disable** the button’s **label/text** (so the user sees a spinner, not duplicate copy).
+- On cue (or timeout / error path if you add one): **disable** the loading graphic, **re-enable** text, restore interactable state per handler rules.
+
+**Calibration:** Apply the same pattern on **Section Calibration Start** → **LightGlasses** **Next Step** buttons (and **Conclusion** confirm if it also waits on a cue before dual-condition completion), wherever Stage E defines “pending advance until cue.” **Back** may stay immediate (no loading wait) unless product asks otherwise — align with Wwise back behavior already in Stage C.
+
+**Code vs Unity split:** Stage E **handler** (or thin `UIManager` helpers) owns **when** “waiting” starts/ends; **you** (or layout prefab) own **where** the `LoadingIcon` instance lives on each calibration button hierarchy. Prefer one small reusable component or shared prefab variant per button style so all calibration steps stay consistent.
+
 #### Checklist — code (with permission)
 
-- [ ] Handler pending-advance + cue unlock
-- [ ] Optional `UIManager` hooks for interactable / `CanvasGroup` (you style)
+- [ ] Handler pending-advance + cue unlock (Next / Conclusion as designed)
+- [ ] `UIManager` and/or per-button helpers: **enter waiting** → show `LoadingIcon`, hide label; **cue received** → hide `LoadingIcon`, show label; keep in sync with debounce / interactable flags
+- [ ] Optional `UIManager` hooks for interactable / `CanvasGroup` (you style); loading icon is the **primary** “we are waiting” affordance per team prefab above
 
 #### Checklist — Unity
 
-- [ ] Wire visuals to hooks when ready
+- [ ] Add **`LoadingIcon.prefab`** instance(s) under each calibration **Next Step** (and Conclusion confirm if gated) as children; wire enable/disable in sync with Stage E hooks (or document manual steps if driven purely from prefab layout + animator)
+- [ ] Verify **text disabled + icon enabled** only during wait; no double VO / no mid-sentence skip unless Wwise cue is intentionally placed between sentences
 
 #### Tests / regression
 
-- [ ] Spam Next: no double skip; cue advances one step
+- [ ] Spam Next: no double skip; cue advances one step; loading state clears every time
 - [ ] Conclusion dual condition
-- [ ] No stuck state with debounce + disabled buttons
+- [ ] No stuck state with debounce + disabled buttons; **no stuck loading icon** if cue never fires (define fallback: re-enable button, log, or dev-only assert)
 
 **Suggested git commit message:** `feat(sequence): calibration next/conclusion gated on Wwise cues`.
 
@@ -429,7 +463,7 @@ Both attempts were reverted in this commit's range so the next team has clean co
 | Opening / stop calibration | `Assets/Scripts/Sequencing/Handlers/OpeningStageHandler.cs` |
 | Commands / variants | `Assets/Scripts/Sequencing/SequenceTools.cs` |
 | Sequencer | `Assets/Scripts/Sequencing/Sequencer.cs` |
-| Music | `Assets/Scripts/MusicAndLight/MusicSystem1.cs`, **new** `Assets/Scripts/MusicAndLight/LinearMusic.cs` |
+| Music | `Assets/Scripts/MusicAndLight/MusicSystem1.cs`, **new** `Assets/Scripts/MusicAndLight/MusicSystemLinear.cs` |
 | Migration guidance | `Assets/Scripts/Sequencing/docs/StandardSequence-StageHandler-Migration.md` |
 | Environment contract | `Docs/MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md` |
 
@@ -437,13 +471,13 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 ## Open note: `SetMenuStageHandler`
 
-Current **`Menu_Ps_InteractiveOrMusic`** path **auto-completes** and branches — unrelated to calibration music. Stage D should only add **idempotent ambient start** to variants that actually show **welcome / pre-calibration** UI (`Menu_Welcome_PreCalibration` and any future menu variants you list), without changing adjunctive stub behavior unless you explicitly approve.
+Current **`Menu_Ps_InteractiveOrMusic`** path **auto-completes** and branches — unrelated to calibration music. Stage D only adds **idempotent ambient start** to variants that actually show **welcome / pre-calibration** UI (`Menu_Welcome_PreCalibration` and any future menu variants you list), without changing adjunctive stub behavior unless you explicitly approve.
 
 ---
 
 ## Summary
 
-We **reproduce legacy Wwise** (`Play_Calibration_Sequence`, `Calibration_Sequence` switches, four user cues) under **`CalibrationStageHandler`**, route cues through **`SequenceCommand`**, complete **`UIManager`** calibration screens (Start, sections, Conclusion, back, **`Dots`** line/dot pool), extract **environment bed** to **`LinearMusic`**, add **cue-gated navigation** and **dual-condition conclusion completion**, then implement **`StageVariant.Calibration_Album`** / **`Calibration_NoVibro`** on the **same** calibration stage (pack sequence sets **variant**, not a separate stub sequence asset). **Back** requires **Wwise rewind/re-post**.
+We **reproduce legacy Wwise** (`Play_Calibration_Sequence`, `Calibration_Sequence` switches, four user cues) under **`CalibrationStageHandler`**, route cues through **`SequenceCommand`**, complete **`UIManager`** calibration screens (Start, sections, Conclusion, back, **`Dots`** line/dot pool), extract **environment bed** to **`MusicSystemLinear`**, add **cue-gated navigation** and **dual-condition conclusion completion**, then implement **`StageVariant.Calibration_Album`** / **`Calibration_NoVibro`** on the **same** calibration stage (pack sequence sets **variant**, not a separate stub sequence asset). **Back** requires **Wwise rewind/re-post**.
 
 **Process:** **`.cursor/rules/soundself-agent-workflow.mdc`** (commits only after chat confirmation; **never edit `.unity` without save prompt + explicit permission**; prefab save prompt; no hash-only commits). **This plan:** each stage **Checklist** uses **`[ ]` / `[x]`** (see **Stage checklist convention**).
 

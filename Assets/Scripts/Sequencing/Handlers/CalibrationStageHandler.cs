@@ -85,6 +85,12 @@ namespace SoundSelf.Sequence
             _stepIndex = 0;
 
             Debug.Log("CalibrationStageHandler: Enter — step count " + _steps.Length + ", first screen " + _steps[0]);
+            // Stage D: kill the linear ambient bed at calibration start. The bed plays under Welcome
+            // (SetMenu Menu_Welcome_PreCalibration) and stops here so Play_Calibration_Sequence owns the
+            // audio bed during calibration without the environment loop layered underneath. Idempotent
+            // if the bed wasn't running (e.g. calibration entered without Welcome).
+            if (MusicSystemLinear.instance != null)
+                MusicSystemLinear.instance.Stop();
             ApplyCalibrationMonitoringBoost();
             if (_sequencer != null && _sequencer.calibrationMenu != null)
             {

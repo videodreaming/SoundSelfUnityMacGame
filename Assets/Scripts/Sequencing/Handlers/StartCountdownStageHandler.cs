@@ -41,6 +41,10 @@ namespace SoundSelf.Sequence
             _hasEntered = true;
             IsComplete = false;
 
+            // Stage D: tear down the linear ambient bed; StartCountdown belongs to the closing/final-cue phase. Idempotent.
+            if (MusicSystemLinear.instance != null)
+                MusicSystemLinear.instance.Stop();
+
             var tt = TimeTrackerScript.instance;
             if (tt == null)
             {

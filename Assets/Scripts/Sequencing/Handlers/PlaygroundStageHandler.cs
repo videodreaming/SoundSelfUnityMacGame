@@ -36,6 +36,10 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            // Stage D: tear down the linear ambient bed; Playground takes over via MusicSystem1 modes/soundscape. Idempotent.
+            if (MusicSystemLinear.instance != null)
+                MusicSystemLinear.instance.Stop();
+
             var timeTracker = TimeTrackerScript.instance;
             if (timeTracker != null)
                 timeTracker.OnPlaygroundStageEntered();

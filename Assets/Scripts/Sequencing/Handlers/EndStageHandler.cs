@@ -29,6 +29,9 @@ namespace SoundSelf.Sequence
         {
             IsComplete = false;
             Debug.Log("EndStageHandler: Enter (stub - skipping until implementation added)");
+            // Stage D: ensure the linear ambient bed is torn down at session end. Idempotent.
+            if (MusicSystemLinear.instance != null)
+                MusicSystemLinear.instance.Stop();
             MarkComplete(); // Stub: complete immediately until implementation is added
         }
 

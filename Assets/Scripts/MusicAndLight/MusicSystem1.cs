@@ -116,8 +116,8 @@ public class MusicSystem1 : MonoBehaviour
     public MusicMode currentMusicMode;
     public InteractionType currentInteractionType = InteractionType.SoundWorld; // so when we shift into a mode that plays interactive music, we are using the right sub-system. This is getting complicated. Will be less so when we use environment as a musicLoop or something. 
     private bool interactiveMusicFlag = false;
-    private Coroutine _delayedAmbientStopCoroutine;
-    private bool _ambientEnvironmentVoicePlaying;
+    // Stage D: ambient bed lifecycle (play/stop/idempotency/delayed-stop) extracted to MusicSystemLinear.
+    // EnterMusicEnvironmentAudio / ExitMusicEnvironmentAudio below delegate to MusicSystemLinear.instance.
 
     public string currentSwitchState = "C";
 
@@ -2414,54 +2414,40 @@ public class MusicSystem1 : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Stage D: thin delegator. Single owner of the ambient bed Wwise lifecycle is <see cref="MusicSystemLinear"/>
+    /// (see <c>Docs/CALIBRATION_UI_SEQUENCING_PLAN.md</c> Stage D and <c>Docs/MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md</c>).
+    /// Called from <see cref="SetMusicModeTo"/> when entering <see cref="MusicMode.Environment"/>.
+    /// </summary>
     private void EnterMusicEnvironmentAudio()
     {
-        CancelPendingAmbientEnvironmentStop();
-        AkSoundEngine.SetState("MusicEnvironmentMode", "Environment");
-        if (!_ambientEnvironmentVoicePlaying)
+        if (MusicSystemLinear.instance == null)
         {
-            AkSoundEngine.PostEvent("Play_AMBIENT_ENVIRONMENT_LOOP", gameObject);
-            _ambientEnvironmentVoicePlaying = true;
-            if (debugAllowMusicModeLogs)
-            {
-                Debug.Log("MUSIC: EnterMusicEnvironmentAudio — Play_AMBIENT_ENVIRONMENT_LOOP");
-            }
+            Debug.LogError("MusicSystem1: MusicSystemLinear.instance is null; cannot enter environment audio. Ensure a MusicSystemLinear component lives on a Wwise-registered GameObject (recommended: same GameObject as MusicSystem1).");
+            return;
         }
-        else if (debugAllowMusicModeLogs)
+        MusicSystemLinear.instance.Play();
+        if (debugAllowMusicModeLogs)
         {
-            Debug.Log("MUSIC: EnterMusicEnvironmentAudio — ambient already active (skipped duplicate Play)");
+            Debug.Log("MUSIC: EnterMusicEnvironmentAudio — delegated to MusicSystemLinear.Play()");
         }
     }
 
+    /// <summary>
+    /// Stage D: thin delegator. See <see cref="EnterMusicEnvironmentAudio"/> notes.
+    /// Called from <see cref="SetMusicModeTo"/> when leaving <see cref="MusicMode.Environment"/>.
+    /// </summary>
     private void ExitMusicEnvironmentAudio()
     {
-        CancelPendingAmbientEnvironmentStop();
-        AkSoundEngine.SetState("MusicEnvironmentMode", "Music");
-        _delayedAmbientStopCoroutine = StartCoroutine(DelayedStopAmbientEnvironmentLoopCoroutine());
+        if (MusicSystemLinear.instance == null)
+        {
+            Debug.LogError("MusicSystem1: MusicSystemLinear.instance is null; cannot exit environment audio.");
+            return;
+        }
+        MusicSystemLinear.instance.Stop();
         if (debugAllowMusicModeLogs)
         {
-            Debug.Log("MUSIC: ExitMusicEnvironmentAudio — State Music, scheduling Stop in 10s");
-        }
-    }
-
-    private void CancelPendingAmbientEnvironmentStop()
-    {
-        if (_delayedAmbientStopCoroutine != null)
-        {
-            StopCoroutine(_delayedAmbientStopCoroutine);
-            _delayedAmbientStopCoroutine = null;
-        }
-    }
-
-    private IEnumerator DelayedStopAmbientEnvironmentLoopCoroutine()
-    {
-        yield return new WaitForSeconds(10f);
-        AkSoundEngine.PostEvent("Stop_AMBIENT_ENVIRONMENT_LOOP", gameObject);
-        _ambientEnvironmentVoicePlaying = false;
-        _delayedAmbientStopCoroutine = null;
-        if (debugAllowMusicModeLogs)
-        {
-            Debug.Log("MUSIC: delayed — Stop_AMBIENT_ENVIRONMENT_LOOP");
+            Debug.Log("MUSIC: ExitMusicEnvironmentAudio — delegated to MusicSystemLinear.Stop() (delayed exit handled inside the delegate).");
         }
     }
 

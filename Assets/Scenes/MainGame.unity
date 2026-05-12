@@ -9093,6 +9093,7 @@ GameObject:
   m_Component:
   - component: {fileID: 619104375}
   - component: {fileID: 619104374}
+  - component: {fileID: 619104377}
   - component: {fileID: 619104376}
   m_Layer: 0
   m_Name: MusicSystem
@@ -9170,6 +9171,25 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &619104377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619104373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e94b81e2399634da9270e04419fe7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playEventName: Play_AMBIENT_ENVIRONMENT_LOOP
+  stopEventName: Stop_AMBIENT_ENVIRONMENT_LOOP
+  stateGroupName: MusicEnvironmentMode
+  stateValueEnvironment: Environment
+  stateValueMusic: Music
+  delayedStopSeconds: 10
+  debugAllowLogs: 1
 --- !u!1 &619446072
 GameObject:
   m_ObjectHideFlags: 0

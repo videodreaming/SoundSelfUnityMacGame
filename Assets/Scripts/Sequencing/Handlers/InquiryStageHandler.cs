@@ -29,6 +29,9 @@ namespace SoundSelf.Sequence
         {
             IsComplete = false;
             Debug.Log("InquiryStageHandler: Enter (stub - skipping until implementation added)");
+            // Stage D: even as a stub, tear down the linear ambient bed so it doesn't leak past inquiry. Idempotent.
+            if (MusicSystemLinear.instance != null)
+                MusicSystemLinear.instance.Stop();
             MarkComplete(); // Stub: complete immediately until implementation is added
         }
 

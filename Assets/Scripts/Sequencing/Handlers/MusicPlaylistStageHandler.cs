@@ -49,6 +49,10 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            // Stage D: tear down the linear ambient bed before the music playlist starts. Idempotent.
+            if (MusicSystemLinear.instance != null)
+                MusicSystemLinear.instance.Stop();
+
             _sequencer.wwiseVOManager.PlayMusicPlaylist(playlistSwitch);
             _completionCoroutine = _sequencer.StartCoroutine(WaitForSectionCountdownToReachZero());
             Debug.Log("MusicPlaylistStageHandler: Started playlist " + playlistSwitch + ". Waiting for CountdownThisSection to reach 0.");
