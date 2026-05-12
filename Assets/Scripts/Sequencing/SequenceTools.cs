@@ -74,6 +74,7 @@ namespace SoundSelf.Sequence
         Menu_Ps_InteractiveOrMusic = 27,
         Playlist_40m = 28,
         Playlist_60m = 29,
+        Menu_Welcome_PreCalibration = 31,
     }
 
     [System.Serializable]

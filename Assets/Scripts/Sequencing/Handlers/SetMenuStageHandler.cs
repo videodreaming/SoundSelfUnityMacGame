@@ -41,9 +41,16 @@ namespace SoundSelf.Sequence
                     Debug.LogError("SetMenuStageHandler: Sequencer is null. Cannot auto-branch to Adjunctive interactive sequence.");
                 return;
             }
-
-            Debug.Log("SetMenuStageHandler: Enter (stub - skipping until implementation added)");
-            MarkComplete(); // Stub: complete immediately; cue-watching in place for when implementation is added
+            else if (variant == StageVariant.Menu_Welcome_PreCalibration)
+            {   
+                Debug.Log("SetMenuStageHandler: Enter Menu_Welcome_PreCalibration.");
+                UIManager.Instance.SetWelcomeScreen();
+            }
+            else
+            {
+                Debug.Log("SetMenuStageHandler: UNDEFINED VARIANT (stub - skipping until implementation added)");
+                MarkComplete(); // Stub: complete immediately; cue-watching in place for when implementation is added
+            }
         }
 
         private IEnumerator StartProtocolStacksInteractiveNextFrame()

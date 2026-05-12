@@ -30,7 +30,8 @@ public class UIManager : MonoBehaviour
 
 
     //Screens
-    [SerializeField] private GameObject mainScreen;
+    [SerializeField] private GameObject choiceSSOrMusicScreen;
+    [SerializeField] private GameObject welcomeScreen;
     [SerializeField] private GameObject headphoneScreen; //calibration screens
     [SerializeField] private GameObject microphoneScreen; //calibration screens
     [SerializeField] private GameObject vibroAcousticScreen; //calibration screens
@@ -57,7 +58,8 @@ public class UIManager : MonoBehaviour
     // Screen Set Functions
     public void UnsetAllScreens()
     {
-        mainScreen.SetActive(false);
+        choiceSSOrMusicScreen.SetActive(false);
+        welcomeScreen.SetActive(false);
         headphoneScreen.SetActive(false);
         microphoneScreen.SetActive(false);
         vibroAcousticScreen.SetActive(false);
@@ -98,10 +100,16 @@ public class UIManager : MonoBehaviour
         endMeditationScreen.SetActive(true);
         ArmButtonInteractionCooldown();
     }
-    public void SetChoiceScreen()
+    public void SetChoiceSSOrMusicScreen()
     {
         UnsetAllScreens();
-        mainScreen.SetActive(true);
+        choiceSSOrMusicScreen.SetActive(true);
+        ArmButtonInteractionCooldown();
+    }
+    public void SetWelcomeScreen()
+    {
+        UnsetAllScreens();
+        welcomeScreen.SetActive(true);
         ArmButtonInteractionCooldown();
     }
     // Set Time 
@@ -269,7 +277,7 @@ public class UIManager : MonoBehaviour
         OnStartSoundSelfPress?.Invoke();
         ArmButtonInteractionCooldown();
 
-        // mainScreen.SetActive(false);
+        // choiceSSOrMusicScreenSetActive(false);
         // headphoneScreen.SetActive(true);
     }
 
@@ -280,7 +288,7 @@ public class UIManager : MonoBehaviour
         OnPlayMusicPress?.Invoke();
         ArmButtonInteractionCooldown();
 
-        // mainScreen.SetActive(false);
+        // choiceSSOrMusicScreenSetActive(false);
         // microphoneScreen.SetActive(true);
     }
 

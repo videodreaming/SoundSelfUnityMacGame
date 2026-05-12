@@ -104,7 +104,7 @@ namespace SoundSelf.Sequence
         private void HandleLightglassScreenNextPress()
         {
             Debug.Log("CalibrationStageHandler: OnLightglassScreenNextPress (stub).");
-            UIManager.Instance.SetChoiceScreen();
+            UIManager.Instance.SetChoiceSSOrMusicScreen();
         }
 
         private void HandleHeadphoneTroubleshootingPress()
