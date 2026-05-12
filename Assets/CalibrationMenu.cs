@@ -1,18 +1,95 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using SoundSelf.Sequence;
 
+/// <summary>
+/// Wwise relay for the calibration music sequence.
+/// Single Ak GameObject owner of <c>Play_Calibration_Sequence</c> / <c>Stop_Calibration_Sequence</c> / <c>SetSwitch("Calibration_Sequence", ...)</c>.
+/// The Wwise API requires the same GameObject for Play / Stop / SetSwitch on a given sequence (see WwiseVOManager note), so all three live on this component.
+/// Translates <see cref="AkCallbackType.AK_MusicSyncUserCue"/> user-cue names into <see cref="SequenceCommand"/> and forwards them through <see cref="Sequencer.HandleSequenceCommand"/>.
+/// Gameplay side-effects (Imitone, lights) live in <c>CalibrationStageHandler.ExecuteSequenceCommand</c>; this class is wire only.
+/// </summary>
 public class CalibrationMenu : MonoBehaviour
 {
-    public void StartCalibrationSequence()
+    private Sequencer _sequencerForCallback;
+    private bool _isPlaying;
+
+    /// <summary>Posts <c>Play_Calibration_Sequence</c> on this GameObject with an <c>AK_MusicSyncUserCue</c> callback. Idempotent: re-entry is a no-op until <see cref="StopCalibrationSequence"/>. Pass the active sequencer so the music-sync callback can route cues through <see cref="Sequencer.HandleSequenceCommand"/>.</summary>
+    public void StartCalibrationSequence(Sequencer sequencer)
     {
-        Debug.Log("CalibrationMenu: StartCalibrationSequence (stub)");
+        _sequencerForCallback = sequencer;
+        if (_isPlaying)
+        {
+            Debug.Log("CalibrationMenu: StartCalibrationSequence — already playing; skipping re-post (idempotent).");
+            return;
+        }
+        _isPlaying = true;
+        AkSoundEngine.PostEvent("Play_Calibration_Sequence", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, CalibrationMusicSyncCallback, null);
     }
+
+    /// <summary>Posts <c>Stop_Calibration_Sequence</c> on this GameObject. Safe to call when not playing (Wwise no-op).</summary>
     public void StopCalibrationSequence()
     {
-        Debug.Log("CalibrationMenu: StopCalibrationSequence (stub)");
+        AkSoundEngine.PostEvent("Stop_Calibration_Sequence", gameObject);
+        _isPlaying = false;
+    }
+
+    /// <summary>Sets the Wwise switch <c>Calibration_Sequence</c> to the named portion (e.g. <c>Intro</c>, <c>Volume</c>, <c>Mic</c>, <c>Vibration</c>, <c>Lights</c>, <c>End</c>). Switch state must be set on the same GameObject that owns Play/Stop.</summary>
+    public void SetCalibrationPortionSwitch(string portion)
+    {
+        if (string.IsNullOrEmpty(portion))
+        {
+            Debug.LogWarning("CalibrationMenu: SetCalibrationPortionSwitch called with empty portion; ignoring.");
+            return;
+        }
+        AkSoundEngine.SetSwitch("Calibration_Sequence", portion, gameObject);
+    }
+
+    /// <summary>Back-step rewind: Stop the current sequence, set the switch to <paramref name="portion"/>, then Play again — all on this GameObject in the same frame. Does not wait for any cue; the UI step has already moved.</summary>
+    public void RestartFromPortion(Sequencer sequencer, string portion)
+    {
+        AkSoundEngine.PostEvent("Stop_Calibration_Sequence", gameObject);
+        _isPlaying = false;
+        SetCalibrationPortionSwitch(portion);
+        StartCalibrationSequence(sequencer);
+    }
+
+    private void CalibrationMusicSyncCallback(object in_cookie, AkCallbackType in_type, object in_info)
+    {
+        if (in_type != AkCallbackType.AK_MusicSyncUserCue)
+            return;
+
+        var info = in_info as AkMusicSyncCallbackInfo;
+        if (info == null)
+            return;
+
+        string cue = info.userCueName;
+        if (string.IsNullOrEmpty(cue))
+            return;
+
+        if (_sequencerForCallback == null)
+        {
+            Debug.LogWarning("CalibrationMenu: Music-sync cue '" + cue + "' fired but sequencer reference is null — cannot route to HandleSequenceCommand.");
+            return;
+        }
+
+        switch (cue)
+        {
+            case "Cue_Microphone_ON":
+                _sequencerForCallback.HandleSequenceCommand(SequenceCommand.CalibrationMicrophoneOn);
+                break;
+            case "Cue_Microphone_OFF":
+                _sequencerForCallback.HandleSequenceCommand(SequenceCommand.CalibrationMicrophoneOff);
+                break;
+            case "Cue_AVS_Calibration_Start":
+                _sequencerForCallback.HandleSequenceCommand(SequenceCommand.CalibrationAvsStart);
+                break;
+            case "Cue_AVS_Calibration_End":
+                _sequencerForCallback.HandleSequenceCommand(SequenceCommand.CalibrationAvsEnd);
+                break;
+            default:
+                Debug.Log("CalibrationMenu: Unmapped user cue inside Play_Calibration_Sequence: " + cue);
+                break;
+        }
     }
 }
 /*

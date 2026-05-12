@@ -75,6 +75,7 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 | **Conclusion “VO done” cue** | A cue **exists**; exact **`userCueName` TBD**—discover via logging / Wwise test in Stage C or E. |
 | **Next-Step button wiring (hybrid)** | **Generic** `UIManager.NextStepButtonPress` (+ `OnCalibrationNextStepPress`) used by **Start, Headphone, Microphone, VibroAcoustic, LightGlasses**; the handler advances based on its **current step index** (single source of truth). **Conclusion** uses a **dedicated** `UIManager.CalibrationConclusionConfirmButtonPress` (+ `OnCalibrationConclusionConfirmPress`) so the dual-condition completion (button + VO-done) is unambiguous. Retire the four per-section `*NextStepButtonPress` methods/events. **Conclusion no longer uses `EndThisSequenceStageButtonPress`.** |
 | **Step progression storage** | **Centralized in one place** inside `CalibrationStageHandler` as a single ordered step list (one per `StageVariant`: `Default`, `Album`, `NoVibro`). Plain C# (no `.asset` needed for ~3 variants); readable enough that the full ordering for each variant is visible side-by-side. Revisit `.asset`-based step definitions only if variant count grows or non-engineers need to edit ordering. |
+| **Welcome-screen music** | **`Play_Calibration_Sequence` stays at the Calibration stage** (handler-owned, starts in `CalibrationStageHandler.Enter`). The **Welcome menu uses Stage D's `LinearMusic` ambient bed**, not `Play_Calibration_Sequence`. So the user hears the ambient bed while reading the Welcome screen and continues to hear it under calibration (idempotent re-entry); the calibration's own Wwise music container layers in on top when Calibration begins. |
 
 ---
 
@@ -276,21 +277,33 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 **Goal:** Legacy Wwise play/stop/switches; cues → **`SequenceCommand`**; **back** = **rewind / re-post**.
 
+#### Decisions (locked)
+
+- **Relay shape:** fold into existing **`CalibrationMenu`** (one owner). Keeps `Sequencer.calibrationMenu` reference path; no new component to wire.
+- **`Sequencer` ref into relay:** handler passes itself into `CalibrationMenu.StartCalibrationSequence(Sequencer)`. No inspector field, no `.unity` edits required.
+- **Back behavior:** **`Stop_Calibration_Sequence` → `SetSwitch("Calibration_Sequence", portion)` → `Play_Calibration_Sequence`** in the same frame. Back **does not** wait for any cue — UI step decrement is immediate, audio rewinds underneath.
+- **Forward behavior (Stage C):** advance step + `SetSwitch` only. **Cue-gating of the Next button is Stage E.**
+- **Portion mapping (CalibrationUI → Wwise switch state):** `Start→Intro`, `Headphone→Volume`, `Microphone→Mic`, `VibroAcoustic→Vibration`, `LightGlasses→Lights`, `Conclusion→End`.
+- **Cue routing:** `CalibrationMenu`'s `AK_MusicSyncUserCue` callback translates user-cue names to `SequenceCommand` and calls `Sequencer.HandleSequenceCommand`. Side-effects (Imitone gameOn, lights) live in `CalibrationStageHandler.ExecuteSequenceCommand` — relay does **not** touch gameplay state.
+
 #### Checklist — code (with permission)
 
-- [ ] New **`SequenceCommand`** values (mic on/off, AVS, …) matching Wwise `userCueName`
-- [ ] `CalibrationStageHandler`: watch/execute those commands (+ `EndThisSequenceStage` only if agreed)
-- [ ] **`CalibrationWwiseMusicSyncRelay`** (or one owner): `Play_Calibration_Sequence` + `AK_MusicSyncUserCue` → `HandleSequenceCommand`
-- [ ] **`CalibrationMenu`** vs handler: single owner for Play/Stop; Opening still stops calibration
+- [x] New **`SequenceCommand`** values matching Wwise `userCueName`: `CalibrationMicrophoneOn`, `CalibrationMicrophoneOff`, `CalibrationAvsStart`, `CalibrationAvsEnd`
+- [x] **`CalibrationMenu`** = the relay: posts `Play_Calibration_Sequence` with `AK_MusicSyncUserCue` callback, `Stop_Calibration_Sequence`, `SetCalibrationPortionSwitch(portion)`, `RestartFromPortion(portion)`; idempotent Play; callback → `Sequencer.HandleSequenceCommand`
+- [x] `CalibrationStageHandler`: watches the 4 new commands; `ExecuteSequenceCommand` does Imitone + `LightControl` side-effects; sets switch on **Enter** (`Intro`), **Next** (advance step → `SetSwitch`), **Back** (decrement step → `RestartFromPortion`)
+- [x] Opening still stops calibration (no change — `OpeningStageHandler.Enter` already calls `_sequencer.calibrationMenu.StopCalibrationSequence()`)
+- [x] `EndThisSequenceStage` **not** watched by `CalibrationStageHandler` (Stage E owns completion via VO-done + conclusion press)
 
 #### Checklist — Unity
 
-- [ ] Relay on correct **AkGameObj**; verify routing
+- [x] None required for code parity (no new components, no new inspector refs). Verify in Play Mode after pull.
 
 #### Tests / regression
 
-- [ ] Play mode: full audio + switch + mic + lights + stop + **back** sync
-- [ ] No orphan `HandleSequenceCommand` warnings; Opening stops calibration
+- [x] Play mode: full audio + switch + mic + lights + stop + **back** (Stop+Switch+Play) sync
+- [x] No orphan `HandleSequenceCommand` warnings on the 4 new commands
+- [ ] `OpeningStageHandler.Enter` still stops calibration cleanly (no double-Stop noise)
+- [ ] Back during Vibro on `Calibration_NoVibro` variant skips correctly (step list omits Vibro)
 
 **Suggested git commit message:** `feat(sequence): calibration Wwise play/stop, switches, cue commands`.
 
@@ -313,8 +326,9 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 - [ ] **`LinearMusic`** (idempotent play, cancel delayed stop on re-entry)
 - [ ] **`MusicSystem1`** delegates ambient lifecycle to **`LinearMusic`**
-- [ ] **`SetMenuStageHandler`** / **`CalibrationStageHandler`**: start bed where agreed
-- [ ] **`OpeningStageHandler`** (+ others agreed): stop on **Enter**
+- [ ] **`SetMenuStageHandler.Enter(Menu_Welcome_PreCalibration)`**: start the bed (this is the "music starts at Welcome" requirement — `LinearMusic`, **not** `Play_Calibration_Sequence`)
+- [ ] **`CalibrationStageHandler.Enter`**: re-assert the bed idempotently (no double-Play if it's already running from Welcome)
+- [ ] **`OpeningStageHandler`** (+ others agreed: `Tutorial`, `Playground`, `Savasana`, etc.): stop on **Enter**
 
 #### Checklist — Unity
 

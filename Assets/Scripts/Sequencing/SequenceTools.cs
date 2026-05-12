@@ -18,7 +18,15 @@ namespace SoundSelf.Sequence
         CueStopInteractive3m,   // Wwise Cue_Stop_Interactive_3m — Savasana PS Ascending only
         CueSilentMeditationStart, // Wwise Cue_SilentMeditation_Start — Savasana PS Ascending only (Jaya VO)
         /// <summary>UI "End This Sequence Stage" — <see cref="Sequencer.HandleSequenceCommand"/>; active stage handler should <c>MarkComplete()</c>.</summary>
-        EndThisSequenceStage
+        EndThisSequenceStage,
+        /// <summary>Wwise <c>Cue_Microphone_ON</c> inside <c>Play_Calibration_Sequence</c> — calibration handler enables Imitone game-on.</summary>
+        CalibrationMicrophoneOn,
+        /// <summary>Wwise <c>Cue_Microphone_OFF</c> inside <c>Play_Calibration_Sequence</c> — calibration handler disables Imitone game-on.</summary>
+        CalibrationMicrophoneOff,
+        /// <summary>Wwise <c>Cue_AVS_Calibration_Start</c> — calibration handler drives AVS color/strobe on for the lights step.</summary>
+        CalibrationAvsStart,
+        /// <summary>Wwise <c>Cue_AVS_Calibration_End</c> — calibration handler restores light settings.</summary>
+        CalibrationAvsEnd
     }
 
     public enum StageType

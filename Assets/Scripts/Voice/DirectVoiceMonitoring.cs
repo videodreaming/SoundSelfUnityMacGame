@@ -107,6 +107,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private float chargeLerp = 0f;
     private float smoothedAttenuationScale = 1f;
     private bool attenuationScaleInitialized;
+    /// <summary>External override (e.g. <c>CalibrationStageHandler</c>) — when true, the chant-driven ducking contributions (<c>chantPresenceScale</c> and <c>chargeDuckScale</c>) are forced to 1f. Mic-gate (<c>gameOnScale</c>) and outer attenuation are unaffected.</summary>
+    private bool chantBasedAttenuationOverrideActive = false;
     private string nextStartPrimeReason = "start_prime";
     private float lastHealthSummaryLogTime = -999f;
     private float lastWarningWindowResetTime = 0f;
@@ -556,6 +558,24 @@ public class DirectVoiceMonitoring : MonoBehaviour
     }
 
     /// <summary>
+    /// External override (e.g. <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>) for the chant-driven ducking contributions:
+    /// while <paramref name="active"/> is true, both <c>chantPresenceScale</c> (from <c>chantLerpSlow</c>) and
+    /// <c>chargeDuckScale</c> (from <c>chantCharge</c>) are forced to <c>1f</c> inside <see cref="ApplyMonitoringVolume"/>.
+    /// The mic-gate (<c>gameOnLerp</c>) and outer attenuation/dynamic-volume toggles are unaffected, so
+    /// <c>Cue_Microphone_ON</c> / <c>Cue_Microphone_OFF</c> still gate monitoring as expected.
+    /// Idempotent and cheap to call from <c>Enter</c> / <c>LocalCleanup</c>.
+    /// </summary>
+    public void SetChantBasedAttenuationOverride(bool active)
+    {
+        if (chantBasedAttenuationOverrideActive == active)
+        {
+            return;
+        }
+        chantBasedAttenuationOverrideActive = active;
+        ApplyMonitoringVolume("chant_attenuation_override_toggle");
+    }
+
+    /// <summary>
     /// Applies or removes monitoring attenuation while preserving dynamic volume behavior.
     /// </summary>
     public void AttenuateMonitoring(bool attenuated)
@@ -967,6 +987,13 @@ public class DirectVoiceMonitoring : MonoBehaviour
                 chantPresenceLinearFloorRange);
             gameOnScale = gameOnLerp;
             chargeDuckScale = 1f - chargeLerp * 0.5f;
+            if (chantBasedAttenuationOverrideActive)
+            {
+                // Calibration (and any future external owner) forces the two chant-driven ducking contributions to 1f.
+                // gameOnScale stays live so Cue_Microphone_ON/OFF still gates monitoring during calibration.
+                chantPresenceScale = 1f;
+                chargeDuckScale = 1f;
+            }
             dynamicScale = gameOnScale * chargeDuckScale * chantPresenceScale;
             //dynamicScale = GameValues.instance._chantLerpSlow;
         }

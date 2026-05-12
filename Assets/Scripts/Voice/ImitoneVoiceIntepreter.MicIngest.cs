@@ -158,6 +158,15 @@ public partial class ImitoneVoiceIntepreter
     public int MicCaptureEpoch => captureEpoch;
     public event Action<MicNormalizationState> NormalizationStateChanged;
 
+    /// <summary>Current rise-rate (dB/sec) used by normalization gain-riding inside the confident-tone window. Used by stage handlers that want to capture-and-restore around a temporary override (e.g. calibration boosts to 6×).</summary>
+    public float GetNormalizationGainRidingRaiseRateDbPerSecond() => gainRidingRaiseRateDbPerSecond;
+
+    /// <summary>Sets the rise-rate (dB/sec) used by normalization gain-riding inside the confident-tone window. Clamped to the inspector range. Callers (e.g. <c>CalibrationStageHandler</c>) should cache <see cref="GetNormalizationGainRidingRaiseRateDbPerSecond"/> before overriding so they can restore on exit.</summary>
+    public void SetNormalizationGainRidingRaiseRateDbPerSecond(float dbPerSecond)
+    {
+        gainRidingRaiseRateDbPerSecond = Mathf.Clamp(dbPerSecond, 0f, 24f);
+    }
+
     [Serializable]
     public struct MicNormalizationState
     {

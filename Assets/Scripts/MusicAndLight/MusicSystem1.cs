@@ -162,6 +162,7 @@ public class MusicSystem1 : MonoBehaviour
     private bool enableDirectVoiceMonitoring = true;
     private bool monitoringAttenuationApplied = false;
     private bool tutorialMonitoringOverrideActive = false;
+    private bool calibrationMonitoringOverrideActive = false;
     private bool enableThumpSFX = true;
     private bool enableImitoneInterpretation = true;
 
@@ -402,25 +403,26 @@ public class MusicSystem1 : MonoBehaviour
     {
         bool changed = currentInteractionType != newInteractionType;
         currentInteractionType = newInteractionType;
-        if (!changed || tutorialMonitoringOverrideActive)
+        if (!changed || IsAnyMonitoringAttenuationOverrideActive())
         {
             return;
         }
 
-        // Edge-triggered attenuation: ON for MusicLoop, OFF for SoundWorld.
-        SetMonitoringAttenuationOnce(currentInteractionType == InteractionType.MusicLoop);
+        // Edge-triggered attenuation: ON for SoundWorld (quieter), OFF for MusicLoop (louder).
+        SetMonitoringAttenuationOnce(currentInteractionType == InteractionType.SoundWorld);
     }
 
     public void SyncMonitoringAttenuationFromInteractionType()
     {
-        if (tutorialMonitoringOverrideActive)
+        if (IsAnyMonitoringAttenuationOverrideActive())
         {
             SetMonitoringAttenuationOnce(false);
             return;
         }
 
         // Used when playground (Freeplay) starts to re-apply interaction-based attenuation once.
-        SetMonitoringAttenuationOnce(currentInteractionType == InteractionType.MusicLoop);
+        // Attenuate on SoundWorld (quieter), not on MusicLoop (louder) — see OnInteractionTypeChanged.
+        SetMonitoringAttenuationOnce(currentInteractionType == InteractionType.SoundWorld);
     }
 
     public void SetTutorialMonitoringOverride(bool tutorialActive)
@@ -431,14 +433,41 @@ public class MusicSystem1 : MonoBehaviour
         }
 
         tutorialMonitoringOverrideActive = tutorialActive;
-        if (tutorialMonitoringOverrideActive)
+        if (IsAnyMonitoringAttenuationOverrideActive())
         {
-            // Tutorial owns attenuation while active; MusicSystem only blocks its own interaction-driven writes.
+            // Tutorial (or calibration) owns attenuation while active; MusicSystem only blocks its own interaction-driven writes.
             return;
         }
 
         // Priority lifted: immediately apply interaction-based attenuation once.
         SyncMonitoringAttenuationFromInteractionType();
+    }
+
+    /// <summary>
+    /// Calibration sibling of <see cref="SetTutorialMonitoringOverride"/>: while active, forces monitoring unattenuated (louder)
+    /// and blocks <see cref="OnInteractionTypeChanged"/> / <see cref="SyncMonitoringAttenuationFromInteractionType"/> from
+    /// re-driving attenuation. Calibration and tutorial never overlap in normal flow, but the override flags coexist safely
+    /// (both must be released before interaction-based attenuation resumes).
+    /// </summary>
+    public void SetCalibrationMonitoringOverride(bool calibrationActive)
+    {
+        if (calibrationMonitoringOverrideActive == calibrationActive)
+        {
+            return;
+        }
+
+        calibrationMonitoringOverrideActive = calibrationActive;
+        if (IsAnyMonitoringAttenuationOverrideActive())
+        {
+            return;
+        }
+
+        SyncMonitoringAttenuationFromInteractionType();
+    }
+
+    private bool IsAnyMonitoringAttenuationOverrideActive()
+    {
+        return tutorialMonitoringOverrideActive || calibrationMonitoringOverrideActive;
     }
 
     /// <summary>
