@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: HB_Adjunctive_DualStage
   m_EditorClassIdentifier: 
   gameMode: 2
-  title: Dual Stage
-  description: Adjunctive. VO Esketamine Ascending (SetToEsketamineAscending). Post-unguided 900 s — mirrors CSVLoader.
+  title: Adjunctive Dual-Stage
+  description: Minimal voiceover to support somatic focus.\nTwo-stage session. After
+    calibration, choose whether to begin with SoundSelf or the music album. The other
+    stage follows after your confirmation.
   postUnguidedSeconds: 900
   voKind: 7
   sequenceDefinition: {fileID: 11400000, guid: 18c54947d36ae6f498f9287453fecc31, type: 2}

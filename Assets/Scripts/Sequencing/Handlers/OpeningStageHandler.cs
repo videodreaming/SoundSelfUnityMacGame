@@ -218,10 +218,21 @@ namespace SoundSelf.Sequence
         }
 
 
-        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) => sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.StartTutorial || sequenceCommand == SequenceCommand.FirstVocalizationStart || sequenceCommand == SequenceCommand.MusicTrackEnding;
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
+            sequenceCommand == SequenceCommand.StartInteractive
+            || sequenceCommand == SequenceCommand.StartTutorial
+            || sequenceCommand == SequenceCommand.FirstVocalizationStart
+            || sequenceCommand == SequenceCommand.MusicTrackEnding
+            || sequenceCommand == SequenceCommand.EndThisSequenceStage;
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
+            if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
+            {
+                MarkComplete();
+                return;
+            }
+
             if (sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.StartTutorial)
                 MarkComplete();
 

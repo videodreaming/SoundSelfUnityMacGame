@@ -95,10 +95,22 @@ namespace SoundSelf.Sequence
             _variant == StageVariant.Playground_Standard || _variant == StageVariant.Playground_SkipStandard;
 
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
-            sequenceCommand == SequenceCommand.CueStopInteractive && IsStandardVariant();
+            sequenceCommand == SequenceCommand.EndThisSequenceStage
+            || (sequenceCommand == SequenceCommand.CueStopInteractive && IsStandardVariant());
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
+            if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
+            {
+                if (_playgroundCoroutine != null && _sequencer != null)
+                {
+                    _sequencer.StopCoroutine(_playgroundCoroutine);
+                    _playgroundCoroutine = null;
+                }
+                MarkComplete();
+                return;
+            }
+
             if (sequenceCommand != SequenceCommand.CueStopInteractive || !IsStandardVariant())
                 return;
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);

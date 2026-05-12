@@ -21,13 +21,20 @@ namespace SoundSelf.Sequence
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
             sequenceCommand == SequenceCommand.StartInteractive
             || sequenceCommand == SequenceCommand.Break_Tests
-            || sequenceCommand == SequenceCommand.TutorialPassed;
+            || sequenceCommand == SequenceCommand.TutorialPassed
+            || sequenceCommand == SequenceCommand.EndThisSequenceStage;
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
             // Long: Wwise cues (StartInteractive, Break_Tests) or explicit TutorialPassed / StopTutorial.
             // Short: only TutorialPassed (e.g. guidance-count path or StopTutorial); no StartInteractive/Break_Tests from Wwise for that flow.
-        
+
+            if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
+            {
+                MarkComplete();
+                return;
+            }
+
             if (sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.Break_Tests)
             {
                 if (variantWatchesWwiseVOCuesForCompletion)
