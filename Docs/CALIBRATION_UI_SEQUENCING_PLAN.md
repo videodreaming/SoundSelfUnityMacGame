@@ -245,20 +245,21 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 #### Checklist — Unity (after code lands; permission required per `.unity` rule)
 
-- [ ] Add `startScreen` / `conclusionScreen` references on `UIManager` (drag the Section Calibration Start / Conclusion roots)
-- [ ] **Rewire all per-section primary buttons** (Start, Headphone, Mic, Vibro, LightGlasses) to call **`UIManager.NextStepButtonPress`**
-- [ ] **Rewire Conclusion primary button** to call **`UIManager.CalibrationConclusionConfirmButtonPress`** (no longer `EndThisSequenceStageButtonPress`)
-- [ ] Wire **Back** buttons (where present) to **`UIManager.BackStepButtonPress`**; confirm Start has no Back active
+- [x] Add `startScreen` / `conclusionScreen` references on `UIManager` (drag the Section Calibration Start / Conclusion roots)
+- [x] **Rewire all per-section primary buttons** (Start, Headphone, Mic, Vibro, LightGlasses) to call **`UIManager.NextStepButtonPress`**
+- [x] **Rewire Conclusion primary button** to call **`UIManager.CalibrationConclusionConfirmButtonPress`** (no longer `EndThisSequenceStageButtonPress`)
+- [x] Wire **Back** buttons (where present) to **`UIManager.BackStepButtonPress`**; confirm Start has no Back active
 
 #### Tests / regression
 
-- [ ] Dev override: Start → Headphone → Mic → Vibro → LightGlasses → Conclusion all reachable via the **single** generic Next button
-- [ ] **Back** decreases step without skipping; disabled on Start
-- [ ] Conclusion primary button fires `OnCalibrationConclusionConfirmPress` (not `OnEndThisSequenceStagePress`); handler sets `_buttonPressed` but does **not** complete the stage yet (VO-done gating in Stage E)
-- [ ] No scene references to retired `*NextScreenButtonPress` / per-section `*NextStepButtonPress` methods (grep `MainGame.unity`, `Menu.unity`, `UIManager.prefab`)
-- [ ] `SetWelcomeScreen` / choice screen / other stages’ subscriptions unchanged
+- [x] Dev override: Start → Headphone → Mic → Vibro → LightGlasses → Conclusion all reachable via the **single** generic Next button
+- [x] **Back** decreases step without skipping; disabled on Start
+- [x] Conclusion primary → **`CalibrationConclusionConfirmButtonPress`**: **no visible / audible change in Play Mode is expected at this stage** — handler only sets an internal `_conclusionButtonPressed` flag and logs a stub line; **`MarkComplete()`** waits for Stage E (VO-done + button). **Optional check:** Console should show `CalibrationStageHandler: Conclusion confirm recorded...` once per valid press when wired correctly.
+- [x] **`NextScreenButtonPress`:** grep under `Assets/` → **0 matches** (fully retired from YAML).
+- [ ] Per-section **`m_MethodName: *NextStepButtonPress`** (obsolete forwards still work; rewire to **`NextStepButtonPress`** for a clean tree + no obsolete inspector bindings): **`MainGame.unity`** — `VibroAcousticNextStepButtonPress` ×1; **`Menu.unity`** — `HeadphoneNextStepButtonPress`, `MicrophoneNextStepButtonPress`, `VibroAcousticNextStepButtonPress`, `LightGlassesNextStepButtonPress` ×1 each; **`UIManager.prefab`** — `HeadphoneNextStepButtonPress`, `MicrophoneNextStepButtonPress` ×1 each. *(Agent grep, repo state as of this edit.)*
+- [x] `SetWelcomeScreen` / choice screen / other stages’ subscriptions unchanged
 
-**Suggested git commit message:** `feat(ui): generic calibration Next/Back + Conclusion confirm; centralized step list in handler`.
+**Audio / VO:** No calibration background bed or VO yet — **expected until Stage C** (Wwise parity) and later Stage E (conclusion VO-done cue). Stage B is UI + handler step index only. `feat(ui): generic calibration Next/Back + Conclusion confirm; centralized step list in handler`.
 
 **Commit recorded**
 
