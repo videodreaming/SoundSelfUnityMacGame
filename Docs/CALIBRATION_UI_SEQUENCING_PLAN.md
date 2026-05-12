@@ -45,8 +45,8 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 **Current code today**
 
 - `CalibrationMenu` is a **stub** (`StartCalibrationSequence` / `StopCalibrationSequence` log only).
-- `CalibrationStageHandler` wires **`UIManager` next-step events** and jumps **Headphone → Microphone → Vibro → LightGlasses → choice screen**, with **no** `Play_Calibration_Sequence`, **no** `Calibration_Sequence` switches, **no** intro/conclusion screens, **no** cue bridge, **no** `MarkComplete()`.
-- `UIManager.SetCalibrationScreen` **does not handle** `CalibrationUI.Introduction` (the enum entry the hierarchy will rename to **`Start`** in Stage B) or `CalibrationUI.Conclusion` — the enum entries exist but the switch is incomplete.
+- `CalibrationStageHandler` (Stage B+) wires **`OnCalibrationNextStepPress` / `OnCalibrationBackPress` / `OnCalibrationConclusionConfirmPress`**, owns a **variant step list** (Start → … → Conclusion; `NoVibro` omits Vibro), and **does not** `MarkComplete()` until Stage E (button + VO-done). Still **no** Wwise parity in handler until Stage C.
+- `UIManager.SetCalibrationScreen` handles **`CalibrationUI.Start`** and **`CalibrationUI.Conclusion`** via serialized `startScreen` / `conclusionScreen` roots (assign in Unity after Stage B code lands).
 - `OpeningStageHandler` already calls **`calibrationMenu.StopCalibrationSequence()`** on `Enter` — keep that contract so Opening tears down calibration audio.
 
 **`TutorialPortions` enum** remains at the bottom of `CalibrationMenu.cs` and still matches the Wwise switch strings — reuse or relocate to a sequencing namespace when implementing (avoid duplication).
@@ -116,22 +116,22 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 #### Checklist — repo / agent
 
-- [x] `UIManager`: `*NextStepButtonPress`, `On*NextStepPress`, `CalibrationUI.LightGlasses`, `lightGlassesScreen`
+- [x] `UIManager`: `CalibrationUI.Start` / `lightGlassesScreen`; Stage B adds generic Next/Back/Conclusion events + `startScreen` / `conclusionScreen` (see Stage B checklist)
 - [x] `CalibrationScreen`: `NextStepButtonPress`, `OnNextStepButtonPress`; XML note on UnityEvent type name
-- [x] `CalibrationStageHandler`: subscribes to `On*NextStepPress`; `_activeCalibrationVariant` + `LogCalibrationVariantStub`
+- [x] `CalibrationStageHandler`: variant step list + generic UI events (Stage B); `_activeCalibrationVariant` + `LogCalibrationVariantStub`
 - [x] `SequenceTools.cs`: `StageVariant.Calibration_Album`, `Calibration_NoVibro`
 - [x] Plan + **`.cursor/rules/soundself-agent-workflow.mdc`** (commits, **`.unity` permission**, prefab save prompt, no hash-only commits)
 - [x] `MainGame.unity` / `Menu.unity`: `MicrophoneCalibrationScreen` → `CalibrationScreen` on UnityEvent targets *(landed before strict per-file `.unity` rule; **further `.unity` edits** require save + explicit permission — plan row 12)*
 
 #### Checklist — Unity (Editor)
 
-- [ ] Each existing section (Headphone / Mic / Vibro / LightGlasses) primary button still calls the matching per-section method *(temporary; Stage B replaces these with the generic `NextStepButtonPress`)*
-- [ ] Each **`CalibrationScreen`**: **On Next Step Button Press** → intended **`UIManager`** method *(also temporary; same Stage B migration)*
 - [x] **Back** where needed; **omitted or inactive** on **Section Calibration Start**
 - [x] **`Dots`** (`line`/`dot` pool, start disabled); optional **Horizontal Layout Group** on `Dots`
 - [x] **Section Calibration Start** + **Section Calibration Conclusion** GameObject roots exist under the calibration canvas, ready for Stage B to add `startScreen` / `conclusionScreen` `[SerializeField]` slots on `UIManager` that you’ll drag these into *(see clarification below)*
-> **Known wrong wiring (info — leave for Stage B, don’t fix manually):** **Section Calibration Start** primary button is currently bound to `UIManager.HeadphoneNextStepButtonPress`; **Section Calibration Conclusion** primary button is currently bound to `UIManager.EndThisSequenceStageButtonPress`. Stage B replaces both per the **Next-Step button wiring (hybrid)** decision.
-- [ ] **Play Mode** narrow check (Stage A scope): pressing **Next Step** on **Headphone / Mic / Vibro / LightGlasses** still advances + logs (these retain their per-section bindings until Stage B). **Skip** Start and Conclusion — their buttons are knowingly mis-bound and are rewired in Stage B; do not try to exercise the full flow yet.
+> **Unity wiring (Stage B — you):** Rewire primary Next on Start / Headphone / Mic / Vibro / LightGlasses to **`UIManager.NextStepButtonPress`**, Conclusion to **`UIManager.CalibrationConclusionConfirmButtonPress`**, Back to **`UIManager.BackStepButtonPress`**. Until then, obsolete **`HeadphoneNextStepButtonPress`** etc. still forward to **`NextStepButtonPress`** so old inspector bindings keep working.
+- [x] ~~Each existing section primary button calls the matching per-section UIManager method~~ — **deferred to Stage B.** Verifying temporary per-section wiring is busywork because Stage B rewires every section button to the single generic `UIManager.NextStepButtonPress`. As long as the current wiring isn't throwing `Missing`/`NullReference` errors at runtime, Stage A doesn't need it.
+- [x] ~~Each `CalibrationScreen.OnNextStepButtonPress` → intended UIManager method~~ — **deferred to Stage B.** Same reason; the per-section UnityEvent fan-out goes away when the handler becomes the single owner of step progression.
+- [x] ~~Play Mode narrow check (Headphone/Mic/Vibro/LightGlasses Next Step advances + logs)~~ — **deferred to Stage B.** The full-flow Play Mode test in Stage B (Start → Headphone → … → Conclusion via the generic Next button, with Back working) supersedes this narrower test.
 
 > **What “roots ready for Stage B refs” means:** every other calibration screen (Headphone, Mic, …) is a child **GameObject** under the calibration canvas that `UIManager.SetCalibrationScreen(...)` toggles on/off via a `[SerializeField] private GameObject xxxScreen;` slot. **Start** and **Conclusion** need the same: a parent GameObject per screen (containing their layout + buttons) so that in Stage B we can add `startScreen` / `conclusionScreen` fields on `UIManager` and you can drag those GameObjects in. You’ve already re-added them, so this item is checked.
 
@@ -231,15 +231,17 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 **Goal:** `SetCalibrationScreen` covers **Start / Headphone / Mic / VibroAcoustic / LightGlasses / Conclusion**; introduce **generic Next Step** + **Back** + **Conclusion Confirm** events; `CalibrationStageHandler` becomes the single owner of step progression (centralized ordered list per variant). No Wwise changes yet.
 
+**Why this shape (recap of locked design):** With multiple calibration variants (`Calibration_Default`, `Calibration_Album`, `Calibration_NoVibro`), **what Next/Back do has to change per variant** — e.g. in `NoVibro`, pressing Next on Headphone must skip Vibro and go straight to LightGlasses; in `Default` it goes to Vibro. The buttons themselves can't encode this (otherwise every variant would need its own button set), so the buttons stay **dumb and generic** and the **handler** consults the active variant's ordered step list to decide what "next" means each press. Conclusion stays dedicated because its press has different semantics (sets a button-pressed flag that pairs with VO-done in Stage E, rather than advancing).
+
 #### Checklist — code (with permission)
 
-- [ ] `UIManager`: rename `CalibrationUI.Introduction` → `CalibrationUI.Start` (the enum entry exists but is unused; matches the **Section Calibration Start** GameObject name); serialize `startScreen` and `conclusionScreen` `GameObject` fields; extend `SetCalibrationScreen` switch to cover **Start** and **Conclusion**
-- [ ] `UIManager`: add **generic** `NextStepButtonPress()` + `OnCalibrationNextStepPress` (and keep debounce / cooldown pattern)
-- [ ] `UIManager`: add `BackStepButtonPress()` + `OnCalibrationBackPress`
-- [ ] `UIManager`: add `CalibrationConclusionConfirmButtonPress()` + `OnCalibrationConclusionConfirmPress`
-- [ ] `UIManager`: deprecate (mark `[Obsolete]` and leave calling `OnCalibrationNextStepPress`, or remove if no scene refs remain) `HeadphoneNextStepButtonPress`, `MicrophoneNextStepButtonPress`, `VibroAcousticNextStepButtonPress`, `LightGlassesNextStepButtonPress` + their `On*NextStepPress` events
-- [ ] `CalibrationStageHandler`: one central step list per variant (`Calibration_Default`, `Album`, `NoVibro`); subscribe to the **3** new events; advance/back by **step index**; track conclusion `_buttonPressed` + (Stage E) `_voDone` flags
-- [ ] Remove handler subscriptions to retired `On*NextStepPress` events
+- [x] `UIManager`: rename `CalibrationUI.Introduction` → `CalibrationUI.Start`; serialize `startScreen` and `conclusionScreen`; extend `SetCalibrationScreen` for **Start** and **Conclusion** (null-safe unset; log error if roots unassigned when selected)
+- [x] `UIManager`: **generic** `NextStepButtonPress()` + `OnCalibrationNextStepPress` (debounce unchanged)
+- [x] `UIManager`: `BackStepButtonPress()` + `OnCalibrationBackPress`
+- [x] `UIManager`: `CalibrationConclusionConfirmButtonPress()` + `OnCalibrationConclusionConfirmPress`
+- [x] `UIManager`: **`[Obsolete]`** per-section `*NextStepButtonPress` methods forward to **`NextStepButtonPress`**; removed the four `On*NextStepPress` **events** (no remaining subscribers — use **`OnCalibrationNextStepPress`** only)
+- [x] `CalibrationStageHandler`: central step list per variant; subscribe to the **3** new events + troubleshoot; advance/back by index; `_conclusionButtonPressed` stub (Stage E: VO-done + `MarkComplete`)
+- [x] Handler no longer subscribes to removed per-section events; **`WatchesSequenceCommand` returns `false`** for this handler until Stage E wires completion via cues / flags (previously `EndThisSequenceStage` could complete calibration prematurely)
 
 #### Checklist — Unity (after code lands; permission required per `.unity` rule)
 
@@ -260,7 +262,7 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 **Commit recorded**
 
-- *(not yet — paste full `git rev-parse HEAD` after committing this stage)*
+- Stage B code + plan checklist update: *feat(ui): Stage B calibration — generic Next/Back/Conclusion, Start screen, variant step list* (run `git log -1 --oneline` on branch tip for hash)
 
 ---
 

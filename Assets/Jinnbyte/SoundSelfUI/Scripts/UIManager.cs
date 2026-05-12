@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum CalibrationUI
 {
-    Introduction,
+    Start,
     Headphone,
     Microphone,
     VibroAcoustic,
@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
     //Screens
     [SerializeField] private GameObject choiceSSOrMusicScreen;
     [SerializeField] private GameObject welcomeScreen;
+    [SerializeField] private GameObject startScreen;
+    [SerializeField] private GameObject conclusionScreen;
     [SerializeField] private GameObject headphoneScreen; //calibration screens
     [SerializeField] private GameObject microphoneScreen; //calibration screens
     [SerializeField] private GameObject vibroAcousticScreen; //calibration screens
@@ -46,10 +48,12 @@ public class UIManager : MonoBehaviour
     public Action OnStartSoundSelfPress;
     public Action OnEndThisSequenceStagePress;
     public Action OnPlayMusicPress;
-    public Action OnMicrophoneNextStepPress;
-    public Action OnHeadphoneNextStepPress;
-    public Action OnVibroacousticNextStepPress;
-    public Action OnLightGlassesNextStepPress;
+    /// <summary>Generic Next Step during calibration; <see cref="CalibrationStageHandler"/> advances by variant step list.</summary>
+    public Action OnCalibrationNextStepPress;
+    /// <summary>Back one calibration step; no-op on <see cref="CalibrationUI.Start"/>.</summary>
+    public Action OnCalibrationBackPress;
+    /// <summary>Conclusion screen only — user confirmed ready to finish calibration (paired with VO-done in Stage E before <c>MarkComplete</c>).</summary>
+    public Action OnCalibrationConclusionConfirmPress;
     public Action OnHeadphoneTroubleshootingPress;
     public Action OnSkipSessionButtonPress;
     public Action OnMeditationQuitPress;
@@ -60,6 +64,10 @@ public class UIManager : MonoBehaviour
     {
         choiceSSOrMusicScreen.SetActive(false);
         welcomeScreen.SetActive(false);
+        if (startScreen != null)
+            startScreen.SetActive(false);
+        if (conclusionScreen != null)
+            conclusionScreen.SetActive(false);
         headphoneScreen.SetActive(false);
         microphoneScreen.SetActive(false);
         vibroAcousticScreen.SetActive(false);
@@ -72,6 +80,12 @@ public class UIManager : MonoBehaviour
         UnsetAllScreens();
         switch (screen)
         {
+            case CalibrationUI.Start:
+                if (startScreen != null)
+                    startScreen.SetActive(true);
+                else
+                    Debug.LogError("UIManager.SetCalibrationScreen(Start): startScreen is not assigned. Assign Section Calibration Start in the inspector.");
+                break;
             case CalibrationUI.Headphone:
                 headphoneScreen.SetActive(true);
                 break;
@@ -83,6 +97,12 @@ public class UIManager : MonoBehaviour
                 break;
             case CalibrationUI.LightGlasses:
                 lightGlassesScreen.SetActive(true);
+                break;
+            case CalibrationUI.Conclusion:
+                if (conclusionScreen != null)
+                    conclusionScreen.SetActive(true);
+                else
+                    Debug.LogError("UIManager.SetCalibrationScreen(Conclusion): conclusionScreen is not assigned. Assign Section Calibration Conclusion in the inspector.");
                 break;
         }
         ArmButtonInteractionCooldown();
@@ -238,6 +258,9 @@ public class UIManager : MonoBehaviour
     // "End This Sequence Stage" is wired on Sequencer: it subscribes to OnEndThisSequenceStagePress and
     // calls HandleSequenceCommand(SequenceCommand.EndThisSequenceStage) so handlers use WatchesSequenceCommand / ExecuteSequenceCommand.
     //
+    // Calibration Next/Back/Conclusion use OnCalibrationNextStepPress, OnCalibrationBackPress, OnCalibrationConclusionConfirmPress
+    // — subscribed only by CalibrationStageHandler while the Calibration stage is active.
+    //
     // In the handler, gate behavior on StageVariant (or other state) so the same button means
     // different things per menu kind. MarkComplete() / advance sequencing from the handler callback,
     // not from UIManager. If the callback calls StartProtocolStacksInteractiveSequence (or any
@@ -292,49 +315,44 @@ public class UIManager : MonoBehaviour
         // microphoneScreen.SetActive(true);
     }
 
-    public void MicrophoneNextStepButtonPress()
+    /// <summary>Wire all calibration section primary Next buttons (Start through LightGlasses) to this; handler advances by variant step list.</summary>
+    public void NextStepButtonPress()
     {
         if (!TryAcceptButtonPress())
             return;
-        OnMicrophoneNextStepPress?.Invoke();
+        OnCalibrationNextStepPress?.Invoke();
         ArmButtonInteractionCooldown();
-
-        // microphoneScreen.SetActive(false);
-        // vibroAcousticScreen.SetActive(true);
     }
 
-    public void HeadphoneNextStepButtonPress()
+    /// <summary>Wire calibration Back buttons to this (omit or disable on Start).</summary>
+    public void BackStepButtonPress()
     {
         if (!TryAcceptButtonPress())
             return;
-        OnHeadphoneNextStepPress?.Invoke();
+        OnCalibrationBackPress?.Invoke();
         ArmButtonInteractionCooldown();
-
-        // headphoneScreen.SetActive(false);
-        // microphoneScreen.SetActive(true);
     }
 
-    public void VibroAcousticNextStepButtonPress()
+    /// <summary>Wire the Conclusion screen primary control to this — not <see cref="EndThisSequenceStageButtonPress"/>.</summary>
+    public void CalibrationConclusionConfirmButtonPress()
     {
         if (!TryAcceptButtonPress())
             return;
-        OnVibroacousticNextStepPress?.Invoke();
+        OnCalibrationConclusionConfirmPress?.Invoke();
         ArmButtonInteractionCooldown();
-
-        // vibroAcousticScreen.SetActive(false);
-        // lightGlassesScreen.SetActive(true);
     }
 
-    public void LightGlassesNextStepButtonPress()
-    {
-        if (!TryAcceptButtonPress())
-            return;
-        OnLightGlassesNextStepPress?.Invoke();
-        ArmButtonInteractionCooldown();
+    [Obsolete("Use NextStepButtonPress — CalibrationStageHandler listens on OnCalibrationNextStepPress.")]
+    public void MicrophoneNextStepButtonPress() => NextStepButtonPress();
 
-        // lightGlassesScreen.SetActive(false);
-        // startMeditationScreen.SetActive(true);
-    }
+    [Obsolete("Use NextStepButtonPress — CalibrationStageHandler listens on OnCalibrationNextStepPress.")]
+    public void HeadphoneNextStepButtonPress() => NextStepButtonPress();
+
+    [Obsolete("Use NextStepButtonPress — CalibrationStageHandler listens on OnCalibrationNextStepPress.")]
+    public void VibroAcousticNextStepButtonPress() => NextStepButtonPress();
+
+    [Obsolete("Use NextStepButtonPress — CalibrationStageHandler listens on OnCalibrationNextStepPress.")]
+    public void LightGlassesNextStepButtonPress() => NextStepButtonPress();
 
     public void HeadphoneTroubleshootingButtonPress()
     {

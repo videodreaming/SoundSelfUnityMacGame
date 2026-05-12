@@ -2,13 +2,17 @@ using UnityEngine;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Stub Calibration stage handler. Pre-sequence UI/audio is still driven mainly by CalibrationMenu; completes immediately until wired to that flow.</summary>
+    /// <summary>Calibration UI flow: variant-driven step list; generic Next/Back; Conclusion confirm (Stage E adds VO-done + <c>MarkComplete</c>).</summary>
     public class CalibrationStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
         private bool _calibrationUiListenersRegistered;
-        /// <summary>Variant passed to <see cref="Enter"/> for this calibration run. Stubs: <see cref="StageVariant.Calibration_Album"/>, <see cref="StageVariant.Calibration_NoVibro"/>.</summary>
+        /// <summary>Variant passed to <see cref="Enter"/> for this calibration run.</summary>
         private StageVariant _activeCalibrationVariant = StageVariant.Calibration_Default;
+        private CalibrationUI[] _steps = System.Array.Empty<CalibrationUI>();
+        private int _stepIndex;
+        /// <summary>Set when user presses conclusion confirm; Stage E pairs with VO-done before <see cref="MarkComplete"/>.</summary>
+        private bool _conclusionButtonPressed;
 
         public StageType StageType => StageType.Calibration;
 
@@ -19,38 +23,61 @@ namespace SoundSelf.Sequence
             _sequencer = sequencer;
         }
 
-        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
-            sequenceCommand == SequenceCommand.EndThisSequenceStage;
+        /// <summary>Completion is driven from UI + Wwise in Stage E — not <see cref="SequenceCommand.EndThisSequenceStage"/> on this handler.</summary>
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) => false;
 
-        public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
-        {
-            if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
-                MarkComplete();
-        }
+        public void ExecuteSequenceCommand(SequenceCommand sequenceCommand) { }
 
         public void Enter(StageVariant variant)
         {
             IsComplete = false;
+            _conclusionButtonPressed = false;
             if (variant == StageVariant.Calibration_Album || variant == StageVariant.Calibration_NoVibro || variant == StageVariant.Calibration_Default)
                 _activeCalibrationVariant = variant;
             else
                 _activeCalibrationVariant = StageVariant.Calibration_Default;
             LogCalibrationVariantStub(_activeCalibrationVariant);
 
-            Debug.Log("CalibrationStageHandler: Enter (stub - skipping until implementation added)");
+            _steps = BuildStepList(_activeCalibrationVariant);
+            _stepIndex = 0;
+
+            Debug.Log("CalibrationStageHandler: Enter — step count " + _steps.Length + ", first screen " + _steps[0]);
             if (_sequencer != null && _sequencer.calibrationMenu != null)
             {
                 _sequencer.calibrationMenu.StartCalibrationSequence();
-                // Open the calibration UI:
-                UIManager.Instance.SetCalibrationScreen(CalibrationUI.Headphone);
-
+                UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
                 SubscribeCalibrationUiListeners();
             }
             else
                 Debug.LogError("CalibrationStageHandler: Sequencer or calibrationMenu is null. Cannot start calibration UI.");
+        }
 
-            // Stub behavior: auto-advance until calibration flow owns completion signaling.
-            // MarkComplete();
+        private static CalibrationUI[] BuildStepList(StageVariant variant)
+        {
+            switch (variant)
+            {
+                case StageVariant.Calibration_NoVibro:
+                    return new[]
+                    {
+                        CalibrationUI.Start,
+                        CalibrationUI.Headphone,
+                        CalibrationUI.Microphone,
+                        CalibrationUI.LightGlasses,
+                        CalibrationUI.Conclusion
+                    };
+                case StageVariant.Calibration_Album:
+                case StageVariant.Calibration_Default:
+                default:
+                    return new[]
+                    {
+                        CalibrationUI.Start,
+                        CalibrationUI.Headphone,
+                        CalibrationUI.Microphone,
+                        CalibrationUI.VibroAcoustic,
+                        CalibrationUI.LightGlasses,
+                        CalibrationUI.Conclusion
+                    };
+            }
         }
 
         private void SubscribeCalibrationUiListeners()
@@ -65,10 +92,9 @@ namespace SoundSelf.Sequence
             if (_calibrationUiListenersRegistered)
                 return;
 
-            ui.OnMicrophoneNextStepPress += HandleMicrophoneNextStepPress;
-            ui.OnHeadphoneNextStepPress += HandleHeadphoneNextStepPress;
-            ui.OnVibroacousticNextStepPress += HandleVibroacousticNextStepPress;
-            ui.OnLightGlassesNextStepPress += HandleLightGlassesNextStepPress;
+            ui.OnCalibrationNextStepPress += HandleCalibrationNextStepPress;
+            ui.OnCalibrationBackPress += HandleCalibrationBackPress;
+            ui.OnCalibrationConclusionConfirmPress += HandleCalibrationConclusionConfirmPress;
             ui.OnHeadphoneTroubleshootingPress += HandleHeadphoneTroubleshootingPress;
             _calibrationUiListenersRegistered = true;
         }
@@ -81,38 +107,66 @@ namespace SoundSelf.Sequence
             var ui = UIManager.Instance;
             if (ui != null)
             {
-                ui.OnMicrophoneNextStepPress -= HandleMicrophoneNextStepPress;
-                ui.OnHeadphoneNextStepPress -= HandleHeadphoneNextStepPress;
-                ui.OnVibroacousticNextStepPress -= HandleVibroacousticNextStepPress;
-                ui.OnLightGlassesNextStepPress -= HandleLightGlassesNextStepPress;
+                ui.OnCalibrationNextStepPress -= HandleCalibrationNextStepPress;
+                ui.OnCalibrationBackPress -= HandleCalibrationBackPress;
+                ui.OnCalibrationConclusionConfirmPress -= HandleCalibrationConclusionConfirmPress;
                 ui.OnHeadphoneTroubleshootingPress -= HandleHeadphoneTroubleshootingPress;
             }
 
             _calibrationUiListenersRegistered = false;
         }
 
-        private void HandleHeadphoneNextStepPress()
+        private void HandleCalibrationNextStepPress()
         {
-            Debug.Log("CalibrationStageHandler: OnHeadphoneNextStepPress. Transitioning to Microphone screen.");
-            UIManager.Instance.SetCalibrationScreen(CalibrationUI.Microphone);
+            if (_steps == null || _steps.Length == 0)
+                return;
+            if (_stepIndex < 0 || _stepIndex >= _steps.Length)
+                return;
+
+            if (_steps[_stepIndex] == CalibrationUI.Conclusion)
+            {
+                Debug.Log("CalibrationStageHandler: Next step ignored on Conclusion — use CalibrationConclusionConfirmButtonPress.");
+                return;
+            }
+
+            if (_stepIndex >= _steps.Length - 1)
+            {
+                Debug.Log("CalibrationStageHandler: Next step ignored — already at last step.");
+                return;
+            }
+
+            _stepIndex++;
+            Debug.Log("CalibrationStageHandler: Next step → index " + _stepIndex + " screen " + _steps[_stepIndex]);
+            UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
         }
 
-        private void HandleMicrophoneNextStepPress()
+        private void HandleCalibrationBackPress()
         {
-            Debug.Log("CalibrationStageHandler: OnMicrophoneNextStepPress (stub).");
-            UIManager.Instance.SetCalibrationScreen(CalibrationUI.VibroAcoustic);
+            if (_steps == null || _steps.Length == 0)
+                return;
+            if (_stepIndex <= 0)
+            {
+                Debug.Log("CalibrationStageHandler: Back ignored on Start.");
+                return;
+            }
+
+            _stepIndex--;
+            Debug.Log("CalibrationStageHandler: Back → index " + _stepIndex + " screen " + _steps[_stepIndex]);
+            UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
         }
 
-        private void HandleVibroacousticNextStepPress()
+        private void HandleCalibrationConclusionConfirmPress()
         {
-            Debug.Log("CalibrationStageHandler: OnVibroacousticNextStepPress (stub).");
-            UIManager.Instance.SetCalibrationScreen(CalibrationUI.LightGlasses);
-        }
+            if (_steps == null || _steps.Length == 0)
+                return;
+            if (_stepIndex < 0 || _stepIndex >= _steps.Length || _steps[_stepIndex] != CalibrationUI.Conclusion)
+            {
+                Debug.Log("CalibrationStageHandler: Conclusion confirm ignored — not on Conclusion screen.");
+                return;
+            }
 
-        private void HandleLightGlassesNextStepPress()
-        {
-            Debug.Log("CalibrationStageHandler: OnLightGlassesNextStepPress (stub).");
-            UIManager.Instance.SetChoiceSSOrMusicScreen();
+            _conclusionButtonPressed = true;
+            Debug.Log("CalibrationStageHandler: Conclusion confirm recorded (stub — Stage E: pair with VO-done then MarkComplete).");
         }
 
         private void HandleHeadphoneTroubleshootingPress()
@@ -120,50 +174,27 @@ namespace SoundSelf.Sequence
             Debug.Log("CalibrationStageHandler: OnHeadphoneTroubleshootingPress (stub).");
         }
 
-        /// <summary>Stub until step lists read variant: NoVibro skips vibro; Album reserved for alternate copy/order.</summary>
         private static void LogCalibrationVariantStub(StageVariant variant)
         {
             switch (variant)
             {
                 case StageVariant.Calibration_Album:
-                    Debug.Log("CalibrationStageHandler: variant Calibration_Album (stub — same stage type, alternate flow TBD).");
+                    Debug.Log("CalibrationStageHandler: variant Calibration_Album (stub — same step count as default until copy/order differs).");
                     break;
                 case StageVariant.Calibration_NoVibro:
-                    Debug.Log("CalibrationStageHandler: variant Calibration_NoVibro (stub — vibro step will be omitted when wired).");
+                    Debug.Log("CalibrationStageHandler: variant Calibration_NoVibro — vibro step omitted from step list.");
                     break;
                 default:
-                    Debug.Log("CalibrationStageHandler: variant " + variant + " (default full calibration path when wired).");
+                    Debug.Log("CalibrationStageHandler: variant " + variant + " (default full calibration path).");
                     break;
             }
         }
 
-        //--------------------------------
-        // Lifecycle after main work: complete -> (optional) transition-out tail -> Exit
-        // SequenceRunner owns BeginTransitionOut / Exit timing; handlers should not call those locally.
-        //--------------------------------
-
-        /// <summary>Main phase done. Does not start transition-out; that begins when the runner advances.</summary>
-        private void MarkComplete()
-        {
-            if (IsComplete) return;
-            IsComplete = true;
-            Debug.Log("CalibrationStageHandler: Marking stage complete.");
-            // Next: On the next SequenceRunner.Update(), the runner sees IsComplete and calls TransitionToNextStage().
-            // That calls AdvanceToStage(next), which invokes BeginTransitionOut() on this handler (tail / fade start),
-            // then enters the next stage. Cleanup when this stage is fully retired belongs in Exit() (via LocalCleanup).
-            // Exit() is invoked by the runner when this stage leaves the tracked window, e.g. a jump skips past it
-            // (older than immediate previous), StartSequence resets, or similar — not necessarily on every linear step.
-        }
-
-        /// <summary>Runner-only: start transition-out (tail) while the next stage is already entering.</summary>
         public void BeginTransitionOut()
         {
             LocalCleanup();
-            // Tail-only: fades, VO tails, etc. Final teardown stays in Exit() -> LocalCleanup() so it runs once when retired.
-            // Stub — IStageHandler default is no-op; explicit method documents intent.
         }
 
-        /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
             UnsubscribeCalibrationUiListeners();
@@ -172,7 +203,6 @@ namespace SoundSelf.Sequence
                 _sequencer.calibrationMenu.StopCalibrationSequence();
         }
 
-        /// <summary>Runner-only: final retirement; safe if called more than once.</summary>
         public void Exit()
         {
             LocalCleanup();
