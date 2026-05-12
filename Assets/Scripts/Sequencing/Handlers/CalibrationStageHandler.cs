@@ -33,7 +33,7 @@ namespace SoundSelf.Sequence
             if (_sequencer != null && _sequencer.calibrationMenu != null)
             {
                 _sequencer.calibrationMenu.StartCalibrationSequence();
-                //Open the Calibraiton Menu:
+                // Open the calibration UI:
                 UIManager.Instance.SetCalibrationScreen(CalibrationUI.Headphone);
 
                 SubscribeCalibrationUiListeners();
@@ -57,10 +57,10 @@ namespace SoundSelf.Sequence
             if (_calibrationUiListenersRegistered)
                 return;
 
-            ui.OnMicrophoneScreenNextPress += HandleMicrophoneScreenNextPress;
-            ui.OnHeadphoneScreenNextPress += HandleHeadphoneScreenNextPress;
-            ui.OnVibroacousticScreenNextPress += HandleVibroacousticScreenNextPress;
-            ui.OnLightglassScreenNextPress += HandleLightglassScreenNextPress;
+            ui.OnMicrophoneNextStepPress += HandleMicrophoneNextStepPress;
+            ui.OnHeadphoneNextStepPress += HandleHeadphoneNextStepPress;
+            ui.OnVibroacousticNextStepPress += HandleVibroacousticNextStepPress;
+            ui.OnLightGlassesNextStepPress += HandleLightGlassesNextStepPress;
             ui.OnHeadphoneTroubleshootingPress += HandleHeadphoneTroubleshootingPress;
             _calibrationUiListenersRegistered = true;
         }
@@ -73,37 +73,37 @@ namespace SoundSelf.Sequence
             var ui = UIManager.Instance;
             if (ui != null)
             {
-                ui.OnMicrophoneScreenNextPress -= HandleMicrophoneScreenNextPress;
-                ui.OnHeadphoneScreenNextPress -= HandleHeadphoneScreenNextPress;
-                ui.OnVibroacousticScreenNextPress -= HandleVibroacousticScreenNextPress;
-                ui.OnLightglassScreenNextPress -= HandleLightglassScreenNextPress;
+                ui.OnMicrophoneNextStepPress -= HandleMicrophoneNextStepPress;
+                ui.OnHeadphoneNextStepPress -= HandleHeadphoneNextStepPress;
+                ui.OnVibroacousticNextStepPress -= HandleVibroacousticNextStepPress;
+                ui.OnLightGlassesNextStepPress -= HandleLightGlassesNextStepPress;
                 ui.OnHeadphoneTroubleshootingPress -= HandleHeadphoneTroubleshootingPress;
             }
 
             _calibrationUiListenersRegistered = false;
         }
 
-        private void HandleHeadphoneScreenNextPress()
+        private void HandleHeadphoneNextStepPress()
         {
-            Debug.Log("CalibrationStageHandler: OnHeadphoneScreenNextPress. Transitioning to Microphone Screen.");
+            Debug.Log("CalibrationStageHandler: OnHeadphoneNextStepPress. Transitioning to Microphone screen.");
             UIManager.Instance.SetCalibrationScreen(CalibrationUI.Microphone);
         }
 
-        private void HandleMicrophoneScreenNextPress()
+        private void HandleMicrophoneNextStepPress()
         {
-            Debug.Log("CalibrationStageHandler: OnMicrophoneScreenNextPress (stub).");
+            Debug.Log("CalibrationStageHandler: OnMicrophoneNextStepPress (stub).");
             UIManager.Instance.SetCalibrationScreen(CalibrationUI.VibroAcoustic);
         }
 
-        private void HandleVibroacousticScreenNextPress()
+        private void HandleVibroacousticNextStepPress()
         {
-            Debug.Log("CalibrationStageHandler: OnVibroacousticScreenNextPress (stub).");
-            UIManager.Instance.SetCalibrationScreen(CalibrationUI.LightGlass);
+            Debug.Log("CalibrationStageHandler: OnVibroacousticNextStepPress (stub).");
+            UIManager.Instance.SetCalibrationScreen(CalibrationUI.LightGlasses);
         }
 
-        private void HandleLightglassScreenNextPress()
+        private void HandleLightGlassesNextStepPress()
         {
-            Debug.Log("CalibrationStageHandler: OnLightglassScreenNextPress (stub).");
+            Debug.Log("CalibrationStageHandler: OnLightGlassesNextStepPress (stub).");
             UIManager.Instance.SetChoiceSSOrMusicScreen();
         }
 

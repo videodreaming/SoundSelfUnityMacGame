@@ -627,7 +627,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6118818609140259934}
         m_TargetAssemblyTypeName: MicrophoneCalibrationScreen, Assembly-CSharp
-        m_MethodName: NextScreenButtonPress
+        m_MethodName: NextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6889,7 +6889,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1071554256}
         m_TargetAssemblyTypeName: MicrophoneCalibrationScreen, Assembly-CSharp
-        m_MethodName: NextScreenButtonPress
+        m_MethodName: NextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10631,7 +10631,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!222 &434386975
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11612,7 +11612,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!222 &469265690
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14570,9 +14570,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 832344741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 92.5, y: -10.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &615945047
@@ -15569,7 +15569,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Next Section
+  m_text: Next Step
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 60e265bd5f98b4a8ea0d74e762378678, type: 2}
   m_sharedMaterial: {fileID: 7557194837298086393, guid: 60e265bd5f98b4a8ea0d74e762378678, type: 2}
@@ -23364,9 +23364,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 832344741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 55.5, y: -10.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &950123257
@@ -23629,9 +23629,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 832344741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 18.5, y: -10.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &958257250
@@ -27190,12 +27190,12 @@ GameObject:
   - component: {fileID: 1071554254}
   - component: {fileID: 1071554256}
   m_Layer: 5
-  m_Name: Section Calibration Lightglass
+  m_Name: Section Calibration Lightglasses
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1071554253
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27266,7 +27266,7 @@ MonoBehaviour:
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls: []
-  OnNextScreenButtonPress:
+  OnNextStepButtonPress:
     m_PersistentCalls:
       m_Calls: []
   OnBackScreenButtonPress:
@@ -28820,7 +28820,7 @@ MonoBehaviour:
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls: []
-  OnNextScreenButtonPress:
+  OnNextStepButtonPress:
     m_PersistentCalls:
       m_Calls: []
   OnBackScreenButtonPress:
@@ -29875,7 +29875,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8167610280031054417}
         m_TargetAssemblyTypeName: MicrophoneCalibrationScreen, Assembly-CSharp
-        m_MethodName: NextScreenButtonPress
+        m_MethodName: NextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -31023,7 +31023,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1133452317}
         m_TargetAssemblyTypeName: MicrophoneCalibrationScreen, Assembly-CSharp
-        m_MethodName: NextScreenButtonPress
+        m_MethodName: NextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -31519,7 +31519,7 @@ GameObject:
   - component: {fileID: 1226213036}
   - component: {fileID: 1226213035}
   m_Layer: 5
-  m_Name: NextSession_button
+  m_Name: NextStep_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31591,7 +31591,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8230576280433664135}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: LightGlassNextScreenButtonPress
+        m_MethodName: LightGlassesNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34694,7 +34694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2166030152867693156, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 334.75555
       objectReference: {fileID: 0}
     - target: {fileID: 2166030152867693156, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -34726,19 +34726,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3430384268447335592, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3430384268447335592, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3430384268447335592, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 321
       objectReference: {fileID: 0}
     - target: {fileID: 3430384268447335592, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -270.75555
       objectReference: {fileID: 0}
     - target: {fileID: 3808840690355226839, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_IsActive
@@ -34830,7 +34830,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7425424689462746590, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       propertyPath: m_Text
@@ -37405,7 +37405,7 @@ GameObject:
   - component: {fileID: 1451897981}
   - component: {fileID: 1451897984}
   m_Layer: 5
-  m_Name: NextSession_button
+  m_Name: NextStep_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37477,7 +37477,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8230576280433664135}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: VibroAcousticNextScreenButtonPress
+        m_MethodName: VibroAcousticNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -45374,9 +45374,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 832344741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 146, y: -10.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 53, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1793875109
@@ -47838,10 +47838,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1348800848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 321, y: 0}
-  m_SizeDelta: {x: 642, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 321, y: -125.066666}
+  m_SizeDelta: {x: 642, y: 43.377777}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1951738090
 MonoBehaviour:
@@ -51085,10 +51085,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1348800848}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 321, y: 0}
-  m_SizeDelta: {x: 642, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 321, y: -21.688889}
+  m_SizeDelta: {x: 642, y: 43.377777}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2100039155
 MonoBehaviour:
@@ -52009,7 +52009,7 @@ GameObject:
   - component: {fileID: 8181464616490992076}
   - component: {fileID: 8181464616490992077}
   m_Layer: 5
-  m_Name: NextSession_button
+  m_Name: NextStep_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53532,7 +53532,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!224 &3201346151179873536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -53566,7 +53566,7 @@ GameObject:
   - component: {fileID: 8306849538893462793}
   - component: {fileID: 8306849538893462794}
   m_Layer: 5
-  m_Name: NextSession_button
+  m_Name: NextStep_button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54952,7 +54952,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!224 &5854711144078701072
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55092,7 +55092,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnNextScreenButtonPress:
+  OnNextStepButtonPress:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1783655866}
@@ -56669,7 +56669,7 @@ MonoBehaviour:
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls: []
-  OnNextScreenButtonPress:
+  OnNextStepButtonPress:
     m_PersistentCalls:
       m_Calls: []
   OnBackScreenButtonPress:
@@ -56759,7 +56759,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8230576280433664135}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HeadphoneNextScreenButtonPress
+        m_MethodName: HeadphoneNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -56830,7 +56830,7 @@ MonoBehaviour:
   headphoneScreen: {fileID: 4531757617747557860}
   microphoneScreen: {fileID: 6179719544755254678}
   vibroAcousticScreen: {fileID: 1133452313}
-  lightGlassScreen: {fileID: 1071554252}
+  lightGlassesScreen: {fileID: 1071554252}
   startMeditationScreen: {fileID: 1551420734884439373}
   endMeditationScreen: {fileID: 7017983985615724613}
 --- !u!114 &8230576280433664136
@@ -56935,7 +56935,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8230576280433664135}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: MicrophoneNextScreenButtonPress
+        m_MethodName: MicrophoneNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

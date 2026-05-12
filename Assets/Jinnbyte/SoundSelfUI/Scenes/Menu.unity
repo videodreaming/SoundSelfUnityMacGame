@@ -283,7 +283,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6118818609140259934}
         m_TargetAssemblyTypeName: MicrophoneCalibrationScreen, Assembly-CSharp
-        m_MethodName: NextScreenButtonPress
+        m_MethodName: NextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2257,7 +2257,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1071554256}
         m_TargetAssemblyTypeName: MicrophoneCalibrationScreen, Assembly-CSharp
-        m_MethodName: NextScreenButtonPress
+        m_MethodName: NextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3426,7 +3426,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!222 &434386975
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3585,7 +3585,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!222 &469265690
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8782,7 +8782,7 @@ GameObject:
   - component: {fileID: 1071554254}
   - component: {fileID: 1071554256}
   m_Layer: 5
-  m_Name: Section Calibration Lightglass
+  m_Name: Section Calibration Lightglasses
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8858,7 +8858,7 @@ MonoBehaviour:
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls: []
-  OnNextScreenButtonPress:
+  OnNextStepButtonPress:
     m_PersistentCalls:
       m_Calls: []
   OnBackScreenButtonPress:
@@ -9404,7 +9404,7 @@ MonoBehaviour:
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls: []
-  OnNextScreenButtonPress:
+  OnNextStepButtonPress:
     m_PersistentCalls:
       m_Calls: []
   OnBackScreenButtonPress:
@@ -9726,7 +9726,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8167610280031054417}
         m_TargetAssemblyTypeName: MicrophoneCalibrationScreen, Assembly-CSharp
-        m_MethodName: NextScreenButtonPress
+        m_MethodName: NextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9971,7 +9971,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1133452317}
         m_TargetAssemblyTypeName: MicrophoneCalibrationScreen, Assembly-CSharp
-        m_MethodName: NextScreenButtonPress
+        m_MethodName: NextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10104,7 +10104,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8230576280433664135}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: LightGlassNextScreenButtonPress
+        m_MethodName: LightGlassesNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12127,7 +12127,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8230576280433664135}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: VibroAcousticNextScreenButtonPress
+        m_MethodName: VibroAcousticNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -19180,7 +19180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!224 &3201346151179873536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21131,7 +21131,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!224 &5854711144078701072
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21271,7 +21271,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnNextScreenButtonPress:
+  OnNextStepButtonPress:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1783655866}
@@ -22809,7 +22809,7 @@ MonoBehaviour:
   OnTroubleshootButtonPress:
     m_PersistentCalls:
       m_Calls: []
-  OnNextScreenButtonPress:
+  OnNextStepButtonPress:
     m_PersistentCalls:
       m_Calls: []
   OnBackScreenButtonPress:
@@ -22899,7 +22899,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8230576280433664135}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HeadphoneNextScreenButtonPress
+        m_MethodName: HeadphoneNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22986,7 +22986,7 @@ MonoBehaviour:
   headphoneScreen: {fileID: 4531757617747557860}
   microphoneScreen: {fileID: 6179719544755254678}
   vibroAcousticScreen: {fileID: 1133452313}
-  lightGlassScreen: {fileID: 1071554252}
+  lightGlassesScreen: {fileID: 1071554252}
   startMeditationScreen: {fileID: 1551420734884439373}
   endMeditationScreen: {fileID: 7017983985615724613}
 --- !u!1 &8272245510541195330
@@ -23072,7 +23072,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8230576280433664135}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: MicrophoneNextScreenButtonPress
+        m_MethodName: MicrophoneNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

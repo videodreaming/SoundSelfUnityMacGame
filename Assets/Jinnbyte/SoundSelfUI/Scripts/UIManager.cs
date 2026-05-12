@@ -9,7 +9,7 @@ public enum CalibrationUI
     Headphone,
     Microphone,
     VibroAcoustic,
-    LightGlass,
+    LightGlasses,
     Conclusion
 }
 
@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject headphoneScreen; //calibration screens
     [SerializeField] private GameObject microphoneScreen; //calibration screens
     [SerializeField] private GameObject vibroAcousticScreen; //calibration screens
-    [SerializeField] private GameObject lightGlassScreen; //calibration screens
+    [SerializeField] private GameObject lightGlassesScreen; // Section Calibration Lightglasses root
     [SerializeField] private GameObject startMeditationScreen;
     [SerializeField] private GameObject endMeditationScreen;
 
@@ -46,10 +46,10 @@ public class UIManager : MonoBehaviour
     public Action OnStartSoundSelfPress;
     public Action OnEndThisSequenceStagePress;
     public Action OnPlayMusicPress;
-    public Action OnMicrophoneScreenNextPress;
-    public Action OnHeadphoneScreenNextPress;
-    public Action OnVibroacousticScreenNextPress;
-    public Action OnLightglassScreenNextPress;
+    public Action OnMicrophoneNextStepPress;
+    public Action OnHeadphoneNextStepPress;
+    public Action OnVibroacousticNextStepPress;
+    public Action OnLightGlassesNextStepPress;
     public Action OnHeadphoneTroubleshootingPress;
     public Action OnSkipSessionButtonPress;
     public Action OnMeditationQuitPress;
@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour
         headphoneScreen.SetActive(false);
         microphoneScreen.SetActive(false);
         vibroAcousticScreen.SetActive(false);
-        lightGlassScreen.SetActive(false);
+        lightGlassesScreen.SetActive(false);
         startMeditationScreen.SetActive(false);
         endMeditationScreen.SetActive(false);
     }
@@ -81,8 +81,8 @@ public class UIManager : MonoBehaviour
             case CalibrationUI.VibroAcoustic:
                 vibroAcousticScreen.SetActive(true);
                 break;
-            case CalibrationUI.LightGlass:
-                lightGlassScreen.SetActive(true);
+            case CalibrationUI.LightGlasses:
+                lightGlassesScreen.SetActive(true);
                 break;
         }
         ArmButtonInteractionCooldown();
@@ -292,47 +292,47 @@ public class UIManager : MonoBehaviour
         // microphoneScreen.SetActive(true);
     }
 
-    public void MicrophoneNextScreenButtonPress()
+    public void MicrophoneNextStepButtonPress()
     {
         if (!TryAcceptButtonPress())
             return;
-        OnMicrophoneScreenNextPress?.Invoke();
+        OnMicrophoneNextStepPress?.Invoke();
         ArmButtonInteractionCooldown();
 
         // microphoneScreen.SetActive(false);
         // vibroAcousticScreen.SetActive(true);
     }
 
-    public void HeadphoneNextScreenButtonPress()
+    public void HeadphoneNextStepButtonPress()
     {
         if (!TryAcceptButtonPress())
             return;
-        OnHeadphoneScreenNextPress?.Invoke();
+        OnHeadphoneNextStepPress?.Invoke();
         ArmButtonInteractionCooldown();
 
         // headphoneScreen.SetActive(false);
         // microphoneScreen.SetActive(true);
     }
 
-    public void VibroAcousticNextScreenButtonPress()
+    public void VibroAcousticNextStepButtonPress()
     {
         if (!TryAcceptButtonPress())
             return;
-        OnVibroacousticScreenNextPress?.Invoke();
+        OnVibroacousticNextStepPress?.Invoke();
         ArmButtonInteractionCooldown();
 
         // vibroAcousticScreen.SetActive(false);
-        // lightGlassScreen.SetActive(true);
+        // lightGlassesScreen.SetActive(true);
     }
 
-    public void LightGlassNextScreenButtonPress()
+    public void LightGlassesNextStepButtonPress()
     {
         if (!TryAcceptButtonPress())
             return;
-        OnLightglassScreenNextPress?.Invoke();
+        OnLightGlassesNextStepPress?.Invoke();
         ArmButtonInteractionCooldown();
 
-        // lightGlassScreen.SetActive(false);
+        // lightGlassesScreen.SetActive(false);
         // startMeditationScreen.SetActive(true);
     }
 

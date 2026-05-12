@@ -844,7 +844,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5892333126907248142}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: MicrophoneNextScreenButtonPress
+        m_MethodName: MicrophoneNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2204,7 +2204,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5892333126907248142}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HeadphoneNextScreenButtonPress
+        m_MethodName: HeadphoneNextStepButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5358,7 +5358,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!1 &5850685200915441355
 GameObject:
   m_ObjectHideFlags: 0
@@ -6562,7 +6562,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Next Session
+  m_Text: Next Step
 --- !u!1 &7252382845314250185
 GameObject:
   m_ObjectHideFlags: 0

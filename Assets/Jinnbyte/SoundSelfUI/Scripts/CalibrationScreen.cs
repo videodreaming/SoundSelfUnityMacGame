@@ -8,7 +8,7 @@ public class CalibrationScreen : MonoBehaviour
     public GameObject lastScreen;
 
     public UnityEvent OnTroubleshootButtonPress;
-    public UnityEvent OnNextScreenButtonPress;
+    public UnityEvent OnNextStepButtonPress;
     public UnityEvent OnBackScreenButtonPress;
 
     public void TroubleShootButtonPress()
@@ -21,9 +21,9 @@ public class CalibrationScreen : MonoBehaviour
 
     }
 
-    public void NextScreenButtonPress()
+    public void NextStepButtonPress()
     {
-        OnNextScreenButtonPress?.Invoke();
+        OnNextStepButtonPress?.Invoke();
         // Implement logic to transition to the next screen here
         middleScreen.SetActive(false);
         lastScreen.SetActive(true);
