@@ -146,7 +146,7 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 **Commit recorded**
 
 - `a7f0dfc094f12d6455ee27e036b5264a5dd345dd` (`a7f0dfc`) — *new plan for refactor of calibration*
-- `f4d43dd8f77d3c6a265bdfc8872f03a96c11526e` (`f4d43dd`) — *feat(ui): calibration Next Step naming, LightGlasses, plan Stage A notes*
+- `c226a665c24101a5453ae54787916eba50a71006` (`c226a665`) — *feat(ui): calibration Next Step naming, LightGlasses, plan Stage A notes*
 
 ---
 
