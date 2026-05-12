@@ -10,6 +10,7 @@ namespace SoundSelf.Sequence
         private readonly Sequencer _sequencer;
         private bool _hasEntered;
         private StageVariant _variant = StageVariant.None;
+        private Coroutine _waitForTimerCoroutine;
 
         public StageType StageType => StageType.Savasana;
 
@@ -80,7 +81,7 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetAllowThumpAlways(false);
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(false);
             PlaySavasanaVoForVariant(_variant);
-            _sequencer.StartCoroutine(WaitForTimerToEnd());
+            _waitForTimerCoroutine = _sequencer.StartCoroutine(WaitForTimerToEnd());
 
             
             if(IsAscendingVariant())
@@ -118,13 +119,21 @@ namespace SoundSelf.Sequence
 
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand)
         {
-            return sequenceCommand == SequenceCommand.CueStopInteractive
+            return sequenceCommand == SequenceCommand.EndThisSequenceStage
+                || sequenceCommand == SequenceCommand.CueStopInteractive
                 || sequenceCommand == SequenceCommand.CueStopInteractive3m
                 || sequenceCommand == SequenceCommand.CueSilentMeditationStart;
         }
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
+            if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
+            {
+                StopWaitForTimerCoroutine();
+                MarkComplete();
+                return;
+            }
+
        
             switch (sequenceCommand)
             {
@@ -157,6 +166,15 @@ namespace SoundSelf.Sequence
             _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
         }
 
+        private void StopWaitForTimerCoroutine()
+        {
+            if (_waitForTimerCoroutine != null && _sequencer != null)
+            {
+                _sequencer.StopCoroutine(_waitForTimerCoroutine);
+                _waitForTimerCoroutine = null;
+            }
+        }
+
         private IEnumerator WaitForTimerToEnd()
         {
             // Waits for the "this section" countdown to reach zero.
@@ -172,6 +190,7 @@ namespace SoundSelf.Sequence
                     break;
                 yield return null;
             }
+            _waitForTimerCoroutine = null;
             MarkComplete();
         }
 
@@ -203,6 +222,7 @@ namespace SoundSelf.Sequence
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            StopWaitForTimerCoroutine();
             if (MusicSystem1.instance != null)
                 MusicSystem1.instance.SetBreathworkCycle(false);
         }

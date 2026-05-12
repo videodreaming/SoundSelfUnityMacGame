@@ -19,6 +19,17 @@ namespace SoundSelf.Sequence
 
         public bool IsComplete { get; private set; }
 
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
+            sequenceCommand == SequenceCommand.EndThisSequenceStage;
+
+        public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
+        {
+            if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
+            {
+                MarkComplete();
+            }
+        }
+
         public void Enter(StageVariant variant)
         {
             IsComplete = false;

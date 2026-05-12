@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Commands dispatched from Wwise (and similar) into the sequence. Handlers declare WatchesSequenceCommand; Sequencer dispatches via HandleSequenceCommand.</summary>
+    /// <summary>Commands dispatched from Wwise (and similar) into the sequence. Handlers declare WatchesSequenceCommand; Sequencer dispatches via HandleSequenceCommand. UI "End This Sequence Stage" uses <see cref="EndThisSequenceStage"/>.</summary>
     public enum SequenceCommand
     {
         StartTutorial,
@@ -16,7 +16,9 @@ namespace SoundSelf.Sequence
         ThematicSavasana_End,  // Savasana → closing teaching phase done (optional; Savasana may complete immediately)
         CueStopInteractive,     // Wwise Cue_Stop_Interactive — Playground/Savasana Standard → FrozenFreeplay
         CueStopInteractive3m,   // Wwise Cue_Stop_Interactive_3m — Savasana PS Ascending only
-        CueSilentMeditationStart // Wwise Cue_SilentMeditation_Start — Savasana PS Ascending only (Jaya VO)
+        CueSilentMeditationStart, // Wwise Cue_SilentMeditation_Start — Savasana PS Ascending only (Jaya VO)
+        /// <summary>UI "End This Sequence Stage" — <see cref="Sequencer.HandleSequenceCommand"/>; active stage handler should <c>MarkComplete()</c>.</summary>
+        EndThisSequenceStage
     }
 
     public enum StageType

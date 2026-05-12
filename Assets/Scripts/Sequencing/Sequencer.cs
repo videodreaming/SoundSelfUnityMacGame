@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -126,11 +126,46 @@ public class Sequencer : MonoBehaviour
         sequenceRunner.SetHandlers(new IStageHandler[] { _calibrationHandler, _openingHandler, _startCountdownHandler, _playgroundHandler, _savasanaHandler, _tutorialHandler, _setMenuHandler, _musicPlaylistHandler, _inquiryHandler, _endHandler, _linearAudioHandler });
     }
 
+    void OnEnable()
+    {
+        // If this object is enabled after load, UIManager may already exist — subscribe when possible (no retry loop).
+        TrySubscribeEndThisSequenceStageUi();
+    }
+
+    void OnDisable()
+    {
+        UnsubscribeEndThisSequenceStageUi();
+    }
+
     void Start()
     {
         if (TimeTrackerScript.instance == null)
             DbgLogSequencer("Sequencer: TimeTrackerScript.instance is null in Start(); session countdown is unavailable until the tracker exists. Add a TimeTrackerScript to the scene.", true);
 
+        // Runs after all Awake() on enabled objects this frame, so UIManager.Instance is usually set if UIManager is in the scene (order vs Sequencer does not need to be "UI first").
+        TrySubscribeEndThisSequenceStageUi();
+    }
+
+    private void TrySubscribeEndThisSequenceStageUi()
+    {
+        var ui = UIManager.Instance;
+        if (ui == null)
+            return;
+        ui.OnEndThisSequenceStagePress -= HandleEndThisSequenceStageUi;
+        ui.OnEndThisSequenceStagePress += HandleEndThisSequenceStageUi;
+    }
+
+    private void UnsubscribeEndThisSequenceStageUi()
+    {
+        var ui = UIManager.Instance;
+        if (ui != null)
+            ui.OnEndThisSequenceStagePress -= HandleEndThisSequenceStageUi;
+    }
+
+    /// <summary>Forwarded from <see cref="UIManager.OnEndThisSequenceStagePress"/> through <see cref="HandleSequenceCommand"/>.</summary>
+    private void HandleEndThisSequenceStageUi()
+    {
+        HandleSequenceCommand(SequenceCommand.EndThisSequenceStage);
     }
 
 

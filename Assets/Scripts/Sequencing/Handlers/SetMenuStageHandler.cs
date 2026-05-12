@@ -17,11 +17,14 @@ namespace SoundSelf.Sequence
 
         public bool IsComplete { get; private set; }
 
-        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) => sequenceCommand == SequenceCommand.WaitForButton;
+        public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
+            //sequenceCommand == SequenceCommand.WaitForButton ||
+            sequenceCommand == SequenceCommand.EndThisSequenceStage;
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
-            if (sequenceCommand == SequenceCommand.WaitForButton)
+            //if (sequenceCommand == SequenceCommand.WaitForButton || sequenceCommand == SequenceCommand.EndThisSequenceStage)
+            if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
                 MarkComplete();
         }
 
