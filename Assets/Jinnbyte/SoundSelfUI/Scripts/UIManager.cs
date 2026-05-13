@@ -60,77 +60,145 @@ public class UIManager : MonoBehaviour
     public Action OnSessionTimeEnds;
 
     // Screen Set Functions
-    public void UnsetAllScreens()
+    public void UnsetAllScreens(Action onComplete)
     {
-        choiceSSOrMusicScreen.SetActive(false);
-        welcomeScreen.SetActive(false);
-        if (startScreen != null)
-            startScreen.SetActive(false);
-        if (conclusionScreen != null)
-            conclusionScreen.SetActive(false);
-        headphoneScreen.SetActive(false);
-        microphoneScreen.SetActive(false);
-        vibroAcousticScreen.SetActive(false);
-        lightGlassesScreen.SetActive(false);
-        startMeditationScreen.SetActive(false);
-        endMeditationScreen.SetActive(false);
+
+        FadeOutScreen(() =>
+        {
+            choiceSSOrMusicScreen.SetActive(false);
+            welcomeScreen.SetActive(false);
+            if (startScreen != null)
+                startScreen.SetActive(false);
+            if (conclusionScreen != null)
+                conclusionScreen.SetActive(false);
+            headphoneScreen.SetActive(false);
+            microphoneScreen.SetActive(false);
+            vibroAcousticScreen.SetActive(false);
+            lightGlassesScreen.SetActive(false);
+            startMeditationScreen.SetActive(false);
+            endMeditationScreen.SetActive(false);
+            onComplete?.Invoke();
+
+        });
+
+
+    }
+    void FadeOutScreen(Action onComplete)
+    {
+        //check which screen was active and call fade out on it
+        if (choiceSSOrMusicScreen.activeSelf)
+        {
+            choiceSSOrMusicScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (welcomeScreen.activeSelf)
+        {
+            welcomeScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (startScreen != null && startScreen.activeSelf)
+        {
+            startScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (conclusionScreen != null && conclusionScreen.activeSelf)
+        {
+            conclusionScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (headphoneScreen.activeSelf)
+        {
+            headphoneScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (microphoneScreen.activeSelf)
+        {
+            microphoneScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (vibroAcousticScreen.activeSelf)
+        {
+            vibroAcousticScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (lightGlassesScreen.activeSelf)
+        {
+            lightGlassesScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (startMeditationScreen.activeSelf)
+        {
+            startMeditationScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (endMeditationScreen.activeSelf)
+        {
+            endMeditationScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else
+        {
+            //no screen was active, just call onComplete immediately
+            onComplete?.Invoke();
+        }
     }
     public void SetCalibrationScreen(CalibrationUI screen)
     {
-        UnsetAllScreens();
-        switch (screen)
+        UnsetAllScreens(() =>
         {
-            case CalibrationUI.Start:
-                if (startScreen != null)
-                    startScreen.SetActive(true);
-                else
-                    Debug.LogError("UIManager.SetCalibrationScreen(Start): startScreen is not assigned. Assign Section Calibration Start in the inspector.");
-                break;
-            case CalibrationUI.Headphone:
-                headphoneScreen.SetActive(true);
-                break;
-            case CalibrationUI.Microphone:
-                microphoneScreen.SetActive(true);
-                break;
-            case CalibrationUI.VibroAcoustic:
-                vibroAcousticScreen.SetActive(true);
-                break;
-            case CalibrationUI.LightGlasses:
-                lightGlassesScreen.SetActive(true);
-                break;
-            case CalibrationUI.Conclusion:
-                if (conclusionScreen != null)
-                    conclusionScreen.SetActive(true);
-                else
-                    Debug.LogError("UIManager.SetCalibrationScreen(Conclusion): conclusionScreen is not assigned. Assign Section Calibration Conclusion in the inspector.");
-                break;
-        }
-        ArmButtonInteractionCooldown();
+            switch (screen)
+            {
+                case CalibrationUI.Start:
+                    if (startScreen != null)
+                        startScreen.SetActive(true);
+                    else
+                        Debug.LogError("UIManager.SetCalibrationScreen(Start): startScreen is not assigned. Assign Section Calibration Start in the inspector.");
+                    break;
+                case CalibrationUI.Headphone:
+                    headphoneScreen.SetActive(true);
+                    break;
+                case CalibrationUI.Microphone:
+                    microphoneScreen.SetActive(true);
+                    break;
+                case CalibrationUI.VibroAcoustic:
+                    vibroAcousticScreen.SetActive(true);
+                    break;
+                case CalibrationUI.LightGlasses:
+                    lightGlassesScreen.SetActive(true);
+                    break;
+                case CalibrationUI.Conclusion:
+                    if (conclusionScreen != null)
+                        conclusionScreen.SetActive(true);
+                    else
+                        Debug.LogError("UIManager.SetCalibrationScreen(Conclusion): conclusionScreen is not assigned. Assign Section Calibration Conclusion in the inspector.");
+                    break;
+            }
+            ArmButtonInteractionCooldown();
+        });
+
     }
 
     public void SetMeditationScreen()
     {
-        UnsetAllScreens();
-        startMeditationScreen.SetActive(true);
-        ArmButtonInteractionCooldown();
+        UnsetAllScreens(() =>
+        {
+            startMeditationScreen.SetActive(true);
+            ArmButtonInteractionCooldown();
+        });
     }
     public void SetEndMeditationScreen()
     {
-        UnsetAllScreens();
-        endMeditationScreen.SetActive(true);
-        ArmButtonInteractionCooldown();
+        UnsetAllScreens(() =>
+        {
+            endMeditationScreen.SetActive(true);
+            ArmButtonInteractionCooldown();
+        });
     }
     public void SetChoiceSSOrMusicScreen()
     {
-        UnsetAllScreens();
-        choiceSSOrMusicScreen.SetActive(true);
-        ArmButtonInteractionCooldown();
+        UnsetAllScreens(() =>
+        {
+            choiceSSOrMusicScreen.SetActive(true);
+            ArmButtonInteractionCooldown();
+        });
     }
     public void SetWelcomeScreen()
     {
-        UnsetAllScreens();
-        welcomeScreen.SetActive(true);
-        ArmButtonInteractionCooldown();
+        UnsetAllScreens(() =>
+        {
+            welcomeScreen.SetActive(true);
+            ArmButtonInteractionCooldown();
+        });
     }
     // Set Time 
     // Set Progress Bar
