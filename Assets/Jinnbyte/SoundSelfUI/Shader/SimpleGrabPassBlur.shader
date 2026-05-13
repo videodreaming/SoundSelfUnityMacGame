@@ -1,10 +1,11 @@
 Shader "Custom/SimpleGrabPassBlur"
 {
+    // Blur is pre-computed and cached by UIBlurManager into _UIBlurGrabTexture.
+    // This shader just samples that cached texture in screen space.
     Properties
     {
         _Color ("Main Color", Color) = (1,1,1,1)
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-        _Size ("Size", Range(0, 20)) = 1
     }
 
     SubShader
@@ -14,11 +15,6 @@ Shader "Custom/SimpleGrabPassBlur"
             "Queue"="Transparent"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
-        }
-
-        GrabPass
-        {
-            "_UIBlurGrabTexture"
         }
 
         Pass
@@ -54,6 +50,8 @@ Shader "Custom/SimpleGrabPassBlur"
 
             fixed4 _Color;
             float4 _MainTex_ST;
+            sampler2D _UIBlurGrabTexture;
+            sampler2D _MainTex;
 
             v2f vert(appdata_t v)
             {
@@ -65,35 +63,17 @@ Shader "Custom/SimpleGrabPassBlur"
                 return o;
             }
 
-            sampler2D _UIBlurGrabTexture;
-            float4 _UIBlurGrabTexture_TexelSize;
-            sampler2D _MainTex;
-            half _Size;
-
-            half4 GrabSample(float4 uvgrab, float2 offset)
-            {
-                float4 uv = uvgrab;
-                uv.xy += offset * uvgrab.w;
-                return tex2Dproj(_UIBlurGrabTexture, UNITY_PROJ_COORD(uv));
-            }
-
             half4 frag(v2f i) : SV_Target
             {
-                float2 blurStep = _UIBlurGrabTexture_TexelSize.xy * _Size * 2.0;
-
-                half4 sum = half4(0, 0, 0, 0);
-                sum += GrabSample(i.uvgrab, float2(0, 0)) * 0.20;
-                sum += GrabSample(i.uvgrab, float2( blurStep.x, 0)) * 0.12;
-                sum += GrabSample(i.uvgrab, float2(-blurStep.x, 0)) * 0.12;
-                sum += GrabSample(i.uvgrab, float2(0,  blurStep.y)) * 0.12;
-                sum += GrabSample(i.uvgrab, float2(0, -blurStep.y)) * 0.12;
-                sum += GrabSample(i.uvgrab, float2( blurStep.x,  blurStep.y)) * 0.08;
-                sum += GrabSample(i.uvgrab, float2(-blurStep.x,  blurStep.y)) * 0.08;
-                sum += GrabSample(i.uvgrab, float2( blurStep.x, -blurStep.y)) * 0.08;
-                sum += GrabSample(i.uvgrab, float2(-blurStep.x, -blurStep.y)) * 0.08;
-
+                // Divide out the perspective, then flip Y.
+                // Graphics.Blit stores Y=0 at the bottom of the RT, while
+                // ComputeGrabScreenPos was designed for GrabPass (backbuffer capture)
+                // which has the opposite Y convention on Metal/OpenGL.
+                float2 uv = i.uvgrab.xy / i.uvgrab.w;
+                uv.y = 1.0 - uv.y;
+                half4 blurred = tex2D(_UIBlurGrabTexture, uv);
                 half4 tint = tex2D(_MainTex, i.uvmain) * i.color;
-                return half4(sum.rgb * tint.rgb, tint.a);
+                return half4(blurred.rgb * tint.rgb, tint.a);
             }
             ENDCG
         }

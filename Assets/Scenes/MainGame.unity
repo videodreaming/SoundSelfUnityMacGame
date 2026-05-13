@@ -6381,7 +6381,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1625260046}
   m_SourcePrefab: {fileID: 100100000, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
 --- !u!1 &446006296
 GameObject:
@@ -7408,6 +7411,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495606414}
   m_CullTransparentMesh: 1
+--- !u!1 &505095406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
+  m_PrefabInstance: {fileID: 444174632}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &510386443
 GameObject:
   m_ObjectHideFlags: 0
@@ -17019,6 +17027,7 @@ GameObject:
   - component: {fileID: 1071554255}
   - component: {fileID: 1071554254}
   - component: {fileID: 1071554256}
+  - component: {fileID: 1071554257}
   m_Layer: 5
   m_Name: Section Calibration Lightglasses
   m_TagString: Untagged
@@ -17066,7 +17075,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
-  fadeDuration: 2.5
 --- !u!225 &1071554255
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -17103,6 +17111,18 @@ MonoBehaviour:
   OnBackScreenButtonPress:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1071554257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071554252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1082631972
 GameObject:
   m_ObjectHideFlags: 0
@@ -17833,6 +17853,7 @@ GameObject:
   - component: {fileID: 1133452316}
   - component: {fileID: 1133452315}
   - component: {fileID: 1133452317}
+  - component: {fileID: 1133452318}
   m_Layer: 5
   m_Name: Section Calibration Vibroacoustic
   m_TagString: Untagged
@@ -17879,7 +17900,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  fadeDuration: 2.5
 --- !u!225 &1133452316
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -17916,6 +17936,18 @@ MonoBehaviour:
   OnBackScreenButtonPress:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1133452318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133452313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1134556980
 GameObject:
   m_ObjectHideFlags: 0
@@ -18082,6 +18114,7 @@ GameObject:
   - component: {fileID: 1147446954}
   - component: {fileID: 1147446953}
   - component: {fileID: 1147446952}
+  - component: {fileID: 1147446955}
   m_Layer: 5
   m_Name: Section Calibration Conclusion
   m_TagString: Untagged
@@ -18225,7 +18258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
-  fadeDuration: 2.5
 --- !u!225 &1147446954
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -18238,6 +18270,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1147446955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147446950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1149483748
 GameObject:
   m_ObjectHideFlags: 0
@@ -20390,6 +20434,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3ecd4634e3b469ba15828a7189c191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1317321318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317321314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1319343969
 GameObject:
   m_ObjectHideFlags: 0
@@ -20706,6 +20762,7 @@ GameObject:
   - component: {fileID: 1348706028}
   - component: {fileID: 1348706027}
   - component: {fileID: 1348706030}
+  - component: {fileID: 1348706032}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -20853,6 +20910,24 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &1348706032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348706023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62305a0b4eefa4d4eb1ebf151a146c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundGraphic: {fileID: 8230576280433664136}
+  blurSize: 4
+  blurIterations: 2
+  downsampleFactor: 2
+  updateInterval: 5
+  blurPassShader: {fileID: 4800000, guid: d83c53783c3c84c0c9c93e1994a56a96, type: 3}
 --- !u!1001 &1348800847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21186,6 +21261,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1317321315}
+    - targetCorrespondingSourceObject: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1317321318}
     - targetCorrespondingSourceObject: {fileID: 3789602101977965482, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       insertIndex: -1
       addedObject: {fileID: 627957774}
@@ -26093,6 +26171,18 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
   m_PrefabInstance: {fileID: 444174632}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1625260046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505095406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1631195608
 GameObject:
   m_ObjectHideFlags: 0
@@ -30828,6 +30918,7 @@ GameObject:
   - component: {fileID: 1990855361}
   - component: {fileID: 1990855360}
   - component: {fileID: 1990855359}
+  - component: {fileID: 1990855362}
   m_Layer: 5
   m_Name: Section Calibration Start
   m_TagString: Untagged
@@ -30970,7 +31061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
-  fadeDuration: 2.5
 --- !u!225 &1990855361
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -30983,6 +31073,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1990855362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990855357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1994548708
 GameObject:
   m_ObjectHideFlags: 0
@@ -33051,6 +33153,7 @@ GameObject:
   - component: {fileID: 6740854210329473503}
   - component: {fileID: 6391394728902135324}
   - component: {fileID: 5680642668831817994}
+  - component: {fileID: 6740854210329473504}
   m_Layer: 5
   m_Name: Meditation Session(Start)
   m_TagString: Untagged
@@ -34243,7 +34346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  fadeDuration: 2.5
 --- !u!222 &3710691550574881456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34560,6 +34662,7 @@ GameObject:
   - component: {fileID: 2114882465732898713}
   - component: {fileID: 6118818609140259933}
   - component: {fileID: 6118818609140259934}
+  - component: {fileID: 6118818609140259935}
   m_Layer: 5
   m_Name: Section Calibration Headphone
   m_TagString: Untagged
@@ -35292,7 +35395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
-  fadeDuration: 2.5
 --- !u!114 &5690434341604778522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35537,7 +35639,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
-  fadeDuration: 2.5
 --- !u!114 &6118818609140259934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35634,6 +35735,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &6118818609140259935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531757617747557860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &6133713991979859885
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -35662,6 +35775,7 @@ GameObject:
   - component: {fileID: 8167610280031054416}
   - component: {fileID: 3709072389472802461}
   - component: {fileID: 8167610280031054417}
+  - component: {fileID: 8167610280031054418}
   m_Layer: 5
   m_Name: Section Calibration Microphone
   m_TagString: Untagged
@@ -35978,6 +36092,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6740854210329473504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551420734884439373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &6767262843295836061
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36172,6 +36298,7 @@ GameObject:
   - component: {fileID: 2646920067006645704}
   - component: {fileID: 4794974975878197479}
   - component: {fileID: 7772311677089131922}
+  - component: {fileID: 7772311677089131923}
   m_Layer: 5
   m_Name: Meditation Session(End)
   m_TagString: Untagged
@@ -36710,7 +36837,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
       insertIndex: -1
       addedObject: {fileID: 902946619}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7709691747586375680}
   m_SourcePrefab: {fileID: 100100000, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
 --- !u!114 &7499705576416621024
 MonoBehaviour:
@@ -36952,6 +37082,18 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
   m_PrefabInstance: {fileID: 7471467453616646145}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7709691747586375680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2146497231274515826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7753678915525694088
 GameObject:
   m_ObjectHideFlags: 0
@@ -37012,7 +37154,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
-  fadeDuration: 2.5
+--- !u!114 &7772311677089131923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7017983985615724613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7838218751262366108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37166,6 +37319,18 @@ MonoBehaviour:
   OnBackScreenButtonPress:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8167610280031054418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6179719544755254678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a712bfd6abe46d0913b0bd4a32633c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8175873764011484086
 RectTransform:
   m_ObjectHideFlags: 0
