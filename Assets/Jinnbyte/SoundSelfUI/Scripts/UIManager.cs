@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text microphoneStatusText;
     [SerializeField] private Text headphoneStatusText;
     [SerializeField] private Text versionText;
+    [SerializeField] private Text calibrationHeadText; // Set by CalibrationStageHandler per step; not all steps have instructions, so optional assignment.
 
 
     //Screens

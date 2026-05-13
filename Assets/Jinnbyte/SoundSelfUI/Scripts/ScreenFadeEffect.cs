@@ -12,37 +12,49 @@ public class ScreenFadeEffect : MonoBehaviour
 
     }
 
+    public bool IsTransitioning { get; private set; }
+
     void OnEnable()
     {
-        canvasGroup.alpha = 0; // Start fully opaque
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
         StartCoroutine(FadeIn());
     }
     IEnumerator FadeIn()
     {
-        //yield return new WaitForSeconds(.5f);
+        IsTransitioning = true;
         float elapsedTime = 0f;
-        float fadeDuration = 2f; // Duration of the fade effect in seconds
+        float fadeDuration = 1f;
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
             canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
             yield return null;
         }
-        canvasGroup.alpha = 1f; // Ensure it's fully transparent at the end
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+        IsTransitioning = false;
     }
     void OnDisable()
     {
-        StopAllCoroutines(); // Stop any ongoing fade-in or fade-out coroutines
+        IsTransitioning = false;
+        StopAllCoroutines();
     }
     public void FadeOut(Action onComplete)
     {
+        if (IsTransitioning) return;
         StartCoroutine(FadeOutCoroutine(onComplete));
     }
     IEnumerator FadeOutCoroutine(Action onComplete)
     {
+        IsTransitioning = true;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
         float elapsedTime = 0f;
         float duration = 0.7f;
-        yield return new WaitForEndOfFrame(); // Optional delay before starting the fade-out
+        yield return new WaitForEndOfFrame();
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
@@ -50,7 +62,8 @@ public class ScreenFadeEffect : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 0f;
-        yield return new WaitForSeconds(0.1f);// Ensure it's fully opaque at the end
+        yield return new WaitForSeconds(0.1f);
+        IsTransitioning = false;
         onComplete?.Invoke();
     }
 }
