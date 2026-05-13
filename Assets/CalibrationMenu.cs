@@ -6,7 +6,10 @@ using SoundSelf.Sequence;
 /// Single Ak GameObject owner of <c>Play_Calibration_Sequence</c> / <c>Stop_Calibration_Sequence</c> / <c>SetSwitch("Calibration_Sequence", ...)</c>.
 /// The Wwise API requires the same GameObject for Play / Stop / SetSwitch on a given sequence (see WwiseVOManager note), so all three live on this component.
 /// Translates <see cref="AkCallbackType.AK_MusicSyncUserCue"/> user-cue names into <see cref="SequenceCommand"/> and forwards them through <see cref="Sequencer.HandleSequenceCommand"/>.
-/// Gameplay side-effects (Imitone, lights) live in <c>CalibrationStageHandler.ExecuteSequenceCommand</c>; this class is wire only.
+/// Gameplay side-effects (Imitone, lights, polite Next) live in <c>CalibrationStageHandler.ExecuteSequenceCommand</c>; this class is wire only.
+///
+/// <para><b>Polite Next (dual mirror):</b> Wwise interactive music already advances audio at safe points (<c>Cue_Calibration_Next</c>, instruction ON/OFF).
+/// Unity mirrors that on buttons/screens (loading until unlock) — redundant state by design; a bit inelegant but intentional. See <c>Docs/CALIBRATION_UI_SEQUENCING_PLAN.md</c>.</para>
 /// </summary>
 public class CalibrationMenu : MonoBehaviour
 {
@@ -60,11 +63,19 @@ public class CalibrationMenu : MonoBehaviour
 
         var info = in_info as AkMusicSyncCallbackInfo;
         if (info == null)
+        {
+            Debug.Log("CalibrationMenu: MusicSync callback — in_info is not AkMusicSyncCallbackInfo (ignored).");
             return;
+        }
 
         string cue = info.userCueName;
         if (string.IsNullOrEmpty(cue))
+        {
+            Debug.Log("CalibrationMenu: MusicSyncUserCue callback — userCueName is null or empty (ignored).");
             return;
+        }
+
+        Debug.Log("CalibrationMenu: MusicSyncUserCue received: userCueName='" + cue + "'");
 
         if (_sequencerForCallback == null)
         {
@@ -72,23 +83,48 @@ public class CalibrationMenu : MonoBehaviour
             return;
         }
 
-        switch (cue)
+        if (!TryMapCalibrationMusicUserCue(cue, out SequenceCommand command))
+        {
+            Debug.Log("CalibrationMenu: MusicSyncUserCue '" + cue + "' — unmapped, not forwarded to Sequencer.");
+            return;
+        }
+
+        bool handled = _sequencerForCallback.HandleSequenceCommand(command);
+        Debug.Log("CalibrationMenu: MusicSyncUserCue '" + cue + "' → " + command + "; HandleSequenceCommand handled=" + handled);
+    }
+
+    /// <summary>Maps Wwise <c>AK_MusicSyncUserCue</c> <c>userCueName</c> from <c>Play_Calibration_Sequence</c> to <see cref="SequenceCommand"/>.</summary>
+    private static bool TryMapCalibrationMusicUserCue(string userCueName, out SequenceCommand command)
+    {
+        switch (userCueName)
         {
             case "Cue_Microphone_ON":
-                _sequencerForCallback.HandleSequenceCommand(SequenceCommand.CalibrationMicrophoneOn);
-                break;
+                command = SequenceCommand.CalibrationMicrophoneOn;
+                return true;
             case "Cue_Microphone_OFF":
-                _sequencerForCallback.HandleSequenceCommand(SequenceCommand.CalibrationMicrophoneOff);
-                break;
+                command = SequenceCommand.CalibrationMicrophoneOff;
+                return true;
             case "Cue_AVS_Calibration_Start":
-                _sequencerForCallback.HandleSequenceCommand(SequenceCommand.CalibrationAvsStart);
-                break;
+                command = SequenceCommand.CalibrationAvsStart;
+                return true;
             case "Cue_AVS_Calibration_End":
-                _sequencerForCallback.HandleSequenceCommand(SequenceCommand.CalibrationAvsEnd);
-                break;
+                command = SequenceCommand.CalibrationAvsEnd;
+                return true;
+            case "Cue_Calibration_Instruction_ON":
+                command = SequenceCommand.CalibrationInstructionVoStarted;
+                return true;
+            case "Cue_Calibration_Instruction_OFF":
+            case "Cue_Calibration_Instruction_End":
+                // _End: same intent as _OFF per sound design; not present in checked-in Wwise — alias if authoring adds it.
+                command = SequenceCommand.CalibrationInstructionVoEnded;
+                return true;
+            // Still mapped so logs show receipt; CalibrationStageHandler does NOT unlock pending Next from this cue (Wwise often never posts it to Unity — see handler CalibrationPoliteNext case).
+            case "Cue_Calibration_Next":
+                command = SequenceCommand.CalibrationPoliteNext;
+                return true;
             default:
-                Debug.Log("CalibrationMenu: Unmapped user cue inside Play_Calibration_Sequence: " + cue);
-                break;
+                command = default;
+                return false;
         }
     }
 }

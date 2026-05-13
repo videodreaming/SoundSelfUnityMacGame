@@ -1,25 +1,43 @@
+using System.Collections;
 using UnityEngine;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Calibration UI flow: variant-driven step list; generic Next/Back; Conclusion confirm (Stage E adds VO-done + <c>MarkComplete</c>).</summary>
+    /*
+     * Polite Next Step — dual mirror (intentionally redundant, a bit inelegant):
+     * Wwise interactive music advances audio at safe points; Unity mirrors on buttons (loading until unlock).
+     * Unlock for pending Next: primarily <c>Cue_Calibration_Instruction_OFF</c> and the <b>next segment's first</b>
+     * <c>Cue_Calibration_Instruction_ON</c> (Wwise often does not deliver <c>Cue_Calibration_Next</c> to Unity — see <c>CalibrationPoliteNext</c> case below).
+     * See Docs/CALIBRATION_UI_SEQUENCING_PLAN.md.
+     * Back is immediate interrupt on both sides (no polite wait).
+     * Conclusion: <c>MarkComplete</c> after confirm + <c>Cue_Calibration_Instruction_OFF</c> (instruction line ended). <c>Cue_Calibration_Next</c> is ignored on the Conclusion step for completion gating.
+     */
+    /// <summary>Calibration UI: variant step list; Next may wait for Wwise polite cues; Conclusion waits for instruction VO off after confirm unless already between lines / dev skip.</summary>
     public class CalibrationStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
         private bool _calibrationUiListenersRegistered;
-        /// <summary>Variant passed to <see cref="Enter"/> for this calibration run.</summary>
         private StageVariant _activeCalibrationVariant = StageVariant.Calibration_Default;
         private CalibrationUI[] _steps = System.Array.Empty<CalibrationUI>();
         private int _stepIndex;
-        /// <summary>Set when user presses conclusion confirm; Stage E pairs with VO-done before <see cref="MarkComplete"/>.</summary>
-        private bool _conclusionButtonPressed;
-        /// <summary>True once <see cref="Enter"/> has cached the prior normalization rise-rate so <see cref="LocalCleanup"/> can restore it exactly once.</summary>
+
+        /// <summary>True while Wwise reports instruction VO in the “on” region (between Instruction_ON and Instruction_OFF).</summary>
+        private bool _instructionVoActive;
+        private bool _pendingNextAfterAdvanceCue;
+        private CalibrationUI _pendingNextFromStep;
+        private int _pendingNextTargetStepIndex;
+        private Coroutine _nextAdvanceCueTimeoutCoroutine;
+
+        /// <summary>User pressed conclusion confirm while <see cref="_instructionVoActive"/>; wait for <c>Cue_Calibration_Instruction_OFF</c> before <c>MarkComplete</c>. <c>Cue_Calibration_Next</c> is not used on Conclusion.</summary>
+        private bool _pendingConclusionConfirmWaitForInstructionOff;
+        private Coroutine _conclusionInstructionOffTimeoutCoroutine;
+
         private bool _hasCapturedNormalizationRiseRate;
-        /// <summary>Cached rise-rate (dB/sec) from <see cref="ImitoneVoiceIntepreter"/> at <see cref="Enter"/> time; restored on cleanup. We multiply by 6× while calibration is active.</summary>
         private float _capturedNormalizationRiseRateDbPerSecond;
         private const float CalibrationNormalizationRiseRateMultiplier = 6f;
-        /// <summary>True while calibration has claimed the <see cref="MusicSystem1.SetCalibrationMonitoringOverride"/> flag, so cleanup releases it idempotently.</summary>
         private bool _hasClaimedMonitoringOverride;
+
+        private const float CalibrationCueWaitTimeoutSeconds = 120f;
 
         public StageType StageType => StageType.Calibration;
 
@@ -30,17 +48,51 @@ namespace SoundSelf.Sequence
             _sequencer = sequencer;
         }
 
-        /// <summary>Watches the 4 calibration music-sync cue commands routed from <c>CalibrationMenu</c>. Completion is driven from UI + Wwise in Stage E — <see cref="SequenceCommand.EndThisSequenceStage"/> is intentionally not watched here.</summary>
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand) =>
             sequenceCommand == SequenceCommand.CalibrationMicrophoneOn
             || sequenceCommand == SequenceCommand.CalibrationMicrophoneOff
             || sequenceCommand == SequenceCommand.CalibrationAvsStart
-            || sequenceCommand == SequenceCommand.CalibrationAvsEnd;
+            || sequenceCommand == SequenceCommand.CalibrationAvsEnd
+            || sequenceCommand == SequenceCommand.CalibrationInstructionVoStarted
+            || sequenceCommand == SequenceCommand.CalibrationInstructionVoEnded
+            || sequenceCommand == SequenceCommand.CalibrationPoliteNext;
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
             switch (sequenceCommand)
             {
+                case SequenceCommand.CalibrationInstructionVoStarted:
+                    // Wwise may not post Cue_Calibration_Next to Unity when the user already pressed Next (handled inside music graph).
+                    // The first Instruction_ON of the *destination* portion is a practical unlock signal (hacky but matches shipped behavior).
+                    if (_pendingNextAfterAdvanceCue)
+                        CompletePendingNextStepFromWwiseMirror();
+                    _instructionVoActive = true;
+                    break;
+                case SequenceCommand.CalibrationInstructionVoEnded:
+                    _instructionVoActive = false;
+                    if (TryCompleteConclusionAfterInstructionOff())
+                        break;
+                    var onStartScreen = OnCalibrationStartScreenStep();
+                    if (_pendingNextAfterAdvanceCue)
+                        CompletePendingNextStepFromWwiseMirror();
+                    else if (onStartScreen && UIManager.Instance != null)
+                        UIManager.Instance.NotifyCalibrationStartInstructionVoLineEnded();
+                    break;
+                case SequenceCommand.CalibrationPoliteNext:
+                    // Conclusion: never use Next for exit gating.
+                    if (_steps != null && _stepIndex >= 0 && _stepIndex < _steps.Length && _steps[_stepIndex] == CalibrationUI.Conclusion)
+                        break;
+                    /*
+                     * Pending Next unlock via Cue_Calibration_Next — DISABLED (May 2026):
+                     * In practice Wwise consumes Cue_Calibration_Next inside the interactive music transition; the callback
+                     * often never reaches Unity, so the UI stayed stuck in "waiting". We unlock on Instruction_OFF and on the
+                     * next portion's first Instruction_ON instead (see CalibrationInstructionVoStarted / VoEnded above).
+                     * Keep mapping in CalibrationMenu for logging / future Wwise changes.
+                     *
+                    if (_pendingNextAfterAdvanceCue)
+                        CompletePendingNextStepFromWwiseMirror();
+                    */
+                    break;
                 case SequenceCommand.CalibrationMicrophoneOn:
                     if (_sequencer != null && _sequencer.imitoneVoiceInterpreter != null)
                         _sequencer.imitoneVoiceInterpreter.SetGameOn(true);
@@ -74,7 +126,7 @@ namespace SoundSelf.Sequence
         public void Enter(StageVariant variant)
         {
             IsComplete = false;
-            _conclusionButtonPressed = false;
+            ResetPoliteCueStateForNewRun();
             if (variant == StageVariant.Calibration_Album || variant == StageVariant.Calibration_NoVibro || variant == StageVariant.Calibration_Default)
                 _activeCalibrationVariant = variant;
             else
@@ -85,7 +137,6 @@ namespace SoundSelf.Sequence
             _stepIndex = 0;
 
             Debug.Log("CalibrationStageHandler: Enter — step count " + _steps.Length + ", first screen " + _steps[0]);
-            // Welcome linear bed is stopped by SetMenuStageHandler.BeginTransitionOut when leaving Welcome (same stage that started it).
             ApplyCalibrationMonitoringBoost();
             if (_sequencer != null && _sequencer.calibrationMenu != null)
             {
@@ -99,11 +150,17 @@ namespace SoundSelf.Sequence
                 Debug.LogError("CalibrationStageHandler: Sequencer or calibrationMenu is null. Cannot start calibration UI.");
         }
 
-        /// <summary>
-        /// Defensive bookend for <c>imitoneVoiceInterpreter.gameOn</c>: forces <c>false</c> on every step except <see cref="CalibrationUI.Microphone"/>,
-        /// where <c>Cue_Microphone_ON</c> / <c>Cue_Microphone_OFF</c> from <see cref="CalibrationMenu"/>'s music-sync callback drive it instead.
-        /// Single source of truth so step-list reordering can't accidentally leave the mic open in non-mic steps.
-        /// </summary>
+        private void ResetPoliteCueStateForNewRun()
+        {
+            CancelNextAdvanceCueTimeoutCoroutine();
+            CancelConclusionInstructionOffTimeoutCoroutine();
+            _instructionVoActive = false;
+            _pendingNextAfterAdvanceCue = false;
+            _pendingConclusionConfirmWaitForInstructionOff = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.ClearAllCalibrationCueWaitVisuals();
+        }
+
         private void EnforceGameOnForStep(CalibrationUI step)
         {
             if (_sequencer == null || _sequencer.imitoneVoiceInterpreter == null)
@@ -113,10 +170,8 @@ namespace SoundSelf.Sequence
             _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
         }
 
-        /// <summary>Calibration mirrors tutorial: monitor unattenuated (louder), bypass chant-driven ducking (chantPresence + chargeDuck → 1f, mic-gate still live), and boost the normalization rise-rate inside the confident-tone window by <see cref="CalibrationNormalizationRiseRateMultiplier"/>×. All released in <see cref="LocalCleanup"/>.</summary>
         private void ApplyCalibrationMonitoringBoost()
         {
-            // Direct-voice monitoring: force unattenuated (louder), same shape tutorial uses; also bypass chant-driven ducking.
             var directVoiceMonitoring = Object.FindObjectOfType<DirectVoiceMonitoring>();
             if (directVoiceMonitoring != null)
             {
@@ -133,7 +188,6 @@ namespace SoundSelf.Sequence
                 }
             }
 
-            // Normalization gain-riding rise-rate: 6× while calibration is active. Cache once so re-entry doesn't stomp our own boosted value.
             if (!_hasCapturedNormalizationRiseRate && _sequencer != null && _sequencer.imitoneVoiceInterpreter != null)
             {
                 _capturedNormalizationRiseRateDbPerSecond = _sequencer.imitoneVoiceInterpreter.GetNormalizationGainRidingRaiseRateDbPerSecond();
@@ -163,17 +217,16 @@ namespace SoundSelf.Sequence
             _hasClaimedMonitoringOverride = false;
         }
 
-        /// <summary>UI step → Wwise <c>Calibration_Sequence</c> switch state. Reuses legacy portion names so existing Wwise containers continue to match.</summary>
         private static string MapStepToPortion(CalibrationUI step)
         {
             switch (step)
             {
-                case CalibrationUI.Start:         return "Intro";
-                case CalibrationUI.Headphone:     return "Volume";
-                case CalibrationUI.Microphone:    return "Mic";
+                case CalibrationUI.Start: return "Intro";
+                case CalibrationUI.Headphone: return "Volume";
+                case CalibrationUI.Microphone: return "Mic";
                 case CalibrationUI.VibroAcoustic: return "Vibration";
-                case CalibrationUI.LightGlasses:  return "Lights";
-                case CalibrationUI.Conclusion:    return "End";
+                case CalibrationUI.LightGlasses: return "Lights";
+                case CalibrationUI.Conclusion: return "End";
                 default:
                     Debug.LogWarning("CalibrationStageHandler: MapStepToPortion — unknown step " + step + "; defaulting to Intro.");
                     return "Intro";
@@ -244,6 +297,12 @@ namespace SoundSelf.Sequence
             _calibrationUiListenersRegistered = false;
         }
 
+        private bool SkipCalibrationCueGating() =>
+            _sequencer != null && _sequencer.CalibrationSkipCueGatingForDev;
+
+        private bool OnCalibrationStartScreenStep() =>
+            _steps != null && _stepIndex >= 0 && _stepIndex < _steps.Length && _steps[_stepIndex] == CalibrationUI.Start;
+
         private void HandleCalibrationNextStepPress()
         {
             if (_steps == null || _steps.Length == 0)
@@ -263,6 +322,39 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            if (SkipCalibrationCueGating())
+            {
+                AdvanceCalibrationStepImmediate();
+                return;
+            }
+
+            if (_pendingNextAfterAdvanceCue)
+                return;
+
+            if (!_instructionVoActive)
+            {
+                AdvanceCalibrationStepImmediate();
+                return;
+            }
+
+            _pendingNextAfterAdvanceCue = true;
+            _pendingNextFromStep = _steps[_stepIndex];
+            _pendingNextTargetStepIndex = _stepIndex + 1;
+            if (_sequencer != null && _sequencer.calibrationMenu != null)
+                _sequencer.calibrationMenu.SetCalibrationPortionSwitch(MapStepToPortion(_steps[_pendingNextTargetStepIndex]));
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetCalibrationStepNextCuePendingVisual(_pendingNextFromStep, true);
+            if (_sequencer != null)
+                _nextAdvanceCueTimeoutCoroutine = _sequencer.StartCoroutine(NextAdvanceCueTimeoutRoutine());
+        }
+
+        private void AdvanceCalibrationStepImmediate()
+        {
+            if (_steps == null || _steps.Length == 0)
+                return;
+            if (_stepIndex < 0 || _stepIndex >= _steps.Length - 1)
+                return;
+
             _stepIndex++;
             Debug.Log("CalibrationStageHandler: Next step → index " + _stepIndex + " screen " + _steps[_stepIndex]);
             UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
@@ -271,20 +363,78 @@ namespace SoundSelf.Sequence
             EnforceGameOnForStep(_steps[_stepIndex]);
         }
 
+        private void CompletePendingNextStepFromWwiseMirror()
+        {
+            if (!_pendingNextAfterAdvanceCue)
+                return;
+            bool notifyStartPrimaryLabels = _pendingNextFromStep == CalibrationUI.Start;
+            CancelNextAdvanceCueTimeoutCoroutine();
+            _pendingNextAfterAdvanceCue = false;
+            // Do not SetCalibrationStepNextCuePendingVisual(false) on the outgoing step: keeps loading through fade-out;
+            // the incoming calibration root's OnEnable (CalibrationCueWaitBinding) resets to label.
+
+            _stepIndex = _pendingNextTargetStepIndex;
+            Debug.Log("CalibrationStageHandler: Pending Next unlocked (Wwise mirror) → index " + _stepIndex + " screen " + _steps[_stepIndex]);
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
+            EnforceGameOnForStep(_steps[_stepIndex]);
+            if (notifyStartPrimaryLabels && UIManager.Instance != null)
+                UIManager.Instance.NotifyCalibrationStartInstructionVoLineEnded();
+        }
+
+        private IEnumerator NextAdvanceCueTimeoutRoutine()
+        {
+            yield return new WaitForSeconds(CalibrationCueWaitTimeoutSeconds);
+            _nextAdvanceCueTimeoutCoroutine = null;
+            if (!_pendingNextAfterAdvanceCue)
+                yield break;
+            Debug.LogError("CalibrationStageHandler: Timeout waiting for polite Next (Instruction_OFF or next portion Instruction_ON; Cue_Calibration_Next not relied on — see handler). Resyncing Wwise to current UI step.");
+            _pendingNextAfterAdvanceCue = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetCalibrationStepNextCuePendingVisual(_pendingNextFromStep, false);
+            if (_sequencer != null && _sequencer.calibrationMenu != null)
+                _sequencer.calibrationMenu.RestartFromPortion(_sequencer, MapStepToPortion(_steps[_stepIndex]));
+        }
+
+        private void CancelNextAdvanceCueTimeoutCoroutine()
+        {
+            if (_nextAdvanceCueTimeoutCoroutine != null && _sequencer != null)
+            {
+                _sequencer.StopCoroutine(_nextAdvanceCueTimeoutCoroutine);
+                _nextAdvanceCueTimeoutCoroutine = null;
+            }
+        }
+
         private void HandleCalibrationBackPress()
         {
+            CancelNextAdvanceCueTimeoutCoroutine();
+            var hadPendingNext = _pendingNextAfterAdvanceCue;
+            if (_pendingNextAfterAdvanceCue)
+            {
+                _pendingNextAfterAdvanceCue = false;
+                if (_sequencer != null && _sequencer.calibrationMenu != null)
+                    _sequencer.calibrationMenu.RestartFromPortion(_sequencer, MapStepToPortion(_steps[_stepIndex]));
+            }
+
+            CancelConclusionInstructionOffTimeoutCoroutine();
+            _pendingConclusionConfirmWaitForInstructionOff = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetCalibrationConclusionConfirmCuePendingVisual(false);
+
             if (_steps == null || _steps.Length == 0)
                 return;
             if (_stepIndex <= 0)
             {
+                if (hadPendingNext && UIManager.Instance != null)
+                    UIManager.Instance.SetCalibrationStepNextCuePendingVisual(_steps[_stepIndex], false);
                 Debug.Log("CalibrationStageHandler: Back ignored on Start.");
                 return;
             }
 
             _stepIndex--;
             Debug.Log("CalibrationStageHandler: Back → index " + _stepIndex + " screen " + _steps[_stepIndex]);
-            UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
-            // Stop + SetSwitch + Play (same frame, same GameObject) — Back does not wait for any cue.
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
             if (_sequencer != null && _sequencer.calibrationMenu != null)
                 _sequencer.calibrationMenu.RestartFromPortion(_sequencer, MapStepToPortion(_steps[_stepIndex]));
             EnforceGameOnForStep(_steps[_stepIndex]);
@@ -300,8 +450,75 @@ namespace SoundSelf.Sequence
                 return;
             }
 
-            _conclusionButtonPressed = true;
-            Debug.Log("CalibrationStageHandler: Conclusion confirm recorded (stub — Stage E: pair with VO-done then MarkComplete).");
+            if (IsComplete)
+                return;
+
+            if (SkipCalibrationCueGating())
+            {
+                MarkComplete();
+                return;
+            }
+
+            // Between instruction lines (or before first ON): no need to wait for OFF.
+            if (!_instructionVoActive)
+            {
+                MarkComplete();
+                return;
+            }
+
+            if (_pendingConclusionConfirmWaitForInstructionOff)
+                return;
+
+            _pendingConclusionConfirmWaitForInstructionOff = true;
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetCalibrationConclusionConfirmCuePendingVisual(true);
+            if (_sequencer != null)
+                _conclusionInstructionOffTimeoutCoroutine = _sequencer.StartCoroutine(ConclusionInstructionOffWaitTimeoutRoutine());
+        }
+
+        /// <returns>True if conclusion was completed (caller should skip pending-Next unlock on same OFF).</returns>
+        private bool TryCompleteConclusionAfterInstructionOff()
+        {
+            if (IsComplete || !_pendingConclusionConfirmWaitForInstructionOff)
+                return false;
+            if (_steps == null || _stepIndex < 0 || _stepIndex >= _steps.Length || _steps[_stepIndex] != CalibrationUI.Conclusion)
+                return false;
+
+            CancelConclusionInstructionOffTimeoutCoroutine();
+            _pendingConclusionConfirmWaitForInstructionOff = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetCalibrationConclusionConfirmCuePendingVisual(false);
+            MarkComplete();
+            return true;
+        }
+
+        private IEnumerator ConclusionInstructionOffWaitTimeoutRoutine()
+        {
+            yield return new WaitForSeconds(CalibrationCueWaitTimeoutSeconds);
+            _conclusionInstructionOffTimeoutCoroutine = null;
+            if (!_pendingConclusionConfirmWaitForInstructionOff)
+                yield break;
+            Debug.LogError("CalibrationStageHandler: Timeout waiting for Cue_Calibration_Instruction_OFF after conclusion confirm. Clearing wait; user must press confirm again.");
+            _pendingConclusionConfirmWaitForInstructionOff = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetCalibrationConclusionConfirmCuePendingVisual(false);
+        }
+
+        private void CancelConclusionInstructionOffTimeoutCoroutine()
+        {
+            if (_conclusionInstructionOffTimeoutCoroutine != null && _sequencer != null)
+            {
+                _sequencer.StopCoroutine(_conclusionInstructionOffTimeoutCoroutine);
+                _conclusionInstructionOffTimeoutCoroutine = null;
+            }
+        }
+
+        private void MarkComplete()
+        {
+            if (IsComplete)
+                return;
+            IsComplete = true;
+            Debug.Log("CalibrationStageHandler: MarkComplete — calibration stage finished (conclusion confirm; Instruction_OFF when VO was active, or immediate when between lines / dev bypass).");
         }
 
         private void HandleHeadphoneTroubleshootingPress()
@@ -332,6 +549,13 @@ namespace SoundSelf.Sequence
 
         private void LocalCleanup()
         {
+            CancelNextAdvanceCueTimeoutCoroutine();
+            CancelConclusionInstructionOffTimeoutCoroutine();
+            _pendingNextAfterAdvanceCue = false;
+            _pendingConclusionConfirmWaitForInstructionOff = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.ClearAllCalibrationCueWaitVisuals();
+
             UnsubscribeCalibrationUiListeners();
 
             if (_sequencer != null && _sequencer.calibrationMenu != null)
@@ -339,7 +563,6 @@ namespace SoundSelf.Sequence
 
             ReleaseCalibrationMonitoringBoost();
 
-            // Defensive: leave gameOn off for the next stage (Opening etc.). Next stage can override on its Enter.
             if (_sequencer != null && _sequencer.imitoneVoiceInterpreter != null)
                 _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
         }

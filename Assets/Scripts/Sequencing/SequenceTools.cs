@@ -26,7 +26,13 @@ namespace SoundSelf.Sequence
         /// <summary>Wwise <c>Cue_AVS_Calibration_Start</c> — calibration handler drives AVS color/strobe on for the lights step.</summary>
         CalibrationAvsStart,
         /// <summary>Wwise <c>Cue_AVS_Calibration_End</c> — calibration handler restores light settings.</summary>
-        CalibrationAvsEnd
+        CalibrationAvsEnd,
+        /// <summary>Wwise <c>Cue_Calibration_Instruction_ON</c> — instruction line started; also unlocks pending Next when that ON is the <b>destination</b> portion’s first line (Wwise often never posts <c>Cue_Calibration_Next</c> to Unity).</summary>
+        CalibrationInstructionVoStarted,
+        /// <summary>Wwise <c>Cue_Calibration_Instruction_OFF</c> — instruction line ended; may unlock pending Next.</summary>
+        CalibrationInstructionVoEnded,
+        /// <summary>Wwise <c>Cue_Calibration_Next</c> — still forwarded for logging; pending Next unlock does <b>not</b> use this (see <c>CalibrationStageHandler</c>).</summary>
+        CalibrationPoliteNext
     }
 
     public enum StageType

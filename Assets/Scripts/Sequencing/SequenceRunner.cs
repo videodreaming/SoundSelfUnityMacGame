@@ -173,6 +173,8 @@ namespace SoundSelf.Sequence
 
             handler.Enter(stage.variant);
 
+            ApplyMenuScreenForSequenceStage(stage.type);
+
             // 5. Fire event
             OnStageChanged?.Invoke(index, stage.type);
             Debug.Log($"Sequence: Entered stage {index} ({stage.type})");
@@ -293,6 +295,34 @@ namespace SoundSelf.Sequence
                     return h;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Maps sequence <see cref="StageType"/> to menu roots: session stages use Meditation Session (Start);
+        /// <see cref="StageType.End"/> uses Meditation Session (End). Other stages leave the menu to their handlers.
+        /// Uses <see cref="UIManager"/> idempotent setters so repeated enters do not re-trigger fades.
+        /// </summary>
+        private static void ApplyMenuScreenForSequenceStage(StageType stageType)
+        {
+            if (UIManager.Instance == null)
+                return;
+            switch (stageType)
+            {
+                case StageType.Opening:
+                case StageType.Tutorial:
+                case StageType.Playground:
+                case StageType.Savasana:
+                case StageType.MusicPlaylist:
+                case StageType.Inquiry:
+                case StageType.LinearAudio:
+                    UIManager.Instance.SetMeditationScreen();
+                    break;
+                case StageType.End:
+                    UIManager.Instance.SetEndMeditationScreen();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private IStageHandler GetCurrentHandler()

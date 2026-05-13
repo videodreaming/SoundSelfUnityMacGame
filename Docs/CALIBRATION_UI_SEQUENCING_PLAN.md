@@ -26,6 +26,36 @@ This document is the agreed roadmap. **No code changes** should be made until yo
 | 11 | **Calibration alternate flows** (`Album`, `NoVibro`) are **`StageVariant`** values on **`StageType.Calibration`**, not separate sequence-definition assets unless product requires a full alternate sequence. |
 | 12 | **`.unity` scene files on disk:** **never** edit without **(1)** prompting the user to **save Unity** (all scenes + project) **and** **(2)** their **explicit permission** for **that** scene file (or an explicit “all listed scenes” scope). |
 | 13 | Each stage’s **Checklist** uses **`[ ]` / `[x]`**; set **`[x]`** only when that line is **done and verified**. The agent updates checkboxes when completing work in-repo; you update them when finishing Unity-only steps. |
+| 14 | **Wwise project ownership:** **Do not** make edits inside the **Wwise** project from engineering workflows here. Wwise is owned by the **sound designer**; it is slow and unnecessary for you to change locally. Treat the **checked-in** Wwise XML / designer brief as the **source of truth for `userCueName` strings** Unity must match. If a string is missing or renamed, **coordinate with audio** — do not “fix” the bank in-repo unless the team explicitly asks for a Wwise-side change. |
+
+---
+
+## Polite Next Step — dual mirror (Wwise audio + Unity buttons)
+
+**Product behavior:** When the practitioner presses **Next Step**, **Wwise** already waits for a **polite** moment in the interactive music / VO before advancing **audio**. **Unity** must **mirror** that behavior on **buttons / screens** (e.g. loading graphic until the same logical moment), so the UI does not jump ahead of what the ear hears. This duplicates state in two places (Wwise graph + Unity handler) — **we accept that**; it is a bit inelegant but clear and robust.
+
+**Back** is **immediate interrupt** on both sides (Unity back + Wwise rewind / re-post as already designed); no “wait for polite cue” on Back.
+
+**Instruction / break cues (semantics for Unity, aligned with sound-design brief):**
+
+| `userCueName` | Meaning for Unity (mirroring Wwise intent) |
+|---------------|---------------------------------------------|
+| **`Cue_Calibration_Instruction_ON`** | Instruction VO **has started** — handler treats as “in speech”; **Next Step** press goes **pending** (Wwise already gets `SetSwitch` to target portion; UI waits). |
+| **`Cue_Calibration_Instruction_OFF`** | Instruction VO **has ended** — if **Next** is pending, **unlock UI** immediately (interrupt anytime once line is done). |
+| **`Cue_Calibration_Next`** | **Good break** — if **Next** is pending, **unlock UI** at this sync point. |
+
+**Runtime shortcut:** If the user presses **Next** while instruction is **off** (between lines), the handler advances **immediately** (no loading wait). **Conclusion:** **`MarkComplete`** uses **`Cue_Calibration_Instruction_OFF`** after confirm when VO is **on**; **`Cue_Calibration_Next`** is **not** used on the Conclusion step.
+
+**Designer brief vs this repo’s Wwise (verified):** Engineering searched **`SoundSelfUnityMacGame_WwiseProject/Interactive Music Hierarchy/Calibration Sequence.wwu`** (music user cues as `MusicCue Name="…"`).
+
+| Cue in brief | Present in checked-in `Calibration Sequence.wwu`? |
+|--------------|-----------------------------------------------------|
+| `Cue_Calibration_Instruction_ON` | **Yes** (multiple segments). |
+| `Cue_Calibration_Instruction_OFF` | **Yes** (multiple segments). |
+| `Cue_Calibration_Instruction_End` | **No** in Wwise — **not used**. Same intent as **`_OFF`** per sound design; **`CalibrationMenu`** aliases `Cue_Calibration_Instruction_End` → same command as **`_OFF`** if authoring ever emits it. |
+| `Cue_Calibration_Next` | **Yes** (many placements; also referenced as exit sync, e.g. `ExitSourceCustomCueMatchName`). |
+
+**Code comments:** Shipped in **`CalibrationStageHandler`** (file header) and **`CalibrationMenu`** (summary) pointing here.
 
 ---
 
@@ -44,8 +74,8 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 **Current code today**
 
-- `CalibrationMenu` is a **stub** (`StartCalibrationSequence` / `StopCalibrationSequence` log only).
-- `CalibrationStageHandler` (Stage B+) wires **`OnCalibrationNextStepPress` / `OnCalibrationBackPress` / `OnCalibrationConclusionConfirmPress`**, owns a **variant step list** (Start → … → Conclusion; `NoVibro` omits Vibro), and **does not** `MarkComplete()` until Stage E (button + VO-done). Still **no** Wwise parity in handler until Stage C.
+- `CalibrationMenu` relays **`Play_Calibration_Sequence`** / **`Stop`**, **`SetSwitch`**, **`RestartFromPortion`**, mic + AVS cues, and **polite Next / instruction / conclusion** user cues into **`Sequencer.HandleSequenceCommand`** (see Stage E).
+- `CalibrationStageHandler` wires **`OnCalibrationNextStepPress` / `OnCalibrationBackPress` / `OnCalibrationConclusionConfirmPress`**, variant step list, **polite Next** (pending UI until `Cue_Calibration_Next` or `Instruction_OFF` after a press while instruction is on; **immediate** advance when instruction is off), **`MarkComplete()`** after conclusion **confirm** when VO is idle, or after **confirm + `Cue_Calibration_Instruction_OFF`** when instruction is on; **`Cue_Calibration_Next`** is ignored on the Conclusion step for completion.
 - `UIManager.SetCalibrationScreen` handles **`CalibrationUI.Start`** and **`CalibrationUI.Conclusion`** via serialized `startScreen` / `conclusionScreen` roots (assign in Unity after Stage B code lands).
 - `OpeningStageHandler` already calls **`calibrationMenu.StopCalibrationSequence()`** on `Enter` — keep that contract so Opening tears down calibration audio.
 
@@ -55,7 +85,7 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 
 ## Target architecture (concise)
 
-1. **`CalibrationStageHandler`** owns: definition of **ordered calibration steps** (from `StageVariant` or a small data object), **Wwise switch index** aligned with `TutorialPortions` (subset for “NoVibro”), **subscriptions** to `UIManager` **next / back / conclusion / troubleshoot** events, **`MarkComplete()`** only when **both** conclusion conditions are met (see **Decisions**), **`LocalCleanup()`**: unsubscribe, **stop calibration VO/sequence**, stop any calibration-specific listeners.
+1. **`CalibrationStageHandler`** owns: definition of **ordered calibration steps** (from `StageVariant` or a small data object), **Wwise switch index** aligned with `TutorialPortions` (subset for “NoVibro”), **subscriptions** to `UIManager` **next / back / conclusion / troubleshoot** events, **`MarkComplete()`** when conclusion exit conditions are met (see **Decisions**), **`LocalCleanup()`**: unsubscribe, **stop calibration VO/sequence**, stop any calibration-specific listeners.
 2. **Wwise music-sync callbacks** should **not** silently apply gameplay side effects. They should forward into **`Sequencer.HandleSequenceCommand(...)`** for commands the **calibration handler watches** (matches `StandardSequence-StageHandler-Migration.md`). Side effects (`ImitoneVoiceInterpreter`, `LightControl`) then run **inside the handler** (or a single thin helper it calls) so behavior stays **stage-scoped**.
 3. **UI** remains dumb: buttons invoke `UIManager` methods → **events only**. Stage E adds **“waiting for cue”** affordance: child **`LoadingIcon.prefab`** on each gated button — **enable icon, disable label text** while pending; handler or `UIManager` toggles from cue unlock (see Stage E). Optional: `CanvasGroup` / gray-out / animation (you implement).
 4. **Background bed (“environment” / linear menu music)** per your convention: **start** where the product wants it (currently **`SetMenuStageHandler.Enter(Menu_Welcome_PreCalibration)`** → `MusicSystemLinear.Play()`), and **stop** in the **same stage’s cleanup** (`BeginTransitionOut` / `Exit` on that handler) — **not** a blanket `Stop()` on every downstream stage’s `Enter`. `MusicSystem1` still delegates its own Environment mode to **`MusicSystemLinear`** (see **`Docs/MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md`**). **`MusicSystemLinear`** encapsulates the Wwise contract without “double Play” bugs.
@@ -71,9 +101,9 @@ From the **commented** `CalibrationMenu` (`Assets/CalibrationMenu.cs`):
 | **Back vs Wwise** | **Rewind / re-post** in Wwise is required when going back—not UI + `Calibration_Sequence` switch alone. |
 | **Start / Conclusion screens** | **No new prefab assets required**; use the same pattern as other calibration screens (serialized `GameObject` roots on `UIManager`, toggled like Headphone/Mic). Stage B renames the enum entry `Introduction → Start` to match the **Section Calibration Start** GameObject, adds the `startScreen` / `conclusionScreen` fields, and extends `SetCalibrationScreen`. You wire hierarchy that already lives on the calibration canvas. |
 | **`EndThisSequenceStage` vs calibration** | Pick the **most elegant overall** design: **recommended** — keep **Next Step / Back** as **`UIManager` `Action`s** subscribed **only** by **`CalibrationStageHandler`**; add **`SequenceCommand`** entries for **Wwise-driven** calibration cues (and conclusion “VO done” when known). Avoid overloading **`EndThisSequenceStage`** for per-section Next unless it clearly reduces complexity. Revisit only if a single global button must mean one thing across stages. |
-| **`MarkComplete()` (calibration exit)** | **Both** required: **(1)** user has pressed the **final** conclusion control **and** **(2)** conclusion **VO has finished**. Note: **often the button will be pressed before VO ends**—the handler must track **both** flags and only call **`MarkComplete()`** when **both** are true (order-independent). |
-| **Conclusion “VO done” cue** | A cue **exists**; exact **`userCueName` TBD**—discover via logging / Wwise test in Stage C or E. |
-| **Next-Step button wiring (hybrid)** | **Generic** `UIManager.NextStepButtonPress` (+ `OnCalibrationNextStepPress`) used by **Start, Headphone, Microphone, VibroAcoustic, LightGlasses**; the handler advances based on its **current step index** (single source of truth). **Conclusion** uses a **dedicated** `UIManager.CalibrationConclusionConfirmButtonPress` (+ `OnCalibrationConclusionConfirmPress`) so the dual-condition completion (button + VO-done) is unambiguous. Retire the four per-section `*NextStepButtonPress` methods/events. **Conclusion no longer uses `EndThisSequenceStageButtonPress`.** |
+| **`MarkComplete()` (calibration exit)** | **Conclusion confirm**, and if instruction VO is **on** (`Instruction_ON`…`OFF` region), wait for **`Cue_Calibration_Instruction_OFF`** before **`MarkComplete()`**. If already **between lines** (`Instruction_OFF` already implied / not “on”), **confirm alone** completes. **`Cue_Calibration_Next`** does **not** gate conclusion exit. |
+| **Conclusion “VO done” cue** | **Not a separate cue.** Use the same **`Cue_Calibration_Instruction_OFF`** contract as other steps (line / clip ended). |
+| **Next-Step button wiring (hybrid)** | **Generic** `UIManager.NextStepButtonPress` (+ `OnCalibrationNextStepPress`) used by **Start, Headphone, Microphone, VibroAcoustic, LightGlasses**; the handler advances based on its **current step index** (single source of truth). **Conclusion** uses **`UIManager.CalibrationConclusionConfirmButtonPress`** (+ `OnCalibrationConclusionConfirmPress`) with the exit rules above. Retire the four per-section `*NextStepButtonPress` methods/events. **Conclusion no longer uses `EndThisSequenceStageButtonPress`.** |
 | **Step progression storage** | **Centralized in one place** inside `CalibrationStageHandler` as a single ordered step list (one per `StageVariant`: `Default`, `Album`, `NoVibro`). Plain C# (no `.asset` needed for ~3 variants); readable enough that the full ordering for each variant is visible side-by-side. Revisit `.asset`-based step definitions only if variant count grows or non-engineers need to edit ordering. |
 | **Welcome-screen music** | **`Play_Calibration_Sequence` stays at the Calibration stage** (handler-owned, starts in `CalibrationStageHandler.Enter`). The **Welcome menu** uses Stage D's **`MusicSystemLinear` ambient bed**, not `Play_Calibration_Sequence`. The bed is **started** in **`SetMenuStageHandler.Enter(Menu_Welcome_PreCalibration)`** and **stopped** when leaving that stage (**`SetMenuStageHandler.BeginTransitionOut` / `Exit`**) — same owner, no blanket `Stop` in Opening / Calibration / etc. Delayed `Stop_AMBIENT_ENVIRONMENT_LOOP` (~10s tail) still applies inside `MusicSystemLinear.Stop()`. |
 | **“Waiting for cue” button affordance** | Use shared prefab **`Assets/Jinnbyte/SoundSelfUI/Prefab/LoadingIcon.prefab`**: instance **as child of the button**; on entering wait state **enable loading graphic, disable button text**; reverse on cue unlock. Rationale from audio design: **avoid interrupting VO mid-sentence** — cues fire at **reasonable interruption points** (usually between sentences). Stage E implements behavior + hooks; layout/placement per calibration button in Unity. |
@@ -371,7 +401,20 @@ Both attempts were reverted in this commit's range so the next team has clean co
 
 **Before you start:** Set this chat session to **Composer 2** before the Stage E pass.
 
-**Goal:** **Next Step** gated on cue; **Conclusion**: **`MarkComplete()`** only when **button + VO-done**.
+**Goal:** **Next Step** mirrors Wwise polite advance (see **Polite Next Step — dual mirror** above); **Conclusion**: **`MarkComplete()`** after **confirm + `Cue_Calibration_Instruction_OFF`** when instruction is **on**, else **confirm** only; **`Cue_Calibration_Next`** ignored on Conclusion for exit gating.
+
+#### Wwise → Unity cue contract (implemented)
+
+Map in **`CalibrationMenu`** → `SequenceCommand` → **`CalibrationStageHandler`**.
+
+| User cue name (`AkMusicSyncCallbackInfo.userCueName`) | `SequenceCommand` |
+|---|---|
+| `Cue_Calibration_Instruction_ON` | `CalibrationInstructionVoStarted` |
+| `Cue_Calibration_Instruction_OFF` | `CalibrationInstructionVoEnded` |
+| `Cue_Calibration_Instruction_End` | `CalibrationInstructionVoEnded` (alias; optional) |
+| `Cue_Calibration_Next` | `CalibrationPoliteNext` |
+
+Keep **string literals** identical to Wwise `userCueName` (rule **14**: no Wwise edits from engineering — ask audio if a name changes).
 
 #### Loading icon while waiting (shared prefab — team convention)
 
@@ -383,26 +426,29 @@ Both attempts were reverted in this commit's range so the next team has clean co
 - On press (when entering the “waiting for cue” state): **enable** the loading graphic and **disable** the button’s **label/text** (so the user sees a spinner, not duplicate copy).
 - On cue (or timeout / error path if you add one): **disable** the loading graphic, **re-enable** text, restore interactable state per handler rules.
 
-**Calibration:** Apply the same pattern on **Section Calibration Start** → **LightGlasses** **Next Step** buttons (and **Conclusion** confirm if it also waits on a cue before dual-condition completion), wherever Stage E defines “pending advance until cue.” **Back** may stay immediate (no loading wait) unless product asks otherwise — align with Wwise back behavior already in Stage C.
+**Calibration:** Apply the same pattern on **Section Calibration Start** → **LightGlasses** **Next Step** buttons. On **Conclusion** confirm, use **`CalibrationCueWaitBinding`** with **`driveConclusionCueWaitVisual`** when you want the loading state while waiting for **`Cue_Calibration_Instruction_OFF`**. **Back** stays **immediate** (interrupt), mirroring Wwise — **no** loading wait on Back.
 
 **Code vs Unity split:** Stage E **handler** (or thin `UIManager` helpers) owns **when** “waiting” starts/ends; **you** (or layout prefab) own **where** the `LoadingIcon` instance lives on each calibration button hierarchy. Prefer one small reusable component or shared prefab variant per button style so all calibration steps stay consistent.
 
+**Component:** `Assets/Jinnbyte/SoundSelfUI/Scripts/CalibrationCueWaitBinding.cs` — attach to each primary **Next Step** button; assign `loadingRoot` / `labelWhileWaiting`. Optionally on **Conclusion** confirm with **`driveConclusionCueWaitVisual`** for the Instruction_OFF wait.
+
 #### Checklist — code (with permission)
 
-- [ ] Handler pending-advance + cue unlock (Next / Conclusion as designed)
-- [ ] `UIManager` and/or per-button helpers: **enter waiting** → show `LoadingIcon`, hide label; **cue received** → hide `LoadingIcon`, show label; keep in sync with debounce / interactable flags
-- [ ] Optional `UIManager` hooks for interactable / `CanvasGroup` (you style); loading icon is the **primary** “we are waiting” affordance per team prefab above
+- [x] Handler pending-advance + cue unlock (**Next**); **`MarkComplete()`** after conclusion confirm (+ **`Instruction_OFF`** when VO active); **`Cue_Calibration_Next`** ignored on Conclusion; **120s** timeouts (Next resync; Conclusion clears wait)
+- [x] `UIManager` helpers **`SetCalibrationStepNextCuePendingVisual`**, **`SetCalibrationConclusionConfirmCuePendingVisual`**, **`ClearAllCalibrationCueWaitVisuals`**
+- [x] `SequenceCommand` + `CalibrationMenu` routing; **`Sequencer.calibrationSkipCueGatingForDev`** dev bypass
 
 #### Checklist — Unity
 
-- [ ] Add **`LoadingIcon.prefab`** instance(s) under each calibration **Next Step** (and Conclusion confirm if gated) as children; wire enable/disable in sync with Stage E hooks (or document manual steps if driven purely from prefab layout + animator)
+- [ ] Add **`LoadingIcon.prefab`** + **`CalibrationCueWaitBinding`** on each **Next Step** button; on **Conclusion** confirm optionally add binding with **`driveConclusionCueWaitVisual`** enabled
+- [ ] **Do not** edit Wwise from engineering (rule **14**). **`Cue_Calibration_Next`** / instruction ON–OFF are already in **`Calibration Sequence.wwu`** for polite Next.
 - [ ] Verify **text disabled + icon enabled** only during wait; no double VO / no mid-sentence skip unless Wwise cue is intentionally placed between sentences
 
 #### Tests / regression
 
 - [ ] Spam Next: no double skip; cue advances one step; loading state clears every time
-- [ ] Conclusion dual condition
-- [ ] No stuck state with debounce + disabled buttons; **no stuck loading icon** if cue never fires (define fallback: re-enable button, log, or dev-only assert)
+- [ ] Conclusion: confirm + **`Cue_Calibration_Instruction_OFF`** when VO active; confirm-only when between lines; **`Cue_Calibration_Next`** must not complete exit on Conclusion
+- [ ] No stuck state with debounce + disabled buttons; **no stuck loading icon** if cue never fires (timeout clears; dev bypass option)
 
 **Suggested git commit message:** `feat(sequence): calibration next/conclusion gated on Wwise cues`.
 

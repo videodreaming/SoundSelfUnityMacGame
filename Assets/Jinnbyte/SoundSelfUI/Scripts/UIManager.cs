@@ -52,8 +52,10 @@ public class UIManager : MonoBehaviour
     public Action OnCalibrationNextStepPress;
     /// <summary>Back one calibration step; no-op on <see cref="CalibrationUI.Start"/>.</summary>
     public Action OnCalibrationBackPress;
-    /// <summary>Conclusion screen only — user confirmed ready to finish calibration (paired with VO-done in Stage E before <c>MarkComplete</c>).</summary>
+    /// <summary>Conclusion screen only — confirms finishing calibration; handler may wait for <c>Cue_Calibration_Instruction_OFF</c> before <c>MarkComplete</c> when VO is in progress.</summary>
     public Action OnCalibrationConclusionConfirmPress;
+    /// <summary>Wwise <c>Cue_Calibration_Instruction_OFF</c> while calibration UI is still on <see cref="CalibrationUI.Start"/> — e.g. swap Start Next button copy from “please wait” to primary label.</summary>
+    public Action OnCalibrationStartInstructionVoLineEnded;
     public Action OnHeadphoneTroubleshootingPress;
     public Action OnSkipSessionButtonPress;
     public Action OnMeditationQuitPress;
@@ -168,16 +170,22 @@ public class UIManager : MonoBehaviour
 
     }
 
+    /// <summary>Shows the in-session HUD (Meditation Session — Start). No-op if that root is already active (idempotent).</summary>
     public void SetMeditationScreen()
     {
+        if (startMeditationScreen != null && startMeditationScreen.activeSelf)
+            return;
         UnsetAllScreens(() =>
         {
             startMeditationScreen.SetActive(true);
             ArmButtonInteractionCooldown();
         });
     }
+    /// <summary>Shows the session-end HUD (Meditation Session — End). No-op if that root is already active (idempotent).</summary>
     public void SetEndMeditationScreen()
     {
+        if (endMeditationScreen != null && endMeditationScreen.activeSelf)
+            return;
         UnsetAllScreens(() =>
         {
             endMeditationScreen.SetActive(true);
@@ -200,6 +208,67 @@ public class UIManager : MonoBehaviour
             ArmButtonInteractionCooldown();
         });
     }
+
+    /// <summary>Show or hide loading + label on bindings for Next Step wait (see <see cref="CalibrationCueWaitBinding"/>).</summary>
+    public void SetCalibrationStepNextCuePendingVisual(CalibrationUI step, bool pending)
+    {
+        var root = GetCalibrationScreenRoot(step);
+        if (root == null)
+            return;
+        foreach (var b in root.GetComponentsInChildren<CalibrationCueWaitBinding>(true))
+        {
+            if (b != null && b.DriveNextStepCueWaitVisual)
+                b.SetPendingCueWaitActive(pending);
+        }
+    }
+
+    /// <summary>Same as Next Step wait, for Conclusion confirm bindings only.</summary>
+    public void SetCalibrationConclusionConfirmCuePendingVisual(bool pending)
+    {
+        if (conclusionScreen == null)
+            return;
+        foreach (var b in conclusionScreen.GetComponentsInChildren<CalibrationCueWaitBinding>(true))
+        {
+            if (b != null && b.DriveConclusionCueWaitVisual)
+                b.SetPendingCueWaitActive(pending);
+        }
+    }
+
+    /// <summary>Clears cue-wait visuals (e.g. on calibration exit).</summary>
+    public void ClearAllCalibrationCueWaitVisuals()
+    {
+        SetCalibrationStepNextCuePendingVisual(CalibrationUI.Start, false);
+        SetCalibrationStepNextCuePendingVisual(CalibrationUI.Headphone, false);
+        SetCalibrationStepNextCuePendingVisual(CalibrationUI.Microphone, false);
+        SetCalibrationStepNextCuePendingVisual(CalibrationUI.VibroAcoustic, false);
+        SetCalibrationStepNextCuePendingVisual(CalibrationUI.LightGlasses, false);
+        SetCalibrationConclusionConfirmCuePendingVisual(false);
+    }
+
+    /// <summary>Called from <see cref="SoundSelf.Sequence.CalibrationStageHandler"/> when <c>Cue_Calibration_Instruction_OFF</c> fires while still on the Start calibration step.</summary>
+    public void NotifyCalibrationStartInstructionVoLineEnded() => OnCalibrationStartInstructionVoLineEnded?.Invoke();
+
+    private GameObject GetCalibrationScreenRoot(CalibrationUI screen)
+    {
+        switch (screen)
+        {
+            case CalibrationUI.Start:
+                return startScreen;
+            case CalibrationUI.Headphone:
+                return headphoneScreen;
+            case CalibrationUI.Microphone:
+                return microphoneScreen;
+            case CalibrationUI.VibroAcoustic:
+                return vibroAcousticScreen;
+            case CalibrationUI.LightGlasses:
+                return lightGlassesScreen;
+            case CalibrationUI.Conclusion:
+                return conclusionScreen;
+            default:
+                return null;
+        }
+    }
+
     // Set Time 
     // Set Progress Bar
 

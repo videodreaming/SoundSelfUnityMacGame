@@ -77,6 +77,12 @@ public class Sequencer : MonoBehaviour
     [SerializeField] public bool endSoonFlag = false;
     private bool startButtonFlag = false;
     private bool developmentModeWarningFlag = false;
+    [Header("Calibration (polite Next — mirror Wwise)")]
+    [Tooltip("When true, Next Step advances UI immediately (no polite wait). Conclusion completes on confirm without waiting for Cue_Calibration_Instruction_OFF. Editor testing only.")]
+    [SerializeField] private bool calibrationSkipCueGatingForDev;
+    /// <summary>When true, <see cref="CalibrationStageHandler"/> bypasses polite waits (Next + conclusion Instruction_OFF) for editor testing.</summary>
+    public bool CalibrationSkipCueGatingForDev => calibrationSkipCueGatingForDev;
+
     private Coroutine countdownCoroutine; // Reference to the coroutines
     //private int currentStage = 0; //As SonoFlore
 
