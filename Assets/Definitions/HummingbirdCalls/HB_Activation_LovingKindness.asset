@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 1
   title: Loving Kindness
-  description: Activation. VO Kindness (SetToKindness). Post-unguided 349 s — mirrors CSVLoader.
-  postUnguidedSeconds: 349
-  voKind: 2
+  description: This session ends with a Metta (Loving Kindness) practice, one of
+    the most studied and effective techniques for improving compassion and wellbeing.
+  postUnguidedSeconds: 597
+  voKind: 3
   sequenceDefinition: {fileID: 11400000, guid: 9b567c6347fbe724bad4f5b90cc05e7e, type: 2}

@@ -11,9 +11,10 @@ using UnityEngine;
 /// <c>Docs/MUSIC_ENVIRONMENT_MODE_WWISE_STATE_REFACTOR_PLAN.md</c>): this class is the
 /// **single owner** of the ambient-bed Wwise lifecycle. <see cref="MusicSystem1"/>'s
 /// <c>EnterMusicEnvironmentAudio()</c> / <c>ExitMusicEnvironmentAudio()</c> delegate here.
-/// Stage handlers also call <see cref="Play"/> on <c>Enter</c> for stages that should hear
-/// the bed (e.g. Welcome menu, Calibration), and <see cref="Stop"/> for stages that
-/// should not (Opening, Tutorial, Playground, etc.). Both methods are idempotent.
+/// Product flows that start the bed (e.g. <c>SetMenuStageHandler</c> Welcome) must call
+/// <see cref="Stop"/> from the **same** stage's teardown (<c>BeginTransitionOut</c> / <c>Exit</c>) — do not
+/// scatter blanket <see cref="Stop"/> calls on unrelated handlers' <c>Enter</c>. Both <see cref="Play"/> and
+/// <see cref="Stop"/> are idempotent.
 /// </para>
 ///
 /// <para>

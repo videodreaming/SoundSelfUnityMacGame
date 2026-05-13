@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 1
   title: Transitions (Grief and Appreciation)
-  description: Activation. VO Metta (SetToMetta). Post-unguided 597 s — mirrors CSVLoader.
-  postUnguidedSeconds: 597
-  voKind: 3
+  description: "Activation. VO Metta (SetToMetta). Post-unguided 597 s \u2014 mirrors
+    CSVLoader."
+  postUnguidedSeconds: 415
+  voKind: 1
   sequenceDefinition: {fileID: 11400000, guid: 9b567c6347fbe724bad4f5b90cc05e7e, type: 2}

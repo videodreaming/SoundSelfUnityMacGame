@@ -39,9 +39,6 @@ namespace SoundSelf.Sequence
 
             //CLEAN UP PREVIOUS THINGS
             _sequencer.calibrationMenu.StopCalibrationSequence();
-            // Stage D: tear down the linear ambient bed before this stage's own audio starts. Idempotent if it isn't running.
-            if (MusicSystemLinear.instance != null)
-                MusicSystemLinear.instance.Stop();
 
             //DO NULL CHECKS
             

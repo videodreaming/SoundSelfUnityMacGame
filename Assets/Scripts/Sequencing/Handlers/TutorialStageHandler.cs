@@ -76,10 +76,6 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             Debug.Log("TutorialStageHandler: Enter");
 
-            // Stage D: tutorial owns its own MusicMode; tear down the linear ambient bed first. Idempotent.
-            if (MusicSystemLinear.instance != null)
-                MusicSystemLinear.instance.Stop();
-
             if (variant == StageVariant.Tutorial_Long)
             {
                 _sequencer.tutorial.SetTestVocalizationType("Hum");

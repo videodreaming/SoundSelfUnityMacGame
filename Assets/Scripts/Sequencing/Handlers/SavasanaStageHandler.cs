@@ -73,11 +73,6 @@ namespace SoundSelf.Sequence
 
             Debug.Log("SavasanaStageHandler: Enter - running Savasana for variant '" + _variant + "'.");
 
-            // Stage D: tear down the linear ambient bed; Savasana owns MusicMode itself. Idempotent.
-            //if (MusicSystemLinear.instance != null)
-            //    MusicSystemLinear.instance.Stop();
-            // Decision: Savasana doesn't necessarily stop linear music.
-
             MusicSystem1.instance.SetFundamentalContentLock(NoteName.C);
             _sequencer.director.ActivateQueue(15f);
             _sequencer.director.Disable();

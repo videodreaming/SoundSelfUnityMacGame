@@ -7,6 +7,8 @@ namespace SoundSelf.Sequence
     public class SetMenuStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
+        /// <summary>True after <see cref="Enter"/> successfully started the welcome linear bed; cleared when we <see cref="StopWelcomeLinearBedIfWeStartedIt"/>.</summary>
+        private bool _startedWelcomeLinearBed;
 
         public SetMenuStageHandler(Sequencer sequencer)
         {
@@ -45,11 +47,17 @@ namespace SoundSelf.Sequence
             {   
                 Debug.Log("SetMenuStageHandler: Enter Menu_Welcome_PreCalibration.");
                 UIManager.Instance.SetWelcomeScreen();
-                // Stage D: ambient bed starts here so it underlays Welcome → Calibration. Idempotent — re-entries are no-ops.
+                // Linear ambient bed: this stage starts it; we stop it on BeginTransitionOut / Exit (same owner — no blanket Stop in other handlers).
                 if (MusicSystemLinear.instance != null)
+                {
                     MusicSystemLinear.instance.Play();
+                    _startedWelcomeLinearBed = true;
+                }
                 else
+                {
                     Debug.LogWarning("SetMenuStageHandler: MusicSystemLinear.instance is null — ambient bed will not start at Welcome.");
+                    _startedWelcomeLinearBed = false;
+                }
             }
             else
             {
@@ -87,13 +95,24 @@ namespace SoundSelf.Sequence
         /// <summary>Runner-only: start transition-out (tail) while the next stage is already entering.</summary>
         public void BeginTransitionOut()
         {
-            // Tail-only: fades, VO tails, etc. Final teardown stays in Exit() -> LocalCleanup() so it runs once when retired.
-            // Stub — IStageHandler default is no-op; explicit method documents intent.
+            // Runner calls this on the outgoing stage before the next stage's Enter — right place to tear down welcome-only audio.
+            StopWelcomeLinearBedIfWeStartedIt();
         }
 
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            // Safety net: force-exit / sequence reset may call Exit without a prior BeginTransitionOut for this visit.
+            StopWelcomeLinearBedIfWeStartedIt();
+        }
+
+        private void StopWelcomeLinearBedIfWeStartedIt()
+        {
+            if (!_startedWelcomeLinearBed)
+                return;
+            _startedWelcomeLinearBed = false;
+            if (MusicSystemLinear.instance != null)
+                MusicSystemLinear.instance.Stop();
         }
 
         /// <summary>Runner-only: final retirement; safe if called more than once.</summary>

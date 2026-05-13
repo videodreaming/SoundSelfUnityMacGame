@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 1
   title: Self Compassion
-  description: Activation. VO Fireflies (SetToFireflies). Post-unguided 415 s — mirrors CSVLoader.
-  postUnguidedSeconds: 415
-  voKind: 1
+  description: "Activation. VO Fireflies (SetToFireflies). Post-unguided 415 s \u2014
+    mirrors CSVLoader."
+  postUnguidedSeconds: 349
+  voKind: 2
   sequenceDefinition: {fileID: 11400000, guid: 9b567c6347fbe724bad4f5b90cc05e7e, type: 2}
