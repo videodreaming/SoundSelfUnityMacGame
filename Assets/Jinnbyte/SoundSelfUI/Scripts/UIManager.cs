@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text microphoneStatusText;
     [SerializeField] private Text headphoneStatusText;
     [SerializeField] private Text versionText;
-    [SerializeField] private Text calibrationHeadText; // Set by CalibrationStageHandler per step; not all steps have instructions, so optional assignment.
+    [SerializeField] private GameObject calibrationHeadText; // Set by CalibrationStageHandler per step; not all steps have instructions, so optional assignment.
 
 
     //Screens
@@ -63,9 +63,8 @@ public class UIManager : MonoBehaviour
     public Action OnSessionTimeEnds;
 
     // Screen Set Functions
-    public void UnsetAllScreens(Action onComplete)
+    public void UnsetAllScreens(Action onComplete, bool keepCalibrationHead = false)
     {
-
         FadeOutScreen(() =>
         {
             choiceSSOrMusicScreen.SetActive(false);
@@ -81,12 +80,10 @@ public class UIManager : MonoBehaviour
             startMeditationScreen.SetActive(false);
             endMeditationScreen.SetActive(false);
             onComplete?.Invoke();
-
-        });
-
-
+        }, keepCalibrationHead);
     }
-    void FadeOutScreen(Action onComplete)
+
+    void FadeOutScreen(Action onComplete, bool keepCalibrationHead = false)
     {
         //check which screen was active and call fade out on it
         if (choiceSSOrMusicScreen.activeSelf)
@@ -99,10 +96,14 @@ public class UIManager : MonoBehaviour
         }
         else if (startScreen != null && startScreen.activeSelf)
         {
+            if (!keepCalibrationHead)
+                FadeOutCalibrationHead();
             startScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
         }
         else if (conclusionScreen != null && conclusionScreen.activeSelf)
         {
+            if (!keepCalibrationHead)
+                FadeOutCalibrationHead();
             conclusionScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
         }
         else if (headphoneScreen.activeSelf)
@@ -143,7 +144,10 @@ public class UIManager : MonoBehaviour
             {
                 case CalibrationUI.Start:
                     if (startScreen != null)
+                    {
                         startScreen.SetActive(true);
+                        FadeInCalibrationHead();
+                    }
                     else
                         Debug.LogError("UIManager.SetCalibrationScreen(Start): startScreen is not assigned. Assign Section Calibration Start in the inspector.");
                     break;
@@ -167,8 +171,7 @@ public class UIManager : MonoBehaviour
                     break;
             }
             ArmButtonInteractionCooldown();
-        });
-
+        }, keepCalibrationHead: true);
     }
 
     /// <summary>Shows the in-session HUD (Meditation Session — Start). No-op if that root is already active (idempotent).</summary>
@@ -283,6 +286,9 @@ public class UIManager : MonoBehaviour
     /// <summary>Until this time (<see cref="Time.time"/>), inspector button callbacks ignore presses (debounce + post-screen-show grace).</summary>
     private float _nextButtonInteractionAllowedTime;
 
+    private CanvasGroup _calibrationHeadGroup;
+    private Coroutine _calibrationHeadFadeCoroutine;
+
     private bool TryAcceptButtonPress()
     {
         return Time.time >= _nextButtonInteractionAllowedTime;
@@ -303,12 +309,24 @@ public class UIManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if (calibrationHeadText != null)
+        {
+            _calibrationHeadGroup = calibrationHeadText.GetComponent<CanvasGroup>();
+            if (_calibrationHeadGroup == null)
+                _calibrationHeadGroup = calibrationHeadText.AddComponent<CanvasGroup>();
+        }
     }
 
     void Start()
     {
         versionText.text = "Live Sequence Version " + Application.version;
         ArmButtonInteractionCooldown();
+        if (calibrationHeadText != null)
+        {
+            _calibrationHeadGroup.alpha = 0f;
+            calibrationHeadText.SetActive(false);
+        }
     }
 
     private void Update()
@@ -376,6 +394,54 @@ public class UIManager : MonoBehaviour
         sessionStartTimer.SetTimeText(time);
     }
 
+
+    // =====================================
+    // CALIBRATION HEAD TEXT FADE
+    // =====================================
+
+    private void FadeInCalibrationHead()
+    {
+        if (_calibrationHeadGroup == null) return;
+        if (_calibrationHeadFadeCoroutine != null) StopCoroutine(_calibrationHeadFadeCoroutine);
+        _calibrationHeadFadeCoroutine = StartCoroutine(FadeInCalibrationHeadCoroutine());
+    }
+
+    private void FadeOutCalibrationHead()
+    {
+        if (_calibrationHeadGroup == null) return;
+        if (_calibrationHeadFadeCoroutine != null) StopCoroutine(_calibrationHeadFadeCoroutine);
+        _calibrationHeadFadeCoroutine = StartCoroutine(FadeOutCalibrationHeadCoroutine());
+    }
+
+    private System.Collections.IEnumerator FadeInCalibrationHeadCoroutine()
+    {
+        _calibrationHeadGroup.alpha = 0f;
+        calibrationHeadText.SetActive(true);
+        float elapsed = 0f;
+        float duration = 1f; // matches ScreenFadeEffect FadeIn duration
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            _calibrationHeadGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / duration);
+            yield return null;
+        }
+        _calibrationHeadGroup.alpha = 1f;
+    }
+
+    private System.Collections.IEnumerator FadeOutCalibrationHeadCoroutine()
+    {
+        float elapsed = 0f;
+        float duration = 0.7f; // matches ScreenFadeEffect FadeOut duration
+        yield return new WaitForEndOfFrame();
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            _calibrationHeadGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+            yield return null;
+        }
+        _calibrationHeadGroup.alpha = 0f;
+        calibrationHeadText.SetActive(false);
+    }
 
     // =====================================
     // BUTTON SUBSCRIBERS
