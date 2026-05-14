@@ -44,6 +44,12 @@ namespace SoundSelf.Sequence
         private bool _sequenceComplete;
         private int _transitioningOutStageIndex = -1;
 
+        /// <summary>
+        /// Assigns the in-memory sequence definition only. Does <b>not</b> exit active stage handlers, stop Wwise/calibration audio, or advance —
+        /// the runner keeps whatever stage index and handlers it already had, now pointed at a new asset (usually wrong at runtime).
+        /// To switch sequences from UI (e.g. after calibration), use <see cref="StartSequence"/> with the target definition, or
+        /// <see cref="StartProtocolStacksMusicPlaylist40mSequence"/> / <see cref="StartProtocolStacksMusicPlaylist60mSequence"/> / <see cref="StartProtocolStacksInteractiveSequence"/>.
+        /// </summary>
         public void SetDefinition(SequenceDefinition def) => definition = def;
         public SequenceDefinition Definition => definition;
         public void SetHandlers(IStageHandler[] handlers) => _handlers = handlers;
@@ -51,22 +57,58 @@ namespace SoundSelf.Sequence
         /// <summary>Notifies the current handler of a sequence command. Returns true if a handler was watching and handled it.</summary>
         public bool TryExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
-            bool handled = false;
+            bool logEndStage = sequenceCommand == SequenceCommand.EndThisSequenceStage;
             var current = GetCurrentHandler();
+            var transitioning = GetTransitioningOutHandler();
+            if (logEndStage)
+            {
+                bool curWatch = current != null && current.WatchesSequenceCommand(sequenceCommand);
+                bool transWatch = transitioning != null && !ReferenceEquals(transitioning, current) && transitioning.WatchesSequenceCommand(sequenceCommand);
+                Debug.Log(
+                    "SequenceRunner.TryExecute EndThisSequenceStage: " +
+                    $"currentIdx={CurrentStageIndex} currentStage={CurrentStage} currentHandler={(current == null ? "null" : current.GetType().Name)} currentWatches={curWatch}; " +
+                    $"transitioningIdx={_transitioningOutStageIndex} transitioningHandler={(transitioning == null ? "null" : transitioning.GetType().Name)} transitioningWatches={transWatch}.");
+            }
+
+            bool handled = false;
             if (current != null && current.WatchesSequenceCommand(sequenceCommand))
             {
                 current.ExecuteSequenceCommand(sequenceCommand);
                 handled = true;
             }
 
-            var transitioning = GetTransitioningOutHandler();
             if (transitioning != null && !ReferenceEquals(transitioning, current) && transitioning.WatchesSequenceCommand(sequenceCommand))
             {
                 transitioning.ExecuteSequenceCommand(sequenceCommand);
                 handled = true;
             }
 
+            if (logEndStage)
+                Debug.Log("SequenceRunner.TryExecute EndThisSequenceStage: handled=" + handled + ".");
+
             return handled;
+        }
+
+        /// <summary>
+        /// Same completion poll as <see cref="Update"/> so UI-driven <see cref="SequenceCommand.EndThisSequenceStage"/>
+        /// can advance the same frame (otherwise <see cref="MonoBehaviour"/> script order can leave the stage stuck until the next frame).
+        /// </summary>
+        public void TryAdvanceIfCurrentStageComplete()
+        {
+            if (_sequenceComplete || definition == null || CurrentStageIndex < 0 || _handlers == null)
+                return;
+            var stages = definition.StagesOrEmpty;
+            if (CurrentStageIndex >= stages.Length)
+            {
+                MarkSequenceComplete();
+                return;
+            }
+            var handler = GetHandlerFor(stages[CurrentStageIndex].type);
+            if (handler != null && handler.IsComplete)
+            {
+                Debug.Log($"SequenceRunner.TryAdvanceIfCurrentStageComplete: advancing from stage index {CurrentStageIndex} ({stages[CurrentStageIndex].type}).");
+                TransitionToNextStage();
+            }
         }
 
         public void StartSequence(SequenceDefinition def = null)

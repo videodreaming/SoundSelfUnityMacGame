@@ -10,6 +10,7 @@ using SoundSelf.Sequence;
 ///
 /// <para><b>Polite Next (dual mirror):</b> Wwise interactive music already advances audio at safe points (<c>Cue_Calibration_Next</c>, instruction ON/OFF).
 /// Unity mirrors that on buttons/screens (loading until unlock) — redundant state by design; a bit inelegant but intentional. See <c>Docs/CALIBRATION_UI_SEQUENCING_PLAN.md</c>.</para>
+/// <para><b>Stop timing:</b> <see cref="StopCalibrationSequence"/> is invoked from <see cref="SoundSelf.Sequence.CalibrationStageHandler.Exit"/> and from <see cref="Sequencer.StopCalibrationInteractiveMusicFromStageEnter"/> when the following session stage enters (Opening, Tutorial, etc.).</para>
 /// </summary>
 public class CalibrationMenu : MonoBehaviour
 {

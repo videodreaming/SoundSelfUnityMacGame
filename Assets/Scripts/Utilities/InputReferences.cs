@@ -30,7 +30,7 @@ public class InputReferences : MonoBehaviour
     
     private int currentMusicLoopsSwitchIndex = 0;
 
-    [Header("Debug: Adjunctive Sequence Advance (F key)")]
+    [Header("Debug: Adjunctive Sequence Advance (F key) / editor cheats")]
     [SerializeField] private Sequencer sequencer;
     [SerializeField] private Director director;
     private Coroutine _sequenceAdvanceCountdownCoroutine;
@@ -109,6 +109,24 @@ public class InputReferences : MonoBehaviour
                 Debug.Log("[Input] F key: Countdown already in progress.");
             }
         }
+
+#if UNITY_EDITOR
+        // Shift+Q (editor only): same as UI "End This Sequence Stage" — handlers that watch it MarkComplete / skip calibration, etc.
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && Input.GetKeyDown(KeyCode.Q))
+        {
+            if (sequencer == null)
+                sequencer = FindObjectOfType<Sequencer>();
+            if (sequencer == null)
+                Debug.LogWarning("[Input] Shift+Q (editor): No Sequencer in scene.");
+            else
+            {
+                bool handled = sequencer.HandleSequenceCommand(SequenceCommand.EndThisSequenceStage);
+                Debug.Log(handled
+                    ? "[Input] Shift+Q (editor): EndThisSequenceStage handled — current stage should complete / advance."
+                    : "[Input] Shift+Q (editor): EndThisSequenceStage not handled (no watcher for this stage, or no active stage).");
+            }
+        }
+#endif
 
         // "D" key: Activate director queue immediately (no countdown)
         if (Input.GetKeyDown(KeyCode.D))

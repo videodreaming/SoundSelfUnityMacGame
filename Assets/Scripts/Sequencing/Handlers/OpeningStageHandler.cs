@@ -37,9 +37,6 @@ namespace SoundSelf.Sequence
 
             bool isFirstTimeUser = _sequencer.csvLoader.IsFirstTimeUser;
 
-            //CLEAN UP PREVIOUS THINGS
-            _sequencer.calibrationMenu.StopCalibrationSequence();
-
             //DO NULL CHECKS
             
             if (variant == StageVariant.None)
@@ -58,6 +55,7 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             if (LightControl.instance == null)
             {
                 Debug.LogError("OpeningStageHandler: LightControl.instance is null. Cannot initialize lights.");

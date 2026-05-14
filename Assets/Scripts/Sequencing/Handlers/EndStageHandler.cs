@@ -28,6 +28,11 @@ namespace SoundSelf.Sequence
         public void Enter(StageVariant variant)
         {
             IsComplete = false;
+            _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
+            if (UIManager.Instance != null)
+                UIManager.Instance.SetEndMeditationScreen();
+            else
+                Debug.LogWarning("EndStageHandler: UIManager.Instance is null; cannot show Meditation Session — End.");
             Debug.Log("EndStageHandler: Enter (stub - skipping until implementation added)");
             MarkComplete(); // Stub: complete immediately until implementation is added
         }

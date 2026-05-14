@@ -42,6 +42,7 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             if (!TryResolvePlaylistVariant(variant, out string playlistSwitch))
             {
                 Debug.LogError("MusicPlaylistStageHandler: Unsupported playlist variant '" + variant + "'.");

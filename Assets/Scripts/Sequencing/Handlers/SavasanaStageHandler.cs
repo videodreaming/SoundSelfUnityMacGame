@@ -49,6 +49,7 @@ namespace SoundSelf.Sequence
                 MarkComplete();
                 return;
             }
+            _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             if (_sequencer.director == null)
             {
                 Debug.LogError("SavasanaStageHandler: director is null. " + SessionCountdownPairForLog());

@@ -74,6 +74,7 @@ namespace SoundSelf.Sequence
             
             _hasEntered = true;
             IsComplete = false;
+            _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             Debug.Log("TutorialStageHandler: Enter");
 
             if (variant == StageVariant.Tutorial_Long)

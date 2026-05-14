@@ -80,8 +80,70 @@ public class Sequencer : MonoBehaviour
     [Header("Calibration (polite Next — mirror Wwise)")]
     [Tooltip("When true, Next Step advances UI immediately (no polite wait). Conclusion completes on confirm without waiting for Cue_Calibration_Instruction_OFF. Editor testing only.")]
     [SerializeField] private bool calibrationSkipCueGatingForDev;
-    /// <summary>When true, <see cref="CalibrationStageHandler"/> bypasses polite waits (Next + conclusion Instruction_OFF) for editor testing.</summary>
+    /// <summary>When true, <see cref="SoundSelf.Sequence.CalibrationStageHandler"/> bypasses polite waits (Next + conclusion Instruction_OFF) for editor testing.</summary>
     public bool CalibrationSkipCueGatingForDev => calibrationSkipCueGatingForDev;
+
+    /// <summary>
+    /// Call from session stages that follow calibration in <c>Enter</c> so <c>Stop_Calibration_Sequence</c> runs when that stage mounts.
+    /// <see cref="SoundSelf.Sequence.CalibrationStageHandler.Exit"/> also posts stop when the calibration handler retires (redundant second post is harmless).
+    /// </summary>
+    public void StopCalibrationInteractiveMusicFromStageEnter()
+    {
+        if (calibrationMenu != null)
+            calibrationMenu.StopCalibrationSequence();
+    }
+
+    [Header("Dual-stage menu (UI / menu code may set before branching)")]
+    public int dualstageStage = 0;
+    public bool dualstageSecondStageIsMusic = false;
+    public bool dualstageSecondStageIsSoundSelf = false;
+
+    /// <summary>Adds 1 to <see cref="dualstageStage"/>; logs old and new values.</summary>
+    public void IncrementDualstageStage()
+    {
+        int before = dualstageStage;
+        dualstageStage++;
+        DbgLogSequencer($"Sequencer.IncrementDualstageStage: dualstageStage {before} → {dualstageStage}.");
+    }
+
+    /// <summary>Second stage branch = Music (<see cref="dualstageSecondStageIsMusic"/> true, <see cref="dualstageSecondStageIsSoundSelf"/> false).</summary>
+    public void SetDualstageSecondStageMusic()
+    {
+        dualstageSecondStageIsMusic = true;
+        dualstageSecondStageIsSoundSelf = false;
+        DbgLogSequencer(
+            $"Sequencer.SetDualstageSecondStageMusic: dualstageSecondStageIsMusic={dualstageSecondStageIsMusic}, dualstageSecondStageIsSoundSelf={dualstageSecondStageIsSoundSelf}.");
+    }
+
+    /// <summary>Second stage branch = SoundSelf (<see cref="dualstageSecondStageIsSoundSelf"/> true, <see cref="dualstageSecondStageIsMusic"/> false).</summary>
+    public void SetDualstageSecondStageSoundSelf()
+    {
+        dualstageSecondStageIsMusic = false;
+        dualstageSecondStageIsSoundSelf = true;
+        DbgLogSequencer(
+            $"Sequencer.SetDualstageSecondStageSoundSelf: dualstageSecondStageIsMusic={dualstageSecondStageIsMusic}, dualstageSecondStageIsSoundSelf={dualstageSecondStageIsSoundSelf}.");
+    }
+
+    /// <summary>
+    /// Immediately tears down the current sequence handlers and starts <paramref name="sequenceDefinition"/> from stage 0.
+    /// Same behavior as <see cref="SoundSelf.Sequence.SequenceRunner.StartSequence"/> with a non-null argument (hard reset + new definition).
+    /// </summary>
+    public void StartSequenceDefinitionNow(SequenceDefinition sequenceDefinition)
+    {
+        if (sequenceDefinition == null)
+        {
+            DbgLogSequencer("Sequencer.StartSequenceDefinitionNow: sequenceDefinition is null — not starting.", true);
+            return;
+        }
+        if (sequenceRunner == null)
+            sequenceRunner = gameObject.GetComponent<SequenceRunner>() ?? gameObject.AddComponent<SequenceRunner>();
+        DbgLogSequencer(
+            $"Sequencer.StartSequenceDefinitionNow: starting sequence asset '{sequenceDefinition.name}' (stage count {sequenceDefinition.StagesOrEmpty.Length}).");
+        sequenceRunner.StartSequence(sequenceDefinition);
+    }
+
+    /// <summary>The sequence runner on this GameObject; use <see cref="StartSequenceDefinitionNow"/> or <see cref="SoundSelf.Sequence.SequenceRunner.StartSequence"/> for a hard restart. Avoid <see cref="SoundSelf.Sequence.SequenceRunner.SetDefinition"/> alone from UI — it does not exit handlers.</summary>
+    public SequenceRunner SequenceRunner => sequenceRunner;
 
     private Coroutine countdownCoroutine; // Reference to the coroutines
     //private int currentStage = 0; //As SonoFlore
@@ -217,6 +279,8 @@ public class Sequencer : MonoBehaviour
         if (sequenceRunner.TryExecuteSequenceCommand(sequenceCommand))
         {
             DbgLogSequencer(sequenceCommand + ": Handled by sequence stages (current and/or transitioning-out).");
+            if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
+                sequenceRunner.TryAdvanceIfCurrentStageComplete();
             return true;
         }
         DbgLogSequencer(sequenceCommand + " fired but it's not being watched for, so nothing is happening.", true);

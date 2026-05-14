@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 namespace SoundSelf.Sequence
@@ -35,16 +34,15 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             if (variant == StageVariant.Menu_Ps_InteractiveOrMusic)
             {
-                Debug.Log("SetMenuStageHandler: Enter Menu_Ps_InteractiveOrMusic (stub) - auto-branching to Adjunctive interactive sequence.");
-                MarkComplete(); // Temporary behavior until menu UI branch choice is implemented.
-                if (_sequencer != null)
-                    _sequencer.StartCoroutine(StartProtocolStacksInteractiveNextFrame());
+                Debug.Log("SetMenuStageHandler: Enter Menu_Ps_InteractiveOrMusic — Choice SS or Music.");
+                if (UIManager.Instance != null)
+                    UIManager.Instance.SetChoiceSSOrMusicScreen();
                 else
-                    Debug.LogError("SetMenuStageHandler: Sequencer is null. Cannot auto-branch to Adjunctive interactive sequence.");
+                    Debug.LogError("SetMenuStageHandler: UIManager.Instance is null; cannot show Choice SS or Music screen.");
                 return;
             }
             else if (variant == StageVariant.Menu_Welcome_PreCalibration)
-            {   
+            {
                 Debug.Log("SetMenuStageHandler: Enter Menu_Welcome_PreCalibration.");
                 UIManager.Instance.SetWelcomeScreen();
                 // Linear ambient bed: this stage starts it; we stop it on BeginTransitionOut / Exit (same owner — no blanket Stop in other handlers).
@@ -58,20 +56,14 @@ namespace SoundSelf.Sequence
                     Debug.LogWarning("SetMenuStageHandler: MusicSystemLinear.instance is null — ambient bed will not start at Welcome.");
                     _startedWelcomeLinearBed = false;
                 }
+                return;
             }
             else
             {
                 Debug.Log("SetMenuStageHandler: UNDEFINED VARIANT (stub - skipping until implementation added)");
                 MarkComplete(); // Stub: complete immediately; cue-watching in place for when implementation is added
+                return;
             }
-        }
-
-        private IEnumerator StartProtocolStacksInteractiveNextFrame()
-        {
-            // Avoid re-entering SequenceRunner.StartSequence while it is still inside AdvanceToStage/TransitionToNextStage.
-            yield return null;
-            if (_sequencer != null)
-                _sequencer.StartProtocolStacksInteractiveSequence();
         }
 
         //--------------------------------

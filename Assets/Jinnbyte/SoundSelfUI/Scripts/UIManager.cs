@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -13,12 +14,25 @@ public enum CalibrationUI
     Conclusion
 }
 
+/// <summary>Roots managed by <see cref="UIManager"/> choice-menu navigation stack (<see cref="UIManager.NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic"/>, <see cref="UIManager.ChoiceMenuBackButtonPress"/>). Calibration flows use <see cref="CalibrationUI"/> and <see cref="UIManager.SetCalibrationScreen"/> instead — see <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>.</summary>
+public enum ChoiceMenuScreen
+{
+    None = 0,
+    ChoiceSsOrMusic = 1,
+    ChoiceSonofloreMusicLength = 2,
+}
+
 /// <summary>Cooldown after any accepted button press, and minimum idle time after a screen with buttons becomes visible.</summary>
 public static class UIManagerTiming
 {
     public const float ButtonInteractionCooldownSeconds = 0.333f;
 }
 
+/// <summary>
+/// Session UI: battery/timer, screen roots with <see cref="ScreenFadeEffect"/>, and button debounce.
+/// <para><b>Choice menus</b> (<see cref="ChoiceMenuScreen"/>): forward navigation can push a return target onto <c>_choiceMenuBackStack</c>; Back uses <see cref="ChoiceMenuBackButtonPress"/>. <see cref="SetChoiceSSOrMusicScreen"/> arms a one-shot back anchor so <see cref="SetChoiceSonofloreMusicLengthScreen"/> still records SS/Music even when that screen is not yet <c>activeSelf</c> during fades; <see cref="NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic"/> pushes explicitly.</para>
+/// <para><b>Calibration</b> (<see cref="CalibrationUI"/>): separate flow — <see cref="SetCalibrationScreen"/>, <see cref="OnCalibrationNextStepPress"/> / <see cref="OnCalibrationBackPress"/> wired to <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>; not driven by the choice stack.</para>
+/// </summary>
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
@@ -32,6 +46,7 @@ public class UIManager : MonoBehaviour
 
     //Screens
     [SerializeField] private GameObject choiceSSOrMusicScreen;
+    [SerializeField] private GameObject choiceSonofloreMusicLengthScreen;
     [SerializeField] private GameObject welcomeScreen;
     [SerializeField] private GameObject startScreen;
     [SerializeField] private GameObject conclusionScreen;
@@ -41,6 +56,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject lightGlassesScreen; // Section Calibration Lightglasses root
     [SerializeField] private GameObject startMeditationScreen;
     [SerializeField] private GameObject endMeditationScreen;
+
+    /// <summary>When moving forward between <see cref="ChoiceMenuScreen"/> roots, we push the parent so <see cref="ChoiceMenuBackButtonPress"/> can restore it. Not used for calibration — see <see cref="OnCalibrationBackPress"/> / <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>.</summary>
+    private readonly Stack<ChoiceMenuScreen> _choiceMenuBackStack = new Stack<ChoiceMenuScreen>();
+
+    /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets <see cref="SetChoiceSonofloreMusicLengthScreen"/> push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
+    private bool _pendingSonofloreLengthBackToSsOrMusic;
 
 
 
@@ -68,11 +89,10 @@ public class UIManager : MonoBehaviour
         FadeOutScreen(() =>
         {
             choiceSSOrMusicScreen.SetActive(false);
+            choiceSonofloreMusicLengthScreen.SetActive(false);
             welcomeScreen.SetActive(false);
-            if (startScreen != null)
-                startScreen.SetActive(false);
-            if (conclusionScreen != null)
-                conclusionScreen.SetActive(false);
+            startScreen.SetActive(false);
+            conclusionScreen.SetActive(false);
             headphoneScreen.SetActive(false);
             microphoneScreen.SetActive(false);
             vibroAcousticScreen.SetActive(false);
@@ -93,6 +113,10 @@ public class UIManager : MonoBehaviour
         else if (welcomeScreen.activeSelf)
         {
             welcomeScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (choiceSonofloreMusicLengthScreen != null && choiceSonofloreMusicLengthScreen.activeSelf)
+        {
+            choiceSonofloreMusicLengthScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
         }
         else if (startScreen != null && startScreen.activeSelf)
         {
@@ -136,8 +160,11 @@ public class UIManager : MonoBehaviour
             onComplete?.Invoke();
         }
     }
+    /// <summary>Calibration step UI only — uses <see cref="OnCalibrationBackPress"/> for Back, not the choice-menu stack. Clears the choice stack so stale Back targets are not kept when leaving choice flows.</summary>
     public void SetCalibrationScreen(CalibrationUI screen)
     {
+        // Choice stack is unrelated to calibration (see class summary); reset so Back on a later choice visit does not use stale targets.
+        ClearChoiceMenuNavigationStack();
         UnsetAllScreens(() =>
         {
             switch (screen)
@@ -177,6 +204,7 @@ public class UIManager : MonoBehaviour
     /// <summary>Shows the in-session HUD (Meditation Session — Start). No-op if that root is already active (idempotent).</summary>
     public void SetMeditationScreen()
     {
+        ClearChoiceMenuNavigationStack();
         if (startMeditationScreen != null && startMeditationScreen.activeSelf)
             return;
         UnsetAllScreens(() =>
@@ -188,6 +216,7 @@ public class UIManager : MonoBehaviour
     /// <summary>Shows the session-end HUD (Meditation Session — End). No-op if that root is already active (idempotent).</summary>
     public void SetEndMeditationScreen()
     {
+        ClearChoiceMenuNavigationStack();
         if (endMeditationScreen != null && endMeditationScreen.activeSelf)
             return;
         UnsetAllScreens(() =>
@@ -196,21 +225,99 @@ public class UIManager : MonoBehaviour
             ArmButtonInteractionCooldown();
         });
     }
+    /// <summary>Shows Choice SS or Music from sequence (e.g. SetMenu); clears choice back-stack (pending Back anchor is set when SS UI becomes active — see <see cref="ShowChoiceSsOrMusicScreenCore"/>).</summary>
     public void SetChoiceSSOrMusicScreen()
     {
-        UnsetAllScreens(() =>
-        {
-            choiceSSOrMusicScreen.SetActive(true);
-            ArmButtonInteractionCooldown();
-        });
+        ClearChoiceMenuNavigationStack();
+        ShowChoiceSsOrMusicScreenCore();
     }
+
+    /// <summary>Shows Welcome; clears choice back-stack.</summary>
     public void SetWelcomeScreen()
     {
+        ClearChoiceMenuNavigationStack();
         UnsetAllScreens(() =>
         {
             welcomeScreen.SetActive(true);
             ArmButtonInteractionCooldown();
         });
+    }
+
+    /// <summary>
+    /// Shows Choice Sonoflore Music Length. Clears the choice stack, then if we are coming from SS/Music (screen active or <see cref="SetChoiceSSOrMusicScreen"/> just ran), pushes SS/Music so <see cref="ChoiceMenuBackButtonPress"/> works.
+    /// Prefer <see cref="NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic"/> when wiring forward navigation explicitly.
+    /// </summary>
+    public void SetChoiceSonofloreMusicLengthScreen()
+    {
+        if (choiceSonofloreMusicLengthScreen != null && choiceSonofloreMusicLengthScreen.activeSelf)
+            return;
+
+        bool recordBackToSsOrMusic = (choiceSSOrMusicScreen != null && choiceSSOrMusicScreen.activeSelf)
+            || _pendingSonofloreLengthBackToSsOrMusic;
+
+        ClearChoiceMenuNavigationStack();
+        if (recordBackToSsOrMusic)
+            _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
+
+        ShowChoiceSonofloreMusicLengthScreenCore();
+    }
+
+    /// <summary>
+    /// Forward navigation: from Choice SS or Music to Choice Sonoflore Music Length, recording SS as the Back target (clears the one-shot pending flag from <see cref="SetChoiceSSOrMusicScreen"/>).
+    /// Equivalent to <see cref="SetChoiceSonofloreMusicLengthScreen"/> when coming from that choice screen; use either from Inspector.
+    /// </summary>
+    public void NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic()
+    {
+        _pendingSonofloreLengthBackToSsOrMusic = false;
+        _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
+        ShowChoiceSonofloreMusicLengthScreenCore();
+    }
+
+    private void ClearChoiceMenuNavigationStack()
+    {
+        _choiceMenuBackStack.Clear();
+        _pendingSonofloreLengthBackToSsOrMusic = false;
+    }
+
+    private void ShowChoiceSsOrMusicScreenCore()
+    {
+        UnsetAllScreens(() =>
+        {
+            choiceSSOrMusicScreen.SetActive(true);
+            _pendingSonofloreLengthBackToSsOrMusic = true;
+            ArmButtonInteractionCooldown();
+        });
+    }
+
+    private void ShowChoiceSonofloreMusicLengthScreenCore()
+    {
+        if (choiceSonofloreMusicLengthScreen == null)
+        {
+            Debug.LogError("UIManager.ShowChoiceSonofloreMusicLengthScreenCore: choiceSonofloreMusicLengthScreen is not assigned.");
+            return;
+        }
+        UnsetAllScreens(() =>
+        {
+            choiceSonofloreMusicLengthScreen.SetActive(true);
+            ArmButtonInteractionCooldown();
+        });
+    }
+
+    private void ShowChoiceMenuScreenCore(ChoiceMenuScreen screen)
+    {
+        switch (screen)
+        {
+            case ChoiceMenuScreen.ChoiceSsOrMusic:
+                ShowChoiceSsOrMusicScreenCore();
+                break;
+            case ChoiceMenuScreen.ChoiceSonofloreMusicLength:
+                ShowChoiceSonofloreMusicLengthScreenCore();
+                break;
+            default:
+                Debug.LogWarning("UIManager.ShowChoiceMenuScreenCore: unhandled " + screen + "; opening Choice SS or Music.");
+                ShowChoiceSsOrMusicScreenCore();
+                break;
+        }
     }
 
     /// <summary>Show or hide loading + label on bindings for Next Step wait (see <see cref="CalibrationCueWaitBinding"/>).</summary>
@@ -465,6 +572,8 @@ public class UIManager : MonoBehaviour
     // Calibration Next/Back/Conclusion use OnCalibrationNextStepPress, OnCalibrationBackPress, OnCalibrationConclusionConfirmPress
     // — subscribed only by CalibrationStageHandler while the Calibration stage is active.
     //
+    // Choice-menu Back (SS / Sonoflore length chain) uses ChoiceMenuBackButtonPress() and _choiceMenuBackStack — not BackStepButtonPress.
+    //
     // In the handler, gate behavior on StageVariant (or other state) so the same button means
     // different things per menu kind. MarkComplete() / advance sequencing from the handler callback,
     // not from UIManager. If the callback calls StartProtocolStacksInteractiveSequence (or any
@@ -535,6 +644,21 @@ public class UIManager : MonoBehaviour
             return;
         OnCalibrationBackPress?.Invoke();
         ArmButtonInteractionCooldown();
+    }
+
+    /// <summary>Wire Choice-menu Back buttons (SS / Sonoflore length, etc.) to this — not <see cref="BackStepButtonPress"/> (calibration).</summary>
+    public void ChoiceMenuBackButtonPress()
+    {
+        if (!TryAcceptButtonPress())
+            return;
+        if (_choiceMenuBackStack.Count == 0)
+        {
+            Debug.Log("UIManager.ChoiceMenuBackButtonPress: choice stack is empty (already at root of choice flow, or stack was cleared).");
+            ArmButtonInteractionCooldown();
+            return;
+        }
+        var previous = _choiceMenuBackStack.Pop();
+        ShowChoiceMenuScreenCore(previous);
     }
 
     /// <summary>Wire the Conclusion screen primary control to this — not <see cref="EndThisSequenceStageButtonPress"/>.</summary>

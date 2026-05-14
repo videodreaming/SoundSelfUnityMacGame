@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Sonoflore Sequence
   stages:
+  - type: 5
+    variant: 31
+  - type: 0
+    variant: 1
   - type: 10
     variant: 22
   - type: 1
@@ -26,3 +30,5 @@ MonoBehaviour:
     variant: 25
   - type: 4
     variant: 11
+  - type: 8
+    variant: 16

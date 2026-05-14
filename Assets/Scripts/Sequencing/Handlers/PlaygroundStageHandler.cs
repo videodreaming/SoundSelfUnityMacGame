@@ -30,6 +30,7 @@ namespace SoundSelf.Sequence
                 MarkComplete();
                 return;
             }
+            _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             if (_playgroundCoroutine != null)
             {
                 Debug.LogError("PlaygroundStageHandler: ENTER() CALLED WHILE COROUTINE IS ALREADY RUNNING. THE SEQUENCE IS LIKELY BROKEN. STOP THE SEQUENCE BEFORE STARTING IT AGAIN.");

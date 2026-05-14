@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 3
   title: AlbumSonoflore
-  description: Albums stub in CSVLoader — VO/timing not wired yet. No SequenceDefinition until SequenceRunner Albums path exists.
+  description: "Albums stub in CSVLoader \u2014 VO/timing not wired yet. No SequenceDefinition
+    until SequenceRunner Albums path exists."
   postUnguidedSeconds: -1
   voKind: 0
-  sequenceDefinition: {fileID: 0}
+  sequenceDefinition: {fileID: 11400000, guid: 9a78b1de728019a4a9c291ba8c474436, type: 2}

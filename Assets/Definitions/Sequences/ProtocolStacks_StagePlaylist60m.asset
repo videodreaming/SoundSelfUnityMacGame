@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0eeb245decf8194ab359eb921603b1b, type: 3}
-  m_Name: ProtocolStacksCalibration
+  m_Name: ProtocolStacks_StagePlaylist60m
   m_EditorClassIdentifier: 
-  displayName: Adjunctive Calibration
+  displayName: Adjunctive Playlist 60m
   stages:
+  - type: 10
+    variant: 23
+  - type: 6
+    variant: 29
   - type: 5
-    variant: 31
-  - type: 0
-    variant: 1
-  - type: 5
-    variant: 27
+    variant: 13

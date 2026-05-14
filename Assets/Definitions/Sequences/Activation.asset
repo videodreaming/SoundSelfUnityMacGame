@@ -10,13 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0eeb245decf8194ab359eb921603b1b, type: 3}
-  m_Name: ProtocolStacksPlaylist40m
+  m_Name: Activation
   m_EditorClassIdentifier: 
-  displayName: Adjunctive Playlist 40m
+  displayName: Activation Sequence
   stages:
-  - type: 10
-    variant: 21
-  - type: 6
-    variant: 28
   - type: 5
-    variant: 13
+    variant: 31
+  - type: 0
+    variant: 1
+  - type: 10
+    variant: 22
+  - type: 1
+    variant: 5
+  - type: 2
+    variant: 6
+  - type: 3
+    variant: 8
+  - type: 10
+    variant: 25
+  - type: 4
+    variant: 11
+  - type: 8
+    variant: 16

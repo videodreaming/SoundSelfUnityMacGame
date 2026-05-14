@@ -12,7 +12,10 @@ namespace SoundSelf.Sequence
      * Back is immediate interrupt on both sides (no polite wait).
      * Conclusion: <c>MarkComplete</c> after confirm + <c>Cue_Calibration_Instruction_OFF</c> (instruction line ended). <c>Cue_Calibration_Next</c> is ignored on the Conclusion step for completion gating.
      */
-    /// <summary>Calibration UI: variant step list; Next may wait for Wwise polite cues; Conclusion waits for instruction VO off after confirm unless already between lines / dev skip.</summary>
+    /// <summary>
+    /// Calibration UI: variant step list; Next may wait for Wwise polite cues; Conclusion waits for instruction VO off after confirm unless already between lines / dev skip.
+    /// <para><b>Back:</b> calibration section Back buttons call <see cref="UIManager.BackStepButtonPress"/> → <see cref="OnCalibrationBackPress"/> (this handler). That path is separate from choice-menu navigation (<see cref="UIManager.ChoiceMenuBackButtonPress"/>, <see cref="ChoiceMenuScreen"/> stack on <see cref="UIManager"/>).</para>
+    /// </summary>
     public class CalibrationStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
@@ -55,12 +58,16 @@ namespace SoundSelf.Sequence
             || sequenceCommand == SequenceCommand.CalibrationAvsEnd
             || sequenceCommand == SequenceCommand.CalibrationInstructionVoStarted
             || sequenceCommand == SequenceCommand.CalibrationInstructionVoEnded
-            || sequenceCommand == SequenceCommand.CalibrationPoliteNext;
+            || sequenceCommand == SequenceCommand.CalibrationPoliteNext
+            || sequenceCommand == SequenceCommand.EndThisSequenceStage;
 
         public void ExecuteSequenceCommand(SequenceCommand sequenceCommand)
         {
             switch (sequenceCommand)
             {
+                case SequenceCommand.EndThisSequenceStage:
+                    SkipCalibrationFromSequenceCommand();
+                    break;
                 case SequenceCommand.CalibrationInstructionVoStarted:
                     // Wwise may not post Cue_Calibration_Next to Unity when the user already pressed Next (handled inside music graph).
                     // The first Instruction_ON of the *destination* portion is a practical unlock signal (hacky but matches shipped behavior).
@@ -513,6 +520,29 @@ namespace SoundSelf.Sequence
             }
         }
 
+        /// <summary>
+        /// UI / debug skip (e.g. invisible button → <see cref="UIManager.EndThisSequenceStageButtonPress"/>).
+        /// Finishes the calibration stage immediately; full teardown still runs in <see cref="BeginTransitionOut"/> / <see cref="Exit"/>.
+        /// </summary>
+        private void SkipCalibrationFromSequenceCommand()
+        {
+            if (IsComplete)
+            {
+                Debug.Log("CalibrationStageHandler: SkipCalibration (EndThisSequenceStage) ignored — already IsComplete.");
+                return;
+            }
+            Debug.Log("CalibrationStageHandler: SkipCalibration (EndThisSequenceStage) — clearing waits and MarkComplete.");
+            CancelNextAdvanceCueTimeoutCoroutine();
+            CancelConclusionInstructionOffTimeoutCoroutine();
+            _pendingNextAfterAdvanceCue = false;
+            _pendingConclusionConfirmWaitForInstructionOff = false;
+            _instructionVoActive = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.ClearAllCalibrationCueWaitVisuals();
+            MarkComplete();
+            Debug.Log("CalibrationStageHandler: SkipCalibration finished; IsComplete=" + IsComplete + " (runner should TryAdvance same frame).");
+        }
+
         private void MarkComplete()
         {
             if (IsComplete)
@@ -558,9 +588,6 @@ namespace SoundSelf.Sequence
 
             UnsubscribeCalibrationUiListeners();
 
-            if (_sequencer != null && _sequencer.calibrationMenu != null)
-                _sequencer.calibrationMenu.StopCalibrationSequence();
-
             ReleaseCalibrationMonitoringBoost();
 
             if (_sequencer != null && _sequencer.imitoneVoiceInterpreter != null)
@@ -570,6 +597,8 @@ namespace SoundSelf.Sequence
         public void Exit()
         {
             LocalCleanup();
+            if (_sequencer != null)
+                _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
         }
     }
 }
