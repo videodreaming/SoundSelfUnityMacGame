@@ -5,7 +5,7 @@ using UnityEngine;
 /// <see cref="CountdownThisSection"/> = time left in the current main segment (e.g. playground / interactive; historically “countdown to savasana”);
 /// <see cref="CountdownFull"/> = time left for the full session including post-unguided closing, so it tracks Section + closing when both tick together.
 /// Both decrement while <see cref="IsCountdownRunning"/> after <see cref="BeginCountdownPair"/>.
-/// <see cref="DisplayTime"/> / playground elapsed unchanged.
+/// <see cref="DisplayTime"/> mirrors <see cref="CountdownFull"/> as clock text for inspector/debug; it refreshes when the whole displayed second changes, not every frame.
 /// </summary>
 public class TimeTrackerScript : MonoBehaviour
 {
@@ -15,8 +15,10 @@ public class TimeTrackerScript : MonoBehaviour
     [Tooltip("Authoritative elapsed seconds since session start. Always increases during Update.")]
     public float TotalElapsedTime;
 
-    [Tooltip("Formatted from TotalElapsedTime only.")]
+    [Tooltip("Formatted CountdownFull (m:ss) for inspector/debug; see CircleCountdownTimerUI. Refreshes when the clock’s whole second changes, not every frame.")]
     public string DisplayTime;
+
+    private int _displayTimeLastFlooredFullSeconds = int.MinValue;
 
     [Header("Countdown — this section (main) vs full session")]
     [Tooltip("Time left in the main segment (e.g. until end of playground logic). Ticks down; clamps at 0 while Full may still run.")]
@@ -62,7 +64,7 @@ public class TimeTrackerScript : MonoBehaviour
         instance = this;
 
         TotalElapsedTime = 0f;
-        DisplayTime = "0 minutes 0 seconds";
+        DisplayTime = "0:00";
         _lastTimingLogTotalElapsed = 0f;
     }
 
@@ -107,9 +109,15 @@ public class TimeTrackerScript : MonoBehaviour
 
     private void UpdateDisplayTime()
     {
-        int minutes = Mathf.FloorToInt(TotalElapsedTime / 60);
-        int seconds = Mathf.FloorToInt(TotalElapsedTime % 60);
-        DisplayTime = $"{minutes} minutes {seconds} seconds";
+        float t = Mathf.Max(0f, _countdownFull);
+        int floored = Mathf.FloorToInt(t);
+        if (floored == _displayTimeLastFlooredFullSeconds)
+            return;
+
+        _displayTimeLastFlooredFullSeconds = floored;
+        int minutes = floored / 60;
+        int seconds = floored % 60;
+        DisplayTime = $"{minutes}:{seconds:D2}";
     }
 
     private void TickDebugTimingLogs()

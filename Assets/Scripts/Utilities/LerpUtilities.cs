@@ -7,12 +7,28 @@ public class LerpUtilities
     
     private static Dictionary<string, float> dampedTargets = new Dictionary<string, float>();
 
-    public static float Damp2(float currentValue, float targetValue,  float velocity, float velocity2, float damp, float damp2, float linear)
+#if UNITY_EDITOR
+    private static int _dampToolEditorFrameStamp = -1;
+    private static readonly HashSet<string> _dampToolEditorKeysThisFrame = new HashSet<string>();
+
+    private static void DampToolEditorWarnIfDuplicateKeySameFrame(string key)
     {
-        float target = Mathf.SmoothDamp(currentValue, targetValue, ref velocity, damp);
-        float target2 = Mathf.SmoothDamp(currentValue, target, ref velocity2, damp2);
-        return Mathf.Lerp(currentValue, target2, linear);
+        if (Time.frameCount != _dampToolEditorFrameStamp)
+        {
+            _dampToolEditorFrameStamp = Time.frameCount;
+            _dampToolEditorKeysThisFrame.Clear();
+        }
+
+        if (!_dampToolEditorKeysThisFrame.Add(key))
+            Debug.LogWarning(
+                $"LerpUtilities.DampTool: key \"{key}\" was invoked twice in the same frame (frame {Time.frameCount}). " +
+                "Shared static dictionary state may be inconsistent between callers.");
     }
+#endif
+
+    /// <summary>Optional default for <see cref="DampTool"/> <c>linear</c> when matching chant-style tiny steps (same magnitude as <c>_chantLerpLinear</c> in <see cref="GameValues"/>).</summary>
+    public const float ChantLinearCreep = 0.0001f;
+
     // LerpAndInverse interpolates between two output values (outputa, outputb) based on where the input lies between inputa and inputb.
     // It first remaps 'input' from the input range [inputa, inputb] to a normalized [0, 1] value using Mathf.InverseLerp,
     // then linearly interpolates between outputa and outputb with Mathf.Lerp.
@@ -34,6 +50,9 @@ public class LerpUtilities
 
     public static float DampTool(string key, float currentValue, float target, float damp1 = 1f, float damp2 = 1f, float linear = 0f, float initialValue = 0f)
     {
+#if UNITY_EDITOR
+        DampToolEditorWarnIfDuplicateKeySameFrame(key);
+#endif
         //if the dictionary does not contain the key, add it with the initialValue
         if(currentValue == target)
         return currentValue;

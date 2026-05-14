@@ -206,7 +206,7 @@ Playground elapsed semantics are explicit in **`TimeTrackerScript`** + **`Playgr
 
 ### Checklist
 
-1. **UI** (`TimerUIScript`, `UI_ProgressBarScript`, `Canvas4UIScript`, `StrobeFrequencyChanger`, etc.) — route “time left” to **`countdown`** API; remove **`_timeLeftSeconds`** as a separate concept.
+1. **UI** (`CircleCountdownTimerUI`, `UI_ProgressBarScript`, `Canvas4UIScript`, `StrobeFrequencyChanger`, etc.) — route “time left” to **`countdown`** API; remove **`_timeLeftSeconds`** as a separate concept.
 2. **`ProtocolStacksPlaygroundStart` / `ProtocolStacksCoroutine`** — already guarded in Phase 5; verify in playmode.
 3. **`SavasanaStageHandler`** **`-1`** on countdown — research original intent; **ask** what to do; implement on tracker (finished state) accordingly.
 4. **Scenes / prefabs:** remove **`timeInUnguidedVocalization`** serialized field where present.

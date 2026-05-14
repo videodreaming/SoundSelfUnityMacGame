@@ -55,6 +55,12 @@ public class GameValues : MonoBehaviour
     float _lerpTargetFast   = 0.0f;
     public float _chantLerpFast {get; private set;} = 0.0f;
     public float _chantLerpSlow {get; private set;} = 0.0f;
+
+    /// <summary>First-stage chant-slow smoothing factor (same frame as <see cref="_chantLerpSlow"/> update).</summary>
+    public float ChantLerpSlowDamp1 => _chantLerpSlowDamp1;
+    /// <summary>Second-stage chant-slow smoothing factor.</summary>
+    public float ChantLerpSlowDamp2 => _chantLerpSlowDamp2;
+
     public float _tChantLerp {get; private set;} = 0.0f; //not currently referenced, but might be useful for WWise
     public float _tRestLerp {get; private set;} = 0.0f; //not currently referenced, but might be useful for WWise
 
