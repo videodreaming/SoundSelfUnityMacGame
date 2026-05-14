@@ -35404,7 +35404,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &1554759739903280147
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -39591,6 +39591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timerTextObject: {fileID: 4117424578531965094}
   _fillerObject: {fileID: 7191365353922033529}
+  _progressDot: {fileID: 5005003437145996697}
 --- !u!222 &7887665757418111101
 CanvasRenderer:
   m_ObjectHideFlags: 0

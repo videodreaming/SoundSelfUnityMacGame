@@ -18,6 +18,7 @@ public class CircleCountdownTimerUI : MonoBehaviour
     [SerializeField] private GameObject _timerTextObject;
     [Tooltip("Drag the Filler GameObject here (the Image with radial fill).")]
     [SerializeField] private GameObject _fillerObject;
+    [SerializeField] private RectTransform _progressDot;
 
     private TextMeshProUGUI _timerTextTmp;
     private Text _timerTextLegacy;
@@ -46,7 +47,12 @@ public class CircleCountdownTimerUI : MonoBehaviour
         RefreshClockLabelIfWholeSecondChanged();
 
         if (_fillerImage != null)
-            _fillerImage.fillAmount = GetSessionCountdownProgress();
+        {
+            float progress = GetSessionCountdownProgress();
+            _fillerImage.fillAmount = progress;
+            _progressDot.rotation = Quaternion.Euler(0f, 0f, -360f * progress);
+
+        }
     }
 
     private void RefreshClockLabelIfWholeSecondChanged()
