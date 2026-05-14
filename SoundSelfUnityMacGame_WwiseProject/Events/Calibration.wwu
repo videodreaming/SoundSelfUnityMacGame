@@ -226,7 +226,8 @@
 					<ChildrenList>
 						<Action Name="" ID="{97B94BCB-2799-4374-9EAD-923A1C6411C2}" ShortID="682537069">
 							<PropertyList>
-								<Property Name="FadeTime" Type="Real64" Value="4"/>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="2"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">

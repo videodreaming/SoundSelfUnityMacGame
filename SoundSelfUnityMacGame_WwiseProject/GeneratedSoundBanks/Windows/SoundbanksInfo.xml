@@ -4195,7 +4195,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{FFBE380D-FAA8-124F-D274-7431150D1769}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{F88E1FDA-9A02-B451-1F18-7FD7B7414C6F}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -4293,6 +4293,10 @@
 				<File Id="521907833" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>A#Bb.mid</ShortName>
 					<CachePath>SFX/A#Bb_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="522771732" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Calibration_End_v2.wav</ShortName>
+					<CachePath>SFX/Calibration_End_v2_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="543585764" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_elicitSigh_closing.wav</ShortName>
@@ -4589,6 +4593,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="529726532"/>
 							<MediaRefs>
+								<MediaRef Id="522771732"/>
 								<MediaRef Id="673999802"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -12096,5 +12101,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{9107B6A5-8AA0-0BC2-E889-E58D437804A2}</FileHash>
+	<FileHash>{D3D3CD33-1352-1EF2-E8EA-3F7FABD1FBA2}</FileHash>
 </SoundBanksInfo>
