@@ -228,7 +228,7 @@ public class UIManager : MonoBehaviour
     /// <summary>Shows Choice SS or Music from sequence (e.g. SetMenu); clears choice back-stack (pending Back anchor is set when SS UI becomes active — see <see cref="ShowChoiceSsOrMusicScreenCore"/>).</summary>
     public void SetChoiceSSOrMusicScreen()
     {
-        ClearChoiceMenuNavigationStack();
+        //ClearChoiceMenuNavigationStack();
         ShowChoiceSsOrMusicScreenCore();
     }
 
@@ -255,7 +255,7 @@ public class UIManager : MonoBehaviour
         bool recordBackToSsOrMusic = (choiceSSOrMusicScreen != null && choiceSSOrMusicScreen.activeSelf)
             || _pendingSonofloreLengthBackToSsOrMusic;
 
-        ClearChoiceMenuNavigationStack();
+        //ClearChoiceMenuNavigationStack();
         if (recordBackToSsOrMusic)
             _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
 
@@ -596,6 +596,16 @@ public class UIManager : MonoBehaviour
             return;
         OnQuit?.Invoke();
         ArmButtonInteractionCooldown();
+        StartCoroutine(QuitApplicationAfterNextFrame());
+    }
+
+    private System.Collections.IEnumerator QuitApplicationAfterNextFrame()
+    {
+        yield return null;
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     public void EndThisSequenceStageButtonPress()
