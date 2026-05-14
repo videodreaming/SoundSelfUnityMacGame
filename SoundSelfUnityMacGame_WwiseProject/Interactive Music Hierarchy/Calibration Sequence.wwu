@@ -18,7 +18,7 @@
 						</Property>
 						<Property Name="Volume" Type="Real64">
 							<ValueList>
-								<Value>-1</Value>
+								<Value>-2</Value>
 							</ValueList>
 						</Property>
 					</PropertyList>
@@ -67,7 +67,7 @@
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-8</Value>
+										<Value>-6</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -143,6 +143,134 @@
 										</ObjectList>
 									</ObjectLists>
 								</MusicTrack>
+								<MusicTrack Name="VO_Calibration_End_v2" ID="{22A02250-269D-4362-B596-DE4ED3421972}" ShortID="868303542">
+									<PropertyList>
+										<Property Name="OverrideOutput" Type="bool" Value="True"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{219B0DF0-DF0A-44DE-AC12-15D14CD2B384}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Calibration_End_v2" ID="{AFF4ED19-27EB-43D7-8DC3-45D7F2B8CF8D}">
+											<Language>SFX</Language>
+											<AudioFile>Calibration_End_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="522771732"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{9920969B-AA31-44BF-89F2-489239CEED6E}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="Calibration_End_v2" ID="{AA0A672D-23AF-4C9C-A426-420618E97978}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="4265.42928664867"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="Calibration_End_v2" ID="{AFF4ED19-27EB-43D7-8DC3-45D7F2B8CF8D}"/>
+																			<PropertyCurveList>
+																				<PropertyCurve PropertyName="Highpass">
+																					<Curve Name="" ID="{93790960-EA92-44EC-BA85-EB4AE8222688}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>4.26543</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Lowpass">
+																					<Curve Name="" ID="{C8C6098A-2FE6-4A6F-9FE0-4C7DB8C1BE94}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="1"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>4.26543</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																				<PropertyCurve PropertyName="Volume">
+																					<Curve Name="" ID="{34FEE7B4-4AE0-4D52-923D-C71187E612DF}">
+																						<PropertyList>
+																							<Property Name="Flags" Type="int32" Value="3"/>
+																						</PropertyList>
+																						<PointList>
+																							<Point>
+																								<XPos>0</XPos>
+																								<YPos>0</YPos>
+																								<Flags>5</Flags>
+																							</Point>
+																							<Point>
+																								<XPos>4.26543</XPos>
+																								<YPos>0</YPos>
+																								<Flags>37</Flags>
+																							</Point>
+																						</PointList>
+																					</Curve>
+																				</PropertyCurve>
+																			</PropertyCurveList>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+																<Reference>
+																	<Local>
+																		<MusicClip Name="Calibration_End_v2" ID="{9969F70D-0CA8-4957-83B9-8D7FAE93C772}">
+																			<PropertyList>
+																				<Property Name="BeginTrimOffset" Type="Real64" Value="4265.42928664867"/>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="15139.25"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																				<Property Name="PlayAt" Type="Real64" Value="234.570713351334"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="Calibration_End_v2" ID="{AFF4ED19-27EB-43D7-8DC3-45D7F2B8CF8D}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
 							</ChildrenList>
 							<ObjectLists>
 								<ObjectList Name="Cues">
@@ -166,7 +294,7 @@
 											<MusicCue Name="Cue_Calibration_Next" ID="{09B2D3BD-5E8A-40F5-B046-BD04F0FF5948}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="3273.76101719562"/>
+													<Property Name="TimeMs" Type="Real64" Value="2000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -176,7 +304,7 @@
 											<MusicCue Name="Cue_Calibration_Next" ID="{92D9DDEB-CC2B-4867-97A1-E1E368591224}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="12145.7564843789"/>
+													<Property Name="TimeMs" Type="Real64" Value="4500"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -186,7 +314,7 @@
 											<MusicCue Name="Cue_Calibration_Next" ID="{423B702A-A9DD-4767-92A6-26BA15272FCD}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="21107.8833523"/>
+													<Property Name="TimeMs" Type="Real64" Value="15375"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -206,7 +334,7 @@
 											<MusicCue Name="Cue_Calibration_Next" ID="{0E3D4F47-D298-460E-80D3-FD45F7E48461}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="16074.2568161908"/>
+													<Property Name="TimeMs" Type="Real64" Value="13000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -216,7 +344,7 @@
 											<MusicCue Name="Cue_Calibration_Instruction_OFF" ID="{7F8680AA-B83D-4F44-B420-E86348C3E48D}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="20929.1284052857"/>
+													<Property Name="TimeMs" Type="Real64" Value="15750"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -239,7 +367,7 @@
 								<Property Name="EndPosition" Type="Real64" Value="17701.3385975638"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-4</Value>
+										<Value>-3</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -255,11 +383,6 @@
 								<MusicTrack Name="VO_Calibration_Intro_v1" ID="{0F0FB5AA-C48B-4E88-B04E-FF07F91F2FE5}" ShortID="1061251058">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-3</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -427,11 +550,6 @@
 								<MusicTrack Name="VO_Calibration_Lights_v1" ID="{030E351B-B2B9-40D8-A161-C6BA9390DAA7}" ShortID="800947066">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-2</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -646,7 +764,7 @@
 								<Property Name="EndPosition" Type="Real64" Value="13375.9533046758"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-5</Value>
+										<Value>-4</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -662,11 +780,6 @@
 								<MusicTrack Name="VO_Calibration_Mic_v1" ID="{7335FEE8-B59E-4857-A5AC-CD24EC9A3E45}" ShortID="11159173">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-3</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -873,11 +986,6 @@
 								<MusicTrack Name="VO_Calibration_Mic_v1" ID="{E9492D98-21B1-403C-9E70-AEAD45825FAA}" ShortID="695034985">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-3</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
@@ -1068,7 +1176,7 @@
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>-3</Value>
+												<Value>-1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -1316,11 +1424,6 @@
 								<MusicTrack Name="VO_Calibration_Volume_v1" ID="{502AE02F-FCCB-4B47-B024-6A492052E136}" ShortID="966283100">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-3</Value>
-											</ValueList>
-										</Property>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
