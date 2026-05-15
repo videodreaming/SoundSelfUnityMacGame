@@ -160,6 +160,12 @@ namespace SoundSelf.Sequence
             //INITIALIZE AVS PROGRAM
             _avsSequence.StartOpeningAVSProgram();
 
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.SetMeditationScreen();
+                UIManager.Instance.SetSessionSectionHeader(SessionSectionHeaderKind.OpeningMeditation);
+                UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
+            }
         }
 
         private void EnsureThematicContentFallbackForStandardModes(StageVariant variant) //for debugging, if we are using a development sequence definition that doesn't match the csv...

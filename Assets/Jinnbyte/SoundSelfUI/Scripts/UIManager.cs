@@ -22,6 +22,25 @@ public enum ChoiceMenuScreen
     ChoiceSonofloreMusicLength = 2,
 }
 
+/// <summary>Single visible row under Meditation Session — Headers (fades via <see cref="ScreenFadeEffect"/> when present).</summary>
+public enum SessionSectionHeaderKind
+{
+    None = 0,
+    OpeningMeditation = 1,
+    Tutorial = 2,
+    Playground = 3,
+    Music = 4,
+    Savasana = 5,
+}
+
+/// <summary>Dual-stage label above the section header; at most one of Stage1 / Stage2.</summary>
+public enum SessionDualStageBannerKind
+{
+    None = 0,
+    Stage1 = 1,
+    Stage2 = 2,
+}
+
 /// <summary>Cooldown after any accepted button press, and minimum idle time after a screen with buttons becomes visible.</summary>
 public static class UIManagerTiming
 {
@@ -57,8 +76,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject startMeditationScreen;
     [SerializeField] private GameObject endMeditationScreen;
 
+    [Header("Meditation session — section headers (each row: CanvasGroup + ScreenFadeEffect, under Headers)")]
+    [SerializeField] private GameObject sessionHeaderOpeningMeditation;
+    [SerializeField] private GameObject sessionHeaderTutorial;
+    [SerializeField] private GameObject sessionHeaderPlayground;
+    [SerializeField] private GameObject sessionHeaderMusic;
+    [SerializeField] private GameObject sessionHeaderSavasana;
+    [SerializeField] private GameObject sessionHeaderStage1;
+    [SerializeField] private GameObject sessionHeaderStage2;
+
     /// <summary>When moving forward between <see cref="ChoiceMenuScreen"/> roots, we push the parent so <see cref="ChoiceMenuBackButtonPress"/> can restore it. Not used for calibration — see <see cref="OnCalibrationBackPress"/> / <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>.</summary>
     private readonly Stack<ChoiceMenuScreen> _choiceMenuBackStack = new Stack<ChoiceMenuScreen>();
+
+    private SessionSectionHeaderKind _activeSessionSectionHeader = SessionSectionHeaderKind.None;
+    private SessionDualStageBannerKind _activeDualStageBanner = SessionDualStageBannerKind.None;
+    private int _sessionSectionHeaderTransitionToken;
+    private int _sessionDualBannerTransitionToken;
 
     /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets <see cref="SetChoiceSonofloreMusicLengthScreen"/> push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
     private bool _pendingSonofloreLengthBackToSsOrMusic;
@@ -216,6 +249,7 @@ public class UIManager : MonoBehaviour
     /// <summary>Shows the session-end HUD (Meditation Session — End). No-op if that root is already active (idempotent).</summary>
     public void SetEndMeditationScreen()
     {
+        ClearMeditationSessionSectionHeaders();
         ClearChoiceMenuNavigationStack();
         if (endMeditationScreen != null && endMeditationScreen.activeSelf)
             return;
@@ -225,6 +259,163 @@ public class UIManager : MonoBehaviour
             ArmButtonInteractionCooldown();
         });
     }
+
+    /// <summary>Fades out section + dual-stage headers (e.g. when leaving the in-session HUD).</summary>
+    public void ClearMeditationSessionSectionHeaders()
+    {
+        SetSessionSectionHeader(SessionSectionHeaderKind.None);
+        SetSessionDualStageBanner(SessionDualStageBannerKind.None);
+    }
+
+    /// <summary>Shows one section header row (Opening / Tutorial / …); fades the previous row out first when <see cref="ScreenFadeEffect"/> is present.</summary>
+    public void SetSessionSectionHeader(SessionSectionHeaderKind next)
+    {
+        GameObject nextGo = GetSessionSectionHeaderObject(next);
+        if (next != SessionSectionHeaderKind.None && nextGo == null)
+        {
+            Debug.LogWarning($"UIManager.SetSessionSectionHeader({next}): header GameObject is not assigned in the inspector.");
+            return;
+        }
+
+        if (next == _activeSessionSectionHeader)
+        {
+            if (next == SessionSectionHeaderKind.None)
+                return;
+            if (nextGo != null && nextGo.activeSelf)
+                return;
+        }
+
+        int token = ++_sessionSectionHeaderTransitionToken;
+        GameObject prevGo = GetSessionSectionHeaderObject(_activeSessionSectionHeader);
+
+        void ActivateNextAndSetState()
+        {
+            if (token != _sessionSectionHeaderTransitionToken)
+                return;
+            if (prevGo != null)
+                prevGo.SetActive(false);
+            _activeSessionSectionHeader = next;
+            if (nextGo != null)
+                nextGo.SetActive(true);
+        }
+
+        if (prevGo != null && prevGo.activeSelf && prevGo != nextGo)
+            FadeOutSessionHeaderObject(prevGo, ActivateNextAndSetState);
+        else
+            ActivateNextAndSetState();
+    }
+
+    /// <summary>Shows Stage1 or Stage2 banner above the section header, or neither. Independent of <see cref="SetSessionSectionHeader"/>.</summary>
+    public void SetSessionDualStageBanner(SessionDualStageBannerKind next)
+    {
+        GameObject nextGo = GetDualStageBannerObject(next);
+        if (next != SessionDualStageBannerKind.None && nextGo == null)
+        {
+            Debug.LogWarning($"UIManager.SetSessionDualStageBanner({next}): banner GameObject is not assigned in the inspector.");
+            return;
+        }
+
+        if (next == _activeDualStageBanner)
+        {
+            if (next == SessionDualStageBannerKind.None)
+                return;
+            if (nextGo != null && nextGo.activeSelf)
+                return;
+        }
+
+        int token = ++_sessionDualBannerTransitionToken;
+        GameObject prevGo = GetDualStageBannerObject(_activeDualStageBanner);
+
+        void ActivateNextAndSetState()
+        {
+            if (token != _sessionDualBannerTransitionToken)
+                return;
+            if (prevGo != null)
+                prevGo.SetActive(false);
+            _activeDualStageBanner = next;
+            if (nextGo != null)
+                nextGo.SetActive(true);
+        }
+
+        if (prevGo != null && prevGo.activeSelf && prevGo != nextGo)
+            FadeOutSessionHeaderObject(prevGo, ActivateNextAndSetState);
+        else
+            ActivateNextAndSetState();
+    }
+
+    /// <summary>Maps <see cref="Sequencer.dualstageStage"/> to Stage1 / Stage2 / none (only 1 and 2 show a banner).</summary>
+    public void RefreshSessionDualStageBannerFromSequencer(Sequencer sequencer)
+    {
+        if (sequencer == null)
+        {
+            SetSessionDualStageBanner(SessionDualStageBannerKind.None);
+            return;
+        }
+
+        switch (sequencer.dualstageStage)
+        {
+            case 1:
+                SetSessionDualStageBanner(SessionDualStageBannerKind.Stage1);
+                break;
+            case 2:
+                SetSessionDualStageBanner(SessionDualStageBannerKind.Stage2);
+                break;
+            default:
+                SetSessionDualStageBanner(SessionDualStageBannerKind.None);
+                break;
+        }
+    }
+
+    private GameObject GetSessionSectionHeaderObject(SessionSectionHeaderKind kind)
+    {
+        switch (kind)
+        {
+            case SessionSectionHeaderKind.OpeningMeditation:
+                return sessionHeaderOpeningMeditation;
+            case SessionSectionHeaderKind.Tutorial:
+                return sessionHeaderTutorial;
+            case SessionSectionHeaderKind.Playground:
+                return sessionHeaderPlayground;
+            case SessionSectionHeaderKind.Music:
+                return sessionHeaderMusic;
+            case SessionSectionHeaderKind.Savasana:
+                return sessionHeaderSavasana;
+            default:
+                return null;
+        }
+    }
+
+    private GameObject GetDualStageBannerObject(SessionDualStageBannerKind kind)
+    {
+        switch (kind)
+        {
+            case SessionDualStageBannerKind.Stage1:
+                return sessionHeaderStage1;
+            case SessionDualStageBannerKind.Stage2:
+                return sessionHeaderStage2;
+            default:
+                return null;
+        }
+    }
+
+    private static void FadeOutSessionHeaderObject(GameObject go, Action onComplete)
+    {
+        if (go == null || !go.activeSelf)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        var fade = go.GetComponent<ScreenFadeEffect>();
+        if (fade != null)
+            fade.FadeOut(onComplete);
+        else
+        {
+            go.SetActive(false);
+            onComplete?.Invoke();
+        }
+    }
+
     /// <summary>Shows Choice SS or Music from sequence (e.g. SetMenu); clears choice back-stack (pending Back anchor is set when SS UI becomes active — see <see cref="ShowChoiceSsOrMusicScreenCore"/>).</summary>
     public void SetChoiceSSOrMusicScreen()
     {

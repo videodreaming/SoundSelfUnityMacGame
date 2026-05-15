@@ -53,6 +53,13 @@ namespace SoundSelf.Sequence
             _sequencer.wwiseVOManager.PlayMusicPlaylist(playlistSwitch);
             _completionCoroutine = _sequencer.StartCoroutine(WaitForSectionCountdownToReachZero());
             Debug.Log("MusicPlaylistStageHandler: Started playlist " + playlistSwitch + ". Waiting for CountdownThisSection to reach 0.");
+
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.SetMeditationScreen();
+                UIManager.Instance.SetSessionSectionHeader(SessionSectionHeaderKind.Music);
+                UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
+            }
         }
 
         private static bool TryResolvePlaylistVariant(StageVariant variant, out string playlistSwitch)

@@ -65,6 +65,13 @@ namespace SoundSelf.Sequence
                 return;
             }
 
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.SetMeditationScreen();
+                UIManager.Instance.SetSessionSectionHeader(SessionSectionHeaderKind.Playground);
+                UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
+            }
+
             _sequencer.ForceSequenceAdvanceRequested = false;
             _sequencer.director.Enable();
             MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Freeplay);

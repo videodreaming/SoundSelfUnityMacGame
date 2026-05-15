@@ -748,7 +748,7 @@ MonoBehaviour:
     ParentPath: Events\Calibration
     guid: 549d80ea6cfc8c41acca68baa9e812b4
     GuidInternal: 
-    m_lastTime: -8584271432852293624
+    m_lastTime: -8584228154388371837
     List:
     - name: Play_Calibration_Music
       guid: afa6ee7a5b6981408e9065c9cdb2be06
@@ -799,8 +799,8 @@ MonoBehaviour:
         guid: 721cc18d7cca2d4caa74cf06baf25381
       Path: Events\Calibration\Set_Calibration_Lights
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_Calibration_Music
       guid: 6e97a07c7d7c4048b3bd51950c7526f7
       id: 1661327600
@@ -816,8 +816,8 @@ MonoBehaviour:
         guid: 6e97a07c7d7c4048b3bd51950c7526f7
       Path: Events\Calibration\Stop_Calibration_Music
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
     - name: Stop_Calibration_Sequence
       guid: 2cdab71b968e524faaec17213e761b4a
       id: 2252226012
@@ -833,8 +833,8 @@ MonoBehaviour:
         guid: 2cdab71b968e524faaec17213e761b4a
       Path: Events\Calibration\Stop_Calibration_Sequence
       maxAttenuation: 0
-      maxDuration: 0
-      minDuration: 0
+      maxDuration: -1
+      minDuration: -1
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events

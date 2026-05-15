@@ -104,6 +104,7 @@ public class Sequencer : MonoBehaviour
         int before = dualstageStage;
         dualstageStage++;
         DbgLogSequencer($"Sequencer.IncrementDualstageStage: dualstageStage {before} → {dualstageStage}.");
+        UIManager.Instance?.RefreshSessionDualStageBannerFromSequencer(this);
     }
 
     /// <summary>Second stage branch = Music (<see cref="dualstageSecondStageIsMusic"/> true, <see cref="dualstageSecondStageIsSoundSelf"/> false).</summary>

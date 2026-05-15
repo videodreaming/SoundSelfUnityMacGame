@@ -77,6 +77,13 @@ namespace SoundSelf.Sequence
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             Debug.Log("TutorialStageHandler: Enter");
 
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.SetMeditationScreen();
+                UIManager.Instance.SetSessionSectionHeader(SessionSectionHeaderKind.Tutorial);
+                UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
+            }
+
             if (variant == StageVariant.Tutorial_Long)
             {
                 _sequencer.tutorial.SetTestVocalizationType("Hum");

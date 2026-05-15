@@ -50,6 +50,11 @@ namespace SoundSelf.Sequence
                 return;
             }
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.SetMeditationScreen();
+                UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
+            }
             if (_sequencer.director == null)
             {
                 Debug.LogError("SavasanaStageHandler: director is null. " + SessionCountdownPairForLog());
@@ -84,7 +89,9 @@ namespace SoundSelf.Sequence
             PlaySavasanaVoForVariant(_variant);
             _waitForTimerCoroutine = _sequencer.StartCoroutine(WaitForTimerToEnd());
 
-            
+            if (_sequencer.savasana != null && UIManager.Instance != null && _sequencer.imitoneVoiceInterpreter != null)
+                _sequencer.savasana.BeginShowSavasanaSectionHeaderWhenGameOff(_sequencer.imitoneVoiceInterpreter, UIManager.Instance, _sequencer);
+
             if(IsAscendingVariant())
             {
                 _sequencer.StopAllAvsPrograms();
@@ -223,6 +230,8 @@ namespace SoundSelf.Sequence
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            if (_sequencer != null && _sequencer.savasana != null)
+                _sequencer.savasana.CancelSavasanaSectionHeaderWaitIfRunning();
             StopWaitForTimerCoroutine();
             if (MusicSystem1.instance != null)
                 MusicSystem1.instance.SetBreathworkCycle(false);
