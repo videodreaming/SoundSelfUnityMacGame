@@ -65,14 +65,6 @@ public class WwiseVOManager : MonoBehaviour
 
     // ---- VO music-sync: null-safe scene hooks (each logs WarnCueSkipped if a dependency is missing) ----
 
-    private void VoTrySetCurrentSession(string cueName, string sessionValue, string skippedDescription)
-    {
-        if (UI_CurrentSession.Instance != null)
-            UI_CurrentSession.Instance.currentSession = sessionValue;
-        else
-            WarnCueSkipped(cueName, "UI_CurrentSession.Instance", skippedDescription);
-    }
-
     private void VoTryImitoneSetGameOn(string cueName, bool on)
     {
         if (imitoneVoiceIntepreter != null)
@@ -190,7 +182,6 @@ public class WwiseVOManager : MonoBehaviour
                 break;
 
             case "Cue_VO_GuidedVocalization_Start":
-                VoTrySetCurrentSession(cue, "Opening Teaching", "setting currentSession to Opening Teaching");
                 Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start");
                 VoTryImitoneSetGameOn(cue, false);
                 break;
@@ -266,7 +257,6 @@ public class WwiseVOManager : MonoBehaviour
 
             case "Cue_FreePlay": // "Your task is to continue toning like this..." (~halfway through)
                 Debug.Log("WWise_VO_CUE: Cue_FreePlay");
-                VoTrySetCurrentSession(cue, "Free Interaction", "setting currentSession to Free Interaction");
                 VoTryMusicSilentLayerHigh(cue, 40f, "SetMusicSilentLayerVolume");
                 VoTryDirectorEnable(cue);
                 break;
@@ -319,28 +309,24 @@ public class WwiseVOManager : MonoBehaviour
         switch (cue)
         {
             case "Cue_ThematicSavasana_Start":
-                VoTrySetCurrentSession(cue, "Thematic Savasana", "setting currentSession to Thematic Savasana");
                 Debug.Log("WWise_VO: Cue_ThematicSavasana_Start");
                 break;
 
             case "Cue_ThematicSavasana_End":
-                VoTrySetCurrentSession(cue, "Closing Teaching", "setting currentSession to Closing Teaching");
                 Debug.Log("Wwise_VO: Cue_ThematicSavasana_End");
                 VoTrySequencerCommand(cue, SequenceCommand.ThematicSavasana_End, "HandleSequenceCommand(ThematicSavasana_End)");
                 break;
 
             case "Cue_VoiceElicitation2_Start":
-                VoTrySetCurrentSession(cue, "Closing Inquiry", "setting currentSession to Closing Inquiry");
                 Debug.Log("Wwise_VO: Cue_VoiceElicitation2_Start");
                 break;
 
             case "Cue_VO_Wakeup_Start":
-                VoTrySetCurrentSession(cue, "Wake Up", "setting currentSession to Wake Up");
                 Debug.Log("Wwise_VO: Cue_VO_Wakeup_Start");
                 break;
 
             case "Cue_Goodbye_Start":
-                VoTrySetCurrentSession(cue, "Closing Words", "setting currentSession to Closing Words");
+                Debug.Log("Wwise_VO: Cue_Goodbye_Start");
                 break;
 
             case "Cue_Microphone_ON":
@@ -609,7 +595,7 @@ public class WwiseVOManager : MonoBehaviour
         AkSoundEngine.PostEvent("Play_MusicPlaylist", gameObject);
     }
 
-    public void StopMusicPlaylists()
+    public void StopMusicPlaylists() //TODO: tie this to a ui element.
     {
         Debug.Log("WWise_VO: Stop Music Playlist");
         AkSoundEngine.PostEvent("Stop_MusicPlaylist", gameObject);

@@ -2,14 +2,16 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class ScreenFadeEffect : MonoBehaviour
 {
     private CanvasGroup canvasGroup;
+
     private void Awake()
     {
-
         canvasGroup = GetComponent<CanvasGroup>();
-
+        if (canvasGroup == null)
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
     }
 
     public bool IsTransitioning { get; private set; }

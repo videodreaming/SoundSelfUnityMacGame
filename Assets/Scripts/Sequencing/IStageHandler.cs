@@ -18,5 +18,8 @@ namespace SoundSelf.Sequence
 
         /// <summary>Called when a sequence command fires and this handler is watching it. Default: no-op.</summary>
         void ExecuteSequenceCommand(SequenceCommand sequenceCommand) { }
+
+        /// <summary>Meditation HUD skip button: eager teardown before <see cref="SequenceCommand.EndThisSequenceStage"/> is dispatched. Default: no-op.</summary>
+        void OnSessionSkipFromUi() { }
     }
 }

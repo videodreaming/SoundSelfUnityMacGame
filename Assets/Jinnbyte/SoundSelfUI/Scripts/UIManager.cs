@@ -50,7 +50,7 @@ public static class UIManagerTiming
 /// <summary>
 /// Session UI: battery/timer, screen roots with <see cref="ScreenFadeEffect"/>, and button debounce.
 /// <para><b>Choice menus</b> (<see cref="ChoiceMenuScreen"/>): forward navigation can push a return target onto <c>_choiceMenuBackStack</c>; Back uses <see cref="ChoiceMenuBackButtonPress"/>. <see cref="SetChoiceSSOrMusicScreen"/> arms a one-shot back anchor so <see cref="SetChoiceSonofloreMusicLengthScreen"/> still records SS/Music even when that screen is not yet <c>activeSelf</c> during fades; <see cref="NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic"/> pushes explicitly.</para>
-/// <para><b>Calibration</b> (<see cref="CalibrationUI"/>): separate flow — <see cref="SetCalibrationScreen"/>, <see cref="OnCalibrationNextStepPress"/> / <see cref="OnCalibrationBackPress"/> wired to <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>; not driven by the choice stack.</para>
+/// <para><b>Session skip</b>: <see cref="EnableSkipButton"/> + <see cref="SkipButtonPress"/> → <see cref="OnSkipSessionButtonPress"/> (Sequencer invokes the current stage handler skip hook, then sequence command EndThisSequenceStage).</para>
 /// </summary>
 public class UIManager : MonoBehaviour
 {
@@ -76,6 +76,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject startMeditationScreen;
     [SerializeField] private GameObject endMeditationScreen;
 
+    [Header("Meditation session — skip (assign Skip Button root; add ScreenFadeEffect on same object for session fades)")]
+    [SerializeField] private GameObject skipSessionButton;
+    [SerializeField] private Text skipSessionButtonText;
+
     [Header("Meditation session — section headers (each row: CanvasGroup + ScreenFadeEffect, under Headers)")]
     [SerializeField] private GameObject sessionHeaderOpeningMeditation;
     [SerializeField] private GameObject sessionHeaderTutorial;
@@ -92,6 +96,9 @@ public class UIManager : MonoBehaviour
     private SessionDualStageBannerKind _activeDualStageBanner = SessionDualStageBannerKind.None;
     private int _sessionSectionHeaderTransitionToken;
     private int _sessionDualBannerTransitionToken;
+
+    private bool _skipButtonSuppressTextChanges;
+    private bool _skipSessionButtonFadeOutPending;
 
     /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets <see cref="SetChoiceSonofloreMusicLengthScreen"/> push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
     private bool _pendingSonofloreLengthBackToSsOrMusic;
@@ -230,6 +237,10 @@ public class UIManager : MonoBehaviour
                         Debug.LogError("UIManager.SetCalibrationScreen(Conclusion): conclusionScreen is not assigned. Assign Section Calibration Conclusion in the inspector.");
                     break;
             }
+            if (screen == CalibrationUI.Start)
+                EnableSkipButton(true, "Skip Calibration (Not Recommended)");
+            else
+                EnableSkipButton(false, null);
             ArmButtonInteractionCooldown();
         }, keepCalibrationHead: true);
     }
@@ -891,15 +902,71 @@ public class UIManager : MonoBehaviour
         ArmButtonInteractionCooldown();
     }
 
-    public void SkipMeditationSessionButtonPress()
+    /// <summary>Wire the session skip control (meditation HUD). Root should use <see cref="ScreenFadeEffect"/> like other session rows. <paramref name="labelWhenEnabling"/> applies only when <paramref name="enabled"/> is true.</summary>
+    public void EnableSkipButton(bool enabled, string labelWhenEnabling)
     {
+        if (skipSessionButton == null)
+        {
+            if (enabled)
+                Debug.LogWarning("UIManager.EnableSkipButton: skipSessionButton is not assigned.");
+            return;
+        }
+
+        if (enabled)
+        {
+            if (!_skipButtonSuppressTextChanges && skipSessionButtonText != null)
+                skipSessionButtonText.text = labelWhenEnabling ?? string.Empty;
+            if (!skipSessionButton.activeSelf)
+                skipSessionButton.SetActive(true);
+        }
+        else
+        {
+            if (!skipSessionButton.activeSelf)
+                return;
+            var fade = skipSessionButton.GetComponent<ScreenFadeEffect>();
+            if (fade != null)
+                fade.FadeOut(() => skipSessionButton.SetActive(false));
+            else
+                skipSessionButton.SetActive(false);
+        }
+    }
+
+    public void SkipButtonPress()
+    {
+        if (_skipSessionButtonFadeOutPending)
+            return;
         if (!TryAcceptButtonPress())
             return;
-        OnSkipSessionButtonPress?.Invoke();
-        ArmButtonInteractionCooldown();
 
-        // startMeditationScreen.SetActive(false);
-        // endMeditationScreen.SetActive(true);
+        if (skipSessionButton == null || !skipSessionButton.activeSelf)
+        {
+            OnSkipSessionButtonPress?.Invoke();
+            ArmButtonInteractionCooldown();
+            return;
+        }
+
+        var fade = skipSessionButton.GetComponent<ScreenFadeEffect>();
+        _skipSessionButtonFadeOutPending = true;
+        _skipButtonSuppressTextChanges = true;
+        if (fade != null)
+        {
+            fade.FadeOut(() =>
+            {
+                _skipSessionButtonFadeOutPending = false;
+                _skipButtonSuppressTextChanges = false;
+                skipSessionButton.SetActive(false);
+                OnSkipSessionButtonPress?.Invoke();
+                ArmButtonInteractionCooldown();
+            });
+        }
+        else
+        {
+            _skipSessionButtonFadeOutPending = false;
+            _skipButtonSuppressTextChanges = false;
+            skipSessionButton.SetActive(false);
+            OnSkipSessionButtonPress?.Invoke();
+            ArmButtonInteractionCooldown();
+        }
     }
 
     public void MeditationQuitButtonPress()

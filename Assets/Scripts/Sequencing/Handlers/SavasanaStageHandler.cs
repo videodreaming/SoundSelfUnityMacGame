@@ -54,6 +54,7 @@ namespace SoundSelf.Sequence
             {
                 UIManager.Instance.SetMeditationScreen();
                 UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
+                UIManager.Instance.EnableSkipButton(true, "Skip Savasana");
             }
             if (_sequencer.director == null)
             {
@@ -244,5 +245,8 @@ namespace SoundSelf.Sequence
             _variant = StageVariant.None;
             LocalCleanup();
         }
+
+        /// <inheritdoc />
+        public void OnSessionSkipFromUi() => LocalCleanup();
     }
 }

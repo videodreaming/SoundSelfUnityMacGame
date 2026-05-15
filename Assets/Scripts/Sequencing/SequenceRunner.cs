@@ -8,13 +8,15 @@ namespace SoundSelf.Sequence
     {
         
         [Header("Sequence Definitions (Inspector)")]
-        [Header("Development (Starts on Awake) — Editor only; clear before release.")]
+#if UNITY_EDITOR
+        [Header("Development — Editor only (field and Start() path stripped from non-editor builds)")]
         /// <summary>
-        /// Editor-only: if set, this sequence starts instead of resolving from the CSV session / pack SO.
-        /// Pack impersonation lives on <see cref="CSVLoader"/> (<c>hummingbirdContentPackOverride</c>); this field only overrides which <see cref="SequenceDefinition"/> runs first.
+        /// If set in the Editor, <see cref="Start"/> runs this sequence instead of CSV / pack resolution.
+        /// This field is not compiled into release players.
         /// </summary>
         [FormerlySerializedAs("startDefinition")]
         [SerializeField] private SequenceDefinition definitionOverride;
+#endif
         
         [Header("API-callable sequences")]
         [SerializeField] private SequenceDefinition protocolStacksInteractiveDefinition;
@@ -232,8 +234,8 @@ namespace SoundSelf.Sequence
 #if UNITY_EDITOR
             if (definitionOverride != null)
             {
-                Debug.LogError(
-                    "SequenceRunner: Definition Override is active (Editor only). Clear the field before shipping; it forces this SequenceDefinition instead of CSV / pack SO resolution.");
+                Debug.LogWarning(
+                    "SequenceRunner: Definition Override is assigned in the Editor — starting from it instead of CSV / pack resolution. This path is not included in release player builds.");
                 LogDevelopmentStartBanner("Starting sequence from Definition Override (inspector).");
                 StartSequence(definitionOverride);
                 return;
@@ -242,13 +244,15 @@ namespace SoundSelf.Sequence
             StartFromCurrentCsvSession();
         }
 
+#if UNITY_EDITOR
         private static void LogDevelopmentStartBanner(string detailLine)
         {
-            Debug.LogWarning("SequenceRunner: =========================================================");
-            Debug.LogWarning("SequenceRunner: DEVELOPMENT BEHAVIOR, REMOVE THIS BEFORE RELEASE:");
-            Debug.LogWarning("SequenceRunner: " + detailLine);
-            Debug.LogWarning("SequenceRunner: =========================================================");
+            Debug.Log("SequenceRunner: =========================================================");
+            Debug.Log("SequenceRunner: Development sequence start (Editor only, not in player builds):");
+            Debug.Log("SequenceRunner: " + detailLine);
+            Debug.Log("SequenceRunner: =========================================================");
         }
+#endif
 
         /// <summary>
         /// Starts the sequence from <see cref="HummingbirdContentPackDefinition.SequenceDefinition"/> on <see cref="CSVLoader.ResolvedSessionPack"/>.
@@ -371,6 +375,18 @@ namespace SoundSelf.Sequence
         {
             var stage = CurrentStage;
             return stage.HasValue ? GetHandlerFor(stage.Value) : null;
+        }
+
+        /// <summary>Invokes <see cref="IStageHandler.OnSessionSkipFromUi"/> on the current stage handler (meditation skip — cleanup before <see cref="SequenceCommand.EndThisSequenceStage"/>).</summary>
+        public void NotifyCurrentStageSessionSkipFromUi()
+        {
+            if (_sequenceComplete || definition == null || CurrentStageIndex < 0 || _handlers == null)
+                return;
+            var stages = definition.StagesOrEmpty;
+            if (CurrentStageIndex >= stages.Length)
+                return;
+            var handler = GetHandlerFor(stages[CurrentStageIndex].type);
+            handler?.OnSessionSkipFromUi();
         }
 
         private IStageHandler GetTransitioningOutHandler()

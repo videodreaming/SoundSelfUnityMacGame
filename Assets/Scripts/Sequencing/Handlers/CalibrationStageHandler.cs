@@ -600,5 +600,8 @@ namespace SoundSelf.Sequence
             if (_sequencer != null)
                 _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
         }
+
+        /// <inheritdoc />
+        public void OnSessionSkipFromUi() => LocalCleanup();
     }
 }

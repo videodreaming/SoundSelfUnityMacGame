@@ -82,6 +82,7 @@ namespace SoundSelf.Sequence
                 UIManager.Instance.SetMeditationScreen();
                 UIManager.Instance.SetSessionSectionHeader(SessionSectionHeaderKind.Tutorial);
                 UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
+                UIManager.Instance.EnableSkipButton(true, "Skip Tutorial");
             }
 
             if (variant == StageVariant.Tutorial_Long)
@@ -165,5 +166,8 @@ namespace SoundSelf.Sequence
         {
             LocalCleanup();
         }
+
+        /// <inheritdoc />
+        public void OnSessionSkipFromUi() => LocalCleanup();
     }
 }

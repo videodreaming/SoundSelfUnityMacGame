@@ -32,6 +32,9 @@ namespace SoundSelf.Sequence
         public void Enter(StageVariant variant)
         {
             IsComplete = false;
+            if (UIManager.Instance != null)
+                UIManager.Instance.EnableSkipButton(false, null);
+
             if (variant == StageVariant.Menu_Ps_InteractiveOrMusic)
             {
                 Debug.Log("SetMenuStageHandler: Enter Menu_Ps_InteractiveOrMusic — Choice SS or Music.");

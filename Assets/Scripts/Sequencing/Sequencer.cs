@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -222,18 +222,31 @@ public class Sequencer : MonoBehaviour
             return;
         ui.OnEndThisSequenceStagePress -= HandleEndThisSequenceStageUi;
         ui.OnEndThisSequenceStagePress += HandleEndThisSequenceStageUi;
+        ui.OnSkipSessionButtonPress -= HandleSkipSessionUi;
+        ui.OnSkipSessionButtonPress += HandleSkipSessionUi;
     }
 
     private void UnsubscribeEndThisSequenceStageUi()
     {
         var ui = UIManager.Instance;
         if (ui != null)
+        {
             ui.OnEndThisSequenceStagePress -= HandleEndThisSequenceStageUi;
+            ui.OnSkipSessionButtonPress -= HandleSkipSessionUi;
+        }
     }
 
     /// <summary>Forwarded from <see cref="UIManager.OnEndThisSequenceStagePress"/> through <see cref="HandleSequenceCommand"/>.</summary>
     private void HandleEndThisSequenceStageUi()
     {
+        HandleSequenceCommand(SequenceCommand.EndThisSequenceStage);
+    }
+
+    /// <summary>Forwarded from <see cref="UIManager.OnSkipSessionButtonPress"/> after skip UI fade — wire buttons to <see cref="UIManager.SkipButtonPress"/>; runs current stage <see cref="IStageHandler.OnSessionSkipFromUi"/> then <see cref="SequenceCommand.EndThisSequenceStage"/>.</summary>
+    private void HandleSkipSessionUi()
+    {
+        if (sequenceRunner != null)
+            sequenceRunner.NotifyCurrentStageSessionSkipFromUi();
         HandleSequenceCommand(SequenceCommand.EndThisSequenceStage);
     }
 

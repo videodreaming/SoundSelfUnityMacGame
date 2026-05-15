@@ -41,6 +41,9 @@ namespace SoundSelf.Sequence
             _hasEntered = true;
             IsComplete = false;
 
+            if (UIManager.Instance != null)
+                UIManager.Instance.EnableSkipButton(false, null);
+
             var tt = TimeTrackerScript.instance;
             if (tt == null)
             {

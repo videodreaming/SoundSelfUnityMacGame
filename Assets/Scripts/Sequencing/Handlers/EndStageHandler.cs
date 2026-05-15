@@ -30,7 +30,10 @@ namespace SoundSelf.Sequence
             IsComplete = false;
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             if (UIManager.Instance != null)
+            {
                 UIManager.Instance.SetEndMeditationScreen();
+                UIManager.Instance.EnableSkipButton(false, null);
+            }
             else
                 Debug.LogWarning("EndStageHandler: UIManager.Instance is null; cannot show Meditation Session — End.");
             Debug.Log("EndStageHandler: Enter (stub - skipping until implementation added)");
