@@ -30,6 +30,9 @@ public class WwiseVOManager : MonoBehaviour
     private bool developmentModeWarningFlag = false;
     private int tutorialGuidanceCount = 0;
 
+    /// <summary>Last value passed to <see cref="SetTestRepairSwitch"/> (A or C). Used so Ahh/Advanced repair lines can verify Wwise <c>VO_testRepair</c> is on A.</summary>
+    private string _lastTestRepairSwitch;
+
     //public GameObject micPlayback;
     //public UnityPlayBack unityPlaybackScript;
     //private bool silentPlaying = false;
@@ -54,241 +57,322 @@ public class WwiseVOManager : MonoBehaviour
     }
 
 
-    
+    /// <summary>Wwise music-sync cue handlers often skip work when scene refs are missing — log so it is not silent.</summary>
+    private static void WarnCueSkipped(string userCueName, string missingDependency, string skippedBehavior)
+    {
+        Debug.LogWarning("WwiseVOManager: cue \"" + userCueName + "\" skipped " + skippedBehavior + " (" + missingDependency + " is null).");
+    }
+
+    // ---- VO music-sync: null-safe scene hooks (each logs WarnCueSkipped if a dependency is missing) ----
+
+    private void VoTrySetCurrentSession(string cueName, string sessionValue, string skippedDescription)
+    {
+        if (UI_CurrentSession.Instance != null)
+            UI_CurrentSession.Instance.currentSession = sessionValue;
+        else
+            WarnCueSkipped(cueName, "UI_CurrentSession.Instance", skippedDescription);
+    }
+
+    private void VoTryImitoneSetGameOn(string cueName, bool on)
+    {
+        if (imitoneVoiceIntepreter != null)
+            imitoneVoiceIntepreter.SetGameOn(on);
+        else
+            WarnCueSkipped(cueName, "imitoneVoiceIntepreter", on ? "SetGameOn(true)" : "SetGameOn(false)");
+    }
+
+    private void VoTrySequencerCommand(string cueName, SequenceCommand cmd, string skippedDescription)
+    {
+        if (sequencer != null)
+            sequencer.HandleSequenceCommand(cmd);
+        else
+            WarnCueSkipped(cueName, "sequencer", skippedDescription);
+    }
+
+    private void VoTryMusicSilentLayerHigh(string cueName, float blendSeconds, string skippedDescription)
+    {
+        if (musicSystem1 != null)
+            musicSystem1.SetMusicSilentLayerVolume(musicSystem1._silentVolumeHigh, blendSeconds);
+        else
+            WarnCueSkipped(cueName, "musicSystem1", skippedDescription);
+    }
+
+    private void VoTryFundamentalModeUnlock(string cueName)
+    {
+        if (musicSystem1 != null)
+            musicSystem1.SetFundamentalModeLock(false);
+        else
+            WarnCueSkipped(cueName, "musicSystem1", "SetFundamentalModeLock(false)");
+    }
+
+    private void VoTryTutorialSetVocalization(string cueName, string vocalizationType)
+    {
+        if (tutorial != null)
+            tutorial.SetTestVocalizationType(vocalizationType);
+        else
+            WarnCueSkipped(cueName, "tutorial", "SetTestVocalizationType(" + vocalizationType + ")");
+    }
+
+    private void VoTryDirectorEnable(string cueName)
+    {
+        if (director != null)
+            director.Enable();
+        else
+            WarnCueSkipped(cueName, "director", "Enable()");
+    }
+
+    private void VoTryBeginShuffleIfIdle(string cueName)
+    {
+        if (worldShuffler != null && !worldShuffler.shuffling)
+            worldShuffler.BeginShuffle();
+        else if (worldShuffler == null)
+            WarnCueSkipped(cueName, "worldShuffler", "BeginShuffle");
+    }
+
+    private void VoTrySetBreathworkCycle(string cueName, bool on)
+    {
+        if (musicSystem1 != null)
+            musicSystem1.SetBreathworkCycle(on);
+        else
+            WarnCueSkipped(cueName, "musicSystem1", "SetBreathworkCycle(" + on + ")");
+    }
 
     public void VOCallbackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {
-            // NOT-YET INTEGRATED ONES
-            // BreatheOut_Start
-            // Cue_ThematicOpening_End
+        // NOT-YET INTEGRATED ONES
+        // BreatheOut_Start
+        // Cue_ThematicOpening_End
 
         if (sequencer == null)
-        {
             Debug.LogError("WwiseVOManager: 'sequencer' reference is missing!");
-        }
-        if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+
+        if (in_type != AkCallbackType.AK_MusicSyncUserCue)
+            return;
+
+        Debug.Log("WWise_VO_CUE: Callback triggered: " + in_type);
+        var musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+        string cue = musicSyncInfo.userCueName;
+
+        switch (cue)
         {
-            Debug.Log("WWise_VO_CUE: Callback triggered: " + in_type);
-            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-            if (musicSyncInfo.userCueName == "Cue_Posture_Start")
-            {
+            case "Cue_Posture_Start":
                 Debug.Log("WWise_VO_CUE: Cue_Posture_Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_ThematicOpening_Start")
-            {
+                break;
+
+            case "Cue_ThematicOpening_Start":
                 Debug.Log("WWise_VO_CUE: Cue_ThematicOpening_Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_Start")
-            {
+                break;
+
+            case "Cue_VoiceElicitation1_Start":
                 if (UI_CurrentSession.Instance != null)
                 {
                     Debug.Log("Not Null");
                     UI_CurrentSession.Instance.currentSession = "Opening Inquiry";
                 }
                 Debug.Log("WWise_VO_CUE: Stopping Openign Seq, play sigh Query Seq");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Microphone_ON")
-            {
-                Debug.Log("WWise_VO_CUE: Cue Mic On"); //Mic On and Mic Off are used in the "voice elicitation" sequences
-                imitoneVoiceIntepreter.SetGameOn(true);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
-            {
+                break;
+
+            case "Cue_Microphone_ON":
+                Debug.Log("WWise_VO_CUE: Cue Mic On"); // Mic On / Off: voice elicitation sequences
+                VoTryImitoneSetGameOn(cue, true);
+                break;
+
+            case "Cue_Microphone_OFF":
                 Debug.Log("WWise_VO_CUE: Cue Mic OFF");
-                imitoneVoiceIntepreter.SetGameOn(false);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Start_Tutorial" || musicSyncInfo.userCueName == "Cue_Tutorial_Start" || musicSyncInfo.userCueName == "Cue_StartTutorial") //TODO: remove "GuidedVocalization_Start" as it is deprecated, once Lorna commits change.
-            {
-                Debug.Log($"WWise_VO_CUE: {musicSyncInfo.userCueName} (expected is Cue_Tutorial_Start, variations allowed for backward compatibilty)");
-                sequencer.HandleSequenceCommand(SequenceCommand.StartTutorial);  
-            }
-            else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_Start")
-            {
-                UI_CurrentSession.Instance.currentSession = "Opening Teaching";
-                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
-                imitoneVoiceIntepreter.gameOn = false;
-            }
-            else if (musicSyncInfo.userCueName == "Cue_VO_GuidedVocalization_End")
-            {
-                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_End"); //This is when Jaya begins speaking, in the test tones. I don't think it is called from this script, but instead from Tutorial.cs
-                imitoneVoiceIntepreter.gameOn = true;
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Somatic_Start")
-            {
+                VoTryImitoneSetGameOn(cue, false);
+                break;
+
+            case "Cue_Start_Tutorial":
+            case "Cue_Tutorial_Start":
+            case "Cue_StartTutorial": // TODO: remove deprecated aliases once Wwise settled
+                Debug.Log($"WWise_VO_CUE: {cue} (expected is Cue_Tutorial_Start, variations allowed for backward compatibilty)");
+                VoTrySequencerCommand(cue, SequenceCommand.StartTutorial, "HandleSequenceCommand(StartTutorial)");
+                break;
+
+            case "Cue_VO_GuidedVocalization_Start":
+                VoTrySetCurrentSession(cue, "Opening Teaching", "setting currentSession to Opening Teaching");
+                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_Start");
+                VoTryImitoneSetGameOn(cue, false);
+                break;
+
+            case "Cue_VO_GuidedVocalization_End":
+                Debug.Log("WWise_VO_CUE: Cue_VO_GuidedVocalization_End");
+                VoTryImitoneSetGameOn(cue, true);
+                break;
+
+            case "Cue_Somatic_Start":
                 Debug.Log("WWise_VO_CUE: Somatic Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_BreathIn")
-            {
+                break;
+
+            case "Cue_BreathIn":
                 Debug.Log("WWise_VO_CUE: Cue_BreathIn");
                 breathInBehaviour();
-            }
-            else if (musicSyncInfo.userCueName == "Cue_BreathIn_Start" || musicSyncInfo.userCueName == "Cue_BreatIn_Start")
-            {
+                break;
+
+            case "Cue_BreathIn_Start":
+            case "Cue_BreatIn_Start":
                 Debug.Log("WWise_VO_CUE: Cue BreathIn Start");
                 breathInBehaviour();
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Orientation_Start")
-            {
+                break;
+
+            case "Cue_Orientation_Start":
                 Debug.Log("WWise_VO_CUE: Cue Orientation Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Sigh_Start")
-            {
+                break;
+
+            case "Cue_Sigh_Start":
                 Debug.Log("WWise_VO_CUE: Cue Sigh Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation1_End")
-            {
+                break;
+
+            case "Cue_VoiceElicitation1_End":
                 Debug.Log("WWise_VO_CUE: PlayingSomaticSeq && Play_SoundSeedBreatheCycle");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_LinearHum_Start" || musicSyncInfo.userCueName == "Cue_LInearHum_Start")
-            {
-                Debug.Log($"WWise_VO_CUE: {musicSyncInfo.userCueName} (expected is Cue_LinearHum_Start, variations allowed for backward compatibilty)");
-                sequencer.HandleSequenceCommand(SequenceCommand.FirstVocalizationStart);
-            } else if(musicSyncInfo.userCueName == "Cue_LinearHum")
-            {
-                
-            }
-            else if (musicSyncInfo.userCueName == "Cue_InteractiveMusicSystem_Start")
-            {
+                break;
+
+            case "Cue_LinearHum_Start":
+            case "Cue_LInearHum_Start":
+                Debug.Log($"WWise_VO_CUE: {cue} (expected is Cue_LinearHum_Start, variations allowed for backward compatibilty)");
+                VoTrySequencerCommand(cue, SequenceCommand.FirstVocalizationStart, "HandleSequenceCommand(FirstVocalizationStart)");
+                break;
+
+            case "Cue_LinearHum":
+                break;
+
+            case "Cue_InteractiveMusicSystem_Start":
                 Debug.LogWarning("WWise_VO_CUE: Cue_InteractiveMusicSystem_Start");
-                musicSystem1.SetMusicSilentLayerVolume(musicSystem1._silentVolumeHigh, 54f);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Opening_Start")
-            {
+                VoTryMusicSilentLayerHigh(cue, 54f, "SetMusicSilentLayerVolume");
+                break;
+
+            case "Cue_Opening_Start":
                 Debug.Log("WWise_VO_CUE: Cue_Opening_Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromHmmToAhh")
-            {
+                break;
+
+            case "Cue_ChangeVocalizationTypeFromHmmToAhh":
                 Debug.Log("WWise_VO_CUE: Cue Change to Ahh");
-                tutorial.SetTestVocalizationType("Ahh");
-                musicSystem1.SetFundamentalModeLock(false);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromAhhToOhh")
-            {
+                VoTryTutorialSetVocalization(cue, "Ahh");
+                VoTryFundamentalModeUnlock(cue);
+                break;
+
+            case "Cue_ChangeVocalizationTypeFromAhhToOhh":
                 Debug.Log("WWise_VO_CUE: Cue Change to Ohh");
-                tutorial.SetTestVocalizationType("Ohh");
-                musicSystem1.SetFundamentalModeLock(false);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_ChangeVocalizationTypeFromOhhToAdvanced")
-            {
+                VoTryTutorialSetVocalization(cue, "Ohh");
+                VoTryFundamentalModeUnlock(cue);
+                break;
+
+            case "Cue_ChangeVocalizationTypeFromOhhToAdvanced":
                 Debug.Log("WWise_VO_CUE: Cue Change to Advanced");
-                tutorial.SetTestVocalizationType("Advanced");
-                musicSystem1.SetFundamentalModeLock(false);
-                if (!worldShuffler.shuffling)
-                {
-                    worldShuffler.BeginShuffle();
-                }
-            }
-            else if (musicSyncInfo.userCueName == "Cue_FreePlay") //"Your task is to continue toning like this..." (about halfway through)
-            {
+                VoTryTutorialSetVocalization(cue, "Advanced");
+                VoTryFundamentalModeUnlock(cue);
+                VoTryBeginShuffleIfIdle(cue);
+                break;
+
+            case "Cue_FreePlay": // "Your task is to continue toning like this..." (~halfway through)
                 Debug.Log("WWise_VO_CUE: Cue_FreePlay");
-                UI_CurrentSession.Instance.currentSession = "Free Interaction";
-                musicSystem1.SetMusicSilentLayerVolume(musicSystem1._silentVolumeHigh, 40f);
-                director.Enable();
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Break_Tests") //End of "Keep going" (the last instruction)
-            {
+                VoTrySetCurrentSession(cue, "Free Interaction", "setting currentSession to Free Interaction");
+                VoTryMusicSilentLayerHigh(cue, 40f, "SetMusicSilentLayerVolume");
+                VoTryDirectorEnable(cue);
+                break;
+
+            case "Cue_Break_Tests": // End of "Keep going" (last instruction)
                 Debug.Log("WWise_VO_CUE: Wwise_Tutorial_Break_All_Tests");
                 if (sequencer == null || !sequencer.HandleSequenceCommand(SequenceCommand.Break_Tests))
-                    //tutorial.EndTutorialNaturally();
                     Debug.LogWarning("WWise_VO_CUE: This should end the tutorial naturally, but I commented it out.");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_StartInteractive")
-            {
+                break;
+
+            case "Cue_StartInteractive":
                 Debug.Log("WWise_VO_CUE: Cue_StartInteractive");
                 if (sequencer != null)
                     sequencer.HandleSequenceCommand(SequenceCommand.StartInteractive);
                 else
                     Debug.LogError("WwiseVOManager: sequencer is null. Cannot handle Cue_StartInteractive.");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_WaitForButton")
-            {
+                break;
+
+            case "Cue_WaitForButton":
                 Debug.Log("WWise_VO_CUE: Cue_WaitForButton");
-                if (sequencer != null)
-                    sequencer.HandleSequenceCommand(SequenceCommand.WaitForButton);
-                //TODO: Legacy — implement the button to show up, and the logic to wait for it to be pressed.
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Start_Breathworkcycle")
-            {
+                VoTrySequencerCommand(cue, SequenceCommand.WaitForButton, "HandleSequenceCommand(WaitForButton)");
+                // TODO: Legacy — button UI + wait for press
+                break;
+
+            case "Cue_Start_Breathworkcycle":
                 Debug.Log("WWise_VO_CUE: Cue_Start_Breathworkcycle");
-                musicSystem1.SetBreathworkCycle(true);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Music_Ending")
-            {
+                VoTrySetBreathworkCycle(cue, true);
+                break;
+
+            case "Cue_Music_Ending":
                 Debug.Log("WWise_VO_CUE: Cue_Music_Ending");
-                if (sequencer != null)
-                    sequencer.HandleSequenceCommand(SequenceCommand.MusicTrackEnding);
-            }
-            else
-            {
-                Debug.Log("WWise_VO_CUE: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
-            }
-        }   
+                VoTrySequencerCommand(cue, SequenceCommand.MusicTrackEnding, "HandleSequenceCommand(MusicTrackEnding)");
+                break;
+
+            default:
+                Debug.Log("WWise_VO_CUE: Unexpected Cue: " + in_type + " | " + cue);
+                break;
+        }
     }
 
     public void ClosingCallBackFunction(object in_cookie, AkCallbackType in_type, object in_info)
     {
-        if (in_type == AkCallbackType.AK_MusicSyncUserCue)
+        if (in_type != AkCallbackType.AK_MusicSyncUserCue)
+            return;
+
+        Debug.Log("WWise_VO: Callback triggered: " + in_type);
+        var musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
+        string cue = musicSyncInfo.userCueName;
+
+        switch (cue)
         {
-            Debug.Log("WWise_VO: Callback triggered: " + in_type);
-            AkMusicSyncCallbackInfo musicSyncInfo = (AkMusicSyncCallbackInfo)in_info;
-            if (musicSyncInfo.userCueName == "Cue_ThematicSavasana_Start")
-            {
-                UI_CurrentSession.Instance.currentSession = "Thematic Savasana";
+            case "Cue_ThematicSavasana_Start":
+                VoTrySetCurrentSession(cue, "Thematic Savasana", "setting currentSession to Thematic Savasana");
                 Debug.Log("WWise_VO: Cue_ThematicSavasana_Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_ThematicSavasana_End")
-            {
-                UI_CurrentSession.Instance.currentSession = "Closing Teaching";
+                break;
+
+            case "Cue_ThematicSavasana_End":
+                VoTrySetCurrentSession(cue, "Closing Teaching", "setting currentSession to Closing Teaching");
                 Debug.Log("Wwise_VO: Cue_ThematicSavasana_End");
-                if (sequencer != null)
-                    sequencer.HandleSequenceCommand(SequenceCommand.ThematicSavasana_End);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_VoiceElicitation2_Start")
-            {
-                UI_CurrentSession.Instance.currentSession = "Closing Inquiry";
+                VoTrySequencerCommand(cue, SequenceCommand.ThematicSavasana_End, "HandleSequenceCommand(ThematicSavasana_End)");
+                break;
+
+            case "Cue_VoiceElicitation2_Start":
+                VoTrySetCurrentSession(cue, "Closing Inquiry", "setting currentSession to Closing Inquiry");
                 Debug.Log("Wwise_VO: Cue_VoiceElicitation2_Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_VO_Wakeup_Start")
-            {
-                UI_CurrentSession.Instance.currentSession = "Wake Up";
+                break;
+
+            case "Cue_VO_Wakeup_Start":
+                VoTrySetCurrentSession(cue, "Wake Up", "setting currentSession to Wake Up");
                 Debug.Log("Wwise_VO: Cue_VO_Wakeup_Start");
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Goodbye_Start")
-            {
-                UI_CurrentSession.Instance.currentSession = "Closing Words";
-            }
-            else if(musicSyncInfo.userCueName == "Cue_Microphone_ON")
-            {
+                break;
+
+            case "Cue_Goodbye_Start":
+                VoTrySetCurrentSession(cue, "Closing Words", "setting currentSession to Closing Words");
+                break;
+
+            case "Cue_Microphone_ON":
                 Debug.Log("WWise_VO_CUE: Cue Mic On");
-                imitoneVoiceIntepreter.SetGameOn(true);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Microphone_OFF")
-            {
+                VoTryImitoneSetGameOn(cue, true);
+                break;
+
+            case "Cue_Microphone_OFF":
                 Debug.Log("WWise_VO_CUE: Cue Mic OFF");
-                imitoneVoiceIntepreter.SetGameOn(false);
-            } else if (musicSyncInfo.userCueName == "Cue_Stop_Interactive")
-            {
+                VoTryImitoneSetGameOn(cue, false);
+                break;
+
+            case "Cue_Stop_Interactive":
                 Debug.Log("WWise_VO: Cue_Stop_Interactive");
                 bool handled = sequencer != null && sequencer.HandleSequenceCommand(SequenceCommand.CueStopInteractive);
                 if (!handled && musicSystem1 != null)
                     musicSystem1.SetMusicModeTo(MusicSystem1.MusicMode.FrozenFreeplay);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_Stop_Interactive_3m")
-            {
+                break;
+
+            case "Cue_Stop_Interactive_3m":
                 Debug.Log("WWise_VO: Cue_Stop_Interactive_3m");
-                if (sequencer != null)
-                    sequencer.HandleSequenceCommand(SequenceCommand.CueStopInteractive3m);
-            }
-            else if (musicSyncInfo.userCueName == "Cue_SilentMeditation_Start")
-            {
+                VoTrySequencerCommand(cue, SequenceCommand.CueStopInteractive3m, "HandleSequenceCommand(CueStopInteractive3m)");
+                break;
+
+            case "Cue_SilentMeditation_Start":
                 Debug.Log("WWise_VO: Cue_SilentMeditation_Start");
-                if (sequencer != null)
-                    sequencer.HandleSequenceCommand(SequenceCommand.CueSilentMeditationStart);
-            }
-            else
-            {
-                Debug.Log("WWise_VO: Unexpected Cue: " + in_type + " | " + musicSyncInfo.userCueName);
-            }
+                VoTrySequencerCommand(cue, SequenceCommand.CueSilentMeditationStart, "HandleSequenceCommand(CueSilentMeditationStart)");
+                break;
+
+            default:
+                Debug.Log("WWise_VO: Unexpected Cue: " + in_type + " | " + cue);
+                break;
         }
     }
 
@@ -478,12 +562,14 @@ public class WwiseVOManager : MonoBehaviour
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Hum", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
                 break;
             case "Ahh":
+                EnsureVoTestRepairSwitchAForAhhOrAdvancedCorrection(guidanceType);
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Ahh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
                 break;
             case "Ohh":
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Ohh", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
                 break;
             case "Advanced":
+                EnsureVoTestRepairSwitchAForAhhOrAdvancedCorrection(guidanceType);
                 AkSoundEngine.PostEvent("Play_VO_testRepair_Extended", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
                 break;
             default:
@@ -494,7 +580,7 @@ public class WwiseVOManager : MonoBehaviour
 
     public void PlayCorrectionConfirmationVO()
     {
-        AkSoundEngine.PostEvent("Play_VO_testRepair_succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
+        AkSoundEngine.PostEvent("Play_VO_testRepair_Succeed", gameObject, (uint)AkCallbackType.AK_MusicSyncUserCue, VOCallbackFunction, null);
         Debug.Log("WWise_VO: Play Repair Success");
     }
 
@@ -533,16 +619,35 @@ public class WwiseVOManager : MonoBehaviour
     {
         if(AorC == "A")
         {
+            if (debugAllowLogs)
+                Debug.Log("WWise_VO: Set Test Repair Switch to A");
             AkSoundEngine.SetSwitch("VO_testRepair", "A", gameObject);
+            _lastTestRepairSwitch = "A";
         }
         else if(AorC == "C")
         {
+            if (debugAllowLogs)
+                Debug.Log("WWise_VO: Set Test Repair Switch to C");
             AkSoundEngine.SetSwitch("VO_testRepair", "C", gameObject);
+            _lastTestRepairSwitch = "C";
         }
         else
         {
             Debug.LogError("WWise_VO: Invalid testRepairSwitch: " + AorC);
         }
+    }
+
+    /// <summary>Wwise repair lines for Ahh/Extended require <c>VO_testRepair</c> switch A (e.g. after Ascending opening sets C).</summary>
+    private void EnsureVoTestRepairSwitchAForAhhOrAdvancedCorrection(string guidanceType)
+    {
+        if (guidanceType != "Ahh" && guidanceType != "Advanced")
+            return;
+        if (_lastTestRepairSwitch == "A")
+            return;
+        Debug.LogWarning(
+            "WwiseVOManager: Ahh/Advanced correction expects VO_testRepair switch A; last SetTestRepairSwitch was '" +
+            (_lastTestRepairSwitch ?? "unset") + "'. Setting to A.");
+        SetTestRepairSwitch("A");
     }
 
 }

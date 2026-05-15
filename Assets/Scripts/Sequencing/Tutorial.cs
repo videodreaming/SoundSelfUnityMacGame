@@ -208,6 +208,7 @@ public class Tutorial : MonoBehaviour
             if(variant == "Short")
             {
                 guidanceCount = wwiseVOManager.PlayTutorialGuidance("Lite");
+                Debug.Log("Tutorial: (Short) Played Lite guidance, guidanceCount: " + guidanceCount);
                 if(guidanceCount >= 4)
                 {
                     if(sequencer != null)
@@ -222,7 +223,11 @@ public class Tutorial : MonoBehaviour
             }
             else
             {
+                // Long: Wwise no longer posts Cue_VO_GuidedVocalization_Start on these lines; that cue set gameOn false at line start.
+                // Without it, while (!gameOn) after the 3s pad does not block and the fail timer runs during VO. Mirror Start timing here.
+                //imitoneVoiceInterpreter.SetGameOn(false); //UPDATE: THIS "FIX" NO LONGER NECESSARY.
                 guidanceCount = wwiseVOManager.PlayTutorialGuidance(testVocalizationType);
+                Debug.Log("Tutorial: (Long) Played " + testVocalizationType + " guidance, guidanceCount: " + guidanceCount);
             }
             
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
@@ -240,6 +245,9 @@ public class Tutorial : MonoBehaviour
         }
         
         musicSystem1.SetFundamentalModeLock(true, NoteName.C);
+
+        if (variant == "Long")
+            imitoneVoiceInterpreter.SetGameOn(false);
 
         wwiseVOManager.PlayCorrectionGuidance(testVocalizationType); 
         //Wait one second, to give room for the cue to be triggered.

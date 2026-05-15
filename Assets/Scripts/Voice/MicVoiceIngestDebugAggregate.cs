@@ -6,7 +6,7 @@ using UnityEngine;
 /// (LateUpdate). Step 3b adds a cross-thread atomicity / tear-detection block. <b>Step 5a rewrites the
 /// CURRENT TEST header/field set for click protocol verification</b> (M1/M2/M5/M6) — surfaces
 /// DirectVoiceMonitoring underflow / overflow / starvation / hard-volume-step counters in the aggregate
-/// (previously visible only in DirectVoiceMonitoring's own Inspector). Optional <c>Debug.LogError</c> on
+/// (previously visible only in DirectVoiceMonitoring's own Inspector). Optional <c>Debug.LogWarning</c> on
 /// FAIL rising edge / sustained (exponential backoff: 0.25 s → 16 s) / falling edge with duration +
 /// "flags seen during window" summary, when <see cref="logFailObservationErrorsToConsole"/> is enabled —
 /// for soak and user builds where Inspector FAIL flags are not visible.
@@ -152,7 +152,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
     [Header("FAIL OBSERVATION — actions")]
     [Tooltip("Tick once in Play mode to clear sticky FAIL_DB_TEAR_DETECTED latch and reset ring-stall baseline; unticks automatically. (5b-ii: previously also cleared the gentle-recovery sticky latch, which has been retired.)")]
     [SerializeField] private bool clearFailObservationStickyFlags;
-    [Tooltip("When enabled: Debug.LogError on the rising edge AND while sustained AND on the falling edge of FAIL_OBSERVATION (composite FAILURE) — for soak sessions / user builds where Inspector FAIL flags are not visible. Also logs once per contiguous streak when the _dbMicrophone tear detector fires. Disable if another pipeline ingests Unity console logs and you need less noise. See failObservationLogIntervalInitialSeconds and failObservationLogIntervalCapSeconds for re-log cadence while a failure is sustained.")]
+    [Tooltip("When enabled: Debug.LogWarning on the rising edge AND while sustained AND on the falling edge of FAIL_OBSERVATION (composite FAILURE) — for soak sessions / user builds where Inspector FAIL flags are not visible. Also logs once per contiguous streak when the _dbMicrophone tear detector fires. Disable if another pipeline ingests Unity console logs and you need less noise. See failObservationLogIntervalInitialSeconds and failObservationLogIntervalCapSeconds for re-log cadence while a failure is sustained.")]
     [SerializeField] private bool logFailObservationErrorsToConsole = true;
     [Tooltip("First periodic re-log delay AFTER the rising-edge log, while FAILURE is still TRUE. Each subsequent re-log doubles this interval until failObservationLogIntervalCapSeconds is hit (exponential backoff). Default 0.25 s preserves resolution for short blips; backoff prevents log spam on long sustained failures. Set to 0 to disable periodic re-logging (rising + falling-edge only).")]
     [SerializeField] [Range(0f, 5f)] private float failObservationLogIntervalInitialSeconds = 0.25f;
@@ -829,7 +829,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                 _failObservationNextLogIntervalSeconds = Mathf.Max(0f, failObservationLogIntervalInitialSeconds);
                 ResetFailObservationAccumulatedFlags();
                 AccumulateFailObservationFlags();
-                UnityEngine.Debug.LogError("[MicVoiceIngest] FAIL_OBSERVATION composite is now TRUE — " + BuildFailObservationLogDetail());
+                UnityEngine.Debug.LogWarning("[MicVoiceIngest] FAIL_OBSERVATION composite is now TRUE — " + BuildFailObservationLogDetail());
             }
             else if (isSustained)
             {
@@ -839,7 +839,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
                     && now - _failObservationLastLogRealtime >= _failObservationNextLogIntervalSeconds)
                 {
                     float elapsed = now - _failObservationRisingEdgeRealtime;
-                    UnityEngine.Debug.LogError(
+                    UnityEngine.Debug.LogWarning(
                         $"[MicVoiceIngest] FAIL_OBSERVATION still TRUE after {elapsed:F2}s — "
                         + BuildFailObservationLogDetail());
                     _failObservationLastLogRealtime = now;
@@ -851,7 +851,7 @@ public class MicVoiceIngestDebugAggregate : MonoBehaviour
             else if (isFalling)
             {
                 float duration = now - _failObservationRisingEdgeRealtime;
-                UnityEngine.Debug.LogError(
+                UnityEngine.Debug.LogWarning(
                     $"[MicVoiceIngest] FAIL_OBSERVATION cleared after {duration:F2}s — flags seen during window: "
                     + BuildFailObservationAccumulatedFlagsSummary());
                 ResetFailObservationAccumulatedFlags();

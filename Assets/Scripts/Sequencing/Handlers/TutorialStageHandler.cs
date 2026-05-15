@@ -89,6 +89,7 @@ namespace SoundSelf.Sequence
                 _sequencer.tutorial.SetTestVocalizationType("Hum");
                 MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
                 _sequencer.tutorial.StartTutorial("Long");
+                _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
                 variantWatchesWwiseVOCuesForCompletion = true;
             }
             else if (variant == StageVariant.Tutorial_Short)

@@ -150,18 +150,27 @@ Current: `Assets/Scripts/Sequencing/Tutorial.cs`.
 
 Add a new `### N. Short title` block per issue. Use the **bold** labels below inside each entry so scans stay consistent.
 
-
 ---
 
-### 2. `MusicMode.InteractiveTutorial` vs reference `MusicMode.Tutorial` (Long)
+### 1. Long tutorial: testing / correction starts while VO still playing (`gameOn` gate)
 
-**Context:** The pre-refactor snapshot calls `MusicMode.Tutorial`. Long’s `TutorialStageHandler` uses `MusicMode.InteractiveTutorial`.
+**Context:** On Long, after `PlayTutorialGuidance` (or correction VO), `VoiceTestCoroutine` waits 3s, then `while (!imitoneVoiceInterpreter.gameOn)` (comment: “wait for the previous guidance to end”), then logs `Testing...` and runs the fail timer (`failThreshold` 8s with silence → `TEST FAIL`). Logs show **~3s from “About to test” to “Testing…”** and **~8s to fail** — i.e. the `while (!gameOn)` loop adds **no real wait**, then the user is silent during the **still-playing** guidance line, so `_sectionTimer` / `_failTimer` hits threshold. Same pattern in `ProvideCorrection` (1s pad + `while (!gameOn)` + 8s correction fail).
 
-**Resolution:** In current `MusicSystem1`, the **`MusicMode` enum has no `Tutorial` member** — only `InteractiveTutorial` (among others). The `SetMusicModeTo` branch for **`InteractiveTutorial`** is the dedicated **Long** tutorial music path (`modeTutorialFlag`, `StartInteractiveMusic()`, fundamental lock, internal logs still say “Set to Tutorial”). **`Tutorial_Short`** enters with **`MusicMode.Silent`**, not `InteractiveTutorial`. So **`InteractiveTutorial` is the successor name** for the old long interactive tutorial mode, not something Short uses. No code change required for “parity” with the old enum literal; old docs / testing plans that still say `MusicMode.Tutorial` are stale.
+**Likely mechanism (code):**
 
-**Status:** Done (investigation only).
+- `while (!gameOn)` **exits immediately when `gameOn` is already `true`** — it only blocks when `gameOn` is `false`.
+- `TutorialStageHandler.Enter` sets **`imitoneVoiceInterpreter.gameOn = true`** unconditionally, so unless something sets `gameOn` false during the new line, the gate is a **no-op**.
+- In `WwiseVOManager.VOCallbackFunction`, **`gameOn` is toggled for tutorial-ish VO by** `Cue_VO_GuidedVocalization_Start` → `gameOn = false` and `Cue_VO_GuidedVocalization_End` → `gameOn = true` (plus `Cue_Microphone_ON` / `Cue_Microphone_OFF` via `SetGameOn`). If **Long tutorial guidance events in Wwise do not emit those cues** (or not on the same bus / callback path as this handler), **`gameOn` never goes false** during the line → testing starts right after the fixed 3s (or 1s) delay while VO is still running.
 
-**Short regression:** N/A.
+**Reference parity:** Old `REFERENCE_Tutorial_from_commit_a7be839.cs` uses the **same** `while (!imitoneVoiceInterpreter.gameOn)` pattern after the 3s wait — so this is not a new C# regression in that line alone; the **Wwise cue contract** (or handler forcing `gameOn` true) must match for the gate to work.
+
+**Hypothesis / next steps:** Confirm in Wwise + Unity logs whether `Cue_VO_GuidedVocalization_Start` / `_End` (or mic on/off cues) fire on **Long** tutorial `PlayTutorialGuidance` / correction events. If not, add or remap cues, **or** gate on an explicit “VO line finished” cue (e.g. user-mentioned `Cue_VO_GuidedVocalization_End` only helps if it actually fires on that content). Optionally add **temporary logs**: `gameOn` when entering/exiting the `while (!gameOn)` loops.
+
+**Resolution (Long, code):** `Tutorial.cs` now calls `imitoneVoiceInterpreter.SetGameOn(false)` immediately before **`PlayTutorialGuidance`** (Long / non-Short branch) and before **`PlayCorrectionGuidance`** when `variant == "Long"`, restoring “mic off at line start” without the lost Wwise cue. **`Cue_VO_GuidedVocalization_End`** (or other cues) should still turn **`gameOn`** back **on** when the line opens the test window.
+
+**Status:** Long — mitigated in Unity; confirm in playtests. Short parity — see **### 21**.
+
+**Short regression:** This pass does **not** change Short; run Short smoke anyway after pull.
 
 ---
 
@@ -255,4 +264,16 @@ Add a new `### N. Short title` block per issue. Use the **bold** labels below in
 
 ---
 
-*Last updated: Issue log reformatted; former §8 answers merged into plan body + issues §1–2, §3–4, §5–10.*
+### 21. Short tutorial: parity `SetGameOn(false)` when posting guidance VO (technical correctness)
+
+**Context:** Long now sets **`gameOn` false** immediately before **`PlayTutorialGuidance`** / (when in correction) **`PlayCorrectionGuidance`**, because **`Cue_VO_GuidedVocalization_Start`** is missing in Wwise and the **`while (!gameOn)`** gate in `VoiceTestCoroutine` / `ProvideCorrection` otherwise does not block during VO. Short was not changed: **`failThreshold`** is larger (24s) and post-success timing differs, so the same bug is **less noticeable** but **still technically wrong** if `gameOn` stays true through Lite guidance lines.
+
+**Goal:** Apply the same “**`SetGameOn(false)`** right before Unity posts tutorial/correction VO” pattern for **Short** (and re-test Short end-to-end), or restore equivalent Wwise cues on Short content if preferred.
+
+**Status:** Open — parity / QA after Long is stable.
+
+**Short regression:** Full Short tutorial pass after implementing.
+
+---
+
+*Last updated: Long `gameOn` fix at VO post; ### 21 Short parity.*
