@@ -24,7 +24,7 @@ public class DataOutput : MonoBehaviour
 
         //Write Session Data
         filePath = Path.Combine(Application.streamingAssetsPath, "SessionData.csv");
-        writer = new StreamWriter(filePath, false);
+        writer = new StreamWriter(filePath, false) { AutoFlush = false };
         writer.WriteLine("Clock," + 
             "Run Time," +
             "Command: AVS Strobe Rate," +
