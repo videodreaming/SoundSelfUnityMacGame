@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -392,20 +392,7 @@ public class Sequencer : MonoBehaviour
     //When these were first made, they were envisioned as a way to cheat the system into getting into the zone it should be at that moment.
     //it is NOT running the actual logic of the experience, so using these outside of development mode may have unintended consequences.
     //if you would like to use them that way, which would be more elegant, further development will be required.
-    
-    /*
-    public void StartTutorialSequence()
-    {
-        DbgLogSequencer("Sequencer: Starting Tutorial Sequence.");
-        tutorial.StartTutorial();
-        LightControl.instance?.StartLights();
-        worldShuffler.ExcludeColorWorld("Blue");
-        worldShuffler.ExcludeSoundscape("Shadow");
-        MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
-        MusicSystem1.instance.SetMusicSilentLayerVolume(MusicSystem1.instance._silentVolumeHigh, 0.0f);
-        director.Disable();
-    }
-    */
+ 
     public void StartPlayground(bool setTimeSincePlaygroundStart = false, bool beginShuffle = true, bool directorEnabled = true, float transitionTime = 20f, bool completeTutorial = true, bool startLights = true)
     {
         

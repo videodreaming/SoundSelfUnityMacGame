@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Completes on Wwise cues / <see cref="SequenceCommand.TutorialPassed"/>, or when <see cref="Tutorial"/> detects <see cref="TimeTrackerScript.CountdownThisSection"/> reached 0 (main segment time exhausted).</summary>
+    /// <summary>Completes on Wwise cues / <see cref="SequenceCommand.TutorialPassed"/>, or when <see cref="Tutorial"/> ends early because <see cref="TimeTrackerScript.CountdownThisSection"/> on the main session segment is at or below 10 seconds (watchdog in <see cref="Tutorial.Update"/> calls <c>StopTutorial()</c>, which sends <see cref="SequenceCommand.TutorialPassed"/>).</summary>
     public class TutorialStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
