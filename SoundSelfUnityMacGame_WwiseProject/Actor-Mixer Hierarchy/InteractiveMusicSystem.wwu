@@ -21,6 +21,9 @@
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="InteractiveMusicSystem" ID="{61AC98F4-162A-433E-B785-39651E569A91}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
@@ -6646,6 +6649,9 @@
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
 						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="InteractiveMusicSystem" ID="{61AC98F4-162A-433E-B785-39651E569A91}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
+						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="InteractiveMusic_Vocal_Silent" ID="{B124C929-B1C4-4C33-ABD2-695FEBF6F2EF}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
 						</Reference>
@@ -13005,6 +13011,9 @@
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="InteractiveMusicSystem" ID="{61AC98F4-162A-433E-B785-39651E569A91}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
 						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
@@ -20160,6 +20169,9 @@
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
+						</Reference>
+						<Reference Name="DefaultSwitchOrState">
+							<ObjectRef Name="InteractiveMusicSystem" ID="{61AC98F4-162A-433E-B785-39651E569A91}" WorkUnitID="{F25E0BA7-C696-48E5-8BCE-779E710A3892}"/>
 						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="InteractiveMusic_Vocal_Toning" ID="{BE72BE6B-FBE3-4BC4-90F5-84DF890B98FA}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>

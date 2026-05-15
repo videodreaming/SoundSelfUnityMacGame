@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{47BC16ED-F880-96C7-D45A-9AE98B56DBAC}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{62E30C08-EB58-0352-5A29-63BBE0109900}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -179,6 +179,13 @@
 						<State Id="748895195" Name="None"/>
 						<State Id="1971384320" Name="Playful"/>
 						<State Id="4231874361" Name="Meditative"/>
+					</States>
+				</StateGroup>
+				<StateGroup Id="3107675784" Name="MusicEnvironmentMode">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1229948536" Name="Environment"/>
+						<State Id="3991942870" Name="Music"/>
 					</States>
 				</StateGroup>
 			</StateGroups>
@@ -389,5 +396,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{CA93C8A8-2EDF-0EAF-87C2-5C963D840347}</FileHash>
+	<FileHash>{BC5D0196-8DF5-B2A0-5AD5-DF2C10DCB995}</FileHash>
 </SoundBanksInfo>

@@ -4195,7 +4195,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{F88E1FDA-9A02-B451-1F18-7FD7B7414C6F}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{61B97CDD-B538-FB66-D027-F5DEC850CB1F}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -7046,7 +7046,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{547791EE-940C-FF12-0C61-9760824A4232}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{3B03E1B2-536E-9D26-EEC3-737E1C532943}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -8653,7 +8653,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -8977,7 +8977,7 @@
 							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -9303,7 +9303,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -9634,7 +9634,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -9960,7 +9960,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -10473,7 +10473,7 @@
 							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -10832,7 +10832,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -11191,7 +11191,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -12101,5 +12101,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D3D3CD33-1352-1EF2-E8EA-3F7FABD1FBA2}</FileHash>
+	<FileHash>{6CC65FE0-986A-2876-C3B0-87CE1D33DF64}</FileHash>
 </SoundBanksInfo>

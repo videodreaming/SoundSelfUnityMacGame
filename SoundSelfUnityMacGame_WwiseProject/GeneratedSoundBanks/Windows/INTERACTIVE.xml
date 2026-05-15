@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{547791EE-940C-FF12-0C61-9760824A4232}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{3B03E1B2-536E-9D26-EEC3-737E1C532943}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -1608,7 +1608,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -1932,7 +1932,7 @@
 							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -2258,7 +2258,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -2589,7 +2589,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -2915,7 +2915,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -3428,7 +3428,7 @@
 							</Children>
 						</SwitchContainer>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -3787,7 +3787,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -4146,7 +4146,7 @@
 					</AuxBusRefs>
 					<SwitchContainers>
 						<SwitchContainer>
-							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723"/>
+							<SwitchValue GroupType="Switch" GroupId="3282688384" Id="1817215723" Default="true"/>
 							<Children>
 								<SwitchContainer>
 									<SwitchValue GroupType="Switch" GroupId="1081559142" Id="2193720742"/>
@@ -5056,5 +5056,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{03DEC86A-CBE4-0E21-F767-F5A967C8B370}</FileHash>
+	<FileHash>{CF369B8E-7F96-D0CC-41F4-5DBBC19E0EC1}</FileHash>
 </SoundBanksInfo>

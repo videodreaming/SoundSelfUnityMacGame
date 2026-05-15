@@ -1,10 +1,14 @@
 State Group	ID	Name			Wwise Object Path	Notes
 	1731624755	AbsorptionMode			\Default Work Unit\AbsorptionMode	
+	3107675784	MusicEnvironmentMode			\Default Work Unit\MusicEnvironmentMode	
 
 State	ID	Name	State Group			Notes
 	748895195	None	AbsorptionMode			
 	1971384320	Playful	AbsorptionMode			
 	4231874361	Meditative	AbsorptionMode			
+	748895195	None	MusicEnvironmentMode			
+	1229948536	Environment	MusicEnvironmentMode			
+	3991942870	Music	MusicEnvironmentMode			
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	609474916	InteractiveMusic_Bus_Volume			\Master Mixer\InteractiveMusic_Bus_Volume	

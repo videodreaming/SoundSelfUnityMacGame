@@ -274,7 +274,7 @@
 											<MusicCue Name="Cue_VO_GuidedVocalization_End" ID="{68F35819-3C5C-44DF-988B-30CFF7544EA4}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="10306.4659922136"/>
+													<Property Name="TimeMs" Type="Real64" Value="10282.7735807531"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1007,7 +1007,7 @@
 											<MusicCue Name="Cue_VO_GuidedVocalization_Start" ID="{A2893C36-831F-4C35-992F-CC12B077ABA3}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="377.163957796419"/>
+													<Property Name="TimeMs" Type="Real64" Value="360.752961305191"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1642,16 +1642,6 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="9716.53433583958"/>
-												</PropertyList>
-											</MusicCue>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<MusicCue Name="Cue_ChangeVocalizationTypeFromAhhToOhh" ID="{DACBF16C-DB86-4578-88C0-E473A1D02DF6}">
-												<PropertyList>
-													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="12269.9491729323"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -3229,6 +3219,26 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="707.964601769911"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_VO_GuidedVocalization_Start" ID="{0E091922-EDB7-4BD1-AD5B-4224B294BDD6}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="21.1552840157323"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_VO_GuidedVocalization_End" ID="{28BDEDA3-53DB-4B18-86F0-056423EAE12A}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="1292.31056803146"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

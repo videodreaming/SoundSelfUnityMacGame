@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{F5A4AEC3-FA51-3464-A956-DF1FA52ED90D}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{61B97CDD-B538-FB66-D027-F5DEC850CB1F}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -91,9 +91,18 @@
 					<Path>Media/473964817.wem</Path>
 					<CachePath>SFX/vo_goodbye_long_FBC78EF0.wem</CachePath>
 				</File>
+				<File Id="517296307" Language="SFX" Streaming="true" Location="Loose">
+					<ShortName>environment_openingWelcome.wav</ShortName>
+					<Path>Media/517296307.wem</Path>
+					<CachePath>SFX/environment_openingWelcome_FBC78EF0.wem</CachePath>
+				</File>
 				<File Id="521907833" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>A#Bb.mid</ShortName>
 					<CachePath>SFX/A#Bb_E3FF52BF.wem</CachePath>
+				</File>
+				<File Id="522771732" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Calibration_End_v2.wav</ShortName>
+					<CachePath>SFX/Calibration_End_v2_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="543585764" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_elicitSigh_closing.wav</ShortName>
@@ -211,6 +220,12 @@
 			</Plugins>
 			<Events>
 				<Event Id="236202206" Name="Mute_SILENTMEDITATION_MUSIC"/>
+				<Event Id="3981260521" Name="Play_AMBIENT_ENVIRONMENT_LOOP">
+					<MediaRefs>
+						<MediaRef Id="517296307"/>
+						<MediaRef Id="883996255"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3449237142" Name="Play_AVS_SineGenerators_REFERENCE">
 					<PluginRefs>
 						<Custom>
@@ -384,6 +399,7 @@
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="529726532"/>
 							<MediaRefs>
+								<MediaRef Id="522771732"/>
 								<MediaRef Id="673999802"/>
 							</MediaRefs>
 						</SwitchContainer>
@@ -615,6 +631,7 @@
 					</ActionSetSwitch>
 				</Event>
 				<Event Id="4293537666" Name="Set_Calibration_Lights"/>
+				<Event Id="828034871" Name="Stop_AMBIENT_ENVIRONMENT_LOOP"/>
 				<Event Id="821655380" Name="Stop_AVS"/>
 				<Event Id="842157536" Name="Stop_AVS_All">
 					<ActionPostEvent>
@@ -721,5 +738,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D2FFA614-7C31-B56F-2E67-86EF78D1EBEA}</FileHash>
+	<FileHash>{1CC7F440-4A5C-7D6F-A16D-ACFED837EA99}</FileHash>
 </SoundBanksInfo>
