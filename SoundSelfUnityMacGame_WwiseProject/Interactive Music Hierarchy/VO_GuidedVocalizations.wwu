@@ -391,7 +391,7 @@
 											<MusicCue Name="Cue_VO_GuidedVocalization_End" ID="{4286FD7F-2A3D-4609-9312-90BDA162B0E7}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="2429.3659621802"/>
+													<Property Name="TimeMs" Type="Real64" Value="2442.71412680756"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -401,7 +401,7 @@
 											<MusicCue Name="Cue_BreathIn_Start" ID="{116001C3-4B4B-43B5-BD79-96DD61D5CF28}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="2153.50389321468"/>
+													<Property Name="TimeMs" Type="Real64" Value="2282.5361512792"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -560,6 +560,11 @@
 										<Property Name="IsStreamingEnabled" Type="bool">
 											<ValueList>
 												<Value>True</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -866,16 +871,6 @@
 												</Reference>
 											</ReferenceList>
 										</MusicPlaylistItem>
-										<MusicPlaylistItem Name="" ID="{1A824FCC-3430-438A-A226-CFC201FBC3FE}" ShortID="991597122">
-											<PropertyList>
-												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-											</PropertyList>
-											<ReferenceList>
-												<Reference Name="Segment">
-													<ObjectRef Name="vo_test09tone" ID="{3756852F-B1ED-4531-A068-427CF5281C91}" WorkUnitID="{37780A33-A843-4BA3-A852-872D09949C2D}"/>
-												</Reference>
-											</ReferenceList>
-										</MusicPlaylistItem>
 										<MusicPlaylistItem Name="" ID="{D75DEA77-EC85-4974-9F18-D63EC929F5F3}" ShortID="347276544">
 											<PropertyList>
 												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
@@ -1007,7 +1002,6 @@
 											<MusicCue Name="Cue_VO_GuidedVocalization_Start" ID="{A2893C36-831F-4C35-992F-CC12B077ABA3}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="360.752961305191"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1395,133 +1389,6 @@
 								</ObjectList>
 							</ObjectLists>
 						</MusicSegment>
-						<MusicSegment Name="vo_test09tone" ID="{3756852F-B1ED-4531-A068-427CF5281C91}" ShortID="965225924">
-							<PropertyList>
-								<Property Name="EndPosition" Type="Real64" Value="13660.6666666667"/>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>2</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Conversion">
-									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-								</Reference>
-								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-								</Reference>
-							</ReferenceList>
-							<ChildrenList>
-								<MusicTrack Name="vo_test09tone" ID="{533C14CB-18DB-41F0-A727-D965CA9C2E50}" ShortID="1033285111">
-									<PropertyList>
-										<Property Name="IsStreamingEnabled" Type="bool">
-											<ValueList>
-												<Value>True</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-										<Reference Name="TransitionRoot">
-											<Custom>
-												<MusicTransition Name="Root" ID="{D2D72556-7A5C-4016-B9F6-D6D2122429E0}">
-													<PropertyList>
-														<Property Name="IsFolder" Type="bool" Value="True"/>
-													</PropertyList>
-													<TransitionInfo/>
-												</MusicTransition>
-											</Custom>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="vo_test09tone" ID="{5D8F1A80-37DA-4DC9-A4FC-2FDCC71F773C}">
-											<Language>SFX</Language>
-											<AudioFile>vo_test09tone.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="349189626"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ObjectLists>
-										<ObjectList Name="Sequences">
-											<Reference>
-												<Local>
-													<MusicTrackSequence Name="" ID="{84847189-2624-4416-A81B-5E6E1BBCB1B9}">
-														<ObjectLists>
-															<ObjectList Name="Clips">
-																<Reference>
-																	<Local>
-																		<MusicClip Name="vo_test09tone" ID="{08361994-2A66-4E43-A149-D5D488DEE661}">
-																			<PropertyList>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="13660.6666666667"/>
-																				<Property Name="FadeInMode" Type="int16" Value="0"/>
-																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																			</PropertyList>
-																			<AudioSourceRef Name="vo_test09tone" ID="{5D8F1A80-37DA-4DC9-A4FC-2FDCC71F773C}"/>
-																		</MusicClip>
-																	</Local>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MusicTrackSequence>
-												</Local>
-											</Reference>
-										</ObjectList>
-									</ObjectLists>
-								</MusicTrack>
-							</ChildrenList>
-							<ObjectLists>
-								<ObjectList Name="Cues">
-									<Reference>
-										<Local>
-											<MusicCue Name="Entry Cue" ID="{7E98C35E-EA9D-4872-ACCE-C50F82A22C6F}"/>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<MusicCue Name="Exit Cue" ID="{627CC517-7023-458D-BE13-1EA44408D2CE}">
-												<PropertyList>
-													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="13660.6666666667"/>
-												</PropertyList>
-											</MusicCue>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<MusicCue Name="Cue_VO_GuidedVocalization_Start" ID="{CACC64D5-645E-4ACA-A186-70B70BD10AEB}">
-												<PropertyList>
-													<Property Name="CueType" Type="int16" Value="2"/>
-												</PropertyList>
-											</MusicCue>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<MusicCue Name="Cue_VO_GuidedVocalization_End" ID="{18673DAA-A898-4C87-806A-431D69D1CC5E}">
-												<PropertyList>
-													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="13025.3649351669"/>
-												</PropertyList>
-											</MusicCue>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<MusicCue Name="Cue_BreathIn" ID="{49E7AFCC-6E77-497E-98D7-66DFE0A67910}">
-												<PropertyList>
-													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="9555.45703492637"/>
-												</PropertyList>
-											</MusicCue>
-										</Local>
-									</Reference>
-								</ObjectList>
-							</ObjectLists>
-						</MusicSegment>
 						<MusicSegment Name="vo_test10tone" ID="{AA16544A-8BB8-4F5F-B6C9-042F8772D10F}" ShortID="632435110">
 							<PropertyList>
 								<Property Name="EndPosition" Type="Real64" Value="13660.6666666667"/>
@@ -1631,7 +1498,7 @@
 											<MusicCue Name="Cue_VO_GuidedVocalization_End" ID="{D693E2BB-5431-4FF0-B4FA-E27C419ED2C9}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="13106.0230576441"/>
+													<Property Name="TimeMs" Type="Real64" Value="13250"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1642,6 +1509,16 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="9716.53433583958"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_ChangeVocalizationTypeFromAhhToOhh" ID="{FE0F75CE-F38E-4A4B-A3C6-1DCA73994119}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
+													<Property Name="TimeMs" Type="Real64" Value="13382.8319414514"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1854,16 +1731,6 @@
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="10690.1516691729"/>
-												</PropertyList>
-											</MusicCue>
-										</Local>
-									</Reference>
-									<Reference>
-										<Local>
-											<MusicCue Name="Cue_ChangeVocalizationTypeFromAhhToOhh" ID="{5602C53A-D518-4644-83C3-B39E19DE970A}">
-												<PropertyList>
-													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="9142.32530120482"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2127,7 +1994,7 @@
 						</MusicSegment>
 						<MusicSegment Name="vo_test15tone" ID="{386BC31C-52A2-415E-9C3E-C5D4A3253179}" ShortID="599721550">
 							<PropertyList>
-								<Property Name="EndPosition" Type="Real64" Value="17423.9037578656"/>
+								<Property Name="EndPosition" Type="Real64" Value="18000"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>2</Value>
@@ -2493,7 +2360,7 @@
 											<MusicCue Name="Exit Cue" ID="{72830EAC-6C5A-430B-B062-5C685AF59E23}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="17114.3285158592"/>
+													<Property Name="TimeMs" Type="Real64" Value="17363.9776980234"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2542,7 +2409,7 @@
 											<MusicCue Name="Cue_ChangeVocalizationTypeFromOhhToAdvanced" ID="{3EF05888-003B-458F-A44F-D2ECACC1D251}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="7085.02110636101"/>
+													<Property Name="TimeMs" Type="Real64" Value="16709.4486756537"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>

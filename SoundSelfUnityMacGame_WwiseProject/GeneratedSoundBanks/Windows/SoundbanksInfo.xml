@@ -7046,7 +7046,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{3B03E1B2-536E-9D26-EEC3-737E1C532943}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{E358CA3C-F2E6-18EA-2B3B-52FE5CC067CE}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -7391,11 +7391,6 @@
 					<ShortName>fundamental_[G]_silent_shadow.wav</ShortName>
 					<Path>Media/348501288.wem</Path>
 					<CachePath>SFX/fundamental_[G]_silent_shadow_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="349189626" Language="SFX" Streaming="true" Location="Loose">
-					<ShortName>vo_test09tone.wav</ShortName>
-					<Path>Media/349189626.wem</Path>
-					<CachePath>SFX/vo_test09tone_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="349667166" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>fundamental_[G]_silent_gentle.wav</ShortName>
@@ -11717,7 +11712,6 @@
 				<Event Id="745351876" Name="Play_VO_GuidedVocalizationAhh">
 					<MediaRefs>
 						<MediaRef Id="124129431"/>
-						<MediaRef Id="349189626"/>
 						<MediaRef Id="431345141"/>
 						<MediaRef Id="591501073"/>
 						<MediaRef Id="632024458"/>
@@ -12101,5 +12095,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{6CC65FE0-986A-2876-C3B0-87CE1D33DF64}</FileHash>
+	<FileHash>{C6AF36FA-850A-82D6-F4A8-893E45264B3F}</FileHash>
 </SoundBanksInfo>
