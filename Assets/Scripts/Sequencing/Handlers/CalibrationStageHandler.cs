@@ -150,11 +150,21 @@ namespace SoundSelf.Sequence
                 _sequencer.calibrationMenu.SetCalibrationPortionSwitch(MapStepToPortion(_steps[_stepIndex]));
                 _sequencer.calibrationMenu.StartCalibrationSequence(_sequencer);
                 UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
+                RefreshCalibrationProgressUi();
                 SubscribeCalibrationUiListeners();
                 EnforceGameOnForStep(_steps[_stepIndex]);
             }
             else
                 Debug.LogError("CalibrationStageHandler: Sequencer or calibrationMenu is null. Cannot start calibration UI.");
+        }
+
+        private void RefreshCalibrationProgressUi()
+        {
+            if (UIManager.Instance == null || _steps == null || _steps.Length == 0)
+                return;
+            if (_stepIndex < 0 || _stepIndex >= _steps.Length)
+                return;
+            UIManager.Instance.SetCalibrationProgress(_steps.Length, _stepIndex);
         }
 
         private void ResetPoliteCueStateForNewRun()
@@ -365,6 +375,7 @@ namespace SoundSelf.Sequence
             _stepIndex++;
             Debug.Log("CalibrationStageHandler: Next step → index " + _stepIndex + " screen " + _steps[_stepIndex]);
             UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
+            RefreshCalibrationProgressUi();
             if (_sequencer != null && _sequencer.calibrationMenu != null)
                 _sequencer.calibrationMenu.SetCalibrationPortionSwitch(MapStepToPortion(_steps[_stepIndex]));
             EnforceGameOnForStep(_steps[_stepIndex]);
@@ -383,7 +394,10 @@ namespace SoundSelf.Sequence
             _stepIndex = _pendingNextTargetStepIndex;
             Debug.Log("CalibrationStageHandler: Pending Next unlocked (Wwise mirror) → index " + _stepIndex + " screen " + _steps[_stepIndex]);
             if (UIManager.Instance != null)
+            {
                 UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
+                RefreshCalibrationProgressUi();
+            }
             EnforceGameOnForStep(_steps[_stepIndex]);
             if (notifyStartPrimaryLabels && UIManager.Instance != null)
                 UIManager.Instance.NotifyCalibrationStartInstructionVoLineEnded();
@@ -441,7 +455,10 @@ namespace SoundSelf.Sequence
             _stepIndex--;
             Debug.Log("CalibrationStageHandler: Back → index " + _stepIndex + " screen " + _steps[_stepIndex]);
             if (UIManager.Instance != null)
+            {
                 UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
+                RefreshCalibrationProgressUi();
+            }
             if (_sequencer != null && _sequencer.calibrationMenu != null)
                 _sequencer.calibrationMenu.RestartFromPortion(_sequencer, MapStepToPortion(_steps[_stepIndex]));
             EnforceGameOnForStep(_steps[_stepIndex]);
@@ -548,6 +565,8 @@ namespace SoundSelf.Sequence
             if (IsComplete)
                 return;
             IsComplete = true;
+            if (UIManager.Instance != null)
+                UIManager.Instance.ClearCalibrationProgress();
             Debug.Log("CalibrationStageHandler: MarkComplete — calibration stage finished (conclusion confirm; Instruction_OFF when VO was active, or immediate when between lines / dev bypass).");
         }
 
@@ -584,7 +603,10 @@ namespace SoundSelf.Sequence
             _pendingNextAfterAdvanceCue = false;
             _pendingConclusionConfirmWaitForInstructionOff = false;
             if (UIManager.Instance != null)
+            {
                 UIManager.Instance.ClearAllCalibrationCueWaitVisuals();
+                UIManager.Instance.ClearCalibrationProgress();
+            }
 
             UnsubscribeCalibrationUiListeners();
 

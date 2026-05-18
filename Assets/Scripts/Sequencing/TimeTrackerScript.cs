@@ -210,6 +210,12 @@ public class TimeTrackerScript : MonoBehaviour
 
         if (newFul <= 0f)
             Debug.LogError("TimeTrackerScript: BeginCountdownPair — [CountdownFull] new start " + newFul + " (should be > 0).");
+        else
+        {
+            // ForceSetBothCountdownsAndStop (e.g. Countdown_StopCountdowns) sets CountdownCompleteLatched true; a new positive arm must clear it
+            // so UI/progress helpers do not treat the session as still "completed" while live timers restart.
+            SetCountdownCompleteLatched(false);
+        }
 
         _countdownThisSection = newSec;
         _countdownFull = newFul;

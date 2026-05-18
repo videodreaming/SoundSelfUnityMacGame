@@ -485,6 +485,7 @@ public class LightControl : MonoBehaviour
             NextPreferredColorWorld(transitionTimeSec, exponentialCurve);
         }
     }
+
     public Action Action_SetPreferredColorWorld(string color, float transitionTimeSec = 2.0f, bool exponentialCurve = true)
     {
         return () => SetPreferredColor(color, transitionTimeSec, exponentialCurve);

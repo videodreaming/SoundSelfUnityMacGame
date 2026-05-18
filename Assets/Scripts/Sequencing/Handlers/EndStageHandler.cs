@@ -28,6 +28,7 @@ namespace SoundSelf.Sequence
         public void Enter(StageVariant variant)
         {
             IsComplete = false;
+            _sequencer?.FadePreferredColorDarkAndStopAvs();
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             if (UIManager.Instance != null)
             {

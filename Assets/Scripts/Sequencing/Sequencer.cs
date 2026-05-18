@@ -108,8 +108,14 @@ public class Sequencer : MonoBehaviour
     }
 
     /// <summary>Second stage branch = Music (<see cref="dualstageSecondStageIsMusic"/> true, <see cref="dualstageSecondStageIsSoundSelf"/> false).</summary>
-    public void SetDualstageSecondStageMusic()
+    /// <param name="onlyAllowOnStage1">When true, only records while <see cref="dualstageStage"/> is still 0 or 1 (first-segment choice). Blocks once <c>dualstageStage &gt;= 2</c> so UI events that run before <see cref="IncrementDualstageStage"/> (counter still 0) still set flags, and second-segment picks do not overwrite.</param>
+    public void SetDualstageSecondStageMusic(bool onlyAllowOnStage1 = false)
     {
+        if (onlyAllowOnStage1 && dualstageStage >= 2)
+        {
+            DbgLogSequencer("Sequencer.SetDualstageSecondStageMusic: onlyAllowOnStage1 is true and dualstageStage >= 2, so not setting to Music.", true);
+            return;
+        }
         dualstageSecondStageIsMusic = true;
         dualstageSecondStageIsSoundSelf = false;
         DbgLogSequencer(
@@ -117,8 +123,14 @@ public class Sequencer : MonoBehaviour
     }
 
     /// <summary>Second stage branch = SoundSelf (<see cref="dualstageSecondStageIsSoundSelf"/> true, <see cref="dualstageSecondStageIsMusic"/> false).</summary>
-    public void SetDualstageSecondStageSoundSelf()
+    /// <inheritdoc cref="SetDualstageSecondStageMusic(bool)"/>
+    public void SetDualstageSecondStageSoundSelf(bool onlyAllowOnStage1 = false)
     {
+        if (onlyAllowOnStage1 && dualstageStage >= 2)
+        {
+            DbgLogSequencer("Sequencer.SetDualstageSecondStageSoundSelf: onlyAllowOnStage1 is true and dualstageStage >= 2, so not setting to SoundSelf.", true);
+            return;
+        }
         dualstageSecondStageIsMusic = false;
         dualstageSecondStageIsSoundSelf = true;
         DbgLogSequencer(
@@ -158,6 +170,7 @@ public class Sequencer : MonoBehaviour
     private SavasanaStageHandler _savasanaHandler;
     private TutorialStageHandler _tutorialHandler;
     private SetMenuStageHandler _setMenuHandler;
+    private CodeStageHandler _codeHandler;
     private MusicPlaylistStageHandler _musicPlaylistHandler;
     private InquiryStageHandler _inquiryHandler;
     private EndStageHandler _endHandler;
@@ -188,11 +201,12 @@ public class Sequencer : MonoBehaviour
         _tutorialHandler = new TutorialStageHandler(this);
         _startCountdownHandler = new StartCountdownStageHandler(this);
         _setMenuHandler = new SetMenuStageHandler(this);
+        _codeHandler = new CodeStageHandler(this);
         _musicPlaylistHandler = new MusicPlaylistStageHandler(this);
         _inquiryHandler = new InquiryStageHandler(this);
         _endHandler = new EndStageHandler(this);
         _linearAudioHandler = new LinearAudioStageHandler(this);
-        sequenceRunner.SetHandlers(new IStageHandler[] { _calibrationHandler, _openingHandler, _startCountdownHandler, _playgroundHandler, _savasanaHandler, _tutorialHandler, _setMenuHandler, _musicPlaylistHandler, _inquiryHandler, _endHandler, _linearAudioHandler });
+        sequenceRunner.SetHandlers(new IStageHandler[] { _calibrationHandler, _openingHandler, _startCountdownHandler, _playgroundHandler, _savasanaHandler, _tutorialHandler, _setMenuHandler, _codeHandler, _musicPlaylistHandler, _inquiryHandler, _endHandler, _linearAudioHandler });
     }
 
     void OnEnable()
@@ -341,6 +355,19 @@ public class Sequencer : MonoBehaviour
 
     /// <summary>Stops all <see cref="AVSSequence"/> program coroutines (Dynamic Drop, Drop-to-Delta) and clears tracked director queue indices.</summary>
     public void StopAllAvsPrograms() => _avsSequence?.StopAllAvsPrograms();
+
+    /// <summary>
+    /// Same as <see cref="SavasanaStageHandler"/> on <see cref="SequenceCommand.CueSilentMeditationStart"/>:
+    /// fade preferred world color to Dark, then stop AVS program coroutines on this sequencer.
+    /// </summary>
+    public void FadePreferredColorDarkAndStopAvs(float transitionTimeSec = 5f)
+    {
+        if (LightControl.instance != null)
+            LightControl.instance.SetPreferredColor("Dark", transitionTimeSec);
+        else
+            DbgLogSequencer("Sequencer: LightControl.instance is null; cannot fade to Dark.", true);
+        StopAllAvsPrograms();
+    }
 
     [Obsolete("StartTrueStart is deprecated. Use SequenceRunner.StartFromCurrentCsvSession().")]
     public void StartTrueStart() // Deprecated compatibility wrapper for dev UI and legacy scene hooks.

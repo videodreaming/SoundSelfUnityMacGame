@@ -32,6 +32,7 @@ namespace SoundSelf.Sequence
         public void Enter(StageVariant variant)
         {
             IsComplete = false;
+            _sequencer?.FadePreferredColorDarkAndStopAvs();
             if (UIManager.Instance != null)
                 UIManager.Instance.EnableSkipButton(false, null);
 
@@ -39,7 +40,10 @@ namespace SoundSelf.Sequence
             {
                 Debug.Log("SetMenuStageHandler: Enter Menu_Ps_InteractiveOrMusic — Choice SS or Music.");
                 if (UIManager.Instance != null)
-                    UIManager.Instance.SetChoiceSSOrMusicScreen();
+                {
+                    bool secondStageVariant = _sequencer != null && _sequencer.dualstageStage >= 1;
+                    UIManager.Instance.SetChoiceSSOrMusicScreen(secondStageVariant);
+                }
                 else
                     Debug.LogError("SetMenuStageHandler: UIManager.Instance is null; cannot show Choice SS or Music screen.");
                 return;

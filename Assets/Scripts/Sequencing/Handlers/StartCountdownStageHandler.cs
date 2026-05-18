@@ -6,12 +6,13 @@ namespace SoundSelf.Sequence
     /// One-shot stage: resolves session countdown from <paramref name="variant"/>, configures the tracker, calls
     /// <see cref="TimeTrackerScript.BeginCountdownPair"/> (ClosingDuration uses <see cref="TimeTrackerScript.ConfiguredFullAtLastConfigure"/> / <see cref="TimeTrackerScript.SetConfiguredFullBaselineOnly"/> to preserve session HUD baseline; both live timers set to post-unguided duration and the pair is restarted),
     /// or <see cref="TimeTrackerScript.ForceSetBothCountdownsAndStop"/> for <c>StopCountdowns</c>,
-    /// then marks complete.
+    /// then marks complete. Each <see cref="Enter"/> applies the variant (handler is shared across sequences; do not skip re-entry when <see cref="IStageHandler.Exit"/> was not invoked).
     /// </summary>
     public class StartCountdownStageHandler : IStageHandler
     {
+        private const string LogPrefix = "[StartCountdown]";
+
         private readonly Sequencer _sequencer;
-        private bool _hasEntered;
 
         public StartCountdownStageHandler(Sequencer sequencer)
         {
@@ -33,13 +34,14 @@ namespace SoundSelf.Sequence
 
         public void Enter(StageVariant variant)
         {
-            if (_hasEntered)
-            {
-                Debug.LogWarning("StartCountdownStageHandler: Enter() called again before Exit(). Skipping.");
-                return;
-            }
-            _hasEntered = true;
+            // Do not gate Enter on a sticky flag: the same handler instance is reused for every StartCountdown stage
+            // in every sequence for the session. SequenceRunner often advances away from this stage without calling
+            // Exit() on it (e.g. linear AdvanceToNextStage), and StartSequence() only ForceExits the *current* handler
+            // when swapping to a nested playlist — so Exit() may never run before a later Enter. Skipping Enter left
+            // TimeTracker on an old session countdown (e.g. 40m) while the new definition expected 60m.
             IsComplete = false;
+
+            Debug.Log($"{LogPrefix} Enter variant={variant}.");
 
             if (UIManager.Instance != null)
                 UIManager.Instance.EnableSkipButton(false, null);
@@ -47,19 +49,22 @@ namespace SoundSelf.Sequence
             var tt = TimeTrackerScript.instance;
             if (tt == null)
             {
-                Debug.LogError("StartCountdownStageHandler: TimeTrackerScript.instance is null. Cannot start countdown.");
+                Debug.LogError($"{LogPrefix} TimeTrackerScript.instance is null. Cannot start countdown.");
                 MarkComplete();
                 return;
             }
+
+            LogTrackerCountdowns($"{LogPrefix} TimeTracker state before this stage", tt);
+
             if (!tt.SessionTimingInitializedFromCsv)
             {
-                Debug.LogError("StartCountdownStageHandler: Session timing was not initialized from CSV (CSVLoader.TimeLeftInitializations did not complete). " +
+                Debug.LogError($"{LogPrefix} Session timing was not initialized from CSV (CSVLoader.TimeLeftInitializations did not complete). " +
                                "Load sessions.csv / session_params and ensure TimeLeftInitializations runs before the StartCountdown stage. Proceeding anyway, but expect unexpected behavior.");
             }
 
             if (variant == StageVariant.None)
             {
-                Debug.LogError("StartCountdownStageHandler: variant is None. Pick a Countdown_* variant.");
+                Debug.LogError($"{LogPrefix} variant is None. Pick a Countdown_* variant.");
                 MarkComplete();
                 return;
             }
@@ -71,7 +76,7 @@ namespace SoundSelf.Sequence
                 float closingSecs = Mathf.Max(0f, closing);
                 if (closingSecs <= 0f)
                 {
-                    Debug.LogError("StartCountdownStageHandler: ClosingDuration requires TotalTimeOfPostUnguidedVocalizationContent > 0 from CSV / tracker. Countdown not started.");
+                    Debug.LogError($"{LogPrefix} Countdown_ClosingDuration: TotalTimeOfPostUnguidedVocalizationContent is {closing} s — must be > 0. Countdown not started.");
                     MarkComplete();
                     return;
                 }
@@ -79,48 +84,80 @@ namespace SoundSelf.Sequence
                 float preservedFullBaseline = tt.ConfiguredFullAtLastConfigure;
                 float fullBefore = tt.CountdownFull;
                 float sectionBefore = tt.CountdownThisSection;
+                Debug.Log(
+                    $"{LogPrefix} Countdown_ClosingDuration: applying post-unguided pair both = {FormatMmSs(closingSecs)} " +
+                    $"(raw closing from CSV/tracker {closing:F1} s). Preserved full baseline for HUD (if any) = {preservedFullBaseline:F1} s. " +
+                    $"Before: ThisSection={FormatMmSs(sectionBefore)} Full={FormatMmSs(fullBefore)}.");
                 tt.ConfigureCountdownPair(closingSecs, closingSecs);
                 tt.BeginCountdownPair();
                 if (preservedFullBaseline > 0f)
                     tt.SetConfiguredFullBaselineOnly(preservedFullBaseline);
-                Debug.Log("StartCountdownStageHandler: ClosingDuration — live [CountdownThisSection]/[CountdownFull] both " + closingSecs + " s (post-unguided). Before: ThisSection=" + sectionBefore + " Full=" + fullBefore + "." +
-                          (preservedFullBaseline > 0f ? " Full baseline for HUD restored to " + preservedFullBaseline + " s." : ""));
+                LogTrackerCountdowns($"{LogPrefix} Countdown_ClosingDuration: after ConfigureCountdownPair + BeginCountdownPair (+ baseline restore)", tt);
                 if (Mathf.Abs(tt.CountdownFull - closingSecs) > 10f || Mathf.Abs(tt.CountdownThisSection - closingSecs) > 10f)
-                    Debug.LogWarning("StartCountdownStageHandler: ClosingDuration — applied pair differs from expected by more than 10s.");
+                    Debug.LogWarning($"{LogPrefix} Countdown_ClosingDuration: live values differ from expected closing by >10s (check TimeTracker warnings).");
                 MarkComplete();
                 return;
             }
 
             if (variant == StageVariant.Countdown_StopCountdowns)
             {
+                Debug.Log($"{LogPrefix} Countdown_StopCountdowns: forcing both countdowns to 0 and stopping ticking.");
                 tt.ForceSetBothCountdownsAndStop(0f, 0f);
+                LogTrackerCountdowns($"{LogPrefix} Countdown_StopCountdowns: after ForceSetBothCountdownsAndStop", tt);
                 MarkComplete();
                 return;
             }
+
+            Debug.Log($"{LogPrefix} Duration variant path: TotalTimeOfPostUnguidedVocalizationContent (for WithSavasana math) = {closing:F1} s {FormatMmSs(closing)}.");
 
             if (!TryGetCountdownPair(variant, closing, out float thisSection, out float full))
             {
-                Debug.LogError("StartCountdownStageHandler: Could not resolve countdown pair for variant '" + variant + "'. Countdown not started.");
+                Debug.LogError($"{LogPrefix} Could not resolve countdown pair for variant '{variant}'. Countdown not started.");
                 MarkComplete();
                 return;
             }
 
+            Debug.Log(
+                $"{LogPrefix} Resolved configured pair for '{variant}': [CountdownThisSection] target = {FormatMmSs(thisSection)} " +
+                $"| [CountdownFull] target = {FormatMmSs(full)}.");
             tt.ConfigureCountdownPair(thisSection, full);
             tt.BeginCountdownPair();
-            Debug.Log("StartCountdownStageHandler: BeginCountdownPair [CountdownThisSection]=" + thisSection + " s, [CountdownFull]=" + full + " s for variant '" + variant + "'.");
+            LogTrackerCountdowns($"{LogPrefix} After ConfigureCountdownPair + BeginCountdownPair (live values)", tt);
             MarkComplete();
         }
 
         public void Exit()
         {
-            _hasEntered = false;
         }
 
         private void MarkComplete()
         {
             if (IsComplete) return;
             IsComplete = true;
-            Debug.Log("StartCountdownStageHandler: Stage complete.");
+            Debug.Log($"{LogPrefix} Stage complete (IsComplete=true).");
+        }
+
+        private static string FormatMmSs(float seconds)
+        {
+            seconds = Mathf.Max(0f, seconds);
+            int m = Mathf.FloorToInt(seconds / 60f);
+            int s = Mathf.FloorToInt(seconds % 60f);
+            return $"{m}:{s:D2} ({seconds:F0}s)";
+        }
+
+        private static void LogTrackerCountdowns(string label, TimeTrackerScript tt)
+        {
+            if (tt == null)
+            {
+                Debug.Log(label + " (TimeTracker is null)");
+                return;
+            }
+
+            Debug.Log(
+                $"{label}: [CountdownThisSection]={FormatMmSs(tt.CountdownThisSection)} " +
+                $"[CountdownFull]={FormatMmSs(tt.CountdownFull)} " +
+                $"IsCountdownRunning={tt.IsCountdownRunning} " +
+                $"ConfiguredFullAtLastConfigure={tt.ConfiguredFullAtLastConfigure:F0}s");
         }
 
         /// <summary>
@@ -156,7 +193,7 @@ namespace SoundSelf.Sequence
                     SetPairWithSavasana(1500f, postUnguidedSeconds, variant, out countdownThisSection, out countdownFull);
                     break;
                 default:
-                    Debug.LogError("StartCountdownStageHandler: Unknown countdown variant '" + variant + "'. Use a Countdown_* duration variant, Countdown_ClosingDuration, or Countdown_StopCountdowns.");
+                    Debug.LogError($"{LogPrefix} Unknown countdown variant '{variant}'. Use a Countdown_* duration variant, Countdown_ClosingDuration, or Countdown_StopCountdowns.");
                     return false;
             }
 
@@ -167,13 +204,13 @@ namespace SoundSelf.Sequence
         {
             if (closing <= 0f)
             {
-                Debug.LogWarning("StartCountdownStageHandler: '" + variantLabel + "' (with savasana) — post-unguided duration 0; [CountdownFull] equals [CountdownThisSection].");
+                Debug.LogWarning($"{LogPrefix} '{variantLabel}' (with savasana) — post-unguided duration 0; [CountdownFull] equals [CountdownThisSection] ({FormatMmSs(baseSeconds)}).");
                 countdownThisSection = baseSeconds;
                 countdownFull = baseSeconds;
             }
             else if (closing > baseSeconds)
             {
-                Debug.LogWarning("StartCountdownStageHandler: '" + variantLabel + "' (with savasana) — post-unguided duration > baseSeconds; setting [CountdownFull] equals [CountdownThisSection].");
+                Debug.LogWarning($"{LogPrefix} '{variantLabel}' (with savasana) — post-unguided {FormatMmSs(closing)} > base {FormatMmSs(baseSeconds)}; [CountdownFull] equals [CountdownThisSection].");
                 countdownThisSection = baseSeconds;
                 countdownFull = baseSeconds;
             }
@@ -181,6 +218,9 @@ namespace SoundSelf.Sequence
             {
                 countdownThisSection = baseSeconds - closing;
                 countdownFull = baseSeconds;
+                Debug.Log(
+                    $"{LogPrefix} '{variantLabel}' WithSavasana: base={FormatMmSs(baseSeconds)} postUnguided={FormatMmSs(closing)} " +
+                    $"→ [CountdownThisSection]={FormatMmSs(countdownThisSection)} [CountdownFull]={FormatMmSs(countdownFull)}.");
             }
         }
     }

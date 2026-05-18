@@ -10,13 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0eeb245decf8194ab359eb921603b1b, type: 3}
-  m_Name: ProtocolStacks_Start
+  m_Name: Dualstage_StageInteractive
   m_EditorClassIdentifier: 
-  displayName: Adjunctive Calibration
+  displayName: Adjunctive Interactive
   stages:
-  - type: 5
-    variant: 31
-  - type: 0
-    variant: 1
-  - type: 5
-    variant: 27
+  - type: 10
+    variant: 22
+  - type: 1
+    variant: 2
+  - type: 2
+    variant: 7
+  - type: 3
+    variant: 10
+  - type: 10
+    variant: 25
+  - type: 4
+    variant: 12
+  - type: 10
+    variant: 26
+  - type: 11
+    variant: 34

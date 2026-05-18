@@ -51,8 +51,18 @@ namespace SoundSelf.Sequence
             }
 
             _sequencer.wwiseVOManager.PlayMusicPlaylist(playlistSwitch);
+
+            float cd0 = SessionCountdownThisSection();
+            if (cd0 <= 0f)
+            {
+                Debug.LogError(
+                    "MusicPlaylistStageHandler: [CountdownThisSection] is " + cd0 +
+                    " s when starting playlist " + playlistSwitch + ". The playlist stage will complete immediately. " +
+                    "Usually a StartCountdown (duration variant) stage must run before MusicPlaylist; if you used Countdown_StopCountdowns earlier, the next sequence must call StartCountdown again before MusicPlaylist.");
+            }
+
             _completionCoroutine = _sequencer.StartCoroutine(WaitForSectionCountdownToReachZero());
-            Debug.Log("MusicPlaylistStageHandler: Started playlist " + playlistSwitch + ". Waiting for CountdownThisSection to reach 0.");
+            Debug.Log("MusicPlaylistStageHandler: Started playlist " + playlistSwitch + ". Waiting for CountdownThisSection to reach 0 (initial " + cd0 + " s).");
 
             if (UIManager.Instance != null)
             {

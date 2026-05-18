@@ -47,12 +47,14 @@ namespace SoundSelf.Sequence
         Inquiry,      // Asks player how they are feeling; records answer. Stub until implementation.
         End,          // End stage; happens at the end of a sequence.
         LinearAudio,  // Multi-purpose linear audio stage. Stub until implementation.
-        StartCountdown // Computes session countdown pair from variant, then BeginCountdownPair() on TimeTrackerScript.
+        StartCountdown, // Computes session countdown pair from variant, then BeginCountdownPair() on TimeTrackerScript.
+        /// <summary>Scripted branch / glue (e.g. dual-stage section boundaries). Appended to avoid renumbering prior <see cref="StageType"/> values in serialized assets.</summary>
+        Code
     }
 
     /// <summary>
     /// Single enum for all stage variants. Prefix matches <see cref="StageType"/> (Set Menu → Menu, Music Playlist → Playlist,
-    /// Start Countdown → Countdown, Linear Audio → Linear).
+    /// Start Countdown → Countdown, Linear Audio → Linear, Code → Code).
     /// Integer values are explicit and stable for Unity serialization — add new variants with unused ids (e.g. 100+) or append at the end without renumbering existing.
     /// </summary>
     public enum StageVariant
@@ -93,6 +95,8 @@ namespace SoundSelf.Sequence
         Calibration_Album = 32,
         /// <summary>Stub: calibration without vibro step; same <see cref="StageType.Calibration"/> stage.</summary>
         Calibration_NoVibro = 33,
+        /// <summary><see cref="StageType.Code"/>: between dual-stage sections — choice (second visit) when <c>dualstageStage==1</c>, session end UI when <c>dualstageStage==2</c>.</summary>
+        Code_Dualstage_SectionEnd = 34,
     }
 
     [System.Serializable]

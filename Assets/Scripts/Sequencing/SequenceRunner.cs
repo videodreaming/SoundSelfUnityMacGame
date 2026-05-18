@@ -138,11 +138,25 @@ namespace SoundSelf.Sequence
             else
                 Debug.LogError("SequenceRunner: TimeTrackerScript.instance is null. Cannot reset TimeSincePlaygroundStart before sequence start.");
 
-            // Exit currently active handlers before swapping definitions; otherwise indices can resolve against the wrong stage list.
-            ForceExitCurrentAndTransitioningHandlers();
+            // Exit every registered handler before swapping definitions. Indices only cover current + transitioning
+            // stages on the *old* definition — other StageType handlers (same singleton instance) may never have
+            // received Exit() during linear play, so they can retain stale state across StartSequence (nested playlists, etc.).
+            ForceExitAllHandlers();
             definition = nextDefinition;
             _sequenceComplete = false;
             _transitioningOutStageIndex = -1;
+            // Critical: the previous sequence's index must not be used against the new definition's stages[].
+            // Otherwise BeginTransitionOut may read the wrong stage or go out of range; Update() can also mark
+            // the new sequence complete immediately (index >= new length) without ever entering stage 0 — e.g. 0 countdown for MusicPlaylist.
+            CurrentStageIndex = -1;
+
+            var stages0 = definition.StagesOrEmpty;
+            if (stages0.Length > 0)
+            {
+                Debug.Log(
+                    $"SequenceRunner.StartSequence: \"{definition.displayName}\" ({stages0.Length} stages) — first stage index 0: {stages0[0].type} / {stages0[0].variant}.");
+            }
+
             AdvanceToStage(0);
         }
 
@@ -408,6 +422,18 @@ namespace SoundSelf.Sequence
                 transitioning.Exit();
             }
             _transitioningOutStageIndex = -1;
+        }
+
+        /// <summary>
+        /// Calls <see cref="IStageHandler.Exit"/> on every handler registered with <see cref="SetHandlers"/>.
+        /// Use when abandoning the current definition (e.g. <see cref="StartSequence"/>) so per-<see cref="StageType"/> singletons do not keep state from a stage that never received a runner-driven Exit.
+        /// </summary>
+        private void ForceExitAllHandlers()
+        {
+            if (_handlers == null)
+                return;
+            foreach (var handler in _handlers)
+                handler?.Exit();
         }
 
         private void ForceExitCurrentAndTransitioningHandlers()

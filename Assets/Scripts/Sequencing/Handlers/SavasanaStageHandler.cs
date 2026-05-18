@@ -162,8 +162,7 @@ namespace SoundSelf.Sequence
                     break;
                 case SequenceCommand.CueSilentMeditationStart:
                     Debug.Log("SavasanaStageHandler: CueSilentMeditationStart — fading to dark and stopping AVS programs.");
-                    LightControl.instance.SetPreferredColor("Dark", 5f);
-                    _sequencer.StopAllAvsPrograms();
+                    _sequencer.FadePreferredColorDarkAndStopAvs();
                     break;
             }
         }

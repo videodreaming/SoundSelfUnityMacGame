@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public enum CalibrationUI
@@ -65,6 +66,14 @@ public class UIManager : MonoBehaviour
 
     //Screens
     [SerializeField] private GameObject choiceSSOrMusicScreen;
+    [Header("Choice SS or Music — dual-stage (assign Sequencer + copy/button roots)")]
+    [SerializeField] private Sequencer sequencer;
+    [SerializeField] private GameObject choiceSsOrMusicStage1Header;
+    [SerializeField] private GameObject choiceSsOrMusicStage1Description;
+    [SerializeField] private GameObject choiceSsOrMusicStage2Header;
+    [SerializeField] private GameObject choiceSsOrMusicStage2Description;
+    [SerializeField] private Button choiceSsOrMusicPlaySoundSelfButton;
+    [SerializeField] private Button choiceSsOrMusicPlayAlbumButton;
     [SerializeField] private GameObject choiceSonofloreMusicLengthScreen;
     [SerializeField] private GameObject welcomeScreen;
     [SerializeField] private GameObject startScreen;
@@ -88,6 +97,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject sessionHeaderSavasana;
     [SerializeField] private GameObject sessionHeaderStage1;
     [SerializeField] private GameObject sessionHeaderStage2;
+
+    [Header("Calibration — progress indicators (one dot + one line per step position; line shows for the active step). Slots are indexed by position in the active variant's step list (variant-agnostic), not by CalibrationUI enum value.")]
+    [SerializeField] private GameObject[] calibrationProgressDots = new GameObject[6];
+    [SerializeField] private GameObject[] calibrationProgressLines = new GameObject[6];
 
     /// <summary>When moving forward between <see cref="ChoiceMenuScreen"/> roots, we push the parent so <see cref="ChoiceMenuBackButtonPress"/> can restore it. Not used for calibration — see <see cref="OnCalibrationBackPress"/> / <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>.</summary>
     private readonly Stack<ChoiceMenuScreen> _choiceMenuBackStack = new Stack<ChoiceMenuScreen>();
@@ -427,11 +440,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>Shows Choice SS or Music from sequence (e.g. SetMenu); clears choice back-stack (pending Back anchor is set when SS UI becomes active — see <see cref="ShowChoiceSsOrMusicScreenCore"/>).</summary>
-    public void SetChoiceSSOrMusicScreen()
+    /// <summary>Shows Choice SS or Music from sequence (e.g. SetMenu). When <paramref name="secondStageVariant"/> is true (between-segment visit: <c>dualstageStage==1</c> after first choice), shows stage-2 copy and hides the disallowed choice via <see cref="GameObject.SetActive"/>.</summary>
+    /// <param name="secondStageVariant">False: initial choice (<c>dualstageStage==0</c>). True: second visit — only Music if <see cref="Sequencer.dualstageSecondStageIsMusic"/>, only SoundSelf if <see cref="Sequencer.dualstageSecondStageIsSoundSelf"/> (set from first-choice button wiring).</param>
+    public void SetChoiceSSOrMusicScreen(bool secondStageVariant = false)
     {
+        Debug.Log($"[UIManager][ChoiceSsOrMusic] SetChoiceSSOrMusicScreen(secondStageVariant={secondStageVariant})");
         //ClearChoiceMenuNavigationStack();
-        ShowChoiceSsOrMusicScreenCore();
+        ShowChoiceSsOrMusicScreenCore(secondStageVariant);
     }
 
     /// <summary>Shows Welcome; clears choice back-stack.</summary>
@@ -481,14 +496,124 @@ public class UIManager : MonoBehaviour
         _pendingSonofloreLengthBackToSsOrMusic = false;
     }
 
-    private void ShowChoiceSsOrMusicScreenCore()
+    private void ShowChoiceSsOrMusicScreenCore(bool secondStageVariant = false)
     {
+        Debug.Log($"[UIManager][ChoiceSsOrMusic] ShowChoiceSsOrMusicScreenCore(secondStageVariant={secondStageVariant})");
         UnsetAllScreens(() =>
         {
             choiceSSOrMusicScreen.SetActive(true);
             _pendingSonofloreLengthBackToSsOrMusic = true;
+            ApplyChoiceSsOrMusicDualStagePresentation(secondStageVariant);
             ArmButtonInteractionCooldown();
         });
+    }
+
+    /// <summary>Inspector reference, with scene fallback so choice buttons still gate if the field was left empty.</summary>
+    private Sequencer ResolveSequencerForDualStageChoiceUi(bool logSource)
+    {
+        if (sequencer != null)
+        {
+            if (logSource)
+                Debug.Log("[UIManager][ChoiceSsOrMusic] ResolveSequencer: using inspector-assigned UIManager.sequencer.");
+            return sequencer;
+        }
+
+        var found = FindObjectOfType<Sequencer>();
+        if (logSource)
+        {
+            if (found != null)
+                Debug.Log($"[UIManager][ChoiceSsOrMusic] ResolveSequencer: UIManager.sequencer was null; using FindObjectOfType → \"{found.name}\".");
+            else
+                Debug.LogWarning("[UIManager][ChoiceSsOrMusic] ResolveSequencer: no inspector reference and FindObjectOfType<Sequencer> returned null.");
+        }
+        return found;
+    }
+
+    /// <summary>True when the SS/Music menu should use the second-visit layout (copy + single allowed modality). Uses <see cref="Sequencer.dualstageStage"/>.</summary>
+    private bool ResolveChoiceSsOrMusicSecondStageVariant()
+    {
+        var seq = ResolveSequencerForDualStageChoiceUi(logSource: true);
+        if (seq == null)
+        {
+            Debug.Log("[UIManager][ChoiceSsOrMusic] ResolveChoiceSsOrMusicSecondStageVariant: no Sequencer → false (first-visit layout).");
+            return false;
+        }
+
+        bool result = seq.dualstageStage >= 1;
+        Debug.Log(
+            $"[UIManager][ChoiceSsOrMusic] ResolveChoiceSsOrMusicSecondStageVariant: dualstageStage={seq.dualstageStage} " +
+            $"(>=1) → secondStageVariant={result}");
+        return result;
+    }
+
+    /// <summary>Stage-1 vs stage-2 header/description roots; on second visit, shows only the allowed modality via <see cref="GameObject.SetActive"/> on each choice <see cref="Button"/> root.</summary>
+    private void ApplyChoiceSsOrMusicDualStagePresentation(bool secondStageVariant)
+    {
+        const string L = "[UIManager][ChoiceSsOrMusic]";
+        Debug.Log(
+            $"{L} ApplyChoiceSsOrMusicDualStagePresentation: secondStageVariant={secondStageVariant}; " +
+            $"copyRoots stage1H={choiceSsOrMusicStage1Header != null} stage1D={choiceSsOrMusicStage1Description != null} " +
+            $"stage2H={choiceSsOrMusicStage2Header != null} stage2D={choiceSsOrMusicStage2Description != null}");
+
+        if (choiceSsOrMusicStage1Header != null)
+            choiceSsOrMusicStage1Header.SetActive(!secondStageVariant);
+        if (choiceSsOrMusicStage1Description != null)
+            choiceSsOrMusicStage1Description.SetActive(!secondStageVariant);
+        if (choiceSsOrMusicStage2Header != null)
+            choiceSsOrMusicStage2Header.SetActive(secondStageVariant);
+        if (choiceSsOrMusicStage2Description != null)
+            choiceSsOrMusicStage2Description.SetActive(secondStageVariant);
+
+        if (!secondStageVariant)
+        {
+            Debug.Log($"{L} First-visit mode: both choice buttons active (visible).");
+            SetChoiceSsOrMusicChoiceButtonActive(choiceSsOrMusicPlaySoundSelfButton, true, "PlaySoundSelf");
+            SetChoiceSsOrMusicChoiceButtonActive(choiceSsOrMusicPlayAlbumButton, true, "PlayAlbum");
+            return;
+        }
+
+        var seq = ResolveSequencerForDualStageChoiceUi(logSource: true);
+        if (seq == null)
+        {
+            Debug.LogWarning($"{L} secondStageVariant but no Sequencer — showing both choice buttons. Assign UIManager.sequencer or add a Sequencer to the scene.");
+            SetChoiceSsOrMusicChoiceButtonActive(choiceSsOrMusicPlaySoundSelfButton, true, "PlaySoundSelf");
+            SetChoiceSsOrMusicChoiceButtonActive(choiceSsOrMusicPlayAlbumButton, true, "PlayAlbum");
+            return;
+        }
+
+        bool music = seq.dualstageSecondStageIsMusic;
+        bool soundSelf = seq.dualstageSecondStageIsSoundSelf;
+        Debug.Log($"{L} Sequencer dual-stage flags: dualstageStage={seq.dualstageStage} dualstageSecondStageIsMusic={music} dualstageSecondStageIsSoundSelf={soundSelf}");
+
+        if (music == soundSelf)
+        {
+            Debug.LogWarning(
+                $"{L} Ambiguous flags (music==soundSelf=={music}); cannot pick a single allowed modality — showing both buttons. " +
+                "Check first-choice button order (SetDualstage* vs IncrementDualstageStage) and onlyAllowOnStage1 wiring.");
+            SetChoiceSsOrMusicChoiceButtonActive(choiceSsOrMusicPlaySoundSelfButton, true, "PlaySoundSelf");
+            SetChoiceSsOrMusicChoiceButtonActive(choiceSsOrMusicPlayAlbumButton, true, "PlayAlbum");
+            return;
+        }
+
+        Debug.Log($"{L} Gating visibility: PlaySoundSelf active={soundSelf}, PlayAlbum active={music} (allowed modality for this visit).");
+        SetChoiceSsOrMusicChoiceButtonActive(choiceSsOrMusicPlaySoundSelfButton, soundSelf, "PlaySoundSelf");
+        SetChoiceSsOrMusicChoiceButtonActive(choiceSsOrMusicPlayAlbumButton, music, "PlayAlbum");
+    }
+
+    /// <summary>Shows or hides a choice button root (<see cref="GameObject.SetActive"/>). Assign full button objects in the inspector.</summary>
+    private void SetChoiceSsOrMusicChoiceButtonActive(Button button, bool active, string choiceDebugRole)
+    {
+        const string L = "[UIManager][ChoiceSsOrMusic]";
+        if (button == null)
+        {
+            Debug.Log($"{L} '{choiceDebugRole}': Button reference is null — cannot SetActive({active}).");
+            return;
+        }
+
+        button.gameObject.SetActive(active);
+        if (active)
+            button.interactable = true;
+        Debug.Log($"{L} '{choiceDebugRole}' on \"{button.gameObject.name}\": SetActive({active})");
     }
 
     private void ShowChoiceSonofloreMusicLengthScreenCore()
@@ -510,14 +635,14 @@ public class UIManager : MonoBehaviour
         switch (screen)
         {
             case ChoiceMenuScreen.ChoiceSsOrMusic:
-                ShowChoiceSsOrMusicScreenCore();
+                ShowChoiceSsOrMusicScreenCore(ResolveChoiceSsOrMusicSecondStageVariant());
                 break;
             case ChoiceMenuScreen.ChoiceSonofloreMusicLength:
                 ShowChoiceSonofloreMusicLengthScreenCore();
                 break;
             default:
                 Debug.LogWarning("UIManager.ShowChoiceMenuScreenCore: unhandled " + screen + "; opening Choice SS or Music.");
-                ShowChoiceSsOrMusicScreenCore();
+                ShowChoiceSsOrMusicScreenCore(ResolveChoiceSsOrMusicSecondStageVariant());
                 break;
         }
     }
@@ -544,6 +669,55 @@ public class UIManager : MonoBehaviour
         {
             if (b != null && b.DriveConclusionCueWaitVisual)
                 b.SetPendingCueWaitActive(pending);
+        }
+    }
+
+    /// <summary>
+    /// Sets the calibration progress indicator: shows the first <paramref name="totalSteps"/> dots, hides the rest,
+    /// then swaps the dot at <paramref name="activeStepIndex"/> for its matching line. Slots are indexed by step
+    /// position in the active variant (so e.g. slot 2 is "the third step", whichever <see cref="CalibrationUI"/>
+    /// the variant places there — see <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>).
+    /// </summary>
+    public void SetCalibrationProgress(int totalSteps, int activeStepIndex)
+    {
+        int dotCount = calibrationProgressDots != null ? calibrationProgressDots.Length : 0;
+        int lineCount = calibrationProgressLines != null ? calibrationProgressLines.Length : 0;
+        int slotCount = Mathf.Max(dotCount, lineCount);
+        for (int i = 0; i < slotCount; i++)
+        {
+            bool stepInUse = i < totalSteps;
+            bool isActive = stepInUse && i == activeStepIndex;
+            GameObject dot = i < dotCount ? calibrationProgressDots[i] : null;
+            GameObject line = i < lineCount ? calibrationProgressLines[i] : null;
+            bool wantDotActive = stepInUse && !isActive;
+            bool wantLineActive = isActive;
+            if (dot != null && dot.activeSelf != wantDotActive)
+                dot.SetActive(wantDotActive);
+            if (line != null && line.activeSelf != wantLineActive)
+                line.SetActive(wantLineActive);
+        }
+    }
+
+    /// <summary>Hide every calibration progress dot and line. Called from <c>CalibrationStageHandler.MarkComplete</c> and defensively from <c>LocalCleanup</c>.</summary>
+    public void ClearCalibrationProgress()
+    {
+        if (calibrationProgressDots != null)
+        {
+            for (int i = 0; i < calibrationProgressDots.Length; i++)
+            {
+                var dot = calibrationProgressDots[i];
+                if (dot != null && dot.activeSelf)
+                    dot.SetActive(false);
+            }
+        }
+        if (calibrationProgressLines != null)
+        {
+            for (int i = 0; i < calibrationProgressLines.Length; i++)
+            {
+                var line = calibrationProgressLines[i];
+                if (line != null && line.activeSelf)
+                    line.SetActive(false);
+            }
         }
     }
 
@@ -636,6 +810,7 @@ public class UIManager : MonoBehaviour
             _calibrationHeadGroup.alpha = 0f;
             calibrationHeadText.SetActive(false);
         }
+        ClearCalibrationProgress();
     }
 
     private void Update()
