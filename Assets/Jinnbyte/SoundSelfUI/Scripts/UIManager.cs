@@ -473,14 +473,56 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    /// <summary>Shows a choice-menu root (<see cref="ChoiceScreen"/>). Use from sequence handlers and Inspector wiring.</summary>
+    /// <param name="secondStageVariant">Only used for <see cref="ChoiceScreen.SsOrMusic"/> — second dual-stage visit layout.</param>
+    /// <param name="clearNavigationStack">When true, clears the choice Back stack before showing (e.g. <see cref="SoundSelf.Sequence.StageVariant.Menu_AlbumChoice"/> stage entry).</param>
+    public void SetChoiceScreen(ChoiceScreen screen, bool secondStageVariant = false, bool clearNavigationStack = false)
+    {
+        Debug.Log($"[UIManager][Choice] SetChoiceScreen({screen}, secondStageVariant={secondStageVariant}, clearNavigationStack={clearNavigationStack})");
+        if (clearNavigationStack)
+            ClearChoiceMenuNavigationStack();
+        switch (screen)
+        {
+            case ChoiceScreen.SsOrMusic:
+                ShowChoiceSsOrMusicScreenCore(secondStageVariant);
+                break;
+
+            case ChoiceScreen.SonofloreMusicLength:
+                if (choiceSonofloreMusicLengthScreen != null && choiceSonofloreMusicLengthScreen.activeSelf)
+                    return;
+                if (ShouldRecordChoiceBackToSsOrMusic())
+                    _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
+                ShowChoiceSonofloreMusicLengthScreenCore();
+                break;
+
+            case ChoiceScreen.SonofloreMusicLengthFromSsOrMusic:
+                _pendingChoiceBackToSsOrMusic = false;
+                _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
+                ShowChoiceSonofloreMusicLengthScreenCore();
+                break;
+
+            case ChoiceScreen.Album:
+                if (choiceAlbumScreen != null && choiceAlbumScreen.activeSelf)
+                    return;
+                if (ShouldRecordChoiceBackToSsOrMusic())
+                    _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
+                ShowChoiceAlbumScreenCore();
+                break;
+
+            default:
+                Debug.LogWarning($"[UIManager][Choice] SetChoiceScreen: unhandled {screen}; opening SS or Music.");
+                ShowChoiceSsOrMusicScreenCore(secondStageVariant);
+                break;
+        }
+    }
+
     /// <summary>Shows Choice SS or Music from sequence (e.g. SetMenu). When <paramref name="secondStageVariant"/> is true (between-segment visit: <c>dualstageStage==1</c> after first choice), shows stage-2 copy and hides the disallowed choice via <see cref="GameObject.SetActive"/>.</summary>
     /// <param name="secondStageVariant">False: initial choice (<c>dualstageStage==0</c>). True: second visit — only Music if <see cref="Sequencer.dualstageSecondStageIsMusic"/>, only SoundSelf if <see cref="Sequencer.dualstageSecondStageIsSoundSelf"/> (set from first-choice button wiring).</param>
-    public void SetChoiceSSOrMusicScreen(bool secondStageVariant = false)
-    {
-        Debug.Log($"[UIManager][ChoiceSsOrMusic] SetChoiceSSOrMusicScreen(secondStageVariant={secondStageVariant})");
-        //ClearChoiceMenuNavigationStack();
-        ShowChoiceSsOrMusicScreenCore(secondStageVariant);
-    }
+    public void SetChoiceSSOrMusicScreen(bool secondStageVariant = false) =>
+        SetChoiceScreen(ChoiceScreen.SsOrMusic, secondStageVariant);
+
+    /// <summary>Shows Choice Album (Sonoflore album length). Sequence entry: <see cref="SoundSelf.Sequence.StageVariant.Menu_AlbumChoice"/>.</summary>
+    public void SetChoiceAlbumScreen() => SetChoiceScreen(ChoiceScreen.Album);
 
     /// <summary>Shows Welcome; clears choice back-stack.</summary>
     public void SetWelcomeScreen()
@@ -494,39 +536,25 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Shows Choice Sonoflore Music Length. Clears the choice stack, then if we are coming from SS/Music (screen active or <see cref="SetChoiceSSOrMusicScreen"/> just ran), pushes SS/Music so <see cref="ChoiceMenuBackButtonPress"/> works.
-    /// Prefer <see cref="NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic"/> when wiring forward navigation explicitly.
+    /// Shows Choice Sonoflore Music Length (dual-stage length). If coming from SS/Music (screen active or <see cref="SetChoiceSSOrMusicScreen"/> just ran), pushes SS/Music so <see cref="ChoiceMenuBackButtonPress"/> works.
+    /// Prefer <see cref="ChoiceScreen.SonofloreMusicLengthFromSsOrMusic"/> when wiring forward navigation explicitly.
     /// </summary>
-    public void SetChoiceSonofloreMusicLengthScreen()
-    {
-        if (choiceSonofloreMusicLengthScreen != null && choiceSonofloreMusicLengthScreen.activeSelf)
-            return;
-
-        bool recordBackToSsOrMusic = (choiceSSOrMusicScreen != null && choiceSSOrMusicScreen.activeSelf)
-            || _pendingSonofloreLengthBackToSsOrMusic;
-
-        //ClearChoiceMenuNavigationStack();
-        if (recordBackToSsOrMusic)
-            _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
-
-        ShowChoiceSonofloreMusicLengthScreenCore();
-    }
+    public void SetChoiceSonofloreMusicLengthScreen() => SetChoiceScreen(ChoiceScreen.SonofloreMusicLength);
 
     /// <summary>
     /// Forward navigation: from Choice SS or Music to Choice Sonoflore Music Length, recording SS as the Back target (clears the one-shot pending flag from <see cref="SetChoiceSSOrMusicScreen"/>).
-    /// Equivalent to <see cref="SetChoiceSonofloreMusicLengthScreen"/> when coming from that choice screen; use either from Inspector.
     /// </summary>
-    public void NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic()
-    {
-        _pendingSonofloreLengthBackToSsOrMusic = false;
-        _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
-        ShowChoiceSonofloreMusicLengthScreenCore();
-    }
+    public void NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic() =>
+        SetChoiceScreen(ChoiceScreen.SonofloreMusicLengthFromSsOrMusic);
+
+    private bool ShouldRecordChoiceBackToSsOrMusic() =>
+        (choiceSSOrMusicScreen != null && choiceSSOrMusicScreen.activeSelf)
+        || _pendingChoiceBackToSsOrMusic;
 
     private void ClearChoiceMenuNavigationStack()
     {
         _choiceMenuBackStack.Clear();
-        _pendingSonofloreLengthBackToSsOrMusic = false;
+        _pendingChoiceBackToSsOrMusic = false;
     }
 
     private void ShowChoiceSsOrMusicScreenCore(bool secondStageVariant = false)
@@ -535,7 +563,7 @@ public class UIManager : MonoBehaviour
         UnsetAllScreens(() =>
         {
             choiceSSOrMusicScreen.SetActive(true);
-            _pendingSonofloreLengthBackToSsOrMusic = true;
+            _pendingChoiceBackToSsOrMusic = true;
             ApplyChoiceSsOrMusicDualStagePresentation(secondStageVariant);
             ArmButtonInteractionCooldown();
         });
@@ -663,6 +691,20 @@ public class UIManager : MonoBehaviour
         });
     }
 
+    private void ShowChoiceAlbumScreenCore()
+    {
+        if (choiceAlbumScreen == null)
+        {
+            Debug.LogError("UIManager.ShowChoiceAlbumScreenCore: choiceAlbumScreen is not assigned.");
+            return;
+        }
+        UnsetAllScreens(() =>
+        {
+            choiceAlbumScreen.SetActive(true);
+            ArmButtonInteractionCooldown();
+        });
+    }
+
     private void ShowChoiceMenuScreenCore(ChoiceMenuScreen screen)
     {
         switch (screen)
@@ -672,6 +714,9 @@ public class UIManager : MonoBehaviour
                 break;
             case ChoiceMenuScreen.ChoiceSonofloreMusicLength:
                 ShowChoiceSonofloreMusicLengthScreenCore();
+                break;
+            case ChoiceMenuScreen.ChoiceAlbum:
+                ShowChoiceAlbumScreenCore();
                 break;
             default:
                 Debug.LogWarning("UIManager.ShowChoiceMenuScreenCore: unhandled " + screen + "; opening Choice SS or Music.");
@@ -1117,7 +1162,7 @@ public class UIManager : MonoBehaviour
     // Calibration Next/Back/Conclusion use OnCalibrationNextStepPress, OnCalibrationBackPress, OnCalibrationConclusionConfirmPress
     // — subscribed only by CalibrationStageHandler while the Calibration stage is active.
     //
-    // Choice-menu Back (SS / Sonoflore length chain) uses ChoiceMenuBackButtonPress() and _choiceMenuBackStack — not BackStepButtonPress.
+    // Choice-menu Back (SS / Sonoflore length / Album chain) uses ChoiceMenuBackButtonPress() and _choiceMenuBackStack — not BackStepButtonPress.
     //
     // In the handler, gate behavior on StageVariant (or other state) so the same button means
     // different things per menu kind. MarkComplete() / advance sequencing from the handler callback,

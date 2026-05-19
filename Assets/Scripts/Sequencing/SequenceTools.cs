@@ -105,6 +105,8 @@ namespace SoundSelf.Sequence
         /// <see cref="StageVariant.End_Default"/> when <c>dualstageStage==2</c> (see <see cref="CodeStageHandler"/>).
         /// </summary>
         Code_Dualstage_SectionEnd = 34,
+        /// <summary><see cref="StageType.SetMenu"/>: Choice Album screen (<see cref="UIManager.SetChoiceScreen"/>(<see cref="ChoiceScreen.Album"/>)).</summary>
+        Menu_AlbumChoice = 35,
     }
 
     [System.Serializable]

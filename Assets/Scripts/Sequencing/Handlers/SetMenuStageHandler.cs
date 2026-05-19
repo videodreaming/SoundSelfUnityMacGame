@@ -49,6 +49,15 @@ namespace SoundSelf.Sequence
                     Debug.LogError("SetMenuStageHandler: UIManager.Instance is null; cannot show Choice SS or Music screen.");
                 return;
             }
+            else if (variant == StageVariant.Menu_AlbumChoice)
+            {
+                Debug.Log("SetMenuStageHandler: Enter Menu_AlbumChoice — Choice Album.");
+                if (UIManager.Instance != null)
+                    UIManager.Instance.SetChoiceScreen(ChoiceScreen.Album, clearNavigationStack: true);
+                else
+                    Debug.LogError("SetMenuStageHandler: UIManager.Instance is null; cannot show Choice Album screen.");
+                return;
+            }
             else if (variant == StageVariant.Menu_Welcome_PreCalibration)
             {
                 Debug.Log("SetMenuStageHandler: Enter Menu_Welcome_PreCalibration.");

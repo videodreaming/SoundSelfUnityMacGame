@@ -1,0 +1,1770 @@
+diff --git a/Assets/Definitions/Sequences/Album.asset b/Assets/Definitions/Sequences/Album.asset
+deleted file mode 100644
+index 4d313fc1..00000000
+--- a/Assets/Definitions/Sequences/Album.asset
++++ /dev/null
+@@ -1,20 +0,0 @@
+-%YAML 1.1
+-%TAG !u! tag:unity3d.com,2011:
+---- !u!114 &11400000
+-MonoBehaviour:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  m_GameObject: {fileID: 0}
+-  m_Enabled: 1
+-  m_EditorHideFlags: 0
+-  m_Script: {fileID: 11500000, guid: f0eeb245decf8194ab359eb921603b1b, type: 3}
+-  m_Name: Album
+-  m_EditorClassIdentifier: 
+-  displayName: Sonoflore Sequence
+-  stages:
+-  - type: 5
+-    variant: 31
+-  - type: 6
+-    variant: 28
+diff --git a/Assets/Definitions/Sequences/Album.asset.meta b/Assets/Definitions/Sequences/Album.asset.meta
+deleted file mode 100644
+index 537cc16a..00000000
+--- a/Assets/Definitions/Sequences/Album.asset.meta
++++ /dev/null
+@@ -1,8 +0,0 @@
+-fileFormatVersion: 2
+-guid: f6f9d0562b4cdfe40a00d56d28aa4602
+-NativeFormatImporter:
+-  externalObjects: {}
+-  mainObjectFileID: 11400000
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs b/Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs
+index 5a35ee15..5fedc596 100644
+--- a/Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs
++++ b/Assets/Jinnbyte/SoundSelfUI/Scripts/UIManager.cs
+@@ -21,6 +21,16 @@ public enum ChoiceMenuScreen
+     None = 0,
+     ChoiceSsOrMusic = 1,
+     ChoiceSonofloreMusicLength = 2,
++    ChoiceAlbum = 3,
++}
++
++/// <summary>Target for <see cref="UIManager.SetChoiceScreen"/> (Inspector buttons, sequence handlers, forward navigation).</summary>
++public enum ChoiceScreen
++{
++    SsOrMusic = 0,
++    SonofloreMusicLength = 1,
++    SonofloreMusicLengthFromSsOrMusic = 2,
++    Album = 3,
+ }
+ 
+ /// <summary>Single visible row under Meditation Session ΓÇö Headers (fades via <see cref="ScreenFadeEffect"/> when present).</summary>
+@@ -71,6 +81,8 @@ public class UIManager : MonoBehaviour
+ 
+ 
+     //Screens
++    [Header("Choice Album")]
++    [SerializeField] private GameObject choiceAlbumScreen;
+     [SerializeField] private GameObject choiceSSOrMusicScreen;
+     [Header("Choice SS or Music ΓÇö dual-stage (assign Sequencer + copy/button roots)")]
+     [SerializeField] private Sequencer sequencer;
+@@ -132,8 +144,8 @@ public class UIManager : MonoBehaviour
+     private static readonly Color CalibrationMicToneYesColor = new Color(246f / 255f, 255f / 255f, 177f / 255f, 1f); // #F6FFB1
+     private static readonly Color CalibrationMicToneNoColor = new Color(79f / 255f, 94f / 255f, 97f / 255f, 1f);   // #4F5E61
+ 
+-    /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets <see cref="SetChoiceSonofloreMusicLengthScreen"/> push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
+-    private bool _pendingSonofloreLengthBackToSsOrMusic;
++    /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets child choice screens push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
++    private bool _pendingChoiceBackToSsOrMusic;
+ 
+     public Action OnQuit;
+     public Action OnStartSoundSelfPress;
+@@ -157,6 +169,8 @@ public class UIManager : MonoBehaviour
+         {
+             choiceSSOrMusicScreen.SetActive(false);
+             choiceSonofloreMusicLengthScreen.SetActive(false);
++            if (choiceAlbumScreen != null)
++                choiceAlbumScreen.SetActive(false);
+             welcomeScreen.SetActive(false);
+             startScreen.SetActive(false);
+             conclusionScreen.SetActive(false);
+@@ -185,6 +199,10 @@ public class UIManager : MonoBehaviour
+         {
+             choiceSonofloreMusicLengthScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+         }
++        else if (choiceAlbumScreen != null && choiceAlbumScreen.activeSelf)
++        {
++            choiceAlbumScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
++        }
+         else if (startScreen != null && startScreen.activeSelf)
+         {
+             if (!keepCalibrationHead)
+@@ -455,15 +473,57 @@ public class UIManager : MonoBehaviour
+         }
+     }
+ 
+-    /// <summary>Shows Choice SS or Music from sequence (e.g. SetMenu). When <paramref name="secondStageVariant"/> is true (between-segment visit: <c>dualstageStage==1</c> after first choice), shows stage-2 copy and hides the disallowed choice via <see cref="GameObject.SetActive"/>.</summary>
+-    /// <param name="secondStageVariant">False: initial choice (<c>dualstageStage==0</c>). True: second visit ΓÇö only Music if <see cref="Sequencer.dualstageSecondStageIsMusic"/>, only SoundSelf if <see cref="Sequencer.dualstageSecondStageIsSoundSelf"/> (set from first-choice button wiring).</param>
+-    public void SetChoiceSSOrMusicScreen(bool secondStageVariant = false)
++    /// <summary>Shows a choice-menu root (<see cref="ChoiceScreen"/>). Use from sequence handlers and Inspector wiring.</summary>
++    /// <param name="secondStageVariant">Only used for <see cref="ChoiceScreen.SsOrMusic"/> ΓÇö second dual-stage visit layout.</param>
++    /// <param name="clearNavigationStack">When true, clears the choice Back stack before showing (e.g. <see cref="SoundSelf.Sequence.StageVariant.Menu_AlbumChoice"/> stage entry).</param>
++    public void SetChoiceScreen(ChoiceScreen screen, bool secondStageVariant = false, bool clearNavigationStack = false)
+     {
+-        Debug.Log($"[UIManager][ChoiceSsOrMusic] SetChoiceSSOrMusicScreen(secondStageVariant={secondStageVariant})");
+-        //ClearChoiceMenuNavigationStack();
+-        ShowChoiceSsOrMusicScreenCore(secondStageVariant);
++        Debug.Log($"[UIManager][Choice] SetChoiceScreen({screen}, secondStageVariant={secondStageVariant}, clearNavigationStack={clearNavigationStack})");
++        if (clearNavigationStack)
++            ClearChoiceMenuNavigationStack();
++        switch (screen)
++        {
++            case ChoiceScreen.SsOrMusic:
++                ShowChoiceSsOrMusicScreenCore(secondStageVariant);
++                break;
++
++            case ChoiceScreen.SonofloreMusicLength:
++                if (choiceSonofloreMusicLengthScreen != null && choiceSonofloreMusicLengthScreen.activeSelf)
++                    return;
++                if (ShouldRecordChoiceBackToSsOrMusic())
++                    _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
++                ShowChoiceSonofloreMusicLengthScreenCore();
++                break;
++
++            case ChoiceScreen.SonofloreMusicLengthFromSsOrMusic:
++                _pendingChoiceBackToSsOrMusic = false;
++                _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
++                ShowChoiceSonofloreMusicLengthScreenCore();
++                break;
++
++            case ChoiceScreen.Album:
++                if (choiceAlbumScreen != null && choiceAlbumScreen.activeSelf)
++                    return;
++                if (ShouldRecordChoiceBackToSsOrMusic())
++                    _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
++                ShowChoiceAlbumScreenCore();
++                break;
++
++            default:
++                Debug.LogWarning($"[UIManager][Choice] SetChoiceScreen: unhandled {screen}; opening SS or Music.");
++                ShowChoiceSsOrMusicScreenCore(secondStageVariant);
++                break;
++        }
+     }
+ 
++    /// <summary>Shows Choice SS or Music from sequence (e.g. SetMenu). When <paramref name="secondStageVariant"/> is true (between-segment visit: <c>dualstageStage==1</c> after first choice), shows stage-2 copy and hides the disallowed choice via <see cref="GameObject.SetActive"/>.</summary>
++    /// <param name="secondStageVariant">False: initial choice (<c>dualstageStage==0</c>). True: second visit ΓÇö only Music if <see cref="Sequencer.dualstageSecondStageIsMusic"/>, only SoundSelf if <see cref="Sequencer.dualstageSecondStageIsSoundSelf"/> (set from first-choice button wiring).</param>
++    public void SetChoiceSSOrMusicScreen(bool secondStageVariant = false) =>
++        SetChoiceScreen(ChoiceScreen.SsOrMusic, secondStageVariant);
++
++    /// <summary>Shows Choice Album (Sonoflore album length). Sequence entry: <see cref="SoundSelf.Sequence.StageVariant.Menu_AlbumChoice"/>.</summary>
++    public void SetChoiceAlbumScreen() => SetChoiceScreen(ChoiceScreen.Album);
++
+     /// <summary>Shows Welcome; clears choice back-stack.</summary>
+     public void SetWelcomeScreen()
+     {
+@@ -476,39 +536,25 @@ public class UIManager : MonoBehaviour
+     }
+ 
+     /// <summary>
+-    /// Shows Choice Sonoflore Music Length. Clears the choice stack, then if we are coming from SS/Music (screen active or <see cref="SetChoiceSSOrMusicScreen"/> just ran), pushes SS/Music so <see cref="ChoiceMenuBackButtonPress"/> works.
+-    /// Prefer <see cref="NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic"/> when wiring forward navigation explicitly.
++    /// Shows Choice Sonoflore Music Length (dual-stage length). If coming from SS/Music (screen active or <see cref="SetChoiceSSOrMusicScreen"/> just ran), pushes SS/Music so <see cref="ChoiceMenuBackButtonPress"/> works.
++    /// Prefer <see cref="ChoiceScreen.SonofloreMusicLengthFromSsOrMusic"/> when wiring forward navigation explicitly.
+     /// </summary>
+-    public void SetChoiceSonofloreMusicLengthScreen()
+-    {
+-        if (choiceSonofloreMusicLengthScreen != null && choiceSonofloreMusicLengthScreen.activeSelf)
+-            return;
+-
+-        bool recordBackToSsOrMusic = (choiceSSOrMusicScreen != null && choiceSSOrMusicScreen.activeSelf)
+-            || _pendingSonofloreLengthBackToSsOrMusic;
+-
+-        //ClearChoiceMenuNavigationStack();
+-        if (recordBackToSsOrMusic)
+-            _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
+-
+-        ShowChoiceSonofloreMusicLengthScreenCore();
+-    }
++    public void SetChoiceSonofloreMusicLengthScreen() => SetChoiceScreen(ChoiceScreen.SonofloreMusicLength);
+ 
+     /// <summary>
+     /// Forward navigation: from Choice SS or Music to Choice Sonoflore Music Length, recording SS as the Back target (clears the one-shot pending flag from <see cref="SetChoiceSSOrMusicScreen"/>).
+-    /// Equivalent to <see cref="SetChoiceSonofloreMusicLengthScreen"/> when coming from that choice screen; use either from Inspector.
+     /// </summary>
+-    public void NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic()
+-    {
+-        _pendingSonofloreLengthBackToSsOrMusic = false;
+-        _choiceMenuBackStack.Push(ChoiceMenuScreen.ChoiceSsOrMusic);
+-        ShowChoiceSonofloreMusicLengthScreenCore();
+-    }
++    public void NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic() =>
++        SetChoiceScreen(ChoiceScreen.SonofloreMusicLengthFromSsOrMusic);
++
++    private bool ShouldRecordChoiceBackToSsOrMusic() =>
++        (choiceSSOrMusicScreen != null && choiceSSOrMusicScreen.activeSelf)
++        || _pendingChoiceBackToSsOrMusic;
+ 
+     private void ClearChoiceMenuNavigationStack()
+     {
+         _choiceMenuBackStack.Clear();
+-        _pendingSonofloreLengthBackToSsOrMusic = false;
++        _pendingChoiceBackToSsOrMusic = false;
+     }
+ 
+     private void ShowChoiceSsOrMusicScreenCore(bool secondStageVariant = false)
+@@ -517,7 +563,7 @@ public class UIManager : MonoBehaviour
+         UnsetAllScreens(() =>
+         {
+             choiceSSOrMusicScreen.SetActive(true);
+-            _pendingSonofloreLengthBackToSsOrMusic = true;
++            _pendingChoiceBackToSsOrMusic = true;
+             ApplyChoiceSsOrMusicDualStagePresentation(secondStageVariant);
+             ArmButtonInteractionCooldown();
+         });
+@@ -645,6 +691,20 @@ public class UIManager : MonoBehaviour
+         });
+     }
+ 
++    private void ShowChoiceAlbumScreenCore()
++    {
++        if (choiceAlbumScreen == null)
++        {
++            Debug.LogError("UIManager.ShowChoiceAlbumScreenCore: choiceAlbumScreen is not assigned.");
++            return;
++        }
++        UnsetAllScreens(() =>
++        {
++            choiceAlbumScreen.SetActive(true);
++            ArmButtonInteractionCooldown();
++        });
++    }
++
+     private void ShowChoiceMenuScreenCore(ChoiceMenuScreen screen)
+     {
+         switch (screen)
+@@ -655,6 +715,9 @@ public class UIManager : MonoBehaviour
+             case ChoiceMenuScreen.ChoiceSonofloreMusicLength:
+                 ShowChoiceSonofloreMusicLengthScreenCore();
+                 break;
++            case ChoiceMenuScreen.ChoiceAlbum:
++                ShowChoiceAlbumScreenCore();
++                break;
+             default:
+                 Debug.LogWarning("UIManager.ShowChoiceMenuScreenCore: unhandled " + screen + "; opening Choice SS or Music.");
+                 ShowChoiceSsOrMusicScreenCore(ResolveChoiceSsOrMusicSecondStageVariant());
+@@ -1099,7 +1162,7 @@ public class UIManager : MonoBehaviour
+     // Calibration Next/Back/Conclusion use OnCalibrationNextStepPress, OnCalibrationBackPress, OnCalibrationConclusionConfirmPress
+     // ΓÇö subscribed only by CalibrationStageHandler while the Calibration stage is active.
+     //
+-    // Choice-menu Back (SS / Sonoflore length chain) uses ChoiceMenuBackButtonPress() and _choiceMenuBackStack ΓÇö not BackStepButtonPress.
++    // Choice-menu Back (SS / Sonoflore length / Album chain) uses ChoiceMenuBackButtonPress() and _choiceMenuBackStack ΓÇö not BackStepButtonPress.
+     //
+     // In the handler, gate behavior on StageVariant (or other state) so the same button means
+     // different things per menu kind. MarkComplete() / advance sequencing from the handler callback,
+diff --git a/Assets/Scenes/MainGame.unity b/Assets/Scenes/MainGame.unity
+index aba043a7..9151ff78 100644
+--- a/Assets/Scenes/MainGame.unity
++++ b/Assets/Scenes/MainGame.unity
+@@ -1351,6 +1351,154 @@ CanvasRenderer:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 109909267}
+   m_CullTransparentMesh: 1
++--- !u!1 &112295383
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 112295384}
++  - component: {fileID: 112295388}
++  - component: {fileID: 112295387}
++  - component: {fileID: 112295386}
++  - component: {fileID: 112295385}
++  m_Layer: 5
++  m_Name: 60m
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!224 &112295384
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 112295383}
++  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children:
++  - {fileID: 219346854}
++  - {fileID: 416481301}
++  m_Father: {fileID: 855059429}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0, y: 0}
++  m_AnchorMax: {x: 0, y: 0}
++  m_AnchoredPosition: {x: 0, y: 0}
++  m_SizeDelta: {x: 642, y: 128}
++  m_Pivot: {x: 0.5, y: 0.5}
++--- !u!114 &112295385
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 112295383}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: b7caf4aad9d524c6f963fc38ff36e1fd, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: 
++--- !u!114 &112295386
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 112295383}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
++  m_Navigation:
++    m_Mode: 3
++    m_WrapAround: 0
++    m_SelectOnUp: {fileID: 0}
++    m_SelectOnDown: {fileID: 0}
++    m_SelectOnLeft: {fileID: 0}
++    m_SelectOnRight: {fileID: 0}
++  m_Transition: 1
++  m_Colors:
++    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
++    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
++    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
++    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
++    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
++    m_ColorMultiplier: 1
++    m_FadeDuration: 0.1
++  m_SpriteState:
++    m_HighlightedSprite: {fileID: 0}
++    m_PressedSprite: {fileID: 0}
++    m_SelectedSprite: {fileID: 0}
++    m_DisabledSprite: {fileID: 0}
++  m_AnimationTriggers:
++    m_NormalTrigger: Normal
++    m_HighlightedTrigger: Highlighted
++    m_PressedTrigger: Pressed
++    m_SelectedTrigger: Selected
++    m_DisabledTrigger: Disabled
++  m_Interactable: 1
++  m_TargetGraphic: {fileID: 112295387}
++  m_OnClick:
++    m_PersistentCalls:
++      m_Calls:
++      - m_Target: {fileID: 1564575222}
++        m_TargetAssemblyTypeName: SoundSelf.Sequence.SequenceRunner, Assembly-CSharp
++        m_MethodName: StartSequence
++        m_Mode: 2
++        m_Arguments:
++          m_ObjectArgument: {fileID: 11400000, guid: 5ec32f2e95ead2a41a1b342b8c1dd223, type: 2}
++          m_ObjectArgumentAssemblyTypeName: SoundSelf.Sequence.SequenceDefinition,
++            Assembly-CSharp
++          m_IntArgument: 0
++          m_FloatArgument: 0
++          m_StringArgument: 
++          m_BoolArgument: 0
++        m_CallState: 2
++--- !u!114 &112295387
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 112295383}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
++  m_Material: {fileID: 0}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_RaycastTarget: 1
++  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
++  m_Maskable: 1
++  m_OnCullStateChanged:
++    m_PersistentCalls:
++      m_Calls: []
++  m_Sprite: {fileID: 21300000, guid: 07e21a4b0044049bcaf955eb203fe6c8, type: 3}
++  m_Type: 0
++  m_PreserveAspect: 0
++  m_FillCenter: 1
++  m_FillMethod: 4
++  m_FillAmount: 1
++  m_FillClockwise: 1
++  m_FillOrigin: 0
++  m_UseSpriteMesh: 0
++  m_PixelsPerUnitMultiplier: 1
++--- !u!222 &112295388
++CanvasRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 112295383}
++  m_CullTransparentMesh: 1
+ --- !u!1 &131127795
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -2683,6 +2831,82 @@ CanvasRenderer:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 216296275}
+   m_CullTransparentMesh: 1
++--- !u!1 &219346853
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 219346854}
++  - component: {fileID: 219346856}
++  - component: {fileID: 219346855}
++  m_Layer: 5
++  m_Name: circle
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!224 &219346854
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 219346853}
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children:
++  - {fileID: 2033981015}
++  m_Father: {fileID: 112295384}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0, y: 0.5}
++  m_AnchorMax: {x: 0, y: 0.5}
++  m_AnchoredPosition: {x: 64, y: 0}
++  m_SizeDelta: {x: 85, y: 85}
++  m_Pivot: {x: 0.5, y: 0.5}
++--- !u!114 &219346855
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 219346853}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
++  m_Material: {fileID: 0}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_RaycastTarget: 1
++  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
++  m_Maskable: 1
++  m_OnCullStateChanged:
++    m_PersistentCalls:
++      m_Calls: []
++  m_Sprite: {fileID: 21300000, guid: 84564e50c804842ae83485d128f2ecdb, type: 3}
++  m_Type: 0
++  m_PreserveAspect: 0
++  m_FillCenter: 1
++  m_FillMethod: 4
++  m_FillAmount: 1
++  m_FillClockwise: 1
++  m_FillOrigin: 0
++  m_UseSpriteMesh: 0
++  m_PixelsPerUnitMultiplier: 1
++--- !u!222 &219346856
++CanvasRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 219346853}
++  m_CullTransparentMesh: 1
+ --- !u!1 &226014816
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -6104,6 +6328,85 @@ CanvasRenderer:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 403238096}
+   m_CullTransparentMesh: 1
++--- !u!1 &416481300
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 416481301}
++  - component: {fileID: 416481303}
++  - component: {fileID: 416481302}
++  m_Layer: 5
++  m_Name: Text (Legacy)
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!224 &416481301
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 416481300}
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 112295384}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0.5, y: 0.5}
++  m_AnchorMax: {x: 0.5, y: 0.5}
++  m_AnchoredPosition: {x: -167.99998, y: -0.00002670288}
++  m_SizeDelta: {x: 422.6, y: 71.086}
++  m_Pivot: {x: 0, y: 0.5}
++--- !u!114 &416481302
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 416481300}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
++  m_Material: {fileID: 0}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_RaycastTarget: 1
++  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
++  m_Maskable: 1
++  m_OnCullStateChanged:
++    m_PersistentCalls:
++      m_Calls: []
++  m_FontData:
++    m_Font: {fileID: 12800000, guid: d71a82be29c52ca4ea4a78d60a0330ff, type: 3}
++    m_FontSize: 32
++    m_FontStyle: 0
++    m_BestFit: 0
++    m_MinSize: 3
++    m_MaxSize: 44
++    m_Alignment: 3
++    m_AlignByGeometry: 0
++    m_RichText: 1
++    m_HorizontalOverflow: 0
++    m_VerticalOverflow: 0
++    m_LineSpacing: 1
++  m_Text: 'Sonoflore Melt: 60 minutes'
++--- !u!222 &416481303
++CanvasRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 416481300}
++  m_CullTransparentMesh: 1
+ --- !u!1 &417372471
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -14737,6 +15040,468 @@ CanvasRenderer:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 845028134}
+   m_CullTransparentMesh: 1
++--- !u!1001 &855059427
++PrefabInstance:
++  m_ObjectHideFlags: 0
++  serializedVersion: 2
++  m_Modification:
++    serializedVersion: 3
++    m_TransformParent: {fileID: 6603800742308052307}
++    m_Modifications:
++    - target: {fileID: 62765186937183359, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Text
++      value: 'Sonoflore Melt: 40 minutes'
++      objectReference: {fileID: 0}
++    - target: {fileID: 725854491374498838, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Text
++      value: 
++      objectReference: {fileID: 0}
++    - target: {fileID: 725854491374498838, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Enabled
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 725854491374498838, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_FontData.m_MinSize
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 725854491374498838, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_FontData.m_FontSize
++      value: 22
++      objectReference: {fileID: 0}
++    - target: {fileID: 1078821257872199381, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_IsActive
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 1213027229746039739, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Sprite
++      value: 
++      objectReference: {fileID: 21300000, guid: e681294e63a62f045ae644436bb72d49, type: 3}
++    - target: {fileID: 1815988256502238148, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
++      value: 
++      objectReference: {fileID: 8230576280433664135}
++    - target: {fileID: 2566405258828957396, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMax.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 2566405258828957396, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMin.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 2566405258828957396, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 2566405258828957396, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 2572065635826203330, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Text
++      value: 'Sonoflore Melt: 60 minutes'
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
++      value: 2
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
++      value: 2
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
++      value: 2
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
++      value: 2
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
++      value: 
++      objectReference: {fileID: 1564575222}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
++      value: 
++      objectReference: {fileID: 1564575222}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
++      value: 
++      objectReference: {fileID: 1564575222}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
++      value: 
++      objectReference: {fileID: 1564575222}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
++      value: 2
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
++      value: 2
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
++      value: 2
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
++      value: StartSequence
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
++      value: StartSequence
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
++      value: StartSequence
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
++      value: StartSequence
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
++      value: SoundSelf.Sequence.SequenceRunner, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
++      value: SoundSelf.Sequence.SequenceRunner, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
++      value: SoundSelf.Sequence.SequenceRunner, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
++      value: SoundSelf.Sequence.SequenceRunner, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
++      value: 
++      objectReference: {fileID: 11400000, guid: ace1ad32ebc8b8e4ab40718fd8af58bc, type: 2}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
++      value: 
++      objectReference: {fileID: 11400000, guid: 74c4b65f269a8bd47aa71f378f6101e1, type: 2}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgument
++      value: 
++      objectReference: {fileID: 11400000, guid: 74c4b65f269a8bd47aa71f378f6101e1, type: 2}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgument
++      value: 
++      objectReference: {fileID: 11400000, guid: 74c4b65f269a8bd47aa71f378f6101e1, type: 2}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
++      value: SoundSelf.Sequence.SequenceDefinition, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
++      value: SoundSelf.Sequence.SequenceDefinition, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
++      value: SoundSelf.Sequence.SequenceDefinition, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 3376853008821257318, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
++      value: SoundSelf.Sequence.SequenceDefinition, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 3430384268447335592, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMax.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 3430384268447335592, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMin.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 3430384268447335592, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 3430384268447335592, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 4079602664306605385, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 4079602664306605385, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 4079602664306605385, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
++      value: 
++      objectReference: {fileID: 8230576280433664135}
++    - target: {fileID: 4079602664306605385, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
++      value: 2
++      objectReference: {fileID: 0}
++    - target: {fileID: 4079602664306605385, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
++      value: ChoiceMenuBackButtonPress
++      objectReference: {fileID: 0}
++    - target: {fileID: 4079602664306605385, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
++      value: UIManager, Assembly-CSharp
++      objectReference: {fileID: 0}
++    - target: {fileID: 4079602664306605385, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
++      value: UnityEngine.Object, UnityEngine
++      objectReference: {fileID: 0}
++    - target: {fileID: 4493945994223716714, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Sprite
++      value: 
++      objectReference: {fileID: 3794550611322748858, guid: 77968e9d0af1c448fad1273321ff3977, type: 3}
++    - target: {fileID: 4793926299883945706, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMax.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 4793926299883945706, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMin.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 4793926299883945706, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalScale.x
++      value: 1.51
++      objectReference: {fileID: 0}
++    - target: {fileID: 4793926299883945706, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalScale.y
++      value: 1.51
++      objectReference: {fileID: 0}
++    - target: {fileID: 4793926299883945706, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalScale.z
++      value: 1.51
++      objectReference: {fileID: 0}
++    - target: {fileID: 4793926299883945706, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 4793926299883945706, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 4793926299883945706, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_ConstrainProportionsScale
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 5941467216903307846, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Sprite
++      value: 
++      objectReference: {fileID: 8453890923445766294, guid: 9b4634753eb72c846a1f68066a504caf, type: 3}
++    - target: {fileID: 5988132452972073816, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Spacing
++      value: -104.3
++      objectReference: {fileID: 0}
++    - target: {fileID: 6332772562910250536, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_IsActive
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 6509619524565159646, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMax.y
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 6509619524565159646, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMin.y
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 6509619524565159646, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.x
++      value: 321
++      objectReference: {fileID: 0}
++    - target: {fileID: 6509619524565159646, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.y
++      value: -216.075
++      objectReference: {fileID: 0}
++    - target: {fileID: 7204462678851297172, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Name
++      value: 40m
++      objectReference: {fileID: 0}
++    - target: {fileID: 7204462678851297172, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_IsActive
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Name
++      value: Choice Album
++      objectReference: {fileID: 0}
++    - target: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_IsActive
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 7425424689462746590, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Text
++      value: Choose Album
++      objectReference: {fileID: 0}
++    - target: {fileID: 7745011612772054808, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_IsActive
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 7773691528811844661, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMax.y
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 7773691528811844661, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMin.y
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 7773691528811844661, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.x
++      value: 321
++      objectReference: {fileID: 0}
++    - target: {fileID: 7773691528811844661, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.y
++      value: -161.43332
++      objectReference: {fileID: 0}
++    - target: {fileID: 7798962862200967137, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
++      value: 
++      objectReference: {fileID: 8230576280433664135}
++    - target: {fileID: 8018895089639135591, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
++      value: 
++      objectReference: {fileID: 8230576280433664135}
++    - target: {fileID: 8037035797629681616, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Name
++      value: 60m
++      objectReference: {fileID: 0}
++    - target: {fileID: 8037035797629681616, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_IsActive
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 8179820847629865628, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Sprite
++      value: 
++      objectReference: {fileID: 3794550611322748858, guid: 77968e9d0af1c448fad1273321ff3977, type: 3}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Pivot.x
++      value: 0.5
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Pivot.y
++      value: 0.5
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMax.x
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMax.y
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMin.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchorMin.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_SizeDelta.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_SizeDelta.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalPosition.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalPosition.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalPosition.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalRotation.w
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalRotation.x
++      value: -0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalRotation.y
++      value: -0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalRotation.z
++      value: -0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_AnchoredPosition.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.x
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.y
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_LocalEulerAnglesHint.z
++      value: 0
++      objectReference: {fileID: 0}
++    - target: {fileID: 8712137141354648702, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Enabled
++      value: 1
++      objectReference: {fileID: 0}
++    - target: {fileID: 8712137141354648702, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      propertyPath: m_Material
++      value: 
++      objectReference: {fileID: 2100000, guid: 4a9b877618b6143a1a7ca80d35e428fd, type: 2}
++    m_RemovedComponents: []
++    m_RemovedGameObjects:
++    - {fileID: 1078821257872199381, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++    - {fileID: 7745011612772054808, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++    - {fileID: 8037035797629681616, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++    m_AddedGameObjects:
++    - targetCorrespondingSourceObject: {fileID: 2166030152867693156, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++      insertIndex: 1
++      addedObject: {fileID: 112295384}
++    m_AddedComponents: []
++  m_SourcePrefab: {fileID: 100100000, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++--- !u!1 &855059428 stripped
++GameObject:
++  m_CorrespondingSourceObject: {fileID: 7392791566948630640, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++  m_PrefabInstance: {fileID: 855059427}
++  m_PrefabAsset: {fileID: 0}
++--- !u!224 &855059429 stripped
++RectTransform:
++  m_CorrespondingSourceObject: {fileID: 2166030152867693156, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++  m_PrefabInstance: {fileID: 855059427}
++  m_PrefabAsset: {fileID: 0}
++--- !u!224 &855059430 stripped
++RectTransform:
++  m_CorrespondingSourceObject: {fileID: 8515513954303977079, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
++  m_PrefabInstance: {fileID: 855059427}
++  m_PrefabAsset: {fileID: 0}
+ --- !u!1 &858214633
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -19764,7 +20529,7 @@ GameObject:
+   m_Icon: {fileID: 0}
+   m_NavMeshLayer: 0
+   m_StaticEditorFlags: 0
+-  m_IsActive: 1
++  m_IsActive: 0
+ --- !u!224 &1133452314
+ RectTransform:
+   m_ObjectHideFlags: 0
+@@ -25185,6 +25950,10 @@ MonoBehaviour:
+   _totalTimeOfPostUnguidedVocalizationContent: 0
+   _sessionTimingInitializedFromCsv: 0
+   _countdownCompleteLached: 0
++  _countdownThisSectionZeroLatched: 0
++  _totalElapsedWhenCountdownThisSectionLastReachedZero: -1
++  _countdownFullZeroLatched: 0
++  _totalElapsedWhenCountdownFullLastReachedZero: -1
+   debugAllowTimingLogs: 1
+   _debugTimingLogIntervalSeconds: 5
+ --- !u!4 &1435489962
+@@ -34440,6 +35209,81 @@ CanvasRenderer:
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 2033443454}
+   m_CullTransparentMesh: 1
++--- !u!1 &2033981014
++GameObject:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  serializedVersion: 6
++  m_Component:
++  - component: {fileID: 2033981015}
++  - component: {fileID: 2033981017}
++  - component: {fileID: 2033981016}
++  m_Layer: 5
++  m_Name: icon
++  m_TagString: Untagged
++  m_Icon: {fileID: 0}
++  m_NavMeshLayer: 0
++  m_StaticEditorFlags: 0
++  m_IsActive: 1
++--- !u!224 &2033981015
++RectTransform:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 2033981014}
++  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 0, y: 0, z: 0}
++  m_LocalScale: {x: 1, y: 1, z: 1}
++  m_ConstrainProportionsScale: 0
++  m_Children: []
++  m_Father: {fileID: 219346854}
++  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
++  m_AnchorMin: {x: 0.5, y: 0.5}
++  m_AnchorMax: {x: 0.5, y: 0.5}
++  m_AnchoredPosition: {x: 0, y: 0}
++  m_SizeDelta: {x: 40, y: 36}
++  m_Pivot: {x: 0.5, y: 0.5}
++--- !u!114 &2033981016
++MonoBehaviour:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 2033981014}
++  m_Enabled: 1
++  m_EditorHideFlags: 0
++  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
++  m_Name: 
++  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
++  m_Material: {fileID: 0}
++  m_Color: {r: 1, g: 1, b: 1, a: 1}
++  m_RaycastTarget: 1
++  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
++  m_Maskable: 1
++  m_OnCullStateChanged:
++    m_PersistentCalls:
++      m_Calls: []
++  m_Sprite: {fileID: 3794550611322748858, guid: 77968e9d0af1c448fad1273321ff3977, type: 3}
++  m_Type: 0
++  m_PreserveAspect: 0
++  m_FillCenter: 1
++  m_FillMethod: 4
++  m_FillAmount: 1
++  m_FillClockwise: 1
++  m_FillOrigin: 0
++  m_UseSpriteMesh: 0
++  m_PixelsPerUnitMultiplier: 1
++--- !u!222 &2033981017
++CanvasRenderer:
++  m_ObjectHideFlags: 0
++  m_CorrespondingSourceObject: {fileID: 0}
++  m_PrefabInstance: {fileID: 0}
++  m_PrefabAsset: {fileID: 0}
++  m_GameObject: {fileID: 2033981014}
++  m_CullTransparentMesh: 1
+ --- !u!1 &2035771448 stripped
+ GameObject:
+   m_CorrespondingSourceObject: {fileID: 3789602101977965482, guid: f2724f346705e5c47903f89a09cc1624, type: 3}
+@@ -39129,6 +39973,7 @@ RectTransform:
+   - {fileID: 1173834813}
+   - {fileID: 1625260043}
+   - {fileID: 902946619}
++  - {fileID: 855059430}
+   - {fileID: 7709691747586375677}
+   - {fileID: 890761398}
+   - {fileID: 1990855358}
+@@ -40868,9 +41713,11 @@ MonoBehaviour:
+   micLevelText: {fileID: 8670568736019230412}
+   headphoneStatusText: {fileID: 0}
+   versionText: {fileID: 966544228528451362}
++  localTimeText: {fileID: 0}
+   calibrationHeadText: {fileID: 0}
+-  choiceSSOrMusicScreen: {fileID: 2146497231274515826}
+   sequencer: {fileID: 1564575221}
++  choiceAlbumScreen: {fileID: 855059428}
++  choiceSSOrMusicScreen: {fileID: 2146497231274515826}
+   choiceSsOrMusicStage1Header: {fileID: 2035771448}
+   choiceSsOrMusicStage1Description: {fileID: 455057983}
+   choiceSsOrMusicStage2Header: {fileID: 437118013}
+@@ -41415,23 +42262,8 @@ MonoBehaviour:
+   m_EditorClassIdentifier: 
+   _ellipses:
+   - ellipseRoot: {fileID: 8676177870173676357}
+-    scaleDampRateMultiplier: 1
+-    colorChantDampRateMultiplier: 1
+-    colorLagSeconds: 0.2
+-    spinChantFormula: 0
+-    relativeRotationDegreesPerSecond: 155
+   - ellipseRoot: {fileID: 2036563007161063514}
+-    scaleDampRateMultiplier: 0.75
+-    colorChantDampRateMultiplier: 1
+-    colorLagSeconds: 0
+-    spinChantFormula: 1
+-    relativeRotationDegreesPerSecond: 173
+   - ellipseRoot: {fileID: 6397835384877538657}
+-    scaleDampRateMultiplier: 0.5
+-    colorChantDampRateMultiplier: 1
+-    colorLagSeconds: 0.4
+-    spinChantFormula: 2
+-    relativeRotationDegreesPerSecond: 201
+ --- !u!224 &8609389128906426327
+ RectTransform:
+   m_ObjectHideFlags: 0
+diff --git a/Assets/Scripts/Sequencing/Editor/StageVariantDrawer.cs b/Assets/Scripts/Sequencing/Editor/StageVariantDrawer.cs
+index 86a43d8a..3da1be0a 100644
+--- a/Assets/Scripts/Sequencing/Editor/StageVariantDrawer.cs
++++ b/Assets/Scripts/Sequencing/Editor/StageVariantDrawer.cs
+@@ -5,20 +5,32 @@ using UnityEditor;
+ using UnityEngine;
+ 
+ /// <summary>
+-/// Draws <see cref="StageVariant"/> as a named dropdown (not a raw int). Options are sorted alphabetically by enum name.
++/// Draws <see cref="StageVariant"/> as a named dropdown (not a raw int).
++/// When the field is on a <see cref="SequenceStage"/> (<c>*.variant</c>), options are filtered by sibling <c>type</c> prefix (e.g. SetMenu ΓåÆ Menu_* only).
+ /// </summary>
+ [CustomPropertyDrawer(typeof(StageVariant))]
+ public class StageVariantDrawer : PropertyDrawer
+ {
+     private static string[] _sortedLabels;
+     private static int[] _sortedValues;
++    private static int _cachedEnumCount = -1;
++
++    [InitializeOnLoadMethod]
++    private static void ClearCacheOnReload() => InvalidateCache();
++
++    private static void InvalidateCache()
++    {
++        _sortedLabels = null;
++        _sortedValues = null;
++        _cachedEnumCount = -1;
++    }
+ 
+     private static void EnsureSortedCache()
+     {
+-        if (_sortedLabels != null)
++        var values = (StageVariant[])Enum.GetValues(typeof(StageVariant));
++        if (_sortedLabels != null && _cachedEnumCount == values.Length)
+             return;
+ 
+-        var values = (StageVariant[])Enum.GetValues(typeof(StageVariant));
+         var pairs = new List<(string name, int val)>(values.Length);
+         foreach (StageVariant v in values)
+             pairs.Add((v.ToString(), (int)v));
+@@ -32,23 +44,86 @@ public class StageVariantDrawer : PropertyDrawer
+             _sortedLabels[i] = pairs[i].name;
+             _sortedValues[i] = pairs[i].val;
+         }
++
++        _cachedEnumCount = values.Length;
+     }
+ 
+-    private static int IndexOfValue(int intValue)
++    private static string GetVariantPrefixForStageType(StageType type) =>
++        type switch
++        {
++            StageType.Calibration => "Calibration_",
++            StageType.Opening => "Opening_",
++            StageType.Tutorial => "Tutorial_",
++            StageType.Playground => "Playground_",
++            StageType.Savasana => "Savasana_",
++            StageType.SetMenu => "Menu_",
++            StageType.MusicPlaylist => "Playlist_",
++            StageType.Inquiry => "Inquiry_",
++            StageType.End => "End_",
++            StageType.LinearAudio => "Linear_",
++            StageType.StartCountdown => "Countdown_",
++            StageType.Code => "Code_",
++            _ => null,
++        };
++
++    private static bool TryGetParentStageType(SerializedProperty variantProperty, out StageType stageType)
++    {
++        stageType = default;
++        if (variantProperty == null || !variantProperty.propertyPath.EndsWith(".variant", StringComparison.Ordinal))
++            return false;
++
++        string typePath = variantProperty.propertyPath.Substring(0, variantProperty.propertyPath.Length - ".variant".Length) + ".type";
++        SerializedProperty typeProp = variantProperty.serializedObject.FindProperty(typePath);
++        if (typeProp == null || typeProp.propertyType != SerializedPropertyType.Enum)
++            return false;
++
++        stageType = (StageType)typeProp.intValue;
++        return true;
++    }
++
++    private static void BuildOptionsForStageType(StageType stageType, out string[] labels, out int[] values)
+     {
+         EnsureSortedCache();
++        string prefix = GetVariantPrefixForStageType(stageType);
++        if (string.IsNullOrEmpty(prefix))
++        {
++            labels = _sortedLabels;
++            values = _sortedValues;
++            return;
++        }
++
++        var filtered = new List<(string name, int val)>();
+         for (int i = 0; i < _sortedValues.Length; i++)
+         {
+-            if (_sortedValues[i] == intValue)
++            var v = (StageVariant)_sortedValues[i];
++            if (v == StageVariant.None || v.ToString().StartsWith(prefix, StringComparison.Ordinal))
++                filtered.Add((_sortedLabels[i], _sortedValues[i]));
++        }
++
++        labels = new string[filtered.Count];
++        values = new int[filtered.Count];
++        for (int i = 0; i < filtered.Count; i++)
++        {
++            labels[i] = filtered[i].name;
++            values[i] = filtered[i].val;
++        }
++    }
++
++    private static int IndexOfValue(int intValue, int[] valueList)
++    {
++        for (int i = 0; i < valueList.Length; i++)
++        {
++            if (valueList[i] == intValue)
+                 return i;
+         }
+-        // Unknown serialized int ΓÇö fall back to None in the sorted list
++
+         int none = (int)StageVariant.None;
+-        for (int i = 0; i < _sortedValues.Length; i++)
++        for (int i = 0; i < valueList.Length; i++)
+         {
+-            if (_sortedValues[i] == none)
++            if (valueList[i] == none)
+                 return i;
+         }
++
+         return 0;
+     }
+ 
+@@ -57,15 +132,25 @@ public class StageVariantDrawer : PropertyDrawer
+         EditorGUI.BeginProperty(position, label, property);
+         EditorGUI.showMixedValue = property.hasMultipleDifferentValues;
+ 
+-        EnsureSortedCache();
++        string[] labels;
++        int[] values;
++        if (TryGetParentStageType(property, out StageType stageType))
++            BuildOptionsForStageType(stageType, out labels, out values);
++        else
++        {
++            EnsureSortedCache();
++            labels = _sortedLabels;
++            values = _sortedValues;
++        }
++
+         int currentInt = property.intValue;
+-        int selectedIndex = IndexOfValue(currentInt);
++        int selectedIndex = IndexOfValue(currentInt, values);
+ 
+         EditorGUI.BeginChangeCheck();
+         Rect fieldRect = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+-        int newIndex = EditorGUI.Popup(fieldRect, selectedIndex, _sortedLabels);
+-        if (EditorGUI.EndChangeCheck() && newIndex >= 0 && newIndex < _sortedValues.Length)
+-            property.intValue = _sortedValues[newIndex];
++        int newIndex = EditorGUI.Popup(fieldRect, selectedIndex, labels);
++        if (EditorGUI.EndChangeCheck() && newIndex >= 0 && newIndex < values.Length)
++            property.intValue = values[newIndex];
+ 
+         EditorGUI.showMixedValue = false;
+         EditorGUI.EndProperty();
+diff --git a/Assets/Scripts/Sequencing/Handlers/SetMenuStageHandler.cs b/Assets/Scripts/Sequencing/Handlers/SetMenuStageHandler.cs
+index 86aa409b..6af4e106 100644
+--- a/Assets/Scripts/Sequencing/Handlers/SetMenuStageHandler.cs
++++ b/Assets/Scripts/Sequencing/Handlers/SetMenuStageHandler.cs
+@@ -49,6 +49,15 @@ namespace SoundSelf.Sequence
+                     Debug.LogError("SetMenuStageHandler: UIManager.Instance is null; cannot show Choice SS or Music screen.");
+                 return;
+             }
++            else if (variant == StageVariant.Menu_AlbumChoice)
++            {
++                Debug.Log("SetMenuStageHandler: Enter Menu_AlbumChoice ΓÇö Choice Album.");
++                if (UIManager.Instance != null)
++                    UIManager.Instance.SetChoiceScreen(ChoiceScreen.Album, clearNavigationStack: true);
++                else
++                    Debug.LogError("SetMenuStageHandler: UIManager.Instance is null; cannot show Choice Album screen.");
++                return;
++            }
+             else if (variant == StageVariant.Menu_Welcome_PreCalibration)
+             {
+                 Debug.Log("SetMenuStageHandler: Enter Menu_Welcome_PreCalibration.");
+diff --git a/Assets/Scripts/Sequencing/SequenceTools.cs b/Assets/Scripts/Sequencing/SequenceTools.cs
+index 1539d7e8..1ba0d681 100644
+--- a/Assets/Scripts/Sequencing/SequenceTools.cs
++++ b/Assets/Scripts/Sequencing/SequenceTools.cs
+@@ -103,6 +103,8 @@ namespace SoundSelf.Sequence
+         /// <see cref="StageVariant.End_Default"/> when <c>dualstageStage==2</c> (see <see cref="CodeStageHandler"/>).
+         /// </summary>
+         Code_Dualstage_SectionEnd = 34,
++        /// <summary><see cref="StageType.SetMenu"/>: Choice Album screen (<see cref="UIManager.SetChoiceScreen"/>(<see cref="ChoiceScreen.Album"/>)).</summary>
++        Menu_AlbumChoice = 35,
+     }
+ 
+     [System.Serializable]
+diff --git a/UserSettings/Layouts/default-2022.dwlt b/UserSettings/Layouts/default-2022.dwlt
+index 73b8d143..674fa9b0 100644
+--- a/UserSettings/Layouts/default-2022.dwlt
++++ b/UserSettings/Layouts/default-2022.dwlt
+@@ -19,7 +19,7 @@ MonoBehaviour:
+     width: 1280
+     height: 710
+   m_ShowMode: 4
+-  m_Title: Game
++  m_Title: Inspector
+   m_RootView: {fileID: 2}
+   m_MinSize: {x: 875, y: 300}
+   m_MaxSize: {x: 10000, y: 10000}
+@@ -119,7 +119,7 @@ MonoBehaviour:
+   m_MinSize: {x: 400, y: 100}
+   m_MaxSize: {x: 32384, y: 16192}
+   vertical: 0
+-  controlID: 52
++  controlID: 51
+ --- !u!114 &6
+ MonoBehaviour:
+   m_ObjectHideFlags: 52
+@@ -139,12 +139,12 @@ MonoBehaviour:
+     serializedVersion: 2
+     x: 0
+     y: 0
+-    width: 952.5
++    width: 789
+     height: 660
+   m_MinSize: {x: 300, y: 100}
+   m_MaxSize: {x: 24288, y: 16192}
+   vertical: 1
+-  controlID: 53
++  controlID: 52
+ --- !u!114 &7
+ MonoBehaviour:
+   m_ObjectHideFlags: 52
+@@ -165,12 +165,12 @@ MonoBehaviour:
+     serializedVersion: 2
+     x: 0
+     y: 0
+-    width: 952.5
+-    height: 374
++    width: 789
++    height: 392
+   m_MinSize: {x: 300, y: 50}
+   m_MaxSize: {x: 24288, y: 8096}
+   vertical: 0
+-  controlID: 54
++  controlID: 53
+ --- !u!114 &8
+ MonoBehaviour:
+   m_ObjectHideFlags: 52
+@@ -188,8 +188,8 @@ MonoBehaviour:
+     serializedVersion: 2
+     x: 0
+     y: 0
+-    width: 375
+-    height: 374
++    width: 343.5
++    height: 392
+   m_MinSize: {x: 201, y: 221}
+   m_MaxSize: {x: 4001, y: 4021}
+   m_ActualView: {fileID: 14}
+@@ -212,10 +212,10 @@ MonoBehaviour:
+   m_Children: []
+   m_Position:
+     serializedVersion: 2
+-    x: 375
++    x: 343.5
+     y: 0
+-    width: 347
+-    height: 374
++    width: 171.5
++    height: 392
+   m_MinSize: {x: 202, y: 221}
+   m_MaxSize: {x: 4002, y: 4021}
+   m_ActualView: {fileID: 15}
+@@ -238,10 +238,10 @@ MonoBehaviour:
+   m_Children: []
+   m_Position:
+     serializedVersion: 2
+-    x: 722
++    x: 515
+     y: 0
+-    width: 230.5
+-    height: 374
++    width: 274
++    height: 392
+   m_MinSize: {x: 202, y: 221}
+   m_MaxSize: {x: 4002, y: 4021}
+   m_ActualView: {fileID: 16}
+@@ -265,9 +265,9 @@ MonoBehaviour:
+   m_Position:
+     serializedVersion: 2
+     x: 0
+-    y: 374
+-    width: 952.5
+-    height: 286
++    y: 392
++    width: 789
++    height: 268
+   m_MinSize: {x: 231, y: 271}
+   m_MaxSize: {x: 10001, y: 10021}
+   m_ActualView: {fileID: 13}
+@@ -291,12 +291,12 @@ MonoBehaviour:
+   m_Children: []
+   m_Position:
+     serializedVersion: 2
+-    x: 952.5
++    x: 789
+     y: 0
+-    width: 327.5
++    width: 491
+     height: 660
+-  m_MinSize: {x: 276, y: 71}
+-  m_MaxSize: {x: 4001, y: 4021}
++  m_MinSize: {x: 275, y: 50}
++  m_MaxSize: {x: 4000, y: 4000}
+   m_ActualView: {fileID: 18}
+   m_Panes:
+   - {fileID: 18}
+@@ -323,9 +323,9 @@ MonoBehaviour:
+   m_Pos:
+     serializedVersion: 2
+     x: -1280
+-    y: 822.6666
+-    width: 951.5
+-    height: 265
++    y: 840.6666
++    width: 788
++    height: 247
+   m_SerializedDataModeController:
+     m_DataMode: 0
+     m_PreferredDataMode: 0
+@@ -361,10 +361,10 @@ MonoBehaviour:
+   m_LockTracker:
+     m_IsLocked: 0
+   m_FolderTreeState:
+-    scrollPos: {x: 0, y: 59}
+-    m_SelectedIDs: 62790000
+-    m_LastClickedID: 31074
+-    m_ExpandedIDs: 00000000b0780000b2780000b4780000b6780000b8780000ba780000bc780000be780000c0780000c278000000ca9a3b
++    scrollPos: {x: 0, y: 0}
++    m_SelectedIDs: e2740000
++    m_LastClickedID: 29922
++    m_ExpandedIDs: 0000000030740000327400003474000036740000387400003a7400003c7400003e740000407400004274000000ca9a3b
+     m_RenameOverlay:
+       m_UserAcceptedRename: 0
+       m_Name: 
+@@ -392,7 +392,7 @@ MonoBehaviour:
+     scrollPos: {x: 0, y: 0}
+     m_SelectedIDs: 
+     m_LastClickedID: 0
+-    m_ExpandedIDs: 00000000b0780000b2780000b4780000b6780000b8780000ba780000bc780000be780000c0780000c2780000
++    m_ExpandedIDs: 0000000030740000327400003474000036740000387400003a7400003c7400003e7400004074000042740000
+     m_RenameOverlay:
+       m_UserAcceptedRename: 0
+       m_Name: 
+@@ -470,8 +470,8 @@ MonoBehaviour:
+     serializedVersion: 2
+     x: -1280
+     y: 448.66666
+-    width: 374
+-    height: 353
++    width: 342.5
++    height: 371
+   m_SerializedDataModeController:
+     m_DataMode: 0
+     m_PreferredDataMode: 0
+@@ -484,10 +484,10 @@ MonoBehaviour:
+     m_OverlaysVisible: 1
+   m_SceneHierarchy:
+     m_TreeViewState:
+-      scrollPos: {x: 0, y: 76}
+-      m_SelectedIDs: 1cdf0000
+-      m_LastClickedID: 57116
+-      m_ExpandedIDs: 2432ffff4434ffff063dffffb850ffffd450ffffd650ffff446dffff4a6dffff4c6dffff9e71ffffac74ffff0ad6ffff30d6ffff92d8ffffe6d8ffff02d9ffff04d9ffff2afaffff22fbffff2064000080690000f6690000046d0000806e0000f6730000027400005e740000827400009e7400003e750000729300007c9d000044a3000054a30000d4a3000096d20000acd5000054db000030dc00001cdf0000eee600006ee70000
++      scrollPos: {x: 0, y: 322}
++      m_SelectedIDs: 92620000
++      m_LastClickedID: 0
++      m_ExpandedIDs: 44c2fdff4ec2fdff50c2fdff3eccfdff78d7fdff82d7fdff84d7fdffbe1bfefff61bfefffe1cfeffd69cfeff289dfeff2aa5feff22f6ffff5af6ffffe6f6fffffef6ffff0af7ffff12f7ffff48f7ffff2af9ffffdaf9ffffe6f9ffffecf9ffff24faffff2efbffff9863000066640000fc660000926800009c690000f4690000406b0000c06b0000d46c00001a6f0000e26f000030700000947000001c7100002071000022a10300b4a3030048a803001cb0030056b0030084b10300c6b1030070b203003c070400c60b0400c60c0400ce0d0400800f04009a130400a0130400d413040044100500a81c0500
+       m_RenameOverlay:
+         m_UserAcceptedRename: 0
+         m_Name: 
+@@ -531,10 +531,10 @@ MonoBehaviour:
+     m_Tooltip: 
+   m_Pos:
+     serializedVersion: 2
+-    x: -905
++    x: -936.5
+     y: 448.66666
+-    width: 345
+-    height: 353
++    width: 169.5
++    height: 371
+   m_SerializedDataModeController:
+     m_DataMode: 0
+     m_PreferredDataMode: 0
+@@ -549,8 +549,8 @@ MonoBehaviour:
+       floating: 0
+       collapsed: 0
+       displayed: 1
+-      snapOffset: {x: -163, y: -26.666687}
+-      snapOffsetDelta: {x: 0, y: 0}
++      snapOffset: {x: -145.5, y: -26.666687}
++      snapOffsetDelta: {x: -17.5, y: 0}
+       snapCorner: 3
+       id: Tool Settings
+       index: 0
+@@ -809,9 +809,9 @@ MonoBehaviour:
+       floating: 0
+       collapsed: 1
+       displayed: 1
+-      snapOffset: {x: -216, y: -131}
++      snapOffset: {x: 0, y: -131}
+       snapOffsetDelta: {x: 0, y: 0}
+-      snapCorner: 3
++      snapCorner: 2
+       id: AINavigationOverlay
+       index: 0
+       layout: 4
+@@ -854,9 +854,9 @@ MonoBehaviour:
+   m_PlayAudio: 0
+   m_AudioPlay: 0
+   m_Position:
+-    m_Target: {x: 672.73016, y: 660.50696, z: 9.964902}
++    m_Target: {x: 1031.4167, y: 707.78723, z: -25.282759}
+     speed: 2
+-    m_Value: {x: 672.73016, y: 660.50696, z: 9.964902}
++    m_Value: {x: 1031.4167, y: 707.78723, z: -25.282759}
+   m_RenderMode: 0
+   m_CameraMode:
+     drawMode: 0
+@@ -906,9 +906,9 @@ MonoBehaviour:
+     speed: 2
+     m_Value: {x: 0, y: 0, z: 0, w: 1}
+   m_Size:
+-    m_Target: 753.06995
++    m_Target: 1724.273
+     speed: 2
+-    m_Value: 753.06995
++    m_Value: 1724.273
+   m_Ortho:
+     m_Target: 1
+     speed: 2
+@@ -953,10 +953,10 @@ MonoBehaviour:
+     m_Tooltip: 
+   m_Pos:
+     serializedVersion: 2
+-    x: -558
++    x: -765
+     y: 448.66666
+-    width: 228.5
+-    height: 353
++    width: 272
++    height: 371
+   m_SerializedDataModeController:
+     m_DataMode: 0
+     m_PreferredDataMode: 0
+@@ -973,7 +973,7 @@ MonoBehaviour:
+   m_ShowGizmos: 0
+   m_TargetDisplay: 0
+   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
+-  m_TargetSize: {x: 1920, y: 1080}
++  m_TargetSize: {x: 2196, y: 1454}
+   m_TextureFilterMode: 0
+   m_TextureHideFlags: 61
+   m_RenderIMGUI: 1
+@@ -982,22 +982,22 @@ MonoBehaviour:
+   m_VSyncEnabled: 0
+   m_Gizmos: 0
+   m_Stats: 0
+-  m_SelectedSizes: 03000000000000000000000000000000000000000000000000000000000000000000000000000000
++  m_SelectedSizes: 07000000000000000000000000000000000000000000000000000000000000000000000000000000
+   m_ZoomArea:
+     m_HRangeLocked: 0
+     m_VRangeLocked: 0
+     hZoomLockedByDefault: 0
+     vZoomLockedByDefault: 0
+-    m_HBaseRangeMin: -480
+-    m_HBaseRangeMax: 480
+-    m_VBaseRangeMin: -270
+-    m_VBaseRangeMax: 270
++    m_HBaseRangeMin: -549
++    m_HBaseRangeMax: 549
++    m_VBaseRangeMin: -363.5
++    m_VBaseRangeMax: 363.5
+     m_HAllowExceedBaseRangeMin: 1
+     m_HAllowExceedBaseRangeMax: 1
+     m_VAllowExceedBaseRangeMin: 1
+     m_VAllowExceedBaseRangeMax: 1
+     m_ScaleWithWindow: 0
+-    m_HSlider: 1
++    m_HSlider: 0
+     m_VSlider: 0
+     m_IgnoreScrollWheelUntilClicked: 0
+     m_EnableMouseInput: 1
+@@ -1009,23 +1009,23 @@ MonoBehaviour:
+       serializedVersion: 2
+       x: 0
+       y: 21
+-      width: 228.5
+-      height: 332
+-    m_Scale: {x: 0.44324103, y: 0.44324103}
+-    m_Translation: {x: 125.90632, y: 166}
++      width: 272
++      height: 350
++    m_Scale: {x: 0.24772313, y: 0.24772313}
++    m_Translation: {x: 136, y: 175}
+     m_MarginLeft: 0
+     m_MarginRight: 0
+     m_MarginTop: 0
+     m_MarginBottom: 0
+     m_LastShownAreaInsideMargins:
+       serializedVersion: 2
+-      x: -284.05835
+-      y: -374.51407
+-      width: 515.5209
+-      height: 749.02814
++      x: -549
++      y: -706.43384
++      width: 1098
++      height: 1412.8677
+     m_MinimalGUI: 1
+-  m_defaultScale: 0.23802084
+-  m_LastWindowPixelSize: {x: 457, y: 706}
++  m_defaultScale: 0.24772313
++  m_LastWindowPixelSize: {x: 544, y: 742}
+   m_ClearInEditMode: 1
+   m_NoCameraWarning: 1
+   m_LowResolutionForAspectRatios: 00000000000000000000
+@@ -1052,9 +1052,9 @@ MonoBehaviour:
+   m_Pos:
+     serializedVersion: 2
+     x: -1280
+-    y: 822.6666
+-    width: 663.5
+-    height: 265
++    y: 840.6666
++    width: 862
++    height: 247
+   m_SerializedDataModeController:
+     m_DataMode: 0
+     m_PreferredDataMode: 0
+@@ -1085,9 +1085,9 @@ MonoBehaviour:
+     m_Tooltip: 
+   m_Pos:
+     serializedVersion: 2
+-    x: -327.5
++    x: -491
+     y: 448.66666
+-    width: 326.5
++    width: 490
+     height: 639
+   m_SerializedDataModeController:
+     m_DataMode: 0
+@@ -1106,7 +1106,7 @@ MonoBehaviour:
+     m_ControlHash: -371814159
+     m_PrefName: Preview_InspectorPreview
+   m_LastInspectedObjectInstanceID: -1
+-  m_LastVerticalScrollValue: 0
++  m_LastVerticalScrollValue: 324
+   m_GlobalObjectId: 
+   m_InspectorMode: 0
+   m_LockTracker:
