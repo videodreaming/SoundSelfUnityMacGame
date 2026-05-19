@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 3
   title: AlbumSonoflore
-  description: "Albums stub in CSVLoader \u2014 VO/timing not wired yet. No SequenceDefinition
-    until SequenceRunner Albums path exists."
+  description: An album of music inspired by SoundSelf's "Sonoflore" sequence.
   postUnguidedSeconds: -1
   voKind: 0
   sequenceDefinition: {fileID: 11400000, guid: f6f9d0562b4cdfe40a00d56d28aa4602, type: 2}

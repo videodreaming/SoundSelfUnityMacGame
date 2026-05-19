@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMode: 0
   title: Surrender Response
-  description: Sonoflore. VO Surrender (SetToSurrender). Post-unguided 726 s (12m06s) — mirrors CSVLoader.
+  description: 'Originally designed for players preparing for psychedelic therapy,
+    this session teaches a technique to support active surrender, using the four
+    R''s: Recognize, Relax, Release, and Return.'
   postUnguidedSeconds: 726
   voKind: 6
   sequenceDefinition: {fileID: 11400000, guid: 9a78b1de728019a4a9c291ba8c474436, type: 2}
