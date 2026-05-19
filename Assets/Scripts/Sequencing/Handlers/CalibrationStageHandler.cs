@@ -13,8 +13,8 @@ namespace SoundSelf.Sequence
      * Conclusion: <c>MarkComplete</c> after confirm + <c>Cue_Calibration_Instruction_OFF</c> (instruction line ended). <c>Cue_Calibration_Next</c> is ignored on the Conclusion step for completion gating.
      *
      * Start (orientation) step is special: it always auto-advances when Wwise fires <c>Cue_Calibration_Intro_End</c>
-     * (regardless of whether the user pressed Next). A Next press on Start only shows the loading spinner as
-     * feedback; the actual advance (and the audio switch to the next portion) happens on the cue. See
+     * (regardless of whether the user pressed Next). A Next press on Start hides the session skip control and
+     * shows the loading spinner; the actual advance (and the audio switch to the next portion) happens on the cue. See
      * <c>CalibrationIntroEnded</c> case below and <c>HandleCalibrationNextStepPress</c>.
      */
     /// <summary>
@@ -88,6 +88,8 @@ namespace SoundSelf.Sequence
                 case SequenceCommand.CalibrationIntroEnded:
                     // Start (orientation) always auto-advances on this cue, whether or not the user pressed Next.
                     // The Next button on Start only shows the loading spinner — actual advance happens here.
+                    if (IsComplete)
+                        break;
                     if (_steps != null && _stepIndex >= 0 && _stepIndex < _steps.Length && _steps[_stepIndex] == CalibrationUI.Start)
                     {
                         Debug.Log("CalibrationStageHandler: Cue_Calibration_Intro_End → auto-advance from Start.");
@@ -369,8 +371,11 @@ namespace SoundSelf.Sequence
             if (_steps[_stepIndex] == CalibrationUI.Start)
             {
                 if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.EnableSkipButton(false, null);
                     UIManager.Instance.SetCalibrationStepNextCuePendingVisual(CalibrationUI.Start, true);
-                Debug.Log("CalibrationStageHandler: Start Next pressed; loading spinner shown. Auto-advance happens on Cue_Calibration_Intro_End.");
+                }
+                Debug.Log("CalibrationStageHandler: Start Next pressed; skip hidden and loading spinner shown. Auto-advance happens on Cue_Calibration_Intro_End.");
                 return;
             }
 
@@ -398,6 +403,8 @@ namespace SoundSelf.Sequence
 
         private void AdvanceCalibrationStepImmediate()
         {
+            if (IsComplete)
+                return;
             if (_steps == null || _steps.Length == 0)
                 return;
             if (_stepIndex < 0 || _stepIndex >= _steps.Length - 1)
