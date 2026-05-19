@@ -143,6 +143,10 @@ public class UIManager : MonoBehaviour
 
     private static readonly Color CalibrationMicToneYesColor = new Color(246f / 255f, 255f / 255f, 177f / 255f, 1f); // #F6FFB1
     private static readonly Color CalibrationMicToneNoColor = new Color(79f / 255f, 94f / 255f, 97f / 255f, 1f);   // #4F5E61
+    private static readonly Color CalibrationMicLevelLowColor = new Color(96f / 255f, 114f / 255f, 126f / 255f, 1f);
+    private static readonly Color CalibrationMicLevelHighColor = new Color(189f / 255f, 245f / 255f, 255f / 255f, 1f);
+    private const float CalibrationMicLevelColorMinPercent = 10f;
+    private const float CalibrationMicLevelColorMaxPercent = 60f;
 
     /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets child choice screens push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
     private bool _pendingChoiceBackToSsOrMusic;
@@ -976,10 +980,25 @@ public class UIManager : MonoBehaviour
     /// <summary>Manual override for <see cref="micLevelText"/> (normally driven from <see cref="ImitoneVoiceIntepreter.GetRawMicrophoneInputLevelPercent"/> during the microphone test).</summary>
     public void SetMicrophoneStatus(int inputLevel)
     {
+        ApplyMicLevelText(inputLevel);
+    }
+
+    private static Color ColorForMicLevelPercent(int percent)
+    {
+        float t = Mathf.InverseLerp(
+            CalibrationMicLevelColorMinPercent,
+            CalibrationMicLevelColorMaxPercent,
+            percent);
+        return Color.Lerp(CalibrationMicLevelLowColor, CalibrationMicLevelHighColor, t);
+    }
+
+    private void ApplyMicLevelText(int inputLevel)
+    {
         if (micLevelText == null)
             return;
         int clamped = Mathf.Clamp(inputLevel, 0, 99);
         micLevelText.text = clamped.ToString("D2") + "%";
+        micLevelText.color = ColorForMicLevelPercent(clamped);
     }
 
     private bool ShouldShowCalibrationMicLevel()
@@ -1029,7 +1048,7 @@ public class UIManager : MonoBehaviour
             if (_calibrationVoiceTestUiWasActive)
             {
                 if (micLevelText != null)
-                    micLevelText.text = "00%";
+                    ApplyMicLevelText(0);
                 SetMicToneOnText(false);
                 _calibrationVoiceTestUiWasActive = false;
                 _nextCalibrationVoiceTestUiUpdateTime = 0f;
@@ -1046,9 +1065,10 @@ public class UIManager : MonoBehaviour
 
         var interpreter = ResolveImitoneForMicLevel();
         if (showMicLevel && micLevelText != null)
-            micLevelText.text = interpreter != null
-                ? interpreter.GetRawMicrophoneInputLevelPercent().ToString("D2") + "%"
-                : "00%";
+        {
+            int level = interpreter != null ? interpreter.GetRawMicrophoneInputLevelPercent() : 0;
+            ApplyMicLevelText(level);
+        }
 
         if (showToneDetected && micToneOnText != null)
             SetMicToneOnText(interpreter != null && interpreter.toneActive);
