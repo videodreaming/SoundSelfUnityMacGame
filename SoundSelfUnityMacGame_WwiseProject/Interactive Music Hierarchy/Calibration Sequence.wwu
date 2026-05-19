@@ -80,69 +80,6 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<MusicTrack Name="VO_Calibration_End_v1" ID="{1A41AC2D-EF4C-404E-B33A-971E7F66B4D1}" ShortID="60403155">
-									<PropertyList>
-										<Property Name="OverrideOutput" Type="bool" Value="True"/>
-										<Property Name="Volume" Type="Real64">
-											<ValueList>
-												<Value>-3</Value>
-											</ValueList>
-										</Property>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="VO" ID="{FB834B56-CA29-46DF-8224-8DC300A1905B}" WorkUnitID="{0C193EDD-4DFB-4916-9F59-3FC858E3694D}"/>
-										</Reference>
-										<Reference Name="TransitionRoot">
-											<Custom>
-												<MusicTransition Name="Root" ID="{4D6CCC30-F649-479D-9155-9591639ADA50}">
-													<PropertyList>
-														<Property Name="IsFolder" Type="bool" Value="True"/>
-													</PropertyList>
-													<TransitionInfo/>
-												</MusicTransition>
-											</Custom>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="VO_Calibration_End_v1" ID="{B853B464-2614-49CC-B3B9-0432DA1E3730}">
-											<Language>SFX</Language>
-											<AudioFile>VO_Calibration_End_v1.wav</AudioFile>
-											<MediaIDList>
-												<MediaID ID="673999802"/>
-											</MediaIDList>
-										</AudioFileSource>
-									</ChildrenList>
-									<ObjectLists>
-										<ObjectList Name="Sequences">
-											<Reference>
-												<Local>
-													<MusicTrackSequence Name="" ID="{2B3ACD0A-1413-4D8A-9D8F-0E53202BD1A9}">
-														<ObjectLists>
-															<ObjectList Name="Clips">
-																<Reference>
-																	<Local>
-																		<MusicClip Name="VO_Calibration_End_v1" ID="{14EEE5ED-E3A8-486E-B2E0-A4780200DCAC}">
-																			<PropertyList>
-																				<Property Name="EndTrimOffset" Type="Real64" Value="21000"/>
-																				<Property Name="FadeInMode" Type="int16" Value="0"/>
-																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
-																			</PropertyList>
-																			<AudioSourceRef Name="VO_Calibration_End_v1" ID="{B853B464-2614-49CC-B3B9-0432DA1E3730}"/>
-																		</MusicClip>
-																	</Local>
-																</Reference>
-															</ObjectList>
-														</ObjectLists>
-													</MusicTrackSequence>
-												</Local>
-											</Reference>
-										</ObjectList>
-									</ObjectLists>
-								</MusicTrack>
 								<MusicTrack Name="VO_Calibration_End_v2" ID="{22A02250-269D-4362-B596-DE4ED3421972}" ShortID="868303542">
 									<PropertyList>
 										<Property Name="OverrideOutput" Type="bool" Value="True"/>

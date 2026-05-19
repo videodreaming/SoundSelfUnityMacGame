@@ -141,10 +141,19 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_ExitMusic_Start" ID="{98239E68-08D5-44EE-B1FF-F6B3BFEBEDE9}">
+											<MusicCue Name="Cue_ClosingGoodbye_End" ID="{98239E68-08D5-44EE-B1FF-F6B3BFEBEDE9}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="17204.4932168682"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Cue_ClosingGoodbye_Start" ID="{6685621F-9B97-45E8-9E9C-67523A0CFCCF}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="2"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -555,7 +564,7 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_Goodbye_Start" ID="{F14227E4-F110-4A37-B24A-180F01DA242D}">
+											<MusicCue Name="Cue_ClosingGoodbye_Start" ID="{F14227E4-F110-4A37-B24A-180F01DA242D}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 												</PropertyList>
@@ -564,10 +573,10 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_ExitMusic_Start" ID="{C991E271-6BF8-4BF3-B56F-8D3A262AECEE}">
+											<MusicCue Name="Cue_ClosingGoodbye_End" ID="{C991E271-6BF8-4BF3-B56F-8D3A262AECEE}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="60059.2062153232"/>
+													<Property Name="TimeMs" Type="Real64" Value="60000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -681,7 +690,7 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_Goodbye_Start" ID="{DF1C399F-92BE-4159-B6F7-EA67103F4998}">
+											<MusicCue Name="Cue_ClosingGoodbye_Start" ID="{DF1C399F-92BE-4159-B6F7-EA67103F4998}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 												</PropertyList>
@@ -690,7 +699,7 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_ExitMusicStart" ID="{A044936D-2130-486E-8327-CC17C6E60FD8}">
+											<MusicCue Name="Cue_ClosingGoodbyeEnd" ID="{A044936D-2130-486E-8327-CC17C6E60FD8}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="6258.47650959014"/>
@@ -805,14 +814,14 @@
 											<MusicCue Name="Exit Cue" ID="{C64E6DB2-A180-4A13-B642-C23D4522FFD2}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="25373.1122847423"/>
+													<Property Name="TimeMs" Type="Real64" Value="25319.5988241573"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_Goodbye_Start" ID="{975902A8-F9DC-498B-94A2-AB60A67BD4D5}">
+											<MusicCue Name="Cue_ClosingGoodbye_Start" ID="{975902A8-F9DC-498B-94A2-AB60A67BD4D5}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 												</PropertyList>
@@ -821,7 +830,7 @@
 									</Reference>
 									<Reference>
 										<Local>
-											<MusicCue Name="Cue_ExitMusic_Start" ID="{A774A75F-B636-4B6F-AB38-8CDF2525FFBE}">
+											<MusicCue Name="Cue_ClosingGoodbye_End" ID="{A774A75F-B636-4B6F-AB38-8CDF2525FFBE}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
 													<Property Name="TimeMs" Type="Real64" Value="22004.875689052"/>
@@ -5804,7 +5813,7 @@
 							</Reference>
 							<Reference>
 								<Local>
-									<MusicCue Name="Cue_WaitForButton" ID="{ABCA7A47-D3E6-4E8C-8B30-9B2713620290}">
+									<MusicCue Name="Cue_ClosingGoodbye_End" ID="{ABCA7A47-D3E6-4E8C-8B30-9B2713620290}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
 											<Property Name="TimeMs" Type="Real64" Value="900000"/>
@@ -5858,6 +5867,16 @@
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
 											<Property Name="TimeMs" Type="Real64" Value="899947.145684208"/>
+										</PropertyList>
+									</MusicCue>
+								</Local>
+							</Reference>
+							<Reference>
+								<Local>
+									<MusicCue Name="Cue_ClosingGoodbye_Start" ID="{D18BA995-EA3E-4635-B3A4-93F1D31F6BC8}">
+										<PropertyList>
+											<Property Name="CueType" Type="int16" Value="2"/>
+											<Property Name="TimeMs" Type="Real64" Value="863297.034382222"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>
