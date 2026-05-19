@@ -318,8 +318,8 @@ public class WwiseVOManager : MonoBehaviour
                 Debug.Log("Wwise_VO: Cue_VO_Wakeup_Start");
                 break;
 
-            case "Cue_Goodbye_Start":
-                Debug.Log("Wwise_VO: Cue_Goodbye_Start");
+            case "Cue_ClosingGoodbye_Start":
+                Debug.Log("Wwise_VO: Cue_ClosingGoodbye_Start");
                 break;
 
             case "Cue_Microphone_ON":
@@ -349,10 +349,58 @@ public class WwiseVOManager : MonoBehaviour
                 VoTrySequencerCommand(cue, SequenceCommand.CueSilentMeditationStart, "HandleSequenceCommand(CueSilentMeditationStart)");
                 break;
 
+            case "Cue_ClosingGoodbye_End":
+                LogClosingGoodbyeTimingCalibration(cue);
+                VoTrySequencerCommand(cue, SequenceCommand.CueClosingGoodbyeEnd, "HandleSequenceCommand(CueClosingGoodbyeEnd)");
+                break;
+
             default:
                 Debug.Log("WWise_VO: Unexpected Cue: " + in_type + " | " + cue);
                 break;
         }
+    }
+
+    /// <summary>Search Unity console for <c>TIMING_CALIB_CLOSING_GOODBYE</c> to compare Wwise cue time vs session countdowns.</summary>
+    private void LogClosingGoodbyeTimingCalibration(string cueName)
+    {
+        const string logTag = "TIMING_CALIB_CLOSING_GOODBYE";
+        var tt = TimeTrackerScript.instance;
+        if (tt == null)
+        {
+            Debug.LogWarning(logTag + " " + cueName + " — TimeTrackerScript.instance is null.");
+            return;
+        }
+
+        float section = tt.CountdownThisSection;
+        float full = tt.CountdownFull;
+        string elapsedSinceSectionZero = FormatElapsedSinceZero(
+            section <= 0f,
+            tt.CountdownThisSectionHasReachedZero,
+            tt.ElapsedSinceCountdownThisSectionReachedZero);
+        string elapsedSinceFullZero = FormatElapsedSinceZero(
+            full <= 0f,
+            tt.CountdownFullHasReachedZero,
+            tt.ElapsedSinceCountdownFullReachedZero);
+
+        Debug.Log(
+            logTag + " " + cueName +
+            " | expect [CountdownThisSection]~0 and [CountdownFull]~0 with both elapsed-since-last-zero~0" +
+            " | [CountdownThisSection]=" + section.ToString("F2") + "s" +
+            " | [CountdownFull]=" + full.ToString("F2") + "s" +
+            " | [ElapsedSinceCountdownThisSectionZero]=" + elapsedSinceSectionZero +
+            " | [ElapsedSinceCountdownFullZero]=" + elapsedSinceFullZero +
+            " | [IsCountdownRunning]=" + tt.IsCountdownRunning +
+            " | [CountdownCompleteLatched]=" + tt.CountdownCompleteLatched +
+            " | [TotalElapsedTime]=" + tt.TotalElapsedTime.ToString("F2") + "s");
+    }
+
+    private static string FormatElapsedSinceZero(bool countdownAtOrBelowZero, bool latched, float elapsedSeconds)
+    {
+        if (!countdownAtOrBelowZero)
+            return "n/a (countdown still > 0)";
+        if (!latched)
+            return "n/a (at 0 but zero latch not recorded — forced stop or never ticked?)";
+        return elapsedSeconds.ToString("F2") + "s";
     }
 
     public void SetToFireflies()

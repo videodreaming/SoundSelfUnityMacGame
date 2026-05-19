@@ -4,13 +4,12 @@ using ConversionUtilities;
 
 namespace SoundSelf.Sequence
 {
-    /// <summary>Handles the Savasana stage: shared transition setup + variant-based VO routing (thematic vs ascending), then waits for section countdown to end.</summary>
+    /// <summary>Handles the Savasana stage: shared transition setup + variant-based VO routing (thematic vs ascending), then completes on Wwise <c>Cue_ClosingGoodbye_End</c>.</summary>
     public class SavasanaStageHandler : IStageHandler
     {
         private readonly Sequencer _sequencer;
         private bool _hasEntered;
         private StageVariant _variant = StageVariant.None;
-        private Coroutine _waitForTimerCoroutine;
 
         public StageType StageType => StageType.Savasana;
 
@@ -89,7 +88,6 @@ namespace SoundSelf.Sequence
             MusicSystem1.instance.SetAllowThumpAlways(false);
             MusicSystem1.instance.SetAllowThumpWhenModeIsPlayful(false);
             PlaySavasanaVoForVariant(_variant);
-            _waitForTimerCoroutine = _sequencer.StartCoroutine(WaitForTimerToEnd());
 
             if (_sequencer.savasana != null && UIManager.Instance != null && _sequencer.imitoneVoiceInterpreter != null)
                 _sequencer.savasana.BeginShowSavasanaSectionHeaderWhenGameOff(_sequencer.imitoneVoiceInterpreter, UIManager.Instance, _sequencer);
@@ -130,6 +128,7 @@ namespace SoundSelf.Sequence
         public bool WatchesSequenceCommand(SequenceCommand sequenceCommand)
         {
             return sequenceCommand == SequenceCommand.EndThisSequenceStage
+                || sequenceCommand == SequenceCommand.CueClosingGoodbyeEnd
                 || sequenceCommand == SequenceCommand.CueStopInteractive
                 || sequenceCommand == SequenceCommand.CueStopInteractive3m
                 || sequenceCommand == SequenceCommand.CueSilentMeditationStart;
@@ -139,12 +138,17 @@ namespace SoundSelf.Sequence
         {
             if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
             {
-                StopWaitForTimerCoroutine();
                 MarkComplete();
                 return;
             }
 
-       
+            if (sequenceCommand == SequenceCommand.CueClosingGoodbyeEnd)
+            {
+                Debug.Log("SavasanaStageHandler: Cue_ClosingGoodbye_End — completing Savasana. " + SessionCountdownPairForLog());
+                MarkComplete();
+                return;
+            }
+
             switch (sequenceCommand)
             {
                 case SequenceCommand.CueStopInteractive:
@@ -173,34 +177,6 @@ namespace SoundSelf.Sequence
             yield return new WaitForSeconds(delay);
             if(_hasEntered && !IsComplete)
             _sequencer.imitoneVoiceInterpreter.SetGameOn(false);
-        }
-
-        private void StopWaitForTimerCoroutine()
-        {
-            if (_waitForTimerCoroutine != null && _sequencer != null)
-            {
-                _sequencer.StopCoroutine(_waitForTimerCoroutine);
-                _waitForTimerCoroutine = null;
-            }
-        }
-
-        private IEnumerator WaitForTimerToEnd()
-        {
-            // Waits for the "this section" countdown to reach zero.
-            while (true)
-            {
-                var tt = TimeTrackerScript.instance;
-                if (tt == null)
-                {
-                    Debug.LogError("SavasanaStageHandler: TimeTrackerScript.instance became null while waiting for timer end. Completing stage.");
-                    break;
-                }
-                if (tt.CountdownThisSection <= 0f)
-                    break;
-                yield return null;
-            }
-            _waitForTimerCoroutine = null;
-            MarkComplete();
         }
 
         //--------------------------------
@@ -233,7 +209,6 @@ namespace SoundSelf.Sequence
         {
             if (_sequencer != null && _sequencer.savasana != null)
                 _sequencer.savasana.CancelSavasanaSectionHeaderWaitIfRunning();
-            StopWaitForTimerCoroutine();
             if (MusicSystem1.instance != null)
                 MusicSystem1.instance.SetBreathworkCycle(false);
         }

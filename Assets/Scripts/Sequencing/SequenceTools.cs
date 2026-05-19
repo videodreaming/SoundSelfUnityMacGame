@@ -17,6 +17,8 @@ namespace SoundSelf.Sequence
         CueStopInteractive,     // Wwise Cue_Stop_Interactive — Playground/Savasana Standard → FrozenFreeplay
         CueStopInteractive3m,   // Wwise Cue_Stop_Interactive_3m — Savasana PS Ascending only
         CueSilentMeditationStart, // Wwise Cue_SilentMeditation_Start — Savasana PS Ascending only (Jaya VO)
+        /// <summary>Wwise <c>Cue_ClosingGoodbye_End</c> — Savasana stage completes (goodbye VO segment end).</summary>
+        CueClosingGoodbyeEnd,
         /// <summary>UI "End This Sequence Stage" — <see cref="Sequencer.HandleSequenceCommand"/>; active stage handler should <c>MarkComplete()</c>.</summary>
         EndThisSequenceStage,
         /// <summary>Wwise <c>Cue_Microphone_ON</c> inside <c>Play_Calibration_Sequence</c> — calibration handler enables Imitone game-on.</summary>

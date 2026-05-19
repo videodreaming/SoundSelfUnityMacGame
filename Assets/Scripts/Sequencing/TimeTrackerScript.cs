@@ -46,6 +46,14 @@ public class TimeTrackerScript : MonoBehaviour
 
     [Header("Latches")]
     [SerializeField] private bool _countdownCompleteLached;
+    [Tooltip("Set after [CountdownThisSection] last crossed to 0 (cleared if it goes positive again).")]
+    [SerializeField] private bool _countdownThisSectionZeroLatched;
+    [Tooltip("TotalElapsedTime when [CountdownThisSection] last crossed to 0; -1 if not latched.")]
+    [SerializeField] private float _totalElapsedWhenCountdownThisSectionLastReachedZero = -1f;
+    [Tooltip("Set after [CountdownFull] last crossed to 0 (cleared if it goes positive again).")]
+    [SerializeField] private bool _countdownFullZeroLatched;
+    [Tooltip("TotalElapsedTime when [CountdownFull] last crossed to 0; -1 if not latched.")]
+    [SerializeField] private float _totalElapsedWhenCountdownFullLastReachedZero = -1f;
 
     [Header("Debug")]
     [Tooltip("Periodic logs of TotalElapsedTime and countdown pair. Cadence follows session time (Time.deltaTime / timeScale); when timeScale is 0, ticks pause.")]
@@ -84,6 +92,9 @@ public class TimeTrackerScript : MonoBehaviour
         UpdateDisplayTime();
         TickTimeSincePlaygroundStartInternal(Time.deltaTime);
 
+        float sectionBeforeTick = _countdownThisSection;
+        float fullBeforeTick = _countdownFull;
+
         if (_countdownRunning)
         {
             if (_countdownThisSection > 0f)
@@ -105,6 +116,8 @@ public class TimeTrackerScript : MonoBehaviour
                 }
             }
         }
+
+        TickCountdownZeroCrossings(sectionBeforeTick, fullBeforeTick);
     }
 
     private void UpdateDisplayTime()
@@ -217,6 +230,7 @@ public class TimeTrackerScript : MonoBehaviour
             SetCountdownCompleteLatched(false);
         }
 
+        ResetCountdownZeroLatches();
         _countdownThisSection = newSec;
         _countdownFull = newFul;
         StartCountdownTickingFromLiveValues();
@@ -261,6 +275,8 @@ public class TimeTrackerScript : MonoBehaviour
         float fullBefore = _countdownFull;
         _countdownFull = closing;
         _configuredFullAtLastConfigure = closing;
+        if (closing > 0f)
+            ClearCountdownFullZeroLatch();
 
         float drift = Mathf.Abs(fullBefore - closing);
         if (drift > 10f)
@@ -280,6 +296,67 @@ public class TimeTrackerScript : MonoBehaviour
         _countdownCompleteLached = latched;
     }
 
+    /// <summary>True after <see cref="CountdownThisSection"/> last crossed to 0 (cleared if it goes positive again).</summary>
+    public bool CountdownThisSectionHasReachedZero => _countdownThisSectionZeroLatched;
+
+    /// <summary>True after <see cref="CountdownFull"/> last crossed to 0 (cleared if it goes positive again).</summary>
+    public bool CountdownFullHasReachedZero => _countdownFullZeroLatched;
+
+    /// <summary>Seconds since <see cref="CountdownThisSection"/> last hit 0; -1 if not latched yet.</summary>
+    public float ElapsedSinceCountdownThisSectionReachedZero =>
+        _countdownThisSectionZeroLatched
+            ? Mathf.Max(0f, TotalElapsedTime - _totalElapsedWhenCountdownThisSectionLastReachedZero)
+            : -1f;
+
+    /// <summary>Seconds since <see cref="CountdownFull"/> last hit 0; -1 if not latched yet.</summary>
+    public float ElapsedSinceCountdownFullReachedZero =>
+        _countdownFullZeroLatched
+            ? Mathf.Max(0f, TotalElapsedTime - _totalElapsedWhenCountdownFullLastReachedZero)
+            : -1f;
+
+    private void TickCountdownZeroCrossings(float sectionBeforeTick, float fullBeforeTick)
+    {
+        if (_countdownThisSection > 0f)
+            ClearCountdownThisSectionZeroLatch();
+        else if (sectionBeforeTick > 0f)
+            RecordCountdownThisSectionLastReachedZero();
+
+        if (_countdownFull > 0f)
+            ClearCountdownFullZeroLatch();
+        else if (fullBeforeTick > 0f)
+            RecordCountdownFullLastReachedZero();
+    }
+
+    private void RecordCountdownThisSectionLastReachedZero()
+    {
+        _countdownThisSectionZeroLatched = true;
+        _totalElapsedWhenCountdownThisSectionLastReachedZero = TotalElapsedTime;
+    }
+
+    private void RecordCountdownFullLastReachedZero()
+    {
+        _countdownFullZeroLatched = true;
+        _totalElapsedWhenCountdownFullLastReachedZero = TotalElapsedTime;
+    }
+
+    private void ClearCountdownThisSectionZeroLatch()
+    {
+        _countdownThisSectionZeroLatched = false;
+        _totalElapsedWhenCountdownThisSectionLastReachedZero = -1f;
+    }
+
+    private void ClearCountdownFullZeroLatch()
+    {
+        _countdownFullZeroLatched = false;
+        _totalElapsedWhenCountdownFullLastReachedZero = -1f;
+    }
+
+    private void ResetCountdownZeroLatches()
+    {
+        ClearCountdownThisSectionZeroLatch();
+        ClearCountdownFullZeroLatch();
+    }
+
     /// <summary>Force both values and stop running (e.g. Savasana / Playground complete — typically <c>0, 0</c>).</summary>
     public void ForceSetBothCountdownsAndStop(float thisSectionValue, float fullValue)
     {
@@ -289,6 +366,14 @@ public class TimeTrackerScript : MonoBehaviour
         _configuredThisSectionAtLastConfigure = thisSectionValue;
         _configuredFullAtLastConfigure = fullValue;
         SetCountdownCompleteLatched(true);
+        if (thisSectionValue <= 0f)
+            RecordCountdownThisSectionLastReachedZero();
+        else
+            ClearCountdownThisSectionZeroLatch();
+        if (fullValue <= 0f)
+            RecordCountdownFullLastReachedZero();
+        else
+            ClearCountdownFullZeroLatch();
     }
 
     // -------------------------------------------------------------------------

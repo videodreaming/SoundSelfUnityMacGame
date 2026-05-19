@@ -15,12 +15,22 @@ public enum CalibrationUI
     Conclusion
 }
 
-/// <summary>Roots managed by <see cref="UIManager"/> choice-menu navigation stack (<see cref="UIManager.NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic"/>, <see cref="UIManager.ChoiceMenuBackButtonPress"/>). Calibration flows use <see cref="CalibrationUI"/> and <see cref="UIManager.SetCalibrationScreen"/> instead — see <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>.</summary>
+/// <summary>Roots managed by <see cref="UIManager"/> choice-menu navigation stack (<see cref="UIManager.SetChoiceScreen"/>, <see cref="UIManager.ChoiceMenuBackButtonPress"/>). Calibration flows use <see cref="CalibrationUI"/> and <see cref="UIManager.SetCalibrationScreen"/> instead — see <see cref="SoundSelf.Sequence.CalibrationStageHandler"/>.</summary>
 public enum ChoiceMenuScreen
 {
     None = 0,
     ChoiceSsOrMusic = 1,
     ChoiceSonofloreMusicLength = 2,
+    ChoiceAlbum = 3,
+}
+
+/// <summary>Target for <see cref="UIManager.SetChoiceScreen"/> (Inspector buttons, sequence handlers, forward navigation).</summary>
+public enum ChoiceScreen
+{
+    SsOrMusic = 0,
+    SonofloreMusicLength = 1,
+    SonofloreMusicLengthFromSsOrMusic = 2,
+    Album = 3,
 }
 
 /// <summary>Single visible row under Meditation Session — Headers (fades via <see cref="ScreenFadeEffect"/> when present).</summary>
@@ -53,7 +63,7 @@ public static class UIManagerTiming
 
 /// <summary>
 /// Session UI: battery/timer, screen roots with <see cref="ScreenFadeEffect"/>, and button debounce.
-/// <para><b>Choice menus</b> (<see cref="ChoiceMenuScreen"/>): forward navigation can push a return target onto <c>_choiceMenuBackStack</c>; Back uses <see cref="ChoiceMenuBackButtonPress"/>. <see cref="SetChoiceSSOrMusicScreen"/> arms a one-shot back anchor so <see cref="SetChoiceSonofloreMusicLengthScreen"/> still records SS/Music even when that screen is not yet <c>activeSelf</c> during fades; <see cref="NavigateChoiceMenuToSonofloreMusicLengthFromSsOrMusic"/> pushes explicitly.</para>
+/// <para><b>Choice menus</b> (<see cref="ChoiceScreen"/>, <see cref="ChoiceMenuScreen"/>): use <see cref="SetChoiceScreen"/>; forward navigation can push a return target onto <c>_choiceMenuBackStack</c>; Back uses <see cref="ChoiceMenuBackButtonPress"/>. <see cref="ChoiceScreen.SsOrMusic"/> arms a one-shot back anchor so child screens still record SS/Music even when that screen is not yet <c>activeSelf</c> during fades.</para>
 /// <para><b>Session skip</b>: <see cref="EnableSkipButton"/> + <see cref="SkipButtonPress"/> → <see cref="OnSkipSessionButtonPress"/> (Sequencer invokes the current stage handler skip hook, then sequence command EndThisSequenceStage).</para>
 /// </summary>
 public class UIManager : MonoBehaviour
@@ -68,12 +78,14 @@ public class UIManager : MonoBehaviour
     [Tooltip("Local system time, e.g. 11:11 am, CST — refreshed every 10 seconds.")]
     [SerializeField] private Text localTimeText;
     [SerializeField] private GameObject calibrationHeadText; // Set by CalibrationStageHandler per step; not all steps have instructions, so optional assignment.
+    [SerializeField] private Sequencer sequencer;
 
 
     //Screens
-    [SerializeField] private GameObject choiceSSOrMusicScreen;
+    [Header("Choice Album")]
+    [SerializeField] private GameObject choiceAlbumScreen;
     [Header("Choice SS or Music — dual-stage (assign Sequencer + copy/button roots)")]
-    [SerializeField] private Sequencer sequencer;
+    [SerializeField] private GameObject choiceSSOrMusicScreen;
     [SerializeField] private GameObject choiceSsOrMusicStage1Header;
     [SerializeField] private GameObject choiceSsOrMusicStage1Description;
     [SerializeField] private GameObject choiceSsOrMusicStage2Header;
@@ -132,8 +144,8 @@ public class UIManager : MonoBehaviour
     private static readonly Color CalibrationMicToneYesColor = new Color(246f / 255f, 255f / 255f, 177f / 255f, 1f); // #F6FFB1
     private static readonly Color CalibrationMicToneNoColor = new Color(79f / 255f, 94f / 255f, 97f / 255f, 1f);   // #4F5E61
 
-    /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets <see cref="SetChoiceSonofloreMusicLengthScreen"/> push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
-    private bool _pendingSonofloreLengthBackToSsOrMusic;
+    /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets child choice screens push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
+    private bool _pendingChoiceBackToSsOrMusic;
 
     public Action OnQuit;
     public Action OnStartSoundSelfPress;
@@ -157,6 +169,8 @@ public class UIManager : MonoBehaviour
         {
             choiceSSOrMusicScreen.SetActive(false);
             choiceSonofloreMusicLengthScreen.SetActive(false);
+            if (choiceAlbumScreen != null)
+                choiceAlbumScreen.SetActive(false);
             welcomeScreen.SetActive(false);
             startScreen.SetActive(false);
             conclusionScreen.SetActive(false);
@@ -184,6 +198,10 @@ public class UIManager : MonoBehaviour
         else if (choiceSonofloreMusicLengthScreen != null && choiceSonofloreMusicLengthScreen.activeSelf)
         {
             choiceSonofloreMusicLengthScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+        }
+        else if (choiceAlbumScreen != null && choiceAlbumScreen.activeSelf)
+        {
+            choiceAlbumScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
         }
         else if (startScreen != null && startScreen.activeSelf)
         {
