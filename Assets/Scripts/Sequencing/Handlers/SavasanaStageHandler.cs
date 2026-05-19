@@ -50,6 +50,7 @@ namespace SoundSelf.Sequence
                 return;
             }
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
+            _sequencer.StopOpeningAudioFromStageEnter();
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.SetMeditationScreen();

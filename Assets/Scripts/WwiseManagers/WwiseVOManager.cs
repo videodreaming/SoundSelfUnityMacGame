@@ -237,22 +237,15 @@ public class WwiseVOManager : MonoBehaviour
                 break;
 
             case "Cue_ChangeVocalizationTypeFromHmmToAhh":
-                Debug.Log("WWise_VO_CUE: Cue Change to Ahh");
-                VoTryTutorialSetVocalization(cue, "Ahh");
-                VoTryFundamentalModeUnlock(cue);
+                Debug.Log("WWise_VO_CUE: Cue_ChangeVocalizationTypeFromHmmToAhh — Long vocalization type and side effects are now driven by tutorial guidanceCount; cue kept for Wwise timeline compatibility.");
                 break;
 
             case "Cue_ChangeVocalizationTypeFromAhhToOhh":
-                Debug.Log("WWise_VO_CUE: Cue Change to Ohh");
-                VoTryTutorialSetVocalization(cue, "Ohh");
-                VoTryFundamentalModeUnlock(cue);
+                Debug.Log("WWise_VO_CUE: Cue_ChangeVocalizationTypeFromAhhToOhh — Long vocalization type and side effects are now driven by tutorial guidanceCount; cue kept for Wwise timeline compatibility.");
                 break;
 
             case "Cue_ChangeVocalizationTypeFromOhhToAdvanced":
-                Debug.Log("WWise_VO_CUE: Cue Change to Advanced");
-                VoTryTutorialSetVocalization(cue, "Advanced");
-                VoTryFundamentalModeUnlock(cue);
-                VoTryBeginShuffleIfIdle(cue);
+                Debug.Log("WWise_VO_CUE: Cue_ChangeVocalizationTypeFromOhhToAdvanced — Long vocalization type and side effects are now driven by tutorial guidanceCount; cue kept for Wwise timeline compatibility.");
                 break;
 
             case "Cue_FreePlay": // "Your task is to continue toning like this..." (~halfway through)
@@ -485,9 +478,7 @@ public class WwiseVOManager : MonoBehaviour
     public void StopOpeningSequence()
     {
         Debug.Log("WWise_VO: Stop Opening Sequence");
-        AkSoundEngine.PostEvent("Stop_PREPARATION_OPENING_SEQUENCE_LONG", gameObject);
-        AkSoundEngine.PostEvent("Stop_PREPARATION_OPENING_SEQUENCE_SHORT", gameObject);
-        AkSoundEngine.PostEvent("Stop_INTEGRATION_OPENING_SEQUENCE_SHORT", gameObject);
+        AkSoundEngine.PostEvent("Stop_OPENING_SEQUENCE", gameObject);
         AkSoundEngine.PostEvent("Stop_ASCENDING_OPENING", gameObject);
     }
 

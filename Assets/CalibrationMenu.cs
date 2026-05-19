@@ -123,6 +123,9 @@ public class CalibrationMenu : MonoBehaviour
             case "Cue_Calibration_Next":
                 command = SequenceCommand.CalibrationPoliteNext;
                 return true;
+            case "Cue_Calibration_Intro_End":
+                command = SequenceCommand.CalibrationIntroEnded;
+                return true;
             default:
                 command = default;
                 return false;

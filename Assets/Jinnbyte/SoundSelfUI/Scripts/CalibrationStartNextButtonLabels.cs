@@ -1,69 +1,23 @@
 using UnityEngine;
 
 /// <summary>
-/// Section Calibration Start — Next button: show <c>pleaseWaitText</c> until the first Wwise <c>Cue_Calibration_Instruction_OFF</c> on this step
-/// (via <see cref="UIManager.OnCalibrationStartInstructionVoLineEnded"/>), then show <c>primaryActionText</c>. Does not block the button. Resets when re-enabled.
+/// Section Calibration Start (orientation) — the Next button text always reads “Please Wait”;
+/// the step auto-advances on <c>Cue_Calibration_Intro_End</c>, so there is no primary call to
+/// action to swap to. Loading-spinner feedback on Next press is driven by
+/// <see cref="CalibrationCueWaitBinding"/>; configure its <c>labelWhileWaiting</c> on this screen
+/// to be null (or point to the primary-action GameObject we hide here) so the spinner does not
+/// hide “Please Wait” on press.
 /// </summary>
 public class CalibrationStartNextButtonLabels : MonoBehaviour
 {
     [SerializeField] private GameObject pleaseWaitText;
     [SerializeField] private GameObject primaryActionText;
 
-    private bool _subscribed;
-    private bool _switchedAfterFirstInstructionOff;
-
     private void OnEnable()
-    {
-        _switchedAfterFirstInstructionOff = false;
-        ApplyInitialLabelState();
-        SubscribeIfNeeded();
-    }
-
-    private void Start()
-    {
-        SubscribeIfNeeded();
-    }
-
-    private void OnDisable()
-    {
-        Unsubscribe();
-    }
-
-    private void SubscribeIfNeeded()
-    {
-        if (_subscribed)
-            return;
-        if (UIManager.Instance == null)
-            return;
-        UIManager.Instance.OnCalibrationStartInstructionVoLineEnded += OnCalibrationStartInstructionVoLineEnded;
-        _subscribed = true;
-    }
-
-    private void Unsubscribe()
-    {
-        if (!_subscribed)
-            return;
-        if (UIManager.Instance != null)
-            UIManager.Instance.OnCalibrationStartInstructionVoLineEnded -= OnCalibrationStartInstructionVoLineEnded;
-        _subscribed = false;
-    }
-
-    private void ApplyInitialLabelState()
     {
         if (pleaseWaitText != null)
             pleaseWaitText.SetActive(true);
         if (primaryActionText != null)
             primaryActionText.SetActive(false);
-    }
-
-    private void OnCalibrationStartInstructionVoLineEnded()
-    {
-        if (_switchedAfterFirstInstructionOff)
-            return;
-        _switchedAfterFirstInstructionOff = true;
-        if (pleaseWaitText != null)
-            pleaseWaitText.SetActive(false);
-        if (primaryActionText != null)
-            primaryActionText.SetActive(true);
     }
 }

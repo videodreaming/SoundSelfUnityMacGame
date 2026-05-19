@@ -574,6 +574,18 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         return NormalizeVolume(_vol1Sec * 40f);
     }
 
+    /// <summary>
+    /// Maps live raw mic loudness (<see cref="_dbMicrophone"/>, audio-thread) to 0–99 for calibration UI.
+    /// Not gated on <see cref="gameOn"/> or imitone activation — always reflects the raw input stream.
+    /// </summary>
+    public int GetRawMicrophoneInputLevelPercent(float minDb = -80f, float maxDb = -12f)
+    {
+        float db = _dbMicrophone;
+        if (float.IsNaN(db) || float.IsInfinity(db) || db <= -120f)
+            return 0;
+        float t = Mathf.InverseLerp(minDb, maxDb, db);
+        return Mathf.Clamp(Mathf.RoundToInt(t * 100f), 0, 99);
+    }
 
     /// <summary>
     /// Trigger stage of adaptive thresholding:

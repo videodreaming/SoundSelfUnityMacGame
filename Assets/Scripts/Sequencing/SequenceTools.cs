@@ -27,12 +27,14 @@ namespace SoundSelf.Sequence
         CalibrationAvsStart,
         /// <summary>Wwise <c>Cue_AVS_Calibration_End</c> — calibration handler restores light settings.</summary>
         CalibrationAvsEnd,
-        /// <summary>Wwise <c>Cue_Calibration_Instruction_ON</c> — instruction line started; also unlocks pending Next when that ON is the <b>destination</b> portion’s first line (Wwise often never posts <c>Cue_Calibration_Next</c> to Unity).</summary>
+        /// <summary>Wwise <c>Cue_Calibration_Instruction_ON</c> — instruction line started; may unlock pending Next on non-Start steps when that ON is the destination portion’s first line.</summary>
         CalibrationInstructionVoStarted,
         /// <summary>Wwise <c>Cue_Calibration_Instruction_OFF</c> — instruction line ended; may unlock pending Next.</summary>
         CalibrationInstructionVoEnded,
         /// <summary>Wwise <c>Cue_Calibration_Next</c> — still forwarded for logging; pending Next unlock does <b>not</b> use this (see <c>CalibrationStageHandler</c>).</summary>
-        CalibrationPoliteNext
+        CalibrationPoliteNext,
+        /// <summary>Wwise <c>Cue_Calibration_Intro_End</c> — fired near the end of the Intro (Start) segment; auto-advances the Start step regardless of whether the user pressed Next.</summary>
+        CalibrationIntroEnded
     }
 
     public enum StageType
@@ -95,7 +97,11 @@ namespace SoundSelf.Sequence
         Calibration_Album = 32,
         /// <summary>Stub: calibration without vibro step; same <see cref="StageType.Calibration"/> stage.</summary>
         Calibration_NoVibro = 33,
-        /// <summary><see cref="StageType.Code"/>: between dual-stage sections — choice (second visit) when <c>dualstageStage==1</c>, session end UI when <c>dualstageStage==2</c>.</summary>
+        /// <summary>
+        /// <see cref="StageType.Code"/>: dual-stage section boundary — routes to trailing
+        /// <see cref="StageVariant.Menu_Ps_InteractiveOrMusic"/> when <c>dualstageStage==1</c> or
+        /// <see cref="StageVariant.End_Default"/> when <c>dualstageStage==2</c> (see <see cref="CodeStageHandler"/>).
+        /// </summary>
         Code_Dualstage_SectionEnd = 34,
     }
 

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Meditation <c>Input_level</c> ellipses: XY scale damped with <see cref="LerpUtilities.DampTool"/> toward 0.6 or 1.0 from <see cref="ImitoneVoiceIntepreter.gameOn"/> only
-/// (rates from <see cref="GameValues.ChantLerpSlowDamp1"/> / <see cref="GameValues.ChantLerpSlowDamp2"/> — not the live <c>_chantLerpSlow</c> value), per-ellipse damp rate multiplier on each binding.
+/// (rates from <see cref="GameValues.ChantLerpSlowDamp1"/> / <see cref="GameValues.ChantLerpSlowDamp2"/> — not the live <c>_chantLerpSlow</c> value), per-slot damp/color/spin presets (indices 0–2).
 /// Color per ellipse: optional lag on <see cref="GameValues._chantLerpFast"/> then <see cref="LerpUtilities.DampTool"/> with its own chant-rate multiplier.
 /// Spin: each binding sets base °/s and a <see cref="EllipseSpinChantFormula"/>; <see cref="LerpUtilities.DampTool"/> smooths the formula output onto <see cref="Rotate.SpeedMultiplier"/> while <c>gameOn</c>, else toward 0.
 /// </summary>
@@ -28,7 +28,7 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
     private static readonly Color ChantTeal = new Color(0f, 140f / 255f, 171f / 255f, 1f);
     private static readonly Color ChantWhite = Color.white;
 
-    [SerializeField] private ChantingEllipseBinding[] _ellipses;
+    [SerializeField] private ChantingEllipseBinding[] _ellipses = new ChantingEllipseBinding[3];
 
     private ImitoneVoiceIntepreter _imitone;
     private GameValues _gameValues;
@@ -47,21 +47,56 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
     /// <summary>Cached prefix for <see cref="LerpUtilities.DampTool"/> keys (unique per host GameObject + this component).</summary>
     private string _dampToolKeyPrefix;
 
+    private struct EllipsePreset
+    {
+        public float scaleDampRateMultiplier;
+        public float colorChantDampRateMultiplier;
+        public float colorLagSeconds;
+        public EllipseSpinChantFormula spinChantFormula;
+        public float relativeRotationDegreesPerSecond;
+    }
+
+    private static readonly EllipsePreset[] EllipsePresets =
+    {
+        new EllipsePreset
+        {
+            scaleDampRateMultiplier = 1f,
+            colorChantDampRateMultiplier = 1f,
+            colorLagSeconds = 0.2f,
+            spinChantFormula = EllipseSpinChantFormula.SlowPlusChargeOver2,
+            relativeRotationDegreesPerSecond = 155f,
+        },
+        new EllipsePreset
+        {
+            scaleDampRateMultiplier = 0.75f,
+            colorChantDampRateMultiplier = 1f,
+            colorLagSeconds = 0f,
+            spinChantFormula = EllipseSpinChantFormula.FastQuarterChargeThreeQuarters,
+            relativeRotationDegreesPerSecond = 173f,
+        },
+        new EllipsePreset
+        {
+            scaleDampRateMultiplier = 0.5f,
+            colorChantDampRateMultiplier = 1f,
+            colorLagSeconds = 0.4f,
+            spinChantFormula = EllipseSpinChantFormula.MeanSlowFastCharge,
+            relativeRotationDegreesPerSecond = 201f,
+        },
+    };
+
+    private static EllipsePreset GetEllipsePreset(int index) =>
+        EllipsePresets[Mathf.Clamp(index, 0, EllipsePresets.Length - 1)];
+
     [System.Serializable]
     public class ChantingEllipseBinding
     {
-        [Tooltip("Ellipse object (uniform scale on X/Y; Z unchanged).")]
+        [Tooltip("Ellipse object (uniform scale on X/Y; Z unchanged). Damp, color lag, spin formula, and rotation use fixed presets by list index (0–2).")]
         public GameObject ellipseRoot;
-        [Tooltip("Multiplies GameValues chant damp1 and damp2 for this ellipse's grow/shrink (gameOn scale) only. Spin uses unmultiplied damp rates.")]
-        public float scaleDampRateMultiplier = 1f;
-        [Tooltip("Multiplies GameValues chant damp1 and damp2 for smoothing this ellipse's color (teal→white from _chantLerpFast). Independent of scale.")]
-        public float colorChantDampRateMultiplier = 1f;
-        [Tooltip("Approximate seconds of delay before _chantLerpFast changes reach this ellipse's color (ring buffer, ~60 frames per second of lag; 0 = none). Clamped at runtime.")]
-        public float colorLagSeconds;
-        [Tooltip("Which chant blend drives spin (damped onto Rotate.SpeedMultiplier). Match Ellipse 1 / 2 / 3 presets to your art.")]
-        public EllipseSpinChantFormula spinChantFormula = EllipseSpinChantFormula.SlowPlusChargeOver2;
-        [Tooltip("Base rotation speed in °/s at chant factor 1. Pushed to Rotate every frame so play-mode inspector tweaks apply immediately.")]
-        public float relativeRotationDegreesPerSecond = 60f;
+    }
+
+    private void Reset()
+    {
+        _ellipses = new ChantingEllipseBinding[3];
     }
 
     private static float EvaluateSpinFormula(EllipseSpinChantFormula f, float slow, float fast, float charge)
@@ -131,7 +166,7 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
             if (_rotates[i] == null)
                 _rotates[i] = b.ellipseRoot.GetComponentInChildren<Rotate>(true);
             if (_rotates[i] != null)
-                _rotates[i].BaseRotationDegreesPerSecond = Mathf.Max(0f, b.relativeRotationDegreesPerSecond);
+                _rotates[i].BaseRotationDegreesPerSecond = Mathf.Max(0f, GetEllipsePreset(i).relativeRotationDegreesPerSecond);
         }
     }
 
@@ -164,8 +199,9 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
             if (binding == null || binding.ellipseRoot == null || _roots[i] == null)
                 continue;
 
-            float scaleD1 = d1 * binding.scaleDampRateMultiplier;
-            float scaleD2 = d2 * binding.scaleDampRateMultiplier;
+            EllipsePreset preset = GetEllipsePreset(i);
+            float scaleD1 = d1 * preset.scaleDampRateMultiplier;
+            float scaleD2 = d2 * preset.scaleDampRateMultiplier;
             _scaleDamped[i] = LerpUtilities.DampTool(
                 ScaleDampKey(i),
                 _scaleDamped[i],
@@ -180,9 +216,9 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
 
             if (_images[i] != null)
             {
-                float laggedT = PushAndSampleColorLag(i, binding.colorLagSeconds, rawColorTargetT);
-                float colorD1 = d1 * binding.colorChantDampRateMultiplier;
-                float colorD2 = d2 * binding.colorChantDampRateMultiplier;
+                float laggedT = PushAndSampleColorLag(i, preset.colorLagSeconds, rawColorTargetT);
+                float colorD1 = d1 * preset.colorChantDampRateMultiplier;
+                float colorD2 = d2 * preset.colorChantDampRateMultiplier;
                 _colorDamped[i] = LerpUtilities.DampTool(
                     ColorDampKey(i),
                     _colorDamped[i],
@@ -198,10 +234,10 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
 
             if (_rotates[i] != null)
             {
-                _rotates[i].BaseRotationDegreesPerSecond = Mathf.Max(0f, binding.relativeRotationDegreesPerSecond);
+                _rotates[i].BaseRotationDegreesPerSecond = Mathf.Max(0f, preset.relativeRotationDegreesPerSecond);
 
                 float spinTarget = gameOn
-                    ? EvaluateSpinFormula(binding.spinChantFormula, slow, fast, charge)
+                    ? EvaluateSpinFormula(preset.spinChantFormula, slow, fast, charge)
                     : 0f;
 
                 _spinSmoothed[i] = LerpUtilities.DampTool(

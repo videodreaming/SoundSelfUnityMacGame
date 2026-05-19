@@ -154,26 +154,27 @@ Add to `Assets/Scripts/Sequencing/Sequencer.cs`:
 
 ### 2.2 `OpeningStageHandler` responsibilities
 
-For each `Opening_*` variant, `OpeningStageHandler.Enter` declares whether it owns *bed music that may outlive the opening stage*. Today:
+All `Opening_*` variants set `IsOpeningMusicPlaying = true` on `Enter`. They differ only in *which signal* flips it back to `false`.
 
-| Variant | Owns bed music past opening completion? | When does that music actually end? |
-|---|---|---|
-| `Opening_PS_Ascending` | **Yes** — `Play_ASCENDING_OPENING` keeps playing into tutorial. | When Wwise posts `Cue_Music_Ending` (`MusicTrackEnding`). |
-| `Opening_Preparation` / `Opening_Sonoflore` | Effectively **no** — bed audio is part of the VO container and finishes before `Cue_StartTutorial`. | Treat as "ended" by the time the opening leaves its main phase (`MarkComplete` / `BeginTransitionOut`). |
-| `Opening_Activation` | Same as Preparation — **no** "outliving" music. | Same: treat as ended by `MarkComplete` / `BeginTransitionOut`. |
+| Variant | Sets flag on `Enter`? | Flag flipped to `false` by… | Notes |
+|---|---|---|---|
+| `Opening_PS_Ascending` | Yes | `MusicTrackEnding` cue (`Cue_Music_Ending` from `Play_ASCENDING_OPENING`) | Has a real long musical tail that outlives the opening stage. |
+| `Opening_Preparation` / `Opening_Sonoflore` | Yes | The same cue that triggers `MarkComplete` — i.e. `StartInteractive` **or** `StartTutorial` (handled together in `ExecuteSequenceCommand`) | Bed audio is part of the VO container and is treated as "done" at the same moment the opening hands off to tutorial. |
+| `Opening_Activation` | Yes | Same as Preparation/Sonoflore — flip on `StartInteractive` / `StartTutorial`. | Same rationale. |
+| `Exit()` / `OnSessionSkipFromUi` / `EndThisSequenceStage` | n/a | Always — force the flag to `false` (force-stop path). | Belt-and-braces; covers force-skip, jumps, or sequence restart. |
 
 Concrete behavior changes:
 
 - In `Enter(variant)`:
-  - If the variant has outliving bed music (today: only `Opening_PS_Ascending`), call `_sequencer.NotifyOpeningMusicStarted()`.
-  - Otherwise, **do not** call `NotifyOpeningMusicStarted`. (Optional safety: call `NotifyOpeningMusicEnded()` to make the flag explicitly `false` in case some upstream code left it set.)
+  - Call `_sequencer.NotifyOpeningMusicStarted()` for **every** valid variant (after the variant validity branch passes). Doing it unconditionally also future-proofs against a future variant that needs the flag.
 - In `ExecuteSequenceCommand`:
-  - On `MusicTrackEnding`, if this variant had set `NotifyOpeningMusicStarted`, call `_sequencer.NotifyOpeningMusicEnded()`. **Stop calling `TransitionToAlternativeMusic("MusicLoop")` from here.** That responsibility moves to the tutorial.
+  - On `StartInteractive` or `StartTutorial`: in addition to today's `MarkComplete()`, call `_sequencer.NotifyOpeningMusicEnded()` **before** `MarkComplete()`. This is the standard-variant "music has effectively ended" path.
+  - On `MusicTrackEnding`: call `_sequencer.NotifyOpeningMusicEnded()`. **Stop calling `TransitionToAlternativeMusic("MusicLoop")` from here.** That responsibility moves to the tutorial. (PS_Ascending's flag was still `true` until this cue; standard variants already flipped it on the `StartInteractive`/`StartTutorial` cue, so this is a no-op for them — `NotifyOpeningMusicEnded` is idempotent.)
 - In `BeginTransitionOut`:
-  - If we own outliving music and haven't been told it ended yet, *do not* mark it ended here — Short tutorial is intentionally listening for the natural music tail. The signal must only flip to "ended" via `MusicTrackEnding` or `Exit()`.
+  - No change. Do not touch the flag here. PS_Ascending intentionally keeps the flag `true` after `MarkComplete` so that Tutorial_Short, now entering, can subscribe to `OnOpeningMusicEnded`.
 - In `LocalCleanup` / `Exit` / `OnSessionSkipFromUi`:
-  - Call `_sequencer.NotifyOpeningMusicEnded()` if it was still `true`. This satisfies the user's requirement: *"If it is forced to `exit()`, it should stop it as part of the exit behavior."*
-  - `StopOpeningSequence()` continues to be the actual audio stop. (It already does the four `Stop_*_OPENING_SEQUENCE_*` posts including `Stop_ASCENDING_OPENING`.)
+  - Call `_sequencer.NotifyOpeningMusicEnded()` (idempotent — only invokes the event on a real true→false transition). This satisfies the user's requirement: *"If it is forced to `exit()`, it should stop it as part of the exit behavior."*
+  - `wwiseVOManager.StopOpeningSequence()` should also be called here to actually silence the Wwise side. (It already does the four `Stop_*_OPENING_SEQUENCE_*` posts including `Stop_ASCENDING_OPENING`.) Today `LocalCleanup` only calls `StopOpeningSequence()`; add the `NotifyOpeningMusicEnded()` alongside it. Recommended: wrap both in a small Sequencer helper — see §3.
 - Remove the `_variantTransitionsToMusicLoop` field and `TransitionToAlternativeMusic` method from `OpeningStageHandler`. The "what music plays next" decision lives in the tutorial.
 
 ### 2.3 `TutorialStageHandler` responsibilities
@@ -227,15 +228,37 @@ Two acceptable implementations of the "opening music ended" signal:
 
 Plan adopts **A**.
 
-### 2.5 What flips the flag for the "no music after opening" variants
+### 2.5 What flips the flag for the standard (Activation / Sonoflore / Preparation) variants
 
-For `Opening_Preparation` / `Opening_Sonoflore` / `Opening_Activation`, the simplest interpretation that answers the user's open question — *"The standard (activation / sonoflore) variations should (...?)"* — is:
+**Decision:** standard variants **do** set the flag on `Enter` and clear it on the cue that triggers `MarkComplete` (i.e. `StartInteractive` or `StartTutorial`). See §2.2 for the full table.
 
-> Standard variants **do not** call `NotifyOpeningMusicStarted`. `IsOpeningMusicPlaying` stays `false` for them.
+This is more symmetric than the "never set the flag" alternative and gives every opening variant an honest lifecycle. Functionally:
 
-The tutorial after them therefore starts its music immediately, which preserves today's Long behavior exactly. No new Wwise authoring required.
+- For a Long tutorial after a standard opening: the cue arrives, `OpeningStageHandler` calls `NotifyOpeningMusicEnded()` → `MarkComplete()`. By the time `TutorialStageHandler.Enter` runs on the next runner tick, `IsOpeningMusicPlaying` is `false`, so Long starts `InteractiveTutorial` immediately — identical audible behavior to today.
+- For a hypothetical "Short after a standard opening" pairing: same — tutorial would see `false` on entry and run its `StartTutorialMusicForVariant` body immediately (equivalent to the music-loop transition firing without any wait, since standard openings don't emit `Cue_Music_Ending`). That is the cleanest available behavior for that combination.
 
-(Optional, more conservative alternative: standard variants *do* call `NotifyOpeningMusicStarted` on enter and `NotifyOpeningMusicEnded` on `MarkComplete` or `BeginTransitionOut`, so the flag has an honest lifecycle in every case. This is more symmetric, but it provides no functional benefit today since there is no Wwise `Cue_Music_Ending` from those containers that the tutorial would need to wait for. Recommend the simple version above unless a future variant needs the symmetry.)
+### 2.6 Defensive stage-enter cleanup (other handlers)
+
+Several non-Opening / non-Tutorial stages today *implicitly* assume the opening sequence is no longer playing audio. To make that explicit and to harden against jumps / dev sequence variants that bypass the natural Opening → Tutorial path, the following handlers should defensively stop opening audio and clear the flag on `Enter`:
+
+- `Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs`
+- `Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs`
+- `Assets/Scripts/Sequencing/Handlers/EndStageHandler.cs`
+- `Assets/Scripts/Sequencing/Handlers/MusicPlaylistStageHandler.cs`
+- `Assets/Scripts/Sequencing/Handlers/SetMenuStageHandler.cs`
+- `Assets/Scripts/Sequencing/Handlers/LinearAudioStageHandler.cs`
+
+(`Inquiry` is a stub and `Calibration` runs *before* any opening — neither needs this.)
+
+Each of those `Enter()` methods already calls `_sequencer.StopCalibrationInteractiveMusicFromStageEnter()` for the parallel "stop calibration audio on entry" guarantee. Add a sibling call — recommended name `_sequencer.StopOpeningAudioFromStageEnter()` — which:
+
+1. Calls `wwiseVOManager.StopOpeningSequence()` (posts the four `Stop_*_OPENING_SEQUENCE_*` events; idempotent and harmless when nothing is playing).
+2. Calls `NotifyOpeningMusicEnded()` (idempotent; only fires the event on a real true→false transition, so a Tutorial still listening will get its `OnOpeningMusicEnded` callback — which is the correct behavior for a session that jumps directly from Opening to Playground without Tutorial actually running its music intent, even though that scenario is unusual).
+
+In the normal Opening → Tutorial → Playground flow this is a redundant no-op (opening audio was already stopped during Opening's `LocalCleanup` and Tutorial unsubscribed in `BeginTransitionOut`). In jump / skip / dev-variant flows it guarantees opening audio doesn't leak into the new stage. Two failure modes this closes:
+
+- A sequence asset that skips the Tutorial stage entirely (Opening → Playground) — opening audio that needed `MusicTrackEnding` to stop would otherwise keep playing.
+- A debug jump to a later stage — the new stage now actively silences the opening Wwise events rather than relying on luck or `Exit()` cleanup from a possibly-not-yet-exited opening handler.
 
 ---
 
@@ -246,24 +269,40 @@ Production code — needs no scene/prefab edits, so per the workspace rule this 
 - `Assets/Scripts/Sequencing/Sequencer.cs`
   - Add `bool IsOpeningMusicPlaying` (public read, private set).
   - Add `event Action OnOpeningMusicEnded`.
-  - Add `internal void NotifyOpeningMusicStarted()` and `internal void NotifyOpeningMusicEnded()` with debug logging via `DbgLogSequencer`.
+  - Add `internal void NotifyOpeningMusicStarted()` and `internal void NotifyOpeningMusicEnded()` with debug logging via `DbgLogSequencer` (Q3 — log every transition through this gate when `debugAllowLogsSequencer` is on).
+  - Add `public void StopOpeningAudioFromStageEnter()` helper that calls `wwiseVOManager?.StopOpeningSequence()` then `NotifyOpeningMusicEnded()`. Mirrors the existing `StopCalibrationInteractiveMusicFromStageEnter()` shape and lets defensive stage handlers express intent with one call.
   - On `Awake`/sequence restart paths, reset the flag to `false`.
 
 - `Assets/Scripts/Sequencing/Handlers/OpeningStageHandler.cs`
-  - In `Enter` for `Opening_PS_Ascending`: call `_sequencer.NotifyOpeningMusicStarted()`.
-  - In `ExecuteSequenceCommand` for `MusicTrackEnding`: call `_sequencer.NotifyOpeningMusicEnded()`. **Remove** the `TransitionToAlternativeMusic("MusicLoop")` call from this code path.
-  - In `LocalCleanup` (called by `Exit` and `OnSessionSkipFromUi`): call `_sequencer.NotifyOpeningMusicEnded()` (idempotent — `NotifyOpeningMusicEnded` should only fire the event on a real true→false transition).
-  - Remove `_variantTransitionsToMusicLoop` field and `TransitionToAlternativeMusic` method (now unused).
+  - In `Enter`: after the variant-validity check passes (and audio actually starts), call `_sequencer.NotifyOpeningMusicStarted()` for **all** variants.
+  - In `ExecuteSequenceCommand` for `StartInteractive` or `StartTutorial`: call `_sequencer.NotifyOpeningMusicEnded()` **before** `MarkComplete()`. This flips the flag at the same instant the standard openings effectively hand off.
+  - In `ExecuteSequenceCommand` for `MusicTrackEnding`: call `_sequencer.NotifyOpeningMusicEnded()`. **Remove** the `TransitionToAlternativeMusic("MusicLoop")` call from this code path. (Calling `NotifyOpeningMusicEnded()` here for a standard variant is a no-op since it was already cleared.)
+  - In `LocalCleanup` (called by `Exit` and `OnSessionSkipFromUi`): call `_sequencer.NotifyOpeningMusicEnded()` after `StopOpeningSequence()` (idempotent). Force-stop path.
+  - Remove `_variantTransitionsToMusicLoop` field and `TransitionToAlternativeMusic` method (now unused). `Grep` confirms no external callers.
   - Keep the existing `WatchesSequenceCommand` entry for `MusicTrackEnding` — we still react to it, just differently.
 
 - `Assets/Scripts/Sequencing/Handlers/TutorialStageHandler.cs`
   - Replace the two inline `SetMusicModeTo(...)` calls in `Enter` with the conditional subscribe/immediate-start pattern from §2.3.
-  - Add `StartTutorialMusicForVariant(StageVariant variant)`.
-  - Add private field for the subscription `Action`, and a private `bool _subscribedToOpeningMusicEnded` (or similar) so unsubscribe is idempotent.
+  - Add `StartTutorialMusicForVariant(StageVariant variant)` (Q2 — Tutorial_Short keeps calling `_sequencer.StartPlayground(...)` internally; that name is awkward from a tutorial caller, but it stays in this refactor).
+  - Add a private `Action _onOpeningMusicEndedHandler` field plus a `bool _subscribedToOpeningMusicEnded` guard so unsubscribe is idempotent.
   - In `LocalCleanup`: unsubscribe from `_sequencer.OnOpeningMusicEnded` (idempotent).
   - Keep the rest of `Enter` (UI calls, monitoring override, `StartTutorial`, `gameOn = true`, lights, etc.) exactly as today.
 
-- *(Optional)* `Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs` — no functional changes needed, but if we want belt-and-braces, `Enter` could `_sequencer.NotifyOpeningMusicEnded()` so a stray subscriber elsewhere can never linger across into Playground. Recommend **not** doing this initially; the tutorial's unsubscribe-on-transition-out already covers it, and adding it here would obscure ownership.
+- Defensive `Enter`-time cleanup in the following handlers (see §2.6). Each one adds a single call alongside the existing `StopCalibrationInteractiveMusicFromStageEnter()`:
+
+  - `Assets/Scripts/Sequencing/Handlers/PlaygroundStageHandler.cs`
+  - `Assets/Scripts/Sequencing/Handlers/SavasanaStageHandler.cs`
+  - `Assets/Scripts/Sequencing/Handlers/EndStageHandler.cs`
+  - `Assets/Scripts/Sequencing/Handlers/MusicPlaylistStageHandler.cs`
+  - `Assets/Scripts/Sequencing/Handlers/SetMenuStageHandler.cs`
+  - `Assets/Scripts/Sequencing/Handlers/LinearAudioStageHandler.cs`
+
+  Pattern (per handler — single line in `Enter` after null-checks pass):
+
+  ```csharp
+  _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
+  _sequencer.StopOpeningAudioFromStageEnter();
+  ```
 
 No changes needed in:
 
@@ -281,9 +320,11 @@ No changes needed in:
 | Opening variant | Sets `IsOpeningMusicPlaying` on enter? | Flag goes `false` on… | Tutorial_Long after it | Tutorial_Short after it |
 |---|---|---|---|---|
 | `Opening_PS_Ascending` | **Yes** | `MusicTrackEnding` cue, or opening `Exit` (force) | Starts `InteractiveTutorial` **only after** `MusicTrackEnding` (i.e. plays over the natural music tail, not on top of it) | Starts `StartPlayground(... MusicLoop ... )` + `ShiftingEarth` **after** `MusicTrackEnding` — same audible result as today |
-| `Opening_Preparation` / `Opening_Sonoflore` / `Opening_Activation` | **No** | n/a (flag is already `false`) | Starts `InteractiveTutorial` immediately on tutorial `Enter` — identical to today | Starts the MusicLoop-style audio immediately on tutorial `Enter` (this combination did not work cleanly before) |
+| `Opening_Preparation` / `Opening_Sonoflore` / `Opening_Activation` | **Yes** | The same `StartInteractive` / `StartTutorial` cue that drives `MarkComplete` (also any force-exit path) | Tutorial enters with flag already `false`; starts `InteractiveTutorial` immediately on `Enter` — identical audible behavior to today | Tutorial enters with flag already `false`; immediately runs the MusicLoop-style transition (this combination did not work cleanly before) |
 
 So any opening × tutorial pairing becomes coherent. Playground variant choice is independent and already coherent today.
+
+Defensive cleanup on the post-Opening stages (Playground, Savasana, End, MusicPlaylist, SetMenu, LinearAudio) means: if a sequence asset skips Tutorial entirely (or a debug jump bypasses Opening's normal exit), the entered stage still silences any leftover opening Wwise audio on `Enter`.
 
 ---
 
@@ -298,14 +339,12 @@ So any opening × tutorial pairing becomes coherent. Playground variant choice i
 
 ---
 
-## 6. Open questions / decisions for the user
+## 6. Decisions (resolved with user)
 
-These are explicit because they alter behavior beyond a pure refactor:
-
-- **Q1.** Should the standard openings (`Activation` / `Sonoflore` / `Preparation`) use the simple "never set the flag" model (§2.5, recommended), or the symmetric "set then clear on `BeginTransitionOut`" model? Both yield identical *audible* behavior today; the symmetric model is slightly more future-proof if a standard opening later grows a real long musical tail.
-- **Q2.** Should `Sequencer.StartPlayground(...)` still be the way Tutorial_Short starts its music-loop bed (i.e. keep `StartTutorialMusicForVariant(Tutorial_Short)` calling `_sequencer.StartPlayground(...)`), or do we replace that with a dedicated `MusicSystem1` call sequence so the *tutorial* never invokes a method named "StartPlayground"? Recommend keeping it as-is for this refactor (smaller blast radius), with a follow-up cleanup ticket to rename / move the relevant `MusicSystem1` operations into a clearer API.
-- **Q3.** Do we want a unit-style debug aid — e.g. a Sequencer log line whenever `IsOpeningMusicPlaying` changes — gated behind `debugAllowLogsSequencer`? Recommend yes.
-- **Q4.** Are there any **other** stages (Savasana, Inquiry, etc.) that today implicitly assume opening music has stopped? Worth a spot-check; if any do, they can read `IsOpeningMusicPlaying` later without further API changes.
+- **Q1 — resolved.** *All* opening variants set `IsOpeningMusicPlaying = true` on `Enter`. Standard variants (`Activation` / `Sonoflore` / `Preparation`) flip it back to `false` on the cue that triggers `MarkComplete` (`StartInteractive` or `StartTutorial`). `PS_Ascending` keeps the flag `true` until `MusicTrackEnding` (or a force-exit path). See §2.2.
+- **Q2 — resolved.** Keep `Sequencer.StartPlayground(...)` as the music start for Tutorial_Short. (Rename / API extraction is a separate cleanup, not part of this refactor.)
+- **Q3 — resolved.** Yes: `NotifyOpeningMusicStarted` / `NotifyOpeningMusicEnded` log every transition through `DbgLogSequencer` (so the existing `debugAllowLogsSequencer` toggle gates it).
+- **Q4 — resolved.** Yes, multiple other stages implicitly assume opening music has stopped. We make that explicit by adding a defensive `Sequencer.StopOpeningAudioFromStageEnter()` call in `Enter` for: Playground, Savasana, End, MusicPlaylist, SetMenu, LinearAudio. See §2.6 and the file-by-file list in §3.
 
 ---
 
@@ -321,10 +360,11 @@ These are explicit because they alter behavior beyond a pure refactor:
 
 ## 8. Implementation order (suggested)
 
-1. Land §3 changes in `Sequencer.cs` (state + event + notify methods) with no callers yet. Compile.
-2. Switch `OpeningStageHandler` to call the notifiers and remove `TransitionToAlternativeMusic` from the `MusicTrackEnding` path (but keep the method temporarily in case anything else references it — `Grep` first; today nothing does).
+1. Land §3 changes in `Sequencer.cs` (state + event + notify methods + `StopOpeningAudioFromStageEnter` helper) with no callers yet. Compile.
+2. Switch `OpeningStageHandler` to call the notifiers in all three sites (`Enter`, `ExecuteSequenceCommand` for `StartInteractive`/`StartTutorial`, `ExecuteSequenceCommand` for `MusicTrackEnding`, `LocalCleanup`) and remove `TransitionToAlternativeMusic` / `_variantTransitionsToMusicLoop`.
 3. Switch `TutorialStageHandler` to the subscribe-or-immediate pattern with `StartTutorialMusicForVariant`.
 4. Smoke test each pair listed in §4. Pay particular attention to PS_Ascending → Short (existing behavior should be audibly identical) and Activation/Sonoflore → Long (also identical).
-5. Optional cleanup of dead code (`_variantTransitionsToMusicLoop`, `TransitionToAlternativeMusic`) in a separate commit.
+5. Add the single-line defensive `_sequencer.StopOpeningAudioFromStageEnter()` call to the six stage handlers listed in §2.6 / §3. Smoke test a dev jump straight from Opening → Playground (or Opening → MusicPlaylist) to confirm opening audio gets silenced on stage enter.
+6. Optional cleanup of any remaining dead references in a separate commit.
 
 Each step is independently shippable and easy to revert.

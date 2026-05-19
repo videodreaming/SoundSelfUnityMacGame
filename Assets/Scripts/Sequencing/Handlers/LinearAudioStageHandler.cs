@@ -29,6 +29,7 @@ namespace SoundSelf.Sequence
         {
             IsComplete = false;
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
+            _sequencer.StopOpeningAudioFromStageEnter();
             Debug.Log("LinearAudioStageHandler: Enter (stub - skipping until implementation added)");
 
             if (variant == StageVariant.Linear_Nature)

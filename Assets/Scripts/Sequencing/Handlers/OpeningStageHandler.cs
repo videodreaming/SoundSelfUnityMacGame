@@ -9,7 +9,13 @@ namespace SoundSelf.Sequence
         private readonly AVSSequence _avsSequence;
         private bool _hasEntered;
         private bool _variantForcesTone = false;
-        private bool _variantTransitionsToMusicLoop = false;
+        /// <summary>
+        /// When true, <see cref="SequenceCommand.StartInteractive"/> / <see cref="SequenceCommand.StartTutorial"/> also flip
+        /// <see cref="Sequencer.IsOpeningMusicPlaying"/> to false (standard openings: bed audio is treated as done at handoff).
+        /// When false, only <see cref="SequenceCommand.MusicTrackEnding"/> or a force-exit clears the flag (PS_Ascending: musical tail outlives the opening stage).
+        /// Set in <see cref="Enter"/>; reset on <see cref="LocalCleanup"/>.
+        /// </summary>
+        private bool _variantClearsOpeningMusicFlagOnHandoffCue = false;
 
         public StageType StageType => StageType.Opening;
 
@@ -107,7 +113,6 @@ namespace SoundSelf.Sequence
                 Debug.Log("OpeningStageHandler: Adjunctive mode detected. Initializing Adjunctive session.");
                 MusicSystem1.instance.SetSoundWorld("Shadow");
                 MusicSystem1.instance.SetSoundscape("ShiftingEarth");
-                _variantTransitionsToMusicLoop = true;
             }
             else
             {
@@ -124,7 +129,9 @@ namespace SoundSelf.Sequence
                 Debug.Log("OpeningStageHandler: Playing opening sequence: PS_Ascending");
                 
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("C");
-
+                // PS_Ascending's musical bed outlives the opening stage: Tutorial_Short must wait for the natural
+                // Cue_Music_Ending (SequenceCommand.MusicTrackEnding) before starting its replacement music.
+                _variantClearsOpeningMusicFlagOnHandoffCue = false;
             }
             else if (variant == StageVariant.Opening_Preparation || variant == StageVariant.Opening_Sonoflore)
             {
@@ -141,6 +148,7 @@ namespace SoundSelf.Sequence
                 }
                 _variantForcesTone = true;
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
+                _variantClearsOpeningMusicFlagOnHandoffCue = true;
             }
             else if (variant == StageVariant.Opening_Activation)
             {
@@ -148,6 +156,7 @@ namespace SoundSelf.Sequence
                 Debug.Log("OpeningStageHandler: Playing Activation opening sequence (Wwise: Integration_Short).");
                 _variantForcesTone = true;
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
+                _variantClearsOpeningMusicFlagOnHandoffCue = true;
             }
             else
             {
@@ -165,8 +174,12 @@ namespace SoundSelf.Sequence
                 UIManager.Instance.SetMeditationScreen();
                 UIManager.Instance.SetSessionSectionHeader(SessionSectionHeaderKind.OpeningMeditation);
                 UIManager.Instance.RefreshSessionDualStageBannerFromSequencer(_sequencer);
-                UIManager.Instance.EnableSkipButton(true, "Skip Opening Meditation");
+                UIManager.Instance.EnableSkipButton(false, null);
             }
+
+            // Opening sequence audio is now playing. Tutorial reads this on Enter to decide whether to start its
+            // music immediately or wait for OnOpeningMusicEnded. See Docs/TUTORIAL_OPENING_MUSIC_HANDOFF_PLAN.md.
+            _sequencer.NotifyOpeningMusicStarted();
         }
 
         private void EnsureThematicContentFallbackForStandardModes(StageVariant variant) //for debugging, if we are using a development sequence definition that doesn't match the csv...
@@ -234,12 +247,23 @@ namespace SoundSelf.Sequence
         {
             if (sequenceCommand == SequenceCommand.EndThisSequenceStage)
             {
+                // Force-exit path: any tutorial currently subscribed to OnOpeningMusicEnded should still receive
+                // the callback (no leaked subscription), and any tutorial about to enter should see the flag false.
+                _sequencer.NotifyOpeningMusicEnded();
                 MarkComplete();
                 return;
             }
 
             if (sequenceCommand == SequenceCommand.StartInteractive || sequenceCommand == SequenceCommand.StartTutorial)
+            {
+                // Standard openings (Preparation / Sonoflore / Activation): bed audio is effectively done at handoff,
+                // so flip the flag here so Tutorial_Long (or any tutorial after them) sees IsOpeningMusicPlaying = false
+                // when it Enters. PS_Ascending intentionally does NOT clear here — its musical bed keeps playing past
+                // the handoff cue and is cleared later by MusicTrackEnding (see _variantClearsOpeningMusicFlagOnHandoffCue).
+                if (_variantClearsOpeningMusicFlagOnHandoffCue)
+                    _sequencer.NotifyOpeningMusicEnded();
                 MarkComplete();
+            }
 
             if (sequenceCommand == SequenceCommand.FirstVocalizationStart)
             {
@@ -251,26 +275,13 @@ namespace SoundSelf.Sequence
                     _sequencer.MakeWwiseTone();
                 }
             }
-            if(sequenceCommand == SequenceCommand.MusicTrackEnding && _variantTransitionsToMusicLoop)
+            if (sequenceCommand == SequenceCommand.MusicTrackEnding)
             {
-                Debug.Log("OpeningStageHandler: Transitioning to Music Loop");
-                TransitionToAlternativeMusic("MusicLoop");
+                // PS_Ascending's long musical tail has reached its natural end. Flip the flag so any Tutorial
+                // currently subscribed to OnOpeningMusicEnded starts its own music. The Tutorial owns the "what
+                // music plays next" decision now — Opening no longer calls _sequencer.StartPlayground from here.
+                _sequencer.NotifyOpeningMusicEnded();
             }
-        }
-
-        public void TransitionToAlternativeMusic(string alternativeMusicVariant)
-        {
-            if(alternativeMusicVariant == "MusicLoop")
-            {
-                _sequencer.StartPlayground(false, false, true, 30.0f, false, false);
-                MusicSystem1.instance.SetSoundscape("ShiftingEarth");
-
-            }
-            else
-            {
-                Debug.LogError("OpeningStageHandler: Invalid alternative music variant: " + alternativeMusicVariant);
-            }
-
         }
 
         //--------------------------------
@@ -304,7 +315,15 @@ namespace SoundSelf.Sequence
         private void LocalCleanup()
         {
             _hasEntered = false;  // Allow re-enter on sequence restart
+            // Reset per-variant flags so a subsequent Enter for a different variant starts from a clean slate.
+            // (Pre-refactor, _variantForcesTone could leak true across sequence runs — e.g. Activation/Sonoflore → new
+            // sequence with PS_Ascending — and erroneously call MakeWwiseTone on the new opening's FirstVocalizationStart.)
+            _variantForcesTone = false;
+            _variantClearsOpeningMusicFlagOnHandoffCue = false;
             _sequencer.wwiseVOManager.StopOpeningSequence();
+            // Force-stop path: if MusicTrackEnding never arrived (e.g. PS_Ascending skipped before its tail finished),
+            // the Tutorial may still be subscribed to OnOpeningMusicEnded — flip the flag so its callback runs.
+            _sequencer.NotifyOpeningMusicEnded();
         }
 
         /// <summary>Runner-only: final retirement; safe if called more than once.</summary>

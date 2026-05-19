@@ -34,6 +34,12 @@ public class Tutorial : MonoBehaviour
     //public bool tutorialComplete = false;
     public TimeTrackerScript TimeTrackerScript;
 
+    // Long tutorial: Hum×5, Ahh×5, Ohh×4, Advanced×5 — type selection by guidanceCount (stage exit still via Wwise cues).
+    private const int LongGuidanceCountSwitchToAhh = 5;
+    private const int LongGuidanceCountSwitchToOhh = 10;
+    private const int LongGuidanceCountSwitchToAdvanced = 14;
+    private const int LongGuidanceTotal = 19;
+
     /// <summary>Same source as <see cref="SoundSelf.Sequence.PlaygroundStageHandler"/> — main segment clock, not full session.</summary>
     private float SessionCountdownThisSection()
     {
@@ -215,21 +221,22 @@ public class Tutorial : MonoBehaviour
                     {
                         sequencer.HandleSequenceCommand(SequenceCommand.TutorialPassed);
                     }
-                    //THERE IS AN INELEGANCE HERE:
-                    //Short tutorial ends by counting the amount of guidance played.
-                    //Long tutorial ends by waiting for the cue from Wwise.
-                    //(Both use HandleSequenceCommand())
+                    // Short ends by guidance count; Long ends via Wwise stage cues (e.g. Break_Tests) after all 19 guidance lines.
                 }
             }
             else
             {
-                // Long: Wwise no longer posts Cue_VO_GuidedVocalization_Start on these lines; that cue set gameOn false at line start.
-                // Without it, while (!gameOn) after the 3s pad does not block and the fail timer runs during VO. Mirror Start timing here.
-                //imitoneVoiceInterpreter.SetGameOn(false); //UPDATE: THIS "FIX" NO LONGER NECESSARY.
+                if (guidanceCount >= LongGuidanceTotal)
+                {
+                    Debug.Log("Tutorial: (Long) All " + LongGuidanceTotal + " guidance lines delivered; waiting for Wwise stage cues (e.g. Cue_Break_Tests) to end the tutorial.");
+                    yield break;
+                }
+
+                ApplyLongVocalizationTypeFromGuidanceCount(guidanceCount);
                 guidanceCount = wwiseVOManager.PlayTutorialGuidance(testVocalizationType);
                 Debug.Log("Tutorial: (Long) Played " + testVocalizationType + " guidance, guidanceCount: " + guidanceCount);
             }
-            
+
             testCoroutine = StartCoroutine(VoiceTestCoroutine());
         } else {
             Debug.Log("Tutorial: Voice Test Coroutine: Tutorial is over");
@@ -345,5 +352,41 @@ public class Tutorial : MonoBehaviour
             testVocalizationType = vocalizationType;
             Debug.Log("Tutorial: SetTestVocalizationType: " + vocalizationType);
         }
+    }
+
+    private static string GetLongVocalizationTypeForGuidanceCount(int guidanceCountSoFar)
+    {
+        if (guidanceCountSoFar < LongGuidanceCountSwitchToAhh)
+            return "Hum";
+        if (guidanceCountSoFar < LongGuidanceCountSwitchToOhh)
+            return "Ahh";
+        if (guidanceCountSoFar < LongGuidanceCountSwitchToAdvanced)
+            return "Ohh";
+        return "Advanced";
+    }
+
+    /// <summary>Long only: pick Hum/Ahh/Ohh/Advanced from how many guidance lines have already been posted; apply unlock/shuffle side effects that used to live on Wwise change-type cues.</summary>
+    private void ApplyLongVocalizationTypeFromGuidanceCount(int guidanceCountSoFar)
+    {
+        string nextType = GetLongVocalizationTypeForGuidanceCount(guidanceCountSoFar);
+        if (nextType == testVocalizationType)
+            return;
+
+        string previousType = testVocalizationType;
+        ApplyLongVocalizationTransitionSideEffects(previousType, nextType);
+        testVocalizationType = nextType;
+        Debug.Log("Tutorial: (Long) guidanceCount " + guidanceCountSoFar + " → vocalization type " + nextType + " (was " + previousType + ")");
+    }
+
+    private void ApplyLongVocalizationTransitionSideEffects(string fromType, string toType)
+    {
+        if (fromType == toType)
+            return;
+
+        if (toType != "Hum" && musicSystem1 != null)
+            musicSystem1.SetFundamentalModeLock(false);
+
+        if (fromType == "Ohh" && toType == "Advanced" && worldShuffler != null && !worldShuffler.shuffling)
+            worldShuffler.BeginShuffle();
     }
 }

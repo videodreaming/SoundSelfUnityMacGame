@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -46,6 +46,9 @@ public enum SessionDualStageBannerKind
 public static class UIManagerTiming
 {
     public const float ButtonInteractionCooldownSeconds = 0.333f;
+    /// <summary>Calibration mic level text refresh rate (Hz).</summary>
+    public const float CalibrationMicLevelTextUpdatesPerSecond = 4f;
+    public const float LocalTimeTextUpdateIntervalSeconds = 10f;
 }
 
 /// <summary>
@@ -58,9 +61,12 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     [SerializeField] private Battery battery;
     [SerializeField] private Timer sessionStartTimer;
-    [SerializeField] private Text microphoneStatusText;
+    [FormerlySerializedAs("microphoneStatusText")]
+    [SerializeField] private Text micLevelText;
     [SerializeField] private Text headphoneStatusText;
     [SerializeField] private Text versionText;
+    [Tooltip("Local system time, e.g. 11:11 am, CST — refreshed every 10 seconds.")]
+    [SerializeField] private Text localTimeText;
     [SerializeField] private GameObject calibrationHeadText; // Set by CalibrationStageHandler per step; not all steps have instructions, so optional assignment.
 
 
@@ -80,6 +86,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject conclusionScreen;
     [SerializeField] private GameObject headphoneScreen; //calibration screens
     [SerializeField] private GameObject microphoneScreen; //calibration screens
+    [Header("Calibration — voice test (microphone + vibroacoustic)")]
+    [Tooltip("Assign the Microphone_Test_Card root. Mic level updates only while this object is active during the Microphone calibration step. If unset, any active Microphone calibration screen shows the level.")]
+    [SerializeField] private GameObject calibrationMicrophoneTestCard;
+    [Tooltip("Shows YES/NO from ImitoneVoiceIntepreter.toneActive during Microphone and Vibroacoustic calibration steps.")]
+    [SerializeField] private Text micToneOnText;
     [SerializeField] private GameObject vibroAcousticScreen; //calibration screens
     [SerializeField] private GameObject lightGlassesScreen; // Section Calibration Lightglasses root
     [SerializeField] private GameObject startMeditationScreen;
@@ -113,11 +124,16 @@ public class UIManager : MonoBehaviour
     private bool _skipButtonSuppressTextChanges;
     private bool _skipSessionButtonFadeOutPending;
 
+    private CalibrationUI _activeCalibrationUi = CalibrationUI.Start;
+    private bool _calibrationVoiceTestUiWasActive;
+    private float _nextCalibrationVoiceTestUiUpdateTime;
+    private bool? _micToneOnTextLastToneOn;
+
+    private static readonly Color CalibrationMicToneYesColor = new Color(246f / 255f, 255f / 255f, 177f / 255f, 1f); // #F6FFB1
+    private static readonly Color CalibrationMicToneNoColor = new Color(79f / 255f, 94f / 255f, 97f / 255f, 1f);   // #4F5E61
+
     /// <summary>Set when SS/Music choice UI is shown (<see cref="ShowChoiceSsOrMusicScreenCore"/>); cleared by <see cref="ClearChoiceMenuNavigationStack"/>. Lets <see cref="SetChoiceSonofloreMusicLengthScreen"/> push SS/Music as Back target even if fades mean SS is not yet <see cref="GameObject.activeSelf"/>.</summary>
     private bool _pendingSonofloreLengthBackToSsOrMusic;
-
-
-
 
     public Action OnQuit;
     public Action OnStartSoundSelfPress;
@@ -129,8 +145,6 @@ public class UIManager : MonoBehaviour
     public Action OnCalibrationBackPress;
     /// <summary>Conclusion screen only — confirms finishing calibration; handler may wait for <c>Cue_Calibration_Instruction_OFF</c> before <c>MarkComplete</c> when VO is in progress.</summary>
     public Action OnCalibrationConclusionConfirmPress;
-    /// <summary>Wwise <c>Cue_Calibration_Instruction_OFF</c> while calibration UI is still on <see cref="CalibrationUI.Start"/> — e.g. swap Start Next button copy from “please wait” to primary label.</summary>
-    public Action OnCalibrationStartInstructionVoLineEnded;
     public Action OnHeadphoneTroubleshootingPress;
     public Action OnSkipSessionButtonPress;
     public Action OnMeditationQuitPress;
@@ -218,6 +232,7 @@ public class UIManager : MonoBehaviour
     {
         // Choice stack is unrelated to calibration (see class summary); reset so Back on a later choice visit does not use stale targets.
         ClearChoiceMenuNavigationStack();
+        _activeCalibrationUi = screen;
         UnsetAllScreens(() =>
         {
             switch (screen)
@@ -732,9 +747,6 @@ public class UIManager : MonoBehaviour
         SetCalibrationConclusionConfirmCuePendingVisual(false);
     }
 
-    /// <summary>Called from <see cref="SoundSelf.Sequence.CalibrationStageHandler"/> when <c>Cue_Calibration_Instruction_OFF</c> fires while still on the Start calibration step.</summary>
-    public void NotifyCalibrationStartInstructionVoLineEnded() => OnCalibrationStartInstructionVoLineEnded?.Invoke();
-
     private GameObject GetCalibrationScreenRoot(CalibrationUI screen)
     {
         switch (screen)
@@ -756,15 +768,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Set Time 
-    // Set Progress Bar
-
-    private bool isSessionActive = false;
-    private float sessionDuration = 1f; // Example session duration in seconds
-    private float sessionElapsedTime = 0f;
-
     private const float BatteryPollIntervalSeconds = 1f;
     private float _nextBatteryPollTime;
+    private float _nextLocalTimeTextUpdateTime;
 
     /// <summary>Until this time (<see cref="Time.time"/>), inspector button callbacks ignore presses (debounce + post-screen-show grace).</summary>
     private float _nextButtonInteractionAllowedTime;
@@ -811,14 +817,65 @@ public class UIManager : MonoBehaviour
             calibrationHeadText.SetActive(false);
         }
         ClearCalibrationProgress();
+        RefreshLocalTimeTextFromSystem();
+        _nextLocalTimeTextUpdateTime = Time.time + UIManagerTiming.LocalTimeTextUpdateIntervalSeconds;
     }
 
     private void Update()
     {
-        if (Time.time < _nextBatteryPollTime)
+        RefreshCalibrationVoiceTestUiIfNeeded();
+
+        if (Time.time >= _nextLocalTimeTextUpdateTime)
+        {
+            _nextLocalTimeTextUpdateTime = Time.time + UIManagerTiming.LocalTimeTextUpdateIntervalSeconds;
+            RefreshLocalTimeTextFromSystem();
+        }
+
+        if (Time.time >= _nextBatteryPollTime)
+        {
+            _nextBatteryPollTime = Time.time + BatteryPollIntervalSeconds;
+            RefreshBatteryUiFromSystem();
+        }
+    }
+
+    /// <summary>Sets <see cref="localTimeText"/> from the device clock, e.g. <c>11:11 am, CST</c>.</summary>
+    private void RefreshLocalTimeTextFromSystem()
+    {
+        if (localTimeText == null)
             return;
-        _nextBatteryPollTime = Time.time + BatteryPollIntervalSeconds;
-        RefreshBatteryUiFromSystem();
+
+        DateTime now = DateTime.Now;
+        string timePart = now.ToString("h:mm tt", CultureInfo.InvariantCulture).ToLowerInvariant();
+        localTimeText.text = timePart + ", " + GetLocalTimeZoneAbbreviation(now);
+    }
+
+    private static string GetLocalTimeZoneAbbreviation(DateTime localTime)
+    {
+        TimeZoneInfo tz;
+        try
+        {
+            tz = TimeZoneInfo.Local;
+        }
+        catch
+        {
+            return "UTC";
+        }
+
+        string zoneName = tz.IsDaylightSavingTime(localTime) ? tz.DaylightName : tz.StandardName;
+        if (!string.IsNullOrEmpty(zoneName))
+        {
+            string[] parts = zoneName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length >= 3)
+                return string.Concat(char.ToUpperInvariant(parts[0][0]), char.ToUpperInvariant(parts[1][0]), char.ToUpperInvariant(parts[2][0]));
+            if (parts.Length == 1 && parts[0].Length <= 5)
+                return parts[0].ToUpperInvariant();
+        }
+
+        TimeSpan offset = tz.GetUtcOffset(localTime);
+        int hours = (int)offset.TotalHours;
+        if (hours == 0)
+            return "UTC";
+        return "UTC" + (hours > 0 ? "+" : "") + hours.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>Reads <see cref="SystemInfo.batteryLevel"/> and updates the battery bar (0–1).</summary>
@@ -853,20 +910,113 @@ public class UIManager : MonoBehaviour
     {
         battery.SetCharging(isCharging);
     }
+    /// <summary>Manual override for <see cref="micLevelText"/> (normally driven from <see cref="ImitoneVoiceIntepreter.GetRawMicrophoneInputLevelPercent"/> during the microphone test).</summary>
     public void SetMicrophoneStatus(int inputLevel)
     {
-        microphoneStatusText.text = inputLevel.ToString() + "%";
+        if (micLevelText == null)
+            return;
+        int clamped = Mathf.Clamp(inputLevel, 0, 99);
+        micLevelText.text = clamped.ToString("D2") + "%";
+    }
+
+    private bool ShouldShowCalibrationMicLevel()
+    {
+        if (_activeCalibrationUi != CalibrationUI.Microphone)
+            return false;
+        if (microphoneScreen == null || !microphoneScreen.activeSelf)
+            return false;
+        if (calibrationMicrophoneTestCard != null && !calibrationMicrophoneTestCard.activeInHierarchy)
+            return false;
+        return true;
+    }
+
+    private bool ShouldShowCalibrationToneDetectedText()
+    {
+        if (_activeCalibrationUi != CalibrationUI.Microphone && _activeCalibrationUi != CalibrationUI.VibroAcoustic)
+            return false;
+
+        GameObject screen = _activeCalibrationUi == CalibrationUI.Microphone ? microphoneScreen : vibroAcousticScreen;
+        if (screen == null || !screen.activeSelf)
+            return false;
+
+        if (_activeCalibrationUi == CalibrationUI.Microphone
+            && calibrationMicrophoneTestCard != null
+            && !calibrationMicrophoneTestCard.activeInHierarchy)
+            return false;
+
+        return true;
+    }
+
+    private ImitoneVoiceIntepreter ResolveImitoneForMicLevel()
+    {
+        if (sequencer != null && sequencer.imitoneVoiceInterpreter != null)
+            return sequencer.imitoneVoiceInterpreter;
+        return FindObjectOfType<ImitoneVoiceIntepreter>();
+    }
+
+    private void RefreshCalibrationVoiceTestUiIfNeeded()
+    {
+        if (micLevelText == null && micToneOnText == null)
+            return;
+
+        bool showMicLevel = ShouldShowCalibrationMicLevel();
+        bool showToneDetected = ShouldShowCalibrationToneDetectedText();
+        if (!showMicLevel && !showToneDetected)
+        {
+            if (_calibrationVoiceTestUiWasActive)
+            {
+                if (micLevelText != null)
+                    micLevelText.text = "00%";
+                SetMicToneOnText(false);
+                _calibrationVoiceTestUiWasActive = false;
+                _nextCalibrationVoiceTestUiUpdateTime = 0f;
+                _micToneOnTextLastToneOn = null;
+            }
+            return;
+        }
+
+        bool firstUpdateThisVisit = !_calibrationVoiceTestUiWasActive;
+        _calibrationVoiceTestUiWasActive = true;
+        if (!firstUpdateThisVisit && Time.time < _nextCalibrationVoiceTestUiUpdateTime)
+            return;
+        _nextCalibrationVoiceTestUiUpdateTime = Time.time + (1f / UIManagerTiming.CalibrationMicLevelTextUpdatesPerSecond);
+
+        var interpreter = ResolveImitoneForMicLevel();
+        if (showMicLevel && micLevelText != null)
+            micLevelText.text = interpreter != null
+                ? interpreter.GetRawMicrophoneInputLevelPercent().ToString("D2") + "%"
+                : "00%";
+
+        if (showToneDetected && micToneOnText != null)
+            SetMicToneOnText(interpreter != null && interpreter.toneActive);
+    }
+
+    private void SetMicToneOnText(bool toneOn)
+    {
+        if (micToneOnText == null)
+            return;
+        if (_micToneOnTextLastToneOn.HasValue && _micToneOnTextLastToneOn.Value == toneOn)
+            return;
+
+        _micToneOnTextLastToneOn = toneOn;
+        if (toneOn)
+        {
+            micToneOnText.text = "YES";
+            micToneOnText.color = CalibrationMicToneYesColor;
+        }
+        else
+        {
+            micToneOnText.text = "NO";
+            micToneOnText.color = CalibrationMicToneNoColor;
+        }
     }
 
     public void SetHeadphoneStatus(int outputLevel)
     {
+        if (headphoneStatusText == null)
+            return;
         headphoneStatusText.text = outputLevel.ToString() + "%";
     }
-
-    // public void SetSessionStartTimer(float time)
-    // {
-    //     sessionStartTimer.SetTimer(time);
-    // }
 
     public void SetProgressBar(float progress) //progress bar from 0 to 1.
     {

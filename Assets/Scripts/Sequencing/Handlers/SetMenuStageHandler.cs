@@ -33,6 +33,7 @@ namespace SoundSelf.Sequence
         {
             IsComplete = false;
             _sequencer?.FadePreferredColorDarkAndStopAvs();
+            _sequencer?.StopOpeningAudioFromStageEnter();
             if (UIManager.Instance != null)
                 UIManager.Instance.EnableSkipButton(false, null);
 

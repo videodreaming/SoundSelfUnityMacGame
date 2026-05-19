@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace SoundSelf.Sequence
@@ -9,6 +10,11 @@ namespace SoundSelf.Sequence
 
         private bool variantWatchesWwiseVOCuesForCompletion = true;
         private bool _hasEntered = false;
+
+        /// <summary>The active variant captured in <see cref="Enter"/>; used by the <see cref="Sequencer.OnOpeningMusicEnded"/> callback so it can route to the correct music-intent branch.</summary>
+        private StageVariant _activeVariant = StageVariant.None;
+        /// <summary>Stored handler reference so we can <c>-=</c> the same delegate we subscribed with. Null when not subscribed.</summary>
+        private Action _onOpeningMusicEndedHandler;
 
         public TutorialStageHandler(Sequencer sequencer)
         {
@@ -74,6 +80,7 @@ namespace SoundSelf.Sequence
             
             _hasEntered = true;
             IsComplete = false;
+            _activeVariant = variant;
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             Debug.Log("TutorialStageHandler: Enter");
 
@@ -88,7 +95,6 @@ namespace SoundSelf.Sequence
             if (variant == StageVariant.Tutorial_Long)
             {
                 _sequencer.tutorial.SetTestVocalizationType("Hum");
-                MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
                 _sequencer.tutorial.StartTutorial("Long");
                 _sequencer.wwiseVOManager.SetTestRepairSwitch("A");
                 variantWatchesWwiseVOCuesForCompletion = true;
@@ -96,7 +102,6 @@ namespace SoundSelf.Sequence
             else if (variant == StageVariant.Tutorial_Short)
             {
                 _sequencer.tutorial.SetTestVocalizationType("Ahh");
-                MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.Silent);
                 _sequencer.tutorial.StartTutorial("Short");
                 variantWatchesWwiseVOCuesForCompletion = false;
             }
@@ -104,12 +109,13 @@ namespace SoundSelf.Sequence
             {
                 Debug.LogError("TutorialStageHandler: Invalid variant: " + variant);
                 _hasEntered = false;
+                _activeVariant = StageVariant.None;
                 return;
             }
 
             _sequencer.wwiseVOManager.ResetTutorialGuidanceCount();
             MusicSystem1.instance.SetAllowThumpAlways(true);
-            var directVoiceMonitoring = Object.FindObjectOfType<DirectVoiceMonitoring>();
+            var directVoiceMonitoring = UnityEngine.Object.FindObjectOfType<DirectVoiceMonitoring>();
             if (directVoiceMonitoring != null)
             {
                 // Tutorial explicitly owns "never attenuate" while active.
@@ -120,6 +126,69 @@ namespace SoundSelf.Sequence
             LightControl.instance.StartLights();
             _sequencer.imitoneVoiceInterpreter.gameOn = true;
 
+            // Music intent for the tutorial variant. If opening music is still playing (PS_Ascending today), wait for
+            // Sequencer.OnOpeningMusicEnded so we don't trample the still-playing opening bed. Otherwise start now.
+            // See Docs/TUTORIAL_OPENING_MUSIC_HANDOFF_PLAN.md §2.3.
+            if (_sequencer.IsOpeningMusicPlaying)
+            {
+                Debug.Log("TutorialStageHandler: Opening music still playing — subscribing to OnOpeningMusicEnded to start tutorial music when it ends.");
+                SubscribeToOpeningMusicEnded();
+            }
+            else
+            {
+                StartTutorialMusicForVariant(variant);
+            }
+        }
+
+        /// <summary>
+        /// Per-variant "what music plays during/after the tutorial". Called either immediately from <see cref="Enter"/>
+        /// (when no opening music is playing) or from the <see cref="Sequencer.OnOpeningMusicEnded"/> callback when the
+        /// opening's musical tail has finished. Adding a new tutorial variant in the future = one new case here.
+        /// </summary>
+        private void StartTutorialMusicForVariant(StageVariant variant)
+        {
+            switch (variant)
+            {
+                case StageVariant.Tutorial_Long:
+                    MusicSystem1.instance.SetMusicModeTo(MusicSystem1.MusicMode.InteractiveTutorial);
+                    break;
+
+                case StageVariant.Tutorial_Short:
+                    // Equivalent to the legacy OpeningStageHandler.TransitionToAlternativeMusic("MusicLoop") call.
+                    // Sequencer.StartPlayground is a debug-style facade; the awkward name from the tutorial side is
+                    // tracked as a follow-up cleanup in Docs/TUTORIAL_OPENING_MUSIC_HANDOFF_PLAN.md §6 (Q2).
+                    _sequencer.StartPlayground(false, false, true, 30.0f, false, false);
+                    MusicSystem1.instance.SetSoundscape("ShiftingEarth");
+                    break;
+
+                default:
+                    Debug.LogError("TutorialStageHandler.StartTutorialMusicForVariant: No music intent defined for variant " + variant + ".");
+                    break;
+            }
+        }
+
+        private void SubscribeToOpeningMusicEnded()
+        {
+            if (_onOpeningMusicEndedHandler != null)
+                return; // already subscribed
+            _onOpeningMusicEndedHandler = HandleOpeningMusicEnded;
+            _sequencer.OnOpeningMusicEnded += _onOpeningMusicEndedHandler;
+        }
+
+        private void UnsubscribeFromOpeningMusicEnded()
+        {
+            if (_onOpeningMusicEndedHandler == null)
+                return;
+            _sequencer.OnOpeningMusicEnded -= _onOpeningMusicEndedHandler;
+            _onOpeningMusicEndedHandler = null;
+        }
+
+        private void HandleOpeningMusicEnded()
+        {
+            Debug.Log("TutorialStageHandler: OnOpeningMusicEnded fired — starting tutorial music for variant " + _activeVariant + ".");
+            // One-shot: unsubscribe before starting music in case the music start path triggers any reentrant signal.
+            UnsubscribeFromOpeningMusicEnded();
+            StartTutorialMusicForVariant(_activeVariant);
         }
 
         //--------------------------------
@@ -150,6 +219,11 @@ namespace SoundSelf.Sequence
         /// <summary>Shared teardown; intended to be called from Exit() or from both Exit() and BeginTransitionOut() (then must keep idempotent).</summary>
         private void LocalCleanup()
         {
+            // Unsubscribe first so a late MusicTrackEnding cue during the playground stage cannot reach us and trample
+            // the playground's own MusicSystem1 setup. Idempotent — safe to call from any exit path.
+            if (_sequencer != null)
+                UnsubscribeFromOpeningMusicEnded();
+
             if (MusicSystem1.instance != null)
             {
                 // Tutorial no longer has attenuation priority; immediately restore interaction-based rule.
@@ -159,6 +233,7 @@ namespace SoundSelf.Sequence
             if (_sequencer != null && _sequencer.tutorial != null)
                 _sequencer.tutorial.StopTutorial();
             _hasEntered = false;
+            _activeVariant = StageVariant.None;
         }
 
         /// <summary>Runner-only: final retirement; safe if called more than once.</summary>

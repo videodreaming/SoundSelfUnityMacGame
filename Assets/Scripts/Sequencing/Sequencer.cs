@@ -93,6 +93,74 @@ public class Sequencer : MonoBehaviour
             calibrationMenu.StopCalibrationSequence();
     }
 
+    //====================================================================================================
+    // Opening music handoff state
+    //
+    // OpeningStageHandler sets IsOpeningMusicPlaying = true on Enter for every Opening_* variant. It clears the
+    // flag on:
+    //   - PS_Ascending: SequenceCommand.MusicTrackEnding (Wwise Cue_Music_Ending from the long musical tail).
+    //   - Activation / Sonoflore / Preparation: the same StartInteractive/StartTutorial cue that triggers MarkComplete.
+    //   - Any force-exit path (Exit / OnSessionSkipFromUi / EndThisSequenceStage via LocalCleanup).
+    //
+    // TutorialStageHandler.Enter reads IsOpeningMusicPlaying. If false it starts its variant-specific music
+    // immediately; if true it subscribes to OnOpeningMusicEnded and starts its music when that fires. The tutorial
+    // unsubscribes in BeginTransitionOut / Exit / OnSessionSkipFromUi so late events cannot mutate playground music.
+    //
+    // Post-opening stages (Playground, Savasana, End, MusicPlaylist, SetMenu, LinearAudio) call
+    // StopOpeningAudioFromStageEnter() in their Enter() as a defensive guarantee that opening Wwise audio cannot
+    // leak across a sequence jump or a CSV that omits the Tutorial stage.
+    //
+    // See Docs/TUTORIAL_OPENING_MUSIC_HANDOFF_PLAN.md for the full design.
+    //====================================================================================================
+
+    /// <summary>True while an Opening_* variant has called <see cref="NotifyOpeningMusicStarted"/> and has not yet called <see cref="NotifyOpeningMusicEnded"/>. Read-only for non-Sequencing code.</summary>
+    public bool IsOpeningMusicPlaying { get; private set; }
+
+    /// <summary>Fires once per true→false transition of <see cref="IsOpeningMusicPlaying"/>. Tutorial subscribes in Enter and unsubscribes in BeginTransitionOut / Exit / OnSessionSkipFromUi.</summary>
+    public event System.Action OnOpeningMusicEnded;
+
+    /// <summary>Opening handler: opening sequence audio is now playing (or about to play). Idempotent; no-op if already true.</summary>
+    internal void NotifyOpeningMusicStarted()
+    {
+        if (IsOpeningMusicPlaying)
+            return;
+        IsOpeningMusicPlaying = true;
+        DbgLogSequencer("Sequencer: IsOpeningMusicPlaying false → true (NotifyOpeningMusicStarted).");
+    }
+
+    /// <summary>Opening handler / post-Opening stage defensive cleanup: opening sequence audio has stopped (or should be treated as stopped). Idempotent; only fires <see cref="OnOpeningMusicEnded"/> on a real true→false transition.</summary>
+    internal void NotifyOpeningMusicEnded()
+    {
+        if (!IsOpeningMusicPlaying)
+            return;
+        IsOpeningMusicPlaying = false;
+        DbgLogSequencer("Sequencer: IsOpeningMusicPlaying true → false (NotifyOpeningMusicEnded). Invoking OnOpeningMusicEnded.");
+        var handler = OnOpeningMusicEnded;
+        if (handler == null)
+            return;
+        try
+        {
+            handler.Invoke();
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Sequencer.NotifyOpeningMusicEnded: subscriber threw: " + ex.Message + "\n" + ex.StackTrace);
+        }
+    }
+
+    /// <summary>
+    /// Call from a post-Opening stage's <c>Enter</c> (alongside <see cref="StopCalibrationInteractiveMusicFromStageEnter"/>) to
+    /// defensively silence any leftover Wwise opening audio and clear <see cref="IsOpeningMusicPlaying"/>. Idempotent and harmless
+    /// in the normal Opening → Tutorial → Playground flow; guarantees no leaked opening audio when a sequence asset skips Tutorial
+    /// or a debug jump bypasses Opening's normal exit path.
+    /// </summary>
+    public void StopOpeningAudioFromStageEnter()
+    {
+        if (wwiseVOManager != null)
+            wwiseVOManager.StopOpeningSequence();
+        NotifyOpeningMusicEnded();
+    }
+
     [Header("Dual-stage menu (UI / menu code may set before branching)")]
     public int dualstageStage = 0;
     public bool dualstageSecondStageIsMusic = false;
