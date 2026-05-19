@@ -4195,7 +4195,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{61B97CDD-B538-FB66-D027-F5DEC850CB1F}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{9143EEAB-4A20-A7FC-F372-F1FE8F23768F}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -4325,10 +4325,6 @@
 					<ShortName>sfx_stop.wav</ShortName>
 					<Path>Media/665576698.wem</Path>
 					<CachePath>SFX/sfx_stop_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="673999802" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>VO_Calibration_End_v1.wav</ShortName>
-					<CachePath>SFX/VO_Calibration_End_v1_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="745939041" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>menu_music_C Major.wav</ShortName>
@@ -4594,7 +4590,6 @@
 							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="529726532"/>
 							<MediaRefs>
 								<MediaRef Id="522771732"/>
-								<MediaRef Id="673999802"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -7046,7 +7041,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{E358CA3C-F2E6-18EA-2B3B-52FE5CC067CE}">
+		<SoundBank Id="3481447043" Type="User" Language="SFX" Hash="{E45E0283-CB63-C719-CDA6-16C3DE696DB4}">
 			<ShortName>INTERACTIVE</ShortName>
 			<Path>INTERACTIVE.bnk</Path>
 			<Media>
@@ -12095,5 +12090,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{C6AF36FA-850A-82D6-F4A8-893E45264B3F}</FileHash>
+	<FileHash>{0224E4EB-B500-ACA8-A714-3763B1794E3B}</FileHash>
 </SoundBanksInfo>
