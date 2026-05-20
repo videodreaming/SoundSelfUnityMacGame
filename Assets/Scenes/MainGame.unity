@@ -18490,6 +18490,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!225 &1071554255
 CanvasGroup:
@@ -19245,6 +19248,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!225 &1133452316
 CanvasGroup:
@@ -19679,6 +19685,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!225 &1147446954
 CanvasGroup:
@@ -23758,7 +23767,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1387306106
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23791,6 +23800,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableScreenMovement: 0
+  slideOffsetDistance: 20
+  fadeInDuration: 10
+  fadeOutDuration: 10
   reverseNextTransition: 0
 --- !u!225 &1387306108
 CanvasGroup:
@@ -33443,6 +33455,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!225 &1990855361
 CanvasGroup:
@@ -33810,7 +33825,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -150.07779}
-  m_SizeDelta: {x: -200, y: 47.444443}
+  m_SizeDelta: {x: -200, y: 48.330124}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2016772068
 MonoBehaviour:
@@ -37204,6 +37219,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!222 &3710691550574881456
 CanvasRenderer:
@@ -38305,6 +38323,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!114 &5690434341604778522
 MonoBehaviour:
@@ -38570,6 +38591,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!114 &6118818609140259934
 MonoBehaviour:
@@ -39378,6 +39402,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!114 &7180398919822771773
 MonoBehaviour:
@@ -40408,6 +40435,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
   enableScreenMovement: 1
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!114 &7772311677089131923
 MonoBehaviour:
@@ -40947,6 +40977,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enableScreenMovement: 0
+  slideOffsetDistance: 20
+  fadeInDuration: 1
+  fadeOutDuration: 0.7
   reverseNextTransition: 0
 --- !u!225 &8230576280433664139
 CanvasGroup:

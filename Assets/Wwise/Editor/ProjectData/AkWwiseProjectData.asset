@@ -799,8 +799,8 @@ MonoBehaviour:
         guid: 721cc18d7cca2d4caa74cf06baf25381
       Path: Events\Calibration\Set_Calibration_Lights
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_Calibration_Music
       guid: 6e97a07c7d7c4048b3bd51950c7526f7
       id: 1661327600
@@ -816,8 +816,8 @@ MonoBehaviour:
         guid: 6e97a07c7d7c4048b3bd51950c7526f7
       Path: Events\Calibration\Stop_Calibration_Music
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_Calibration_Sequence
       guid: 2cdab71b968e524faaec17213e761b4a
       id: 2252226012
@@ -833,8 +833,8 @@ MonoBehaviour:
         guid: 2cdab71b968e524faaec17213e761b4a
       Path: Events\Calibration\Stop_Calibration_Sequence
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
     - ElementName: Events
@@ -846,7 +846,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: b6a5e8ad495ca74db8bd27d43edd9d9a
     GuidInternal: 
-    m_lastTime: -8584233062879180154
+    m_lastTime: -8584222960402355667
     List:
     - name: Mute_OPENING_MUSIC
       guid: 3e8079271bd4fe409836f7a7128e849e
@@ -863,8 +863,8 @@ MonoBehaviour:
         guid: 3e8079271bd4fe409836f7a7128e849e
       Path: Events\Default Work Unit\Mute_OPENING_MUSIC
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Mute_SILENTMEDITATION_MUSIC
       guid: b413da09e89f614ab8a984ae807a82c3
       id: 236202206
@@ -880,8 +880,8 @@ MonoBehaviour:
         guid: b413da09e89f614ab8a984ae807a82c3
       Path: Events\Default Work Unit\Mute_SILENTMEDITATION_MUSIC
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Play_ADJUNCT_OPENING_SEQUENCE_LONG
       guid: a709e420b744d44cb9c2de5361ac7ffc
       id: 640169525
@@ -931,8 +931,8 @@ MonoBehaviour:
         guid: e2bbd16667ca894e885c268162ad44c8
       Path: Events\Default Work Unit\Play_ASCENDING_CLOSING
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 1102.9001
+      minDuration: 1102.9001
     - name: Play_ASCENDING_OPENING
       guid: a3aeb453c776e742bd4dcb4ab1d14f3b
       id: 6240749
@@ -948,8 +948,8 @@ MonoBehaviour:
         guid: a3aeb453c776e742bd4dcb4ab1d14f3b
       Path: Events\Default Work Unit\Play_ASCENDING_OPENING
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 446.41766
+      minDuration: 446.41766
     - name: Play_EndSoon_SEQUENCE
       guid: 4d79fe912423754c8f4c9f79330eaf86
       id: 3561899656
@@ -965,8 +965,8 @@ MonoBehaviour:
         guid: 4d79fe912423754c8f4c9f79330eaf86
       Path: Events\Default Work Unit\Play_EndSoon_SEQUENCE
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 134.23682
+      minDuration: 134.23682
     - name: Play_EXIT_MUSIC_PLAYLIST
       guid: f3103949575e7045b6d21abea929d925
       id: 3484562951
@@ -999,8 +999,8 @@ MonoBehaviour:
         guid: 7ad738c7e4be804f9f36bd97613a271a
       Path: Events\Default Work Unit\Play_INTEGRATION_OPENING_SEQUENCE_SHORT
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 471.42188
+      minDuration: 471.42188
     - name: Play_PASSIVE_OPENING_SEQUENCE
       guid: 32f8da04fe81b8488b57be2e117bfaab
       id: 4125756612
@@ -1067,8 +1067,8 @@ MonoBehaviour:
         guid: 9a39e8794c5e6144a5a4926f23585c1c
       Path: Events\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_1
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 214.70941
+      minDuration: 214.70941
     - name: Play_SIGH_QUERY_SEQUENCE_2
       guid: ef1d0a2011e79746a5152af0f737bf26
       id: 410054881
@@ -1084,8 +1084,8 @@ MonoBehaviour:
         guid: ef1d0a2011e79746a5152af0f737bf26
       Path: Events\Default Work Unit\Play_SIGH_QUERY_SEQUENCE_2
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 214.70941
+      minDuration: 214.70941
     - name: Play_SOMATIC_SEQUENCE
       guid: f430602e2e1d69419928e3b4db9cffe4
       id: 2061683806
@@ -1169,8 +1169,8 @@ MonoBehaviour:
         guid: 6f6694900c2f6b48b702268ae17352dd
       Path: Events\Default Work Unit\Play_WakeUpEndSoon_SEQUENCE
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 101.6265
+      minDuration: 101.6265
     - name: Play_WISDOM_OPENING_SEQUENCE_LONG
       guid: 8492bac2adc8ea4b87353eab0982d3bb
       id: 1410067095
@@ -1220,8 +1220,8 @@ MonoBehaviour:
         guid: 911e8239f431d347b1afe42968aa6d28
       Path: Events\Default Work Unit\Stop_All
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_ASCENDING_CLOSING
       guid: c8b3c6a75ef17f448210af13e51ed08e
       id: 2224816138
@@ -1237,8 +1237,8 @@ MonoBehaviour:
         guid: c8b3c6a75ef17f448210af13e51ed08e
       Path: Events\Default Work Unit\Stop_ASCENDING_CLOSING
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_ASCENDING_OPENING
       guid: 2c3f4ae257fc4f4eaecc3ae5054b15b6
       id: 4209368599
@@ -1254,8 +1254,8 @@ MonoBehaviour:
         guid: 2c3f4ae257fc4f4eaecc3ae5054b15b6
       Path: Events\Default Work Unit\Stop_ASCENDING_OPENING
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_OPENING_SEQUENCE
       guid: 3880d8431034894ebd1dd4d496c2a6b3
       id: 670049528
@@ -1271,8 +1271,8 @@ MonoBehaviour:
         guid: 3880d8431034894ebd1dd4d496c2a6b3
       Path: Events\Default Work Unit\Stop_OPENING_SEQUENCE
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_SIGH_QUERY_SEQUENCE_1
       guid: b5c759ffa48dd2489eef82ee9d58d6d9
       id: 2071903768
@@ -1288,8 +1288,8 @@ MonoBehaviour:
         guid: b5c759ffa48dd2489eef82ee9d58d6d9
       Path: Events\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_1
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_SIGH_QUERY_SEQUENCE_2
       guid: 1796222a990b4f40877f837cfa0e1607
       id: 2071903771
@@ -1305,8 +1305,8 @@ MonoBehaviour:
         guid: 1796222a990b4f40877f837cfa0e1607
       Path: Events\Default Work Unit\Stop_SIGH_QUERY_SEQUENCE_2
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_SOMATIC_SEQUENCE
       guid: 0bad97d50b3f0b4b98eb3f63a16acdff
       id: 1747587664
@@ -1322,8 +1322,8 @@ MonoBehaviour:
         guid: 0bad97d50b3f0b4b98eb3f63a16acdff
       Path: Events\Default Work Unit\Stop_SOMATIC_SEQUENCE
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_THEMATIC_SAVASANA_SEQUENCE
       guid: bb32aa4488f1b842bb5ebf7e9fac8450
       id: 2811342292
@@ -1339,8 +1339,8 @@ MonoBehaviour:
         guid: bb32aa4488f1b842bb5ebf7e9fac8450
       Path: Events\Default Work Unit\Stop_THEMATIC_SAVASANA_SEQUENCE
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_VO_OPENING_THEMATIC_SWITCH
       guid: 84bcd5d238eb134aba7053f1cfac8075
       id: 2715963629
@@ -1356,8 +1356,8 @@ MonoBehaviour:
         guid: 84bcd5d238eb134aba7053f1cfac8075
       Path: Events\Default Work Unit\Stop_VO_OPENING_THEMATIC_SWITCH
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
   - PhysicalPath: Events\Environment.wwu
     PathAndIcons:
     - ElementName: Events
@@ -2288,8 +2288,8 @@ MonoBehaviour:
         guid: cc2a9f4bfd558542952b9206b5585121
       Path: Events\SFX\Play_Inhale_Long
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 3.1872916
+      minDuration: 3.1872916
     - name: Play_Inhale_Medium
       guid: bba83bbb94fcfb428e1b11efb7f9ec68
       id: 1252315619
@@ -2305,8 +2305,8 @@ MonoBehaviour:
         guid: bba83bbb94fcfb428e1b11efb7f9ec68
       Path: Events\SFX\Play_Inhale_Medium
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 3.1872916
+      minDuration: 3.1872916
     - name: Play_Inhale_Short
       guid: 4a35cf9a4f3e494289c48c49b0dff12b
       id: 2110561540
@@ -2322,8 +2322,8 @@ MonoBehaviour:
         guid: 4a35cf9a4f3e494289c48c49b0dff12b
       Path: Events\SFX\Play_Inhale_Short
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 3.1872916
+      minDuration: 3.1872916
     - name: Play_sfx_breathein
       guid: 3bb9951731f13247805529bc37e9b579
       id: 3830600368
@@ -2339,8 +2339,8 @@ MonoBehaviour:
         guid: 3bb9951731f13247805529bc37e9b579
       Path: Events\SFX\Play_sfx_breathein
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 3.1872916
+      minDuration: 3.1872916
     - name: Play_sfx_breatheout
       guid: 45fd7e94e476614f88550a00fe87bc89
       id: 77468567
@@ -2356,8 +2356,8 @@ MonoBehaviour:
         guid: 45fd7e94e476614f88550a00fe87bc89
       Path: Events\SFX\Play_sfx_breatheout
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 4
+      minDuration: 4
     - name: Play_sfx_breathinout
       guid: c71e78ed1a70794f9e17ba86dde9f592
       id: 4173816975
@@ -2373,8 +2373,8 @@ MonoBehaviour:
         guid: c71e78ed1a70794f9e17ba86dde9f592
       Path: Events\SFX\Play_sfx_breathinout
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 10.666325
+      minDuration: 10.666325
     - name: Play_sfx_breathworkcycle
       guid: 11b8e180a7308c43adbec264d16a171f
       id: 1941733943
@@ -2407,8 +2407,8 @@ MonoBehaviour:
         guid: 5f783404fb64af4a93004edf77019b5a
       Path: Events\SFX\Play_sfx_EndInteractive
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 38.616783
+      minDuration: 38.616783
     - name: Play_sfx_Impact
       guid: 32835a0a9f382e45b07c318cd4f7edd5
       id: 2908297336
@@ -2424,8 +2424,8 @@ MonoBehaviour:
         guid: 32835a0a9f382e45b07c318cd4f7edd5
       Path: Events\SFX\Play_sfx_Impact
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 19.552813
+      minDuration: 2.6546667
     - name: Play_sfx_Impact_AVS_Only
       guid: a087d9bfc447b542877d0397b90c2857
       id: 160921230
@@ -2441,8 +2441,8 @@ MonoBehaviour:
         guid: a087d9bfc447b542877d0397b90c2857
       Path: Events\SFX\Play_sfx_Impact_AVS_Only
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 19.552813
+      minDuration: 2.6546667
     - name: Play_sfx_SoundSeed_BreathCycle
       guid: 99106bfe1545de45801f62326cc3385b
       id: 3431547933
@@ -2492,8 +2492,8 @@ MonoBehaviour:
         guid: 4a9a0a1bbec36b4a90e1e5e751860a4d
       Path: Events\SFX\Stop_AMBIENT_ENVIRONMENT_LOOP
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_BinauralGenerator
       guid: 3c1f1dc5284cb14da9bf1b07152d2224
       id: 2452192253
@@ -2509,8 +2509,8 @@ MonoBehaviour:
         guid: 3c1f1dc5284cb14da9bf1b07152d2224
       Path: Events\SFX\Stop_BinauralGenerator
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_CrystalBowlGenerator
       guid: 5c3ad7973e439042b073bf488ecf89f7
       id: 4041758113
@@ -2526,8 +2526,8 @@ MonoBehaviour:
         guid: 5c3ad7973e439042b073bf488ecf89f7
       Path: Events\SFX\Stop_CrystalBowlGenerator
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_Inhales
       guid: 65f45a464e83f54980d0aa1071bdb9e2
       id: 237216068
@@ -2543,8 +2543,8 @@ MonoBehaviour:
         guid: 65f45a464e83f54980d0aa1071bdb9e2
       Path: Events\SFX\Stop_Inhales
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_sfx_breathworkcycle
       guid: c0b01cc1f239da4c9192cce7c7243727
       id: 4041051749
@@ -2560,8 +2560,8 @@ MonoBehaviour:
         guid: c0b01cc1f239da4c9192cce7c7243727
       Path: Events\SFX\Stop_sfx_breathworkcycle
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Stop_sfx_SoundSeed_BreathCycleWind
       guid: ba913102b25a9a429c53b3a0c009be7b
       id: 674892661
@@ -2577,8 +2577,8 @@ MonoBehaviour:
         guid: ba913102b25a9a429c53b3a0c009be7b
       Path: Events\SFX\Stop_sfx_SoundSeed_BreathCycleWind
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Unity_TransitionSFX
       guid: 2d500e1e201d094289c0d28db3052cff
       id: 3913696011
@@ -2594,8 +2594,8 @@ MonoBehaviour:
         guid: 2d500e1e201d094289c0d28db3052cff
       Path: Events\SFX\Unity_TransitionSFX
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 13.185377
+      minDuration: 4.9054503
   - PhysicalPath: Events\VO.wwu
     PathAndIcons:
     - ElementName: Events
@@ -2658,8 +2658,8 @@ MonoBehaviour:
         guid: 96640d9ed7824448acd78c31b52a9987
       Path: Events\VO\Play_VO_EndingSoon
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 2.738
+      minDuration: 2.738
     - name: Play_VO_GuidedVocalizationAdvanced
       guid: 2aa909ca19197c4ea1e2a10d652f7f14
       id: 4057363449
@@ -2675,8 +2675,8 @@ MonoBehaviour:
         guid: 2aa909ca19197c4ea1e2a10d652f7f14
       Path: Events\VO\Play_VO_GuidedVocalizationAdvanced
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 3.4206667
+      minDuration: 1.3726666
     - name: Play_VO_GuidedVocalizationAhh
       guid: 3dec97b020b0ef41ab707566952fcfc4
       id: 745351876
@@ -2692,8 +2692,8 @@ MonoBehaviour:
         guid: 3dec97b020b0ef41ab707566952fcfc4
       Path: Events\VO\Play_VO_GuidedVocalizationAhh
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 17.756666
+      minDuration: 2.738
     - name: Play_VO_GuidedVocalizationHum
       guid: d23b86ff726cf34e9d32b7a302edeecc
       id: 897777483
@@ -2709,8 +2709,8 @@ MonoBehaviour:
         guid: d23b86ff726cf34e9d32b7a302edeecc
       Path: Events\VO\Play_VO_GuidedVocalizationHum
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 13.660667
+      minDuration: 2.738
     - name: Play_VO_GuidedVocalizationLite
       guid: 5d184825b7f1d24cb4e224b51a821cd9
       id: 3707193523
@@ -2726,8 +2726,8 @@ MonoBehaviour:
         guid: 5d184825b7f1d24cb4e224b51a821cd9
       Path: Events\VO\Play_VO_GuidedVocalizationLite
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 17.114328
+      minDuration: 2.738
     - name: Play_VO_GuidedVocalizationOhh
       guid: 4b2c2e8e91f16c4bb7f08643bfb84742
       id: 1350331786
@@ -2743,8 +2743,8 @@ MonoBehaviour:
         guid: 4b2c2e8e91f16c4bb7f08643bfb84742
       Path: Events\VO\Play_VO_GuidedVocalizationOhh
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 19.122
+      minDuration: 15.026
     - name: Play_VO_KeepGoing
       guid: f1cd8f38f4c76040b6c2107fd0b27f8c
       id: 3441959749
@@ -2777,8 +2777,8 @@ MonoBehaviour:
         guid: 2b41dd15efb16d4e8a41f547ffb71abd
       Path: Events\VO\Play_VO_LinearHumsAhhs
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 82.95661
+      minDuration: 82.95661
     - name: Play_VO_QueryElicitation1
       guid: 62bcdf3dcaee4b41959a6cd9ff50f414
       id: 1488609146
@@ -2794,8 +2794,8 @@ MonoBehaviour:
         guid: 62bcdf3dcaee4b41959a6cd9ff50f414
       Path: Events\VO\Play_VO_QueryElicitation1
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 53.938
+      minDuration: 53.938
     - name: Play_VO_QueryElicitation2
       guid: 2c1f049cfac55046a7ff2589d7e2832d
       id: 1488609145
@@ -2811,8 +2811,8 @@ MonoBehaviour:
         guid: 2c1f049cfac55046a7ff2589d7e2832d
       Path: Events\VO\Play_VO_QueryElicitation2
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 47.794
+      minDuration: 47.794
     - name: Play_VO_QueryElicitationFail1
       guid: 94c46e0d8127564a8c83a52071a455fa
       id: 1422850326
@@ -2828,8 +2828,8 @@ MonoBehaviour:
         guid: 94c46e0d8127564a8c83a52071a455fa
       Path: Events\VO\Play_VO_QueryElicitationFail1
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 29.362
+      minDuration: 10.93
     - name: Play_VO_QueryElicitationFail2
       guid: b82badcafe41da4c92779a649a763e03
       id: 1422850325
@@ -2845,8 +2845,8 @@ MonoBehaviour:
         guid: b82badcafe41da4c92779a649a763e03
       Path: Events\VO\Play_VO_QueryElicitationFail2
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 29.362
+      minDuration: 10.93
     - name: Play_VO_QueryElicitationPass2
       guid: 4344878971e3d54b833b22293dbd6b7a
       id: 1051170748
@@ -2862,8 +2862,8 @@ MonoBehaviour:
         guid: 4344878971e3d54b833b22293dbd6b7a
       Path: Events\VO\Play_VO_QueryElicitationPass2
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.69
+      minDuration: 0.69
     - name: Play_VO_QueryElicitationPassThankYou1
       guid: 2dd8c1de4e0ac3499ae11d4c421710ee
       id: 186032212
@@ -2879,8 +2879,8 @@ MonoBehaviour:
         guid: 2dd8c1de4e0ac3499ae11d4c421710ee
       Path: Events\VO\Play_VO_QueryElicitationPassThankYou1
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.69
+      minDuration: 0.69
     - name: Play_VO_SighElicitation1
       guid: 95ce432778a77646a9e76e4bff47e683
       id: 2138093883
@@ -2896,8 +2896,8 @@ MonoBehaviour:
         guid: 95ce432778a77646a9e76e4bff47e683
       Path: Events\VO\Play_VO_SighElicitation1
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 34.374
+      minDuration: 34.374
     - name: Play_VO_SighElicitation2
       guid: 272bdf37c62fdd4e8549be6dc8ca14aa
       id: 2138093880
@@ -2913,8 +2913,8 @@ MonoBehaviour:
         guid: 272bdf37c62fdd4e8549be6dc8ca14aa
       Path: Events\VO\Play_VO_SighElicitation2
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 34.237354
+      minDuration: 34.237354
     - name: Play_VO_SighElicitationFail1
       guid: d6827984d06b8e45b7ef8583c5e6353d
       id: 1024713723
@@ -2930,8 +2930,8 @@ MonoBehaviour:
         guid: d6827984d06b8e45b7ef8583c5e6353d
       Path: Events\VO\Play_VO_SighElicitationFail1
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 22.535334
+      minDuration: 21.17
     - name: Play_VO_SighElicitationFail2
       guid: f25648c226137c488349c8a5075d0f2e
       id: 1024713720
@@ -2947,8 +2947,8 @@ MonoBehaviour:
         guid: f25648c226137c488349c8a5075d0f2e
       Path: Events\VO\Play_VO_SighElicitationFail2
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 21.17
+      minDuration: 21.17
     - name: Play_VO_Somatic
       guid: e33e322a7338124abd6b479d1a70ca48
       id: 1928920978
@@ -2964,8 +2964,8 @@ MonoBehaviour:
         guid: e33e322a7338124abd6b479d1a70ca48
       Path: Events\VO\Play_VO_Somatic
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 236.89267
+      minDuration: 96.946
     - name: Play_VO_testAhh
       guid: 68354c80f4b5234c8358ce060f69a891
       id: 3968628359
@@ -2981,8 +2981,8 @@ MonoBehaviour:
         guid: 68354c80f4b5234c8358ce060f69a891
       Path: Events\VO\Play_VO_testAhh
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 46.614464
+      minDuration: 46.614464
     - name: Play_VO_testRepair_Ahh
       guid: d550459058aa1f4a99c107e70ea2bdc5
       id: 3560104941
@@ -3032,8 +3032,8 @@ MonoBehaviour:
         guid: 37c0deee67d1be4c944520bc3ba01658
       Path: Events\VO\Play_VO_testRepair_Hum
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 28.679335
+      minDuration: 28.679335
     - name: Play_VO_testRepair_Ohh
       guid: 051060091e817140a42cce34ab039b9b
       id: 3359759171
@@ -3049,8 +3049,8 @@ MonoBehaviour:
         guid: 051060091e817140a42cce34ab039b9b
       Path: Events\VO\Play_VO_testRepair_Ohh
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 29.362
+      minDuration: 29.362
     - name: Play_VO_testRepair_Succeed
       guid: 7d9b478dc534084ba76ca77a148a4e52
       id: 2076613512
@@ -3066,8 +3066,8 @@ MonoBehaviour:
         guid: 7d9b478dc534084ba76ca77a148a4e52
       Path: Events\VO\Play_VO_testRepair_Succeed
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 3.5
+      minDuration: 3.5
     - name: Play_VO_ThematicContent
       guid: 1a5202d6f76fc048930706656786d26d
       id: 2088653686
@@ -3083,8 +3083,8 @@ MonoBehaviour:
         guid: 1a5202d6f76fc048930706656786d26d
       Path: Events\VO\Play_VO_ThematicContent
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 154.97267
+      minDuration: 23.900667
     - name: Play_VO_ThematicSavasana
       guid: a3785972b74ccf4586e3bd5bae777da1
       id: 247426471
@@ -3100,8 +3100,8 @@ MonoBehaviour:
         guid: a3785972b74ccf4586e3bd5bae777da1
       Path: Events\VO\Play_VO_ThematicSavasana
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 335.62918
+      minDuration: 55.999584
     - name: Play_VO_Wakeup
       guid: d4b5318eef53574893d3635f862c3583
       id: 322188649
@@ -3117,8 +3117,8 @@ MonoBehaviour:
         guid: d4b5318eef53574893d3635f862c3583
       Path: Events\VO\Play_VO_Wakeup
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 38.919334
+      minDuration: 38.919334
     - name: Play_VO_Wisdom
       guid: 41b8c77f2f29e446bb2a7198ff57229b
       id: 2767686943
