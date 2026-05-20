@@ -1415,6 +1415,7 @@ public class UIManager : MonoBehaviour
         endMeditationScreen.SetActive(false);
     }
 
+    /// <summary>Fades in/out the shared dusk backdrop. No-op if already in the requested visible state (idempotent).</summary>
     public void ShowDuskBackground(bool show)
     {
         if (duskBackground == null)
@@ -1422,6 +1423,8 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("UIManager.ShowDuskBackground: duskBackground is not assigned.");
             return;
         }
+        if (show == duskBackground.gameObject.activeSelf)
+            return;
         if (show)
         {
             duskBackground.gameObject.SetActive(true);

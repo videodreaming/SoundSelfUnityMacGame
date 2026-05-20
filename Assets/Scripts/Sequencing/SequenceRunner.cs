@@ -232,6 +232,7 @@ namespace SoundSelf.Sequence
             handler.Enter(stage.variant);
 
             ApplyMenuScreenForSequenceStage(stage.type);
+            ApplyDuskBackgroundForSequenceStage(stage.type);
 
             // 5. Fire event
             OnStageChanged?.Invoke(index, stage.type);
@@ -381,6 +382,27 @@ namespace SoundSelf.Sequence
                     UIManager.Instance.SetEndMeditationScreen();
                     break;
                 default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Shows the dusk background on pre-session / menu / end stages; hides it during in-session meditation stages.
+        /// Uses <see cref="UIManager.ShowDuskBackground"/> (idempotent) so repeated enters do not re-trigger fades.
+        /// </summary>
+        private static void ApplyDuskBackgroundForSequenceStage(StageType stageType)
+        {
+            if (UIManager.Instance == null)
+                return;
+            switch (stageType)
+            {
+                case StageType.Calibration:
+                case StageType.SetMenu:
+                case StageType.End:
+                    UIManager.Instance.ShowDuskBackground(true);
+                    break;
+                default:
+                    UIManager.Instance.ShowDuskBackground(false);
                     break;
             }
         }
