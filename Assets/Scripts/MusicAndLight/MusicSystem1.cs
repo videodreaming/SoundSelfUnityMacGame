@@ -2680,6 +2680,9 @@ public class MusicSystem1 : MonoBehaviour
         else if(!play && breathworkCyclePlaying)
         {
             AkSoundEngine.PostEvent("Stop_sfx_breathworkcycle", gameObject);
+            AkSoundEngine.PostEvent("Stop_sfx_SoundSeed_BreathCycleWind", gameObject);
+            AkSoundEngine.PostEvent("Stop_sfx_SoundSeed_BreathCycle", gameObject);
+            breathworkCyclePlaying = false;
         }
     }
 
