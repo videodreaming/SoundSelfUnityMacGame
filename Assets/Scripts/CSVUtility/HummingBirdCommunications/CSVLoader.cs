@@ -82,6 +82,9 @@ public class CSVLoader : MonoBehaviour
     public const string ContentPackSingleStage = "Single Stage";
     public const string ContentPackAlbumSonoflore = "AlbumSonoflore";
 
+    /// <summary>Seconds shorter than pack baseline when Wwise <c>VO_ClosingGoodbye</c> is Short (returned from <see cref="VOInitializations"/> as negative).</summary>
+    public const float ClosingGoodbyeShortVersusLongDeltaSeconds = 53f;
+
     /// <summary>Hummingbird sends exactly these modes (case-insensitive); unknown strings pass through unchanged.</summary>
     public static string NormalizeGameMode(string raw)
     {
@@ -198,8 +201,7 @@ public class CSVLoader : MonoBehaviour
         ApplyEditorContentPackOverrideIfPresent();
 #endif
         ResolveSessionPackDefinition();
-        VOInitializations();
-        TimeLeftInitializations();
+        TimeLeftInitializations(VOInitializations());
     }
 
     void ReadSessionParams()
@@ -335,51 +337,60 @@ public class CSVLoader : MonoBehaviour
         }
     }
 
-    private void VOInitializations()
+    private float VOInitializations() //returns adjustment to the savasana timing
     {
         if (wwiseVOManager == null)
         {
             Debug.LogError("CSVLoader: VOInitializations() - wwiseVOManager is null! Cannot initialize VO.");
-            return;
+            return 0f;
         }
 
         if (_resolvedSessionPack == null)
         {
             Debug.LogWarning("CSVLoader: VOInitializations skipped — session pack was not resolved (registry miss or unset registry).");
-            return;
+            return 0f;
         }
 
         var pack = _resolvedSessionPack;
 
+        ApplyContentPackVoKind(pack.VoKind, wwiseVOManager);
         if (gameMode == GameModeSonoflore)
         {
-            ApplyContentPackVoKind(pack.VoKind, wwiseVOManager);
 
-            if (IsFirstTimeUser)
-                wwiseVOManager.firstTimeUser();
-            else
-                wwiseVOManager.notFirstTimeUser();
-        }
-        else
-        {
-            wwiseVOManager.notFirstTimeUser();
-            ApplyContentPackVoKind(pack.VoKind, wwiseVOManager);
-
-            if (pack.VoKind == ContentPackVoKind.None)
+            if (!IsFirstTimeUser)
             {
-                if (gameMode == GameModeAdjunctive && contentPack == ContentPackSingleStage)
-                    Debug.LogWarning("CSVLoader: VOInitializations() — Adjunctive + Single Stage is not wired yet (stub). No VO path.");
-                else if (gameMode == GameModeAlbums && contentPack == ContentPackAlbumSonoflore)
-                    Debug.LogWarning("CSVLoader: VOInitializations() — Albums + AlbumSonoflore is not wired yet (stub). No VO path.");
+                wwiseVOManager.notFirstTimeUser();
+                return -ClosingGoodbyeShortVersusLongDeltaSeconds;
+            }
+            else
+            {
+                wwiseVOManager.firstTimeUser();
+                return 0f;
             }
         }
+        else if (gameMode == GameModeActivation)
+        {
+            wwiseVOManager.notFirstTimeUser();
+            return -ClosingGoodbyeShortVersusLongDeltaSeconds;
+        }
+        else if (gameMode == GameModeAdjunctive)
+        {
+            wwiseVOManager.notFirstTimeUser(); //Do we even need this? Ask Lorna.
+            return 0f;
+        }
+        else if (gameMode == GameModeAlbums)
+        {
+            return 0f;
+        }
+        return 0f;
+
     }
 
     /// <summary>
     /// Hydrates <see cref="TimeTrackerScript"/> from <see cref="ResolvedSessionPack"/> (post-unguided duration only).
     /// Session countdown value and ticking start only when the sequence runs the StartCountdown stage (<see cref="TimeTrackerScript.BeginCountdownPair"/>).
     /// </summary>
-    private void TimeLeftInitializations()
+    private void TimeLeftInitializations(float savasanaTimingAdjustment)
     {
         if (TimeTrackerScript.instance == null)
         {
@@ -398,10 +409,7 @@ public class CSVLoader : MonoBehaviour
             {
                 totalTimeOfPostUnguidedVocalizationContent = 0f;
                 recognizedGameMode = false;
-                if (gameMode == GameModeAdjunctive && contentPack == ContentPackSingleStage)
-                    Debug.LogWarning("CSVLoader: TimeLeftInitializations() — Adjunctive + Single Stage timing is not wired yet (stub). Post-unguided duration not set from CSV.");
-                else if (gameMode == GameModeAlbums && contentPack == ContentPackAlbumSonoflore)
-                    Debug.LogWarning("CSVLoader: TimeLeftInitializations() — Albums + AlbumSonoflore timing is not wired yet (stub). Post-unguided duration not set from CSV.");
+                Debug.LogWarning("CSVLoader: TimeLeftInitializations() — post-unguided duration is less than 0. Post-unguided duration not set from CSV.");
             }
             else
             {
@@ -413,6 +421,36 @@ public class CSVLoader : MonoBehaviour
         {
             Debug.LogWarning("CSVLoader: TimeLeftInitializations() — session pack not resolved; post-unguided duration left at 0.");
             recognizedGameMode = false;
+        }
+
+        float packBaselineSeconds = totalTimeOfPostUnguidedVocalizationContent;
+
+        if (!Mathf.Approximately(savasanaTimingAdjustment, 0f))
+        {
+            if (packBaselineSeconds <= 0f)
+            {
+                Debug.LogWarning(
+                    "CSVLoader: Savasana timing adjustment "
+                    + savasanaTimingAdjustment.ToString("+0.#;-0.#;0")
+                    + " s skipped — pack post-unguided baseline is "
+                    + packBaselineSeconds + " s.");
+            }
+            else
+            {
+                float before = packBaselineSeconds;
+                totalTimeOfPostUnguidedVocalizationContent = Mathf.Max(0f, before + savasanaTimingAdjustment);
+                Debug.Log(
+                    "CSVLoader: Applied post-unguided timing adjustment (Short VO_ClosingGoodbye): "
+                    + before + " s → " + totalTimeOfPostUnguidedVocalizationContent + " s ("
+                    + savasanaTimingAdjustment.ToString("+0.#;-0.#;0") + " s). gameMode=\""
+                    + gameMode + "\" IsFirstTimeUser=" + IsFirstTimeUser + ".");
+                if (before > 0f && totalTimeOfPostUnguidedVocalizationContent <= 0f)
+                {
+                    Debug.LogWarning(
+                        "CSVLoader: Post-unguided timing adjustment clamped duration to 0 (baseline was "
+                        + before + " s, delta " + savasanaTimingAdjustment + " s).");
+                }
+            }
         }
 
         tracker.SetTotalTimeOfPostUnguidedVocalizationContent(totalTimeOfPostUnguidedVocalizationContent);
@@ -427,7 +465,14 @@ public class CSVLoader : MonoBehaviour
         else
             Debug.LogWarning("CSVLoader: TimeLeftInitializations() - SessionTimingInitializedFromCsv not set (unrecognized gameMode or contentPack). Fix session_params so StartCountdown inputs are trustworthy.");
 
-        Debug.Log("CSVLoader: TimeLeftInitializations() - tracker inputs set. totalTimeOfPostUnguidedVocalizationContent=" + totalTimeOfPostUnguidedVocalizationContent + " s. Session countdown is unchanged until StartCountdown → BeginCountdownPair (current [CountdownThisSection]=" + tracker.CountdownThisSection + " [CountdownFull]=" + tracker.CountdownFull + "). SessionTimingInitializedFromCsv=" + tracker.SessionTimingInitializedFromCsv + ".");
+        Debug.Log(
+            "CSVLoader: TimeLeftInitializations() - tracker inputs set. packBaseline="
+            + packBaselineSeconds + " s totalTimeOfPostUnguidedVocalizationContent="
+            + totalTimeOfPostUnguidedVocalizationContent + " s savasanaAdjustment="
+            + savasanaTimingAdjustment.ToString("+0.#;-0.#;0")
+            + " s. Session countdown is unchanged until StartCountdown → BeginCountdownPair (current [CountdownThisSection]="
+            + tracker.CountdownThisSection + " [CountdownFull]=" + tracker.CountdownFull
+            + "). SessionTimingInitializedFromCsv=" + tracker.SessionTimingInitializedFromCsv + ".");
     }
 
     public string GetCurrentMode()
