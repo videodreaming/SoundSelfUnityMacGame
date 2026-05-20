@@ -103,7 +103,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{28166075-E93C-4032-B9E4-E379905B6BD5}" ShortID="299394342">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="17204.4932168682"/>
+																				<Property Name="PlayAt" Type="Real64" Value="17000"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -144,7 +144,7 @@
 											<MusicCue Name="Cue_ClosingGoodbye_End" ID="{98239E68-08D5-44EE-B1FF-F6B3BFEBEDE9}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="17204.4932168682"/>
+													<Property Name="TimeMs" Type="Real64" Value="17000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -293,7 +293,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{FBE178E4-CC40-41FF-8F68-3DF2CC6D49CB}" ShortID="185276092">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="60059.2062153232"/>
+																				<Property Name="PlayAt" Type="Real64" Value="60000"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -683,7 +683,7 @@
 											<MusicCue Name="Exit Cue" ID="{54D0C6B2-2BD5-45F7-B547-74B03F289C75}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="1"/>
-													<Property Name="TimeMs" Type="Real64" Value="6151.33333333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="8125"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -702,7 +702,7 @@
 											<MusicCue Name="Cue_ClosingGoodbyeEnd" ID="{A044936D-2130-486E-8327-CC17C6E60FD8}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="6258.47650959014"/>
+													<Property Name="TimeMs" Type="Real64" Value="7000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1694,7 +1694,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{167A2B80-C46E-4525-90E2-9EDC176DF1AB}" ShortID="369604301">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="168009.051034933"/>
+																				<Property Name="PlayAt" Type="Real64" Value="168000"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -1754,7 +1754,7 @@
 											<MusicCue Name="Cue_VO_EndingSoon_Start" ID="{E8528BA4-33BF-40C6-8664-13CBF31671EC}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="168009.051034933"/>
+													<Property Name="TimeMs" Type="Real64" Value="168000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1839,7 +1839,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{50DC1E1D-4757-40A0-B8F1-56C16B16647D}" ShortID="996100805">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="101681.445410669"/>
+																				<Property Name="PlayAt" Type="Real64" Value="102000"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -1889,7 +1889,7 @@
 											<MusicCue Name="Cue_ThematicSavasana_End" ID="{8D23B269-F325-435F-BD72-64488F3C6DB5}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="86631.1458333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="87000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -1899,7 +1899,7 @@
 											<MusicCue Name="Cue_VO_EndingSoon_Start" ID="{52EFAB9D-86C8-4E7E-A56F-0BEBFCFDB133}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="101681.445410669"/>
+													<Property Name="TimeMs" Type="Real64" Value="102000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2105,7 +2105,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{81BF903F-0600-4ACB-A96E-C62A3B7EC8CF}" ShortID="973600334">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="350061.947602325"/>
+																				<Property Name="PlayAt" Type="Real64" Value="351000"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -2146,7 +2146,7 @@
 											<MusicCue Name="Cue_ThematicSavasana_End" ID="{A61B65BB-A1C3-4515-A2E0-73C51740B16F}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="335629.166666667"/>
+													<Property Name="TimeMs" Type="Real64" Value="336000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2165,7 +2165,7 @@
 											<MusicCue Name="Cue_VO_EndingSoon_Start" ID="{CFCD74CA-AE57-4A46-9CAF-A66E249C526B}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="350061.947602325"/>
+													<Property Name="TimeMs" Type="Real64" Value="351000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2255,7 +2255,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{0B725CD7-EEDF-4C44-A22A-403A4FBD1BE6}" ShortID="995515704">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="207232.619262031"/>
+																				<Property Name="PlayAt" Type="Real64" Value="206000"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -2296,7 +2296,7 @@
 											<MusicCue Name="Cue_ThematicSavasana_End" ID="{7D73B174-7F49-44F4-BA1E-7A3D60D2791B}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="86023.3333333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="86000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2395,7 +2395,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{B6A25C14-8E27-43FF-9919-3A4A7731E118}" ShortID="1044914866">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="349434.49981217"/>
+																				<Property Name="PlayAt" Type="Real64" Value="349000"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -2436,7 +2436,7 @@
 											<MusicCue Name="Cue_ThematicSavasana_End" ID="{5D05549C-4D00-4CEA-9AAF-50F5BEADAA8A}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="229383.333333333"/>
+													<Property Name="TimeMs" Type="Real64" Value="229000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -2777,7 +2777,7 @@
 																	<Local>
 																		<MusicEventCue Name="" ID="{0448A695-3434-4E65-8F03-2AE36199CEC5}" ShortID="810341545">
 																			<PropertyList>
-																				<Property Name="PlayAt" Type="Real64" Value="235554.937257229"/>
+																				<Property Name="PlayAt" Type="Real64" Value="235000"/>
 																			</PropertyList>
 																			<ReferenceList>
 																				<Reference Name="PostEventTarget">
@@ -2818,7 +2818,7 @@
 											<MusicCue Name="Cue_ThematicSavasana_End" ID="{3F0D1F73-85F1-482C-8FAF-630A537C7B24}">
 												<PropertyList>
 													<Property Name="CueType" Type="int16" Value="2"/>
-													<Property Name="TimeMs" Type="Real64" Value="114536.3125"/>
+													<Property Name="TimeMs" Type="Real64" Value="115000"/>
 												</PropertyList>
 											</MusicCue>
 										</Local>
@@ -3476,7 +3476,7 @@
 									<MusicCue Name="Cue_VO_EndingSoon_Start" ID="{01EE9027-61F8-4824-8856-87DC6427E586}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
-											<Property Name="TimeMs" Type="Real64" Value="60135.5890301431"/>
+											<Property Name="TimeMs" Type="Real64" Value="60000"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>
@@ -3568,7 +3568,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{7482F7CB-BBAD-4C95-BA82-F0B17613DF0C}" ShortID="361061181">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="10010.8730692923"/>
+																		<Property Name="PlayAt" Type="Real64" Value="10000"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -3582,7 +3582,7 @@
 															<Local>
 																<MusicEventCue Name="" ID="{6E265B9F-A8F3-4EAC-B16B-1C3F36A8C4C4}" ShortID="450790171">
 																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="10010.8730692923"/>
+																		<Property Name="PlayAt" Type="Real64" Value="10000"/>
 																	</PropertyList>
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
@@ -3633,7 +3633,7 @@
 									<MusicCue Name="Cue_VoiceElicitation2_Start" ID="{B044D792-4B45-45E6-80D0-A8A036840838}">
 										<PropertyList>
 											<Property Name="CueType" Type="int16" Value="2"/>
-											<Property Name="TimeMs" Type="Real64" Value="10010.8730692923"/>
+											<Property Name="TimeMs" Type="Real64" Value="10000"/>
 										</PropertyList>
 									</MusicCue>
 								</Local>

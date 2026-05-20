@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{61B97CDD-B538-FB66-D027-F5DEC850CB1F}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{44703C1F-DDD9-784B-37F9-BDA9D18683B8}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -131,10 +131,6 @@
 					<ShortName>sfx_stop.wav</ShortName>
 					<Path>Media/665576698.wem</Path>
 					<CachePath>SFX/sfx_stop_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="673999802" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>VO_Calibration_End_v1.wav</ShortName>
-					<CachePath>SFX/VO_Calibration_End_v1_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="745939041" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>menu_music_C Major.wav</ShortName>
@@ -400,7 +396,6 @@
 							<SwitchValue GroupType="Switch" GroupId="3689261721" Id="529726532"/>
 							<MediaRefs>
 								<MediaRef Id="522771732"/>
-								<MediaRef Id="673999802"/>
 							</MediaRefs>
 						</SwitchContainer>
 						<SwitchContainer>
@@ -738,5 +733,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{1CC7F440-4A5C-7D6F-A16D-ACFED837EA99}</FileHash>
+	<FileHash>{AB331022-E31A-E605-6E10-F43341AEBDEC}</FileHash>
 </SoundBanksInfo>
