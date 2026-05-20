@@ -76,6 +76,7 @@ namespace AK
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONHUM = 897777483U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONLITE = 3707193523U;
         static const AkUniqueID PLAY_VO_GUIDEDVOCALIZATIONOHH = 1350331786U;
+        static const AkUniqueID PLAY_VO_LINEARHUMSAHHS = 2523215692U;
         static const AkUniqueID PLAY_VO_OPENING_THEMATIC_SWITCH = 3418740755U;
         static const AkUniqueID PLAY_VO_POSTURE_SWITCH = 528568497U;
         static const AkUniqueID PLAY_VO_QUERYELICITATION1 = 1488609146U;
@@ -166,6 +167,18 @@ namespace AK
                 static const AkUniqueID PLAYFUL = 1971384320U;
             } // namespace STATE
         } // namespace ABSORPTIONMODE
+
+        namespace MUSICENVIRONMENTMODE
+        {
+            static const AkUniqueID GROUP = 3107675784U;
+
+            namespace STATE
+            {
+                static const AkUniqueID ENVIRONMENT = 1229948536U;
+                static const AkUniqueID MUSIC = 3991942870U;
+                static const AkUniqueID NONE = 748895195U;
+            } // namespace STATE
+        } // namespace MUSICENVIRONMENTMODE
 
     } // namespace STATES
 
