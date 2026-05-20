@@ -129,6 +129,11 @@ public class UIBlurManager : MonoBehaviour
         Destroy(cachedRT);
         cachedRT = null;
     }
+    public void SetGraphic(Graphic newGraphic)
+    {
+        backgroundGraphic = newGraphic;
+        ForceRefresh();
+    }
 
 #if UNITY_EDITOR
     void OnValidate()
