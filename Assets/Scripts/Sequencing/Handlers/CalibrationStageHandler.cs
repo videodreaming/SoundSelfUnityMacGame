@@ -484,7 +484,7 @@ namespace SoundSelf.Sequence
             Debug.Log("CalibrationStageHandler: Back → index " + _stepIndex + " screen " + _steps[_stepIndex]);
             if (UIManager.Instance != null)
             {
-                UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex]);
+                UIManager.Instance.SetCalibrationScreen(_steps[_stepIndex], reverse: true);
                 RefreshCalibrationProgressUi();
             }
             if (_sequencer != null && _sequencer.calibrationMenu != null)
