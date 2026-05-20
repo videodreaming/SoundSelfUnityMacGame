@@ -403,7 +403,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{91D86C1C-3FA1-11FC-6C52-4227071949DE}">
+		<SoundBank Id="1831982039" Type="User" Language="SFX" Hash="{F6358300-E47A-0CA2-50EC-29D6FB6DF095}">
 			<ShortName>OPENING</ShortName>
 			<Path>OPENING.bnk</Path>
 			<Media>
@@ -795,11 +795,6 @@
 					<Path>Media/745939041.wem</Path>
 					<CachePath>SFX/menu_music_C Major_FBC78EF0.wem</CachePath>
 				</File>
-				<File Id="771986202" Language="SFX" Streaming="true" Location="Loose">
-					<ShortName>WHITE_Binaural_TRI_5Hz.wav</ShortName>
-					<Path>Media/771986202.wem</Path>
-					<CachePath>SFX/WHITE_Binaural_TRI_5Hz_FBC78EF0.wem</CachePath>
-				</File>
 				<File Id="785864859" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>SoundSelf_Guided Tutorial_Demo 1_Lorna Dune_B minor.wav</ShortName>
 					<Path>Media/785864859.wem</Path>
@@ -818,11 +813,6 @@
 					<ShortName>Sitar Ambience_VOX_FX.wav</ShortName>
 					<Path>Media/799748149.wem</Path>
 					<CachePath>SFX/Sitar Ambience_VOX_FX_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="812400488" Language="SFX" Streaming="true" Location="Loose">
-					<ShortName>WHITE_Binaural_TRI_10Hz.wav</ShortName>
-					<Path>Media/812400488.wem</Path>
-					<CachePath>SFX/WHITE_Binaural_TRI_10Hz_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="838651350" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_elicitSighFail_any.wav</ShortName>
@@ -1034,12 +1024,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 									<MediaRefs>
 										<MediaRef Id="206902360"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="516326041"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
 										<MediaRef Id="883996255"/>
 										<MediaRef Id="977341665"/>
 									</MediaRefs>
@@ -1048,14 +1034,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1064,14 +1044,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1080,14 +1054,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1135,12 +1103,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 									<MediaRefs>
 										<MediaRef Id="206902360"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="516326041"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
 										<MediaRef Id="883996255"/>
 										<MediaRef Id="977341665"/>
 									</MediaRefs>
@@ -1149,14 +1113,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1165,14 +1123,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1181,14 +1133,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1247,12 +1193,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 									<MediaRefs>
 										<MediaRef Id="206902360"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="516326041"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
 										<MediaRef Id="883996255"/>
 										<MediaRef Id="977341665"/>
 									</MediaRefs>
@@ -1261,14 +1203,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1277,14 +1213,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1293,14 +1223,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1348,12 +1272,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 									<MediaRefs>
 										<MediaRef Id="206902360"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="516326041"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
 										<MediaRef Id="883996255"/>
 										<MediaRef Id="977341665"/>
 									</MediaRefs>
@@ -1362,14 +1282,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1378,14 +1292,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1394,14 +1302,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -1671,13 +1573,9 @@
 					<MediaRefs>
 						<MediaRef Id="137392073"/>
 						<MediaRef Id="146493863"/>
-						<MediaRef Id="235195281"/>
-						<MediaRef Id="288516378"/>
-						<MediaRef Id="334730074"/>
 						<MediaRef Id="517296307"/>
 						<MediaRef Id="650293573"/>
 						<MediaRef Id="685689043"/>
-						<MediaRef Id="707978221"/>
 						<MediaRef Id="977341665"/>
 						<MediaRef Id="1051969831"/>
 					</MediaRefs>
@@ -1803,13 +1701,9 @@
 							<MediaRefs>
 								<MediaRef Id="56144728"/>
 								<MediaRef Id="137392073"/>
-								<MediaRef Id="235195281"/>
-								<MediaRef Id="288516378"/>
-								<MediaRef Id="334730074"/>
 								<MediaRef Id="397051634"/>
 								<MediaRef Id="517296307"/>
 								<MediaRef Id="685689043"/>
-								<MediaRef Id="707978221"/>
 								<MediaRef Id="977341665"/>
 								<MediaRef Id="1051969831"/>
 							</MediaRefs>
@@ -1845,12 +1739,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -1859,14 +1749,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -1875,14 +1759,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -1891,14 +1769,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -1931,12 +1803,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -1945,14 +1813,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -1961,14 +1823,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -1977,14 +1833,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2017,12 +1867,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2031,14 +1877,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2047,14 +1887,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2063,14 +1897,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2103,12 +1931,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2117,14 +1941,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2133,14 +1951,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2149,14 +1961,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2182,13 +1988,9 @@
 							<MediaRefs>
 								<MediaRef Id="137392073"/>
 								<MediaRef Id="146493863"/>
-								<MediaRef Id="235195281"/>
-								<MediaRef Id="288516378"/>
-								<MediaRef Id="334730074"/>
 								<MediaRef Id="517296307"/>
 								<MediaRef Id="650293573"/>
 								<MediaRef Id="685689043"/>
-								<MediaRef Id="707978221"/>
 								<MediaRef Id="977341665"/>
 								<MediaRef Id="1051969831"/>
 							</MediaRefs>
@@ -2236,12 +2038,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2250,14 +2048,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2266,14 +2058,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2282,14 +2068,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2322,12 +2102,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2336,14 +2112,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2352,14 +2122,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2368,14 +2132,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2408,12 +2166,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2422,14 +2176,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2438,14 +2186,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2454,14 +2196,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2494,12 +2230,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2508,14 +2240,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2524,14 +2250,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2540,14 +2260,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2572,13 +2286,9 @@
 							<MediaRefs>
 								<MediaRef Id="56144728"/>
 								<MediaRef Id="137392073"/>
-								<MediaRef Id="235195281"/>
-								<MediaRef Id="288516378"/>
-								<MediaRef Id="334730074"/>
 								<MediaRef Id="397051634"/>
 								<MediaRef Id="517296307"/>
 								<MediaRef Id="685689043"/>
-								<MediaRef Id="707978221"/>
 								<MediaRef Id="977341665"/>
 								<MediaRef Id="1051969831"/>
 							</MediaRefs>
@@ -2614,12 +2324,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2628,14 +2334,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2644,14 +2344,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2660,14 +2354,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2700,12 +2388,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2714,14 +2398,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2730,14 +2408,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2746,14 +2418,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2786,12 +2452,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2800,14 +2462,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2816,14 +2472,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2832,14 +2482,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2872,12 +2516,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -2886,14 +2526,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2902,14 +2536,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2918,14 +2546,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -2951,13 +2573,9 @@
 							<MediaRefs>
 								<MediaRef Id="137392073"/>
 								<MediaRef Id="146493863"/>
-								<MediaRef Id="235195281"/>
-								<MediaRef Id="288516378"/>
-								<MediaRef Id="334730074"/>
 								<MediaRef Id="517296307"/>
 								<MediaRef Id="650293573"/>
 								<MediaRef Id="685689043"/>
-								<MediaRef Id="707978221"/>
 								<MediaRef Id="977341665"/>
 								<MediaRef Id="1051969831"/>
 							</MediaRefs>
@@ -3005,12 +2623,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -3019,14 +2633,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3035,14 +2643,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3051,14 +2653,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3091,12 +2687,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -3105,14 +2697,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3121,14 +2707,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3137,14 +2717,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3177,12 +2751,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -3191,14 +2761,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3207,14 +2771,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3223,14 +2781,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3263,12 +2815,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 											<MediaRefs>
 												<MediaRef Id="206902360"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="516326041"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
 												<MediaRef Id="883996255"/>
 												<MediaRef Id="977341665"/>
 											</MediaRefs>
@@ -3277,14 +2825,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3293,14 +2835,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3309,14 +2845,8 @@
 											<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 											<MediaRefs>
 												<MediaRef Id="234819779"/>
-												<MediaRef Id="235195281"/>
-												<MediaRef Id="288516378"/>
-												<MediaRef Id="334730074"/>
 												<MediaRef Id="335419804"/>
 												<MediaRef Id="650293573"/>
-												<MediaRef Id="707978221"/>
-												<MediaRef Id="771986202"/>
-												<MediaRef Id="812400488"/>
 												<MediaRef Id="977341665"/>
 												<MediaRef Id="1023924053"/>
 											</MediaRefs>
@@ -3463,12 +2993,8 @@
 							<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 							<MediaRefs>
 								<MediaRef Id="206902360"/>
-								<MediaRef Id="235195281"/>
-								<MediaRef Id="288516378"/>
-								<MediaRef Id="334730074"/>
 								<MediaRef Id="516326041"/>
 								<MediaRef Id="650293573"/>
-								<MediaRef Id="707978221"/>
 								<MediaRef Id="883996255"/>
 								<MediaRef Id="977341665"/>
 							</MediaRefs>
@@ -3477,14 +3003,8 @@
 							<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 							<MediaRefs>
 								<MediaRef Id="234819779"/>
-								<MediaRef Id="235195281"/>
-								<MediaRef Id="288516378"/>
-								<MediaRef Id="334730074"/>
 								<MediaRef Id="335419804"/>
 								<MediaRef Id="650293573"/>
-								<MediaRef Id="707978221"/>
-								<MediaRef Id="771986202"/>
-								<MediaRef Id="812400488"/>
 								<MediaRef Id="977341665"/>
 								<MediaRef Id="1023924053"/>
 							</MediaRefs>
@@ -3493,14 +3013,8 @@
 							<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 							<MediaRefs>
 								<MediaRef Id="234819779"/>
-								<MediaRef Id="235195281"/>
-								<MediaRef Id="288516378"/>
-								<MediaRef Id="334730074"/>
 								<MediaRef Id="335419804"/>
 								<MediaRef Id="650293573"/>
-								<MediaRef Id="707978221"/>
-								<MediaRef Id="771986202"/>
-								<MediaRef Id="812400488"/>
 								<MediaRef Id="977341665"/>
 								<MediaRef Id="1023924053"/>
 							</MediaRefs>
@@ -3509,14 +3023,8 @@
 							<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 							<MediaRefs>
 								<MediaRef Id="234819779"/>
-								<MediaRef Id="235195281"/>
-								<MediaRef Id="288516378"/>
-								<MediaRef Id="334730074"/>
 								<MediaRef Id="335419804"/>
 								<MediaRef Id="650293573"/>
-								<MediaRef Id="707978221"/>
-								<MediaRef Id="771986202"/>
-								<MediaRef Id="812400488"/>
 								<MediaRef Id="977341665"/>
 								<MediaRef Id="1023924053"/>
 							</MediaRefs>
@@ -3595,12 +3103,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 									<MediaRefs>
 										<MediaRef Id="206902360"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="516326041"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
 										<MediaRef Id="883996255"/>
 										<MediaRef Id="977341665"/>
 									</MediaRefs>
@@ -3609,14 +3113,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3625,14 +3123,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3641,14 +3133,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3681,12 +3167,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 									<MediaRefs>
 										<MediaRef Id="206902360"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="516326041"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
 										<MediaRef Id="883996255"/>
 										<MediaRef Id="977341665"/>
 									</MediaRefs>
@@ -3695,14 +3177,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3711,14 +3187,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3727,14 +3197,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3767,12 +3231,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 									<MediaRefs>
 										<MediaRef Id="206902360"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="516326041"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
 										<MediaRef Id="883996255"/>
 										<MediaRef Id="977341665"/>
 									</MediaRefs>
@@ -3781,14 +3241,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3797,14 +3251,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3813,14 +3261,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3853,12 +3295,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="674228435"/>
 									<MediaRefs>
 										<MediaRef Id="206902360"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="516326041"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
 										<MediaRef Id="883996255"/>
 										<MediaRef Id="977341665"/>
 									</MediaRefs>
@@ -3867,14 +3305,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3883,14 +3315,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="0"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -3899,14 +3325,8 @@
 									<SwitchValue GroupType="Switch" GroupId="3813349969" Id="2585211341"/>
 									<MediaRefs>
 										<MediaRef Id="234819779"/>
-										<MediaRef Id="235195281"/>
-										<MediaRef Id="288516378"/>
-										<MediaRef Id="334730074"/>
 										<MediaRef Id="335419804"/>
 										<MediaRef Id="650293573"/>
-										<MediaRef Id="707978221"/>
-										<MediaRef Id="771986202"/>
-										<MediaRef Id="812400488"/>
 										<MediaRef Id="977341665"/>
 										<MediaRef Id="1023924053"/>
 									</MediaRefs>
@@ -4195,7 +3615,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{44703C1F-DDD9-784B-37F9-BDA9D18683B8}">
+		<SoundBank Id="2230992643" Type="User" Language="SFX" Hash="{1BB2BDD9-5B47-5269-21A2-3FEAB2B2CACB}">
 			<ShortName>CALIBRATION</ShortName>
 			<Path>CALIBRATION.bnk</Path>
 			<Media>
@@ -4926,7 +4346,7 @@
 				</SwitchGroup>
 			</SwitchGroups>
 		</SoundBank>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{45624592-7173-4593-EFEA-A09835A2AF76}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{08729B05-88C4-8D81-9AA3-F63561BCE065}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -5101,10 +4521,6 @@
 				<File Id="320884047" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>C.mid</ShortName>
 					<CachePath>SFX/C_E3FF52BF.wem</CachePath>
-				</File>
-				<File Id="333036348" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>RED_Solid.wav</ShortName>
-					<CachePath>SFX/RED_Solid_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="339955301" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>C#Bb.mid</ShortName>
@@ -5291,10 +4707,6 @@
 					<ShortName>ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24.wav</ShortName>
 					<Path>Media/756450229.wem</Path>
 					<CachePath>SFX/ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="765074154" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>BLUE_SOLID.wav</ShortName>
-					<CachePath>SFX/BLUE_SOLID_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="766078755" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_goodbye_kindness.wav</ShortName>
@@ -5484,12 +4896,10 @@
 				</Event>
 				<Event Id="530138156" Name="Play_ASCENDING_CLOSING">
 					<MediaRefs>
-						<MediaRef Id="333036348"/>
 						<MediaRef Id="543585764"/>
 						<MediaRef Id="659943345"/>
 						<MediaRef Id="745939041"/>
 						<MediaRef Id="756450229"/>
-						<MediaRef Id="765074154"/>
 						<MediaRef Id="766078755"/>
 					</MediaRefs>
 					<AuxBusRefs>
@@ -12090,5 +11500,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{CC4EF642-A060-2FFC-6A11-81C5C7C75404}</FileHash>
+	<FileHash>{4D42EB9C-0F60-3DAF-4D0B-C40071C5DD88}</FileHash>
 </SoundBanksInfo>

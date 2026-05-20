@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="150">
 	<SoundBanks>
-		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{45624592-7173-4593-EFEA-A09835A2AF76}">
+		<SoundBank Id="2930224074" Type="User" Language="SFX" Hash="{08729B05-88C4-8D81-9AA3-F63561BCE065}">
 			<ShortName>CLOSING</ShortName>
 			<Path>CLOSING.bnk</Path>
 			<Media>
@@ -176,10 +176,6 @@
 				<File Id="320884047" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>C.mid</ShortName>
 					<CachePath>SFX/C_E3FF52BF.wem</CachePath>
-				</File>
-				<File Id="333036348" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>RED_Solid.wav</ShortName>
-					<CachePath>SFX/RED_Solid_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="339955301" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>C#Bb.mid</ShortName>
@@ -366,10 +362,6 @@
 					<ShortName>ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24.wav</ShortName>
 					<Path>Media/756450229.wem</Path>
 					<CachePath>SFX/ThematicSavasana_Shruti, Monochord, FemaleVox_4.24.24_FBC78EF0.wem</CachePath>
-				</File>
-				<File Id="765074154" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>BLUE_SOLID.wav</ShortName>
-					<CachePath>SFX/BLUE_SOLID_FBC78EF0.wem</CachePath>
 				</File>
 				<File Id="766078755" Language="SFX" Streaming="true" Location="Loose">
 					<ShortName>vo_goodbye_kindness.wav</ShortName>
@@ -559,12 +551,10 @@
 				</Event>
 				<Event Id="530138156" Name="Play_ASCENDING_CLOSING">
 					<MediaRefs>
-						<MediaRef Id="333036348"/>
 						<MediaRef Id="543585764"/>
 						<MediaRef Id="659943345"/>
 						<MediaRef Id="745939041"/>
 						<MediaRef Id="756450229"/>
-						<MediaRef Id="765074154"/>
 						<MediaRef Id="766078755"/>
 					</MediaRefs>
 					<AuxBusRefs>
@@ -2117,5 +2107,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7F034231-4A47-E5E0-A614-76EE40A41D40}</FileHash>
+	<FileHash>{0D89A6E2-38EF-040A-727E-78A170CB2D78}</FileHash>
 </SoundBanksInfo>
