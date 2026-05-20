@@ -71,6 +71,9 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     [SerializeField] private Battery battery;
     [SerializeField] private Timer sessionStartTimer;
+    [SerializeField] private Image duskBackground;
+    [SerializeField] private GameObject warnningScreen;
+    [SerializeField] private Text effectDevicesText;
     [FormerlySerializedAs("microphoneStatusText")]
     [SerializeField] private Text micLevelText;
     [SerializeField] private Text headphoneStatusText;
@@ -1412,5 +1415,49 @@ public class UIManager : MonoBehaviour
         endMeditationScreen.SetActive(false);
     }
 
+    public void ShowDuskBackground(bool show)
+    {
+        if (duskBackground == null)
+        {
+            Debug.LogWarning("UIManager.ShowDuskBackground: duskBackground is not assigned.");
+            return;
+        }
+        if (show)
+        {
+            duskBackground.gameObject.SetActive(true);
+            UIBlurManager.Instance.SetGraphic(duskBackground);
+        }
+        else
+        {
+            duskBackground.GetComponent<ScreenFadeEffect>()?.FadeOut(() =>
+            {
+                duskBackground.gameObject.SetActive(false);
+                UIBlurManager.Instance.SetGraphic(GetComponent<Image>());
+
+            });
+        }
+
+    }
+    public void ShowWarrningScreen(bool show)
+    {
+
+        if (show)
+        {
+            warnningScreen.gameObject.SetActive(true);
+        }
+        else
+        {
+            warnningScreen.GetComponent<ScreenFadeEffect>()?.FadeOut(() =>
+            {
+                warnningScreen.gameObject.SetActive(false);
+            });
+        }
+    }
+    public void SetEffectedDevicesText(string text)
+    {
+        effectDevicesText.text = "Affected devices:\n" + text;
+        effectDevicesText.GetComponent<ContentSizeFitter>().enabled = false;
+        effectDevicesText.GetComponent<ContentSizeFitter>().enabled = true;
+    }
 
 }
