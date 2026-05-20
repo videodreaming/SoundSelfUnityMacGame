@@ -2484,6 +2484,8 @@ GameObject:
   - component: {fileID: 157700266}
   - component: {fileID: 157700268}
   - component: {fileID: 157700267}
+  - component: {fileID: 157700270}
+  - component: {fileID: 157700269}
   m_Layer: 5
   m_Name: Playground
   m_TagString: Untagged
@@ -2552,6 +2554,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157700265}
   m_CullTransparentMesh: 1
+--- !u!114 &157700269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157700265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac7867be69f1a43ca9d5c925bb1bccab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInDuration: 0.5
+  fadeOutDuration: 0.5
+  enableEntery: 1
+  enableExit: 1
+  enableMovement: 1
+  slideDistance: 100
+  fadeInFromDirection: 1
+  fadeOutToDirection: 0
+--- !u!225 &157700270
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157700265}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &170401044
 GameObject:
   m_ObjectHideFlags: 0
@@ -18372,6 +18406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
+  enableScreenMovement: 1
+  reverseNextTransition: 0
 --- !u!225 &1071554255
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -19046,6 +19082,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  enableScreenMovement: 1
+  reverseNextTransition: 0
 --- !u!225 &1133452316
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -19478,6 +19516,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
+  enableScreenMovement: 1
+  reverseNextTransition: 0
 --- !u!225 &1147446954
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -21671,6 +21711,8 @@ GameObject:
   - component: {fileID: 1304064607}
   - component: {fileID: 1304064609}
   - component: {fileID: 1304064608}
+  - component: {fileID: 1304064611}
+  - component: {fileID: 1304064610}
   m_Layer: 5
   m_Name: Tutorial
   m_TagString: Untagged
@@ -21739,6 +21781,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304064606}
   m_CullTransparentMesh: 1
+--- !u!114 &1304064610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304064606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac7867be69f1a43ca9d5c925bb1bccab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInDuration: 0.5
+  fadeOutDuration: 0.5
+  enableEntery: 1
+  enableExit: 1
+  enableMovement: 1
+  slideDistance: 100
+  fadeInFromDirection: 1
+  fadeOutToDirection: 0
+--- !u!225 &1304064611
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304064606}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1313131857
 GameObject:
   m_ObjectHideFlags: 0
@@ -23687,6 +23761,8 @@ GameObject:
   - component: {fileID: 1417407857}
   - component: {fileID: 1417407859}
   - component: {fileID: 1417407858}
+  - component: {fileID: 1417407861}
+  - component: {fileID: 1417407860}
   m_Layer: 5
   m_Name: Savasana
   m_TagString: Untagged
@@ -23755,6 +23831,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1417407856}
   m_CullTransparentMesh: 1
+--- !u!114 &1417407860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417407856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac7867be69f1a43ca9d5c925bb1bccab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInDuration: 0.5
+  fadeOutDuration: 0.5
+  enableEntery: 1
+  enableExit: 0
+  enableMovement: 1
+  slideDistance: 100
+  fadeInFromDirection: 1
+  fadeOutToDirection: 0
+--- !u!225 &1417407861
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417407856}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1417922820
 GameObject:
   m_ObjectHideFlags: 0
@@ -32937,6 +33045,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
+  enableScreenMovement: 1
+  reverseNextTransition: 0
 --- !u!225 &1990855361
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -36250,6 +36360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  enableScreenMovement: 1
+  reverseNextTransition: 0
 --- !u!222 &3710691550574881456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -37299,6 +37411,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
+  enableScreenMovement: 1
+  reverseNextTransition: 0
 --- !u!114 &5690434341604778522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37543,6 +37657,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
+  enableScreenMovement: 1
+  reverseNextTransition: 0
 --- !u!114 &6118818609140259934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38098,6 +38214,8 @@ GameObject:
   - component: {fileID: 5942635208897876486}
   - component: {fileID: 8119653912364549501}
   - component: {fileID: 6508477778630292174}
+  - component: {fileID: 8119653912364549503}
+  - component: {fileID: 8119653912364549502}
   m_Layer: 5
   m_Name: OpeningMeditation
   m_TagString: Untagged
@@ -39300,6 +39418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScreenFadeEffect
+  enableScreenMovement: 1
+  reverseNextTransition: 0
 --- !u!114 &7772311677089131923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39436,6 +39556,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6881416490892311845}
   m_CullTransparentMesh: 1
+--- !u!114 &8119653912364549502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6881416490892311845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac7867be69f1a43ca9d5c925bb1bccab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeInDuration: 0.5
+  fadeOutDuration: 0.5
+  enableEntery: 0
+  enableExit: 1
+  enableMovement: 1
+  slideDistance: 100
+  fadeInFromDirection: 1
+  fadeOutToDirection: 0
+--- !u!225 &8119653912364549503
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6881416490892311845}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!222 &8162052118931118214
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -39754,6 +39906,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b2d4ca42f827cd44b406b6242fc7151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableScreenMovement: 0
+  reverseNextTransition: 0
 --- !u!225 &8230576280433664139
 CanvasGroup:
   m_ObjectHideFlags: 0

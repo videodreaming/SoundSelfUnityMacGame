@@ -167,7 +167,7 @@ public class UIManager : MonoBehaviour
     public Action OnSessionTimeEnds;
 
     // Screen Set Functions
-    public void UnsetAllScreens(Action onComplete, bool keepCalibrationHead = false)
+    public void UnsetAllScreens(Action onComplete, bool keepCalibrationHead = false, bool reverse = false)
     {
         FadeOutScreen(() =>
         {
@@ -185,63 +185,63 @@ public class UIManager : MonoBehaviour
             startMeditationScreen.SetActive(false);
             endMeditationScreen.SetActive(false);
             onComplete?.Invoke();
-        }, keepCalibrationHead);
+        }, keepCalibrationHead, reverse);
     }
 
-    void FadeOutScreen(Action onComplete, bool keepCalibrationHead = false)
+    void FadeOutScreen(Action onComplete, bool keepCalibrationHead = false, bool reverse = false)
     {
         //check which screen was active and call fade out on it
         if (choiceSSOrMusicScreen.activeSelf)
         {
-            choiceSSOrMusicScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            choiceSSOrMusicScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (welcomeScreen.activeSelf)
         {
-            welcomeScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            welcomeScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (choiceSonofloreMusicLengthScreen != null && choiceSonofloreMusicLengthScreen.activeSelf)
         {
-            choiceSonofloreMusicLengthScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            choiceSonofloreMusicLengthScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (choiceAlbumScreen != null && choiceAlbumScreen.activeSelf)
         {
-            choiceAlbumScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            choiceAlbumScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (startScreen != null && startScreen.activeSelf)
         {
             if (!keepCalibrationHead)
                 FadeOutCalibrationHead();
-            startScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            startScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (conclusionScreen != null && conclusionScreen.activeSelf)
         {
             if (!keepCalibrationHead)
                 FadeOutCalibrationHead();
-            conclusionScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            conclusionScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (headphoneScreen.activeSelf)
         {
-            headphoneScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            headphoneScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (microphoneScreen.activeSelf)
         {
-            microphoneScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            microphoneScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (vibroAcousticScreen.activeSelf)
         {
-            vibroAcousticScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            vibroAcousticScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (lightGlassesScreen.activeSelf)
         {
-            lightGlassesScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            lightGlassesScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (startMeditationScreen.activeSelf)
         {
-            startMeditationScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            startMeditationScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else if (endMeditationScreen.activeSelf)
         {
-            endMeditationScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete);
+            endMeditationScreen.GetComponent<ScreenFadeEffect>().FadeOut(onComplete, reverse);
         }
         else
         {
@@ -249,8 +249,16 @@ public class UIManager : MonoBehaviour
             onComplete?.Invoke();
         }
     }
+
+    private static void ArmReverseFadeIn(GameObject go)
+    {
+        if (go == null) return;
+        var fade = go.GetComponent<ScreenFadeEffect>();
+        if (fade != null) fade.reverseNextTransition = true;
+    }
     /// <summary>Calibration step UI only — uses <see cref="OnCalibrationBackPress"/> for Back, not the choice-menu stack. Clears the choice stack so stale Back targets are not kept when leaving choice flows.</summary>
-    public void SetCalibrationScreen(CalibrationUI screen)
+    /// <param name="reverse">When true (Back press), current screen fades out downward and the next screen fades in from above. Default forward direction otherwise.</param>
+    public void SetCalibrationScreen(CalibrationUI screen, bool reverse = false)
     {
         // Choice stack is unrelated to calibration (see class summary); reset so Back on a later choice visit does not use stale targets.
         ClearChoiceMenuNavigationStack();
@@ -262,6 +270,7 @@ public class UIManager : MonoBehaviour
                 case CalibrationUI.Start:
                     if (startScreen != null)
                     {
+                        if (reverse) ArmReverseFadeIn(startScreen);
                         startScreen.SetActive(true);
                         FadeInCalibrationHead();
                     }
@@ -269,20 +278,27 @@ public class UIManager : MonoBehaviour
                         Debug.LogError("UIManager.SetCalibrationScreen(Start): startScreen is not assigned. Assign Section Calibration Start in the inspector.");
                     break;
                 case CalibrationUI.Headphone:
+                    if (reverse) ArmReverseFadeIn(headphoneScreen);
                     headphoneScreen.SetActive(true);
                     break;
                 case CalibrationUI.Microphone:
+                    if (reverse) ArmReverseFadeIn(microphoneScreen);
                     microphoneScreen.SetActive(true);
                     break;
                 case CalibrationUI.VibroAcoustic:
+                    if (reverse) ArmReverseFadeIn(vibroAcousticScreen);
                     vibroAcousticScreen.SetActive(true);
                     break;
                 case CalibrationUI.LightGlasses:
+                    if (reverse) ArmReverseFadeIn(lightGlassesScreen);
                     lightGlassesScreen.SetActive(true);
                     break;
                 case CalibrationUI.Conclusion:
                     if (conclusionScreen != null)
+                    {
+                        if (reverse) ArmReverseFadeIn(conclusionScreen);
                         conclusionScreen.SetActive(true);
+                    }
                     else
                         Debug.LogError("UIManager.SetCalibrationScreen(Conclusion): conclusionScreen is not assigned. Assign Section Calibration Conclusion in the inspector.");
                     break;
@@ -292,7 +308,7 @@ public class UIManager : MonoBehaviour
             else
                 EnableSkipButton(false, null);
             ArmButtonInteractionCooldown();
-        }, keepCalibrationHead: true);
+        }, keepCalibrationHead: true, reverse: reverse);
     }
 
     /// <summary>Shows the in-session HUD (Meditation Session — Start). No-op if that root is already active (idempotent).</summary>
@@ -464,6 +480,15 @@ public class UIManager : MonoBehaviour
         if (go == null || !go.activeSelf)
         {
             onComplete?.Invoke();
+            return;
+        }
+
+        // Prefer the horizontal slide effect (session headers); fall back to the vertical screen fade,
+        // then to a bare SetActive(false) if neither component is attached.
+        var slideFade = go.GetComponent<HorizontalSlideFadeEffect>();
+        if (slideFade != null)
+        {
+            slideFade.FadeOut(onComplete);
             return;
         }
 
