@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Provides real-time monitoring of microphone input using buffered pull transport from ImitoneVoiceIntepreter ring data.
@@ -41,11 +44,28 @@ public class DirectVoiceMonitoring : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float monitoringVolume = 1f;
     [Tooltip("Select which mic ring stream (raw vs. normalized) to monitor for A/B testing and debugging.")]
     [SerializeField] private MonitoringStreamSource monitoringStreamSource = MonitoringStreamSource.Normalized;
-    [Tooltip("When true, monitoring is attenuated (post dynamic scaling) by monitoringAttenuationMultiplier.")]
+    [Tooltip("When true, monitoring is attenuated (post dynamic scaling) by monitoringAttenuationDb.")]
     [SerializeField] private bool monitoringAttenuated = false;
-    [SerializeField] [Range(0f, 1f)] private float monitoringAttenuationMultiplier = 0.4f;
+    [Tooltip("Gain applied when attenuated (dB). 0 dB = unity; -8 dB ≈ former linear 0.4.")]
+    [FormerlySerializedAs("monitoringAttenuationMultiplier")]
+    [SerializeField] [Range(-60f, 0f)] private float monitoringAttenuationDb = -4f;
     [Tooltip("Smoothing time for attenuation transitions to reduce click risk when toggled.")]
     [SerializeField] [Range(0.005f, 0.25f)] private float attenuationSmoothingSeconds = 0.03f;
+
+    // TODO (next cleanup pass): Move per-music-type monitoring attenuation (today MusicSystem1 →
+    // AttenuateMonitoring / monitoringAttenuated + monitoringAttenuationDb for SoundWorld vs MusicLoop)
+    // into the named MicMixer volume contributions below (SetMicMixerVolumeContributionDb), and retire
+    // or slim this software path. Re-tune the dB values — inspector fields here are temporarily zeroed
+    // while that behavior is bypassed; confirm against MicMixer Initialization (+6 dB) and Calibration (−6).
+
+    [Header("MicMixer bus volume (named dB contributions)")]
+    [Tooltip("Exposed MicMixer parameter (SoundSelf MicProcessing → Volume).")]
+    [SerializeField] private string micMixerVolumeParameterName = "MicProcessingVolume";
+    [Tooltip("Baseline Mic Processing attenuation fader (dB). Seeded as contribution \"Initialization\".")]
+    [SerializeField] private float micMixerInitializationVolumeDb = 6f;
+    [SerializeField] private float debugMicMixerVolumeSumDb;
+
+    public const string MicMixerInitializationContributionName = "Initialization";
 
     [Header("Dynamic Monitoring Volume")]
     [Tooltip("When enabled, monitoring volume follows gameOn/toneActive/chant state (migrated from MusicSystem1).")]
@@ -107,6 +127,9 @@ public class DirectVoiceMonitoring : MonoBehaviour
     private float chargeLerp = 0f;
     private float smoothedAttenuationScale = 1f;
     private bool attenuationScaleInitialized;
+    private readonly Dictionary<string, float> micMixerVolumeContributionsDb = new Dictionary<string, float>();
+    private AudioMixer resolvedMicMixer;
+    private bool loggedMicMixerApplyFailure;
     /// <summary>External override (e.g. <c>CalibrationStageHandler</c>) — when true, the chant-driven ducking contributions (<c>chantPresenceScale</c> and <c>chargeDuckScale</c>) are forced to 1f. Mic-gate (<c>gameOnScale</c>) and outer attenuation are unaffected.</summary>
     private bool chantBasedAttenuationOverrideActive = false;
     private string nextStartPrimeReason = "start_prime";
@@ -185,7 +208,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
     // runs on: main thread (Unity lifecycle).
     private void Awake()
     {
-        float initialAttenuationScale = monitoringAttenuated ? Mathf.Clamp01(monitoringAttenuationMultiplier) : 1f;
+        MigrateLegacyLinearAttenuationIfNeeded();
+        float initialAttenuationScale = GetMonitoringAttenuationLinearScale();
         smoothedAttenuationScale = initialAttenuationScale;
         attenuationScaleInitialized = true;
         lastWarningWindowResetTime = Time.unscaledTime;
@@ -218,6 +242,8 @@ public class DirectVoiceMonitoring : MonoBehaviour
 
         lastAppliedMonitoringVolume = -1f;
         effectiveMonitoringGain = 0f;
+
+        SetMicMixerVolumeContributionDb(MicMixerInitializationContributionName, micMixerInitializationVolumeDb);
     }
 
     /// <summary>
@@ -924,10 +950,144 @@ public class DirectVoiceMonitoring : MonoBehaviour
         return true;
     }
 
+    /// <summary>Adds or updates a named dB contribution; reapplies the summed MicMixer fader.</summary>
+    public void SetMicMixerVolumeContributionDb(string contributionName, float volumeDb)
+    {
+        if (string.IsNullOrEmpty(contributionName))
+        {
+            return;
+        }
+
+        micMixerVolumeContributionsDb[contributionName] = volumeDb;
+        ApplyMicMixerVolumeFromContributions();
+    }
+
+    /// <summary>Removes a named dB contribution if present; reapplies the summed MicMixer fader.</summary>
+    public bool RemoveMicMixerVolumeContribution(string contributionName)
+    {
+        if (string.IsNullOrEmpty(contributionName))
+        {
+            return false;
+        }
+
+        bool removed = micMixerVolumeContributionsDb.Remove(contributionName);
+        if (removed)
+        {
+            ApplyMicMixerVolumeFromContributions();
+        }
+
+        return removed;
+    }
+
+    /// <summary>Changes an existing named contribution; no-op if the name is missing.</summary>
+    public bool TryChangeMicMixerVolumeContributionDb(string contributionName, float volumeDb)
+    {
+        if (string.IsNullOrEmpty(contributionName) || !micMixerVolumeContributionsDb.ContainsKey(contributionName))
+        {
+            return false;
+        }
+
+        micMixerVolumeContributionsDb[contributionName] = volumeDb;
+        ApplyMicMixerVolumeFromContributions();
+        return true;
+    }
+
+    public bool TryGetMicMixerVolumeContributionDb(string contributionName, out float volumeDb)
+    {
+        volumeDb = 0f;
+        if (string.IsNullOrEmpty(contributionName))
+        {
+            return false;
+        }
+
+        return micMixerVolumeContributionsDb.TryGetValue(contributionName, out volumeDb);
+    }
+
+    public float GetMicMixerVolumeSumDb()
+    {
+        float sum = 0f;
+        foreach (float contributionDb in micMixerVolumeContributionsDb.Values)
+        {
+            sum += contributionDb;
+        }
+
+        return sum;
+    }
+
+    private void ApplyMicMixerVolumeFromContributions()
+    {
+        float sumDb = GetMicMixerVolumeSumDb();
+        debugMicMixerVolumeSumDb = sumDb;
+
+        if (!TryResolveMicMixer() || string.IsNullOrEmpty(micMixerVolumeParameterName))
+        {
+            LogMicMixerApplyFailureOnce();
+            return;
+        }
+
+        if (!resolvedMicMixer.SetFloat(micMixerVolumeParameterName, sumDb))
+        {
+            LogMicMixerApplyFailureOnce();
+        }
+    }
+
+    private bool TryResolveMicMixer()
+    {
+        if (resolvedMicMixer != null)
+        {
+            return true;
+        }
+
+        if (monitoringSource != null && monitoringSource.outputAudioMixerGroup != null)
+        {
+            resolvedMicMixer = monitoringSource.outputAudioMixerGroup.audioMixer;
+            return resolvedMicMixer != null;
+        }
+
+        resolvedMicMixer = Resources.Load<AudioMixer>("MicMixer");
+        return resolvedMicMixer != null;
+    }
+
+    private void LogMicMixerApplyFailureOnce()
+    {
+        if (loggedMicMixerApplyFailure)
+        {
+            return;
+        }
+
+        loggedMicMixerApplyFailure = true;
+        DbgWarn($"DirectVoiceMonitoring: Failed to apply MicMixer volume (parameter '{micMixerVolumeParameterName}'). Route monitoring AudioSource to MicMixer → SoundSelf MicProcessing and expose Volume as MicProcessingVolume.");
+    }
+
+    /// <summary>Linear gain for interaction-based outer attenuation (1 when off, <see cref="AudioLevelUtilities.DbToLinear"/> when on).</summary>
+    private float GetMonitoringAttenuationLinearScale()
+    {
+        if (!monitoringAttenuated)
+        {
+            return 1f;
+        }
+
+        return AudioLevelUtilities.DbToLinear(Mathf.Clamp(monitoringAttenuationDb, -60f, 0f));
+    }
+
+    /// <summary>
+    /// Upgrades scenes that still store the old 0–1 linear multiplier (e.g. 0.4) on the renamed dB field.
+    /// </summary>
+    private void MigrateLegacyLinearAttenuationIfNeeded()
+    {
+        if (monitoringAttenuationDb <= 0f)
+        {
+            return;
+        }
+
+        monitoringAttenuationDb = AudioLevelUtilities.LinearToDb(monitoringAttenuationDb);
+    }
+
     // Update volume when changed in inspector
     // runs on: main thread (Unity Editor lifecycle; only fires in the Editor).
     private void OnValidate()
     {
+        MigrateLegacyLinearAttenuationIfNeeded();
         if (monitoringSource != null && Application.isPlaying)
         {
             ApplyMonitoringVolume("on_validate");
@@ -998,7 +1158,7 @@ public class DirectVoiceMonitoring : MonoBehaviour
             //dynamicScale = GameValues.instance._chantLerpSlow;
         }
 
-        float targetAttenuationScale = monitoringAttenuated ? Mathf.Clamp01(monitoringAttenuationMultiplier) : 1f;
+        float targetAttenuationScale = GetMonitoringAttenuationLinearScale();
         float attenuationScale = GetSmoothedAttenuationScale(targetAttenuationScale);
         float targetVolume = Mathf.Clamp01(monitoringVolume * Mathf.Clamp01(dynamicScale) * attenuationScale);
         float audioSourceVolumeScale = Mathf.Clamp01(monitoringSource.volume);

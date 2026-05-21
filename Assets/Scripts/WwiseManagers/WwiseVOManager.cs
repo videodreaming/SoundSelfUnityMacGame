@@ -350,6 +350,7 @@ public class WwiseVOManager : MonoBehaviour
                 break;
 
             case "Cue_ClosingGoodbye_End":
+            case "Cue_ClosingGoodbyeEnd":
                 LogClosingGoodbyeTimingCalibration(cue);
                 VoTrySequencerCommand(cue, SequenceCommand.CueClosingGoodbyeEnd, "HandleSequenceCommand(CueClosingGoodbyeEnd)");
                 break;

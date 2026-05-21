@@ -433,6 +433,49 @@ namespace SoundSelf.Sequence
             return stage.HasValue ? GetHandlerFor(stage.Value) : null;
         }
 
+        /// <summary>
+        /// Jumps immediately to the first <see cref="StageType.Code"/> /
+        /// <see cref="StageVariant.Code_Dualstage_SectionEnd"/> stage in the active definition.
+        /// </summary>
+        /// <returns>True if that stage exists and <see cref="AdvanceToStage"/> was invoked (including when already on that index).</returns>
+        public bool TrySkipToDualstageSectionEndCodeStage()
+        {
+            if (definition == null)
+            {
+                Debug.LogWarning("SequenceRunner.TrySkipToDualstageSectionEndCodeStage: no active sequence definition.");
+                return false;
+            }
+
+            var stages = definition.StagesOrEmpty;
+            if (stages == null || stages.Length == 0)
+            {
+                Debug.LogWarning("SequenceRunner.TrySkipToDualstageSectionEndCodeStage: sequence has no stages.");
+                return false;
+            }
+
+            for (int i = 0; i < stages.Length; i++)
+            {
+                if (stages[i].type != StageType.Code || stages[i].variant != StageVariant.Code_Dualstage_SectionEnd)
+                    continue;
+
+                if (CurrentStageIndex == i)
+                {
+                    Debug.Log(
+                        $"SequenceRunner.TrySkipToDualstageSectionEndCodeStage: already at Code/Code_Dualstage_SectionEnd (index {i}).");
+                    return true;
+                }
+
+                Debug.Log(
+                    $"SequenceRunner.TrySkipToDualstageSectionEndCodeStage: advancing from index {CurrentStageIndex} to {i} (Code/Code_Dualstage_SectionEnd).");
+                AdvanceToStage(i);
+                return true;
+            }
+
+            Debug.LogWarning(
+                "SequenceRunner.TrySkipToDualstageSectionEndCodeStage: active definition has no Code stage with variant Code_Dualstage_SectionEnd.");
+            return false;
+        }
+
         /// <summary>Invokes <see cref="IStageHandler.OnSessionSkipFromUi"/> on the current stage handler (meditation skip — cleanup before <see cref="SequenceCommand.EndThisSequenceStage"/>).</summary>
         public void NotifyCurrentStageSessionSkipFromUi()
         {

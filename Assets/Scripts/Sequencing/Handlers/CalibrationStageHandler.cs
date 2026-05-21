@@ -42,6 +42,8 @@ namespace SoundSelf.Sequence
         private bool _hasCapturedNormalizationRiseRate;
         private float _capturedNormalizationRiseRateDbPerSecond;
         private const float CalibrationNormalizationRiseRateMultiplier = 6f;
+        private const string CalibrationMicMixerVolumeContributionName = "Calibration";
+        private const float CalibrationMicMixerVolumeContributionDb = -6f;
         private bool _hasClaimedMonitoringOverride;
 
         private const float CalibrationCueWaitTimeoutSeconds = 120f;
@@ -158,6 +160,7 @@ namespace SoundSelf.Sequence
             _stepIndex = 0;
 
             Debug.Log("CalibrationStageHandler: Enter — step count " + _steps.Length + ", first screen " + _steps[0]);
+            UIManager.Instance?.EnableSkipStageButton(false);
             ApplyCalibrationMonitoringBoost();
             if (_sequencer != null && _sequencer.calibrationMenu != null)
             {
@@ -211,6 +214,9 @@ namespace SoundSelf.Sequence
             {
                 directVoiceMonitoring.AttenuateMonitoring(false);
                 directVoiceMonitoring.SetChantBasedAttenuationOverride(true);
+                directVoiceMonitoring.SetMicMixerVolumeContributionDb(
+                    CalibrationMicMixerVolumeContributionName,
+                    CalibrationMicMixerVolumeContributionDb);
             }
             if (MusicSystem1.instance != null)
             {
@@ -242,6 +248,7 @@ namespace SoundSelf.Sequence
             if (directVoiceMonitoring != null)
             {
                 directVoiceMonitoring.SetChantBasedAttenuationOverride(false);
+                directVoiceMonitoring.RemoveMicMixerVolumeContribution(CalibrationMicMixerVolumeContributionName);
             }
 
             if (_hasClaimedMonitoringOverride && MusicSystem1.instance != null)

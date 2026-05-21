@@ -27,6 +27,9 @@ public class CSVLoader : MonoBehaviour
     [Header("Debug (Editor only)")]
     [Tooltip("Registry-listed pack to impersonate. Effective session keys come from that pack's registry row. Ignored in player builds.")]
     [SerializeField] private HummingbirdContentPackDefinition hummingbirdContentPackOverride;
+
+    [Tooltip("When Content Pack Override is assigned, IsFirstTimeUser uses this value instead of session_params.csv.")]
+    [SerializeField] private bool firstTimeUserWhenContentPackOverride;
 #endif
 
     /// <summary>Resolved pack for this session after CSV (+ editor override). Consumers include sequencing.</summary>
@@ -83,7 +86,7 @@ public class CSVLoader : MonoBehaviour
     public const string ContentPackAlbumSonoflore = "AlbumSonoflore";
 
     /// <summary>Seconds shorter than pack baseline when Wwise <c>VO_ClosingGoodbye</c> is Short (returned from <see cref="VOInitializations"/> as negative).</summary>
-    public const float ClosingGoodbyeShortVersusLongDeltaSeconds = 53f;
+    public const float ClosingGoodbyeShortVersusLongDeltaSeconds = 60f; //was 53, manually changed to 60
 
     /// <summary>Hummingbird sends exactly these modes (case-insensitive); unknown strings pass through unchanged.</summary>
     public static string NormalizeGameMode(string raw)
@@ -276,6 +279,11 @@ public class CSVLoader : MonoBehaviour
             "CSVLoader: Content pack override is active (Editor only). Session behaves as gameMode=\"" + gm + "\", contentPack=\"" + cp + "\". Clear override before shipping.");
         gameMode = gm;
         contentPack = cp;
+
+        IsFirstTimeUser = firstTimeUserWhenContentPackOverride;
+        Debug.LogError(
+            "CSVLoader: Content pack override — IsFirstTimeUser forced to " + IsFirstTimeUser
+            + " (ignoring session_params.csv).");
     }
 #endif
 

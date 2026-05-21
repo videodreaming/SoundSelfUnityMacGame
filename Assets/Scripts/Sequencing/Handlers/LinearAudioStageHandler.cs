@@ -31,6 +31,7 @@ namespace SoundSelf.Sequence
             _sequencer.StopCalibrationInteractiveMusicFromStageEnter();
             _sequencer.StopOpeningAudioFromStageEnter();
             Debug.Log("LinearAudioStageHandler: Enter (stub - skipping until implementation added)");
+            UIManager.Instance?.RefreshSkipStageButtonFromSequencer(_sequencer);
 
             if (variant == StageVariant.Linear_Nature)
             {

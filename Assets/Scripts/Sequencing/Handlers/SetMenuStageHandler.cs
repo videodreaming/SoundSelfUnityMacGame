@@ -35,7 +35,10 @@ namespace SoundSelf.Sequence
             _sequencer?.FadePreferredColorDarkAndStopAvs();
             _sequencer?.StopOpeningAudioFromStageEnter();
             if (UIManager.Instance != null)
+            {
                 UIManager.Instance.EnableSkipButton(false, null);
+                UIManager.Instance.EnableSkipStageButton(false);
+            }
 
             if (variant == StageVariant.Menu_Ps_InteractiveOrMusic)
             {
