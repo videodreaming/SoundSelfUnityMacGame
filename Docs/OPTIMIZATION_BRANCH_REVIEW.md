@@ -676,9 +676,9 @@ I will NOT touch code until Robin gives explicit go-ahead per workflow rule.
 The following changes are queued. The code edits will all go in **one commit** (they are all part of the same coherent "make framerate cap work properly + drop IL2CPP" change). The commit message will be drafted before commit and shown for approval.
 
 **Code edits:**
-- [ ] **H1a — `Assets/Scripts/Voice/ImitoneVoiceIntepreter.MicIngest.cs`:** Apply the Option B refactor from this doc (`stalledWriteHeadFrameThreshold` → `stalledWriteHeadTimeoutSeconds` driving the trigger; keep the int frame counter for telemetry).
-- [ ] **H1b — `Assets/Scripts/PowerAwareFrameRate.cs` (NEW):** Create the new component per the code shape in this doc.
-- [ ] **H1 — `Assets/WwiseBGManager.cs`:** Remove `QualitySettings.vSyncCount = 0;` and `Application.targetFrameRate = 30;` from `Awake` (ownership moves to `PowerAwareFrameRate`).
+- [x] **H1a — `Assets/Scripts/Voice/ImitoneVoiceIntepreter.MicIngest.cs`:** Applied Option B refactor. Removed `[SerializeField] private int stalledWriteHeadFrameThreshold = 120;` and added `[SerializeField] private float stalledWriteHeadTimeoutSeconds = 2f;` plus a parallel `private float stalledWriteHeadStallSeconds;` accumulator. The increment block now bumps both the int counter (for telemetry — `debugMicLastStalledWriteHeadFrameCount` and `MicVoiceIngestDebugAggregate.aggMicStalledWriteHeadFrames`) and the seconds accumulator (`Time.unscaledDeltaTime`). The recovery trigger reads `stalledWriteHeadStallSeconds >= Mathf.Max(0.1f, stalledWriteHeadTimeoutSeconds)`. Both reset paths (stall break in the increment block, the two cold reset sites at lines 1107 / 1289) clear both fields. Lint clean.
+- [x] **H1b — `Assets/Scripts/PowerAwareFrameRate.cs` (NEW):** Created per the code shape in this doc with the documented serialized defaults (`targetFrameRatePlugged = 30`, `targetFrameRateBattery = 20`, `pollIntervalSeconds = 5f`, `disableVSync = true`). Lint clean.
+- [x] **H1 — `Assets/WwiseBGManager.cs`:** Removed `QualitySettings.vSyncCount = 0;` and `Application.targetFrameRate = 30;` from `Awake`. Left a short comment block pointing at `PowerAwareFrameRate` as the new owner so future readers don't go hunting for those settings. Lint clean.
 - [x] **P1A — `Assets/Scripts/Utilities/LerpUtilities.cs`:** Made `DampTool` frame-rate-independent (multiplier = `Time.unscaledDeltaTime * 60f`, exponential decay via `Mathf.Pow`). Behavior at 60 FPS is mathematically identical; at 30/20 FPS the wall-clock response now matches the 60-FPS design tuning. Fixes Bug A in Phase 1 Findings.
 - [x] **P1B — `Assets/Jinnbyte/SoundSelfUI/Scripts/InputLevelChantingEllipsesVisual.cs`:** Rewrote `PushAndSampleColorLag` to walk the ring by wall-clock timestamp instead of fixed frame count. Adds `_colorLagTime` and `_colorLagCount` parallel arrays; updates `EnsureColorArrays` accordingly. Fixes Bug B in Phase 1 Findings (Bug A in original numbering; bugs were renumbered when Bug C was discovered).
 - [x] **P1C — `Assets/Scripts/Voice/GameValues.cs`:** Introduced `frScale60 = Time.unscaledDeltaTime * 60f` and precomputed `effSlowDamp1/2`, `effFastDamp1/2`, `effSlowDamp1Down`, `effFastDamp1Down`, `effSlowDepletion`, `effFastDepletion`, `effLinear` at the top of `handlecChanting`. Substituted into the existing `Mathf.Lerp` / `Mathf.Clamp` calls in both branches. Fixes Bug C in Phase 1 Findings. **This is the dominant fix for the chant color fade still feeling slow after P1A/P1B.**
@@ -688,7 +688,7 @@ The following changes are queued. The code edits will all go in **one commit** (
 - [x] ~~**F1 — `Assets/Scripts/CSVUtility/DataOutput.cs`:** Add `writer.Flush();`~~ → **Decided: skip.** No code change. Crash-data-loss risk accepted.
 
 **ProjectSettings revert (H3):**
-- [ ] **H3 — `ProjectSettings/ProjectSettings.asset`:** Revert the `scriptingBackend: Standalone = 1` and `managedStrippingLevel: Standalone = 2` entries back to the defaults present on the pre-merge `WorkingWwise` tip (commit `8c321f7f`). This keeps Standalone builds on Mono with default Low stripping. **Important:** Unity may also rewrite this file on next open if any other Player Settings differ; the revert should be done with Unity closed, then verified by `git diff` before any further Unity actions.
+- [x] **H3 — `ProjectSettings/ProjectSettings.asset`:** Reverted with Unity closed. Two hunks: `scriptingBackend:` block collapsed from `{ Standalone: 1 }` to `{}`; `Standalone: 2` line deleted from the `managedStrippingLevel:` block. Verified by `git diff 8c321f7f -- ProjectSettings/ProjectSettings.asset` returning empty output — file is byte-identical to the pre-merge baseline for these two settings. Standalone now back on Mono with default Low stripping. Other platforms' stripping levels (EmbeddedLinux/GameCoreScarlett/PS4/PS5/etc.) unchanged.
 
 **Verification:**
 - [ ] Run linter / no new warnings on any of the C# files above.
@@ -702,19 +702,19 @@ The following changes are queued. The code edits will all go in **one commit** (
 
 Code is in but the new component is not yet attached to any GameObject. Robin does this.
 
-- [ ] Open Unity. The new `PowerAwareFrameRate.cs` should compile cleanly (check Console for errors).
-- [ ] Open the Main scene.
-- [ ] Find the GameObject that has the `WwiseBGManager` component on it (Hierarchy search for "Wwise" → it should be obvious; commonly named something like "AkInitializer" / "WwiseBGManager" / a global manager root).
-- [ ] **Add Component → `Power Aware Frame Rate`** onto that same GameObject.
-- [ ] In the Inspector, confirm defaults:
+- [x] Open Unity. The new `PowerAwareFrameRate.cs` should compile cleanly (check Console for errors).
+- [x] Open the Main scene.
+- [x] Find the GameObject that has the `WwiseBGManager` component on it (Hierarchy search for "Wwise" → it should be obvious; commonly named something like "AkInitializer" / "WwiseBGManager" / a global manager root).
+- [x] **Add Component → `Power Aware Frame Rate`** onto that same GameObject.
+- [x] In the Inspector, confirm defaults:
    - `Target Frame Rate Plugged` = `30`
    - `Target Frame Rate Battery` = `20`
    - `Poll Interval Seconds` = `5`
    - `Disable VSync` = `true` (checked)
-- [ ] Save the scene (`Ctrl+S`).
-- [ ] File → Save Project.
-- [ ] Press Play. Check the **Stats** overlay (in Game view, click "Stats" button) — frame rate should read ~30 FPS in Editor (since `batteryStatus == Unknown` → treated as plugged).
-- [ ] Stop Play. Notify Cursor agent for Phase 4.
+- [x] Save the scene (`Ctrl+S`).
+- [x] File → Save Project.
+- [x] Press Play. Check the **Stats** overlay (in Game view, click "Stats" button) — frame rate should read ~30 FPS in Editor (since `batteryStatus == Unknown` → treated as plugged).
+- [x] Stop Play. Notify Cursor agent for Phase 4.
 
 ---
 

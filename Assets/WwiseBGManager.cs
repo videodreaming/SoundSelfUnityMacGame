@@ -7,8 +7,10 @@ public class WwiseBGManager : MonoBehaviour
   void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 30;
+        // Framerate / vSync now owned by PowerAwareFrameRate (sibling component on this GameObject).
+        // That component reads SystemInfo.batteryStatus on a slow poll and applies
+        // Application.targetFrameRate accordingly (plugged vs Discharging) so the cap stays in
+        // sync with the battery UI in UIManager.RefreshBatteryUiFromSystem.
     }
 
     void Update()

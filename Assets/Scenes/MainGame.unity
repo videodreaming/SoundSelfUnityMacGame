@@ -9377,6 +9377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 554302998}
   - component: {fileID: 554302997}
+  - component: {fileID: 554302999}
   m_Layer: 0
   m_Name: Global_WwiseRenderer
   m_TagString: Untagged
@@ -9411,6 +9412,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &554302999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554302996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5dc4b64edfc276499757fde8cbb9122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetFrameRatePlugged: 30
+  targetFrameRateBattery: 20
+  pollIntervalSeconds: 5
+  disableVSync: 1
 --- !u!1 &555204318
 GameObject:
   m_ObjectHideFlags: 0
@@ -12699,7 +12716,7 @@ MonoBehaviour:
   loopLengthSeconds: 6
   micReadChunkSize: 2048
   recoveryRetryIntervalSeconds: 1
-  stalledWriteHeadFrameThreshold: 120
+  stalledWriteHeadTimeoutSeconds: 2
   micWriteHeadDoublePoll: 1
   channelMode: 1
   normalizationEnabled: 1
@@ -13329,10 +13346,8 @@ MonoBehaviour:
   respirationTracker: {fileID: 767663024}
   lightControl: {fileID: 437048159}
   tutorial: {fileID: 1635385662}
-  _chantLerpSlowDamp1: 0
-  _chantLerpSlowDamp2: 0
-  _chantLerpFastDamp1: 0
-  _chantLerpFastDamp2: 0
+  <_chantLerpFast>k__BackingField: 0
+  <_chantLerpSlow>k__BackingField: 0
   changeDetectedToneLength: 0
   changeDetectedRestLength: 0
 --- !u!1 &782129600
