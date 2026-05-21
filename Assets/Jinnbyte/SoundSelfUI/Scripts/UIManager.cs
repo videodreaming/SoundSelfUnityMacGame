@@ -900,6 +900,9 @@ public class UIManager : MonoBehaviour
             if (_calibrationHeadGroup == null)
                 _calibrationHeadGroup = calibrationHeadText.AddComponent<CanvasGroup>();
         }
+
+        if (duskBackground != null)
+            _duskBackgroundShouldBeVisible = duskBackground.gameObject.activeSelf;
     }
 
     void Start()
@@ -1422,7 +1425,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     private bool _duskBackgroundShouldBeVisible;
 
-    /// <summary>Fades in/out the shared dusk backdrop. No-op if already in the requested visible state (idempotent).</summary>
+    /// <summary>Fades in/out the shared dusk backdrop. No-op if intent and GameObject state already match (idempotent).</summary>
     public void ShowDuskBackground(bool show)
     {
         if (duskBackground == null)
@@ -1430,7 +1433,8 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("UIManager.ShowDuskBackground: duskBackground is not assigned.");
             return;
         }
-        if (show == _duskBackgroundShouldBeVisible)
+        bool isActive = duskBackground.gameObject.activeSelf;
+        if (show == _duskBackgroundShouldBeVisible && show == isActive)
             return;
         _duskBackgroundShouldBeVisible = show;
         if (show)
@@ -1440,18 +1444,31 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            duskBackground.GetComponent<ScreenFadeEffect>()?.FadeOut(() =>
+            var fade = duskBackground.GetComponent<ScreenFadeEffect>();
+            if (fade != null)
             {
-                // Late-check: if intent flipped back to visible during the fade,
-                // a fresh ShowDuskBackground(true) has already been issued — don't undo it.
-                if (_duskBackgroundShouldBeVisible)
-                    return;
-                duskBackground.gameObject.SetActive(false);
-                UIBlurManager.Instance.SetGraphic(GetComponent<Image>());
-
-            });
+                fade.FadeOut(() =>
+                {
+                    // Late-check: if intent flipped back to visible during the fade,
+                    // a fresh ShowDuskBackground(true) has already been issued — don't undo it.
+                    if (_duskBackgroundShouldBeVisible)
+                        return;
+                    ApplyDuskBackgroundHiddenImmediate();
+                });
+            }
+            else
+                ApplyDuskBackgroundHiddenImmediate();
         }
 
+    }
+
+    private void ApplyDuskBackgroundHiddenImmediate()
+    {
+        if (_duskBackgroundShouldBeVisible || duskBackground == null)
+            return;
+        duskBackground.gameObject.SetActive(false);
+        if (UIBlurManager.Instance != null)
+            UIBlurManager.Instance.SetGraphic(GetComponent<Image>());
     }
     public void ShowWarrningScreen(bool show)
     {

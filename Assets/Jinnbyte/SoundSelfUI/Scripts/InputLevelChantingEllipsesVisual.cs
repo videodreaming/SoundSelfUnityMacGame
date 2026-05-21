@@ -4,7 +4,9 @@ using UnityEngine.UI;
 /// <summary>
 /// Meditation <c>Input_level</c> ellipses: XY scale damped with <see cref="LerpUtilities.DampTool"/> toward 0.6 or 1.0 from <see cref="ImitoneVoiceIntepreter.gameOn"/> only
 /// (rates from <see cref="GameValues.ChantLerpSlowDamp1"/> / <see cref="GameValues.ChantLerpSlowDamp2"/> — not the live <c>_chantLerpSlow</c> value), per-slot damp/color/spin presets (indices 0–2).
-/// Color per ellipse: optional lag on <see cref="GameValues._chantLerpFast"/> then <see cref="LerpUtilities.DampTool"/> with its own chant-rate multiplier.
+/// Color per ellipse: <see cref="GameValues._chantLerpFast"/> is already a smoothed (twice-damped) value coming out of <see cref="GameValues"/>, so this component intentionally does NOT re-damp it for color.
+/// Each ellipse's color simply reads a wall-clock-time-lagged sample of <c>_chantLerpFast</c> from the per-ellipse ring (lag set by preset <c>colorLagSeconds</c>) and lerps <see cref="ChantTeal"/> → <see cref="ChantWhite"/>.
+/// The visual variation between the three ellipses comes entirely from their different lag offsets, not from differing damp rates.
 /// Spin: each binding sets base °/s and a <see cref="EllipseSpinChantFormula"/>; <see cref="LerpUtilities.DampTool"/> smooths the formula output onto <see cref="Rotate.SpeedMultiplier"/> while <c>gameOn</c>, else toward 0.
 /// </summary>
 public enum EllipseSpinChantFormula
@@ -38,9 +40,14 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
     private Rotate[] _rotates;
     private float[] _spinSmoothed;
     private float[] _scaleDamped;
-    private float[] _colorDamped;
     private float[,] _colorLagHist;
+    // Wall-clock timestamp (Time.unscaledTime) of each ring entry, parallel to _colorLagHist.
+    // Used so color lag is time-based and matches design intent at any framerate (see PushAndSampleColorLag).
+    private float[,] _colorLagTime;
     private int[] _colorLagWrite;
+    // Number of valid samples currently held per ellipse ring (0..ColorLagRingLength).
+    // Distinguishes "cold" (default-zero) ring slots from real history during the first frames of play.
+    private int[] _colorLagCount;
 
     private bool _warnedMissing;
 
@@ -50,7 +57,6 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
     private struct EllipsePreset
     {
         public float scaleDampRateMultiplier;
-        public float colorChantDampRateMultiplier;
         public float colorLagSeconds;
         public EllipseSpinChantFormula spinChantFormula;
         public float relativeRotationDegreesPerSecond;
@@ -61,7 +67,6 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
         new EllipsePreset
         {
             scaleDampRateMultiplier = 1f,
-            colorChantDampRateMultiplier = 1f,
             colorLagSeconds = 0.2f,
             spinChantFormula = EllipseSpinChantFormula.SlowPlusChargeOver2,
             relativeRotationDegreesPerSecond = 155f,
@@ -69,7 +74,6 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
         new EllipsePreset
         {
             scaleDampRateMultiplier = 0.75f,
-            colorChantDampRateMultiplier = 1f,
             colorLagSeconds = 0f,
             spinChantFormula = EllipseSpinChantFormula.FastQuarterChargeThreeQuarters,
             relativeRotationDegreesPerSecond = 173f,
@@ -77,7 +81,6 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
         new EllipsePreset
         {
             scaleDampRateMultiplier = 0.5f,
-            colorChantDampRateMultiplier = 1f,
             colorLagSeconds = 0.4f,
             spinChantFormula = EllipseSpinChantFormula.MeanSlowFastCharge,
             relativeRotationDegreesPerSecond = 201f,
@@ -128,8 +131,6 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
     private string ScaleDampKey(int index) => $"{GetDampToolKeyPrefix()}_Scale_{index}";
 
     private string SpinDampKey(int index) => $"{GetDampToolKeyPrefix()}_Spin_{index}";
-
-    private string ColorDampKey(int index) => $"{GetDampToolKeyPrefix()}_Color_{index}";
 
     private void ResolveServices()
     {
@@ -216,19 +217,12 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
 
             if (_images[i] != null)
             {
+                // _chantLerpFast is already a smoothed (twice-damped) value from GameValues, so
+                // we deliberately do not re-damp it here. The only per-ellipse processing is the
+                // wall-clock-time-based lag (preset.colorLagSeconds), which is what makes the
+                // three ellipses' color responses cascade visually.
                 float laggedT = PushAndSampleColorLag(i, preset.colorLagSeconds, rawColorTargetT);
-                float colorD1 = d1 * preset.colorChantDampRateMultiplier;
-                float colorD2 = d2 * preset.colorChantDampRateMultiplier;
-                _colorDamped[i] = LerpUtilities.DampTool(
-                    ColorDampKey(i),
-                    _colorDamped[i],
-                    laggedT,
-                    colorD1,
-                    colorD2,
-                    LerpUtilities.ChantLinearCreep,
-                    0f);
-
-                float t = Mathf.Clamp01(_colorDamped[i]);
+                float t = Mathf.Clamp01(laggedT);
                 _images[i].color = Color.Lerp(ChantTeal, ChantWhite, t);
             }
 
@@ -267,40 +261,64 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
 
     private void EnsureColorArrays(int n)
     {
-        if (_colorDamped != null && _colorDamped.Length == n
-            && _colorLagWrite != null && _colorLagWrite.Length == n
-            && _colorLagHist != null && _colorLagHist.GetLength(0) == n && _colorLagHist.GetLength(1) == ColorLagRingLength)
+        if (_colorLagWrite != null && _colorLagWrite.Length == n
+            && _colorLagCount != null && _colorLagCount.Length == n
+            && _colorLagHist != null && _colorLagHist.GetLength(0) == n && _colorLagHist.GetLength(1) == ColorLagRingLength
+            && _colorLagTime != null && _colorLagTime.GetLength(0) == n && _colorLagTime.GetLength(1) == ColorLagRingLength)
             return;
-
-        var prevD = _colorDamped;
-        _colorDamped = new float[n];
-        for (int i = 0; i < n; i++)
-            _colorDamped[i] = prevD != null && i < prevD.Length ? prevD[i] : 0f;
 
         _colorLagWrite = new int[n];
         _colorLagHist = new float[n, ColorLagRingLength];
+        _colorLagTime = new float[n, ColorLagRingLength];
+        _colorLagCount = new int[n];
     }
 
+    /// <summary>
+    /// Push the latest raw color-target into the per-ellipse ring (timestamped with
+    /// <see cref="Time.unscaledTime"/>) and return the sample whose timestamp is closest to
+    /// <c>now - lagSeconds</c>, walking backward through valid history.
+    ///
+    /// <para>Time-based on purpose: the previous implementation derived <c>lagSteps</c> from
+    /// <c>lagSeconds * 60f</c>, which silently assumed 60 FPS. When <c>Application.targetFrameRate</c>
+    /// drops below 60 (e.g. the 30/20 FPS power-aware cap), that math stretched the perceived
+    /// lag by the framerate ratio. This walks the ring by wall-clock time instead, so the
+    /// design-intent lag in <see cref="EllipsePreset.colorLagSeconds"/> holds regardless of FPS.</para>
+    ///
+    /// <para>During the brief startup window before the ring has accumulated <paramref name="lagSeconds"/>
+    /// of history (or after array resize), falls back to the oldest valid sample. Once the ring is
+    /// fully populated the search runs in at-most O(ColorLagRingLength).</para>
+    /// </summary>
     private float PushAndSampleColorLag(int ellipseIndex, float lagSeconds, float rawTargetT)
     {
         lagSeconds = Mathf.Clamp(lagSeconds, 0f, MaxColorLagSeconds);
+        float now = Time.unscaledTime;
         int w = _colorLagWrite[ellipseIndex];
-        int lagSteps = lagSeconds <= 0f
-            ? 0
-            : Mathf.Clamp(Mathf.RoundToInt(lagSeconds * 60f), 1, ColorLagRingLength - 1);
 
-        float delayedT;
-        if (lagSteps == 0)
-            delayedT = rawTargetT;
-        else
-        {
-            int read = (w - lagSteps + ColorLagRingLength * 2) % ColorLagRingLength;
-            delayedT = _colorLagHist[ellipseIndex, read];
-        }
-
+        // Push current sample at the write head, then advance.
         _colorLagHist[ellipseIndex, w] = rawTargetT;
+        _colorLagTime[ellipseIndex, w] = now;
         _colorLagWrite[ellipseIndex] = (w + 1) % ColorLagRingLength;
-        return delayedT;
+        if (_colorLagCount[ellipseIndex] < ColorLagRingLength)
+            _colorLagCount[ellipseIndex]++;
+
+        if (lagSeconds <= 0f)
+            return rawTargetT;
+
+        float targetTime = now - lagSeconds;
+        int count = _colorLagCount[ellipseIndex];
+        // Newest valid entry is the one we just wrote (at the OLD write head, now `w`).
+        int newestIdx = w;
+
+        int fallbackIdx = newestIdx;
+        for (int step = 0; step < count; step++)
+        {
+            int idx = (newestIdx - step + ColorLagRingLength) % ColorLagRingLength;
+            if (_colorLagTime[ellipseIndex, idx] <= targetTime)
+                return _colorLagHist[ellipseIndex, idx];
+            fallbackIdx = idx;
+        }
+        // Ring does not yet hold lagSeconds of history — return the oldest valid sample.
+        return _colorLagHist[ellipseIndex, fallbackIdx];
     }
 
     private void OnDisable()
@@ -311,7 +329,6 @@ public class InputLevelChantingEllipsesVisual : MonoBehaviour
             {
                 LerpUtilities.CleanUpDampTool(ScaleDampKey(i));
                 LerpUtilities.CleanUpDampTool(SpinDampKey(i));
-                LerpUtilities.CleanUpDampTool(ColorDampKey(i));
             }
         }
 

@@ -419,10 +419,10 @@ namespace SoundSelf.Sequence
                 case StageType.Tutorial:
                 case StageType.Playground:
                 case StageType.Savasana:
+                case StageType.StartCountdown:
                     UIManager.Instance.ShowDuskBackground(false);
                     break;
                 case StageType.Code:
-                case StageType.StartCountdown:
                     break;
             }
         }

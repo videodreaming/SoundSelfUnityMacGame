@@ -44,25 +44,30 @@ public class GameValues : MonoBehaviour
 
     //CHANTLERP
     [SerializeField] public float _meanToneLengthLerp {get; private set;} = 0.0f;
-    [SerializeField] private float _chantLerpSlowDamp1;
-    [SerializeField]  private float _chantLerpSlowDamp2;
+    // Chant damp factors are recomputed every Update() from _meanToneLengthLerp via LerpAndInverse,
+    // so there is nothing to serialize or tune in the inspector. Kept as plain private fields.
+    private float _chantLerpSlowDamp1;
+    private float _chantLerpSlowDamp2;
     private float _chantLerpSlowDepletion;
-    [SerializeField] private float _chantLerpFastDamp1;
-    [SerializeField] private float _chantLerpFastDamp2;
+    private float _chantLerpFastDamp1;
+    private float _chantLerpFastDamp2;
     private float _chantLerpFastDepletion;
     private const float _chantLerpLinear = 0.0001f;
     float _lerpTargetSlow = 0.0f;
     float _lerpTargetFast   = 0.0f;
-    public float _chantLerpFast {get; private set;} = 0.0f;
-    public float _chantLerpSlow {get; private set;} = 0.0f;
+    // [field: SerializeField] exposes the compiler-generated backing field to Unity's serializer
+    // and the default inspector while preserving the {get; private set;} contract for external
+    // callers (DebugCircleChantLerpFast, InputLevelChantingEllipsesVisual, etc., still read
+    // GameValues.instance._chantLerpFast / _chantLerpSlow unchanged). Inspector values are
+    // read-only at runtime (set by handlecChanting); any edits made in the inspector while in
+    // Play mode will be overwritten on the next frame.
+    [field: SerializeField] public float _chantLerpFast {get; private set;} = 0.0f;
+    [field: SerializeField] public float _chantLerpSlow {get; private set;} = 0.0f;
 
     /// <summary>First-stage chant-slow smoothing factor (same frame as <see cref="_chantLerpSlow"/> update).</summary>
     public float ChantLerpSlowDamp1 => _chantLerpSlowDamp1;
     /// <summary>Second-stage chant-slow smoothing factor.</summary>
     public float ChantLerpSlowDamp2 => _chantLerpSlowDamp2;
-
-    public float _tChantLerp {get; private set;} = 0.0f; //not currently referenced, but might be useful for WWise
-    public float _tRestLerp {get; private set;} = 0.0f; //not currently referenced, but might be useful for WWise
 
     //CHANTCHARGE
     private float _chantChargeDamp1 = 0.015f;
@@ -236,45 +241,67 @@ public class GameValues : MonoBehaviour
         _chantLerpFastDepletion = LerpUtilities.LerpAndInverse(_meanToneLengthLerp, 4f, 12f, 0.09f, 0.045f, true);
         float _chantLerpDownMult = 0.3f;
 
+        // Frame-rate independence for chant lerp / depletion / linear creep.
+        //
+        // The damp values above (slowDamp1/2, fastDamp1/2, depletion, _chantLerpLinear) are tuned
+        // as PER-FRAME factors that originally assumed ~60 FPS. Applying them once per Update
+        // with no Time.deltaTime scaling means a 30 FPS cap doubles the wall-clock half-life of
+        // _chantLerpSlow / _chantLerpFast (which then feed the chant ellipses color/scale, the
+        // ChantLerpSlow/Fast Wwise RTPCs, LightControl strobe-tone display, etc.).
+        //
+        // Same approach as LerpUtilities.DampTool: scale every per-frame quantity by
+        // (Time.unscaledDeltaTime * 60). At 60 FPS the multiplier is exactly 1 -> mathematically
+        // identical to the legacy tuning. At lower framerates the exponential decay is
+        // recomputed correctly via Mathf.Pow.
+        float frScale60 = Time.unscaledDeltaTime * 60f;
+        if (frScale60 <= 0f)
+        {
+            AkSoundEngine.SetRTPCValue("Unity_ChantLerpFast", _chantLerpFast * 100.0f, gameObject);
+            AkSoundEngine.SetRTPCValue("Unity_ChantLerpSlow", _chantLerpSlow * 100.0f, gameObject);
+            return;
+        }
+        float effSlowDamp1     = 1f - Mathf.Pow(1f - Mathf.Clamp01(_chantLerpSlowDamp1),                   frScale60);
+        float effSlowDamp1Down = 1f - Mathf.Pow(1f - Mathf.Clamp01(_chantLerpSlowDamp1 * _chantLerpDownMult), frScale60);
+        float effSlowDamp2     = 1f - Mathf.Pow(1f - Mathf.Clamp01(_chantLerpSlowDamp2),                   frScale60);
+        float effFastDamp1     = 1f - Mathf.Pow(1f - Mathf.Clamp01(_chantLerpFastDamp1),                   frScale60);
+        float effFastDamp1Down = 1f - Mathf.Pow(1f - Mathf.Clamp01(_chantLerpFastDamp1 * _chantLerpDownMult), frScale60);
+        float effFastDamp2     = 1f - Mathf.Pow(1f - Mathf.Clamp01(_chantLerpFastDamp2),                   frScale60);
+        float effSlowDepletion = _chantLerpSlowDepletion * frScale60;
+        float effFastDepletion = _chantLerpFastDepletion * frScale60;
+        float effLinear        = _chantLerpLinear        * frScale60;
 
         // Update cChanting to move towards the target
         if(imitoneVoiceInterpreter.toneActive)
         {
-            _lerpTargetSlow = Mathf.Lerp(_lerpTargetSlow, 1.0f, _chantLerpSlowDamp1);
-            _chantLerpSlow = Mathf.Lerp(_chantLerpSlow, _lerpTargetSlow, _chantLerpSlowDamp2);
+            _lerpTargetSlow = Mathf.Lerp(_lerpTargetSlow, 1.0f, effSlowDamp1);
+            _chantLerpSlow = Mathf.Lerp(_chantLerpSlow, _lerpTargetSlow, effSlowDamp2);
 
-            _lerpTargetFast = Mathf.Lerp(_lerpTargetFast, 1.0f, _chantLerpFastDamp1);
-            _chantLerpFast = Mathf.Lerp(_chantLerpFast, _lerpTargetFast, _chantLerpFastDamp2);
+            _lerpTargetFast = Mathf.Lerp(_lerpTargetFast, 1.0f, effFastDamp1);
+            _chantLerpFast = Mathf.Lerp(_chantLerpFast, _lerpTargetFast, effFastDamp2);
             
             //Debug.Log("1: SlowTarget: " + _lerpTargetSlow + " Slow: " + _chantLerpSlow + " FastTarget: " + _lerpTargetFast + " Fast: " + _chantLerpFast);
         }
         else
         {
-            _lerpTargetSlow = Mathf.Lerp(_lerpTargetSlow, 0.0f, _chantLerpSlowDamp1 * _chantLerpDownMult);
-            _lerpTargetSlow = Mathf.Clamp(_lerpTargetSlow - _chantLerpSlowDepletion, 0, 1);
-            _chantLerpSlow = Mathf.Lerp(_chantLerpSlow, _lerpTargetSlow, _chantLerpSlowDamp2);
+            _lerpTargetSlow = Mathf.Lerp(_lerpTargetSlow, 0.0f, effSlowDamp1Down);
+            _lerpTargetSlow = Mathf.Clamp(_lerpTargetSlow - effSlowDepletion, 0, 1);
+            _chantLerpSlow = Mathf.Lerp(_chantLerpSlow, _lerpTargetSlow, effSlowDamp2);
 
-            _lerpTargetFast = Mathf.Lerp(_lerpTargetFast, 0.0f, _chantLerpFastDamp1 * _chantLerpDownMult);
-            _lerpTargetFast = Mathf.Clamp(_lerpTargetFast - _chantLerpFastDepletion, 0, 1);
-            _chantLerpFast = Mathf.Lerp(_chantLerpFast, _lerpTargetFast, _chantLerpFastDamp2);
+            _lerpTargetFast = Mathf.Lerp(_lerpTargetFast, 0.0f, effFastDamp1Down);
+            _lerpTargetFast = Mathf.Clamp(_lerpTargetFast - effFastDepletion, 0, 1);
+            _chantLerpFast = Mathf.Lerp(_chantLerpFast, _lerpTargetFast, effFastDamp2);
             
             //Debug.Log("0: SlowTarget: " + _lerpTargetSlow + " Slow: " + _chantLerpSlow + " FastTarget: " + _lerpTargetFast + " Fast: " + _chantLerpFast);
         }
 
         if (_chantLerpSlow < _lerpTargetSlow)
-        _chantLerpSlow = Mathf.Clamp(_chantLerpSlow + _chantLerpLinear, 0, 1);
+        _chantLerpSlow = Mathf.Clamp(_chantLerpSlow + effLinear, 0, 1);
         if (_chantLerpSlow > _lerpTargetSlow)
-        _chantLerpSlow = Mathf.Clamp(_chantLerpSlow - _chantLerpLinear, 0, 1);
+        _chantLerpSlow = Mathf.Clamp(_chantLerpSlow - effLinear, 0, 1);
         if (_chantLerpFast < _lerpTargetFast)
-        _chantLerpFast = Mathf.Clamp(_chantLerpFast + _chantLerpLinear, 0, 1);
+        _chantLerpFast = Mathf.Clamp(_chantLerpFast + effLinear, 0, 1);
         if (_chantLerpFast > _lerpTargetFast)
-        _chantLerpFast = Mathf.Clamp(_chantLerpFast - _chantLerpLinear, 0, 1);
-
-        
-        if (_chantLerpSlow > 0.0f)
-        _tChantLerp += Time.fixedDeltaTime * _chantLerpSlow;
-        if (_chantLerpSlow < 1.0f)
-        _tRestLerp += Time.fixedDeltaTime * (1.0f - _chantLerpSlow);
+        _chantLerpFast = Mathf.Clamp(_chantLerpFast - effLinear, 0, 1);
 
         AkSoundEngine.SetRTPCValue("Unity_ChantLerpFast", _chantLerpFast * 100.0f, gameObject);
         AkSoundEngine.SetRTPCValue("Unity_ChantLerpSlow", _chantLerpSlow * 100.0f, gameObject);
