@@ -231,6 +231,17 @@ namespace SoundSelf.Sequence
 
             handler.Enter(stage.variant);
 
+            // Re-entrancy guard: a handler's Enter() may call AdvanceToStage itself
+            // (e.g. CodeStageHandler routes to SetMenu / End for dual-stage section ends).
+            // In that case the inner call has already applied UI state, fired OnStageChanged,
+            // and possibly advanced past this stage. Skip the rest so we do not overwrite
+            // the inner stage's UI with this (now-stale) stage's UI.
+            if (CurrentStageIndex != index)
+            {
+                Debug.Log($"SequenceRunner.AdvanceToStage: handler for stage {index} ({stage.type}) re-entered runner; current index is now {CurrentStageIndex}. Skipping post-Enter UI/event for the outer stage.");
+                return;
+            }
+
             ApplyMenuScreenForSequenceStage(stage.type);
             ApplyDuskBackgroundForSequenceStage(stage.type);
 
@@ -401,8 +412,17 @@ namespace SoundSelf.Sequence
                 case StageType.End:
                     UIManager.Instance.ShowDuskBackground(true);
                     break;
-                default:
+                case StageType.LinearAudio:
+                case StageType.MusicPlaylist:
+                case StageType.Inquiry:
+                case StageType.Opening:
+                case StageType.Tutorial:
+                case StageType.Playground:
+                case StageType.Savasana:
                     UIManager.Instance.ShowDuskBackground(false);
+                    break;
+                case StageType.Code:
+                case StageType.StartCountdown:
                     break;
             }
         }

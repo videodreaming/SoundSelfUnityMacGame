@@ -1415,6 +1415,13 @@ public class UIManager : MonoBehaviour
         endMeditationScreen.SetActive(false);
     }
 
+    /// <summary>
+    /// Tracks the intended dusk visibility so back-to-back ShowDuskBackground calls
+    /// during a fade (e.g. transient stages flipping it off and on again) don't reverse direction:
+    /// we compare against intent, not <c>gameObject.activeSelf</c> (which goes false only after the FadeOut callback).
+    /// </summary>
+    private bool _duskBackgroundShouldBeVisible;
+
     /// <summary>Fades in/out the shared dusk backdrop. No-op if already in the requested visible state (idempotent).</summary>
     public void ShowDuskBackground(bool show)
     {
@@ -1423,8 +1430,9 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("UIManager.ShowDuskBackground: duskBackground is not assigned.");
             return;
         }
-        if (show == duskBackground.gameObject.activeSelf)
+        if (show == _duskBackgroundShouldBeVisible)
             return;
+        _duskBackgroundShouldBeVisible = show;
         if (show)
         {
             duskBackground.gameObject.SetActive(true);
@@ -1434,6 +1442,10 @@ public class UIManager : MonoBehaviour
         {
             duskBackground.GetComponent<ScreenFadeEffect>()?.FadeOut(() =>
             {
+                // Late-check: if intent flipped back to visible during the fade,
+                // a fresh ShowDuskBackground(true) has already been issued — don't undo it.
+                if (_duskBackgroundShouldBeVisible)
+                    return;
                 duskBackground.gameObject.SetActive(false);
                 UIBlurManager.Instance.SetGraphic(GetComponent<Image>());
 
