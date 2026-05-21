@@ -6,7 +6,9 @@ public class WwiseBGManager : MonoBehaviour
 {
   void Awake()
     {
-        DontDestroyOnLoad(gameObject); // optional, for persistence across scenes
+        DontDestroyOnLoad(gameObject);
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 30;
     }
 
     void Update()

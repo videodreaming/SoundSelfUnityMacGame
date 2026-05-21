@@ -146,6 +146,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     //A dictionary that stores a float for the dbValue each frame, and the time that frame was recorded.
     private Dictionary<int, (float, float)> rawMic = new Dictionary<int, (float, float)>();
     private Dictionary<int, (float, float)> noiseMeasurements = new Dictionary<int, (float, float)>();
+    private readonly List<int> _rawMicKeysToRemove = new List<int>();
     private bool expectNoiseFloor = false; //NOT YET IMPLEMENTED, use this when the system is programmatically expecting noise.
     private bool noiseFloorFlag = false;
     [SerializeField] private float _volumeChangeMeasurementWindow = 0.3f;
@@ -274,6 +275,8 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     //Volume Tracking
     private List<(float, float)> volumes1s = new List<(float, float)>();
     private List<(float, float)> anomalyBaselineVolumes = new List<(float, float)>();
+    private float _volumes1sRollingSum = 0f;
+    private float _anomalyBaselineRollingSum = 0f;
     private float _vol1Sec = 0.0f;
     private float _anomalyBaseline = 0.0f;
     private float _timerForAnomalyBaselines = 0.0f;
@@ -314,6 +317,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     private int mainThreadFramesSinceLastImitoneStateChange;
     private float _lastImitoneStatePower = float.NaN;
     private float _lastImitoneStatePitchHz = float.NaN;
+    private string _lastImitoneStateRaw = null;
 
     public long ImitoneGetStateCallTotal => imitoneGetStateCallTotal;
     public int MainThreadFramesSinceLastImitoneStateChange => mainThreadFramesSinceLastImitoneStateChange;
@@ -352,6 +356,8 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
     private bool debugAllowVolumeTrackingLogs = false;
     private bool debugAllowMonitoringLogs = false;
     private bool debugAllowWarnings = false; // Warnings show if this OR the category flag is true
+    private bool? _lastToneActiveSwitchState = null;
+    private float _lastInhaleRTPCValue = float.NaN;
 
     // runs on: main thread (Unity lifecycle). Sets `imitone` (the volatile ImitoneVoice reference
     // OnAudioFilterRead reads) once, before BootstrapAudioThreadCapturePath kicks the audio thread.
@@ -475,12 +481,13 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         {
             //RECORD 1S DATA
             volumes1s.Add((Time.time, _dbMicrophone));
+            _volumes1sRollingSum += _dbMicrophone;
         }
 
         if (toneActiveConfident)
         {
             //LOG 1S AVERAGE
-            _vol1Sec = volumes1s.Average(x => x.Item2);
+            _vol1Sec = volumes1s.Count > 0 ? _volumes1sRollingSum / volumes1s.Count : -1000f;
             _volFlagA = false;
 
             //RECORD ANOMALY BASELINE DATA
@@ -488,6 +495,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
             if (_timerForAnomalyBaselines >= 0.1f)
             {
                 anomalyBaselineVolumes.Add((Time.time, _vol1Sec));
+                _anomalyBaselineRollingSum += _vol1Sec;
                 _timerForAnomalyBaselines = 0.0f;
             }
 
@@ -496,6 +504,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         {
             //CLEAR DATA FROM 1S
             volumes1s.Clear();
+            _volumes1sRollingSum = 0f;
             _vol1Sec = -1000.0f;
             _volFlagA = true;
         }
@@ -503,7 +512,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         //CALCULATE ANOMALY BASELINE FROM 1M AVERAGE
         if (anomalyBaselineVolumes.Count > 0)
         {
-            _anomalyBaseline = anomalyBaselineVolumes.Average(x => x.Item2);
+            _anomalyBaseline = _anomalyBaselineRollingSum / anomalyBaselineVolumes.Count;
         }
         else
         {
@@ -530,11 +539,13 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
 
             //Clear the anomaly baseline data
             anomalyBaselineVolumes.Clear();
+            _anomalyBaselineRollingSum = 0f;
             float highestVolume = volumes1s.Max(x => x.Item2);
             //add in the equivalent of 7.5 seconds of data to the anomaly baseline, at a value equal to the highest value in volumes1s
             for (int i = 0; i < 75; i++)
             {
                 anomalyBaselineVolumes.Add((Time.time, highestVolume));
+                _anomalyBaselineRollingSum += highestVolume;
             }
         }
 
@@ -543,6 +554,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         {
             if (volumes1s[i].Item1 < Time.time - 1.0f)
             {
+                _volumes1sRollingSum -= volumes1s[i].Item2;
                 volumes1s.RemoveAt(i);
             }
         }
@@ -550,6 +562,7 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         {
             if (anomalyBaselineVolumes[i].Item1 < Time.time - _anomalyBaselineMeasurementTime) // 60 seconds...
             {
+                _anomalyBaselineRollingSum -= anomalyBaselineVolumes[i].Item2;
                 anomalyBaselineVolumes.RemoveAt(i);
             }
         }
@@ -602,13 +615,13 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         // Keep a short history of recent raw mic dB values for local min/max comparison.
         rawMic.Add(uniqueKey++, (Time.time, _dbMicrophone));
         // Remove entries older than the configured rolling-window duration.
-        List<int> keysToRemove = new List<int>();
+        _rawMicKeysToRemove.Clear();
         foreach (var entry in rawMic)
         {
             if (Time.time - entry.Value.Item1 > _volumeChangeMeasurementWindow)
-                keysToRemove.Add(entry.Key);
+                _rawMicKeysToRemove.Add(entry.Key);
         }
-        foreach (var key in keysToRemove)
+        foreach (var key in _rawMicKeysToRemove)
         {
             rawMic.Remove(key);
         }
@@ -769,8 +782,16 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
             // thread only polls state. _dbMicrophone is also written from the audio thread,
             // immediately after the same buffer is filtered, so the value we read here is
             // already the post-filter dB reading from the most recent audio callback.
-            imitoneState = imitone.GetState();
+            string rawState = imitone.GetState();
             imitoneGetStateCallTotal++;
+
+            if (rawState == _lastImitoneStateRaw)
+            {
+                mainThreadFramesSinceLastImitoneStateChange++;
+                return;
+            }
+            _lastImitoneStateRaw = rawState;
+            imitoneState = rawState;
 
             // Step 3a: track imitone state staleness via raw observed power + pitch_hz (not _dbValue, which
             // is overridden in force-mode). NaN means "not seen this frame" (parse exception or absent field).
@@ -946,7 +967,11 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
             _tNextInhaleDuration += (Time.deltaTime * 0.5f); //magic number only used here and immedidately below
             _tThisRest = 0.0f;
             resetToneFrame = false;
-            AkSoundEngine.SetSwitch("ToneActive", "Toning", gameObject);
+            if (_lastToneActiveSwitchState != true)
+            {
+                AkSoundEngine.SetSwitch("ToneActive", "Toning", gameObject);
+                _lastToneActiveSwitchState = true;
+            }
 
             if (!toneActiveFrame)
             {
@@ -966,7 +991,11 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
             _tThisRest += Time.deltaTime;
             _tThisTone = 0.0f;
             toneActiveFrame = false;
-            AkSoundEngine.SetSwitch("ToneActive", "Resting", gameObject);
+            if (_lastToneActiveSwitchState != false)
+            {
+                AkSoundEngine.SetSwitch("ToneActive", "Resting", gameObject);
+                _lastToneActiveSwitchState = false;
+            }
 
             //TODO: Next time we refactor, move the breath stuff below into its own method, or even its own .cs\
             if (imitoneActive) //if, for some reason, toneActive is false but imitoneActive is true, don't trigger inhale yet
@@ -1324,7 +1353,11 @@ public partial class ImitoneVoiceIntepreter : MonoBehaviour
         float _i = Mathf.Max(Mathf.Min(_input2 + _addition2, 1.0f), 0.0f);
         float _waveValue = 0.0f + 100.0f * _i;
 
-        AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, gameObject); //TODO: Make sure this is the correct game object.
+        if (!Mathf.Approximately(_waveValue, _lastInhaleRTPCValue))
+        {
+            AkSoundEngine.SetRTPCValue("Unity_Inhale", _waveValue, gameObject); //TODO: Make sure this is the correct game object.
+            _lastInhaleRTPCValue = _waveValue;
+        }
         lightControl.Wwise_BreathDisplay(_waveValue);
         
         if (_i != 0.0f)
