@@ -29,6 +29,50 @@ ProjectSettings/QualitySettings.asset              |  4 +-
 
 ---
 
+## Outcome (post-merge, 2026-05-21)
+
+**Status:** Integration complete. All work is live on `WorkingWwise` and pushed to `origin/WorkingWwise`. The test branch `WorkingWwise+optimization-test` has been deleted. This document is now a historical record.
+
+**Final commit chain on `WorkingWwise`** (oldest → newest, on top of pre-merge baseline `8c321f7f`):
+- `b1fd42d7` — Merge `origin/optimization` (brings in `5fc94800` *Optimize audio processing and reduce Wwise calls* and `e1fba291` *update player+quality settings*).
+- `7dc266a1` — Optimization review plan (this document, initial version).
+- `935e929b` — Phase 1 lerp fixes: P1A (`LerpUtilities.DampTool` frame-rate independence), P1B (`InputLevelChantingEllipsesVisual.PushAndSampleColorLag` wall-clock lookup), P1C (`GameValues.handlecChanting` frame-rate independence), P1D (dormant `_tChantLerp` / `_tRestLerp` removal).
+- `fb3bd670` — Phase 2: H1 (strip `targetFrameRate` / `vSyncCount` from `WwiseBGManager`), H1a (mic-stall threshold time-based), H1b (new `PowerAwareFrameRate` component), H3 (revert IL2CPP + Standalone Medium stripping → Mono + Low), P1E (chant-color chain simplification), P1F (inspector cleanup on chant damp fields).
+
+### Final disposition of every reviewed change
+
+| # | Original change | Disposition | Integrating commit |
+|---|---|---|---|
+| H1 | `Application.targetFrameRate = 30` + `QualitySettings.vSyncCount = 0` in `WwiseBGManager.Awake` | **Refactored.** Logic moved to new `PowerAwareFrameRate` component on the same GameObject. Plugged target 30 FPS, on-battery target 20 FPS. | `fb3bd670` |
+| H1a | (Cursor add-on, not in original branch) Mic-stall threshold was frame-counted (`stalledWriteHeadFrameThreshold = 120`) — broke at 30/20 FPS. | **Refactored to time-based.** Now `stalledWriteHeadTimeoutSeconds = 2f`, accumulated via `Time.unscaledDeltaTime`. Int frame counter preserved as telemetry only. | `fb3bd670` |
+| H1b | (Cursor add-on) New `PowerAwareFrameRate.cs` MonoBehaviour. | **Added.** Polls `SystemInfo.batteryStatus` every 5 s. Battery semantics match `UIManager.RefreshBatteryUiFromSystem`. | `fb3bd670` |
+| H2 | `QualitySettings.asset` default quality `5` → `0` ("Very Low" preset). | **Kept.** Eyeball test passed: UI text crisp, screen fades smooth, calibration UI legible. | `b1fd42d7` (no Cursor change needed) |
+| H3 | `ProjectSettings.asset` Standalone scripting backend → IL2CPP, Standalone managed stripping → Medium. | **Reverted.** Back to Mono + Low. IL2CPP needs dedicated validation (imitone DllImport callbacks, `MonoPInvokeCallback` audit) and Medium stripping risks silent build-only breakage in reflection paths. Not worth the build-time cost for an audio-focused app whose hot paths are already native (Wwise + imitone). Revisit as a dedicated effort. | `fb3bd670` |
+| M1 | `ImitoneVoiceIntepreter.Update()` early-out when imitone reports empty data. | **Kept.** Confirmed safe: the noise-floor system reads its own raw amplitude via `_dbMicrophone` independent of imitone tone reporting, so the early-out does not interfere with noise-floor calibration behavior. | `b1fd42d7` |
+| M2 | Reduced redundant `AkSoundEngine.SetSwitch` / `AkSoundEngine.SetRTPCValue` calls in `ImitoneVoiceIntepreter`. | **Kept.** Wwise call reduction is unambiguously a win. | `b1fd42d7` |
+| F1 | `DataOutput.cs` removed `writer.Flush()` (relies on `AutoFlush`). | **Kept.** Robin's call: crash-data-loss risk accepted; no change. | `b1fd42d7` |
+| P1A | `LerpUtilities.DampTool` was frame-rate dependent (constant per-frame lerp factors with no `Time.deltaTime` scaling). Pre-existing bug, exposed by 30 FPS cap. | **Fixed.** Now scales `damp1` / `damp2` / `linear` by `Time.unscaledDeltaTime * 60f` with exponential decay (`1 - (1 - damp)^multiplier`). At 60 FPS the math is identical to legacy behavior. | `935e929b` |
+| P1B | `InputLevelChantingEllipsesVisual.PushAndSampleColorLag` walked ring buffer by frame count (`lagSeconds * 60f`). Pre-existing bug, exposed by 30 FPS cap. | **Fixed.** Walks the ring by wall-clock timestamp (`Time.unscaledTime`). | `935e929b` |
+| P1C | `GameValues.handlecChanting` inlined `Mathf.Lerp` calls with frame-rate-dependent damp/depletion/linear factors. Pre-existing bug, exposed by 30 FPS cap. | **Fixed.** Same `Time.unscaledDeltaTime * 60f` multiplier strategy; `effSlowDamp1/2`, `effFastDamp1/2`, `effSlowDepletion`, `effFastDepletion`, `effLinear` precomputed once per tick. **Dominant fix** for chant-color sluggishness. | `935e929b` |
+| P1D | Dormant `_tChantLerp` / `_tRestLerp` accumulator properties in `GameValues` used `Time.fixedDeltaTime` inside `Update()` (FPS-dependent in a different wrong way). | **Removed.** Confirmed zero readers across `Assets/` (no scenes, prefabs, assets, json/xml/Wwise files, reflection-style access, no `[SerializeField]`). | `935e929b` |
+| P1E | After P1A/B/C, chant color *still* felt slow because `InputLevelChantingEllipsesVisual` was *re-damping* the already-damped `_chantLerpFast` through another two-stage `DampTool` using the *slow* chant damp rates. | **Simplified.** Color path now reads a wall-clock-time-lagged sample of `_chantLerpFast` directly (no second damp). Visual variation across the three ellipses comes entirely from per-ellipse `colorLagSeconds` (0.0 / 0.2 / 0.4). Removed `_colorDamped`, `ColorDampKey`, `colorChantDampRateMultiplier`. | `fb3bd670` |
+| P1F | The four chant damp fields (`_chantLerpSlowDamp1/2`, `_chantLerpFastDamp1/2`) were `[SerializeField]` but are recomputed every frame from `_meanToneLengthLerp` — inspector edits silently overwritten. | **Cleaned up.** `[SerializeField]` removed from those four fields (existing zero-valued scene entries are orphan tags Unity sweeps on next save). `_chantLerpFast` / `_chantLerpSlow` made inspector-visible via `[field: SerializeField]` for live diagnosis. | `fb3bd670` |
+
+### Verification snapshot (Robin's playtest, 2026-05-21)
+
+- Imitone responsiveness good. FAIL_OBSERVATION flags stayed false. `aggMicStalledWriteHeadFrames` mostly 0. No new audio clicks.
+- Chant ellipses scale-up, color shift toward white, and (the headline fix) color fade back to teal all feel at design intent again.
+- Power-aware FPS verified on laptop: ~30 FPS plugged, ~20 FPS within ~5 s of unplug, returns to ~30 within ~5 s of replug.
+- Quality "Very Low" preset visually acceptable.
+
+### Known follow-ups (not blocking this integration)
+
+- **IL2CPP / Medium stripping** — revisit as a dedicated effort with imitone DllImport / `MonoPInvokeCallback` validation and a real Mac build smoke test.
+- **`DataOutput.cs` flush** — F1 was intentionally skipped; if crash-data-loss ever bites, add `writer.Flush();` per session-end / per N rows.
+- **Unity Profiler ~110ms `ImitoneVoiceIntepreter.Update()` spike** — diagnosed as a `Microphone.Start()` / `Microphone.End()` blocking call on macOS (50–200ms is normal). Not a regression. The H1a fix shortens mic-stall recovery from ~4 s (at 30 FPS) to 2 s. Only chase further if it becomes a recurring mid-session disruption.
+
+---
+
 ## Product Context (informs every verdict below)
 
 **SoundSelf is an audio-focused experience.** The bulk of the user-facing content is Wwise-driven audio (music, voice guidance, ambient soundscapes, breath effects). Visuals matter primarily for **UI** (sequencing transitions, calibration screens, fades, breath-display) — there are no high-fidelity 3D scenes, no real-time-twitch gameplay, and no requirement for high-FPS visual smoothness. Sessions can run **30+ minutes** on thermally constrained laptops.
@@ -722,12 +766,12 @@ Code is in but the new component is not yet attached to any GameObject. Robin do
 
 Repeat the Phase 1 Editor smoke test, but now with the refactored code in place.
 
-- [ ] Imitone responsiveness still good.
-- [ ] FAIL_OBSERVATION flags all stay false in normal session.
-- [ ] **Specifically watch `aggMicStalledWriteHeadFrames`** in the Inspector — it should mostly stay at 0; brief blips are tolerable, sustained climbing means the new time-based threshold isn't resetting correctly (Robin: report to Cursor if this happens).
-- [ ] No new audio clicks introduced.
-- [ ] UI smoothness acceptable.
-- [ ] **Chant ellipses responsiveness (Phase 1 regression check):** Tone briefly into the mic and watch the chanting ellipses (`InputLevelChantingEllipsesVisual`). All three of the following should feel **comparable to the pre-cap 60-FPS behavior** — not the sluggish ~2× lag observed earlier:
+- [x] Imitone responsiveness still good.
+- [x] FAIL_OBSERVATION flags all stay false in normal session.
+- [x] **Specifically watch `aggMicStalledWriteHeadFrames`** in the Inspector — it should mostly stay at 0; brief blips are tolerable, sustained climbing means the new time-based threshold isn't resetting correctly (Robin: report to Cursor if this happens).
+- [x] No new audio clicks introduced.
+- [x] UI smoothness acceptable.
+- [x] **Chant ellipses responsiveness (Phase 1 regression check):** Tone briefly into the mic and watch the chanting ellipses (`InputLevelChantingEllipsesVisual`). All three of the following should feel **comparable to the pre-cap 60-FPS behavior** — not the sluggish ~2× lag observed earlier:
   - Scale-up on `gameOn`.
   - Color shift toward white during toning.
   - **Color fade back to dark blue/teal after toning stops** (this is the Bug C symptom — should now match design intent).
@@ -735,9 +779,9 @@ Repeat the Phase 1 Editor smoke test, but now with the refactored code in place.
   If anything still feels sluggish, the P1A/P1B/P1C fixes did not take hold correctly (Robin: report to Cursor).
 
 **On laptop (optional but recommended)** if available:
-- [ ] Run the app on a laptop with the charger plugged in. Verify Stats overlay shows ~30 FPS.
-- [ ] Unplug the charger. Within ~5 seconds (the poll interval), the framerate should drop to ~20 FPS. Verify by Stats overlay.
-- [ ] Plug back in. Within ~5 seconds, the framerate should return to ~30 FPS.
+- [x] Run the app on a laptop with the charger plugged in. Verify Stats overlay shows ~30 FPS.
+- [x] Unplug the charger. Within ~5 seconds (the poll interval), the framerate should drop to ~20 FPS. Verify by Stats overlay.
+- [x] Plug back in. Within ~5 seconds, the framerate should return to ~30 FPS.
 
 ---
 
@@ -745,7 +789,7 @@ Repeat the Phase 1 Editor smoke test, but now with the refactored code in place.
 
 H3 (IL2CPP + stripping) was decided in chat — revert, handled in Phase 2. The only remaining quality-related decision is H2.
 
-- [ ] **H2 (Quality preset):** Open Project Settings → Quality. Look at the "Very Low" preset configuration. Press Play. Eyeball test:
+- [x] **H2 (Quality preset):** Open Project Settings → Quality. Look at the "Very Low" preset configuration. Press Play. Eyeball test:
    - UI text: crisp or soft?
    - Screen fades: smooth?
    - Battery icon / calibration UI: legible?
@@ -756,27 +800,27 @@ H3 (IL2CPP + stripping) was decided in chat — revert, handled in Phase 2. The 
 
 ### Phase 6 — Commit & merge (gated by Robin's approval)
 
-- [ ] All decisions above made. Robin says "go ahead, commit and merge."
-- [ ] I commit the code changes from Phase 2 to `WorkingWwise+optimization-test` (commit message proposed first for approval).
-- [ ] If any `ProjectSettings/*.asset` was reverted in Phase 5, that goes in either the same commit or a follow-up commit per Robin's preference.
-- [ ] **Merge `WorkingWwise+optimization-test` → `WorkingWwise`:**
+- [x] All decisions above made. Robin says "go ahead, commit and merge."
+- [x] I commit the code changes from Phase 2 to `WorkingWwise+optimization-test` (commit message proposed first for approval). → `fb3bd670`
+- [x] If any `ProjectSettings/*.asset` was reverted in Phase 5, that goes in either the same commit or a follow-up commit per Robin's preference. **Let's do everything in one commit if we can** → Done; `ProjectSettings/ProjectSettings.asset` revert rolled into `fb3bd670`.
+- [x] **Merge `WorkingWwise+optimization-test` → `WorkingWwise`:** fast-forward `8c321f7f..fb3bd670` completed.
   ```powershell
   git checkout WorkingWwise
-  git merge WorkingWwise+optimization-test   # fast-forward
+  git merge --ff-only WorkingWwise+optimization-test
   ```
-- [ ] Verify `git status` shows clean and up-to-date.
-- [ ] Push to origin (Robin's call — I won't push without explicit go-ahead).
-- [ ] Delete the test branch:
+- [x] Verify `git status` shows clean and up-to-date.
+- [x] Push to origin. Pushed: `8c321f7f..fb3bd670  WorkingWwise -> WorkingWwise`.
+- [x] Delete the test branch:
   ```powershell
-  git branch -d WorkingWwise+optimization-test
+  git branch -d WorkingWwise+optimization-test   # deleted
   ```
 
 ---
 
 ### Phase 7 — Documentation finalization (post-merge)
 
-- [ ] This doc moves from "review document" to "historical record." Add a final `Outcome` section at the top summarizing which items were kept / reverted / tuned, and the commit hash that integrated everything.
-- [ ] Per workflow rule: the commit hash is recorded **in the same commit as the work**, not in a separate "update doc with hash" commit.
+- [x] This doc moves from "review document" to "historical record." Added a final `Outcome` section at the top summarizing which items were kept / reverted / tuned, and the commit hash that integrated everything.
+- [x] Per workflow rule: the commit hash is recorded **in the same commit as the work**, not in a separate "update doc with hash" commit. **Robin Edit: ok to do it as a separate commit in this case** → Done as a separate commit per Robin's edit.
 
 ---
 
