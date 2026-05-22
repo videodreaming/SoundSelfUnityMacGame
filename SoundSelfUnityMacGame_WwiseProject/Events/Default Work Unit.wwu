@@ -426,54 +426,6 @@
 								</Reference>
 							</ReferenceList>
 						</Action>
-						<Action Name="" ID="{3DE548CE-900C-4B00-8F00-4FE773781CBC}" ShortID="159400896">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="4"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="REFERENCE" ID="{A2BEF386-9FA1-4A01-AAF8-EFABEBA01FB7}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{5CB35147-E9E6-4436-B229-199364ED2796}" ShortID="238073335">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="4"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="REFERENCE" ID="{6286B7C0-675E-4848-94F0-08990FC1DB08}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{3031974E-25D8-48B8-B4F8-90B28415A4BE}" ShortID="572179855">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="4"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="4"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="WHITE_SOLID" ID="{82B1CA4B-470E-4919-820D-0C4251F2CAA3}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{5B4F9EBD-A2CB-47A0-BAEF-FD2B125FAF81}" ShortID="824103124">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="4"/>
-								<Property Name="FadeOutCurve" Type="int16" Value="2"/>
-								<Property Name="FadeTime" Type="Real64" Value="4"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="WHITE_SOLID" ID="{6514B99E-FC66-410D-A521-523A536563A1}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
 						<Action Name="" ID="{AA706AE0-2FE3-4AC7-90BA-C711B65EC269}" ShortID="986101858">
 							<PropertyList>
 								<Property Name="ActionType" Type="int16" Value="4"/>
@@ -484,28 +436,6 @@
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="ThematicSavasana_MUSIC_METTA" ID="{C794AECF-925A-4A1E-B733-47232D4E4190}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{945CB9D9-9237-4511-93E6-009C0029BA3D}" ShortID="311173896">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="4"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="REFERENCE" ID="{994C3BD1-D7AE-48ED-A208-66C1546A5CA8}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-						<Action Name="" ID="{CF5FC732-C23C-44DD-A3BE-A92A365EC0AE}" ShortID="668013985">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="4"/>
-								<Property Name="FadeTime" Type="Real64" Value="10"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="WHITE_SOLID" ID="{E4E08F93-90EF-484C-8F00-A80D9C621D43}" WorkUnitID="{90D952FB-C720-4B00-8ADF-CE167B473814}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

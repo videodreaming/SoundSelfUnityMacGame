@@ -6615,7 +6615,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>8</Value>
+											<Value>10</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -12974,7 +12974,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>8</Value>
+											<Value>10</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -13053,7 +13053,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>4</Value>
+												<Value>2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -14788,7 +14788,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -16369,7 +16369,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -17892,7 +17892,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -20137,7 +20137,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>6</Value>
+											<Value>8</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>
@@ -20185,13 +20185,6 @@
 					</ReferenceList>
 					<ChildrenList>
 						<SwitchContainer Name="Toning_Fundamental_SoundWorld" ID="{D609B005-E9FA-4608-86CC-E40F264B50C5}" ShortID="29539133">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>1</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{0EA5337C-1FF6-4D4D-B49A-BA33501FCAEF}"/>
@@ -20211,7 +20204,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>4</Value>
+												<Value>2</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -22573,7 +22566,7 @@
 										</Property>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -25182,7 +25175,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -26548,7 +26541,7 @@
 									<PropertyList>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
-												<Value>2</Value>
+												<Value>1</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>
@@ -28863,7 +28856,7 @@
 									</Property>
 									<Property Name="FadeOutTime" Type="Real64">
 										<ValueList>
-											<Value>6</Value>
+											<Value>8</Value>
 										</ValueList>
 									</Property>
 								</PropertyList>

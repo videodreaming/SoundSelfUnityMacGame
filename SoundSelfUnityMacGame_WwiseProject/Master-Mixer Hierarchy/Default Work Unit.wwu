@@ -406,7 +406,7 @@
 							<PropertyList>
 								<Property Name="BusVolume" Type="Real64">
 									<ValueList>
-										<Value>2</Value>
+										<Value>1</Value>
 									</ValueList>
 								</Property>
 								<Property Name="Lowpass" Type="int16">
@@ -689,7 +689,7 @@
 									<PropertyList>
 										<Property Name="BusVolume" Type="Real64">
 											<ValueList>
-												<Value>-6</Value>
+												<Value>-4</Value>
 											</ValueList>
 										</Property>
 									</PropertyList>

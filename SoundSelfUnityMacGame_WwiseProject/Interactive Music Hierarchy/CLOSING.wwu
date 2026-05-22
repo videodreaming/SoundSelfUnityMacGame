@@ -4169,20 +4169,6 @@
 														</Reference>
 														<Reference>
 															<Local>
-																<MusicEventCue Name="" ID="{559F5E20-C345-419B-A180-A38060682A56}" ShortID="471532299">
-																	<PropertyList>
-																		<Property Name="PlayAt" Type="Real64" Value="598555.821743554"/>
-																	</PropertyList>
-																	<ReferenceList>
-																		<Reference Name="PostEventTarget">
-																			<ObjectRef Name="Stop_MusicLoops" ID="{7A19FEB5-4851-40F3-ADDD-9D15D8E3714C}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
-																		</Reference>
-																	</ReferenceList>
-																</MusicEventCue>
-															</Local>
-														</Reference>
-														<Reference>
-															<Local>
 																<MusicEventCue Name="" ID="{56935545-DC72-4DD1-A627-9EE63B996537}" ShortID="72254907">
 																	<PropertyList>
 																		<Property Name="PlayAt" Type="Real64" Value="803152.073977842"/>
@@ -4204,6 +4190,34 @@
 																	<ReferenceList>
 																		<Reference Name="PostEventTarget">
 																			<ObjectRef Name="Stop_sfx_SoundSeed_BreathCycleWind" ID="{023191BA-5AB2-429A-9C53-B3A0C009BE7B}" WorkUnitID="{2FC43258-B40B-4FDC-BCAD-FAA5EEF44194}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{3EA6BBFF-088B-4F1A-92B7-CF17A163811E}" ShortID="356705635">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="584000"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Set_MusicLoops_Silence" ID="{D22A033B-4005-44ED-A869-922E8697C219}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
+																		</Reference>
+																	</ReferenceList>
+																</MusicEventCue>
+															</Local>
+														</Reference>
+														<Reference>
+															<Local>
+																<MusicEventCue Name="" ID="{EF22EC37-8B8E-4443-8BE0-03E6360F184E}" ShortID="809800165">
+																	<PropertyList>
+																		<Property Name="PlayAt" Type="Real64" Value="600000"/>
+																	</PropertyList>
+																	<ReferenceList>
+																		<Reference Name="PostEventTarget">
+																			<ObjectRef Name="Stop_MusicLoops" ID="{7A19FEB5-4851-40F3-ADDD-9D15D8E3714C}" WorkUnitID="{3353BB75-D5EF-44EF-A600-B06130E39B37}"/>
 																		</Reference>
 																	</ReferenceList>
 																</MusicEventCue>
