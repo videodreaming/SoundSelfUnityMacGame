@@ -12,6 +12,22 @@ public class LightControl : MonoBehaviour
 {
     public static LightControl instance { get; private set; }
 
+    // Wwise "System" shareset device names for the auxiliary lights / vibroacoustic outputs.
+    // These are the exact deviceName strings as enumerated by AkSoundEngine.GetDeviceList on each
+    // platform — referenced both by LightControl.Start (to AddOutput the auxiliary listener) and by
+    // DeviceDisconnectMonitor (to detect mid-session unplugs). Keep the values byte-identical to
+    // whatever Wwise reports, including any trailing spaces — those are part of the OS-reported name.
+#if UNITY_STANDALONE_OSX
+    public const string KasinaWwiseDeviceName = "Kasina MMS Audio";
+    public const string LiminaWwiseDeviceName = "MPL Audio       ";
+#elif UNITY_STANDALONE_WIN
+    public const string KasinaWwiseDeviceName = "Speakers (Kasina MMS Audio)";
+    public const string LiminaWwiseDeviceName = "Speakers (MPL Audio       )";
+#else
+    public const string KasinaWwiseDeviceName = "";
+    public const string LiminaWwiseDeviceName = "";
+#endif
+
     public WorldShuffler worldShuffler;
     [SerializeField] AkDeviceDescriptionArray m_devices;
     public GameObject gameObjectSystem2Listener;
@@ -132,22 +148,15 @@ public class LightControl : MonoBehaviour
         AkSoundEngine.GetDeviceList(sharesetIdSystem, out deviceCount, devices);
 
         // Return the device with the specified name on the system. This is where you will either put you logic to enumarate all the Device and let the user decide, or force a specified device directly.
-        string wantedDevice1;
-        string wantedDevice2;
+        // Names are defined as platform-conditional constants on this class so DeviceDisconnectMonitor
+        // can reference the same exact deviceName strings without duplication.
+        string wantedDevice1 = KasinaWwiseDeviceName;
+        string wantedDevice2 = LiminaWwiseDeviceName;
 
-        // We set the wantedDevice to the name of the device we want to use. This is the name of the device as it appears in the Wwise Audio Device Manager.
-        #if UNITY_STANDALONE_OSX
-            wantedDevice1 = "Kasina MMS Audio";
-            wantedDevice2 = "MPL Audio       ";
-        #elif UNITY_STANDALONE_WIN
-            wantedDevice1 = "Speakers (Kasina MMS Audio)";
-            wantedDevice2 = "Speakers (MPL Audio       )";
-            //wantedDevice1 = "Kasina MMS Audio";
-            //wantedDevice2 = "MPL Audio       ";
-        #else
-            Debug.LogError("Unsupported platform");
-            return;
-        #endif
+#if !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN
+        Debug.LogError("Unsupported platform");
+        return;
+#endif
 
 
         uint deviceId = 0;
@@ -175,7 +184,16 @@ public class LightControl : MonoBehaviour
         }
         if(deviceId == 0)
         {
-            Debug.Log("Devices not found");
+            // Hard launch-time precondition: at least one of Kasina / Limina must be plugged in.
+            // Without it, the AVS auxiliary listener (lights + vibroacoustic output path) cannot be
+            // initialized this session — escalated from Debug.Log to LogError so missing hardware is
+            // obvious in the console at startup. DeviceDisconnectMonitor handles mid-session unplugs;
+            // this log is specifically the "nothing was ever plugged in at launch" case.
+            Debug.LogError(
+                $"LightControl: Neither Kasina ('{KasinaWwiseDeviceName}') nor Limina ('{LiminaWwiseDeviceName}') " +
+                "was found among active Wwise System devices at launch. The AVS auxiliary output path " +
+                "(lights / vibroacoustic) will NOT be initialized this session — plug in a Kasina or Limina " +
+                "before launch to enable it.");
             return;
         }
 

@@ -1525,4 +1525,57 @@ public class UIManager : MonoBehaviour
         effectDevicesText.GetComponent<ContentSizeFitter>().enabled = true;
     }
 
+    // =====================================
+    // DEVICE DISCONNECT WARNING
+    // =====================================
+
+    /// <summary>
+    /// Sticky, ordered list of devices that have been flagged disconnected this session. Insertion order
+    /// is preserved so the on-screen text reflects the order in which losses were detected. Entries are
+    /// never removed — the warning is intentionally one-way (see class summary + <see cref="NotifyDeviceDisconnected"/>).
+    /// </summary>
+    private readonly List<string> _disconnectedDevicesOrdered = new List<string>();
+    private readonly HashSet<string> _disconnectedDevicesSet = new HashSet<string>(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Single entry point for reporting a monitored device disconnect (Kasina / Limina via
+    /// <see cref="LightControl"/>, default audio input / output captured at session start by
+    /// <c>DeviceDisconnectMonitor</c>, or any other caller). Idempotent: repeated calls with the
+    /// same <paramref name="displayName"/> are no-ops, so callers may poll without de-duping themselves.
+    /// First accepted disconnect activates the warning screen (<see cref="ShowWarrningScreen"/>);
+    /// every accepted disconnect refreshes <see cref="effectDevicesText"/> with the running list.
+    /// The warning screen is intentionally never hidden by this method — once a device is reported
+    /// missing, the splash stays up for the rest of the session even if the device returns.
+    /// </summary>
+    public void NotifyDeviceDisconnected(string displayName)
+    {
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            Debug.LogWarning("UIManager.NotifyDeviceDisconnected: ignoring null/empty displayName.");
+            return;
+        }
+
+        string trimmed = displayName.Trim();
+        if (!_disconnectedDevicesSet.Add(trimmed))
+            return;
+
+        _disconnectedDevicesOrdered.Add(trimmed);
+        Debug.LogWarning($"UIManager.NotifyDeviceDisconnected: '{trimmed}' (total disconnected this session: {_disconnectedDevicesOrdered.Count}).");
+
+        RefreshDisconnectedDevicesText();
+
+        if (warnningScreen != null && !warnningScreen.activeSelf)
+            ShowWarrningScreen(true);
+    }
+
+    /// <summary>Read-only snapshot of devices flagged disconnected this session (insertion order).</summary>
+    public IReadOnlyList<string> DisconnectedDevices => _disconnectedDevicesOrdered;
+
+    private void RefreshDisconnectedDevicesText()
+    {
+        if (effectDevicesText == null)
+            return;
+        SetEffectedDevicesText(string.Join("\n", _disconnectedDevicesOrdered));
+    }
+
 }

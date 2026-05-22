@@ -70,7 +70,7 @@ public class MusicSystem1 : MonoBehaviour
 
     
     public float _silentVolumeLow = 65f; //this was 50f, Robin changed it on 4/4/2025
-    public float _silentVolumeHigh = 80f;
+    public float _silentVolumeHigh = 100f;
 
     // FUNDAMENTAL AND HARMONY CONTROL
     private float _queueFundamentalChangeThreshold = 12f;
